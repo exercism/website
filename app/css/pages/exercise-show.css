@@ -222,7 +222,6 @@
                 @apply font-medium;
                 & strong {
                     @apply font-semibold;
-                    @apply ml-4;
                 }
             }
             & .details {

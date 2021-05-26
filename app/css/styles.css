@@ -22,8 +22,7 @@
     @apply text-h5 font-mono font-bold;
 }
 .text-h6 {
-    line-height: 1.38;
-    @apply text-16 font-semibold text-textColor2;
+    @apply text-16 font-semibold text-textColor2 leading-140;
 }
 .text-p-small {
     @apply text-14 leading-160;

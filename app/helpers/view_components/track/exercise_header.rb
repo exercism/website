@@ -30,13 +30,9 @@ module ViewComponents
                 ),
 
                 iterations_tab,
+                community_solutions_tab,
+                mentoring_tab
 
-                link_to(
-                  graphical_icon('community-solutions') +
-                  tag.span("Community Solutions", "data-text": "Community Solutions"),
-                  Exercism::Routes.track_exercise_solutions_path(track, exercise),
-                  class: tab_class(:community_solutions)
-                )
               ]
             )
           end + (render ::ReactComponents::Student::OpenEditorButton.new(exercise))
@@ -53,6 +49,32 @@ module ViewComponents
           safe_join(parts),
           Exercism::Routes.track_exercise_iterations_path(track, exercise),
           class: tab_class(:iterations)
+        )
+      end
+
+      def community_solutions_tab
+        link_to(
+          graphical_icon('community-solutions') +
+          tag.span("Community Solutions", "data-text": "Community Solutions"),
+          Exercism::Routes.track_exercise_solutions_path(track, exercise),
+          class: tab_class(:community_solutions)
+        )
+      end
+
+      def mentoring_tab
+        parts = []
+        parts << graphical_icon('mentoring')
+        parts << tag.span("Mentoring", "data-text": "Mentoring")
+
+        if solution
+          count = solution.mentor_discussions.count + solution.mentor_requests.pending.count
+          parts << tag.span(count, class: "count")
+        end
+
+        link_to(
+          safe_join(parts),
+          Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
+          class: tab_class(:mentoring)
         )
       end
 

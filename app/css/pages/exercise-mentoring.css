@@ -1,0 +1,222 @@
+@import "../styles";
+
+#page-exercise-mentoring {
+    & > .container {
+        @apply flex items-start;
+
+        & > .lhs {
+            @apply flex flex-col w-arbitary flex-grow;
+
+            & > .introduction {
+                @apply flex-grow;
+                @apply shadow-lgZ1 rounded-8 bg-backgroundColorA;
+                @apply py-24 px-32 mb-32;
+
+                & .header {
+                    @apply flex items-start;
+
+                    & > .c-icon {
+                        height: 110px;
+                        width: 110px;
+                        @apply ml-48;
+                    }
+
+                    & h2 {
+                        @apply text-h3 mb-6;
+                    }
+                    & p {
+                        @apply text-p-large mb-16;
+                        & strong {
+                            @apply font-medium;
+                        }
+                    }
+                    & .btns {
+                        @apply flex;
+                        & .wow {
+                            @apply ml-24 px-16;
+                            @apply bg-lightOrange rounded-8;
+                            @apply flex items-center justify-center;
+                            @apply text-h6;
+                            height: 48px;
+                        }
+                    }
+                }
+                & .why,
+                & .how {
+                    @apply mt-28 pt-20;
+                    @apply border-t-1 border-borderColor6;
+
+                    & h3 {
+                        @apply text-h4 mb-12;
+                    }
+                    & .points {
+                        @apply grid grid-cols-2 gap-x-48 gap-y-24;
+                        & .point {
+                            & h4 {
+                                @apply text-h6 mb-4;
+                            }
+                            & p {
+                                @apply text-15 leading-160;
+                                & strong {
+                                    @apply font-semibold;
+                                }
+                            }
+                        }
+                    }
+                }
+                & .how {
+                    & .point {
+                        @apply flex;
+                        & .num {
+                            height: 32px;
+                            width: 32px;
+                            @apply flex-shrink-0 mr-16 rounded-100;
+                            @apply grid place-items-center;
+                            @apply border-2 border-textColor2;
+                            @apply text-16 font-semibold leading-160;
+                        }
+                    }
+                }
+            }
+
+            & > .mentoring-requested {
+                @apply flex-grow flex items-center;
+                @apply shadow-lgZ1 rounded-8 bg-backgroundColorA;
+                @apply py-24 px-32 mb-24;
+                & h2 {
+                    @apply text-h4 mb-4;
+                }
+                & p {
+                    @apply text-p-base;
+                }
+                & .btn-primary {
+                    @apply ml-auto;
+                }
+            }
+
+            & > .mentoring-in-progress {
+                @apply flex-grow;
+                @apply shadow-lgZ1 rounded-8 bg-backgroundColorA;
+                @apply py-24 px-32 mb-24;
+
+                & .header {
+                    @apply flex items-center mb-24;
+
+                    & .student-avatar,
+                    & .mentor-avatar {
+                        height: 54px;
+                        width: 54px;
+                    }
+                    & .mentor-avatar {
+                        margin-left: -20px;
+                        @apply mr-36;
+                    }
+
+                    & > .info {
+                        @apply flex-grow;
+                        & h2 {
+                            @apply text-h4 mb-8;
+                            @apply font-medium;
+                            & strong {
+                                @apply font-semibold;
+                            }
+                        }
+                        & .details {
+                            @apply flex items-center;
+                        }
+                        & .--turn {
+                            @apply mr-16;
+                        }
+                    }
+                    & .in-progress {
+                        @apply flex items-center;
+                        @apply text-lightBlue font-semibold;
+                        & .icon {
+                            @apply bg-lightBlue rounded-100;
+                            @apply grid place-items-center;
+                            @apply mr-12;
+                            height: 24px;
+                            width: 24px;
+                            & .c-icon {
+                                height: 12px;
+                                width: 12px;
+                                filter: var(--white-filter);
+                            }
+                        }
+                    }
+                }
+            }
+
+            & > .previous-discussions {
+                & .discussion {
+                    @apply shadow-base rounded-8 bg-backgroundColorA;
+                    @apply py-8 px-24;
+                    @apply flex items-center;
+
+                    & > .c-avatar {
+                        height: 48px;
+                        width: 48px;
+                        @apply mr-16;
+                    }
+                    & > .info {
+                        @apply flex-grow;
+                        @apply mr-48;
+
+                        & h4 {
+                            @apply text-16 font-medium text-textColor2 leading-140 mb-4;
+                        }
+                        .when {
+                            @apply text-textColor6 leading-140;
+                        }
+                    }
+                    & > .ended {
+                        @apply flex items-center;
+                        @apply text-darkGreen font-semibold;
+
+                        & > .c-icon {
+                            height: 24px;
+                            width: 24px;
+                            @apply mr-12;
+                        }
+                    }
+                }
+            }
+            & > .no-previous-discussions {
+                @apply text-center;
+                @apply shadow-lg rounded-8 bg-backgroundColorB;
+                @apply py-40 px-32 mb-40;
+                @apply text-18 text-textColor6 font-semibold leading-150;
+            }
+        }
+        & > .rhs {
+            @apply w-1-3 flex-shrink-0 ml-32;
+
+            & .personal-mentoring {
+                @apply shadow-lg py-20 px-32 rounded-8;
+                & .c-alert {
+                    @apply mb-20;
+                }
+
+                & h2 {
+                    @apply text-h4 mb-6;
+                }
+                & p {
+                    @apply text-p-base mb-16;
+                }
+                & h3 {
+                    @apply font-mono font-bold leading-170 mb-8;
+                    @apply uppercase;
+                    letter-spacing: 0.05em;
+                }
+                & .c-prominent-link {
+                    @apply mt-12;
+                }
+                &.locked {
+                    & .content {
+                        opacity: 0.65;
+                    }
+                }
+            }
+        }
+    }
+}

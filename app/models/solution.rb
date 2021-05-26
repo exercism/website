@@ -1,7 +1,7 @@
 class Solution < ApplicationRecord
   extend Mandate::Memoize
 
-  enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: true
+  enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: 'mentoring'
   enum status: { started: 0, iterated: 1, completed: 2, published: 3 }, _prefix: true
 
   belongs_to :user
@@ -50,6 +50,11 @@ class Solution < ApplicationRecord
 
   before_update do
     self.status = determine_status
+  end
+
+  def self.for!(*args)
+    solution = self.for(*args)
+    solution || raise(ActiveRecord::RecordNotFound)
   end
 
   def self.for(*args)

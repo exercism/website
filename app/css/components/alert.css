@@ -1,0 +1,9 @@
+.c-alert {
+    @apply border-2 border-orange rounded-8;
+    @apply bg-lightOrange;
+    @apply py-12 px-24;
+    @apply font-medium leading-150 text-caution;
+    & strong {
+        @apply font-semibold text-textColor2;
+    }
+}

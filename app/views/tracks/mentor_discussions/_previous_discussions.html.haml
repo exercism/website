@@ -1,0 +1,15 @@
+- if discussions.present?
+  .previous-discussions
+    - discussions.each do |discussion|
+      .discussion
+        = avatar(discussion.mentor, css_class: 'c-avatar mentor-avatar')
+        .info
+          %h4= discussion.mentor.handle
+          .when Ended #{time_ago_in_words(discussion.finished_at)} ago
+        .ended
+          = graphical_icon "completed-check-circle"
+          Ended
+
+- else
+  .no-previous-discussions
+    You have no past mentoring discussions

@@ -3,7 +3,13 @@ import { TestStatus, Test } from './types'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { TestsGroup, TestWithToggle } from './TestsGroup'
 
-export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
+export function TestsGroupList({
+  tests,
+  language,
+}: {
+  tests: Test[]
+  language: string
+}): JSX.Element {
   const testsWithIndex = tests.map((test, i) => ({ index: i + 1, ...test }))
   const passed: TestWithToggle[] = testsWithIndex
     .filter((test) => test.status === TestStatus.PASS)
@@ -22,7 +28,7 @@ export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
 
   return (
     <div className="tests-list">
-      <TestsGroup tests={passed}>
+      <TestsGroup tests={passed} language={language}>
         <TestsGroup.Header>
           <GraphicalIcon icon="passed-check-circle" className="indicator" />
           <TestsGroup.Title status="passed" />
@@ -31,7 +37,7 @@ export function TestsGroupList({ tests }: { tests: Test[] }): JSX.Element {
         </TestsGroup.Header>
         <TestsGroup.Tests />
       </TestsGroup>
-      <TestsGroup open={true} tests={failed}>
+      <TestsGroup open={true} tests={failed} language={language}>
         <TestsGroup.Header>
           <GraphicalIcon icon="failed-check-circle" className="indicator" />
           <TestsGroup.Title status="failed" />

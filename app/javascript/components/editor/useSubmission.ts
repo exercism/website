@@ -59,6 +59,7 @@ function reducer(state: State, action: Action): State {
             messageHtml: '',
             output: '',
             outputHtml: '',
+            highlightjsLanguage: '',
             links: {
               self: action.payload.submission.links.testRun,
             },

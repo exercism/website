@@ -1,7 +1,7 @@
 import React from 'react'
 import { TestRun, TestRunStatus, TestStatus } from './types'
 import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
-import { TestRunFailures } from './TestRunFailures'
+import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
 import { GraphicalIcon } from '../common'
 
@@ -105,7 +105,7 @@ const TestRunSummaryContent = ({
       return (
         <>
           {testRun.version === 2 || testRun.version === 3 ? (
-            <TestRunFailures testRun={testRun} />
+            <TestRunOutput testRun={testRun} />
           ) : null}
           {showSuccessBox ? (
             <div className="success-box">
@@ -130,7 +130,7 @@ const TestRunSummaryContent = ({
       )
     }
     case TestRunStatus.FAIL:
-      return <TestRunFailures testRun={testRun} />
+      return <TestRunOutput testRun={testRun} />
     case TestRunStatus.ERROR:
       return (
         <div className="error-message">

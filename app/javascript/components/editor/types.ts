@@ -24,6 +24,7 @@ export type TestRun = {
   output: string
   outputHtml: string
   tests: Test[]
+  highlightjsLanguage: string
   links: {
     self: string
   }

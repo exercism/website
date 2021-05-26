@@ -1,0 +1,41 @@
+@import "../styles";
+
+#page-exercise-mentoring {
+    & .container {
+        @apply flex;
+
+        & > .lhs {
+            @apply flex w-arbitary flex-grow;
+        }
+        & > .rhs {
+            @apply w-1-3 flex-shrink-0 ml-32;
+
+            & .personal-mentoring {
+                @apply shadow-lg py-20 px-32 rounded-8;
+                & .c-alert {
+                    @apply mb-20;
+                }
+
+                & h2 {
+                    @apply text-h4 mb-6;
+                }
+                & p {
+                    @apply text-p-base mb-16;
+                }
+                & h3 {
+                    @apply font-mono font-bold leading-170 mb-8;
+                    @apply uppercase;
+                    letter-spacing: 0.05em;
+                }
+                & .c-prominent-link {
+                    @apply mt-12;
+                }
+                &.locked {
+                    & .content {
+                        opacity: 0.65;
+                    }
+                }
+            }
+        }
+    }
+}

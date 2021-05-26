@@ -85,10 +85,10 @@ test('shows test failures', async () => {
         id: null,
         submissionUuid: '123',
         status: TestRunStatus.FAIL,
-        message: '',
+        messageHtml: 'Unable to run tests',
         tests: [],
         version: 1,
-        outputHtml: 'Unable to run tests',
+        outputHtml: '',
         links: {
           self: 'https://exercism.test/test_run',
         },

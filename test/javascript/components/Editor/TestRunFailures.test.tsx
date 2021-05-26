@@ -13,12 +13,12 @@ test('shows test run output for version 1 test runner', async () => {
     id: null,
     submissionUuid: '123',
     status: TestRunStatus.FAIL,
-    message: '',
     tests: [],
     version: 1,
-    output: 'Unable to run tests',
-    messageHtml: '',
-    outputHtml: 'Unable to run tests',
+    message: 'Unable to run tests',
+    messageHtml: 'Unable to run tests',
+    output: '',
+    outputHtml: '',
   }
 
   render(<TestRunFailures testRun={testRun} />)

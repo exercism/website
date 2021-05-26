@@ -10,8 +10,8 @@ export const TestRunFailures = ({
   return testRun.version === 2 || testRun.version === 3 ? (
     <TestsGroupList tests={testRun.tests} />
   ) : (
-    <pre className="v1-output">
-      <code dangerouslySetInnerHTML={{ __html: testRun.outputHtml }} />
+    <pre className="v1-message">
+      <code dangerouslySetInnerHTML={{ __html: testRun.messageHtml }} />
     </pre>
   )
 }

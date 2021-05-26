@@ -6,6 +6,7 @@ import {
   ErrorBoundaryPropsWithComponent,
 } from 'react-error-boundary'
 import { APIError } from './types'
+import Bugsnag from '@bugsnag/js'
 
 const ERROR_MESSAGE_TIMEOUT_IN_MS = 500
 
@@ -20,10 +21,18 @@ export const ErrorMessage = ({
 }: {
   error: Error | unknown
   defaultError: Error
-}) => {
+}): null => {
   useErrorHandler(error, { defaultError: defaultError })
 
   return null
+}
+
+const handleError = (error: Error) => {
+  if (error.name === 'HandledError') {
+    return
+  }
+
+  Bugsnag.notify(error)
 }
 
 export const ErrorBoundary = ({
@@ -32,7 +41,11 @@ export const ErrorBoundary = ({
   ...props
 }: React.PropsWithChildren<ErrorBoundaryType>): JSX.Element => {
   return (
-    <ReactErrorBoundary FallbackComponent={FallbackComponent} {...props}>
+    <ReactErrorBoundary
+      FallbackComponent={FallbackComponent}
+      {...props}
+      onError={handleError}
+    >
       {children}
     </ReactErrorBoundary>
   )
@@ -64,17 +77,28 @@ export const useErrorHandler = (
     }
 
     if (error instanceof Error) {
-      handler(defaultError)
+      Bugsnag.notify(error)
+
+      handler(new HandledError(defaultError.message))
     } else if (error instanceof Response) {
       error
         .clone()
         .json()
         .then((res: { error: APIError }) => {
-          handler(new Error(res.error.message))
+          handler(new HandledError(res.error.message))
         })
-        .catch(() => {
-          handler(defaultError)
+        .catch((e) => {
+          Bugsnag.notify(e)
+
+          handler(new HandledError(defaultError.message))
         })
     }
   }, [defaultError, error, handler])
+}
+
+class HandledError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'HandledError'
+  }
 }

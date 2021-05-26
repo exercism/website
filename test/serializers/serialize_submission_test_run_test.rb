@@ -34,6 +34,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
           output_html: "foobar"
         }
       ],
+      highlightjs_language: 'ruby',
       links: {
         self: Exercism::Routes.api_solution_submission_test_run_url(test_run.solution.uuid, test_run.submission.uuid)
       }

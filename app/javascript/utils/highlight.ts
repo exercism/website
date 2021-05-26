@@ -47,14 +47,15 @@ function getLinesCount(text: string) {
   return (text.trim().match(/\r\n|\r|\n/g) || []).length
 }
 
-function trimNewlines(text: string) {
-  // Remove any leading and/or trailing newline characters
-  return text.replace(/(^[\r\n]+|[\r\n]+$)/g, '')
+function trimBlankLines(text: string) {
+  return text
+    .replace(/^([ \t]*(\r\n|\r|\n))+/g, '') // Remove leading newlines and blank lines
+    .replace(/([ \t]*(\r\n|\r|\n))+$/g, '') // Remove trailing newlines and blank lines
 }
 
 function wrapLineNumbers(code: string, start = 1) {
   const element = document.createElement('div')
-  element.innerHTML = trimNewlines(code)
+  element.innerHTML = trimBlankLines(code)
 
   /*
     Highlight JS wraps multiline code (e.g. comments) in one parent node.

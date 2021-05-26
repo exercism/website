@@ -41,10 +41,6 @@
             @apply text-p-base mb-12;
         }
     }
-    & .v1-message {
-        @apply px-24 pb-48;
-        white-space: pre-wrap;
-    }
     & .success-box {
         @apply flex;
         @apply shadow-base rounded-8;
@@ -62,6 +58,17 @@
             @apply text-p-small mb-16;
         }
     }
+    & .tests-list,
+    & .v1-message {
+        & b {
+            @apply font-semibold;
+        }
+    }
+    & .v1-message {
+        @apply px-24 pb-48;
+        white-space: pre-wrap;
+    }
+
     & .tests-list {
         @apply px-32 pb-16;
 

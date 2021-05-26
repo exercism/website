@@ -6,7 +6,7 @@ class Ansi::RenderHTML
   def call
     return nil if text.nil?
 
-    Ansi::To::Html.new(sanitized_text).to_html
+    Ansi::To::Html.new(sanitized_text).to_html(:linux)
   end
 
   private

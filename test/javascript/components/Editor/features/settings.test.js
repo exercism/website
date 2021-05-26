@@ -58,7 +58,7 @@ test('change wrapping', async () => {
   })
 })
 
-test('change "Enable tab"', async () => {
+test('change "Tab mode"', async () => {
   render(
     <Editor
       files={[{ filename: 'lasagna.rb', content: 'class Lasagna' }]}
@@ -67,9 +67,9 @@ test('change "Enable tab"', async () => {
   )
 
   fireEvent.click(screen.getByAltText('Settings'))
-  fireEvent.click(screen.getAllByLabelText('Off')[1])
+  fireEvent.click(screen.getAllByLabelText('Editor')[0])
 
   await waitFor(() => {
-    expect(screen.queryByText('Tab behavior: default')).toBeInTheDocument()
+    expect(screen.queryByText('Tab behavior: captured')).toBeInTheDocument()
   })
 })

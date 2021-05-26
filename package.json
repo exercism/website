@@ -2,6 +2,7 @@
   "name": "exercism",
   "private": true,
   "dependencies": {
+    "@codemirror/view": "^0.18.13",
     "@codemirror/basic-setup": "^0.18.2",
     "@codemirror/lang-cpp": "^0.18.0",
     "@codemirror/lang-java": "^0.18.0",

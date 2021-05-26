@@ -2081,10 +2081,10 @@
     "@codemirror/state" "^0.18.0"
     "@codemirror/view" "^0.18.0"
 
-"@codemirror/view@^0.18.0":
-  version "0.18.12"
-  resolved "https://registry.yarnpkg.com/@codemirror/view/-/view-0.18.12.tgz#28d6fdefd7362481bff3b05ab893c10710311e13"
-  integrity sha512-8PLqxl136aRiNO9dIKuB4CIMP6pgHAMXIbM0HxYMdFiLKaAH+nnvVFJVKCY3DUqaEWBB9R+OvUPVa0Rx/LpqLw==
+"@codemirror/view@^0.18.0", "@codemirror/view@^0.18.13":
+  version "0.18.13"
+  resolved "https://registry.yarnpkg.com/@codemirror/view/-/view-0.18.13.tgz#34c268895f2b1b3b9907abe9ecfee0136b2a91fe"
+  integrity sha512-3aFEh9UB3JyYXG0GTneC8q6KQ87obftwHtis8FI/7NeiLfT+miuVj1By1IteRDpTQQ+7FbFnjDw4WFYhEHBcaw==
   dependencies:
     "@codemirror/rangeset" "^0.18.0"
     "@codemirror/state" "^0.18.0"

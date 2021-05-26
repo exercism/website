@@ -15,10 +15,12 @@ const DEFAULT_ERROR = new Error('Unable to load files')
 export const IterationView = ({
   iterations,
   language,
+  indentSize,
   isOutOfDate,
 }: {
   iterations: readonly Iteration[]
   language: string
+  indentSize: number
   isOutOfDate: boolean
 }): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
@@ -47,7 +49,11 @@ export const IterationView = ({
           defaultError={DEFAULT_ERROR}
         >
           {resolvedData ? (
-            <FilePanel files={resolvedData.files} language={language} />
+            <FilePanel
+              files={resolvedData.files}
+              language={language}
+              indentSize={indentSize}
+            />
           ) : null}
         </FetchingBoundary>
       </ResultsZone>

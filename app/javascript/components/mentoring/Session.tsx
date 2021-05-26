@@ -95,6 +95,7 @@ export const Session = (props: SessionProps): JSX.Element => {
           iterations={iterations}
           isOutOfDate={outOfDate}
           language={track.highlightjsLanguage}
+          indentSize={track.indentSize}
         />
       </div>
       <TabsContext.Provider

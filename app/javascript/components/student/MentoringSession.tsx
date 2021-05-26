@@ -84,6 +84,7 @@ export const MentoringSession = ({
         <IterationView
           iterations={iterations}
           language={track.highlightjsLanguage}
+          indentSize={track.indentSize}
           isOutOfDate={false} /* TODO: Set this correctly */
         />
       </div>

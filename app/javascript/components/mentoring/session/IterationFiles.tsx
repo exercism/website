@@ -15,6 +15,7 @@ const TabsContext = createContext<TabContext>({
 type ComponentProps = {
   endpoint: string
   language: string
+  indentSize: number
 }
 
 export const IterationFiles = (props: ComponentProps): JSX.Element => {
@@ -36,6 +37,7 @@ const DEFAULT_ERROR = new Error('Unable to load files')
 const Component = ({
   endpoint,
   language,
+  indentSize,
 }: ComponentProps): JSX.Element | null => {
   const isMountedRef = useIsMounted()
   const { data, error, status } = useRequestQuery<
@@ -92,7 +94,11 @@ const Component = ({
               id={file.filename}
               context={TabsContext}
             >
-              <FileViewer file={file} language={language} />
+              <FileViewer
+                file={file}
+                language={language}
+                indentSize={indentSize}
+              />
             </Tab.Panel>
           ))}
         </div>

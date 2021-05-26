@@ -11,9 +11,11 @@ const TabsContext = createContext<TabContext>({
 export const FilePanel = ({
   files,
   language,
+  indentSize,
 }: {
   files: File[]
   language: string
+  indentSize: number
 }): JSX.Element | null => {
   const [tab, setTab] = useState<string>('')
 
@@ -51,7 +53,11 @@ export const FilePanel = ({
               id={file.filename}
               context={TabsContext}
             >
-              <FileViewer file={file} language={language} />
+              <FileViewer
+                file={file}
+                language={language}
+                indentSize={indentSize}
+              />
             </Tab.Panel>
           ))}
         </div>

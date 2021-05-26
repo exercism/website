@@ -35,7 +35,9 @@ export type Test = {
   status: TestStatus
   testCode: string
   message: string
+  messageHtml: string
   output: string
+  outputHtml: string
   index?: number
 }
 

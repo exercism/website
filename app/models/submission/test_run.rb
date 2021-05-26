@@ -69,9 +69,10 @@ class Submission::TestRun < ApplicationRecord
         status: test[:status].try(&:to_sym),
         test_code: test[:test_code],
         message: test[:message],
+        message_html: Ansi::RenderHTML.(test[:message]),
         expected: test[:expected],
         output: test[:output],
-        output_html: test[:output].present? ? Ansi::To::Html.new(test[:output]).to_html : nil
+        output_html: Ansi::RenderHTML.(test[:output])
       }
     end
 

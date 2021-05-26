@@ -29,6 +29,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
           status: 'pass',
           test_code: nil,
           message: nil,
+          message_html: nil,
           expected: nil,
           output: 'foobar',
           output_html: "foobar"

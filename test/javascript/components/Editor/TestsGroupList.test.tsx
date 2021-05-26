@@ -12,14 +12,18 @@ test('shows passed tests', async () => {
       status: TestStatus.PASS,
       testCode: '',
       message: '',
+      messageHtml: '',
       output: '',
+      outputHtml: '',
     },
     {
       name: 'second test',
       status: TestStatus.PASS,
       testCode: '',
       message: '',
+      messageHtml: '',
       output: '',
+      outputHtml: '',
     },
   ]
 
@@ -37,21 +41,27 @@ test('shows all failed tests', async () => {
       status: TestStatus.PASS,
       testCode: '',
       message: '',
+      messageHtml: '',
       output: '',
+      outputHtml: '',
     },
     {
       name: 'second test',
       status: TestStatus.FAIL,
       testCode: '',
       message: '',
+      messageHtml: '',
       output: '',
+      outputHtml: '',
     },
     {
       name: 'third test',
       status: TestStatus.FAIL,
       testCode: '',
       message: '',
+      messageHtml: '',
       output: '',
+      outputHtml: '',
     },
   ]
 
@@ -68,14 +78,18 @@ test('opens first failing test by default', async () => {
       status: TestStatus.FAIL,
       testCode: '',
       message: 'second test message',
+      messageHtml: 'second test message',
       output: '',
+      outputHtml: '',
     },
     {
       name: 'third test',
       status: TestStatus.FAIL,
       testCode: '',
       message: 'third test message',
+      messageHtml: 'third test message',
       output: '',
+      outputHtml: '',
     },
   ]
 

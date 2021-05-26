@@ -65,10 +65,8 @@ test('highlightAll() highlights code snippets with line numbers', () => {
   const actual = document.createElement('div')
   actual.innerHTML = `
     <pre>
-      <code class="ruby" data-highlight-line-numbers data-highlight-line-number-start="2">
-        class Dog
-        end
-      </code>
+      <code class="ruby" data-highlight-line-numbers data-highlight-line-number-start="2">class Dog
+        end</code>
     </pre>
   `
 
@@ -119,12 +117,10 @@ test('highlightAll() highlights multiline blocks correctly', () => {
   const actual = document.createElement('div')
   actual.innerHTML = `
     <pre>
-      <code class="javascript" data-highlight-line-numbers>
-        /*
+      <code class="javascript" data-highlight-line-numbers>/*
           Multi
           line comments
-        */
-      </code>
+        */</code>
     </pre>
   `
   highlightAll(actual)

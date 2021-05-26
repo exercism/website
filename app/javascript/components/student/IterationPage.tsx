@@ -17,6 +17,7 @@ export type Track = {
   title: string
   iconUrl: string
   highlightJsLanguage: string
+  indentSize: number
 }
 
 export type Links = {

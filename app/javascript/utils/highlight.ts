@@ -49,7 +49,7 @@ function getLinesCount(text: string) {
 
 function wrapLineNumbers(code: string, start = 1) {
   const element = document.createElement('div')
-  element.innerHTML = code.trim()
+  element.innerHTML = code
 
   /*
     Highlight JS wraps multiline code (e.g. comments) in one parent node.

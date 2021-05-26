@@ -268,6 +268,7 @@ initReact({
     <Common.SolutionView
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
       language={data.language}
+      indentSize={data.indent_size}
       publishedIterationIdx={data.published_iteration_idx}
       outOfDate={data.out_of_date}
       links={camelizeKeysAs<SolutionViewLinks>(data.links)}
@@ -510,7 +511,10 @@ initReact({
     />
   ),
   'mentored-student-tooltip': (data: any) => (
-    <Tooltips.StudentTooltip requestId={data.endpoint}  endpoint={data.endpoint} />
+    <Tooltips.StudentTooltip
+      requestId={data.endpoint}
+      endpoint={data.endpoint}
+    />
   ),
   'user-tooltip': (data: any, elem: HTMLElement) => (
     <Tooltips.UserTooltip

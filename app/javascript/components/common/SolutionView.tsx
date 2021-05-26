@@ -20,12 +20,14 @@ export const SolutionView = ({
   iterations,
   publishedIterationIdx,
   language,
+  indentSize,
   outOfDate,
   links,
 }: {
   iterations: readonly Iteration[]
   publishedIterationIdx: number | null
   language: string
+  indentSize: number
   outOfDate: boolean
   links: Links
 }): JSX.Element => {
@@ -58,7 +60,11 @@ export const SolutionView = ({
           defaultError={DEFAULT_ERROR}
         >
           {resolvedData ? (
-            <FilePanel files={resolvedData.files} language={language} />
+            <FilePanel
+              files={resolvedData.files}
+              language={language}
+              indentSize={indentSize}
+            />
           ) : null}
         </FetchingBoundary>
       </ResultsZone>

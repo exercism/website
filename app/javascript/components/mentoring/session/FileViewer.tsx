@@ -4,9 +4,11 @@ import { useHighlighting } from '../../../utils/highlight'
 
 export const FileViewer = ({
   language,
+  indentSize,
   file,
 }: {
   language: string
+  indentSize: number
   file: File
 }): JSX.Element => {
   const parentRef = useHighlighting<HTMLPreElement>()
@@ -17,8 +19,10 @@ export const FileViewer = ({
         className={language}
         data-highlight-line-numbers={true}
         data-highlight-line-number-start={1}
-        dangerouslySetInnerHTML={{ __html: file.content }}
-      />
+        style={{ tabSize: indentSize }}
+      >
+        {file.content}
+      </code>
     </pre>
   )
 }

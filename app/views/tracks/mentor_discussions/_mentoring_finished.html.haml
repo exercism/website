@@ -1,0 +1,13 @@
+.introduction
+  .header
+    .content
+      %h2 Want to try another mentor?
+      %p
+        Want a different mentor's thoughts on your solution?
+        You can re-request mentoring and ask new questions about your solution to
+        %strong #{exercise.title},
+        or explore your previous mentoring sessions below.
+      .btns
+        = link_to "Request more mentoring", new_track_exercise_mentor_request_path(track, exercise), class: 'btn-primary btn-m'
+
+    = graphical_icon "mentoring-prompt", category: 'graphics'

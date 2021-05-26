@@ -17,7 +17,7 @@ module ReactComponents
             is_first_time_on_track: true, # TODO
             videos: videos,
             links: {
-              exercise: Exercism::Routes.track_exercise_url(track, exercise),
+              exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
               create_mentor_request: Exercism::Routes.api_solution_mentor_request_path(solution.uuid),
               learn_more_about_private_mentoring: "#",
               private_mentoring: "https://some.link/we/need/to-decide-on",

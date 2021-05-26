@@ -62,9 +62,14 @@ module ViewComponents
       end
 
       def mentoring_tab
+        count = solution.mentor_discussions.count + solution.mentor_requests.pending.count
+        parts = []
+        parts << graphical_icon('mentoring')
+        parts << tag.span("Mentoring", "data-text": "Mentoring")
+        parts << tag.span(count, class: "count")
+
         link_to(
-          graphical_icon('mentoring') +
-          tag.span("Mentoring", "data-text": "Mentoring"),
+          safe_join(parts),
           Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
           class: tab_class(:mentoring)
         )

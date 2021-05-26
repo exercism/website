@@ -1,8 +1,22 @@
 #page-exercise-mentoring
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :mentoring)
 
-  .lo-container.container
+  .lg-container.container
     .lhs
+      - if @solution.mentoring_finished?
+        = render "mentoring_finished", track: @track, exercise: @exercise
+
+      - elsif @solution.mentoring_in_progress?
+        = render "mentoring_in_progress", discussion: @solution.in_progress_mentor_discussion, track: @track, exercise: @exercise
+
+      - elsif @solution.mentoring_requested?
+        = render "mentoring_requested", track: @track, exercise: @exercise
+
+      - elsif @solution.mentoring_none?
+        = render "introduction", track: @track, exercise: @exercise
+
+      = render "previous_discussions", discussions: @solution.mentor_discussions.finished
+
     .rhs
       .personal-mentoring{ class: @solution.mentoring_in_progress? ? 'locked' : nil }
         - if @solution.mentoring_in_progress?

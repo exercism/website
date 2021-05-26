@@ -1,0 +1,63 @@
+.introduction
+  .header
+    .content
+      %h2 Take your solution to the next level
+      %p
+        Get mentored on your solution to
+        %strong= exercise.title
+        by a #{track.title} mentor to discover new ways to approach the problem, and expand and deepen your #{track.title} knowledge.
+      .btns
+        = link_to "Request mentoring", new_track_exercise_mentor_request_path(track, exercise), class: 'btn-primary btn-m'
+        .wow It’s absolutely free! 😲
+
+    = graphical_icon "mentoring-prompt", category: 'graphics'
+  .why
+    %h3 Why mentoring?
+    .points
+      .point
+        %h4 Attain real fluency in #{track.title}
+        %p
+          Learning a language is more than being able to use it, it's about being able to
+          %strong think
+          in it. Our mentors will help develop your perceptions.
+
+      .point
+        %h4 You don't know what you don't know
+        %p It's hard to progress when you don't know what's missing. Our mentors will help you discover the gaps in your #{track.title} knowledge.
+
+      .point
+        %h4 Get your questions answered
+        %p Whatever your questions, our mentors will be able to help you. Make sure you ask what's on your mind when requesting a mentor.
+
+      .point
+        %h4 Push yourself
+        %p However confident you feel in #{track.title}, there will always be more to learn. Push yourself further with an Exercism mentor.
+
+  .how
+    %h3 How does it work?
+    .points
+      .point
+        .num 1
+        .content
+          %h4 Request mentoring
+          %p Send a request to the Exercism community. Tell us what you're aiming to learn so the right mentor can pair with you.
+
+      .point
+        .num 2
+        .content
+          %h4 Acceptance &amp; feedback
+          %p Once a mentor accepts your request, they’ll review your solution and request, and give you your first feedback.
+
+      .point
+        .num 3
+        .content
+          %h4 Iterate and learn
+          %p Converse with your mentor and continue to write and submit further iterations considering their advice.
+
+      .point
+        .num 4
+        .content
+          %h4 End &amp; Celebrate 🎉
+          %p Once you’re happy with your final solution, end the discussion and leave a testimonial for your mentor.
+
+

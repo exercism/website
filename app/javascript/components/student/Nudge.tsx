@@ -387,7 +387,7 @@ const InProgressMentoringNudge = ({
 
       <div className="info">
         <h3>
-          You&apos;re being mentored by
+          You&apos;re being mentored by{' '}
           <strong>{discussion.mentor.handle}</strong>
         </h3>
         <div className="details">

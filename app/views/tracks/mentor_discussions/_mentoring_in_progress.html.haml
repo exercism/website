@@ -1,0 +1,20 @@
+.mentoring-in-progress
+  .header.c-mentor-discussion-widget
+    = avatar(current_user, css_class: 'c-avatar student-avatar')
+    = avatar(discussion.mentor, css_class: 'c-avatar mentor-avatar')
+
+    .info
+      %h2
+        You're being mentored by
+        %strong= discussion.mentor.handle
+
+      .details
+        .--turn Your turn to respond
+        .--comments
+          = graphical_icon "comment"
+          = pluralize discussion.num_posts, "comment"
+    .in-progress
+      .icon= graphical_icon "more-horizontal"
+      In-progress
+
+  = link_to "Open discussion", track_exercise_mentor_discussion_path(track, exercise, discussion), class: 'btn-primary btn-m'

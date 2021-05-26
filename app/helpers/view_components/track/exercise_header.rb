@@ -62,11 +62,14 @@ module ViewComponents
       end
 
       def mentoring_tab
-        count = solution.mentor_discussions.count + solution.mentor_requests.pending.count
         parts = []
         parts << graphical_icon('mentoring')
         parts << tag.span("Mentoring", "data-text": "Mentoring")
-        parts << tag.span(count, class: "count")
+
+        if solution
+          count = solution.mentor_discussions.count + solution.mentor_requests.pending.count
+          parts << tag.span(count, class: "count")
+        end
 
         link_to(
           safe_join(parts),

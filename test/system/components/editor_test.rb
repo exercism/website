@@ -172,19 +172,19 @@ module Components
         click_on "Run Tests"
         wait_for_submission
         2.times { wait_for_websockets }
-        output = "Oh dear Foobar - here's some stuff"
+        message = "Oh dear Foobar - here's some stuff"
         test_run = create :submission_test_run,
           submission: Submission.last,
           ops_status: 200,
           raw_results: {
             version: 1,
             status: "fail",
-            output: output
+            message: message
           }
         Submission::TestRunsChannel.broadcast!(test_run)
 
         assert_text "TESTS FAILED"
-        assert_text output
+        assert_text message
       end
     end
 

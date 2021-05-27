@@ -66,12 +66,72 @@
                 }
             }
         }
-        & .methods {
+        & .methods-section {
             & .header {
                 @apply mb-36;
                 @apply flex flex-col items-center;
                 & h2 {
                     @apply text-h2 mb-32;
+                }
+            }
+            & .methods {
+                @apply grid grid-cols-3 gap-x-64 gap-y-48;
+
+                & .method {
+                    @apply flex flex-col items-start;
+
+                    & > .c-icon {
+                        height: 64px;
+                        width: 64px;
+                        @apply mb-12;
+                    }
+                    & h3 {
+                        @apply text-h4 mb-8;
+                    }
+                    & .c-tag {
+                        @apply mb-8;
+
+                        &.beginner {
+                            @apply text-lightBlue bg-veryLightBlue border-darkBlue;
+                        }
+                        &.intermediary {
+                            @apply text-textColor2 bg-lightOrange border-orange;
+                        }
+                        &.advanced {
+                            @apply text-purple bg-lightPurple border-purple;
+                        }
+                    }
+                    & p {
+                        @apply text-p-base mb-10;
+                    }
+                    & .issues {
+                        @apply flex items-center;
+                        @apply text-15 leading-160;
+                        @apply text-textColor2 font-semibold;
+                        @apply mb-12;
+
+                        & .c-icon {
+                            height: 15px;
+                            width: 15px;
+                            filter: var(--textColor6-filter);
+                            @apply mr-12;
+                        }
+                    }
+                    & .track-icons {
+                        @apply flex mb-12;
+                        & .c-track-icon {
+                            height: 48px;
+                            width: 48px;
+                            @apply mr-12;
+                        }
+                    }
+                    & .tracks-list {
+                        @apply text-textColor6 font-medium;
+                        @apply text-15 leading-160;
+                        @apply mb-16;
+                    }
+                    & .c-prominent-link {
+                    }
                 }
             }
         }

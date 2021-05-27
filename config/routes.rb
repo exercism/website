@@ -229,6 +229,10 @@ Rails.application.routes.draw do
     resources :tracks, only: [:show]
   end
 
+  namespace :contributing do
+    root to: "dashboard#show"
+  end
+
   resources :tracks, only: %i[index show] do
     resources :concepts, only: %i[index show], controller: "tracks/concepts" do
       get :tooltip, on: :member

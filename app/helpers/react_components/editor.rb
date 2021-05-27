@@ -8,6 +8,7 @@ module ReactComponents
         {
           exercise_path: Exercism::Routes.track_exercise_path(track, solution.exercise),
           track_title: track.title,
+          track_slug: track.slug,
           exercise_title: solution.exercise.title,
           introduction: introduction,
           assignment: SerializeExerciseAssignment.(solution),
@@ -20,7 +21,6 @@ module ReactComponents
           ),
           submission: SerializeSubmission.(solution.submissions.last),
           files: SerializeFiles.(solution.solution_files),
-          ace_language: track.ace_language,
           highlightjs_language: track.highlightjs_language,
           average_test_duration: track.average_test_duration,
           storage_key: solution.uuid,

@@ -1873,7 +1873,7 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codemirror/autocomplete@^0.18.0":
+"@codemirror/autocomplete@^0.18.0", "@codemirror/autocomplete@^0.18.5":
   version "0.18.5"
   resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-0.18.5.tgz#5c25ddbef858503920fa4912b48bf78be93ee462"
   integrity sha512-Zp/HMTwvaP4B01HQx+5Ga0xBBLAwNaAlbALip355NPRBkYX9PZheX5b/F5IUAdI6kIrF2eYz1xAOChXgYg9maw==
@@ -1958,7 +1958,7 @@
     "@codemirror/state" "^0.18.0"
     "@codemirror/view" "^0.18.0"
 
-"@codemirror/highlight@^0.18.0":
+"@codemirror/highlight@^0.18.0", "@codemirror/highlight@^0.18.4":
   version "0.18.4"
   resolved "https://registry.yarnpkg.com/@codemirror/highlight/-/highlight-0.18.4.tgz#83dfd402d7cbfe67dc9d0cb93a25755321014829"
   integrity sha512-3azJntqWrShOIq/0kVcdMc9k7ACL0LQErgK+A6aWXmCj5Mx0gShq+Iajy8AMQ2zB0v3nhCBgFaniL1LLD5m5hQ==
@@ -2027,7 +2027,7 @@
     "@codemirror/language" "^0.18.0"
     lezer-rust "^0.13.0"
 
-"@codemirror/language@^0.18.0":
+"@codemirror/language@^0.18.0", "@codemirror/language@^0.18.1":
   version "0.18.1"
   resolved "https://registry.yarnpkg.com/@codemirror/language/-/language-0.18.1.tgz#23682324228606c4ae5b6a9f7cd0a4b9fdff83dd"
   integrity sha512-j/TWV8sNmzU79kk/hPLb9NqSPoH59850kQSpgY11LxOEBlKVRKgaWabgNtUCSeVCAnfisGekupk3aq2ftILqug==
@@ -2170,6 +2170,15 @@
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/@exercism/active-background/-/active-background-0.6.2.tgz#8f7333adcc37401dac0c2af0e94a9d2a87311666"
   integrity sha512-oRSlD9o2twN+AwoL8XSYgbxggt8+rgH+n6y84mjXpuC/MsJoQQGG0Y6gkzuJcloLgB1SuBUt87qJunm4lYQzCA==
+
+"@exercism/codemirror-lang-wren@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-wren/-/codemirror-lang-wren-0.5.0.tgz#a5a85ebe557ba8743f73b8815efeee4389fc9fea"
+  integrity sha512-k4bEgK5zFxTMe9Erg/vHXTr/hWbYeoeQo/Zos3E2duxDHydfGJayhFzKigvTMcltV3R2XHYJSMtkInwxRXrO7A==
+  dependencies:
+    "@codemirror/autocomplete" "^0.18.5"
+    "@codemirror/highlight" "^0.18.4"
+    "@codemirror/language" "^0.18.1"
 
 "@fullhuman/postcss-purgecss@^2.1.2":
   version "2.3.0"
@@ -8577,6 +8586,11 @@ nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
+
+nim-codemirror-mode@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nim-codemirror-mode/-/nim-codemirror-mode-0.2.0.tgz#42219e4dfe4025cff468645b85e4616465cc9844"
+  integrity sha512-+JSmXFz1EK8IVRLxQ7BrBTidTcerZJ/wQSZUeSsnu6oZAJzp8JFNvwmv/rec7RE8DU4CQnv7Ejy/LKkwD88lQg==
 
 node-emoji@^1.8.1:
   version "1.10.0"

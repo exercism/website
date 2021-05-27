@@ -71,11 +71,11 @@ export function Editor({
   timeout = 60000,
   initialSubmission,
   files: initialFiles,
-  aceLanguage,
   highlightJSLanguage,
   averageTestDuration,
   exercisePath,
   trackTitle,
+  trackSlug,
   exerciseTitle,
   introduction,
   tests,
@@ -89,11 +89,11 @@ export function Editor({
   timeout?: number
   initialSubmission?: Submission
   files: File[]
-  aceLanguage: string
   highlightJSLanguage: string
   averageTestDuration: number
   exercisePath: string
   trackTitle: string
+  trackSlug: string
   exerciseTitle: string
   introduction: string
   tests?: string
@@ -415,7 +415,7 @@ export function Editor({
             <FileEditorCodeMirror
               editorDidMount={editorDidMount}
               files={files}
-              language={aceLanguage}
+              language={trackSlug}
               theme={theme}
               keybindings={keybindings}
               wrap={wrap}

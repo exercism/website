@@ -36,3 +36,8 @@ interface Fonts {
 interface Document {
   fonts: Fonts
 }
+
+declare module 'nim-codemirror-mode' {
+  import { StreamParser } from '@codemirror/stream-parser'
+  export const nim: StreamParser<unknown>
+}

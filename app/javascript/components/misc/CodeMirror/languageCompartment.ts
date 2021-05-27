@@ -1,39 +1,167 @@
 import { StreamLanguage } from '@codemirror/stream-parser'
 import { Compartment, Extension } from '@codemirror/state'
 
-import { ruby } from '@codemirror/legacy-modes/mode/ruby'
-import { csharp } from '@codemirror/legacy-modes/mode/clike'
-import { elixir } from 'codemirror-lang-elixir'
-
-import { javascript } from '@codemirror/lang-javascript'
-import { cpp } from '@codemirror/lang-cpp'
-import { java } from '@codemirror/lang-java'
-import { rust } from '@codemirror/lang-rust'
-import { python } from '@codemirror/lang-python'
-
 const compartment = new Compartment()
 
-export const languageCompartment = (language: string): Extension => {
+export const loadLanguageCompartment = async (
+  language: string
+): Promise<Extension> => {
   switch (language) {
-    case 'javascript':
-      return compartment.of(javascript())
     case 'cpp':
+      const { cpp } = await import('@codemirror/lang-cpp')
       return compartment.of(cpp())
     case 'java':
+      const { java } = await import('@codemirror/lang-java')
       return compartment.of(java())
-    case 'rust':
-      return compartment.of(rust())
+    case 'javascript':
+    case 'typescript':
+      const { javascript } = await import('@codemirror/lang-javascript')
+      return compartment.of(javascript())
     case 'python':
+      const { python } = await import('@codemirror/lang-python')
       return compartment.of(python())
+    case 'rust':
+      const { rust } = await import('@codemirror/lang-rust')
+      return compartment.of(rust())
 
     // Legacy
-    case 'ruby':
-      return compartment.of(StreamLanguage.define(ruby))
+    case 'bash':
+      const { shell } = await import('@codemirror/legacy-modes/mode/shell')
+      return compartment.of(StreamLanguage.define(shell))
+    case 'c':
+      const { c } = await import('@codemirror/legacy-modes/mode/clike')
+      return compartment.of(StreamLanguage.define(c))
+    case 'ceylon':
+      const { ceylon } = await import('@codemirror/legacy-modes/mode/clike')
+      return compartment.of(StreamLanguage.define(ceylon))
+    case 'clojure':
+    case 'clojurescript':
+      const { clojure } = await import('@codemirror/legacy-modes/mode/clojure')
+      return compartment.of(StreamLanguage.define(clojure))
+    case 'coffeescript':
+      const { coffeeScript } = await import(
+        '@codemirror/legacy-modes/mode/coffeescript'
+      )
+      return compartment.of(StreamLanguage.define(coffeeScript))
+    case 'common-lisp':
+    case 'emacs-lisp':
+    case 'lfe':
+      const { commonLisp } = await import(
+        '@codemirror/legacy-modes/mode/commonlisp'
+      )
+      return compartment.of(StreamLanguage.define(commonLisp))
+    case 'crystal':
+      const { crystal } = await import('@codemirror/legacy-modes/mode/crystal')
+      return compartment.of(StreamLanguage.define(crystal))
     case 'csharp':
+      const { csharp } = await import('@codemirror/legacy-modes/mode/clike')
       return compartment.of(StreamLanguage.define(csharp))
+    case 'd':
+      const { d } = await import('@codemirror/legacy-modes/mode/d')
+      return compartment.of(StreamLanguage.define(d))
+    case 'delphi':
+      const { pascal } = await import('@codemirror/legacy-modes/mode/pascal')
+      return compartment.of(StreamLanguage.define(pascal))
+    case 'elm':
+      const { elm } = await import('@codemirror/legacy-modes/mode/elm')
+      return compartment.of(StreamLanguage.define(elm))
+    case 'erlang':
+      const { erlang } = await import('@codemirror/legacy-modes/mode/erlang')
+      return compartment.of(StreamLanguage.define(erlang))
+    case 'factor':
+      const { factor } = await import('@codemirror/legacy-modes/mode/factor')
+      return compartment.of(StreamLanguage.define(factor))
+    case 'forth':
+      const { forth } = await import('@codemirror/legacy-modes/mode/forth')
+      return compartment.of(StreamLanguage.define(forth))
+    case 'fortran':
+      const { fortran } = await import('@codemirror/legacy-modes/mode/fortran')
+      return compartment.of(StreamLanguage.define(fortran))
+    case 'fsharp':
+      const { fSharp } = await import('@codemirror/legacy-modes/mode/mllike')
+      return compartment.of(StreamLanguage.define(fSharp))
+    case 'gnu-apl':
+      const { apl } = await import('@codemirror/legacy-modes/mode/apl')
+      return compartment.of(StreamLanguage.define(apl))
+    case 'go':
+      const { go } = await import('@codemirror/legacy-modes/mode/go')
+      return compartment.of(StreamLanguage.define(go))
+    case 'groovy':
+      const { groovy } = await import('@codemirror/legacy-modes/mode/groovy')
+      return compartment.of(StreamLanguage.define(groovy))
+    case 'haskell':
+    case 'purescript':
+      const { haskell } = await import('@codemirror/legacy-modes/mode/haskell')
+      return compartment.of(StreamLanguage.define(haskell))
+    case 'haxe':
+      const { haxe } = await import('@codemirror/legacy-modes/mode/haxe')
+      return compartment.of(StreamLanguage.define(haxe))
+    case 'julia':
+      const { julia } = await import('@codemirror/legacy-modes/mode/julia')
+      return compartment.of(StreamLanguage.define(julia))
+    case 'kotlin':
+      const { kotlin } = await import('@codemirror/legacy-modes/mode/clike')
+      return compartment.of(StreamLanguage.define(kotlin))
+    case 'lua':
+      const { lua } = await import('@codemirror/legacy-modes/mode/lua')
+      return compartment.of(StreamLanguage.define(lua))
+    case 'nim':
+      const { nim } = await import('nim-codemirror-mode')
+      return compartment.of(StreamLanguage.define(nim))
+    case 'objective-c':
+      const { objectiveC } = await import('@codemirror/legacy-modes/mode/clike')
+      return compartment.of(StreamLanguage.define(objectiveC))
+    case 'ocaml':
+      const { oCaml } = await import('@codemirror/legacy-modes/mode/mllike')
+      return compartment.of(StreamLanguage.define(oCaml))
+    case 'perl5':
+    case 'raku':
+      const { perl } = await import('@codemirror/legacy-modes/mode/perl')
+      return compartment.of(StreamLanguage.define(perl))
+    case 'pharo-smalltalk':
+      const { smalltalk } = await import(
+        '@codemirror/legacy-modes/mode/smalltalk'
+      )
+      return compartment.of(StreamLanguage.define(smalltalk))
+    case 'plsql':
+      const { plSQL } = await import('@codemirror/legacy-modes/mode/sql')
+      return compartment.of(StreamLanguage.define(plSQL))
+    case 'powershell':
+      const { powerShell } = await import(
+        '@codemirror/legacy-modes/mode/powershell'
+      )
+      return compartment.of(StreamLanguage.define(powerShell))
+    case 'r':
+      const { r } = await import('@codemirror/legacy-modes/mode/r')
+      return compartment.of(StreamLanguage.define(r))
+    case 'ruby':
+      const { ruby } = await import('@codemirror/legacy-modes/mode/ruby')
+      return compartment.of(StreamLanguage.define(ruby))
+    case 'scala':
+      const { scala } = await import('@codemirror/legacy-modes/mode/clike')
+      return compartment.of(StreamLanguage.define(scala))
+    case 'scheme':
+      const { scheme } = await import('@codemirror/legacy-modes/mode/scheme')
+      return compartment.of(StreamLanguage.define(scheme))
+    case 'sml':
+      const { sml } = await import('@codemirror/legacy-modes/mode/mllike')
+      return compartment.of(StreamLanguage.define(sml))
+    case 'swift':
+      const { swift } = await import('@codemirror/legacy-modes/mode/swift')
+      return compartment.of(StreamLanguage.define(swift))
+    case 'system-verilog':
+      const { verilog } = await import('@codemirror/legacy-modes/mode/verilog')
+      return compartment.of(StreamLanguage.define(verilog))
+    case 'tcl':
+      const { tcl } = await import('@codemirror/legacy-modes/mode/tcl')
+      return compartment.of(StreamLanguage.define(tcl))
+    case 'vbnet':
+      const { vb } = await import('@codemirror/legacy-modes/mode/vb')
+      return compartment.of(StreamLanguage.define(vb))
 
-    // Exceptions
+    // Custom
     case 'elixir':
+      const { elixir } = await import('codemirror-lang-elixir')
       return compartment.of(StreamLanguage.define(elixir))
     default:
       return []

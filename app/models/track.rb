@@ -79,11 +79,6 @@ class Track < ApplicationRecord
     "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
   end
 
-  def ace_language
-    # TODO: remove || slug once all tracks have updated their config.json
-    git.ace_editor_language || slug
-  end
-
   def highlightjs_language
     # TODO: remove || slug once all tracks have updated their config.json
     git.highlightjs_language || slug

@@ -498,11 +498,11 @@ initReact({
       initialSubmission={camelizeKeysAs<Submission>(data.submission)}
       files={data.files}
       tests={data.tests}
-      aceLanguage={data.ace_language}
       highlightJSLanguage={data.highlightjs_language}
       averageTestDuration={data.average_test_duration}
       exercisePath={data.exercise_path}
       trackTitle={data.track_title}
+      trackSlug={data.track_slug}
       exerciseTitle={data.exercise_title}
       introduction={data.introduction}
       assignment={camelizeKeysAs<Assignment>(data.assignment)}

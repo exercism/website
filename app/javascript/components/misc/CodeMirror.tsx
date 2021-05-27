@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { EditorView, keymap, KeyBinding } from '@codemirror/view'
 import { basicSetup } from '@codemirror/basic-setup'
-import { EditorState, Compartment } from '@codemirror/state'
+import { EditorState, Compartment, StateEffect } from '@codemirror/state'
 import { indentUnit } from '@codemirror/language'
 import { Themes } from '../editor/types'
-import { languageCompartment } from './CodeMirror/languageCompartment'
+import { loadLanguageCompartment } from './CodeMirror/languageCompartment'
 import { a11yTabBindingPanel } from './CodeMirror/a11yTabBinding'
 import { defaultTabBinding } from '@codemirror/commands'
 
@@ -80,7 +80,6 @@ export const CodeMirror = ({
           tabCaptureCompartment.of(
             keymap.of(isTabCaptured ? [defaultTabBinding] : [])
           ),
-          languageCompartment(language),
           EditorState.tabSize.of(tabSize),
           indentUnit.of(useSoftTabs ? '  ' : '	'),
           wrapCompartment.of(wrap ? EditorView.lineWrapping : []),
@@ -96,6 +95,14 @@ export const CodeMirror = ({
     viewRef.current = view
 
     editorDidMount({ setValue, getValue })
+
+    // Lazy-load the language extension, which allows us to import just
+    // the extension's code for the current language
+    loadLanguageCompartment(language).then((languageExtension) => {
+      view.dispatch({
+        effects: StateEffect.appendConfig.of(languageExtension),
+      })
+    })
   })
 
   useEffect(() => {

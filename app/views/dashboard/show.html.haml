@@ -19,30 +19,33 @@
         Your Journey
         = graphical_icon("chevron-right")
 
-  .lg-container.container.bg-shapes
+  .lg-container.container
     %header.dashboard-header
-      .lhs
-        .intro
-          = graphical_icon "logo"
-          .content
-            %h1 Welcome back!
-            %p.welcome
-              Complete coding exercises and get mentoring to become more fluent in your chosen programming languages.
-              /%strong Exercism is not-for-profit, open-source and built by volunteers.
-            %p.cta
-              Exercism is built by people like you. We’d love you to
-              = link_to "contribute", "#"
-              and make it even better.
-      .rhs
-        = link_to "https://www.youtube.com/c/Exercism-videos" do
-          = graphical_icon 'external-site-youtube'
-          YouTube
-        = link_to "https://github.com/exercism" do
-          = graphical_icon 'external-site-github'
-          GitHub
-        = link_to "https://twitter.com/exercism_io" do
-          = graphical_icon 'external-site-twitter'
-          Twitter
+      .intro
+        = graphical_icon "logo"
+        .content
+          %h1 Welcome back!
+          %p.welcome
+            Solve coding exercises and get mentored to gain true fluency in your chosen programming languages.
+            %strong Exercism is a not-for-profit and open-source.
+          %p.cta
+            %strong Exercism is built by people like you.
+            Can you
+            = link_to "contribute", "#"
+            or
+            = link_to "sponsor", "#"
+            to help us grow?
+      .decorations
+
+      = link_to "https://github.com/exercism", class: 'social' do
+        = graphical_icon 'external-site-github'
+        GitHub
+      = link_to "https://twitter.com/exercism_io", class: 'social twitter' do
+        = graphical_icon 'external-site-twitter'
+        Twitter
+      = link_to "https://www.youtube.com/c/Exercism-videos", class: 'social' do
+        = graphical_icon 'external-site-youtube'
+        YouTube
 
     %article
       .lhs
@@ -58,7 +61,7 @@
             Contribute to building Exercism
           = link_to "#", class: 'action' do
             = graphical_icon "floating-cash", category: 'graphics'
-            Learn more about Exercism
+            Support our growith financially
 
         %section.posts-section
           %h2 Community Posts
@@ -109,21 +112,21 @@
 
           = render ViewComponents::ProminentLink.new("Discover more tracks", tracks_path)
 
-        %section.mentoring-section
-          .c-heading-with-count
-            %h3.--text.text-h3 Mentoring
-            .--count{ 'aria-label': "#{@mentoring_inbox_size} of your solutions need responses" }= @mentoring_inbox_size
+        - if current_user.mentor?
+          %section.mentoring-section
+            %h3.text-h3 Mentoring
 
-          .discussions
-            = link_to "#", "aria-label": "View profile of Erik Schierboom", class: 'c-mentor-discussion-summary' do
-              = avatar(User.first)
-              .info
-                .handle @ErikSchierboom
-                .exercise on Lucians Luscious Lasagna
-              .comments.unread
-                = icon "comment", "#{5 + 1} comments"
-                5
-              %time 2m ago
-              = graphical_icon :"chevron-right", css_class: "action-icon"
+            .discussions
+              - @mentor_discussions.each do |discussion|
+                = link_to mentoring_discussion_path(discussion), "aria-label": "View profile of Erik Schierboom", class: 'c-mentor-discussion-summary' do
+                  = avatar(discussion.student)
+                  .info
+                    .handle= discussion.student.handle
+                    .exercise on #{discussion.exercise.title}
+                  .comments
+                    = icon "comment", pluralize(discussion.num_posts, "comment")
+                    5
+                  %time #{time_ago_in_words(discussion.updated_at, short: true)} ago
+                  = graphical_icon :"chevron-right", css_class: "action-icon"
 
-          = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentoring_inbox_path)
+            = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentoring_inbox_path)

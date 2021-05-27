@@ -120,6 +120,9 @@
     --track-color-vbnet: 0, 78, 140;
     --track-color-x86-64-assembly: 98, 65, 192;
     --track-color-gnu-apl: 0, 0, 0;
+
+    --filter-twitter: invert(51%) sepia(82%) saturate(2086%) hue-rotate(175deg)
+        brightness(98%) contrast(93%);
 }
 
 .theme-light {

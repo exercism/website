@@ -3,7 +3,7 @@
 .c-heading-with-count {
     @apply flex items-center;
     & .--text {
-        @apply flex items-center mr-12;
+        @apply flex items-center mr-16;
         & .c-icon {
             height: 24px;
             width: 24px;
@@ -11,9 +11,8 @@
         }
     }
     & .--count {
-        @apply rounded-100 px-12;
-        @apply text-textColor6 text-14 font-medium;
-        @apply border-borderColor4 border-1;
-        line-height: 28px;
+        @apply rounded-100 py-4 px-12;
+        @apply text-textColor6 text-14 font-medium leading-170;
+        @apply border-borderColor5 border-1;
     }
 }

@@ -13,10 +13,11 @@
         overflow: hidden;
         max-width: 180px;
         @apply leading-150 font-medium;
+        @apply mr-32;
 
         & .handle {
             @apply flex items-center;
-            @apply text-16 text-textColor3;
+            @apply text-16 text-textColor2;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -33,14 +34,15 @@
     }
     & .comments {
         @apply flex flex-shrink-0 items-center justify-center ml-auto;
-        @apply font-medium text-14 leading-150 text-textColor1;
+        @apply font-medium text-14 leading-150 text-textColor2;
         @apply py-4 px-12 border-orange border-1 rounded-5 bg-lightOrange;
-        @apply ml-32;
+        @apply ml-auto;
 
         & .c-icon {
-            @apply mr-6 text-orange;
+            @apply mr-6;
             height: 16px;
             width: 16px;
+            filter: var(--orange-filter);
         }
     }
     & time {

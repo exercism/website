@@ -82,7 +82,7 @@
                 @apply text-h1 mb-8;
             }
             & p.welcome {
-                @apply text-p-large mb-16;
+                @apply text-p-large mb-16 mr-40;
 
                 & strong {
                     @apply font-medium text-textColor2;
@@ -90,8 +90,7 @@
             }
 
             & p.cta {
-                @apply self-start;
-                @apply bg-lightOrange py-12 px-16 rounded-8;
+                @apply bg-lightOrange py-10 px-16 rounded-8;
                 @apply border-2 border-orange;
                 @apply text-16 font-medium text-textColor2 leading-150;
 
@@ -109,7 +108,7 @@
             height: 71px;
             width: 155px;
             background-size: 155px;
-            @apply flex-shrink-0 ml-40 mr-20;
+            @apply flex-shrink-0 mr-20;
             @apply self-start;
         }
         & a.social {

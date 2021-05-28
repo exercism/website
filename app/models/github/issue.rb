@@ -7,8 +7,6 @@ class Github::Issue < ApplicationRecord
     class_name: "Github::IssueLabel",
     foreign_key: "github_issue_id"
 
-  scope :open, -> { where(status: :open) }
-
   def status
     super.to_sym
   end

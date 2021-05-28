@@ -1,0 +1,24 @@
+.c-split-pane {
+    /* TODO: Don't hardcode width and height */
+    width: 400px;
+    height: 400px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    & > .left {
+        height: 100%;
+    }
+
+    & > .right {
+        height: 100%;
+        flex: 1;
+    }
+
+    & > .divider {
+        height: 100%;
+        width: 10px;
+        border: 1px solid black;
+    }
+}

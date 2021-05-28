@@ -336,6 +336,7 @@ Rails.application.routes.draw do
         end
         namespace :common do
           resource :expander, controller: "expander", only: [:show]
+          resource :split_pane, controller: "split_pane", only: [:show]
           resource :copy_to_clipboard_button, controller: "copy_to_clipboard_button", only: [:show]
           resource :markdown_editor, controller: "markdown_editor", only: [:show]
           resource :icons, controller: "icons", only: [:show]

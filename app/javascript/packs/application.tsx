@@ -45,6 +45,7 @@ import '../../css/components/iterations-footer'
 import '../../css/components/solution-iterations'
 
 import '../../css/components/share-panel'
+import '../../css/components/split-pane'
 import '../../css/components/heading-with-count'
 import '../../css/components/notification'
 import '../../css/components/prominent-link'
@@ -262,6 +263,7 @@ initReact({
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
+  'common-split-pane-example': (data: any) => <Common.SplitPaneExample />,
   'common-concept-widget': (data: any) => (
     <Common.ConceptWidget concept={data.concept} />
   ),

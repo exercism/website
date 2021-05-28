@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
-import { usePanel } from '../../hooks/use-panel'
+import Tippy from '@tippyjs/react'
 
 export const RunTestsButton = ({
   haveFilesChanged,
@@ -10,18 +10,8 @@ export const RunTestsButton = ({
   haveFilesChanged: boolean
   isProcessing: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element => {
+  const [open, setOpen] = useState(false)
   const isDisabled = !haveFilesChanged || isProcessing
-  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
-    placement: 'right',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 8],
-        },
-      },
-    ],
-  })
 
   const mouseEvents = !haveFilesChanged
     ? { onMouseEnter: () => setOpen(true), onMouseLeave: () => setOpen(false) }
@@ -46,21 +36,17 @@ export const RunTestsButton = ({
           <span>Run Tests</span>
           <div className="kb-shortcut">F2</div>
         </button>
-        <div
-          className="disabled-wrapper"
-          {...mouseEvents}
-          {...buttonAttributes}
-        />
-      </div>
-      {open ? (
-        <div
-          className="c-generic-tooltip"
-          {...panelAttributes}
-          style={{ ...panelAttributes.style }}
+        <Tippy
+          content={
+            <div className="c-generic-tooltip">
+              You have not made any changes since you last ran the tests
+            </div>
+          }
+          disabled={!open}
         >
-          You have not made any changes since you last ran the tests
-        </div>
-      ) : null}
+          <div className="disabled-wrapper" {...mouseEvents} />
+        </Tippy>
+      </div>
     </>
   )
 }

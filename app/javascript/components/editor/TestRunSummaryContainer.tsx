@@ -47,6 +47,8 @@ export const TestRunSummaryContainer = ({
   const channel = useRef<TestRunChannel | undefined>()
   const timer = useRef<number | undefined>()
   const handleQueued = useCallback(() => {
+    clearTimeout(timer.current)
+
     timer.current = window.setTimeout(() => {
       setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
       timer.current = undefined
@@ -104,11 +106,10 @@ export const TestRunSummaryContainer = ({
         break
     }
   }, [
+    handleCancelled,
+    handleCancelling,
     handleQueued,
     handleTimeout,
-    handleCancelling,
-    handleCancelled,
-    timer,
     testRun.status,
   ])
 

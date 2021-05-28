@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Loading } from '../../common'
+import { FormButton } from '../../common'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { useMutation } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
@@ -50,40 +50,34 @@ const Component = ({
 
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
-  switch (status) {
-    case 'idle':
-      return (
-        <button
-          {...props}
-          onClick={() => {
-            mutation()
-          }}
-          type="button"
-          className={
-            // We use a hover class, rather than the hover css construct
-            // so that the button doesn't immediately switch to its hover
-            // state once it's been clicked. By using onMouseEnter that state
-            // only gets set when someone is moving into the box afresh.
-            'btn-small unfavorite-button ' + (isHovering ? 'hover' : '')
-          }
-          // TODO: These do not work on tab (a11y).
-          // When tabbing this should be set to true.
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-        >
-          {isHovering ? (
-            'Unfavorite?'
-          ) : (
-            <>
-              <GraphicalIcon icon="star" />
-              <span>Favorited</span>
-            </>
-          )}
-        </button>
-      )
-    case 'loading':
-      return <Loading />
-    default:
-      return null
-  }
+  return (
+    <FormButton
+      {...props}
+      onClick={() => {
+        mutation()
+      }}
+      type="button"
+      className={
+        // We use a hover class, rather than the hover css construct
+        // so that the button doesn't immediately switch to its hover
+        // state once it's been clicked. By using onMouseEnter that state
+        // only gets set when someone is moving into the box afresh.
+        'btn-small unfavorite-button ' + (isHovering ? 'hover' : '')
+      }
+      // TODO: These do not work on tab (a11y).
+      // When tabbing this should be set to true.
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      status={status}
+    >
+      {isHovering ? (
+        'Unfavorite?'
+      ) : (
+        <>
+          <GraphicalIcon icon="star" />
+          <span>Favorited</span>
+        </>
+      )}
+    </FormButton>
+  )
 }

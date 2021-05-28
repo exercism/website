@@ -2,10 +2,10 @@ import React from 'react'
 import { useMutation } from 'react-query'
 import { useIsMounted } from 'use-is-mounted'
 import { sendPostRequest } from '../../../utils/send-request'
-import { Loading } from '../../common/Loading'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { Student } from '../../types'
+import { FormButton } from '../../common'
 
 type ComponentProps = {
   endpoint: string
@@ -47,23 +47,17 @@ const Component = ({
   /* TODO: Style this */
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
-  switch (status) {
-    case 'idle':
-      return (
-        <button
-          onClick={() => {
-            mutation()
-          }}
-          type="button"
-          className="btn-small"
-        >
-          <GraphicalIcon icon="plus" />
-          <span>Add to favorites</span>
-        </button>
-      )
-    case 'loading':
-      return <Loading />
-    default:
-      return null
-  }
+  return (
+    <FormButton
+      onClick={() => {
+        mutation()
+      }}
+      type="button"
+      className="btn-small"
+      status={status}
+    >
+      <GraphicalIcon icon="plus" />
+      <span>Add to favorites</span>
+    </FormButton>
+  )
 }

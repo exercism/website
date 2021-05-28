@@ -1,11 +1,12 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { ExerciseIcon } from '../../common/ExerciseIcon'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { Icon } from '../../common/Icon'
 import { Avatar } from '../../common/Avatar'
 import { StudentTooltip } from '../../tooltips'
-import { usePanel } from '../../../hooks/use-panel'
+import { LazyTippy } from '../../misc/LazyTippy'
+import { followCursor } from 'tippy.js'
 
 type SolutionProps = {
   studentAvatarUrl: string
@@ -32,26 +33,15 @@ export const Solution = ({
   url,
   tooltipUrl,
 }: SolutionProps): JSX.Element => {
-  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
-    placement: 'right',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [-20, -0],
-        },
-      },
-    ],
-  })
-
   return (
-    <>
-      <ReferenceElement
-        href={url}
-        className="--solution"
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
-      >
+    <LazyTippy
+      animation="shift-away-subtle"
+      followCursor="horizontal"
+      maxWidth="none"
+      plugins={[followCursor]}
+      content={<StudentTooltip endpoint={tooltipUrl} requestId={tooltipUrl} />}
+    >
+      <a href={url} className="--solution">
         <ExerciseIcon title={exerciseTitle} iconUrl={exerciseIconUrl} />
         <Avatar src={studentAvatarUrl} handle={studentHandle} />
         <div className="--info">
@@ -76,25 +66,7 @@ export const Solution = ({
         {status ? <div className="--status">{status}</div> : null}
         <time className="-updated-at">{fromNow(updatedAt)}</time>
         <GraphicalIcon icon="chevron-right" className="action-icon" />
-      </ReferenceElement>
-      {open ? (
-        <StudentTooltip
-          endpoint={tooltipUrl}
-          requestId={tooltipUrl}
-          {...panelAttributes}
-        />
-      ) : null}
-    </>
+      </a>
+    </LazyTippy>
   )
 }
-
-const ReferenceElement = forwardRef<
-  HTMLElement,
-  React.HTMLProps<HTMLAnchorElement>
->(({ ...props }, ref) => {
-  return (
-    <a ref={ref as React.RefObject<HTMLAnchorElement>} {...props}>
-      {props.children}
-    </a>
-  )
-})

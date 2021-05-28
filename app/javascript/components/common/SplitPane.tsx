@@ -7,9 +7,7 @@ export const SplitPane = ({
   left: React.ReactNode
   right: React.ReactNode
 }): JSX.Element => {
-  const [leftWidth, setLeftWidth] = useState(0)
   const [dragging, setDragging] = useState(false)
-  const [dividerX, setDividerX] = useState<undefined | number>(undefined)
   const leftRef = useRef<HTMLDivElement>(null)
   const splitPaneRef = useRef<HTMLDivElement>(null)
 
@@ -19,31 +17,24 @@ export const SplitPane = ({
         return
       }
 
-      if (!dividerX) {
-        return
-      }
-
       if (!splitPaneRef.current) {
         return
       }
 
-      const newLeftWidth = leftWidth + clientX - dividerX
-      const splitPaneWidth = splitPaneRef.current.clientWidth
+      if (!leftRef.current) {
+        return
+      }
 
-      setDividerX(clientX)
-
-      setLeftWidth(newLeftWidth)
+      leftRef.current.style.width = `${clientX}px`
     },
-    [dividerX, dragging, leftWidth]
+    [dragging]
   )
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
-    setDividerX(e.clientX)
     setDragging(true)
   }, [])
 
   const onTouchStart = useCallback((e: React.TouchEvent) => {
-    setDividerX(e.touches[0].clientX)
     setDragging(true)
   }, [])
 
@@ -64,7 +55,6 @@ export const SplitPane = ({
   )
 
   const onMouseUp = useCallback(() => {
-    setDividerX(undefined)
     setDragging(false)
   }, [])
 
@@ -79,26 +69,6 @@ export const SplitPane = ({
       document.removeEventListener('mouseup', onMouseUp)
     }
   }, [onMouseMove, onTouchMove, onMouseUp])
-
-  useEffect(() => {
-    if (!leftRef.current) {
-      return
-    }
-
-    if (leftWidth) {
-      return
-    }
-
-    setLeftWidth(leftRef.current.clientWidth)
-  }, [leftRef, leftWidth, setLeftWidth])
-
-  useEffect(() => {
-    if (!leftRef.current) {
-      return
-    }
-
-    leftRef.current.style.width = `${leftWidth}px`
-  }, [leftWidth])
 
   return (
     <div className="c-split-pane" ref={splitPaneRef}>

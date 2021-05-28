@@ -263,7 +263,6 @@ initReact({
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),
-  'common-split-pane-example': (data: any) => <Common.SplitPaneExample />,
   'common-concept-widget': (data: any) => (
     <Common.ConceptWidget concept={data.concept} />
   ),

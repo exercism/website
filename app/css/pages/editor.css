@@ -186,13 +186,14 @@
         }
     }
 
-    & article.main {
+    & .c-split-pane {
         @apply flex flex-grow items-stretch overflow-hidden;
 
-        & .lhs {
-            @apply flex flex-col flex-grow;
+        & .--split-lhs {
+            @apply flex flex-col;
             @apply bg-backgroundColorB;
             @apply overflow-hidden;
+            width: calc(100% - 33%);
 
             & .c-iteration-pane {
                 height: 100%;
@@ -233,13 +234,13 @@
                 }
             }
         }
-        & .rhs {
+        & .--split-rhs {
             @apply bg-backgroundColorA;
-            @apply flex flex-col flex-grow-0 flex-shrink-0;
-            width: 500px;
+            @apply flex flex-col;
+            width: 33%;
+
             /* Put a shadow over the LHS */
-            @apply shadow-xsZ1;
-            z-index: 20;
+            @apply shadow-xsZ1 z-shadow;
 
             & .tabs {
                 @apply flex flex-shrink-0 flex-grow-0;

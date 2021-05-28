@@ -1,24 +1,41 @@
 .c-split-pane {
-    /* TODO: Don't hardcode width and height */
-    width: 400px;
-    height: 400px;
-
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
 
-    & > .left {
+    & > .--split-lhs {
         height: 100%;
     }
 
-    & > .right {
+    & > .--split-rhs {
         height: 100%;
         flex: 1;
     }
 
-    & > .divider {
+    & > .--split-divider {
+        cursor: pointer;
         height: 100%;
-        width: 10px;
-        border: 1px solid black;
+        width: 1px;
+        background: transparent;
+        position: relative;
+        @apply z-divider;
+
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            @apply z-divider;
+        }
+        &:before {
+            right: 0;
+            width: 5px;
+        }
+        &:after {
+            left: 0;
+            width: 5px;
+        }
     }
 }

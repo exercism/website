@@ -42,6 +42,7 @@ import { useFileRevert, RevertStatus } from './editor/useFileRevert'
 import { isEqual } from 'lodash'
 import { sendRequest, sendPostRequest, APIError } from '../utils/send-request'
 import { TabContext } from './common/Tab'
+import { SplitPane } from './common'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
@@ -410,70 +411,75 @@ export function Editor({
             />
           </div>
         </div>
-        <article className="main">
-          <div className="lhs">
-            <FileEditorCodeMirror
-              editorDidMount={editorDidMount}
-              files={files}
-              language={trackSlug}
-              theme={theme}
-              keybindings={keybindings}
-              wrap={wrap}
-              tabBehavior={tabBehavior}
-              onRunTests={runTests}
-              onSubmit={submit}
-              config={config}
-            />
 
-            <footer className="lhs-footer">
-              <EditorStatusSummary
-                status={status}
-                onCancel={cancel}
-                error={apiError?.message}
+        <SplitPane
+          left={
+            <>
+              <FileEditorCodeMirror
+                editorDidMount={editorDidMount}
+                files={files}
+                language={trackSlug}
+                theme={theme}
+                keybindings={keybindings}
+                wrap={wrap}
+                tabBehavior={tabBehavior}
+                onRunTests={runTests}
+                onSubmit={submit}
+                config={config}
               />
-              <RunTestsButton
-                onClick={runTests}
-                haveFilesChanged={
-                  submission === null ||
-                  !isEqual(submissionFilesRef.current, files) ||
-                  submission?.testRun?.status === TestRunStatus.OPS_ERROR ||
-                  submission?.testRun?.status === TestRunStatus.TIMEOUT ||
-                  submission?.testRun?.status === TestRunStatus.CANCELLED
-                }
-                isProcessing={
-                  submissionStatus === SubmissionStatus.CREATING ||
-                  submission?.testRun?.status === TestRunStatus.QUEUED ||
-                  submission?.testRun?.status === TestRunStatus.CANCELLING
-                }
+
+              <footer className="lhs-footer">
+                <EditorStatusSummary
+                  status={status}
+                  onCancel={cancel}
+                  error={apiError?.message}
+                />
+                <RunTestsButton
+                  onClick={runTests}
+                  haveFilesChanged={
+                    submission === null ||
+                    !isEqual(submissionFilesRef.current, files) ||
+                    submission?.testRun?.status === TestRunStatus.OPS_ERROR ||
+                    submission?.testRun?.status === TestRunStatus.TIMEOUT ||
+                    submission?.testRun?.status === TestRunStatus.CANCELLED
+                  }
+                  isProcessing={
+                    submissionStatus === SubmissionStatus.CREATING ||
+                    submission?.testRun?.status === TestRunStatus.QUEUED ||
+                    submission?.testRun?.status === TestRunStatus.CANCELLING
+                  }
+                />
+                <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
+              </footer>
+            </>
+          }
+          right={
+            <>
+              <div className="tabs">
+                <InstructionsTab />
+                {tests ? <TestsTab /> : null}
+                <ResultsTab />
+              </div>
+              <InstructionsPanel
+                introduction={introduction}
+                assignment={assignment}
+                exampleFiles={exampleFiles}
+                debuggingInstructions={debuggingInstructions}
               />
-              <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
-            </footer>
-          </div>
-          <div className="rhs">
-            <div className="tabs">
-              <InstructionsTab />
-              {tests ? <TestsTab /> : null}
-              <ResultsTab />
-            </div>
-            <InstructionsPanel
-              introduction={introduction}
-              assignment={assignment}
-              exampleFiles={exampleFiles}
-              debuggingInstructions={debuggingInstructions}
-            />
-            {tests ? (
-              <TestsPanel tests={tests} language={highlightJSLanguage} />
-            ) : null}
-            <ResultsPanel
-              submission={submission}
-              timeout={timeout}
-              onUpdate={updateSubmission}
-              onSubmit={submit}
-              isSubmitDisabled={isSubmitDisabled}
-              averageTestDuration={averageTestDuration}
-            />
-          </div>
-        </article>
+              {tests ? (
+                <TestsPanel tests={tests} language={highlightJSLanguage} />
+              ) : null}
+              <ResultsPanel
+                submission={submission}
+                timeout={timeout}
+                onUpdate={updateSubmission}
+                onSubmit={submit}
+                isSubmitDisabled={isSubmitDisabled}
+                averageTestDuration={averageTestDuration}
+              />
+            </>
+          }
+        />
       </div>
     </TabsContext.Provider>
   )

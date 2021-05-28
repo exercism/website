@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 
 const MIN_WIDTH = 100
 
-export const SplitPaneExample = (): JSX.Element => {
-  return <SplitPane left={<p>Left</p>} right={<p>Right</p>} />
-}
+// const SplitPaneExample = (): JSX.Element => {
+//   return <SplitPane left={<p>Left</p>} right={<p>Right</p>} />
+// }
 
 export const SplitPane = ({
   left,
@@ -13,7 +13,7 @@ export const SplitPane = ({
   left: React.ReactNode
   right: React.ReactNode
 }): JSX.Element => {
-  const [leftWidth, setLeftWidth] = useState(MIN_WIDTH)
+  const [leftWidth, setLeftWidth] = useState(0)
   const [dragging, setDragging] = useState(false)
   const [dividerX, setDividerX] = useState<undefined | number>(undefined)
   const leftRef = useRef<HTMLDivElement>(null)
@@ -120,16 +120,16 @@ export const SplitPane = ({
 
   return (
     <div className="c-split-pane" ref={splitPaneRef}>
-      <div className="left" ref={leftRef}>
+      <div className="--split-lhs" ref={leftRef}>
         {left}
       </div>
       <div
-        className="divider"
+        className="--split-divider"
         onMouseDown={onMouseDown}
         onTouchStart={onTouchStart}
         onTouchEnd={onMouseUp}
       />
-      <div className="right">{right}</div>
+      <div className="--split-rhs">{right}</div>
     </div>
   )
 }

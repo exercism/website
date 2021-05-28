@@ -68,7 +68,7 @@ module ViewComponents
 
         if solution
           count = solution.mentor_discussions.count + solution.mentor_requests.pending.count
-          parts << tag.span(count, class: "count")
+          parts << tag.span(count, class: "count") if count.positive?
         end
 
         locked = !@solution&.iterated?

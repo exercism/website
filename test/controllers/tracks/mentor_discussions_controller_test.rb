@@ -1,9 +1,28 @@
 require "test_helper"
 
 class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
+  test "index: no solution" do
+    user = create :user
+    exercise = create :practice_exercise
+
+    sign_in!(user)
+    get track_exercise_mentor_discussions_url(exercise.track, exercise)
+    assert_redirected_to track_exercise_path(exercise.track, exercise)
+  end
+
+  test "index: no iterations" do
+    user = create :user
+    solution = create :concept_solution, user: user
+
+    sign_in!(user)
+    get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
+    assert_redirected_to track_exercise_path(solution.track, solution.exercise)
+  end
+
   test "index: first-time" do
     user = create :user
     solution = create :concept_solution, user: user
+    create :iteration, submission: create(:submission, solution: solution)
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
@@ -16,6 +35,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
   test "index: requested" do
     user = create :user
     solution = create :concept_solution, user: user
+    create :iteration, submission: create(:submission, solution: solution)
     create :mentor_request, solution: solution
 
     sign_in!(user)
@@ -29,6 +49,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
   test "index: in-progress" do
     user = create :user
     solution = create :concept_solution, user: user
+    create :iteration, submission: create(:submission, solution: solution)
     create :mentor_discussion, solution: solution
 
     sign_in!(user)
@@ -42,6 +63,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
   test "index: finished" do
     user = create :user
     solution = create :concept_solution, user: user
+    create :iteration, submission: create(:submission, solution: solution)
     create :mentor_discussion, solution: solution, finished_at: Time.current - 10.days, status: :finished
 
     sign_in!(user)

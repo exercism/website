@@ -71,15 +71,22 @@ module ViewComponents
           parts << tag.span(count, class: "count")
         end
 
-        link_to(
-          safe_join(parts),
-          Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
-          class: tab_class(:mentoring)
-        )
+        locked = !@solution&.iterated?
+        css_class = tab_class(:mentoring, locked: locked)
+
+        if locked
+          tag.div(safe_join(parts), class: css_class)
+        else
+          link_to(
+            safe_join(parts),
+            Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
+            class: css_class
+          )
+        end
       end
 
-      def tab_class(tab)
-        "c-tab #{'selected' if tab == selected_tab}"
+      def tab_class(tab, locked: false)
+        "c-tab #{'selected' if tab == selected_tab} #{'locked' if locked}"
       end
 
       def guard!

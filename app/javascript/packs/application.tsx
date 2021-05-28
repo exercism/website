@@ -167,6 +167,8 @@ import '../../css/pages/maintaining/dashboard'
 import '../../css/pages/maintaining/track'
 import '../../css/pages/journey'
 
+import 'tippy.js/animations/shift-away-subtle.css'
+import 'tippy.js/dist/svg-arrow.css'
 import 'easymde/dist/easymde.min.css'
 import '../../css/highlighters/highlightjs-light'
 import '../../css/highlighters/highlightjs-dark'

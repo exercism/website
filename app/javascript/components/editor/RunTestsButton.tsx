@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import Tippy from '@tippyjs/react'
+import { followCursor, roundArrow } from 'tippy.js'
 
 export const RunTestsButton = ({
   haveFilesChanged,
@@ -24,7 +25,17 @@ export const RunTestsButton = ({
   }, [haveFilesChanged, setOpen])
 
   return (
-    <>
+    <Tippy
+      animation="shift-away-subtle"
+      arrow={roundArrow}
+      maxWidth="none"
+      disabled={!isDisabled}
+      content={
+        <div className="c-generic-tooltip">
+          You have not made any changes since you last ran the tests
+        </div>
+      }
+    >
       <div className="run-tests-btn">
         <button
           type="button"
@@ -36,17 +47,7 @@ export const RunTestsButton = ({
           <span>Run Tests</span>
           <div className="kb-shortcut">F2</div>
         </button>
-        <Tippy
-          content={
-            <div className="c-generic-tooltip">
-              You have not made any changes since you last ran the tests
-            </div>
-          }
-          disabled={!open}
-        >
-          <div className="disabled-wrapper" {...mouseEvents} />
-        </Tippy>
       </div>
-    </>
+    </Tippy>
   )
 }

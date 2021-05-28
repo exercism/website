@@ -11,18 +11,7 @@ export const RunTestsButton = ({
   haveFilesChanged: boolean
   isProcessing: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element => {
-  const [open, setOpen] = useState(false)
   const isDisabled = !haveFilesChanged || isProcessing
-
-  const mouseEvents = !haveFilesChanged
-    ? { onMouseEnter: () => setOpen(true), onMouseLeave: () => setOpen(false) }
-    : {}
-
-  useEffect(() => {
-    if (haveFilesChanged) {
-      setOpen(false)
-    }
-  }, [haveFilesChanged, setOpen])
 
   return (
     <Tippy

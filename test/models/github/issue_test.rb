@@ -43,12 +43,4 @@ class Github::IssueTest < ActiveSupport::TestCase
     refute issue.status_open?
     assert issue.status_closed?
   end
-
-  test "open scope" do
-    issue_1 = create :github_issue, :random, status: :open
-    issue_2 = create :github_issue, :random, status: :open
-    create :github_issue, :random, status: :closed
-
-    assert_equal [issue_1, issue_2], Github::Issue.open
-  end
 end

@@ -1,6 +1,6 @@
 /* This component requires you to set a line-height */
 .c-tab {
-    @apply flex items-center;
+    @apply flex items-center flex-shrink-0;
     @apply px-16 rounded-100;
     @apply text-16 text-textColor6 font-medium;
     @apply mr-8;

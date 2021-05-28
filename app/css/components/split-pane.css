@@ -6,15 +6,17 @@
 
     & > .--split-lhs {
         height: 100%;
+        min-width: 10%;
     }
 
     & > .--split-rhs {
         height: 100%;
+        min-width: 10%;
         flex: 1;
     }
 
     & > .--split-divider {
-        cursor: pointer;
+        cursor: col-resize;
         height: 100%;
         width: 1px;
         background: transparent;

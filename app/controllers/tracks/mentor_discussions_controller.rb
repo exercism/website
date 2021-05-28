@@ -3,7 +3,9 @@ class Tracks::MentorDiscussionsController < ApplicationController
   before_action :use_discussion, only: :show
   before_action :disable_site_header!, only: :show
 
-  def index; end
+  def index
+    redirect_to track_exercise_path(@track, @exercise) unless @solution&.iterated?
+  end
 
   def show; end
 
@@ -12,7 +14,7 @@ class Tracks::MentorDiscussionsController < ApplicationController
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track, external_if_missing: true)
     @exercise = @track.exercises.find(params[:exercise_id])
-    @solution = Solution.for!(current_user, @exercise)
+    @solution = Solution.for(current_user, @exercise)
   end
 
   def use_discussion

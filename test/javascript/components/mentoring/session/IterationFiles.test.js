@@ -17,10 +17,12 @@ test('shows files in tabs', async () => {
     {
       filename: 'bob.rb',
       content: 'class Bob\nend',
+      digest: '1',
     },
     {
       filename: 'bob_test.rb',
       content: 'class BobTest\nend',
+      digest: '2',
     },
   ]
   const server = setupServer(

@@ -236,6 +236,8 @@ module.exports = {
       '-3': '-3',
       '-4': '-4',
       '1': '1',
+      shadow: '2',
+      divider: '5',
       overlay: '10',
       menu: '40',
       dropdown: '50',

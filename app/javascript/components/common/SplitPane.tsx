@@ -1,11 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 
-const MIN_WIDTH = 100
-
-// const SplitPaneExample = (): JSX.Element => {
-//   return <SplitPane left={<p>Left</p>} right={<p>Right</p>} />
-// }
-
 export const SplitPane = ({
   left,
   right,
@@ -37,18 +31,6 @@ export const SplitPane = ({
       const splitPaneWidth = splitPaneRef.current.clientWidth
 
       setDividerX(clientX)
-
-      if (newLeftWidth < MIN_WIDTH) {
-        setLeftWidth(MIN_WIDTH)
-
-        return
-      }
-
-      if (newLeftWidth > splitPaneWidth - MIN_WIDTH) {
-        setLeftWidth(splitPaneWidth - MIN_WIDTH)
-
-        return
-      }
 
       setLeftWidth(newLeftWidth)
     },

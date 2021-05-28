@@ -82,10 +82,8 @@ function createA11yTabBindingPanel(view: EditorView): Panel {
   dom.textContent = ''
   dom.className = 'cm-a11y-panel'
 
-  // @ts-ignore */
-  dom.ariaLive = 'assertive'
-  // @ts-ignore */
-  dom.ariaAtomic = 'true'
+  dom.setAttribute('aria-live', 'assertive')
+  dom.setAttribute('aria-atomic', 'true')
 
   return {
     top: true,

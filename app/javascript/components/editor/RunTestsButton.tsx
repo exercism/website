@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import Tippy from '@tippyjs/react'
-import { followCursor, roundArrow } from 'tippy.js'
+import { roundArrow } from 'tippy.js'
 
 export const RunTestsButton = ({
   haveFilesChanged,

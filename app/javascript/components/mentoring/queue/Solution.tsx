@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react'
+import React from 'react'
 import { fromNow } from '../../../utils/time'
 import { ExerciseIcon } from '../../common/ExerciseIcon'
 import { GraphicalIcon } from '../../common/GraphicalIcon'

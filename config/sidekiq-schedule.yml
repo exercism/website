@@ -3,6 +3,11 @@ clear_mentor_request_locks:
   class: "ClearMentorRequestLocksJob"
   queue: cron
 
+sweep_reputation_periods:
+  cron: "* * * * *"
+  class: "SweetReputationPeriodsJob"
+  queue: reputation
+
 fetch_and_sync_all_pull_requests_reputation:
   cron: "0 1 * * 1"
   class: "FetchAndSyncAllPullRequestsReputationJob"

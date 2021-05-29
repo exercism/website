@@ -1,0 +1,63 @@
+require "test_helper"
+
+class User::ReputationPeriod::MarkForNewTokenTest < ActiveSupport::TestCase
+  test "adds relevant rows with track" do
+    handle = 'ihid'
+    user = create :user, handle: handle
+    track = create :track
+    token = create :user_code_contribution_reputation_token, user: user, track: track
+
+    User::ReputationPeriod::MarkForNewToken.(token)
+
+    args = { user_handle: handle, user_id: user.id, dirty: true }
+
+    assert_equal 16, User::ReputationPeriod.count
+
+    assert User::ReputationPeriod.where(period: :forever, category: :building, about: :track, track_id: track.id,
+                                        **args).exists?
+    assert User::ReputationPeriod.where(period: :year, category: :building, about: :track, track_id: track.id,
+                                        **args).exists?
+    assert User::ReputationPeriod.where(period: :month, category: :building, about: :track, track_id: track.id,
+                                        **args).exists?
+    assert User::ReputationPeriod.where(period: :week, category: :building, about: :track, track_id: track.id,
+                                        **args).exists?
+
+    assert User::ReputationPeriod.where(period: :forever, category: :any, about: :track, track_id: track.id, **args).exists?
+    assert User::ReputationPeriod.where(period: :year, category: :any, about: :track, track_id: track.id, **args).exists?
+    assert User::ReputationPeriod.where(period: :month, category: :any, about: :track, track_id: track.id, **args).exists?
+    assert User::ReputationPeriod.where(period: :week, category: :any, about: :track, track_id: track.id, **args).exists?
+
+    assert User::ReputationPeriod.where(period: :forever, category: :building, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :year, category: :building, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :month, category: :building, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :week, category: :building, about: :everything, **args).exists?
+
+    assert User::ReputationPeriod.where(period: :forever, category: :any, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :year, category: :any, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :month, category: :any, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :week, category: :any, about: :everything, **args).exists?
+  end
+
+  test "adds relevant rows without track" do
+    handle = 'ihid'
+    user = create :user, handle: handle
+    token = create :user_code_contribution_reputation_token, user: user
+    refute token.track # Sanity
+
+    User::ReputationPeriod::MarkForNewToken.(token)
+
+    args = { user_handle: handle, user_id: user.id, dirty: true }
+
+    assert_equal 8, User::ReputationPeriod.count
+
+    assert User::ReputationPeriod.where(period: :forever, category: :building, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :year, category: :building, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :month, category: :building, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :week, category: :building, about: :everything, **args).exists?
+
+    assert User::ReputationPeriod.where(period: :forever, category: :any, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :year, category: :any, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :month, category: :any, about: :everything, **args).exists?
+    assert User::ReputationPeriod.where(period: :week, category: :any, about: :everything, **args).exists?
+  end
+end

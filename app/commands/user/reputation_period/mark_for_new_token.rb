@@ -1,0 +1,24 @@
+class User::ReputationPeriod
+  class MarkForNewToken
+    include Mandate
+
+    initialize_with :token
+
+    def call
+      args = { user_id: token.user_id, user_handle: token.user.handle, dirty: true }
+
+      rows = %i[forever year month week].flat_map do |period|
+        [:any, token.category].flat_map do |category|
+          [
+            { period: period, category: category, about: :everything, track_id: nil, **args },
+            (token.track_id ? { period: period, category: category, about: :track, track_id: token.track_id, **args } : nil)
+          ].compact
+        end
+      end
+
+      # TODO: When new version of Rails is released, change to this:
+      # User::ReputationPeriod.upsert_all(rows, on_duplicate: {dirty: false})
+      User::ReputationPeriod.upsert_all(rows)
+    end
+  end
+end

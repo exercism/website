@@ -41,7 +41,7 @@ module ViewComponents
           nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected == :dashboard) +
             nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
             nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
-            nav_li("Contribute", :contribute, "#", selected == :contributing)
+            nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected == :contributing)
         end
       end
     end

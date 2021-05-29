@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_29_134611) do
+ActiveRecord::Schema.define(version: 2021_05_29_174905) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -574,12 +574,11 @@ ActiveRecord::Schema.define(version: 2021_05_29_134611) do
     t.integer "reputation", default: 0, null: false
     t.string "user_handle"
     t.boolean "dirty", default: true, null: false
-    t.index ["dirty"], name: "dirty-sweeper"
+    t.index ["dirty", "reputation"], name: "sweeper"
     t.index ["period", "category", "about", "reputation"], name: "attempt-2"
     t.index ["period", "category", "about", "track_id", "reputation"], name: "attempt-1"
     t.index ["period", "category", "about", "track_id", "user_handle", "reputation"], name: "search-3"
     t.index ["reputation", "period", "category", "about", "track_id"], name: "attempt-3"
-    t.index ["reputation"], name: "expired-sweeper"
     t.index ["user_id"], name: "index_user_reputation_periods_on_user_id"
   end
 
@@ -601,6 +600,9 @@ ActiveRecord::Schema.define(version: 2021_05_29_134611) do
     t.boolean "seen", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "earned_at"
+    t.date "earned_on"
+    t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true

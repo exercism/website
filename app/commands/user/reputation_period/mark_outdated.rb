@@ -8,8 +8,9 @@ class User::ReputationPeriod
     end
 
     def call
-      periods = User::ReputationToken.where(earned_on: earned_on).find_each.flat_map do |token|
-        args = { user_id: token.user_id, period: period }
+      args = { user_id: token.user_id, period: period }
+
+      rows = User::ReputationToken.where(earned_on: earned_on).find_each.flat_map do |token|
         [:any, token.category].flat_map do |category|
           [
             { category: category, about: :everything, track_id: nil, **args },
@@ -18,7 +19,7 @@ class User::ReputationPeriod
         end
       end
 
-      periods.uniq.each { |period| User::ReputationPeriod.where(period).update_all(dirty: true) }
+      rows.uniq.each { |row| User::ReputationPeriod.where(row).update_all(dirty: true) }
     end
 
     private

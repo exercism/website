@@ -67,8 +67,9 @@
             @apply flex items-center;
 
             & .rank {
-                @apply text-textColor6 font-medium leading-150;
-                @apply mr-80;
+                @apply text-textColor6 font-medium leading-150 text-center;
+                @apply mr-24;
+                width: 60px;
             }
             & .c-avatar {
                 height: 48px;
@@ -76,7 +77,7 @@
                 @apply mr-16;
             }
             & .info {
-                max-width: 540px;
+                max-width: 570px;
                 & h3 {
                     @apply text-16 leading-150 font-semibold text-textColor2;
                 }

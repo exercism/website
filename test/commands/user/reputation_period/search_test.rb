@@ -16,7 +16,7 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     create :user_reputation_period, user: small_contributor, period: :forever, reputation: 30
     create :user_reputation_period, user: medium_contributor, period: :forever, reputation: 40
 
-    assert_equal [big_contributor, medium_contributor, small_contributor], User::ReputationPeriod::Search.()
+    assert_search [big_contributor, medium_contributor, small_contributor], User::ReputationPeriod::Search.()
   end
 
   test "paginates" do
@@ -55,7 +55,7 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     create :user_reputation_period, user: medium_contributor, period: :forever, reputation: 40, about: :track,
                                     track_id: track.id
 
-    assert_equal [big_contributor, medium_contributor, small_contributor],
+    assert_search [big_contributor, medium_contributor, small_contributor],
       User::ReputationPeriod::Search.(track_id: track.id)
   end
 
@@ -71,7 +71,7 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     create :user_reputation_period, user: small_contributor, period: :year, reputation: 30
     create :user_reputation_period, user: medium_contributor, period: :year, reputation: 40
 
-    assert_equal [big_contributor, medium_contributor, small_contributor], User::ReputationPeriod::Search.(period: :year)
+    assert_search [big_contributor, medium_contributor, small_contributor], User::ReputationPeriod::Search.(period: :year)
   end
 
   test "filters category correctly" do
@@ -86,7 +86,7 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     create :user_reputation_period, user: small_contributor, category: :maintaining, reputation: 30
     create :user_reputation_period, user: medium_contributor, category: :maintaining, reputation: 40
 
-    assert_equal [big_contributor, medium_contributor, small_contributor],
+    assert_search [big_contributor, medium_contributor, small_contributor],
       User::ReputationPeriod::Search.(category: :maintaining)
   end
 
@@ -99,6 +99,11 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     create :user_reputation_period, user: small_contributor, reputation: 30
     create :user_reputation_period, user: medium_contributor, reputation: 40
 
-    assert_equal [massive_contributor, medium_contributor], User::ReputationPeriod::Search.(user_handle: "m")
+    assert_search [massive_contributor, medium_contributor], User::ReputationPeriod::Search.(user_handle: "m")
+  end
+
+  private
+  def assert_search(expected, actual)
+    assert_equal expected.map(&:handle), actual.map(&:handle)
   end
 end

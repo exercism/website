@@ -5,7 +5,7 @@ module Contributing
 
       @featured_contributor = User.first
       @latest_contributor = User.second
-      @contributors = User.first(10)
+      @contributors = SerializeContributors.(User.first(10), 1)
     end
   end
 end

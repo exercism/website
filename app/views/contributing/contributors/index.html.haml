@@ -41,18 +41,19 @@
     .contributors
       - @contributors.each do |contributor|
         / TODO: Kntsoriano this should be a div or a link depending on if there's a profile or not
-        = link_to profile_path(contributor), class: "contributor" do
-          .rank #1
-          = avatar(contributor)
+        = link_to contributor[:profile_path], class: "contributor" do
+          .rank ##{contributor[:rank]}
+          / TOOD: Avatar helper
+          = image_tag contributor[:avatar_url], class: 'c-avatar'
           .info
-            %h3= contributor.handle
-            %p 5,592 PRs merged • 520 students mentored • 8 exercises authored • 2,193 PRs reviewed • 8 solutions published
+            %h3= contributor[:handle]
+            %p= contributor[:activities]
 
           / TODO: Kntsoriano: This should use the reputation widget. It should *not* be a link though.
           .c-primary-reputation
             .--inner
               = graphical_icon "reputation"
-              %span= contributor.reputation
+              %span= contributor[:reputation]
 
           = graphical_icon "chevron-right", css_class: "action-icon"
 

@@ -196,7 +196,7 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index]
 
-  resources :profiles, only: %i[show new create] do
+  resources :profiles, only: %i[index show new create] do
     collection do
       get :intro
     end
@@ -231,6 +231,7 @@ Rails.application.routes.draw do
 
   namespace :contributing do
     root to: "dashboard#show"
+    resources :contributors, only: [:index]
   end
 
   resources :tracks, only: %i[index show] do

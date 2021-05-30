@@ -582,7 +582,7 @@ ActiveRecord::Schema.define(version: 2021_05_29_174905) do
     t.index ["user_id"], name: "index_user_reputation_periods_on_user_id"
   end
 
-  create_table "user_reputation_tokens", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "user_reputation_tokens", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.string "type", null: false
     t.bigint "user_id", null: false

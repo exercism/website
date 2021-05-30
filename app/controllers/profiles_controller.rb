@@ -1,7 +1,11 @@
 class ProfilesController < ApplicationController
   skip_before_action :authenticate_user!
-  before_action :use_user, except: %i[intro new create]
-  before_action :use_profile, except: %i[intro new create tooltip]
+  before_action :use_user, except: %i[index intro new create]
+  before_action :use_profile, except: %i[index intro new create tooltip]
+
+  def index
+    redirect_to contributing_contributors_path
+  end
 
   def show
     # TODO: Order all these by most prominent first

@@ -1,0 +1,97 @@
+@import "../styles";
+
+#contributing-contributors {
+    & > .container {
+        & .highlights {
+            @apply grid grid-cols-2 gap-x-16;
+            @apply mb-32;
+
+            & .highlight {
+                @apply border-1 border-borderColor6;
+                @apply shadow-xsZ1 rounded-8 bg-backgroundColorA;
+                @apply py-12 px-24;
+                @apply flex items-center;
+
+                & .emoji {
+                    @apply text-24 leading-140;
+                    @apply mr-24;
+                }
+                & .c-avatar {
+                    height: 48px;
+                    width: 48px;
+                    @apply mr-20;
+                }
+                & .new {
+                    @apply bg-lightGold rounded-3;
+                    @apply px-8 py-4;
+                    @apply text-12 leading-120 uppercase font-bold font-mono;
+                    @apply mr-24;
+                }
+                & .info {
+                    & .title {
+                        @apply text-16 leading-150 font-medium text-textColor6;
+                    }
+                    & .handle {
+                        @apply text-h5;
+                    }
+                }
+            }
+        }
+
+        & .c-search-bar {
+            @apply flex items-center mb-24;
+            & .tabs {
+                @apply flex items-center;
+                & .c-tab-2 {
+                    @apply text-textColor6 text-16 leading-140 font-medium;
+                    @apply py-10 border-b-3;
+                    &.selected {
+                        @apply text-textColor2 font-semibold;
+                    }
+                }
+            }
+        }
+        & .c-track-switcher {
+            @apply ml-auto;
+        }
+        & .c-select {
+            @apply ml-16;
+        }
+    }
+    & .contributors {
+        @apply shadow-lg rounded-8 bg-backgroundColorA;
+        @apply mb-80;
+        & .contributor {
+            @apply px-24 py-8;
+            @apply border-b-1 border-borderColor7;
+            @apply flex items-center;
+
+            & .rank {
+                @apply text-textColor6 font-medium leading-150;
+                @apply mr-80;
+            }
+            & .c-avatar {
+                height: 48px;
+                width: 48px;
+                @apply mr-16;
+            }
+            & .info {
+                max-width: 540px;
+                & h3 {
+                    @apply text-16 leading-150 font-semibold text-textColor2;
+                }
+                & p {
+                    @apply leading-150 text-textColor6;
+                }
+            }
+            & .c-primary-reputation {
+                @apply ml-auto;
+            }
+            & .c-icon.action-icon {
+                height: 16px;
+                width: 16px;
+                @apply ml-96;
+            }
+        }
+    }
+}

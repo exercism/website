@@ -8,7 +8,7 @@ import { useList } from '../../hooks/use-list'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
-import { useHistory } from '../../hooks/use-history'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 export function Inbox({ tracksRequest, sortOptions, ...props }) {
   const [criteria, setCriteria] = useState('')
@@ -42,7 +42,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
     }
   }, [setRequestCriteria, criteria])
 
-  useHistory({ pushOn: request.query })
+  useHistory({ pushOn: removeEmpty(request.query) })
 
   const setTrack = (track) => {
     setQuery({ ...request.query, track: track, page: 1 })

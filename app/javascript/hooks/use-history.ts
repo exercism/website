@@ -1,8 +1,10 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import { decamelizeKeys } from 'humps'
 import { stringify } from 'qs'
 
-function removeEmpty<TParams>(obj: TParams): TParams {
+export function removeEmpty<TParams extends Record<string, unknown>>(
+  obj: TParams
+): Record<string, unknown> {
   return Object.entries(obj)
     .filter(([_, v]) => {
       if (typeof v === 'string') {
@@ -11,28 +13,27 @@ function removeEmpty<TParams>(obj: TParams): TParams {
         return v !== null
       }
     })
-    .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {}) as TParams
+    .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {})
 }
 
-function toQuery<TParams>(params: TParams): string {
+function toQuery<TParams extends Record<string, unknown>>(
+  params: TParams
+): string {
   return `?${stringify(decamelizeKeys(params as Record<string, unknown>), {
     arrayFormat: 'brackets',
   })}`
 }
 
-function pushState<TParams>(params: TParams) {
+function pushState<TParams extends Record<string, unknown>>(params: TParams) {
   history.pushState(history.state, '', toQuery(params))
 }
 
-export function useHistory<TParams>({ pushOn }: { pushOn: TParams }): void {
-  const [history, setHistory] = useState(removeEmpty(pushOn))
+export function useHistory<TParams extends Record<string, unknown>>({
+  pushOn,
+}: {
+  pushOn: TParams
+}): void {
   const isMounted = useRef(false)
-
-  useEffect(() => {
-    const newHistory = removeEmpty(pushOn)
-
-    setHistory(newHistory)
-  }, [pushOn])
 
   useEffect(() => {
     if (!isMounted.current) {
@@ -40,6 +41,6 @@ export function useHistory<TParams>({ pushOn }: { pushOn: TParams }): void {
       return
     }
 
-    pushState<TParams>(history)
-  }, [JSON.stringify(history)])
+    pushState(removeEmpty(pushOn))
+  }, [JSON.stringify(pushOn)])
 }

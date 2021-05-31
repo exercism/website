@@ -35,7 +35,6 @@ export function useHistory<TParams>({ pushOn }: { pushOn: TParams }): void {
   }, [pushOn])
 
   useEffect(() => {
-    console.log(history)
     if (!isMounted.current) {
       isMounted.current = true
       return

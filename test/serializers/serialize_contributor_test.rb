@@ -10,7 +10,7 @@ class SerializeContributorTest < ActiveSupport::TestCase
       rank: rank,
       activity: "1 PR created",
       handle: user.handle,
-      reputation: 12,
+      reputation: "12",
       avatar_url: user.avatar_url,
       links: { profile: nil }
     }
@@ -26,5 +26,15 @@ class SerializeContributorTest < ActiveSupport::TestCase
     contextual_data = User::ReputationToken::CalculateContextualData.(user.id)
     data = SerializeContributor.(user, rank: 0, contextual_data: contextual_data)
     assert_equal Exercism::Routes.profile_url(user), data[:links][:profile]
+  end
+
+  test "reputation is formatted" do
+    user = create :user
+    create :user_profile, user: user
+
+    contextual_data = User::ReputationToken::CalculateContextualData.(user.id)
+    contextual_data.stubs(reputation: 1_000_000)
+    data = SerializeContributor.(user, rank: 0, contextual_data: contextual_data)
+    assert_equal "1000k", data[:reputation]
   end
 end

@@ -12,7 +12,7 @@ class SerializeContributors
       SerializeContributor.(
         user,
         rank: starting_rank + idx,
-        contextual_data: contextual_data[user.id]
+        contextual_data: contextual_data[1530]
       )
     end
   end

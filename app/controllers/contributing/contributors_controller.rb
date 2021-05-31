@@ -7,7 +7,7 @@ module Contributing
       @latest_contributor = User.second
 
       users = User.first(10)
-      contextual_data = User::ReputationToken::CalculateContextualData.(users.map(&:id))
+      contextual_data = User::ReputationToken::CalculateContextualData.([1530], period: params[:period])
       @contributors = SerializeContributors.(users, starting_rank: 1, contextual_data: contextual_data)
     end
   end

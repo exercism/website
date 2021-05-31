@@ -12,7 +12,7 @@ class SerializeContributor
       rank: rank,
       activity: activity,
       handle: user.handle,
-      reputation: reputation,
+      reputation: User::FormatReputation.(reputation),
       avatar_url: user.avatar_url,
       links: {
         profile: user.profile ? Exercism::Routes.profile_url(user) : nil

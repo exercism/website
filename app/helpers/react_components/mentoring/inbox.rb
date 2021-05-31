@@ -33,7 +33,7 @@ module ReactComponents
             status: params[:status] || DEFAULT_STATUS,
             order: params[:order],
             criteria: params[:criteria],
-            page: params[:page],
+            page: params[:page] ? params[:page].to_i : 1,
             track: params[:track]
           }.compact
         }

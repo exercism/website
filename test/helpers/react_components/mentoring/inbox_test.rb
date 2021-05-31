@@ -11,7 +11,7 @@ class MentoringInboxTest < ReactComponentTestCase
       {
         discussions_request: {
           endpoint: Exercism::Routes.api_mentoring_discussions_path(sideload: [:all_discussion_counts]),
-          query: { status: "awaiting_mentor", criteria: "Ruby" }
+          query: { status: "awaiting_mentor", criteria: "Ruby", page: 1 }
         },
         tracks_request: {
           endpoint: Exercism::Routes.tracks_api_mentoring_discussions_path,

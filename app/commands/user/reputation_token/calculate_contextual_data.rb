@@ -4,12 +4,24 @@ class User::ReputationToken
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::NumberHelper
 
-    def initialize(user_ids, earned_since: nil, track_id: nil, category: nil)
+    def initialize(user_ids, period: nil, earned_since: nil, track_id: nil, category: nil)
       @single_user = user_ids.is_a?(Integer)
       @user_ids = Array(user_ids)
-      @earned_since = earned_since
       @track_id = track_id
       @category = category
+
+      if earned_since
+        @earned_since = earned_since
+      elsif period
+        case period.to_sym
+        when :week
+          @earned_since = Time.zone.today - 6.days
+        when :month
+          @earned_since = Time.zone.today - 29.days
+        when :year
+          @earned_since = Time.zone.today - 364.days
+        end
+      end
     end
 
     def call
@@ -67,5 +79,6 @@ class User::ReputationToken
     attr_reader :user_ids, :single_user, :earned_since, :track_id, :category
 
     Data = Struct.new(:activity, :reputation)
+    private_constant :Data
   end
 end

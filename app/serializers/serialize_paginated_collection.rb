@@ -31,7 +31,7 @@ class SerializePaginatedCollection
 
   def serializer_data
     if serializer_kwargs.present?
-      serializer.(collection, *serializer_args, **kserializer_kwargs)
+      serializer.(collection, *serializer_args, **serializer_kwargs)
     else
       serializer.(collection, *serializer_args)
     end

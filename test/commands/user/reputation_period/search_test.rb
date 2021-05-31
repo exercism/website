@@ -19,20 +19,29 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     assert_search [big_contributor, medium_contributor, small_contributor], User::ReputationPeriod::Search.()
   end
 
+  test "handles empty inputs" do
+    user = create :user
+    create :user_reputation_period, user: user, reputation: 1000
+
+    assert_search [user],
+      User::ReputationPeriod::Search.(period: nil, category: nil, track_id: nil, user_handle: nil, page: nil)
+    assert_search [user], User::ReputationPeriod::Search.(period: "", category: "", track_id: "", user_handle: "", page: "")
+  end
+
   test "paginates" do
-    15.times { create :user_reputation_period }
+    25.times { create :user_reputation_period }
 
     first_page = User::ReputationPeriod::Search.()
-    assert_equal 10, first_page.limit_value # Sanity
+    assert_equal 20, first_page.limit_value # Sanity
 
-    assert_equal 10, first_page.length
+    assert_equal 20, first_page.length
     assert_equal 1, first_page.current_page
-    assert_equal 15, first_page.total_count
+    assert_equal 25, first_page.total_count
 
     second_page = User::ReputationPeriod::Search.(page: 2)
     assert_equal 5, second_page.length
     assert_equal 2, second_page.current_page
-    assert_equal 15, second_page.total_count
+    assert_equal 25, second_page.total_count
   end
 
   test "filters track correctly" do

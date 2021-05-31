@@ -1,11 +1,9 @@
-module Contributing
-  class ContributorsController < ApplicationController
+module API
+  class ContributorsController < BaseController
+    skip_before_action :authenticate_user!
+    before_action :authenticate_user
+
     def index
-      response.set_header('Link', '<https://exercism.io/profiles>; rel="canonical"')
-
-      @featured_contributor = User.first
-      @latest_contributor = User.second
-
       track_id = Track.find(params[:track]).id if params[:track].present?
       users = User::ReputationPeriod::Search.(
         period: params[:period],
@@ -20,7 +18,15 @@ module Contributing
         category: params[:category],
         track_id: track_id
       )
-      @contributors = SerializeContributors.(users, starting_rank: 1, contextual_data: contextual_data)
+
+      render json: SerializePaginatedCollection.(
+        users,
+        serializer: SerializeContributors,
+        serializer_kwargs: {
+          starting_rank: (users.limit_value * users.current_page - 1) + 1,
+          contextual_data: contextual_data
+        }
+      )
     end
   end
 end

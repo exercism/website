@@ -89,6 +89,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :contributors, only: [:index]
+
       resources :solutions, only: %i[index show update] do
         member do
           patch :complete

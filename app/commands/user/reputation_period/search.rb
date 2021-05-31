@@ -5,12 +5,12 @@ class User::ReputationPeriod
     # Use class method rather than constant for
     # easier stubbing during testing
     def self.requests_per_page
-      10
+      20
     end
 
     def initialize(period: :forever, category: :any, track_id: nil, user_handle: nil, page: 1)
-      @period = period.to_sym
-      @category = category.to_sym
+      @period = period&.to_sym
+      @category = category&.to_sym
 
       @track_id = track_id
       @user_handle = user_handle
@@ -19,9 +19,9 @@ class User::ReputationPeriod
     end
 
     def call
-      @rows = User::ReputationPeriod.
-        where(period: period).
-        where(category: category)
+      @rows = User::ReputationPeriod
+      @rows = @rows.where(period: period) if period.present?
+      @rows = @rows.where(category: category) if category.present?
 
       filter_about!
       filter_user_handle!

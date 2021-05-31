@@ -5,7 +5,10 @@ module Contributing
 
       @featured_contributor = User.first
       @latest_contributor = User.second
-      @contributors = SerializeContributors.(User.first(10), 1)
+
+      users = User.first(10)
+      contextual_data = User::ReputationToken::CalculateContextualData.(users.map(&:id))
+      @contributors = SerializeContributors.(users, starting_rank: 1, contextual_data: contextual_data)
     end
   end
 end

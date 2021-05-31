@@ -8,27 +8,16 @@ class SerializeContributorsTest < ActiveSupport::TestCase
     user_2 = create :user
     create :user_reputation_token, user: user_2
 
+    contextual_data = User::ReputationToken::CalculateContextualData.([user_1.id, user_2.id])
     expected = [
-      SerializeContributor.(user_1),
-      SerializeContributor.(user_2)
+      SerializeContributor.(user_1, rank: 1, contextual_data: contextual_data[user_1.id]),
+      SerializeContributor.(user_2, rank: 2, contextual_data: contextual_data[user_2.id])
     ]
 
     assert_equal expected, SerializeContributors.(
-      [user_1, user_2]
-    )
-  end
-  test "bulk-searches data correctly" do
-    skip
-    concept_exercise = create :concept_exercise
-    practice_exercise = create :practice_exercise
-
-    expected = [
-      SerializeExercise.(concept_exercise),
-      SerializeExercise.(practice_exercise)
-    ]
-
-    assert_equal expected, SerializeExercises.(
-      [concept_exercise, practice_exercise]
+      [user_1, user_2],
+      starting_rank: 1,
+      contextual_data: contextual_data
     )
   end
 end

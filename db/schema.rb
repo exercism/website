@@ -574,11 +574,11 @@ ActiveRecord::Schema.define(version: 2021_05_29_174905) do
     t.integer "reputation", default: 0, null: false
     t.string "user_handle"
     t.boolean "dirty", default: true, null: false
-    t.index ["dirty", "reputation"], name: "sweeper"
-    t.index ["period", "category", "about", "reputation"], name: "attempt-2"
-    t.index ["period", "category", "about", "track_id", "reputation"], name: "attempt-1"
+    t.index ["dirty"], name: "sweeper"
+    t.index ["period", "category", "about", "reputation"], name: "search-2"
+    t.index ["period", "category", "about", "track_id", "reputation"], name: "search-1"
     t.index ["period", "category", "about", "track_id", "user_handle", "reputation"], name: "search-3"
-    t.index ["reputation", "period", "category", "about", "track_id"], name: "attempt-3"
+    t.index ["user_id", "period", "category", "about", "track_id"], name: "unique", unique: true
     t.index ["user_id"], name: "index_user_reputation_periods_on_user_id"
   end
 
@@ -600,7 +600,6 @@ ActiveRecord::Schema.define(version: 2021_05_29_174905) do
     t.boolean "seen", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "earned_at"
     t.date "earned_on"
     t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
@@ -629,7 +628,6 @@ ActiveRecord::Schema.define(version: 2021_05_29_174905) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "last_touched_at", null: false
-    t.boolean "practice_mode", default: false, null: false
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_tracks_on_user_id"

@@ -17,6 +17,9 @@
           .title New contributor
           .handle= @latest_contributor.handle
 
+    / TODO: Karlo this is the component with the correct initial_data
+    / method. Everything below this should be part of this component
+    = render ReactComponents::Contributing::ContributorsList.new(params)
     .c-search-bar
       .tabs
         .c-tab-2.selected
@@ -36,7 +39,12 @@
           = graphical_icon "chevron-down", css_class: "action-icon"
       .c-select
         %select
-          %option Select a category...
+          %option{ value: nil } Select a category...
+          %option{ value: 'building' } Building
+          %option{ value: 'maintaining' } Maintaining
+          %option{ value: 'authoring' } Authoring
+          %option{ value: 'mentoring' } Mentoring
+          %option{ value: 'publishing' } Publishing
 
     .contributors
       - @contributors.each do |contributor|
@@ -56,4 +64,3 @@
               %span= contributor[:reputation]
 
           = graphical_icon "chevron-right", css_class: "action-icon"
-

@@ -209,11 +209,13 @@ exercises = Exercise.all.sort_by{rand}[0,10]
 iHiD.contributed_exercises += exercises
 exercises.each do |exercise|
   track = exercise.track
-  User::ReputationToken::Create.(
+  token = User::ReputationToken::Create.(
     iHiD,
     :exercise_contribution,
     track: track,
     exercise: exercise
   )
+  User::ReputationPeriod::MarkForNewToken.(token)
 end
+User::ReputationPeriod::Sweep.()
 

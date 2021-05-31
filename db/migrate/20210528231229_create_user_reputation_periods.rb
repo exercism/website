@@ -14,7 +14,7 @@ class CreateUserReputationPeriods < ActiveRecord::Migration[6.1]
 
       t.boolean :dirty, null: false, default: true
 
-      t.index [:user_id, :period, :category, :about, :track_id], unique: true
+      t.index [:user_id, :period, :category, :about, :track_id], unique: true, name: "unique"
       t.index [:period, :category, :about, :track_id, :reputation], name: "search-1"
       t.index [:period, :category, :about, :reputation], name: "search-2"
       t.index [:period, :category, :about, :track_id, :user_handle, :reputation], name: "search-3"

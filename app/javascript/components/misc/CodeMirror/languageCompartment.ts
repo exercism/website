@@ -162,7 +162,7 @@ export const loadLanguageCompartment = async (
       const { vb } = await import('@codemirror/legacy-modes/mode/vb')
       return compartment.of(StreamLanguage.define(vb))
 
-    // Custom
+    // Other
     case 'elixir':
       const { elixir } = await import('codemirror-lang-elixir')
       return compartment.of(StreamLanguage.define(elixir))

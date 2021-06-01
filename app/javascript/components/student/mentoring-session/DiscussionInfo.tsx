@@ -12,11 +12,13 @@ export const DiscussionInfo = ({
   mentor,
   userId,
   iterations,
+  onIterationScroll,
 }: {
   discussion: MentorDiscussion
   mentor: Mentor
   userId: number
   iterations: readonly Iteration[]
+  onIterationScroll: (iteration: Iteration) => void
 }): JSX.Element => {
   return (
     <PostsWrapper discussionId={discussion.id}>
@@ -29,6 +31,7 @@ export const DiscussionInfo = ({
             userIsStudent={true}
             discussionId={discussion.id}
             userId={userId}
+            onIterationScroll={onIterationScroll}
           />
         </div>
       </div>

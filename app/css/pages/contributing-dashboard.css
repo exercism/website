@@ -39,7 +39,7 @@
                 @apply mr-auto;
 
                 & h2 {
-                    @apply text-24 font-semibold;
+                    @apply text-24 font-semibold text-textColor2 leading-140;
                     @apply mb-8;
                     & strong {
                         @apply font-bold;

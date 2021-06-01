@@ -245,6 +245,7 @@ Rails.application.routes.draw do
       member do
         get :tooltip
         patch :start
+        patch :sync # TODO: Remove once in API
         patch :complete # TODO: Remove once via the API.
       end
 

@@ -148,7 +148,7 @@ module API
     end
 
     def respond_with_authored_solution(solution)
-      solution.update_git_info! unless solution.downloaded?
+      solution.sync_git! unless solution.downloaded?
 
       render json: SerializeSolutionForCLI.(solution, current_user)
 

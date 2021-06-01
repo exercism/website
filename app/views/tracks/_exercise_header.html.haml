@@ -12,6 +12,14 @@
     .seperator /
     .exercise-title= exercise.title
 
+- if @solution&.out_of_date?
+  .lg-container
+    = link_to sync_track_exercise_path(track, exercise), method: :patch, class: "update-bar" do
+      = icon "warning", "Warning"
+      This exercise has been updated.
+      Update to the latest version and see if your tests still pass.
+      .faux-link See what's changed…
+
 .content.lg-container.container
   = exercise_icon exercise
   .info

@@ -29,6 +29,7 @@
             & .c-icon {
                 height: 16px;
                 width: 16px;
+                filter: var(--orange-filter);
             }
         }
         & .c-iteration-processing-status {

@@ -96,7 +96,7 @@ export const DiscussionPostList = ({
 
   if (posts) {
     return (
-      <div className="discussion">
+      <>
         {iterationsWithPosts.slice(startIteration).map((iteration) => {
           return (
             <React.Fragment key={iteration.idx}>
@@ -116,7 +116,7 @@ export const DiscussionPostList = ({
             </React.Fragment>
           )
         })}
-      </div>
+      </>
     )
   }
   return null

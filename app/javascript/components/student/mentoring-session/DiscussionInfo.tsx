@@ -22,13 +22,15 @@ export const DiscussionInfo = ({
     <PostsWrapper discussionId={discussion.id}>
       <div id="panel-discussion">
         <MentorInfo mentor={mentor} />
-        <DiscussionPostList
-          endpoint={discussion.links.posts}
-          iterations={iterations}
-          userIsStudent={true}
-          discussionId={discussion.id}
-          userId={userId}
-        />
+        <div className="discussion">
+          <DiscussionPostList
+            endpoint={discussion.links.posts}
+            iterations={iterations}
+            userIsStudent={true}
+            discussionId={discussion.id}
+            userId={userId}
+          />
+        </div>
       </div>
       <section className="comment-section --comment">
         <NewMessageAlert />

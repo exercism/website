@@ -15,7 +15,7 @@ module Webhooks
       else
         track = Track.find_by(slug: repo_name)
         SyncTrackJob.perform_later(track) if track
-        NotifyTrackSyncerAboutTrackChangesJob.perform_later(track) if org_wide_file_changed?(track)
+        Github::NotifyTrackSyncerAboutTrackChanges.(track) if org_wide_file_changed?(track)
       end
     end
 

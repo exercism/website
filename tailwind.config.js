@@ -110,6 +110,7 @@ module.exports = {
       lightPurple: '#B0A8E3',
       gotToLoveAPurple: '#271B72',
       biggerBolderAndMorePurpleThanEver: '#130B43',
+      lightPurple: '#FAFAFF',
 
       gray: '#A9A6BD',
       darkGray: '#26282D',

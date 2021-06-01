@@ -48,4 +48,20 @@
             background-size: contain;
         }
     }
+    & span {
+        @apply inline-flex flex-col items-center justify-between;
+        &:after {
+            content: attr(data-text);
+            content: attr(data-text) / "";
+            height: 0;
+            user-select: none;
+            pointer-events: none;
+            @apply font-semibold invisible overflow-hidden;
+
+            /* TODO: Does @media nesting work like this with Postcss */
+            @media speech {
+                display: none;
+            }
+        }
+    }
 }

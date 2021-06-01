@@ -21,6 +21,8 @@ import '../../css/defaults'
 
 import '../../css/ui-kit/buttons'
 
+import '../../css/components/contributing/header'
+import '../../css/components/header-with-bg'
 import '../../css/components/exercise-makers-button'
 import '../../css/components/avatar-selector'
 import '../../css/components/badge'
@@ -133,6 +135,8 @@ import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 import '../../css/dropdowns/track-switcher'
 
+import '../../css/pages/contributing-dashboard'
+import '../../css/pages/contributing-contributors'
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'
 import '../../css/pages/docs-show'

@@ -28,6 +28,8 @@ module ViewComponents
 
       if namespace_name == "mentoring"
         selected = :mentoring
+      elsif namespace_name == "contributing"
+        selected = :contributing
       elsif controller_name == "dashboard"
         selected = :dashboard
       elsif %w[tracks exercises concepts iterations community_solutions mentor_discussions].include?(controller_name)
@@ -39,7 +41,7 @@ module ViewComponents
           nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected == :dashboard) +
             nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
             nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
-            nav_li("Contribute", :contribute, "#", false)
+            nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected == :contributing)
         end
       end
     end

@@ -152,7 +152,7 @@ end
 tracks = Track.all
 10.times do |i|
   track = tracks.sample
-  User::ReputationToken::Create.(
+  token = User::ReputationToken::Create.(
     iHiD,
     :code_merge,
     repo: track.repo_url,
@@ -161,11 +161,40 @@ tracks = Track.all
     pr_title: "PR for #{track.title} #{i}",
     level: %i[janitorial reviewal].sample
   )
+  User::ReputationPeriod::MarkForNewToken.(token)
 end
 
 5.times do |i|
   track = tracks.sample
-  User::ReputationToken::Create.(
+  token = User::ReputationToken::Create.(
+    karlo,
+    :code_review,
+    repo: track.repo_url,
+    pr_node_id: SecureRandom.hex,
+    pr_number: i + 10,
+    pr_title: "PR for #{track.title} #{i + 10}",
+    level: %i[minor regular major].sample
+  )
+  User::ReputationPeriod::MarkForNewToken.(token)
+end
+
+10.times do |i|
+  track = tracks.sample
+  token = User::ReputationToken::Create.(
+    erik,
+    :code_review,
+    repo: track.repo_url,
+    pr_node_id: SecureRandom.hex,
+    pr_number: i + 20,
+    pr_title: "PR for #{track.title} #{i + 20}",
+    level: %i[minor regular major].sample
+  )
+  User::ReputationPeriod::MarkForNewToken.(token)
+end
+
+5.times do |i|
+  track = tracks.sample
+  token = User::ReputationToken::Create.(
     iHiD,
     :code_review,
     repo: track.repo_url,
@@ -174,11 +203,12 @@ end
     pr_title: "PR for #{track.title} #{i}",
     level: %i[minor regular major].sample
   )
+  User::ReputationPeriod::MarkForNewToken.(token)
 end
 
 5.times do |i|
   track = tracks.sample
-  User::ReputationToken::Create.(
+  token = User::ReputationToken::Create.(
     iHiD,
     :code_contribution,
     repo: track.repo_url,
@@ -189,6 +219,7 @@ end
     track: track,
     exercise: track.exercises.sample
   )
+  User::ReputationPeriod::MarkForNewToken.(token)
 end
 
 
@@ -197,23 +228,26 @@ iHiD.authored_exercises += exercises
 
 exercises.each do |exercise|
   track = exercise.track
-  User::ReputationToken::Create.(
+  token = User::ReputationToken::Create.(
     iHiD,
     :exercise_author,
     track: track,
     exercise: exercise
   )
+  User::ReputationPeriod::MarkForNewToken.(token)
 end
 
 exercises = Exercise.all.sort_by{rand}[0,10]
 iHiD.contributed_exercises += exercises
 exercises.each do |exercise|
   track = exercise.track
-  User::ReputationToken::Create.(
+  token = User::ReputationToken::Create.(
     iHiD,
     :exercise_contribution,
     track: track,
     exercise: exercise
   )
+  User::ReputationPeriod::MarkForNewToken.(token)
 end
+User::ReputationPeriod::Sweep.()
 

@@ -1,13 +1,43 @@
+# Every minute
 clear_mentor_request_locks:
   cron: "* * * * *"
   class: "ClearMentorRequestLocksJob"
   queue: cron
 
+# Every minute
+sweep_reputation_periods:
+  cron: "* * * * *"
+  class: "SweepReputationPeriodsJob"
+  queue: reputation
+
+# 3am every day (avoid DST issues)
+mark_outdated_reputation_week_periods:
+  cron: "0 3 * * *"
+  class: "MarkOutdatedReputationPeriodsJob"
+  queue: reputation
+  args: ["week"]
+
+# 4am every date (1hr after above)
+mark_outdated_reputation_month_periods:
+  cron: "0 4 * * *"
+  class: "MarkOutdatedReputationPeriodsJob"
+  queue: reputation
+  args: ["month"]
+
+# 5am every date (1hr after above)
+mark_outdated_reputation_year_periods:
+  cron: "0 5 * * *"
+  class: "MarkOutdatedReputationPeriodsJob"
+  queue: reputation
+  args: ["year"]
+
+# 1am Monday
 fetch_and_sync_all_pull_requests_reputation:
   cron: "0 1 * * 1"
   class: "FetchAndSyncAllPullRequestsReputationJob"
   queue: dribble
 
+# 1am Tuesday
 sync_issues:
   cron: "0 1 * * 2"
   class: "SyncIssuesJob"

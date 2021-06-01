@@ -89,6 +89,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :contributors, only: [:index]
+
       resources :solutions, only: %i[index show update] do
         member do
           patch :complete
@@ -196,7 +198,7 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index]
 
-  resources :profiles, only: %i[show new create] do
+  resources :profiles, only: %i[index show new create] do
     collection do
       get :intro
     end
@@ -227,6 +229,11 @@ Rails.application.routes.draw do
     resources :submissions, only: [:index]
     resources :exercise_representations
     resources :tracks, only: [:show]
+  end
+
+  namespace :contributing do
+    root to: "dashboard#show"
+    resources :contributors, only: [:index]
   end
 
   resources :tracks, only: %i[index show] do

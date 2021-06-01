@@ -6,6 +6,7 @@
             height: 48px;
             @apply py-0 px-16;
 
+            & .c-icon.all,
             & .c-track-icon {
                 height: 32px;
                 width: 32px;
@@ -40,6 +41,7 @@
         & .action-icon {
             height: 16px;
             width: 16px;
+            @apply ml-24 mr-0;
         }
     }
 }

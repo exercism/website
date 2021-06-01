@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_20_092005) do
+ActiveRecord::Schema.define(version: 2021_05_29_174905) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -565,6 +565,23 @@ ActiveRecord::Schema.define(version: 2021_05_20_092005) do
     t.index ["user_id"], name: "index_user_profiles_on_user_id", unique: true
   end
 
+  create_table "user_reputation_periods", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "track_id", null: false
+    t.integer "about", limit: 1, null: false
+    t.integer "period", limit: 1, null: false
+    t.integer "category", limit: 1, null: false
+    t.integer "reputation", default: 0, null: false
+    t.string "user_handle"
+    t.boolean "dirty", default: true, null: false
+    t.index ["dirty"], name: "sweeper"
+    t.index ["period", "category", "about", "reputation"], name: "search-2"
+    t.index ["period", "category", "about", "track_id", "reputation"], name: "search-1"
+    t.index ["period", "category", "about", "track_id", "user_handle", "reputation"], name: "search-3"
+    t.index ["user_id", "period", "category", "about", "track_id"], name: "unique", unique: true
+    t.index ["user_id"], name: "index_user_reputation_periods_on_user_id"
+  end
+
   create_table "user_reputation_tokens", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.string "type", null: false
@@ -583,6 +600,8 @@ ActiveRecord::Schema.define(version: 2021_05_20_092005) do
     t.boolean "seen", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.date "earned_on"
+    t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
@@ -609,7 +628,6 @@ ActiveRecord::Schema.define(version: 2021_05_20_092005) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "last_touched_at", null: false
-    t.boolean "practice_mode", default: false, null: false
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_tracks_on_user_id"

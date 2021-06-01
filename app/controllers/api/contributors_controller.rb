@@ -23,7 +23,7 @@ module API
         users,
         serializer: SerializeContributors,
         serializer_kwargs: {
-          starting_rank: (users.limit_value * users.current_page - 1) + 1,
+          starting_rank: (users.limit_value * (users.current_page - 1)) + 1,
           contextual_data: contextual_data
         }
       )

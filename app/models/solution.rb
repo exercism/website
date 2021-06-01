@@ -185,7 +185,7 @@ class Solution < ApplicationRecord
     "anonymous-#{Digest::SHA1.hexdigest("#{id}-#{uuid}")}"
   end
 
-  def update_git_info!
+  def sync_git!
     update!(
       git_slug: exercise.slug,
       git_sha: exercise.git_sha

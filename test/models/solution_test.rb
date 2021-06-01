@@ -32,7 +32,7 @@ class SolutionTest < ActiveSupport::TestCase
     end
   end
 
-  test "update_git_info!" do
+  test "sync_git!" do
     solution = create :concept_solution
     solution.update!(git_sha: "foo", git_slug: "bar")
 
@@ -40,7 +40,7 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal "foo", solution.git_sha
     assert_equal "bar", solution.git_slug
 
-    solution.update_git_info!
+    solution.sync_git!
     assert_equal solution.exercise.git_sha, solution.git_sha
     assert_equal solution.exercise.slug, solution.git_slug
   end

@@ -1,6 +1,15 @@
 require "test_helper"
 
 class User::ReputationPeriodTest < ActiveSupport::TestCase
+  test "unique index" do
+    user = create :user
+    create :user_reputation_period, user: user
+
+    assert_raises ActiveRecord::RecordNotUnique do
+      create :user_reputation_period, user: user
+    end
+  end
+
   test "dirty scope" do
     dirty = create :user_reputation_period, :dirty
     clean = create :user_reputation_period

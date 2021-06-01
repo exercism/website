@@ -111,6 +111,42 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     assert_search [massive_contributor, medium_contributor], User::ReputationPeriod::Search.(user_handle: "m")
   end
 
+  test "handles missing periods correctly" do
+    week_contributor = create :user, handle: 'week'
+    year_contributor = create :user, handle: 'year'
+    forever_contributor = create :user, handle: 'forever'
+
+    # This data is contrived to test that only "forever" periods are returned if
+    # the value is missing or incorrect
+    create :user_reputation_period, user: week_contributor, period: :week
+    create :user_reputation_period, user: year_contributor, period: :year
+    create :user_reputation_period, user: forever_contributor, period: :forever
+
+    assert_search [week_contributor], User::ReputationPeriod::Search.(period: :week) # Sanity
+    assert_search [week_contributor], User::ReputationPeriod::Search.(period: 'week') # Sanity
+    assert_search [forever_contributor], User::ReputationPeriod::Search.(period: '')
+    assert_search [forever_contributor], User::ReputationPeriod::Search.(period: nil)
+    assert_search [forever_contributor], User::ReputationPeriod::Search.(period: 'foobar')
+  end
+
+  test "handles missing categories correctly" do
+    mentoring_contributor = create :user, handle: 'mentoring'
+    publishing_contributor = create :user, handle: 'publishing'
+    any_contributor = create :user, handle: 'any'
+
+    # This data is contrived to test that only "forever" periods are returned if
+    # the value is missing or incorrect
+    create :user_reputation_period, user: mentoring_contributor, category: :mentoring
+    create :user_reputation_period, user: publishing_contributor, category: :publishing
+    create :user_reputation_period, user: any_contributor, category: :any
+
+    assert_search [mentoring_contributor], User::ReputationPeriod::Search.(category: :mentoring) # Sanity
+    assert_search [mentoring_contributor], User::ReputationPeriod::Search.(category: 'mentoring') # Sanity
+    assert_search [any_contributor], User::ReputationPeriod::Search.(category: '')
+    assert_search [any_contributor], User::ReputationPeriod::Search.(category: nil)
+    assert_search [any_contributor], User::ReputationPeriod::Search.(category: 'foobar')
+  end
+
   private
   def assert_search(expected, actual)
     assert_equal expected.map(&:handle), actual.map(&:handle)

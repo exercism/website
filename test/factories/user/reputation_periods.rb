@@ -4,6 +4,7 @@ FactoryBot.define do
     period { :forever }
     about { :everything }
     category { :any }
+    track_id { 0 }
     reputation { 0 }
     dirty { false }
 

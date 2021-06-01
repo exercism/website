@@ -8,9 +8,9 @@ class User::ReputationPeriod
       20
     end
 
-    def initialize(period: :forever, category: :any, track_id: nil, user_handle: nil, page: 1)
-      @period = period&.to_sym
-      @category = category&.to_sym
+    def initialize(period: :forever, category: :any, track_id: 0, user_handle: nil, page: 1)
+      @period = period
+      @category = category
 
       @track_id = track_id
       @user_handle = user_handle
@@ -20,9 +20,9 @@ class User::ReputationPeriod
 
     def call
       @rows = User::ReputationPeriod
-      @rows = @rows.where(period: period) if period.present?
-      @rows = @rows.where(category: category) if category.present?
 
+      filter_period!
+      filter_category!
       filter_about!
       filter_user_handle!
 
@@ -45,8 +45,27 @@ class User::ReputationPeriod
         page(page).per(self.class.requests_per_page)
     end
 
+    # This uses a little Rails magic to check the period
+    # is valid and if not, defualt to 0 (the general one).
+    # It breaks without the to_s for nil as nil is coverted to NULL
+    def filter_period!
+      @rows = @rows.where(period: period.to_s)
+    end
+
+    # This uses a little Rails magic to check the category
+    # is valid and if not, defualt to 0 (the general one).
+    # It breaks without the to_s for nil as nil is coverted to NULL
+    def filter_category!
+      @rows = @rows.where(category: category.to_s)
+    end
+
+    # We set track_ids to be 0 rather than null.
+    # This is because mysql can't have unique indexes that contain NULL values.
+    # It's not great as it remove our ability to have a foreign key but it's
+    # the only real option and it doesn't hugely matter as it's not true relational
+    # data but really a complex cache.
     def filter_about!
-      if track_id.present?
+      if track_id.to_i.positive?
         @rows = @rows.where(about: :track, track_id: track_id)
       else
         @rows = @rows.where(about: :everything)

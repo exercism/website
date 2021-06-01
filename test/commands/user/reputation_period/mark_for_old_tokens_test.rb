@@ -7,9 +7,9 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
     user = create :user
     track = create :track
 
-    token_1 = create :user_code_contribution_reputation_token, user: user, track: track, earned_at: Date.new(2021, 1, 1)
-    token_2 = create :user_code_contribution_reputation_token, user: user, track: track, earned_at: Date.new(2021, 1, 2)
-    token_3 = create :user_code_contribution_reputation_token, user: user, track: track, earned_at: Date.new(2021, 1, 3)
+    token_1 = create :user_code_contribution_reputation_token, user: user, track: track, earned_on: Date.new(2021, 1, 1)
+    token_2 = create :user_code_contribution_reputation_token, user: user, track: track, earned_on: Date.new(2021, 1, 2)
+    token_3 = create :user_code_contribution_reputation_token, user: user, track: track, earned_on: Date.new(2021, 1, 3)
 
     # Create all the relevant records
     User::ReputationPeriod::MarkForNewToken.(token_1)
@@ -17,12 +17,12 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
     User::ReputationPeriod::MarkForNewToken.(token_3)
     User::ReputationPeriod::Sweep.()
 
-    assert_equal 48, User::ReputationPeriod.count # Sanity
+    assert_equal 16, User::ReputationPeriod.count # Sanity
     refute User::ReputationPeriod.dirty.exists?
 
-    User::ReputationPeriod::MarkOutdated.(period: :week)
-    assert_equal 48, User::ReputationPeriod.count # Sanity
-    assert_equal 12, User::ReputationPeriod.dirty.count
+    User::ReputationPeriod::MarkOutdated.(period: :week, earned_on: Date.new(2021, 1, 3))
+    assert_equal 16, User::ReputationPeriod.count # Sanity
+    assert_equal 4, User::ReputationPeriod.dirty.count
     assert_equal ['week'], User::ReputationPeriod.dirty.pluck(:period).uniq
   end
 
@@ -31,9 +31,9 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
 
     user = create :user
 
-    token_1 = create :user_code_contribution_reputation_token, user: user, earned_at: Date.new(2021, 1, 1)
-    token_2 = create :user_code_contribution_reputation_token, user: user, earned_at: Date.new(2021, 1, 2)
-    token_3 = create :user_code_contribution_reputation_token, user: user, earned_at: Date.new(2021, 1, 3)
+    token_1 = create :user_code_contribution_reputation_token, user: user, earned_on: Date.new(2021, 1, 1)
+    token_2 = create :user_code_contribution_reputation_token, user: user, earned_on: Date.new(2021, 1, 2)
+    token_3 = create :user_code_contribution_reputation_token, user: user, earned_on: Date.new(2021, 1, 3)
 
     # Create all the relevant records
     User::ReputationPeriod::MarkForNewToken.(token_1)
@@ -41,12 +41,12 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
     User::ReputationPeriod::MarkForNewToken.(token_3)
     User::ReputationPeriod::Sweep.()
 
-    assert_equal 24, User::ReputationPeriod.count # Sanity
+    assert_equal 8, User::ReputationPeriod.count # Sanity
     refute User::ReputationPeriod.dirty.exists?
 
-    User::ReputationPeriod::MarkOutdated.(period: :week)
-    assert_equal 24, User::ReputationPeriod.count # Sanity
-    assert_equal 6, User::ReputationPeriod.dirty.count
+    User::ReputationPeriod::MarkOutdated.(period: :week, earned_on: Date.new(2021, 1, 3))
+    assert_equal 8, User::ReputationPeriod.count # Sanity
+    assert_equal 2, User::ReputationPeriod.dirty.count
     assert_equal ['week'], User::ReputationPeriod.dirty.pluck(:period).uniq
   end
 
@@ -54,8 +54,8 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
     travel_to Date.new(2021, 1, 5)
     user = create :user
 
-    token_1 = create :user_reputation_token, user: user, earned_at: Date.new(2021, 1, 1)
-    token_2 = create :user_reputation_token, user: user, earned_at: Date.new(2021, 1, 1)
+    token_1 = create :user_reputation_token, user: user, earned_on: Date.new(2021, 1, 1)
+    token_2 = create :user_reputation_token, user: user, earned_on: Date.new(2021, 1, 1)
 
     # Create all the relevant records
     User::ReputationPeriod::MarkForNewToken.(token_1)
@@ -63,16 +63,16 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
     User::ReputationPeriod::Sweep.()
 
     assert_equal 2, User::ReputationToken.count # Sanity
-    assert_equal 16, User::ReputationPeriod.count # Sanity
+    assert_equal 8, User::ReputationPeriod.count # Sanity
 
     # This would run twice for each token (so four times) in a naive implementation
     [
-      { category: :any, about: :everything, track_id: nil, user_id: user.id, period: :week },
-      { category: :building, about: :everything, track_id: nil, user_id: user.id, period: :week }
+      { category: :any, about: :everything, track_id: 0, user_id: user.id, period: :week },
+      { category: :building, about: :everything, track_id: 0, user_id: user.id, period: :week }
     ].each do |params|
       User::ReputationPeriod.expects(:where).with(params).returns(mock(update_all: nil))
     end
 
-    User::ReputationPeriod::MarkOutdated.(period: :week)
+    User::ReputationPeriod::MarkOutdated.(period: :week, earned_on: Date.new(2021, 1, 1))
   end
 end

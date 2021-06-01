@@ -1,5 +1,7 @@
 module Contributing
   class ContributorsController < ApplicationController
+    skip_before_action :authenticate_user!, only: %i[index]
+
     def index
       response.set_header('Link', '<https://exercism.io/profiles>; rel="canonical"')
 

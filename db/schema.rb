@@ -567,7 +567,7 @@ ActiveRecord::Schema.define(version: 2021_05_29_174905) do
 
   create_table "user_reputation_periods", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "track_id"
+    t.bigint "track_id", null: false
     t.integer "about", limit: 1, null: false
     t.integer "period", limit: 1, null: false
     t.integer "category", limit: 1, null: false

@@ -133,8 +133,7 @@ class SolutionTest < ActiveSupport::TestCase
   end
 
   test "instructions is correct" do
-    # TODO: Readd this once we stop using HEAD for all the git stuff
-    # Use an old sha to check the right content is returned.
+    # TODO: Use an old sha to check the right content is returned.
     skip
     solution = create :practice_solution
     assert_equal instructions, solution.instructions

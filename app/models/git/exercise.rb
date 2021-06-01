@@ -17,7 +17,7 @@ module Git
       new(
         solution.git_slug,
         solution.git_type,
-        "HEAD", # TODO: Change to solution.git_sha once we let users update exercises,
+        solution.git_sha,
         repo_url: solution.track.repo_url
       )
     end

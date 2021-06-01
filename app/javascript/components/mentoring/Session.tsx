@@ -27,6 +27,13 @@ import {
   MentorSessionExercise as Exercise,
 } from '../types'
 
+import { useIterationScrolling } from './session/useIterationScrolling'
+
+export type Settings = {
+  scroll: boolean
+  click: boolean
+}
+
 export type Links = {
   mentorDashboard: string
   scratchpad: string
@@ -77,6 +84,17 @@ export const Session = (props: SessionProps): JSX.Element => {
     [session]
   )
 
+  const [settings, setSettings] = useState({ scroll: false, click: false })
+  const {
+    currentIteration,
+    handleIterationClick,
+    handleIterationScroll,
+  } = useIterationScrolling({
+    iterations: iterations,
+    isScrollOn: settings.scroll,
+    isClickOn: settings.click,
+  })
+
   return (
     <div className="c-mentor-discussion">
       <div className="lhs">
@@ -93,9 +111,13 @@ export const Session = (props: SessionProps): JSX.Element => {
         </header>
         <IterationView
           iterations={iterations}
+          currentIteration={currentIteration}
+          onClick={handleIterationClick}
           isOutOfDate={outOfDate}
           language={track.highlightjsLanguage}
           indentSize={track.indentSize}
+          settings={settings}
+          setSettings={setSettings}
         />
       </div>
       <TabsContext.Provider
@@ -128,6 +150,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                   iterations={iterations}
                   student={student}
                   userId={userId}
+                  onIterationScroll={handleIterationScroll}
                 />
               ) : (
                 <RequestDetails

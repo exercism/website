@@ -1,12 +1,12 @@
 # Every minute
 clear_mentor_request_locks:
-  cron: "* * * * *"
+  interval: "1m"
   class: "ClearMentorRequestLocksJob"
   queue: cron
 
 # Every minute
 sweep_reputation_periods:
-  cron: "* * * * *"
+  interval: "1m"
   class: "SweepReputationPeriodsJob"
   queue: reputation
 

@@ -376,6 +376,8 @@ GEM
     ruby_parser (3.15.0)
       sexp_processor (~> 4.9)
     rubyzip (2.3.0)
+    rufus-scheduler (3.7.0)
+      fugit (~> 1.1, >= 1.1.6)
     rugged (1.1.0)
     sawyer (0.8.2)
       addressable (>= 2.3.5)
@@ -391,11 +393,15 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
-    sidekiq-cron (1.2.0)
-      fugit (~> 1.1)
-      sidekiq (>= 4.2.1)
     sidekiq-failures (1.0.0)
       sidekiq (>= 4.0.0)
+    sidekiq-scheduler (3.1.0)
+      e2mmap
+      redis (>= 3, < 5)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 3)
+      thwait
+      tilt (>= 1.4.0)
     simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -426,6 +432,8 @@ GEM
     sysexits (1.2.0)
     temple (0.8.2)
     thor (1.1.0)
+    thwait (0.2.0)
+      e2mmap
     tilt (2.0.10)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
@@ -515,8 +523,8 @@ DEPENDENCIES
   selenium-webdriver
   show_me_the_cookies
   sidekiq (~> 6.1)
-  sidekiq-cron (~> 1.1)
   sidekiq-failures
+  sidekiq-scheduler
   simplecov (~> 0.17.0)
   solargraph
   spring

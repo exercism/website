@@ -308,7 +308,7 @@
                     &:first-child {
                         @apply pt-20;
                     }
-                    &:last-child {
+                    &.post:last-child {
                         &:before {
                             bottom: auto;
                             height: 16px;
@@ -426,26 +426,24 @@
                     }
                 }
             }
-            & .finished-wizard {
-                @apply mt-24 mx-24 pt-20 pb-24 px-24;
-                @apply flex items-start;
-                @apply border-1 border-borderColor5 rounded-8;
+            & .finished-wizard.timeline-entry {
+                @apply pt-24;
 
-                & > .c-icon {
-                    height: 32px;
-                    width: 32px;
-                    @apply mr-16;
+                &:before {
+                    height: 30px;
+                    bottom: auto;
                 }
+
                 & > .--details {
                     & h3 {
                         @apply text-h5;
-                        @apply pb-16 mb-16;
+                        @apply pb-12 mb-12;
                         @apply border-b-1 border-borderColor6;
                     }
                     & > .--step {
                         /* Leading-160 */
                         & p {
-                            @apply text-16 leading-code font-medium;
+                            @apply text-16 leading-160 font-medium;
                             @apply mb-12;
                         }
                         & .buttons {

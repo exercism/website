@@ -70,9 +70,12 @@ export const FinishedWizard = ({ student, defaultStep }: Props) => {
   }, [student])
 
   return (
-    <div ref={finishedWizardRef} className="finished-wizard">
-      <GraphicalIcon icon="completed-check-circle" />
-      <div className="--details">
+    <div ref={finishedWizardRef} className="finished-wizard timeline-entry">
+      <GraphicalIcon
+        icon="completed-check-circle"
+        className="timeline-marker"
+      />
+      <div className="--details timeline-content">
         <h3>You&apos;ve finished your discussion with {student.handle}.</h3>
         <div className="--step">
           {state.step === 'mentorAgain' ? (

@@ -14,22 +14,24 @@ export const DiscussionDetails = ({
   student: Student
   userId: number
 }): JSX.Element => {
-  const [defaultStep, setDefaultStep] = useState<ModalStep>(
+  const [defaultWizardStep, setDefaultWizardStep] = useState<ModalStep>(
     discussion.isFinished ? 'finish' : 'mentorAgain'
   )
 
   return (
     <React.Fragment>
-      <DiscussionPostList
-        endpoint={discussion.links.posts}
-        iterations={iterations}
-        userIsStudent={false}
-        discussionId={discussion.id}
-        userId={userId}
-      />
-      {discussion.isFinished ? (
-        <FinishedWizard student={student} defaultStep={defaultStep} />
-      ) : null}
+      <div className="discussion">
+        <DiscussionPostList
+          endpoint={discussion.links.posts}
+          iterations={iterations}
+          userIsStudent={false}
+          discussionId={discussion.id}
+          userId={userId}
+        />
+        {discussion.isFinished ? (
+          <FinishedWizard student={student} defaultStep={defaultWizardStep} />
+        ) : null}
+      </div>
     </React.Fragment>
   )
 }

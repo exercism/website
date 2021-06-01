@@ -16,7 +16,7 @@
     @apply font-semibold text-textColor2 text-20 leading-140;
 }
 .text-h5 {
-    @apply text-18 leading-150 font-semibold text-textColor1;
+    @apply text-18 leading-150 font-semibold text-textColor2;
 }
 .text-h5-mono {
     @apply text-h5 font-mono font-bold;

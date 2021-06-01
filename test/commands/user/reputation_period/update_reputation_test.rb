@@ -45,11 +45,11 @@ class User::ReputationPeriod::UpdateReputationTest < ActiveSupport::TestCase
 
   test "recalculates time periods correctly" do
     user = create :user
-    create :user_reputation_token, user: user, created_at: Time.current - 6.days
-    create :user_reputation_token, user: user, created_at: Time.current - 7.days
-    create :user_reputation_token, user: user, created_at: Time.current - 33.days
-    create :user_reputation_token, user: user, created_at: Time.current - 364.days
-    create :user_reputation_token, user: user, created_at: Time.current - 365.days
+    create :user_reputation_token, user: user, earned_on: Date.current - 6.days
+    create :user_reputation_token, user: user, earned_on: Date.current - 7.days
+    create :user_reputation_token, user: user, earned_on: Date.current - 33.days
+    create :user_reputation_token, user: user, earned_on: Date.current - 364.days
+    create :user_reputation_token, user: user, earned_on: Date.current - 365.days
 
     forever_period = create :user_reputation_period, :dirty, user: user, period: :forever
     year_period = create :user_reputation_period, :dirty, user: user, period: :year

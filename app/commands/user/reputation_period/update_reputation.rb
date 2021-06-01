@@ -33,11 +33,11 @@ class User::ReputationPeriod
 
       if period.year?
         # If today is 29th May 2022, have >= 30th May 2020
-        @tokens = @tokens.where("created_at >= ?", Date.current - 1.year + 1.day)
+        @tokens = @tokens.where("earned_on >= ?", Date.current - 364.days)
       elsif period.month?
-        @tokens = @tokens.where("created_at >= ?", Date.current - 1.month + 1.day)
+        @tokens = @tokens.where("earned_on >= ?", Date.current - 29.days)
       elsif period.week?
-        @tokens = @tokens.where("created_at >= ?", Date.current - 1.week + 1.day)
+        @tokens = @tokens.where("earned_on >= ?", Date.current - 6.days)
       end
     end
 

@@ -46,15 +46,15 @@ class User::ReputationPeriod
     end
 
     # This uses a little Rails magic to check the period
-    # is valid and if not, defualt to 0 (the general one).
-    # It breaks without the to_s for nil as nil is coverted to NULL
+    # is valid and if not, default to 0 (the general one).
+    # It breaks without the to_s for nil as nil is converted to NULL
     def filter_period!
       @rows = @rows.where(period: period.to_s)
     end
 
     # This uses a little Rails magic to check the category
-    # is valid and if not, defualt to 0 (the general one).
-    # It breaks without the to_s for nil as nil is coverted to NULL
+    # is valid and if not, default to 0 (the general one).
+    # It breaks without the to_s for nil as nil is converted to NULL
     def filter_category!
       @rows = @rows.where(category: category.to_s)
     end

@@ -28,7 +28,7 @@ module Webhooks
       return false unless track
 
       commits.to_a.any? do |commit|
-        commit[:added].concat(commit[:removed], commit[:modified]).any? do |file|
+        Set.new([*commit[:added], *commit[:removed], *commit[:modified]]).any? do |file|
           file.starts_with?('.appends/')
         end
       end

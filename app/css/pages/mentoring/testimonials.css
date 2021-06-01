@@ -60,7 +60,8 @@
                 }
 
                 & time {
-                    @apply text-textColor2;
+                    width: 120px;
+                    @apply text-textColor2 text-right;
                 }
             }
             & .c-track-icon {

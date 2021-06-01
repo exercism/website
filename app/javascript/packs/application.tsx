@@ -437,15 +437,18 @@ initReact({
       links={camelizeKeysAs<NudgeLinks>(data.links)}
     />
   ),
-  'student-iteration-page': (data: any) => (
-    <Student.IterationPage
-      solutionId={data.solution_id}
-      request={camelizeKeysAs<IterationPageRequest>(data.request)}
-      exercise={camelizeKeysAs<IterationPageExercise>(data.exercise)}
-      track={camelizeKeysAs<IterationPageTrack>(data.track)}
-      links={camelizeKeysAs<IterationPageLinks>(data.links)}
-    />
-  ),
+  'student-iteration-page': (data: any) => {
+    console.log(data.track)
+    return (
+      <Student.IterationPage
+        solutionId={data.solution_id}
+        request={camelizeKeysAs<IterationPageRequest>(data.request)}
+        exercise={camelizeKeysAs<IterationPageExercise>(data.exercise)}
+        track={camelizeKeysAs<IterationPageTrack>(data.track)}
+        links={camelizeKeysAs<IterationPageLinks>(data.links)}
+      />
+    )
+  },
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
       userId={data.user_id}

@@ -16,7 +16,7 @@ export type Exercise = {
 export type Track = {
   title: string
   iconUrl: string
-  highlightJsLanguage: string
+  highlightjsLanguage: string
   indentSize: number
 }
 

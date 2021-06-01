@@ -16,7 +16,7 @@ export const FileViewer = ({
   return (
     <pre ref={parentRef}>
       <code
-        className={language}
+        className={`language-${language}`}
         data-highlight-line-numbers={true}
         data-highlight-line-number-start={1}
         style={{ tabSize: indentSize }}

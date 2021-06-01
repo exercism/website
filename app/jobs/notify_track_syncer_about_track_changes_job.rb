@@ -1,4 +1,4 @@
-class NotifyTrackOrgWideFileChangeJob < ApplicationJob
+class NotifyTrackSyncerAboutTrackChangesJob < ApplicationJob
   queue_as :default
 
   def perform(track)

@@ -58,13 +58,13 @@ export const IterationReport = ({
           {iteration.files ? (
             <FilePanel
               files={iteration.files}
-              language={track.highlightJsLanguage}
+              language={track.highlightjsLanguage}
               indentSize={track.indentSize}
             />
           ) : (
             <IterationFiles
               endpoint={iteration.links.files}
-              language={track.highlightJsLanguage}
+              language={track.highlightjsLanguage}
               indentSize={track.indentSize}
             />
           )}

@@ -8,10 +8,10 @@ module Github
       20
     end
 
-    def initialize(action: nil, knowledge: nil, module_: nil, size: nil, type: nil, repo_url: nil, order: nil, page: 1)
+    def initialize(action: nil, knowledge: nil, area: nil, size: nil, type: nil, repo_url: nil, order: nil, page: 1)
       @action = action
       @knowledge = knowledge
-      @module_ = module_
+      @area = area
       @size = size
       @type = type
       @repo_url = repo_url
@@ -26,7 +26,7 @@ module Github
       filter_unclaimed!
       filter_action!
       filter_knowledge!
-      filter_module!
+      filter_area!
       filter_size!
       filter_type!
 
@@ -35,7 +35,7 @@ module Github
     end
 
     private
-    attr_reader :action, :knowledge, :module_, :size, :type, :repo_url, :order, :page, :issues
+    attr_reader :action, :knowledge, :area, :size, :type, :repo_url, :order, :page, :issues
 
     def filter_repo!
       return if repo_url.blank?
@@ -47,10 +47,10 @@ module Github
       @issues = @issues.without_label('x:status/claimed')
     end
 
-    %w[action knowledge module_ size type].each do |label|
-      normalized_label = label.delete('_')
+    %w[action knowledge area size type].each do |label|
+      normalized_label = label.gsub('area', 'module')
 
-      define_method "filter_#{normalized_label}!" do
+      define_method "filter_#{label}!" do
         return if send(label).blank?
 
         @issues = @issues.with_label(Github::IssueLabel.for_type(normalized_label.to_sym, send(label)))

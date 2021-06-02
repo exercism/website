@@ -20,10 +20,10 @@ class Github::Issue::SearchTest < ActiveSupport::TestCase
 
     expected = [issue_2, issue_1]
     assert_equal expected,
-      Github::Issue::Search.(action: nil, knowledge: nil, module_: nil, size: nil, type: nil, repo_url: nil, order: nil,
+      Github::Issue::Search.(action: nil, knowledge: nil, area: nil, size: nil, type: nil, repo_url: nil, order: nil,
                              page: nil)
     assert_equal expected,
-      Github::Issue::Search.(action: '', knowledge: '', module_: '', size: '', type: '', repo_url: '', order: '', page: '')
+      Github::Issue::Search.(action: '', knowledge: '', area: '', size: '', type: '', repo_url: '', order: '', page: '')
   end
 
   test "paginates" do
@@ -81,7 +81,7 @@ class Github::Issue::SearchTest < ActiveSupport::TestCase
     create :github_issue_label, issue: issue_1, label: 'x:module/concept-exercise'
     create :github_issue_label, issue: issue_3, label: 'x:module/analyzer'
 
-    assert_equal [issue_2], Github::Issue::Search.(module_: :test_runner)
+    assert_equal [issue_2], Github::Issue::Search.(area: :test_runner)
   end
 
   test "filters size correctly" do

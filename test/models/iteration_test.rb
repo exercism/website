@@ -154,16 +154,20 @@ class IterationTest < ActiveSupport::TestCase
   end
 
   test "updates_solution" do
-    solution = create :concept_solution
+    freeze_time do
+      solution = create :concept_solution
 
-    # Sanity
-    assert_equal :started, solution.status
-    assert_nil solution.iteration_status
+      # Sanity
+      assert_equal :started, solution.status
+      assert_nil solution.iteration_status
+      assert_nil solution.last_iterated_at
 
-    create :iteration, solution: solution
+      create :iteration, solution: solution
 
-    solution.reload
-    assert_equal :iterated, solution.status
-    assert_equal :untested, solution.iteration_status
+      solution.reload
+      assert_equal :iterated, solution.status
+      assert_equal :untested, solution.iteration_status
+      assert_equal Time.current, solution.last_iterated_at
+    end
   end
 end

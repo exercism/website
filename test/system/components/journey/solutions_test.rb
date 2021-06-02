@@ -12,8 +12,10 @@ module Components
         exercise = create :concept_exercise, title: "Lasagna", icon_name: 'lasagna', track: track, slug: :lasagna
         solution = create :concept_solution, :completed, exercise: exercise, completed_at: Time.current, user: user,
                                                          num_views: 1270, num_comments: 10, num_stars: 12, num_loc: 18
-        create :submission, solution: solution, created_at: 2.days.ago
-        3.times { create :iteration, solution: solution }
+        create :submission, solution: solution
+        travel_to(Time.current - 2.days) do
+          3.times { create :iteration, solution: solution }
+        end
 
         use_capybara_host do
           sign_in!(user)

@@ -4,6 +4,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution, status: :published, published_at: Time.current - 1.week, completed_at: Time.current
     submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
 
     user_track = create :user_track, user: solution.user, track: solution.track
     expected = {
@@ -21,7 +22,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
       published_at: solution.published_at.iso8601,
       completed_at: solution.completed_at.iso8601,
       updated_at: solution.updated_at.iso8601,
-      last_submitted_at: submission.created_at.iso8601,
+      last_iterated_at: iteration.created_at.iso8601,
       exercise: {
         slug: solution.exercise.slug,
         title: solution.exercise.title,
@@ -35,6 +36,14 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     }
 
     assert_equal expected, SerializeSolution.(solution, user_track: user_track)
+  end
+
+  test "with no submissions" do
+    solution = create :practice_solution, status: :published, published_at: Time.current - 1.week, completed_at: Time.current
+    user_track = create :user_track, user: solution.user, track: solution.track
+
+    actual = SerializeSolution.(solution, user_track: user_track)
+    assert_nil actual[:last_iterated_at]
   end
 
   test "with notifications" do

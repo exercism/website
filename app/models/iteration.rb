@@ -22,6 +22,7 @@ class Iteration < ApplicationRecord
   after_save_commit do
     solution.update_status!
     solution.update_iteration_status!
+    solution.update!(last_iterated_at: Time.current)
   end
 
   def status

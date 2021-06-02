@@ -12,7 +12,7 @@ export type SolutionProps = {
   numComments: number
   numIterations: number
   numLoc: string
-  lastSubmittedAt: string
+  lastIteratedAt: string
   exercise: {
     title: string
     iconUrl: string
@@ -31,7 +31,7 @@ export const Solution = ({
   numComments,
   numIterations,
   numLoc,
-  lastSubmittedAt,
+  lastIteratedAt,
   exercise,
   track,
 }: SolutionProps): JSX.Element => {
@@ -73,8 +73,8 @@ export const Solution = ({
             {numViews} {pluralize('view', numViews)}
           </div>
         </div>
-        <time dateTime={lastSubmittedAt}>
-          Last submitted {fromNow(lastSubmittedAt)}
+        <time dateTime={lastIteratedAt}>
+          Last submitted {fromNow(lastIteratedAt)}
         </time>
       </div>
       <div className="counts">

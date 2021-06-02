@@ -70,7 +70,7 @@ class Github::Issue::SearchTest < ActiveSupport::TestCase
     assert_equal [issue_2], Github::Issue::Search.(knowledge: :elementary)
   end
 
-  test "filters module correctly" do
+  test "filters area correctly" do
     issue_1 = create :github_issue, :random, opened_at: 2.weeks.ago
     issue_2 = create :github_issue, :random, opened_at: 4.weeks.ago
     issue_3 = create :github_issue, :random, opened_at: 1.week.ago
@@ -81,7 +81,7 @@ class Github::Issue::SearchTest < ActiveSupport::TestCase
     create :github_issue_label, issue: issue_1, label: 'x:module/concept-exercise'
     create :github_issue_label, issue: issue_3, label: 'x:module/analyzer'
 
-    assert_equal [issue_2], Github::Issue::Search.(area: :test_runner)
+    assert_equal [issue_2], Github::Issue::Search.(area: :"test-runner")
   end
 
   test "filters size correctly" do

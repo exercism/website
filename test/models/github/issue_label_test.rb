@@ -21,9 +21,9 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
     assert_nil Github::IssueLabel.for_type(:knowledge, :unknown)
   end
 
-  %i[analyzer concept_exercise concept generator practice_exercise representer test_runner].each do |mod|
+  %i[analyzer concept-exercise concept generator practice-exercise representer test-runner].each do |mod|
     test "for_type with module is #{mod}" do
-      assert_equal "x:module/#{mod.to_s.tr('_', '-')}", Github::IssueLabel.for_type(:module, mod)
+      assert_equal "x:module/#{mod}", Github::IssueLabel.for_type(:module, mod)
     end
   end
 

@@ -8,7 +8,7 @@ class Github::IssueLabel < ApplicationRecord
     define_singleton_method "for_#{label}" do |val|
       return unless const_get(label.pluralize.upcase.to_sym).include?(val)
 
-      "x:#{label}/#{val}"
+      "x:#{label}/#{val.to_s.tr('_', '-')}"
     end
   end
 

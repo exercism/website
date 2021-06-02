@@ -23,7 +23,7 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
 
   %i[analyzer concept_exercise concept generator practice_exercise representer test_runner].each do |mod|
     test "for_module #{mod}" do
-      assert_equal "x:module/#{mod}", Github::IssueLabel.for_module(mod)
+      assert_equal "x:module/#{mod.to_s.tr('_', '-')}", Github::IssueLabel.for_module(mod)
     end
   end
 

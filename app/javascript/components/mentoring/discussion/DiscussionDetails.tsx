@@ -21,7 +21,7 @@ export const DiscussionDetails = ({
   )
 
   return (
-    <React.Fragment>
+    <div className="discussion">
       <DiscussionPostList
         endpoint={discussion.links.posts}
         iterations={iterations}
@@ -33,6 +33,6 @@ export const DiscussionDetails = ({
       {discussion.isFinished ? (
         <FinishedWizard student={student} defaultStep={defaultWizardStep} />
       ) : null}
-    </React.Fragment>
+    </div>
   )
 }

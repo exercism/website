@@ -57,7 +57,7 @@ module ReactComponents
       end
 
       def discussions
-        SerializeMentorDiscussions.(solution.mentor_discussions, :student)
+        SerializeMentorDiscussions.(solution.mentor_discussions.order(id: :desc), :student)
       end
     end
   end

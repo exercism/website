@@ -8,11 +8,13 @@ export const DiscussionDetails = ({
   iterations,
   student,
   userId,
+  onIterationScroll,
 }: {
   discussion: MentorDiscussion
   iterations: readonly Iteration[]
   student: Student
   userId: number
+  onIterationScroll: (iteration: Iteration) => void
 }): JSX.Element => {
   const [defaultWizardStep, setDefaultWizardStep] = useState<ModalStep>(
     discussion.isFinished ? 'finish' : 'mentorAgain'
@@ -20,18 +22,17 @@ export const DiscussionDetails = ({
 
   return (
     <React.Fragment>
-      <div className="discussion">
-        <DiscussionPostList
-          endpoint={discussion.links.posts}
-          iterations={iterations}
-          userIsStudent={false}
-          discussionId={discussion.id}
-          userId={userId}
-        />
-        {discussion.isFinished ? (
-          <FinishedWizard student={student} defaultStep={defaultWizardStep} />
-        ) : null}
-      </div>
+      <DiscussionPostList
+        endpoint={discussion.links.posts}
+        iterations={iterations}
+        userIsStudent={false}
+        discussionId={discussion.id}
+        userId={userId}
+        onIterationScroll={onIterationScroll}
+      />
+      {discussion.isFinished ? (
+        <FinishedWizard student={student} defaultStep={defaultWizardStep} />
+      ) : null}
     </React.Fragment>
   )
 }

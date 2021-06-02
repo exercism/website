@@ -1,31 +1,37 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Iteration } from '../../types'
 import { IterationsList } from './IterationsList'
 import { FilePanel } from './FilePanel'
 import { IterationHeader } from './IterationHeader'
-import { Icon } from '../../common/Icon'
 import { useIsMounted } from 'use-is-mounted'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { File } from '../../types'
 import { ResultsZone } from '../../ResultsZone'
+import { SettingsButton } from './SettingsButton'
+import { Settings } from '../Session'
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
 export const IterationView = ({
   iterations,
+  currentIteration,
+  onClick,
   language,
   indentSize,
   isOutOfDate,
+  settings,
+  setSettings,
 }: {
   iterations: readonly Iteration[]
+  currentIteration: Iteration
+  onClick: (iteration: Iteration) => void
   language: string
   indentSize: number
   isOutOfDate: boolean
+  settings: Settings
+  setSettings: (settings: Settings) => void
 }): JSX.Element => {
-  const [currentIteration, setCurrentIteration] = useState(
-    iterations[iterations.length - 1]
-  )
   const isMountedRef = useIsMounted()
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
     files: File[]
@@ -61,13 +67,11 @@ export const IterationView = ({
         {iterations.length > 1 ? (
           <IterationsList
             iterations={iterations}
-            onClick={setCurrentIteration}
+            onClick={onClick}
             current={currentIteration}
           />
         ) : null}
-        <button className="settings-button btn-keyboard-shortcut">
-          <Icon icon="settings" alt="View settings" />
-        </button>
+        <SettingsButton value={settings} setValue={setSettings} />
       </footer>
     </React.Fragment>
   )

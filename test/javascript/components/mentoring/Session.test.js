@@ -11,11 +11,13 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Session } from '../../../../app/javascript/components/mentoring/Session'
 import { stubRange } from '../../support/code-mirror-helpers'
+import { stubIntersectionObserver } from '../../support/intersection-observer-helpers'
 import { awaitPopper } from '../../support/await-popper'
 import { queryCache } from 'react-query'
 import { expectConsoleError } from '../../support/silence-console'
 
 stubRange()
+stubIntersectionObserver()
 
 test('highlights currently selected iteration', async () => {
   const links = {

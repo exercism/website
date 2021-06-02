@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 
 import { CloseButton } from '../mentoring/session/CloseButton'
 import { IterationView } from '../mentoring/session/IterationView'
+import { useIterationScrolling } from '../mentoring/session/useIterationScrolling'
 import { SessionInfo } from './mentoring-session/SessionInfo'
 import { DiscussionInfo } from './mentoring-session/DiscussionInfo'
 import { DiscussionActions } from './mentoring-session/DiscussionActions'
@@ -67,6 +68,16 @@ export const MentoringSession = ({
   const handleCreateMentorRequest = useCallback((mentorRequest) => {
     setMentorRequest(mentorRequest)
   }, [])
+  const [settings, setSettings] = useState({ scroll: false, click: false })
+  const {
+    currentIteration,
+    handleIterationClick,
+    handleIterationScroll,
+  } = useIterationScrolling({
+    iterations: iterations,
+    isScrollOn: settings.scroll,
+    isClickOn: settings.click,
+  })
 
   return (
     <div className="c-mentor-discussion">
@@ -83,9 +94,13 @@ export const MentoringSession = ({
         </header>
         <IterationView
           iterations={iterations}
+          currentIteration={currentIteration}
+          onClick={handleIterationClick}
           language={track.highlightjsLanguage}
           indentSize={track.indentSize}
           isOutOfDate={false} /* TODO: Set this correctly */
+          settings={settings}
+          setSettings={setSettings}
         />
       </div>
       <div className="rhs">
@@ -95,6 +110,7 @@ export const MentoringSession = ({
             mentor={mentor}
             userId={userId}
             iterations={iterations}
+            onIterationScroll={handleIterationScroll}
           />
         ) : (
           <MentoringRequest

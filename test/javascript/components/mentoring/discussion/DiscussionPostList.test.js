@@ -10,13 +10,10 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPostList } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPostList'
 import { TestQueryCache } from '../../../support/TestQueryCache'
+import { stubIntersectionObserver } from '../../../support/intersection-observer-helpers'
 import { queryCache } from 'react-query'
 
-window.IntersectionObserver = jest.fn(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}))
+stubIntersectionObserver()
 
 test('displays all posts', async () => {
   stubScroll()

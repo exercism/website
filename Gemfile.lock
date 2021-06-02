@@ -135,7 +135,6 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     e2mmap (0.1.0)
     erubi (1.10.0)
-    erubis (2.7.0)
     et-orbi (1.2.4)
       tzinfo
     exercism-config (0.67.0)
@@ -175,25 +174,18 @@ GEM
     haml (5.2.1)
       temple (>= 0.8.0)
       tilt
-    haml-rails (2.0.1)
-      actionpack (>= 5.1)
-      activesupport (>= 5.1)
-      haml (>= 4.0.6, < 6.0)
-      html2haml (>= 1.0.1)
-      railties (>= 5.1)
     haml_lint (0.36.0)
       haml (>= 4.0, < 5.3)
       parallel (~> 1.10)
       rainbow
       rubocop (>= 0.50.0)
       sysexits (~> 1.1)
+    hamlit (2.15.0)
+      temple (>= 0.8.2)
+      thor
+      tilt
     hashdiff (1.0.1)
     hashie (4.1.0)
-    html2haml (2.2.0)
-      erubis (~> 2.7.0)
-      haml (>= 4.0, < 6)
-      nokogiri (>= 1.6.0)
-      ruby_parser (~> 3.5)
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -373,8 +365,6 @@ GEM
       ffi (~> 1.9)
     ruby2_keywords (0.0.2)
     ruby_dep (1.5.0)
-    ruby_parser (3.15.0)
-      sexp_processor (~> 4.9)
     rubyzip (2.3.0)
     rufus-scheduler (3.7.0)
       fugit (~> 1.1, >= 1.1.6)
@@ -386,7 +376,6 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
-    sexp_processor (4.15.1)
     show_me_the_cookies (5.0.1)
       capybara (>= 2, < 4)
     sidekiq (6.2.1)
@@ -499,8 +488,8 @@ DEPENDENCIES
   exercism-config (>= 0.67.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
-  haml-rails (~> 2.0)
   haml_lint
+  hamlit
   image_processing (~> 1.2)
   kaminari
   listen (>= 3.0.5, < 3.2)

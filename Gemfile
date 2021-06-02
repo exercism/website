@@ -42,7 +42,7 @@ gem "sidekiq-scheduler"
 # View-level Dependencies
 gem 'webpacker', '~> 5.x'
 gem 'turbolinks', '~> 5'
-gem 'haml-rails', '~> 2.0'
+gem 'hamlit'
 gem 'commonmarker'
 gem 'ansi-to-html'
 

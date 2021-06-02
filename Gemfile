@@ -55,6 +55,9 @@ gem 'omniauth-github'
 # Turbolinks form errors compatibility
 gem 'turbolinks_render'
 
+# Reporting
+gem 'skylight'
+
 # Let's be nice to Windows users
 platforms :mingw, :mswin, :x64_mingw, :jruby do
   # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

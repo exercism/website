@@ -407,6 +407,8 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    skylight (5.1.1)
+      activesupport (>= 5.2.0)
     solargraph (0.40.1)
       backport (~> 1.1)
       benchmark
@@ -526,6 +528,7 @@ DEPENDENCIES
   sidekiq-failures
   sidekiq-scheduler
   simplecov (~> 0.17.0)
+  skylight
   solargraph
   spring
   turbolinks (~> 5)

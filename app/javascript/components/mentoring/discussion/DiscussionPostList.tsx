@@ -3,6 +3,7 @@ import React, {
   useMemo,
   useContext,
   useState,
+  useCallback,
   createRef,
 } from 'react'
 import { usePostHighlighting } from './usePostHighlighting'
@@ -16,9 +17,15 @@ import { IterationMarker } from '../session/IterationMarker'
 import { PostsContext } from './PostsContext'
 import { useRequestQuery } from '../../../hooks/request-query'
 
-type IterationWithPost = Iteration & {
+type IterationWithPost = {
+  iteration: Iteration
   posts: DiscussionPostProps[]
   ref: React.RefObject<HTMLDivElement>
+}
+
+type IntersectionStatus = {
+  iteration: Iteration
+  isIntersecting: boolean
 }
 
 export const DiscussionPostList = ({
@@ -46,24 +53,9 @@ export const DiscussionPostList = ({
   const [posts, setPosts] = useState<DiscussionPostProps[] | undefined>(
     undefined
   )
-  const iterationsWithPosts = useMemo(() => {
-    return iterations.reduce<IterationWithPost[]>(
-      (iterationsWithPosts, iteration) => {
-        const iterationPosts = posts
-          ? posts.filter((post) => post.iterationIdx === iteration.idx)
-          : []
-
-        iterationsWithPosts.push({
-          ...iteration,
-          posts: iterationPosts,
-          ref: createRef<HTMLDivElement>(),
-        })
-
-        return iterationsWithPosts
-      },
-      []
-    )
-  }, [posts, iterations])
+  const [iterationsWithPosts, setIterationWithPosts] = useState<
+    IterationWithPost[]
+  >([])
   const startIteration = iterationsWithPosts.findIndex(
     (iteration) => iteration.posts.length !== 0
   )
@@ -75,8 +67,26 @@ export const DiscussionPostList = ({
     posts,
     userId
   )
-  const [isIterationMarkerSeen, setIsIterationMarkerSeen] = useState<boolean[]>(
-    []
+  const [intersectionStatus, setIntersectionStatus] = useState<
+    IntersectionStatus[]
+  >([])
+
+  const registerEntry = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      setIntersectionStatus(
+        iterationsWithPosts.map((i) => {
+          const matchingEntry = entries.find((e) => e.target === i.ref.current)
+
+          return {
+            iteration: i.iteration,
+            isIntersecting: matchingEntry
+              ? matchingEntry.isIntersecting
+              : false,
+          }
+        })
+      )
+    },
+    [iterationsWithPosts]
   )
 
   useEffect(() => {
@@ -96,6 +106,27 @@ export const DiscussionPostList = ({
   }, [data, posts, setHasNewMessages, userId])
 
   useEffect(() => {
+    setIterationWithPosts(
+      iterations.reduce<IterationWithPost[]>(
+        (iterationsWithPosts, iteration) => {
+          const iterationPosts = posts
+            ? posts.filter((post) => post.iterationIdx === iteration.idx)
+            : []
+
+          iterationsWithPosts.push({
+            iteration: iteration,
+            posts: iterationPosts,
+            ref: createRef<HTMLDivElement>(),
+          })
+
+          return iterationsWithPosts
+        },
+        []
+      )
+    )
+  }, [iterations, posts])
+
+  useEffect(() => {
     const channel = new DiscussionPostChannel(
       { discussionId: discussionId },
       () => {
@@ -109,12 +140,11 @@ export const DiscussionPostList = ({
   }, [cacheKey, discussionId])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        setIsIterationMarkerSeen(entries.map((e) => e.isIntersecting))
-      },
-      { threshold: 1 }
-    )
+    const observer = new IntersectionObserver(registerEntry, {
+      threshold: 1,
+      root: null,
+      rootMargin: '0px',
+    })
 
     iterationsToShow.forEach((i) => {
       if (!i.ref.current) {
@@ -127,28 +157,19 @@ export const DiscussionPostList = ({
     return () => {
       observer.disconnect()
     }
-  }, [iterationsToShow])
+  }, [iterationsToShow, registerEntry])
 
   useEffect(() => {
-    if (isIterationMarkerSeen.length === 0) {
+    const lastSeenIteration = [...intersectionStatus]
+      .filter((s) => s.isIntersecting)
+      .pop()
+
+    if (!lastSeenIteration) {
       return
     }
 
-    const index = isIterationMarkerSeen.lastIndexOf(true)
-
-    if (index === -1) {
-      return
-    }
-
-    const iteration = iterationsToShow[index]
-    const matchingIteration = iterations.find((i) => i.idx === iteration.idx)
-
-    if (!matchingIteration) {
-      return
-    }
-
-    onIterationScroll(matchingIteration)
-  }, [isIterationMarkerSeen, iterations, iterationsToShow, onIterationScroll])
+    onIterationScroll(lastSeenIteration.iteration)
+  }, [intersectionStatus, onIterationScroll])
 
   if (status === 'loading') {
     return (
@@ -163,9 +184,9 @@ export const DiscussionPostList = ({
       <div className="discussion">
         {iterationsToShow.map((iteration) => {
           return (
-            <React.Fragment key={iteration.idx}>
+            <React.Fragment key={iteration.iteration.idx}>
               <IterationMarker
-                iteration={iteration}
+                iteration={iteration.iteration}
                 userIsStudent={userIsStudent}
                 ref={iteration.ref}
               />

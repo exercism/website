@@ -65,7 +65,7 @@ module ReactComponents
       def queue_request
         {
           endpoint: Exercism::Routes.api_mentoring_requests_path,
-          initial_data: ProcessMentorRequests.(params, current_user),
+          initial_data: ProcessMentorRequests.(params, mentor),
           query: {
             order: params[:order],
             criteria: params[:criteria],

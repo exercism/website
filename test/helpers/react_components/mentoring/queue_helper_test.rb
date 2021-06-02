@@ -29,18 +29,19 @@ class MentoringQueueTest < ReactComponentTestCase
     create :concept_solution, user: user, exercise: fred
     create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
 
-    component = ReactComponents::Mentoring::Queue.new(
-      user,
+    params = {
       criteria: "bo",
       track_slug: "csharp",
       exercise_slug: "bob"
-    )
+    }
+    component = ReactComponents::Mentoring::Queue.new(user, params)
 
     assert_component component,
       "mentoring-queue",
       {
         queue_request: {
           endpoint: Exercism::Routes.api_mentoring_requests_path,
+          initial_data: ProcessMentorRequests.(params, user),
           query: {
             criteria: "bo",
             track_slug: "csharp",

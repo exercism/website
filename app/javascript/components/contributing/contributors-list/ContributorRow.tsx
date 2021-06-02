@@ -13,7 +13,7 @@ export const ContributorRow = ({
       href={contributor.links.profile}
       className="contributor"
     >
-      <div className="rank">{contributor.rank}</div>
+      <div className="rank">#{contributor.rank}</div>
       <Avatar src={contributor.avatarUrl} handle={contributor.handle} />
       <div className="info">
         <h3>{contributor.handle}</h3>

@@ -335,6 +335,7 @@ initReact({
   'contributing-contributors-list': (data: any) => (
     <Contributing.ContributorsList
       request={camelizeKeysAs<Request>(data.request)}
+      tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
     />
   ),
   'mentoring-inbox': (data: any) => (

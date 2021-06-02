@@ -42,9 +42,9 @@ module Flows
       test "user filters by category" do
         create :user
         contributor = create :user, handle: "contributor"
-        building_token = create :user_reputation_token, user: contributor, value: 10, earned_on: Time.zone.today
+        building_token = create :user_reputation_token, user: contributor, value: 10
         User::ReputationPeriod::MarkForNewToken.(building_token)
-        maintaining_token = create :user_code_merge_reputation_token, user: contributor, value: 10, earned_on: 2.months.ago
+        maintaining_token = create :user_code_merge_reputation_token, user: contributor, value: 10
         User::ReputationPeriod::MarkForNewToken.(maintaining_token)
         User::ReputationPeriod::Sweep.()
 
@@ -54,6 +54,26 @@ module Flows
 
           assert_text "1 PR merged"
           assert_no_text "1 PR created"
+        end
+      end
+
+      test "user filters by track" do
+        create :user
+        contributor = create :user, handle: "contributor"
+        ruby = create :track, title: "Ruby", slug: "ruby"
+        ruby_token = create :user_reputation_token, user: contributor, value: 10, track: ruby
+        User::ReputationPeriod::MarkForNewToken.(ruby_token)
+        go = create :track, title: "Go", slug: "go"
+        go_token = create :user_reputation_token, user: contributor, value: 10, track: go
+        User::ReputationPeriod::MarkForNewToken.(go_token)
+        User::ReputationPeriod::Sweep.()
+
+        use_capybara_host do
+          visit contributing_contributors_path
+          click_on "Open the track switcher"
+          find("label", text: "Go").click
+
+          assert_text "1 PR created"
         end
       end
     end

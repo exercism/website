@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { PaginatedResult, Contributor } from '../types'
+import { PaginatedResult, Contributor, Track } from '../types'
 import { ContributorRow } from './contributors-list/ContributorRow'
 import { PeriodButton } from './contributors-list/PeriodButton'
 import { useIsMounted } from 'use-is-mounted'
@@ -8,6 +8,7 @@ import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Pagination } from '../common'
+import { TrackSwitcher } from './contributors-list/TrackSwitcher'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
@@ -22,8 +23,10 @@ type Category =
 
 export const ContributorsList = ({
   request: initialRequest,
+  tracks,
 }: {
   request: Request
+  tracks: readonly Track[]
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const { request, setPage, setQuery } = useList(initialRequest)
@@ -55,6 +58,14 @@ export const ContributorsList = ({
     },
     [request.query, setQuery]
   )
+
+  const setTrack = useCallback(
+    (track: Track) => {
+      setQuery({ ...request.query, track: track.id })
+    },
+    [request.query, setQuery]
+  )
+  const track = tracks.find((t) => t.id === request.query.track) || tracks[0]
 
   return (
     <div>
@@ -89,7 +100,7 @@ export const ContributorsList = ({
             <span data-text="All time">All time</span>
           </PeriodButton>
         </div>
-        {/* <TrackSwitcher size="small"></TrackSwitcher> */}
+        <TrackSwitcher tracks={tracks} value={track} setValue={setTrack} />
         <div className="c-select">
           <select
             value={request.query.category || ''}

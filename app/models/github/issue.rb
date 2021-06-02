@@ -31,6 +31,7 @@ class Github::Issue < ApplicationRecord
     update_track unless track
   end
 
+  # We need to ensure the track is in sync with the repo
   before_validation :update_track, on: :update
 
   def status

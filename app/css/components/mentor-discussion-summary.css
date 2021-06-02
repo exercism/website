@@ -13,7 +13,7 @@
         overflow: hidden;
         max-width: 180px;
         @apply leading-150 font-medium;
-        @apply mr-32;
+        @apply mr-auto;
 
         & .handle {
             @apply flex items-center;
@@ -30,13 +30,13 @@
         }
     }
     & .c-tag {
-        @apply ml-8;
+        @apply ml-16;
+        @apply border-darkBlue text-lightBlue bg-veryLightBlue;
     }
     & .comments {
         @apply flex flex-shrink-0 items-center justify-center ml-auto;
-        @apply font-medium text-14 leading-150 text-textColor2;
-        @apply py-4 px-12 border-orange border-1 rounded-5 bg-lightOrange;
-        @apply ml-auto;
+        @apply font-semibold text-14 leading-150 text-textColor2 text-orange;
+        @apply ml-16;
 
         & .c-icon {
             @apply mr-6;
@@ -46,7 +46,7 @@
         }
     }
     & time {
-        @apply ml-24 flex-shrink-0 font-medium text-textColor7;
+        @apply ml-16 flex-shrink-0 text-textColor6;
     }
     & .action-icon {
         @apply ml-24 text-textColor6;

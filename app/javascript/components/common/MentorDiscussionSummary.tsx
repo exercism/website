@@ -21,7 +21,7 @@ export const MentorDiscussionSummary = ({
         <div className="handle">{mentor.handle}</div>
       </div>
       {isFinished ? null : (
-        <div className="c-tag --in-progress">In Progress</div>
+        <div className="c-tag --in-progress --small">In Progress</div>
       )}
       <div className={commentsClass.join(' ')}>
         <Icon

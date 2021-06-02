@@ -48,9 +48,6 @@
         & h3 {
             @apply mb-12;
         }
-        & .comments {
-            @apply ml-auto;
-        }
         & .c-mentor-discussion-summary + .c-mentor-discussion-summary {
             @apply mt-12;
         }

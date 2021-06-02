@@ -1,2 +1,4 @@
 authentication: <%= Exercism.secrets.skylight_key %>
 enable_sidekiq: true
+ignored_endpoints:
+  - PagesController#health_check

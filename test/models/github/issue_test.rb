@@ -43,4 +43,17 @@ class Github::IssueTest < ActiveSupport::TestCase
     refute issue.status_open?
     assert issue.status_closed?
   end
+
+  test "track for track repo" do
+    track = create :track, slug: 'fsharp'
+    issue = create :github_issue, repo: 'exercism/fsharp'
+
+    assert_equal track, issue.track
+  end
+
+  test "track is nil for non-track repo" do
+    issue = create :github_issue, repo: 'exercism/configlet'
+
+    assert_nil issue.track
+  end
 end

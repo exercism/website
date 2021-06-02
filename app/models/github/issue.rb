@@ -1,4 +1,6 @@
 class Github::Issue < ApplicationRecord
+  extend Mandate::Memoize
+
   enum status: { open: 0, closed: 1 }, _prefix: true
 
   has_many :labels,
@@ -25,5 +27,10 @@ class Github::Issue < ApplicationRecord
 
   def status
     super.to_sym
+  end
+
+  memoize
+  def track
+    Track.find_by(slug: repo.split('/').second)
   end
 end

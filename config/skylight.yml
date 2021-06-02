@@ -1,1 +1,2 @@
+authentication: <%= Exercism.secrets.skylight_key %>
 enable_sidekiq: true

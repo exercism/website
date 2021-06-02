@@ -8,13 +8,13 @@ module Github
       20
     end
 
-    def initialize(action: nil, knowledge: nil, module_: nil, size: nil, type: nil, repo: nil, order: nil, page: 1)
+    def initialize(action: nil, knowledge: nil, module_: nil, size: nil, type: nil, repo_url: nil, order: nil, page: 1)
       @action = action
       @knowledge = knowledge
       @module_ = module_
       @size = size
       @type = type
-      @repo = repo
+      @repo_url = repo_url
       @order = order
       @page = page
     end
@@ -35,12 +35,12 @@ module Github
     end
 
     private
-    attr_reader :action, :knowledge, :module_, :size, :type, :repo, :order, :page, :issues
+    attr_reader :action, :knowledge, :module_, :size, :type, :repo_url, :order, :page, :issues
 
     def filter_repo!
-      return if repo.blank?
+      return if repo_url.blank?
 
-      @issues = @issues.where(repo: repo)
+      @issues = @issues.where(repo: repo_url)
     end
 
     def filter_unclaimed!

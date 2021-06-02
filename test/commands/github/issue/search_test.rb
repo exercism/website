@@ -20,10 +20,10 @@ class Github::Issue::SearchTest < ActiveSupport::TestCase
 
     expected = [issue_2, issue_1]
     assert_equal expected,
-      Github::Issue::Search.(action: nil, knowledge: nil, module_: nil, size: nil, type: nil, repo: nil, order: nil,
+      Github::Issue::Search.(action: nil, knowledge: nil, module_: nil, size: nil, type: nil, repo_url: nil, order: nil,
                              page: nil)
     assert_equal expected,
-      Github::Issue::Search.(action: '', knowledge: '', module_: '', size: '', type: '', repo: '', order: '', page: '')
+      Github::Issue::Search.(action: '', knowledge: '', module_: '', size: '', type: '', repo_url: '', order: '', page: '')
   end
 
   test "paginates" do
@@ -120,7 +120,7 @@ class Github::Issue::SearchTest < ActiveSupport::TestCase
     create :github_issue, :random, repo: 'exercism/csharp'
     create :github_issue, :random, repo: 'exercism/ruby'
 
-    assert_equal [issue_2, issue_1], Github::Issue::Search.(repo: 'exercism/fsharp')
+    assert_equal [issue_2, issue_1], Github::Issue::Search.(repo_url: 'exercism/fsharp')
   end
 
   test "combine multiple filters correctly" do

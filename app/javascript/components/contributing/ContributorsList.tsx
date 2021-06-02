@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { PaginatedResult, Contributor } from '../types'
 import { ContributorRow } from './contributors-list/ContributorRow'
+import { PeriodButton } from './contributors-list/PeriodButton'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
@@ -10,13 +11,15 @@ import { Pagination } from '../common'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
+export type Period = 'week' | 'month' | 'year' | undefined
+
 export const ContributorsList = ({
   request: initialRequest,
 }: {
   request: Request
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setPage } = useList(initialRequest)
+  const { request, setPage, setQuery } = useList(initialRequest)
   const {
     status,
     resolvedData,
@@ -32,22 +35,45 @@ export const ContributorsList = ({
     isMountedRef
   )
 
+  const setPeriod = useCallback(
+    (period: Period) => {
+      setQuery({ ...request.query, period: period })
+    },
+    [request.query, setQuery]
+  )
+
   return (
     <div>
       <div className="c-search-bar">
         <div className="tabs">
-          <div className="c-tab-2">
+          <PeriodButton
+            period="week"
+            setPeriod={setPeriod}
+            current={request.query.period}
+          >
             <span data-text="Last 7 days">Last 7 days</span>
-          </div>
-          <div className="c-tab-2">
+          </PeriodButton>
+          <PeriodButton
+            period="month"
+            setPeriod={setPeriod}
+            current={request.query.period}
+          >
             <span data-text="Last 30 days">Last 30 days</span>
-          </div>
-          <div className="c-tab-2">
+          </PeriodButton>
+          <PeriodButton
+            period="year"
+            setPeriod={setPeriod}
+            current={request.query.period}
+          >
             <span data-text="Last year">Last year</span>
-          </div>
-          <div className="c-tab-2">
+          </PeriodButton>
+          <PeriodButton
+            period={undefined}
+            setPeriod={setPeriod}
+            current={request.query.period}
+          >
             <span data-text="All time">All time</span>
-          </div>
+          </PeriodButton>
         </div>
         {/* <TrackSwitcher size="small"></TrackSwitcher> */}
         <div className="c-select">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_29_174905) do
+ActiveRecord::Schema.define(version: 2021_06_02_215538) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -378,7 +378,7 @@ ActiveRecord::Schema.define(version: 2021_05_29_174905) do
     t.string "git_sha", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.string "iteration_status"
-    t.datetime "last_submitted_at"
+    t.datetime "last_iterated_at"
     t.integer "num_iterations", limit: 1, default: 0, null: false
     t.string "snippet", limit: 1500
     t.datetime "downloaded_at"

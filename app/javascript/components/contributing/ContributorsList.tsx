@@ -121,32 +121,32 @@ export const ContributorsList = ({
         </div>
       </div>
 
-      <div className="contributors">
-        <ResultsZone isFetching={isFetching}>
-          <FetchingBoundary
-            status={status}
-            error={error}
-            defaultError={DEFAULT_ERROR}
-          >
-            {resolvedData ? (
-              <React.Fragment>
+      <ResultsZone isFetching={isFetching}>
+        <FetchingBoundary
+          status={status}
+          error={error}
+          defaultError={DEFAULT_ERROR}
+        >
+          {resolvedData ? (
+            <>
+              <div className="contributors">
                 {resolvedData.results.map((contributor) => (
                   <ContributorRow
                     contributor={contributor}
                     key={contributor.handle}
                   />
                 ))}
-                <Pagination
-                  disabled={latestData === undefined}
-                  current={request.query.page}
-                  total={resolvedData.meta.totalPages}
-                  setPage={setPage}
-                />
-              </React.Fragment>
-            ) : null}
-          </FetchingBoundary>
-        </ResultsZone>
-      </div>
+              </div>
+              <Pagination
+                disabled={latestData === undefined}
+                current={request.query.page}
+                total={resolvedData.meta.totalPages}
+                setPage={setPage}
+              />
+            </>
+          ) : null}
+        </FetchingBoundary>
+      </ResultsZone>
     </div>
   )
 }

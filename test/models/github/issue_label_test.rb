@@ -50,4 +50,12 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
   test "for_type unknown" do
     assert_nil Github::IssueLabel.for_type(:unknown)
   end
+
+  test "for_status claimed" do
+    assert_equal "x:status/claimed", Github::IssueLabel.for_status(:claimed)
+  end
+
+  test "for_status unknown" do
+    assert_nil Github::IssueLabel.for_status(:unknown)
+  end
 end

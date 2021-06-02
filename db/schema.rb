@@ -189,7 +189,9 @@ ActiveRecord::Schema.define(version: 2021_06_03_212112) do
     t.datetime "opened_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "track_id"
     t.index ["node_id"], name: "index_github_issues_on_node_id", unique: true
+    t.index ["track_id"], name: "index_github_issues_on_track_id"
   end
 
   create_table "github_organization_members", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -687,6 +689,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_212112) do
   add_foreign_key "exercise_taught_concepts", "track_concepts"
   add_foreign_key "exercises", "tracks"
   add_foreign_key "github_issue_labels", "github_issues"
+  add_foreign_key "github_issues", "tracks"
   add_foreign_key "github_pull_request_reviews", "github_pull_requests"
   add_foreign_key "iterations", "solutions"
   add_foreign_key "iterations", "submissions"

@@ -53,7 +53,7 @@ module Github
       define_method "filter_#{normalized_label}!" do
         return if send(label).blank?
 
-        @issues = @issues.with_label(Github::IssueLabel.send("for_#{normalized_label}", send(label)))
+        @issues = @issues.with_label(Github::IssueLabel.for_type(normalized_label.to_sym, send(label)))
       end
     end
 

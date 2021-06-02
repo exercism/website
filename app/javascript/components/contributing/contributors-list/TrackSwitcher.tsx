@@ -7,7 +7,7 @@ const TrackLogo = ({ track }: { track: Track }) => {
   return track.id ? (
     <TrackIcon iconUrl={track.iconUrl} title={track.title} />
   ) : (
-    <GraphicalIcon icon="all-tracks" />
+    <GraphicalIcon icon="all-tracks" className="all" />
   )
 }
 

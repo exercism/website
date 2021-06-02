@@ -15,6 +15,10 @@
                 @apply text-h6;
             }
         }
+        & label.c-radio-wrapper .row {
+            @apply px-16;
+            min-width: 0;
+        }
     }
     & .current-track {
         @apply py-12 px-24;

@@ -12,6 +12,13 @@ import { Pagination } from '../common'
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
 export type Period = 'week' | 'month' | 'year' | undefined
+type Category =
+  | 'building'
+  | 'maintaining'
+  | 'authoring'
+  | 'mentoring'
+  | 'publishing'
+  | undefined
 
 export const ContributorsList = ({
   request: initialRequest,
@@ -38,6 +45,13 @@ export const ContributorsList = ({
   const setPeriod = useCallback(
     (period: Period) => {
       setQuery({ ...request.query, period: period })
+    },
+    [request.query, setQuery]
+  )
+
+  const setCategory = useCallback(
+    (category: Category) => {
+      setQuery({ ...request.query, category: category })
     },
     [request.query, setQuery]
   )
@@ -77,8 +91,16 @@ export const ContributorsList = ({
         </div>
         {/* <TrackSwitcher size="small"></TrackSwitcher> */}
         <div className="c-select">
-          <select>
-            <option>Select a category....</option>
+          <select
+            value={request.query.category || ''}
+            onChange={(e) => {
+              const value =
+                e.target.value === '' ? undefined : (e.target.value as Category)
+
+              setCategory(value)
+            }}
+          >
+            <option value="">Select a category....</option>
             <option value="building">Building</option>
             <option value="maintaining">Maintaining</option>
             <option value="authoring">Authoring</option>

@@ -38,6 +38,24 @@ module Flows
           assert_text "1 PR created"
         end
       end
+
+      test "user filters by category" do
+        create :user
+        contributor = create :user, handle: "contributor"
+        building_token = create :user_reputation_token, user: contributor, value: 10, earned_on: Time.zone.today
+        User::ReputationPeriod::MarkForNewToken.(building_token)
+        maintaining_token = create :user_code_merge_reputation_token, user: contributor, value: 10, earned_on: 2.months.ago
+        User::ReputationPeriod::MarkForNewToken.(maintaining_token)
+        User::ReputationPeriod::Sweep.()
+
+        use_capybara_host do
+          visit contributing_contributors_path
+          select "Maintaining"
+
+          assert_text "1 PR merged"
+          assert_no_text "1 PR created"
+        end
+      end
     end
   end
 end

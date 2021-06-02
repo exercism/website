@@ -11,9 +11,14 @@ module ReactComponents
 
       def to_s
         super(
-          "contributors-list",
+          "contributing-contributors-list",
           {
-            initial_data: initial_data
+            request: {
+              endpoint: Exercism::Routes.api_contributors_url,
+              options: {
+                initial_data: initial_data
+              }
+            }
           }
         )
       end

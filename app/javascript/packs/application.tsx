@@ -238,6 +238,7 @@ import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
 import * as CommunitySolutions from '../components/community-solutions'
+import * as Contributing from '../components/contributing'
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
@@ -330,6 +331,11 @@ initReact({
   ),
   'common-share-solution-button': (data: any) => (
     <Common.ShareSolutionButton title={data.title} links={data.links} />
+  ),
+  'contributing-contributors-list': (data: any) => (
+    <Contributing.ContributorsList
+      request={camelizeKeysAs<Request>(data.request)}
+    />
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox

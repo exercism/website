@@ -9,6 +9,8 @@ class Github::Issue < ApplicationRecord
     class_name: "Github::IssueLabel",
     foreign_key: "github_issue_id"
 
+  belongs_to :track, optional: true
+
   scope :with_label, lambda { |label|
     where(
       id: Github::IssueLabel.
@@ -25,12 +27,19 @@ class Github::Issue < ApplicationRecord
     )
   }
 
+  before_validation on: :create do
+    update_track unless track
+  end
+
+  before_validation :update_track, on: :update
+
   def status
     super.to_sym
   end
 
-  memoize
-  def track
-    Track.find_by(slug: repo.split('/').second)
+  private
+  def update_track
+    normalized_repo = repo.gsub(/-(test-runner|analyzer|representer)$/, '')
+    self.track_id = Track.where(repo_url: "https://github.com/#{normalized_repo}").pick(:id)
   end
 end

@@ -45,8 +45,8 @@ class Github::IssueTest < ActiveSupport::TestCase
   end
 
   test "track for track repo" do
-    track = create :track, slug: 'fsharp'
-    issue = create :github_issue, repo: 'exercism/fsharp'
+    track = create :track, slug: 'fsharp', repo_url: 'https://github.com/exercism/fsharp'
+    issue = create :github_issue, repo: 'exercism/fsharp', track: nil
 
     assert_equal track, issue.track
   end
@@ -55,5 +55,25 @@ class Github::IssueTest < ActiveSupport::TestCase
     issue = create :github_issue, repo: 'exercism/configlet'
 
     assert_nil issue.track
+  end
+
+  test "track is already specified" do
+    track = create :track, slug: 'csharp'
+    issue = create :github_issue, repo: 'exercism/fsharp', track: track
+
+    assert_equal track, issue.track
+  end
+
+  test "track is updated when repo updates" do
+    track_1 = create :track, slug: 'fsharp', repo_url: 'https://github.com/exercism/fsharp'
+    track_2 = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+    issue = create :github_issue, repo: 'exercism/fsharp', track: track_1
+
+    # Sanity check
+    assert_equal track_1, issue.track
+
+    issue.update(repo: 'exercism/ruby')
+
+    assert_equal track_2, issue.track
   end
 end

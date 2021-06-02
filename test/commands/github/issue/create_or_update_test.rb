@@ -123,4 +123,87 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
 
     assert_empty issue.reload.labels
   end
+
+  test "linked to track if repo is track repo" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/ruby",
+      labels: [],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte"
+    )
+
+    assert_equal track, issue.track
+  end
+
+  test "linked to track if repo is track test runner repo" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/ruby-test-runner",
+      labels: [],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte"
+    )
+
+    assert_equal track, issue.track
+  end
+
+  test "linked to track if repo is track analyzer repo" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/ruby-analyzer",
+      labels: [],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte"
+    )
+
+    assert_equal track, issue.track
+  end
+
+  test "linked to track if repo is track representer repo" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/ruby-representer",
+      labels: [],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte"
+    )
+
+    assert_equal track, issue.track
+  end
+
+  test "not linked to track if repo is not track repo" do
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/configlet",
+      labels: [],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte"
+    )
+
+    assert_nil issue.track
+  end
 end

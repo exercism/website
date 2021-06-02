@@ -8,13 +8,15 @@ module Github
       20
     end
 
-    def initialize(action: nil, knowledge: nil, area: nil, size: nil, type: nil, repo_url: nil, order: nil, page: 1)
+    def initialize(action: nil, knowledge: nil, area: nil, size: nil, type: nil, repo_url: nil,
+                   track_id: nil, order: nil, page: 1)
       @action = action
       @knowledge = knowledge
       @area = area
       @size = size
       @type = type
       @repo_url = repo_url
+      @track_id = track_id
       @order = order
       @page = page
     end
@@ -22,6 +24,7 @@ module Github
     def call
       @issues = Github::Issue
 
+      filter_track!
       filter_repo!
       filter_unclaimed!
       filter_action!
@@ -35,7 +38,7 @@ module Github
     end
 
     private
-    attr_reader :action, :knowledge, :area, :size, :type, :repo_url, :order, :page, :issues
+    attr_reader :track_id, :action, :knowledge, :area, :size, :type, :repo_url, :order, :page, :issues
 
     def filter_repo!
       return if repo_url.blank?
@@ -45,6 +48,12 @@ module Github
 
     def filter_unclaimed!
       @issues = @issues.without_label('x:status/claimed')
+    end
+
+    def filter_track!
+      return if track_id.blank?
+
+      @issues = @issues.where(track_id: track_id)
     end
 
     %w[action knowledge area size type].each do |label|

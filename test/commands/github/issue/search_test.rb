@@ -42,6 +42,20 @@ class Github::Issue::SearchTest < ActiveSupport::TestCase
     assert_equal 25, second_page.total_count
   end
 
+  test "filters track correctly" do
+    track_1 = create :track, slug: 'fsharp'
+    track_2 = create :track, slug: 'ruby'
+
+    issue_1 = create :github_issue, :random, opened_at: 4.weeks.ago, track: track_1
+    issue_2 = create :github_issue, :random, opened_at: 1.week.ago, track: track_1
+
+    # Add issues with other track to ensure they are not counted
+    create :github_issue, :random, opened_at: 2.weeks.ago, track: track_2
+    create :github_issue, :random, opened_at: 2.weeks.ago, track: track_2
+
+    assert_equal [issue_2, issue_1], Github::Issue::Search.(track_id: track_1.id)
+  end
+
   test "filters action correctly" do
     issue_1 = create :github_issue, :random, opened_at: 2.weeks.ago
     issue_2 = create :github_issue, :random, opened_at: 4.weeks.ago

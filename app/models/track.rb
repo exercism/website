@@ -42,31 +42,32 @@ class Track < ApplicationRecord
     git.has_concept_exercises?
   end
 
-  # TODO: Read this from a cache and update periodically
+  memoize
   def num_contributors
-    User::ReputationToken.where(track_id: id).distinct.select(:user_id).count
+    User::ReputationPeriod.where(
+      period: :forever,
+      category: :any,
+      about: :track,
+      track_id: id
+    ).count
   end
 
+  memoize
   def top_10_contributors
-    user_ids = User::ReputationToken.where(track_id: id).
-      group(:user_id).
-      select("user_id, COUNT(*) as c").
-      order("c DESC").
-      limit(10).map(&:user_id)
-
-    User.where(id: user_ids).
-      order(Arel.sql("FIND_IN_SET(id, '#{user_ids.join(',')}')")).
-      to_a
+    User::ReputationPeriod::Search.(track_id: id)[0, 10]
   end
 
+  memoize
   def num_code_contributors
-    User::ReputationToken.
-      where(track_id: id, type: User::ReputationTokens::CodeContributionToken).
-      select(:user_id).
-      distinct.
-      count
+    User::ReputationPeriod.where(
+      period: :forever,
+      category: :building,
+      about: :track,
+      track_id: id
+    ).count
   end
 
+  memoize
   def num_mentors
     User::TrackMentorship.
       where(track_id: id).

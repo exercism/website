@@ -65,10 +65,13 @@ class TrackTest < ActiveSupport::TestCase
     user_3 = create :user
     track = create :track
 
-    create :user_code_contribution_reputation_token, track: track, user: user_1
-    create :user_code_contribution_reputation_token, track: track, user: user_2
-    create :user_code_contribution_reputation_token, track: track, user: user_2
-    create :user_code_contribution_reputation_token, user: user_3
+    create :user_reputation_period, about: :track, track_id: track.id, user: user_1, reputation: 10
+    create :user_reputation_period, about: :track, track_id: track.id, user: user_2, reputation: 20
+
+    # Other inconsequential rows
+    create :user_reputation_period, about: :track, period: :year, track_id: track.id, user: user_3, reputation: 20
+    create :user_reputation_period, about: :everything, user: user_3, reputation: 20
+    create :user_reputation_period, about: :track, track_id: track.id + 1, user: user_3, reputation: 20
 
     assert_equal [user_2, user_1], track.top_10_contributors
   end
@@ -79,10 +82,13 @@ class TrackTest < ActiveSupport::TestCase
     user_3 = create :user
     track = create :track
 
-    create :user_code_contribution_reputation_token, track: track, user: user_1
-    create :user_code_contribution_reputation_token, track: track, user: user_2
-    create :user_code_contribution_reputation_token, track: track, user: user_2
-    create :user_code_contribution_reputation_token, user: user_3
+    create :user_reputation_period, about: :track, track_id: track.id, user: user_1, reputation: 10
+    create :user_reputation_period, about: :track, track_id: track.id, user: user_2, reputation: 20
+
+    # Other inconsequential rows
+    create :user_reputation_period, about: :track, period: :year, track_id: track.id, user: user_3, reputation: 20
+    create :user_reputation_period, about: :everything, user: user_3, reputation: 20
+    create :user_reputation_period, about: :track, track_id: track.id + 1, user: user_3, reputation: 20
 
     assert_equal 2, track.num_contributors
   end
@@ -93,13 +99,15 @@ class TrackTest < ActiveSupport::TestCase
     user_3 = create :user
     track = create :track
 
-    create :user_code_contribution_reputation_token, track: track, user: user_1
-    create :user_code_merge_reputation_token, track: track, user: user_2
-    create :user_code_contribution_reputation_token, track: track, user: user_2
-    create :user_code_review_reputation_token, track: track, user: user_3
-    create :user_exercise_contribution_reputation_token, track: track, user: user_3
-    create :user_exercise_author_reputation_token, track: track, user: user_3
-    create :user_code_contribution_reputation_token, user: user_3
+    create :user_reputation_period, category: :building, about: :track, track_id: track.id, user: user_1, reputation: 10
+    create :user_reputation_period, category: :building, about: :track, track_id: track.id, user: user_2, reputation: 20
+
+    # Other inconsequential rows
+    create :user_reputation_period, category: :any, about: :track, track_id: track.id, user: user_3, reputation: 30
+    create :user_reputation_period, category: :maintaining, about: :track, track_id: track.id, user: user_3, reputation: 30
+    create :user_reputation_period, about: :track, period: :year, track_id: track.id, user: user_3, reputation: 20
+    create :user_reputation_period, about: :everything, user: user_3, reputation: 20
+    create :user_reputation_period, about: :track, track_id: track.id + 1, user: user_3, reputation: 20
 
     assert_equal 2, track.num_code_contributors
   end

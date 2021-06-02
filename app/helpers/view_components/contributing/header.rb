@@ -71,7 +71,7 @@ module ViewComponents
           end,
 
           link_to(
-            Exercism::Routes.contributing_contributors_path,
+            Exercism::Routes.contributing_contributors_path(period: :week),
             class: tab_class(:contributors)
           ) do
             graphical_icon(:contributors) +

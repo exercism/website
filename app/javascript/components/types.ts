@@ -394,3 +394,14 @@ export type MentoredTrack = {
     exercises: string
   }
 }
+
+export type Contributor = {
+  rank: number
+  avatarUrl: string
+  handle: string
+  activity: string
+  reputation: string
+  links: {
+    profile: string
+  }
+}

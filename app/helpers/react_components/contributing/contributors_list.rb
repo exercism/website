@@ -11,13 +11,26 @@ module ReactComponents
 
       def to_s
         super(
-          "contributors-list",
+          "contributing-contributors-list",
           {
-            initial_data: initial_data
+            request: {
+              endpoint: Exercism::Routes.api_contributors_url,
+              options: {
+                initial_data: initial_data
+              }
+            },
+            tracks: [
+              {
+                id: nil,
+                title: "All",
+                icon_url: "ICON"
+              }
+            ].concat(tracks.map { |track| data_for_track(track) })
           }
         )
       end
 
+      private
       def initial_data
         users = User::ReputationPeriod::Search.()
         contextual_data = User::ReputationToken::CalculateContextualData.(users.map(&:id))
@@ -29,6 +42,18 @@ module ReactComponents
             contextual_data: contextual_data
           }
         )
+      end
+
+      def data_for_track(track)
+        {
+          id: track.slug,
+          title: track.title,
+          icon_url: track.icon_url
+        }
+      end
+
+      def tracks
+        ::Track.all
       end
     end
   end

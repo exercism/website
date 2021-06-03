@@ -78,6 +78,7 @@ export const useMentoringQueue = ({
       ...request,
       query: debouncedQuery,
       options: {
+        ...request.options,
         enabled: !!track,
       },
     },

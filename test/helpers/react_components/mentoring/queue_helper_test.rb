@@ -29,12 +29,12 @@ class MentoringQueueTest < ReactComponentTestCase
     create :concept_solution, user: user, exercise: fred
     create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
 
-    component = ReactComponents::Mentoring::Queue.new(
-      user,
+    params = {
       criteria: "bo",
       track_slug: "csharp",
       exercise_slug: "bob"
-    )
+    }
+    component = ReactComponents::Mentoring::Queue.new(user, params)
 
     assert_component component,
       "mentoring-queue",
@@ -45,6 +45,9 @@ class MentoringQueueTest < ReactComponentTestCase
             criteria: "bo",
             track_slug: "csharp",
             exercise_slug: "bob"
+          },
+          options: {
+            initial_data: AssembleMentorRequests.(params, user)
           }
         },
         tracks_request: {

@@ -10,35 +10,22 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
   test "index proxies correctly" do
     user = create :user
     setup_user(user)
-    page = 15
-    track_slug = "ruby"
-    exercise_slug = "bob"
 
-    ::Mentor::Request::Retrieve.expects(:call).with(
-      mentor: user,
-      page: page,
-      track_slug: track_slug,
-      exercise_slug: exercise_slug,
-      sorted: false,
-      paginated: false
-    ).returns(mock(count: 200))
-
-    Mentor::Request::Retrieve.expects(:call).with(
-      mentor: user,
-      page: page,
+    params = {
+      page: 15,
       criteria: "Ruby",
       order: "recent",
-      track_slug: track_slug,
-      exercise_slug: exercise_slug
-    ).returns(Mentor::Request.page(1).per(1))
+      track_slug: 'ruby',
+      exercise_slug: 'bob'
+    }
+    expected = { 'foo' => 'bar' }
 
-    get api_mentoring_requests_path, params: {
-      page: page,
-      criteria: "Ruby",
-      order: "recent",
-      track_slug: track_slug,
-      exercise_slug: exercise_slug
-    }, headers: @headers, as: :json
+    AssembleMentorRequests.expects(:call).returns(expected).with do |actual_params, actual_user|
+      assert params, actual_params
+      assert_equal user, actual_user
+    end
+
+    get api_mentoring_requests_path, params: params, headers: @headers, as: :json
   end
 
   test "index retrieves requests" do
@@ -48,15 +35,11 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     mentored_track = create :track
     create :user_track_mentorship, user: user, track: mentored_track
     solution = create :concept_solution, track: mentored_track
-    request = create :mentor_request, created_at: Time.current - 2.minutes, solution: solution
     50.times { create :mentor_request, solution: solution }
 
     get api_mentoring_requests_path, headers: @headers, as: :json
     assert_response 200
-
-    # TODO: Check JSON
-    assert_equal 51, JSON.parse(response.body)['meta']['unscoped_total']
-    assert_includes response.body, request.uuid
+    assert_includes AssembleMentorRequests.({}, user).to_json, response.body
   end
 
   test "index updates last_viewed" do

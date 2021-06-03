@@ -15,6 +15,7 @@ module ReactComponents
           {
             request: {
               endpoint: Exercism::Routes.api_contributors_url,
+              query: query,
               options: {
                 initial_data: initial_data
               }
@@ -31,17 +32,21 @@ module ReactComponents
       end
 
       private
+      attr_reader :params
+
+      memoize
       def initial_data
-        users = User::ReputationPeriod::Search.()
-        contextual_data = User::ReputationToken::CalculateContextualData.(users.map(&:id))
-        SerializePaginatedCollection.(
-          users,
-          serializer: SerializeContributors,
-          serializer_kwargs: {
-            starting_rank: 1,
-            contextual_data: contextual_data
-          }
-        )
+        AssembleContributors.(params)
+      end
+
+      memoize
+      def query
+        q = {}
+        q[:page] = initial_data[:meta][:current_page]
+        q[:period] = params[:period] if params[:period].present?
+        q[:track] = params[:track] if params[:track].present?
+        q[:category] = params[:category] if params[:category].present?
+        q
       end
 
       def data_for_track(track)
@@ -53,7 +58,7 @@ module ReactComponents
       end
 
       def tracks
-        ::Track.all
+        ::Track.active
       end
     end
   end

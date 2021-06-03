@@ -71,7 +71,10 @@ module ReactComponents
             page: params[:page],
             track_slug: default_track[:id],
             exercise_slug: default_exercise.try(:[], :slug)
-          }.compact
+          }.compact,
+          options: {
+            initial_data: AssembleMentorRequests.(params, mentor)
+          }
         }
       end
 

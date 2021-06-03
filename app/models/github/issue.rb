@@ -1,6 +1,4 @@
 class Github::Issue < ApplicationRecord
-  extend Mandate::Memoize
-
   enum status: { open: 0, closed: 1 }, _prefix: true
 
   has_many :labels,

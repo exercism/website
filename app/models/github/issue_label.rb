@@ -4,10 +4,6 @@ class Github::IssueLabel < ApplicationRecord
     foreign_key: "github_issue_id",
     class_name: "Github::Issue"
 
-  def self.type_prefix(type)
-    "x:#{type}"
-  end
-
   def self.for_type(type, val)
     return unless TYPES.include?(type)
     return unless TYPES[type].include?(val)
@@ -19,12 +15,12 @@ class Github::IssueLabel < ApplicationRecord
     name.start_with?(Github::IssueLabel.type_prefix(type))
   end
 
-  def prefix
-    name.split('/').first
-  end
-
   def value
     name.split('/').second.to_sym
+  end
+
+  def self.type_prefix(type)
+    "x:#{type}"
   end
 
   TYPES = {

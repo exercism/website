@@ -27,7 +27,7 @@ class Exercise
     end
 
     def sort!
-      @exercises = @exercises.order(:position)
+      @exercises = @exercises.order(:position).to_a
 
       return if !user_track || user_track.external?
 
@@ -42,7 +42,7 @@ class Exercise
         status = user_track.exercise_status(exercise).to_sym
         modifier = mapping.index(status)
 
-        "#{modifier}0000#{exercise.id}".to_i
+        "#{modifier}#{exercise.id.to_s.rjust(5, '0')}".to_i
       end
     end
 

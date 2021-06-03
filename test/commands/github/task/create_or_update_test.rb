@@ -1,209 +1,171 @@
 require "test_helper"
 
 class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
-  test "create issue with labels" do
-    issue = Github::Task::CreateOrUpdate.(
-      "MDU6SXNzdWU3MjM2MjUwMTI=",
-      number: 999,
-      title: "grep is failing on Windows",
-      state: "OPEN",
-      repo: "exercism/ruby",
-      labels: %w[bug good-first-issue],
+  test "create task" do
+    task = Github::Task::CreateOrUpdate.(
+      'https://github.com/exercism/ruby/issues/999',
+      title: 'Sync anagram',
+      repo: 'exercism/ruby',
       opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
-      opened_by_username: "SleeplessByte"
+      opened_by_username: "SleeplessByte",
+      action: :sync,
+      knowledge: :elementary,
+      area: :generator,
+      size: :s,
+      type: :content
     )
 
-    assert_equal "MDU6SXNzdWU3MjM2MjUwMTI=", issue.node_id
-    assert_equal 999, issue.number
-    assert_equal "grep is failing on Windows", issue.title
-    assert_equal "exercism/ruby", issue.repo
-    assert_equal :open, issue.status
-    assert_equal %w[bug good-first-issue], issue.labels.pluck(:name).sort
-    assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
-    assert_equal "SleeplessByte", issue.opened_by_username
+    assert_equal 'Sync anagram', task.title
+    assert_equal 'exercism/ruby', task.repo
+    assert_equal Time.parse("2020-10-17T02:39:37Z").utc, task.opened_at
+    assert_equal "SleeplessByte", task.opened_by_username
+    assert_equal :sync, task.action
+    assert_equal :elementary, task.knowledge
+    assert_equal :generator, task.area
+    assert_equal :s, task.size
+    assert_equal :content, task.type
   end
 
-  test "create issue without labels" do
-    issue = Github::Task::CreateOrUpdate.(
-      "MDU6SXNzdWU3MjM2MjUwMTI=",
-      number: 999,
-      title: "grep is failing on Windows",
-      state: "OPEN",
-      repo: "exercism/ruby",
-      labels: [],
-      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
-      opened_by_username: "SleeplessByte"
-    )
-
-    assert_equal "MDU6SXNzdWU3MjM2MjUwMTI=", issue.node_id
-    assert_equal 999, issue.number
-    assert_equal "grep is failing on Windows", issue.title
-    assert_equal "exercism/ruby", issue.repo
-    assert_equal :open, issue.status
-    assert_empty issue.labels
-    assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
-    assert_equal "SleeplessByte", issue.opened_by_username
-  end
-
-  test "create issue without author" do
-    issue = Github::Task::CreateOrUpdate.(
-      "MDU6SXNzdWU3MjM2MjUwMTI=",
-      number: 999,
-      title: "grep is failing on Windows",
-      state: "OPEN",
-      repo: "exercism/ruby",
-      labels: [],
-      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
-      opened_by_username: nil
-    )
-
-    assert_equal "MDU6SXNzdWU3MjM2MjUwMTI=", issue.node_id
-    assert_equal 999, issue.number
-    assert_equal "grep is failing on Windows", issue.title
-    assert_equal "exercism/ruby", issue.repo
-    assert_equal :open, issue.status
-    assert_empty issue.labels
-    assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
-    assert issue.opened_by_username.nil?
-  end
-
-  test "update issue if data has changed" do
-    issue = create :github_issue
+  test "update task if data has changed" do
+    task = create :github_task
 
     Github::Task::CreateOrUpdate.(
-      issue.node_id,
-      number: issue.number,
-      title: "grep is unsuccessful on Windows",
-      state: issue.status.to_s.upcase,
-      repo: issue.repo,
-      labels: %w[bug good-first-issue help-wanted],
-      opened_at: issue.opened_at,
-      opened_by_username: issue.opened_by_username
+      task.issue_url,
+      title: 'Sync anagram',
+      repo: 'exercism/ruby',
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte",
+      action: :sync,
+      knowledge: :elementary,
+      area: :generator,
+      size: :s,
+      type: :content
     )
 
-    issue.reload
-    assert_equal "grep is unsuccessful on Windows", issue.title
-    assert_equal %w[bug good-first-issue help-wanted], issue.labels.pluck(:name).sort
+    task.reload
+    assert_equal 'Sync anagram', task.title
+    assert_equal 'exercism/ruby', task.repo
+    assert_equal Time.parse("2020-10-17T02:39:37Z").utc, task.opened_at
+    assert_equal "SleeplessByte", task.opened_by_username
+    assert_equal :sync, task.action
+    assert_equal :elementary, task.knowledge
+    assert_equal :generator, task.area
+    assert_equal :s, task.size
+    assert_equal :content, task.type
   end
 
-  test "does not update pull request if data has not changed" do
+  test "does not update task if data has not changed" do
     freeze_time do
-      issue = create :github_issue
-      updated_at_before_call = issue.updated_at
+      task = create :github_task
+      updated_at_before_call = task.updated_at
 
       Github::Task::CreateOrUpdate.(
-        issue.node_id,
-        number: issue.number,
-        title: issue.title,
-        state: issue.status.to_s.upcase,
-        repo: issue.repo,
-        labels: issue.labels.pluck(:name),
-        opened_at: issue.opened_at,
-        opened_by_username: issue.opened_by_username
+        task.issue_url,
+        title: task.title,
+        repo: task.repo,
+        opened_at: task.opened_at,
+        opened_by_username: task.opened_by_username,
+        action: task.action,
+        knowledge: task.knowledge,
+        area: task.area,
+        size: task.size,
+        type: task.type
       )
 
-      assert_equal updated_at_before_call, issue.reload.updated_at
+      assert_equal updated_at_before_call, task.reload.updated_at
     end
   end
 
-  test "removes labels if no longer present" do
-    issue = create :github_issue
-    create :github_issue_label, issue: issue
-
-    Github::Task::CreateOrUpdate.(
-      issue.node_id,
-      number: issue.number,
-      title: issue.title,
-      state: issue.status.to_s.upcase,
-      repo: issue.repo,
-      labels: [],
-      opened_at: issue.opened_at,
-      opened_by_username: issue.opened_by_username
-    )
-
-    assert_empty issue.reload.labels
-  end
-
-  test "linked to track if repo is track repo" do
+  test "linked to track if issue repo is track repo" do
     track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
 
-    issue = Github::Task::CreateOrUpdate.(
-      "MDU6SXNzdWU3MjM2MjUwMTI=",
-      number: 999,
-      title: "grep is failing on Windows",
-      state: "OPEN",
-      repo: "exercism/ruby",
-      labels: [],
+    task = Github::Task::CreateOrUpdate.(
+      'https://github.com/exercism/ruby/issues/999',
+      title: 'Sync anagram',
+      repo: 'exercism/ruby',
       opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
-      opened_by_username: "SleeplessByte"
+      opened_by_username: "SleeplessByte",
+      action: :sync,
+      knowledge: :elementary,
+      area: :generator,
+      size: :s,
+      type: :content
     )
 
-    assert_equal track, issue.track
+    assert_equal track, task.track
   end
 
-  test "linked to track if repo is track test runner repo" do
+  test "linked to track if issue repo is track test runner repo" do
     track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
 
-    issue = Github::Task::CreateOrUpdate.(
-      "MDU6SXNzdWU3MjM2MjUwMTI=",
-      number: 999,
-      title: "grep is failing on Windows",
-      state: "OPEN",
-      repo: "exercism/ruby-test-runner",
-      labels: [],
+    task = Github::Task::CreateOrUpdate.(
+      'https://github.com/exercism/ruby/issues/999',
+      title: 'Sync anagram',
+      repo: 'exercism/ruby-test-runner',
       opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
-      opened_by_username: "SleeplessByte"
+      opened_by_username: "SleeplessByte",
+      action: :sync,
+      knowledge: :elementary,
+      area: :generator,
+      size: :s,
+      type: :content
     )
 
-    assert_equal track, issue.track
+    assert_equal track, task.track
   end
 
-  test "linked to track if repo is track analyzer repo" do
+  test "linked to track if issue repo is track analyzer repo" do
     track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
 
-    issue = Github::Task::CreateOrUpdate.(
-      "MDU6SXNzdWU3MjM2MjUwMTI=",
-      number: 999,
-      title: "grep is failing on Windows",
-      state: "OPEN",
-      repo: "exercism/ruby-analyzer",
-      labels: [],
+    task = Github::Task::CreateOrUpdate.(
+      'https://github.com/exercism/ruby/issues/999',
+      title: 'Sync anagram',
+      repo: 'exercism/ruby-analyzer',
       opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
-      opened_by_username: "SleeplessByte"
+      opened_by_username: "SleeplessByte",
+      action: :sync,
+      knowledge: :elementary,
+      area: :generator,
+      size: :s,
+      type: :content
     )
 
-    assert_equal track, issue.track
+    assert_equal track, task.track
   end
 
-  test "linked to track if repo is track representer repo" do
+  test "linked to track if issue repo is track representer repo" do
     track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
 
-    issue = Github::Task::CreateOrUpdate.(
-      "MDU6SXNzdWU3MjM2MjUwMTI=",
-      number: 999,
-      title: "grep is failing on Windows",
-      state: "OPEN",
-      repo: "exercism/ruby-representer",
-      labels: [],
+    task = Github::Task::CreateOrUpdate.(
+      'https://github.com/exercism/ruby/issues/999',
+      title: 'Sync anagram',
+      repo: 'exercism/ruby-representer',
       opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
-      opened_by_username: "SleeplessByte"
+      opened_by_username: "SleeplessByte",
+      action: :sync,
+      knowledge: :elementary,
+      area: :generator,
+      size: :s,
+      type: :content
     )
 
-    assert_equal track, issue.track
+    assert_equal track, task.track
   end
 
-  test "not linked to track if repo is not track repo" do
-    issue = Github::Task::CreateOrUpdate.(
-      "MDU6SXNzdWU3MjM2MjUwMTI=",
-      number: 999,
-      title: "grep is failing on Windows",
-      state: "OPEN",
-      repo: "exercism/configlet",
-      labels: [],
+  test "not linked to track if issue repo is not track repo" do
+    task = Github::Task::CreateOrUpdate.(
+      'https://github.com/exercism/ruby/issues/999',
+      title: 'Sync anagram',
+      repo: 'exercism/configlet',
       opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
-      opened_by_username: "SleeplessByte"
+      opened_by_username: "SleeplessByte",
+      action: :sync,
+      knowledge: :elementary,
+      area: :generator,
+      size: :s,
+      type: :content
     )
 
-    assert_nil issue.track
+    assert_nil task.track
   end
 end

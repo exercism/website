@@ -160,15 +160,15 @@ export const DiscussionPostList = ({
   }, [iterationsToShow, registerEntry])
 
   useEffect(() => {
-    const lastSeenIteration = [...intersectionStatus]
-      .filter((s) => s.isIntersecting)
-      .pop()
+    const intersectingIteration = intersectionStatus.filter(
+      (s) => s.isIntersecting
+    )[0]
 
-    if (!lastSeenIteration) {
+    if (!intersectingIteration) {
       return
     }
 
-    onIterationScroll(lastSeenIteration.iteration)
+    onIterationScroll(intersectingIteration.iteration)
   }, [intersectionStatus, onIterationScroll])
 
   if (status === 'loading') {

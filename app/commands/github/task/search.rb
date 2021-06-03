@@ -15,7 +15,7 @@ module Github
       @areas = areas
       @sizes = sizes
       @types = types
-      @repo_url = repo_url
+      @repo = repo_url
       @track_id = track_id
       @order = order
       @page = page
@@ -24,47 +24,21 @@ module Github
     def call
       @tasks = Github::Task
 
-      filter_track!
-      filter_repo!
-      filter_actions!
-      filter_knowledge!
-      filter_areas!
-      filter_sizes!
-      filter_types!
-
+      filter!
       sort!
       paginate!
+
+      @tasks
     end
 
     private
-    attr_reader :track_id, :actions, :knowledge, :areas, :sizes, :types, :repo_url, :order, :page, :tasks
+    attr_reader :track_id, :actions, :knowledge, :areas, :sizes, :types, :repo, :order, :page, :tasks
 
-    def filter_track!
-      @tasks = @tasks.where(track_id: track_id) if track_id.present?
-    end
-
-    def filter_repo!
-      @tasks = @tasks.where(repo: repo_url) if repo_url.present?
-    end
-
-    def filter_actions!
-      @tasks = @tasks.where(action: actions) if actions.present?
-    end
-
-    def filter_knowledge!
-      @tasks = @tasks.where(knowledge: knowledge) if knowledge.present?
-    end
-
-    def filter_areas!
-      @tasks = @tasks.where(area: areas) if areas.present?
-    end
-
-    def filter_sizes!
-      @tasks = @tasks.where(size: sizes) if sizes.present?
-    end
-
-    def filter_types!
-      @tasks = @tasks.where(type: types) if types.present?
+    def filter!
+      %i[track_id repo actions knowledge areas sizes types].each do |filter|
+        value = send(filter)
+        @tasks = @tasks.where(filter.to_s.singularize.to_sym => value) if value.present?
+      end
     end
 
     def sort!

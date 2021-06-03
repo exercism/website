@@ -1,6 +1,8 @@
 @import "../styles";
 
 #contributing-contributors {
+    @apply mb-80;
+
     & > .container {
         & .highlights {
             @apply grid grid-cols-2 gap-x-16;
@@ -60,7 +62,6 @@
     }
     & .contributors {
         @apply shadow-lg rounded-8 bg-backgroundColorA;
-        @apply mb-80;
         & .contributor {
             @apply px-24 py-8;
             @apply border-b-1 border-borderColor7;
@@ -93,6 +94,10 @@
                 width: 16px;
                 @apply ml-96;
             }
+        }
+        & .c-pagination {
+            @apply mt-32;
+            padding: 8px 24px;
         }
     }
 }

@@ -109,7 +109,7 @@ class Github::Issue::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'grep is failing on Windows', issues.first.title
     assert_equal :open, issues.first.status
     assert_equal 'exercism/ruby', issues.first.repo
-    assert_equal %w[bug good-first-issue], issues.first.labels.pluck(:label).sort
+    assert_equal %w[bug good-first-issue], issues.first.labels.pluck(:name).sort
     assert_equal Time.parse('2020-10-17T02:39:37Z').utc, issues.first.opened_at
     assert_equal 'SleeplessByte', issues.first.opened_by_username
 
@@ -118,7 +118,7 @@ class Github::Issue::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'Help out with V3', issues.second.title
     assert_equal :open, issues.second.status
     assert_equal 'exercism/ruby', issues.second.repo
-    assert_equal %w[good-first-issue help-wanted], issues.second.labels.pluck(:label).sort
+    assert_equal %w[good-first-issue help-wanted], issues.second.labels.pluck(:name).sort
     assert_equal Time.parse('2020-04-23T11:06:53Z').utc, issues.second.opened_at
     assert_equal 'ErikSchierboom', issues.second.opened_by_username
 
@@ -127,7 +127,7 @@ class Github::Issue::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'Add new exercise: Yacht', issues.third.title
     assert_equal :closed, issues.third.status
     assert_equal 'exercism/ruby', issues.third.repo
-    assert_empty issues.third.labels.pluck(:label)
+    assert_empty issues.third.labels.pluck(:name)
     assert_equal Time.parse('2019-12-20T12:32:47Z').utc, issues.third.opened_at
     assert_equal 'iHiD', issues.third.opened_by_username
   end
@@ -180,7 +180,7 @@ class Github::Issue::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'grep is failing on Windows', issue.title
     assert_equal :open, issue.status
     assert_equal 'exercism/ruby', issue.repo
-    assert_equal %w[bug good-first-issue], issue.labels.pluck(:label).sort
+    assert_equal %w[bug good-first-issue], issue.labels.pluck(:name).sort
     assert_equal Time.parse('2020-10-17T02:39:37Z').utc, issue.opened_at
     assert issue.opened_by_username.nil?
   end

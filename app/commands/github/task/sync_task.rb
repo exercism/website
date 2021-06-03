@@ -25,6 +25,7 @@ module Github
       def create_or_update_task
         Github::Task::CreateOrUpdate.(
           issue.github_url,
+          repo: issue.repo,
           title: issue.title,
           opened_at: issue.opened_at,
           opened_by_username: issue.opened_by_username,

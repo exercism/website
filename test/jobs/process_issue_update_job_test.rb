@@ -22,7 +22,7 @@ class ProcessIssueUpdateJobTest < ActiveJob::TestCase
       assert_equal "grep is failing on Windows", issue.title
       assert_equal "exercism/ruby", issue.repo
       assert_equal :open, issue.status
-      assert_equal %w[bug good-first-issue], issue.labels.pluck(:label)
+      assert_equal %w[bug good-first-issue], issue.labels.pluck(:name)
       assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
       assert_equal "SleeplessByte", issue.opened_by_username
     end
@@ -39,7 +39,7 @@ class ProcessIssueUpdateJobTest < ActiveJob::TestCase
       title: issue.title,
       state: "OPEN",
       repo: issue.repo,
-      labels: issue.labels.pluck(:label),
+      labels: issue.labels.pluck(:name),
       opened_at: issue.opened_at,
       opened_by_username: issue.opened_by_username
     )

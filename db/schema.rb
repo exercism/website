@@ -225,6 +225,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_212112) do
 
   create_table "github_tasks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "title", null: false
+    t.string "repo", null: false
     t.string "issue_url", null: false
     t.string "opened_by_username"
     t.datetime "opened_at", null: false

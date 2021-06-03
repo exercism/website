@@ -18,7 +18,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal "grep is failing on Windows", issue.title
     assert_equal "exercism/ruby", issue.repo
     assert_equal :open, issue.status
-    assert_equal %w[bug good-first-issue], issue.labels.pluck(:label).sort
+    assert_equal %w[bug good-first-issue], issue.labels.pluck(:name).sort
     assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
     assert_equal "SleeplessByte", issue.opened_by_username
   end
@@ -83,7 +83,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
 
     issue.reload
     assert_equal "grep is unsuccessful on Windows", issue.title
-    assert_equal %w[bug good-first-issue help-wanted], issue.labels.pluck(:label).sort
+    assert_equal %w[bug good-first-issue help-wanted], issue.labels.pluck(:name).sort
   end
 
   test "does not update pull request if data has not changed" do
@@ -97,7 +97,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
         title: issue.title,
         state: issue.status.to_s.upcase,
         repo: issue.repo,
-        labels: issue.labels.pluck(:label),
+        labels: issue.labels.pluck(:name),
         opened_at: issue.opened_at,
         opened_by_username: issue.opened_by_username
       )

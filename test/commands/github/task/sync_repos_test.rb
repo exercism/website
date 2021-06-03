@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Github::Issue::SyncReposTest < ActiveSupport::TestCase
+class Github::Task::SyncReposTest < ActiveSupport::TestCase
   test "syncs all repos" do
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/search/repositories?per_page=100&q=org:exercism%20is:public").

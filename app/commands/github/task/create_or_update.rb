@@ -8,6 +8,7 @@ module Github
       def call
         task = ::Github::Task.create_or_find_by!(issue_url: issue_url) do |t|
           t.title = attributes[:title]
+          t.repo = attributes[:repo]
           t.opened_at = attributes[:opened_at]
           t.opened_by_username = attributes[:opened_by_username]
           t.action = attributes[:action]
@@ -19,6 +20,7 @@ module Github
 
         task.update!(
           title: attributes[:title],
+          repo: attributes[:repo],
           opened_at: attributes[:opened_at],
           opened_by_username: attributes[:opened_by_username],
           action: attributes[:action],

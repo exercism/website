@@ -1,5 +1,5 @@
 module Github
-  class Issue::Search
+  class Task::Search
     include Mandate
 
     # Use class method rather than constant for
@@ -8,13 +8,13 @@ module Github
       20
     end
 
-    def initialize(action: nil, knowledge: nil, area: nil, size: nil, type: nil, repo_url: nil,
+    def initialize(actions: nil, knowledge: nil, areas: nil, sizes: nil, types: nil, repo_url: nil,
                    track_id: nil, order: nil, page: 1)
-      @action = action
+      @actions = actions
       @knowledge = knowledge
-      @area = area
-      @size = size
-      @type = type
+      @areas = areas
+      @sizes = sizes
+      @types = types
       @repo_url = repo_url
       @track_id = track_id
       @order = order
@@ -22,63 +22,64 @@ module Github
     end
 
     def call
-      @issues = Github::Issue
+      @tasks = Github::Task
 
       filter_track!
       filter_repo!
-      filter_unclaimed!
-      filter_action!
+      filter_actions!
       filter_knowledge!
-      filter_area!
-      filter_size!
-      filter_type!
+      filter_areas!
+      filter_sizes!
+      filter_types!
 
       sort!
       paginate!
     end
 
     private
-    attr_reader :track_id, :action, :knowledge, :area, :size, :type, :repo_url, :order, :page, :issues
-
-    def filter_repo!
-      return if repo_url.blank?
-
-      @issues = @issues.where(repo: repo_url)
-    end
-
-    def filter_unclaimed!
-      @issues = @issues.without_label('x:status/claimed')
-    end
+    attr_reader :track_id, :actions, :knowledge, :areas, :sizes, :types, :repo_url, :order, :page, :tasks
 
     def filter_track!
-      return if track_id.blank?
-
-      @issues = @issues.where(track_id: track_id)
+      @tasks = @tasks.where(track_id: track_id) if track_id.present?
     end
 
-    %w[action knowledge area size type].each do |label|
-      normalized_label = label.gsub('area', 'module')
+    def filter_repo!
+      @tasks = @tasks.where(repo: repo_url) if repo_url.present?
+    end
 
-      define_method "filter_#{label}!" do
-        return if send(label).blank?
+    def filter_actions!
+      @tasks = @tasks.where(action: actions) if actions.present?
+    end
 
-        @issues = @issues.with_label(Github::IssueLabel.for_type(normalized_label.to_sym, send(label)))
-      end
+    def filter_knowledge!
+      @tasks = @tasks.where(knowledge: knowledge) if knowledge.present?
+    end
+
+    def filter_areas!
+      @tasks = @tasks.where(area: areas) if areas.present?
+    end
+
+    def filter_sizes!
+      @tasks = @tasks.where(size: sizes) if sizes.present?
+    end
+
+    def filter_types!
+      @tasks = @tasks.where(type: types) if types.present?
     end
 
     def sort!
       case order
-      when :oldest
-        @issues = @issues.order(opened_at: :asc)
       when :track
-        @issues = @issues.order(repo: :asc)
+        @tasks = @tasks.includes(:track).order('tracks.slug ASC')
+      when :oldest
+        @tasks = @tasks.order(opened_at: :asc)
       else
-        @issues = @issues.order(opened_at: :desc)
+        @tasks = @tasks.order(opened_at: :desc)
       end
     end
 
     def paginate!
-      @issues = @issues.page(page).per(self.class.requests_per_page)
+      @tasks = @tasks.page(page).per(self.class.requests_per_page)
     end
   end
 end

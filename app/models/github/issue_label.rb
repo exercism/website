@@ -1,4 +1,6 @@
 class Github::IssueLabel < ApplicationRecord
+  extend Mandate::Memoize
+
   belongs_to :issue,
     inverse_of: :labels,
     foreign_key: "github_issue_id",
@@ -8,19 +10,20 @@ class Github::IssueLabel < ApplicationRecord
     return unless TYPES.include?(type)
     return unless TYPES[type].include?(val)
 
-    "#{type_prefix(type)}/#{val}"
+    "#{type_prefix(type)}#{val}"
   end
 
   def of_type?(type)
     name.start_with?(Github::IssueLabel.type_prefix(type))
   end
 
+  memoize
   def value
     name.split('/').second.to_sym
   end
 
   def self.type_prefix(type)
-    "x:#{type}"
+    "x:#{type}/"
   end
 
   TYPES = {

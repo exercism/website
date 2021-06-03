@@ -7,22 +7,23 @@ import { QueryStatus } from 'react-query'
 import { useDebounce } from '../../../hooks/use-debounce'
 import { useHistory } from '../../../hooks/use-history'
 
-type MentoringRequest = {
+export type MentoringRequest = {
   id: string
-  track_title: string
-  track_icon_url: string
-  exercise_title: string
-  student_handle: string
-  student_avatar_url: string
-  updated_at: string
+  trackTitle: string
+  trackIconUrl: string
+  exerciseTitle: string
+  exerciseIconUrl: string
+  studentHandle: string
+  studentAvatarUrl: string
+  updatedAt: string
   isFavorited: boolean
-  have_mentored_previously: boolean
+  haveMentoredPreviously: boolean
   status: string
-  tooltip_url: string
+  tooltipUrl: string
   url: string
 }
 
-type APIResponse = {
+export type APIResponse = {
   results: MentoringRequest[]
   meta: {
     currentPage: number

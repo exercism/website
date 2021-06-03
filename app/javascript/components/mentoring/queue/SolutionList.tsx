@@ -1,11 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Solution } from './Solution'
 import { Pagination } from '../../common/Pagination'
 import { FetchingBoundary } from '../../FetchingBoundary'
+import { APIResponse } from './useMentoringQueue'
+import { QueryStatus } from 'react-query'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
-export const SolutionList = ({ status, error, ...props }) => {
+type Props = {
+  resolvedData: APIResponse | undefined
+  latestData: APIResponse | undefined
+  page: number
+  setPage: (page: number) => void
+}
+
+export const SolutionList = ({
+  status,
+  error,
+  ...props
+}: { status: QueryStatus; error: unknown } & Props): JSX.Element => {
   return (
     <FetchingBoundary
       status={status}
@@ -17,18 +30,15 @@ export const SolutionList = ({ status, error, ...props }) => {
   )
 }
 
-function Component({ resolvedData, latestData, page, setPage }) {
+const Component = ({ resolvedData, latestData, page, setPage }: Props) => {
   return (
     <>
-      {resolvedData.results.length > 0 ? (
-        <>
+      {resolvedData && resolvedData.results.length > 0 ? (
+        <React.Fragment>
           <div className="--solutions">
             {resolvedData.results.length > 0
               ? resolvedData.results.map((solution, key) => (
-                  <Solution
-                    key={key}
-                    {...solution}
-                  />
+                  <Solution key={key} {...solution} />
                 ))
               : 'No discussions found'}
           </div>
@@ -40,7 +50,7 @@ function Component({ resolvedData, latestData, page, setPage }) {
               setPage={setPage}
             />
           </footer>
-        </>
+        </React.Fragment>
       ) : null}
     </>
   )

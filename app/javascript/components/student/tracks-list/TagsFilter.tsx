@@ -1,31 +1,50 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { TagOptionList } from './TagOptionList'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import pluralize from 'pluralize'
+import { TagOption } from '../TracksList'
 
-export function TagsFilter({ options, setTags, value, numTracks }) {
+export const TagsFilter = ({
+  options,
+  setTags,
+  value,
+  numTracks,
+}: {
+  options: readonly TagOption[]
+  setTags: (tags: string[]) => void
+  value: string
+  numTracks: number
+}): JSX.Element => {
   const [expanded, setExpanded] = useState(false)
-  const [selectedTags, setSelectedTags] = useState([])
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [hasExpandedEver, markAsExpanded] = useState(false)
 
-  const dialogRef = useRef(null)
-  const filterButtonRef = useRef(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const filterButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (expanded) {
+      if (!dialogRef.current) {
+        return
+      }
+
       dialogRef.current.focus()
       markAsExpanded(true)
     } else if (hasExpandedEver) {
+      if (!filterButtonRef.current) {
+        return
+      }
+
       filterButtonRef.current.focus()
     }
-  }, [expanded])
+  }, [expanded, hasExpandedEver])
 
   useEffect(() => {
     if (!expanded) {
       return
     }
 
-    const handleEscape = (e) => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') {
         return
       }
@@ -33,31 +52,22 @@ export function TagsFilter({ options, setTags, value, numTracks }) {
       e.stopPropagation()
       setExpanded(false)
     }
+
     document.addEventListener('keyup', handleEscape)
     return () => {
       document.removeEventListener('keyup', handleEscape)
     }
   }, [expanded])
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  const handleReset = useCallback(
+    (e) => {
+      e.preventDefault()
 
-    setTags(selectedTags)
-    setExpanded(false)
-  }
-
-  function handleClose(e) {
-    e.preventDefault()
-
-    setExpanded(false)
-  }
-
-  function resetFilters(e) {
-    e.preventDefault()
-
-    setSelectedTags([])
-    setTags([])
-  }
+      setSelectedTags([])
+      setTags([])
+    },
+    [setTags]
+  )
 
   return (
     <>
@@ -73,7 +83,7 @@ export function TagsFilter({ options, setTags, value, numTracks }) {
       </button>
       <div
         ref={dialogRef}
-        tabIndex="-1"
+        tabIndex={-1}
         role="dialog"
         aria-label="A series of checkboxes to filter Exercism tracks"
         className="--tag-option-list"
@@ -84,8 +94,11 @@ export function TagsFilter({ options, setTags, value, numTracks }) {
             selectedTags={selectedTags}
             options={options}
             setSelectedTags={setSelectedTags}
-            onSubmit={handleSubmit}
-            onClose={handleClose}
+            onSubmit={() => {
+              setTags(selectedTags)
+              setExpanded(false)
+            }}
+            onClose={() => setExpanded(false)}
           />
         </div>
       </div>
@@ -95,7 +108,7 @@ export function TagsFilter({ options, setTags, value, numTracks }) {
           {numTracks} {pluralize('track', numTracks)}
         </p>
         {value !== undefined && value.length > 0 ? (
-          <button onClick={resetFilters} className="--reset-btn">
+          <button onClick={handleReset} className="--reset-btn">
             <GraphicalIcon icon="reset" />
             Reset filters
           </button>

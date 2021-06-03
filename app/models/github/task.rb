@@ -56,7 +56,7 @@ class Github::Task < ApplicationRecord
 
   %i[action knowledge area size type].each do |type|
     define_method type do
-      super().to_sym
+      super()&.to_sym
     end
   end
 end

@@ -6,11 +6,9 @@ module Github
       initialize_with :issue
 
       def call
-        if closed? || claimed?
-          destroy_task
-        else
-          create_or_update_task
-        end
+        return destroy_task! if closed? || claimed?
+
+        create_or_update_task!
       end
 
       private
@@ -19,10 +17,10 @@ module Github
       end
 
       def claimed?
-        issue.labels.any? { |label| label.name == Github::IssueLabel.for_type(:status, :claimed) }
+        labels.any? { |label| label.name == Github::IssueLabel.for_type(:status, :claimed) }
       end
 
-      def create_or_update_task
+      def create_or_update_task!
         Github::Task::CreateOrUpdate.(
           issue.github_url,
           repo: issue.repo,
@@ -37,13 +35,17 @@ module Github
         )
       end
 
-      def destroy_task
+      def destroy_task!
         Github::Task::Destroy.(issue.github_url)
       end
 
       def find_label_of_type(type)
-        label = issue.labels.find { |l| l.of_type?(type) }
-        label&.value
+        labels.find { |l| l.of_type?(type) }&.value
+      end
+
+      memoize
+      def labels
+        issue.labels.to_a
       end
     end
   end

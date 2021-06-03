@@ -9,8 +9,6 @@ module Github
         rescue StandardError => e
           Rails.logger.error "Error syncing task for issue #{issue.repo}/#{issue.number}: #{e}"
         end
-
-        nil
       end
 
       private

@@ -9,6 +9,7 @@ class Webhooks::Issue0UpdatesControllerTest < Webhooks::BaseTestCase
           login: 'user22'
         },
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+        html_url: 'https://github.com/exercism/fsharp/issues/4',
         number: 4,
         title: 'Fix lint errors',
         state: 'open',
@@ -38,6 +39,7 @@ class Webhooks::Issue0UpdatesControllerTest < Webhooks::BaseTestCase
           login: 'user22'
         },
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+        html_url: 'https://github.com/exercism/fsharp/issues/4',
         number: 4,
         title: 'Fix lint errors',
         state: 'open',
@@ -64,6 +66,7 @@ class Webhooks::Issue0UpdatesControllerTest < Webhooks::BaseTestCase
           login: 'user22'
         },
         node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+        html_url: 'https://github.com/exercism/fsharp/issues/4',
         number: 4,
         title: 'Fix lint errors',
         state: 'open',

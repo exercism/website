@@ -11,6 +11,7 @@ module Webhooks
         number: params[:issue][:number],
         title: params[:issue][:title],
         state: params[:issue][:state],
+        html_url: params[:issue][:html_url],
         repo: params[:repository][:full_name],
         labels: params[:issue][:labels].map { |label| label[:name] },
         opened_at: params[:issue][:created_at].present? ? Time.parse(params[:issue][:created_at]).utc : nil,

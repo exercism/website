@@ -104,7 +104,6 @@ module API
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
-
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       user_track = UserTrack.for(current_user, solution.track)
@@ -144,6 +143,7 @@ module API
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
+      return render_solution_not_accessible unless solution.user_id == current_user.id
 
       render json: {
         diff: {
@@ -160,6 +160,7 @@ module API
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
+      return render_solution_not_accessible unless solution.user_id == current_user.id
 
       solution.sync_git!
       submission = solution.iterations.last&.submission

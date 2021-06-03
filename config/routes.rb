@@ -93,12 +93,13 @@ Rails.application.routes.draw do
 
       resources :solutions, only: %i[index show update] do
         member do
+          get :diff
+
           patch :complete
           patch :publish
           patch :unpublish
           patch :published_iteration
           patch :sync
-          get :diff
         end
 
         resources :submissions, only: %i[create], controller: "solutions/submissions" do

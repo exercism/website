@@ -115,7 +115,7 @@ export function Editor({
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
   const submissionFilesRef = useRef<File[]>(initialFiles)
   const [files] = useSaveFiles(storageKey, initialFiles, () => {
-    return editorRef.current?.getFiles() || []
+    return editorRef.current?.getFiles() || initialFiles
   })
   const [keybindings, setKeybindings] = useState<Keybindings>(
     Keybindings.DEFAULT

@@ -1,6 +1,12 @@
 import React from 'react'
 
-export function ProgressBar({ numExercises, numCompletedExercises }) {
+export const ProgressBar = ({
+  numExercises,
+  numCompletedExercises,
+}: {
+  numExercises: number
+  numCompletedExercises: number
+}): JSX.Element => {
   const completedPercentage = (numCompletedExercises / numExercises) * 100 + '%'
 
   return (

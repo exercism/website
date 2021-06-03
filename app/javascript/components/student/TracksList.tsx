@@ -1,22 +1,37 @@
 import React, { useCallback } from 'react'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
 import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
 import { useList } from '../../hooks/use-list'
-import { queryCache } from 'react-query'
+import { StudentTrack } from '../types'
 
-export function TracksList({ statusOptions, tagOptions, ...props }) {
+type APIResponse = {
+  tracks: StudentTrack[]
+}
+
+export type TagOption = {
+  category: string
+  options: {
+    value: string
+    label: string
+  }[]
+}
+
+export const TracksList = ({
+  tagOptions,
+  request: initialRequest,
+}: {
+  tagOptions: readonly TagOption[]
+  request: Request
+}): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setCriteria, setQuery } = useList(props.request)
+  const { request, setCriteria, setQuery } = useList(initialRequest)
   const CACHE_KEY = ['track-list', request.endpoint, request.query]
-  const {
-    resolvedData,
-    latestData,
-    isError,
-    isFetching,
-  } = usePaginatedRequestQuery(CACHE_KEY, request, isMountedRef)
+  const { resolvedData, isError, isFetching } = usePaginatedRequestQuery<
+    APIResponse
+  >(CACHE_KEY, request, isMountedRef)
 
   const setTags = useCallback(
     (tags) => {

@@ -1,7 +1,8 @@
 import React from 'react'
 import { Track } from './Track'
+import { StudentTrack } from '../../types'
 
-export function List({ data }) {
+export const List = ({ data }: { data: StudentTrack[] }): JSX.Element => {
   if (data.length === 0) {
     return <p>No results found</p>
   }

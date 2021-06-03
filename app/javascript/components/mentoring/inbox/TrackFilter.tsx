@@ -1,12 +1,20 @@
 import React from 'react'
 import { useIsMounted } from 'use-is-mounted'
-import { useRequestQuery } from '../../../hooks/request-query'
+import { useRequestQuery, Request } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'
-import { TrackList } from './TrackList'
+import { TrackList, Track } from './TrackList'
 
-export function TrackFilter({ request, value, setTrack }) {
+export const TrackFilter = ({
+  request,
+  value,
+  setTrack,
+}: {
+  request: Request
+  value: string | null
+  setTrack: (track: string | null) => void
+}): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { isLoading, isError, isSuccess, data: tracks } = useRequestQuery(
+  const { isLoading, isError, data: tracks } = useRequestQuery<Track[]>(
     'track-filter',
     request,
     isMountedRef
@@ -15,7 +23,7 @@ export function TrackFilter({ request, value, setTrack }) {
     <div className="c-track-filter">
       {isLoading && <Loading />}
       {isError && <p>Something went wrong</p>}
-      {isSuccess && (
+      {tracks && (
         <TrackList tracks={tracks} setTrack={setTrack} value={value} />
       )}
     </div>

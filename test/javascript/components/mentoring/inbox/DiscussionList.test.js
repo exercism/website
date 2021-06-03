@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { DiscussionList } from '../../../../../app/javascript/components/mentoring/inbox/DiscussionList.jsx'
+import { DiscussionList } from '../../../../../app/javascript/components/mentoring/inbox/DiscussionList'
 
 const server = setupServer(
   rest.get('https://exercism.test/conversations', (req, res, ctx) => {

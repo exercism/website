@@ -7,19 +7,7 @@ import { Avatar } from '../../common/Avatar'
 import { StudentTooltip } from '../../tooltips'
 import { LazyTippy } from '../../misc/LazyTippy'
 import { followCursor } from 'tippy.js'
-
-type SolutionProps = {
-  studentAvatarUrl: string
-  studentHandle: string
-  exerciseTitle: string
-  exerciseIconUrl: string
-  isFavorited: boolean
-  haveMentoredPreviously: boolean
-  status: string
-  updatedAt: string
-  url: string
-  tooltipUrl: string
-}
+import { MentoringRequest } from './useMentoringQueue'
 
 export const Solution = ({
   studentAvatarUrl,
@@ -32,7 +20,7 @@ export const Solution = ({
   updatedAt,
   url,
   tooltipUrl,
-}: SolutionProps): JSX.Element => {
+}: MentoringRequest): JSX.Element => {
   return (
     <LazyTippy
       animation="shift-away-subtle"

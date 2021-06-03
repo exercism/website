@@ -3,8 +3,9 @@ import { TrackIcon } from '../../common/TrackIcon'
 import { Icon } from '../../common/Icon'
 import { ProgressBar } from './ProgressBar'
 import { fromNow } from '../../../utils/time'
+import { StudentTrack } from '../../types'
 
-export function Track({ track }) {
+export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
   return (
     <a className="--track" href={track.webUrl}>
       <TrackIcon iconUrl={track.iconUrl} title={track.title} />

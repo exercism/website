@@ -1,6 +1,16 @@
 import React from 'react'
 
-export function TagOption({ value, label, checked, onChange }) {
+export const TagOption = ({
+  value,
+  label,
+  checked,
+  onChange,
+}: {
+  value: string
+  label: string
+  checked: boolean
+  onChange: (e: React.ChangeEvent<HTMLInputElement>, value: string) => void
+}): JSX.Element => {
   // TODO: ids shouldn't have : in them so parse it out
   const id = `tag-option-${value}`
   return (

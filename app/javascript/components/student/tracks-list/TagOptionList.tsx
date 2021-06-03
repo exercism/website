@@ -1,23 +1,50 @@
-import React, { useState } from 'react'
+import React, { useCallback } from 'react'
+import { TagOption as TagOptionProps } from '../TracksList'
 import { TagOption } from './TagOption'
 
-export function TagOptionList({
+export const TagOptionList = ({
   options,
   onSubmit,
   onClose,
   selectedTags,
   setSelectedTags,
-}) {
-  function handleChange(e, optionValue) {
-    if (event.target.checked) {
+}: {
+  options: readonly TagOptionProps[]
+  onSubmit: () => void
+  onClose: () => void
+  selectedTags: string[]
+  setSelectedTags: (tags: string[]) => void
+}): JSX.Element => {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    optionValue: string
+  ) {
+    if (e.target.checked) {
       setSelectedTags(selectedTags.concat(optionValue))
     } else {
       setSelectedTags(selectedTags.filter((v) => v !== optionValue))
     }
   }
 
+  const handleClose = useCallback(
+    (e) => {
+      e.preventDefault()
+      onClose()
+    },
+    [onClose]
+  )
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      onSubmit()
+    },
+    [onSubmit]
+  )
+
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit}>
       <div className="--categories">
         {options.map((option) => {
           return (
@@ -38,7 +65,7 @@ export function TagOptionList({
       </div>
       <footer className="--buttons">
         <button className="--apply-btn">Apply</button>
-        <button className="--close-btn" onClick={onClose}>
+        <button className="--close-btn" onClick={handleClose}>
           Close
         </button>
       </footer>

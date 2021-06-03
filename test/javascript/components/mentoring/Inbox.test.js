@@ -1,14 +1,11 @@
 import React from 'react'
-import { act, render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { Inbox } from '../../../../app/javascript/components/mentoring/Inbox.jsx'
+import { Inbox } from '../../../../app/javascript/components/mentoring/Inbox'
 import userEvent from '@testing-library/user-event'
-import {
-  silenceConsole,
-  expectConsoleError,
-} from '../../support/silence-console'
+import { expectConsoleError } from '../../support/silence-console'
 import { awaitPopper } from '../../support/await-popper'
 import { queryCache } from 'react-query'
 

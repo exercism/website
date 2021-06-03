@@ -227,6 +227,22 @@ export type MentorSessionExercise = {
   }
 }
 
+export type StudentTrack = {
+  id: string
+  webUrl: string
+  iconUrl: string
+  title: string
+  numConcepts: number
+  numCompletedConcepts: number
+  tags: readonly string[]
+  isNew: boolean
+  hasNotifications: boolean
+  numCompletedExercises: number
+  numExercises: number
+  lastTouchedAt: string
+  isJoined: boolean
+}
+
 export type Track = {
   id: string
   title: string

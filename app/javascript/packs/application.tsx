@@ -386,11 +386,7 @@ initReact({
     />
   ),
   'student-tracks-list': (data: any) => (
-    <Student.TracksList
-      request={data.request}
-      statusOptions={data.status_options}
-      tagOptions={data.tag_options}
-    />
+    <Student.TracksList request={data.request} tagOptions={data.tag_options} />
   ),
   'student-exercise-list': (data: any) => (
     <Student.ExerciseList

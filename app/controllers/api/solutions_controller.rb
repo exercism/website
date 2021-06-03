@@ -138,6 +138,36 @@ module API
       }, status: :ok
     end
 
+    def diff
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+
+      render json: {
+        diff: {
+          links: {
+            update: Exercism::Routes.sync_api_solution_url(solution.uuid)
+          }
+        }
+      }
+    end
+
+    def sync
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+
+      solution.sync_git!
+      submission = solution.iterations.last&.submission
+      Submission::TestRun::Init.(submission) if submission
+
+      render json: { solution: SerializeSolution.(solution) }
+    end
+
     private
     def set_track
       @track = Track.find_by!(slug: params[:track_id])

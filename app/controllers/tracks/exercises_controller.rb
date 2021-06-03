@@ -1,7 +1,7 @@
 class Tracks::ExercisesController < ApplicationController
   before_action :use_track
-  before_action :use_exercise, only: %i[show start sync edit complete tooltip]
-  before_action :use_solution, only: %i[show sync edit complete tooltip]
+  before_action :use_exercise, only: %i[show start edit complete tooltip]
+  before_action :use_solution, only: %i[show edit complete tooltip]
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
   skip_before_action :verify_authenticity_token, only: :start
@@ -40,15 +40,6 @@ class Tracks::ExercisesController < ApplicationController
         }
       end
     end
-  end
-
-  # TOOD: Move to API and remove in before_filters
-  def sync
-    @solution.sync_git!
-    submission = @solution.iterations.last&.submission
-    Submission::TestRun::Init.(submission) if submission
-
-    redirect_to action: :show
   end
 
   def edit

@@ -487,6 +487,9 @@ initReact({
       links={camelizeKeysAs<PublishedSolutionLinks>(data.links)}
     />
   ),
+  'student-update-exercise-notice': (data: any) => (
+    <Student.UpdateExerciseNotice links={data.links} />
+  ),
   'concept-map': (data: any) => {
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
 

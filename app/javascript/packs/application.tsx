@@ -139,6 +139,7 @@ import '../../css/dropdowns/track-switcher'
 
 import '../../css/pages/contributing-dashboard'
 import '../../css/pages/contributing-contributors'
+import '../../css/pages/contributing-tasks'
 import '../../css/pages/auth'
 import '../../css/pages/dashboard'
 import '../../css/pages/docs-show'

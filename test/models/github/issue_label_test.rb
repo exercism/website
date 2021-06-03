@@ -58,4 +58,22 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
   test "for_type with status is unknown" do
     assert_nil Github::IssueLabel.for_type(:status, :unknown)
   end
+
+  test "of_type?" do
+    label = create :github_issue_label, name: 'x:size/l'
+
+    assert label.of_type?(:size)
+    refute label.of_type?(:knowledge)
+    refute label.of_type?(:module)
+    refute label.of_type?(:status)
+    refute label.of_type?(:type)
+
+    label.update(name: 'x:knowledge/advanced')
+
+    assert label.of_type?(:knowledge)
+    refute label.of_type?(:size)
+    refute label.of_type?(:module)
+    refute label.of_type?(:status)
+    refute label.of_type?(:type)
+  end
 end

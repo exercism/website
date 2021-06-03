@@ -44,36 +44,9 @@ class Github::IssueTest < ActiveSupport::TestCase
     assert issue.status_closed?
   end
 
-  test "track for track repo" do
-    track = create :track, slug: 'fsharp', repo_url: 'https://github.com/exercism/fsharp'
-    issue = create :github_issue, repo: 'exercism/fsharp', track: nil
+  test "issue_url" do
+    issue = create :github_issue, repo: 'exercism/fsharp', number: 32
 
-    assert_equal track, issue.track
-  end
-
-  test "track is nil for non-track repo" do
-    issue = create :github_issue, repo: 'exercism/configlet'
-
-    assert_nil issue.track
-  end
-
-  test "track is already specified" do
-    track = create :track, slug: 'csharp'
-    issue = create :github_issue, repo: 'exercism/fsharp', track: track
-
-    assert_equal track, issue.track
-  end
-
-  test "track is updated when repo updates" do
-    track_1 = create :track, slug: 'fsharp', repo_url: 'https://github.com/exercism/fsharp'
-    track_2 = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
-    issue = create :github_issue, repo: 'exercism/fsharp', track: track_1
-
-    # Sanity check
-    assert_equal track_1, issue.track
-
-    issue.update(repo: 'exercism/ruby')
-
-    assert_equal track_2, issue.track
+    assert_equal 'https://github.com/exercism/fsharp/issues/32', issue.github_url
   end
 end

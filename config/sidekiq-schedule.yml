@@ -38,7 +38,7 @@ fetch_and_sync_all_pull_requests_reputation:
   queue: dribble
 
 # 1am Tuesday
-sync_issues:
+sync_issues_and_tasks:
   cron: "0 1 * * 2"
-  class: "SyncIssuesJob"
+  class: "SyncIssuesAndTasksJob"
   queue: dribble

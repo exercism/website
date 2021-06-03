@@ -13,7 +13,7 @@ module Github
 
       private
       def issues
-        Github::Issue.left_joins(:labels)
+        Github::Issue.includes(:labels)
       end
     end
   end

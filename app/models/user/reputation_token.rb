@@ -54,6 +54,10 @@ class User::ReputationToken < ApplicationRecord
     end
   end
 
+  def seen!
+    update(seen: true)
+  end
+
   protected
   def determine_value
     return self.class.instance_variable_get("@value") if self.class.instance_variable_defined?("@value")
@@ -63,6 +67,10 @@ class User::ReputationToken < ApplicationRecord
 
     values = self.class.instance_variable_get("@values")
     values[level.to_sym]
+  end
+
+  def non_rendered_attributes
+    %i[seen]
   end
 
   private

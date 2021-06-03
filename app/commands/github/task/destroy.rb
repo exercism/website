@@ -6,8 +6,7 @@ module Github
       initialize_with :issue_url
 
       def call
-        task = ::Github::Task.find_by(issue_url: issue_url)
-        task&.destroy
+        Github::Task.where(issue_url: issue_url).destroy_all
       end
     end
   end

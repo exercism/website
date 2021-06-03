@@ -58,7 +58,7 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
     refute token.seen?
 
     token.seen!
-    assert token.seen?
+    assert token.reload.seen?
   end
 
   test "seen! doesn't recalculate everything" do

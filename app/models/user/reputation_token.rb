@@ -74,6 +74,14 @@ class User::ReputationToken < ApplicationRecord
   end
 
   private
+  # Don't cahe seen as we don't need to recalculate
+  # everything when it's marked as seen
+  def non_cacheable_rendering_data
+    {
+      is_seen: seen?
+    }
+  end
+
   def cacheable_rendering_data
     data = {
       id: uuid,
@@ -82,7 +90,6 @@ class User::ReputationToken < ApplicationRecord
       icon_url: icon_url,
       internal_url: internal_url,
       external_url: external_url,
-      is_seen: seen,
       awarded_at: created_at.iso8601
     }
 

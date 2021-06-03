@@ -53,7 +53,11 @@ export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
     () => {
       return handleFetch(request, isMountedRef)
     },
-    { refetchOnWindowFocus: false, ...camelizeKeys(request.options) }
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 30,
+      ...camelizeKeys(request.options),
+    }
   )
 }
 
@@ -64,7 +68,11 @@ export function useRequestQuery<TResult = unknown, TError = unknown>(
 ): QueryResult<TResult, TError> {
   return useQuery<TResult, TError>(
     key,
-    () => (handleFetch(request, isMountedRef)),
-    { refetchOnWindowFocus: false, ...camelizeKeys(request.options) }
+    () => handleFetch(request, isMountedRef),
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 30,
+      ...camelizeKeys(request.options),
+    }
   )
 }

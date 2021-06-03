@@ -1,0 +1,47 @@
+@import "../styles";
+
+.m-update-exercise {
+    & .--modal-content {
+        @apply flex flex-col;
+        max-width: 80%;
+    }
+    & .header {
+        @apply mb-16;
+        & h2 {
+            @apply text-h3;
+            @apply flex items-center;
+
+            & .c-exercise-icon {
+                height: 48px;
+                width: 48px;
+                @apply mx-16;
+            }
+        }
+    }
+    & .tabs {
+        @apply flex items-center flex-shrink-0;
+        @apply overflow-y-auto;
+        @apply pb-8 mb-8;
+        & .c-tab {
+            line-height: 38px;
+        }
+    }
+    & .c-diff {
+        overflow: scroll;
+        @apply border-1 border-borderColor6 rounded-5;
+        @apply mb-16;
+    }
+    & .warning {
+        @apply text-textColor6 leading-160;
+        @apply mb-24;
+    }
+    & form {
+        @apply flex items-center;
+        & .btn-primary {
+            @apply mr-32;
+        }
+        & .dismiss-btn {
+            @apply text-lightBlue font-semibold text-16 leading-200;
+        }
+    }
+}

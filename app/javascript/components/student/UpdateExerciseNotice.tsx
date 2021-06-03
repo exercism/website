@@ -28,7 +28,6 @@ export const UpdateExerciseNotice = ({
         endpoint={links.diff}
         open={open}
         onClose={() => setOpen(false)}
-        className="m-exercise-update"
       />
     </React.Fragment>
   )

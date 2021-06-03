@@ -147,6 +147,11 @@ module API
 
       render json: {
         diff: {
+          exercise: {
+            title: solution.exercise.title,
+            icon_url: solution.exercise.icon_url
+          },
+          files: Git::GenerateDiffBetweenExerciseVersions.(solution.exercise, solution.git_slug, solution.git_sha),
           links: {
             update: Exercism::Routes.sync_api_solution_url(solution.uuid)
           }

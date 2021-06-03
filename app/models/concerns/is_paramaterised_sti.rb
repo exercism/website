@@ -82,7 +82,7 @@ module IsParamaterisedSTI
     before_save unless: :new_record? do
       # If any attributes have changed since the last time
       # this was saved, then rebuild the cache.
-      non_cache_changes = (changed_attributes.keys - [rendering_data_cache]).present?
+      non_cache_changes = (changed_attributes.keys - non_rendered_attributes.map(&:to_s) - [rendering_data_cache]).present?
       self.rendering_data_cache = cacheable_rendering_data if non_cache_changes
     end
   end
@@ -115,6 +115,12 @@ module IsParamaterisedSTI
   # Save each class from manually overriding this
   def non_cacheable_rendering_data
     {}
+  end
+
+  # Each class can define attributes that don't trigger
+  # a recalculation of the recache on save
+  def non_rendered_attributes
+    []
   end
 
   def text

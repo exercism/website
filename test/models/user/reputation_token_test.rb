@@ -52,4 +52,22 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
 
     assert_equal expected, token.rendering_data
   end
+
+  test "seen! marks as seen" do
+    token = create :user_reputation_token
+    refute token.seen?
+
+    token.seen!
+    assert token.reload.seen?
+  end
+
+  test "seen! doesn't recalculate everything" do
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      token = create :user_reputation_token
+
+      token.expects(:cacheable_rendering_data).never
+
+      token.seen!
+    end
+  end
 end

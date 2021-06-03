@@ -54,6 +54,10 @@ class User::ReputationToken < ApplicationRecord
     end
   end
 
+  def seen!
+    update(seen: true)
+  end
+
   protected
   def determine_value
     return self.class.instance_variable_get("@value") if self.class.instance_variable_defined?("@value")
@@ -65,7 +69,19 @@ class User::ReputationToken < ApplicationRecord
     values[level.to_sym]
   end
 
+  def non_rendered_attributes
+    %i[seen]
+  end
+
   private
+  # Don't cahe seen as we don't need to recalculate
+  # everything when it's marked as seen
+  def non_cacheable_rendering_data
+    {
+      is_seen: seen?
+    }
+  end
+
   def cacheable_rendering_data
     data = {
       id: uuid,
@@ -74,7 +90,6 @@ class User::ReputationToken < ApplicationRecord
       icon_url: icon_url,
       internal_url: internal_url,
       external_url: external_url,
-      is_seen: seen,
       awarded_at: created_at.iso8601
     }
 

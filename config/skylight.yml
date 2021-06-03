@@ -2,9 +2,3 @@ authentication: <%= Exercism.secrets.skylight_key %>
 enable_sidekiq: true
 ignored_endpoints:
   - PagesController#health_check
-
-git_sha: <%=
-  ref = File.read(Rails.root.join(".git", "HEAD")) # This gives `ref: refs/heads/main`
-  path = ref.split(':').last.strip # This extracts `refs/heads/main`
-  File.read(Rails.root.join(".git", path)) 
-%>

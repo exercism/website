@@ -1,16 +1,41 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DiscussionList } from './inbox/DiscussionList'
 import { StatusTab } from './inbox/StatusTab'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
 import { useList } from '../../hooks/use-list'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
+import { MentorDiscussion } from '../types'
 
-export function Inbox({ tracksRequest, sortOptions, ...props }) {
+export type SortOption = {
+  value: string
+  label: string
+}
+
+export type APIResponse = {
+  results: readonly MentorDiscussion[]
+  meta: {
+    currentPage: number
+    totalPages: number
+    awaitingMentorTotal: number
+    awaitingStudentTotal: number
+    finishedTotal: number
+  }
+}
+
+export const Inbox = ({
+  tracksRequest,
+  sortOptions,
+  discussionsRequest,
+}: {
+  tracksRequest: Request
+  discussionsRequest: Request
+  sortOptions: readonly SortOption[]
+}): JSX.Element => {
   const [criteria, setCriteria] = useState('')
   const {
     request,
@@ -18,7 +43,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
     setOrder,
     setPage,
     setQuery,
-  } = useList(props.discussionsRequest)
+  } = useList(discussionsRequest)
   const isMountedRef = useIsMounted()
   const {
     status,
@@ -26,7 +51,7 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
     latestData,
     isFetching,
     refetch,
-  } = usePaginatedRequestQuery(
+  } = usePaginatedRequestQuery<APIResponse>(
     ['mentor-discussion-list', request.endpoint, request.query],
     request,
     isMountedRef
@@ -44,11 +69,11 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const setTrack = (track) => {
+  const setTrack = (track: string | null) => {
     setQuery({ ...request.query, track: track, page: 1 })
   }
 
-  const setStatus = (status) => {
+  const setStatus = (status: string) => {
     setQuery({ ...request.query, status: status, page: 1 })
   }
 
@@ -114,7 +139,6 @@ export function Inbox({ tracksRequest, sortOptions, ...props }) {
             resolvedData={resolvedData}
             status={status}
             refetch={refetch}
-            request={request}
             setPage={setPage}
           />
         </ResultsZone>

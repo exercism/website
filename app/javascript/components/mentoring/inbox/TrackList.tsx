@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { Icon, TrackIcon } from '../../common'
 import { useDropdown } from '../../dropdowns/useDropdown'
 
-type Track = {
+export type Track = {
   slug: string
   title: string
   iconUrl: string

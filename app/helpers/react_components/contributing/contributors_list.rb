@@ -36,7 +36,7 @@ module ReactComponents
 
       memoize
       def initial_data
-        ProcessContributors.(params)
+        AssembleContributors.(params)
       end
 
       memoize

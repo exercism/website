@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ProcessContributorsTest < ActiveSupport::TestCase
+class AssembleContributorsTest < ActiveSupport::TestCase
   test "index should return top 20 serialized correctly" do
     users = Array.new(25) do |idx|
       create(:user, handle: "handle-#{idx}").tap do |user|
@@ -16,7 +16,7 @@ class ProcessContributorsTest < ActiveSupport::TestCase
       serializer_kwargs: { starting_rank: 1, contextual_data: contextual_data }
     )
 
-    assert_equal expected, ProcessContributors.({})
+    assert_equal expected, AssembleContributors.({})
   end
 
   test "index should proxy correctly" do
@@ -49,7 +49,7 @@ class ProcessContributorsTest < ActiveSupport::TestCase
       user_2.id => mock(reputation: 1, activity: "")
     )
 
-    ProcessContributors.(
+    AssembleContributors.(
       period: period,
       category: category,
       track: track.slug,

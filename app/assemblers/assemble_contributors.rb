@@ -1,4 +1,4 @@
-class ProcessContributors
+class AssembleContributors
   include Mandate
 
   initialize_with :params

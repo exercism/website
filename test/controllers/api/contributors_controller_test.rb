@@ -14,7 +14,7 @@ module API
 
       get api_contributors_path, headers: @headers, as: :json
       assert_response :success
-      expected = ProcessContributors.({}).to_json
+      expected = AssembleContributors.({}).to_json
       assert_equal expected, response.body
     end
 
@@ -34,7 +34,7 @@ module API
       }
       expected = { 'foo' => 'bar' }
 
-      ProcessContributors.expects(:call).returns(expected).with do |actual_params|
+      AssembleContributors.expects(:call).returns(expected).with do |actual_params|
         assert params, actual_params
       end
 

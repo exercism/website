@@ -10,7 +10,7 @@ module API
         # We can have an invalid track_slug here.
       end
 
-      render json: ProcessMentorRequests.(params, current_user)
+      render json: AssembleMentorRequests.(params, current_user)
     end
 
     def tracks

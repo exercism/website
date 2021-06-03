@@ -41,11 +41,13 @@ class MentoringQueueTest < ReactComponentTestCase
       {
         queue_request: {
           endpoint: Exercism::Routes.api_mentoring_requests_path,
-          initial_data: ProcessMentorRequests.(params, user),
           query: {
             criteria: "bo",
             track_slug: "csharp",
             exercise_slug: "bob"
+          },
+          options: {
+            initial_data: AssembleMentorRequests.(params, user)
           }
         },
         tracks_request: {

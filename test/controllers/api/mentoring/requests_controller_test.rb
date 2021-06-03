@@ -20,7 +20,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     }
     expected = { 'foo' => 'bar' }
 
-    ProcessMentorRequests.expects(:call).returns(expected).with do |actual_params, actual_user|
+    AssembleMentorRequests.expects(:call).returns(expected).with do |actual_params, actual_user|
       assert params, actual_params
       assert_equal user, actual_user
     end
@@ -39,7 +39,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     get api_mentoring_requests_path, headers: @headers, as: :json
     assert_response 200
-    assert_includes ProcessMentorRequests.({}, user).to_json, response.body
+    assert_includes AssembleMentorRequests.({}, user).to_json, response.body
   end
 
   test "index updates last_viewed" do

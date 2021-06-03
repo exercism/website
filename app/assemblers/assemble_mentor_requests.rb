@@ -1,4 +1,4 @@
-class ProcessMentorRequests
+class AssembleMentorRequests
   include Mandate
 
   initialize_with :params, :current_user

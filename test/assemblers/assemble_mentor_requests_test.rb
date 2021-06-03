@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ProcessMentorRequestsTest < ActiveSupport::TestCase
+class AssembleMentorRequestsTest < ActiveSupport::TestCase
   test "proxies correctly" do
     user = create :user
     page = 15
@@ -33,7 +33,7 @@ class ProcessMentorRequestsTest < ActiveSupport::TestCase
       exercise_slug: exercise_slug
     }
 
-    ProcessMentorRequests.(params, user)
+    AssembleMentorRequests.(params, user)
   end
 
   test "retrieves requests" do
@@ -51,6 +51,6 @@ class ProcessMentorRequestsTest < ActiveSupport::TestCase
       meta: {
         unscoped_total: 15
       }
-    ), ProcessMentorRequests.({}, user)
+    ), AssembleMentorRequests.({}, user)
   end
 end

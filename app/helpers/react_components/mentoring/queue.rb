@@ -73,7 +73,7 @@ module ReactComponents
             exercise_slug: default_exercise.try(:[], :slug)
           }.compact,
           options: {
-            initial_data: ProcessMentorRequests.(params, mentor)
+            initial_data: AssembleMentorRequests.(params, mentor)
           }
         }
       end

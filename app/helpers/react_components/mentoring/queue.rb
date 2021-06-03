@@ -65,14 +65,16 @@ module ReactComponents
       def queue_request
         {
           endpoint: Exercism::Routes.api_mentoring_requests_path,
-          initial_data: ProcessMentorRequests.(params, mentor),
           query: {
             order: params[:order],
             criteria: params[:criteria],
             page: params[:page],
             track_slug: default_track[:id],
             exercise_slug: default_exercise.try(:[], :slug)
-          }.compact
+          }.compact,
+          options: {
+            initial_data: ProcessMentorRequests.(params, mentor)
+          }
         }
       end
 

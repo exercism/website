@@ -18,7 +18,11 @@ export const FinishStep = ({
       ) : (
         <p>Thanks for mentoring {student.handle}.</p>
       )}
-      <button className="btn-link" type="button" onClick={() => onReset()}>
+      <button
+        className="btn-link-legacy"
+        type="button"
+        onClick={() => onReset()}
+      >
         <GraphicalIcon icon="reset" />
         <span>Change preferences</span>
       </button>

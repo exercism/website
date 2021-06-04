@@ -101,6 +101,7 @@ module.exports = {
       lightBlue: '#2E57E8',
       darkBlue: '#6A93FF',
       veryLightBlue: '#E1EBFF',
+      veryLightBlue2: '#E2EBFF',
 
       btnBorder: '#5C5589',
       primaryBtnBorder: '#130B43',
@@ -188,6 +189,7 @@ module.exports = {
 
       100: '100%',
       120: '120%',
+      130: '130%',
       140: '140%',
       150: '150%',
       160: '160%',

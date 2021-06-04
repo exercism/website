@@ -140,7 +140,7 @@
     }
 }
 
-.btn-link {
+.btn-link-legacy {
     @apply btn-small;
     @apply border-0 text-lightBlue p-0;
 }

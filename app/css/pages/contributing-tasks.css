@@ -1,0 +1,160 @@
+@import "../styles";
+
+#contributing-tasks {
+    @apply mb-80;
+
+    & .c-search-bar {
+        @apply mb-32;
+
+        & .c-track-switcher {
+            @apply mr-auto;
+        }
+        & .c-select {
+            @apply ml-16;
+            & select {
+                @apply pr-48 py-0;
+            }
+        }
+    }
+    & header.main-header {
+        @apply flex items-center mb-16;
+
+        & h2 {
+            @apply flex items-center;
+            @apply text-h4 text-textColor6;
+            @apply mr-16;
+            & strong {
+                @apply mr-12;
+                @apply text-h3;
+            }
+        }
+        & .reset-btn {
+            @apply mr-32;
+        }
+
+        & .c-select {
+            @apply ml-auto;
+        }
+    }
+    & .tasks {
+        @apply shadow-lg rounded-8 bg-backgroundColorA;
+        & .task {
+            @apply py-10 px-24;
+            @apply flex items-center;
+            @apply border-b-1 border-borderColor7;
+
+            & .action-icon {
+                height: 40px;
+                width: 40px;
+                @apply mr-16;
+                @apply border-2 border-textColor2 rounded-circle;
+                @apply grid place-items-center;
+                & .c-icon {
+                    height: 25px;
+                    width: 25px;
+                }
+            }
+            & .info {
+                & .heading {
+                    @apply flex items-center;
+                    @apply mb-4;
+                    & h3 {
+                        @apply text-16 leading-160 font-medium text-textColor2;
+                    }
+                    & .new {
+                        @apply flex items-center;
+                        @apply text-orange font-semibold;
+                        & .c-icon {
+                            filter: var(--orange-filter);
+                            height: 16px;
+                            width: 16px;
+                            @apply ml-16 mr-8;
+                        }
+                    }
+                }
+                & .track-type {
+                    @apply flex items-center;
+                    & .track {
+                        @apply flex items-center;
+                        @apply font-mono text-14 leading-160;
+                        @apply mr-12;
+                        & .for {
+                            @apply font-medium text-textColor3;
+                        }
+                        & .c-track-icon {
+                            height: 24px;
+                            width: 24px;
+                            @apply ml-6 mr-8;
+                        }
+                        & .title {
+                            @apply font-semibold text-textColor2;
+                        }
+                    }
+                    & .type {
+                        @apply font-mono font-semibold text-textColor6 leading-130;
+                        @apply bg-veryLightBlue2;
+                        @apply border-0;
+                        & .c-icon {
+                            height: 15px;
+                            width: 15px;
+                            @apply mr-6;
+                        }
+                    }
+                }
+            }
+            & .tags {
+                @apply flex items-center;
+                @apply ml-auto;
+
+                & > * {
+                    @apply ml-48;
+                }
+                & .knowledge {
+                    @apply flex items-center;
+                    @apply border-1 border-borderColor5 rounded-5;
+                    @apply py-8 px-16;
+
+                    & .c-icon {
+                        height: 24px;
+                        width: 24px;
+                        @apply mr-12;
+                    }
+                    & .dot {
+                        @apply border-2 border-textColor2 rounded-circle;
+                        @apply ml-4;
+                        height: 12px;
+                        width: 12px;
+
+                        &.filled {
+                            @apply bg-textColor2;
+                        }
+                    }
+                    &.blank {
+                        @apply border-transparent;
+                    }
+                }
+                & .size {
+                    height: 24px;
+                    width: 24px;
+                    @apply grid place-items-center;
+                    @apply font-mono leading-150 font-semibold;
+                    @apply border-1 border-textColor2 rounded-3;
+                    &.blank {
+                        @apply border-transparent;
+                    }
+                }
+
+                & .module {
+                    height: 24px;
+                    width: 24px;
+                }
+            }
+            & .external-link {
+                height: 16px;
+                width: 16px;
+                filter: var(--textColor6-filter);
+                @apply ml-140;
+            }
+        }
+    }
+}

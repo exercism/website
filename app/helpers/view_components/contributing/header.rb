@@ -1,7 +1,7 @@
 module ViewComponents
   module Contributing
     class Header < ViewComponent
-      TABS = %i[dashboard contributors].freeze
+      TABS = %i[dashboard contributors tasks].freeze
 
       initialize_with :selected_tab
 
@@ -62,7 +62,7 @@ module ViewComponents
           end,
 
           link_to(
-            "#",
+            Exercism::Routes.contributing_tasks_path,
             class: tab_class(:tasks)
           ) do
             graphical_icon(:tasks) +
@@ -89,12 +89,10 @@ module ViewComponents
         raise "Incorrect track nav tab" unless TABS.include?(selected_tab)
       end
 
+      # TODO: Erik: This should be Task.unclaimed.count or something
       memoize
       def tasks_size
-        ::Mentor::Discussion.joins(solution: :exercise).
-          where(mentor: current_user).
-          awaiting_mentor.
-          count
+        number_with_delimiter(1234)
       end
     end
   end

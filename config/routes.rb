@@ -95,10 +95,13 @@ Rails.application.routes.draw do
 
       resources :solutions, only: %i[index show update] do
         member do
+          get :diff
+
           patch :complete
           patch :publish
           patch :unpublish
           patch :published_iteration
+          patch :sync
         end
 
         resources :submissions, only: %i[create], controller: "solutions/submissions" do
@@ -247,7 +250,6 @@ Rails.application.routes.draw do
       member do
         get :tooltip
         patch :start
-        patch :sync # TODO: Remove once in API
         patch :complete # TODO: Remove once via the API.
       end
 

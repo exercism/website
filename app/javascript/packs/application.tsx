@@ -106,7 +106,9 @@ import '../../css/components/widgets/exercise'
 import '../../css/components/mentor-discussion-post-editor'
 import '../../css/components/test-run'
 import '../../css/components/alert'
+import '../../css/components/diff'
 
+import '../../css/modals/update-exercise'
 import '../../css/modals/exercise-makers'
 import '../../css/modals/test-run'
 import '../../css/modals/crop-avatar'
@@ -486,6 +488,9 @@ initReact({
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
       links={camelizeKeysAs<PublishedSolutionLinks>(data.links)}
     />
+  ),
+  'student-update-exercise-notice': (data: any) => (
+    <Student.UpdateExerciseNotice links={data.links} />
   ),
   'concept-map': (data: any) => {
     const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)

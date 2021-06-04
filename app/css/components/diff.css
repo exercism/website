@@ -1,0 +1,132 @@
+/*
+ * Based on Diff to HTML (diff2html.css)
+ * Author: rtfpessoa
+ */
+
+.c-diff {
+    --diffDarkGreen: #a9e7c8;
+    --diffLightGreen: #e5f8ee;
+    --diffDarkRed: #f5adad;
+    --diffLightRed: #fce6e6;
+
+    @apply py-12;
+    & .hljs {
+        background: none !important;
+    }
+
+    & .d2h-diff-table {
+        @apply font-mono leading-160;
+        @apply w-100;
+    }
+    & .d2h-diff-tbody tr:first-child,
+    & .d2h-file-header {
+        display: none;
+    }
+
+    & .d2h-files-diff {
+        display: block;
+        width: 100%;
+    }
+
+    & .d2h-code-linenumber {
+        @apply text-textColor6;
+        text-align: right;
+        cursor: pointer;
+        @apply flex items-center;
+
+        & .line-num1,
+        & .line-num2 {
+            @apply py-0 px-12;
+            width: 50%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        &.d2h-ins {
+            background: var(--diffDarkGreen);
+        }
+
+        &.d2h-del {
+            background: var(--diffDarkRed);
+        }
+
+        /* Adds a null char for if there is no content */
+        &:after {
+            content: "\200b";
+        }
+    }
+
+    & td.d2h-ins > .d2h-code-line {
+        background: var(--diffLightGreen);
+    }
+
+    & td.d2h-del > .d2h-code-line {
+        background: var(--diffLightRed);
+    }
+
+    & .d2h-code-line {
+        white-space: nowrap;
+        user-select: none;
+        width: 100%;
+        @apply flex items-center;
+
+        & ins,
+        & del {
+            display: inline-block;
+            margin-top: -1px;
+            text-decoration: none;
+            border-radius: 1px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        & ins {
+            background: var(--diffDarkGreen);
+        }
+        & del {
+            background: var(--diffDarkRed);
+        }
+
+        &.d2h-ins {
+            background: rgba(79, 205, 144, 0.15);
+        }
+        &.d2h-del {
+            /* TODO background color */
+        }
+        & .d2h-code-line-prefix {
+            width: 20px;
+            @apply text-center font-semibold;
+        }
+
+        & .d2h-code-line-ctn {
+            word-wrap: normal;
+            white-space: pre;
+            user-select: text;
+        }
+    }
+
+    & .d2h-emptyplaceholder {
+        /* background-color: #f1f1f1; */
+        /* border-color: #e1e1e1; */
+    }
+
+    & .d2h-code-linenumber,
+    & .d2h-code-line-prefix,
+    & .d2h-emptyplaceholder {
+        user-select: none;
+    }
+
+    & .d2h-code-linenumber {
+        direction: rtl;
+    }
+
+    /*
+     * Changes Highlight
+     */
+
+    /* & .d2h-info { */
+    /*     background-color: #f8fafd; */
+    /*     color: rgba(0, 0, 0, 0.3); */
+    /*     border-color: #d5e4f2; */
+    /* } */
+}

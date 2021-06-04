@@ -104,7 +104,6 @@ module API
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
-
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       user_track = UserTrack.for(current_user, solution.track)
@@ -136,6 +135,43 @@ module API
       render json: {
         solution: SerializeSolution.(solution)
       }, status: :ok
+    end
+
+    def diff
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+      return render_solution_not_accessible unless solution.user_id == current_user.id
+
+      render json: {
+        diff: {
+          exercise: {
+            title: solution.exercise.title,
+            icon_url: solution.exercise.icon_url
+          },
+          files: Git::GenerateDiffBetweenExerciseVersions.(solution.exercise, solution.git_slug, solution.git_sha),
+          links: {
+            update: Exercism::Routes.sync_api_solution_url(solution.uuid)
+          }
+        }
+      }
+    end
+
+    def sync
+      begin
+        solution = Solution.find_by!(uuid: params[:id])
+      rescue ActiveRecord::RecordNotFound
+        return render_solution_not_found
+      end
+      return render_solution_not_accessible unless solution.user_id == current_user.id
+
+      solution.sync_git!
+      submission = solution.iterations.last&.submission
+      Submission::TestRun::Init.(submission) if submission
+
+      render json: { solution: SerializeSolution.(solution) }
     end
 
     private

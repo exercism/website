@@ -3,6 +3,12 @@ require_relative './base_test_case'
 class API::SolutionsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_solutions_path
   guard_incorrect_token! :api_solution_path, args: 1
+  guard_incorrect_token! :diff_api_solution_path, args: 1
+  guard_incorrect_token! :sync_api_solution_path, args: 1, method: :patch
+  guard_incorrect_token! :complete_api_solution_path, args: 1, method: :patch
+  guard_incorrect_token! :publish_api_solution_path, args: 1, method: :patch
+  guard_incorrect_token! :unpublish_api_solution_path, args: 1, method: :patch
+  guard_incorrect_token! :published_iteration_api_solution_path, args: 1, method: :patch
 
   #########
   # INDEX #
@@ -61,9 +67,9 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal serializer.to_json, response.body
   end
 
-  ############
+  ########
   # Show #
-  ############
+  ########
   test "Show renders 404 when solution not found" do
     setup_user
 
@@ -120,6 +126,76 @@ class API::SolutionsControllerTest < API::BaseTestCase
       iterations: [SerializeIteration.(iteration)]
     }
     assert_equal expected.to_json, response.body
+  end
+
+  ########
+  # Diff #
+  ########
+  test "Diff renders 404 when solution not found" do
+    setup_user
+
+    get diff_api_solution_path("xxx"),
+      headers: @headers, as: :json
+
+    assert_response 404
+    assert_equal(
+      {
+        "error" => {
+          "type" => "solution_not_found",
+          "message" => I18n.t("api.errors.solution_not_found")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "Diff should 404 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    get diff_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  ########
+  # Sync #
+  ########
+  test "Sync renders 404 when solution not found" do
+    setup_user
+
+    patch sync_api_solution_path("xxx"),
+      headers: @headers, as: :json
+
+    assert_response 404
+    assert_equal(
+      {
+        "error" => {
+          "type" => "solution_not_found",
+          "message" => I18n.t("api.errors.solution_not_found")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "Sync should 404 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    patch sync_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
   end
 
   ############

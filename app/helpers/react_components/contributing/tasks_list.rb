@@ -41,7 +41,7 @@ module ReactComponents
         q[:sizes] = params[:sizes] if params[:sizes].present?
         q[:types] = params[:types] if params[:types].present?
         q[:repo_url] = params[:repo_url] if params[:repo_url].present?
-        q[:track_id] = params[:track_id] if params[:track_id].present?
+        q[:track] = params[:track] if params[:track].present?
         q[:order] = params[:order] if params[:order].present?
         q[:page] = initial_data[:meta][:current_page]
         q

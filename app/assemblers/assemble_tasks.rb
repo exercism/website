@@ -22,9 +22,14 @@ class AssembleTasks
       sizes: params[:sizes],
       types: params[:types],
       repo_url: params[:repo_url],
-      track_id: params[:track_id],
       order: params[:order],
-      page: params[:page]
+      page: params[:page],
+      track_id: track_id
     )
+  end
+
+  memoize
+  def track_id
+    Track.find(params[:track]).id if params[:track].present?
   end
 end

@@ -2,6 +2,8 @@ require "test_helper"
 
 class AssembleTasksTest < ActiveSupport::TestCase
   test "proxies correctly" do
+    track = create :track
+
     actions = ["fix"]
     knowledge = %w[none elementary]
     areas = ["analyzer"]
@@ -9,7 +11,6 @@ class AssembleTasksTest < ActiveSupport::TestCase
     types = []
     repo_url = "exercism/ruby"
     order = 'recent'
-    track_id = 2
     page = 15
 
     Github::Task.expects(:count).with.returns(200)
@@ -21,7 +22,7 @@ class AssembleTasksTest < ActiveSupport::TestCase
       sizes: sizes,
       types: types,
       repo_url: repo_url,
-      track_id: track_id,
+      track_id: track.id,
       order: order,
       page: page
     ).returns(Github::Task.page(1).per(1))
@@ -33,7 +34,7 @@ class AssembleTasksTest < ActiveSupport::TestCase
       sizes: sizes,
       types: types,
       repo_url: repo_url,
-      track_id: track_id,
+      track: track.slug,
       order: order,
       page: page,
       sorted: false,

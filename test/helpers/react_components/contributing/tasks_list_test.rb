@@ -7,7 +7,7 @@ module ReactComponents::Contributing
 
       create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312', title: 'Sync anagram',
                            opened_at: Time.parse("2020-10-17T02:39:37Z").utc, opened_by_username: 'ErikSchierboom',
-                           action: :fix, knowledge: :none, area: :analyzer, size: :s, type: :ci,
+                           action: :fix, knowledge: :none, area: :analyzer, size: :small, type: :ci,
                            repo: 'exercism/ruby', track: track
 
       create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/888', title: 'Improve test speed',

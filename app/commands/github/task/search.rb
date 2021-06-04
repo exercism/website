@@ -9,7 +9,7 @@ module Github
     end
 
     def initialize(actions: nil, knowledge: nil, areas: nil, sizes: nil, types: nil, repo_url: nil,
-                   track_id: nil, order: nil, page: 1)
+                   track_id: nil, order: nil, page: 1, sorted: true, paginated: true)
       @actions = actions
       @knowledge = knowledge
       @areas = areas
@@ -18,6 +18,8 @@ module Github
       @repo = repo_url
       @track_id = track_id
       @order = order
+      @sorted = sorted
+      @paginated = paginated
       @page = page
     end
 
@@ -25,14 +27,19 @@ module Github
       @tasks = Github::Task
 
       filter!
-      sort!
-      paginate!
+      sort! if sorted?
+      paginate! if paginated?
 
       @tasks
     end
 
     private
-    attr_reader :track_id, :actions, :knowledge, :areas, :sizes, :types, :repo, :order, :page, :tasks
+    attr_reader :track_id, :actions, :knowledge, :areas, :sizes, :types,
+      :repo, :order, :page, :sorted, :paginated, :tasks
+
+    %i[sorted paginated].each do |attr|
+      define_method("#{attr}?") { instance_variable_get("@#{attr}") }
+    end
 
     def filter!
       %i[track_id repo actions knowledge areas sizes types].each do |filter|

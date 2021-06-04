@@ -1,4 +1,4 @@
-class SerializeGithubTask
+class SerializeTask
   include Mandate
 
   initialize_with :task

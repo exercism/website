@@ -18,7 +18,7 @@ FactoryBot.define do
     trait :random do
       title { "Sync #{SecureRandom.hex(8)} exercise" }
       issue_url { "https://github.com/exercism/#{track.slug}/issues/#{SecureRandom.random_number(100_000)}" }
-      opened_at { Time.current }
+      opened_at { Time.current - SecureRandom.random_number(100_000).seconds }
     end
   end
 end

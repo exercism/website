@@ -16,9 +16,10 @@ class Github::Task::SearchTest < ActiveSupport::TestCase
     expected = [task_2, task_1]
     assert_equal expected,
       Github::Task::Search.(actions: nil, knowledge: nil, areas: nil, sizes: nil, types: nil, repo_url: nil, order: nil,
-                            page: nil)
+                            track_id: nil, page: nil)
     assert_equal expected,
-      Github::Task::Search.(actions: '', knowledge: '', areas: '', sizes: '', types: '', repo_url: '', order: '', page: '')
+      Github::Task::Search.(actions: '', knowledge: '', areas: '', sizes: '', types: '', repo_url: '', order: '',
+                            track_id: nil, page: '')
   end
 
   test "paginates" do
@@ -156,5 +157,14 @@ class Github::Task::SearchTest < ActiveSupport::TestCase
     assert_equal [task_3, task_1, task_2], Github::Task::Search.(order: :newest)
     assert_equal [task_2, task_1, task_3], Github::Task::Search.(order: :oldest)
     assert_equal [task_2, task_3, task_1], Github::Task::Search.(order: :track)
+  end
+
+  test "returns relationship unless paginated" do
+    create :github_task, :random, opened_at: 2.weeks.ago, track: (create :track, slug: 'fsharp')
+    create :github_task, :random, opened_at: 4.weeks.ago, track: (create :track, slug: 'csharp')
+
+    tasks = Github::Task::Search.(paginated: false)
+    assert tasks.is_a?(ActiveRecord::Relation)
+    refute_respond_to tasks, :current_page
   end
 end

@@ -46,9 +46,10 @@
             Sort by most recent
 
     .tasks
-      - @tasks.each do |task|
+      - (@data[:results] + @data[:results]).each do |task|
         = link_to task[:links][:github_url], class: "task" do
-          = icon "task-action-new", "Action: New", css_class: "action-icon"
+          - if task[:tags][:action].present?
+            = icon "task-action-#{task[:tags][:action]}", "Action: #{task[:tags][:action]}", css_class: "action-icon"
           .info
             .heading
               %h3= task[:title]
@@ -57,11 +58,40 @@
                   = graphical_icon "stars"
                   New
             .track-type
-              .track
-                .for for
-                = image_tag task[:track][:icon_url], class: "c-track-icon"
-                .title= task[:track][:title]
-              .type.c-tag.--small
-                = graphical_icon :guides
-                docs
+              - if task[:track]
+                .track
+                  .for for
+                  = image_tag task[:track][:icon_url], class: "c-track-icon"
+                  .title= task[:track][:title]
+              - case task[:tags][:type]
+              - when 'docs'
+                .type.c-tag.--small
+                  = graphical_icon :guides
+                  docs
+          .tags
+            - case task[:tags][:knowledge]
+            - when 's'
+              .knowledge
+                = graphical_icon 'task-knowledge'
+                .dot.filled
+                .dot
+                .dot
+                .dot
+            - case task[:tags][:knowledge]
+            - when 'm'
+              .knowledge
+                = graphical_icon 'task-knowledge'
+                .dot.filled
+                .dot.filled
+                .dot
+                .dot
 
+            - case task[:tags][:size]
+            - when 'small'
+              .size s
+
+            - case task[:tags][:module]
+            - when 'analyzer'
+              = icon 'automation', "Analyzer", css_class: "module"
+
+          = graphical_icon "external-link", css_class: "external-link"

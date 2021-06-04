@@ -46,20 +46,22 @@
             Sort by most recent
 
     .tasks
-      .task
-        = icon "task-action-new", "Action: New", css_class: "action-icon"
-        .info
-          .heading
-            %h3 Write Boolean concept exercise for Python track
-            .new
-              = graphical_icon "stars"
-              New
-          .track-type
-            .track
-              .for for
-              = track_icon(Track.first)
-              .title= Track.first.title
-            .type.c-tag.--small
-              = graphical_icon :guides
-              docs
+      - @tasks.each do |task|
+        = link_to task[:links][:github_url], class: "task" do
+          = icon "task-action-new", "Action: New", css_class: "action-icon"
+          .info
+            .heading
+              %h3= task[:title]
+              - if task[:isNew]
+                .new
+                  = graphical_icon "stars"
+                  New
+            .track-type
+              .track
+                .for for
+                = image_tag task[:track][:icon_url], class: "c-track-icon"
+                .title= task[:track][:title]
+              .type.c-tag.--small
+                = graphical_icon :guides
+                docs
 

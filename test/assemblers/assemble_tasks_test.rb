@@ -12,19 +12,9 @@ class AssembleTasksTest < ActiveSupport::TestCase
     track_id = 2
     page = 15
 
-    ::Github::Task::Search.expects(:call).with(
-      actions: actions,
-      knowledge: knowledge,
-      areas: areas,
-      sizes: sizes,
-      types: types,
-      repo_url: repo_url,
-      track_id: track_id,
-      sorted: false,
-      paginated: false
-    ).returns(mock(count: 200))
+    Github::Task.expects(:count).with.returns(200)
 
-    ::Github::Task::Search.expects(:call).with(
+    Github::Task::Search.expects(:call).with(
       actions: actions,
       knowledge: knowledge,
       areas: areas,

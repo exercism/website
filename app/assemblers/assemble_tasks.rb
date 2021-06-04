@@ -8,29 +8,14 @@ class AssembleTasks
       tasks,
       serializer: SerializeTasks,
       meta: {
-        unscoped_total: unscoped_total
+        unscoped_total: Github::Task.count
       }
     )
   end
 
   memoize
-  def unscoped_total
-    ::Github::Task::Search.(
-      actions: params[:actions],
-      knowledge: params[:knowledge],
-      areas: params[:areas],
-      sizes: params[:sizes],
-      types: params[:types],
-      repo_url: params[:repo_url],
-      track_id: params[:track_id],
-      sorted: false,
-      paginated: false
-    ).count
-  end
-
-  memoize
   def tasks
-    ::Github::Task::Search.(
+    Github::Task::Search.(
       actions: params[:actions],
       knowledge: params[:knowledge],
       areas: params[:areas],

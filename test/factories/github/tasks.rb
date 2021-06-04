@@ -12,7 +12,7 @@ FactoryBot.define do
     action { :sync }
     knowledge { :advanced }
     area { :analyzer }
-    size { :s }
+    size { :small }
     type { :coding }
 
     trait :random do

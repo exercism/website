@@ -47,7 +47,8 @@ class MentoringQueueTest < ReactComponentTestCase
             exercise_slug: "bob"
           },
           options: {
-            initial_data: AssembleMentorRequests.(params, user)
+            initial_data: AssembleMentorRequests.(params, user),
+            stale_time: 0
           }
         },
         tracks_request: {
@@ -86,7 +87,8 @@ class MentoringQueueTest < ReactComponentTestCase
                   }
                 }
               ]
-            }
+            },
+            stale_time: 0
           }
         },
         default_track: {

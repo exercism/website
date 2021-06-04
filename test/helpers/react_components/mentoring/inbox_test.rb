@@ -11,11 +11,13 @@ class MentoringInboxTest < ReactComponentTestCase
       {
         discussions_request: {
           endpoint: Exercism::Routes.api_mentoring_discussions_path(sideload: [:all_discussion_counts]),
-          query: { status: "awaiting_mentor", criteria: "Ruby", page: 1 }
+          query: { status: "awaiting_mentor", criteria: "Ruby", page: 1 },
+          options: { stale_time: 0 }
         },
         tracks_request: {
           endpoint: Exercism::Routes.tracks_api_mentoring_discussions_path,
-          query: { status: "awaiting_mentor" }
+          query: { status: "awaiting_mentor" },
+          options: { stale_time: 0 }
         },
         sort_options: [
           { value: '', label: 'Sort by oldest first' },

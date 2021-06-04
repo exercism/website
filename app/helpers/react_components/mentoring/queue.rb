@@ -42,7 +42,8 @@ module ReactComponents
           options: {
             initial_data: {
               tracks: tracks_data
-            }
+            },
+            stale_time: 0
           }
         }
       end
@@ -73,7 +74,8 @@ module ReactComponents
             exercise_slug: default_exercise.try(:[], :slug)
           }.compact,
           options: {
-            initial_data: AssembleMentorRequests.(params, mentor)
+            initial_data: AssembleMentorRequests.(params, mentor),
+            stale_time: 0
           }
         }
       end

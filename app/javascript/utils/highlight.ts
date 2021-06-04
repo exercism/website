@@ -81,7 +81,7 @@ const highlightBlock = (block: HTMLElement): void => {
     lineNumberStart = parseInt(block.dataset.highlightLineNumberStart)
   }
 
-  highlighter.highlightBlock(block)
+  highlighter.default.highlightElement(block)
 
   if (hasLineNumbers) {
     block.innerHTML = wrapLineNumbers(block.innerHTML, lineNumberStart)

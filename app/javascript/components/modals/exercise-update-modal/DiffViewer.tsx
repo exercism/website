@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { Diff2HtmlUI } from 'diff2html/lib/ui/js/diff2html-ui-base.js'
 import * as HighlightJS from 'highlight.js'
 
-export const DiffViewer = ({ diff }: { diff: string[] }): JSX.Element => {
+export const DiffViewer = ({ diff }: { diff: string }): JSX.Element => {
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -17,9 +17,10 @@ export const DiffViewer = ({ diff }: { diff: string[] }): JSX.Element => {
       fileContentToggle: false,
     }
 
+    console.log(diff)
     const diff2htmlUi = new Diff2HtmlUI(
       contentRef.current,
-      diff.join('\n'),
+      diff,
       configuration,
       HighlightJS
     )

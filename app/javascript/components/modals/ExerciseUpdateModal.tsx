@@ -9,7 +9,7 @@ import { Exercise } from '../types'
 
 type ExerciseDiffFile = {
   filename: string
-  diff: string[]
+  diff: string
 }
 export type ExerciseDiff = {
   files: ExerciseDiffFile[]

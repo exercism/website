@@ -87,7 +87,7 @@ module Git
       end
 
       def add_diff!(filepath, lines)
-        @diffs << Diff.new(filepath, lines) if filepath
+        @diffs << Diff.new(filepath, lines.join) if filepath
       end
 
       Diff = Struct.new(:filepath, :diff) do

@@ -305,4 +305,52 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     assert_empty User::ReputationTokens::CodeContributionToken.where(user: user)
   end
+
+  test "sets earned on date to pull request merged date when pull request was merged" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    create :user, handle: "User-22", github_username: "user22"
+
+    User::ReputationToken::AwardForPullRequestAuthor.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at
+    )
+
+    token = User::ReputationTokens::CodeContributionToken.find { |t| t.params["pr_node_id"] == node_id }
+    assert_equal merged_at, token.earned_on
+  end
+
+  test "sets earned on date to pull request closed date when pull request was closed" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    closed = true
+    closed_at = Time.parse('2020-06-04T09:10:06Z').utc
+    merged = false
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    create :user, handle: "User-22", github_username: "user22"
+
+    User::ReputationToken::AwardForPullRequestAuthor.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, closed: closed, merged: merged,
+      closed_at: closed_at
+    )
+
+    token = User::ReputationTokens::CodeContributionToken.find { |t| t.params["pr_node_id"] == node_id }
+    assert_equal closed_at, token.earned_on
+  end
 end

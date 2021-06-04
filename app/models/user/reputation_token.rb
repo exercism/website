@@ -23,9 +23,6 @@ class User::ReputationToken < ApplicationRecord
     self.reason = self.class.instance_variable_get("@reason")
     self.category = self.class.instance_variable_get("@category")
 
-    # TODO: This should be set correctly in the command not here
-    self.earned_on = Time.current.to_date unless earned_on
-
     # TODO: Validate level is in levels if present
   end
 
@@ -43,6 +40,7 @@ class User::ReputationToken < ApplicationRecord
   def params=(hash)
     self.level = hash.delete(:level) if hash.key?(:level)
     self.external_url = hash.delete(:external_url) if hash.key?(:external_url)
+    self.earned_on = hash.delete(:earned_on) if hash.key?(:earned_on)
 
     super(hash)
   end

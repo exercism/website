@@ -238,6 +238,9 @@
 
                 @apply py-16 px-24;
 
+                & .info {
+                    @apply flex-grow;
+                }
                 & .subtitle {
                     @apply text-textColor6 leading-paragraph mb-6;
                 }

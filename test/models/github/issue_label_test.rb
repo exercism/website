@@ -46,7 +46,7 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
     assert_nil Github::IssueLabel.for_type(:module, :unknown)
   end
 
-  %i[xs s m l xl].each do |size|
+  %i[tiny small medium large massive].each do |size|
     test "for_type with size is #{size}" do
       assert_equal "x:size/#{size}", Github::IssueLabel.for_type(:size, size)
     end

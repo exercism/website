@@ -29,11 +29,11 @@ class Github::Task < ApplicationRecord
   }, _suffix: true
 
   enum size: {
-    xs: 0,
-    s: 1,
-    m: 2,
-    l: 3,
-    xl: 4
+    tiny: 0,
+    small: 1,
+    medium: 2,
+    large: 3,
+    massive: 4
   }, _prefix: true
 
   enum type: {

@@ -7,6 +7,7 @@ module Github
 
       def call
         return destroy_task! if closed? || claimed?
+        return destroy_task! unless labeled?
 
         create_or_update_task!
       end
@@ -18,6 +19,16 @@ module Github
 
       def claimed?
         labels.any? { |label| label.name == Github::IssueLabel.for_type(:status, :claimed) }
+      end
+
+      def labeled?
+        types = %i[action knowledge module size type]
+
+        labels.any? do |label|
+          types.any? do |type|
+            label.of_type?(type)
+          end
+        end
       end
 
       def create_or_update_task!

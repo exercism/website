@@ -3,6 +3,7 @@ require "test_helper"
 class Github::Task::SyncRepoTest < ActiveSupport::TestCase
   test "creates task if issue is opened and not claimed" do
     issue = create :github_issue, status: :open
+    create :github_issue_label, name: 'x:action/fix', issue: issue
 
     task = Github::Task::SyncTask.(issue)
 
@@ -11,7 +12,7 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
     assert_equal issue.title, task.title
     assert_equal issue.opened_at, task.opened_at
     assert_equal issue.opened_by_username, task.opened_by_username
-    assert_nil task.action
+    assert_equal :fix, task.action
     assert_nil task.knowledge
     assert_nil task.area
     assert_nil task.size
@@ -96,6 +97,23 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
     issue = create :github_issue, status: :closed
     create :github_issue_label, issue: issue, name: 'x:status/claimed'
     create :github_task, issue_url: issue.github_url
+
+    Github::Task::SyncTask.(issue)
+
+    assert_empty Github::Task.all
+  end
+
+  test "does not create task if issue does not have any label" do
+    issue = create :github_issue, status: :open
+
+    Github::Task::SyncTask.(issue)
+
+    assert_empty Github::Task.all
+  end
+
+  test "does not create task if issue does not have at least one exercism label" do
+    issue = create :github_issue, status: :open
+    create :github_issue_label, name: 'good first issue', issue: issue
 
     Github::Task::SyncTask.(issue)
 

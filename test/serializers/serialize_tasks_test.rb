@@ -4,14 +4,23 @@ class SerializeTasksTest < ActiveSupport::TestCase
   test "serializes tasks" do
     freeze_time do
       task_1 = create :github_task, issue_url: 'https://github.com/exercism/fsharp/issues/99',
-                                    title: 'Fix generator', opened_at: 3.weeks.ago, opened_by_username: 'ErikSchierboom'
+                                    title: 'Fix generator', opened_at: 3.weeks.ago, opened_by_username: 'ErikSchierboom',
+                                    action: :fix, knowledge: nil, area: :representer, size: nil, type: :docs
       task_2 = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312',
-                                    title: 'Sync anagram', opened_at: 2.days.ago, opened_by_username: 'iHiD'
+                                    title: 'Sync anagram', opened_at: 2.days.ago, opened_by_username: 'iHiD',
+                                    action: :improve, knowledge: :none, area: :analyzer, size: :xl, type: :ci
       tasks = [task_1, task_2]
 
       expected = [
         {
           title: "Fix generator",
+          tags: {
+            action: :fix,
+            knowledge: nil,
+            module: :representer,
+            size: nil,
+            type: :docs
+          },
           track: {
             slug: "ruby",
             title: "Ruby",
@@ -26,6 +35,13 @@ class SerializeTasksTest < ActiveSupport::TestCase
         },
         {
           title: "Sync anagram",
+          tags: {
+            action: :improve,
+            knowledge: :none,
+            module: :analyzer,
+            size: :xl,
+            type: :ci
+          },
           track: {
             slug: "ruby",
             title: "Ruby",

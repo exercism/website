@@ -6,6 +6,13 @@ class SerializeTask
   def call
     {
       title: task.title,
+      tags: {
+        action: task.action,
+        knowledge: task.knowledge,
+        module: task.area,
+        size: task.size,
+        type: task.type
+      },
       track: task.track.present? ? {
         slug: task.track.slug,
         title: task.track.title,

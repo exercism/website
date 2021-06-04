@@ -37,6 +37,13 @@ module ReactComponents::Contributing
               results: [
                 {
                   title: "Improve test speed",
+                  tags: {
+                    action: "fix",
+                    knowledge: "elementary",
+                    module: "analyzer",
+                    size: "xs",
+                    type: "ci"
+                  },
                   track: {
                     slug: "ruby",
                     title: "Ruby",
@@ -51,6 +58,13 @@ module ReactComponents::Contributing
                 },
                 {
                   title: "Sync anagram",
+                  tags: {
+                    action: "fix",
+                    knowledge: "none",
+                    module: "analyzer",
+                    size: "s",
+                    type: "ci"
+                  },
                   track: {
                     slug: "ruby",
                     title: "Ruby",

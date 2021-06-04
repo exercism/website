@@ -46,7 +46,7 @@
             Sort by most recent
 
     .tasks
-      - (@data[:results] + @data[:results]).each do |task|
+      - @data[:results].each do |task|
         = link_to task[:links][:github_url], class: "task" do
           - if task.dig(:tags, :action).present?
             .action-icon= icon "task-action-#{task[:tags][:action]}", "Action: #{task[:tags][:action]}"
@@ -67,48 +67,48 @@
                   = image_tag task[:track][:icon_url], class: "c-track-icon"
                   .title= task[:track][:title]
               - case task.dig(:tags, :type)
-              - when 'docs'
+              - when :docs
                 .type.c-tag.--small
                   = graphical_icon 'task-type-docs'
                   docs
-              - when 'docker'
+              - when :docker
                 .type.c-tag.--small
                   = graphical_icon 'task-type-docker'
                   docker
-              - when 'coding'
+              - when :coding
                 .type.c-tag.--small
                   = graphical_icon 'task-type-coding'
                   coding
-              - when 'content'
+              - when :content
                 .type.c-tag.--small
                   = graphical_icon 'task-type-content'
                   content
-              - when 'ci'
+              - when :ci
                 .type.c-tag.--small
                   = graphical_icon 'task-type-ci'
                   ci
 
           .tags
             - case task.dig(:tags, :knowledge)
-            - when 'none'
+            - when :none
               .knowledge
                 = graphical_icon 'task-knowledge'
                 .dot
                 .dot
                 .dot
-            - when 'elementary'
+            - when :elementary
               .knowledge
                 = graphical_icon 'task-knowledge'
                 .dot.filled
                 .dot
                 .dot
-            - when 'intermediate'
+            - when :intermediate
               .knowledge
                 = graphical_icon 'task-knowledge'
                 .dot.filled
                 .dot.filled
                 .dot
-            - when 'advanced'
+            - when :advanced
               .knowledge
                 = graphical_icon 'task-knowledge'
                 .dot.filled
@@ -118,33 +118,33 @@
               .knowledge.blank
 
             - case task.dig(:tags, :size)
-            - when 'tiny'
+            - when :tiny
               .size xs
-            - when 'small'
+            - when :small
               .size s
-            - when 'medium'
+            - when :medium
               .size m
-            - when 'large'
+            - when :large
               .size l
-            - when 'massive'
+            - when :massive
               .size xl
             - else
               .size.blank
 
             - case task.dig(:tags, :module)
-            - when 'analyzer'
+            - when :analyzer
               = icon 'automation', "Analyzer", css_class: "module"
-            - when 'representer'
+            - when :representer
               = icon 'task-module-representer', "Representer", css_class: "module"
-            - when 'concept-exercise'
+            - when :'concept-exercise'
               = icon 'concept-exercise', "Concept Exercise", css_class: "module"
-            - when 'practice-exercise'
+            - when :'practice-exercise'
               = icon 'exercises', "Practice Exercise", css_class: "module"
-            - when 'test-runner'
+            - when :'test-runner'
               = icon 'tests', "Test Runner", css_class: "module"
-            - when 'generator'
+            - when :generator
               = icon 'task-module-generator', "Track Generators", css_class: "module"
-            - when 'concept'
+            - when :concept
               = icon 'task-module-concept', "Track Generators", css_class: "module"
             - else
               .module.blank

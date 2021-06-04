@@ -3,8 +3,8 @@ require "test_helper"
 class Github::IssueTest < ActiveSupport::TestCase
   test "labels" do
     issue = create :github_issue
-    label_1 = create :github_issue_label, issue: issue, label: 'help-wanted'
-    label_2 = create :github_issue_label, issue: issue, label: 'good-first-issue'
+    label_1 = create :github_issue_label, issue: issue, name: 'help-wanted'
+    label_2 = create :github_issue_label, issue: issue, name: 'good-first-issue'
     label_3 = create :github_issue_label, :random
 
     assert_includes issue.labels, label_1
@@ -42,5 +42,11 @@ class Github::IssueTest < ActiveSupport::TestCase
 
     refute issue.status_open?
     assert issue.status_closed?
+  end
+
+  test "issue_url" do
+    issue = create :github_issue, repo: 'exercism/fsharp', number: 32
+
+    assert_equal 'https://github.com/exercism/fsharp/issues/32', issue.github_url
   end
 end

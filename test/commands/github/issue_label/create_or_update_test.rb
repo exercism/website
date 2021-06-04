@@ -3,11 +3,11 @@ require "test_helper"
 class Github::IssueLabel::CreateOrUpdateTest < ActiveSupport::TestCase
   test "create issue label" do
     issue = create :github_issue
-    label = "help-wanted"
+    name = "help-wanted"
 
-    review = Github::IssueLabel::CreateOrUpdate.(issue, label)
+    issue_label = Github::IssueLabel::CreateOrUpdate.(issue, name)
 
-    assert_equal issue, review.issue
-    assert_equal label, review.label
+    assert_equal issue, issue_label.issue
+    assert_equal name, issue_label.name
   end
 end

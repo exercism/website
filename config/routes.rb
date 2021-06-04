@@ -91,6 +91,8 @@ Rails.application.routes.draw do
 
       resources :contributors, only: [:index]
 
+      resources :tasks, only: [:index]
+
       resources :solutions, only: %i[index show update] do
         member do
           patch :complete

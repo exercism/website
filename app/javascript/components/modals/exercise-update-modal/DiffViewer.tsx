@@ -17,7 +17,6 @@ export const DiffViewer = ({ diff }: { diff: string }): JSX.Element => {
       fileContentToggle: false,
     }
 
-    console.log(diff)
     const diff2htmlUi = new Diff2HtmlUI(
       contentRef.current,
       diff,

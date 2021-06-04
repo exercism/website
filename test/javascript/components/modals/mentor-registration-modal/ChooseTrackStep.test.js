@@ -118,7 +118,6 @@ test('selects tracks', async () => {
 
   var selected = []
   const setSelected = (s) => {
-    console.log(s)
     selected = s
   }
 

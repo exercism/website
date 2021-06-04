@@ -36,7 +36,9 @@ export const Inbox = ({
   discussionsRequest: Request
   sortOptions: readonly SortOption[]
 }): JSX.Element => {
-  const [criteria, setCriteria] = useState('')
+  const [criteria, setCriteria] = useState(
+    discussionsRequest.query?.criteria || ''
+  )
   const {
     request,
     setCriteria: setRequestCriteria,

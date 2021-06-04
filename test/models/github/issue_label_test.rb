@@ -1,6 +1,21 @@
 require "test_helper"
 
 class Github::IssueLabelTest < ActiveSupport::TestCase
+  test "namespace" do
+    label = create :github_issue_label, name: 'x:action/fix'
+    assert_equal :exercism, label.namespace
+  end
+
+  test "type" do
+    label = create :github_issue_label, name: 'x:action/fix'
+    assert_equal :action, label.type
+  end
+
+  test "value" do
+    label = create :github_issue_label, name: 'x:action/fix'
+    assert_equal :fix, label.value
+  end
+
   %i[create fix improve proofread sync].each do |action|
     test "for_type with action is #{action}" do
       assert_equal "x:action/#{action}", Github::IssueLabel.for_type(:action, action)
@@ -61,19 +76,45 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
 
   test "of_type?" do
     label = create :github_issue_label, name: 'x:size/l'
-
     assert label.of_type?(:size)
     refute label.of_type?(:knowledge)
     refute label.of_type?(:module)
     refute label.of_type?(:status)
     refute label.of_type?(:type)
+  end
 
-    label.update(name: 'x:knowledge/advanced')
+  test "of_type? with invalid value" do
+    label = create :github_issue_label, name: 'x:size/invalid'
+    %i[size knowledge module status type].each do |type|
+      refute label.of_type?(type)
+    end
+  end
 
-    assert label.of_type?(:knowledge)
-    refute label.of_type?(:size)
-    refute label.of_type?(:module)
-    refute label.of_type?(:status)
-    refute label.of_type?(:type)
+  test "of_type? with invalid type" do
+    label = create :github_issue_label, name: 'x:invalid/s'
+    %i[size knowledge module status type].each do |type|
+      refute label.of_type?(type)
+    end
+  end
+
+  test "of_type? with invalid namespace" do
+    label = create :github_issue_label, name: 'a:size/s'
+    %i[size knowledge module status type].each do |type|
+      refute label.of_type?(type)
+    end
+  end
+
+  test "of_type? with invalid namespace, type and value" do
+    label = create :github_issue_label, name: 'a:invalid/weird'
+    %i[size knowledge module status type].each do |type|
+      refute label.of_type?(type)
+    end
+  end
+
+  test "of_type? with non-namespaced label" do
+    label = create :github_issue_label, name: 'good-first-issue'
+    %i[size knowledge module status type].each do |type|
+      refute label.of_type?(type)
+    end
   end
 end

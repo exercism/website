@@ -10,20 +10,47 @@ class Github::IssueLabel < ApplicationRecord
     return unless TYPES.include?(type)
     return unless TYPES[type].include?(val)
 
-    "#{type_prefix(type)}#{val}"
+    "x:#{type}/#{val}"
   end
 
-  def of_type?(type)
-    name.start_with?(Github::IssueLabel.type_prefix(type))
+  def of_type?(type_to_check)
+    return unless value && type && namespace
+
+    namespace == :exercism &&
+      type == type_to_check &&
+      TYPES[type_to_check]&.include?(value)
   end
 
   memoize
   def value
-    name.split('/').second.to_sym
+    return unless components
+
+    components[:value]&.to_sym
   end
 
-  def self.type_prefix(type)
-    "x:#{type}/"
+  memoize
+  def type
+    return unless components
+
+    components[:type]&.to_sym
+  end
+
+  memoize
+  def namespace
+    return unless components
+
+    case components[:namespace]
+    when 'x'
+      :exercism
+    else
+      :unknown
+    end
+  end
+
+  private
+  memoize
+  def components
+    name.match(%r{^(?<namespace>[a-zA-z]):(?<type>[a-zA-z\-]+)/(?<value>[a-zA-z\-]+)$})
   end
 
   TYPES = {

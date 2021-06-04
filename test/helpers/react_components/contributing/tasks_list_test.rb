@@ -3,7 +3,7 @@ require_relative "../react_component_test_case"
 module ReactComponents::Contributing
   class TasksListTest < ReactComponentTestCase
     test "renders correctly" do
-      track = create :track
+      track = create :track, slug: 'ruby'
 
       create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312', title: 'Sync anagram',
                            opened_at: Time.parse("2020-10-17T02:39:37Z").utc, opened_by_username: 'ErikSchierboom',
@@ -22,7 +22,7 @@ module ReactComponents::Contributing
         sizes: %w[xs s],
         types: ["ci"],
         repo_url: "exercism/ruby",
-        track_id: track.id.to_s,
+        track: "ruby",
         page: 1
       }
 
@@ -37,6 +37,13 @@ module ReactComponents::Contributing
               results: [
                 {
                   title: "Improve test speed",
+                  tags: {
+                    action: "fix",
+                    knowledge: "elementary",
+                    module: "analyzer",
+                    size: "xs",
+                    type: "ci"
+                  },
                   track: {
                     slug: "ruby",
                     title: "Ruby",
@@ -51,6 +58,13 @@ module ReactComponents::Contributing
                 },
                 {
                   title: "Sync anagram",
+                  tags: {
+                    action: "fix",
+                    knowledge: "none",
+                    module: "analyzer",
+                    size: "s",
+                    type: "ci"
+                  },
                   track: {
                     slug: "ruby",
                     title: "Ruby",

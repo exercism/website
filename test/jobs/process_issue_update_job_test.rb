@@ -59,7 +59,7 @@ class ProcessIssueUpdateJobTest < ActiveJob::TestCase
         title: "grep is failing on Windows",
         state: "OPEN",
         repo: "exercism/ruby",
-        labels: %w[bug good-first-issue],
+        labels: ['bug', 'good-first-issue', 'x:action/fix'],
         opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
         opened_by_username: "SleeplessByte"
       )

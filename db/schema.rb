@@ -623,7 +623,6 @@ ActiveRecord::Schema.define(version: 2021_06_03_212112) do
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
-    t.index ["user_id", "type"], name: "index_user_reputation_tokens_on_user_id_and_type"
     t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
     t.index ["uuid"], name: "index_user_reputation_tokens_on_uuid", unique: true
   end

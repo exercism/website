@@ -35,14 +35,16 @@ module ReactComponents
             criteria: params[:criteria],
             page: params[:page] ? params[:page].to_i : 1,
             track: params[:track]
-          }.compact
+          }.compact,
+          options: { stale_time: 0 }
         }
       end
 
       def tracks_request
         {
           endpoint: Exercism::Routes.tracks_api_mentoring_discussions_path,
-          query: { status: params[:status] || DEFAULT_STATUS }
+          query: { status: params[:status] || DEFAULT_STATUS },
+          options: { stale_time: 0 }
         }
       end
     end

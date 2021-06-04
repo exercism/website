@@ -48,8 +48,11 @@
     .tasks
       - (@data[:results] + @data[:results]).each do |task|
         = link_to task[:links][:github_url], class: "task" do
-          - if task[:tags][:action].present?
-            = icon "task-action-#{task[:tags][:action]}", "Action: #{task[:tags][:action]}", css_class: "action-icon"
+          - if task.dig(:tags, :action).present?
+            .action-icon= icon "task-action-#{task[:tags][:action]}", "Action: #{task[:tags][:action]}"
+          - else
+            .action-icon
+
           .info
             .heading
               %h3= task[:title]
@@ -63,35 +66,87 @@
                   .for for
                   = image_tag task[:track][:icon_url], class: "c-track-icon"
                   .title= task[:track][:title]
-              - case task[:tags][:type]
+              - case task.dig(:tags, :type)
               - when 'docs'
                 .type.c-tag.--small
-                  = graphical_icon :guides
+                  = graphical_icon 'task-type-docs'
                   docs
-          .tags
-            - case task[:tags][:knowledge]
-            - when 's'
-              .knowledge
-                = graphical_icon 'task-knowledge'
-                .dot.filled
-                .dot
-                .dot
-                .dot
-            - case task[:tags][:knowledge]
-            - when 'm'
-              .knowledge
-                = graphical_icon 'task-knowledge'
-                .dot.filled
-                .dot.filled
-                .dot
-                .dot
+              - when 'docker'
+                .type.c-tag.--small
+                  = graphical_icon 'task-type-docker'
+                  docker
+              - when 'coding'
+                .type.c-tag.--small
+                  = graphical_icon 'task-type-coding'
+                  coding
+              - when 'content'
+                .type.c-tag.--small
+                  = graphical_icon 'task-type-content'
+                  content
+              - when 'ci'
+                .type.c-tag.--small
+                  = graphical_icon 'task-type-ci'
+                  ci
 
-            - case task[:tags][:size]
+          .tags
+            - case task.dig(:tags, :knowledge)
+            - when 'none'
+              .knowledge
+                = graphical_icon 'task-knowledge'
+                .dot
+                .dot
+                .dot
+            - when 'elementary'
+              .knowledge
+                = graphical_icon 'task-knowledge'
+                .dot.filled
+                .dot
+                .dot
+            - when 'intermediate'
+              .knowledge
+                = graphical_icon 'task-knowledge'
+                .dot.filled
+                .dot.filled
+                .dot
+            - when 'advanced'
+              .knowledge
+                = graphical_icon 'task-knowledge'
+                .dot.filled
+                .dot.filled
+                .dot.filled
+            - else
+              .knowledge.blank
+
+            - case task.dig(:tags, :size)
+            - when 'tiny'
+              .size xs
             - when 'small'
               .size s
+            - when 'medium'
+              .size m
+            - when 'large'
+              .size l
+            - when 'massive'
+              .size xl
+            - else
+              .size.blank
 
-            - case task[:tags][:module]
+            - case task.dig(:tags, :module)
             - when 'analyzer'
               = icon 'automation', "Analyzer", css_class: "module"
+            - when 'representer'
+              = icon 'task-module-representer', "Representer", css_class: "module"
+            - when 'concept-exercise'
+              = icon 'concept-exercise', "Concept Exercise", css_class: "module"
+            - when 'practice-exercise'
+              = icon 'exercises', "Practice Exercise", css_class: "module"
+            - when 'test-runner'
+              = icon 'tests', "Test Runner", css_class: "module"
+            - when 'generator'
+              = icon 'task-module-generator', "Track Generators", css_class: "module"
+            - when 'concept'
+              = icon 'task-module-concept', "Track Generators", css_class: "module"
+            - else
+              .module.blank
 
           = graphical_icon "external-link", css_class: "external-link"

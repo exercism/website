@@ -43,10 +43,16 @@
             @apply flex items-center;
             @apply border-b-1 border-borderColor7;
 
-            & .c-icon.action-icon {
+            & .action-icon {
                 height: 40px;
                 width: 40px;
                 @apply mr-16;
+                @apply border-2 border-textColor2 rounded-circle;
+                @apply grid place-items-center;
+                & .c-icon {
+                    height: 25px;
+                    width: 25px;
+                }
             }
             & .info {
                 & .heading {
@@ -123,6 +129,9 @@
                             @apply bg-textColor2;
                         }
                     }
+                    &.blank {
+                        @apply border-transparent;
+                    }
                 }
                 & .size {
                     height: 24px;
@@ -130,6 +139,9 @@
                     @apply grid place-items-center;
                     @apply font-mono leading-150 font-semibold;
                     @apply border-1 border-textColor2 rounded-3;
+                    &.blank {
+                        @apply border-transparent;
+                    }
                 }
 
                 & .module {

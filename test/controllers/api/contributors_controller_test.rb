@@ -1,7 +1,7 @@
 require_relative './base_test_case'
 
 module API
-  class CommunitySolutionsControllerTest < API::BaseTestCase
+  class ContributorsControllerTest < API::BaseTestCase
     #########
     # INDEX #
     #########

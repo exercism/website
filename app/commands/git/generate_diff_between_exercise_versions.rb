@@ -21,7 +21,7 @@ module Git
     memoize
     def changed_files
       # This is a diff of two commits considering all files in the respective old and new directories
-      raw_diff = `cd #{repo.send(:repo_dir)} && git diff --merge-base #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}` # rubocop:disable Layout/LineLength
+      raw_diff = `cd #{repo.send(:repo_dir)} && git diff #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}` # rubocop:disable Layout/LineLength
       ProcessDiff.(raw_diff)
     end
 

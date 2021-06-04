@@ -44,7 +44,7 @@ module Github
     def filter!
       %i[track_id repo actions knowledge areas sizes types].each do |filter|
         value = send(filter)
-        @tasks = @tasks.where(filter.to_s.singularize.to_sym => value) if value.present?
+        @tasks = @tasks.where(filter.to_s.singularize.to_sym => value.to_sym) if value.present?
       end
     end
 

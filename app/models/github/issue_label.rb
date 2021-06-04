@@ -18,8 +18,7 @@ class Github::IssueLabel < ApplicationRecord
 
     namespace == :exercism &&
       type == type_to_check &&
-      TYPES.include?(type_to_check) &&
-      TYPES[type_to_check].include?(value)
+      TYPES[type_to_check]&.include?(value)
   end
 
   memoize

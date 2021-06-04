@@ -4,10 +4,23 @@
  */
 
 .c-diff {
+    --diffDarkGreen: #a9e7c8;
+    --diffLightGreen: #e5f8ee;
+    --diffDarkRed: #f5adad;
+    --diffLightRed: #fce6e6;
+
     @apply py-12;
+    & .hljs {
+        background: none !important;
+    }
+
     & .d2h-diff-table {
         @apply font-mono leading-160;
         @apply w-100;
+    }
+    & .d2h-diff-tbody tr:first-child,
+    & .d2h-file-header {
+        display: none;
     }
 
     & .d2h-files-diff {
@@ -30,11 +43,11 @@
         }
 
         &.d2h-ins {
-            background: rgba(79, 205, 144, 0.4);
+            background: var(--diffDarkGreen);
         }
 
         &.d2h-del {
-            /* TODO background color */
+            background: var(--diffDarkRed);
         }
 
         /* Adds a null char for if there is no content */
@@ -43,11 +56,36 @@
         }
     }
 
+    & td.d2h-ins > .d2h-code-line {
+        background: var(--diffLightGreen);
+    }
+
+    & td.d2h-del > .d2h-code-line {
+        background: var(--diffLightRed);
+    }
+
     & .d2h-code-line {
         white-space: nowrap;
         user-select: none;
         width: 100%;
         @apply flex items-center;
+
+        & ins,
+        & del {
+            display: inline-block;
+            margin-top: -1px;
+            text-decoration: none;
+            border-radius: 1px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        & ins {
+            background: var(--diffDarkGreen);
+        }
+        & del {
+            background: var(--diffDarkRed);
+        }
 
         &.d2h-ins {
             background: rgba(79, 205, 144, 0.15);
@@ -67,65 +105,18 @@
         }
     }
 
-    & .d2h-code-line del,
-    & .d2h-code-side-line del {
-        display: inline-block;
-        margin-top: -1px;
-        text-decoration: none;
-        background-color: #ffb6ba;
-        border-radius: 0.2em;
-        vertical-align: middle;
-    }
-
-    & .d2h-code-line ins,
-    & .d2h-code-side-line ins {
-        display: inline-block;
-        margin-top: -1px;
-        text-decoration: none;
-        background-color: #97f295;
-        border-radius: 0.2em;
-        text-align: left;
-        vertical-align: middle;
-    }
-
-    & .d2h-code-line-prefix {
-    }
-
-    & .d2h-code-side-linenumber {
-        /* Keep the numbers fixed on line contents scroll */
-        position: absolute;
-        display: inline-block;
-        width: 4em;
-        background-color: #fff;
-        color: rgba(0, 0, 0, 0.3);
-        text-align: right;
-        border: solid #eeeeee;
-        border-width: 0 1px 0 1px;
-        cursor: pointer;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding: 0 0.5em 0 0.5em;
-    }
-
-    & .d2h-code-side-linenumber:after {
-        content: "\200b";
-    }
-
-    & .d2h-code-side-emptyplaceholder,
     & .d2h-emptyplaceholder {
-        background-color: #f1f1f1;
-        border-color: #e1e1e1;
+        /* background-color: #f1f1f1; */
+        /* border-color: #e1e1e1; */
     }
 
     & .d2h-code-linenumber,
-    & .d2h-code-side-linenumber,
     & .d2h-code-line-prefix,
     & .d2h-emptyplaceholder {
         user-select: none;
     }
 
-    & .d2h-code-linenumber,
-    & .d2h-code-side-linenumber {
+    & .d2h-code-linenumber {
         direction: rtl;
     }
 
@@ -133,17 +124,9 @@
      * Changes Highlight
      */
 
-    & .d2h-info {
-        background-color: #f8fafd;
-        color: rgba(0, 0, 0, 0.3);
-        border-color: #d5e4f2;
-    }
-
-    & .d2h-file-diff .d2h-del.d2h-change {
-        background-color: #fdf2d0;
-    }
-
-    & .d2h-file-diff .d2h-ins.d2h-change {
-        background-color: #ded;
-    }
+    /* & .d2h-info { */
+    /*     background-color: #f8fafd; */
+    /*     color: rgba(0, 0, 0, 0.3); */
+    /*     border-color: #d5e4f2; */
+    /* } */
 }

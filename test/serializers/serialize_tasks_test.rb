@@ -8,7 +8,7 @@ class SerializeTasksTest < ActiveSupport::TestCase
                                     action: :fix, knowledge: nil, area: :representer, size: nil, type: :docs
       task_2 = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312',
                                     title: 'Sync anagram', opened_at: 2.days.ago, opened_by_username: 'iHiD',
-                                    action: :improve, knowledge: :none, area: :analyzer, size: :xl, type: :ci
+                                    action: :improve, knowledge: :none, area: :analyzer, size: :massive, type: :ci
       tasks = [task_1, task_2]
 
       expected = [
@@ -39,7 +39,7 @@ class SerializeTasksTest < ActiveSupport::TestCase
             action: :improve,
             knowledge: :none,
             module: :analyzer,
-            size: :xl,
+            size: :massive,
             type: :ci
           },
           track: {

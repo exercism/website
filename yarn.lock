@@ -2171,10 +2171,10 @@
   resolved "https://registry.yarnpkg.com/@exercism/active-background/-/active-background-0.6.2.tgz#8f7333adcc37401dac0c2af0e94a9d2a87311666"
   integrity sha512-oRSlD9o2twN+AwoL8XSYgbxggt8+rgH+n6y84mjXpuC/MsJoQQGG0Y6gkzuJcloLgB1SuBUt87qJunm4lYQzCA==
 
-"@exercism/codemirror-lang-wren@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-wren/-/codemirror-lang-wren-0.5.0.tgz#a5a85ebe557ba8743f73b8815efeee4389fc9fea"
-  integrity sha512-k4bEgK5zFxTMe9Erg/vHXTr/hWbYeoeQo/Zos3E2duxDHydfGJayhFzKigvTMcltV3R2XHYJSMtkInwxRXrO7A==
+"@exercism/codemirror-lang-wren@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-wren/-/codemirror-lang-wren-0.7.1.tgz#83a397d9ed6fdc06ff8343cbbaf178b8681e42c1"
+  integrity sha512-2X6DlYAgCXcQpcGPGCkmxSnc6zZieiK8vEbHz2W6dE6pAFoEdi2pqpKl+8ij69tHclVm+uppp72UW63hfQXpfQ==
   dependencies:
     "@codemirror/autocomplete" "^0.18.5"
     "@codemirror/highlight" "^0.18.4"

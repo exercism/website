@@ -23,6 +23,9 @@ export const loadLanguageCompartment = async (
     case 'rust':
       const { rust } = await import('@codemirror/lang-rust')
       return compartment.of(rust())
+    case 'wren':
+      const { wren } = await import('@exercism/codemirror-lang-wren')
+      return compartment.of(wren())
 
     // Legacy
     case 'bash':

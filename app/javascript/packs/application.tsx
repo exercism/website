@@ -308,6 +308,7 @@ initReact({
       endpoint={data.endpoint}
     />
   ),
+  'common-walkthrough': (data: any) => <Common.Walkthrough html={data.html} />,
   'track-exercise-community-solutions-list': (data: any) => (
     <TrackComponents.ExerciseCommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}

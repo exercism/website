@@ -21,6 +21,8 @@ class Tracks::ConceptsController < ApplicationController
   def show
     @concept_exercises = @concept.concept_exercises
     @practice_exercises = @concept.practice_exercises
+    @solutions = Solution.where(exercise_id: @concept_exercises.map(&:id) + @practice_exercises.map(&:id)).
+      index_by(&:exercise_id)
   end
 
   def tooltip

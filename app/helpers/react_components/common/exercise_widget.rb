@@ -7,6 +7,7 @@ module ReactComponents
                      render_as_link: true,
                      render_blurb: true,
                      render_track: true,
+                     recommended: false,
                      skinny: false)
         super()
 
@@ -17,12 +18,13 @@ module ReactComponents
         @render_as_link = render_as_link
         @render_blurb = render_blurb
         @render_track = render_track
+        @recommended = recommended
         @skinny = skinny
       end
 
       def to_s
         super("common-exercise-widget", {
-          exercise: SerializeExercise.(exercise, user_track: user_track),
+          exercise: SerializeExercise.(exercise, user_track: user_track, recommended: recommended),
           track: render_track ? SerializeTrack.(exercise.track, user_track) : nil,
           solution: solution ? SerializeSolution.(solution, user_track: user_track) : nil,
           links: links,
@@ -33,7 +35,8 @@ module ReactComponents
       end
 
       private
-      attr_reader :exercise, :user_track, :solution, :with_tooltip, :render_as_link, :render_blurb, :render_track, :skinny
+      attr_reader :exercise, :user_track, :solution, :with_tooltip, :render_as_link, :render_blurb, :render_track,
+        :recommended, :skinny
 
       def links
         {

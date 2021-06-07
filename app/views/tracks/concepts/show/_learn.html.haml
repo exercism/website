@@ -1,0 +1,22 @@
+.learn
+  %h3
+    = graphical_icon(:concepts)
+    Learn #{concept.name}
+
+  .exercises
+    - concept_exercises.each do |concept_exercise|
+      = render ReactComponents::Common::ExerciseWidget.new(concept_exercise, user_track, solution: solutions[concept_exercise.id], recommended: true, render_track: false)
+
+- if practice_exercises.present?
+  .practice-locked-bar
+    = icon "lock-circle", "Practicing is locked"
+
+  .practice
+    %h3
+      = graphical_icon(:exercises)
+      Unlocks #{practice_exercises.count} more exercises to practice #{concept.name}
+
+    .exercises
+      - practice_exercises.each do |practice_exercise|
+        = render ReactComponents::Common::ExerciseWidget.new(practice_exercise, user_track, solution: solutions[practice_exercise.id], render_track: false)
+

@@ -1,0 +1,22 @@
+.learn
+  %h3
+    = graphical_icon(:concepts)
+    You've learnt #{concept.name}!
+
+  .exercises
+    - concept_exercises.each do |concept_exercise|
+      = render ReactComponents::Common::ExerciseWidget.new(concept_exercise, user_track, solution: solutions[concept_exercise.id], render_track: false)
+
+- if practice_exercises.present?
+  .practice
+    %h3
+      = graphical_icon(:exercises)
+      - if user_track.concept_mastered?(concept)
+        You've mastered #{concept.name}!
+      - else
+        Practice #{concept.name}
+
+    .exercises
+      - practice_exercises.each do |practice_exercise|
+        = render ReactComponents::Common::ExerciseWidget.new(practice_exercise, user_track, solution: solutions[practice_exercise.id], render_track: false)
+

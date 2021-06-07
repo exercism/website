@@ -35,10 +35,15 @@
                 @apply relative;
                 @apply flex flex-col justify-between m-40;
                 @apply text-textColor2;
+                @apply border-1 border-borderColor7;
 
                 background-color: var(--c-concept-map-card-background);
                 opacity: var(--c-concept-map-hover-opacity);
                 transition: opacity 200ms ease-out, box-shadow 200ms ease-out;
+
+                &:hover {
+                    @apply border-borderColor6;
+                }
 
                 &:after {
                     @apply absolute;
@@ -96,6 +101,7 @@
 
                 & .display {
                     @apply flex items-center justify-center;
+                    border-radius: 7px 7px 0 0;
                     @apply py-16 px-24;
 
                     & .name {
@@ -112,6 +118,9 @@
                     &:hover {
                         @apply bg-backgroundColorE;
                     }
+                }
+                &.mastered .display:hover {
+                    @apply bg-veryLightGreen;
                 }
             }
 

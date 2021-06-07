@@ -7,6 +7,7 @@
     & .--modal-content {
         width: 100%;
         max-width: 1120px;
+        min-height: auto;
         @apply py-48 px-64 bg-backgroundColorA;
         @apply shadow-lg;
 

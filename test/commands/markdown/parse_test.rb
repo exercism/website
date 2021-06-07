@@ -46,6 +46,7 @@ Here is a sample of what a textarea block looks like:
 Done')
     assert_equal expected.chomp, actual.chomp
   end
+
   test "allows details" do
     expected = '<p>Here is a sample of what a details/summary block looks like:</p>
 <details><summary>Click the little arrow to get a hint!</summary>
@@ -271,5 +272,10 @@ Done')
     skip # TODO: enable once we know how to handle widgets
     expected = %(<p><span data-react-widget="julia/exercises/two-fer\" class=\"data-react-exercise-widget\"></span></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](https://exercism.io/tracks/julia/exercises/two-fer)")
+  end
+
+  test "copes with a bad link uri scheme" do
+    expected = %(<p><a href=\"+https://exercism.io/tracks/julia/exercises/two-fer\" target=\"_blank\" rel=\"noopener\">exercise:julia/two-fer</a></p>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](+https://exercism.io/tracks/julia/exercises/two-fer)")
   end
 end

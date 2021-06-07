@@ -65,7 +65,7 @@
         & h3 {
             @apply text-h5 mb-16;
         }
-        & hr + h2 + ul {
+        & ul:last-child {
             @apply flex items-center;
             @apply m-0;
             & li {

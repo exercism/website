@@ -29,5 +29,15 @@ module Flows
         assert_text "exercism configure --token=AUTH_TOKEN"
       end
     end
+
+    test "student views walkthrough in modal" do
+      use_capybara_host do
+        sign_in!
+        visit modal_temp_walkthrough_url
+        click_on "View walkthrough"
+
+        assert_text "Welcome to the Exercism installation guide!"
+      end
+    end
   end
 end

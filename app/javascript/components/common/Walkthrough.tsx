@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react'
 import $ from 'jquery'
-import initWalkthrough from '@exercism/twine2-story-format/src/index'
+import Story from '@exercism/twine2-story-format/src/story'
+
+declare global {
+  interface Window {
+    story: Story
+  }
+}
 
 export const Walkthrough = ({ html }: { html: string }): JSX.Element => {
   useEffect(() => {
-    initWalkthrough
+    window.story = new Story($('tw-storydata'))
+    window.story.start($('#main'))
 
     const scrollToTop = () => {
       window.scrollTo({ top: 0 })

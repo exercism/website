@@ -42,6 +42,9 @@ declare module 'nim-codemirror-mode' {
   export const nim: StreamParser<unknown>
 }
 
-declare module '@exercism/twine2-story-format/src/index' {
-  export const initWalkThough: void
+declare module '@exercism/twine2-story-format/src/story' {
+  export default class Story {
+    constructor(params: any)
+    start: (params: any) => any
+  }
 }

@@ -306,6 +306,7 @@ Rails.application.routes.draw do
     resource :walkthrough, controller: "walkthrough" do
       member do
         get :standalone
+        get :modal
       end
     end
     resources :modals, only: [] do

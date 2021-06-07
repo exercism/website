@@ -75,6 +75,7 @@ export const CodeMirror = ({
       state: EditorState.create({
         doc: value,
         extensions: [
+          keymap.of(commands),
           basicSetup,
           a11yTabBindingPanel(),
           tabCaptureCompartment.of(
@@ -86,7 +87,6 @@ export const CodeMirror = ({
           themeCompartment.of(
             EditorView.theme({}, { dark: theme === Themes.DARK })
           ),
-          keymap.of(commands),
         ],
       }),
       parent: textarea,

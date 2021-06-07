@@ -146,7 +146,13 @@ module.exports = {
       color22: '#C8D5EF',
 
       commonBadge: '#F0F3F9',
-      rareBadge: '#9FB4FF',
+      commonBadgeFill: '#505359',
+      rareBadge: '#DBF0FF',
+      rareBadgeFill: '#00144B',
+      ultimateBadge: '#F69605',
+      ultimateBadgeFill: '#560000',
+      legendaryBadge: '#EB5757',
+      legendaryBadgeFill: '#4B0000',
 
       white: '#fff',
       black: '#000',

@@ -8,7 +8,7 @@ class SerializeUserAcquiredBadge
 
     {
       id: acquired_badge.uuid,
-      revealed: acquired_badge.revealed?,
+      is_revealed: acquired_badge.revealed?,
       unlocked_at: acquired_badge.created_at.iso8601,
       name: badge.name,
       description: badge.description,

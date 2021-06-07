@@ -14,7 +14,7 @@
     "@codemirror/stream-parser": "^0.18.2",
     "@codemirror/view": "^0.18.13",
     "@exercism/active-background": "^0.6.2",
-    "@exercism/codemirror-lang-wren": "^0.7.0",
+    "@exercism/codemirror-lang-wren": "^0.7.1",
     "@exercism/twine2-story-format": "https://github.com/exercism/twine2-story-format.git",
     "@popperjs/core": "^2.5.2",
     "@rails/actioncable": "^6.0.0",

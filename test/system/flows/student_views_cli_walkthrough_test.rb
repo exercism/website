@@ -2,13 +2,13 @@ require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
 
 module Flows
-  class StudentViewsWalkthroughTest < ApplicationSystemTestCase
+  class StudentViewsCLIWalkthroughTest < ApplicationSystemTestCase
     include CapybaraHelpers
 
     test "student views walkthrough" do
       use_capybara_host do
         sign_in!
-        visit standalone_temp_walkthrough_url
+        visit cli_walkthrough_url
 
         assert_text "Welcome to the Exercism installation guide!"
       end
@@ -20,7 +20,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit standalone_temp_walkthrough_url
+        visit cli_walkthrough_url
         click_on "Mac"
         click_on "Yes"
         click_on "Yes"
@@ -33,7 +33,7 @@ module Flows
     test "student views walkthrough in modal" do
       use_capybara_host do
         sign_in!
-        visit modal_temp_walkthrough_url
+        visit modal_test_components_cli_walkthrough_url
         click_on "View walkthrough"
 
         assert_text "Welcome to the Exercism installation guide!"

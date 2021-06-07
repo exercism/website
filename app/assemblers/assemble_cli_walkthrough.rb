@@ -1,4 +1,4 @@
-class AssembleWalkthrough
+class AssembleCLIWalkthrough
   include Mandate
 
   initialize_with :user

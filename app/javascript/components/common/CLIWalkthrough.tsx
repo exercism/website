@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-export const Walkthrough = ({ html }: { html: string }): JSX.Element => {
+export const CLIWalkthrough = ({ html }: { html: string }): JSX.Element => {
   useEffect(() => {
     window.story = new Story($('tw-storydata'))
     window.story.start($('#main'))
@@ -24,5 +24,10 @@ export const Walkthrough = ({ html }: { html: string }): JSX.Element => {
     }
   }, [])
 
-  return <div dangerouslySetInnerHTML={{ __html: html }} />
+  return (
+    <div
+      className="c-cli-walkthrough"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  )
 }

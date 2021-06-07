@@ -281,6 +281,7 @@ Rails.application.routes.draw do
   get "privacy-policy" => "docs/privacy_policy", as: :privacy_policy
   get "licences/cc-sa-4" => "licences/cc_sa_4_licence", as: :cc_sa_4_licence
   get "licences/mit" => "licences/mit", as: :mit_licence
+  get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
 
   root to: "pages#index"
 
@@ -303,12 +304,7 @@ Rails.application.routes.draw do
   # TODO: Remove these before launching
   namespace :temp do
     resources :tracks, only: [:create]
-    resource :walkthrough, controller: "walkthrough" do
-      member do
-        get :standalone
-        get :modal
-      end
-    end
+
     resources :modals, only: [] do
       collection do
         get :mentoring_sessions
@@ -337,6 +333,11 @@ Rails.application.routes.draw do
   unless Rails.env.production?
     namespace :test do
       namespace :components do
+        resource :cli_walkthrough, controller: "cli_walkthrough" do
+          member do
+            get :modal
+          end
+        end
         resource :editor, only: [:show], controller: "editor"
         namespace :student do
           resource :concept_map, only: [:show], controller: 'concept_map'

@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
-import { WalkthroughModal } from '../modals/WalkthroughModal'
+import { CLIWalkthroughModal } from '../modals/CLIWalkthroughModal'
 
-export const WalkthroughButton = ({ html }: { html: string }): JSX.Element => {
+export const CLIWalkthroughButton = ({
+  html,
+}: {
+  html: string
+}): JSX.Element => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -9,10 +13,9 @@ export const WalkthroughButton = ({ html }: { html: string }): JSX.Element => {
       <button type="button" onClick={() => setOpen(!open)}>
         View walkthrough
       </button>
-      <WalkthroughModal
+      <CLIWalkthroughModal
         open={open}
         onClose={() => setOpen(false)}
-        className="m-walkthrough"
         html={html}
       />
     </React.Fragment>

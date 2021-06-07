@@ -94,6 +94,7 @@ module Flows
         assert_text "class Lasagna", wait: 2
 
         within("footer .iterations") { click_on "1" }
+        refute_text "class Lasagna", wait: 2
         assert_text "class Bob", wait: 2
       end
     end

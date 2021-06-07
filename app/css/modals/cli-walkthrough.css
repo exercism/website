@@ -1,0 +1,23 @@
+@import "../styles";
+
+.m-cli-walkthrough.c-modal {
+    @apply pt-96 pb-48 px-48;
+
+    & .--modal-content {
+        max-width: 1020px;
+        min-height: auto;
+        @apply pt-80 pb-40 px-64;
+        @apply relative;
+        @apply overflow-visible;
+        @apply bg-backgroundColorA;
+        @apply shadow-lgZ1 rounded-8;
+    }
+    & .wizard-icon {
+        height: 128px;
+        width: 128px;
+        position: absolute;
+        top: -64px;
+        margin-left: -64px;
+        left: 50%;
+    }
+}

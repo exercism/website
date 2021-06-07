@@ -26,6 +26,10 @@ module Git
       repo.fetch!
     end
 
+    def walkthrough
+      repo.read_text_blob(head_commit, "walkthrough/index.html")
+    end
+
     private
     attr_reader :repo
 

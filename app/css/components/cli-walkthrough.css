@@ -1,0 +1,81 @@
+@import "../styles";
+@import "../ui-kit/buttons";
+
+.c-cli-walkthrough {
+    /* All of this can be removed once we make the 
+     * content into textual content */
+    & .passage {
+        & > p,
+        & > ul,
+        & > pre {
+            @apply text-18 leading-160;
+            @apply mb-16;
+        }
+        & ul,
+        & ol {
+            @apply mb-24;
+            margin-left: 14px;
+            & li {
+                margin-left: 6px;
+                @apply mt-0;
+                @apply mb-8;
+            }
+        }
+        & ul li {
+            @apply list-disc;
+        }
+        & ol li {
+            @apply list-decimal;
+        }
+        & a {
+            @apply font-semibold text-lightBlue;
+        }
+
+        & strong {
+            @apply font-semibold;
+        }
+        & em {
+            @apply italic;
+        }
+        & strikethrough {
+            @apply line-through;
+        }
+        & h1 {
+            @apply text-h1 mb-16;
+        }
+        & > pre {
+            @apply border-1 border-borderColor5 rounded-8 bg-backgroundColorA;
+            @apply mb-24;
+            @apply text-16;
+            @apply overflow-hidden;
+            & code {
+                @apply block;
+                @apply py-12 px-20 overflow-auto;
+            }
+        }
+    }
+    & .passage {
+        & hr {
+            @apply border-borderColor6;
+            @apply mt-36 mb-32;
+        }
+        & h2 {
+            @apply text-h4 mb-24;
+        }
+        & h3 {
+            @apply text-h5 mb-16;
+        }
+        & hr + h2 + ul {
+            @apply flex items-center;
+            @apply m-0;
+            & li {
+                @apply m-0 mr-24 list-none;
+            }
+        }
+        /* Only enhance buttons in the final p/ul */
+        & > :last-child a[data-passage] {
+            @apply btn-l btn-enhanced inline-flex;
+            box-shadow: 0px 4px 7px rgba(79, 114, 205, 0.4);
+        }
+    }
+}

@@ -97,6 +97,10 @@ class User < ApplicationRecord
     badges.limit(5)
   end
 
+  def recently_used_cli?
+    solutions.where('downloaded_at >= ?', Time.current - 30.days).exists?
+  end
+
   # TODO: This needs fleshing out for mentors
   def may_view_solution?(solution)
     id == solution.user_id

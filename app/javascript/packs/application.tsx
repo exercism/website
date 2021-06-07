@@ -107,6 +107,8 @@ import '../../css/components/mentor-discussion-post-editor'
 import '../../css/components/test-run'
 import '../../css/components/alert'
 import '../../css/components/diff'
+import '../../css/components/cli-walkthrough'
+import '../../css/components/cli-walkthrough-button'
 
 import '../../css/modals/update-exercise'
 import '../../css/modals/exercise-makers'
@@ -128,6 +130,7 @@ import '../../css/modals/select-exercise-for-mentoring'
 import '../../css/modals/testimonial'
 import '../../css/modals/change-published-iteration'
 import '../../css/modals/unpublish-solution'
+import '../../css/modals/cli-walkthrough'
 
 import '../../css/dropdowns/generic-menu'
 import '../../css/dropdowns/share-solution'
@@ -307,6 +310,12 @@ initReact({
       content={data.content}
       endpoint={data.endpoint}
     />
+  ),
+  'common-cli-walkthrough': (data: any) => (
+    <Common.CLIWalkthrough html={data.html} />
+  ),
+  'common-cli-walkthrough-button': (data: any) => (
+    <Common.CLIWalkthroughButton html={data.html} />
   ),
   'track-exercise-community-solutions-list': (data: any) => (
     <TrackComponents.ExerciseCommunitySolutionsList

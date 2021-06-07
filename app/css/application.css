@@ -165,6 +165,15 @@
     --paginationCurrentBorderColor: var(--c-6E82AA);
     --paginationCurrentBackgroundColor: var(--c-E1EBFF);
 
+    --commonBadge-RGB: 240, 243, 249;
+    --commonBadgeFill-RGB: 80, 83, 89;
+    --rareBadge-RGB: 219, 240, 255;
+    --rareBadgeFill-RGB: 0, 20, 75;
+    --ultimateBadge-RGB: 246, 150, 5;
+    --ultimateBadgeFill-RGB: 86, 0, 0;
+    --legendaryBadge-RGB: 235, 87, 87;
+    --legendaryBadgeFill-RGB: 75, 0, 0;
+
     /* https://codepen.io/sosuke/pen/Pjoqqp */
     --notifications-active-filter: invert(76%) sepia(54%) saturate(3406%)
         hue-rotate(349deg) brightness(92%) contrast(111%);

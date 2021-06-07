@@ -10,7 +10,7 @@ module Git
 
     def call
       unless force_sync || exercise_needs_updating?
-        return exercise.update!(synced_to_git_sha: head_git_exercise.synced_git_sha)
+        return exercise.update_columns(synced_to_git_sha: head_git_exercise.synced_git_sha)
       end
 
       exercise.update!(

@@ -12,24 +12,34 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     Git::SyncPracticeExercise.(exercise, force_sync: true)
   end
 
-  test "git sync SHA changes to HEAD SHA when there are no changes" do
-    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: "c4701190aa99d47b7e92e5c1605659a4f08d6776", synced_to_git_sha: "c4701190aa99d47b7e92e5c1605659a4f08d6776" # rubocop:disable Layout/LineLength
+  test "only git sync SHA changes to HEAD SHA when there are no changes" do
+    updated_at = Time.current - 1.week
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    git_sha = repo.head_commit.parents.first.oid
+    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: git_sha, synced_to_git_sha: git_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
     exercise.prerequisites << (create :track_concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca')
     exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
+    assert_equal updated_at, exercise.reload.updated_at # Sanity
+
     Git::SyncPracticeExercise.(exercise)
 
     assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+    assert_equal git_sha, exercise.git_sha
+    assert_equal updated_at, exercise.reload.updated_at
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in config.json" do
-    exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", synced_to_git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'arrays', uuid: '55b8bfe8-4c8c-460b-ab78-b3f384b6f313')
+    freeze_time do
+      exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", synced_to_git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", updated_at: Time.current - 1.week # rubocop:disable Layout/LineLength
+      exercise.prerequisites << (create :track_concept, slug: 'arrays', uuid: '55b8bfe8-4c8c-460b-ab78-b3f384b6f313')
 
-    Git::SyncPracticeExercise.(exercise)
+      Git::SyncPracticeExercise.(exercise)
 
-    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
-    assert_equal exercise.git.head_sha, exercise.git_sha
+      assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+      assert_equal exercise.git.head_sha, exercise.git_sha
+      assert_equal Time.current, exercise.reload.updated_at
+    end
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in documentation files" do

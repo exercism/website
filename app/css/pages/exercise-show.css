@@ -377,6 +377,33 @@
             }
         }
     }
+    & section.extra-info {
+        @apply flex items-center mb-40;
+        & .updated-at,
+        & a {
+            @apply text-15 text-textColor6 font-medium;
+        }
+
+        & a {
+            @apply flex items-center;
+            @apply ml-auto;
+
+            & .c-icon {
+                filter: var(--textColor6-filter);
+            }
+
+            & .github-icon {
+                height: 22px;
+                width: 22px;
+                @apply mr-16;
+            }
+            & .action-icon {
+                height: 12px;
+                width: 12px;
+                @apply ml-12;
+            }
+        }
+    }
     & .action-box {
         @apply shadow-lg py-24 px-32 rounded-8;
 

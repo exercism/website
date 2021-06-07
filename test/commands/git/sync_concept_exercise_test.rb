@@ -22,25 +22,30 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   end
 
   test "git SHA does not change when there are no changes" do
+    updated_at = Time.current - 1.week
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     previous_head_sha = repo.head_commit.parents.first.oid
-    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", git_sha: previous_head_sha, synced_to_git_sha: previous_head_sha # rubocop:disable Layout/LineLength
+    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", git_sha: previous_head_sha, synced_to_git_sha: previous_head_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
 
     Git::SyncConceptExercise.(exercise)
 
     assert_equal previous_head_sha, exercise.git_sha
+    assert_equal updated_at, exercise.reload.updated_at
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in config.json" do
-    exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125', git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24", synced_to_git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24" # rubocop:disable Layout/LineLength
-    create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
-    create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
+    freeze_time do
+      exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125', git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24", synced_to_git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24", updated_at: Time.current - 1.week # rubocop:disable Layout/LineLength
+      create :track_concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+      create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
 
-    Git::SyncConceptExercise.(exercise)
+      Git::SyncConceptExercise.(exercise)
 
-    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
-    assert_equal exercise.git.head_sha, exercise.git_sha
+      assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+      assert_equal exercise.git.head_sha, exercise.git_sha
+      assert_equal Time.current, exercise.reload.updated_at
+    end
   end
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in .docs files" do

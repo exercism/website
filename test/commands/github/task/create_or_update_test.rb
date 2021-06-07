@@ -11,7 +11,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
       action: :sync,
       knowledge: :elementary,
       area: :generator,
-      size: :s,
+      size: :small,
       type: :content
     )
 
@@ -22,7 +22,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal :sync, task.action
     assert_equal :elementary, task.knowledge
     assert_equal :generator, task.area
-    assert_equal :s, task.size
+    assert_equal :small, task.size
     assert_equal :content, task.type
   end
 
@@ -38,7 +38,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
       action: :sync,
       knowledge: :elementary,
       area: :generator,
-      size: :s,
+      size: :small,
       type: :content
     )
 
@@ -50,7 +50,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal :sync, task.action
     assert_equal :elementary, task.knowledge
     assert_equal :generator, task.area
-    assert_equal :s, task.size
+    assert_equal :small, task.size
     assert_equal :content, task.type
   end
 
@@ -88,7 +88,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
       action: :sync,
       knowledge: :elementary,
       area: :generator,
-      size: :s,
+      size: :small,
       type: :content
     )
 
@@ -107,7 +107,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
       action: :sync,
       knowledge: :elementary,
       area: :generator,
-      size: :s,
+      size: :small,
       type: :content
     )
 
@@ -126,7 +126,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
       action: :sync,
       knowledge: :elementary,
       area: :generator,
-      size: :s,
+      size: :small,
       type: :content
     )
 
@@ -145,7 +145,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
       action: :sync,
       knowledge: :elementary,
       area: :generator,
-      size: :s,
+      size: :small,
       type: :content
     )
 
@@ -162,7 +162,7 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
       action: :sync,
       knowledge: :elementary,
       area: :generator,
-      size: :s,
+      size: :small,
       type: :content
     )
 

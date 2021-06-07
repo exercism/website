@@ -7,19 +7,19 @@ module ReactComponents::Contributing
 
       create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312', title: 'Sync anagram',
                            opened_at: Time.parse("2020-10-17T02:39:37Z").utc, opened_by_username: 'ErikSchierboom',
-                           action: :fix, knowledge: :none, area: :analyzer, size: :s, type: :ci,
+                           action: :fix, knowledge: :none, area: :analyzer, size: :small, type: :ci,
                            repo: 'exercism/ruby', track: track
 
       create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/888', title: 'Improve test speed',
                            opened_at: Time.parse("2021-03-05T23:23:00Z").utc, opened_by_username: 'iHiD',
-                           action: :fix, knowledge: :elementary, area: :analyzer, size: :xs, type: :ci,
+                           action: :fix, knowledge: :elementary, area: :analyzer, size: :tiny, type: :ci,
                            repo: 'exercism/ruby', track: track
 
       params = {
         actions: ["fix"],
         knowledge: %w[none elementary],
         areas: ["analyzer"],
-        sizes: %w[xs s],
+        sizes: %w[tiny small],
         types: ["ci"],
         repo_url: "exercism/ruby",
         track: "ruby",
@@ -41,7 +41,7 @@ module ReactComponents::Contributing
                     action: "fix",
                     knowledge: "elementary",
                     module: "analyzer",
-                    size: "xs",
+                    size: "tiny",
                     type: "ci"
                   },
                   track: {
@@ -62,7 +62,7 @@ module ReactComponents::Contributing
                     action: "fix",
                     knowledge: "none",
                     module: "analyzer",
-                    size: "s",
+                    size: "small",
                     type: "ci"
                   },
                   track: {

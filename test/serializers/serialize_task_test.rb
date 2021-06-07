@@ -6,7 +6,7 @@ class SerializeTaskTest < ActiveSupport::TestCase
       create :track, slug: 'ruby', title: 'Ruby'
       task = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312',
                                   title: 'Sync anagram', opened_at: 2.days.ago, opened_by_username: 'ErikSchierboom',
-                                  action: :fix, knowledge: :none, area: :representer, size: :xl, type: :docs
+                                  action: :fix, knowledge: :none, area: :representer, size: :massive, type: :docs
 
       expected = {
         title: 'Sync anagram',
@@ -14,7 +14,7 @@ class SerializeTaskTest < ActiveSupport::TestCase
           action: :fix,
           knowledge: :none,
           module: :representer,
-          size: :xl,
+          size: :massive,
           type: :docs
         },
         track: {

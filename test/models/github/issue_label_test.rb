@@ -46,7 +46,7 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
     assert_nil Github::IssueLabel.for_type(:module, :unknown)
   end
 
-  %i[xs s m l xl].each do |size|
+  %i[tiny small medium large massive].each do |size|
     test "for_type with size is #{size}" do
       assert_equal "x:size/#{size}", Github::IssueLabel.for_type(:size, size)
     end
@@ -75,7 +75,7 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
   end
 
   test "of_type?" do
-    label = create :github_issue_label, name: 'x:size/l'
+    label = create :github_issue_label, name: 'x:size/large'
     assert label.of_type?(:size)
     refute label.of_type?(:knowledge)
     refute label.of_type?(:module)
@@ -91,14 +91,14 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
   end
 
   test "of_type? with invalid type" do
-    label = create :github_issue_label, name: 'x:invalid/s'
+    label = create :github_issue_label, name: 'x:invalid/small'
     %i[size knowledge module status type].each do |type|
       refute label.of_type?(type)
     end
   end
 
   test "of_type? with invalid namespace" do
-    label = create :github_issue_label, name: 'a:size/s'
+    label = create :github_issue_label, name: 'a:size/small'
     %i[size knowledge module status type].each do |type|
       refute label.of_type?(type)
     end

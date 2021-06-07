@@ -57,7 +57,7 @@ class Github::IssueLabel < ApplicationRecord
     action: %i[create fix improve proofread sync],
     knowledge: %i[none elementary intermediate advanced],
     module: %i[analyzer concept-exercise concept generator practice-exercise representer test-runner],
-    size: %i[xs s m l xl],
+    size: %i[tiny small medium large massive],
     status: %i[claimed],
     type: %i[ci coding content docker docs]
   }.freeze

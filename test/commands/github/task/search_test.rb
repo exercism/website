@@ -86,14 +86,14 @@ class Github::Task::SearchTest < ActiveSupport::TestCase
   end
 
   test "filters sizes correctly" do
-    task_1 = create :github_task, :random, opened_at: 2.weeks.ago, size: :m
-    task_2 = create :github_task, :random, opened_at: 4.weeks.ago, size: :m
+    task_1 = create :github_task, :random, opened_at: 2.weeks.ago, size: :medium
+    task_2 = create :github_task, :random, opened_at: 4.weeks.ago, size: :medium
 
     # Add non-matching tasks to ensure they are not counted
-    create :github_task, :random, size: :l
+    create :github_task, :random, size: :large
     create :github_task, :random, size: nil
 
-    assert_equal [task_1, task_2], Github::Task::Search.(sizes: [:m])
+    assert_equal [task_1, task_2], Github::Task::Search.(sizes: [:medium])
   end
 
   test "filters types correctly" do
@@ -118,35 +118,35 @@ class Github::Task::SearchTest < ActiveSupport::TestCase
   end
 
   test "combine multiple filters correctly" do
-    task_1 = create :github_task, :random, opened_at: 1.week.ago, type: :coding, size: :s
-    task_2 = create :github_task, :random, opened_at: 2.weeks.ago, type: :coding, size: :s
+    task_1 = create :github_task, :random, opened_at: 1.week.ago, type: :coding, size: :small
+    task_2 = create :github_task, :random, opened_at: 2.weeks.ago, type: :coding, size: :small
 
     # Add non-matching tasks to ensure they are not counted
-    create :github_task, :random, type: :docs, size: :s
-    create :github_task, :random, type: :coding, size: :m
+    create :github_task, :random, type: :docs, size: :small
+    create :github_task, :random, type: :coding, size: :medium
     create :github_task, :random, type: :coding, size: nil
-    create :github_task, :random, type: nil, size: :s
+    create :github_task, :random, type: nil, size: :small
     create :github_task, :random, type: nil, size: nil
 
-    assert_equal [task_1, task_2], Github::Task::Search.(types: [:coding], sizes: [:s])
+    assert_equal [task_1, task_2], Github::Task::Search.(types: [:coding], sizes: [:small])
   end
 
   test "combine multiple filters with multiple values correctly" do
-    task_1 = create :github_task, :random, opened_at: 1.week.ago, type: :coding, size: :s
-    task_2 = create :github_task, :random, opened_at: 2.weeks.ago, type: :coding, size: :s
-    task_3 = create :github_task, :random, opened_at: 3.weeks.ago, type: :docs, size: :s
-    task_4 = create :github_task, :random, opened_at: 8.weeks.ago, type: :docs, size: :m
-    task_5 = create :github_task, :random, opened_at: 6.weeks.ago, type: :coding, size: :m
+    task_1 = create :github_task, :random, opened_at: 1.week.ago, type: :coding, size: :small
+    task_2 = create :github_task, :random, opened_at: 2.weeks.ago, type: :coding, size: :small
+    task_3 = create :github_task, :random, opened_at: 3.weeks.ago, type: :docs, size: :small
+    task_4 = create :github_task, :random, opened_at: 8.weeks.ago, type: :docs, size: :medium
+    task_5 = create :github_task, :random, opened_at: 6.weeks.ago, type: :coding, size: :medium
 
     # Add non-matching tasks to ensure they are not counted
     create :github_task, :random, type: :coding, size: nil
-    create :github_task, :random, type: :coding, size: :l
-    create :github_task, :random, type: nil, size: :s
+    create :github_task, :random, type: :coding, size: :large
+    create :github_task, :random, type: nil, size: :small
     create :github_task, :random, type: nil, size: nil
-    create :github_task, :random, type: :docker, size: :s
+    create :github_task, :random, type: :docker, size: :small
 
     expected = [task_1, task_2, task_3, task_5, task_4]
-    assert_equal expected, Github::Task::Search.(types: %i[coding docs], sizes: %i[s m])
+    assert_equal expected, Github::Task::Search.(types: %i[coding docs], sizes: %i[small medium])
   end
 
   test "orders correctly" do

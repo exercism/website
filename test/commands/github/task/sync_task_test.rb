@@ -24,7 +24,7 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
     create :github_issue_label, issue: issue, name: 'x:action/fix'
     create :github_issue_label, issue: issue, name: 'x:knowledge/intermediate'
     create :github_issue_label, issue: issue, name: 'x:module/analyzer'
-    create :github_issue_label, issue: issue, name: 'x:size/m'
+    create :github_issue_label, issue: issue, name: 'x:size/medium'
     create :github_issue_label, issue: issue, name: 'x:type/coding'
 
     task = Github::Task::SyncTask.(issue)
@@ -32,7 +32,7 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
     assert_equal :fix, task.action
     assert_equal :intermediate, task.knowledge
     assert_equal :analyzer, task.area
-    assert_equal :m, task.size
+    assert_equal :medium, task.size
     assert_equal :coding, task.type
   end
 
@@ -41,12 +41,12 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
     create :github_issue_label, issue: issue, name: 'x:action/fix'
     create :github_issue_label, issue: issue, name: 'x:knowledge/intermediate'
     create :github_issue_label, issue: issue, name: 'x:module/analyzer'
-    create :github_issue_label, issue: issue, name: 'x:size/m'
+    create :github_issue_label, issue: issue, name: 'x:size/medium'
     create :github_issue_label, issue: issue, name: 'x:type/coding'
 
     task = create :github_task, issue_url: issue.github_url, repo: issue.repo, title: issue.title,
                                 opened_at: issue.opened_at, opened_by_username: issue.opened_by_username,
-                                action: :proofread, knowledge: :none, area: :representer, size: :l, type: :docs
+                                action: :proofread, knowledge: :none, area: :representer, size: :large, type: :docs
 
     issue.update!(
       title: 'Improve CI speed',
@@ -63,7 +63,7 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
     assert_equal :fix, task.action
     assert_equal :intermediate, task.knowledge
     assert_equal :analyzer, task.area
-    assert_equal :m, task.size
+    assert_equal :medium, task.size
     assert_equal :coding, task.type
   end
 

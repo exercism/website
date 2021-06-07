@@ -7,7 +7,7 @@ class AssembleTasksTest < ActiveSupport::TestCase
     actions = ["fix"]
     knowledge = %w[none elementary]
     areas = ["analyzer"]
-    sizes = %w[xs s]
+    sizes = %w[tiny small]
     types = []
     repo_url = "exercism/ruby"
     order = 'recent'

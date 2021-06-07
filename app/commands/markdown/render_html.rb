@@ -20,7 +20,7 @@ class Markdown::RenderHTML
     def link(node)
       out('<a href="', node.url.nil? ? '' : escape_href(node.url), '"')
       out(' title="', escape_html(node.title), '"') if node.title.present?
-      if external_url(node.url)
+      if external_url?(node.url)
         out(' target="_blank"')
         out(' rel="noopener', nofollow_links ? ' nofollow' : '', '"')
       elsif nofollow_links
@@ -30,12 +30,14 @@ class Markdown::RenderHTML
       out('>', :children, '</a>')
     end
 
-    def external_url(url)
+    def external_url?(url)
       uri = Addressable::URI.parse(url)
       return false if uri.scheme.nil?
       return true unless %w[https http].include?(uri.scheme)
       return false if %w[exercism.io exercism.lol local.exercism.io].include?(uri.host)
 
+      true
+    rescue StandardError
       true
     end
 

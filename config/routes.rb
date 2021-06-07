@@ -303,7 +303,11 @@ Rails.application.routes.draw do
   # TODO: Remove these before launching
   namespace :temp do
     resources :tracks, only: [:create]
-    resource :walkthrough, only: [:show], controller: "walkthrough"
+    resource :walkthrough, controller: "walkthrough" do
+      member do
+        get :standalone
+      end
+    end
     resources :modals, only: [] do
       collection do
         get :mentoring_sessions

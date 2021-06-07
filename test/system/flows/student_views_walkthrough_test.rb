@@ -8,7 +8,7 @@ module Flows
     test "student views walkthrough" do
       use_capybara_host do
         sign_in!
-        visit temp_walkthrough_url
+        visit standalone_temp_walkthrough_url
 
         assert_text "Welcome to the Exercism installation guide!"
       end
@@ -20,7 +20,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit temp_walkthrough_url
+        visit standalone_temp_walkthrough_url
         click_on "Mac"
         click_on "Yes"
         click_on "Yes"

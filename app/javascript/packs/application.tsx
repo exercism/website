@@ -108,6 +108,7 @@ import '../../css/components/test-run'
 import '../../css/components/alert'
 import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
+import '../../css/components/cli-walkthrough-button'
 
 import '../../css/modals/update-exercise'
 import '../../css/modals/exercise-makers'

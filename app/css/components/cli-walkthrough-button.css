@@ -1,0 +1,30 @@
+@import "../styles";
+
+button.c-cli-walkthrough-button {
+    @apply px-16 py-12;
+    @apply flex items-center;
+    @apply bg-veryLightBlue border-2 rounded-8;
+    @apply text-left;
+    border-color: #9e00ff;
+
+    & .graphical-icon {
+        height: 48px;
+        width: 48px;
+        @apply mr-16;
+    }
+    & .info {
+        @apply flex-grow;
+        & .--title {
+            @apply text-h6 mb-4;
+        }
+        & .--explanation {
+            @apply text-14 leading-160 m-0;
+        }
+    }
+    & .modal-icon {
+        height: 16px;
+        width: 16px;
+        @apply ml-24;
+        filter: var(--textColor6-filter);
+    }
+}

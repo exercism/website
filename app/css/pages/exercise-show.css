@@ -417,6 +417,9 @@
             @apply mb-16;
         }
 
+        & .c-cli-walkthrough-button {
+            @apply mb-16;
+        }
         & .cli-btn {
             @apply font-mono font-normal text-14 mb-16;
         }

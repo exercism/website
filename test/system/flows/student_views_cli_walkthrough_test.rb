@@ -31,10 +31,16 @@ module Flows
     end
 
     test "student views walkthrough in modal" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :hello_world_exercise, track: track
+      create :practice_solution, user: user, exercise: exercise
+
       use_capybara_host do
-        sign_in!
-        visit modal_test_components_cli_walkthrough_url
-        click_on "View walkthrough"
+        sign_in!(user)
+        visit track_exercise_path(track, exercise)
+        click_on "Install Exercism locally"
 
         assert_text "Welcome to the Exercism installation guide!"
       end

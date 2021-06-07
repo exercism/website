@@ -333,11 +333,6 @@ Rails.application.routes.draw do
   unless Rails.env.production?
     namespace :test do
       namespace :components do
-        resource :cli_walkthrough, controller: "cli_walkthrough" do
-          member do
-            get :modal
-          end
-        end
         resource :editor, only: [:show], controller: "editor"
         namespace :student do
           resource :concept_map, only: [:show], controller: 'concept_map'

@@ -127,4 +127,21 @@ class UserTest < ActiveSupport::TestCase
     user.update(became_mentor_at: Time.current)
     assert user.mentor?
   end
+
+  test "recently_used_cli?" do
+    freeze_time do
+      user = create :user
+
+      refute user.recently_used_cli?
+
+      solution = create :practice_solution, user: user
+      refute user.recently_used_cli?
+
+      solution.update(downloaded_at: Time.current - 31.days)
+      refute user.recently_used_cli?
+
+      solution.update(downloaded_at: Time.current - 30.days)
+      assert user.recently_used_cli?
+    end
+  end
 end

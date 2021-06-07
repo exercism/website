@@ -10,6 +10,9 @@
     Start in editor
 
   %h4 Work locally (via CLI)
+  - unless current_user.recently_used_cli?
+    = render ReactComponents::Common::CLIWalkthroughButton.new(current_user)
+
   = ReactComponents::Common::CopyToClipboardButton.new(exercise.download_cmd)
 
   = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")

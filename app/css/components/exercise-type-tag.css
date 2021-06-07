@@ -1,12 +1,13 @@
 @import "../components/tag";
 .c-exercise-type-tag {
     @apply c-tag;
-    @apply bg-textColor1 border-textColor1 text-textColor9;
+    @apply text-textColor2;
+    @apply border-borderColor6;
 
     & .c-icon {
         height: 16px;
         width: 16px;
-        @apply mr-10;
-        filter: var(--yellow-filter);
+        @apply mr-8;
+        filter: var(--textColor6-filter);
     }
 }

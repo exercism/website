@@ -43,6 +43,7 @@
         height: 24px;
         width: 24px;
         @apply ml-20;
+        filter: var(--textColor6-filter);
     }
 
     & > .--info {
@@ -132,6 +133,12 @@
     }
     /* TODO */
     &.--recommended {
-        border: 2px solid blue;
+        border: 3px solid #9e00ff;
+        @apply shadow-base;
+        box-shadow: 0px 4px 24px rgb(96, 79, 205, 0.4);
+        @apply bg-backgroundColorF;
+        &:hover:not(.--locked) {
+            box-shadow: 0px 4px 24px rgb(96, 79, 205, 0.7);
+        }
     }
 }

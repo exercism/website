@@ -1,9 +1,10 @@
 class SerializeExercise
   include Mandate
 
-  def initialize(exercise, user_track: nil)
+  def initialize(exercise, user_track: nil, recommended: false)
     @exercise = exercise
     @user_track = user_track || UserTrack::External.new(nil)
+    @recommended = recommended
   end
 
   def call
@@ -22,7 +23,7 @@ class SerializeExercise
   end
 
   private
-  attr_reader :exercise, :user_track
+  attr_reader :exercise, :user_track, :recommended
 
   def unlocked?
     user_track.exercise_unlocked?(exercise)
@@ -31,7 +32,7 @@ class SerializeExercise
   def recommended?
     return false if user_track.external?
 
-    false
+    recommended
   end
 
   def links

@@ -2,9 +2,8 @@
 
 #page-concept-show {
     & .concept-header {
-        & .container {
-            @apply flex items-center py-32;
-            height: 190px;
+        & > .container {
+            @apply flex items-center py-24;
         }
         background: linear-gradient(
             180deg,
@@ -12,7 +11,7 @@
             rgba(225, 235, 255, 0) 100%
         );
         & .c-concept-icon {
-            @apply mr-48;
+            @apply mr-32;
         }
         & .info {
             @apply flex-grow;
@@ -40,64 +39,102 @@
         & .progress {
             @apply flex-shrink-0;
 
-            & .c-concept-progress-bar {
-                height: 8px;
-                @apply mb-8;
-            }
             & .progress-text {
-                @apply flex items-center;
-                @apply text-16 font-medium text-darkGray font-medium;
-
-                & .c-icon {
-                    height: 24px;
-                    width: 24px;
-                    @apply hidden mr-12;
-                }
+                @apply flex items-center justify-end;
+                @apply text-16 leading-150 text-textColor2 font-semibold;
+                @apply mb-12;
 
                 &.completed {
-                    @apply text-darkGreen font-semibold;
+                    @apply text-darkSuccessGreen font-semibold;
                     & .c-icon {
                         @apply block;
                     }
                 }
             }
+            & .progress-exercises {
+                @apply flex justify-end items-center;
+                & .c-ed {
+                    @apply ml-16;
+                }
+            }
         }
     }
-    & .about {
-        @apply mb-32;
 
-        & h2 {
-            @apply text-h2 mb-8;
+    & section.mastered-heading {
+        @apply flex items-center py-12 px-32 shadow-lg rounded-8 mb-32;
+        @apply border-2 border-darkGreen bg-mediumGreen;
+
+        & .check-mark-icon {
+            height: 32px;
+            width: 32px;
+            @apply mr-16;
         }
-        & p {
-            @apply text-prose;
+        & .text {
+            @apply text-h5 flex-grow;
         }
     }
-    & .links {
-        & h3 {
-            @apply text-h3 mb-16;
+
+    & .rhs {
+        width: 520px;
+        @apply ml-48 flex-shrink-0;
+    }
+    & section.about {
+        @apply mb-32 px-32 py-24 bg-backgroundColorA rounded-8 shadow-lg;
+        @apply mb-32;
+        & .links {
+            @apply mt-32;
+            & h3 {
+                @apply text-h3 mb-16;
+            }
+            & ul {
+                @apply flex flex-wrap gap-12;
+            }
+            & a {
+                @apply flex items-center;
+                @apply shadow-base py-6 px-16 rounded-100;
+                & .c-bg-img {
+                    @apply mr-12;
+                    height: 16px;
+                    width: 16px;
+                }
+                & .c-icon {
+                    height: 12px;
+                    width: 12px;
+                    @apply ml-8;
+                    filter: var(--textColor6-filter);
+                }
+            }
         }
-        & ul {
-            @apply flex flex-wrap gap-12;
-        }
+    }
+    & section.extra-info {
+        @apply flex items-center mb-40;
+
         & a {
+            @apply text-15 text-textColor6 font-medium;
             @apply flex items-center;
-            @apply shadow-base py-6 px-16 rounded-100;
-            & .c-bg-img {
-                @apply mr-12;
-                height: 16px;
-                width: 16px;
-            }
+            @apply ml-auto;
+
             & .c-icon {
-                height: 13px;
-                width: 13px;
+                filter: var(--textColor6-filter);
+            }
+
+            & .github-icon {
+                height: 22px;
+                width: 22px;
+                @apply mr-16;
+            }
+            & .action-icon {
+                height: 12px;
+                width: 12px;
+                @apply ml-12;
             }
         }
     }
+
     & .learn,
     & .practice {
         & h3 {
-            @apply flex items-center text-h3 mb-16;
+            @apply flex items-center text-h4 mb-16;
             & .c-icon {
                 @apply mr-16;
                 height: 24px;
@@ -105,7 +142,25 @@
             }
         }
         & .exercises {
-            @apply flex;
+            @apply flex flex-col;
+            & .c-react-wrapper-common-exercise-widget {
+                @apply w-100 mb-12;
+            }
+        }
+    }
+    & .learn + .practice {
+        @apply mt-16;
+    }
+    & .practice-locked-bar {
+        @apply mt-36 mb-48 border-t-1 border-borderColor6;
+        @apply relative;
+        & .c-icon {
+            @apply absolute;
+            height: 42px;
+            width: 42px;
+            top: -21px;
+            left: 50%;
+            margin-left: -21px;
         }
     }
 }

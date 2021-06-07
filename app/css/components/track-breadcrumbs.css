@@ -1,0 +1,31 @@
+.c-track-breadcrumbs {
+    @apply border-b-1 border-color22;
+    & .container {
+        @apply flex items-center;
+        @apply py-8;
+        @apply text-14 text-textColor3 leading-150;
+    }
+
+    & a {
+        @apply text-lightBlue font-medium;
+        @apply mr-16;
+        @apply flex items-center;
+
+        & .c-icon,
+        & .c-track-icon {
+            height: 32px;
+            width: 32px;
+            @apply mr-12;
+        }
+    }
+    & .seperator {
+        @apply text-15 text-muddy;
+        @apply mr-16;
+    }
+    & .track-title {
+        @apply mr-16;
+    }
+    & .seperator {
+        @apply mr-16;
+    }
+}

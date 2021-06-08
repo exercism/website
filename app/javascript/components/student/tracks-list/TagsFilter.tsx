@@ -73,7 +73,7 @@ export const TagsFilter = ({
     <>
       <button
         ref={filterButtonRef}
-        onClick={() => setExpanded(true)}
+        onClick={() => setExpanded(!expanded)}
         className="--filter-btn"
         aria-haspopup="true"
         aria-expanded={expanded}

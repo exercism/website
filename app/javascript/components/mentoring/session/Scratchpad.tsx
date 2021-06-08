@@ -25,6 +25,10 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
 
   const handleEditorDidMount = useCallback((editor: MarkdownEditorHandle) => {
     editorRef.current = editor
+
+    if (editorRef.current) {
+      setContent(editorRef.current.value() || '')
+    }
   }, [])
 
   const handleChange = useCallback((content) => {
@@ -75,7 +79,16 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
       isMountedRef: isMountedRef,
     })
       .then((json) => {
-        setPage(typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage'))
+        const page = typecheck<ScratchpadPage>(
+          camelizeKeys(json),
+          'scratchpadPage'
+        )
+
+        setPage({
+          ...page,
+          contentMarkdown:
+            page.contentMarkdown === null ? '' : page.contentMarkdown,
+        })
       })
       .catch(() => {
         // TODO: do something
@@ -84,8 +97,20 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
 
   useEffect(pullPage, [pullPage])
 
+  const revert = useCallback(() => {
+    if (!editorRef.current || !page) {
+      return
+    }
+
+    editorRef.current.value(page.contentMarkdown)
+  }, [page])
+
   useEffect(() => {
     if (!editorRef.current || !page) {
+      return
+    }
+
+    if (editorRef.current.value() !== '') {
       return
     }
 
@@ -138,7 +163,7 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
             <button
               className="btn-small-discourage"
               type="button"
-              onClick={() => pullPage()}
+              onClick={revert}
             >
               Revert to saved
             </button>

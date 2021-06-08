@@ -43,6 +43,7 @@ export const MarkdownEditor = ({
       onChange={onChange}
       options={{
         autosave: { enabled: true, uniqueId: contextId },
+        autoRefresh: true,
         blockStyles: {
           italic: '_',
         },

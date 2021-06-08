@@ -73,7 +73,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :badges, only: %i[index]
+      resources :badges, only: %i[index] do
+        member do
+          patch :reveal
+        end
+      end
 
       resources :profiles, only: [] do
         get :summary, on: :member

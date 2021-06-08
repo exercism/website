@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { GraphicalIcon, Loading, Pagination } from '../common'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
@@ -6,8 +6,9 @@ import { useList } from '../../hooks/use-list'
 import { FilterPanel } from './searchable-list/FilterPanel'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 import { ResultsZone } from '../ResultsZone'
+import { QueryKey } from 'react-query'
 
-type PaginatedResult = {
+export type PaginatedResult = {
   results: any[]
   meta: {
     currentPage: number
@@ -19,6 +20,7 @@ type ResultsType = {
   order: string
   setOrder: (order: string) => void
   results: any[]
+  cacheKey: QueryKey
 }
 
 export type FilterCategory = {
@@ -36,7 +38,7 @@ const DEFAULT_ERROR = new Error('Unable to fetch list')
 
 export const SearchableList = ({
   request: initialRequest,
-  cacheKey,
+  cacheKey: cacheKeyPrefix,
   placeholder,
   categories,
   ResultsComponent,
@@ -53,6 +55,7 @@ export const SearchableList = ({
   const { request, setPage, setCriteria, setQuery, setOrder } = useList(
     initialRequest
   )
+  const cacheKey = [cacheKeyPrefix, request.endpoint, request.query]
   const {
     status,
     resolvedData,
@@ -60,7 +63,7 @@ export const SearchableList = ({
     isFetching,
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    [cacheKey, request.endpoint, request.query],
+    cacheKey,
     {
       ...request,
       options: { ...request.options, enabled: isEnabled },
@@ -104,6 +107,7 @@ export const SearchableList = ({
       <ErrorBoundary>
         <ResultsZone isFetching={isFetching}>
           <Results
+            cacheKey={cacheKey}
             query={request.query}
             error={error}
             setOrder={setOrder}
@@ -120,6 +124,7 @@ export const SearchableList = ({
 
 const Results = ({
   query,
+  cacheKey,
   setOrder,
   setPage,
   resolvedData,
@@ -127,6 +132,7 @@ const Results = ({
   error,
   ResultsComponent,
 }: {
+  cacheKey: QueryKey
   query: Record<string, any>
   setOrder: (order: string) => void
   setPage: (page: number) => void
@@ -147,6 +153,7 @@ const Results = ({
         order={query.order}
         results={resolvedData.results}
         setOrder={setOrder}
+        cacheKey={cacheKey}
       />
       <Pagination
         disabled={latestData === undefined}

@@ -421,3 +421,18 @@ export type Contributor = {
     profile: string
   }
 }
+
+export type BadgeRarity = 'common' | 'rare' | 'ultimate' | 'legendary'
+
+export type Badge = {
+  id: string
+  rarity: BadgeRarity
+  iconName: string
+  name: string
+  description: string
+  isRevealed: boolean
+  unlockedAt: string
+  links: {
+    reveal: string
+  }
+}

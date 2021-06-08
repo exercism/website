@@ -15,5 +15,13 @@ module API
         serializer: SerializeUserAcquiredBadges
       )
     end
+
+    # TODO: Add test coverage etc to this.
+    def reveal
+      badge = current_user.acquired_badges.find_by!(uuid: params[:id])
+      badge.update!(revealed: true)
+
+      render json: { badge: SerializeUserAcquiredBadge.(badge) }
+    end
   end
 end

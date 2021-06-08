@@ -111,6 +111,7 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
+import '../../css/modals/badge'
 import '../../css/modals/update-exercise'
 import '../../css/modals/exercise-makers'
 import '../../css/modals/test-run'

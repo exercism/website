@@ -94,8 +94,9 @@
     }
     & .tabs {
         @apply flex justify-center;
-        @apply py-24 mb-48;
+        @apply py-24;
         @apply border-unnamed13 border-b-1;
+        background: none;
 
         & .c-tab {
             height: 49px;
@@ -110,11 +111,10 @@
             }
         }
     }
-
     & article {
         /* Fill the bottom of the screen below 145px of tabs */
         min-height: calc(100vh - 145px);
-        @apply pb-48;
+        @apply py-48;
     }
     & .c-search-bar {
         @apply pb-24 mb-40;

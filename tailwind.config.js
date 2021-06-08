@@ -145,7 +145,7 @@ module.exports = {
       caution: '#955D09',
       color22: '#C8D5EF',
 
-      commonBadge: '#F0F3F9',
+      commonBadge: 'rgb(var(--commonBadge-RGB))',
       commonBadgeFill: '#505359',
       rareBadge: '#DBF0FF',
       rareBadgeFill: '#00144B',

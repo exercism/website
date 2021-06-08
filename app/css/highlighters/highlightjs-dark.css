@@ -77,8 +77,8 @@
     }
 
     & .hljs-built_in,
-    & .hljs-title& .class_,
-    & .hljs-class & .hljs-title {
+    & .hljs-title.class_,
+    & .hljs-class .hljs-title {
         color: #e6c07b;
     }
 

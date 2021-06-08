@@ -73,7 +73,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :badges, only: %i[index]
+      resources :badges, only: %i[index] do
+        member do
+          patch :reveal
+        end
+      end
 
       resources :profiles, only: [] do
         get :summary, on: :member
@@ -315,6 +319,7 @@ Rails.application.routes.draw do
         get :mentoring_dropdown
         get :exercise_tooltip
         get :select_exercise_for_mentoring
+        get :badge
       end
     end
     resource :mentoring, only: [], controller: "mentoring" do

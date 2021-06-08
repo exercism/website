@@ -1,13 +1,18 @@
 import React from 'react'
-import { Badge, BadgeProps } from './Badge'
+import { RevealedBadge } from './RevealedBadge'
+import { UnrevealedBadge } from './UnrevealedBadge'
 import pluralize from 'pluralize'
+import { Badge as BadgeProps } from '../types'
+import { QueryKey } from 'react-query'
 
 export const BadgeResults = ({
   results,
+  cacheKey,
   order,
   setOrder,
 }: {
   results: BadgeProps[]
+  cacheKey: QueryKey
   setOrder: (order: string) => void
   order: string
 }): JSX.Element => {
@@ -27,7 +32,11 @@ export const BadgeResults = ({
       </div>
       <div className="badges">
         {results.map((badge) => {
-          return <Badge {...badge} key={badge.name} />
+          return badge.isRevealed ? (
+            <RevealedBadge badge={badge} key={badge.id} />
+          ) : (
+            <UnrevealedBadge badge={badge} cacheKey={cacheKey} key={badge.id} />
+          )
         })}
       </div>
     </div>

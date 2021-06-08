@@ -1,0 +1,59 @@
+@import "../styles";
+
+.m-badge.c-modal {
+    &.--common {
+        --rgb: var(--commonBadge-RGB);
+        --rgb-fill: var(--commonBadgeFill-RGB);
+    }
+    &.--ultimate {
+        --rgb: var(--ultimateBadge-RGB);
+        --rgb-fill: var(--ultimateBadgeFill-RGB);
+    }
+
+    @apply pt-96 pb-48 px-48;
+    background: rgba(34, 30, 49, 0.8);
+
+    & .--modal-content {
+        max-width: 740px;
+        min-height: auto;
+        background: rgba(34, 30, 49, 1);
+        box-shadow: 0px 2px 24px 0 rgb(var(--rgb));
+
+        @apply pt-48 pb-64 px-48;
+        @apply relative;
+        @apply overflow-visible;
+        @apply rounded-8;
+
+        @apply flex flex-col items-center;
+    }
+    & .c-badge-medallion {
+        height: 72px;
+        width: 72px;
+        @apply mb-24;
+    }
+    & h2 {
+        @apply font-bold font-mono text-16 leading-130;
+        @apply text-unnamed15;
+        @apply mb-12;
+    }
+    & .name {
+        @apply text-h1 text-white mb-20;
+    }
+    & .rarity {
+        @apply font-bold font-mono text-16 leading-130;
+        @apply py-4 px-8 mb-28;
+        @apply rounded-3;
+        background: rgb(var(--rgb));
+        color: rgb(var(--rgb-fill));
+    }
+    & hr.c-divider {
+        filter: var(--textColor7-filter);
+        @apply mb-28;
+    }
+    & .reason {
+        @apply text-p-large text-unnamed15 mb-4;
+    }
+    & .earned-at {
+        @apply text-p-base text-borderLight;
+    }
+}

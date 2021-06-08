@@ -14,7 +14,8 @@ module Flows
           repo: "exercism/ruby",
           pr_node_id: SecureRandom.uuid,
           pr_number: "12",
-          pr_title: "Fix bugs"
+          pr_title: "Fix bugs",
+          merged_at: Time.parse('2020-02-02T02:03:01Z').utc
         }
 
       use_capybara_host do
@@ -34,7 +35,8 @@ module Flows
           repo: "exercism/ruby",
           pr_node_id: SecureRandom.uuid,
           pr_number: "12",
-          pr_title: "Fix bugs"
+          pr_title: "Fix bugs",
+          merged_at: Time.parse('2020-02-02T02:03:01Z').utc
         }
 
       use_capybara_host do

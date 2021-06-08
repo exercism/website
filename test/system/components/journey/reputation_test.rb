@@ -17,6 +17,7 @@ module Components
           track: track,
           exercise: exercise,
           created_at: 1.day.ago,
+          earned_on: 1.day.ago,
           external_url: "https://test.exercism.io/token"
 
         use_capybara_host do
@@ -26,7 +27,7 @@ module Components
           assert_text "Showing 1 contribution"
           assert_link strip_tags(token.text), href: "https://test.exercism.io/token"
           assert_text "Ruby"
-          assert_text "a day ago"
+          assert_text "2 days ago"
           assert_text "+ 30"
           # TODO: Fix how icons are rendered
           assert_css ".reputation-token > img.primary-icon[src='#{exercise.icon_url}']"

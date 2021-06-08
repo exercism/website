@@ -42,7 +42,7 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
       icon_url: exercise.icon_url,
       internal_url: nil,
       external_url: "https://google.com",
-      awarded_at: token.created_at.iso8601,
+      earned_on: token.earned_on.iso8601,
       is_seen: false,
       track: {
         title: track.title,

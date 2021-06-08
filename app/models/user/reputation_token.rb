@@ -88,7 +88,7 @@ class User::ReputationToken < ApplicationRecord
       icon_url: icon_url,
       internal_url: internal_url,
       external_url: external_url,
-      awarded_at: created_at.iso8601
+      earned_on: earned_on.iso8601
     }
 
     if track

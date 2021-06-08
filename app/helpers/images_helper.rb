@@ -17,12 +17,14 @@ module ImagesHelper
     )
   end
 
-  def avatar_link(user, css_class: nil)
+  def avatar_link(user, css_class: nil, **kwargs)
     link_to(
       profile_path(user),
-      class: ['c-avatar', css_class].compact.join(" "),
-      style: "background-image:url(#{user.avatar_url})",
-      "aria-title": "Link to #{user.handle}'s profile"
+      kwargs.merge(
+        class: ['c-avatar', css_class].compact.join(" "),
+        style: "background-image:url(#{user.avatar_url})",
+        "aria-title": "Link to #{user.handle}'s profile"
+      )
     ) do
       image_tag(user.avatar_url, alt: "Uploaded avatar of #{user.handle}", class: "tw-sr-only")
     end

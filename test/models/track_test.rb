@@ -59,11 +59,14 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal(/[iI]gnore/, track.ignore_regexp)
   end
 
-  test "top_10_contributors" do
+  test "top_contributors" do
+    track = create :track
     user_1 = create :user
     user_2 = create :user
     user_3 = create :user
-    track = create :track
+
+    # Random users
+    20.times { create :user_reputation_period, about: :track, track_id: track.id, reputation: 5 }
 
     create :user_reputation_period, about: :track, track_id: track.id, user: user_1, reputation: 10
     create :user_reputation_period, about: :track, track_id: track.id, user: user_2, reputation: 20
@@ -73,7 +76,8 @@ class TrackTest < ActiveSupport::TestCase
     create :user_reputation_period, about: :everything, user: user_3, reputation: 20
     create :user_reputation_period, about: :track, track_id: track.id + 1, user: user_3, reputation: 20
 
-    assert_equal [user_2, user_1], track.top_10_contributors
+    assert_equal [user_2, user_1], track.top_contributors[0, 2]
+    assert_equal 20, track.top_contributors.size
   end
 
   test "num_contributors" do

@@ -166,4 +166,29 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     assert_equal 5, token.value
     assert_equal :reviewal, token.level
   end
+
+  test "sets earned on date to pull request merged date when pull request was merged" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = true
+    merged_by = "merger22"
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    create :user, handle: "Merger-22", github_username: "merger22"
+
+    User::ReputationToken::AwardForPullRequestMerger.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged,
+      merged_by_username: merged_by, merged_at: merged_at
+    )
+
+    token = User::ReputationTokens::CodeMergeToken.find { |t| t.params["pr_node_id"] == node_id }
+    assert_equal merged_at.to_date, token.earned_on
+  end
 end

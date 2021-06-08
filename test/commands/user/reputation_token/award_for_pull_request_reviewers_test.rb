@@ -407,4 +407,72 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     assert_equal :medium, reputation_token.reload.level
     assert_equal 5, reputation_token.reload.value
   end
+
+  test "sets earned on date to pull request merged date when pull request is merged" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "reviewer71"
+    create :github_organization_member, username: "reviewer13"
+    reviews = [
+      { reviewer_username: "reviewer71" },
+      { reviewer_username: "reviewer13" }
+    ]
+
+    User::ReputationToken::AwardForPullRequestReviewers.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged,
+      merged_at: merged_at, reviews: reviews
+    )
+
+    reputation_token_1 = reviewer_1.reputation_tokens.last
+    assert_equal merged_at.to_date, reputation_token_1.earned_on
+
+    reputation_token_2 = reviewer_2.reputation_tokens.last
+    assert_equal merged_at.to_date, reputation_token_2.earned_on
+  end
+
+  test "sets earned on date to pull request closed at date when pull request is closed" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = false
+    closed_at = Time.parse('2020-04-03T14:54:57Z').utc
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    reviewer_1 = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+    reviewer_2 = create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "reviewer71"
+    create :github_organization_member, username: "reviewer13"
+    reviews = [
+      { reviewer_username: "reviewer71" },
+      { reviewer_username: "reviewer13" }
+    ]
+
+    User::ReputationToken::AwardForPullRequestReviewers.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged,
+      closed_at: closed_at, reviews: reviews
+    )
+
+    reputation_token_1 = reviewer_1.reputation_tokens.last
+    assert_equal closed_at.to_date, reputation_token_1.earned_on
+
+    reputation_token_2 = reviewer_2.reputation_tokens.last
+    assert_equal closed_at.to_date, reputation_token_2.earned_on
+  end
 end

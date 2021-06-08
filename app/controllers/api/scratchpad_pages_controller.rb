@@ -7,6 +7,8 @@ module API
     end
 
     def update
+      # TODO: This fails if content_markdown is empty.
+      # We should probably allow for that in this model
       if @page.update(scratchpad_page_params)
         render json: SerializeScratchpadPage.(@page)
       else

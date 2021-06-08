@@ -56,8 +56,8 @@ class Track < ApplicationRecord
   end
 
   memoize
-  def top_10_contributors
-    User::ReputationPeriod::Search.(track_id: id)[0, 10]
+  def top_contributors
+    User::ReputationPeriod::Search.(track_id: id)
   end
 
   memoize

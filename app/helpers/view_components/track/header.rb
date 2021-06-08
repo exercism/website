@@ -35,7 +35,7 @@ module ViewComponents
         link_to(Exercism::Routes.contributing_contributors_path(track: track.slug), class: "people") do
           tag.div(class: "c-faces") do
             safe_join(
-              track.top_10_contributors[0, 3].map do |author|
+              track.top_contributors[0, 3].map do |author|
                 tag.div(avatar(author), class: 'face')
               end
             )

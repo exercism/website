@@ -81,32 +81,30 @@ export const JourneyPage = ({
           )
         })}
       </div>
-      <div>
-        {categories.map((category) => {
-          return (
-            <Tab.Panel id={category.id} context={TabsContext} key={category.id}>
-              {category.id === 'solutions' ? (
-                <SolutionsList
-                  isEnabled={currentCategory.id === 'solutions'}
-                  request={category.request}
-                />
-              ) : null}
-              {category.id === 'reputation' ? (
-                <ContributionsList
-                  isEnabled={currentCategory.id === 'reputation'}
-                  request={category.request}
-                />
-              ) : null}
-              {category.id === 'badges' ? (
-                <BadgesList
-                  isEnabled={currentCategory.id === 'badges'}
-                  request={category.request}
-                />
-              ) : null}
-            </Tab.Panel>
-          )
-        })}
-      </div>
+      {categories.map((category) => {
+        return (
+          <Tab.Panel id={category.id} context={TabsContext} key={category.id}>
+            {category.id === 'solutions' ? (
+              <SolutionsList
+                isEnabled={currentCategory.id === 'solutions'}
+                request={category.request}
+              />
+            ) : null}
+            {category.id === 'reputation' ? (
+              <ContributionsList
+                isEnabled={currentCategory.id === 'reputation'}
+                request={category.request}
+              />
+            ) : null}
+            {category.id === 'badges' ? (
+              <BadgesList
+                isEnabled={currentCategory.id === 'badges'}
+                request={category.request}
+              />
+            ) : null}
+          </Tab.Panel>
+        )
+      })}
     </TabsContext.Provider>
   )
 }

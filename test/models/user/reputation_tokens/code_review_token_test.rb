@@ -12,7 +12,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :code_review,
-      level: :minor,
+      level: :small,
       repo: repo,
       pr_node_id: pr_node_id,
       pr_number: pr_number,
@@ -29,7 +29,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal "#{user.id}|code_review|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
     assert_equal :maintaining, rt.category
     assert_equal :reviewed_code, rt.reason
-    assert_equal :minor, rt.level
+    assert_equal :small, rt.level
     assert_equal 2, rt.value
   end
 
@@ -44,7 +44,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :code_review,
-      level: :regular,
+      level: :medium,
       repo: repo,
       pr_node_id: pr_node_id,
       pr_number: pr_number,
@@ -61,7 +61,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal "#{user.id}|code_review|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
     assert_equal :maintaining, rt.category
     assert_equal :reviewed_code, rt.reason
-    assert_equal :regular, rt.level
+    assert_equal :medium, rt.level
     assert_equal 5, rt.value
   end
 
@@ -76,7 +76,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :code_review,
-      level: :major,
+      level: :large,
       repo: repo,
       pr_node_id: pr_node_id,
       pr_number: pr_number,
@@ -93,7 +93,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal "#{user.id}|code_review|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
     assert_equal :maintaining, rt.category
     assert_equal :reviewed_code, rt.reason
-    assert_equal :major, rt.level
+    assert_equal :large, rt.level
     assert_equal 10, rt.value
   end
 
@@ -111,7 +111,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
       token = User::ReputationToken::Create.(
         user,
         :code_review,
-        level: :minor,
+        level: :small,
         repo: repo,
         pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         pr_number: 1347,
@@ -129,7 +129,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     token = User::ReputationToken::Create.(
       user,
       :code_review,
-      level: :minor,
+      level: :small,
       repo: 'exercism/v3',
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,

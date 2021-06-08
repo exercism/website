@@ -2,8 +2,8 @@ class User::ReputationTokens::CodeReviewToken < User::ReputationToken
   params :repo, :pr_node_id, :pr_number, :pr_title
   category :maintaining
   reason :reviewed_code
-  levels %i[minor regular major]
-  values({ minor: 2, regular: 5, major: 10 })
+  levels %i[tiny small medium large massive]
+  values({ tiny: 1, small: 2, medium: 5, large: 10, massive: 20 })
 
   before_validation on: :create do
     unless track

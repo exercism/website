@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :user_reputation_token, class: 'User::ReputationTokens::CodeContributionToken' do
     user
-    level { :regular }
+    level { :medium }
 
     params do
       {
@@ -15,7 +15,7 @@ FactoryBot.define do
 
   factory :user_code_contribution_reputation_token, class: 'User::ReputationTokens::CodeContributionToken' do
     user
-    level { :regular }
+    level { :medium }
 
     params do
       {
@@ -43,7 +43,7 @@ FactoryBot.define do
 
   factory :user_code_review_reputation_token, class: 'User::ReputationTokens::CodeReviewToken' do
     user
-    level { :regular }
+    level { :medium }
 
     params do
       {

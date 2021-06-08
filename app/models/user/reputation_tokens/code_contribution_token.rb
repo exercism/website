@@ -2,8 +2,8 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
   params :repo, :pr_node_id, :pr_number, :pr_title
   category :building
   reason :contributed_code
-  levels %i[minor regular major]
-  values({ minor: 5, regular: 12, major: 30 })
+  levels %i[tiny small medium large massive]
+  values({ tiny: 3, small: 5, medium: 12, large: 30, massive: 100 })
 
   before_validation on: :create do
     unless track

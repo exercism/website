@@ -40,7 +40,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   before_create do
-    self.uuid = SecureRandom.compact_uuid
+    self.uuid = SecureRandom.compact_uuid if self.uuid.blank?
   end
 
   after_create_commit do

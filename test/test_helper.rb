@@ -89,6 +89,23 @@ else
   )
 end
 
+class ActionMailer::TestCase
+  def assert_email(email, to, subject, fixture)
+    # Test email can send ok
+    assert_emails 1 do
+      email.deliver_now
+    end
+
+    # Test the body of the sent email contains what we expect it to
+    assert_equal ["hello@mail.exercism.io"], email.from
+    assert_equal [to], email.to
+    assert_equal subject, email.subject
+    read_fixture(fixture).each do |text|
+      assert_includes email.body.to_s, text.strip
+    end
+  end
+end
+
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
   include ActiveJob::TestHelper

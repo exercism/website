@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_03_212112) do
+ActiveRecord::Schema.define(version: 2021_06_08_204921) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -548,6 +548,14 @@ ActiveRecord::Schema.define(version: 2021_06_03_212112) do
     t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
   end
 
+  create_table "user_communication_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
+  end
+
   create_table "user_notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "user_id", null: false
@@ -623,6 +631,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_212112) do
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
+    t.index ["user_id", "type"], name: "index_user_reputation_tokens_on_user_id_and_type"
     t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
     t.index ["uuid"], name: "index_user_reputation_tokens_on_uuid", unique: true
   end
@@ -743,6 +752,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_212112) do
   add_foreign_key "user_activities", "tracks"
   add_foreign_key "user_activities", "users"
   add_foreign_key "user_auth_tokens", "users"
+  add_foreign_key "user_communication_preferences", "users"
   add_foreign_key "user_notifications", "exercises"
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"

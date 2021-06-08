@@ -12,11 +12,11 @@ export const TagsFilter = ({
 }: {
   options: readonly TagOption[]
   setTags: (tags: string[]) => void
-  value: string
+  value: string[]
   numTracks: number
 }): JSX.Element => {
   const [expanded, setExpanded] = useState(false)
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [selectedTags, setSelectedTags] = useState<string[]>(value)
   const [hasExpandedEver, markAsExpanded] = useState(false)
 
   const dialogRef = useRef<HTMLDivElement>(null)

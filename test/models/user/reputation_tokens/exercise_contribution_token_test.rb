@@ -24,5 +24,6 @@ class User::ReputationTokens::ExerciseContributionTokenTest < ActiveSupport::Tes
     assert_equal :contributed_to_exercise, rt.reason
     assert_equal :authoring, rt.category
     assert_equal 10, rt.value
+    assert_equal exercise.updated_at.to_date, rt.earned_on
   end
 end

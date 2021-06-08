@@ -7,6 +7,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     user = create :user, handle: "User22", github_username: "user22"
 
     User::ReputationToken::Create.(
@@ -17,6 +18,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       pr_title: pr_title,
+      merged_at: merged_at,
       external_url: external_url
     )
 
@@ -31,6 +33,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal :reviewed_code, rt.reason
     assert_equal :small, rt.level
     assert_equal 2, rt.value
+    assert_equal merged_at.to_date, rt.earned_on
   end
 
   test "creates code review reputation token for regular level" do
@@ -39,6 +42,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     user = create :user, handle: "User22", github_username: "user22"
 
     User::ReputationToken::Create.(
@@ -49,6 +53,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       pr_title: pr_title,
+      merged_at: merged_at,
       external_url: external_url
     )
 
@@ -63,6 +68,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal :reviewed_code, rt.reason
     assert_equal :medium, rt.level
     assert_equal 5, rt.value
+    assert_equal merged_at.to_date, rt.earned_on
   end
 
   test "creates code review reputation token for major level" do
@@ -71,6 +77,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     user = create :user, handle: "User22", github_username: "user22"
 
     User::ReputationToken::Create.(
@@ -81,6 +88,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       pr_title: pr_title,
+      merged_at: merged_at,
       external_url: external_url
     )
 
@@ -95,6 +103,63 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal :reviewed_code, rt.reason
     assert_equal :large, rt.level
     assert_equal 10, rt.value
+    assert_equal merged_at.to_date, rt.earned_on
+  end
+
+  test "uses merged_at for earned date when pr was merged" do
+    external_url =
+      repo = 'exercism/v3'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
+    pr_title = "The cat sat on the mat"
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    user = create :user, handle: "User22", github_username: "user22"
+
+    User::ReputationToken::Create.(
+      user,
+      :code_review,
+      level: :minor,
+      repo: repo,
+      pr_node_id: pr_node_id,
+      pr_number: pr_number,
+      pr_title: pr_title,
+      merged_at: merged_at,
+      external_url: external_url
+    )
+
+    assert_equal 1, user.reputation_tokens.size
+    rt = user.reputation_tokens.first
+
+    assert_equal User::ReputationTokens::CodeReviewToken, rt.class
+    assert_equal merged_at.to_date, rt.earned_on
+  end
+
+  test "uses closed_at for earned date when pr was closed" do
+    external_url =
+      repo = 'exercism/v3'
+    pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    pr_number = 1347
+    pr_title = "The cat sat on the mat"
+    closed_at = Time.parse('2020-04-03T14:54:57Z').utc
+    user = create :user, handle: "User22", github_username: "user22"
+
+    User::ReputationToken::Create.(
+      user,
+      :code_review,
+      level: :minor,
+      repo: repo,
+      pr_node_id: pr_node_id,
+      pr_number: pr_number,
+      pr_title: pr_title,
+      closed_at: closed_at,
+      external_url: external_url
+    )
+
+    assert_equal 1, user.reputation_tokens.size
+    rt = user.reputation_tokens.first
+
+    assert_equal User::ReputationTokens::CodeReviewToken, rt.class
+    assert_equal closed_at.to_date, rt.earned_on
   end
 
   repos = [
@@ -116,6 +181,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
         pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         pr_number: 1347,
         pr_title: "The cat sat on the mat",
+        merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
         external_url: 'https://api.github.com/repos/exercism/ruby/pulls/1347'
       )
 
@@ -134,6 +200,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,
       pr_title: "The cat sat on the mat",
+      merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
       external_url: 'https://api.github.com/repos/exercism/v3/pulls/1347'
     )
 

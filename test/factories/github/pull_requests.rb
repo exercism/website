@@ -19,6 +19,7 @@ FactoryBot.define do
         author_username: author_username,
         labels: [],
         merged: true,
+        merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
         merged_by_username: merged_by_username,
         reviews: []
       }

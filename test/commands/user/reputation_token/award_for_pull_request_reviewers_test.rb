@@ -9,6 +9,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -23,7 +24,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -41,6 +42,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = false
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -55,7 +57,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -73,6 +75,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -82,7 +85,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     assert_empty reviewer.reputation_tokens
@@ -96,6 +99,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -105,7 +109,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     assert_empty reviewer.reputation_tokens
@@ -119,6 +123,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -128,7 +133,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     refute User::ReputationTokens::CodeReviewToken.where(user: user).exists?
@@ -142,6 +147,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = false
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -159,7 +165,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     assert_equal 1, reviewer_1.reputation_tokens.size
@@ -174,6 +180,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = false
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -189,7 +196,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     assert_equal 2, User::ReputationTokens::CodeReviewToken.find_each.size
@@ -203,6 +210,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = false
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -216,7 +224,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     refute_empty reviewer_1.reputation_tokens
@@ -237,7 +245,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
       number = 1347
       title = "The cat sat on the mat"
-      merged = true
+      merged = true      
+      merged_at = Time.parse('2020-04-03T14:54:57Z').utc
       url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
       html_url = 'https://github.com/exercism/v3/pull/1347'
       labels = [label]
@@ -247,7 +256,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
       User::ReputationToken::AwardForPullRequestReviewers.(
         action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-        repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+        repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
       )
 
       assert_equal reputation, reviewer.reputation_tokens.last.value
@@ -262,6 +271,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['x:size/small', 'x:size/large']
@@ -271,7 +281,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     assert_equal 10, reviewer.reputation_tokens.last.value
@@ -285,6 +295,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = %w[bug duplicate]
@@ -294,7 +305,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     assert_equal 5, reviewer.reputation_tokens.last.value
@@ -308,6 +319,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['x:size/small']
@@ -320,7 +332,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       level: :medium,
       params: {
         repo: repo,
-        pr_node_id: node_id
+        pr_node_id: node_id,
+        merged_at: merged_at
       }
 
     assert_equal :medium, reputation_token.level # Sanity
@@ -328,7 +341,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     assert_equal 1, reviewer.reputation_tokens.size
@@ -344,6 +357,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = ['x:size/large']
@@ -356,7 +370,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       level: :small,
       params: {
         repo: repo,
-        pr_node_id: node_id
+        pr_node_id: node_id,
+        merged_at: merged_at
       }
 
     assert_equal :small, reputation_token.level # Sanity
@@ -364,7 +379,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     assert_equal 1, reviewer.reputation_tokens.size
@@ -380,6 +395,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -392,7 +408,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       level: :small,
       params: {
         repo: repo,
-        pr_node_id: node_id
+        pr_node_id: node_id,
+        merged_at: merged_at
       }
 
     assert_equal :small, reputation_token.level # Sanity
@@ -400,7 +417,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     assert_equal 1, reviewer.reputation_tokens.size
@@ -431,8 +448,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     User::ReputationToken::AwardForPullRequestReviewers.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged,
-      merged_at: merged_at, reviews: reviews
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, reviews: reviews
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last

@@ -32,7 +32,8 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
         repo: repo,
         pr_node_id: pr_node_id,
         pr_number: pr_number,
-        pr_title: title
+        pr_title: title,
+        merged_at: Time.parse('2020-04-03T14:54:57Z').utc
       }
 
     expected = {

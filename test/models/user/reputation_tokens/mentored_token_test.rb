@@ -3,7 +3,7 @@ require "test_helper"
 class User::ReputationTokens::MentoredTokenTest < ActiveSupport::TestCase
   test "creates successfully" do
     mentor = create :user
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create :mentor_discussion, :mentor_finished, mentor: mentor
     student = discussion.solution.user
     exercise = discussion.solution.exercise
 
@@ -23,5 +23,6 @@ class User::ReputationTokens::MentoredTokenTest < ActiveSupport::TestCase
     assert_equal :mentoring, rt.category
     assert_equal :mentored, rt.reason
     assert_equal 5, rt.value
+    assert_equal discussion.finished_at.to_date, rt.earned_on
   end
 end

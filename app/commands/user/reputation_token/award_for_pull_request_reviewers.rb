@@ -32,7 +32,8 @@ class User
             pr_number: params[:number],
             pr_title: params[:title],
             external_url: params[:html_url],
-            earned_on: params[:merged_at] || params[:closed_at]
+            merged_at: params[:merged_at],
+            closed_at: params[:closed_at]
           )
           token.update!(level: reputation_level)
         end

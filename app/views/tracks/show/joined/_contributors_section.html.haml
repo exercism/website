@@ -6,16 +6,17 @@
   %ol.showcase{ "aria-label": "Top contributors" }
     - contributors[0..1].to_a.each do |contributor|
       %li{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle, "data-placement": "left" }
-        = link_to "#", "aria-label": "View profile of #{contributor.handle}" do
+        = link_to profile_path(contributor), "aria-label": "View profile of #{contributor.handle}" do
           = avatar(contributor)
           .name= contributor.name
           = render ViewComponents::Reputation.new(contributor.formatted_reputation)
 
   %ol.faces{ "aria-label": "Other significant contributors" }
     - contributors[2..9].to_a.each do |contributor|
-      %li= avatar_link(contributor)
+      %li{ "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle, "data-placement": "left" }
+        = avatar_link(contributor)
 
-    %li= link_to "See all", "#", class: "all", "aria-label": "See all contributors for this track" # TODO
+    %li= link_to "See all", contributing_contributors_path(track: track.slug), class: "all", "aria-label": "See all contributors for this track"
 
   .cta
     %h3
@@ -23,6 +24,6 @@
       %span{ 'aria-label': "love" } 💙
       our contributors
     %p Exercism relies on open-source contributors to build our language tracks and mentor students.
-    = link_to "Contribute to the #{track.title} track ->", "#"
+    = link_to "Contribute to the #{track.title} track ->", contributing_tasks_path(track: track.slug)
 
 

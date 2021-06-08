@@ -75,7 +75,16 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
       isMountedRef: isMountedRef,
     })
       .then((json) => {
-        setPage(typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage'))
+        const page = typecheck<ScratchpadPage>(
+          camelizeKeys(json),
+          'scratchpadPage'
+        )
+
+        setPage({
+          ...page,
+          contentMarkdown:
+            page.contentMarkdown === null ? '' : page.contentMarkdown,
+        })
       })
       .catch(() => {
         // TODO: do something

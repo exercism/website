@@ -14,7 +14,10 @@ class SerializeUserAcquiredBadgesTest < ActiveSupport::TestCase
         name: "Rookie",
         description: "Submitted an exercise",
         rarity: :common,
-        icon_name: :editor
+        icon_name: :editor,
+        links: {
+          reveal: Exercism::Routes.reveal_api_badge_url(acquired_badge.uuid)
+        }
       }
     ]
 

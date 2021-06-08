@@ -16,7 +16,7 @@ module API
       )
     end
 
-    # TODO: This is just a stub implementation
+    # TODO: Add test coverage etc to this.
     def reveal
       badge = current_user.acquired_badges.find_by!(uuid: params[:id])
       badge.update!(revealed: true)

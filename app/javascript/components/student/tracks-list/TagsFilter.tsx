@@ -65,6 +65,7 @@ export const TagsFilter = ({
 
       setSelectedTags([])
       setTags([])
+      setExpanded(false)
     },
     [setTags]
   )

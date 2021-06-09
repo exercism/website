@@ -107,8 +107,8 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
   end
 
   test "uses merged_at for earned date when pr was merged" do
-    external_url =
-      repo = 'exercism/v3'
+    external_url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    repo = 'exercism/v3'
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
@@ -118,7 +118,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :code_review,
-      level: :minor,
+      level: :small,
       repo: repo,
       pr_node_id: pr_node_id,
       pr_number: pr_number,
@@ -135,8 +135,8 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
   end
 
   test "uses closed_at for earned date when pr was closed" do
-    external_url =
-      repo = 'exercism/v3'
+    external_url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    repo = 'exercism/v3'
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
@@ -146,7 +146,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :code_review,
-      level: :minor,
+      level: :small,
       repo: repo,
       pr_node_id: pr_node_id,
       pr_number: pr_number,

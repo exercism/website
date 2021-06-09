@@ -21,7 +21,7 @@ module Flows
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
           pr_title: "I did something",
-          merged_at: 18.hours.ago
+          merged_at: 25.hours.ago
         }
 
       use_capybara_host do

@@ -436,3 +436,34 @@ export type Badge = {
     reveal: string
   }
 }
+
+export type Task = {
+  title: string
+  tags: TaskTags
+  track: Pick<Track, 'title' | 'iconUrl'>
+  isNew: boolean
+  links: {
+    githubUrl: string
+  }
+}
+
+export type TaskTags = {
+  action?: TaskAction
+  knowledge?: TaskKnowledge
+  module?: TaskModule
+  size?: TaskSize
+  type?: TaskType
+}
+
+export type TaskAction = 'create' | 'fix' | 'improve' | 'proofread' | 'sync'
+export type TaskKnowledge = 'none' | 'elementary' | 'intermediate' | 'advanced'
+export type TaskModule =
+  | 'analyzer'
+  | 'concept-exercise'
+  | 'concept'
+  | 'generator'
+  | 'practice-exercise'
+  | 'representer'
+  | 'test-runner'
+export type TaskSize = 'tiny' | 'small' | 'medium' | 'large' | 'massive'
+export type TaskType = 'ci' | 'coding' | 'content' | 'docker' | 'docs'

@@ -222,6 +222,7 @@ import {
   CommunitySolution,
   Testimonial,
   MentoredTrackExercise,
+  Task,
   User,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
@@ -351,6 +352,9 @@ initReact({
       request={camelizeKeysAs<Request>(data.request)}
       tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
     />
+  ),
+  'contributing-task': (data: any) => (
+    <Contributing.Task task={camelizeKeysAs<Task>(data.task)} />
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox

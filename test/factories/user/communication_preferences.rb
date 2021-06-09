@@ -1,4 +1,5 @@
 FactoryBot.define do
-  factory :user_communication_preference, class: 'User::CommunicationPreference' do
+  factory :user_communication_preferences, class: 'User::CommunicationPreferences' do
+    user { create :user }
   end
 end

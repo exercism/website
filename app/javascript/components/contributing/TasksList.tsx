@@ -3,11 +3,12 @@ import { GraphicalIcon, Pagination } from '../common'
 import { Task } from './tasks-list/Task'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
-import { Task as TaskProps, PaginatedResult, Track } from '../types'
+import { Task as TaskProps, PaginatedResult, Track, TaskAction } from '../types'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { useList } from '../../hooks/use-list'
 import { TrackSwitcher } from '../common/TrackSwitcher'
+import { ActionSwitcher } from './tasks-list/ActionSwitcher'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 
@@ -40,18 +41,24 @@ export const TasksList = ({
     (track: Track) => {
       setQuery({ ...request.query, track: track.id })
     },
-    [request.query, setQuery]
+    [JSON.stringify(request.query), setQuery]
+  )
+
+  const setAction = useCallback(
+    (actions: TaskAction[]) => {
+      setQuery({ ...request.query, actions: actions })
+    },
+    [JSON.stringify(request.query), setQuery]
   )
 
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
         <TrackSwitcher tracks={tracks} value={track} setValue={setTrack} />
-        <div className="c-select">
-          <select>
-            <option>All actions</option>
-          </select>
-        </div>
+        <ActionSwitcher
+          value={request.query.actions || []}
+          setValue={setAction}
+        />
         <div className="c-select">
           <select>
             <option>All types</option>

@@ -7,6 +7,7 @@ class User::ReputationTokens::ExerciseContributionToken < User::ReputationToken
   before_validation on: :create do
     self.track = contributorship.exercise.track unless track
     self.exercise = contributorship.exercise unless exercise
+    self.earned_on = exercise.created_at unless earned_on
   end
 
   def i18n_params

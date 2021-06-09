@@ -20,7 +20,8 @@ module Flows
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
-          pr_title: "I did something"
+          pr_title: "I did something",
+          merged_at: 25.hours.ago
         }
 
       use_capybara_host do
@@ -48,7 +49,8 @@ module Flows
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
-          pr_title: "Something else"
+          pr_title: "Something else",
+          merged_at: 3.days.ago
         }
 
       use_capybara_host do
@@ -74,7 +76,8 @@ module Flows
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
-          pr_title: "Something else"
+          pr_title: "Something else",
+          merged_at: 3.days.ago
         }
 
       use_capybara_host do
@@ -103,7 +106,8 @@ module Flows
             repo: "ruby/pulls",
             pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
             pr_number: 120,
-            pr_title: "Something else"
+            pr_title: "Something else",
+            merged_at: 3.days.ago
           }
         ReputationChannel.broadcast_changed!(user)
         within(".c-primary-reputation") { assert_text "5" }

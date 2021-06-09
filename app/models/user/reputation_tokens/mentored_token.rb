@@ -6,6 +6,10 @@ class User::ReputationTokens::MentoredToken < User::ReputationToken
   reason :mentored
   value 5
 
+  before_validation on: :create do
+    self.earned_on = self.discussion.finished_at unless earned_on
+  end
+
   def guard_params
     "Discussion##{discussion.id}"
   end

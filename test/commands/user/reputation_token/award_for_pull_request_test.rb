@@ -8,6 +8,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -15,7 +16,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url,
-      labels: labels, repo: repo, node_id: node_id, number: number, merged: merged
+      labels: labels, repo: repo, node_id: node_id, number: number, merged: merged, merged_at: merged_at
     )
 
     assert User::ReputationTokens::CodeContributionToken.where(user: user).exists?
@@ -28,6 +29,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
     merged = false
+    closed_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -42,7 +44,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, merged: merged, closed_at: closed_at, reviews: reviews
     )
 
     assert User::ReputationTokens::CodeReviewToken.where(user: reviewer_1).exists?
@@ -56,6 +58,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
     merged = false
+    closed_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -63,7 +66,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, reviews: reviews
+      repo: repo, node_id: node_id, number: number, merged: merged, closed_at: closed_at, reviews: reviews
     )
 
     refute User::ReputationTokens::CodeReviewToken.exists?
@@ -76,6 +79,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -83,7 +87,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, merged: merged, merged_by_username: merger.github_username
+      repo: repo, node_id: node_id, number: number,
+      merged: merged, merged_at: merged_at, merged_by_username: merger.github_username
     )
 
     assert User::ReputationTokens::CodeMergeToken.where(user: merger).exists?
@@ -115,6 +120,7 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
     node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     number = 1347
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
@@ -124,7 +130,8 @@ class User::ReputationToken::AwardForPullRequestTest < ActiveSupport::TestCase
 
     User::ReputationToken::AwardForPullRequest.(
       action: action, author_username: login, url: url, html_url: html_url, labels: labels, reviews: reviews,
-      repo: repo, node_id: node_id, number: number, merged: merged, merged_by_username: helpful_user.github_username
+      repo: repo, node_id: node_id, number: number,
+      merged: merged, merged_at: merged_at, merged_by_username: helpful_user.github_username
     )
 
     assert_equal 6, helpful_user.reload.reputation

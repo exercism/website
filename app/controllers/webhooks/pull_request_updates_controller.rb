@@ -17,6 +17,7 @@ module Webhooks
         title: params[:pull_request][:title],
         repo: params[:repository][:full_name],
         created_at: params[:pull_request][:created_at].present? ? Time.parse(params[:pull_request][:created_at]).utc : nil,
+        closed_at: params[:pull_request][:closed_at].present? ? Time.parse(params[:pull_request][:closed_at]).utc : nil,
         merged_at: params[:pull_request][:merged_at].present? ? Time.parse(params[:pull_request][:merged_at]).utc : nil,
         merged: params[:pull_request][:merged],
         merged_by_username: params[:pull_request][:merged_by].present? ? params[:pull_request][:merged_by][:login] : nil

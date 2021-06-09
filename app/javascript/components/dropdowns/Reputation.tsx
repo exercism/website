@@ -20,7 +20,7 @@ export type ReputationToken = {
   externalUrl?: string
   iconUrl: string
   text: string
-  awardedAt: string
+  earnedOn: string
   value: string
   isSeen: boolean
   links: {

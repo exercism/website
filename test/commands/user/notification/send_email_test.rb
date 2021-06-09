@@ -22,7 +22,7 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
     assert notification.email_sent?
   end
 
-  test "does not sent if preference set to false" do
+  test "does not send if preference set to false" do
     user = create :user
     user.communication_preferences.update(email_on_mentor_started_discussion_notification: false)
 

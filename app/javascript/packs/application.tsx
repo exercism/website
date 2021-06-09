@@ -354,7 +354,10 @@ initReact({
     />
   ),
   'contributing-tasks-list': (data: any) => (
-    <Contributing.TasksList request={camelizeKeysAs<Request>(data.request)} />
+    <Contributing.TasksList
+      request={camelizeKeysAs<Request>(data.request)}
+      tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
+    />
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox

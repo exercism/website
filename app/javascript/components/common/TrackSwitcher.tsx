@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
-import { TrackIcon, Icon, GraphicalIcon } from '../../common'
-import { Track } from '../../types'
-import { useDropdown } from '../../dropdowns/useDropdown'
+import { TrackIcon, Icon, GraphicalIcon } from '.'
+import { Track } from '../types'
+import { useDropdown } from '../dropdowns/useDropdown'
 
 const TrackLogo = ({ track }: { track: Track }) => {
   return track.id ? (
@@ -22,12 +22,7 @@ const TrackFilter = ({
 }): JSX.Element => {
   return (
     <label className="c-radio-wrapper">
-      <input
-        type="radio"
-        onChange={onChange}
-        checked={checked}
-        name="queue_track"
-      />
+      <input type="radio" onChange={onChange} checked={checked} />
       <div className="row">
         <TrackLogo track={track} />
         <div className="title">{track.title}</div>

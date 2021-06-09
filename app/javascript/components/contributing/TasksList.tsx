@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { GraphicalIcon, Pagination } from '../common'
 import { Task } from './tasks-list/Task'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
-import { Task as TaskProps, PaginatedResult } from '../types'
+import { Task as TaskProps, PaginatedResult, Track } from '../types'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { useList } from '../../hooks/use-list'
+import { TrackSwitcher } from '../common/TrackSwitcher'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 
 export const TasksList = ({
   request: initialRequest,
+  tracks,
 }: {
   request: Request
+  tracks: readonly Track[]
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setPage } = useList(initialRequest)
+  const { request, setPage, setQuery } = useList(initialRequest)
   const {
     status,
     resolvedData,
@@ -31,17 +34,19 @@ export const TasksList = ({
     request,
     isMountedRef
   )
+  const track = tracks.find((t) => t.id === request.query.track) || tracks[0]
+
+  const setTrack = useCallback(
+    (track: Track) => {
+      setQuery({ ...request.query, track: track.id })
+    },
+    [request.query, setQuery]
+  )
 
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
-        <div className="c-track-switcher --small">
-          <button className="current-track">
-            <GraphicalIcon icon="all-tracks" className="all" />
-            <div className="track-title">All tracks</div>
-            <GraphicalIcon icon="chevron-down" className="action-icon" />
-          </button>
-        </div>
+        <TrackSwitcher tracks={tracks} value={track} setValue={setTrack} />
         <div className="c-select">
           <select>
             <option>All actions</option>

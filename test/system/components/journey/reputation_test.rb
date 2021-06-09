@@ -13,7 +13,7 @@ module Components
         exercise = create :concept_exercise, track: track
         token = create :user_code_contribution_reputation_token,
           user: user,
-          level: :major,
+          level: :large,
           track: track,
           exercise: exercise,
           created_at: 1.day.ago,
@@ -37,7 +37,7 @@ module Components
         User::ReputationToken::Search.stubs(:default_per).returns(1)
         user = create :user
         review_token = create :user_code_review_reputation_token, user: user, created_at: Time.current - 1.day
-        contribution_token = create :user_code_contribution_reputation_token, user: user, level: :major
+        contribution_token = create :user_code_contribution_reputation_token, user: user, level: :large
 
         use_capybara_host do
           sign_in!(user)
@@ -58,7 +58,7 @@ module Components
         user = create :user
         contribution_token = create :user_code_contribution_reputation_token,
           user: user,
-          level: :major,
+          level: :large,
           created_at: 2.days.ago
         review_token = create :user_code_review_reputation_token, user: user, created_at: 1.day.ago
 
@@ -79,7 +79,7 @@ module Components
         exercise = create :concept_exercise
         contribution_token = create :user_code_contribution_reputation_token,
           user: user,
-          level: :major,
+          level: :large,
           exercise: exercise
         review_token = create :user_code_review_reputation_token,
           user: user,

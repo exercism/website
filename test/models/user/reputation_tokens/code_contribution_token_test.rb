@@ -7,7 +7,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
-    level = :major
+    level = :large
     user = create :user, handle: "User22", github_username: "user22"
 
     User::ReputationToken::Create.(
@@ -40,7 +40,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
-    level = :regular
+    level = :medium
     user = create :user, handle: "User22", github_username: "user22"
 
     User::ReputationToken::Create.(
@@ -73,7 +73,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
-    level = :minor
+    level = :small
     user = create :user, handle: "User22", github_username: "user22"
 
     User::ReputationToken::Create.(
@@ -114,7 +114,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       token = User::ReputationToken::Create.(
         user,
         :code_contribution,
-        level: :regular,
+        level: :medium,
         repo: repo,
         pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         pr_number: 1347,
@@ -132,7 +132,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     token = User::ReputationToken::Create.(
       user,
       :code_contribution,
-      level: :regular,
+      level: :medium,
       repo: 'exercism/v3',
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,

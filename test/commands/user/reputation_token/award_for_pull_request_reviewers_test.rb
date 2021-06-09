@@ -223,30 +223,38 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     assert_empty reviewer_2.reputation_tokens
   end
 
-  test "pull request with reputation/contributed_code/minor label adds reputation token with lower value" do
-    action = 'closed'
-    author = 'user22'
-    repo = 'exercism/v3'
-    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    number = 1347
-    title = "The cat sat on the mat"
-    merged = true
-    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
-    html_url = 'https://github.com/exercism/v3/pull/1347'
-    labels = ['reputation/contributed_code/minor']
-    reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
-    create :github_organization_member, username: "reviewer71"
-    reviews = [{ reviewer_username: "reviewer71" }]
+  [
+    ['x:size/tiny', 1],
+    ['x:size/small', 2],
+    ['x:size/medium', 5],
+    ['x:size/large', 10],
+    ['x:size/massive', 20]
+  ].each do |label, reputation|
+    test "pull request with #{label} label adds reputation token with correct value" do
+      action = 'closed'
+      author = 'user22'
+      repo = 'exercism/v3'
+      node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+      number = 1347
+      title = "The cat sat on the mat"
+      merged = true
+      url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+      html_url = 'https://github.com/exercism/v3/pull/1347'
+      labels = [label]
+      reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
+      create :github_organization_member, username: "reviewer71"
+      reviews = [{ reviewer_username: "reviewer71" }]
 
-    User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
-    )
+      User::ReputationToken::AwardForPullRequestReviewers.(
+        action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+        repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
+      )
 
-    assert_equal 2, reviewer.reputation_tokens.last.value
+      assert_equal reputation, reviewer.reputation_tokens.last.value
+    end
   end
 
-  test "pull request with reputation/contributed_code/major label adds reputation token with higher value" do
+  test "pull request with small and large labels adds reputation token for greatest reputation" do
     action = 'closed'
     author = 'user22'
     repo = 'exercism/v3'
@@ -256,30 +264,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
-    labels = ['reputation/contributed_code/major']
-    reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
-    create :github_organization_member, username: "reviewer71"
-    reviews = [{ reviewer_username: "reviewer71" }]
-
-    User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, reviews: reviews
-    )
-
-    assert_equal 10, reviewer.reputation_tokens.last.value
-  end
-
-  test "pull request with minor and major reputation labels adds reputation token for major reputation" do
-    action = 'closed'
-    author = 'user22'
-    repo = 'exercism/v3'
-    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    number = 1347
-    title = "The cat sat on the mat"
-    merged = true
-    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
-    html_url = 'https://github.com/exercism/v3/pull/1347'
-    labels = ['reputation/contributed_code/minor', 'reputation/contributed_code/major']
+    labels = ['x:size/small', 'x:size/large']
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
@@ -325,20 +310,20 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
-    labels = ['reputation/contributed_code/minor']
+    labels = ['x:size/small']
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     reputation_token = create :user_code_review_reputation_token,
       user: reviewer,
-      level: :regular,
+      level: :medium,
       params: {
         repo: repo,
         pr_node_id: node_id
       }
 
-    assert_equal :regular, reputation_token.level # Sanity
+    assert_equal :medium, reputation_token.level # Sanity
     assert_equal 5, reputation_token.value # Sanity
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -347,7 +332,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     )
 
     assert_equal 1, reviewer.reputation_tokens.size
-    assert_equal :minor, reputation_token.reload.level
+    assert_equal :small, reputation_token.reload.level
     assert_equal 2, reputation_token.reload.value
   end
 
@@ -361,20 +346,20 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     merged = true
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
-    labels = ['reputation/contributed_code/major']
+    labels = ['x:size/large']
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
     reputation_token = create :user_code_review_reputation_token,
       user: reviewer,
-      level: :minor,
+      level: :small,
       params: {
         repo: repo,
         pr_node_id: node_id
       }
 
-    assert_equal :minor, reputation_token.level # Sanity
+    assert_equal :small, reputation_token.level # Sanity
     assert_equal 2, reputation_token.value # Sanity
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -383,7 +368,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     )
 
     assert_equal 1, reviewer.reputation_tokens.size
-    assert_equal :major, reputation_token.reload.level
+    assert_equal :large, reputation_token.reload.level
     assert_equal 10, reputation_token.reload.value
   end
 
@@ -404,13 +389,13 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
 
     reputation_token = create :user_code_review_reputation_token,
       user: reviewer,
-      level: :minor,
+      level: :small,
       params: {
         repo: repo,
         pr_node_id: node_id
       }
 
-    assert_equal :minor, reputation_token.level # Sanity
+    assert_equal :small, reputation_token.level # Sanity
     assert_equal 2, reputation_token.value # Sanity
 
     User::ReputationToken::AwardForPullRequestReviewers.(
@@ -419,7 +404,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     )
 
     assert_equal 1, reviewer.reputation_tokens.size
-    assert_equal :regular, reputation_token.reload.level
+    assert_equal :medium, reputation_token.reload.level
     assert_equal 5, reputation_token.reload.value
   end
 end

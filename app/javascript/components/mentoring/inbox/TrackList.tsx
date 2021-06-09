@@ -39,29 +39,36 @@ export const TrackList = ({
   value: string | null
   setTrack: (value: string | null) => void
 }): JSX.Element => {
-  const handleItemSelect = useCallback(
-    (index) => {
-      setTrack(tracks[index].slug)
-    },
-    [setTrack, tracks]
-  )
   const {
     buttonAttributes,
     panelAttributes,
     listAttributes,
     itemAttributes,
     setOpen,
-  } = useDropdown(tracks.length, handleItemSelect, {
-    placement: 'bottom-end',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [-8, 8],
+  } = useDropdown(
+    tracks.length,
+    (i) => {
+      handleItemSelect(i)
+    },
+    {
+      placement: 'bottom-end',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [-8, 8],
+          },
         },
-      },
-    ],
-  })
+      ],
+    }
+  )
+  const handleItemSelect = useCallback(
+    (index) => {
+      setTrack(tracks[index].slug)
+      setOpen(false)
+    },
+    [setOpen, setTrack, tracks]
+  )
   const selected = tracks.find((track) => track.slug === value) || tracks[0]
 
   if (!selected) {

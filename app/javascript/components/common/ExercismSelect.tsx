@@ -25,12 +25,6 @@ export const ExercismSelect = <T extends unknown>({
   buttonClassName?: string
   panelClassName?: string
 }): JSX.Element => {
-  const handleItemSelect = useCallback(
-    (index) => {
-      setValue(options[index])
-    },
-    [setValue, options]
-  )
   const {
     buttonAttributes,
     panelAttributes,
@@ -38,17 +32,36 @@ export const ExercismSelect = <T extends unknown>({
     itemAttributes,
     setOpen,
     open,
-  } = useDropdown(options.length, handleItemSelect, {
-    placement: 'bottom',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 8],
+  } = useDropdown(
+    options.length,
+    (i) => {
+      handleItemSelect(i)
+    },
+    {
+      placement: 'bottom',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 8],
+          },
         },
-      },
-    ],
-  })
+      ],
+    }
+  )
+  const handleChange = useCallback(
+    (option: T) => {
+      setValue(option)
+      setOpen(false)
+    },
+    [setOpen, setValue]
+  )
+  const handleItemSelect = useCallback(
+    (index) => {
+      handleChange(options[index])
+    },
+    [handleChange, options]
+  )
 
   return (
     <div className={componentClassName}>

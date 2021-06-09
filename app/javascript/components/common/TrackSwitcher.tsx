@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react'
-import { TrackIcon, Icon, GraphicalIcon } from '.'
+import React from 'react'
+import { TrackIcon, GraphicalIcon } from '.'
 import { Track } from '../types'
-import { useDropdown } from '../dropdowns/useDropdown'
+import { ExercismSelect } from './ExercismSelect'
 
 const TrackLogo = ({ track }: { track: Track }) => {
   return track.id ? (
@@ -12,11 +12,11 @@ const TrackLogo = ({ track }: { track: Track }) => {
 }
 
 const TrackFilter = ({
-  track,
+  option: track,
   checked,
   onChange,
 }: {
-  track: Track
+  option: Track
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
@@ -31,6 +31,15 @@ const TrackFilter = ({
   )
 }
 
+const SelectedComponent = ({ value: track }: { value: Track }) => {
+  return (
+    <React.Fragment>
+      <TrackLogo track={track} />
+      <div className="track-title">{track.title}</div>
+    </React.Fragment>
+  )
+}
+
 export const TrackSwitcher = ({
   tracks,
   value,
@@ -39,67 +48,17 @@ export const TrackSwitcher = ({
   tracks: readonly Track[]
   value: Track
   setValue: (value: Track) => void
-}): JSX.Element | null => {
-  const handleItemSelect = useCallback(
-    (index) => {
-      setValue(tracks[index])
-    },
-    [setValue, tracks]
-  )
-  const {
-    buttonAttributes,
-    panelAttributes,
-    listAttributes,
-    itemAttributes,
-    setOpen,
-    open,
-  } = useDropdown(tracks.length, handleItemSelect, {
-    placement: 'bottom',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 8],
-        },
-      },
-    ],
-  })
-
+}): JSX.Element => {
   return (
-    <div className="c-track-switcher --small">
-      <button
-        className="current-track"
-        aria-label="Open the track switcher"
-        {...buttonAttributes}
-      >
-        <TrackLogo track={value} />
-        <div className="track-title">{value.title}</div>
-        <Icon
-          icon="chevron-down"
-          alt="Click to change"
-          className="action-icon"
-        />
-      </button>
-      {open ? (
-        <div {...panelAttributes} className="c-track-switcher-dropdown">
-          <ul {...listAttributes}>
-            {tracks.map((track, i) => {
-              return (
-                <li key={track.id} {...itemAttributes(i)}>
-                  <TrackFilter
-                    onChange={() => {
-                      setValue(track)
-                      setOpen(false)
-                    }}
-                    checked={value.id === track.id}
-                    track={track}
-                  />
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      ) : null}
-    </div>
+    <ExercismSelect<Track>
+      options={tracks}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={SelectedComponent}
+      OptionComponent={TrackFilter}
+      componentClassName="c-track-switcher --small"
+      buttonClassName="current-track"
+      panelClassName="c-track-switcher-dropdown"
+    />
   )
 }

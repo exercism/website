@@ -6,12 +6,5 @@ FactoryBot.define do
         discussion: create(:mentor_discussion)
       }
     end
-
-    trait :read do
-      status { :read }
-    end
-    trait :unread do
-      status { :unread }
-    end
   end
 end

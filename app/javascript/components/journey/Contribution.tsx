@@ -1,5 +1,5 @@
 import React from 'react'
-import { fromNow } from '../../utils/time'
+import { fromNow } from '../../utils/date'
 import { GraphicalIcon, TrackIcon, Reputation } from '../common'
 import { Contribution as ContributionProps } from '../types'
 

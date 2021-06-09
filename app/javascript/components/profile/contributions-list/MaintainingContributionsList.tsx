@@ -1,7 +1,7 @@
 import React from 'react'
 import { Contribution as ContributionProps } from '../../types'
 import { TrackIcon, Reputation, GraphicalIcon, Pagination } from '../../common'
-import { fromNow } from '../../../utils/time'
+import { fromNow } from '../../../utils/date'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { ResultsZone } from '../../ResultsZone'
 import { useIsMounted } from 'use-is-mounted'

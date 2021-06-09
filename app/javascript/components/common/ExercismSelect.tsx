@@ -16,11 +16,7 @@ export const ExercismSelect = <T extends unknown>({
   options: readonly T[]
   setValue: (value: T) => void
   SelectedComponent: React.ComponentType<{ value: T }>
-  OptionComponent: React.ComponentType<{
-    onChange: () => void
-    checked: boolean
-    option: T
-  }>
+  OptionComponent: React.ComponentType<{ option: T }>
   componentClassName?: string
   buttonClassName?: string
   panelClassName?: string
@@ -79,14 +75,16 @@ export const ExercismSelect = <T extends unknown>({
             {options.map((option, i) => {
               return (
                 <li key={i} {...itemAttributes(i)}>
-                  <OptionComponent
-                    onChange={() => {
-                      setValue(option)
-                      setOpen(false)
-                    }}
-                    checked={option === value}
-                    option={option}
-                  />
+                  <label className="c-radio-wrapper">
+                    <input
+                      type="radio"
+                      onChange={() => handleChange(option)}
+                      checked={option === value}
+                    />
+                    <div className="row">
+                      <OptionComponent option={option} />
+                    </div>
+                  </label>
                 </li>
               )
             })}

@@ -11,23 +11,12 @@ const TrackLogo = ({ track }: { track: Track }) => {
   )
 }
 
-const TrackFilter = ({
-  option: track,
-  checked,
-  onChange,
-}: {
-  option: Track
-  checked: boolean
-  onChange: (e: React.ChangeEvent) => void
-}): JSX.Element => {
+const TrackFilter = ({ option: track }: { option: Track }): JSX.Element => {
   return (
-    <label className="c-radio-wrapper">
-      <input type="radio" onChange={onChange} checked={checked} />
-      <div className="row">
-        <TrackLogo track={track} />
-        <div className="title">{track.title}</div>
-      </div>
-    </label>
+    <React.Fragment>
+      <TrackLogo track={track} />
+      <div className="title">{track.title}</div>
+    </React.Fragment>
   )
 }
 

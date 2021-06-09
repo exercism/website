@@ -438,6 +438,7 @@ export type Badge = {
 }
 
 export type Task = {
+  id: string
   title: string
   tags: TaskTags
   track: Pick<Track, 'title' | 'iconUrl'>

@@ -1,12 +1,12 @@
 import React from 'react'
-import { Task as TaskProps } from '../types'
+import { Task as TaskProps } from '../../types'
 import { ActionIcon } from './task/ActionIcon'
 import { NewTag } from './task/NewTag'
 import { TrackType } from './task/TrackType'
 import { KnowledgeTag } from './task/KnowledgeTag'
 import { SizeTag } from './task/SizeTag'
 import { ModuleTag } from './task/ModuleTag'
-import { GraphicalIcon } from '../common'
+import { GraphicalIcon } from '../../common'
 
 export const Task = ({ task }: { task: TaskProps }): JSX.Element => {
   return (

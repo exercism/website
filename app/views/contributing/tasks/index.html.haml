@@ -1,46 +1,4 @@
 #contributing-tasks
   = render ViewComponents::Contributing::Header.new(:tasks)
 
-  .lg-container.container
-    .c-search-bar
-      .c-track-switcher.--small
-        %button.current-track
-          = graphical_icon "all-tracks", css_class: "all"
-          .track-title All tracks
-          = graphical_icon "chevron-down", css_class: "action-icon"
-      .c-select
-        %select
-          %option
-            All actions
-      .c-select
-        %select
-          %option
-            All types
-      .c-select
-        %select
-          %option
-            All sizes
-      .c-select
-        %select
-          %option
-            All knowledge
-      .c-select
-        %select
-          %option
-            Any modules
-
-    %header.main-header.c-search-bar
-      %h2
-        %strong Showing 7,195 tasks
-        \/ out of 7,195 possible tasks
-      %button.btn-m.btn-link.reset-btn
-        = graphical_icon :reset
-        %span Reset Filters
-      .c-select
-        %select
-          %option
-            Sort by most recent
-
-    .tasks
-      - @data[:results].each do |task|
-        = render ReactComponents::Contributing::Task.new(task)
+  = render ReactComponents::Contributing::TasksList.new(params)

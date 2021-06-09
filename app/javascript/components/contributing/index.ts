@@ -1,2 +1,2 @@
 export { ContributorsList } from './ContributorsList'
-export { Task } from './Task'
+export { TasksList } from './TasksList'

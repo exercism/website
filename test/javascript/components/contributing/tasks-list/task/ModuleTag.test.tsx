@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { ModuleTag } from '../../../../../app/javascript/components/Contributing/task/ModuleTag'
+import { ModuleTag } from '../../../../../../app/javascript/components/Contributing/tasks-list/task/ModuleTag'
 
 test('renders tag for module = analyzer', async () => {
   render(<ModuleTag module="analyzer" />)

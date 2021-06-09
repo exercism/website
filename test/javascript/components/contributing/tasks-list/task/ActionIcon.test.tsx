@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { ActionIcon } from '../../../../../app/javascript/components/Contributing/task/ActionIcon'
+import { ActionIcon } from '../../../../../../app/javascript/components/Contributing/tasks-list/task/ActionIcon'
 
 test('renders an empty div when action is empty', async () => {
   render(<ActionIcon />)

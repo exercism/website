@@ -1,5 +1,5 @@
 import React from 'react'
-import { TaskSize } from '../../types'
+import { TaskSize } from '../../../types'
 
 export const SizeTag = ({ size }: { size?: TaskSize }): JSX.Element => {
   switch (size) {

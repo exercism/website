@@ -1,8 +1,8 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { Task } from '../../../../app/javascript/components/Contributing/Task'
-import { createTask } from '../../factories/TaskFactory'
+import { Task } from '../../../../../app/javascript/components/contributing/tasks-list/Task'
+import { createTask } from '../../../factories/TaskFactory'
 
 test('renders a task', async () => {
   const task = createTask({

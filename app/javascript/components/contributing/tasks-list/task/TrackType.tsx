@@ -1,5 +1,5 @@
 import React from 'react'
-import { Task, TaskType as TaskTypeProps } from '../../types'
+import { Task, TaskType as TaskTypeProps } from '../../../types'
 import { TrackInfo } from './TrackInfo'
 import { TaskType } from './TaskType'
 

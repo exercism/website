@@ -1,6 +1,6 @@
 import React from 'react'
-import { TaskKnowledge } from '../../types'
-import { GraphicalIcon } from '../../common'
+import { TaskKnowledge } from '../../../types'
+import { GraphicalIcon } from '../../../common'
 
 export const KnowledgeTag = ({
   knowledge,

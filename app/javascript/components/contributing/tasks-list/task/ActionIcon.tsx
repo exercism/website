@@ -1,6 +1,6 @@
 import React from 'react'
-import { Icon } from '../../common'
-import { TaskAction } from '../../types'
+import { Icon } from '../../../common'
+import { TaskAction } from '../../../types'
 
 export const ActionIcon = ({
   action,

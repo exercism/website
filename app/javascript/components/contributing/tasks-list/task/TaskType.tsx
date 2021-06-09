@@ -1,6 +1,6 @@
 import React from 'react'
-import { TaskType as TaskTypeProps } from '../../types'
-import { GraphicalIcon } from '../../common'
+import { TaskType as TaskTypeProps } from '../../../types'
+import { GraphicalIcon } from '../../../common'
 
 export const TaskType = ({ type }: { type?: TaskTypeProps }): JSX.Element => {
   return (

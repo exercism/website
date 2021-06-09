@@ -1,6 +1,6 @@
 import React from 'react'
-import { Icon } from '../../common'
-import { TaskModule } from '../../types'
+import { Icon } from '../../../common'
+import { TaskModule } from '../../../types'
 
 export const ModuleTag = ({ module }: { module?: TaskModule }): JSX.Element => {
   switch (module) {

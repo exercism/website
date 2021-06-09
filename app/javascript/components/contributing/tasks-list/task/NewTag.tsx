@@ -1,5 +1,5 @@
 import React from 'react'
-import { GraphicalIcon } from '../../common'
+import { GraphicalIcon } from '../../../common'
 
 export const NewTag = (): JSX.Element => {
   return (

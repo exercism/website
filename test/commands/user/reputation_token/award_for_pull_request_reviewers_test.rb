@@ -245,7 +245,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
       number = 1347
       title = "The cat sat on the mat"
-      merged = true      
+      merged = true
       merged_at = Time.parse('2020-04-03T14:54:57Z').utc
       url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
       html_url = 'https://github.com/exercism/v3/pull/1347'

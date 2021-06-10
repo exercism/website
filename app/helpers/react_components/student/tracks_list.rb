@@ -2,37 +2,35 @@ module ReactComponents
   module Student
     class TracksList < ReactComponent
       # TODO: Remove `user` and its usage here once API supports session requests
-      def initialize(user, tracks, request = default_request)
+      def initialize(user, tracks, params)
         super()
 
         @user = user
         @tracks = tracks
-        @request = request
+        @params = params
       end
 
       def to_s
-        super(
-          "student-tracks-list", {
-            request: request.deep_merge(
-              {
-                options: {
-                  initialData: {
-                    tracks: SerializeTracks.(tracks, current_user)
-                  }
-                },
-                query: {}
-              }
-            ),
-            tag_options: tag_options
-          }
-        )
+        super("student-tracks-list", { request: request, tag_options: tag_options })
       end
 
       private
-      attr_reader :user, :tracks, :request
+      attr_reader :user, :tracks, :params
 
-      def default_request
-        { endpoint: Exercism::Routes.api_tracks_path }
+      def request
+        {
+          endpoint: Exercism::Routes.api_tracks_path,
+          options: {
+            initialData: {
+              tracks: SerializeTracks.(tracks, current_user)
+            }
+          },
+          query: {
+            criteria: params[:criteria] || "",
+            page: params[:page] ? params[:page].to_i : 1,
+            tags: params[:tags] || []
+          }
+        }
       end
 
       def tag_options

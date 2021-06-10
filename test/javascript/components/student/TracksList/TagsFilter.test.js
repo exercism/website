@@ -9,6 +9,7 @@ test('hides option list when clicking "Close"', () => {
       options={[
         { category: 'Paradigm', options: [{ value: 'oop', label: 'OOP' }] },
       ]}
+      value={[]}
     />
   )
 
@@ -24,6 +25,7 @@ test('focuses on dialog when expanded', () => {
       options={[
         { category: 'Paradigm', options: [{ value: 'oop', label: 'OOP' }] },
       ]}
+      value={[]}
     />
   )
 
@@ -38,6 +40,7 @@ test('focuses on filter only after expanding and closing', () => {
       options={[
         { category: 'Paradigm', options: [{ value: 'oop', label: 'OOP' }] },
       ]}
+      value={[]}
     />
   )
 
@@ -53,6 +56,7 @@ test('does not focus on filter by default', () => {
       options={[
         { category: 'Paradigm', options: [{ value: 'oop', label: 'OOP' }] },
       ]}
+      value={[]}
     />
   )
 

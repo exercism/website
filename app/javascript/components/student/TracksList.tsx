@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
@@ -6,6 +6,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
 import { useList } from '../../hooks/use-list'
 import { StudentTrack } from '../types'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 type APIResponse = {
   tracks: StudentTrack[]
@@ -27,7 +28,10 @@ export const TracksList = ({
   request: Request
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setCriteria, setQuery } = useList(initialRequest)
+  const { request, setCriteria: setRequestCriteria, setQuery } = useList(
+    initialRequest
+  )
+  const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const CACHE_KEY = ['track-list', request.endpoint, request.query]
   const { resolvedData, isError, isFetching } = usePaginatedRequestQuery<
     APIResponse
@@ -48,6 +52,18 @@ export const TracksList = ({
     return a.lastTouchedAt > b.lastTouchedAt ? -1 : 1
   })
 
+  useHistory({ pushOn: removeEmpty(request.query) })
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
   return (
     <div className="c-tracks-list">
       <section className="c-search-bar">
@@ -57,7 +73,7 @@ export const TracksList = ({
             placeholder="Search language tracks"
             className="--search"
             onChange={(e) => setCriteria(e.target.value)}
-            value={request.query.criteria || ''}
+            value={criteria}
           />
           <TagsFilter
             setTags={setTags}

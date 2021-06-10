@@ -45,10 +45,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "git sync SHA does not change when concept syncing fails" do
     track = create :track, active: true, synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
     Git::SyncConcept.expects(:call).raises(RuntimeError)
+    Github::Issue::OpenForSyncFailure.stubs(:call)
 
-    assert_raises RuntimeError do
-      Git::SyncTrack.(track)
-    end
+    Git::SyncTrack.(track)
 
     assert_equal "ae1a56deb0941ac53da22084af8eb6107d4b5c3a", track.synced_to_git_sha
   end
@@ -56,10 +55,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "git sync SHA does not change when concept exercise syncing fails" do
     track = create :track, active: true, synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
     Git::SyncConceptExercise.expects(:call).raises(RuntimeError)
+    Github::Issue::OpenForSyncFailure.stubs(:call)
 
-    assert_raises RuntimeError do
-      Git::SyncTrack.(track)
-    end
+    Git::SyncTrack.(track)
 
     assert_equal "ae1a56deb0941ac53da22084af8eb6107d4b5c3a", track.synced_to_git_sha
   end
@@ -67,10 +65,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "git sync SHA does not change when practice exercise syncing fails" do
     track = create :track, active: true, synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
     Git::SyncPracticeExercise.expects(:call).raises(RuntimeError)
+    Github::Issue::OpenForSyncFailure.stubs(:call)
 
-    assert_raises RuntimeError do
-      Git::SyncTrack.(track)
-    end
+    Git::SyncTrack.(track)
 
     assert_equal "ae1a56deb0941ac53da22084af8eb6107d4b5c3a", track.synced_to_git_sha
   end
@@ -429,6 +426,17 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrackDocs.expects(:call).with(track)
 
     # Run this once to get the track cloned onto the local machine
+    Git::SyncTrack.(track)
+  end
+
+  test "open issue for sync failure when not synced successfully" do
+    track = create :track
+    error_message = "Could not find Concept X"
+
+    track.stubs(:update!).raises(StandardError, error_message)
+
+    Github::Issue::OpenForSyncFailure.expects(:call).with(track, error_message, track.git_head_sha)
+
     Git::SyncTrack.(track)
   end
 end

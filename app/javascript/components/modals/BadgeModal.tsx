@@ -6,14 +6,18 @@ import { timeFormat } from '../../utils/time'
 
 export const BadgeModal = ({
   badge,
+  wasUnrevealed,
   ...props
-}: Omit<ModalProps, 'className'> & { badge: BadgeProps }): JSX.Element => {
+}: Omit<ModalProps, 'className'> & {
+  badge: BadgeProps
+  wasUnrevealed?: boolean
+}): JSX.Element => {
   const classNames = ['m-badge', `--${badge.rarity}`]
 
   return (
     <Modal {...props} className={classNames.join(' ')} cover={true}>
       <BadgeMedallion badge={badge} />
-      <h2>New Badge Earned</h2>
+      {wasUnrevealed ? <h2>New Badge Earned</h2> : <h2>Badge</h2>}
       <div className="name">{badge.name}</div>
       <div className="rarity">{badge.rarity}</div>
       <hr className="c-divider --small" />

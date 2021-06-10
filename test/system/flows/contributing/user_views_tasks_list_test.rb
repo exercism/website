@@ -61,6 +61,21 @@ module Flows
           assert_no_text "Fix bug"
         end
       end
+
+      test "user filters by size" do
+        create :github_task, title: "Fix bug", size: :tiny
+        create :github_task, title: "Write docs", size: :medium
+
+        use_capybara_host do
+          visit contributing_tasks_path
+          click_on "All sizes"
+          find("label", text: "Medium").click
+          find("body").click(x: 0, y: 0)
+
+          assert_text "Write docs"
+          assert_no_text "Fix bug"
+        end
+      end
     end
   end
 end

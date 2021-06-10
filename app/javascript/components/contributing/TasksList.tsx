@@ -9,6 +9,7 @@ import {
   Track,
   TaskAction,
   TaskType,
+  TaskSize,
 } from '../types'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -16,6 +17,7 @@ import { useList } from '../../hooks/use-list'
 import { TrackSwitcher } from '../common/TrackSwitcher'
 import { ActionSwitcher } from './tasks-list/ActionSwitcher'
 import { TypeSwitcher } from './tasks-list/TypeSwitcher'
+import { SizeSwitcher } from './tasks-list/SizeSwitcher'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 
@@ -65,6 +67,13 @@ export const TasksList = ({
     [JSON.stringify(request.query), setQuery]
   )
 
+  const setSizes = useCallback(
+    (sizes: TaskSize[]) => {
+      setQuery({ ...request.query, sizes: sizes })
+    },
+    [JSON.stringify(request.query), setQuery]
+  )
+
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
@@ -74,11 +83,7 @@ export const TasksList = ({
           setValue={setActions}
         />
         <TypeSwitcher value={request.query.types || []} setValue={setTypes} />
-        <div className="c-select">
-          <select>
-            <option>All sizes</option>
-          </select>
-        </div>
+        <SizeSwitcher value={request.query.sizes || []} setValue={setSizes} />
         <div className="c-select">
           <select>
             <option>All knowledge</option>

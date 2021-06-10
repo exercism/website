@@ -1,0 +1,56 @@
+# ----------------------------------------------------------------------------------------- #
+# These are the repository-specific labels that augment the Exercise-wide labels defined in #
+# https://github.com/exercism/org-wide-files/blob/main/global-files/.github/labels.yml.     #
+# ----------------------------------------------------------------------------------------- #
+
+- name: "bot/bugsnag"
+  description: ""
+  color: "A32E92"
+
+- name: "dependencies"
+  description: "Pull requests that update a dependency file"
+  color: "0366d6"
+
+- name: "hacktoberfest-accepted"
+  description: ""
+  color: "bfd4f2"
+
+- name: "javascript"
+  description: "Pull requests that update Javascript code"
+  color: "168700"
+
+- name: "priority/next-up"
+  description: ""
+  color: "d1c4fc"
+
+- name: "ruby"
+  description: "Pull requests that update Ruby code"
+  color: "ce2d2d"
+
+- name: "status/completed"
+  description: ""
+  color: "f9aed6"
+
+- name: "status/next-up"
+  description: ""
+  color: "f9aed6"
+
+- name: "status/on-hold"
+  description: ""
+  color: "f9aed6"
+
+- name: "type/bug"
+  description: "Something isn't working"
+  color: "ce080b"
+
+- name: "type/dependencies"
+  description: "Pull requests that update a dependency file"
+  color: "49cc97"
+
+- name: "type/documentation"
+  description: "Improvements or additions to documentation"
+  color: "49cc97"
+
+- name: "type/ops"
+  description: ""
+  color: "49cc97"

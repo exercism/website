@@ -9,6 +9,7 @@ class SerializeTaskTest < ActiveSupport::TestCase
                                   action: :fix, knowledge: :none, area: :representer, size: :massive, type: :docs
 
       expected = {
+        id: task.id,
         title: 'Sync anagram',
         tags: {
           action: :fix,
@@ -40,6 +41,7 @@ class SerializeTaskTest < ActiveSupport::TestCase
                                   action: :fix, knowledge: nil, area: :representer, size: nil, type: :docs
 
       expected = {
+        id: task.id,
         title: 'Improve test speed',
         tags: {
           action: :fix,

@@ -5,15 +5,14 @@ module ReactComponents::Contributing
     test "renders correctly" do
       track = create :track, slug: 'ruby'
 
-      create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312', title: 'Sync anagram',
-                           opened_at: Time.parse("2020-10-17T02:39:37Z").utc, opened_by_username: 'ErikSchierboom',
-                           action: :fix, knowledge: :none, area: :analyzer, size: :small, type: :ci,
-                           repo: 'exercism/ruby', track: track
-
-      create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/888', title: 'Improve test speed',
-                           opened_at: Time.parse("2021-03-05T23:23:00Z").utc, opened_by_username: 'iHiD',
-                           action: :fix, knowledge: :elementary, area: :analyzer, size: :tiny, type: :ci,
-                           repo: 'exercism/ruby', track: track
+      task_1 = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/888', title: 'Improve test speed',
+                                    opened_at: Time.parse("2021-03-05T23:23:00Z").utc, opened_by_username: 'iHiD',
+                                    action: :fix, knowledge: :elementary, area: :analyzer, size: :tiny, type: :ci,
+                                    repo: 'exercism/ruby', track: track
+      task_2 = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312', title: 'Sync anagram',
+                                    opened_at: Time.parse("2020-10-17T02:39:37Z").utc, opened_by_username: 'ErikSchierboom',
+                                    action: :fix, knowledge: :none, area: :analyzer, size: :small, type: :ci,
+                                    repo: 'exercism/ruby', track: track
 
       params = {
         actions: ["fix"],
@@ -36,6 +35,7 @@ module ReactComponents::Contributing
             initial_data: {
               results: [
                 {
+                  id: task_1.id,
                   title: "Improve test speed",
                   tags: {
                     action: "fix",
@@ -57,6 +57,7 @@ module ReactComponents::Contributing
                   }
                 },
                 {
+                  id: task_2.id,
                   title: "Sync anagram",
                   tags: {
                     action: "fix",
@@ -86,7 +87,19 @@ module ReactComponents::Contributing
               }
             }
           }
-        }
+        },
+        tracks: [
+          {
+            id: nil,
+            title: "All",
+            icon_url: "ICON"
+          },
+          {
+            id: track.slug,
+            title: track.title,
+            icon_url: track.icon_url
+          }
+        ]
       }
       assert_component component, "contributing-tasks-list", expected
     end

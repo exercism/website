@@ -15,7 +15,7 @@ export const ExercismSelect = <T extends unknown>({
   value: T
   options: readonly T[]
   setValue: (value: T) => void
-  SelectedComponent: React.ComponentType<{ value: T }>
+  SelectedComponent: React.ComponentType<{ option: T }>
   OptionComponent: React.ComponentType<{ option: T }>
   componentClassName?: string
   buttonClassName?: string
@@ -62,7 +62,7 @@ export const ExercismSelect = <T extends unknown>({
   return (
     <div className={componentClassName}>
       <button className={buttonClassName} {...buttonAttributes}>
-        <SelectedComponent value={value} />
+        <SelectedComponent option={value} />
         <Icon
           icon="chevron-down"
           alt="Click to change"

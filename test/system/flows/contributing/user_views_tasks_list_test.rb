@@ -129,6 +129,23 @@ module Flows
         end
       end
 
+      test "user orders tasks" do
+        Github::Task::Search.stubs(:requests_per_page).returns(1)
+        ruby = create :track, slug: "ruby"
+        go = create :track, slug: "go"
+        create :github_task, title: "Fix bug", track: ruby
+        create :github_task, title: "Write docs", track: go
+
+        use_capybara_host do
+          visit contributing_tasks_path
+          click_on "Sort by most recent"
+          find("label", text: "Sort by track").click
+
+          assert_text "Write docs"
+          assert_no_text "Fix bug"
+        end
+      end
+
       test "user switches pages" do
         Github::Task::Search.stubs(:requests_per_page).returns(1)
         create :github_task, title: "Fix bug"

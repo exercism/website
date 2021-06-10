@@ -22,9 +22,11 @@ import { SizeSwitcher } from './tasks-list/SizeSwitcher'
 import { KnowledgeSwitcher } from './tasks-list/KnowledgeSwitcher'
 import { ModuleSwitcher } from './tasks-list/ModuleSwitcher'
 import { ResetButton } from './tasks-list/ResetButton'
+import { Sorter } from './tasks-list/Sorter'
 import pluralize from 'pluralize'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
+const DEFAULT_ORDER = 'newest'
 
 type PaginatedResult = {
   results: readonly TaskProps[]
@@ -36,6 +38,8 @@ type PaginatedResult = {
   }
 }
 
+export type TasksListOrder = 'newest' | 'oldest' | 'track'
+
 export const TasksList = ({
   request: initialRequest,
   tracks,
@@ -44,7 +48,7 @@ export const TasksList = ({
   tracks: readonly Track[]
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setPage, setQuery } = useList(initialRequest)
+  const { request, setPage, setQuery, setOrder } = useList(initialRequest)
   const {
     status,
     resolvedData,
@@ -57,7 +61,13 @@ export const TasksList = ({
     isMountedRef
   )
   const track = tracks.find((t) => t.id === request.query.track) || tracks[0]
-  const isFiltering = Object.keys(request.query).length !== 0
+  const isFiltering =
+    request.query.track ||
+    request.query.actions ||
+    request.query.types ||
+    request.query.sizes ||
+    request.query.knowledge ||
+    request.query.areas
 
   const setTrack = useCallback(
     (track: Track) => {
@@ -142,11 +152,10 @@ export const TasksList = ({
                   </strong>
                 </h2>
                 {isFiltering ? <ResetButton onClick={handleReset} /> : null}
-                <div className="c-select">
-                  <select>
-                    <option>Sort by most recent</option>
-                  </select>
-                </div>
+                <Sorter
+                  value={request.query.order || DEFAULT_ORDER}
+                  setValue={setOrder}
+                />
               </header>
               <div className="tasks">
                 {resolvedData.results.map((task) => (

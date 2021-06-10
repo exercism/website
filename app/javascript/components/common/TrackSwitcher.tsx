@@ -20,7 +20,7 @@ const TrackFilter = ({ option: track }: { option: Track }): JSX.Element => {
   )
 }
 
-const SelectedComponent = ({ value: track }: { value: Track }) => {
+const SelectedComponent = ({ option: track }: { option: Track }) => {
   return (
     <React.Fragment>
       <TrackLogo track={track} />

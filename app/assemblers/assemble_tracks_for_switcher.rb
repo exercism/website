@@ -1,16 +1,14 @@
-class AssembleTrackSwitcher
+class AssembleTracksForSwitcher
   include Mandate
 
   def call
-    {
-      tracks: [
-        {
-          id: nil,
-          title: "All",
-          icon_url: "ICON"
-        }
-      ].concat(tracks.map { |track| data_for_track(track) })
-    }
+    [
+      {
+        id: nil,
+        title: "All",
+        icon_url: "ICON"
+      }
+    ].concat(tracks.map { |track| data_for_track(track) })
   end
 
   private

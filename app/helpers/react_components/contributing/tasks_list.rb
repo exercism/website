@@ -15,8 +15,9 @@ module ReactComponents
               options: {
                 initial_data: AssembleTasks.(params)
               }
-            }
-          }.merge(AssembleTrackSwitcher.())
+            },
+            tracks: AssembleTracksForSwitcher.()
+          }
         )
       end
 

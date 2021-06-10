@@ -90,6 +90,7 @@ export const UnrevealedBadge = ({
             setIsModalOpen(false)
             updateCache()
           }}
+          wasUnrevealed
         />
       ) : null}
     </React.Fragment>

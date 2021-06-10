@@ -113,6 +113,22 @@ module Flows
         end
       end
 
+      test "user resets filters" do
+        create :github_task, title: "Fix bug", area: "test-runner"
+        create :github_task, title: "Write docs", area: :generator
+
+        use_capybara_host do
+          visit contributing_tasks_path
+          click_on "All modules"
+          find("label", text: "Generator").click
+          find("body").click(x: 0, y: 0)
+          click_on "Reset Filters"
+
+          assert_text "Write docs"
+          assert_text "Fix bug"
+        end
+      end
+
       test "user switches pages" do
         Github::Task::Search.stubs(:requests_per_page).returns(1)
         create :github_task, title: "Fix bug"

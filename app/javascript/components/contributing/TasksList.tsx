@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { GraphicalIcon, Pagination } from '../common'
+import { Pagination } from '../common'
 import { Task } from './tasks-list/Task'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
@@ -21,6 +21,7 @@ import { TypeSwitcher } from './tasks-list/TypeSwitcher'
 import { SizeSwitcher } from './tasks-list/SizeSwitcher'
 import { KnowledgeSwitcher } from './tasks-list/KnowledgeSwitcher'
 import { ModuleSwitcher } from './tasks-list/ModuleSwitcher'
+import { ResetButton } from './tasks-list/ResetButton'
 import pluralize from 'pluralize'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
@@ -56,6 +57,7 @@ export const TasksList = ({
     isMountedRef
   )
   const track = tracks.find((t) => t.id === request.query.track) || tracks[0]
+  const isFiltering = Object.keys(request.query).length !== 0
 
   const setTrack = useCallback(
     (track: Track) => {
@@ -99,6 +101,10 @@ export const TasksList = ({
     [JSON.stringify(request.query), setQuery]
   )
 
+  const handleReset = useCallback(() => {
+    setQuery({})
+  }, [setQuery])
+
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
@@ -135,10 +141,7 @@ export const TasksList = ({
                     {pluralize('task', resolvedData.meta.unscopedTotal)}
                   </strong>
                 </h2>
-                <button className="btn-m btn-link reset-btn">
-                  <GraphicalIcon icon="reset" />
-                  <span>Reset Filters</span>
-                </button>
+                {isFiltering ? <ResetButton onClick={handleReset} /> : null}
                 <div className="c-select">
                   <select>
                     <option>Sort by most recent</option>

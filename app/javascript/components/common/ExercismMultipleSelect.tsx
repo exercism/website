@@ -24,6 +24,7 @@ export const ExercismMultipleSelect = <T extends unknown>({
   panelClassName?: string
 }): JSX.Element => {
   const [selected, setSelected] = useState<T[]>(value)
+  const [changed, setChanged] = useState(false)
   const {
     buttonAttributes,
     panelAttributes,
@@ -54,6 +55,8 @@ export const ExercismMultipleSelect = <T extends unknown>({
       } else {
         setSelected([...selected, option])
       }
+
+      setChanged(true)
     },
     [setSelected, selected]
   )
@@ -72,12 +75,17 @@ export const ExercismMultipleSelect = <T extends unknown>({
   )
 
   useEffect(() => {
-    if (open) {
+    setSelected(value)
+  }, [value])
+
+  useEffect(() => {
+    if (open || !changed) {
       return
     }
 
     setValue(selected)
-  }, [open, selected, setValue])
+    setChanged(false)
+  }, [changed, open, selected, setValue])
 
   return (
     <div className={componentClassName}>

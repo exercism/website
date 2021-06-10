@@ -5,7 +5,6 @@ import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import {
   Task as TaskProps,
-  PaginatedResult,
   Track,
   TaskAction,
   TaskType,
@@ -22,8 +21,19 @@ import { TypeSwitcher } from './tasks-list/TypeSwitcher'
 import { SizeSwitcher } from './tasks-list/SizeSwitcher'
 import { KnowledgeSwitcher } from './tasks-list/KnowledgeSwitcher'
 import { ModuleSwitcher } from './tasks-list/ModuleSwitcher'
+import pluralize from 'pluralize'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
+
+type PaginatedResult = {
+  results: readonly TaskProps[]
+  meta: {
+    currentPage: number
+    totalCount: number
+    totalPages: number
+    unscopedTotal: number
+  }
+}
 
 export const TasksList = ({
   request: initialRequest,
@@ -40,10 +50,7 @@ export const TasksList = ({
     latestData,
     isFetching,
     error,
-  } = usePaginatedRequestQuery<
-    PaginatedResult<readonly TaskProps[]>,
-    Error | Response
-  >(
+  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     ['contributing-tasks', request.endpoint, request.query],
     request,
     isMountedRef
@@ -111,20 +118,6 @@ export const TasksList = ({
           setValue={setModules}
         />
       </div>
-      <header className="main-header c-search-bar">
-        <h2>
-          <strong>Showing 7,195 tasks out of 7,195 possible tasks</strong>
-        </h2>
-        <button className="btn-m btn-link reset-btn">
-          <GraphicalIcon icon="reset" />
-          <span>Reset Filters</span>
-        </button>
-        <div className="c-select">
-          <select>
-            <option>Sort by most recent</option>
-          </select>
-        </div>
-      </header>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
           status={status}
@@ -133,6 +126,25 @@ export const TasksList = ({
         >
           {resolvedData ? (
             <React.Fragment>
+              <header className="main-header c-search-bar">
+                <h2>
+                  <strong>
+                    Showing {resolvedData.meta.totalCount}{' '}
+                    {pluralize('task', resolvedData.meta.totalCount)} out of{' '}
+                    {resolvedData.meta.unscopedTotal} possible{' '}
+                    {pluralize('task', resolvedData.meta.unscopedTotal)}
+                  </strong>
+                </h2>
+                <button className="btn-m btn-link reset-btn">
+                  <GraphicalIcon icon="reset" />
+                  <span>Reset Filters</span>
+                </button>
+                <div className="c-select">
+                  <select>
+                    <option>Sort by most recent</option>
+                  </select>
+                </div>
+              </header>
               <div className="tasks">
                 {resolvedData.results.map((task) => (
                   <Task task={task} key={task.id} />

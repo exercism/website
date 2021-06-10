@@ -27,6 +27,7 @@ module Flows
           click_on "All"
           find("label", text: "Go").click
 
+          assert_text "Showing 1 task out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -42,6 +43,7 @@ module Flows
           find("label", text: "Improve").click
           find("body").click
 
+          assert_text "Showing 1 task out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -57,6 +59,7 @@ module Flows
           find("label", text: "Docs").click
           find("body").click(x: 0, y: 0)
 
+          assert_text "Showing 1 task out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -72,6 +75,7 @@ module Flows
           find("label", text: "Medium").click
           find("body").click(x: 0, y: 0)
 
+          assert_text "Showing 1 task out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -87,6 +91,7 @@ module Flows
           find("label", text: "Intermediate").click
           find("body").click(x: 0, y: 0)
 
+          assert_text "Showing 1 task out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -102,6 +107,7 @@ module Flows
           find("label", text: "Generator").click
           find("body").click(x: 0, y: 0)
 
+          assert_text "Showing 1 task out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end

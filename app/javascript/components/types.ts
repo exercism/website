@@ -4,6 +4,7 @@ export type PaginatedResult<T> = {
   results: T
   meta: {
     currentPage: number
+    totalCount: number
     totalPages: number
   }
 }

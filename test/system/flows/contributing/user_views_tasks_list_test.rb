@@ -91,6 +91,21 @@ module Flows
           assert_no_text "Fix bug"
         end
       end
+
+      test "user filters by module" do
+        create :github_task, title: "Fix bug", area: "test-runner"
+        create :github_task, title: "Write docs", area: :generator
+
+        use_capybara_host do
+          visit contributing_tasks_path
+          click_on "All modules"
+          find("label", text: "Generator").click
+          find("body").click(x: 0, y: 0)
+
+          assert_text "Write docs"
+          assert_no_text "Fix bug"
+        end
+      end
     end
   end
 end

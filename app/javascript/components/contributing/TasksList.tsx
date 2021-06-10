@@ -11,6 +11,7 @@ import {
   TaskType,
   TaskSize,
   TaskKnowledge,
+  TaskModule,
 } from '../types'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -20,6 +21,7 @@ import { ActionSwitcher } from './tasks-list/ActionSwitcher'
 import { TypeSwitcher } from './tasks-list/TypeSwitcher'
 import { SizeSwitcher } from './tasks-list/SizeSwitcher'
 import { KnowledgeSwitcher } from './tasks-list/KnowledgeSwitcher'
+import { ModuleSwitcher } from './tasks-list/ModuleSwitcher'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 
@@ -83,6 +85,13 @@ export const TasksList = ({
     [JSON.stringify(request.query), setQuery]
   )
 
+  const setModules = useCallback(
+    (modules: TaskModule[]) => {
+      setQuery({ ...request.query, areas: modules })
+    },
+    [JSON.stringify(request.query), setQuery]
+  )
+
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
@@ -97,11 +106,10 @@ export const TasksList = ({
           value={request.query.knowledge || []}
           setValue={setKnowledge}
         />
-        <div className="c-select">
-          <select>
-            <option>All modules</option>
-          </select>
-        </div>
+        <ModuleSwitcher
+          value={request.query.areas || []}
+          setValue={setModules}
+        />
       </div>
       <header className="main-header c-search-bar">
         <h2>

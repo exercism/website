@@ -47,6 +47,7 @@ Please tag @iHiD if you require more information."""
 
       memoize
       def issue
+        # TODO: Elevate this into exercism-config gem
         author = "exercism-bot"
         Exercism.octokit_client.search_issues("#{git_sha} is:issue in:body repo:#{repo} author:#{author}")[:items]&.first
       end

@@ -40,7 +40,8 @@
         @apply text-h1 text-white mb-20;
     }
     & .rarity {
-        @apply font-bold font-mono text-16 leading-130;
+        @apply font-bold font-mono text-12 leading-130;
+        @apply uppercase;
         @apply py-4 px-8 mb-28;
         @apply rounded-3;
         background: rgb(var(--rgb));

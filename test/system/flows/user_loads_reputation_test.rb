@@ -31,7 +31,7 @@ module Flows
 
         assert_css ".--notification"
         assert_link "You reviewed PR#120 on pulls: I did something", href: external_url
-        assert_text "2 days ago"
+        assert_text "a day ago"
         assert_text "50"
         assert_link "See how you earned all your reputation", href: reputation_journey_url
       end

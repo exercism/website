@@ -106,6 +106,20 @@ module Flows
           assert_no_text "Fix bug"
         end
       end
+
+      test "user switches pages" do
+        Github::Task::Search.stubs(:requests_per_page).returns(1)
+        create :github_task, title: "Fix bug"
+        create :github_task, title: "Write docs"
+
+        use_capybara_host do
+          visit contributing_tasks_path
+          click_on "2"
+
+          assert_text "Write docs"
+          assert_no_text "Fix bug"
+        end
+      end
     end
   end
 end

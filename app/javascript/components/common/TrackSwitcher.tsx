@@ -46,8 +46,6 @@ export const TrackSwitcher = ({
       SelectedComponent={SelectedComponent}
       OptionComponent={TrackFilter}
       componentClassName="c-track-switcher --small"
-      buttonClassName="current-track"
-      panelClassName="c-track-switcher-dropdown"
     />
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { TaskKnowledge } from '../../types'
-import { ExercismMultipleSelect } from '../../common/ExercismMultipleSelect'
+import { GraphicalIcon, ExercismMultipleSelect } from '../../common'
 import { KnowledgeIcon } from './task/KnowledgeIcon'
 
 const KnowledgeOption = ({
@@ -12,7 +12,7 @@ const KnowledgeOption = ({
     case 'none':
       return (
         <React.Fragment>
-          <div className="task-icon">
+          <div className="knowledge-tag">
             <KnowledgeIcon knowledge={knowledge} />
           </div>
           <div className="info">
@@ -26,7 +26,7 @@ const KnowledgeOption = ({
     case 'elementary':
       return (
         <React.Fragment>
-          <div className="task-icon">
+          <div className="knowledge-tag">
             <KnowledgeIcon knowledge={knowledge} />
           </div>
           <div className="info">
@@ -40,7 +40,7 @@ const KnowledgeOption = ({
     case 'intermediate':
       return (
         <React.Fragment>
-          <div className="task-icon">
+          <div className="knowledge-tag">
             <KnowledgeIcon knowledge={knowledge} />
           </div>
           <div className="info">
@@ -54,7 +54,7 @@ const KnowledgeOption = ({
     case 'advanced':
       return (
         <React.Fragment>
-          <div className="task-icon">
+          <div className="knowledge-tag">
             <KnowledgeIcon knowledge={knowledge} />
           </div>
           <div className="info">
@@ -74,26 +74,30 @@ const SelectedComponent = ({
   value: TaskKnowledge[]
 }) => {
   if (knowledge.length > 1) {
-    return <div>Multiple</div>
+    return <>Multiple</>
   }
 
   switch (knowledge[0]) {
     case 'none':
-      return <div>None</div>
+      return <>None</>
     case 'elementary':
-      return <div>Elementary</div>
+      return <>Elementary</>
     case 'intermediate':
-      return <div>Intermediate</div>
+      return <>Intermediate</>
     case 'advanced':
-      return <div>Advanced</div>
+      return <>Advanced</>
     case undefined:
-      return <div>Any knowledge</div>
+      return <>Any</>
   }
 }
 
 const ResetComponent = () => {
   return (
     <React.Fragment>
+      <GraphicalIcon
+        icon="task-knowledge"
+        className="task-icon knowledge-reset"
+      />
       <div className="info">
         <div className="title">Any knowledge</div>
       </div>
@@ -113,13 +117,11 @@ export const KnowledgeSwitcher = ({
       options={['none', 'elementary', 'intermediate', 'advanced']}
       value={value}
       setValue={setValue}
+      label="Knowledge"
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={KnowledgeOption}
-      // TODO: Change these class names
-      componentClassName="c-track-switcher --small"
-      buttonClassName="current-track"
-      panelClassName="c-track-switcher-dropdown"
+      componentClassName=""
     />
   )
 }

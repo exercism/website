@@ -11,6 +11,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-docs" className="task-icon" />
           <div className="info">
             <div className="title">Docs</div>
+            <div className="description">Help build Exercism's docs </div>
           </div>
         </React.Fragment>
       )
@@ -20,6 +21,9 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-ci" className="task-icon" />
           <div className="info">
             <div className="title">CI</div>
+            <div className="description">
+              Automation and continuous integration{' '}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -29,6 +33,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-docker" className="task-icon" />
           <div className="info">
             <div className="title">Docker</div>
+            <div className="description">Help improve our Dockerfiles </div>
           </div>
         </React.Fragment>
       )
@@ -38,6 +43,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-coding" className="task-icon" />
           <div className="info">
             <div className="title">Coding</div>
+            <div className="description">Write production code </div>
           </div>
         </React.Fragment>
       )
@@ -47,6 +53,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-content" className="task-icon" />
           <div className="info">
             <div className="title">Content</div>
+            <div className="description">Develop exercises and concepts </div>
           </div>
         </React.Fragment>
       )
@@ -55,28 +62,29 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
 
 const SelectedComponent = ({ value: action }: { value: TaskType[] }) => {
   if (action.length > 1) {
-    return <div>Multiple</div>
+    return <>Multiple</>
   }
 
   switch (action[0]) {
     case 'docs':
-      return <div>Docs</div>
+      return <>Docs</>
     case 'ci':
-      return <div>CI</div>
+      return <>CI</>
     case 'coding':
-      return <div>Coding</div>
+      return <>Coding</>
     case 'docker':
-      return <div>Docker</div>
+      return <>Docker</>
     case 'content':
-      return <div>Content</div>
+      return <>Content</>
     case undefined:
-      return <div>All types</div>
+      return <>All</>
   }
 }
 
 const ResetComponent = () => {
   return (
     <React.Fragment>
+      <GraphicalIcon icon="task-type" className="task-icon" />
       <div className="info">
         <div className="title">All types</div>
       </div>
@@ -96,13 +104,11 @@ export const TypeSwitcher = ({
       options={['docs', 'ci', 'coding', 'docker', 'content']}
       value={value}
       setValue={setValue}
+      label="Type"
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={TypeOption}
-      // TODO: Change these class names
-      componentClassName="c-track-switcher --small"
-      buttonClassName="current-track"
-      panelClassName="c-track-switcher-dropdown"
+      componentClassName=""
     />
   )
 }

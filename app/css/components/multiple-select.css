@@ -1,0 +1,64 @@
+@import "../styles";
+
+/* See also single-select */
+
+.c-multi-select {
+    & > button {
+        @apply py-6 px-24;
+        @apply text-left;
+
+        & .--label {
+            @apply text-textColor6 text-12 uppercase leading-150 font-mono font-semibold;
+        }
+        & .--selected-value {
+            @apply text-textColor2 text-16 leading-150 font-semibold;
+        }
+
+        & .action-icon {
+            height: 16px;
+            width: 16px;
+            @apply ml-24 mr-0;
+        }
+    }
+    & > .--options {
+        & li + li {
+            margin-top: 4px;
+        }
+        & label.c-checkbox-wrapper {
+            --row-selected-background-color: var(--backgroundColorD);
+
+            & .row {
+                @apply flex items-center;
+                @apply py-8 pl-16;
+                padding-right: 81px; /* This needs to line up with the dropdown */
+                min-width: 360px;
+                min-height: 48px;
+                & .c-checkbox {
+                    @apply mr-24;
+                }
+
+                & > .c-icon {
+                    width: 24px;
+                    height: 24px;
+                    @apply mr-16;
+                    filter: var(--textColor6-filter);
+                }
+                & .title {
+                    @apply flex-grow;
+                    @apply text-16 leading-150 font-medium;
+                }
+                & .description {
+                    @apply text-14 leading-140;
+                }
+            }
+            & input:checked + .row {
+                & .c-icon {
+                    filter: var(--textColor2-filter);
+                }
+                & .title {
+                    @apply text-textColor2 font-semibold;
+                }
+            }
+        }
+    }
+}

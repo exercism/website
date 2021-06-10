@@ -1,6 +1,6 @@
 import React from 'react'
 import { TaskSize } from '../../types'
-import { ExercismMultipleSelect } from '../../common/ExercismMultipleSelect'
+import { ExercismMultipleSelect, GraphicalIcon } from '../../common'
 import { SizeTag } from './task/SizeTag'
 
 const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
@@ -60,28 +60,29 @@ const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
 
 const SelectedComponent = ({ value: sizes }: { value: TaskSize[] }) => {
   if (sizes.length > 1) {
-    return <div>Multiple</div>
+    return <>Multiple</>
   }
 
   switch (sizes[0]) {
     case 'tiny':
-      return <div>Extra Small</div>
+      return <>Extra Small</>
     case 'small':
-      return <div>Small</div>
+      return <>Small</>
     case 'medium':
-      return <div>Medium</div>
+      return <>Medium</>
     case 'large':
-      return <div>Large</div>
+      return <>Large</>
     case 'massive':
-      return <div>Massive</div>
+      return <>Massive</>
     case undefined:
-      return <div>All sizes</div>
+      return <>All</>
   }
 }
 
 const ResetComponent = () => {
   return (
     <React.Fragment>
+      <GraphicalIcon icon="task-size" className="task-icon" />
       <div className="info">
         <div className="title">All sizes</div>
       </div>
@@ -101,13 +102,11 @@ export const SizeSwitcher = ({
       options={['tiny', 'small', 'medium', 'large', 'massive']}
       value={value}
       setValue={setValue}
+      label="Size"
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={SizeOption}
-      // TODO: Change these class names
-      componentClassName="c-track-switcher --small"
-      buttonClassName="current-track"
-      panelClassName="c-track-switcher-dropdown"
+      componentClassName=""
     />
   )
 }

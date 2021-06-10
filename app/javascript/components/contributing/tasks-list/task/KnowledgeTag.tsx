@@ -11,7 +11,7 @@ export const KnowledgeTag = ({
   switch (knowledge) {
     case 'none':
       return (
-        <div className="knowledge">
+        <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
           <div className="tw-sr-only">Knowledge: none</div>
@@ -19,7 +19,7 @@ export const KnowledgeTag = ({
       )
     case 'elementary':
       return (
-        <div className="knowledge">
+        <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
           <div className="tw-sr-only">Knowledge: elementary</div>
@@ -27,7 +27,7 @@ export const KnowledgeTag = ({
       )
     case 'intermediate':
       return (
-        <div className="knowledge">
+        <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
           <div className="tw-sr-only">Knowledge: intermediate</div>
@@ -35,13 +35,13 @@ export const KnowledgeTag = ({
       )
     case 'advanced':
       return (
-        <div className="knowledge">
+        <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
           <div className="tw-sr-only">Knowledge: advanced</div>
         </div>
       )
     default:
-      return <div className="knowledge blank" />
+      return <div className="knowledge-tag blank" />
   }
 }

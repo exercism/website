@@ -8,9 +8,7 @@ export const ExercismSelect = <T extends unknown>({
   setValue,
   SelectedComponent,
   OptionComponent,
-  componentClassName = '',
-  buttonClassName = '',
-  panelClassName = '',
+  componentClassName,
 }: {
   value: T
   options: readonly T[]
@@ -18,8 +16,6 @@ export const ExercismSelect = <T extends unknown>({
   SelectedComponent: React.ComponentType<{ option: T }>
   OptionComponent: React.ComponentType<{ option: T }>
   componentClassName?: string
-  buttonClassName?: string
-  panelClassName?: string
 }): JSX.Element => {
   const {
     buttonAttributes,
@@ -34,7 +30,7 @@ export const ExercismSelect = <T extends unknown>({
       handleItemSelect(i)
     },
     {
-      placement: 'bottom',
+      placement: 'bottom-start',
       modifiers: [
         {
           name: 'offset',
@@ -60,8 +56,8 @@ export const ExercismSelect = <T extends unknown>({
   )
 
   return (
-    <div className={componentClassName}>
-      <button className={buttonClassName} {...buttonAttributes}>
+    <div className={`${componentClassName || 'c-single-select'}`}>
+      <button {...buttonAttributes}>
         <SelectedComponent option={value} />
         <Icon
           icon="chevron-down"
@@ -70,7 +66,7 @@ export const ExercismSelect = <T extends unknown>({
         />
       </button>
       {open ? (
-        <div {...panelAttributes} className={panelClassName}>
+        <div {...panelAttributes} className="--options">
           <ul {...listAttributes}>
             {options.map((option, i) => {
               return (

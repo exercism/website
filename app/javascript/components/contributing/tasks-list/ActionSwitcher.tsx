@@ -68,28 +68,29 @@ const ActionOption = ({
 
 const SelectedComponent = ({ value: action }: { value: TaskAction[] }) => {
   if (action.length > 1) {
-    return <div>Multiple</div>
+    return <>Multiple</>
   }
 
   switch (action[0]) {
     case 'create':
-      return <div>Create</div>
+      return <>Create</>
     case 'sync':
-      return <div>Sync</div>
+      return <>Sync</>
     case 'improve':
-      return <div>Improve</div>
+      return <>Improve</>
     case 'proofread':
-      return <div>Proofread</div>
+      return <>Proofread</>
     case 'fix':
-      return <div>Fix</div>
+      return <>Fix</>
     case undefined:
-      return <div>All actions</div>
+      return <>All</>
   }
 }
 
 const ResetComponent = () => {
   return (
     <React.Fragment>
+      <GraphicalIcon icon="task-action" className="task-icon" />
       <div className="info">
         <div className="title">All actions</div>
       </div>
@@ -109,13 +110,11 @@ export const ActionSwitcher = ({
       options={['create', 'fix', 'improve', 'proofread', 'sync']}
       value={value}
       setValue={setValue}
+      label="Action"
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={ActionOption}
-      // TODO: Change these class names
-      componentClassName="c-track-switcher --small"
-      buttonClassName="current-track"
-      panelClassName="c-track-switcher-dropdown"
+      componentClassName=""
     />
   )
 }

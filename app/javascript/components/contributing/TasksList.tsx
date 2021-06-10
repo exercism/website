@@ -146,10 +146,10 @@ export const TasksList = ({
                 <h2>
                   <strong>
                     Showing {resolvedData.meta.totalCount}{' '}
-                    {pluralize('task', resolvedData.meta.totalCount)} out of{' '}
-                    {resolvedData.meta.unscopedTotal} possible{' '}
-                    {pluralize('task', resolvedData.meta.unscopedTotal)}
+                    {pluralize('task', resolvedData.meta.totalCount)}
                   </strong>
+                  / out of {resolvedData.meta.unscopedTotal} possible{' '}
+                  {pluralize('task', resolvedData.meta.unscopedTotal)}
                 </h2>
                 {isFiltering ? <ResetButton onClick={handleReset} /> : null}
                 <Sorter

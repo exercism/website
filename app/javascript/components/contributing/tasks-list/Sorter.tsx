@@ -32,9 +32,7 @@ export const Sorter = ({
       SelectedComponent={OptionComponent}
       OptionComponent={OptionComponent}
       // TODO: Change these class names
-      componentClassName="c-track-switcher --small"
-      buttonClassName="current-track"
-      panelClassName="c-track-switcher-dropdown"
+      componentClassName=""
     />
   )
 }

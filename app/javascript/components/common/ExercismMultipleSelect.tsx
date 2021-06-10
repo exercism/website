@@ -3,25 +3,23 @@ import { Icon, GraphicalIcon } from '.'
 import { useDropdown } from '../dropdowns/useDropdown'
 
 export const ExercismMultipleSelect = <T extends unknown>({
-  options,
   value,
+  options,
   setValue,
+  label,
   SelectedComponent,
   OptionComponent,
   ResetComponent,
   componentClassName = '',
-  buttonClassName = '',
-  panelClassName = '',
 }: {
   value: T[]
   options: readonly T[]
   setValue: (value: T[]) => void
+  label: string
   SelectedComponent: React.ComponentType<{ value: T[] }>
   OptionComponent: React.ComponentType<{ option: T }>
   ResetComponent: React.ComponentType
   componentClassName?: string
-  buttonClassName?: string
-  panelClassName?: string
 }): JSX.Element => {
   const [selected, setSelected] = useState<T[]>(value)
   const [changed, setChanged] = useState(false)
@@ -37,7 +35,7 @@ export const ExercismMultipleSelect = <T extends unknown>({
       handleItemSelect(i)
     },
     {
-      placement: 'bottom',
+      placement: 'bottom-end',
       modifiers: [
         {
           name: 'offset',
@@ -88,9 +86,14 @@ export const ExercismMultipleSelect = <T extends unknown>({
   }, [changed, open, selected, setValue])
 
   return (
-    <div className={componentClassName}>
-      <button className={buttonClassName} {...buttonAttributes}>
-        <SelectedComponent value={value} />
+    <div className={`c-multi-select ${componentClassName}`}>
+      <button {...buttonAttributes}>
+        <div className="--info">
+          <div className="--label">{label}</div>
+          <div className="--selected-value">
+            <SelectedComponent value={value} />
+          </div>
+        </div>
         <Icon
           icon="chevron-down"
           alt="Click to change"
@@ -98,12 +101,21 @@ export const ExercismMultipleSelect = <T extends unknown>({
         />
       </button>
       {open ? (
-        <div {...panelAttributes} className={panelClassName}>
+        <div {...panelAttributes} className="--options">
           <ul {...listAttributes}>
             <li {...itemAttributes(0)}>
-              <button type="button" onClick={handleReset}>
-                <ResetComponent />
-              </button>
+              <label
+                className="c-checkbox-wrapper --reset"
+                onClick={handleReset}
+              >
+                <input type="checkbox" checked={selected.length == 0} />
+                <div className="row">
+                  <div className="c-checkbox">
+                    <GraphicalIcon icon="checkmark" />
+                  </div>
+                  <ResetComponent />
+                </div>
+              </label>
             </li>
             {options.map((option, i) => {
               return (

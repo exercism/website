@@ -1,3 +1,5 @@
+@import "../styles";
+
 .c-select {
     @apply grid items-center;
     @apply text-16 font-medium leading-huge;

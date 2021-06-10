@@ -1,6 +1,6 @@
 import React from 'react'
 import { TaskModule } from '../../types'
-import { ExercismMultipleSelect } from '../../common/ExercismMultipleSelect'
+import { ExercismMultipleSelect, GraphicalIcon } from '../../common'
 import { ModuleTag } from './task/ModuleTag'
 
 const ModuleOption = ({
@@ -77,32 +77,33 @@ const ModuleOption = ({
 
 const SelectedComponent = ({ value: action }: { value: TaskModule[] }) => {
   if (action.length > 1) {
-    return <div>Multiple</div>
+    return <>Multiple</>
   }
 
   switch (action[0]) {
     case 'generator':
-      return <div>Generator</div>
+      return <>Generator</>
     case 'concept-exercise':
-      return <div>Concept Exercise</div>
+      return <>Concept Exercise</>
     case 'practice-exercise':
-      return <div>Practice Exercise</div>
+      return <>Practice Exercise</>
     case 'concept':
-      return <div>Concept</div>
+      return <>Concept</>
     case 'test-runner':
-      return <div>Test Runner</div>
+      return <>Test Runner</>
     case 'representer':
-      return <div>Representer</div>
+      return <>Representer</>
     case 'analyzer':
-      return <div>Analyzer</div>
+      return <>Analyzer</>
     case undefined:
-      return <div>All modules</div>
+      return <>All</>
   }
 }
 
 const ResetComponent = () => {
   return (
     <React.Fragment>
+      <GraphicalIcon icon="task-module" className="task-icon" />
       <div className="info">
         <div className="title">All modules</div>
       </div>
@@ -130,13 +131,11 @@ export const ModuleSwitcher = ({
       ]}
       value={value}
       setValue={setValue}
+      label="Module"
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={ModuleOption}
-      // TODO: Change these class names
-      componentClassName="c-track-switcher --small"
-      buttonClassName="current-track"
-      panelClassName="c-track-switcher-dropdown"
+      componentClassName=""
     />
   )
 }

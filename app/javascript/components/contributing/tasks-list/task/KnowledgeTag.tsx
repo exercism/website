@@ -1,6 +1,7 @@
 import React from 'react'
 import { TaskKnowledge } from '../../../types'
 import { GraphicalIcon } from '../../../common'
+import { KnowledgeIcon } from './KnowledgeIcon'
 
 export const KnowledgeTag = ({
   knowledge,
@@ -12,9 +13,7 @@ export const KnowledgeTag = ({
       return (
         <div className="knowledge">
           <GraphicalIcon icon="task-knowledge" />
-          <div className="dot" />
-          <div className="dot" />
-          <div className="dot" />
+          <KnowledgeIcon knowledge={knowledge} />
           <div className="tw-sr-only">Knowledge: none</div>
         </div>
       )
@@ -22,9 +21,7 @@ export const KnowledgeTag = ({
       return (
         <div className="knowledge">
           <GraphicalIcon icon="task-knowledge" />
-          <div className="dot filled" />
-          <div className="dot" />
-          <div className="dot" />
+          <KnowledgeIcon knowledge={knowledge} />
           <div className="tw-sr-only">Knowledge: elementary</div>
         </div>
       )
@@ -32,9 +29,7 @@ export const KnowledgeTag = ({
       return (
         <div className="knowledge">
           <GraphicalIcon icon="task-knowledge" />
-          <div className="dot filled" />
-          <div className="dot filled" />
-          <div className="dot" />
+          <KnowledgeIcon knowledge={knowledge} />
           <div className="tw-sr-only">Knowledge: intermediate</div>
         </div>
       )
@@ -42,9 +37,7 @@ export const KnowledgeTag = ({
       return (
         <div className="knowledge">
           <GraphicalIcon icon="task-knowledge" />
-          <div className="dot filled" />
-          <div className="dot filled" />
-          <div className="dot filled" />
+          <KnowledgeIcon knowledge={knowledge} />
           <div className="tw-sr-only">Knowledge: advanced</div>
         </div>
       )

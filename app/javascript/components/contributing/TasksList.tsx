@@ -10,6 +10,7 @@ import {
   TaskAction,
   TaskType,
   TaskSize,
+  TaskKnowledge,
 } from '../types'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -18,6 +19,7 @@ import { TrackSwitcher } from '../common/TrackSwitcher'
 import { ActionSwitcher } from './tasks-list/ActionSwitcher'
 import { TypeSwitcher } from './tasks-list/TypeSwitcher'
 import { SizeSwitcher } from './tasks-list/SizeSwitcher'
+import { KnowledgeSwitcher } from './tasks-list/KnowledgeSwitcher'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 
@@ -74,6 +76,13 @@ export const TasksList = ({
     [JSON.stringify(request.query), setQuery]
   )
 
+  const setKnowledge = useCallback(
+    (knowledge: TaskKnowledge[]) => {
+      setQuery({ ...request.query, knowledge: knowledge })
+    },
+    [JSON.stringify(request.query), setQuery]
+  )
+
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
@@ -84,11 +93,10 @@ export const TasksList = ({
         />
         <TypeSwitcher value={request.query.types || []} setValue={setTypes} />
         <SizeSwitcher value={request.query.sizes || []} setValue={setSizes} />
-        <div className="c-select">
-          <select>
-            <option>All knowledge</option>
-          </select>
-        </div>
+        <KnowledgeSwitcher
+          value={request.query.knowledge || []}
+          setValue={setKnowledge}
+        />
         <div className="c-select">
           <select>
             <option>All modules</option>

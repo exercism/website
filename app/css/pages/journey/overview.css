@@ -1,0 +1,91 @@
+@import "../../styles";
+
+#page-journey {
+    & article.overview-tab {
+        @apply bg-backgroundColorA;
+
+        & .journey-h2 {
+            @apply text-48 leading-130 font-bold text-textColor1;
+        }
+        & .journey-h3 {
+            @apply text-32 leading-130 font-bold text-textColor1;
+        }
+        & .journey-label {
+            @apply font-mono font-semibold text-15 leading-150;
+        }
+        & .summary-boxes {
+            @apply grid gap-32 justify-center;
+            & .box {
+                @apply pt-16 pb-24 px-32;
+                @apply text-center;
+                @apply bg-backgroundColorC;
+                @apply shadow-base rounded-8;
+
+                & .journey-h2 {
+                    @apply mb-4;
+                }
+            }
+        }
+
+        & header.section-header {
+            @apply text-center;
+            @apply flex flex-col items-center;
+
+            & .c-icon {
+                height: 64px;
+                width: 64px;
+                @apply mb-16;
+            }
+            & h2 {
+                @apply mb-16;
+            }
+            & p {
+                @apply text-21 leading-160;
+                max-width: 820px;
+
+                & .track {
+                    @apply text-textColor1 font-semibold;
+                    white-space: nowrap;
+                    @apply border-b-4;
+                }
+            }
+        }
+        & section {
+            @apply mb-140;
+        }
+
+        & section.learning-section {
+            & header.section-header {
+                @apply mb-48;
+            }
+            & .summary-boxes {
+                grid-template-columns: repeat(3, 240px);
+            }
+        }
+        & section.mentoring-section {
+            & header.section-header {
+                @apply mb-64;
+            }
+            & > .content {
+                @apply flex items-start;
+                & > .info {
+                    & .summary-boxes {
+                        @apply grid-cols-3;
+                        @apply mb-64;
+                        & .box {
+                            @apply flex flex-col items-center;
+                            & .c-community-rank-tag {
+                                @apply mt-12;
+                                margin-bottom: -34px;
+                            }
+                        }
+                    }
+                }
+                & > .chart {
+                    width: 400px;
+                    @apply ml-80 flex-shrink-0;
+                }
+            }
+        }
+    }
+}

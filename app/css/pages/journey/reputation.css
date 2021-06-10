@@ -1,0 +1,59 @@
+@import "../../styles";
+
+#page-journey {
+    & article.reputation-tab {
+        & .reputation-token {
+            @apply flex items-center;
+            @apply mb-8 bg-backgroundColorC rounded-8;
+            @apply py-16 pl-20 pr-40;
+            box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.15);
+
+            & .primary-icon {
+                height: 64px;
+                width: 64px;
+                @apply mr-16;
+            }
+            & .info {
+                @apply flex-grow;
+                & .title {
+                    @apply text-h5 mb-6;
+                    @apply font-medium;
+                    & strong {
+                        @apply font-semibold;
+                    }
+                }
+                & .extra {
+                    @apply flex items-center;
+
+                    & .exercise {
+                        @apply flex items-center;
+                        @apply text-16 text-textColor6;
+                        & .c-icon {
+                            height: 24px;
+                            width: 24px;
+                            @apply ml-8 mr-12;
+                        }
+                        & .name {
+                            @apply text-textColor1 font-semibold;
+                        }
+                    }
+                    & .generic {
+                        @apply text-16 text-textColor6;
+                    }
+                    & time {
+                        @apply ml-16 text-textColor6;
+                    }
+                }
+            }
+            & .c-primary-reputation {
+                @apply flex-shrink-0;
+            }
+            & .action-button {
+                height: 24px;
+                width: 24px;
+                @apply ml-96;
+                filter: var(--textColor6-filter);
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+@import "../../styles";
+
+#page-journey {
+    & article.badges-tab {
+        & .badges {
+            @apply grid grid-cols-3 gap-x-48 gap-y-32;
+        }
+    }
+}

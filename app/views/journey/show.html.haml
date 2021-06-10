@@ -2,3 +2,64 @@
   = render "journey/hero", user_tracks: @user_tracks
 
   = render ReactComponents::Journey::JourneyPage.new("overview", params)
+
+  %article.overview-tab.theme-dark
+    .md-container
+      %section.learning-section
+        %header.section-header
+          = graphical_icon :exercises, hex: true
+          %h2.journey-h2 Your learning
+          %p
+            You’ve progressed the furthest in
+            = succeed(',') do
+              %span.track.t-b-csharp C# (78.2%)
+            followed by 
+            = succeed(',') do
+              %span.track.t-b-kotlin Kotlin (77.8%)
+            %span.track.t-b-fsharp F# (65.1%)
+            and
+            %span.track.t-b-javascript Javascript (40.1%).
+
+        .summary-boxes
+          .box
+            .journey-h3 9
+            .journey-label Tracks enrolled
+          .box
+            .journey-h3 129
+            .journey-label Exercises completed
+          .box
+            .journey-h3 78
+            .journey-label Concepts learnt
+
+      %section.mentoring-section
+        %header.section-header
+          = graphical_icon :mentoring, hex: true
+          %h2.journey-h2 Your mentoring
+          %p
+            You’ve mostly mentored in
+            = succeed(',') do
+              %span.track.t-b-csharp C# (48%)
+            followed by 
+            %span.track.t-b-fsharp F# (32%)
+            and
+            %span.track.t-b-javascript Javascript (20%).
+        .content
+          .info
+            .summary-boxes
+              .box
+                .journey-h3 318
+                .journey-label Total sessions mentored
+                .c-community-rank-tag.--top-1 Top 1%
+              .box
+                .journey-h3 250
+                .journey-label Total students mentored
+                .c-community-rank-tag.--top-3 Top 3%
+              .box
+                .journey-h3 1.27
+                .journey-label Sessions per student
+                -# .c-community-rank-tag.--top-10 Top 3%
+
+          .chart
+
+
+>>>>>>> 7a46e299 (Add start of journey page)

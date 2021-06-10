@@ -19,6 +19,18 @@
 }
 
 .c-track-icon {
+    &.--mips {
+        --track-icon-color: var(--track-color-mips);
+    }
+    &.--cpp {
+        --track-icon-color: var(--track-color-cpp);
+    }
+    &.--fsharp {
+        --track-icon-color: var(--track-color-fsharp);
+    }
+    &.--csharp {
+        --track-icon-color: var(--track-color-csharp);
+    }
     &.--c {
         --track-icon-color: var(--track-color-c);
     }

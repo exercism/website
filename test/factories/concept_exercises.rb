@@ -15,6 +15,7 @@ FactoryBot.define do
 
     trait :random_slug do
       slug { SecureRandom.hex }
+      git_important_files_hash { SecureRandom.hex }
     end
   end
 end

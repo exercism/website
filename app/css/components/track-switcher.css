@@ -54,6 +54,8 @@
         @apply bg-backgroundColorA rounded-8 shadow-lg;
         @apply p-8;
         @apply relative z-dropdown;
+        @apply overflow-y-auto;
+        max-height: 50vh;
 
         & label.c-radio-wrapper {
             --row-selected-background-color: var(--backgroundColorD);

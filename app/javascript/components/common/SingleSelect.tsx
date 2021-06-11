@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { Icon } from '.'
 import { useDropdown } from '../dropdowns/useDropdown'
 
-export const ExercismSelect = <T extends unknown>({
+export const SingleSelect = <T extends unknown>({
   options,
   value,
   setValue,

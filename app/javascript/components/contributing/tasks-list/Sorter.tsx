@@ -1,6 +1,6 @@
 import React from 'react'
 import { TasksListOrder } from '../TasksList'
-import { ExercismSelect } from '../../common/ExercismSelect'
+import { SingleSelect } from '../../common/SingleSelect'
 
 const OptionComponent = ({
   option: order,
@@ -25,7 +25,7 @@ export const Sorter = ({
   setValue: (value: TasksListOrder) => void
 }): JSX.Element => {
   return (
-    <ExercismSelect<TasksListOrder>
+    <SingleSelect<TasksListOrder>
       options={['newest', 'oldest', 'track']}
       value={value}
       setValue={setValue}

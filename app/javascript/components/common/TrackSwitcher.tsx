@@ -1,7 +1,7 @@
 import React from 'react'
 import { TrackIcon, GraphicalIcon } from '.'
 import { Track } from '../types'
-import { ExercismSelect } from './ExercismSelect'
+import { SingleSelect } from './SingleSelect'
 
 const TrackLogo = ({ track }: { track: Track }) => {
   return track.id ? (
@@ -39,7 +39,7 @@ export const TrackSwitcher = ({
   setValue: (value: Track) => void
 }): JSX.Element => {
   return (
-    <ExercismSelect<Track>
+    <SingleSelect<Track>
       options={tracks}
       value={value}
       setValue={setValue}

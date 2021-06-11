@@ -121,7 +121,7 @@ export const KnowledgeSwitcher = ({
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={KnowledgeOption}
-      componentClassName=""
+      componentClassName="knowledge-switcher"
     />
   )
 }

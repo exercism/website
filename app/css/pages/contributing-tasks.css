@@ -49,6 +49,22 @@
         & .c-multi-select {
             @apply ml-16;
 
+            &.action-switcher {
+                min-width: 172px;
+            }
+            &.type-switcher {
+                min-width: 156px;
+            }
+            &.size-switcher {
+                min-width: 156px;
+            }
+            &.knowledge-switcher {
+                min-width: 197px;
+            }
+            &.module-switcher {
+                min-width: 230px;
+            }
+
             & .size-tag {
                 @apply mr-16;
             }

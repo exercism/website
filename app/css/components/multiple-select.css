@@ -7,6 +7,10 @@
         @apply py-6 px-24;
         @apply text-left;
 
+        & .--info {
+            @apply mr-auto;
+        }
+
         & .--label {
             @apply text-textColor6 text-12 uppercase leading-150 font-mono font-semibold;
         }

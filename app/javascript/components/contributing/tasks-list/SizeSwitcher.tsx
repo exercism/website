@@ -10,8 +10,8 @@ const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
         <React.Fragment>
           <SizeTag size={size} />
           <div className="info">
-            <div className="title">Extra Small</div>
-            <div className="description">Trivial amount of work</div>
+            <div className="title">Tiny</div>
+            <div className="description">A quick amount of work</div>
           </div>
         </React.Fragment>
       )
@@ -50,7 +50,7 @@ const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
         <React.Fragment>
           <SizeTag size={size} />
           <div className="info">
-            <div className="title">Extra Large</div>
+            <div className="title">Massive</div>
             <div className="description">Massive amount of work</div>
           </div>
         </React.Fragment>

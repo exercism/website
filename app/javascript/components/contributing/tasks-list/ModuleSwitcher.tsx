@@ -135,7 +135,7 @@ export const ModuleSwitcher = ({
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={ModuleOption}
-      componentClassName=""
+      componentClassName="module-switcher"
     />
   )
 }

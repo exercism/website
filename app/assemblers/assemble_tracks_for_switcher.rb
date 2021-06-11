@@ -5,7 +5,7 @@ class AssembleTracksForSwitcher
     [
       {
         id: nil,
-        title: "All",
+        title: "All Tracks",
         icon_url: "ICON"
       }
     ].concat(tracks.map { |track| data_for_track(track) })

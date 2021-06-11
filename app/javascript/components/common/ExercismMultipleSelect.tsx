@@ -60,6 +60,8 @@ export const ExercismMultipleSelect = <T extends unknown>({
   )
   const handleReset = useCallback(() => {
     setSelected([])
+
+    setChanged(true)
   }, [])
   const handleItemSelect = useCallback(
     (index) => {
@@ -104,11 +106,12 @@ export const ExercismMultipleSelect = <T extends unknown>({
         <div {...panelAttributes} className="--options">
           <ul {...listAttributes}>
             <li {...itemAttributes(0)}>
-              <label
-                className="c-checkbox-wrapper --reset"
-                onClick={handleReset}
-              >
-                <input type="checkbox" checked={selected.length == 0} />
+              <label className="c-checkbox-wrapper --reset">
+                <input
+                  type="checkbox"
+                  onChange={handleReset}
+                  checked={selected.length == 0}
+                />
                 <div className="row">
                   <div className="c-checkbox">
                     <GraphicalIcon icon="checkmark" />

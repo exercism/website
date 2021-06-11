@@ -25,16 +25,15 @@ module ReactComponents
       memoize
       def query
         {
-          actions: params[:actions],
-          knowledge: params[:knowledge],
-          areas: params[:areas],
-          sizes: params[:sizes],
-          types: params[:types],
-          repo_url: params[:repo_url],
-          track: params[:track],
-          order: params[:order],
-          page: params[:page]
-        }.compact
+          actions: params[:actions] || [],
+          knowledge: params[:knowledge] || [],
+          areas: params[:areas] || [],
+          sizes: params[:sizes] || [],
+          types: params[:types] || [],
+          track: params[:track] || "",
+          order: params[:order] || "",
+          page: params[:page] || 1
+        }
       end
     end
   end

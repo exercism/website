@@ -63,11 +63,11 @@ export const TasksList = ({
   const track = tracks.find((t) => t.id === request.query.track) || tracks[0]
   const isFiltering =
     request.query.track ||
-    request.query.actions ||
-    request.query.types ||
-    request.query.sizes ||
-    request.query.knowledge ||
-    request.query.areas
+    request.query.actions.length > 0 ||
+    request.query.types.length > 0 ||
+    request.query.sizes.length > 0 ||
+    request.query.knowledge.length > 0 ||
+    request.query.areas.length > 0
 
   const setTrack = useCallback(
     (track: Track) => {
@@ -119,20 +119,14 @@ export const TasksList = ({
     <div className="lg-container container">
       <div className="c-search-bar">
         <TrackSwitcher tracks={tracks} value={track} setValue={setTrack} />
-        <ActionSwitcher
-          value={request.query.actions || []}
-          setValue={setActions}
-        />
-        <TypeSwitcher value={request.query.types || []} setValue={setTypes} />
-        <SizeSwitcher value={request.query.sizes || []} setValue={setSizes} />
+        <ActionSwitcher value={request.query.actions} setValue={setActions} />
+        <TypeSwitcher value={request.query.types} setValue={setTypes} />
+        <SizeSwitcher value={request.query.sizes} setValue={setSizes} />
         <KnowledgeSwitcher
-          value={request.query.knowledge || []}
+          value={request.query.knowledge}
           setValue={setKnowledge}
         />
-        <ModuleSwitcher
-          value={request.query.areas || []}
-          setValue={setModules}
-        />
+        <ModuleSwitcher value={request.query.areas} setValue={setModules} />
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary

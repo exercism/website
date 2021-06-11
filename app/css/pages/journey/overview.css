@@ -10,6 +10,9 @@
         & .journey-h3 {
             @apply text-32 leading-130 font-bold text-textColor1;
         }
+        & .journey-h4 {
+            @apply text-24 leading-130 font-bold text-textColor1;
+        }
         & .journey-label {
             @apply font-mono font-semibold text-15 leading-150;
         }
@@ -23,6 +26,23 @@
 
                 & .journey-h2 {
                     @apply mb-4;
+                }
+            }
+        }
+        & .track-metrics {
+            @apply grid grid-cols-2 gap-x-48 gap-y-32;
+            & .track {
+                @apply flex items-center;
+                & .dot {
+                    @apply rounded-100;
+                    @apply border-4 mr-24;
+                    height: 8px;
+                    width: 8px;
+                }
+                & .c-track-icon {
+                    height: 54px;
+                    width: 54px;
+                    @apply mr-24;
                 }
             }
         }
@@ -47,6 +67,10 @@
                     @apply text-textColor1 font-semibold;
                     white-space: nowrap;
                     @apply border-b-4;
+
+                    & .journey-label {
+                        @apply leading-170;
+                    }
                 }
             }
         }
@@ -80,10 +104,71 @@
                             }
                         }
                     }
+                    & .tracks {
+                        @apply grid grid-cols-2 gap-x-48 gap-y-32;
+                        & .track {
+                            @apply flex items-center;
+                            & .dot {
+                                @apply rounded-100;
+                                @apply border-4 mr-24;
+                                height: 8px;
+                                width: 8px;
+                            }
+                            & .c-track-icon {
+                                height: 54px;
+                                width: 54px;
+                                @apply mr-24;
+                            }
+                        }
+                    }
                 }
                 & > .chart {
                     width: 400px;
                     @apply ml-80 flex-shrink-0;
+                }
+            }
+        }
+
+        & section.contributing-section {
+            & header.section-header {
+                @apply mb-64;
+            }
+            & > .content {
+                @apply flex;
+                & .lhs {
+                    width: 500px;
+                    @apply mr-128;
+
+                    & .c-primary-reputation {
+                        @apply mb-40;
+                        & .c-icon {
+                            @apply ml-8;
+                        }
+                    }
+                }
+            }
+        }
+        & section.badges-section {
+            @apply bg-backgroundColorC;
+            @apply py-40 px-64;
+            @apply flex items-center;
+            @apply rounded-8 shadow-lg;
+            & .info {
+                @apply flex flex-col items-start;
+                max-width: 640px;
+                & .journey-h3 {
+                    @apply mb-16;
+                }
+                & p {
+                    @apply mb-24;
+                }
+            }
+            & .badges {
+                @apply flex-grow flex items-center justify-end;
+                & .c-badge-medallion {
+                    height: 65px;
+                    width: 65px;
+                    @apply ml-20;
                 }
             }
         }

@@ -33,7 +33,7 @@ module.exports = {
       sm: '0px 4px 16px 0px rgb(79, 114, 205, 0.1)',
       base: 'var(--box-shadow-base)',
       baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
-      lg: '0px 4px 42px 0px rgba(79, 114, 205, 0.15)',
+      lg: 'var(--box-shadow-lg)',
       lgZ1: '0px 4px 42px 0px rgba(79, 114, 205, 0.3)',
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
     },

@@ -58,8 +58,81 @@
                 .journey-h3 1.27
                 .journey-label Sessions per student
                 -# .c-community-rank-tag.--top-10 Top 3%
-
+            .track-metrics
+              .track
+                .dot.t-b-fsharp
+                = track_icon Track.first
+                .details
+                  .journey-label= Track.first.title
+                  .journey-h4 140 sessions
+              .track
+                .dot.t-b-ruby
+                = track_icon Track.second
+                .details
+                  .journey-label= Track.second.title
+                  .journey-h4 140 sessions
+              .track
+                .dot.t-b-csharp
+                = track_icon Track.third
+                .details
+                  .journey-label= Track.third.title
+                  .journey-h4 140 sessions
           .chart
 
+      %section.contributing-section
+        %header.section-header
+          = graphical_icon :contribute, hex: true
+          %h2.journey-h2 Your contributions
+          %p
+            You’ve contributed most to
+            = succeed(',') do
+              %span.track.t-b-csharp C# (48%)
+            followed by 
+            %span.track.t-b-fsharp F# (32%)
+            and
+            %span.track.t-b-javascript Javascript
+        .content
+          .lhs
+            / This is the Profile/TotalReputation component
+            .c-primary-reputation.--large
+              .--inner
+                You have
+                = graphical_icon "reputation"
+                500 Reputation
 
->>>>>>> 7a46e299 (Add start of journey page)
+            .track-metrics
+              .track
+                .dot.t-b-fsharp
+                = track_icon Track.first
+                .details
+                  .journey-label= Track.first.title
+                  .journey-h4 185,232
+              .track
+                .dot.t-b-ruby
+                = track_icon Track.second
+                .details
+                  .journey-label= Track.second.title
+                  .journey-h4 140
+              .track
+                .dot.t-b-csharp
+                = track_icon Track.third
+                .details
+                  .journey-label= Track.third.title
+                  .journey-h4 1,349
+          .rhs
+
+      %section.badges-section
+        .info
+          .journey-h3 A glimpse of your badges collection
+          %p.text-p-large You have one legendary badge, two ultimate badges, and 12 common badges.
+          = render ViewComponents::ProminentLink.new("See your entire badge collection", badges_journey_path, with_bg: true)
+
+        .badges
+          .c-badge-medallion{ class: "--common" }
+            = graphical_icon "mentoring"
+          .c-badge-medallion{ class: "--rare" }
+            = graphical_icon "building"
+          .c-badge-medallion{ class: "--ultimate" }
+            = graphical_icon "task-type"
+          .c-badge-medallion{ class: "--legendary" }
+            = graphical_icon "task-action-improve"

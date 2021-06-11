@@ -6,7 +6,7 @@ FactoryBot.define do
 
     title { 'Sync anagram exercise' }
     repo { 'exercism/ruby' }
-    issue_url { 'https://github.com/exercism/ruby/issues/122' }
+    issue_url { |i| "https://github.com/exercism/ruby/issues/#{i}" }
     opened_by_username { 'ErikSchierboom' }
     opened_at { Date.new(2021, 3, 18) }
     action { :sync }

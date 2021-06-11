@@ -100,8 +100,6 @@ export const useDropdown = (
       case 'Enter': {
         e.preventDefault()
 
-        setOpen(false)
-
         if (onItemSelect) {
           onItemSelect(index)
         } else {
@@ -110,6 +108,7 @@ export const useDropdown = (
             'button'
           )
 
+          setOpen(false)
           link?.click()
           button?.click()
         }

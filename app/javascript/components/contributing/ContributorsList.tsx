@@ -8,7 +8,7 @@ import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Pagination } from '../common'
-import { TrackSwitcher } from './contributors-list/TrackSwitcher'
+import { TrackSwitcher } from '../common/TrackSwitcher'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 

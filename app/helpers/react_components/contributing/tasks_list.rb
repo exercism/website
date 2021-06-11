@@ -3,11 +3,7 @@ module ReactComponents
     class TasksList < ReactComponent
       extend Mandate::Memoize
 
-      def initialize(params)
-        super()
-
-        @params = params
-      end
+      initialize_with :params
 
       def to_s
         super(
@@ -17,34 +13,28 @@ module ReactComponents
               endpoint: Exercism::Routes.api_tasks_url,
               query: query,
               options: {
-                initial_data: initial_data
+                initial_data: AssembleTasks.(params)
               }
-            }
+            },
+            tracks: AssembleTracksForSwitcher.()
           }
         )
       end
 
       private
-      attr_reader :params
-
-      memoize
-      def initial_data
-        AssembleTasks.(params)
-      end
-
       memoize
       def query
-        q = {}
-        q[:actions] = params[:actions] if params[:actions].present?
-        q[:knowledge] = params[:knowledge] if params[:knowledge].present?
-        q[:areas] = params[:areas] if params[:areas].present?
-        q[:sizes] = params[:sizes] if params[:sizes].present?
-        q[:types] = params[:types] if params[:types].present?
-        q[:repo_url] = params[:repo_url] if params[:repo_url].present?
-        q[:track] = params[:track] if params[:track].present?
-        q[:order] = params[:order] if params[:order].present?
-        q[:page] = initial_data[:meta][:current_page]
-        q
+        {
+          actions: params[:actions] || [],
+          knowledge: params[:knowledge] || [],
+          areas: params[:areas] || [],
+          sizes: params[:sizes] || [],
+          types: params[:types] || [],
+          repo_url: params[:repo_url] || "",
+          track: params[:track] || "",
+          order: params[:order] || "newest",
+          page: params[:page] || 1
+        }
       end
     end
   end

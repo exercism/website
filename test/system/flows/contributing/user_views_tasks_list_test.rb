@@ -27,7 +27,7 @@ module Flows
           click_on "All"
           find("label", text: "Go").click
 
-          assert_text "Showing 1 task out of 2 possible tasks"
+          assert_text "Showing 1 task\n/ out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -39,11 +39,11 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "All actions"
+          click_button "Action"
           find("label", text: "Improve").click
-          find("body").click
+          find("label", text: "Improve").native.send_keys(:tab)
 
-          assert_text "Showing 1 task out of 2 possible tasks"
+          assert_text "Showing 1 task\n/ out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -55,11 +55,11 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "All types"
+          click_button "Type"
           find("label", text: "Docs").click
-          find("body").click(x: 0, y: 0)
+          find("label", text: "Docs").native.send_keys(:tab)
 
-          assert_text "Showing 1 task out of 2 possible tasks"
+          assert_text "Showing 1 task\n/ out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -71,11 +71,11 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "All sizes"
+          click_button "Size"
           find("label", text: "Medium").click
-          find("body").click(x: 0, y: 0)
+          find("label", text: "Medium").native.send_keys(:tab)
 
-          assert_text "Showing 1 task out of 2 possible tasks"
+          assert_text "Showing 1 task\n/ out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -87,11 +87,11 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "Any knowledge"
+          click_button "Knowledge"
           find("label", text: "Intermediate").click
-          find("body").click(x: 0, y: 0)
+          find("label", text: "Intermediate").native.send_keys(:tab)
 
-          assert_text "Showing 1 task out of 2 possible tasks"
+          assert_text "Showing 1 task\n/ out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -103,11 +103,11 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "All modules"
+          click_button "Module"
           find("label", text: "Generator").click
-          find("body").click(x: 0, y: 0)
+          find("label", text: "Generator").native.send_keys(:tab)
 
-          assert_text "Showing 1 task out of 2 possible tasks"
+          assert_text "Showing 1 task\n/ out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -119,9 +119,9 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "All modules"
+          click_button "Module"
           find("label", text: "Generator").click
-          find("body").click(x: 0, y: 0)
+          find("label", text: "Generator").native.send_keys(:tab)
           click_on "Reset Filters"
 
           assert_text "Write docs"

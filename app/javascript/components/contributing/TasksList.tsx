@@ -112,7 +112,14 @@ export const TasksList = ({
   )
 
   const handleReset = useCallback(() => {
-    setQuery({})
+    setQuery({
+      track: '',
+      actions: [],
+      types: [],
+      sizes: [],
+      knowledge: [],
+      areas: [],
+    })
   }, [setQuery])
 
   return (

@@ -12,6 +12,7 @@ FactoryBot.define do
     position { 1 }
     git_sha { "HEAD" }
     synced_to_git_sha { "HEAD" }
+    git_important_files_hash { "cf784d0ca95265de9254b5abeef9456c" }
 
     trait :random_slug do
       slug { SecureRandom.hex }

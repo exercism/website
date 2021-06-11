@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { SizeTag } from '../../../../../../app/javascript/components/Contributing/tasks-list/task/SizeTag'
+import { SizeTag } from '../../../../../../app/javascript/components/contributing/tasks-list/task/SizeTag'
 
 test('renders tag for size = tiny', async () => {
   render(<SizeTag size="tiny" />)

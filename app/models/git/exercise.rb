@@ -154,9 +154,9 @@ module Git
         instructions_append_filepath,
         introduction_filepath,
         introduction_append_filepath,
-        hints_filepath
-      ].compact.concat(test_filepaths).
-        select do |filepath|
+        hints_filepath,
+        *test_filepaths
+      ].select do |filepath|
         filepaths.include?(filepath)
       end
     end

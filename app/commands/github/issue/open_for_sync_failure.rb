@@ -16,14 +16,18 @@ module Github
       private
       def create_issue
         title = "🤖 Sync error for commit #{git_sha[0..5]}"
-        body = """We hit an error trying to sync the latest commit (#{git_sha}) to the website.
+        body = <<~BODY.strip
+          We hit an error trying to sync the latest commit (#{git_sha}) to the website.
 
-The error was:
-```
-#{error}
-```
+          The error was:
+          ```
+          #{error.message}
 
-Please tag @iHiD if you require more information."""
+          #{error.backtrace}
+          ```
+
+          Please tag @iHiD if you require more information.
+        BODY
 
         Exercism.octokit_client.create_issue(repo, title, body)
       end

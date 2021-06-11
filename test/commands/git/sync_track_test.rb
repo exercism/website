@@ -431,11 +431,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "open issue for sync failure when not synced successfully" do
     track = create :track
-    error_message = "Could not find Concept X"
+    error = StandardError.new "Could not find Concept X"
+    track.stubs(:update!).raises(error)
 
-    track.stubs(:update!).raises(StandardError, error_message)
-
-    Github::Issue::OpenForSyncFailure.expects(:call).with(track, error_message, track.git_head_sha)
+    Github::Issue::OpenForSyncFailure.expects(:call).with(track, error, track.git_head_sha)
 
     Git::SyncTrack.(track)
   end

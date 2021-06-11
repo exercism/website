@@ -196,7 +196,6 @@
                             }
                             & p {
                                 @apply text-p-base m-0;
-                                max-width: 300px;
                             }
                         }
                         & .c-icon.action-icon {

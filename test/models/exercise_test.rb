@@ -75,12 +75,13 @@ class ExerciseTest < ActiveSupport::TestCase
   end
 
   test "git_important_files_sha is generated" do
-    exercise = create :practice_exercise, slug: 'bob'
+    exercise = create :practice_exercise, slug: 'bob', git_important_files_hash: nil
     assert_equal 'b72b0958a135cddd775bf116c128e6e859bf11e4', exercise.git_important_files_hash
   end
 
   test "git_important_files_sha is re-generated when git_sha changes" do
-    exercise = create :practice_exercise, slug: 'allergies', git_sha: '6f169b92d8500d9ec5f6e69d6927bf732ab5274a'
+    exercise = create :practice_exercise, slug: 'allergies', git_sha: '6f169b92d8500d9ec5f6e69d6927bf732ab5274a',
+                                          git_important_files_hash: nil
     assert_equal 'b428b458004f45ba78c4b9f0c386f9987a17452e', exercise.git_important_files_hash
 
     exercise.update!(git_sha: '9aba0406b02303efe9542e48ab6f4eee0b00e6f1')

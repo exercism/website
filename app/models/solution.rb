@@ -189,7 +189,8 @@ class Solution < ApplicationRecord
   def sync_git!
     update!(
       git_slug: exercise.slug,
-      git_sha: exercise.git_sha
+      git_sha: exercise.git_sha,
+      git_important_files_hash: exercise.git_important_files_hash
     )
   end
 

@@ -43,6 +43,7 @@ class SolutionTest < ActiveSupport::TestCase
     solution.sync_git!
     assert_equal solution.exercise.git_sha, solution.git_sha
     assert_equal solution.exercise.slug, solution.git_slug
+    assert_equal solution.exercise.git_important_files_hash, solution.git_important_files_hash
   end
 
   test "status" do

@@ -4,7 +4,7 @@ class Mentor::RequestTest < ActiveSupport::TestCase
   test "materialises columns correctly" do
     student = create :user, handle: "someone"
     track = create :track, slug: "foobar"
-    exercise = create :practice_exercise, track: track, slug: "something"
+    exercise = create :practice_exercise, track: track
     solution = create :practice_solution, user: student, exercise: exercise
     req = create :mentor_request, solution: solution
     assert_equal student.id, req.student_id

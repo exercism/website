@@ -29,13 +29,8 @@ module Git
     def interesting_paths
       Set.new(
         [
-          *old_git.test_filepaths.map { |fp| "#{old_git.dir}/#{fp}" },
-          *new_git.test_filepaths.map { |fp| "#{new_git.dir}/#{fp}" },
-          "#{new_git.dir}/#{new_git.instructions_filepath}",
-          "#{new_git.dir}/#{new_git.instructions_append_filepath}",
-          "#{new_git.dir}/#{new_git.introduction_filepath}",
-          "#{new_git.dir}/#{new_git.introduction_append_filepath}",
-          "#{new_git.dir}/#{new_git.hints_filepath}"
+          *old_git.important_absolute_filepaths,
+          *new_git.important_absolute_filepaths
         ]
       )
     end

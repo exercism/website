@@ -141,6 +141,32 @@ module Git
     end
 
     memoize
+    def important_files
+      important_filepaths.each.with_object({}) do |filepath, hash|
+        hash[filepath] = read_file_blob(filepath)
+      end
+    end
+
+    memoize
+    def important_filepaths
+      [
+        instructions_filepath,
+        instructions_append_filepath,
+        introduction_filepath,
+        introduction_append_filepath,
+        hints_filepath
+      ].compact.concat(test_filepaths).
+        select do |filepath|
+        filepaths.include?(filepath)
+      end
+    end
+
+    memoize
+    def important_absolute_filepaths
+      important_filepaths.map { |filepath| absolute_filepath(filepath) }
+    end
+
+    memoize
     def cli_filepaths
       special_filepaths = [SPECIAL_FILEPATHS[:readme], SPECIAL_FILEPATHS[:help]]
       special_filepaths << SPECIAL_FILEPATHS[:hints] if filepaths.include?(hints_filepath)

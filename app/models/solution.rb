@@ -46,6 +46,7 @@ class Solution < ApplicationRecord
 
     self.git_slug = exercise.slug unless self.git_slug
     self.git_sha = exercise.git_sha unless self.git_sha
+    self.git_important_files_hash = exercise.git_important_files_hash
   end
 
   before_update do
@@ -160,7 +161,7 @@ class Solution < ApplicationRecord
   end
 
   def out_of_date?
-    git_sha != exercise.git_sha
+    git_important_files_hash != exercise.git_important_files_hash
   end
 
   def solution_files

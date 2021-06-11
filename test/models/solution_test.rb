@@ -336,7 +336,7 @@ class SolutionTest < ActiveSupport::TestCase
 
     refute solution.out_of_date?
 
-    solution.update(git_sha: "foobar")
+    solution.update(git_important_files_hash: "foobar")
     assert solution.out_of_date?
   end
 
@@ -348,4 +348,10 @@ class SolutionTest < ActiveSupport::TestCase
 
   #   assert_equal :failed, solution.status
   # end
+
+  test "git_important_files_sha is set to exercise's git_important_files_sha" do
+    exercise = create :practice_exercise, slug: 'allergies', git_sha: '6f169b92d8500d9ec5f6e69d6927bf732ab5274a'
+    solution = create :practice_solution, exercise: exercise
+    assert_equal exercise.git_important_files_hash, solution.git_important_files_hash
+  end
 end

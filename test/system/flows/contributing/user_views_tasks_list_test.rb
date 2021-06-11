@@ -24,7 +24,7 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "All"
+          click_on "All Tracks"
           find("label", text: "Go").click
 
           assert_text "Showing 1 task\n/ out of 2 possible tasks"

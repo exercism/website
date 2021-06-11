@@ -70,7 +70,7 @@ module Flows
 
         use_capybara_host do
           visit contributing_contributors_path
-          click_on "All"
+          click_on "All Tracks"
           find("label", text: "Go").click
 
           assert_text "1 PR created"

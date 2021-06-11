@@ -1,6 +1,6 @@
 import React from 'react'
 import { TaskModule } from '../../types'
-import { ExercismMultipleSelect, GraphicalIcon } from '../../common'
+import { MultipleSelect, GraphicalIcon } from '../../common'
 import { ModuleTag } from './task/ModuleTag'
 
 const ModuleOption = ({
@@ -119,7 +119,7 @@ export const ModuleSwitcher = ({
   setValue: (module: TaskModule[]) => void
 }): JSX.Element => {
   return (
-    <ExercismMultipleSelect<TaskModule>
+    <MultipleSelect<TaskModule>
       options={[
         'generator',
         'concept-exercise',

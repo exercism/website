@@ -1,6 +1,6 @@
 import React from 'react'
 import { TaskType } from '../../types'
-import { ExercismMultipleSelect } from '../../common/ExercismMultipleSelect'
+import { MultipleSelect } from '../../common/MultipleSelect'
 import { GraphicalIcon } from '../../common'
 
 const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
@@ -100,7 +100,7 @@ export const TypeSwitcher = ({
   setValue: (types: TaskType[]) => void
 }): JSX.Element => {
   return (
-    <ExercismMultipleSelect<TaskType>
+    <MultipleSelect<TaskType>
       options={['docs', 'ci', 'coding', 'docker', 'content']}
       value={value}
       setValue={setValue}

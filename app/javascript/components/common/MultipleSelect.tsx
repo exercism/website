@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { Icon, GraphicalIcon } from '.'
 import { useDropdown } from '../dropdowns/useDropdown'
 
-export const ExercismMultipleSelect = <T extends unknown>({
+export const MultipleSelect = <T extends unknown>({
   value,
   options,
   setValue,

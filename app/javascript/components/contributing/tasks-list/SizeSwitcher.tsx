@@ -1,6 +1,6 @@
 import React from 'react'
 import { TaskSize } from '../../types'
-import { ExercismMultipleSelect, GraphicalIcon } from '../../common'
+import { MultipleSelect, GraphicalIcon } from '../../common'
 import { SizeTag } from './task/SizeTag'
 
 const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
@@ -98,7 +98,7 @@ export const SizeSwitcher = ({
   setValue: (sizes: TaskSize[]) => void
 }): JSX.Element => {
   return (
-    <ExercismMultipleSelect<TaskSize>
+    <MultipleSelect<TaskSize>
       options={['tiny', 'small', 'medium', 'large', 'massive']}
       value={value}
       setValue={setValue}

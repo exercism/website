@@ -1,6 +1,6 @@
 import React from 'react'
 import { TaskKnowledge } from '../../types'
-import { GraphicalIcon, ExercismMultipleSelect } from '../../common'
+import { GraphicalIcon, MultipleSelect } from '../../common'
 import { KnowledgeIcon } from './task/KnowledgeIcon'
 
 const KnowledgeOption = ({
@@ -113,7 +113,7 @@ export const KnowledgeSwitcher = ({
   setValue: (knowledge: TaskKnowledge[]) => void
 }): JSX.Element => {
   return (
-    <ExercismMultipleSelect<TaskKnowledge>
+    <MultipleSelect<TaskKnowledge>
       options={['none', 'elementary', 'intermediate', 'advanced']}
       value={value}
       setValue={setValue}

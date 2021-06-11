@@ -1,6 +1,6 @@
 import React from 'react'
 import { TaskAction } from '../../types'
-import { ExercismMultipleSelect } from '../../common/ExercismMultipleSelect'
+import { MultipleSelect } from '../../common/MultipleSelect'
 import { GraphicalIcon } from '../../common'
 
 const ActionOption = ({
@@ -106,7 +106,7 @@ export const ActionSwitcher = ({
   setValue: (action: TaskAction[]) => void
 }): JSX.Element => {
   return (
-    <ExercismMultipleSelect<TaskAction>
+    <MultipleSelect<TaskAction>
       options={['create', 'fix', 'improve', 'proofread', 'sync']}
       value={value}
       setValue={setValue}

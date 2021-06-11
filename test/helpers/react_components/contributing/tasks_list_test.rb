@@ -92,7 +92,7 @@ module ReactComponents::Contributing
         tracks: [
           {
             id: nil,
-            title: "All",
+            title: "All Tracks",
             icon_url: "ICON"
           },
           {

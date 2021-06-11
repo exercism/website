@@ -30,8 +30,9 @@ module ReactComponents
           areas: params[:areas] || [],
           sizes: params[:sizes] || [],
           types: params[:types] || [],
+          repo_url: params[:repo_url] || "",
           track: params[:track] || "",
-          order: params[:order] || "",
+          order: params[:order] || "newest",
           page: params[:page] || 1
         }
       end

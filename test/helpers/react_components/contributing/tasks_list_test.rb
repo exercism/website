@@ -22,6 +22,7 @@ module ReactComponents::Contributing
         types: ["ci"],
         repo_url: "exercism/ruby",
         track: "ruby",
+        order: "newest",
         page: 1
       }
 

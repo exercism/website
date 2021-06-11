@@ -26,29 +26,15 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
         headers: { 'Content-Type': 'application/json' }
       )
 
-    body = <<~BODY.strip
-      We hit an error trying to sync the latest commit (2e25f799c1830b93a8ad65a2bbbb1c50f381e639) to the website.
-
-      The error was:
-      ```
-      Could not find Concept X
-
-      ["/usr/src/app/test/commands/github/issue/open_for_sync_failure_test.rb:10:in `block in <class:OpenForSyncFailureTest>'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest/test.rb:98:in `block (3 levels) in run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest/test.rb:195:in `capture_exceptions'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest/test.rb:95:in `block (2 levels) in run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:272:in `time_it'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest/test.rb:94:in `block in run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:367:in `on_signal'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest/test.rb:211:in `with_info_handler'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest/test.rb:93:in `run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:1029:in `run_one_method'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:341:in `run_one_method'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:328:in `block (2 levels) in run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:327:in `each'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:327:in `block in run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:367:in `on_signal'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:354:in `with_info_handler'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:326:in `run'", "/usr/local/bundle/gems/railties-6.1.3.1/lib/rails/test_unit/line_filtering.rb:10:in `run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:164:in `block in __run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:164:in `map'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:164:in `__run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:141:in `run'", "/usr/local/bundle/gems/minitest-5.14.4/lib/minitest.rb:68:in `block in autorun'", "/usr/local/bundle/gems/activesupport-6.1.3.1/lib/active_support/fork_tracker.rb:8:in `fork'", "/usr/local/bundle/gems/activesupport-6.1.3.1/lib/active_support/fork_tracker.rb:8:in `fork'", "/usr/local/bundle/gems/activesupport-6.1.3.1/lib/active_support/fork_tracker.rb:26:in `fork'", "/usr/local/lib/ruby/2.6.0/rubygems/core_ext/kernel_require.rb:54:in `require'", "/usr/local/lib/ruby/2.6.0/rubygems/core_ext/kernel_require.rb:54:in `require'", "-e:1:in `<main>'"]
-      ```
-
-      Please tag @iHiD if you require more information.
-    BODY
-
     stub_request(:post, "https://api.github.com/repos/exercism/ruby/issues").
-      with(
-        body: {
-          "labels": [],
-          "title": "🤖 Sync error for commit 2e25f7",
-          "body": body
-        }.to_json.
-        gsub('\u003c', '<'). # Required due to Octokit not escaping unicode characters
-        gsub('\u003e', '>') # Required due to Octokit not escaping unicode characters
-      ).
+      with do |request|
+        json = JSON.parse(request.body)
+        json["labels"].empty? &&
+          json["title"] == "🤖 Sync error for commit 2e25f7" &&
+          json["body"].include?("We hit an error trying to sync the latest commit (2e25f799c1830b93a8ad65a2bbbb1c50f381e639) to the website.") && # rubocop:disable Layout/LineLength
+          json["body"].include?("Please tag @iHiD if you require more information.") &&
+          json["body"].match?(/open_for_sync_failure_test\.rb:\d+:in `block in <class:OpenForSyncFailureTest>/)
+      end.
       to_return(status: 200, body: "", headers: {}).
       times(1)
 

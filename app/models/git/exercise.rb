@@ -77,12 +77,12 @@ module Git
 
     memoize
     def solution_filepaths
-      config[:files][:solution]
+      config.dig(:files, :solution).to_a
     end
 
     memoize
     def test_filepaths
-      config[:files][:test]
+      config.dig(:files, :test).to_a
     end
 
     memoize

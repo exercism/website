@@ -35,12 +35,19 @@ module ReactComponents
 
       memoize
       def query
-        q = {}
-        q[:page] = initial_data[:meta][:current_page]
-        q[:period] = params[:period] if params[:period].present?
-        q[:track] = params[:track] if params[:track].present?
-        q[:category] = params[:category] if params[:category].present?
-        q
+        {
+          page: current_page,
+          period: params[:period],
+          track: params[:track],
+          category: params[:category]
+        }.compact
+      end
+
+      memoize
+      def current_page
+        page = initial_data[:meta][:current_page]
+
+        page != 1 ? page : nil
       end
     end
   end

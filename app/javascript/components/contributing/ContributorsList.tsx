@@ -10,6 +10,7 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import { Pagination } from '../common'
 import { TrackSwitcher } from '../common/TrackSwitcher'
 import { CategorySwitcher } from './contributors-list/CategorySwitcher'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
@@ -48,25 +49,27 @@ export const ContributorsList = ({
 
   const setPeriod = useCallback(
     (period: Period) => {
-      setQuery({ ...request.query, period: period })
+      setQuery({ ...request.query, period: period, page: undefined })
     },
     [request.query, setQuery]
   )
 
   const setCategory = useCallback(
     (category: Category) => {
-      setQuery({ ...request.query, category: category })
+      setQuery({ ...request.query, category: category, page: undefined })
     },
     [request.query, setQuery]
   )
 
   const setTrack = useCallback(
     (track: Track) => {
-      setQuery({ ...request.query, track: track.id })
+      setQuery({ ...request.query, track: track.id, page: undefined })
     },
     [request.query, setQuery]
   )
   const track = tracks.find((t) => t.id === request.query.track) || tracks[0]
+
+  useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <div>

@@ -1,0 +1,5 @@
+en:
+  site_updates:
+    new_exercise:
+      1: >
+        <em>%{maker_handles}</em> published a new exercise: <strong>%{exercise_title}</strong>

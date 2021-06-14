@@ -68,12 +68,11 @@ module IsParamaterisedSTI
 
     cattr_accessor :class_suffix, :i18n_category
 
-    belongs_to :user
     belongs_to :track, optional: true
     belongs_to :exercise, optional: true
 
     before_create do
-      self.uniqueness_key = "#{user_id}|#{type_key}|#{guard_params}"
+      self.uniqueness_key = generate_uniqueness_key!
       self.params = {} if self.params.blank?
       self.version = latest_i18n_version
       self.rendering_data_cache = cacheable_rendering_data
@@ -181,5 +180,13 @@ module IsParamaterisedSTI
 
   def i18n_params
     {}
+  end
+
+  def generate_uniqueness_key!
+    k = [type_key, guard_params]
+    # If we have a user_id column, include it in the key.
+    # If not, don't bother.
+    k.unshift(user_id) if respond_to?(:user_id)
+    k.join("|")
   end
 end

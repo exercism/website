@@ -3,6 +3,8 @@ class User::Notification < ApplicationRecord
   self.class_suffix = :notification
   self.i18n_category = :notifications
 
+  belongs_to :user
+
   # If track or exercise is set, it means that this is a
   # notification *about* that track and/or exercise and that
   # the blue notification dot should propogate everywhere

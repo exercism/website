@@ -1,16 +1,8 @@
 import React from 'react'
 import { Modal } from '../Modal'
-import { useIsMounted } from 'use-is-mounted'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { typecheck } from '../../../utils/typecheck'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { Student } from '../../types'
-
-type Discussion = {
-  student: Student
-}
+import { QueryStatus } from 'react-query'
 
 const DEFAULT_ERROR = new Error('Unable to end discussion')
 
@@ -21,48 +13,24 @@ const ErrorHandler = ({ error }: { error: unknown }) => {
 }
 
 export const FinishMentorDiscussionModal = ({
-  endpoint,
   open,
-  onSuccess,
+  onFinish,
   onCancel,
+  status,
+  error,
   ...props
 }: {
   endpoint: string
   open: boolean
-  onSuccess: (discussion: Discussion) => void
+  status: QueryStatus
+  error: unknown
+  onFinish: () => void
   onCancel: () => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation(
-    () => {
-      return sendRequest({
-        endpoint: endpoint,
-        method: 'PATCH',
-        body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<Discussion>(json, 'discussion')
-      })
-    },
-    {
-      onSuccess: (discussion) => {
-        if (!discussion) {
-          return
-        }
-
-        onSuccess(discussion)
-      },
-    }
-  )
-
   return (
     <Modal
       open={open}
-      onClose={() => {}}
+      onClose={onCancel}
       className="m-finish-mentor-discussion"
       {...props}
     >
@@ -77,7 +45,7 @@ export const FinishMentorDiscussionModal = ({
         <button
           type="button"
           className="btn-small-discourage"
-          onClick={() => onCancel()}
+          onClick={onFinish}
           disabled={status === 'loading'}
         >
           Cancel
@@ -86,7 +54,7 @@ export const FinishMentorDiscussionModal = ({
         <button
           type="button"
           className="btn-primary btn-s"
-          onClick={() => mutation()}
+          onClick={onFinish}
           disabled={status === 'loading'}
         >
           End discussion

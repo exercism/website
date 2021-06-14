@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal } from '../Modal'
-import { Loading } from '../../common'
+import { Loading, FormButton } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { QueryStatus } from 'react-query'
 
@@ -42,24 +42,24 @@ export const FinishMentorDiscussionModal = ({
         student a final goodbye.
       </p>
       <div className="buttons">
-        <button
+        <FormButton
           type="button"
           className="btn-small-discourage"
-          onClick={onFinish}
-          disabled={status === 'loading'}
+          onClick={onCancel}
+          status={status}
         >
           Cancel
           <div className="kb-shortcut">F2</div>
-        </button>
-        <button
+        </FormButton>
+        <FormButton
           type="button"
           className="btn-primary btn-s"
           onClick={onFinish}
-          disabled={status === 'loading'}
+          status={status}
         >
           End discussion
           <div className="kb-shortcut">F3</div>
-        </button>
+        </FormButton>
       </div>
 
       {status === 'loading' ? <Loading /> : null}

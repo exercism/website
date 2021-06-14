@@ -51,7 +51,7 @@ export const FinishButton = ({
     }
 
     setOpen(false)
-  }, [])
+  }, [status])
 
   useEffect(() => {
     Mousetrap.bind('f3', () => {

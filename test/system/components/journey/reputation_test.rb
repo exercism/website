@@ -66,11 +66,11 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit reputation_journey_path
-          select "Sort by Newest First"
+          click_on "Sort by Newest First"
+          find("label", text: "Sort by Oldest First").click
 
-          # TODO: This test isn't testing what the title says it should test
-          assert_text strip_tags(review_token.text)
-          assert_no_text strip_tags(contribution_token.text)
+          assert_text strip_tags(contribution_token.text)
+          assert_no_text strip_tags(review_token.text)
         end
       end
 

@@ -24,7 +24,8 @@
 
 .c-single-select {
     & > button {
-        @apply py-12 px-24;
+        height: 48px;
+        @apply px-24;
 
         @apply text-16 leading-150 font-medium;
 

@@ -50,7 +50,8 @@ module Flows
 
         use_capybara_host do
           visit contributing_contributors_path
-          select "Maintaining"
+          click_on "All categories"
+          find("label", text: "Maintaining").click
 
           assert_text "1 PR merged"
           assert_no_text "1 PR created"

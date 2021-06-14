@@ -9,11 +9,12 @@ import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Pagination } from '../common'
 import { TrackSwitcher } from '../common/TrackSwitcher'
+import { CategorySwitcher } from './contributors-list/CategorySwitcher'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
 export type Period = 'week' | 'month' | 'year' | undefined
-type Category =
+export type Category =
   | 'building'
   | 'maintaining'
   | 'authoring'
@@ -101,24 +102,10 @@ export const ContributorsList = ({
           </PeriodButton>
         </div>
         <TrackSwitcher tracks={tracks} value={track} setValue={setTrack} />
-        <div className="c-select">
-          <select
-            value={request.query.category || ''}
-            onChange={(e) => {
-              const value =
-                e.target.value === '' ? undefined : (e.target.value as Category)
-
-              setCategory(value)
-            }}
-          >
-            <option value="">Select a category....</option>
-            <option value="building">Building</option>
-            <option value="maintaining">Maintaining</option>
-            <option value="authoring">Authoring</option>
-            <option value="mentoring">Mentoring</option>
-            <option value="publishing">Publishing</option>
-          </select>
-        </div>
+        <CategorySwitcher
+          value={request.query.category}
+          setValue={setCategory}
+        />
       </div>
 
       <ResultsZone isFetching={isFetching}>

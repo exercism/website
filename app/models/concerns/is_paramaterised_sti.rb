@@ -93,9 +93,16 @@ module IsParamaterisedSTI
     # key from the params on demand, and cache it.
     def params(*keys)
       keys.each do |key|
+        iv = "@params_#{key}"
+
         define_method key do
-          iv = "@params_#{key}"
           instance_variable_get(iv).presence || instance_variable_set(iv, retrieve_param(key))
+        end
+
+        define_method "#{key}=" do |val|
+          params[key.to_s] = val.respond_to?(:to_global_id) ? val.to_global_id.to_s : val
+
+          remove_instance_variable(iv) if instance_variable_defined?(iv)
         end
       end
     end
@@ -151,8 +158,8 @@ module IsParamaterisedSTI
     self.track = hash.delete(:track) if hash.key?(:track)
     self.exercise = hash.delete(:exercise) if hash.key?(:exercise)
 
-    self[:params] = hash.transform_values do |v|
-      v.respond_to?(:to_global_id) ? v.to_global_id.to_s : v
+    self[:params] = hash.each_with_object({}) do |(k, v), h|
+      h[k.to_s] = v.respond_to?(:to_global_id) ? v.to_global_id.to_s : v
     end
   end
 

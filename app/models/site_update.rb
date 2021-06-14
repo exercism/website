@@ -7,8 +7,30 @@ class SiteUpdate < ApplicationRecord
 
   scope :published, -> { where('published_at < ?', Time.current) }
 
+  belongs_to :author, optional: true, class_name: "User"
+  belongs_to :pull_request, optional: true, class_name: "Github::PullRequest"
+
   before_validation only: :create do
     self.published_at = Time.current + 3.hours unless published_at
+  end
+
+  # TODO: This is very much a stub!
+  def editable_by?(user)
+    return true unless author
+
+    author.id == user.id
+  end
+
+  def pull_request_number=(num)
+    # TODO: We should probably check the track is correct
+    self.pull_request = ::Github::PullRequest.find_by!(
+      repo: "exercism/#{track.repo_url.split('/').last}",
+      number: num
+    )
+  end
+
+  def pull_request_number
+    pull_request&.number
   end
 
   def cacheable_rendering_data
@@ -40,7 +62,6 @@ class SiteUpdate < ApplicationRecord
     d
   end
 
-  private
   def expanded?
     [author, title, description].all?(&:present?)
   end

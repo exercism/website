@@ -1,6 +1,4 @@
 class SiteUpdates::NewExerciseUpdate < SiteUpdate
-  params :author, :title, :description, :pull_request
-
   def guard_params
     "Exercise##{exercise_id}"
   end

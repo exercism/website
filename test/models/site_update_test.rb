@@ -100,9 +100,7 @@ class SiteUpdateTest < ActiveSupport::TestCase
     author = create :user
     title = "Check this out!!"
     description = "I did something really cool :)"
-    update = create :site_update, exercise: exercise, track: track, params: {
-      author: author, title: title, description: description
-    }
+    update = create :site_update, exercise: exercise, track: track, author: author, title: title, description: description
 
     expected = {
       author_handle: author.handle,
@@ -118,9 +116,7 @@ class SiteUpdateTest < ActiveSupport::TestCase
     exercise = create :concept_exercise, track: track
 
     pull_request = create :github_pull_request
-    update = create :site_update, exercise: exercise, track: track, params: {
-      pull_request: pull_request
-    }
+    update = create :site_update, exercise: exercise, track: track, pull_request: pull_request
 
     expected = {
       title: pull_request.title,

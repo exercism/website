@@ -255,10 +255,10 @@ Exercise.all.each do |exercise|
 end
 
 update = SiteUpdate.where(track: ruby).order(published_at: :desc).first
-update.update!(params: {
+update.update!(
   author: User.first,
   title: "New exercise for OCaml! 🚀",
   description: "Of course, it is likely enough, my friends,' he said slowly, 'likely enough that we are going to our doom: the last march of the Ents. But if we stayed home and did nothing, doom would find us anyway, sooner or later. That thought has long been growing in our hearts; and that is why we are marching now."
-})
-update.update(params: update.params.merge({pull_request: Github::PullRequest.first}))
+)
+update.update(pull_request: Github::PullRequest.first)
 

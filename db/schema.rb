@@ -386,10 +386,16 @@ ActiveRecord::Schema.define(version: 2021_06_14_114503) do
     t.text "rendering_data_cache", null: false
     t.bigint "track_id"
     t.bigint "exercise_id"
+    t.bigint "author_id"
+    t.bigint "pull_request_id"
     t.datetime "published_at", null: false
+    t.string "title"
+    t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_site_updates_on_author_id"
     t.index ["exercise_id"], name: "index_site_updates_on_exercise_id"
+    t.index ["pull_request_id"], name: "index_site_updates_on_pull_request_id"
     t.index ["track_id"], name: "index_site_updates_on_track_id"
   end
 
@@ -750,7 +756,9 @@ ActiveRecord::Schema.define(version: 2021_06_14_114503) do
   add_foreign_key "problem_reports", "users"
   add_foreign_key "scratchpad_pages", "users"
   add_foreign_key "site_updates", "exercises"
+  add_foreign_key "site_updates", "github_pull_requests", column: "pull_request_id"
   add_foreign_key "site_updates", "tracks"
+  add_foreign_key "site_updates", "users", column: "author_id"
   add_foreign_key "solution_stars", "solutions"
   add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"

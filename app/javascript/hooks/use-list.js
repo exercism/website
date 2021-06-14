@@ -9,17 +9,23 @@ function reducer(state, action) {
     case 'criteria.changed':
       return {
         ...state,
-        query: { ...state.query, criteria: action.payload.criteria, page: 1 },
+        query: {
+          ...state.query,
+          criteria: action.payload.criteria,
+        },
       }
     case 'filter.changed':
       return {
         ...state,
-        query: { ...state.query, filter: action.payload.filter, page: 1 },
+        query: {
+          ...state.query,
+          filter: action.payload.filter,
+        },
       }
     case 'order.changed':
       return {
         ...state,
-        query: { ...state.query, order: action.payload.order, page: 1 },
+        query: { ...state.query, order: action.payload.order },
       }
     default:
       if (process.env.NODE_ENV === 'development') {

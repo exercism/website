@@ -5,5 +5,5 @@
       = graphical_icon(:updates, hex: true, css_class: "graphical-icon")
 
   .lg-container.container
-    = render "tracks/show/joined/updates_section", track: track
+    = render "tracks/show/joined/updates_section", track: track, updates: updates
     = render "tracks/show/joined/contributors_section", track: track, contributors: track.top_contributors, num_contributors: track.num_contributors

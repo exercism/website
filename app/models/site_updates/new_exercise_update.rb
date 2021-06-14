@@ -1,4 +1,6 @@
 class SiteUpdates::NewExerciseUpdate < SiteUpdate
+  params :author, :title, :description, :pull_request
+
   def guard_params
     "Exercise##{exercise_id}"
   end
@@ -6,6 +8,7 @@ class SiteUpdates::NewExerciseUpdate < SiteUpdate
   def i18n_params
     {
       exercise_title: exercise.title,
+      exercise_url: Exercism::Routes.track_exercise_url(track, exercise),
       maker_handles: maker_handles
     }
   end

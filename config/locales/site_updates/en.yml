@@ -2,4 +2,4 @@ en:
   site_updates:
     new_exercise:
       1: >
-        <em>%{maker_handles}</em> published a new exercise: <strong>%{exercise_title}</strong>
+        <em>%{maker_handles}</em> published a new exercise: <a href="%{exercise_url}">%{exercise_title}</a>

@@ -38,7 +38,13 @@ module ReactComponents
 
       def reputation_category
         if default_category_id == "reputation"
-          tokens = User::ReputationToken::Search.(current_user)
+          tokens = User::ReputationToken::Search.(
+            current_user,
+            criteria: params[:criteria],
+            category: params[:category],
+            page: params[:page],
+            order: params[:order]
+          )
 
           data = tokens.map do |token|
             token.rendering_data.merge(
@@ -70,6 +76,12 @@ module ReactComponents
           title: "Reputation",
           request: {
             endpoint: Exercism::Routes.api_reputation_index_url,
+            query: {
+              criteria: params[:criteria],
+              category: params[:category],
+              page: params[:page],
+              order: params[:order]
+            }.compact,
             options: options
           },
           path: Exercism::Routes.reputation_journey_path,

@@ -6,7 +6,11 @@
     - updates.each do |update|
       - data = update.rendering_data
       .update
-        = image_tag data[:icon_url], class: 'c-icon'
+        - if data[:icon_type] == "image"
+          = image_tag data[:icon_url], class: 'c-icon'
+        - elsif data[:icon_type] == "concept"
+          .c-concept-icon.c--large= data[:icon_url]
+
         .content
           .standard
             .info
@@ -19,7 +23,11 @@
           - if data[:expanded]
             .expanded
               .header
-                = image_tag data[:icon_url], class: 'c-icon'
+                - if data[:icon_type] == "image"
+                  = image_tag data[:icon_url], class: 'c-icon'
+                - elsif data[:icon_type] == "concept"
+                  .c-concept-icon.c--medium= data[:icon_url]
+
                 .info
                   .title= data[:expanded][:title]
                   .byline

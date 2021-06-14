@@ -38,6 +38,7 @@ class SiteUpdate < ApplicationRecord
   def cacheable_rendering_data
     d = {
       text: text,
+      icon_type: icon_type,
       icon_url: icon_url,
       track_icon_url: track&.icon_url,
       published_at: published_at.iso8601
@@ -67,5 +68,10 @@ class SiteUpdate < ApplicationRecord
 
   def expanded?
     [author, title, description].all?(&:present?)
+  end
+
+  # Should be overriden in children
+  def icon_url
+    nil
   end
 end

@@ -2,4 +2,8 @@ en:
   site_updates:
     new_exercise:
       1: >
-        <em>%{maker_handles}</em> published a new exercise: <a href="%{exercise_url}">%{exercise_title}</a>
+        <em>%{maker_handles}</em> published a new Exercise: <a href="%{exercise_url}">%{exercise_title}</a>
+
+    new_concept:
+      1: >
+        <em>%{maker_handles}</em> published a new Concept: <a href="%{concept_url}">%{concept_name}</a>

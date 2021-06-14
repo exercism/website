@@ -1,12 +1,14 @@
-class SiteUpdates::NewExerciseUpdate < SiteUpdate
+class SiteUpdates::NewConceptUpdate < SiteUpdate
+  params :concept
+
   def guard_params
-    "Exercise##{exercise_id}"
+    "Concept##{concept.id}"
   end
 
   def i18n_params
     {
-      exercise_title: exercise.title,
-      exercise_url: Exercism::Routes.track_exercise_url(track, exercise),
+      concept_name: concept.name,
+      concept_url: Exercism::Routes.track_concept_url(track, concept),
       maker_handles: maker_handles
     }
   end
@@ -17,10 +19,13 @@ class SiteUpdates::NewExerciseUpdate < SiteUpdate
     )
   end
 
-  delegate :icon_url, to: :exercise
-
   def icon_type
-    :image
+    :concept
+  end
+
+  # TODO: This is pretty gross
+  def icon_url
+    concept.name[0, 2]
   end
 
   def maker_handles
@@ -32,6 +37,8 @@ class SiteUpdates::NewExerciseUpdate < SiteUpdate
 
   memoize
   def makers
-    exercise.authors + exercise.contributors
+    # TODO: Readd once we have contributors
+    # concept.authors + concept.contributors
+    []
   end
 end

@@ -487,10 +487,15 @@
                         }
                     }
 
-                    & > .c-icon {
+                    & > .c-icon,
+                    & > .c-concept-icon {
+                        @apply relative mr-24;
+                        @apply z-1;
                         height: 50px;
                         width: 50px;
-                        @apply mr-24;
+                    }
+                    & > .c-concept-icon {
+                        @apply bg-backgroundColorA;
                     }
 
                     & .content {

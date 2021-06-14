@@ -254,6 +254,17 @@ Exercise.all.each do |exercise|
   )
 end
 
+Track::Concept.all.each do |concept|
+  SiteUpdates::NewConceptUpdate.create!(
+    track: concept.track,
+    published_at: concept.created_at,
+    params: {
+      concept: concept
+    }
+  )
+end
+
+
 update = SiteUpdate.where(track: ruby).order(published_at: :desc).first
 update.update!(
   author: User.first,

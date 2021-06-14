@@ -13,7 +13,7 @@ module Flows
         use_capybara_host do
           sign_in!(user)
           visit badges_journey_url
-          click_on "Unrevealed"
+          click_on "Click/tap to reveal"
 
           within(".m-badge") do
             assert_text "Member"

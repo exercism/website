@@ -87,7 +87,11 @@ test('paginates solutions', async () => {
   server.listen()
 
   render(
-    <SolutionsList request={{ endpoint: 'https://exercism.test/solutions' }} />
+    <TestQueryCache>
+      <SolutionsList
+        request={{ endpoint: 'https://exercism.test/solutions' }}
+      />
+    </TestQueryCache>
   )
   expect(await screen.findByText('Lasagna')).toBeInTheDocument()
 
@@ -137,7 +141,11 @@ test('searches solutions', async () => {
   server.listen()
 
   render(
-    <SolutionsList request={{ endpoint: 'https://exercism.test/solutions' }} />
+    <TestQueryCache>
+      <SolutionsList
+        request={{ endpoint: 'https://exercism.test/solutions' }}
+      />
+    </TestQueryCache>
   )
 
   userEvent.type(screen.getByPlaceholderText('Search for an exercise'), 'Bob')
@@ -193,7 +201,11 @@ test('filters solutions', async () => {
   server.listen()
 
   render(
-    <SolutionsList request={{ endpoint: 'https://exercism.test/solutions' }} />
+    <TestQueryCache>
+      <SolutionsList
+        request={{ endpoint: 'https://exercism.test/solutions' }}
+      />
+    </TestQueryCache>
   )
 
   userEvent.click(screen.getByRole('button', { name: 'Filter by' }))
@@ -203,56 +215,6 @@ test('filters solutions', async () => {
 
   expect(await screen.findByText('Bob')).toBeInTheDocument()
   expect(screen.queryByText('Lasagna')).not.toBeInTheDocument()
-
-  server.close()
-})
-
-test('sorts solutions', async () => {
-  let solutions = [
-    {
-      id: 'uuid-1',
-      exercise: {
-        title: 'Lasagna',
-      },
-      track: {},
-    },
-    {
-      id: 'uuid-2',
-      exercise: {
-        title: 'Bob',
-      },
-      track: {},
-    },
-  ]
-
-  const server = setupServer(
-    rest.get('https://exercism.test/solutions', (req, res, ctx) => {
-      const order = req.url.searchParams.get('order')
-
-      if (order === 'newest_first') {
-        solutions = solutions.reverse()
-      }
-
-      const response = {
-        results: [solutions[0]],
-        meta: {
-          currentPage: 1,
-          totalPages: 1,
-        },
-      }
-      return res(ctx.delay(10), ctx.status(200), ctx.json(response))
-    })
-  )
-  server.listen()
-
-  render(
-    <SolutionsList request={{ endpoint: 'https://exercism.test/solutions' }} />
-  )
-  expect(await screen.findByText('Lasagna')).toBeInTheDocument()
-
-  userEvent.selectOptions(screen.getByRole('combobox'), ['newest_first'])
-
-  expect(await screen.findByText('Bob')).toBeInTheDocument()
 
   server.close()
 })

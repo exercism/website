@@ -1,6 +1,6 @@
 class Maintaining::SiteUpdatesController < ApplicationController
   def index
-    @updates = SiteUpdate.order(published_at: :desc).page(params[:page]).per(20)
+    @updates = SiteUpdate.sorted.page(params[:page]).per(20)
   end
 
   def edit

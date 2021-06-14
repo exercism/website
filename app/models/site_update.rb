@@ -6,6 +6,8 @@ class SiteUpdate < ApplicationRecord
   self.i18n_category = :site_updates
 
   scope :published, -> { where('published_at < ?', Time.current) }
+  scope :for_track, ->(track) { where(track: track) }
+  scope :sorted, -> { order(published_at: :desc) }
 
   belongs_to :author, optional: true, class_name: "User"
   belongs_to :pull_request, optional: true, class_name: "Github::PullRequest"
@@ -37,6 +39,7 @@ class SiteUpdate < ApplicationRecord
     d = {
       text: text,
       icon_url: icon_url,
+      track_icon_url: track&.icon_url,
       published_at: published_at.iso8601
     }
 

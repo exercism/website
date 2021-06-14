@@ -24,6 +24,7 @@ class SiteUpdateTest < ActiveSupport::TestCase
       expected = {
         text: "<em>We</em> published a new exercise: #{i18n_exercise(exercise)}",
         icon_url: exercise.icon_url,
+        track_icon_url: track.icon_url,
         published_at: (Time.current + 3.hours).iso8601,
         maker_avatar_urls: []
       }.with_indifferent_access
@@ -133,6 +134,32 @@ class SiteUpdateTest < ActiveSupport::TestCase
       update = create :site_update
       assert_equal Time.current + 3.hours, update.published_at
     end
+  end
+
+  test "published scope" do
+    published = create :site_update, published_at: Time.current - 1.minute
+    unpublished = create :site_update, published_at: Time.current + 1.minute
+
+    assert_equal [published, unpublished], SiteUpdate.all # Sanity
+    assert_equal [published], SiteUpdate.published
+  end
+
+  test "sorted scope" do
+    first = create :site_update, published_at: Time.current - 1.minute
+    third = create :site_update, published_at: Time.current + 2.minutes
+    second = create :site_update, published_at: Time.current
+
+    assert_equal [third, second, first], SiteUpdate.sorted
+  end
+
+  test "for track scope" do
+    ruby = create :track, slug: 'ruby'
+    js = create :track, slug: 'js'
+    ruby_update = create :site_update, track: ruby
+    js_update = create :site_update, track: js
+
+    assert_equal [ruby_update, js_update], SiteUpdate.all # Sanity
+    assert_equal [js_update], SiteUpdate.for_track(js)
   end
 
   def i18n_exercise(exercise)

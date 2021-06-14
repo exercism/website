@@ -1,7 +1,7 @@
 module ReactComponents
   module Journey
     class JourneyPage < ReactComponent
-      initialize_with :default_category_id
+      initialize_with :default_category_id, :params
 
       def to_s
         super("journey-journey-page", {
@@ -91,7 +91,11 @@ module ReactComponents
         if default_category_id == "badges"
           options = {
             initial_data: SerializePaginatedCollection.(
-              User::AcquiredBadge::Search.(current_user, order: :unrevealed_first),
+              User::AcquiredBadge::Search.(
+                current_user,
+                order: params[:order],
+                criteria: params[:criteria]
+              ),
               serializer: SerializeUserAcquiredBadges
             )
           }
@@ -104,6 +108,10 @@ module ReactComponents
           title: "Badges",
           request: {
             endpoint: Exercism::Routes.api_badges_url,
+            query: {
+              order: params[:order],
+              criteria: params[:criteria]
+            }.compact,
             options: options
           },
           path: Exercism::Routes.badges_journey_path,

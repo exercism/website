@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { GraphicalIcon, Loading, Pagination } from '../common'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
@@ -7,6 +7,7 @@ import { FilterPanel } from './searchable-list/FilterPanel'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { QueryKey } from 'react-query'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 export type PaginatedResult = {
   results: any[]
@@ -52,9 +53,14 @@ export const SearchableList = ({
   isEnabled?: boolean
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setPage, setCriteria, setQuery, setOrder } = useList(
-    initialRequest
-  )
+  const {
+    request,
+    setPage,
+    setCriteria: setRequestCriteria,
+    setQuery,
+    setOrder,
+  } = useList(initialRequest)
+  const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const cacheKey = [cacheKeyPrefix, request.endpoint, request.query]
   const {
     status,
@@ -75,8 +81,20 @@ export const SearchableList = ({
     (filter) => {
       setQuery({ ...request.query, ...filter })
     },
-    [request.query, setQuery]
+    [JSON.stringify(request.query), setQuery]
   )
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <div className="md-container container">
@@ -86,7 +104,7 @@ export const SearchableList = ({
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={request.query.criteria || ''}
+          value={criteria}
           placeholder={placeholder}
         />
         <FilterPanel

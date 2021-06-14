@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/student/FinishMentorDiscussionModal'
 import { ConfirmFinishMentorDiscussionModal } from '../../modals/student/ConfirmFinishMentorDiscussionModal'
 import { MentorDiscussion } from '../../types'
+import Mousetrap from 'mousetrap'
 
 type Links = {
   exercise: string
@@ -17,6 +18,27 @@ export const FinishButton = ({
   links: Links
 }): JSX.Element => {
   const [status, setStatus] = useState<Status>('initialized')
+
+  useEffect(() => {
+    Mousetrap.bind('f3', () => {
+      switch (status) {
+        case 'initialized':
+          setStatus('confirming')
+          break
+        case 'confirming':
+          setStatus('finishing')
+          break
+      }
+    })
+    Mousetrap.bind('f2', () => {
+      setStatus('initialized')
+    })
+
+    return () => {
+      Mousetrap.unbind('f2')
+      Mousetrap.unbind('f3')
+    }
+  }, [status])
 
   return (
     <React.Fragment>

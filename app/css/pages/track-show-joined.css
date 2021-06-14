@@ -446,15 +446,10 @@
         @apply pt-64 pb-40;
 
         & header {
-            @apply mb-28;
-
             & .c-icon.graphical-icon {
                 width: 80px;
                 height: 80px;
                 @apply mb-16;
-            }
-            & h2 {
-                @apply text-h2 mb-20;
             }
         }
         & .container {
@@ -462,6 +457,12 @@
         }
         & section.updates-section {
             @apply flex-grow;
+            & h2 {
+                @apply text-h2 mb-20;
+            }
+            & hr.c-divider {
+                @apply mb-28;
+            }
 
             & .updates {
                 & .update {

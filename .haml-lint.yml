@@ -8,6 +8,9 @@ linters:
   ViewLength:
     enabled: false
 
+  ConsecutiveSilentScripts:
+    enabled: false
+
   ClassesBeforeIds:
     EnforcedStyle: id
 

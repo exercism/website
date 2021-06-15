@@ -387,7 +387,7 @@
             }
             & svg {
                 @apply ml-48 flex-shrink-0;
-                width: 128px;
+                width: 145px;
             }
         }
 

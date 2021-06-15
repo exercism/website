@@ -10,11 +10,11 @@ FactoryBot.define do
   end
 
   factory :new_concept_site_update, class: "SiteUpdates::NewConceptUpdate" do
-    track { concept.track }
     params do
       {
         concept: create(:track_concept)
       }
     end
+    track { concept.track }
   end
 end

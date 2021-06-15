@@ -10,7 +10,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
       expected = {
         text: "<em>We</em> published a new Concept: #{i18n_concept(concept)}",
         icon_type: 'concept',
-        icon_url: nil,
+        icon_url: "Co",
         track_icon_url: track.icon_url,
         published_at: (Time.current + 3.hours).iso8601,
         maker_avatar_urls: []

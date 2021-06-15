@@ -20,6 +20,13 @@ class TracksController < ApplicationController
     @user_track = UserTrack.for(current_user, @track)
 
     if @user_track
+      # TODO: Move this into a method somewhere else and add tests
+      data = @user_track.solutions.
+        where('completed_at > ?', Time.current.beginning_of_week - 8.weeks).
+        group("week(completed_at)").count
+      current_week = Date.current.cweek
+      @last_8_weeks_counts = ((current_week - 8)...current_week).to_a.map { |w| (w % 53) + 1 }.map { |w| data.fetch(w, 0) }
+
       @sample_completed_exercises = @user_track.sample_completed_exercises(5)
 
       if @track.course?

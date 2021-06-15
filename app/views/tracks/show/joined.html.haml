@@ -10,6 +10,6 @@
       .graphics
         = track_icon(@track)
 
-  = render "tracks/show/joined/summary_article", track: @track, user_track: @user_track, exercise_statuses: @exercise_statuses, recent_solutions: @recent_solutions, sample_completed_exercises: @sample_completed_exercises, sample_learnt_concepts: @sample_learnt_concepts, sample_mastered_concepts: @sample_mastered_concepts, sample_in_progress_exercises: @sample_in_progress_exercises, sample_available_exercises: @sample_available_exercises
+  = render "tracks/show/joined/summary_article", track: @track, user_track: @user_track, exercise_statuses: @exercise_statuses, recent_solutions: @recent_solutions, sample_completed_exercises: @sample_completed_exercises, sample_learnt_concepts: @sample_learnt_concepts, sample_mastered_concepts: @sample_mastered_concepts, sample_in_progress_exercises: @sample_in_progress_exercises, sample_available_exercises: @sample_available_exercises, last_8_weeks_counts: @last_8_weeks_counts
   = render "tracks/show/joined/mentoring_article", track: @track, user_track: @user_track
   = render "tracks/show/joined/updates_article", track: @track, updates: @updates

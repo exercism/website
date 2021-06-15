@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { CommunitySolution as CommunitySolutionProps } from '../types'
 import { CommunitySolution } from '../common/CommunitySolution'
 import { Pagination } from '../common'
@@ -27,7 +28,10 @@ export const ExerciseCommunitySolutionsList = ({
   request: Request
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setCriteria, setPage } = useList(initialRequest)
+  const { request, setPage, setCriteria: setRequestCriteria } = useList(
+    initialRequest
+  )
+  const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const {
     status,
     resolvedData,
@@ -39,6 +43,18 @@ export const ExerciseCommunitySolutionsList = ({
     request,
     isMountedRef
   )
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <div className="lg-container">
@@ -55,7 +71,7 @@ export const ExerciseCommunitySolutionsList = ({
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={request.query.criteria || ''}
+          value={criteria}
           placeholder="Search by user"
         />
       </div>

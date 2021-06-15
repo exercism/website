@@ -25,7 +25,7 @@ module Git
     end
 
     def sync_concept_authors_and_contributors!
-      ::Track::Concept.find_each do |concept|
+      ::Concept.find_each do |concept|
         begin
           SyncConceptAuthors.(concept)
         rescue StandardError => e

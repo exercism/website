@@ -68,12 +68,11 @@ module IsParamaterisedSTI
 
     cattr_accessor :class_suffix, :i18n_category
 
-    belongs_to :user
     belongs_to :track, optional: true
     belongs_to :exercise, optional: true
 
     before_create do
-      self.uniqueness_key = "#{user_id}|#{type_key}|#{guard_params}"
+      self.uniqueness_key = generate_uniqueness_key!
       self.params = {} if self.params.blank?
       self.version = latest_i18n_version
       self.rendering_data_cache = cacheable_rendering_data
@@ -94,9 +93,16 @@ module IsParamaterisedSTI
     # key from the params on demand, and cache it.
     def params(*keys)
       keys.each do |key|
+        iv = "@params_#{key}"
+
         define_method key do
-          iv = "@params_#{key}"
           instance_variable_get(iv).presence || instance_variable_set(iv, retrieve_param(key))
+        end
+
+        define_method "#{key}=" do |val|
+          params[key.to_s] = val.respond_to?(:to_global_id) ? val.to_global_id.to_s : val
+
+          remove_instance_variable(iv) if instance_variable_defined?(iv)
         end
       end
     end
@@ -152,8 +158,8 @@ module IsParamaterisedSTI
     self.track = hash.delete(:track) if hash.key?(:track)
     self.exercise = hash.delete(:exercise) if hash.key?(:exercise)
 
-    self[:params] = hash.transform_values do |v|
-      v.respond_to?(:to_global_id) ? v.to_global_id.to_s : v
+    self[:params] = hash.each_with_object({}) do |(k, v), h|
+      h[k.to_s] = v.respond_to?(:to_global_id) ? v.to_global_id.to_s : v
     end
   end
 
@@ -181,5 +187,13 @@ module IsParamaterisedSTI
 
   def i18n_params
     {}
+  end
+
+  def generate_uniqueness_key!
+    k = [type_key, guard_params]
+    # If we have a user_id column, include it in the key.
+    # If not, don't bother.
+    k.unshift(user_id) if respond_to?(:user_id)
+    k.join("|")
   end
 end

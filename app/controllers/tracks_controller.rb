@@ -31,6 +31,7 @@ class TracksController < ApplicationController
       end
 
       @recent_solutions = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track)
+      @updates = SiteUpdate.published.for_track(@track).sorted.limit(10)
 
       render "tracks/show/joined"
     else

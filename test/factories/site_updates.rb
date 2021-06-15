@@ -1,0 +1,20 @@
+FactoryBot.define do
+  factory :site_update, class: "SiteUpdates::NewExerciseUpdate" do
+    exercise { create :practice_exercise }
+    track { exercise.track }
+  end
+
+  factory :new_exercise_site_update, class: "SiteUpdates::NewExerciseUpdate" do
+    exercise { create :practice_exercise }
+    track { exercise.track }
+  end
+
+  factory :new_concept_site_update, class: "SiteUpdates::NewConceptUpdate" do
+    params do
+      {
+        concept: create(:track_concept)
+      }
+    end
+    track { concept.track }
+  end
+end

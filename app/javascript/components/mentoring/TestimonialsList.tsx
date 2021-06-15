@@ -9,6 +9,7 @@ import { UnrevealedTestimonial } from './testimonials-list/UnrevealedTestimonial
 import { useList } from '../../hooks/use-list'
 import { GraphicalIcon, Pagination } from '../common'
 import { TrackDropdown } from './testimonials-list/TrackDropdown'
+import { OrderSelect } from './testimonials-list/OrderSelect'
 
 export type PaginatedResult = {
   results: readonly Testimonial[]
@@ -25,7 +26,10 @@ export type Track = {
   iconUrl: string
 }
 
+export type Order = 'unrevealed' | 'newest' | 'oldest'
+
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
+const DEFAULT_ORDER = 'unrevealed'
 
 export const TestimonialsList = ({
   request: initialRequest,
@@ -76,15 +80,10 @@ export const TestimonialsList = ({
               setCriteria(e.target.value)
             }}
           />
-          <div className="c-select order">
-            <select
-              value={request.query.order || 'newest'}
-              onChange={(e) => setOrder(e.target.value)}
-            >
-              <option value="newest">Sort by Newest First</option>
-              <option value="oldest">Sort by Oldest First</option>
-            </select>
-          </div>
+          <OrderSelect
+            value={request.query.order || DEFAULT_ORDER}
+            setValue={setOrder}
+          />
         </div>
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary

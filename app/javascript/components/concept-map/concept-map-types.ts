@@ -1,6 +1,6 @@
-export type ConceptStatus = 'locked' | 'available' | 'learned' | 'mastered'
+import { ExerciseStatus } from '../types'
 
-export type ExerciseStatus = 'locked' | 'available' | 'in-progress' | 'complete'
+export type ConceptStatus = 'locked' | 'available' | 'learned' | 'mastered'
 
 export interface IConcept {
   slug: string
@@ -65,7 +65,8 @@ export type ConceptLayer = string[]
 
 export type ExerciseData = {
   url: string
+  slug: string
   tooltipUrl: string
-  status: ExerciseStatus[]
+  status: ExerciseStatus
   type: string
 }

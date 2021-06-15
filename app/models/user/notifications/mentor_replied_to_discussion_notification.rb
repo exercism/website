@@ -32,11 +32,9 @@ class User
         "DiscussionPost##{discussion_post.id}"
       end
 
-      private
-      def discussion
-        discussion_post.discussion
-      end
+      delegate :discussion, to: :discussion_post
 
+      private
       def solution
         discussion_post.solution
       end

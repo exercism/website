@@ -27,13 +27,11 @@ class User
         "DiscussionPost##{discussion_post.id}"
       end
 
+      delegate :discussion, to: :discussion_post
+
       private
       def student
         solution.user
-      end
-
-      def discussion
-        discussion_post.discussion
       end
 
       def solution

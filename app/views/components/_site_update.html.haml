@@ -8,7 +8,7 @@
   - elsif data[:icon][:type] == "image"
     = image_tag data[:icon][:url], class: 'c-icon'
   - elsif data[:icon][:type] == "concept"
-    .c-concept-icon.c--large= data[:icon_url]
+    .c-concept-icon.c--large= data[:icon][:data]
 
   .content
     .standard

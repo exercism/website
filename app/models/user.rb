@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :auth_tokens, dependent: :destroy
 
   has_one :profile, dependent: :destroy
+  has_one :communication_preferences, dependent: :destroy
 
   has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
@@ -49,6 +50,10 @@ class User < ApplicationRecord
 
   before_create do
     self.name = self.handle if self.name.blank?
+  end
+
+  after_create_commit do
+    create_communication_preferences
   end
 
   def self.for!(param)

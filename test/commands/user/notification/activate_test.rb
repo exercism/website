@@ -19,6 +19,14 @@ class User::Notifications::ActivateTest < ActiveSupport::TestCase
     User::Notification::Activate.(notification)
   end
 
+  test "sends email" do
+    user = create :user
+    notification = create :notification, user: user
+    User::Notification::SendEmail.expects(:call).with(notification)
+
+    User::Notification::Activate.(notification)
+  end
+
   test "does not update or publish if already unread" do
     notification = create :notification, status: :unread
 

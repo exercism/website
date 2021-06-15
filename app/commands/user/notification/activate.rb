@@ -9,6 +9,7 @@ class User::Notification
         if notification.pending?
           notification.update_column(:status, :unread)
           NotificationsChannel.broadcast_changed!(notification.user)
+          User::Notification::SendEmail.(notification)
         end
       end
     end

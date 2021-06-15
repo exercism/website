@@ -17,8 +17,8 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     git_sha = repo.head_commit.parents.first.oid
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: git_sha, synced_to_git_sha: git_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca')
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     assert_equal updated_at, exercise.reload.updated_at # Sanity
 
@@ -32,7 +32,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in config.json" do
     freeze_time do
       exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", synced_to_git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", updated_at: Time.current - 1.week # rubocop:disable Layout/LineLength
-      exercise.prerequisites << (create :track_concept, slug: 'arrays', uuid: '55b8bfe8-4c8c-460b-ab78-b3f384b6f313')
+      exercise.prerequisites << (create :concept, slug: 'arrays', uuid: '55b8bfe8-4c8c-460b-ab78-b3f384b6f313')
 
       Git::SyncPracticeExercise.(exercise)
 
@@ -44,7 +44,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in documentation files" do
     exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', slug: 'anagram', title: 'Anagram', git_sha: "e6927df782dd5c348054b12c8d6c3216b644d715", synced_to_git_sha: "e6927df782dd5c348054b12c8d6c3216b644d715" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -54,7 +54,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "git SHA and git sync SHA change to HEAD SHA when there are changes in track-specific files" do
     exercise = create :practice_exercise, uuid: '53603e05-2051-4904-a181-e358390f9ae7', slug: 'hamming', title: 'hamming', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -64,7 +64,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "metadata is updated when there are changes in config.json" do
     exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7", synced_to_git_sha: "88f22a83588c87881a5da994b3984b400fb43bd7" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'arrays', uuid: '55b8bfe8-4c8c-460b-ab78-b3f384b6f313')
+    exercise.prerequisites << (create :concept, slug: 'arrays', uuid: '55b8bfe8-4c8c-460b-ab78-b3f384b6f313')
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -74,7 +74,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "difficulty is updated when there are changes in config.json" do
     exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', difficulty: 5, slug: 'anagram', title: 'Anagram', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -83,7 +83,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "icon_name is updated when there are changes in config.json" do
     exercise = create :practice_exercise, uuid: '782d71b7-7ed8-4b5b-89b8-8f0ec10f81a8', icon_name: 'going-iso', slug: 'isogram', title: 'Isogram', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -92,7 +92,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "status is updated when there are changes in config.json" do
     exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', status: :active, slug: 'anagram', title: 'Anagram', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -101,7 +101,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "status is active when no explicit status is specified" do
     exercise = create :practice_exercise, uuid: '53603e05-2051-4904-a181-e358390f9ae7', position: 1, slug: 'hamming', title: 'hamming', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -110,7 +110,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "position is updated when there are changes in config.json" do
     exercise = create :practice_exercise, uuid: '53603e05-2051-4904-a181-e358390f9ae7', position: 1, slug: 'hamming', title: 'hamming', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -119,7 +119,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "position is always 0 for hello-world exercise" do
     exercise = create :practice_exercise, uuid: '33adf9eb-fbf4-4100-a9bb-2f334b9ee72f', position: 1, slug: 'hello-world', title: 'Hello World', git_sha: "8143313785d71541efb0d9f188c306e9ec75327f", synced_to_git_sha: "8143313785d71541efb0d9f188c306e9ec75327f" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -128,8 +128,8 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "adds new prerequisites defined in config.json" do
     exercise = create :practice_exercise, uuid: '4f12ede3-312e-482a-b0ae-dfd29f10b5fb', slug: 'leap', title: 'Leap', git_sha: "e84f87c9c527a2bbeb72e8013d32114809f1bee9", synced_to_git_sha: "e84f87c9c527a2bbeb72e8013d32114809f1bee9" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'numbers', uuid: '162721bd-3d64-43ff-889e-6fb2eac75709')
-    conditionals = create :track_concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
+    exercise.prerequisites << (create :concept, slug: 'numbers', uuid: '162721bd-3d64-43ff-889e-6fb2eac75709')
+    conditionals = create :concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
 
     Git::SyncPracticeExercise.(exercise)
 
@@ -137,9 +137,9 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "removes prerequisites that are not in config.json" do
-    time = create :track_concept, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    time = create :concept, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
     exercise = create :practice_exercise, uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206', slug: 'space-age', title: 'Space Age', git_sha: "503834363624c44f1202953427e7047f0472cbe7", synced_to_git_sha: "503834363624c44f1202953427e7047f0472cbe7" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a')
+    exercise.prerequisites << (create :concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a')
     exercise.prerequisites << time
 
     Git::SyncPracticeExercise.(exercise)
@@ -148,8 +148,8 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "adds new practiced concepts defined in config.json" do
-    time = create :track_concept, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
-    dates = create :track_concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    time = create :concept, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    dates = create :concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
     exercise = create :practice_exercise, uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206', slug: 'space-age', title: 'Space Age', git_sha: "503834363624c44f1202953427e7047f0472cbe7", synced_to_git_sha: "503834363624c44f1202953427e7047f0472cbe7" # rubocop:disable Layout/LineLength
 
     Git::SyncPracticeExercise.(exercise)
@@ -158,9 +158,9 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
   end
 
   test "removes practiced concepts that are not in config.json" do
-    time = create :track_concept, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
-    dates = create :track_concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
-    conditionals = create :track_concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
+    time = create :concept, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    dates = create :concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    conditionals = create :concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
     exercise = create :practice_exercise, uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206', slug: 'space-age', title: 'Space Age', git_sha: "503834363624c44f1202953427e7047f0472cbe7", synced_to_git_sha: "503834363624c44f1202953427e7047f0472cbe7" # rubocop:disable Layout/LineLength
     exercise.practiced_concepts << dates
     exercise.practiced_concepts << time
@@ -298,7 +298,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
   test "handle renamed slug" do
     exercise = create :practice_exercise, uuid: '22ccca1b-7120-4db6-a736-d3d313f419c7', slug: 'retree', git_sha: "d487285d937401a676bd252015cb83ae86e4c0fe", synced_to_git_sha: "d487285d937401a676bd252015cb83ae86e4c0fe" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :track_concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
 
     Git::SyncPracticeExercise.(exercise)
 

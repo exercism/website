@@ -12,7 +12,7 @@ FactoryBot.define do
   factory :new_concept_site_update, class: "SiteUpdates::NewConceptUpdate" do
     params do
       {
-        concept: create(:track_concept)
+        concept: create(:concept)
       }
     end
     track { concept.track }

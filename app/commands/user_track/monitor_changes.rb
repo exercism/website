@@ -42,7 +42,7 @@ class UserTrack
       concept_progressions.reject! { |cp| cp[:to] == cp[:from] }
 
       # Inject the concept into each result, and remove id
-      progressed_concepts = Track::Concept.where(
+      progressed_concepts = Concept.where(
         id: concept_progressions.map { |c| c[:id] }
       ).index_by(&:id)
 
@@ -54,7 +54,7 @@ class UserTrack
       # And finally return it all as a neat hash
       {
         unlocked_exercises: Exercise.where(id: unlocked_exercise_ids),
-        unlocked_concepts: Track::Concept.where(id: unlocked_concept_ids),
+        unlocked_concepts: Concept.where(id: unlocked_concept_ids),
         concept_progressions: concept_progressions
       }
     end

@@ -98,8 +98,8 @@ class UserTrackTest < ActiveSupport::TestCase
     practice_exercise_3 = create :practice_exercise, :random_slug, track: track
     practice_exercise_4 = create :practice_exercise, :random_slug, track: track
 
-    prereq_1 = create :track_concept, track: track
-    prereq_2 = create :track_concept, track: track
+    prereq_1 = create :concept, track: track
+    prereq_2 = create :concept, track: track
 
     create(:exercise_prerequisite, exercise: concept_exercise_2, concept: prereq_1)
     create(:exercise_prerequisite, exercise: practice_exercise_2, concept: prereq_1)
@@ -199,7 +199,7 @@ class UserTrackTest < ActiveSupport::TestCase
 
   test "summary proxies correctly" do
     track = create :track
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     ut = create :user_track, track: track
 
     assert_equal concept.slug, ut.send(:summary).concept(concept.slug).slug

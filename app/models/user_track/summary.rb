@@ -23,17 +23,17 @@ class UserTrack
 
     memoize
     def learnt_concepts
-      Track::Concept.where(id: learnt_concept_ids)
+      Concept.where(id: learnt_concept_ids)
     end
 
     memoize
     def unlocked_concepts
-      Track::Concept.where(id: unlocked_concept_ids)
+      Concept.where(id: unlocked_concept_ids)
     end
 
     memoize
     def mastered_concepts
-      Track::Concept.where(id: mastered_concept_ids)
+      Concept.where(id: mastered_concept_ids)
     end
 
     memoize
@@ -232,7 +232,7 @@ class UserTrack
     end
 
     def concept(obj)
-      slug = obj.is_a?(Track::Concept) ? obj.slug : obj.to_s
+      slug = obj.is_a?(Concept) ? obj.slug : obj.to_s
       mapped_concepts[slug]
     end
 

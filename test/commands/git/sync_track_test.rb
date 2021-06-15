@@ -151,9 +151,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "concept exercises use track concepts for taught concepts" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :track_concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    track_concept = create :concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
     other_track = create :track, slug: 'fsharp'
-    other_track_concept = create :track_concept, track: other_track, slug: 'basics'
+    other_track_concept = create :concept, track: other_track, slug: 'basics'
 
     Git::SyncTrack.(track)
 
@@ -173,9 +173,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "concept exercises use track concepts for prerequisites" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :track_concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    track_concept = create :concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
     other_track = create :track, slug: 'fsharp'
-    other_track_concept = create :track_concept, track: other_track, slug: 'basics'
+    other_track_concept = create :concept, track: other_track, slug: 'basics'
 
     Git::SyncTrack.(track)
 
@@ -186,9 +186,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "practice exercises use track concepts for prerequisites" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :track_concept, track: track, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    track_concept = create :concept, track: track, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
     other_track = create :track, slug: 'fsharp'
-    other_track_concept = create :track_concept, track: other_track, slug: 'dates'
+    other_track_concept = create :concept, track: other_track, slug: 'dates'
 
     Git::SyncTrack.(track)
 
@@ -199,9 +199,9 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "practice exercises use track concepts for practiced concepts" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :track_concept, track: track, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    track_concept = create :concept, track: track, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
     other_track = create :track, slug: 'fsharp'
-    other_track_concept = create :track_concept, track: other_track, slug: 'time'
+    other_track_concept = create :concept, track: other_track, slug: 'time'
 
     Git::SyncTrack.(track)
 
@@ -396,7 +396,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "delete concepts no longer in config.json" do
     # TODO: invert this test (verify that concepts can't be deleted) before release
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
 
     Git::SyncTrack.(track)
 

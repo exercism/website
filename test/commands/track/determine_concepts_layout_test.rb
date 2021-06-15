@@ -17,7 +17,7 @@ class Track
     def test_layout_with_one_level
       track = create :track
 
-      basics = create :track_concept, slug: 'basics', track: track
+      basics = create :concept, slug: 'basics', track: track
 
       lasagna = create :concept_exercise, track: track
       lasagna.taught_concepts << basics
@@ -42,8 +42,8 @@ class Track
     def test_layout_with_two_levels
       track = create :track
 
-      basics = create :track_concept, slug: 'basics', track: track
-      booleans = create :track_concept, slug: 'booleans', track: track
+      basics = create :concept, slug: 'basics', track: track
+      booleans = create :concept, slug: 'booleans', track: track
 
       lasagna = create :concept_exercise, track: track
       lasagna.taught_concepts << basics
@@ -78,9 +78,9 @@ class Track
     def test_layout_with_three_level
       track = create :track
 
-      basics = create :track_concept, slug: 'basics', track: track
-      booleans = create :track_concept, slug: 'booleans', track: track
-      atoms = create :track_concept, slug: 'atoms', track: track
+      basics = create :concept, slug: 'basics', track: track
+      booleans = create :concept, slug: 'booleans', track: track
+      atoms = create :concept, slug: 'atoms', track: track
 
       lasagna = create :concept_exercise, track: track
       lasagna.taught_concepts << basics
@@ -125,9 +125,9 @@ class Track
     def test_layout_with_three_level_multiple_prereq
       track = create :track
 
-      basics = create :track_concept, slug: 'basics', track: track
-      booleans = create :track_concept, slug: 'booleans', track: track
-      atoms = create :track_concept, slug: 'atoms', track: track
+      basics = create :concept, slug: 'basics', track: track
+      booleans = create :concept, slug: 'booleans', track: track
+      atoms = create :concept, slug: 'atoms', track: track
 
       lasagna = create :concept_exercise, track: track
       lasagna.taught_concepts << basics
@@ -173,10 +173,10 @@ class Track
     def test_layout_with_three_level_multiple_prereq_and_taught
       track = create :track
 
-      basics = create :track_concept, slug: 'basics', track: track
-      booleans = create :track_concept, slug: 'booleans', track: track
-      atoms = create :track_concept, slug: 'atoms', track: track
-      cond = create :track_concept, slug: 'cond', track: track
+      basics = create :concept, slug: 'basics', track: track
+      booleans = create :concept, slug: 'booleans', track: track
+      atoms = create :concept, slug: 'atoms', track: track
+      cond = create :concept, slug: 'cond', track: track
 
       lasagna = create :concept_exercise, track: track
       lasagna.taught_concepts << basics

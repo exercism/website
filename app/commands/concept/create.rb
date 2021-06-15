@@ -1,11 +1,11 @@
-class Track::Concept
+class Concept
   class Create
     include Mandate
 
     initialize_with :uuid, :track, :attributes
 
     def call
-      Track::Concept.create!(
+      Concept.create!(
         uuid: uuid,
         track: track,
         **attributes

@@ -4,7 +4,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
   test "rendering_data with no contributors" do
     freeze_time do
       track = create :track
-      concept = create :track_concept, track: track
+      concept = create :concept, track: track
       update = create :new_concept_site_update, track: track, params: { concept: concept }
 
       expected = {
@@ -25,7 +25,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
     skip
     track = create :track
     author = create :user
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     create :concept_authorship, concept: concept, author: author
     update = create :new_concept_site_update, track: track, params: { concept: concept }
 
@@ -40,7 +40,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
     track = create :track
     contributor = create :user
     author = create :user
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     create :concept_contributorship, concept: concept, contributor: contributor
     create :concept_authorship, concept: concept, author: author
     update = create :new_concept_site_update, track: track, params: { concept: concept }
@@ -57,7 +57,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
     contributor_1 = create :user
     author = create :user
     contributor_2 = create :user
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     create :concept_contributorship, concept: concept, contributor: contributor_1
     create :concept_authorship, concept: concept, author: author
     create :concept_contributorship, concept: concept, contributor: contributor_2
@@ -76,7 +76,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
     author = create :user
     contributor_2 = create :user
     contributor_3 = create :user
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     create :concept_contributorship, concept: concept, contributor: contributor_1
     create :concept_authorship, concept: concept, author: author
     create :concept_contributorship, concept: concept, contributor: contributor_2

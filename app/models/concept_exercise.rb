@@ -23,7 +23,7 @@ class ConceptExercise < Exercise
   end
 
   def unlocked_concepts
-    Track::Concept.joins(:exercise_taught_concepts).where(
+    Concept.joins(:exercise_taught_concepts).where(
       'exercise_taught_concepts.exercise_id': taught_concepts.
         joins(:exercise_prerequisites).
         select('exercise_prerequisites.exercise_id')

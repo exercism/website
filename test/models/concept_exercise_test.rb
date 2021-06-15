@@ -3,8 +3,8 @@ require 'test_helper'
 class ConceptExerciseTest < ActiveSupport::TestCase
   test "taught_concepts works correctly" do
     exercise = create :concept_exercise
-    concept = create :track_concept
-    create :track_concept
+    concept = create :concept
+    create :concept
 
     exercise.taught_concepts << concept
 
@@ -15,9 +15,9 @@ class ConceptExerciseTest < ActiveSupport::TestCase
     ruby = create :track, slug: "ruby"
     js = create :track, slug: "js"
 
-    ruby_bools = create :track_concept, track: ruby, slug: "bools"
-    ruby_strings = create :track_concept, track: ruby, slug: "strings"
-    js_bools = create :track_concept, track: js, slug: "bools"
+    ruby_bools = create :concept, track: ruby, slug: "bools"
+    ruby_strings = create :concept, track: ruby, slug: "strings"
+    js_bools = create :concept, track: js, slug: "bools"
 
     ce = create(:concept_exercise, track: ruby).tap { |e| e.taught_concepts << ruby_bools }
     create(:concept_exercise, track: ruby).tap { |e| e.taught_concepts << ruby_strings }

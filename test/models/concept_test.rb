@@ -1,25 +1,25 @@
 require 'test_helper'
 
-class Track::ConceptTest < ActiveSupport::TestCase
+class ConceptTest < ActiveSupport::TestCase
   test "scope :not_taught" do
-    concept_1 = create :track_concept
-    concept_2 = create :track_concept
+    concept_1 = create :concept
+    concept_2 = create :concept
 
-    assert_equal [concept_1, concept_2], Track::Concept.not_taught
+    assert_equal [concept_1, concept_2], Concept.not_taught
 
     create :exercise_taught_concept, concept: concept_1
-    assert_equal [concept_2], Track::Concept.not_taught
+    assert_equal [concept_2], Concept.not_taught
   end
 
   test "about" do
-    concept = create :track_concept, :with_git_data
+    concept = create :concept, :with_git_data
 
     expected = "A String object holds and manipulates an arbitrary sequence of bytes, typically representing characters. String objects may be created using ::new or as literals.\n" # rubocop:disable Layout/LineLength
     assert_equal expected, concept.about
   end
 
   test "links" do
-    concept = create :track_concept, :with_git_data
+    concept = create :concept, :with_git_data
     links = concept.links
 
     expected = [
@@ -36,7 +36,7 @@ class Track::ConceptTest < ActiveSupport::TestCase
   end
 
   test "concept_exercises" do
-    concept = create :track_concept
+    concept = create :concept
     exercise = create :concept_exercise
     create :exercise_taught_concept, concept: concept, exercise: exercise
 
@@ -47,7 +47,7 @@ class Track::ConceptTest < ActiveSupport::TestCase
   end
 
   test "practice_exercises" do
-    concept = create :track_concept
+    concept = create :concept
     exercise = create :practice_exercise
     create :exercise_practiced_concept, concept: concept, exercise: exercise
 
@@ -58,7 +58,7 @@ class Track::ConceptTest < ActiveSupport::TestCase
   end
 
   test "unlocked_exercises" do
-    concept = create :track_concept
+    concept = create :concept
     exercise = create :practice_exercise
     create :exercise_prerequisite, concept: concept, exercise: exercise
 
@@ -71,7 +71,7 @@ class Track::ConceptTest < ActiveSupport::TestCase
   test "can be deleted" do
     track = create :track
 
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     ce = create :concept_exercise, track: track
     ce.prerequisites << concept
     ce.taught_concepts << concept
@@ -79,6 +79,6 @@ class Track::ConceptTest < ActiveSupport::TestCase
     pe.prerequisites << concept
 
     concept.destroy
-    refute Track::Concept.where(id: concept.id).exists?
+    refute Concept.where(id: concept.id).exists?
   end
 end

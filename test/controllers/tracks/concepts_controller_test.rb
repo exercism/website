@@ -30,7 +30,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show: renders correctly for external" do
-    concept = create :track_concept, :with_git_data
+    concept = create :concept, :with_git_data
     track = concept.track
 
     get track_concept_url(track, concept)
@@ -38,7 +38,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show: renders correctly for available" do
-    concept = create :track_concept, :with_git_data
+    concept = create :concept, :with_git_data
     user = create :user
     create :user_track, track: concept.track, user: user
 
@@ -53,7 +53,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show: renders correctly for learnt" do
-    concept = create :track_concept, :with_git_data
+    concept = create :concept, :with_git_data
     user = create :user
     ut = create :user_track, track: concept.track, user: user
 
@@ -68,7 +68,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show: renders correctly for locked" do
-    concept = create :track_concept, :with_git_data
+    concept = create :concept, :with_git_data
     user = create :user
     ut = create :user_track, track: concept.track, user: user
 
@@ -85,7 +85,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "start creates solution and redirects" do
     skip
     user = create :user
-    concept = create :track_concept, :with_git_data
+    concept = create :concept, :with_git_data
     create :user_track, track: concept.track
 
     ce = create(:concept_exercise, track: track).tap { |e| e.taught_concepts << concept }

@@ -298,8 +298,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
       setup_user
 
       track = create :track
-      concept_1 = create :track_concept, track: track
-      concept_2 = create :track_concept, track: track
+      concept_1 = create :concept, track: track
+      concept_2 = create :concept, track: track
 
       concept_exercise_1 = create :concept_exercise, track: track, slug: "lasagna"
       concept_exercise_1.taught_concepts << concept_1

@@ -9,8 +9,8 @@ class ExerciseTest < ActiveSupport::TestCase
   test "prerequisites works correctly" do
     exercise = create :concept_exercise
 
-    concept = create :track_concept
-    create :track_concept
+    concept = create :concept
+    create :concept
 
     exercise.prerequisites << concept
 
@@ -37,9 +37,9 @@ class ExerciseTest < ActiveSupport::TestCase
   end
 
   test "prerequisite_exercises" do
-    strings = create :track_concept
-    bools = create :track_concept
-    conditionals = create :track_concept
+    strings = create :concept
+    bools = create :concept
+    conditionals = create :concept
 
     exercise = create :practice_exercise
     exercise.prerequisites << strings

@@ -30,12 +30,12 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     track = create :track
     exercise = create :concept_exercise, :random_slug, track: track
 
-    prereq_1 = create :track_concept, track: track, slug: "bools"
+    prereq_1 = create :concept, track: track, slug: "bools"
     prereq_exercise_1 = create :concept_exercise, slug: 'bools-exercise'
     create(:exercise_taught_concept, exercise: prereq_exercise_1, concept: prereq_1)
     create(:exercise_prerequisite, exercise: exercise, concept: prereq_1)
 
-    prereq_2 = create :track_concept, track: track, slug: "conditionals"
+    prereq_2 = create :concept, track: track, slug: "conditionals"
     prereq_exercise_2 = create :concept_exercise, slug: 'conditionals-exercise'
     create(:exercise_taught_concept, exercise: prereq_exercise_2, concept: prereq_2)
     create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
@@ -56,12 +56,12 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
 
   test "unlocked concepts" do
     track = create :track
-    basics = create :track_concept, track: track, slug: "co_basics"
-    enums = create :track_concept, track: track, slug: "co_enums"
-    strings = create :track_concept, track: track, slug: "co_strings"
+    basics = create :concept, track: track, slug: "co_basics"
+    enums = create :concept, track: track, slug: "co_enums"
+    strings = create :concept, track: track, slug: "co_strings"
 
     # Nothing teaches recursion
-    recursion = create :track_concept, track: track, slug: "co_recursion"
+    recursion = create :concept, track: track, slug: "co_recursion"
 
     basics_exercise = create :concept_exercise, slug: "ex_basics", track: track
     basics_exercise.taught_concepts << basics
@@ -128,8 +128,8 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     practice_exercise_3 = create :practice_exercise, :random_slug, track: track
     practice_exercise_4 = create :practice_exercise, :random_slug, track: track
 
-    prereq_1 = create :track_concept, track: track
-    prereq_2 = create :track_concept, track: track
+    prereq_1 = create :concept, track: track
+    prereq_2 = create :concept, track: track
 
     concept_exercise_5 = create :concept_exercise, slug: 'pr1-ex', track: track
     concept_exercise_5.taught_concepts << prereq_1

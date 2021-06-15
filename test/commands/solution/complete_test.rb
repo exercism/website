@@ -15,7 +15,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
   test "sets concept exercise concepts as learnt" do
     track = create :track
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     exercise = create :concept_exercise, track: track
     exercise.taught_concepts << concept
 

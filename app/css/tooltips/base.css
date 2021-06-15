@@ -3,4 +3,5 @@
 .c-tooltip-base {
     @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
     @apply relative z-tooltip;
+    width: max-content;
 }

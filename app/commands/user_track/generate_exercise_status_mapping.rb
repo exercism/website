@@ -41,7 +41,9 @@ class UserTrack
         # in local testing).
         exercise_slugs.map do |slug|
           {
+            slug: slug,
             url: Exercism::Routes.track_exercise_path(track.slug, slug),
+            tooltip_url: Exercism::Routes.tooltip_track_exercise_url(track, slug),
             status: (user_track.external? ? "available" : user_track.exercise_status(slug)),
             type: user_track.exercise_type(slug)
           }

@@ -7,7 +7,7 @@ class SiteUpdate < ApplicationRecord
 
   scope :published, -> { where('published_at < ?', Time.current) }
   scope :for_track, ->(track) { where(track: track) }
-  scope :sorted, -> { order(published_at: :desc) }
+  scope :sorted, -> { order(published_at: :desc, id: :desc) }
 
   belongs_to :author, optional: true, class_name: "User"
   belongs_to :pull_request, optional: true, class_name: "Github::PullRequest"
@@ -24,6 +24,8 @@ class SiteUpdate < ApplicationRecord
   end
 
   def pull_request_number=(num)
+    return if num.blank?
+
     # TODO: We should probably check the track is correct
     self.pull_request = ::Github::PullRequest.find_by!(
       repo: "exercism/#{track.repo_url.split('/').last}",

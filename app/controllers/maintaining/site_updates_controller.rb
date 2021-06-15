@@ -1,6 +1,8 @@
 class Maintaining::SiteUpdatesController < ApplicationController
   def index
-    @updates = SiteUpdate.sorted.page(params[:page]).per(20)
+    @updates = SiteUpdate.sorted
+    @updates = @updates.for_track(Track.find_by!(slug: params[:track_slug])) if params[:track_slug].present?
+    @updates = @updates.page(params[:page]).per(30)
   end
 
   def edit

@@ -61,7 +61,11 @@ export const SearchableList = ({
     setOrder,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
-  const cacheKey = [cacheKeyPrefix, request.endpoint, request.query]
+  const cacheKey = [
+    cacheKeyPrefix,
+    request.endpoint,
+    removeEmpty(request.query),
+  ]
   const {
     status,
     resolvedData,
@@ -72,6 +76,7 @@ export const SearchableList = ({
     cacheKey,
     {
       ...request,
+      query: removeEmpty(request.query),
       options: { ...request.options, enabled: isEnabled },
     },
     isMountedRef

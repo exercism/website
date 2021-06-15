@@ -132,7 +132,6 @@ export const Inbox = ({
             sortOptions={sortOptions}
             order={request.query.order}
             setOrder={setOrder}
-            id="discussion-sorter-sort"
           />
         </header>
         <ResultsZone isFetching={isFetching}>

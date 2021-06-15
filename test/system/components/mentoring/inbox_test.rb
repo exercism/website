@@ -136,7 +136,8 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_inbox_url
-          select "Sort by exercise", from: "discussion-sorter-sort", exact: true
+          click_on "Sort by oldest first"
+          find("label", text: "Sort by exercise").click
 
           assert_text "on Series"
         end

@@ -43,9 +43,9 @@ module Flows
       create :user_track, user: user, track: track
       solution = create :concept_solution, :completed, user: user, exercise: strings
       submission = create :submission, solution: solution
-      iteration_2 = create :iteration, idx: 2, submission: submission
+      create :iteration, idx: 2, submission: submission
       submission = create :submission, solution: solution
-      create :iteration, idx: 1, submission: submission
+      iteration_1 = create :iteration, idx: 1, submission: submission
 
       use_capybara_host do
         sign_in!(user)
@@ -53,14 +53,15 @@ module Flows
 
         click_on "Publish solution"
         find("label", text: "Single iteration").click
-        select "Iteration 2"
+        click_on "Iteration 2"
+        find("label", text: "Iteration 1").click
         click_on "Publish"
 
         assert_text "Your published solution"
 
         # There is no way to determine from the screen which iteration was published. We can only check the solution record.
         solution.reload
-        assert_equal iteration_2, solution.published_iteration
+        assert_equal iteration_1, solution.published_iteration
       end
     end
 

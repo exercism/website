@@ -81,7 +81,7 @@ test('paginates solutions', async () => {
           totalPages: 2,
         },
       }
-      return res(ctx.delay(10), ctx.status(200), ctx.json(response))
+      return res(ctx.status(200), ctx.json(response))
     })
   )
   server.listen()
@@ -135,7 +135,7 @@ test('searches solutions', async () => {
           totalPages: searched.length,
         },
       }
-      return res(ctx.delay(10), ctx.status(200), ctx.json(response))
+      return res(ctx.status(200), ctx.json(response))
     })
   )
   server.listen()
@@ -195,7 +195,7 @@ test('filters solutions', async () => {
           totalPages: searched.length,
         },
       }
-      return res(ctx.delay(10), ctx.status(200), ctx.json(response))
+      return res(ctx.status(200), ctx.json(response))
     })
   )
   server.listen()
@@ -224,7 +224,6 @@ test('shows API errors', async () => {
   const server = setupServer(
     rest.get('https://exercism.test/solutions', (req, res, ctx) => {
       return res(
-        ctx.delay(10),
         ctx.status(422),
         ctx.json({
           error: {

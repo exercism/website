@@ -65,7 +65,7 @@ test('page is set to 1 automatically', async () => {
     <Inbox
       tracksRequest={{ endpoint: 'https://exercism.test/tracks' }}
       discussionsRequest={{ endpoint: 'https://exercism.test/conversations' }}
-      sortOptions={[]}
+      sortOptions={[{ label: 'Sort by Newest First', value: 'newest_first' }]}
     />
   )
 
@@ -83,7 +83,7 @@ test('page is reset to 1 when switching tracks', async () => {
           endpoint: 'https://exercism.test/conversations',
           query: { page: 2 },
         }}
-        sortOptions={[]}
+        sortOptions={[{ label: 'Sort by Newest First', value: 'newest_first' }]}
       />
     )
 

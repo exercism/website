@@ -17,17 +17,32 @@ module Git
         blurb: head_git_concept.blurb,
         synced_to_git_sha: head_git_concept.synced_git_sha
       )
+
+      SyncConceptAuthors.(concept)
+      SyncConceptContributors.(concept)
     end
 
     private
     attr_reader :concept
 
     def concept_needs_updating?
+      track_config_concept_modified? || concept_config_modified?
+    end
+
+    def track_config_concept_modified?
       return false unless track_config_modified?
 
       concept_config[:slug] != concept.slug ||
         concept_config[:name] != concept.name ||
         head_git_concept.blurb != concept.blurb
+    end
+
+    def concept_config_modified?
+      return false unless filepath_in_diff?(head_git_concept.config_absolute_filepath)
+
+      head_git_concept.blurb != concept.blurb ||
+        head_git_concept.authors.to_a.sort != head_git_concept.authors.map(&:github_username).sort ||
+        head_git_concept.contributors.to_a.sort != head_git_concept.contributors.map(&:github_username).sort
     end
 
     memoize

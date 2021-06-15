@@ -79,6 +79,26 @@ FactoryBot.define do
     end
   end
 
+  factory :user_concept_contribution_reputation_token, class: 'User::ReputationTokens::ConceptContributionToken' do
+    user
+
+    params do
+      {
+        contributorship: create(:concept_contributorship, contributor: user)
+      }
+    end
+  end
+
+  factory :user_concept_author_reputation_token, class: 'User::ReputationTokens::ConceptAuthorToken' do
+    user
+
+    params do
+      {
+        authorship: create(:concept_authorship, author: user)
+      }
+    end
+  end
+
   factory :user_mentored_reputation_token, class: 'User::ReputationTokens::MentoredToken' do
     user
 

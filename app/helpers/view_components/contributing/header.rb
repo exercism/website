@@ -42,15 +42,6 @@ module ViewComponents
         end
       end
 
-      def stats
-        tag.div(class: "stats") do
-          # TODO
-          tag.div("131 solutions mentored", class: "stat") +
-            # TODO
-            tag.div("95% satisfaction", class: "stat")
-        end
-      end
-
       def tabs
         [
           link_to(
@@ -75,7 +66,8 @@ module ViewComponents
             class: tab_class(:contributors)
           ) do
             graphical_icon(:contributors) +
-              tag.span("Contributors")
+              tag.span("Contributors") +
+              tag.span(number_with_delimiter(contributors_size), class: 'count')
           end
 
         ]
@@ -89,10 +81,15 @@ module ViewComponents
         raise "Incorrect track nav tab" unless TABS.include?(selected_tab)
       end
 
-      # TODO: Erik: This should be Task.unclaimed.count or something
       memoize
       def tasks_size
-        number_with_delimiter(1234)
+        number_with_delimiter(Github::Task.count)
+      end
+
+      memoize
+      def contributors_size
+        # TODO: This might just be too slow to cope with, in which case consider caching it daily
+        number_with_delimiter(User::ReputationPeriod.about_everything.forever.any_category.count)
       end
     end
   end

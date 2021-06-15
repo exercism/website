@@ -4,6 +4,7 @@
 .c-exercise-tooltip {
     @apply c-tooltip-base;
     min-height: 124px;
+    /* min-width: 400px; */
     @apply grid place-items-center;
 
     & > .--spinner {

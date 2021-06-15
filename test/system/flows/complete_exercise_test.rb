@@ -7,8 +7,8 @@ module Flows
 
     test "completes succesfully" do
       track = create :track
-      basics_concept = create :track_concept, track: track, name: "Basics"
-      conditionals_concept = create :track_concept, track: track, name: "Conditionals"
+      basics_concept = create :concept, track: track, name: "Basics"
+      conditionals_concept = create :concept, track: track, name: "Conditionals"
 
       strings = create :concept_exercise, track: track
       strings.taught_concepts << basics_concept
@@ -47,8 +47,8 @@ module Flows
 
     test "completes succesfully via nudge section" do
       track = create :track
-      basics_concept = create :track_concept, track: track, name: "Basics"
-      conditionals_concept = create :track_concept, track: track, name: "Conditionals"
+      basics_concept = create :concept, track: track, name: "Basics"
+      conditionals_concept = create :concept, track: track, name: "Conditionals"
 
       strings = create :concept_exercise, track: track
       strings.taught_concepts << basics_concept

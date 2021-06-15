@@ -99,7 +99,7 @@ class UserTrack::GenerateConceptExerciseMappingTest < ActiveSupport::TestCase
   end
 
   def setup_concepts(track, *slugs)
-    setup_from_factory(track, :track_concept, slugs)
+    setup_from_factory(track, :concept, slugs)
   end
 
   def setup_concept_exercises(track, *slugs)

@@ -81,7 +81,7 @@ module Components
       test "views locked exercise" do
         track = create :track
         exercise = create :concept_exercise, track: track
-        exercise.prerequisites << create(:track_concept)
+        exercise.prerequisites << create(:concept)
         user = create :user
         create :user_track, user: user, track: track
 

@@ -59,7 +59,7 @@ module Git
     def sync_concepts!
       head_git_track.concepts.map do |concept_config|
         git_concept = Git::Concept.new(concept_config[:slug], git_repo.head_sha, repo: git_repo)
-        ::Track::Concept::Create.(
+        ::Concept::Create.(
           concept_config[:uuid],
           track,
           slug: concept_config[:slug],

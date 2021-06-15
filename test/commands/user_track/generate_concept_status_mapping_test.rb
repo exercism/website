@@ -150,7 +150,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
 
   test "learnt" do
     track, user_track = setup_user_track
-    basics = create :track_concept, track: track, slug: :basics
+    basics = create :concept, track: track, slug: :basics
     lasagna = create :concept_exercise, slug: :lasagna, track: track
     bob = create :practice_exercise, slug: :bob, track: track
 
@@ -179,7 +179,7 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
   end
 
   def setup_concepts(track, *slugs)
-    setup_from_factory(track, :track_concept, slugs)
+    setup_from_factory(track, :concept, slugs)
   end
 
   def setup_concept_exercises(track, *slugs)

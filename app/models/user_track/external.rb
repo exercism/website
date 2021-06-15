@@ -92,7 +92,7 @@ class UserTrack
     end
 
     def num_exercises_for_concept(obj)
-      obj.is_a?(Track::Concept) ? slug = obj.slug : slug = obj.to_s
+      obj.is_a?(Concept) ? slug = obj.slug : slug = obj.to_s
       concept_exercises_counts[slug]
     end
 

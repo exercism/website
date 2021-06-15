@@ -63,7 +63,7 @@ module Git
     def find_concepts(slugs)
       slugs.to_a.map do |slug|
         concept_config = head_git_track.concepts.find { |e| e[:slug] == slug }
-        ::Track::Concept.find_by!(uuid: concept_config[:uuid])
+        ::Concept.find_by!(uuid: concept_config[:uuid])
       rescue StandardError
         # TODO: Remove this rescue when configlet works
       end.compact

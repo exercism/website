@@ -259,7 +259,7 @@ Exercise.all.each do |exercise|
   )
 end
 
-Track::Concept.all.each do |concept|
+Concept.all.each do |concept|
   SiteUpdates::NewConceptUpdate.create!(
     track: concept.track,
     published_at: concept.created_at,

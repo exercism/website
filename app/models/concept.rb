@@ -1,6 +1,9 @@
-class Track::Concept < ApplicationRecord
+class Concept < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+
+  # TODO: Remove at ETL
+  self.table_name = "track_concepts"
 
   friendly_id :slug, use: [:history]
 

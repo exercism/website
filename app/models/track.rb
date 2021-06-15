@@ -5,7 +5,7 @@ class Track < ApplicationRecord
   friendly_id :slug, use: [:history]
 
   # TODO: Pre-launch: remove dependent: :destroy
-  has_many :concepts, class_name: "Track::Concept", dependent: :destroy
+  has_many :concepts, class_name: "::Concept", dependent: :destroy
 
   # TODO: Pre-launch: remove dependent: :destroy
   has_many :exercises, dependent: :destroy

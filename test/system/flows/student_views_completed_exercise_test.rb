@@ -7,8 +7,8 @@ module Flows
 
     test "student views unlocked concept info" do
       track = create :track
-      basics_concept = create :track_concept, track: track, name: "Basics"
-      conditionals_concept = create :track_concept,
+      basics_concept = create :concept, track: track, name: "Basics"
+      conditionals_concept = create :concept,
         track: track,
         name: "Conditionals",
         blurb: "This is conditionals"
@@ -40,8 +40,8 @@ module Flows
 
     test "student views unlocked exercise info" do
       track = create :track
-      basics_concept = create :track_concept, track: track, name: "Basics"
-      conditionals_concept = create :track_concept, track: track, name: "Conditionals"
+      basics_concept = create :concept, track: track, name: "Basics"
+      conditionals_concept = create :concept, track: track, name: "Conditionals"
 
       strings = create :concept_exercise, track: track
       strings.taught_concepts << basics_concept

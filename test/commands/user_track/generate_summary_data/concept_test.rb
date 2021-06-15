@@ -3,7 +3,7 @@ require "test_helper"
 class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
   test "with multi-type accessing" do
     track = create :track
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     ut = create :user_track, track: track
 
     summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
@@ -15,7 +15,7 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
 
   test "with no exercises" do
     track = create :track
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     ut = create :user_track, track: track
 
     summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
@@ -36,21 +36,21 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
 
   test "unstarted" do
     track = create :track
-    concept = create :track_concept, track: track, slug: "strings"
+    concept = create :concept, track: track, slug: "strings"
     ut = create :user_track, track: track
     create :hello_world_solution, :completed, track: track, user: ut.user
 
     ce_1 = create :concept_exercise, :random_slug, track: track
     ce_1.taught_concepts << concept
     ce_2 = create :concept_exercise, :random_slug, track: track
-    ce_2.taught_concepts << create(:track_concept, track: track)
+    ce_2.taught_concepts << create(:concept, track: track)
 
     pe_1 = create :practice_exercise, :random_slug, track: track
     pe_1.practiced_concepts << concept
     pe_2 = create :practice_exercise, :random_slug, track: track
     pe_2.practiced_concepts << concept
     pe_3 = create :practice_exercise, :random_slug, track: track
-    pe_3.practiced_concepts << create(:track_concept, track: track)
+    pe_3.practiced_concepts << create(:concept, track: track)
 
     summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
 
@@ -69,7 +69,7 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
 
   test "completed" do
     track = create :track
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
     user = create :user
     ut = create :user_track, track: track, user: user
 
@@ -110,19 +110,19 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
 
   test "no user_track" do
     track = create :track
-    concept = create :track_concept, track: track
+    concept = create :concept, track: track
 
     ce_1 = create :concept_exercise, :random_slug, track: track
     ce_1.taught_concepts << concept
     ce_2 = create :concept_exercise, :random_slug, track: track
-    ce_2.taught_concepts << create(:track_concept, track: track)
+    ce_2.taught_concepts << create(:concept, track: track)
 
     pe_1 = create :practice_exercise, :random_slug, track: track
     pe_1.practiced_concepts << concept
     pe_2 = create :practice_exercise, :random_slug, track: track
     pe_2.practiced_concepts << concept
     pe_3 = create :practice_exercise, :random_slug, track: track
-    pe_3.practiced_concepts << create(:track_concept, track: track)
+    pe_3.practiced_concepts << create(:concept, track: track)
 
     summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, nil))
 

@@ -14,7 +14,7 @@ module Components
         user = create :user
         track = create :track
         exercise = create :concept_exercise, track: track, title: "Lasagna"
-        exercise.prerequisites << create(:track_concept)
+        exercise.prerequisites << create(:concept)
         create :user_track, track: track, user: user
 
         use_capybara_host do

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :track_concept, class: "Track::Concept" do
+  factory :concept, class: "Concept" do
     track do
       Track.find_by(slug: 'ruby') || build(:track, slug: 'ruby')
     end

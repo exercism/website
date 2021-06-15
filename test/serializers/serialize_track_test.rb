@@ -11,10 +11,10 @@ class SerializeTrackTest < ActiveSupport::TestCase
     # Create num_concept_exercises, each with a concept
     # and then add one extra concept to the last exercise
     num_concept_exercises.times do
-      create(:track_concept, track: track)
+      create(:concept, track: track)
       create(:concept_exercise, track: track)
     end
-    create(:track_concept, track: track)
+    create(:concept, track: track)
 
     # Create num_practice_exercises practice exercises
     num_practice_exercises.times { create :practice_exercise, track: track }
@@ -77,7 +77,7 @@ class SerializeTrackTest < ActiveSupport::TestCase
     pes = Array.new(num_practice_exercises).map { create :practice_exercise, :random_slug, track: track }
 
     # Create a concept that the user has acquired
-    concept = create(:track_concept, track: track)
+    concept = create(:concept, track: track)
     ces.first.taught_concepts << concept
 
     user = create :user

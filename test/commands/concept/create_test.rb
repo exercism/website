@@ -1,11 +1,11 @@
 require "test_helper"
 
-class Track::Concept::CreateTest < ActiveSupport::TestCase
+class Concept::CreateTest < ActiveSupport::TestCase
   test "creates concept" do
     uuid = SecureRandom.uuid
     track = create :track
 
-    Track::Concept::Create.(
+    Concept::Create.(
       uuid,
       track,
       slug: 'conditionals',
@@ -14,8 +14,8 @@ class Track::Concept::CreateTest < ActiveSupport::TestCase
       synced_to_git_sha: 'HEAD'
     )
 
-    assert_equal 1, Track::Concept.count
-    c = Track::Concept.last
+    assert_equal 1, Concept.count
+    c = Concept.last
 
     assert_equal uuid, c.uuid
     assert_equal track, c.track
@@ -30,7 +30,7 @@ class Track::Concept::CreateTest < ActiveSupport::TestCase
     track = create :track
 
     assert_idempotent_command do
-      Track::Concept::Create.(
+      Concept::Create.(
         uuid,
         track,
         slug: 'conditionals',
@@ -45,10 +45,10 @@ class Track::Concept::CreateTest < ActiveSupport::TestCase
 
   test "creates site_update" do
     track = create :track
-    concept = Track::Concept::Create.(
+    concept = Concept::Create.(
       SecureRandom.uuid,
       track,
-      build(:track_concept).attributes.symbolize_keys
+      build(:concept).attributes.symbolize_keys
     )
 
     update = SiteUpdate.first

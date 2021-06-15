@@ -9,11 +9,21 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
 
       expected = {
         text: "<em>We</em> published a new Concept: #{i18n_concept(concept)}",
-        icon_type: 'concept',
-        icon_url: "Co",
+        icon: {
+          type: 'concept',
+          data: "Co"
+        },
         track_icon_url: track.icon_url,
         published_at: (Time.current + 3.hours).iso8601,
-        maker_avatar_urls: []
+        maker_avatar_urls: [],
+        concept_widget: {
+          name: concept.name,
+          slug: concept.slug,
+          links: {
+            self: Exercism::Routes.track_concept_path(track, concept),
+            tooltip: Exercism::Routes.tooltip_track_concept_path(track, concept)
+          }
+        }
       }.with_indifferent_access
 
       assert_equal expected, update.rendering_data

@@ -1,16 +1,11 @@
 class SerializeCommunitySolutions
   include Mandate
 
-  def initialize(solutions)
-    @solutions = solutions
-  end
+  initialize_with :solutions
 
   def call
     solutions.includes(:exercise, :track).map do |solution|
       SerializeCommunitySolution.(solution)
     end
   end
-
-  private
-  attr_reader :solutions
 end

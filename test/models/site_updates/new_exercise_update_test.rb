@@ -9,8 +9,10 @@ class SiteUpdates::NewExerciseUpdateTest < ActiveSupport::TestCase
 
       expected = {
         text: "<em>We</em> published a new Exercise: #{i18n_exercise(exercise)}",
-        icon_type: 'image',
-        icon_url: exercise.icon_url,
+        icon: {
+          type: 'image',
+          url: exercise.icon_url
+        },
         track_icon_url: track.icon_url,
         published_at: (Time.current + 3.hours).iso8601,
         maker_avatar_urls: []

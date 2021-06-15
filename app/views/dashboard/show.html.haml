@@ -31,7 +31,7 @@
           %p.cta
             %strong Exercism is built by people like you.
             Can you
-            = link_to "contribute", "#"
+            = link_to "contribute", contributing_root_path
             or
             = link_to "donate", "#"
             to help us grow?
@@ -91,7 +91,12 @@
           = render ViewComponents::ProminentLink.new("See all community posts", "#")
 
         %section.activity-section
-          %h2 Activity on Exercism
+          %h2 New on Exercism
+          .updates
+            - @updates.each do |update|
+              = render 'components/site_update', update: update, track: update.track, icon: :track
+
+          = render ViewComponents::ProminentLink.new("See all updates", "#")
 
       .rhs
         %section.tracks-section

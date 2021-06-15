@@ -2,7 +2,7 @@ require "test_helper"
 
 class Concept::ContributorshipTest < ActiveSupport::TestCase
   test "wired in correctly" do
-    concept = create :track_concept
+    concept = create :concept
     user = create :user
     contributorship = create :concept_contributorship,
       concept: concept,

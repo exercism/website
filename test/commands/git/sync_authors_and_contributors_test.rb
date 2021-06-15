@@ -96,10 +96,10 @@ class Git::SyncAuthorsAndContributorsTest < ActiveSupport::TestCase
     track_2 = create :track, slug: 'csharp'
     track_3 = create :track, slug: 'elixir'
 
-    concept_1 = create :track_concept, track: track_1
-    concept_2 = create :track_concept, track: track_2
-    concept_3 = create :track_concept, track: track_2
-    concept_4 = create :track_concept, track: track_3
+    concept_1 = create :concept, track: track_1
+    concept_2 = create :concept, track: track_2
+    concept_3 = create :concept, track: track_2
+    concept_4 = create :concept, track: track_3
 
     Git::SyncConceptAuthors.expects(:call).with(concept_1)
     Git::SyncConceptAuthors.expects(:call).with(concept_2)
@@ -114,10 +114,10 @@ class Git::SyncAuthorsAndContributorsTest < ActiveSupport::TestCase
     track_2 = create :track, slug: 'csharp'
     track_3 = create :track, slug: 'elixir'
 
-    concept_1 = create :track_concept, track: track_1
-    concept_2 = create :track_concept, track: track_2
-    concept_3 = create :track_concept, track: track_2
-    concept_4 = create :track_concept, track: track_3
+    concept_1 = create :concept, track: track_1
+    concept_2 = create :concept, track: track_2
+    concept_3 = create :concept, track: track_2
+    concept_4 = create :concept, track: track_3
 
     Git::SyncConceptContributors.expects(:call).with(concept_1)
     Git::SyncConceptContributors.expects(:call).with(concept_2)
@@ -132,10 +132,10 @@ class Git::SyncAuthorsAndContributorsTest < ActiveSupport::TestCase
     track_2 = create :track, slug: 'csharp'
     track_3 = create :track, slug: 'elixir'
 
-    concept_1 = create :track_concept, track: track_1
-    concept_2 = create :track_concept, track: track_2
-    concept_3 = create :track_concept, track: track_2
-    concept_4 = create :track_concept, track: track_3
+    concept_1 = create :concept, track: track_1
+    concept_2 = create :concept, track: track_2
+    concept_3 = create :concept, track: track_2
+    concept_4 = create :concept, track: track_3
 
     Git::SyncConceptAuthors.expects(:call).with(concept_1).raises(RuntimeError)
     Git::SyncConceptAuthors.expects(:call).with(concept_2)
@@ -150,10 +150,10 @@ class Git::SyncAuthorsAndContributorsTest < ActiveSupport::TestCase
     track_2 = create :track, slug: 'csharp'
     track_3 = create :track, slug: 'elixir'
 
-    concept_1 = create :track_concept, track: track_1
-    concept_2 = create :track_concept, track: track_2
-    concept_3 = create :track_concept, track: track_2
-    concept_4 = create :track_concept, track: track_3
+    concept_1 = create :concept, track: track_1
+    concept_2 = create :concept, track: track_2
+    concept_3 = create :concept, track: track_2
+    concept_4 = create :concept, track: track_3
 
     Git::SyncConceptContributors.expects(:call).with(concept_1)
     Git::SyncConceptContributors.expects(:call).with(concept_2).raises(RuntimeError)
@@ -164,7 +164,7 @@ class Git::SyncAuthorsAndContributorsTest < ActiveSupport::TestCase
   end
 
   test "continues syncing contributors of concept when authors syncing errors" do
-    concept = create :track_concept
+    concept = create :concept
 
     Git::SyncConceptAuthors.expects(:call).with(concept).raises(RuntimeError)
     Git::SyncConceptContributors.expects(:call).with(concept)
@@ -173,7 +173,7 @@ class Git::SyncAuthorsAndContributorsTest < ActiveSupport::TestCase
   end
 
   test "continues syncing authors of concept when contributors syncing errors" do
-    concept = create :track_concept
+    concept = create :concept
 
     Git::SyncConceptAuthors.expects(:call).with(concept)
     Git::SyncConceptContributors.expects(:call).with(concept).raises(RuntimeError)

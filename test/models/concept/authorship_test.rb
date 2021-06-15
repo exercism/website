@@ -2,7 +2,7 @@ require "test_helper"
 
 class Concept::AuthorshipTest < ActiveSupport::TestCase
   test "wired in correctly" do
-    concept = create :track_concept
+    concept = create :concept
     user = create :user
     authorship = create :concept_authorship,
       concept: concept,

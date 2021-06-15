@@ -50,7 +50,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
   end
 
   test "adds authors that are in .meta/config.json" do
-    concept = create :track_concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept = create :concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
     first_author = create :user, github_username: 'ErikSchierboom'
     second_author = create :user, github_username: 'iHiD'
 
@@ -62,7 +62,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
   end
 
   test "removes authors that are not in .meta/config.json" do
-    concept = create :track_concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept = create :concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
     old_author = create :user, github_username: 'DJ'
     concept.authors << old_author
 
@@ -72,7 +72,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
   end
 
   test "adds reputation token for new author" do
-    concept = create :track_concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept = create :concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
     new_author = create :user, github_username: 'ErikSchierboom'
 
     Git::SyncConcept.(concept)
@@ -86,7 +86,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
   end
 
   test "does not add reputation token for existing author" do
-    concept = create :track_concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept = create :concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
     existing_author = create :user, github_username: 'ErikSchierboom'
 
     existing_concept_authorship = create :concept_authorship, concept: concept, author: existing_author
@@ -99,7 +99,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
   test "adds contributors that are in .meta/config.json" do
     contributor = create :user, github_username: 'iHiD'
-    concept = create :track_concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept = create :concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
 
     Git::SyncConcept.(concept)
 
@@ -109,7 +109,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
   test "removes contributors that are not in .meta/config.json" do
     old_contributor = create :user, github_username: "ErikSchierboom"
-    concept = create :track_concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept = create :concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
     concept.contributors << old_contributor
 
     Git::SyncConcept.(concept)
@@ -119,7 +119,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
   test "adds reputation token for new contributor" do
     new_contributor = create :user, github_username: 'iHiD'
-    concept = create :track_concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept = create :concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
 
     Git::SyncConcept.(concept)
 
@@ -133,7 +133,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
   test "does not add reputation token for existing contributor" do
     existing_contributor = create :user, github_username: 'iHiD'
-    concept = create :track_concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept = create :concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
 
     existing_contributorship = create :concept_contributorship, concept: concept, contributor: existing_contributor
     create :user_concept_contribution_reputation_token, user: existing_contributor,

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Iteration } from '../../types'
 import { useIterationSelector } from './useIterationSelector'
+import { IterationSelect } from './IterationSelect'
 
 export const IterationSelector = ({
   iterations,
@@ -44,17 +45,11 @@ export const IterationSelector = ({
         </div>
       </label>
       {selected === 'singleIteration' ? (
-        <div className="c-select">
-          <select onChange={(e) => setIterationIdx(parseInt(e.target.value))}>
-            {iterations.map((iteration) => {
-              return (
-                <option key={iteration.idx} value={iteration.idx}>
-                  Iteration {iteration.idx}
-                </option>
-              )
-            })}
-          </select>
-        </div>
+        <IterationSelect
+          iterations={iterations}
+          value={iterationIdx}
+          setValue={setIterationIdx}
+        />
       ) : null}
     </div>
   )

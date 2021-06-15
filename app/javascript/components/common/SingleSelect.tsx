@@ -57,7 +57,7 @@ export const SingleSelect = <T extends unknown>({
 
   return (
     <div className={`${componentClassName || 'c-single-select'}`}>
-      <button {...buttonAttributes}>
+      <button type="button" {...buttonAttributes}>
         <SelectedComponent option={value} />
         <Icon
           icon="chevron-down"

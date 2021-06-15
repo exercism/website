@@ -1,19 +1,7 @@
 module API
   class Mentoring::TestimonialsController < BaseController
     def index
-      testimonials = ::Mentor::Testimonial::Retrieve.(
-        mentor: current_user,
-        page: params[:page],
-        criteria: params[:criteria],
-        track_slug: params[:track],
-        order: params[:order],
-        include_unrevealed: true
-      )
-
-      render json: SerializePaginatedCollection.(
-        testimonials,
-        serializer: SerializeMentorTestimonials
-      )
+      render json: AssembleTestimonialsList.(current_user, testimonial_params)
     end
 
     def reveal
@@ -26,6 +14,11 @@ module API
       render json: {
         testimonial: SerializeMentorTestimonial.(testimonial)
       }
+    end
+
+    private
+    def testimonial_params
+      params.permit(*AssembleTestimonialsList.keys)
     end
   end
 end

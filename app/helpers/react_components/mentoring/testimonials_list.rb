@@ -4,20 +4,17 @@ module ReactComponents
       include Webpacker::Helper
       include ActionView::Helpers::AssetUrlHelper
 
+      initialize_with :params
+
       def to_s
         super(
           "mentoring-testimonials-list",
           {
             request: {
               endpoint: Exercism::Routes.api_mentoring_testimonials_url,
-              query: {
-                track: nil
-              },
+              query: params.slice(*AssembleTestimonialsList.keys),
               options: {
-                initial_data: SerializePaginatedCollection.(
-                  testimonials,
-                  serializer: SerializeMentorTestimonials
-                )
+                initial_data: data
               }
             },
             tracks: tracks
@@ -26,8 +23,8 @@ module ReactComponents
       end
 
       private
-      def testimonials
-        ::Mentor::Testimonial::Retrieve.(mentor: current_user, include_unrevealed: true)
+      def data
+        AssembleTestimonialsList.(current_user, params)
       end
 
       memoize

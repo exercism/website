@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useIsMounted } from 'use-is-mounted'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -10,6 +10,7 @@ import { useList } from '../../hooks/use-list'
 import { GraphicalIcon, Pagination } from '../common'
 import { TrackDropdown } from './testimonials-list/TrackDropdown'
 import { OrderSelect } from './testimonials-list/OrderSelect'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 export type PaginatedResult = {
   results: readonly Testimonial[]
@@ -39,9 +40,14 @@ export const TestimonialsList = ({
   tracks: readonly Track[]
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setQuery, setCriteria, setPage, setOrder } = useList(
-    initialRequest
-  )
+  const {
+    request,
+    setQuery,
+    setCriteria: setRequestCriteria,
+    setPage,
+    setOrder,
+  } = useList(initialRequest)
+  const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const cacheKey = ['mentor-testimonials', request.endpoint, request.query]
   const {
     status,
@@ -63,6 +69,18 @@ export const TestimonialsList = ({
   )
   const [revealedTestimonials, setRevealedTestimonials] = useState<string[]>([])
 
+  useHistory({ pushOn: removeEmpty(request.query) })
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
   return (
     <div className="lg-container">
       <article className="content">
@@ -75,7 +93,7 @@ export const TestimonialsList = ({
           <input
             className="--search"
             placeholder="Search by student name or testimonial"
-            value={request.query.criteria || ''}
+            value={criteria}
             onChange={(e) => {
               setCriteria(e.target.value)
             }}

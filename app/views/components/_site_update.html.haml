@@ -1,0 +1,57 @@
+- data = update.rendering_data
+.c-site-update
+  - if icon == :track
+    = track_icon track
+  - elsif data[:icon_type] == "image"
+    = image_tag data[:icon_url], class: 'c-icon'
+  - elsif data[:icon_type] == "concept"
+    .c-concept-icon.c--large= data[:icon_url]
+
+  .content
+    .standard
+      .info
+        .desc= raw data[:text]
+        %time #{time_ago_in_words(data[:published_at])} ago
+      .c-faces.--static
+        - data[:maker_avatar_urls].each do |avatar_url|
+          = image_tag avatar_url, class: 'face c-avatar'
+
+    - if data[:expanded]
+      .expanded
+        .header
+          - if data[:icon_type] == "image"
+            = image_tag data[:icon_url], class: 'c-icon'
+          - elsif data[:icon_type] == "concept"
+            .c-concept-icon.c--medium= data[:icon_url]
+
+          .info
+            .title= data[:expanded][:title]
+            .byline
+              = image_tag data[:expanded][:author_avatar_url], class: 'c-avatar'
+              .by
+                by
+                %strong= data[:expanded][:author_handle]
+        .description= data[:expanded][:description]
+
+        - if data[:pull_request]
+          = link_to data[:pull_request][:url], class: "pull-request", target: "_blank", rel: 'noopener' do
+            = icon "pull-request-merge", "Pull Request", category: :graphics
+            .details
+              .pr-title= data[:pull_request][:title]
+              .pr-info
+                \##{data[:pull_request][:number]} merged
+                = time_ago_in_words(data[:pull_request][:merged_at])
+                ago by
+                = data[:pull_request][:merged_by]
+
+            .merged
+              = graphical_icon "completed-check-circle"
+              Merged
+
+
+        / TODO: How to do this efficiently?
+        - user_track = UserTrack.for(current_user, track)
+        - solution = Solution.for(current_user, track, update.exercise)
+        = ReactComponents::Common::ExerciseWidget.new(update.exercise, user_track, solution: solution, render_track: false, render_blurb: false)
+
+

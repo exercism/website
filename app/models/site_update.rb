@@ -7,6 +7,7 @@ class SiteUpdate < ApplicationRecord
 
   scope :published, -> { where('published_at < ?', Time.current) }
   scope :for_track, ->(track) { where(track: track) }
+  scope :for_user, ->(user) { for_track(user.tracks) }
   scope :sorted, -> { order(published_at: :desc, id: :desc) }
 
   belongs_to :author, optional: true, class_name: "User"

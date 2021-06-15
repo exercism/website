@@ -216,6 +216,9 @@
         & h2 {
             @apply text-h3 mb-24;
         }
+        & .c-site-update {
+            max-width: 800px;
+        }
     }
     & section.tracks-section {
         @apply mb-48;

@@ -48,12 +48,6 @@ export const TrackSwitcher = ({
   value: Track
   setValue: (value: Track) => void
 }): JSX.Element | null => {
-  const handleItemSelect = useCallback(
-    (index) => {
-      setValue(tracks[index])
-    },
-    [setValue, tracks]
-  )
   const {
     buttonAttributes,
     panelAttributes,
@@ -61,7 +55,7 @@ export const TrackSwitcher = ({
     itemAttributes,
     setOpen,
     open,
-  } = useDropdown(tracks.length, handleItemSelect, {
+  } = useDropdown(tracks.length, (i) => handleItemSelect(i), {
     placement: 'bottom',
     modifiers: [
       {
@@ -72,6 +66,13 @@ export const TrackSwitcher = ({
       },
     ],
   })
+  const handleItemSelect = useCallback(
+    (index) => {
+      setValue(tracks[index])
+      setOpen(false)
+    },
+    [setValue, tracks, setOpen]
+  )
 
   return (
     <div className="c-track-switcher">

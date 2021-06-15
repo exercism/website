@@ -21,7 +21,7 @@ module Flows
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
           pr_title: "I did something",
-          merged_at: 25.hours.ago
+          merged_at: Time.current - 7.months
         }
 
       use_capybara_host do
@@ -31,7 +31,7 @@ module Flows
 
         assert_css ".--notification"
         assert_link "You reviewed PR#120 on pulls: I did something", href: external_url
-        assert_text "a day ago"
+        assert_text "7 months ago"
         assert_text "50"
         assert_link "See how you earned all your reputation", href: reputation_journey_url
       end

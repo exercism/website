@@ -1,3 +1,5 @@
+/* This should be deprecated */
+
 .c-track-switcher-dropdown {
     @apply bg-backgroundColorA rounded-8 shadow-lg;
     @apply p-8;

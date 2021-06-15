@@ -1,7 +1,12 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/mentor/FinishMentorDiscussionModal'
 import { ModalProps } from '../../modals/Modal'
 import { MentorDiscussion as Discussion } from '../../types'
+import Mousetrap from 'mousetrap'
+import { useIsMounted } from 'use-is-mounted'
+import { useMutation } from 'react-query'
+import { sendRequest } from '../../../utils/send-request'
+import { typecheck } from '../../../utils/typecheck'
 
 export const FinishButton = ({
   endpoint,
@@ -13,13 +18,52 @@ export const FinishButton = ({
   onSuccess: (discussion: Discussion) => void
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
+  const isMountedRef = useIsMounted()
+  const [mutation, { status, error }] = useMutation(
+    () => {
+      return sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: null,
+        isMountedRef: isMountedRef,
+      }).then((json) => {
+        if (!json) {
+          return
+        }
 
-  const handleSuccess = useCallback(
-    (discussion) => {
-      onSuccess(discussion)
+        return typecheck<Discussion>(json, 'discussion')
+      })
     },
-    [onSuccess]
+    {
+      onSuccess: (discussion) => {
+        if (!discussion) {
+          return
+        }
+
+        onSuccess(discussion)
+      },
+    }
   )
+
+  const handleClose = useCallback(() => {
+    if (status === 'loading') {
+      return
+    }
+
+    setOpen(false)
+  }, [status])
+
+  useEffect(() => {
+    Mousetrap.bind('f3', () => {
+      open ? mutation() : setOpen(true)
+    })
+
+    Mousetrap.bind('f2', handleClose)
+
+    return () => {
+      Mousetrap.unbind('f3')
+    }
+  }, [handleClose, mutation, open])
 
   return (
     <React.Fragment>
@@ -36,10 +80,10 @@ export const FinishButton = ({
       <FinishMentorDiscussionModal
         endpoint={endpoint}
         open={open}
-        onCancel={() => {
-          setOpen(false)
-        }}
-        onSuccess={handleSuccess}
+        onFinish={() => mutation()}
+        onCancel={handleClose}
+        status={status}
+        error={error}
         {...modalProps}
       />
     </React.Fragment>

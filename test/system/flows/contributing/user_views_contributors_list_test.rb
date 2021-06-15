@@ -2,7 +2,7 @@ require "application_system_test_case"
 require_relative "../../../support/capybara_helpers"
 
 module Flows
-  module Contributors
+  module Contributing
     class UserViewsContributorsListTest < ApplicationSystemTestCase
       include CapybaraHelpers
 
@@ -70,7 +70,7 @@ module Flows
 
         use_capybara_host do
           visit contributing_contributors_path
-          click_on "Open the track switcher"
+          click_on "All Tracks"
           find("label", text: "Go").click
 
           assert_text "1 PR created"

@@ -5,6 +5,8 @@ class User::ReputationToken < ApplicationRecord
   self.class_suffix = :token
   self.i18n_category = :user_reputation_tokens
 
+  belongs_to :user
+
   scope :unseen, -> { where(seen: false) }
 
   # Reason, category and value can be set statically in

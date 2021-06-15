@@ -64,6 +64,8 @@ import '../../css/components/modal'
 import '../../css/components/radio'
 import '../../css/components/checkbox'
 import '../../css/components/select'
+import '../../css/components/single-select'
+import '../../css/components/multiple-select'
 import '../../css/tooltips/generic'
 import '../../css/tooltips/base'
 import '../../css/tooltips/concept'
@@ -222,6 +224,7 @@ import {
   CommunitySolution,
   Testimonial,
   MentoredTrackExercise,
+  Task,
   User,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
@@ -348,6 +351,12 @@ initReact({
   ),
   'contributing-contributors-list': (data: any) => (
     <Contributing.ContributorsList
+      request={camelizeKeysAs<Request>(data.request)}
+      tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
+    />
+  ),
+  'contributing-tasks-list': (data: any) => (
+    <Contributing.TasksList
       request={camelizeKeysAs<Request>(data.request)}
       tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
     />

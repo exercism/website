@@ -45,7 +45,7 @@ class Concept::CreateTest < ActiveSupport::TestCase
 
   test "creates site_update" do
     track = create :track
-    concept = Track::Concept::Create.(
+    concept = Concept::Create.(
       SecureRandom.uuid,
       track,
       build(:concept).attributes.symbolize_keys

@@ -18,7 +18,7 @@ class Concept
         )
       end
     rescue ActiveRecord::RecordNotUnique
-      Track::Concept.find_by!(uuid: uuid, track: track)
+      Concept.find_by!(uuid: uuid, track: track)
     end
   end
 end

@@ -7,12 +7,10 @@ class AddGitImportantFilesHashToSolutionsAndExercises < ActiveRecord::Migration[
       exercise.update!(git_important_files_hash: Git::GenerateHashForImportantExerciseFiles.(exercise))
     end
 
-    Solution.find_each do |solution|
-      solution.update!(
-        git_slug: exercise.slug,
-        git_sha: exercise.git_sha,
-        git_important_files_hash: exercise.git_important_files_hash)
-    end
+    Solution.joins(:exercise).update_all(
+      "solutions.git_slug = exercises.slug,
+       solutions.git_sha = exercises.git_sha,
+       solutions.git_important_files_hash = exercises.git_important_files_hash")
 
     change_column_null :solutions, :git_important_files_hash, :false
     change_column_null :exercises, :git_important_files_hash, :false

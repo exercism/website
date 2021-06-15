@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, except: %i[intro new create]
   before_action :use_user, except: %i[index intro new create]
   before_action :use_profile, except: %i[index intro new create tooltip]
 

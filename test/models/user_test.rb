@@ -38,8 +38,8 @@ class UserTest < ActiveSupport::TestCase
 
     create :user_exercise_contribution_reputation_token, user: user
     create :user_exercise_author_reputation_token, user: user
-    create :user_code_contribution_reputation_token, user: user, level: :major
-    create :user_code_contribution_reputation_token, user: user, level: :regular
+    create :user_code_contribution_reputation_token, user: user, level: :large
+    create :user_code_contribution_reputation_token, user: user, level: :medium
 
     assert_equal 72, user.reload.reputation
     # assert_equal 20, user.reputation(track_slug: :ruby)

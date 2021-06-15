@@ -39,5 +39,20 @@ class Track::Concept::CreateTest < ActiveSupport::TestCase
         synced_to_git_sha: 'HEAD'
       )
     end
+
+    assert_equal 1, SiteUpdate.count
+  end
+
+  test "creates site_update" do
+    track = create :track
+    concept = Track::Concept::Create.(
+      SecureRandom.uuid,
+      track,
+      build(:track_concept).attributes.symbolize_keys
+    )
+
+    update = SiteUpdate.first
+    assert_equal concept, update.concept
+    assert_equal track, update.track
   end
 end

@@ -50,9 +50,9 @@ module Github
 
     def sort!
       case order
-      when :track
+      when "track"
         @tasks = @tasks.includes(:track).order('tracks.slug ASC')
-      when :oldest
+      when "oldest"
         @tasks = @tasks.order(opened_at: :asc)
       else
         @tasks = @tasks.order(opened_at: :desc)

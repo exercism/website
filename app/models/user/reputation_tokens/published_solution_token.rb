@@ -5,6 +5,10 @@ class User::ReputationTokens::PublishedSolutionToken < User::ReputationToken
   levels %i[easy medium hard]
   values({ easy: 1, medium: 2, hard: 3 })
 
+  before_validation on: :create do
+    self.earned_on = self.solution.published_at unless earned_on
+  end
+
   def guard_params
     "Solution##{solution.id}"
   end

@@ -79,18 +79,6 @@ const Component = ({
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const handleItemSelect = useCallback(
-    (index) => {
-      if (!tracks) {
-        return
-      }
-
-      const track = tracks[index]
-
-      track ? setValue(tracks[index]) : changeTracksRef.current?.click()
-    },
-    [setValue, tracks]
-  )
   const {
     buttonAttributes,
     panelAttributes,
@@ -98,7 +86,7 @@ const Component = ({
     itemAttributes,
     setOpen,
     open,
-  } = useDropdown((tracks?.length || 0) + 1, handleItemSelect, {
+  } = useDropdown((tracks?.length || 0) + 1, (i) => handleItemSelect(i), {
     placement: 'bottom',
     modifiers: [
       {
@@ -109,6 +97,19 @@ const Component = ({
       },
     ],
   })
+  const handleItemSelect = useCallback(
+    (index) => {
+      if (!tracks) {
+        return
+      }
+
+      const track = tracks[index]
+
+      track ? setValue(tracks[index]) : changeTracksRef.current?.click()
+      setOpen(false)
+    },
+    [setValue, tracks, setOpen]
+  )
 
   if (!tracks) {
     return null

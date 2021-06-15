@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_08_204921) do
+ActiveRecord::Schema.define(version: 2021_06_14_114503) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(version: 2021_06_08_204921) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "icon_name", null: false
+    t.string "git_important_files_hash"
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
@@ -378,6 +379,27 @@ ActiveRecord::Schema.define(version: 2021_06_08_204921) do
     t.index ["user_id"], name: "index_scratchpad_pages_on_user_id"
   end
 
+  create_table "site_updates", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "type", null: false
+    t.string "uniqueness_key", null: false
+    t.text "params", null: false
+    t.integer "version", null: false
+    t.text "rendering_data_cache", null: false
+    t.bigint "track_id"
+    t.bigint "exercise_id"
+    t.bigint "author_id"
+    t.bigint "pull_request_id"
+    t.datetime "published_at", null: false
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_site_updates_on_author_id"
+    t.index ["exercise_id"], name: "index_site_updates_on_exercise_id"
+    t.index ["pull_request_id"], name: "index_site_updates_on_pull_request_id"
+    t.index ["track_id"], name: "index_site_updates_on_track_id"
+  end
+
   create_table "solution_stars", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "user_id", null: false
@@ -410,6 +432,7 @@ ActiveRecord::Schema.define(version: 2021_06_08_204921) do
     t.integer "num_comments", limit: 3, default: 0, null: false
     t.integer "num_loc", limit: 3, default: 0, null: false
     t.bigint "published_iteration_id"
+    t.string "git_important_files_hash"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
@@ -734,6 +757,10 @@ ActiveRecord::Schema.define(version: 2021_06_08_204921) do
   add_foreign_key "problem_reports", "tracks"
   add_foreign_key "problem_reports", "users"
   add_foreign_key "scratchpad_pages", "users"
+  add_foreign_key "site_updates", "exercises"
+  add_foreign_key "site_updates", "github_pull_requests", column: "pull_request_id"
+  add_foreign_key "site_updates", "tracks"
+  add_foreign_key "site_updates", "users", column: "author_id"
   add_foreign_key "solution_stars", "solutions"
   add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"

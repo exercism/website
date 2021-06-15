@@ -13,6 +13,7 @@ class SerializeTasksTest < ActiveSupport::TestCase
 
       expected = [
         {
+          id: task_1.id,
           title: "Fix generator",
           tags: {
             action: :fix,
@@ -34,6 +35,7 @@ class SerializeTasksTest < ActiveSupport::TestCase
           }
         },
         {
+          id: task_2.id,
           title: "Sync anagram",
           tags: {
             action: :improve,

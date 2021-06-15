@@ -24,5 +24,9 @@
 
     #portal-container
 
+    - if Rails.env.production?
+      / TODO: Change domain
+      %script{ defer: true, src: "/usage/js/script.js", data: { domain: "exercism.lol", api: "/usage/api/event" } }
+
 / TODO: Add test for this!
 - flash.clear

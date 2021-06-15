@@ -75,6 +75,32 @@ module Git
       assert_equal expected_filepaths, exercise.cli_filepaths
     end
 
+    test "important_filepaths without appends" do
+      exercise = Git::Exercise.new(:anagram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".docs/instructions.md",
+        "anagram_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.important_filepaths
+    end
+
+    test "important_filepaths with appends" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".docs/instructions.md",
+        ".docs/instructions.append.md",
+        ".docs/introduction.md",
+        ".docs/introduction.append.md",
+        ".docs/hints.md",
+        "bob_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.important_filepaths
+    end
+
     test "retrieves instructions" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

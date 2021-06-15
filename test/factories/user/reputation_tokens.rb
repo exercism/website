@@ -1,28 +1,30 @@
 FactoryBot.define do
   factory :user_reputation_token, class: 'User::ReputationTokens::CodeContributionToken' do
     user
-    level { :regular }
+    level { :medium }
 
     params do
       {
         repo: "exercism/ruby",
         pr_node_id: SecureRandom.uuid,
         pr_number: SecureRandom.random_number(100_000),
-        pr_title: "The cat sat on the mat"
+        pr_title: "The cat sat on the mat",
+        earned_on: Time.current - SecureRandom.random_number(100_000).seconds
       }
     end
   end
 
   factory :user_code_contribution_reputation_token, class: 'User::ReputationTokens::CodeContributionToken' do
     user
-    level { :regular }
+    level { :medium }
 
     params do
       {
         repo: "exercism/ruby",
         pr_node_id: SecureRandom.uuid,
         pr_number: SecureRandom.random_number(100_000),
-        pr_title: "The cat sat on the mat"
+        pr_title: "The cat sat on the mat",
+        earned_on: Time.current - SecureRandom.random_number(100_000).seconds
       }
     end
   end
@@ -36,21 +38,23 @@ FactoryBot.define do
         repo: "exercism/ruby",
         pr_node_id: SecureRandom.uuid,
         pr_number: SecureRandom.random_number(100_000),
-        pr_title: "The cat sat on the mat"
+        pr_title: "The cat sat on the mat",
+        earned_on: Time.current - SecureRandom.random_number(100_000).seconds
       }
     end
   end
 
   factory :user_code_review_reputation_token, class: 'User::ReputationTokens::CodeReviewToken' do
     user
-    level { :regular }
+    level { :medium }
 
     params do
       {
         repo: "exercism/ruby",
         pr_node_id: SecureRandom.uuid,
         pr_number: SecureRandom.random_number(100_000),
-        pr_title: "The cat sat on the mat"
+        pr_title: "The cat sat on the mat",
+        earned_on: Time.current - SecureRandom.random_number(100_000).seconds
       }
     end
   end
@@ -80,7 +84,7 @@ FactoryBot.define do
 
     params do
       {
-        discussion: create(:mentor_discussion, mentor: user)
+        discussion: create(:mentor_discussion, :mentor_finished, mentor: user)
       }
     end
   end
@@ -91,7 +95,7 @@ FactoryBot.define do
 
     params do
       {
-        solution: create(:practice_solution, user: user)
+        solution: create(:practice_solution, :published, user: user)
       }
     end
   end

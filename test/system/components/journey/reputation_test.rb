@@ -13,10 +13,11 @@ module Components
         exercise = create :concept_exercise, track: track
         token = create :user_code_contribution_reputation_token,
           user: user,
-          level: :major,
+          level: :large,
           track: track,
           exercise: exercise,
           created_at: 1.day.ago,
+          earned_on: 1.day.ago,
           external_url: "https://test.exercism.io/token"
 
         use_capybara_host do
@@ -26,7 +27,7 @@ module Components
           assert_text "Showing 1 contribution"
           assert_link strip_tags(token.text), href: "https://test.exercism.io/token"
           assert_text "Ruby"
-          assert_text "a day ago"
+          assert_text "yesterday"
           assert_text "+ 30"
           # TODO: Fix how icons are rendered
           assert_css ".reputation-token > img.primary-icon[src='#{exercise.icon_url}']"
@@ -37,7 +38,7 @@ module Components
         User::ReputationToken::Search.stubs(:default_per).returns(1)
         user = create :user
         review_token = create :user_code_review_reputation_token, user: user, created_at: Time.current - 1.day
-        contribution_token = create :user_code_contribution_reputation_token, user: user, level: :major
+        contribution_token = create :user_code_contribution_reputation_token, user: user, level: :large
 
         use_capybara_host do
           sign_in!(user)
@@ -58,7 +59,7 @@ module Components
         user = create :user
         contribution_token = create :user_code_contribution_reputation_token,
           user: user,
-          level: :major,
+          level: :large,
           created_at: 2.days.ago
         review_token = create :user_code_review_reputation_token, user: user, created_at: 1.day.ago
 
@@ -79,7 +80,7 @@ module Components
         exercise = create :concept_exercise
         contribution_token = create :user_code_contribution_reputation_token,
           user: user,
-          level: :major,
+          level: :large,
           exercise: exercise
         review_token = create :user_code_review_reputation_token,
           user: user,

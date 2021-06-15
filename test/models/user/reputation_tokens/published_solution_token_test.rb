@@ -4,7 +4,7 @@ class User::ReputationTokens::PublishedSolutionTokenTest < ActiveSupport::TestCa
   test "creates successfully" do
     student = create :user
     exercise = create :practice_exercise, difficulty: 5
-    solution = create :practice_solution, user: student
+    solution = create :practice_solution, :published, user: student
 
     User::ReputationToken::Create.(
       student,
@@ -23,5 +23,6 @@ class User::ReputationTokens::PublishedSolutionTokenTest < ActiveSupport::TestCa
     assert_equal :publishing, rt.category
     assert_equal :published_solution, rt.reason
     assert_equal 2, rt.value
+    assert_equal solution.published_at.to_date, rt.earned_on
   end
 end

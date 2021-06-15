@@ -159,6 +159,7 @@ tracks = Track.all
     pr_node_id: SecureRandom.hex,
     pr_number: i,
     pr_title: "PR for #{track.title} #{i}",
+    merged_at: i.weeks.ago.utc,
     level: %i[janitorial reviewal].sample
   )
 end
@@ -172,7 +173,8 @@ end
     pr_node_id: SecureRandom.hex,
     pr_number: i + 10,
     pr_title: "PR for #{track.title} #{i + 10}",
-    level: %i[minor regular major].sample
+    merged_at: i.weeks.ago.utc,
+    level: %i[tiny small medium large massive].sample
   )
 end
 
@@ -185,7 +187,8 @@ end
     pr_node_id: SecureRandom.hex,
     pr_number: i + 20,
     pr_title: "PR for #{track.title} #{i + 20}",
-    level: %i[minor regular major].sample
+    merged_at: i.weeks.ago.utc,
+    level: %i[tiny small medium large massive].sample
   )
 end
 
@@ -198,7 +201,8 @@ end
     pr_node_id: SecureRandom.hex,
     pr_number: i,
     pr_title: "PR for #{track.title} #{i}",
-    level: %i[minor regular major].sample
+    merged_at: i.weeks.ago.utc,
+    level: %i[tiny small medium large massive].sample
   )
 end
 
@@ -211,7 +215,8 @@ end
     pr_node_id: SecureRandom.hex,
     pr_number: i,
     pr_title: "PR for #{track.title} #{i}",
-    level: %i[minor regular major].sample,
+    merged_at: i.weeks.ago.utc,
+    level: %i[tiny small medium large massive].sample,
     track: track,
     exercise: track.exercises.sample
   )
@@ -242,5 +247,34 @@ exercises.each do |exercise|
     exercise: exercise
   )
 end
+
 User::ReputationPeriod::Sweep.()
+
+SiteUpdates::NewExerciseUpdate.destroy_all
+Exercise.all.each do |exercise|
+  SiteUpdates::NewExerciseUpdate.create!(
+    exercise: exercise, 
+    track: exercise.track,
+    published_at: exercise.created_at
+  )
+end
+
+Track::Concept.all.each do |concept|
+  SiteUpdates::NewConceptUpdate.create!(
+    track: concept.track,
+    published_at: concept.created_at,
+    params: {
+      concept: concept
+    }
+  )
+end
+
+
+update = SiteUpdate.where(track: ruby).order(published_at: :desc).first
+update.update!(
+  author: User.first,
+  title: "New exercise for OCaml! 🚀",
+  description: "Of course, it is likely enough, my friends,' he said slowly, 'likely enough that we are going to our doom: the last march of the Ents. But if we stayed home and did nothing, doom would find us anyway, sooner or later. That thought has long been growing in our hearts; and that is why we are marching now."
+)
+update.update(pull_request: Github::PullRequest.first)
 

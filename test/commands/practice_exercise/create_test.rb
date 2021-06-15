@@ -56,5 +56,20 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
         synced_to_git_sha: 'HEAD'
       )
     end
+
+    assert_equal 1, SiteUpdate.count
+  end
+
+  test "creates site_update" do
+    track = create :track
+    exercise = PracticeExercise::Create.(
+      SecureRandom.uuid,
+      track,
+      build(:practice_exercise).attributes.symbolize_keys
+    )
+
+    update = SiteUpdate.first
+    assert_equal exercise, update.exercise
+    assert_equal track, update.track
   end
 end

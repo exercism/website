@@ -9,6 +9,7 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     merged_by = "merger22"
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -17,7 +18,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestMerger.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_by_username: merged_by
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, merged_by_username: merged_by
     )
 
     assert User::ReputationTokens::CodeMergeToken.where(user: user).exists?
@@ -31,6 +33,7 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     merged_by = "merger22"
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -41,12 +44,14 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
       level: :janitorial,
       params: {
         repo: repo,
-        pr_node_id: node_id
+        pr_node_id: node_id,
+        merged_at: merged_at
       }
 
     User::ReputationToken::AwardForPullRequestMerger.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_by_username: merged_by
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, merged_by_username: merged_by
     )
 
     assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user: user).size
@@ -60,6 +65,7 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     merged_by = "merger22"
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -67,7 +73,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestMerger.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_by_username: merged_by
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, merged_by_username: merged_by
     )
 
     refute User::ReputationTokens::CodeMergeToken.exists?
@@ -89,7 +96,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestMerger.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_by_username: merged_by
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_by_username: merged_by
     )
 
     refute User::ReputationTokens::CodeMergeToken.where(user: user).exists?
@@ -103,6 +111,7 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     merged_by = 'user22'
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -111,7 +120,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestMerger.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_by_username: merged_by
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, merged_by_username: merged_by
     )
 
     refute User::ReputationTokens::CodeMergeToken.where(user: user).exists?
@@ -125,6 +135,7 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     merged_by = "merger22"
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -134,7 +145,8 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestMerger.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels, reviews: reviews,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_by_username: merged_by
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, merged_by_username: merged_by
     )
 
     token = user.reputation_tokens.last
@@ -150,6 +162,7 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     number = 1347
     title = "The cat sat on the mat"
     merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     merged_by = "merger22"
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
@@ -159,11 +172,37 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
 
     User::ReputationToken::AwardForPullRequestMerger.(
       action: action, author_username: author, url: url, html_url: html_url, labels: labels, reviews: reviews,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_by_username: merged_by
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, merged_by_username: merged_by
     )
 
     token = user.reputation_tokens.last
     assert_equal 5, token.value
     assert_equal :reviewal, token.level
+  end
+
+  test "sets earned on date to pull request merged date when pull request was merged" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    merged_by = "merger22"
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    create :user, handle: "Merger-22", github_username: "merger22"
+
+    User::ReputationToken::AwardForPullRequestMerger.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+    )
+
+    token = User::ReputationTokens::CodeMergeToken.find { |t| t.params["pr_node_id"] == node_id }
+    assert_equal merged_at.to_date, token.earned_on
   end
 end

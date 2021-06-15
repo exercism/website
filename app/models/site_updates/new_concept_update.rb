@@ -1,0 +1,44 @@
+class SiteUpdates::NewConceptUpdate < SiteUpdate
+  params :concept
+
+  def guard_params
+    "Concept##{concept.id}"
+  end
+
+  def i18n_params
+    {
+      concept_name: concept.name,
+      concept_url: Exercism::Routes.track_concept_url(track, concept),
+      maker_handles: maker_handles
+    }
+  end
+
+  def cacheable_rendering_data
+    super.merge(
+      maker_avatar_urls: makers.map(&:avatar_url)
+    )
+  end
+
+  def icon_type
+    :concept
+  end
+
+  # TODO: This is pretty gross
+  def icon_url
+    concept.name[0, 2]
+  end
+
+  def maker_handles
+    return "We" if makers.empty?
+    return makers[0, 3].map(&:handle).to_sentence if makers.size <= 3
+
+    "#{makers[0].handle}, #{makers[1].handle}, and #{makers.size - 2} others"
+  end
+
+  memoize
+  def makers
+    # TODO: Readd once we have contributors
+    # concept.authors + concept.contributors
+    []
+  end
+end

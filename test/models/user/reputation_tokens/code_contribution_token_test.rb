@@ -7,7 +7,8 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
-    level = :major
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    level = :large
     user = create :user, handle: "User22", github_username: "user22"
 
     User::ReputationToken::Create.(
@@ -18,6 +19,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       pr_title: pr_title,
+      merged_at: merged_at,
       external_url: external_url
     )
 
@@ -32,6 +34,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     assert_equal :contributed_code, rt.reason
     assert_equal level, rt.level
     assert_equal 30, rt.value
+    assert_equal merged_at.to_date, rt.earned_on
   end
 
   test "creates code contribution reputation token for regular level" do
@@ -40,7 +43,8 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
-    level = :regular
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    level = :medium
     user = create :user, handle: "User22", github_username: "user22"
 
     User::ReputationToken::Create.(
@@ -51,6 +55,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       pr_title: pr_title,
+      merged_at: merged_at,
       external_url: external_url
     )
 
@@ -65,6 +70,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     assert_equal :contributed_code, rt.reason
     assert_equal level, rt.level
     assert_equal 12, rt.value
+    assert_equal merged_at.to_date, rt.earned_on
   end
 
   test "creates code contribution reputation token for minor level" do
@@ -73,7 +79,8 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
     pr_number = 1347
     pr_title = "The cat sat on the mat"
-    level = :minor
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    level = :small
     user = create :user, handle: "User22", github_username: "user22"
 
     User::ReputationToken::Create.(
@@ -84,6 +91,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       pr_node_id: pr_node_id,
       pr_number: pr_number,
       pr_title: pr_title,
+      merged_at: merged_at,
       external_url: external_url
     )
 
@@ -98,6 +106,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     assert_equal :contributed_code, rt.reason
     assert_equal level, rt.level
     assert_equal 5, rt.value
+    assert_equal merged_at.to_date, rt.earned_on
   end
 
   repos = [
@@ -114,11 +123,12 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       token = User::ReputationToken::Create.(
         user,
         :code_contribution,
-        level: :regular,
+        level: :medium,
         repo: repo,
         pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         pr_number: 1347,
         pr_title: "The cat sat on the mat",
+        merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
         external_url: 'https://api.github.com/repos/exercism/ruby/pulls/1347'
       )
 
@@ -132,11 +142,12 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     token = User::ReputationToken::Create.(
       user,
       :code_contribution,
-      level: :regular,
+      level: :medium,
       repo: 'exercism/v3',
       pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
       pr_number: 1347,
       pr_title: "The cat sat on the mat",
+      merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
       external_url: 'https://api.github.com/repos/exercism/v3/pulls/1347'
     )
 

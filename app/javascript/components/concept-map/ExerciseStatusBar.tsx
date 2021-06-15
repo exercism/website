@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ExerciseStatusDot } from '../student'
 import { ExerciseData } from './concept-map-types'
 
 export const ExerciseStatusBar = ({
@@ -21,10 +22,11 @@ export const PureExerciseStatusBar = React.memo(ExerciseStatusBar)
 
 const statusMapper = (data: ExerciseData, key: number): JSX.Element => {
   return (
-    <a
-      href={data.url}
-      key={key}
-      className={`c-ed --${data.status} --${data.type}`}
+    <ExerciseStatusDot
+      slug={data.slug}
+      exerciseStatus={data.status}
+      type={data.type}
+      links={{ tooltip: data.tooltipUrl, exercise: data.url }}
     />
   )
 }

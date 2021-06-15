@@ -11,11 +11,19 @@
         %p
           Join Exercism’s #{@track.title} Track for access to
           %em.c-underline
-            %strong 150 exercises grouped into 40 #{@track.title} Concepts,
+            %strong #{@track.num_exercises} exercises
+
+          / TODO: Check numbers are active
+          - if @track.num_concepts.positive?
+            grouped into #{@track.num_concepts} #{@track.title} Concepts,
           with automatic analysis
           of your code and
-          %em.c-underline real human mentoring
-          , all 100% free.
+          = succeed(',') do
+            %em.c-underline
+              %strong personal mentoring
+          all
+          %em.c-underline
+            %strong 100% free.
           /= @track.blurb
 
         .btns.tw-flex.tw-gap-24

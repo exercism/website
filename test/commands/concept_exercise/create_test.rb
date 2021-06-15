@@ -61,5 +61,20 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
         synced_to_git_sha: 'HEAD'
       )
     end
+
+    assert_equal 1, SiteUpdate.count
+  end
+
+  test "creates site_update" do
+    track = create :track
+    exercise = ConceptExercise::Create.(
+      SecureRandom.uuid,
+      track,
+      build(:concept_exercise).attributes.symbolize_keys
+    )
+
+    update = SiteUpdate.first
+    assert_equal exercise, update.exercise
+    assert_equal track, update.track
   end
 end

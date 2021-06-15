@@ -39,7 +39,7 @@
                     }
                 }
 
-                & .awarded-at {
+                & .earned-on {
                     @apply text-14 text-textColor6 leading-160;
                 }
             }

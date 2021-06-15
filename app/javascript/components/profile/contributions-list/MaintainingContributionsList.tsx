@@ -1,7 +1,7 @@
 import React from 'react'
 import { Contribution as ContributionProps } from '../../types'
 import { TrackIcon, Reputation, GraphicalIcon, Pagination } from '../../common'
-import { fromNow } from '../../../utils/time'
+import { fromNow } from '../../../utils/date'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { ResultsZone } from '../../ResultsZone'
 import { useIsMounted } from 'use-is-mounted'
@@ -72,7 +72,7 @@ const Contribution = ({
   iconUrl,
   internalUrl,
   externalUrl,
-  awardedAt,
+  earnedOn,
   track,
 }: ContributionProps): JSX.Element => {
   const url = internalUrl || externalUrl
@@ -110,7 +110,7 @@ const Contribution = ({
           ) : (
             <div className="generic">Generic</div>
           )}
-          <time dateTime={awardedAt}>{fromNow(awardedAt)}</time>
+          <time dateTime={earnedOn}>{fromNow(earnedOn)}</time>
         </div>
       </div>
       <Reputation value={`+ ${value}`} type="primary" size="small" />

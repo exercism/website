@@ -154,9 +154,9 @@ class Github::Task::SearchTest < ActiveSupport::TestCase
     task_2 = create :github_task, :random, opened_at: 4.weeks.ago, track: (create :track, slug: 'csharp')
     task_3 = create :github_task, :random, opened_at: 1.week.ago, track: (create :track, slug: 'd')
 
-    assert_equal [task_3, task_1, task_2], Github::Task::Search.(order: :newest)
-    assert_equal [task_2, task_1, task_3], Github::Task::Search.(order: :oldest)
-    assert_equal [task_2, task_3, task_1], Github::Task::Search.(order: :track)
+    assert_equal [task_3, task_1, task_2], Github::Task::Search.(order: "newest")
+    assert_equal [task_2, task_1, task_3], Github::Task::Search.(order: "oldest")
+    assert_equal [task_2, task_3, task_1], Github::Task::Search.(order: "track")
   end
 
   test "returns relationship unless paginated" do

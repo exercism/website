@@ -20,7 +20,8 @@ module Flows
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
-          pr_title: "I did something"
+          pr_title: "I did something",
+          merged_at: Time.current - 7.months
         }
 
       use_capybara_host do
@@ -30,7 +31,7 @@ module Flows
 
         assert_css ".--notification"
         assert_link "You reviewed PR#120 on pulls: I did something", href: external_url
-        assert_text "2 days ago"
+        assert_text "7 months ago"
         assert_text "50"
         assert_link "See how you earned all your reputation", href: reputation_journey_url
       end
@@ -48,7 +49,8 @@ module Flows
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
-          pr_title: "Something else"
+          pr_title: "Something else",
+          merged_at: 3.days.ago
         }
 
       use_capybara_host do
@@ -74,7 +76,8 @@ module Flows
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
-          pr_title: "Something else"
+          pr_title: "Something else",
+          merged_at: 3.days.ago
         }
 
       use_capybara_host do
@@ -103,7 +106,8 @@ module Flows
             repo: "ruby/pulls",
             pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
             pr_number: 120,
-            pr_title: "Something else"
+            pr_title: "Something else",
+            merged_at: 3.days.ago
           }
         ReputationChannel.broadcast_changed!(user)
         within(".c-primary-reputation") { assert_text "5" }

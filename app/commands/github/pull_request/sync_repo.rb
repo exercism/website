@@ -52,6 +52,7 @@ module Github
                   title
                   number
                   createdAt
+                  closedAt
                   merged
                   mergedAt
                   mergedBy {

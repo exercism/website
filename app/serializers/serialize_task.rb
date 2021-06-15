@@ -5,6 +5,8 @@ class SerializeTask
 
   def call
     {
+      # TODO: Use a uuid?
+      id: task.id,
       title: task.title,
       tags: {
         action: task.action,

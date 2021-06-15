@@ -19,7 +19,7 @@ function reducer(state, action) {
     case 'order.changed':
       return {
         ...state,
-        query: { ...state.query, order: action.payload.order },
+        query: { ...state.query, order: action.payload.order, page: 1 },
       }
     default:
       if (process.env.NODE_ENV === 'development') {

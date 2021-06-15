@@ -77,12 +77,12 @@ module Git
 
     memoize
     def solution_filepaths
-      config[:files][:solution]
+      config.dig(:files, :solution).to_a
     end
 
     memoize
     def test_filepaths
-      config[:files][:test]
+      config.dig(:files, :test).to_a
     end
 
     memoize
@@ -138,6 +138,32 @@ module Git
     memoize
     def tooling_absolute_filepaths
       tooling_filepaths.map { |filepath| absolute_filepath(filepath) }
+    end
+
+    memoize
+    def important_files
+      important_filepaths.each.with_object({}) do |filepath, hash|
+        hash[filepath] = read_file_blob(filepath)
+      end
+    end
+
+    memoize
+    def important_filepaths
+      [
+        instructions_filepath,
+        instructions_append_filepath,
+        introduction_filepath,
+        introduction_append_filepath,
+        hints_filepath,
+        *test_filepaths
+      ].select do |filepath|
+        filepaths.include?(filepath)
+      end
+    end
+
+    memoize
+    def important_absolute_filepaths
+      important_filepaths.map { |filepath| absolute_filepath(filepath) }
     end
 
     memoize

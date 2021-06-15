@@ -1,11 +1,13 @@
 class User::ReputationTokens::CodeContributionToken < User::ReputationToken
-  params :repo, :pr_node_id, :pr_number, :pr_title
+  params :repo, :pr_node_id, :pr_number, :pr_title, :merged_at
   category :building
   reason :contributed_code
-  levels %i[minor regular major]
-  values({ minor: 5, regular: 12, major: 30 })
+  levels %i[tiny small medium large massive]
+  values({ tiny: 3, small: 5, medium: 12, large: 30, massive: 100 })
 
   before_validation on: :create do
+    self.earned_on = self.merged_at unless earned_on
+
     unless track
       normalized_repo = repo.gsub(/-(test-runner|analyzer|representer)$/, '')
       self.track_id = Track.where(repo_url: "https://github.com/#{normalized_repo}").pick(:id)

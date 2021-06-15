@@ -2,17 +2,21 @@
 
 .c-single-select,
 .c-multi-select {
+    @apply relative;
+
     & > button {
         @apply flex items-center;
         @apply border-1 border-buttonBorderColor2;
         @apply shadow-xsZ1 rounded-8 bg-backgroundColorA;
         @apply w-100;
         @apply text-left;
+        white-space: nowrap;
     }
     & > .--options {
         @apply bg-backgroundColorA rounded-8 shadow-lg;
         @apply relative z-dropdown;
         @apply p-8;
+        min-width: 100%;
 
         & label {
             & .row {
@@ -41,10 +45,10 @@
 
             & .row {
                 @apply flex items-center;
-                @apply py-8 pl-16;
+                @apply py-8 px-16;
 
-                padding-right: 81px; /* This needs to line up with the dropdown */
-                min-width: 360px;
+                /* padding-right: 81px; /1* This needs to line up with the dropdown *1/ */
+                /* min-width: 360px; */
                 @apply text-16 leading-150 font-medium;
 
                 & > .c-icon {

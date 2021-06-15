@@ -4,6 +4,7 @@
     @apply bg-backgroundColorA rounded-8 shadow-lg;
     @apply p-8;
     @apply relative z-dropdown;
+    min-width: 100%;
 
     & label.c-radio-wrapper {
         --row-selected-background-color: var(--backgroundColorD);
@@ -11,7 +12,7 @@
         & .row {
             @apply flex items-center;
             @apply py-8 pl-16;
-            padding-right: 81px; /* This needs to line up with the dropdown */
+            padding-right: 76px; /* This needs to line up with the dropdown */
             min-width: 360px;
         }
 

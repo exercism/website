@@ -59,9 +59,6 @@
         & .c-single-select {
             @apply ml-12;
         }
-        & .c-select {
-            @apply ml-16;
-        }
     }
     & .contributors {
         @apply shadow-lg rounded-8 bg-backgroundColorA;

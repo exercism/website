@@ -159,6 +159,7 @@ tracks = Track.all
     pr_node_id: SecureRandom.hex,
     pr_number: i,
     pr_title: "PR for #{track.title} #{i}",
+    merged_at: i.weeks.ago.utc,
     level: %i[janitorial reviewal].sample
   )
 end
@@ -172,7 +173,8 @@ end
     pr_node_id: SecureRandom.hex,
     pr_number: i + 10,
     pr_title: "PR for #{track.title} #{i + 10}",
-    level: %i[minor regular major].sample
+    merged_at: i.weeks.ago.utc,
+    level: %i[tiny small medium large massive].sample
   )
 end
 
@@ -185,7 +187,8 @@ end
     pr_node_id: SecureRandom.hex,
     pr_number: i + 20,
     pr_title: "PR for #{track.title} #{i + 20}",
-    level: %i[minor regular major].sample
+    merged_at: i.weeks.ago.utc,
+    level: %i[tiny small medium large massive].sample
   )
 end
 
@@ -198,7 +201,8 @@ end
     pr_node_id: SecureRandom.hex,
     pr_number: i,
     pr_title: "PR for #{track.title} #{i}",
-    level: %i[minor regular major].sample
+    merged_at: i.weeks.ago.utc,
+    level: %i[tiny small medium large massive].sample
   )
 end
 
@@ -211,7 +215,8 @@ end
     pr_node_id: SecureRandom.hex,
     pr_number: i,
     pr_title: "PR for #{track.title} #{i}",
-    level: %i[minor regular major].sample,
+    merged_at: i.weeks.ago.utc,
+    level: %i[tiny small medium large massive].sample,
     track: track,
     exercise: track.exercises.sample
   )

@@ -7,6 +7,7 @@ import { sendRequest } from '../../../../utils/send-request'
 import { FormButton } from '../../../common'
 import { FetchingBoundary } from '../../../FetchingBoundary'
 import { MentorReport } from '../FinishMentorDiscussionModal'
+import { ReasonSelect } from './ReasonSelect'
 
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
@@ -22,8 +23,8 @@ export const ReportStep = ({
   const [state, setState] = useState<MentorReport>({
     requeue: true,
     report: false,
+    reason: 'coc',
   })
-  const reasonRef = useRef<HTMLSelectElement>(null)
   const messageRef = useRef<HTMLTextAreaElement>(null)
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(
@@ -35,7 +36,7 @@ export const ReportStep = ({
           rating: 1,
           requeue: state.requeue,
           report: state.report,
-          report_reason: reasonRef.current?.value,
+          report_reason: state.reason,
           report_message: messageRef.current?.value,
         }),
         isMountedRef: isMountedRef,
@@ -117,15 +118,12 @@ export const ReportStep = ({
                   <label htmlFor="reason">
                     Why are you reporting this conversation?
                   </label>
-                  <div className="c-select">
-                    <select ref={reasonRef} id="reason">
-                      <option value="coc">Code of Conduct violation</option>
-                      <option value="incorrect">
-                        Wrong or misleading information
-                      </option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
+                  <ReasonSelect
+                    value={state.reason}
+                    setValue={(reason) =>
+                      setState({ ...state, reason: reason })
+                    }
+                  />
                 </div>
 
                 <div className="field">

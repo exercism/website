@@ -28,6 +28,8 @@ module Flows
             click_on "Problematic"
             find('label', text: "Report this discussion to an admin").click
             fill_in "What went wrong?", with: "Bad mentor"
+            click_on "Code of Conduct violation"
+            find("label", text: "Wrong or misleading information").click
             click_on "Finish"
             click_on "View your solution"
 

@@ -1,10 +1,13 @@
+/ Kntsoriano: icon is passed into this as a param. It should either be
+/ "track" or "update". Track renders a track_icon, update uses the data to work it out
+
 - data = update.rendering_data
 .c-site-update
   - if icon == :track
-    = track_icon track
-  - elsif data[:icon_type] == "image"
-    = image_tag data[:icon_url], class: 'c-icon'
-  - elsif data[:icon_type] == "concept"
+    = image_tag data[:track_icon_url], class: 'c-track-icon'
+  - elsif data[:icon][:type] == "image"
+    = image_tag data[:icon][:url], class: 'c-icon'
+  - elsif data[:icon][:type] == "concept"
     .c-concept-icon.c--large= data[:icon_url]
 
   .content
@@ -12,6 +15,7 @@
       .info
         .desc= raw data[:text]
         %time #{time_ago_in_words(data[:published_at])} ago
+
       .c-faces.--static
         - data[:maker_avatar_urls].each do |avatar_url|
           = image_tag avatar_url, class: 'face c-avatar'
@@ -19,9 +23,9 @@
     - if data[:expanded]
       .expanded
         .header
-          - if data[:icon_type] == "image"
-            = image_tag data[:icon_url], class: 'c-icon'
-          - elsif data[:icon_type] == "concept"
+          - if data[:icon][:type] == "image"
+            = image_tag data[:icon][:url], class: 'c-icon'
+          - elsif data[:icon][:type] == "concept"
             .c-concept-icon.c--medium= data[:icon_url]
 
           .info
@@ -31,6 +35,7 @@
               .by
                 by
                 %strong= data[:expanded][:author_handle]
+
         .description= data[:expanded][:description]
 
         - if data[:pull_request]
@@ -48,8 +53,12 @@
               = graphical_icon "completed-check-circle"
               Merged
 
-
-        / TODO: How to do this efficiently?
+        / Kntsoriano: To get this check for data[:exercise_widget] and data[:concept_widget]
+        / Also, note that we only show this if expanded
+        / The right data should be present in those hashes.
+        / - exercise_widget
+        / - concept_widget
+        / If they are null or missing you can leave them out
         - user_track = UserTrack.for(current_user, track)
         - solution = Solution.for(current_user, track, update.exercise)
         = ReactComponents::Common::ExerciseWidget.new(update.exercise, user_track, solution: solution, render_track: false, render_blurb: false)

@@ -17,10 +17,11 @@ class SiteUpdates::NewExerciseUpdate < SiteUpdate
     )
   end
 
-  delegate :icon_url, to: :exercise
-
-  def icon_type
-    :image
+  def icon
+    {
+      type: :image,
+      url: exercise.icon_url
+    }
   end
 
   def maker_handles

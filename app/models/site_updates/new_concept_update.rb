@@ -15,17 +15,23 @@ class SiteUpdates::NewConceptUpdate < SiteUpdate
 
   def cacheable_rendering_data
     super.merge(
-      maker_avatar_urls: makers.map(&:avatar_url)
+      maker_avatar_urls: makers.map(&:avatar_url),
+      concept_widget: {
+        name: concept.name,
+        slug: concept.slug,
+        links: {
+          self: Exercism::Routes.track_concept_path(track, concept),
+          tooltip: Exercism::Routes.tooltip_track_concept_path(track, concept)
+        }
+      }
     )
   end
 
-  def icon_type
-    :concept
-  end
-
-  # TODO: This is pretty gross
-  def icon_url
-    concept.name[0, 2]
+  def icon
+    {
+      type: :concept,
+      data: concept.name[0, 2]
+    }
   end
 
   def maker_handles

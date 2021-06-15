@@ -250,7 +250,7 @@ end
 
 User::ReputationPeriod::Sweep.()
 
-SiteUpdates::NewExerciseUpdate.destroy_all
+SiteUpdates.delete_all
 Exercise.all.each do |exercise|
   SiteUpdates::NewExerciseUpdate.create!(
     exercise: exercise, 
@@ -269,8 +269,7 @@ Concept.all.each do |concept|
   )
 end
 
-
-update = SiteUpdate.where(track: ruby).order(published_at: :desc).first
+update = SiteUpdate.where(track: ruby).sorted.first
 update.update!(
   author: User.first,
   title: "New exercise for OCaml! 🚀",

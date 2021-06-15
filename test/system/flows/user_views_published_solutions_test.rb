@@ -62,7 +62,8 @@ module Flows
       use_capybara_host do
         sign_in!(author)
         visit solutions_profile_path(author.handle)
-        select "Sort by Oldest First"
+        click_on "Sort by Newest First"
+        find("label", text: "Sort by Oldest First").click
       end
 
       assert_text "Strings"

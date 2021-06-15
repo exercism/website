@@ -8,6 +8,7 @@ import { Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { TrackDropdown } from './community-solutions-list/TrackDropdown'
+import { OrderSelect } from './community-solutions-list/OrderSelect'
 
 export type TrackData = {
   iconUrl: string
@@ -15,6 +16,7 @@ export type TrackData = {
   id: string | null
   numSolutions: number
 }
+
 type PaginatedResult = {
   results: CommunitySolutionProps[]
   meta: {
@@ -25,7 +27,10 @@ type PaginatedResult = {
   }
 }
 
+export type Order = 'newest_first' | 'oldest_first'
+
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
+const DEFAULT_ORDER = 'newest_first'
 
 export const CommunitySolutionsList = ({
   request: initialRequest,
@@ -73,15 +78,10 @@ export const CommunitySolutionsList = ({
           value={request.query.criteria || ''}
           placeholder="Filter by exercise"
         />
-        <div className="c-select order">
-          <select
-            onChange={(e) => setOrder(e.target.value)}
-            value={request.query.order}
-          >
-            <option value="newest_first">Sort by Newest First</option>
-            <option value="oldest_first">Sort by Oldest First</option>
-          </select>
-        </div>
+        <OrderSelect
+          value={request.query.order || DEFAULT_ORDER}
+          setValue={setOrder}
+        />
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary

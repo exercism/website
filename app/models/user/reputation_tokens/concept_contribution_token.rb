@@ -1,5 +1,5 @@
 class User::ReputationTokens::ConceptContributionToken < User::ReputationToken
-  params :contributorship
+  params :contributorship, :concept
   category :authoring
   reason :contributed_to_concept
   value 5
@@ -12,7 +12,7 @@ class User::ReputationTokens::ConceptContributionToken < User::ReputationToken
 
   def i18n_params
     {
-      concept_title: concept.title
+      concept_name: concept.name
     }
   end
 

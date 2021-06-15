@@ -8,10 +8,10 @@ en:
         You contributed to <strong>%{exercise_title}</strong>
     concept_author:
       1: >
-        You authored <strong>%{concept_title}</strong>
+        You authored <strong>%{concept_name}</strong>
     concept_contribution:
       1: >
-        You contributed to <strong>%{concept_title}</strong>
+        You contributed to <strong>%{concept_name}</strong>
     code_contribution:
       1: >
         You created <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>: %{pr_title}

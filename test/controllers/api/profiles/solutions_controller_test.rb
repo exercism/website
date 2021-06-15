@@ -72,7 +72,10 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
 
     expected = SerializePaginatedCollection.(
       Solution.order(id: :desc).page(1),
-      serializer: SerializeCommunitySolutions
+      serializer: SerializeCommunitySolutions,
+      meta: {
+        unscoped_total: 5
+      }
     ).to_json
 
     assert_equal expected, response.body

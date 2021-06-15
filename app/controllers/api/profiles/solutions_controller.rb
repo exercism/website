@@ -1,19 +1,12 @@
 module API::Profiles
   class SolutionsController < BaseController
     def index
-      solutions = Solution::SearchUserSolutions.(
-        @user,
-        status: :published,
-        criteria: params[:criteria],
-        track_slug: params[:track_slug],
-        order: params[:order],
-        page: params[:page]
-      )
+      render json: AssembleProfileSolutionsList.(@user, list_params)
+    end
 
-      render json: SerializePaginatedCollection.(
-        solutions,
-        serializer: SerializeCommunitySolutions
-      )
+    private
+    def list_params
+      params.permit(AssembleProfileSolutionsList.keys)
     end
   end
 end

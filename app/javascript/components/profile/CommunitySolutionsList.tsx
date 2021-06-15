@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { CommunitySolution as CommunitySolutionProps } from '../types'
 import { CommunitySolution } from '../common/CommunitySolution'
 import { Pagination } from '../common'
@@ -40,9 +41,14 @@ export const CommunitySolutionsList = ({
   tracks: TrackData[]
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setCriteria, setPage, setOrder, setQuery } = useList(
-    initialRequest
-  )
+  const {
+    request,
+    setCriteria: setRequestCriteria,
+    setPage,
+    setOrder,
+    setQuery,
+  } = useList(initialRequest)
+  const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const {
     status,
     resolvedData,
@@ -62,6 +68,18 @@ export const CommunitySolutionsList = ({
     [request.query, setQuery]
   )
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
+
   return (
     <div className="lg-container">
       <div className="c-search-bar">
@@ -75,7 +93,7 @@ export const CommunitySolutionsList = ({
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={request.query.criteria || ''}
+          value={criteria}
           placeholder="Filter by exercise"
         />
         <OrderSelect

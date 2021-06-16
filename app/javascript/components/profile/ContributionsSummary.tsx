@@ -9,7 +9,7 @@ import { GraphicalIcon, ProminentLink } from '../common'
 import { useChart } from './contributions-summary/use-chart'
 import { TotalReputation } from './contributions-summary/TotalReputation'
 import { CategorySummary } from './contributions-summary/CategorySummary'
-import { TrackSwitcher } from './contributions-summary/TrackSwitcher'
+import { TrackSelect } from './contributions-summary/TrackSelect'
 
 const leftMargin = 100
 const topMargin = 150
@@ -75,13 +75,13 @@ export const ContributionsSummary = ({
   handle: string
   links: Links
 }): JSX.Element => {
-  const allTrack = tracks.find((track) => track.id === 'all')
+  const allTrack = tracks.find((track) => track.id === null)
 
   if (!allTrack) {
     throw new Error('No data found for all track')
   }
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
-  const [currentTrack, setCurentTrack] = useState(tracks[0])
+  const [currentTrack, setCurrentTrack] = useState(tracks[0])
   const labelRefs = useRef(
     currentTrack.categories.map(() => createRef<HTMLDivElement>())
   )
@@ -191,10 +191,10 @@ export const ContributionsSummary = ({
             handle={handle}
             reputation={getTotalReputation(allTrack)}
           />
-          <TrackSwitcher
+          <TrackSelect
             tracks={tracks}
             value={currentTrack}
-            setValue={setCurentTrack}
+            setValue={setCurrentTrack}
           />
 
           {currentTrack.categories.map((category) => (

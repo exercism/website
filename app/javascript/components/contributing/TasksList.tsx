@@ -15,7 +15,7 @@ import {
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { useList } from '../../hooks/use-list'
-import { TrackSwitcher } from '../common/TrackSwitcher'
+import { TrackSelect } from '../common/TrackSelect'
 import { ActionSwitcher } from './tasks-list/ActionSwitcher'
 import { TypeSwitcher } from './tasks-list/TypeSwitcher'
 import { SizeSwitcher } from './tasks-list/SizeSwitcher'
@@ -71,7 +71,7 @@ export const TasksList = ({
     request.query.areas.length > 0
 
   const setTrack = useCallback(
-    (track: Track) => {
+    (track) => {
       setQuery({ ...request.query, track: track.id, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]
@@ -130,7 +130,12 @@ export const TasksList = ({
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
-        <TrackSwitcher tracks={tracks} value={track} setValue={setTrack} />
+        <TrackSelect
+          tracks={tracks}
+          value={track}
+          setValue={setTrack}
+          size="multi"
+        />
         <ActionSwitcher value={request.query.actions} setValue={setActions} />
         <TypeSwitcher value={request.query.types} setValue={setTypes} />
         <SizeSwitcher value={request.query.sizes} setValue={setSizes} />

@@ -65,12 +65,8 @@
         @apply ml-48;
         width: 420px;
 
-        & .c-track-switcher {
+        & .c-track-select {
             @apply mb-24;
-        }
-        & .c-track-switcher-dropdown {
-            /* Drive this through JS? */
-            width: 420px;
         }
 
         & .exercise-filter {

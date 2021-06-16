@@ -43,11 +43,8 @@
     & .c-search-bar {
         @apply mb-32;
 
-        & .c-track-switcher {
+        & .c-track-select {
             @apply mr-auto;
-            & button {
-                height: 56px;
-            }
         }
         & .c-multi-select {
             @apply ml-16;

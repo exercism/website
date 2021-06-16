@@ -89,7 +89,7 @@ module Flows
       use_capybara_host do
         sign_in!(author)
         visit solutions_profile_path(author.handle)
-        click_on "Open the track filter"
+        click_on "All Tracks"
         find("label", text: "Ruby").click
       end
 

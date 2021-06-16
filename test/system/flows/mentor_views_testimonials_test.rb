@@ -98,7 +98,7 @@ module Flows
       use_capybara_host do
         sign_in!(mentor)
         visit mentoring_testimonials_path
-        click_on "Open the track filter"
+        click_on "All Tracks", visible: false
         find("label", text: "C#").click
 
         assert_text "Too good!"

@@ -8,9 +8,9 @@ import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Pagination } from '../common'
-import { TrackSwitcher } from '../common/TrackSwitcher'
 import { CategorySwitcher } from './contributors-list/CategorySwitcher'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
+import { TrackSelect } from '../common/TrackSelect'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
@@ -62,7 +62,7 @@ export const ContributorsList = ({
   )
 
   const setTrack = useCallback(
-    (track: Track) => {
+    (track) => {
       setQuery({ ...request.query, track: track.id, page: undefined })
     },
     [request.query, setQuery]
@@ -104,7 +104,12 @@ export const ContributorsList = ({
             <span data-text="All time">All time</span>
           </PeriodButton>
         </div>
-        <TrackSwitcher tracks={tracks} value={track} setValue={setTrack} />
+        <TrackSelect
+          tracks={tracks}
+          value={track}
+          setValue={setTrack}
+          size="single"
+        />
         <CategorySwitcher
           value={request.query.category}
           setValue={setCategory}

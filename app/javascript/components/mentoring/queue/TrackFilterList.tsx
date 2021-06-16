@@ -116,7 +116,7 @@ const Component = ({
   }
 
   return (
-    <div className="c-track-switcher">
+    <div className="c-single-select c-track-select --size-large">
       <ResultsZone isFetching={isFetching}>
         <button
           className="current-track"
@@ -134,7 +134,7 @@ const Component = ({
         </button>
       </ResultsZone>
       {open ? (
-        <div {...panelAttributes} className="c-track-switcher-dropdown">
+        <div {...panelAttributes} className="--options">
           <ul {...listAttributes}>
             {tracks.map((track, i) => {
               return (

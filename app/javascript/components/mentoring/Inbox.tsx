@@ -118,7 +118,10 @@ export const Inbox = ({
       <div className="container">
         <header className="c-search-bar">
           <TrackFilter
-            request={tracksRequest}
+            request={{
+              ...tracksRequest,
+              query: { status: request.query.status },
+            }}
             value={request.query.track || null}
             setTrack={setTrack}
           />

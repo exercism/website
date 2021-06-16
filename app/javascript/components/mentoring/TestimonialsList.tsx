@@ -22,8 +22,8 @@ export type PaginatedResult = {
 }
 
 export type Track = {
+  id: string
   title: string
-  slug: string
   iconUrl: string
 }
 

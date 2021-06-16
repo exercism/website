@@ -2,9 +2,10 @@
 
 .c-single-select,
 .c-multi-select {
-    @apply relative;
+    @apply relative flex-shrink-0;
 
-    & > button {
+    & > button,
+    & > .c-results-zone > button {
         @apply flex items-center;
         @apply border-1 border-buttonBorderColor2;
         @apply shadow-xsZ1 rounded-8 bg-backgroundColorA;
@@ -27,7 +28,8 @@
 }
 
 .c-single-select {
-    & > button {
+    & > button,
+    & > .c-results-zone > button {
         height: 48px;
         @apply px-24;
 

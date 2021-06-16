@@ -7,8 +7,7 @@
         & .c-search-bar {
             @apply mb-32;
 
-            & .c-track-switcher {
-                min-width: 380px;
+            & .c-track-select {
                 @apply mr-24;
             }
 

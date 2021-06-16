@@ -18,26 +18,13 @@ module ReactComponents
       def data
         {
           tracks: [
-            {
-              id: "all",
-              title: "All",
-              icon_url: "ICON",
-              categories: categories_data
-            }
-          ].concat(tracks.map { |track| data_for_track(track) }),
+            SerializeTrackForSelect::ALL_TRACK.merge(categories: categories_data),
+            tracks.map { |track| SerializeTrackForSelect.(track).merge(categories: categories_data(track.id)) }
+          ].flatten,
           handle: user.handle,
           links: {
             contributions: Exercism::Routes.contributions_profile_url(user.handle)
           }
-        }
-      end
-
-      def data_for_track(track)
-        {
-          id: track.slug,
-          title: track.title,
-          icon_url: track.icon_url,
-          categories: categories_data(track.id)
         }
       end
 

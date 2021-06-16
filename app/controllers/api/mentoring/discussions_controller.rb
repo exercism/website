@@ -45,25 +45,14 @@ module API
       tracks = Track.where(id: track_counts.keys).index_by(&:id)
       data = track_counts.map do |track_id, count|
         track = tracks[track_id]
-        {
-          slug: track.slug,
-          title: track.title,
-          icon_url: track.icon_url,
-          count: count
-        }
+
+        SerializeTrackForSelect.(track).merge(count: count)
       end
 
       render json: [
-        {
-          slug: nil,
-          title: 'All',
-          icon_url: asset_pack_url(
-            "media/images/icons/all-tracks.svg",
-            host: Rails.application.config.action_controller.asset_host
-          ),
-          count: track_counts.values.sum
-        }
-      ].concat(data)
+        SerializeTrackForSelect::ALL_TRACK.merge(count: track_counts.values.sum),
+        *data
+      ]
     end
 
     def create

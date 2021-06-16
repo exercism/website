@@ -1,32 +1,29 @@
 import React, { useCallback } from 'react'
-import { Icon, TrackIcon } from '../../common'
-import { useDropdown } from '../../dropdowns/useDropdown'
+import { TrackSelect, TrackLogo } from '../../common/TrackSelect'
 
 export type Track = {
-  slug: string
+  id: string
   title: string
   iconUrl: string
   count: number
 }
 
-const TrackFilter = ({
-  title,
-  iconUrl,
-  count,
-  onChange,
-  checked,
-}: Track & { onChange: () => void; checked: boolean }) => {
+const OptionComponent = ({ option: track }: { option: Track }) => {
   return (
     <React.Fragment>
-      <label className="c-radio-wrapper">
-        <input type="radio" onChange={onChange} checked={checked} />
-        <div className="row">
-          <TrackIcon iconUrl={iconUrl} title={title} />
-          <div className="title">{title}</div>
-          <div className="count">{count}</div>
-        </div>
-      </label>
+      <TrackLogo track={track} />
+      <div className="title">{track.title}</div>
+      <div className="count">{track.count}</div>
     </React.Fragment>
+  )
+}
+
+const SelectedComponent = ({ option: track }: { option: Track }) => {
+  return (
+    <div>
+      <TrackLogo track={track} />
+      <div className="tw-sr-only">{track.title}</div>
+    </div>
   )
 }
 
@@ -39,70 +36,23 @@ export const TrackList = ({
   value: string | null
   setTrack: (value: string | null) => void
 }): JSX.Element => {
-  const {
-    buttonAttributes,
-    panelAttributes,
-    listAttributes,
-    itemAttributes,
-    setOpen,
-  } = useDropdown(
-    tracks.length,
-    (i) => {
-      handleItemSelect(i)
-    },
-    {
-      placement: 'bottom-end',
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [-8, 8],
-          },
-        },
-      ],
-    }
-  )
-  const handleItemSelect = useCallback(
-    (index) => {
-      setTrack(tracks[index].slug)
-      setOpen(false)
-    },
-    [setOpen, setTrack, tracks]
-  )
-  const selected = tracks.find((track) => track.slug === value) || tracks[0]
+  const track = tracks.find((t) => t.id === value) || tracks[0]
 
-  if (!selected) {
-    throw 'No matching track found'
-  }
+  const handleSet = useCallback(
+    (track) => {
+      setTrack(track.id)
+    },
+    [setTrack]
+  )
 
   return (
-    <React.Fragment>
-      <button aria-label="Open the track filter" {...buttonAttributes}>
-        <TrackIcon iconUrl={selected.iconUrl} title={selected.title} />
-        <Icon
-          icon="chevron-down"
-          alt="Click to change"
-          className="action-icon"
-        />
-      </button>
-      <div className="c-track-switcher-dropdown" {...panelAttributes}>
-        <ul {...listAttributes}>
-          {tracks.map((track, i) => {
-            return (
-              <li key={track.slug} {...itemAttributes(i)}>
-                <TrackFilter
-                  onChange={() => {
-                    setTrack(track.slug)
-                    setOpen(false)
-                  }}
-                  checked={value === track.slug}
-                  {...track}
-                />
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-    </React.Fragment>
+    <TrackSelect<Track>
+      tracks={tracks}
+      value={track}
+      setValue={handleSet}
+      OptionComponent={OptionComponent}
+      SelectedComponent={SelectedComponent}
+      size="inline"
+    />
   )
 }

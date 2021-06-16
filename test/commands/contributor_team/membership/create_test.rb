@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ContributorTeam::Membership::CreateTest < ActiveSupport::TestCase
-  test "creates concept" do
+  test "creates contributor team membership" do
     user = create :user
     team = create :contributor_team
 

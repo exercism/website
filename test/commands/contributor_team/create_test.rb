@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ContributorTeam::CreateTest < ActiveSupport::TestCase
-  test "creates concept" do
+  test "creates contributor team" do
     track = create :track
 
     ContributorTeam::Create.(

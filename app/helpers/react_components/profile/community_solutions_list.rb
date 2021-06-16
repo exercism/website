@@ -23,16 +23,12 @@ module ReactComponents
         counts = @user.solutions.joins(:exercise).published.group('exercises.track_id').count
         tracks = ::Track.where(id: counts.keys).index_by(&:id)
 
-        data = counts.map do |track_id, count|
-          track = tracks[track_id]
-
-          AssembleTracksForSelect.format(track).merge(num_solutions: count)
-        end
-
         [
-          AssembleTracksForSelect.format(:all).merge(num_solutions: counts.values.sum),
-          data
-        ].flatten
+          SerializeTrackForSelect::ALL_TRACK.merge(num_solutions: counts.values.sum),
+          *counts.map do |track_id, count|
+            SerializeTrackForSelect.(tracks[track_id]).merge(num_solutions: count)
+          end
+        ]
       end
     end
   end

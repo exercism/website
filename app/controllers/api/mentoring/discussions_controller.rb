@@ -46,13 +46,13 @@ module API
       data = track_counts.map do |track_id, count|
         track = tracks[track_id]
 
-        AssembleTracksForSelect.format(track).merge(count: count)
+        SerializeTrackForSelect.(track).merge(count: count)
       end
 
       render json: [
-        AssembleTracksForSelect.format(:all).merge(count: track_counts.values.sum),
-        data
-      ].flatten
+        SerializeTrackForSelect::ALL_TRACK.merge(count: track_counts.values.sum),
+        *data
+      ]
     end
 
     def create

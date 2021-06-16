@@ -18,8 +18,8 @@ module ReactComponents
       def data
         {
           tracks: [
-            AssembleTracksForSelect.format(:all).merge(categories: categories_data),
-            tracks.map { |track| AssembleTracksForSelect.format(track).merge(categories: categories_data(track.id)) }
+            SerializeTrackForSelect::ALL_TRACK.merge(categories: categories_data),
+            tracks.map { |track| SerializeTrackForSelect.(track).merge(categories: categories_data(track.id)) }
           ].flatten,
           handle: user.handle,
           links: {

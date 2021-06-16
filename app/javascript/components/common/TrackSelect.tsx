@@ -2,7 +2,7 @@ import React from 'react'
 import { TrackIcon, GraphicalIcon } from '.'
 import { SingleSelect } from './SingleSelect'
 
-type Size = 'inline' | 'small' | 'single' | 'multi' | 'large'
+type Size = 'inline' | 'single' | 'multi' | 'large'
 
 type Track = {
   title: string

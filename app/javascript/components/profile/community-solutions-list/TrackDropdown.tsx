@@ -54,7 +54,7 @@ export const TrackDropdown = ({
       setValue={handleSet}
       OptionComponent={OptionComponent}
       SelectedComponent={SelectedComponent}
-      size="small"
+      size="single"
     />
   )
 }

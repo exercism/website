@@ -69,7 +69,11 @@ class User < ApplicationRecord
   has_many :donation_subscriptions, class_name: "Donations::Subscription", dependent: :nullify
   has_many :donation_payments, class_name: "Donations::Payment", dependent: :nullify
 
-  # TODO: validate presence of name
+  has_many :team_memberships, class_name: "ContributorTeam::Membership", dependent: :destroy
+  has_many :teams, through: :team_memberships, source: :team
+
+  # TODO: Validate presence of name
+
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
   has_one_attached :avatar

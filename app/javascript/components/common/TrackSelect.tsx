@@ -29,7 +29,7 @@ const SelectedComponent = ({ option: track }: { option: Track }) => {
   )
 }
 
-export const TrackSwitcher = ({
+export const TrackSelect = ({
   tracks,
   value,
   setValue,

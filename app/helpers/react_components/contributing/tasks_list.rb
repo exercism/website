@@ -16,7 +16,7 @@ module ReactComponents
                 initial_data: AssembleTasks.(params)
               }
             },
-            tracks: AssembleTracksForSwitcher.()
+            tracks: AssembleTracksForSelect.()
           }
         )
       end

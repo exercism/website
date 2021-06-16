@@ -20,7 +20,7 @@ module ReactComponents
                 initial_data: initial_data
               }
             },
-            tracks: AssembleTracksForSwitcher.()
+            tracks: AssembleTracksForSelect.()
           }
         )
       end

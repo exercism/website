@@ -1,4 +1,4 @@
-class AssembleTracksForSwitcher
+class AssembleTracksForSelect
   include Mandate
 
   def call

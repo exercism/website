@@ -1,6 +1,10 @@
 class AssembleTracksForSelect
   include Mandate
 
+  def initialize(tracks = default_tracks)
+    @tracks = tracks
+  end
+
   def call
     [
       {
@@ -12,6 +16,8 @@ class AssembleTracksForSelect
   end
 
   private
+  attr_reader :tracks
+
   def data_for_track(track)
     {
       id: track.slug,
@@ -20,7 +26,7 @@ class AssembleTracksForSelect
     }
   end
 
-  def tracks
+  def default_tracks
     ::Track.active
   end
 end

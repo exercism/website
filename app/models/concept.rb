@@ -32,6 +32,7 @@ class Concept < ApplicationRecord
 
   has_many :authorships,
     class_name: "Concept::Authorship",
+    foreign_key: :track_concept_id,
     inverse_of: :concept,
     dependent: :destroy
   has_many :authors,
@@ -40,6 +41,7 @@ class Concept < ApplicationRecord
 
   has_many :contributorships,
     class_name: "Concept::Contributorship",
+    foreign_key: :track_concept_id,
     inverse_of: :concept,
     dependent: :destroy
   has_many :contributors,

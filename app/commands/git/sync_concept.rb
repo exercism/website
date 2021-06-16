@@ -41,8 +41,8 @@ module Git
       return false unless filepath_in_diff?(head_git_concept.config_absolute_filepath)
 
       head_git_concept.blurb != concept.blurb ||
-        head_git_concept.authors.to_a.sort != head_git_concept.authors.map(&:github_username).sort ||
-        head_git_concept.contributors.to_a.sort != head_git_concept.contributors.map(&:github_username).sort
+        head_git_concept.authors.to_a.sort != concept.authors.map(&:github_username).sort ||
+        head_git_concept.contributors.to_a.sort != concept.contributors.map(&:github_username).sort
     end
 
     memoize

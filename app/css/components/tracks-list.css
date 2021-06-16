@@ -79,7 +79,7 @@
                 @apply ml-24;
             }
         }
-        & .c-select {
+        & .c-single-select {
             @apply ml-auto;
         }
     }

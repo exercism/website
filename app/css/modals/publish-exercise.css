@@ -56,9 +56,6 @@
             & label + label {
                 @apply ml-8 mt-0;
             }
-            & .c-select select {
-                @apply py-8;
-            }
         }
         & .confirm-button {
             @apply mt-32;

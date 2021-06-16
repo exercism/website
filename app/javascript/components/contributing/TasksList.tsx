@@ -24,6 +24,7 @@ import { ModuleSwitcher } from './tasks-list/ModuleSwitcher'
 import { ResetButton } from './tasks-list/ResetButton'
 import { Sorter } from './tasks-list/Sorter'
 import pluralize from 'pluralize'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 const DEFAULT_ORDER = 'newest'
@@ -71,48 +72,50 @@ export const TasksList = ({
 
   const setTrack = useCallback(
     (track: Track) => {
-      setQuery({ ...request.query, track: track.id })
+      setQuery({ ...request.query, track: track.id, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]
   )
 
   const setActions = useCallback(
     (actions: TaskAction[]) => {
-      setQuery({ ...request.query, actions: actions })
+      setQuery({ ...request.query, actions: actions, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]
   )
 
   const setTypes = useCallback(
     (types: TaskType[]) => {
-      setQuery({ ...request.query, types: types })
+      setQuery({ ...request.query, types: types, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]
   )
 
   const setSizes = useCallback(
     (sizes: TaskSize[]) => {
-      setQuery({ ...request.query, sizes: sizes })
+      setQuery({ ...request.query, sizes: sizes, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]
   )
 
   const setKnowledge = useCallback(
     (knowledge: TaskKnowledge[]) => {
-      setQuery({ ...request.query, knowledge: knowledge })
+      setQuery({ ...request.query, knowledge: knowledge, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]
   )
 
   const setModules = useCallback(
     (modules: TaskModule[]) => {
-      setQuery({ ...request.query, areas: modules })
+      setQuery({ ...request.query, areas: modules, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]
   )
 
   const handleReset = useCallback(() => {
     setQuery({
+      ...request.query,
+      page: undefined,
       track: '',
       actions: [],
       types: [],
@@ -120,7 +123,9 @@ export const TasksList = ({
       knowledge: [],
       areas: [],
     })
-  }, [setQuery])
+  }, [request.query, setQuery])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <div className="lg-container container">

@@ -48,13 +48,6 @@
             filter: var(--buttonBorderColor1-filter);
         }
     }
-    & .c-select {
-        & select {
-            height: 48px;
-            @apply py-0;
-            @apply text-textColor5 font-medium;
-        }
-    }
 }
 
 .theme-light .c-search-bar {

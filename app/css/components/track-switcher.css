@@ -1,6 +1,8 @@
 @import "../styles";
 
 .c-track-switcher {
+    @apply relative;
+
     &.--small {
         & > button {
             height: 48px;
@@ -41,7 +43,7 @@
         }
         & .count {
             @apply text-textColor6 leading-150 font-medium;
-            @apply ml-32 mr-32;
+            @apply mx-20;
         }
         & .action-icon {
             height: 16px;
@@ -56,6 +58,7 @@
         @apply relative z-dropdown;
         @apply overflow-y-auto;
         max-height: 50vh;
+        min-width: 100%;
 
         & label.c-radio-wrapper {
             --row-selected-background-color: var(--backgroundColorD);
@@ -63,7 +66,7 @@
             & .row {
                 @apply flex items-center;
                 @apply py-8 pl-16;
-                padding-right: 88px; /* This needs to line up with the dropdown */
+                padding-right: 76px; /* This needs to line up with the dropdown */
                 min-width: 360px;
             }
 

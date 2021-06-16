@@ -50,13 +50,11 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit badges_journey_path
-          select "Sort by Oldest First"
+          click_on "Sort by Unrevealed First"
+          find("label", text: "Sort by Oldest First").click
+
           assert_no_text "Member"
           assert_text "Rookie"
-
-          click_on "2"
-          assert_no_text "Rookie"
-          assert_text "Member"
         end
       end
 

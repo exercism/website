@@ -45,6 +45,9 @@
 
         & .c-track-switcher {
             @apply mr-auto;
+            & button {
+                height: 56px;
+            }
         }
         & .c-multi-select {
             @apply ml-16;

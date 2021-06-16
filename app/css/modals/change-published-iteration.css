@@ -12,7 +12,7 @@
     }
     & .iteration-selector {
         @apply mb-24;
-        & label {
+        & > label {
             @apply flex items-center mb-4;
             @apply text-20;
             @apply cursor-pointer;
@@ -25,12 +25,9 @@
         & label + label {
             @apply mt-6;
         }
-        & .c-select {
+        & .c-single-select {
             @apply ml-32 mt-8;
-            max-width: 200px;
-            & select {
-                @apply py-8;
-            }
+            @apply inline-block;
         }
     }
     & .btns {

@@ -5,7 +5,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include WebsocketsHelpers
   include Devise::Test::IntegrationHelpers
 
-  Capybara.default_max_wait_time = 5
+  Capybara.default_max_wait_time = 7
   Capybara.enable_aria_label = true
   Capybara.reuse_server = false
 

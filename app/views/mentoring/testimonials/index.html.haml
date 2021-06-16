@@ -1,4 +1,4 @@
 #mentor-testimonials-page
   = render ViewComponents::Mentor::Header.new(:testimonials)
 
-  = render ReactComponents::Mentoring::TestimonialsList.new
+  = render ReactComponents::Mentoring::TestimonialsList.new(params)

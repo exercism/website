@@ -129,11 +129,13 @@ module Components
           assert_text "on Tournament"
           refute_text "on Series"
 
-          select "Sort by recent first", from: "mentoring-queue-sorter", exact: true
+          click_on "Sort by oldest first"
+          find("label", text: "Sort by recent first").click
           refute_text "on Tournament"
           assert_text "on Series"
 
-          select "Sort by oldest first", from: "mentoring-queue-sorter", exact: true
+          click_on "Sort by recent first"
+          find("label", text: "Sort by oldest first").click
           assert_text "on Tournament"
           refute_text "on Series"
         end

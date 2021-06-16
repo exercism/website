@@ -14,7 +14,7 @@
                 width: 100%;
                 max-width: 450px;
             }
-            & .c-select.order {
+            & .c-single-select {
                 @apply ml-auto;
             }
         }

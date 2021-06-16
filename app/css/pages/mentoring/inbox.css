@@ -27,7 +27,7 @@
                     width: 60%;
                     max-width: 450px;
                 }
-                & .c-select {
+                & .c-single-select {
                     margin-left: auto;
                 }
             }

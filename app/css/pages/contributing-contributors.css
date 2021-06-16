@@ -56,8 +56,8 @@
         & .c-track-switcher {
             @apply ml-auto;
         }
-        & .c-select {
-            @apply ml-16;
+        & .c-single-select {
+            @apply ml-12;
         }
     }
     & .contributors {

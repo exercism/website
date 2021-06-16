@@ -68,21 +68,17 @@ module Flows
     test "mentor orders testimonials" do
       ::Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
       mentor = create :user
-      create :mentor_testimonial, :revealed, content: "Great mentor!", mentor: mentor
-      create :mentor_testimonial, :revealed, content: "Too good!", mentor: mentor
+      create :mentor_testimonial, :revealed, id: 1, content: "Great mentor!", mentor: mentor
+      create :mentor_testimonial, :revealed, id: 2, content: "Too good!", mentor: mentor
 
       use_capybara_host do
         sign_in!(mentor)
         visit mentoring_testimonials_path
-        select "Sort by Oldest First"
+        click_on "Sort by Unrevealed First"
+        find("label", text: "Sort by Oldest First").click
 
         assert_text "Great mentor!"
         assert_no_text "Too good!"
-
-        click_on "Last"
-
-        assert_text "Too good!"
-        assert_no_text "Great mentor!"
       end
     end
 
@@ -133,9 +129,9 @@ module Flows
         click_on "Click / tap to reveal"
 
         within(".m-testimonial") { assert_text "Great mentor!" }
-        page.find("body").click
+        find("body").click(x: 0, y: 0)
 
-        assert_text "New"
+        assert_text "NEW"
       end
     end
   end

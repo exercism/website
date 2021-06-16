@@ -15,9 +15,12 @@ export type Links = {
   exercise: string
 }
 
+export type ReportReason = 'coc' | 'incorrect' | 'other'
+
 export type MentorReport = {
   requeue: boolean
   report: boolean
+  reason: ReportReason
 }
 
 const modalStepMachine = Machine({

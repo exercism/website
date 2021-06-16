@@ -109,12 +109,7 @@ export const Queue = ({
             id="mentoring-queue-student-name-filter"
             placeholder="Filter by student handle"
           />
-          <Sorter
-            sortOptions={sortOptions}
-            order={order}
-            setOrder={setOrder}
-            id="mentoring-queue-sorter"
-          />
+          <Sorter sortOptions={sortOptions} order={order} setOrder={setOrder} />
         </header>
         <ResultsZone isFetching={isFetching}>
           <SolutionList

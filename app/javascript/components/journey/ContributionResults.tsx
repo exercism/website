@@ -2,6 +2,11 @@ import React from 'react'
 import { Contribution } from './Contribution'
 import { Contribution as ContributionProps } from '../types'
 import pluralize from 'pluralize'
+import { OrderSwitcher } from './contribution-results/OrderSwitcher'
+
+export type Order = 'newest_first' | 'oldest_first'
+
+const DEFAULT_ORDER = 'newest_first'
 
 export const ContributionResults = ({
   results,
@@ -18,12 +23,10 @@ export const ContributionResults = ({
         <h3>
           Showing {results.length} {pluralize('contribution', results.length)}
         </h3>
-        <div className="c-select order">
-          <select onChange={(e) => setOrder(e.target.value)} value={order}>
-            <option value="oldest_first">Sort by Oldest First</option>
-            <option value="newest_first">Sort by Newest First</option>
-          </select>
-        </div>
+        <OrderSwitcher
+          value={(order || DEFAULT_ORDER) as Order}
+          setValue={setOrder}
+        />
       </div>
       <div className="reputation-tokens">
         {results.map((contribution) => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useIsMounted } from 'use-is-mounted'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -9,6 +9,8 @@ import { UnrevealedTestimonial } from './testimonials-list/UnrevealedTestimonial
 import { useList } from '../../hooks/use-list'
 import { GraphicalIcon, Pagination } from '../common'
 import { TrackDropdown } from './testimonials-list/TrackDropdown'
+import { OrderSelect } from './testimonials-list/OrderSelect'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 export type PaginatedResult = {
   results: readonly Testimonial[]
@@ -25,7 +27,10 @@ export type Track = {
   iconUrl: string
 }
 
+export type Order = 'unrevealed' | 'newest' | 'oldest'
+
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
+const DEFAULT_ORDER = 'unrevealed'
 
 export const TestimonialsList = ({
   request: initialRequest,
@@ -35,10 +40,19 @@ export const TestimonialsList = ({
   tracks: readonly Track[]
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setQuery, setCriteria, setPage, setOrder } = useList(
-    initialRequest
-  )
-  const cacheKey = ['mentor-testimonials', request.endpoint, request.query]
+  const {
+    request,
+    setQuery,
+    setCriteria: setRequestCriteria,
+    setPage,
+    setOrder,
+  } = useList(initialRequest)
+  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const cacheKey = [
+    'mentor-testimonials',
+    request.endpoint,
+    removeEmpty(request.query),
+  ]
   const {
     status,
     resolvedData,
@@ -47,7 +61,10 @@ export const TestimonialsList = ({
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     cacheKey,
-    request,
+    {
+      ...request,
+      query: removeEmpty(request.query),
+    },
     isMountedRef
   )
 
@@ -58,6 +75,18 @@ export const TestimonialsList = ({
     [request.query, setQuery]
   )
   const [revealedTestimonials, setRevealedTestimonials] = useState<string[]>([])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
 
   return (
     <div className="lg-container">
@@ -71,20 +100,15 @@ export const TestimonialsList = ({
           <input
             className="--search"
             placeholder="Search by student name or testimonial"
-            value={request.query.criteria || ''}
+            value={criteria}
             onChange={(e) => {
               setCriteria(e.target.value)
             }}
           />
-          <div className="c-select order">
-            <select
-              value={request.query.order || 'newest'}
-              onChange={(e) => setOrder(e.target.value)}
-            >
-              <option value="newest">Sort by Newest First</option>
-              <option value="oldest">Sort by Oldest First</option>
-            </select>
-          </div>
+          <OrderSelect
+            value={request.query.order || DEFAULT_ORDER}
+            setValue={setOrder}
+          />
         </div>
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary

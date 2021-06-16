@@ -9,7 +9,7 @@ import { act } from 'react-dom/test-utils'
 test('passing in a null iteration idx selects "All iterations"', async () => {
   render(
     <IterationSelector
-      iterations={[]}
+      iterations={[createIteration({ idx: 1 })]}
       iterationIdx={null}
       setIterationIdx={jest.fn()}
     />
@@ -17,20 +17,24 @@ test('passing in a null iteration idx selects "All iterations"', async () => {
 
   expect(screen.getByLabelText('All iterations')).toBeChecked()
   expect(screen.getByLabelText('Single iteration')).not.toBeChecked()
-  expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', { name: /Iteration 1/ })
+  ).not.toBeInTheDocument()
 })
 
 test('passing in an iteration idx selects "Single iteration"', async () => {
   render(
     <IterationSelector
-      iterations={[]}
+      iterations={[createIteration({ idx: 1 })]}
       iterationIdx={1}
       setIterationIdx={jest.fn()}
     />
   )
 
   expect(screen.getByLabelText('Single iteration')).toBeChecked()
-  expect(screen.queryByRole('combobox')).toBeInTheDocument()
+  expect(
+    screen.getByRole('button', { name: /Iteration 1/ })
+  ).toBeInTheDocument()
   expect(screen.getByLabelText('All iterations')).not.toBeChecked()
 })
 

@@ -1,13 +1,15 @@
-import React, { useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { CommunitySolution as CommunitySolutionProps } from '../types'
 import { CommunitySolution } from '../common/CommunitySolution'
 import { Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { TrackDropdown } from './community-solutions-list/TrackDropdown'
+import { OrderSelect } from './community-solutions-list/OrderSelect'
 
 export type TrackData = {
   iconUrl: string
@@ -15,6 +17,7 @@ export type TrackData = {
   id: string | null
   numSolutions: number
 }
+
 type PaginatedResult = {
   results: CommunitySolutionProps[]
   meta: {
@@ -25,7 +28,10 @@ type PaginatedResult = {
   }
 }
 
+export type Order = 'newest_first' | 'oldest_first'
+
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
+const DEFAULT_ORDER = 'newest_first'
 
 export const CommunitySolutionsList = ({
   request: initialRequest,
@@ -35,9 +41,14 @@ export const CommunitySolutionsList = ({
   tracks: TrackData[]
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setCriteria, setPage, setOrder, setQuery } = useList(
-    initialRequest
-  )
+  const {
+    request,
+    setCriteria: setRequestCriteria,
+    setPage,
+    setOrder,
+    setQuery,
+  } = useList(initialRequest)
+  const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const {
     status,
     resolvedData,
@@ -57,6 +68,18 @@ export const CommunitySolutionsList = ({
     [request.query, setQuery]
   )
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
+
   return (
     <div className="lg-container">
       <div className="c-search-bar">
@@ -70,18 +93,13 @@ export const CommunitySolutionsList = ({
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={request.query.criteria || ''}
+          value={criteria}
           placeholder="Filter by exercise"
         />
-        <div className="c-select order">
-          <select
-            onChange={(e) => setOrder(e.target.value)}
-            value={request.query.order}
-          >
-            <option value="newest_first">Sort by Newest First</option>
-            <option value="oldest_first">Sort by Oldest First</option>
-          </select>
-        </div>
+        <OrderSelect
+          value={request.query.order || DEFAULT_ORDER}
+          setValue={setOrder}
+        />
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary

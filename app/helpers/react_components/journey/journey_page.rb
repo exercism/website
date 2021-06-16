@@ -1,7 +1,7 @@
 module ReactComponents
   module Journey
     class JourneyPage < ReactComponent
-      initialize_with :default_category_id
+      initialize_with :default_category_id, :params
 
       def to_s
         super("journey-journey-page", {
@@ -15,7 +15,15 @@ module ReactComponents
         if default_category_id == "solutions"
           options = {
             initial_data: SerializePaginatedCollection.(
-              Solution::SearchUserSolutions.(current_user),
+              Solution::SearchUserSolutions.(
+                current_user,
+                criteria: params[:criteria],
+                track_slug: params[:track_id],
+                status: params[:status],
+                mentoring_status: params[:mentoring_status],
+                page: params[:page],
+                order: params[:order]
+              ),
               serializer: SerializeSolutions,
               serializer_args: [current_user]
             )
@@ -29,6 +37,14 @@ module ReactComponents
           title: "Solutions",
           request: {
             endpoint: Exercism::Routes.api_solutions_url,
+            query: {
+              criteria: params[:criteria],
+              track_slug: params[:track_id],
+              status: params[:status],
+              mentoring_status: params[:mentoring_status],
+              page: params[:page],
+              order: params[:order]
+            }.compact,
             options: options
           },
           path: Exercism::Routes.solutions_journey_path,
@@ -38,7 +54,13 @@ module ReactComponents
 
       def reputation_category
         if default_category_id == "reputation"
-          tokens = User::ReputationToken::Search.(current_user)
+          tokens = User::ReputationToken::Search.(
+            current_user,
+            criteria: params[:criteria],
+            category: params[:category],
+            page: params[:page],
+            order: params[:order]
+          )
 
           data = tokens.map do |token|
             token.rendering_data.merge(
@@ -70,6 +92,12 @@ module ReactComponents
           title: "Reputation",
           request: {
             endpoint: Exercism::Routes.api_reputation_index_url,
+            query: {
+              criteria: params[:criteria],
+              category: params[:category],
+              page: params[:page],
+              order: params[:order]
+            }.compact,
             options: options
           },
           path: Exercism::Routes.reputation_journey_path,
@@ -91,7 +119,11 @@ module ReactComponents
         if default_category_id == "badges"
           options = {
             initial_data: SerializePaginatedCollection.(
-              User::AcquiredBadge::Search.(current_user, order: :unrevealed_first),
+              User::AcquiredBadge::Search.(
+                current_user,
+                order: params[:order],
+                criteria: params[:criteria]
+              ),
               serializer: SerializeUserAcquiredBadges
             )
           }
@@ -104,6 +136,10 @@ module ReactComponents
           title: "Badges",
           request: {
             endpoint: Exercism::Routes.api_badges_url,
+            query: {
+              order: params[:order],
+              criteria: params[:criteria]
+            }.compact,
             options: options
           },
           path: Exercism::Routes.badges_journey_path,

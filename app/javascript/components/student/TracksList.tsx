@@ -7,6 +7,7 @@ import { ResultsZone } from '../ResultsZone'
 import { useList } from '../../hooks/use-list'
 import { StudentTrack } from '../types'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
+import { OrderSelect } from './tracks-list/OrderSelect'
 
 type APIResponse = {
   tracks: StudentTrack[]
@@ -19,6 +20,8 @@ export type TagOption = {
     label: string
   }[]
 }
+
+export type Order = 'last_touched_first'
 
 export const TracksList = ({
   tagOptions,
@@ -81,11 +84,7 @@ export const TracksList = ({
             value={request.query.tags}
             numTracks={resolvedData ? resolvedData.tracks.length : 0}
           />
-          <div className="c-select">
-            <select>
-              <option>Sort by last touched</option>
-            </select>
-          </div>
+          <OrderSelect value="last_touched_first" setValue={() => null} />
         </div>
       </section>
       <section className="lg-container container">

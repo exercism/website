@@ -113,11 +113,12 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
-          select "Sort by Newest First"
+          click_on "Sort by Newest First"
+          find("label", text: "Sort by Oldest First").click
         end
 
-        assert_text "Bob"
-        assert_no_text "Lasagna"
+        assert_no_text "Bob"
+        assert_text "Lasagna"
       end
 
       private

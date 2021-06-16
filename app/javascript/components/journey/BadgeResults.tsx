@@ -4,6 +4,11 @@ import { UnrevealedBadge } from './UnrevealedBadge'
 import pluralize from 'pluralize'
 import { Badge as BadgeProps } from '../types'
 import { QueryKey } from 'react-query'
+import { OrderSwitcher } from './badge-results/OrderSwitcher'
+
+export type Order = 'unrevealed_first' | 'newest_first' | 'oldest_first'
+
+const DEFAULT_ORDER = 'unrevealed_first'
 
 export const BadgeResults = ({
   results,
@@ -22,13 +27,10 @@ export const BadgeResults = ({
         <h3>
           Showing {results.length} {pluralize('badge', results.length)}
         </h3>
-        <div className="c-select order">
-          <select onChange={(e) => setOrder(e.target.value)} value={order}>
-            <option value="unrevealed_first">Sort by Recommended</option>
-            <option value="newest_first">Sort by Newest First</option>
-            <option value="oldest_first">Sort by Oldest First</option>
-          </select>
-        </div>
+        <OrderSwitcher
+          value={(order || DEFAULT_ORDER) as Order}
+          setValue={setOrder}
+        />
       </div>
       <div className="badges">
         {results.map((badge) => {

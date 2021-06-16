@@ -9,11 +9,13 @@ import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Pagination } from '../common'
 import { TrackSwitcher } from '../common/TrackSwitcher'
+import { CategorySwitcher } from './contributors-list/CategorySwitcher'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
 export type Period = 'week' | 'month' | 'year' | undefined
-type Category =
+export type Category =
   | 'building'
   | 'maintaining'
   | 'authoring'
@@ -47,25 +49,27 @@ export const ContributorsList = ({
 
   const setPeriod = useCallback(
     (period: Period) => {
-      setQuery({ ...request.query, period: period })
+      setQuery({ ...request.query, period: period, page: undefined })
     },
     [request.query, setQuery]
   )
 
   const setCategory = useCallback(
     (category: Category) => {
-      setQuery({ ...request.query, category: category })
+      setQuery({ ...request.query, category: category, page: undefined })
     },
     [request.query, setQuery]
   )
 
   const setTrack = useCallback(
     (track: Track) => {
-      setQuery({ ...request.query, track: track.id })
+      setQuery({ ...request.query, track: track.id, page: undefined })
     },
     [request.query, setQuery]
   )
   const track = tracks.find((t) => t.id === request.query.track) || tracks[0]
+
+  useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <div>
@@ -101,24 +105,10 @@ export const ContributorsList = ({
           </PeriodButton>
         </div>
         <TrackSwitcher tracks={tracks} value={track} setValue={setTrack} />
-        <div className="c-select">
-          <select
-            value={request.query.category || ''}
-            onChange={(e) => {
-              const value =
-                e.target.value === '' ? undefined : (e.target.value as Category)
-
-              setCategory(value)
-            }}
-          >
-            <option value="">Select a category....</option>
-            <option value="building">Building</option>
-            <option value="maintaining">Maintaining</option>
-            <option value="authoring">Authoring</option>
-            <option value="mentoring">Mentoring</option>
-            <option value="publishing">Publishing</option>
-          </select>
-        </div>
+        <CategorySwitcher
+          value={request.query.category}
+          setValue={setCategory}
+        />
       </div>
 
       <ResultsZone isFetching={isFetching}>

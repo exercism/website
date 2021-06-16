@@ -1,6 +1,11 @@
 import React from 'react'
 import { SolutionProps, Solution } from './Solution'
 import pluralize from 'pluralize'
+import { OrderSwitcher } from './solution-results/OrderSwitcher'
+
+export type Order = 'newest_first' | 'oldest_first'
+
+const DEFAULT_ORDER = 'newest_first'
 
 export const SolutionResults = ({
   results,
@@ -17,12 +22,10 @@ export const SolutionResults = ({
         <h3>
           Showing {results.length} {pluralize('solution', results.length)}
         </h3>
-        <div className="c-select order">
-          <select onChange={(e) => setOrder(e.target.value)} value={order}>
-            <option value="newest_first">Sort by Newest First</option>
-            <option value="oldest_first">Sort by Oldest First</option>
-          </select>
-        </div>
+        <OrderSwitcher
+          value={(order || DEFAULT_ORDER) as Order}
+          setValue={setOrder}
+        />
       </div>
       <div className="solutions">
         {results.map((solution) => {

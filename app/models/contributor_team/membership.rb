@@ -8,7 +8,7 @@ class ContributorTeam::Membership < ApplicationRecord
   belongs_to :team,
     class_name: "ContributorTeam",
     foreign_key: :contributor_team_id,
-    inverse_of: :members
+    inverse_of: :memberships
 
   belongs_to :user,
     inverse_of: :team_memberships

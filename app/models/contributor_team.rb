@@ -9,7 +9,7 @@ class ContributorTeam < ApplicationRecord
   belongs_to :track, optional: true
 
   has_many :memberships, dependent: :destroy
-  has_many :members, through: :team_memberships, source: :user
+  has_many :members, through: :memberships, source: :user
 
   def type
     super.to_sym

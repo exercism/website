@@ -1,9 +1,12 @@
 import React from 'react'
 import { TrackIcon, GraphicalIcon } from '.'
-import { Track as BaseTrack } from '../types'
 import { SingleSelect } from './SingleSelect'
 
-type Track = Pick<BaseTrack, 'iconUrl' | 'id' | 'title'>
+type Track = {
+  title: string
+  id: string | null
+  iconUrl: string
+}
 
 export const TrackLogo = <T extends Track>({
   track,

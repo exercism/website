@@ -591,6 +591,14 @@ ActiveRecord::Schema.define(version: 2021_06_15_114943) do
     t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
   end
 
+  create_table "user_communication_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
+  end
+
   create_table "user_notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "user_id", null: false
@@ -794,6 +802,7 @@ ActiveRecord::Schema.define(version: 2021_06_15_114943) do
   add_foreign_key "user_activities", "tracks"
   add_foreign_key "user_activities", "users"
   add_foreign_key "user_auth_tokens", "users"
+  add_foreign_key "user_communication_preferences", "users"
   add_foreign_key "user_notifications", "exercises"
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"

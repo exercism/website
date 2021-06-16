@@ -46,9 +46,54 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     assert membership.visible
   end
 
+  test "adds maintainer role when added to track_maintainers team" do
+    user = create :user
+    team = create :contributor_team, type: :track_maintainers
+
+    ContributorTeam::Membership::CreateOrUpdate.(
+      user,
+      team,
+      seniority: :junior,
+      visible: true
+    )
+
+    assert_includes user.roles, :maintainer
+  end
+
+  test "adds reviewer role when added to reviewers team" do
+    user = create :user, roles: [:admin]
+    team = create :contributor_team, type: :reviewers
+
+    ContributorTeam::Membership::CreateOrUpdate.(
+      user,
+      team,
+      seniority: :junior,
+      visible: true
+    )
+
+    assert_includes user.roles, :reviewer
+  end
+
+  test "keeps existing roles" do
+    user = create :user, roles: %i[admin reviewer]
+    team = create :contributor_team, type: :track_maintainers
+
+    ContributorTeam::Membership::CreateOrUpdate.(
+      user,
+      team,
+      seniority: :junior,
+      visible: true
+    )
+
+    assert_equal 3, user.roles.size
+    assert_includes user.roles, :admin
+    assert_includes user.roles, :reviewer
+    assert_includes user.roles, :maintainer
+  end
+
   test "idempotent" do
     user = create :user
-    team = create :contributor_team
+    team = create :contributor_team, type: :track_maintainers
 
     assert_idempotent_command do
       ContributorTeam::Membership::CreateOrUpdate.(
@@ -58,5 +103,7 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
         visible: true
       )
     end
+
+    assert_equal [:maintainer], user.roles
   end
 end

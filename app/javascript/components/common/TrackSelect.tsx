@@ -1,9 +1,15 @@
 import React from 'react'
 import { TrackIcon, GraphicalIcon } from '.'
-import { Track } from '../types'
+import { Track as BaseTrack } from '../types'
 import { SingleSelect } from './SingleSelect'
 
-const TrackLogo = ({ track }: { track: Track }) => {
+type Track = Pick<BaseTrack, 'iconUrl' | 'id' | 'title'>
+
+export const TrackLogo = <T extends Track>({
+  track,
+}: {
+  track: T
+}): JSX.Element => {
   return track.id ? (
     <TrackIcon iconUrl={track.iconUrl} title={track.title} />
   ) : (
@@ -11,7 +17,11 @@ const TrackLogo = ({ track }: { track: Track }) => {
   )
 }
 
-const TrackFilter = ({ option: track }: { option: Track }): JSX.Element => {
+const DefaultOptionComponent = <T extends Track>({
+  option: track,
+}: {
+  option: T
+}): JSX.Element => {
   return (
     <React.Fragment>
       <TrackLogo track={track} />
@@ -20,7 +30,11 @@ const TrackFilter = ({ option: track }: { option: Track }): JSX.Element => {
   )
 }
 
-const SelectedComponent = ({ option: track }: { option: Track }) => {
+const DefaultSelectedComponent = <T extends Track>({
+  option: track,
+}: {
+  option: T
+}) => {
   return (
     <React.Fragment>
       <TrackLogo track={track} />
@@ -29,28 +43,32 @@ const SelectedComponent = ({ option: track }: { option: Track }) => {
   )
 }
 
-export const TrackSelect = ({
+export const TrackSelect = <T extends Track>({
   tracks,
   value,
   setValue,
   small = false,
+  SelectedComponent = DefaultSelectedComponent,
+  OptionComponent = DefaultOptionComponent,
 }: {
-  tracks: readonly Track[]
-  value: Track
-  setValue: (value: Track) => void
+  tracks: readonly T[]
+  value: T
+  setValue: (value: T) => void
   small?: boolean
+  SelectedComponent?: React.ComponentType<{ option: T }>
+  OptionComponent?: React.ComponentType<{ option: T }>
 }): JSX.Element => {
   const classNames = ['c-track-switcher', small ? '--small' : ''].filter(
     (className) => className.length > 0
   )
 
   return (
-    <SingleSelect<Track>
+    <SingleSelect<T>
       options={tracks}
       value={value}
       setValue={setValue}
       SelectedComponent={SelectedComponent}
-      OptionComponent={TrackFilter}
+      OptionComponent={OptionComponent}
       componentClassName={classNames.join(' ')}
     />
   )

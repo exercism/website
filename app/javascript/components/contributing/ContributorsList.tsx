@@ -62,7 +62,7 @@ export const ContributorsList = ({
   )
 
   const setTrack = useCallback(
-    (track: Track) => {
+    (track) => {
       setQuery({ ...request.query, track: track.id, page: undefined })
     },
     [request.query, setQuery]

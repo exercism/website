@@ -71,7 +71,7 @@ export const TasksList = ({
     request.query.areas.length > 0
 
   const setTrack = useCallback(
-    (track: Track) => {
+    (track) => {
       setQuery({ ...request.query, track: track.id, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]

@@ -26,16 +26,13 @@ module ReactComponents
         data = counts.map do |track_id, count|
           track = tracks[track_id]
 
-          { id: track.slug, title: track.title, num_solutions: count, icon_url: track.icon_url }
+          AssembleTracksForSelect.format(track).merge(num_solutions: count)
         end
 
-        data.unshift(
-          id: nil, title: "All",
-          num_solutions: counts.values.sum,
-          icon_url: ::Track.first.icon_url # TODO
-        )
-
-        data
+        [
+          AssembleTracksForSelect.format(:all).merge(num_solutions: counts.values.sum),
+          data
+        ].flatten
       end
     end
   end

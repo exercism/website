@@ -45,21 +45,14 @@ module API
       tracks = Track.where(id: track_counts.keys).index_by(&:id)
       data = track_counts.map do |track_id, count|
         track = tracks[track_id]
-        {
-          id: track.slug,
-          title: track.title,
-          icon_url: track.icon_url,
-          count: count
-        }
+
+        AssembleTracksForSelect.format(track).merge(count: count)
       end
 
       render json: [
-        {
-          id: nil,
-          title: 'All',
-          count: track_counts.values.sum
-        }
-      ].concat(data)
+        AssembleTracksForSelect.format(:all).merge(count: track_counts.values.sum),
+        data
+      ].flatten
     end
 
     def create

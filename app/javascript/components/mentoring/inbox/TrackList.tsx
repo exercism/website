@@ -19,7 +19,12 @@ const OptionComponent = ({ option: track }: { option: Track }) => {
 }
 
 const SelectedComponent = ({ option: track }: { option: Track }) => {
-  return <TrackLogo track={track} />
+  return (
+    <div>
+      <TrackLogo track={track} />
+      <div className="tw-sr-only">{track.title}</div>
+    </div>
+  )
 }
 
 export const TrackList = ({

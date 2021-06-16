@@ -103,14 +103,10 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     get tracks_api_mentoring_discussions_path(per: 1, status: :awaiting_mentor), headers: @headers, as: :json
     assert_response 200
 
-    all_icon = asset_pack_url(
-      "media/images/icons/all-tracks.svg",
-      host: Rails.application.config.action_controller.asset_host
-    )
     expected = [
-      { slug: nil, title: 'All', icon_url: all_icon, count: 3 },
-      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 },
-      { slug: go.slug, title: go.title, icon_url: go.icon_url, count: 2 }
+      { id: nil, title: 'All Tracks', icon_url: "ICON", count: 3 },
+      { id: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 },
+      { id: go.slug, title: go.title, icon_url: go.icon_url, count: 2 }
     ]
     assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
   end

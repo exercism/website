@@ -42,8 +42,8 @@ module ReactComponents::Profile
       expected = {
         tracks: [
           {
-            id: "all",
-            title: "All",
+            id: nil,
+            title: "All Tracks",
             icon_url: "ICON",
             categories: [
               # TODO: Reputation
@@ -97,8 +97,8 @@ module ReactComponents::Profile
       expected = {
         tracks: [
           {
-            id: "all",
-            title: "All",
+            id: nil,
+            title: "All Tracks",
             icon_url: "ICON",
             categories: [
               { id: :publishing, reputation: 0, metric_full: "No solutions published", metric_short: "No solutions" },

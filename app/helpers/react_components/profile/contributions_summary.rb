@@ -17,20 +17,14 @@ module ReactComponents
       # cache invalidation for here.
       def data
         {
-          tracks: AssembleTracksForSelect.().map { |track| track.merge(categories: categories_data(track[:id])) },
+          tracks: [
+            AssembleTracksForSelect.format(:all).merge(categories: categories_data),
+            tracks.map { |track| AssembleTracksForSelect.format(track).merge(categories: categories_data(track.id)) }
+          ].flatten,
           handle: user.handle,
           links: {
             contributions: Exercism::Routes.contributions_profile_url(user.handle)
           }
-        }
-      end
-
-      def data_for_track(track)
-        {
-          id: track.slug,
-          title: track.title,
-          icon_url: track.icon_url,
-          categories: categories_data(track.id)
         }
       end
 

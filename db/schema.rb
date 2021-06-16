@@ -97,15 +97,20 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.integer "seniority", limit: 1, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["contributor_team_id", "user_id"], name: "index_contributor_team_memberships_on_team_id_and_user_id", unique: true
     t.index ["contributor_team_id"], name: "index_contributor_team_memberships_on_contributor_team_id"
     t.index ["user_id"], name: "index_contributor_team_memberships_on_user_id"
   end
 
   create_table "contributor_teams", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id"
+    t.string "name", null: false
+    t.string "github_name", null: false
     t.integer "type", limit: 1, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_name"], name: "index_contributor_teams_on_github_name", unique: true
+    t.index ["name"], name: "index_contributor_teams_on_name", unique: true
     t.index ["track_id"], name: "index_contributor_teams_on_track_id"
   end
 

@@ -67,7 +67,7 @@ module Git
           blurb: git_concept.blurb,
           synced_to_git_sha: head_git_track.commit.oid
         ).tap do |concept|
-          Git::SyncConcept.(concept) # TODO: Honour force_sync like exercises
+          Git::SyncConcept.(concept, force_sync: force_sync)
         end
       end
     end

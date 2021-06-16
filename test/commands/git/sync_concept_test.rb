@@ -1,6 +1,19 @@
 require "test_helper"
 
 class Git::SyncConceptTest < ActiveSupport::TestCase
+  test "respects force_sync: true" do
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    concept = create :concept, uuid: '3b1da281-7099-4c93-a109-178fc9436d68', slug: 'strings', name: 'Strings', blurb: 'Strings are immutable objects', synced_to_git_sha: repo.head_commit.oid # rubocop:disable Layout/LineLength
+
+    Git::SyncConceptAuthors.expects(:call).never
+    Git::SyncConcept.(concept)
+
+    Git::SyncConceptAuthors.expects(:call).once
+    Git::SyncConcept.(concept, force_sync: true)
+
+    assert_equal concept.git.head_sha, concept.synced_to_git_sha
+  end
+
   test "git sync SHA changes to HEAD SHA when there are no changes" do
     concept = create :concept, uuid: '3b1da281-7099-4c93-a109-178fc9436d68', slug: 'strings', name: 'Strings', blurb: 'Strings are immutable objects', synced_to_git_sha: '6487b3d27ed048552e244b416cbbb4a5e0a343e6' # rubocop:disable Layout/LineLength
 

@@ -2,14 +2,17 @@ module Git
   class SyncConcept < Sync
     include Mandate
 
-    def initialize(concept)
+    def initialize(concept, force_sync: false)
       super(concept.track, concept.synced_to_git_sha)
 
       @concept = concept
+      @force_sync = force_sync
     end
 
     def call
-      return concept.update_columns(synced_to_git_sha: head_git_concept.synced_git_sha) unless concept_needs_updating?
+      unless force_sync || concept_needs_updating?
+        return concept.update_columns(synced_to_git_sha: head_git_concept.synced_git_sha)
+      end
 
       concept.update!(
         slug: concept_config[:slug],
@@ -23,7 +26,7 @@ module Git
     end
 
     private
-    attr_reader :concept
+    attr_reader :concept, :force_sync
 
     def concept_needs_updating?
       track_config_concept_modified? || concept_config_modified?

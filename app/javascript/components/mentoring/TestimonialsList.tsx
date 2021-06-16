@@ -48,7 +48,11 @@ export const TestimonialsList = ({
     setOrder,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
-  const cacheKey = ['mentor-testimonials', request.endpoint, request.query]
+  const cacheKey = [
+    'mentor-testimonials',
+    request.endpoint,
+    removeEmpty(request.query),
+  ]
   const {
     status,
     resolvedData,
@@ -57,7 +61,10 @@ export const TestimonialsList = ({
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     cacheKey,
-    request,
+    {
+      ...request,
+      query: removeEmpty(request.query),
+    },
     isMountedRef
   )
 

@@ -104,7 +104,7 @@ export const ContributorsList = ({
             <span data-text="All time">All time</span>
           </PeriodButton>
         </div>
-        <TrackSelect tracks={tracks} value={track} setValue={setTrack} />
+        <TrackSelect tracks={tracks} value={track} setValue={setTrack} small />
         <CategorySwitcher
           value={request.query.category}
           setValue={setCategory}

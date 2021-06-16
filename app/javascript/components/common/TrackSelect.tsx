@@ -33,11 +33,17 @@ export const TrackSelect = ({
   tracks,
   value,
   setValue,
+  small = false,
 }: {
   tracks: readonly Track[]
   value: Track
   setValue: (value: Track) => void
+  small?: boolean
 }): JSX.Element => {
+  const classNames = ['c-track-switcher', small ? '--small' : ''].filter(
+    (className) => className.length > 0
+  )
+
   return (
     <SingleSelect<Track>
       options={tracks}
@@ -45,7 +51,7 @@ export const TrackSelect = ({
       setValue={setValue}
       SelectedComponent={SelectedComponent}
       OptionComponent={TrackFilter}
-      componentClassName="c-track-switcher --small"
+      componentClassName={classNames.join(' ')}
     />
   )
 }

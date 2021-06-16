@@ -17,6 +17,16 @@ module Git
     end
 
     memoize
+    def authors
+      config[:authors].to_a
+    end
+
+    memoize
+    def contributors
+      config[:contributors].to_a
+    end
+
+    memoize
     def links
       repo.read_json_blob(commit, absolute_filepath(links_filepath)).map { |link| OpenStruct.new(link) }
     end

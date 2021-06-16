@@ -42,3 +42,9 @@ sync_issues_and_tasks:
   cron: "0 1 * * 2"
   class: "SyncIssuesAndTasksJob"
   queue: dribble
+
+# 1am Wednesday
+sync_tracks:
+  cron: "0 1 * * 3"
+  class: "SyncTracksJob"
+  queue: dribble

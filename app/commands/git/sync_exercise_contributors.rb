@@ -1,5 +1,5 @@
 module Git
-  class SyncContributors < Sync
+  class SyncExerciseContributors < Sync
     include Mandate
 
     def initialize(exercise)

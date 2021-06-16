@@ -27,8 +27,8 @@ module Git
         prerequisites: find_concepts(exercise_config[:prerequisites])
       )
 
-      SyncAuthors.(exercise)
-      SyncContributors.(exercise)
+      SyncExerciseAuthors.(exercise)
+      SyncExerciseContributors.(exercise)
     end
 
     private
@@ -53,7 +53,9 @@ module Git
       return false unless filepath_in_diff?(head_git_exercise.config_absolute_filepath)
 
       head_git_exercise.blurb != exercise.blurb ||
-        head_git_exercise.icon_name != exercise.icon_name
+        head_git_exercise.icon_name != exercise.icon_name ||
+        head_git_exercise.authors.to_a.sort != exercise.authors.map(&:github_username).sort ||
+        head_git_exercise.contributors.to_a.sort != exercise.contributors.map(&:github_username).sort
     end
 
     def exercise_files_modified?

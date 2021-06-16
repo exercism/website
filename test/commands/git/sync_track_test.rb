@@ -15,7 +15,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "resyncs when force_sync is passed" do
     track = create :track, synced_to_git_sha: "HEAD"
 
-    Git::SyncConcept.expects(:call).at_least_once
+    Git::SyncConcept.expects(:call).with(anything, force_sync: true).at_least_once
     Git::SyncConceptExercise.expects(:call).with(anything, force_sync: true).at_least_once
     Git::SyncPracticeExercise.expects(:call).with(anything, force_sync: true).at_least_once
 

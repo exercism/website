@@ -67,7 +67,7 @@ module Git
           blurb: git_concept.blurb,
           synced_to_git_sha: head_git_track.commit.oid
         ).tap do |concept|
-          Git::SyncConcept.(concept) # TODO: Honour force_sync like exercises
+          Git::SyncConcept.(concept, force_sync: force_sync)
         end
       end
     end
@@ -119,13 +119,6 @@ module Git
         )
         Git::SyncPracticeExercise.(exercise, force_sync: force_sync)
       end
-    end
-
-    def track_needs_updating?
-      return true if force_sync
-      return false if synced_to_head?
-
-      true
     end
 
     def exercise_concepts(concept_slugs)

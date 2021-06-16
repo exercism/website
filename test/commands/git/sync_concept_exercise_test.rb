@@ -5,10 +5,10 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", git_sha: repo.head_commit.oid, synced_to_git_sha: repo.head_commit.oid # rubocop:disable Layout/LineLength
 
-    Git::SyncAuthors.expects(:call).never
+    Git::SyncExerciseAuthors.expects(:call).never
     Git::SyncConceptExercise.(exercise)
 
-    Git::SyncAuthors.expects(:call).once
+    Git::SyncExerciseAuthors.expects(:call).once
     Git::SyncConceptExercise.(exercise, force_sync: true)
   end
 

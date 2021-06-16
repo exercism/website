@@ -30,6 +30,24 @@ class Concept < ApplicationRecord
     dependent: :destroy
   has_many :practice_exercises, through: :exercise_practiced_concepts, source: :exercise
 
+  has_many :authorships,
+    class_name: "Concept::Authorship",
+    foreign_key: :track_concept_id,
+    inverse_of: :concept,
+    dependent: :destroy
+  has_many :authors,
+    through: :authorships,
+    source: :author
+
+  has_many :contributorships,
+    class_name: "Concept::Contributorship",
+    foreign_key: :track_concept_id,
+    inverse_of: :concept,
+    dependent: :destroy
+  has_many :contributors,
+    through: :contributorships,
+    source: :contributor
+
   scope :not_taught, lambda {
     where.not(id: Exercise::TaughtConcept.select(:track_concept_id))
   }

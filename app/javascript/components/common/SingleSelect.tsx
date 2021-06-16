@@ -8,7 +8,7 @@ export const SingleSelect = <T extends unknown>({
   setValue,
   SelectedComponent,
   OptionComponent,
-  componentClassName,
+  componentClassName = '',
 }: {
   value: T
   options: readonly T[]
@@ -55,8 +55,12 @@ export const SingleSelect = <T extends unknown>({
     [handleChange, options]
   )
 
+  const classNames = ['c-single-select', componentClassName].filter(
+    (className) => className.length > 0
+  )
+
   return (
-    <div className={`${componentClassName || 'c-single-select'}`}>
+    <div className={classNames.join(' ')}>
       <button type="button" {...buttonAttributes}>
         <SelectedComponent option={value} />
         <Icon

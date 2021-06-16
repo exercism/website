@@ -8,7 +8,7 @@ FactoryBot.define do
     trait :random do
       track { create :track, :random_slug }
       name { "Team #{SecureRandom.hex(8)}" }
-      name { "team-#{SecureRandom.hex(8)}" }
+      github_name { "team-#{SecureRandom.hex(8)}" }
     end
   end
 end

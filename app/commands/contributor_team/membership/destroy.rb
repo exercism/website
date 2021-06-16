@@ -7,11 +7,15 @@ class ContributorTeam::Membership
     def call
       ContributorTeam::Membership.where(user: user, team: team).destroy_all
 
-      user.update(roles: user.roles - [role])
+      user.update(roles: user.roles - [role]) unless keep_role?
     end
 
     private
     memoize
+    def keep_role?
+      user.teams.any? { |t| t.type == team.type }
+    end
+
     def role
       case team.type
       when :track_maintainers

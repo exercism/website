@@ -46,7 +46,7 @@ module API
       data = track_counts.map do |track_id, count|
         track = tracks[track_id]
         {
-          slug: track.slug,
+          id: track.slug,
           title: track.title,
           icon_url: track.icon_url,
           count: count
@@ -55,12 +55,8 @@ module API
 
       render json: [
         {
-          slug: nil,
+          id: nil,
           title: 'All',
-          icon_url: asset_pack_url(
-            "media/images/icons/all-tracks.svg",
-            host: Rails.application.config.action_controller.asset_host
-          ),
           count: track_counts.values.sum
         }
       ].concat(data)

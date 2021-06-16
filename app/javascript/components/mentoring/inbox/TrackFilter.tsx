@@ -15,10 +15,11 @@ export const TrackFilter = ({
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const { isLoading, isError, data: tracks } = useRequestQuery<Track[]>(
-    'track-filter',
+    ['track-filter', request.query],
     request,
     isMountedRef
   )
+
   return (
     <div className="c-track-filter">
       {isLoading && <Loading />}

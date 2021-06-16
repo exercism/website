@@ -130,7 +130,12 @@ export const TasksList = ({
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
-        <TrackSelect tracks={tracks} value={track} setValue={setTrack} small />
+        <TrackSelect
+          tracks={tracks}
+          value={track}
+          setValue={setTrack}
+          size="multi"
+        />
         <ActionSwitcher value={request.query.actions} setValue={setActions} />
         <TypeSwitcher value={request.query.types} setValue={setTypes} />
         <SizeSwitcher value={request.query.sizes} setValue={setSizes} />

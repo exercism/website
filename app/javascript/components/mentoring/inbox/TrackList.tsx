@@ -52,6 +52,7 @@ export const TrackList = ({
       setValue={handleSet}
       OptionComponent={OptionComponent}
       SelectedComponent={SelectedComponent}
+      size="inline"
     />
   )
 }

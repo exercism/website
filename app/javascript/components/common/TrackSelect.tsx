@@ -2,6 +2,8 @@ import React from 'react'
 import { TrackIcon, GraphicalIcon } from '.'
 import { SingleSelect } from './SingleSelect'
 
+type Size = 'inline' | 'small' | 'single' | 'multi'
+
 type Track = {
   title: string
   id: string | null
@@ -50,21 +52,17 @@ export const TrackSelect = <T extends Track>({
   tracks,
   value,
   setValue,
-  small = false,
+  size = 'single',
   SelectedComponent = DefaultSelectedComponent,
   OptionComponent = DefaultOptionComponent,
 }: {
   tracks: readonly T[]
   value: T
   setValue: (value: T) => void
-  small?: boolean
+  size?: Size
   SelectedComponent?: React.ComponentType<{ option: T }>
   OptionComponent?: React.ComponentType<{ option: T }>
 }): JSX.Element => {
-  const classNames = ['c-track-switcher', small ? '--small' : ''].filter(
-    (className) => className.length > 0
-  )
-
   return (
     <SingleSelect<T>
       options={tracks}
@@ -72,7 +70,7 @@ export const TrackSelect = <T extends Track>({
       setValue={setValue}
       SelectedComponent={SelectedComponent}
       OptionComponent={OptionComponent}
-      componentClassName={classNames.join(' ')}
+      componentClassName={`c-track-select --size-${size}`}
     />
   )
 }

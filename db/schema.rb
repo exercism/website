@@ -52,26 +52,6 @@ ActiveRecord::Schema.define(version: 2021_06_15_114943) do
     t.index ["type"], name: "index_badges_on_type", unique: true
   end
 
-  create_table "concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_concept_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["track_concept_id", "user_id"], name: "index_concept_authorships_on_track_concept_id_and_user_id", unique: true
-    t.index ["track_concept_id"], name: "index_concept_authorships_on_track_concept_id"
-    t.index ["user_id"], name: "index_concept_authorships_on_user_id"
-  end
-
-  create_table "concept_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_concept_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["track_concept_id", "user_id"], name: "index_concept_contributorships_on_track_concept_id_and_user_id", unique: true
-    t.index ["track_concept_id"], name: "index_concept_contributorships_on_track_concept_id"
-    t.index ["user_id"], name: "index_concept_contributorships_on_user_id"
-  end
-
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "track_id"
@@ -520,6 +500,26 @@ ActiveRecord::Schema.define(version: 2021_06_15_114943) do
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
+  create_table "track_concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "track_concept_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["track_concept_id", "user_id"], name: "index_concept_authorships_concept_id_user_id", unique: true
+    t.index ["track_concept_id"], name: "index_track_concept_authorships_on_track_concept_id"
+    t.index ["user_id"], name: "index_track_concept_authorships_on_user_id"
+  end
+
+  create_table "track_concept_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "track_concept_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["track_concept_id", "user_id"], name: "index_concept_contributorships_concept_id_user_id", unique: true
+    t.index ["track_concept_id"], name: "index_track_concept_contributorships_on_track_concept_id"
+    t.index ["user_id"], name: "index_track_concept_contributorships_on_user_id"
+  end
+
   create_table "track_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.string "slug", null: false
@@ -738,10 +738,6 @@ ActiveRecord::Schema.define(version: 2021_06_15_114943) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "concept_authorships", "track_concepts"
-  add_foreign_key "concept_authorships", "users"
-  add_foreign_key "concept_contributorships", "track_concepts"
-  add_foreign_key "concept_contributorships", "users"
   add_foreign_key "documents", "tracks"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
@@ -794,6 +790,10 @@ ActiveRecord::Schema.define(version: 2021_06_15_114943) do
   add_foreign_key "submission_representations", "submissions"
   add_foreign_key "submission_test_runs", "submissions"
   add_foreign_key "submissions", "solutions"
+  add_foreign_key "track_concept_authorships", "track_concepts"
+  add_foreign_key "track_concept_authorships", "users"
+  add_foreign_key "track_concept_contributorships", "track_concepts"
+  add_foreign_key "track_concept_contributorships", "users"
   add_foreign_key "track_concepts", "tracks"
   add_foreign_key "user_acquired_badges", "badges"
   add_foreign_key "user_acquired_badges", "users"

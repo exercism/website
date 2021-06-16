@@ -2,7 +2,8 @@
 
 .c-track-select {
     &.--size-inline {
-        & button {
+        & button,
+        & > .c-results-zone > button {
             @apply border-none shadow-none p-0;
             & .c-icon.all,
             & .c-track-icon {
@@ -28,7 +29,8 @@
         }
     }
     &.--size-single {
-        & > button {
+        & button,
+        & > .c-results-zone > button {
             & .c-icon.all,
             & .c-track-icon {
                 height: 32px;
@@ -48,7 +50,8 @@
         }
     }
     &.--size-multi {
-        & > button {
+        & button,
+        & > .c-results-zone > button {
             height: 56px;
 
             & .c-icon.all,
@@ -68,6 +71,36 @@
                     width: 42px;
                     height: 42px;
                     @apply mr-16;
+                }
+            }
+        }
+    }
+
+    &.--size-large {
+        & button,
+        & > .c-results-zone > button {
+            height: 72px;
+
+            & .c-icon.all,
+            & .c-track-icon {
+                height: 40px;
+                width: 40px;
+                @apply mr-16;
+            }
+            & .track-title {
+                @apply text-20 leading-150 text-textColor2 font-semibold;
+            }
+        }
+        & label.c-radio-wrapper {
+            & .row {
+                & .c-icon,
+                & .c-track-icon {
+                    width: 42px;
+                    height: 42px;
+                    @apply mr-16;
+                }
+                & .count {
+                    margin-right: 62px; /* Line this up with the button */
                 }
             }
         }
@@ -131,6 +164,10 @@
 
                 white-space: nowrap;
 
+                & .title {
+                    @apply flex-grow;
+                }
+
                 & .count {
                     @apply text-14 leading-140 font-medium;
                     @apply text-textColor6;
@@ -138,16 +175,16 @@
                 }
             }
         }
-        /*         & > button { */
-        /*             @apply flex items-center; */
-        /*             @apply text-16 leading-170 text-lightBlue font-semibold; */
-        /*             @apply py-12 px-16 w-100; */
+        & button {
+            @apply flex items-center;
+            @apply text-16 leading-170 text-lightBlue font-semibold;
+            @apply py-12 px-16 w-100;
 
-        /*             & .c-icon { */
-        /*                 height: 16px; */
-        /*                 width: 16px; */
-        /*                 @apply mr-12; */
-        /*             } */
-        /*         } */
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                @apply mr-12;
+            }
+        }
     }
 }

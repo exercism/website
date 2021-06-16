@@ -62,6 +62,7 @@ export const TrackSelect = ({
       setValue={handleSet}
       SelectedComponent={SelectedComponent}
       OptionComponent={OptionComponent}
+      size="large"
     />
   )
 }

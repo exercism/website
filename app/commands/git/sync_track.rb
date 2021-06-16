@@ -121,13 +121,6 @@ module Git
       end
     end
 
-    def track_needs_updating?
-      return true if force_sync
-      return false if synced_to_head?
-
-      true
-    end
-
     def exercise_concepts(concept_slugs)
       track.concepts.where(slug: concept_slugs.to_a).tap do |concepts|
         # TODO: We should be able to remove this once configlet is in place

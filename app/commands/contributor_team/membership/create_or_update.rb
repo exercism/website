@@ -10,6 +10,7 @@ class ContributorTeam::Membership
       end
 
       membership.update!(attributes)
+
       user.update(roles: user.roles + [role]) unless user.roles.include?(role)
 
       membership

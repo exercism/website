@@ -10,21 +10,7 @@ class ContributorTeam::Membership
       end
 
       membership.update!(attributes)
-
-      user.update(roles: user.roles + [role]) unless user.roles.include?(role)
-
       membership
-    end
-
-    private
-    memoize
-    def role
-      case team.type
-      when :track_maintainers
-        :maintainer
-      when :reviewers
-        :reviewer
-      end
     end
   end
 end

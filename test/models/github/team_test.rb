@@ -42,11 +42,12 @@ class Github::TeamTest < ActiveSupport::TestCase
       )
 
     stub_request(:put, "https://api.github.com/teams/3076122/repos/exercism/csharp").
+      with(body: { permission: "push" }.to_json).
       to_return(status: 200, body: "", headers: {})
 
     team = Github::Team.new('reviewers')
 
-    team.add_to_repository('exercism/csharp')
+    team.add_to_repository('exercism/csharp', :push)
   end
 
   test "remove_from_repository" do

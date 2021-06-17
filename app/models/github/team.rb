@@ -15,10 +15,10 @@ class Github::Team
     Exercism.octokit_client.remove_team_membership(team_id, github_username)
   end
 
-  def add_to_repository(repo)
+  def add_to_repository(repo, permission)
     return unless active?
 
-    Exercism.octokit_client.add_team_repository(team_id, repo)
+    Exercism.octokit_client.add_team_repository(team_id, repo, permission: permission)
   end
 
   def remove_from_repository(repo)

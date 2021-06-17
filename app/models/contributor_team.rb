@@ -3,7 +3,8 @@ class ContributorTeam < ApplicationRecord
 
   enum type: {
     track_maintainers: 0,
-    reviewers: 1
+    project_maintainers: 1,
+    reviewers: 2
   }
 
   belongs_to :track, optional: true

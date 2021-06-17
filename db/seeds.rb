@@ -250,10 +250,10 @@ end
 
 User::ReputationPeriod::Sweep.()
 
-SiteUpdates.delete_all
+SiteUpdate.delete_all
 Exercise.all.each do |exercise|
   SiteUpdates::NewExerciseUpdate.create!(
-    exercise: exercise, 
+    exercise: exercise,
     track: exercise.track,
     published_at: exercise.created_at
   )

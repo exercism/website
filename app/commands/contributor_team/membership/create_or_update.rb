@@ -5,12 +5,13 @@ class ContributorTeam::Membership
     initialize_with :user, :team, :attributes
 
     def call
-      membership = ContributorTeam::Membership.create_or_find_by!(user: user, team: team) do |m|
-        m.attributes = attributes
+      ContributorTeam::Membership.create!(user: user, team: team, **attributes).tap do
+        Github::Team::AddMember.(team.github_name, user.github_username)
       end
-
-      membership.update!(attributes)
-      membership
+    rescue ActiveRecord::RecordNotUnique
+      ContributorTeam::Membership.find_by!(user: user, team: team).tap do |membership|
+        membership.update!(attributes)
+      end
     end
   end
 end

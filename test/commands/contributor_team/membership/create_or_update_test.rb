@@ -5,6 +5,8 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     user = create :user
     team = create :contributor_team
 
+    Github::Team::AddMember.stubs(:call)
+
     ContributorTeam::Membership::CreateOrUpdate.(
       user,
       team,
@@ -46,9 +48,40 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     assert membership.visible
   end
 
+  test "add contributor to github team if new membership" do
+    user = create :user
+    team = create :contributor_team
+
+    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+
+    ContributorTeam::Membership::CreateOrUpdate.(
+      user,
+      team,
+      seniority: :junior,
+      visible: true
+    )
+  end
+
+  test "does not add contributor to github team if existing membership" do
+    user = create :user
+    team = create :contributor_team
+    create :contributor_team_membership, user: user, team: team, seniority: :senior, visible: false
+
+    Github::Team::AddMember.expects(:call).never
+
+    ContributorTeam::Membership::CreateOrUpdate.(
+      user,
+      team,
+      seniority: :junior,
+      visible: true
+    )
+  end
+
   test "idempotent" do
     user = create :user
     team = create :contributor_team, type: :track_maintainers
+
+    Github::Team::AddMember.stubs(:call)
 
     assert_idempotent_command do
       ContributorTeam::Membership::CreateOrUpdate.(

@@ -6,7 +6,9 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     track = create :track
     team = create :contributor_team, track: track, type: :track_maintainers
 
-    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+    Github::Team::AddMember.stubs(:call)
+    Github::Team::AddToRepository.stubs(:call)
+    Github::Team::FetchMembers.stubs(:call).returns([])
 
     # Create other track team to ensure the right team is chosen
     csharp_track = create :track, slug: 'csharp'
@@ -21,9 +23,11 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
   test "adds maintainer role" do
     user = create :user
     track = create :track
-    team = create :contributor_team, track: track, type: :track_maintainers
+    create :contributor_team, track: track, type: :track_maintainers
 
-    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+    Github::Team::AddMember.stubs(:call)
+    Github::Team::AddToRepository.stubs(:call)
+    Github::Team::FetchMembers.stubs(:call).returns([])
 
     ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
@@ -33,9 +37,11 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
   test "does not add duplicate maintainer role" do
     user = create :user, roles: [:maintainer]
     track = create :track
-    team = create :contributor_team, track: track, type: :track_maintainers
+    create :contributor_team, track: track, type: :track_maintainers
 
-    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+    Github::Team::AddMember.stubs(:call)
+    Github::Team::AddToRepository.stubs(:call)
+    Github::Team::FetchMembers.stubs(:call).returns([])
 
     ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
@@ -45,9 +51,11 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
   test "keeps existing roles" do
     user = create :user, roles: %i[admin reviewer]
     track = create :track
-    team = create :contributor_team, track: track, type: :track_maintainers
+    create :contributor_team, track: track, type: :track_maintainers
 
-    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+    Github::Team::AddMember.stubs(:call)
+    Github::Team::AddToRepository.stubs(:call)
+    Github::Team::FetchMembers.stubs(:call).returns([])
 
     ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 

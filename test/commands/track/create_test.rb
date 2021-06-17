@@ -2,6 +2,8 @@ require "test_helper"
 
 class Track::CreateTest < ActiveSupport::TestCase
   test "creates track" do
+    Github::Team::Create.stubs(:call)
+
     Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/fsharp', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
                              tags: ['Compiles to:Binary', 'Runtime:Browser'])
 
@@ -16,7 +18,16 @@ class Track::CreateTest < ActiveSupport::TestCase
     assert_equal ['Compiles to:Binary', 'Runtime:Browser'], track.tags
   end
 
+  test "creates github team" do
+    Github::Team::Create.expects(:call).with("F# maintainers", "exercism/fsharp")
+
+    Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/fsharp', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
+                             tags: ['Compiles to:Binary', 'Runtime:Browser'])
+  end
+
   test "idempotent" do
+    Github::Team::Create.stubs(:call)
+
     assert_idempotent_command do
       Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/fsharp', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
                                tags: ['Compiles to:Binary', 'Runtime:Browser'])

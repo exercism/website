@@ -5,8 +5,12 @@ class Track
     initialize_with :slug, :attributes
 
     def call
-      Track.create_or_find_by!(slug: slug) do |t|
-        t.attributes = attributes
+      Track.create!(slug: slug, **attributes) do |track|
+        Github::Team::Create.("#{track.title} maintainers", track.repo)
+      end
+    rescue ActiveRecord::RecordNotUnique
+      Track.find_by!(slug: slug).tap do |track|
+        track.update!(attributes)
       end
     end
   end

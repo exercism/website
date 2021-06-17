@@ -44,6 +44,14 @@ class Track < ApplicationRecord
   def tutorial_exercise
     exercises.find_by(slug: "hello-world")
   end
+  
+  def repo
+    "exercism/#{git.repo_name}"
+  end
+
+  def course?
+    git.has_concept_exercises?
+  end
 
   memoize
   def num_contributors

@@ -70,14 +70,55 @@
                 = track_icon Track.second
                 .details
                   .journey-label= Track.second.title
-                  .journey-h4 140 sessions
+                  .journey-h4 130 sessions
               .track
                 .dot.t-b-csharp
                 = track_icon Track.third
                 .details
                   .journey-label= Track.third.title
-                  .journey-h4 140 sessions
+                  .journey-h4 60 sessions
           .chart
+            // Kntsoriano - we already have this in React
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
+            <canvas id="mentoring-chart" width="350" height="350"></canvas>
+
+            :javascript
+              const config = {
+                type: 'doughnut',
+                options: {
+                  plugins: {
+                    legend: { display: false },
+                  }
+                },
+                data: {
+                  labels: [
+                    'C#',
+                    'F#',
+                    'JavaScript'
+                  ],
+                  datasets: [{
+                    label: 'Sessions mentored per track',
+                    data: [140, 130, 60],
+                    // Kntsoriano: You need to compute these from CSS vars
+                    // It will be something like this:
+                    //
+                    // slug = "javascript"
+                    // doc = getComputedStyle(document.documentElement)
+                    // colors = doc.getPropertyValue(`--track-color-${slug}`);
+                    // `rgb(${colors})`
+                    backgroundColor: [
+                      'rgb(19, 140, 148)',
+                      'rgb(48, 185, 219)',
+                      'rgb(240, 219, 79)'
+                    ],
+                    borderWidth: 0,
+                    cutout:150,
+                    hoverOffset: 4
+                  }]
+                }
+              };
+              var ctx = document.getElementById('mentoring-chart').getContext('2d');
+              var myChart = new Chart(ctx, config)
 
       %section.contributing-section
         %header.section-header
@@ -99,27 +140,6 @@
                 You have
                 = graphical_icon "reputation"
                 500 Reputation
-
-            .track-metrics
-              .track
-                .dot.t-b-fsharp
-                = track_icon Track.first
-                .details
-                  .journey-label= Track.first.title
-                  .journey-h4 185,232
-              .track
-                .dot.t-b-ruby
-                = track_icon Track.second
-                .details
-                  .journey-label= Track.second.title
-                  .journey-h4 140
-              .track
-                .dot.t-b-csharp
-                = track_icon Track.third
-                .details
-                  .journey-label= Track.third.title
-                  .journey-h4 1,349
-          .rhs
 
       %section.badges-section
         .info

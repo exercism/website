@@ -2,9 +2,7 @@
   %h2 What's going on with #{track.title}
   %hr.c-divider
 
-  .updates
-    - updates.each do |update|
-      = render 'components/site_update', update: update, track: track, icon: :update
+  = render ReactComponents::Common::SiteUpdatesList.new(updates, :update)
 
   = render ViewComponents::ProminentLink.new("See all #{track.title} updates", "#")
 

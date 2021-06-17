@@ -25,8 +25,10 @@ class SiteUpdateTest < ActiveSupport::TestCase
     update = create :site_update, exercise: exercise, track: track, author: author, title: title, description: description
 
     expected = {
-      author_handle: author.handle,
-      author_avatar_url: author.avatar_url,
+      author: {
+        "handle" => author.handle,
+        "avatar_url" => author.avatar_url
+      },
       title: title,
       description: description
     }.stringify_keys

@@ -15,13 +15,20 @@ class SiteUpdates::NewConceptUpdate < SiteUpdate
 
   def cacheable_rendering_data
     super.merge(
-      maker_avatar_urls: makers.map(&:avatar_url),
+      makers: makers.map do |maker|
+        {
+          handle: maker.handle,
+          avatar_url: maker.avatar_url
+        }
+      end,
       concept_widget: {
-        name: concept.name,
-        slug: concept.slug,
-        links: {
-          self: Exercism::Routes.track_concept_path(track, concept),
-          tooltip: Exercism::Routes.tooltip_track_concept_path(track, concept)
+        concept: {
+          name: concept.name,
+          slug: concept.slug,
+          links: {
+            self: Exercism::Routes.track_concept_path(track, concept),
+            tooltip: Exercism::Routes.tooltip_track_concept_path(track, concept)
+          }
         }
       }
     )

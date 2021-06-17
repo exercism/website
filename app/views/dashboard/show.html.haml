@@ -92,9 +92,7 @@
 
         %section.activity-section
           %h2 New on Exercism
-          .updates
-            - @updates.each do |update|
-              = render 'components/site_update', update: update, track: update.track, icon: :track
+          = render ReactComponents::Common::SiteUpdatesList.new(@updates, :track)
 
           = render ViewComponents::ProminentLink.new("See all updates", "#")
 

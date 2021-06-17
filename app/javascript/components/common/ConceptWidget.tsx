@@ -2,11 +2,9 @@ import React, { useState, useRef } from 'react'
 import { Concept } from '../types'
 import { ConceptTooltip } from '../tooltips/ConceptTooltip'
 
-export const ConceptWidget = ({
-  concept,
-}: {
-  concept: Concept
-}): JSX.Element => {
+export type Props = { concept: Concept }
+
+export const ConceptWidget = ({ concept }: Props): JSX.Element => {
   const conceptRef = useRef(null)
   const [isHovering, setIsHovering] = useState(false)
   const [isFocused, setIsFocused] = useState(false)

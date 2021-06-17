@@ -9,9 +9,9 @@ class ContributorTeam
       ContributorTeam::Membership::CreateOrUpdate.(user, team, attributes)
 
       if well_maintained?
-        Github::Team::RemoveFromRepository.('reviewers', track.repo)
+        github_reviewers_team.remove_from_repository(track.repo)
       else
-        Github::Team::AddToRepository.('reviewers', track.repo)
+        github_reviewers_team.add_to_repository(track.repo)
       end
 
       user.update(roles: user.roles + [:maintainer]) unless user.roles.include?(:maintainer)
@@ -21,7 +21,11 @@ class ContributorTeam
     attr_reader :team
 
     def well_maintained?
-      Github::Team::FetchMembers.(team.github_name).size >= 2
+      Github::Team.new(team.github_name).members.size >= 2
+    end
+
+    def github_reviewers_team
+      Github::Team.new('reviewers')
     end
   end
 end

@@ -6,9 +6,9 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     track = create :track
     team = create :contributor_team, track: track, type: :track_maintainers
 
-    Github::Team::AddMember.stubs(:call)
-    Github::Team::AddToRepository.stubs(:call)
-    Github::Team::FetchMembers.stubs(:call).returns([])
+    Github::Team.any_instance.stubs(:add_member)
+    Github::Team.any_instance.stubs(:add_to_repository)
+    Github::Team.any_instance.stubs(:members).returns([])
 
     # Create other track team to ensure the right team is chosen
     csharp_track = create :track, slug: 'csharp'
@@ -25,9 +25,9 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     track = create :track
     create :contributor_team, track: track, type: :track_maintainers
 
-    Github::Team::AddMember.stubs(:call)
-    Github::Team::AddToRepository.stubs(:call)
-    Github::Team::FetchMembers.stubs(:call).returns([])
+    Github::Team.any_instance.stubs(:add_member)
+    Github::Team.any_instance.stubs(:add_to_repository)
+    Github::Team.any_instance.stubs(:members).returns([])
 
     ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
@@ -39,9 +39,9 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     track = create :track
     create :contributor_team, track: track, type: :track_maintainers
 
-    Github::Team::AddMember.stubs(:call)
-    Github::Team::AddToRepository.stubs(:call)
-    Github::Team::FetchMembers.stubs(:call).returns([])
+    Github::Team.any_instance.stubs(:add_member)
+    Github::Team.any_instance.stubs(:add_to_repository)
+    Github::Team.any_instance.stubs(:members).returns([])
 
     ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
@@ -53,9 +53,9 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     track = create :track
     create :contributor_team, track: track, type: :track_maintainers
 
-    Github::Team::AddMember.stubs(:call)
-    Github::Team::AddToRepository.stubs(:call)
-    Github::Team::FetchMembers.stubs(:call).returns([])
+    Github::Team.any_instance.stubs(:add_member)
+    Github::Team.any_instance.stubs(:add_to_repository)
+    Github::Team.any_instance.stubs(:members).returns([])
 
     ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 

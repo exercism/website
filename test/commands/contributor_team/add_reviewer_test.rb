@@ -5,7 +5,7 @@ class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
     user = create :user
     team = create :contributor_team, track: nil, type: :reviewers
 
-    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+    Github::Team.any_instance.stubs(:add_member)
 
     # Create other reviewer team to ensure the right team is chosen
     create :contributor_team, :random, track: nil, type: :reviewers
@@ -17,9 +17,9 @@ class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
 
   test "adds reviewer role" do
     user = create :user
-    team = create :contributor_team, track: nil, type: :reviewers
+    create :contributor_team, track: nil, type: :reviewers
 
-    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+    Github::Team.any_instance.stubs(:add_member)
 
     ContributorTeam::AddReviewer.(user, visible: true, seniority: :junior)
 
@@ -28,9 +28,9 @@ class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
 
   test "does not add duplicate reviewer role" do
     user = create :user, roles: [:reviewer]
-    team = create :contributor_team, track: nil, type: :reviewers
+    create :contributor_team, track: nil, type: :reviewers
 
-    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+    Github::Team.any_instance.stubs(:add_member)
 
     ContributorTeam::AddReviewer.(user, visible: true, seniority: :junior)
 
@@ -39,9 +39,9 @@ class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
 
   test "keeps existing roles" do
     user = create :user, roles: %i[admin track_maintainer]
-    team = create :contributor_team, track: nil, type: :reviewers
+    create :contributor_team, track: nil, type: :reviewers
 
-    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+    Github::Team.any_instance.stubs(:add_member)
 
     ContributorTeam::AddReviewer.(user, visible: true, seniority: :junior)
 

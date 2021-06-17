@@ -5,7 +5,7 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     user = create :user
     team = create :contributor_team
 
-    Github::Team::AddMember.stubs(:call)
+    Github::Team.any_instance.stubs(:add_member)
 
     ContributorTeam::Membership::CreateOrUpdate.(
       user,
@@ -52,7 +52,7 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     user = create :user
     team = create :contributor_team
 
-    Github::Team::AddMember.expects(:call).with(team.github_name, user.github_username)
+    Github::Team.any_instance.stubs(:add_member).with(user.github_username)
 
     ContributorTeam::Membership::CreateOrUpdate.(
       user,
@@ -67,7 +67,7 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     team = create :contributor_team
     create :contributor_team_membership, user: user, team: team, seniority: :senior, visible: false
 
-    Github::Team::AddMember.expects(:call).never
+    Github::Team.any_instance.expects(:add_member).never
 
     ContributorTeam::Membership::CreateOrUpdate.(
       user,
@@ -81,7 +81,7 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     user = create :user
     team = create :contributor_team, type: :track_maintainers
 
-    Github::Team::AddMember.stubs(:call)
+    Github::Team.any_instance.stubs(:add_member)
 
     assert_idempotent_command do
       ContributorTeam::Membership::CreateOrUpdate.(

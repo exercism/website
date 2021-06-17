@@ -6,7 +6,7 @@ class ContributorTeam::Membership
 
     def call
       ContributorTeam::Membership.create!(user: user, team: team, **attributes).tap do
-        Github::Team::AddMember.(team.github_name, user.github_username)
+        Github::Team.new(team.github_name).add_member(user.github_username)
       end
     rescue ActiveRecord::RecordNotUnique
       ContributorTeam::Membership.find_by!(user: user, team: team).tap do |membership|

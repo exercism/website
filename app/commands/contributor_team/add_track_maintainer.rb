@@ -9,9 +9,9 @@ class ContributorTeam
       ContributorTeam::Membership::CreateOrUpdate.(user, team, attributes)
 
       if well_maintained?
-        github_reviewers_team.remove_from_repository(track.repo)
+        github_reviewers_team.remove_from_repository(track.repo_name)
       else
-        github_reviewers_team.add_to_repository(track.repo)
+        github_reviewers_team.add_to_repository(track.repo_name)
       end
 
       user.update(roles: user.roles + [:maintainer]) unless user.roles.include?(:maintainer)

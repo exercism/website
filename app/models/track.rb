@@ -45,7 +45,7 @@ class Track < ApplicationRecord
     exercises.find_by(slug: "hello-world")
   end
   
-  def repo
+  def repo_name
     "exercism/#{slug}"
   end
 

@@ -5,18 +5,17 @@
       %hr.c-divider
 
     %section.form-section
-      = form_with url: maintaining_contributor_teams_path, method: :post, model: @team do
-        = fields_for @team do |f|
-          .field
-            = f.label :name, "Name"
-            = f.text_field :name, placeholder: "The team's name", required: true
-          .field
-            = f.label :github_name, "GitHub Name"
-            = f.text_field :github_name, placeholder: "The team's GitHub name", required: true
-          .field
-            = f.label :type, "Type"
-            = f.select :type, @type_options, required: true
-          .field
-            = f.label :track, "Track (required of type is track maintainers)"
-            = f.select :track, @track_options, include_blank: true
-          = button_tag "Create contributor team", class: "btn-primary btn-m"
+      = form_with url: maintaining_contributor_teams_path, model: @team do |f|
+        .field
+          = f.label :name, "Name"
+          = f.text_field :name, placeholder: "The team's name", required: true
+        .field
+          = f.label :github_name, "GitHub Name"
+          = f.text_field :github_name, placeholder: "The team's GitHub name", required: true
+        .field
+          = f.label :type, "Type"
+          = f.select :type, @type_options, required: true
+        .field
+          = f.label :track, "Track (required if type is track maintainers)"
+          = f.select :track, @track_options, include_blank: true
+        = button_tag "Create contributor team", class: "btn-primary btn-m"

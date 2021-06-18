@@ -11,7 +11,7 @@ class Maintaining::ContributorTeams::MembershipsController < ApplicationControll
   end
 
   def create
-    @membership = ContributorTeam::Membership.new(membership_params)
+    @membership = @team.memberships.build(membership_params)
 
     if @membership.save
       redirect_to maintaining_contributor_team_path(@team)
@@ -54,7 +54,6 @@ class Maintaining::ContributorTeams::MembershipsController < ApplicationControll
   def membership_params
     sanitized_params = params.require(:contributor_team_membership).permit(:user, :seniority, :visible)
     sanitized_params[:user] = sanitized_params[:user].blank? ? nil : User.find_by(github_username: sanitized_params[:user])
-    sanitized_params[:team] = @team
     sanitized_params
   end
 end

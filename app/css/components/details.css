@@ -2,7 +2,8 @@
     & > summary {
         @apply cursor-pointer;
         list-style-type: none;
-        &::marker {
+        &::marker,
+        &::-webkit-details-marker {
             @apply hidden;
         }
 

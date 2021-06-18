@@ -14,7 +14,8 @@
           = f.text_field :github_name, placeholder: "The team's GitHub name", required: true
         .field
           = f.label :type, "Type"
-          = f.select :type, @type_options, required: true
+          .c-select
+            = f.select :type, @type_options, required: true
         .field
           = f.label :track, "Track (required if type is track maintainers)"
           = f.select :track, @track_options, include_blank: true

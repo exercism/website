@@ -1,4 +1,6 @@
 class Maintaining::ContributorTeamsController < ApplicationController
+  before_action :ensure_admin!
+
   def index
     @teams = ContributorTeam.includes(:memberships).order(type: :asc, name: :asc)
     @teams = @teams.for_track(Track.find_by!(slug: params[:track_slug])) if params[:track_slug].present?

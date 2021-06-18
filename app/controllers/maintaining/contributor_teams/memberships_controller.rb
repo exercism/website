@@ -1,4 +1,5 @@
 class Maintaining::ContributorTeams::MembershipsController < ApplicationController
+  before_action :ensure_admin!
   before_action :use_team
   before_action :use_membership, only: %i[show edit update destroy]
   before_action :use_seniority_options, only: %i[new create edit update]

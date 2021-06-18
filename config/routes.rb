@@ -311,7 +311,7 @@ Rails.application.routes.draw do
     resources :tracks, only: [:show]
     resources :site_updates, except: [:destroy]
     resources :contributor_teams, except: [:destroy] do
-      resources :contributor_team_memberships, controller: "contributor_teams/memberships"
+      resources :memberships, controller: "contributor_teams/memberships"
     end
   end
 

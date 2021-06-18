@@ -5,7 +5,7 @@
       %hr.c-divider
 
     %section.form-section
-      = form_for @membership, url: maintaining_contributor_team_contributor_team_membership_path(@team, @membership) do |f|
+      = form_for @membership, url: maintaining_contributor_team_membership_path(@team, @membership) do |f|
         .field
           = f.label :seniority, "Seniority"
           = f.select :seniority, @seniority_options, required: true

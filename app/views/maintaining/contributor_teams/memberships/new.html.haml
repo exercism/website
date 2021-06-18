@@ -5,7 +5,7 @@
       %hr.c-divider
 
     %section.form-section
-      = form_with url: maintaining_contributor_team_contributor_team_memberships_path, method: :post, model: @membership do
+      = form_with url: maintaining_contributor_team_memberships_path, method: :post, model: @membership do
         = fields_for @membership do |f|
           .field
             = f.label :user, "User"

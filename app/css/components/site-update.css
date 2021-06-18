@@ -74,6 +74,7 @@
         @apply mt-20;
         @apply shadow-base rounded-8;
         @apply py-16 px-24;
+        @apply bg-backgroundColorA;
 
         & .header {
             @apply flex items-center;

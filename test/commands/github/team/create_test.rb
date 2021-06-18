@@ -2,6 +2,8 @@ require "test_helper"
 
 class Github::Team::CreateTest < ActiveSupport::TestCase
   test "create team" do
+    Exercism.config.stubs(:github_organization).returns('exercism')
+
     stub_request(:post, "https://api.github.com/orgs/exercism/teams").
       with(
         body: { name: "C# maintainers", repo_names: ["exercism/csharp"] }.to_json

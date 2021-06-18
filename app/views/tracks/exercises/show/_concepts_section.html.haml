@@ -27,6 +27,7 @@
             = pluralize unlocked_concepts.size, "concept"
           .list
             - unlocked_concepts.each do |unlocked_concept|
+              - next unless user_track.concept_unlocked?(unlocked_concept)
               = render ReactComponents::Common::ConceptWidget.new(unlocked_concept)
 
       - if unlocked_exercises.present?
@@ -37,4 +38,5 @@
             = pluralize unlocked_exercises.size, "exercise"
           .list
             - unlocked_exercises.each do |unlocked_exercise|
+              - next unless user_track.exercise_unlocked?(unlocked_exercise)
               = ReactComponents::Common::ExerciseWidget.new(unlocked_exercise, user_track, skinny: true, with_tooltip: true)

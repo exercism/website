@@ -5,6 +5,7 @@
 
     & .summary {
         @apply flex-grow;
+        @apply mr-80;
         max-width: 650px;
 
         & .c-primary-reputation {

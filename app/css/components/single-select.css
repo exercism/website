@@ -39,6 +39,7 @@
             height: 16px;
             width: 16px;
             @apply ml-24 mr-0;
+            filter: var(--textColor2-filter);
         }
     }
     & > .--options {

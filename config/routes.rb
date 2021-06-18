@@ -310,6 +310,7 @@ Rails.application.routes.draw do
     resources :exercise_representations
     resources :tracks, only: [:show]
     resources :site_updates, except: [:destroy]
+    resources :teams, except: [:destroy]
   end
 
   namespace :contributing do

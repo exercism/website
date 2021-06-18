@@ -1,0 +1,29 @@
+#page-maintaining-track
+  .lg-container.container
+    %h1 Maintaining #{@team.name}
+
+    .data
+      %div
+        GitHub name: #{@team.github_name}
+      %div
+        Type: #{@team.type.to_s.humanize}
+      - if @team.track.present?
+        %div
+          Track: #{@team.track.title}
+
+    %h2
+      Members
+      %table
+        %thead
+          %tr
+            %th Name
+            %th Visible
+            %th Seniority
+            %th
+        %tbody
+          - @team.memberships.each do |membership|
+            %tr
+              %td= membership.user.handle
+              %td= membership.visible
+              %td= membership.seniority.to_s.humanize
+              -# %td= render ViewComponents::ProminentLink.new("More", maintaining_team_path(team))

@@ -1,6 +1,8 @@
 class ContributorTeam < ApplicationRecord
   disable_sti!
 
+  scope :for_track, ->(track) { where(track: track) }
+
   enum type: {
     track_maintainers: 0,
     project_maintainers: 1,

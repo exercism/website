@@ -43,6 +43,6 @@ class Github::Team
 
   def active?
     # TODO: remove once we're live
-    !Rails.env.production?
+    Rails.env.test?
   end
 end

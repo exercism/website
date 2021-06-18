@@ -1,28 +1,28 @@
 .text-h1 {
-    @apply text-40 font-bold text-textColor2;
+    @apply text-40 font-bold text-textColor1;
     line-height: 1.25;
 }
 .text-h2 {
-    @apply text-31 font-bold text-textColor2 leading-140;
+    @apply text-31 font-bold text-textColor1 leading-140;
 }
 .text-h3 {
-    @apply text-24 text-textColor2 font-semibold;
+    @apply text-24 text-textColor1 font-semibold;
     line-height: 1.48;
 }
 .text-h3-mono {
     @apply text-h3 font-mono font-bold;
 }
 .text-h4 {
-    @apply font-semibold text-textColor2 text-20 leading-140;
+    @apply font-semibold text-textColor1 text-20 leading-140;
 }
 .text-h5 {
-    @apply text-18 leading-150 font-semibold text-textColor2;
+    @apply text-18 leading-150 font-semibold text-textColor1;
 }
 .text-h5-mono {
     @apply text-h5 font-mono font-bold;
 }
 .text-h6 {
-    @apply text-16 font-semibold text-textColor2 leading-140;
+    @apply text-16 font-semibold text-textColor1 leading-140;
 }
 .text-p-small {
     @apply text-14 leading-160;

@@ -1,0 +1,98 @@
+@import "../styles";
+
+.theme-light {
+    & .c-progress {
+        @apply bg-veryLightBlue;
+    }
+}
+.theme-dark {
+    & .c-progress {
+        @apply bg-backgroundColorF;
+    }
+}
+.c-progress {
+    @apply w-100 rounded-100;
+    @apply flex items-center;
+    height: 16px;
+
+    &.--small {
+        &,
+        & .bar {
+            height: 12px;
+            min-width: 12px;
+        }
+    }
+
+    &.--large {
+        &,
+        & .bar {
+            height: 24px;
+            min-width: 24px;
+        }
+    }
+    &.--completed {
+        & .bar {
+            background: linear-gradient(to right, #4fcda7 0%, #269345 100%),
+                linear-gradient(0deg, #4fcda7, #4fcda7);
+        }
+    }
+
+    & .bar {
+        height: 16px;
+        min-width: 16px;
+        /* background: linear-gradient(to bottom, #2200ff 0%, #9e00ff 100%); */
+        background: linear-gradient(to right, #2200ff 0%, #9e00ff 100%);
+        @apply rounded-100;
+    }
+
+    &:not(.--completed) {
+        & .completed-icon {
+            display: none;
+        }
+    }
+
+    & .c-track-icon {
+        @apply ml-auto relative;
+        height: 48px;
+        width: 48px;
+    }
+
+    & .c-track-icon + .completed-icon {
+        top: -12px;
+        left: -5px;
+        margin-right: -19px;
+        height: 24px;
+        width: 24px;
+    }
+
+    & .completed-icon {
+        @apply ml-auto relative;
+        margin-left: -10px;
+        height: 32px;
+        width: 32px;
+
+        & .c-icon.completed {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    & .unlock-icon {
+        @apply ml-auto;
+        background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            #fff4e3;
+        box-shadow: 0px 4px 24px rgba(156, 130, 38, 0.4);
+        @apply rounded-circle;
+        @apply p-12;
+
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            filter: var(--orange-filter);
+        }
+    }
+}

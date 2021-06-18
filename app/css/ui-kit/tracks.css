@@ -1,0 +1,183 @@
+.t-b-mips {
+    border-color: rgb(var(--track-color-mips));
+}
+.t-b-cpp {
+    border-color: rgb(var(--track-color-cpp));
+}
+.t-b-fsharp {
+    border-color: rgb(var(--track-color-fsharp));
+}
+.t-b-csharp {
+    border-color: rgb(var(--track-color-csharp));
+}
+.t-b-c {
+    border-color: rgb(var(--track-color-c));
+}
+.t-b-ruby {
+    border-color: rgb(var(--track-color-ruby));
+}
+.t-b-kotlin {
+    border-color: rgb(var(--track-color-kotlin));
+}
+.t-b-javascript {
+    border-color: rgb(var(--track-color-javascript));
+}
+.t-b-bash {
+    border-color: rgb(var(--track-color-bash));
+}
+.t-b-clojure {
+    border-color: rgb(var(--track-color-clojure));
+}
+.t-b-coffeescript {
+    border-color: rgb(var(--track-color-coffeescript));
+}
+.t-b-common-lisp {
+    border-color: rgb(var(--track-color-common-lisp));
+}
+.t-b-crystal {
+    border-color: rgb(var(--track-color-crystal));
+}
+.t-b-d {
+    border-color: rgb(var(--track-color-d));
+}
+.t-b-dart {
+    border-color: rgb(var(--track-color-dart));
+}
+.t-b-elm {
+    border-color: rgb(var(--track-color-elm));
+}
+.t-b-emacs-lisp {
+    border-color: rgb(var(--track-color-emacs-lisp));
+}
+.t-b-erlang {
+    border-color: rgb(var(--track-color-erlang));
+}
+.t-b-f {
+    border-color: rgb(var(--track-color-f));
+}
+.t-b-go {
+    border-color: rgb(var(--track-color-go));
+}
+.t-b-haskell {
+    border-color: rgb(var(--track-color-haskell));
+}
+.t-b-java {
+    border-color: rgb(var(--track-color-java));
+}
+.t-b-julia {
+    border-color: rgb(var(--track-color-julia));
+}
+.t-b-lua {
+    border-color: rgb(var(--track-color-lua));
+}
+.t-b-ocaml {
+    border-color: rgb(var(--track-color-ocaml));
+}
+.t-b-perl5 {
+    border-color: rgb(var(--track-color-perl5));
+}
+.t-b-python {
+    border-color: rgb(var(--track-color-python));
+}
+.t-b-elixir {
+    border-color: rgb(var(--track-color-elixir));
+}
+.t-b-nim {
+    border-color: rgb(var(--track-color-nim));
+}
+.t-b-clojurescript {
+    border-color: rgb(var(--track-color-clojurescript));
+}
+.t-b-ceylon {
+    border-color: rgb(var(--track-color-celyon));
+}
+.t-b-ballerina {
+    border-color: rgb(var(--track-color-ballernia));
+}
+.t-b-cf {
+    border-color: rgb(var(--track-color-cf));
+}
+.t-b-cfml {
+    border-color: rgb(var(--track-color-cfml));
+}
+.t-b-delphi {
+    border-color: rgb(var(--track-color-dephi));
+}
+.t-b-groovy {
+    border-color: rgb(var(--track-color-groovy));
+}
+.t-b-haxe {
+    border-color: rgb(var(--track-color-haxe));
+}
+.t-b-idris {
+    border-color: rgb(var(--track-color-idris));
+}
+.t-b-lfe {
+    border-color: rgb(var(--track-color-lfe));
+}
+.t-b-objective-c {
+    border-color: rgb(var(--track-color-objective-c));
+}
+.t-b-raku {
+    border-color: rgb(var(--track-color-raku));
+}
+.t-b-pharo-smalltalk {
+    border-color: rgb(var(--track-color-pharo-smalltalk));
+}
+.t-b-php {
+    border-color: rgb(var(--track-color-php));
+}
+.t-b-plsql {
+    border-color: rgb(var(--track-color-plsql));
+}
+.t-b-powershell {
+    border-color: rgb(var(--track-color-powershell));
+}
+.t-b-prolog {
+    border-color: rgb(var(--track-color-prolog));
+}
+.t-b-purescript {
+    border-color: rgb(var(--track-color-purescript));
+}
+.t-b-r {
+    border-color: rgb(var(--track-color-r));
+}
+.t-b-racket {
+    border-color: rgb(var(--track-color-racket));
+}
+.t-b-reasonml {
+    border-color: rgb(var(--track-color-reasonml));
+}
+.t-b-rust {
+    border-color: rgb(var(--track-color-rust));
+}
+.t-b-scala {
+    border-color: rgb(var(--track-color-scala));
+}
+.t-b-scheme {
+    border-color: rgb(var(--track-color-scheme));
+}
+.t-b-sml {
+    border-color: rgb(var(--track-color-sml));
+}
+.t-b-swift {
+    border-color: rgb(var(--track-color-swift));
+}
+.t-b-tcl {
+    border-color: rgb(var(--track-color-tcl));
+}
+.t-b-typescript {
+    border-color: rgb(var(--track-color-typescript));
+}
+.t-b-vimscript {
+    border-color: rgb(var(--track-color-vimscript));
+}
+.t-b-vbnet {
+    border-color: rgb(var(--track-color-vbnet));
+}
+.t-b-x86-64-assembly {
+    border-color: rgb(var(--track-color-x86-64-assembly));
+}
+.t-b-gnu-apl {
+    border-color: rgb(var(--track-color-gnu-apl));
+}

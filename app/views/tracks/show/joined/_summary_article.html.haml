@@ -15,12 +15,12 @@
             through the #{track.title} track.
             %strong Keep it up! 🚀
 
-        .progress
+        .c-progress
           .bar{ style: "width: #{user_track.completed_percentage}%" }
           / TODO: Disable this on SRs?
+          = track_icon track
           .completed-icon
-            = track_icon track
-            = icon "completed-check-circle", "Completed", css_class: "completed-icon"
+            = icon "completed-check-circle", "Completed", css_class: "completed"
 
         = render ReactComponents::Student::ExerciseStatusChart.new(track)
 

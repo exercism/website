@@ -1,0 +1,77 @@
+@import "../styles";
+
+.c-contributions-summary {
+    @apply flex items-center;
+
+    & .summary {
+        @apply flex-grow;
+        @apply mr-80;
+        max-width: 650px;
+
+        & .c-primary-reputation {
+            @apply mb-32;
+            & .c-icon {
+                @apply ml-8;
+            }
+        }
+
+        & .c-track-select {
+            @apply mb-24;
+        }
+
+        & .category {
+            @apply flex items-center;
+            @apply mb-16;
+
+            /* This aligns it to the select box above */
+            padding-left: 20px;
+            padding-right: 89px;
+
+            & .c-icon {
+                height: 48px;
+                width: 48px;
+                @apply mr-16;
+            }
+            & .info {
+                @apply flex-grow;
+
+                & .title {
+                    @apply text-h5;
+                }
+                & .subtitle {
+                    @apply text-15 leading-170 text-textColor2;
+                }
+            }
+            & .reputation {
+                @apply text-15 leading-170 text-textColor6;
+            }
+        }
+    }
+    & .chart-container {
+        width: 600px;
+        @apply relative ml-auto;
+        padding: 150px 100px;
+
+        & .label {
+            @apply flex flex-col items-center;
+            @apply absolute invisible;
+            min-width: 122px;
+
+            & .c-icon {
+                height: 54px;
+                width: 54px;
+                @apply mb-8;
+            }
+            & .title {
+                @apply text-h6 mb-4;
+            }
+            & .subtitle {
+                @apply text-15 leading-160 text-textColor2;
+            }
+        }
+        & .chart {
+            width: 400px;
+            height: 400px;
+        }
+    }
+}

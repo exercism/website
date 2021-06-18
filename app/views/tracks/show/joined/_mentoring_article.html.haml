@@ -21,7 +21,7 @@
         - if user_track.repo_for_next_mentoring_slot.nil?
           .max You have the maximum available mentoring slots
         - else
-          .progress
+          .c-progress
             .bar{ style: "width: #{user_track.percentage_to_next_mentoring_slot}%" }
             .unlock-icon
               = icon "unlock", "Unlocked"

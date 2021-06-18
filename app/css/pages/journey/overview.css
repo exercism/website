@@ -1,0 +1,320 @@
+@import "../../styles";
+
+#page-journey {
+    & article.overview-tab {
+        @apply bg-backgroundColorA;
+
+        & .journey-h2 {
+            @apply text-48 leading-130 font-bold text-textColor1;
+        }
+        & .journey-h3 {
+            @apply text-32 leading-130 font-bold text-textColor1;
+        }
+        & .journey-h4 {
+            @apply text-24 leading-130 font-bold text-textColor1;
+        }
+        & .journey-label {
+            @apply font-mono font-semibold text-15 leading-150;
+        }
+        & .summary-boxes {
+            @apply grid gap-32 justify-center;
+            & .box {
+                @apply pt-16 pb-24 px-32;
+                @apply text-center;
+                @apply bg-backgroundColorC;
+                @apply shadow-base rounded-8;
+
+                & .journey-h2 {
+                    @apply mb-4;
+                }
+            }
+        }
+        & .track-metrics {
+            @apply grid grid-cols-2 gap-x-48 gap-y-32;
+            & .track {
+                @apply flex items-center;
+                & .dot {
+                    @apply rounded-100;
+                    @apply border-4 mr-24;
+                    height: 8px;
+                    width: 8px;
+                }
+                & .c-track-icon {
+                    height: 54px;
+                    width: 54px;
+                    @apply mr-24;
+                }
+            }
+        }
+
+        & header.section-header {
+            @apply text-center;
+            @apply flex flex-col items-center;
+
+            & .c-icon {
+                height: 64px;
+                width: 64px;
+                @apply mb-16;
+            }
+            & h2 {
+                @apply mb-16;
+            }
+            & p {
+                @apply text-21 leading-160;
+                max-width: 820px;
+
+                & .track {
+                    @apply text-textColor1 font-semibold;
+                    white-space: nowrap;
+                    @apply border-b-4;
+
+                    & .journey-label {
+                        @apply leading-170;
+                    }
+                }
+            }
+            & hr.c-divider {
+                @apply mt-24;
+            }
+        }
+        & section {
+            @apply mb-140;
+        }
+
+        & section.learning-section {
+            & header.section-header {
+                @apply mb-48;
+            }
+            & .summary-boxes {
+                grid-template-columns: repeat(3, 240px);
+                @apply mb-48;
+            }
+
+            & .overview {
+                @apply pt-24 pb-32 px-48 mb-32;
+                @apply bg-backgroundColorA;
+                @apply shadow-lg rounded-8;
+
+                & h3 {
+                    @apply text-24 leading-140 font-medium text-textColor2;
+                    @apply mb-20;
+                    & em {
+                        @apply not-italic text-anotherPurple font-semibold;
+                    }
+                    & strong {
+                        @apply font-semibold;
+                    }
+                }
+                & .c-progress {
+                    @apply mb-12;
+                }
+                & .count {
+                    @apply text-16 leading-150 font-mono;
+                }
+            }
+            & .tracks {
+                @apply mb-56;
+
+                & .track {
+                    @apply shadow-sm border-1 border-borderColor5 rounded-8;
+                    @apply bg-backgroundColorA;
+                    @apply mb-16;
+
+                    &[open] {
+                        @apply bg-backgroundColorG;
+                    }
+
+                    & .--summary-inner {
+                        @apply flex items-center;
+                        @apply py-12 px-32;
+                        & .c-track-icon {
+                            height: 48px;
+                            width: 48px;
+                            @apply mr-16;
+                        }
+                        & h3 {
+                            @apply text-h4;
+                            width: 200px;
+                        }
+                        & .percentage {
+                            @apply text-16 leading-150 text-lightGold font-semibold;
+                            @apply ml-48;
+                            @apply flex-shrink-0 text-right;
+                            width: 40px;
+                        }
+                        & .--closed-icon,
+                        & .--open-icon {
+                            @apply ml-48;
+                            height: 16px;
+                            width: 16px;
+                            filter: var(--light-gold-filter);
+                        }
+                    }
+                    & .track-details {
+                        @apply py-32 mx-32;
+                        @apply border-t-1 border-borderColor5;
+                        @apply flex items-stretch;
+                        & > * {
+                            @apply px-48;
+                            flex-basis: 0;
+                            flex-grow: 1;
+
+                            &:first-child {
+                                @apply pl-0;
+                            }
+                            &:last-child {
+                                @apply pr-0;
+                            }
+
+                            & + * {
+                                @apply border-l-1 border-borderColor5;
+                            }
+                        }
+
+                        & .time-area {
+                            @apply flex flex-col items-center;
+
+                            & svg {
+                                height: 120px;
+                                width: 300px;
+                                @apply mb-32;
+                            }
+                            & .info {
+                                @apply shadow-base rounded-8;
+                                @apply bg-backgroundColorC;
+                                @apply py-16 px-24;
+                                @apply text-center;
+
+                                & h4 {
+                                    @apply text-h6 mb-4;
+                                }
+                                & p {
+                                    @apply leading-150;
+                                }
+                            }
+                        }
+                        & .velocity-area,
+                        & .ratio-area {
+                            @apply flex flex-col items-center;
+                            & .c-icon {
+                                height: 32px;
+                                width: 32px;
+                                @apply mb-16;
+                            }
+                            & .journey-h3 {
+                                @apply mb-8;
+                            }
+                            & h4 {
+                                @apply text-h6 mb-6;
+                            }
+                            & .note {
+                                @apply font-medium leading-150;
+                            }
+
+                            & .info {
+                                @apply text-textColor6 leading-150;
+                                @apply py-12 px-16 mt-auto;
+                                @apply border-1 border-borderColor5 rounded-8;
+                                @apply text-center;
+                            }
+                        }
+                    }
+                }
+            }
+            & .stats {
+                @apply border-t-1 border-b-1 border-borderColor5;
+                @apply py-48 mb-64;
+                @apply flex flex-col items-center;
+                & h3 {
+                    @apply text-h3 mb-12;
+                }
+                & .stat {
+                    @apply text-21 leading-150;
+                    @apply mb-4;
+                    & strong,
+                    & a {
+                        @apply text-textColor1 font-medium;
+                    }
+                    & a {
+                        @apply border-b-1 border-textColor1;
+                    }
+                }
+            }
+        }
+        & section.mentoring-section {
+            & header.section-header {
+                @apply mb-64;
+            }
+            & > .content {
+                @apply flex items-start;
+                & > .info {
+                    & .summary-boxes {
+                        @apply grid-cols-3;
+                        @apply mb-64;
+                        & .box {
+                            @apply flex flex-col items-center;
+                            & .c-community-rank-tag {
+                                @apply mt-12;
+                                margin-bottom: -34px;
+                            }
+                        }
+                    }
+                    & .tracks {
+                        @apply grid grid-cols-2 gap-x-48 gap-y-32;
+                        & .track {
+                            @apply flex items-center;
+                            & .dot {
+                                @apply rounded-100;
+                                @apply border-4 mr-24;
+                                height: 8px;
+                                width: 8px;
+                            }
+                            & .c-track-icon {
+                                height: 54px;
+                                width: 54px;
+                                @apply mr-24;
+                            }
+                        }
+                    }
+                }
+                & > .chart {
+                    width: 350px;
+                    @apply ml-80 flex-shrink-0;
+                }
+            }
+        }
+
+        & section.contributing-section {
+            & header.section-header {
+                @apply mb-64;
+            }
+            & .c-contributions-summary {
+                @apply items-start;
+            }
+        }
+        & section.badges-section {
+            @apply bg-backgroundColorC;
+            @apply py-40 px-64;
+            @apply flex items-center;
+            @apply rounded-8 shadow-lg;
+            & .info {
+                @apply flex flex-col items-start;
+                max-width: 640px;
+                & .journey-h3 {
+                    @apply mb-16;
+                }
+                & p {
+                    @apply mb-24;
+                }
+            }
+            & .badges {
+                @apply flex-grow flex items-center justify-end;
+                & .c-badge-medallion {
+                    height: 65px;
+                    width: 65px;
+                    @apply ml-20;
+                }
+            }
+        }
+    }
+}

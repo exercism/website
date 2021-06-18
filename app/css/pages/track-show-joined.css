@@ -128,38 +128,8 @@
                 }
             }
 
-            & .progress {
-                @apply w-100 rounded-100;
-                @apply bg-veryLightBlue;
-                @apply flex items-center;
+            & .c-progress {
                 @apply mb-20;
-                height: 16px;
-
-                & .bar {
-                    min-width: 16px;
-                    height: 16px;
-                    background: linear-gradient(
-                        to right,
-                        #2200ff 0%,
-                        #9e00ff 100%
-                    );
-                    @apply shadow-baseZ1 rounded-100;
-                }
-
-                & .completed-icon {
-                    @apply ml-auto relative;
-                    & .c-track-icon {
-                        height: 48px;
-                        width: 48px;
-                    }
-                    & .c-icon.completed-icon {
-                        @apply absolute;
-                        height: 24px;
-                        width: 24px;
-                        right: -4px;
-                        top: -4px;
-                    }
-                }
             }
             & .exercises {
                 @apply grid gap-12;
@@ -603,43 +573,8 @@
                     @apply mb-12 py-12 text-center;
                     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23C8D5EF' stroke-width='3' stroke-dasharray='16%2c16' stroke-dashoffset='4' stroke-linecap='round'/%3e%3c/svg%3e");
                 }
-                /* TODO: This can probably be unified with the bar at the top of this page */
-                & .progress {
-                    @apply w-100 rounded-100;
-                    @apply bg-veryLightBlue;
-                    @apply flex items-center;
+                & .c-progress {
                     @apply mb-12;
-                    height: 16px;
-
-                    & .bar {
-                        height: 16px;
-                        min-width: 16px;
-                        background: linear-gradient(
-                            to bottom,
-                            #2200ff 0%,
-                            #9e00ff 100%
-                        );
-                        @apply rounded-100;
-                    }
-
-                    & .unlock-icon {
-                        @apply ml-auto;
-                        background: linear-gradient(
-                                180deg,
-                                rgba(255, 255, 255, 0.5) 0%,
-                                rgba(255, 255, 255, 0) 100%
-                            ),
-                            #fff4e3;
-                        box-shadow: 0px 4px 24px rgba(156, 130, 38, 0.4);
-                        @apply rounded-circle;
-                        @apply p-12;
-
-                        & .c-icon {
-                            height: 16px;
-                            width: 16px;
-                            filter: var(--orange-filter);
-                        }
-                    }
                 }
                 & .info {
                     @apply flex;

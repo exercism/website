@@ -180,8 +180,8 @@ export const ContributionsSummary = ({
   }, [canvas, chart])
 
   return (
-    <section className="contributions-section">
-      <div className="lg-container container">
+    <div className="lg-container container">
+      <section className="contributions-section c-contributions-summary">
         <div className="summary">
           <header className="section-header">
             <GraphicalIcon icon="contribute" hex={true} />
@@ -204,6 +204,7 @@ export const ContributionsSummary = ({
           <ProminentLink
             link={links.contributions}
             text={`See ${handle}'s contributions`}
+            withBg
           />
         </div>
 
@@ -221,8 +222,8 @@ export const ContributionsSummary = ({
             <canvas id="contributions-chart" ref={setCanvas} />
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }
 

@@ -1,0 +1,15 @@
+.c-community-rank-tag {
+    @apply py-4 px-8 mt-8;
+    @apply text-12 leading-120 uppercase font-bold font-mono;
+    @apply rounded-3;
+
+    &.--top-1 {
+        @apply bg-red text-white;
+    }
+    &.--top-3 {
+        @apply bg-lightGold text-black;
+    }
+    &.--top-10 {
+        @apply bg-rareBadge text-black;
+    }
+}

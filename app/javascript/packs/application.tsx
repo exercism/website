@@ -22,6 +22,7 @@ import '../../css/defaults'
 import '../../css/ui-kit/buttons'
 import '../../css/ui-kit/tracks'
 
+import '../../css/components/contributions-summary'
 import '../../css/components/progress'
 import '../../css/components/site-update'
 import '../../css/components/community-rank-tag'

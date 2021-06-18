@@ -42,11 +42,68 @@
 
           .c-progress.--large
             .bar{ style: "width: #{all_tracks_completed_percentage}%" }
-            / TODO: Disable this on SRs?
-            .completed-icon
-              = icon "completed-check-circle", "Completed", css_class: "completed-icon"
 
           .count 221/520 exercises completed
+
+        - tracks = [[Track.first, 100], [Track.second, 87]]
+        .tracks
+          - tracks.each do |track, percentage_completed|
+            %details.c-details.track
+              %summary.--summary
+                .--summary-inner
+                  = track_icon track
+                  %h3= track.title
+
+                  - if percentage_completed == 100
+                    .c-progress.--small.--completed
+                      .bar{ style: "width: #{percentage_completed}%" }
+                      .completed-icon
+                        = icon "completed-check-circle", "Completed", css_class: "completed"
+
+                  - else
+                    .c-progress.--small
+                      .bar{ style: "width: #{percentage_completed}%" }
+
+                  .percentage #{percentage_completed}%
+
+                  = graphical_icon "chevron-right", css_class: "--closed-icon"
+                  = graphical_icon "chevron-down", css_class: "--open-icon"
+
+              .track-details
+                .time-area
+                  - points = "0,95, 20,93, 40,85, 60,20, 80,15, 100,13, 120,10, 140,8, 160,4"
+                  <svg viewBox="0 0 260 100">
+                  <polyline fill="none" stroke="url(#paint0_linear)" stroke-width="3.5" points="#{points}"/>
+                  <defs>
+                  <linearGradient id="paint0_linear" x1="66" y1="2.5" x2="66" y2="50.5" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#2200FF"/>
+                  <stop offset="1" stop-color="#9E00FF"/>
+                  </linearGradient>
+                  </defs>
+                  </svg>
+
+                  .info
+                    %h4 Last 12 months
+                    %p 234/322 (78.2%) exercises completed
+
+                .velocity-area
+                  = graphical_icon "velocity"
+                  .journey-h3 9.05
+                  %h4 Progression Velocity
+                  .note Avg. on Exercism = 2.52
+
+                  .info
+                    This is a measure of how quickly you’ve progressed through the track in the last 6 months
+        .stats
+          %h3 Did you know?
+          .stat
+            You’ve written
+            %strong 1,500 lines
+            of code across
+            = link_to "97 solutions", "#"
+          .stat
+            That’s approximately equivalent to the length of an
+            = link_to "Aesop’s Fable!", "#"
 
 
       %section.mentoring-section
@@ -151,13 +208,7 @@
             and
             %span.track.t-b-javascript Javascript
         .content
-          .lhs
-            / This is the Profile/TotalReputation component
-            .c-primary-reputation.--large
-              .--inner
-                You have
-                = graphical_icon "reputation"
-                500 Reputation
+          <div class="c-contributions-summary"><div class="summary"><div class="c-primary-reputation --large"><div class="--inner">iHiD has<img src="/packs/media/images/icons/reputation-fa230cf4d89ede908a0c91cb571ee843.svg" alt="" role="presentation" class="c-icon">379 Reputation</div></div><div class="c-track-switcher"><button class="current-track" aria-label="Open the track switcher" aria-controls="f46af121-a35b-43fb-89ec-751e1dbb0d18" aria-haspopup="true"><img src="/packs/media/images/icons/all-tracks-e54a4abbd8a87a8faaff14affa5e2213.svg" alt="" role="presentation" class="c-icon"><div class="track-title">All</div><div class="count">379 rep</div><img src="/packs/media/images/icons/chevron-down-251a3f80ac5e7f1016acb3d408da03a4.svg" alt="Click to change" class="c-icon action-icon"></button></div><div class="category"><div class="c-icon --hex"><img src="/packs/media/images/icons/community-solutions-7de686f79eabdd8c82e19807073e585d.svg" alt="" role="presentation"></div><div class="info"><div class="title">Publishing</div><div class="subtitle">1 solution published</div></div><div class="reputation">1 rep</div></div><div class="category"><div class="c-icon --hex"><img src="/packs/media/images/icons/mentoring-30978fb2e7345dda235a8a801faa354b.svg" alt="" role="presentation"></div><div class="info"><div class="title">Mentoring</div><div class="subtitle">1 student mentored</div></div><div class="reputation">No rep</div></div><div class="category"><div class="c-icon --hex"><img src="/packs/media/images/icons/authoring-bbbb21daa447d2a45ebbbdf2f7990fc0.svg" alt="" role="presentation"></div><div class="info"><div class="title">Authoring</div><div class="subtitle">13 exercises contributed</div></div><div class="reputation">160 rep</div></div><div class="category"><div class="c-icon --hex"><img src="/packs/media/images/icons/building-88e4ddc530d99100a3826784f64b4550.svg" alt="" role="presentation"></div><div class="info"><div class="title">Building</div><div class="subtitle">5 PRs accepted</div></div><div class="reputation">159 rep</div></div><div class="category"><div class="c-icon --hex"><img src="/packs/media/images/icons/maintaining-2f9551faaa749b85b38d5f7e9b94dd2f.svg" alt="" role="presentation"></div><div class="info"><div class="title">Maintaining</div><div class="subtitle">15 PRs reviewed</div></div><div class="reputation">59 rep</div></div><div class="category"><div class="c-icon --hex"><img src="/packs/media/images/icons/more-horizontal-eca1a9a537fa11719cd86f96419e1ad2.svg" alt="" role="presentation"></div><div class="info"><div class="title">Other</div></div><div class="reputation">No rep</div></div><a href="http://local.exercism.io:3020/profiles/iHiD/contributions" class="c-prominent-link --with-bg"><span>See iHiD's contributions</span><img src="/packs/media/images/icons/arrow-right-6d6ad99bb104736f9061ce192d7c5938.svg" alt="" role="presentation" class="c-icon"></a></div><div class="chart-container"><div class="label" style="left: 300px; margin-left: -61px; bottom: 538px; visibility: visible;"><div class="c-icon --hex"><img src="/packs/media/images/icons/community-solutions-7de686f79eabdd8c82e19807073e585d.svg" alt="" role="presentation"></div><div class="title">Publishing</div><div class="subtitle">1 solution</div></div><div class="label" style="left: 470.813px; bottom: 388px; visibility: visible;"><div class="c-icon --hex"><img src="/packs/media/images/icons/mentoring-30978fb2e7345dda235a8a801faa354b.svg" alt="" role="presentation"></div><div class="title">Mentoring</div><div class="subtitle">1 student</div></div><div class="label" style="left: 470.813px; bottom: 188px; visibility: visible;"><div class="c-icon --hex"><img src="/packs/media/images/icons/authoring-bbbb21daa447d2a45ebbbdf2f7990fc0.svg" alt="" role="presentation"></div><div class="title">Authoring</div><div class="subtitle">13 exercises</div></div><div class="label" style="left: 300px; margin-left: -61px; bottom: 38px; visibility: visible;"><div class="c-icon --hex"><img src="/packs/media/images/icons/building-88e4ddc530d99100a3826784f64b4550.svg" alt="" role="presentation"></div><div class="title">Building</div><div class="subtitle">5 PRs accepted</div></div><div class="label" style="left: 7.18722px; bottom: 188px; visibility: visible;"><div class="c-icon --hex"><img src="/packs/media/images/icons/maintaining-2f9551faaa749b85b38d5f7e9b94dd2f.svg" alt="" role="presentation"></div><div class="title">Maintaining</div><div class="subtitle">15 PRs reviewed</div></div><div class="label" style="left: 7.18722px; bottom: 400px; visibility: visible;"><div class="c-icon --hex"><img src="/packs/media/images/icons/more-horizontal-eca1a9a537fa11719cd86f96419e1ad2.svg" alt="" role="presentation"></div><div class="title">Other</div></div><div class="chart"><canvas id="contributions-chart" width="800" height="800" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas></div></div></div>
 
       %section.badges-section
         .info

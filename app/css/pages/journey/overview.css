@@ -88,7 +88,7 @@
             }
 
             & .overview {
-                @apply pt-24 pb-32 px-48;
+                @apply pt-24 pb-32 px-48 mb-32;
                 @apply bg-backgroundColorA;
                 @apply shadow-lg rounded-8;
 
@@ -107,6 +107,132 @@
                 }
                 & .count {
                     @apply text-16 leading-150 font-mono;
+                }
+            }
+            & .tracks {
+                @apply mb-56;
+
+                & .track {
+                    @apply shadow-sm border-1 border-borderColor5 rounded-8;
+                    @apply bg-backgroundColorA;
+                    @apply mb-16;
+
+                    &[open] {
+                        @apply bg-backgroundColorG;
+                    }
+
+                    & .--summary-inner {
+                        @apply flex items-center;
+                        @apply py-12 px-32;
+                        & .c-track-icon {
+                            height: 48px;
+                            width: 48px;
+                            @apply mr-16;
+                        }
+                        & h3 {
+                            @apply text-h4;
+                            width: 200px;
+                        }
+                        & .percentage {
+                            @apply text-16 leading-150 text-lightGold font-semibold;
+                            @apply ml-48;
+                            @apply flex-shrink-0 text-right;
+                            width: 40px;
+                        }
+                        & .--closed-icon,
+                        & .--open-icon {
+                            @apply ml-48;
+                            height: 16px;
+                            width: 16px;
+                            filter: var(--light-gold-filter);
+                        }
+                    }
+                    & .track-details {
+                        @apply py-32 mx-32;
+                        @apply border-t-1 border-borderColor5;
+                        @apply flex items-stretch;
+                        & > * {
+                            @apply px-48;
+                            flex-basis: 0;
+                            flex-grow: 1;
+
+                            &:first-child {
+                                @apply pl-0;
+                            }
+                            &:last-child {
+                                @apply pr-0;
+                            }
+
+                            & + * {
+                                @apply border-l-1 border-borderColor5;
+                            }
+                        }
+
+                        & .time-area {
+                            & svg {
+                                height: 120px;
+                                width: 300px;
+                                @apply mb-32;
+                            }
+                            & .info {
+                                @apply shadow-base rounded-8;
+                                @apply bg-backgroundColorC;
+                                @apply py-16 px-24;
+                                @apply text-center;
+
+                                & h4 {
+                                    @apply text-h6 mb-4;
+                                }
+                                & p {
+                                    @apply leading-150;
+                                }
+                            }
+                        }
+                        & .velocity-area,
+                        & .ratio-area {
+                            @apply flex flex-col items-center;
+                            & .c-icon {
+                                height: 32px;
+                                width: 32px;
+                                @apply mb-16;
+                            }
+                            & .journey-h3 {
+                                @apply mb-8;
+                            }
+                            & h4 {
+                                @apply text-h6 mb-6;
+                            }
+                            & .note {
+                                @apply font-medium leading-150;
+                            }
+
+                            & .info {
+                                @apply text-textColor6 leading-150;
+                                @apply py-12 px-16 mt-auto;
+                                @apply border-1 border-borderColor5 rounded-8;
+                                @apply text-center;
+                            }
+                        }
+                    }
+                }
+            }
+            & .stats {
+                @apply border-t-1 border-b-1 border-borderColor5;
+                @apply py-48 mb-64;
+                @apply flex flex-col items-center;
+                & h3 {
+                    @apply text-h3 mb-12;
+                }
+                & .stat {
+                    @apply text-21 leading-150;
+                    @apply mb-4;
+                    & strong,
+                    & a {
+                        @apply text-textColor1 font-medium;
+                    }
+                    & a {
+                        @apply border-b-1 border-textColor1;
+                    }
                 }
             }
         }
@@ -156,20 +282,6 @@
         & section.contributing-section {
             & header.section-header {
                 @apply mb-64;
-            }
-            & > .content {
-                @apply flex;
-                & .lhs {
-                    width: 500px;
-                    @apply mr-128;
-
-                    & .c-primary-reputation {
-                        @apply mb-40;
-                        & .c-icon {
-                            @apply ml-8;
-                        }
-                    }
-                }
             }
         }
         & section.badges-section {

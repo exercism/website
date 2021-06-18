@@ -1,0 +1,65 @@
+@import "../styles";
+
+.theme-light {
+    & .c-progress {
+        @apply bg-veryLightBlue;
+    }
+}
+.theme-dark {
+    & .c-progress {
+        @apply bg-backgroundColorF;
+    }
+}
+.c-progress {
+    @apply w-100 rounded-100;
+    @apply flex items-center;
+    height: 16px;
+
+    &.--large {
+        &,
+        & .bar {
+            height: 24px;
+        }
+    }
+
+    & .bar {
+        height: 16px;
+        min-width: 16px;
+        background: linear-gradient(to bottom, #2200ff 0%, #9e00ff 100%);
+        @apply rounded-100;
+    }
+
+    & .completed-icon {
+        @apply ml-auto relative;
+        & .c-track-icon {
+            height: 48px;
+            width: 48px;
+        }
+        & .c-icon.completed-icon {
+            @apply absolute;
+            height: 24px;
+            width: 24px;
+            right: -4px;
+            top: -4px;
+        }
+    }
+
+    & .unlock-icon {
+        @apply ml-auto;
+        background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            #fff4e3;
+        box-shadow: 0px 4px 24px rgba(156, 130, 38, 0.4);
+        @apply rounded-circle;
+        @apply p-12;
+
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            filter: var(--orange-filter);
+        }
+    }
+}

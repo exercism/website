@@ -1,3 +1,5 @@
+- all_tracks_completed_percentage = 42
+
 #page-journey
   = render "journey/hero", user_tracks: @user_tracks
 
@@ -30,6 +32,22 @@
           .box
             .journey-h3 78
             .journey-label Concepts learnt
+
+        .overview
+          %h3
+            You're
+            %em #{all_tracks_completed_percentage}%
+            through your entrolled Tracks.
+            %strong Keep it up! 🚀
+
+          .c-progress.--large
+            .bar{ style: "width: #{all_tracks_completed_percentage}%" }
+            / TODO: Disable this on SRs?
+            .completed-icon
+              = icon "completed-check-circle", "Completed", css_class: "completed-icon"
+
+          .count 221/520 exercises completed
+
 
       %section.mentoring-section
         %header.section-header

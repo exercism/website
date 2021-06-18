@@ -84,6 +84,30 @@
             }
             & .summary-boxes {
                 grid-template-columns: repeat(3, 240px);
+                @apply mb-48;
+            }
+
+            & .overview {
+                @apply pt-24 pb-32 px-48;
+                @apply bg-backgroundColorA;
+                @apply shadow-lg rounded-8;
+
+                & h3 {
+                    @apply text-24 leading-140 font-medium text-textColor2;
+                    @apply mb-20;
+                    & em {
+                        @apply not-italic text-anotherPurple font-semibold;
+                    }
+                    & strong {
+                        @apply font-semibold;
+                    }
+                }
+                & .c-progress {
+                    @apply mb-12;
+                }
+                & .count {
+                    @apply text-16 leading-150 font-mono;
+                }
             }
         }
         & section.mentoring-section {

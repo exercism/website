@@ -58,6 +58,7 @@
     --c-3A3557: #3a3557;
     --c-302B42: #302b42;
     --c-4A475F: #4a475f;
+    --c-191525: #191525;
 
     --darkThemeBackgroundColor: var(--c-282339);
     --track-color-c: 52, 19, 148;
@@ -234,6 +235,7 @@
     --backgroundColorC: var(--c-302B42);
     --backgroundColorD: var(--c-3A3557); /* Confirmed */
     --backgroundColorE: var(--c-4A475F); /* Confirmed */
+    --backgroundColorF: var(--c-191525);
     --borderColor3: var(--c-8480A0);
     --borderColor5: var(--c-433F56); /* Confirmed */
     --borderColor6: var(--c-433F56);

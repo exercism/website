@@ -20,6 +20,7 @@ class Maintaining::ContributorTeamsController < ApplicationController
   end
 
   def create
+    # TODO: use command
     @team = ContributorTeam.new(team_params)
 
     if @team.save

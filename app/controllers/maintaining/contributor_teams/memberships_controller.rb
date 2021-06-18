@@ -11,6 +11,7 @@ class Maintaining::ContributorTeams::MembershipsController < ApplicationControll
   end
 
   def create
+    # TODO: use command
     @membership = @team.memberships.build(membership_params)
 
     if @membership.save
@@ -23,6 +24,7 @@ class Maintaining::ContributorTeams::MembershipsController < ApplicationControll
   def edit; end
 
   def update
+    # TODO: use command
     if @membership.update(membership_params.except(:user))
       redirect_to maintaining_contributor_team_path(@team)
     else

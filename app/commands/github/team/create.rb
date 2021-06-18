@@ -6,7 +6,7 @@ module Github
       initialize_with :name, :repo
 
       def call
-        Exercism.octokit_client.create_team('exercism', name: name, repo_names: [repo])
+        Github::Team.new(name).create(repo)
       end
     end
   end

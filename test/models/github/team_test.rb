@@ -1,7 +1,27 @@
 require "test_helper"
 
 class Github::TeamTest < ActiveSupport::TestCase
+  test "create team" do
+    Exercism.config.stubs(:github_organization).returns('exercism')
+
+    stub_request(:post, "https://api.github.com/orgs/exercism/teams").
+      with(
+        body: { name: "csharp-maintainers", repo_names: ["exercism/csharp"] }.to_json
+      ).
+      to_return(
+        status: 200,
+        body: { name: "reviewers", id: 3_076_122 }.to_json,
+        headers: { 'Content-Type': 'application/json' }
+      )
+
+    team = Github::Team.new('csharp-maintainers')
+
+    team.create('exercism/csharp')
+  end
+
   test "add member" do
+    Exercism.config.stubs(:github_organization).returns('exercism')
+
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/csharp-maintainers").
       to_return(
         status: 200,
@@ -18,6 +38,8 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "remove_member" do
+    Exercism.config.stubs(:github_organization).returns('exercism')
+
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/csharp-maintainers").
       to_return(
         status: 200,
@@ -34,6 +56,8 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "add_to_repository" do
+    Exercism.config.stubs(:github_organization).returns('exercism')
+
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/reviewers").
       to_return(
         status: 200,
@@ -51,6 +75,8 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "remove_from_repository" do
+    Exercism.config.stubs(:github_organization).returns('exercism')
+
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/reviewers").
       to_return(
         status: 200,
@@ -67,6 +93,8 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "members" do
+    Exercism.config.stubs(:github_organization).returns('exercism')
+
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/reviewers").
       to_return(
         status: 200,

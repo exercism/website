@@ -4,27 +4,39 @@ class Github::Team
   initialize_with :name
 
   def create(repo)
+    return unless active?
+
     Exercism.octokit_client.create_team(organization, name: name, repo_names: [repo])
   end
 
   def add_member(github_username)
+    return unless active?
+
     Exercism.octokit_client.add_team_membership(team_id, github_username)
   end
 
   def remove_member(github_username)
+    return unless active?
+
     Exercism.octokit_client.remove_team_membership(team_id, github_username)
   end
 
   def add_to_repository(repo, permission)
+    return unless active?
+
     Exercism.octokit_client.add_team_repository(team_id, repo, permission: permission)
   end
 
   def remove_from_repository(repo)
+    return unless active?
+
     Exercism.octokit_client.remove_team_repository(team_id, repo)
   end
 
   memoize
   def members
+    return unless active?
+
     Exercism.octokit_client.team_members(team_id)
   end
 
@@ -35,8 +47,14 @@ class Github::Team
     Exercism.octokit_client.get("https://api.github.com/orgs/#{organization}/teams/#{name}")[:id]
   end
 
+  memoize
+  def active?
+    organization.present?
+  end
+
+  memoize
   def organization
-    # TODO: set this variable depending on the environment
-    Exercism.config.github_organization
+    # TODO: add github_organization property to Exercism.config
+    ENV["GITHUB_ORGANIZATION"].presence || Exercism.config.github_organization
   end
 end

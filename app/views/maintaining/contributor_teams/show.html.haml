@@ -3,13 +3,10 @@
     %h1 Maintaining #{@team.name}
 
     .data
-      %div
-        GitHub name: #{@team.github_name}
-      %div
-        Type: #{@team.type.to_s.humanize}
+      %div GitHub name: #{@team.github_name}
+      %div Type: #{@team.type.to_s.humanize}
       - if @team.track.present?
-        %div
-          Track: #{@team.track.title}
+        %div Track: #{@team.track.title}
 
     %h2
       Members

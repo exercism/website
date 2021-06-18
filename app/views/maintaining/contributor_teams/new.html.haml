@@ -1,11 +1,11 @@
 #page-team-new
   .sm-container.container
     %header
-      %h1 Create a new team
+      %h1 Create a new contributor team
       %hr.c-divider
 
     %section.form-section
-      = form_with url: maintaining_teams_path, method: :post, model: @team do
+      = form_with url: maintaining_contributor_teams_path, method: :post, model: @team do
         = fields_for @team do |fu|
           .field
             = fu.label :name, "Name"
@@ -19,4 +19,4 @@
           .field
             = fu.label :track, "Track (required of type is track maintainers)"
             = fu.select :track, @track_options, include_blank: true
-          = button_tag "Create team", class: "btn-primary btn-m"
+          = button_tag "Create contributor team", class: "btn-primary btn-m"

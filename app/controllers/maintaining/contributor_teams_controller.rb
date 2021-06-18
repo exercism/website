@@ -1,4 +1,4 @@
-class Maintaining::TeamsController < ApplicationController
+class Maintaining::ContributorTeamsController < ApplicationController
   def index
     @teams = ContributorTeam.includes(:memberships).order(type: :asc, name: :asc)
     @teams = @teams.for_track(Track.find_by!(slug: params[:track_slug])) if params[:track_slug].present?
@@ -21,7 +21,7 @@ class Maintaining::TeamsController < ApplicationController
     @team = ContributorTeam.new(team_params)
 
     if @team.save
-      redirect_to maintaining_team_path(@team)
+      redirect_to maintaining_contributor_team_path(@team)
     else
       render :new
     end

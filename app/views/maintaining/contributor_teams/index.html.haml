@@ -1,5 +1,5 @@
 :css
-  #maintaining-teams {
+  #maintaining-contributor-teams {
     padding:25px 0%;
     font-size: 16px;
     line-height:1.5;
@@ -27,7 +27,7 @@
     max-width:300px;
   }
 
-#maintaining-teams
+#maintaining-contributor-teams
   .lg-container
     %table
       %thead
@@ -46,6 +46,6 @@
             %td= team.type.to_s.humanize
             %td= team.members.size
             %td= team.track&.title
-            %td= render ViewComponents::ProminentLink.new("More", maintaining_team_path(team))
+            %td= render ViewComponents::ProminentLink.new("More", maintaining_contributor_team_path(team))
 
-    = link_to "Create a team", new_maintaining_team_path, class: 'btn-primary btn-m'
+    = link_to "Create a team", new_maintaining_contributor_team_path, class: 'btn-primary btn-m'

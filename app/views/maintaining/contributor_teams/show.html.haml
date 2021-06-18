@@ -24,9 +24,10 @@
               %td= membership.visible
               %td= membership.seniority.to_s.humanize
               %td
-                = link_to "Edit", edit_maintaining_contributor_team_contributor_team_membership_path(@team, membership)
-                = link_to "Remove", maintaining_contributor_team_contributor_team_membership_path(@team, membership),
-                    method: :delete,
-                    data: { confirm: "Are you sure?" }
+                - if current_user.admin?
+                  = link_to "Edit", edit_maintaining_contributor_team_contributor_team_membership_path(@team, membership)
+                  = link_to "Remove", maintaining_contributor_team_contributor_team_membership_path(@team, membership),
+                      method: :delete,
+                      data: { confirm: "Are you sure?" }
 
       = link_to "Add member", new_maintaining_contributor_team_contributor_team_membership_path(@team), class: 'btn-primary btn-m'

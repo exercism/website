@@ -1,5 +1,5 @@
 class Maintaining::ContributorTeamsController < ApplicationController
-  before_action :ensure_admin!
+  before_action :ensure_admin!, except: %i[index show]
 
   def index
     @teams = ContributorTeam.includes(:memberships).order(type: :asc, name: :asc)

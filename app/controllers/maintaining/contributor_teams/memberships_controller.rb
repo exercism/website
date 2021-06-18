@@ -4,8 +4,6 @@ class Maintaining::ContributorTeams::MembershipsController < ApplicationControll
   before_action :use_membership, only: %i[show edit update destroy]
   before_action :use_seniority_options, only: %i[new create edit update]
 
-  def show; end
-
   def new
     @membership = ContributorTeam::Membership.new
   end

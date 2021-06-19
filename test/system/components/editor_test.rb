@@ -307,6 +307,34 @@ module Components
       end
     end
 
+    test "user reverts to last iteration" do
+      user = create :user
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: user, exercise: strings
+      submission = create :submission, solution: solution
+      create :submission_file,
+        submission: submission,
+        content: "old content",
+        filename: "log_line_parser.rb",
+        digest: Digest::SHA1.hexdigest("old content")
+      create :iteration, submission: submission
+      submission = create :submission, solution: solution
+      create :submission_file,
+        submission: submission,
+        content: "new content",
+        filename: "log_line_parser.rb",
+        digest: Digest::SHA1.hexdigest("new content")
+
+      use_capybara_host do
+        sign_in!(user)
+        visit test_components_editor_path(solution_id: solution.id)
+        find(".more-btn").click
+        click_on("Revert to last iteration")
+
+        assert_text "old content"
+      end
+    end
+
     test "user reverts to original exercise solution" do
       user = create :user
       strings = create :concept_exercise

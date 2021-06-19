@@ -8,11 +8,11 @@ test('hides panel after clicking on revert button', async () => {
   render(<ActionMore onRevertToLastIteration={onRevert} />)
 
   fireEvent.click(screen.getByAltText('Open more options'))
-  fireEvent.click(screen.getByText('Revert to last iteration submission'))
+  fireEvent.click(screen.getByText('Revert to last iteration'))
 
   await waitFor(() => {
     expect(
-      screen.queryByText('Revert to last iteration submission')
+      screen.queryByText('Revert to last iteration')
     ).not.toBeInTheDocument()
   })
 })

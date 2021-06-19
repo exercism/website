@@ -12,6 +12,7 @@ type SubmissionLinks = {
   submit: string
   testRun: string
   initialFiles: string
+  lastIterationFiles: string
 }
 
 export type TestRun = {

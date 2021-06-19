@@ -26,8 +26,8 @@ export const EditorStatusSummary = ({
       return <p>{error}</p>
     case EditorStatus.REVERT_FAILED:
       return <p>{error}</p>
-    case EditorStatus.REVERTING_TO_EXERCISE_START:
-      return <p>Reverting to exercise start...</p>
+    case EditorStatus.REVERTING:
+      return <p>Reverting files...</p>
     default:
       return null
   }

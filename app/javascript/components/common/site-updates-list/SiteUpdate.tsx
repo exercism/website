@@ -12,20 +12,13 @@ export const SiteUpdate = ({
   update: SiteUpdateProps
   context: SiteUpdateContext
 }): JSX.Element => {
-  const Icon = useCallback(
-    () => (
+  return (
+    <div className="c-site-update">
       <SiteUpdateIcon
         icon={update.icon}
         context={context}
         track={update.track}
       />
-    ),
-    [context, update.icon, update.track]
-  )
-
-  return (
-    <div className="c-site-update">
-      <Icon />
       <div className="content">
         <div className="standard">
           <div className="info">
@@ -50,7 +43,8 @@ export const SiteUpdate = ({
         </div>
         {update.expanded ? (
           <ExpandedInfo
-            IconComponent={Icon}
+            icon={update.icon}
+            track={update.track}
             expanded={update.expanded}
             pullRequest={update.pullRequest}
             conceptWidget={update.conceptWidget}

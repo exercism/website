@@ -4,24 +4,28 @@ import {
   SiteUpdate as SiteUpdateProps,
   SiteUpdateExpandedInfo,
 } from '../../types'
+import { SiteUpdateIcon } from './SiteUpdateIcon'
 import { PullRequestWidget } from './PullRequestWidget'
 import { ExerciseWidget } from '../ExerciseWidget'
 import { ConceptWidget } from '../ConceptWidget'
 
 export const ExpandedInfo = ({
   expanded,
+  icon,
+  track,
   pullRequest,
   conceptWidget,
   exerciseWidget,
-  IconComponent,
-}: Pick<SiteUpdateProps, 'pullRequest' | 'conceptWidget' | 'exerciseWidget'> & {
+}: Pick<
+  SiteUpdateProps,
+  'icon' | 'track' | 'pullRequest' | 'conceptWidget' | 'exerciseWidget'
+> & {
   expanded: SiteUpdateExpandedInfo
-  IconComponent: React.ComponentType<{}>
 }): JSX.Element => {
   return (
     <div className="expanded">
       <div className="header">
-        <IconComponent />
+        <SiteUpdateIcon icon={icon} context="update" track={track} />
         <div className="info">
           <div className="title">{expanded.title}</div>
           <div className="byline">

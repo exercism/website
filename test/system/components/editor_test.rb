@@ -33,6 +33,32 @@ module Components
       end
     end
 
+    test "user switches tabs" do
+      user = create :user
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: user, exercise: strings
+      submission = create :submission, solution: solution
+      create :submission_file,
+        submission: submission,
+        content: "class LogLineParser",
+        filename: "log_line_parser.rb",
+        digest: Digest::SHA1.hexdigest("class LogLineParser")
+      create :submission_file,
+        submission: submission,
+        content: "class log_line_parser_test",
+        filename: "log_line_parser_test.rb",
+        digest: Digest::SHA1.hexdigest("class log_line_parser_test")
+
+      use_capybara_host do
+        sign_in!(user)
+        visit test_components_editor_path(solution_id: solution.id)
+        click_on "log_line_parser_test.rb"
+
+        assert_text "class log_line_parser_test"
+        assert_no_text "class LogLineParser"
+      end
+    end
+
     test "user runs tests and tests pass - v2 test runner" do
       user = create :user
       strings = create :concept_exercise

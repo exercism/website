@@ -214,6 +214,8 @@
                     @apply flex-grow;
                     @apply w-100;
                 }
+                /* TODO: Change this */
+                height: 100%;
             }
 
             /*@apply border-t-1 border-borderColor6;*/

@@ -17,7 +17,6 @@ export type Handler = {
   getValue: () => string
 }
 export const CodeMirror = ({
-  hidden,
   value,
   language,
   commands,
@@ -28,7 +27,6 @@ export const CodeMirror = ({
   isTabCaptured,
   editorDidMount,
 }: {
-  hidden: boolean
   value: string
   language: string
   theme: Themes
@@ -139,5 +137,5 @@ export const CodeMirror = ({
     })
   }, [isTabCaptured])
 
-  return <div className="editor" hidden={hidden} ref={setTextarea} />
+  return <div className="editor" ref={setTextarea} />
 }

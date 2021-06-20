@@ -196,11 +196,14 @@
             width: calc(100% - 33%);
 
             & .c-iteration-pane {
-                height: 100%;
+                overflow: hidden;
+            }
+            & .--tab-panel {
+                @apply flex flex-col flex-grow;
+                @apply overflow-hidden;
             }
             & .editor {
                 @apply flex-grow;
-                @apply pt-12;
                 @apply bg-backgroundColorA;
                 overflow-y: auto;
 
@@ -214,8 +217,6 @@
                     @apply flex-grow;
                     @apply w-100;
                 }
-                /* TODO: Change this */
-                height: 100%;
             }
 
             /*@apply border-t-1 border-borderColor6;*/

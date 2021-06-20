@@ -6,11 +6,9 @@ import { useDropdown } from '../../dropdowns/useDropdown'
 export const ActionMore = ({
   onRevertToLastIteration,
   onRevertToExerciseStart,
-  isRevertToLastIterationDisabled,
 }: {
   onRevertToLastIteration: () => void
   onRevertToExerciseStart: () => void
-  isRevertToLastIterationDisabled: boolean
 }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const {
@@ -71,13 +69,9 @@ export const ActionMore = ({
               </button>
             </li>
             <li {...itemAttributes(1)}>
-              <button
-                onClick={handleRevertToLastIteration}
-                type="button"
-                disabled={isRevertToLastIterationDisabled}
-              >
+              <button onClick={handleRevertToLastIteration} type="button">
                 <GraphicalIcon icon="reset" />
-                Revert to last iteration submission
+                Revert to last iteration
               </button>
             </li>
             <li {...itemAttributes(2)}>

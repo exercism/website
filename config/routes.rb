@@ -118,6 +118,7 @@ Rails.application.routes.draw do
           get :latest_status, on: :collection
         end
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"
+        resources :last_iteration_files, only: %i[index], controller: "solutions/last_iteration_files"
 
         resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
         resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions" do

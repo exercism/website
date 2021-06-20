@@ -195,21 +195,32 @@
             @apply overflow-hidden;
             width: calc(100% - 33%);
 
+            & .tabs {
+                @apply flex;
+                & .c-tab {
+                    @apply mr-0;
+                }
+            }
+
             & .c-iteration-pane {
-                height: 100%;
+                overflow: hidden;
+            }
+            & .--tab-panel {
+                @apply flex-grow;
+                @apply overflow-hidden;
             }
             & .editor {
                 @apply flex-grow;
-                @apply pt-12;
                 @apply bg-backgroundColorA;
                 overflow-y: auto;
+                height: 100%;
 
                 & .ace_content {
                     @apply font-medium;
                 }
 
                 /* These bits handle things resizing correctly */
-                @apply flex h-arbitary;
+                @apply flex;
                 & .ace_editor {
                     @apply flex-grow;
                     @apply w-100;
@@ -427,6 +438,9 @@
         & .focus-visible {
             /* TODO: Find a way to set outline for a11y only */
             outline: none;
+        }
+        & .cm-panels-top {
+            @apply border-0;
         }
 
         & .cm-scroller {

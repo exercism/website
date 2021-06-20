@@ -15,7 +15,8 @@ class SerializeSubmission
         cancel: Exercism::Routes.api_solution_submission_cancellations_url(solution_uuid, submission),
         submit: Exercism::Routes.api_solution_iterations_url(solution_uuid, submission_id: submission.uuid),
         test_run: Exercism::Routes.api_solution_submission_test_run_url(solution_uuid, submission.uuid),
-        initial_files: Exercism::Routes.api_solution_initial_files_url(solution_uuid)
+        initial_files: Exercism::Routes.api_solution_initial_files_url(solution_uuid),
+        last_iteration_files: Exercism::Routes.api_solution_last_iteration_files_url(solution_uuid)
       }
     }
   end

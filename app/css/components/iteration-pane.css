@@ -13,12 +13,12 @@
             @apply border-r-1 border-borderColor7;
             @apply rounded-none;
             margin-bottom: -1px;
-            border-bottom: 1px solid transparent;
+            @apply border-b-1;
 
             &.selected {
                 @apply bg-backgroundColorA;
                 @apply text-textColor2 font-medium;
-                border-bottom-color: var(--backgroundColorA);
+                border-bottom: 1px solid transparent;
             }
         }
     }

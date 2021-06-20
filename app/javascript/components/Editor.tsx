@@ -57,7 +57,7 @@ export enum EditorStatus {
   SUBMISSION_CREATED = 'submissionCreated',
   CREATING_ITERATION = 'creatingIteration',
   SUBMISSION_CANCELLED = 'submissionCancelled',
-  REVERTING_TO_EXERCISE_START = 'revertingToExerciseStart',
+  REVERTING = 'reverting',
   REVERTED = 'reverted',
   REVERT_FAILED = 'revertFailed',
 }
@@ -276,8 +276,56 @@ export function Editor({
   }, [initialSubmission, updateSubmission, isMountedRef])
 
   const revertToLastIteration = useCallback(() => {
-    editorRef.current?.setFiles(submissionFilesRef.current)
-  }, [editorRef, submissionFilesRef])
+    if (!submission) {
+      return
+    }
+
+    revertDispatch({ type: RevertStatus.INITIALIZED })
+
+    abort()
+    sendRequest({
+      endpoint: submission.links.lastIterationFiles,
+      body: null,
+      method: 'GET',
+      isMountedRef: isMountedRef,
+    })
+      .then((json: any) => {
+        if (!json) {
+          return
+        }
+
+        const files = typecheck<File[]>(json, 'files')
+
+        editorRef.current?.setFiles(files)
+
+        revertDispatch({ type: RevertStatus.SUCCEEDED })
+      })
+      .catch((err) => {
+        if (err instanceof Error) {
+          revertDispatch({
+            type: RevertStatus.FAILED,
+            payload: {
+              apiError: {
+                type: 'unknown',
+                message: 'Unable to revert file, please try again.',
+              } as APIError,
+            },
+          })
+        }
+
+        if (err instanceof Response) {
+          err.json().then((res: any) => {
+            revertDispatch({
+              type: RevertStatus.FAILED,
+              payload: { apiError: res.error },
+            })
+          })
+        }
+      })
+      .finally(() => {
+        controllerRef.current = undefined
+      })
+  }, [abort, isMountedRef, revertDispatch, submission])
 
   const toggleKeyboardShortcuts = useCallback(() => {
     editorRef.current?.openPalette()
@@ -355,7 +403,7 @@ export function Editor({
   useEffect(() => {
     switch (revertStatus) {
       case RevertStatus.INITIALIZED:
-        setStatus(EditorStatus.REVERTING_TO_EXERCISE_START)
+        setStatus(EditorStatus.REVERTING)
         break
       case RevertStatus.SUCCEEDED:
         setStatus(EditorStatus.REVERTED)
@@ -404,10 +452,6 @@ export function Editor({
             <Header.ActionMore
               onRevertToExerciseStart={revertToExerciseStart}
               onRevertToLastIteration={revertToLastIteration}
-              isRevertToLastIterationDisabled={isEqual(
-                submissionFilesRef.current,
-                files
-              )}
             />
           </div>
         </div>

@@ -13,7 +13,12 @@ class SiteUpdates::NewExerciseUpdate < SiteUpdate
 
   def cacheable_rendering_data
     super.merge(
-      maker_avatar_urls: makers.map(&:avatar_url)
+      makers: makers.map do |maker|
+        {
+          handle: maker.handle,
+          avatar_url: maker.avatar_url
+        }
+      end
     )
   end
 

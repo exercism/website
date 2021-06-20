@@ -13,15 +13,20 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
           type: 'concept',
           data: "Co"
         },
-        track_icon_url: track.icon_url,
         published_at: (Time.current + 3.hours).iso8601,
-        maker_avatar_urls: [],
+        track: {
+          title: track.title,
+          icon_url: track.icon_url
+        },
+        makers: [],
         concept_widget: {
-          name: concept.name,
-          slug: concept.slug,
-          links: {
-            self: Exercism::Routes.track_concept_path(track, concept),
-            tooltip: Exercism::Routes.tooltip_track_concept_path(track, concept)
+          concept: {
+            name: concept.name,
+            slug: concept.slug,
+            links: {
+              self: Exercism::Routes.track_concept_path(track, concept),
+              tooltip: Exercism::Routes.tooltip_track_concept_path(track, concept)
+            }
           }
         }
       }.with_indifferent_access

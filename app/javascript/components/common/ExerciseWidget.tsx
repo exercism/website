@@ -10,7 +10,7 @@ type Links = {
   tooltip: string
 }
 
-type Props = {
+export type Props = {
   exercise: Exercise
   track?: Track
   solution?: SolutionForStudent

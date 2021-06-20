@@ -42,14 +42,22 @@ class SiteUpdate < ApplicationRecord
     d = {
       text: text,
       icon: icon,
-      track_icon_url: track&.icon_url,
       published_at: published_at.iso8601
     }
 
+    if track.present?
+      d[:track] = {
+        title: track.title,
+        icon_url: track.icon_url
+      }
+    end
+
     if expanded?
       d[:expanded] = {
-        author_handle: author.handle,
-        author_avatar_url: author.avatar_url,
+        author: {
+          handle: author.handle,
+          avatar_url: author.avatar_url
+        },
         title: title,
         description: description
       }

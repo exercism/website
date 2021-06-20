@@ -232,8 +232,8 @@ import {
   CommunitySolution,
   Testimonial,
   MentoredTrackExercise,
-  Task,
   User,
+  SiteUpdate,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
@@ -250,7 +250,6 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
-import { Links as StudentFinishMentorDiscussionModalLinks } from '../components/modals/student/FinishMentorDiscussionModal'
 import { Links as PublishedSolutionLinks } from '../components/student/PublishedSolution'
 import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
@@ -356,6 +355,12 @@ initReact({
   ),
   'common-share-solution-button': (data: any) => (
     <Common.ShareSolutionButton title={data.title} links={data.links} />
+  ),
+  'common-site-updates-list': (data: any) => (
+    <Common.SiteUpdatesList
+      updates={camelizeKeysAs<readonly SiteUpdate[]>(data.updates)}
+      context={data.context}
+    />
   ),
   'contributing-contributors-list': (data: any) => (
     <Contributing.ContributorsList

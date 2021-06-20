@@ -1,3 +1,6 @@
+import { Props as ConceptWidgetProps } from './common/ConceptWidget'
+import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
+
 export type Size = 'small' | 'large'
 
 export type PaginatedResult<T> = {
@@ -469,3 +472,41 @@ export type TaskModule =
   | 'test-runner'
 export type TaskSize = 'tiny' | 'small' | 'medium' | 'large' | 'massive'
 export type TaskType = 'ci' | 'coding' | 'content' | 'docker' | 'docs'
+
+export type SiteUpdateContext = 'track' | 'update'
+
+export type SiteUpdateIconType =
+  | { type: 'concept'; data: string }
+  | { type: 'image'; url: string }
+
+export type SiteUpdateExpandedInfo = {
+  author: Contributor
+  title: string
+  description: string
+}
+
+export type SiteUpdate = {
+  track: {
+    title: string
+    iconUrl: string
+  }
+  text: string
+  publishedAt: string
+  icon: SiteUpdateIconType
+  expanded?: SiteUpdateExpandedInfo
+  pullRequest?: PullRequest
+  conceptWidget?: ConceptWidgetProps
+  exerciseWidget?: ExerciseWidgetProps
+  makers: readonly {
+    handle: string
+    avatarUrl: string
+  }[]
+}
+
+export type PullRequest = {
+  url: string
+  title: string
+  number: string
+  mergedAt: string
+  mergedBy: string
+}

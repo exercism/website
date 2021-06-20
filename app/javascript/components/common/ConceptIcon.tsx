@@ -5,7 +5,7 @@ export const ConceptIcon = ({
   size,
 }: {
   name: string
-  size: 'small' | 'medium'
+  size: 'small' | 'medium' | 'large'
 }): JSX.Element => {
   return (
     <div className={`c-concept-icon c--${size}`}>{name.substring(0, 2)}</div>

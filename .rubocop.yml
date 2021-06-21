@@ -35,7 +35,7 @@ Layout/EmptyLinesAroundAccessModifier:
   EnforcedStyle: only_before
 
 Layout/LineLength:
-  Max: 125
+  Max: 135
   AutoCorrect: true
   Exclude:
     - "config/**/*"

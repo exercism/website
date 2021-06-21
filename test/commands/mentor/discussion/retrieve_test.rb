@@ -54,15 +54,34 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     assert_equal [ruby], Mentor::Discussion::Retrieve.(user, :awaiting_mentor, track_slug: 'ruby').map(&:track)
   end
 
-  test "orders by awaiting_mentor_since" do
+  test "ordering works" do
     user = create :user
 
-    second = create :mentor_discussion, :awaiting_mentor, awaiting_mentor_since: Time.current - 2.minutes, mentor: user
-    first = create :mentor_discussion, :awaiting_mentor, awaiting_mentor_since: Time.current - 3.minutes, mentor: user
-    third = create :mentor_discussion, :awaiting_mentor, awaiting_mentor_since: Time.current - 1.minute, mentor: user
+    erik = create :user, handle: "erik"
+    karlo = create :user, handle: "karlo"
 
-    assert_equal [first, second, third], Mentor::Discussion::Retrieve.(user, :awaiting_mentor)
-    assert_equal [second, first, third], Mentor::Discussion::Retrieve.(user, :awaiting_mentor, sorted: false)
+    bob = create :practice_exercise, title: "bob"
+    leap = create :practice_exercise, title: "leap"
+
+    erik_bob_sol = create :practice_solution, user: erik, exercise: bob
+    karlo_bob_sol = create :practice_solution, user: karlo, exercise: bob
+    erik_leap_sol = create :practice_solution, user: erik, exercise: leap
+    karlo_leap_sol = create :practice_solution, user: karlo, exercise: leap
+
+    erik_leap = create :mentor_discussion, solution: erik_leap_sol, updated_at: Time.current - 4.minutes, mentor: user
+    karlo_bob = create :mentor_discussion, solution: karlo_bob_sol, updated_at: Time.current - 5.minutes, mentor: user
+    erik_bob = create :mentor_discussion, solution: erik_bob_sol, updated_at: Time.current - 1.minute, mentor: user
+    karlo_leap = create :mentor_discussion, solution: karlo_leap_sol, updated_at: Time.current - 2.minutes, mentor: user
+
+    # Check unsorted
+    assert_equal [erik_leap, karlo_bob, erik_bob, karlo_leap], Mentor::Discussion::Retrieve.(user, :all, sorted: false)
+
+    # Updated_at is default
+    assert_equal [karlo_bob, erik_leap, karlo_leap, erik_bob], Mentor::Discussion::Retrieve.(user, :all)
+    assert_equal [karlo_bob, erik_leap, karlo_leap, erik_bob], Mentor::Discussion::Retrieve.(user, :all, order: 'oldest')
+    assert_equal [erik_bob, karlo_leap, erik_leap, karlo_bob], Mentor::Discussion::Retrieve.(user, :all, order: 'recent')
+    assert_equal [erik_leap, erik_bob, karlo_bob, karlo_leap], Mentor::Discussion::Retrieve.(user, :all, order: 'student')
+    assert_equal [karlo_bob, erik_bob, erik_leap, karlo_leap], Mentor::Discussion::Retrieve.(user, :all, order: 'exercise')
   end
 
   test "pagination works" do

@@ -94,11 +94,13 @@ module Mentor
       def sort!
         case order
         when "exercise"
-          @discussions = @discussions.order("exercises.title")
+          @discussions = @discussions.order("exercises.title": :asc, id: :asc)
+        when "student"
+          @discussions = @discussions.joins(solution: :user).order("users.handle": :asc, id: :asc)
         when 'recent'
-          @discussions = @discussions.order(awaiting_mentor_since: :desc)
+          @discussions = @discussions.order(updated_at: :desc, id: :desc)
         else
-          @discussions = @discussions.order(awaiting_mentor_since: :asc)
+          @discussions = @discussions.order(updated_at: :asc, id: :asc)
         end
       end
 

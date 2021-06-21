@@ -10,9 +10,7 @@ module Git
     end
 
     def call
-      unless force_sync || concept_needs_updating?
-        return concept.update_columns(synced_to_git_sha: head_git_concept.synced_git_sha)
-      end
+      return concept.update_columns(synced_to_git_sha: head_git_concept.synced_git_sha) unless force_sync || concept_needs_updating?
 
       concept.update!(
         slug: concept_config[:slug],

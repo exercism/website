@@ -342,6 +342,14 @@ initReact({
       links={data.links}
     />
   ),
+  'track-concept-makers-button': (data: any) => (
+    <TrackComponents.ConceptMakersButton
+      avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
+      numAuthors={data.num_authors}
+      numContributors={data.num_contributors}
+      links={data.links}
+    />
+  ),
   'common-exercise-widget': (data: any) => (
     <Common.ExerciseWidget
       exercise={camelizeKeysAs<Exercise>(data.exercise)}

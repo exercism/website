@@ -19,6 +19,10 @@ export function Pagination({
     return null
   }
 
+  current = Number(current)
+  around = Number(around)
+  total = Number(total)
+
   const range = createRange(
     Math.max(current - around, 1),
     Math.min(current + around, total)
@@ -64,9 +68,12 @@ export function Pagination({
             >
               1
             </button>
-            <div className="--pagination-more">…</div>
           </>
         ) : null}
+        {current - around > 2 ? (
+          <div className="--pagination-more">…</div>
+        ) : null}
+
         {range.map((page) => {
           return (
             <button
@@ -83,9 +90,13 @@ export function Pagination({
             </button>
           )
         })}
+
+        {total - current > around + 1 ? (
+          <div className="--pagination-more">…</div>
+        ) : null}
+
         {total - current > around ? (
           <>
-            <div className="--pagination-more">…</div>
             <button
               key={total}
               onClick={() => {

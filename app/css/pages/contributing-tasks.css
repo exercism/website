@@ -185,4 +185,7 @@
             }
         }
     }
+    & .c-pagination {
+        @apply px-24 py-16 mt-0;
+    }
 }

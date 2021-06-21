@@ -7,7 +7,7 @@ import { ProminentLink, Avatar, GraphicalIcon, Reputation } from '../common'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { User } from '../types'
 
-const DEFAULT_ERROR = new Error('Unable to load exercise contributors')
+const DEFAULT_ERROR = new Error('Unable to load concept makers')
 
 type Links = {
   github: string
@@ -59,7 +59,7 @@ const Content = ({
     <>
       <ProminentLink
         link={links.github}
-        text="See the full history of this exercise on GitHub"
+        text="See the full history of this concept on GitHub"
         withBg={true}
         external
       />
@@ -69,7 +69,7 @@ const Content = ({
             <h3>
               Authors <span className="count">{authors.length}</span>
             </h3>
-            <div className="subtitle">People who wrote the exercise</div>
+            <div className="subtitle">People who wrote the concept</div>
           </div>
 
           {authors.map((author) => (
@@ -84,7 +84,7 @@ const Content = ({
             <h3>
               Contributors <span className="count">{contributors.length}</span>
             </h3>
-            <div className="subtitle">People who updated the exercise</div>
+            <div className="subtitle">People who updated the concept</div>
           </div>
           {contributors.map((contributor) => (
             <Maker maker={contributor} key={contributor.handle} />
@@ -95,7 +95,7 @@ const Content = ({
   )
 }
 
-export const ExerciseMakersModal = ({
+export const ConceptMakersModal = ({
   endpoint,
   ...props
 }: { endpoint: string } & Omit<ModalProps, 'className'>): JSX.Element => {
@@ -104,7 +104,7 @@ export const ExerciseMakersModal = ({
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     APIResponse
   >(
-    ['exercise-makers', endpoint],
+    ['concept-makers', endpoint],
     { endpoint: endpoint, options: { enabled: props.open } },
     isMountedRef
   )

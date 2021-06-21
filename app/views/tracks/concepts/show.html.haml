@@ -60,6 +60,8 @@
                       %span= link.description
                       = icon('external-link', "(external link)")
         %section.extra-info
+          = render ReactComponents::Track::ConceptMakersButton.new(@concept)
+
           = link_to "#", target: "_blank", rel: 'noopener' do
             = graphical_icon "external-site-github", css_class: "github-icon"
             %span Edit via GitHub

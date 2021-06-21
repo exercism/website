@@ -58,6 +58,9 @@ Rails.application.routes.draw do
             resource :star, only: %i[create destroy], controller: "community_solution_stars"
           end
         end
+        resources :concepts, only: [] do
+          resources :makers, only: [:index], controller: "concepts/makers"
+        end
       end
 
       get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page

@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import pluralize from 'pluralize'
 import { Avatar } from '../common'
-import { User } from '../types'
-import { ExerciseMakersModal } from '../modals/ExerciseMakersModal'
+import { ConceptMakersModal } from '../modals/ConceptMakersModal'
 
 type Links = {
   makers: string
 }
 
-export const ExerciseMakersButton = ({
+export const ConceptMakersButton = ({
   avatarUrls,
   numAuthors,
   numContributors,
@@ -28,7 +27,7 @@ export const ExerciseMakersButton = ({
         className="c-makers-button"
         onClick={() => setOpen(!open)}
       >
-        <div className="c-faces">
+        <div className="c-faces --static">
           {avatarUrls.map((avatarUrl) => (
             <Avatar className="face" src={avatarUrl} key={avatarUrl} />
           ))}
@@ -46,7 +45,7 @@ export const ExerciseMakersButton = ({
           ) : null}
         </div>
       </button>
-      <ExerciseMakersModal
+      <ConceptMakersModal
         open={open}
         onClose={() => setOpen(false)}
         endpoint={links.makers}

@@ -1,6 +1,6 @@
 @import "../styles";
 
-.c-modal.m-exercise-makers {
+.c-modal.m-makers {
     & .--modal-content {
         width: 100%;
         max-width: 810px;

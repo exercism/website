@@ -25,7 +25,7 @@ export const ExerciseMakersButton = ({
     <React.Fragment>
       <button
         type="button"
-        className="c-exercise-makers-button"
+        className="c-makers-button"
         onClick={() => setOpen(!open)}
       >
         <div className="c-faces">

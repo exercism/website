@@ -110,7 +110,7 @@ export const ConceptMakersModal = ({
   )
 
   return (
-    <Modal {...props} className="m-concept-makers">
+    <Modal {...props} className="m-makers">
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
           status={status}

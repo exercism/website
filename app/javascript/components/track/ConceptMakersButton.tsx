@@ -24,10 +24,10 @@ export const ConceptMakersButton = ({
     <React.Fragment>
       <button
         type="button"
-        className="c-concept-makers-button"
+        className="c-makers-button"
         onClick={() => setOpen(!open)}
       >
-        <div className="c-faces">
+        <div className="c-faces --static">
           {avatarUrls.map((avatarUrl) => (
             <Avatar className="face" src={avatarUrl} key={avatarUrl} />
           ))}

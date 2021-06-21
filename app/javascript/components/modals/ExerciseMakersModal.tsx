@@ -110,7 +110,7 @@ export const ExerciseMakersModal = ({
   )
 
   return (
-    <Modal {...props} className="m-exercise-makers">
+    <Modal {...props} className="m-makers">
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
           status={status}

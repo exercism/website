@@ -1,0 +1,15 @@
+#page-settings-api.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:api)
+
+    %article
+      %h1 API &amp; CLI Settings
+
+      %section
+        %h2 API/CLI Token
+        %h3 Your authentication token is:
+
+        = render ReactComponents::Common::CopyToClipboardButton.new(current_user.auth_token)
+        = render ViewComponents::ProminentLink.new("Where do I use this?", "#")
+
+        = link_to "Reset token", reset_api_token_settings_path, class: "btn-warning btn-m", method: :patch

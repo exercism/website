@@ -139,6 +139,12 @@ module.exports = {
       gold: '#E2CB2D',
       brown: '#47300C',
 
+      warning: '#F69605',
+      warningBtnBorder: '#704D19',
+
+      alert: '#D85050',
+      alertBtnBorder: '#873333',
+
       anotherGold: '#FAE54D',
 
       muddy: '#6E82AA',

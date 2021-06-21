@@ -1,0 +1,51 @@
+@import "../styles";
+
+.page-settings {
+    & .lg-container {
+        @apply flex items-start;
+        @apply pt-32;
+    }
+    & nav.settings-nav {
+        @apply shadow-lg rounded-8;
+        @apply py-24 px-32 mr-48;
+        @apply flex-shrink-0 flex-grow-0;
+
+        @apply text-18 leading-150 font-semibold;
+
+        & li:not(:last-child) {
+            @apply mb-8;
+        }
+        & a {
+            @apply text-lightBlue;
+        }
+    }
+    & article {
+        @apply flex-grow;
+
+        & h1 {
+            @apply text-h2 mb-16;
+        }
+        & h2 {
+            @apply text-h3 mb-16;
+        }
+        & section {
+            @apply flex flex-col items-start;
+            @apply shadow-lg rounded-8;
+            @apply py-24 px-32 mb-48;
+        }
+    }
+}
+#page-settings-api {
+    & h3 {
+        @apply font-mono font-bold text-14 leading-160 text-textColor2;
+        @apply uppercase;
+        @apply mb-8;
+    }
+    & .c-copy-text-to-clipboard {
+        width: 400px;
+        @apply mb-12;
+    }
+    & .c-prominent-link {
+        @apply mb-20;
+    }
+}

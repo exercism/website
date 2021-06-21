@@ -14,7 +14,13 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
   const [justCopied, setJustCopied] = useState(false)
 
   const copyTextToClipboard = async () => {
-    await window.navigator.clipboard.writeText(textToCopy)
+    try {
+      await window.navigator.clipboard.writeText(textToCopy)
+    } catch (error) {
+      if (process.env.NODE_ENV == 'production') {
+        throw error
+      }
+    }
     setJustCopied(true)
   }
 
@@ -59,7 +65,7 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
       return
     }
 
-    const justCopiedTimeout = 2000
+    const justCopiedTimeout = 1000
     const timer = setTimeout(() => setJustCopied(false), justCopiedTimeout)
     return () => clearTimeout(timer)
   }, [justCopied, setJustCopied])
@@ -71,7 +77,7 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
       onClick={onClick}
       onFocus={onFocus}
       onBlur={onBlur}
-      className={`c-copy-text-to-clipboard ${justCopied ? 'copied' : ''}`}
+      className={`c-copy-text-to-clipboard ${justCopied ? '--copied' : ''}`}
       aria-label={`Copy "${textToCopy}" to the cliboard`}
     >
       <div className="text">{textToCopy}</div>

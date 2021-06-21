@@ -149,4 +149,31 @@ class UserTest < ActiveSupport::TestCase
       assert user.recently_used_cli?
     end
   end
+
+  test "auth_token" do
+    user = create :user
+    token = create :user_auth_token, user: user, active: false
+    create :user_auth_token, user: user, active: true
+    create :user_auth_token, user: user, active: false
+
+    assert_equal token.token, user.auth_token
+  end
+
+  test "create_auth_token!" do
+    user = create :user
+
+    user.create_auth_token!
+    token_1 = user.auth_tokens.first
+
+    assert_equal 1, user.auth_tokens.size
+    assert token_1.active?
+
+    user.create_auth_token!
+    token_1.reload
+    token_2 = user.auth_tokens.last
+
+    assert_equal 2, user.auth_tokens.size
+    refute token_1.active?
+    assert token_2.active?
+  end
 end

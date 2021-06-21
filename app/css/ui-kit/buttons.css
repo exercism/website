@@ -91,6 +91,31 @@
         background: rgba(0, 0, 0, 0.05);
     }
 }
+
+.btn-warning {
+    @apply bg-warning text-white;
+    @apply border-1 border-warningBtnBorder;
+
+    & .c-icon {
+        filter: var(--white-filter);
+    }
+    &:not(:disabled):hover {
+        /* TODO: Darker color */
+    }
+}
+
+.btn-alert {
+    @apply bg-alert text-white;
+    @apply border-1 border-alertBtnBorder;
+
+    & .c-icon {
+        filter: var(--white-filter);
+    }
+    &:not(:disabled):hover {
+        /* TODO: Darker color */
+    }
+}
+
 .btn-link {
     @apply text-lightBlue;
 }

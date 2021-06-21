@@ -14,8 +14,6 @@
         .seperator /
         .exercise-title= @concept.name
 
-      = render ReactComponents::Track::ConceptMakersButton.new(@concept)
-
     .lg-container.container
       = render ViewComponents::ConceptIcon.new(@concept, :huge)
       .info

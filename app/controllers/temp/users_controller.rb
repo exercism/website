@@ -8,5 +8,13 @@ module Temp
         }
       }
     end
+
+    def reset
+      render json: {
+        links: {
+          settings: Exercism::Routes.temp_user_reset_url
+        }
+      }
+    end
   end
 end

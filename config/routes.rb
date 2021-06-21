@@ -320,8 +320,11 @@ Rails.application.routes.draw do
   namespace :temp do
     resources :tracks, only: [:create]
 
-    resource :user, only: [:destroy]
+    resource :user, only: [:destroy] do
+      patch :reset
+    end
     resource :user_deletion, only: [:show]
+    resource :user_reset, only: [:show]
 
     resources :modals, only: [] do
       collection do
@@ -355,6 +358,7 @@ Rails.application.routes.draw do
         resource :editor, only: [:show], controller: "editor"
         namespace :settings do
           resource :delete_account_button, only: [:show], controller: "delete_account_button"
+          resource :reset_account_button, only: [:show], controller: "reset_account_button"
         end
         namespace :student do
           resource :concept_map, only: [:show], controller: 'concept_map'

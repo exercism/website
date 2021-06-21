@@ -9,13 +9,13 @@ import { useConfirmation } from '../../hooks/use-confirmation'
 
 type APIResponse = {
   links: {
-    home: string
+    settings: string
   }
 }
 
-const DEFAULT_ERROR = new Error('Unable to delete account')
+const DEFAULT_ERROR = new Error('Unable to reset account')
 
-export const DeleteAccountModal = ({
+export const ResetAccountModal = ({
   handle,
   endpoint,
   ...props
@@ -28,14 +28,14 @@ export const DeleteAccountModal = ({
     () => {
       return sendRequest({
         endpoint: endpoint,
-        method: 'DELETE',
+        method: 'PATCH',
         body: null,
         isMountedRef: isMountedRef,
       })
     },
     {
       onSuccess: (response) => {
-        window.location.replace(response.links.home)
+        window.location.replace(response.links.settings)
       },
     }
   )
@@ -43,7 +43,7 @@ export const DeleteAccountModal = ({
   const { attempt, setAttempt, isAttemptPass } = useConfirmation(handle)
 
   return (
-    <Modal {...props} className="m-delete-account">
+    <Modal {...props} className="m-reset-account">
       <form onSubmit={() => mutation()}>
         <label htmlFor="confirmation">Handle:</label>
         <input
@@ -53,7 +53,7 @@ export const DeleteAccountModal = ({
           onChange={(e) => setAttempt(e.target.value)}
         />
         <FormButton type="submit" disabled={!isAttemptPass} status={status}>
-          Delete account
+          Reset account
         </FormButton>
         <ErrorBoundary resetKeys={[status]}>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

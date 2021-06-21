@@ -674,6 +674,9 @@ initReact({
   'settings-delete-account-button': (data: any) => (
     <Settings.DeleteAccountButton handle={data.handle} links={data.links} />
   ),
+  'settings-reset-account-button': (data: any) => (
+    <Settings.ResetAccountButton handle={data.handle} links={data.links} />
+  ),
 })
 
 import { highlightAll } from '../utils/highlight'

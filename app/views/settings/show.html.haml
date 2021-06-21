@@ -22,35 +22,37 @@
             = f.text_area :bio
             .instructions
               Tell the world about you 🌎. Emojis encouraged!
+          .form-footer
+            = f.button "Save profile data", class: "btn-primary btn-m", method: :patch
 
-          .pronouns
-            = f.label :pronouns, "Choose your pronouns", class: 'label'
-            .testimonial
-              .text
-                = current_user.handle
-                did a great job.
-                = f.text_field "pronouns[0]", placeholder: "e.g. they"
-                thoroughly answered all my questions and
-                = f.text_field "pronouns[2]", placeholder: "e.g. their"
-                insight was great. I’d definitely recommend
-                = f.text_field "pronouns[1]", placeholder: "e.g. them"
-                to others!
+      %section.pronouns-section
+        = form_with model: current_user, url: settings_path, method: :patch do |f|
+          %h2 How would you like to be addressed?
+          %hr.c-divider.--small
+          .instructions
+            We recommend listing the pronouns you'd like people to use when referring to you.
+            %strong In the example testimonial below, enter the pronouns you'd like us to show to your mentors and students.
+            You can leave this blank, in which case we will not suggest any pronouns.
+            = link_to "Learn more about how we use pronouns.", "#"
 
-              .instructions
-                This is an example of a testimonial.
-                %strong Add in the pronouns that you'd like to be addressed by.
+          .testimonial
+            .text
+              = current_user.handle
+              did a great job.
+              = f.text_field "pronouns[0]", placeholder: "e.g. They"
+              thoroughly answered all my questions and
+              = f.text_field "pronouns[2]", placeholder: "e.g. their"
+              insight was great. I’d definitely recommend
+              = f.text_field "pronouns[1]", placeholder: "e.g. them"
+              to others!
 
-                .commonly-used
-                  Use a common option:
-                  = succeed(', ') do
-                    = link_to "she/her/her", "#"
-                  = succeed(', ') do
-                    = link_to "he/him/his", "#"
-                  = succeed(', ') do
-                    = link_to "they/their/them", "#"
-                  = link_to "#{current_user.handle}/#{current_user.handle}/#{current_user.handle}", "#"
+            .commonly-used
+              .info Use a common option:
+              %button she/her/her
+              %button he/him/his
+              %button they/their/them
+              %button #{current_user.handle}/#{current_user.handle}'s/#{current_user.handle}
 
           .form-footer
-            = f.button "Save", class: "btn-primary btn-m", method: :patch
-
+            = f.button "Save pronouns", class: "btn-primary btn-m", method: :patch
 

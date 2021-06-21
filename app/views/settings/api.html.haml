@@ -7,7 +7,7 @@
 
       %section
         %h2 API/CLI Token
-        %h3 Your authentication token is:
+        .label Your authentication token is:
 
         = render ReactComponents::Common::CopyToClipboardButton.new(current_user.auth_token)
         = render ViewComponents::ProminentLink.new("Where do I use this?", "#")

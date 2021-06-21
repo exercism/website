@@ -6,10 +6,10 @@ module ViewComponents
 
     def to_s
       items = [
-        item_for("Account settings", "#", :general),
-        item_for("API / CLI", "#", :api),
-        item_for("Preferences", "#", :preferences),
-        item_for("Communication Preferences", "#", :communication)
+        item_for("Account settings", :settings, :general),
+        item_for("API / CLI", :api_settings, :api),
+        item_for("Preferences", :settings, :preferences),
+        item_for("Communication Preferences", :settings, :communication)
       ]
 
       tag.nav(class: "settings-nav") do
@@ -17,11 +17,11 @@ module ViewComponents
       end
     end
 
-    def item_for(text, link, key)
+    def item_for(text, route, key)
       tag.li do
         key == selected ?
           tag.div(text, class: 'selected') :
-          link_to(text, link)
+          link_to(text, Exercism::Routes.send("#{route}_path"))
       end
     end
   end

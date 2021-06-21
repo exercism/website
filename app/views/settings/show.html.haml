@@ -1,0 +1,56 @@
+#page-settings-general.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:general)
+
+    %article
+      %h1 API &amp; CLI Settings
+
+      %section
+        = form_with model: current_user, url: settings_path, method: :patch do |f|
+          %h2 Profile
+          .details
+            .name.field
+              = f.label :name, class: 'label'
+              = f.text_field :name
+            .location.field
+              = f.label :location, class: 'label'
+              %label.c-faux-input
+                = graphical_icon "location"
+                = f.text_field :location
+          .bio.field
+            = f.label :bio, class: 'label'
+            = f.text_area :bio
+            .instructions
+              Tell the world about you 🌎. Emojis encouraged!
+
+          .pronouns
+            = f.label :pronouns, "Choose your pronouns", class: 'label'
+            .testimonial
+              .text
+                = current_user.handle
+                did a great job.
+                = f.text_field "pronouns[0]", placeholder: "e.g. they"
+                thoroughly answered all my questions and
+                = f.text_field "pronouns[2]", placeholder: "e.g. their"
+                insight was great. I’d definitely recommend
+                = f.text_field "pronouns[1]", placeholder: "e.g. them"
+                to others!
+
+              .instructions
+                This is an example of a testimonial.
+                %strong Add in the pronouns that you'd like to be addressed by.
+
+                .commonly-used
+                  Use a common option:
+                  = succeed(', ') do
+                    = link_to "she/her/her", "#"
+                  = succeed(', ') do
+                    = link_to "he/him/his", "#"
+                  = succeed(', ') do
+                    = link_to "they/their/them", "#"
+                  = link_to "#{current_user.handle}/#{current_user.handle}/#{current_user.handle}", "#"
+
+          .form-footer
+            = f.button "Save", class: "btn-primary btn-m", method: :patch
+
+

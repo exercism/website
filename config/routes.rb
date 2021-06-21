@@ -200,7 +200,7 @@ Rails.application.routes.draw do
   # ############ #
   # Normal pages #
   # ############ #
-  resource :settings, only: [] do
+  resource :settings, only: %i[show update] do
     get :api
     patch :reset_api_token
   end

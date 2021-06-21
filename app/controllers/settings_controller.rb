@@ -6,4 +6,12 @@ class SettingsController < ApplicationController
     current_user.create_auth_token!
     redirect_to action: :api
   end
+
+  def update
+    permitted = params.require(:user).permit(
+      :name, :location, :bio, pronouns: []
+    )
+    current_user.update(permitted)
+    redirect_to action: :show
+  end
 end

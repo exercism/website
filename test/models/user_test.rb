@@ -152,8 +152,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "auth_token" do
     user = create :user
-    token = create :user_auth_token, user: user, active: false
-    create :user_auth_token, user: user, active: true
+    create :user_auth_token, user: user, active: false
+    token = create :user_auth_token, user: user, active: true
     create :user_auth_token, user: user, active: false
 
     assert_equal token.token, user.auth_token

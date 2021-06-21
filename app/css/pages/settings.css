@@ -29,23 +29,104 @@
             @apply text-h3 mb-16;
         }
         & section {
-            @apply flex flex-col items-start;
             @apply shadow-lg rounded-8;
             @apply py-24 px-32 mb-48;
+
+            & .form-footer {
+                margin-left: -32px;
+                margin-right: -32px;
+                margin-bottom: -24px;
+                @apply py-16 px-32 mt-24;
+                @apply border-t-1 border-borderColor6;
+            }
+        }
+        & .label {
+            @apply font-mono font-bold text-14 leading-160 text-textColor2;
+            @apply uppercase;
+            @apply block mb-8;
+        }
+        & .field {
+            & > input {
+                @apply w-100;
+            }
+            & .input {
+                & input {
+                    @apply border-0;
+                }
+            }
         }
     }
 }
 #page-settings-api {
-    & h3 {
-        @apply font-mono font-bold text-14 leading-160 text-textColor2;
-        @apply uppercase;
-        @apply mb-8;
+    & section {
+        @apply flex flex-col items-start;
     }
+
     & .c-copy-text-to-clipboard {
         width: 400px;
         @apply mb-12;
     }
     & .c-prominent-link {
         @apply mb-20;
+    }
+}
+#page-settings-general {
+    & .details {
+        @apply grid grid-cols-2 gap-24;
+        @apply mb-16;
+    }
+    & .bio {
+        & textarea {
+            @apply w-100 mb-12;
+            height: 92px;
+        }
+
+        & .instructions {
+            @apply leading-150 text-textColor6;
+        }
+    }
+    & .pronouns {
+        @apply mt-24;
+        @apply text-center;
+
+        & .label {
+            @apply mb-12;
+        }
+        & .testimonial {
+            @apply rounded-8;
+            @apply py-16 px-24;
+            @apply bg-backgroundColorG;
+
+            & .text {
+                max-width: 750px;
+                margin: 0 auto;
+                @apply text-16;
+
+                & input {
+                    @apply bg-backgroundColorA;
+                    @apply border-1 border-buttonBorderColor2;
+                    @apply py-8 px-12 mx-8;
+                    @apply text-center;
+                    width: 100px;
+                }
+            }
+
+            & .instructions {
+                @apply bg-backgroundColorC;
+                @apply py-16 px-24 mt-16;
+                @apply text-16 leading-150;
+                & strong {
+                    @apply font-medium;
+                }
+            }
+
+            & .commonly-used {
+                @apply mt-12;
+                @apply text-16 leading-150;
+                & a {
+                    @apply text-lightBlue font-medium;
+                }
+            }
+        }
     }
 }

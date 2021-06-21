@@ -84,14 +84,13 @@ module Mentor
         @discussions = @discussions.where(solutions: { user_id: student_id })
       end
 
-      # TODO: This is just a stub implementation
       def search!
         return if criteria.blank?
 
-        @discussions = @discussions.where("exercises.title LIKE ?", "%#{criteria}%")
+        @discussions = @discussions.joins(solution: :user).
+          where("exercises.title LIKE ? OR users.handle LIKE ?", "%#{criteria}%", "%#{criteria}%")
       end
 
-      # TODO: This is just a stub implementation
       def sort!
         case order
         when "exercise"

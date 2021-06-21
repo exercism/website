@@ -107,4 +107,39 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     assert_equal [discussion_1, discussion_2, discussion_3], Mentor::Discussion::Retrieve.(mentor, :all) # Saniry
     assert_equal [discussion_1], Mentor::Discussion::Retrieve.(mentor, :all, student_handle: "bob")
   end
+
+  test "filter by criteria" do
+    mentor = create :user
+    bob = create :user, handle: "bob"
+    bobby = create :user, handle: "bobby"
+    margaret = create :user, handle: "margaret"
+
+    leap = create :practice_exercise, title: "leap"
+    bowling = create :practice_exercise, title: "bowling"
+    food_chain = create :practice_exercise, title: "food chain"
+
+    bob_leap = create :practice_solution, user: bob, exercise: leap
+    bob_bowling = create :practice_solution, user: bob, exercise: bowling
+    bob_food_chain = create :practice_solution, user: bob, exercise: food_chain
+
+    bobby_leap = create :practice_solution, user: bobby, exercise: leap
+    bobby_bowling = create :practice_solution, user: bobby, exercise: bowling
+    bobby_food_chain = create :practice_solution, user: bobby, exercise: food_chain
+
+    margaret_leap = create :practice_solution, user: margaret, exercise: leap
+    margaret_bowling = create :practice_solution, user: margaret, exercise: bowling
+    margaret_food_chain = create :practice_solution, user: margaret, exercise: food_chain
+
+    PracticeSolution.all.each do |solution|
+      create :mentor_discussion, :awaiting_mentor, solution: solution, mentor: mentor
+    end
+
+    assert_equal 9, Mentor::Discussion::Retrieve.(mentor, :all).size
+    assert_equal [
+      bob_leap, bob_bowling, bob_food_chain, bobby_leap, bobby_bowling, bobby_food_chain, margaret_bowling
+    ], Mentor::Discussion::Retrieve.(mentor, :all, criteria: "bo").map(&:solution)
+    assert_equal [
+      margaret_leap, margaret_bowling, margaret_food_chain
+    ], Mentor::Discussion::Retrieve.(mentor, :all, criteria: "mar").map(&:solution)
+  end
 end

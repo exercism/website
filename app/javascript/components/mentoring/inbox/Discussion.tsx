@@ -45,7 +45,7 @@ export const Discussion = ({
         <Icon icon="comment" alt={`{discussion.postsCount} comments`} />
         {discussion.postsCount}
       </div>
-      <time className="-updated-at">{fromNow(discussion.createdAt)}</time>
+      <time className="-updated-at">{fromNow(discussion.updatedAt)}</time>
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
   )

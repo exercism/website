@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from '../../../common'
+import { GraphicalIcon, Icon } from '../../../common'
 import { TaskAction } from '../../../types'
 
 export const ActionIcon = ({
@@ -11,7 +11,9 @@ export const ActionIcon = ({
     <div className="action-icon">
       {action ? (
         <Icon icon={`task-action-${action}`} alt={`Action: ${action}`} />
-      ) : null}
+      ) : (
+        <GraphicalIcon icon={`task-action`} />
+      )}
     </div>
   )
 }

@@ -2,10 +2,11 @@ module Webhooks
   class ProcessOrganizationMemberUpdate
     include Mandate
 
-    initialize_with :action, :username, :organization
+    initialize_with :action, :user_name, :organization_name
 
     def call
-      return unless organization == 'exercism'
+      # TODO: use organization as defined in Exercism.config.github_organization
+      return unless organization_name == 'exercism'
 
       case action
       when 'member_added'
@@ -17,11 +18,11 @@ module Webhooks
 
     private
     def add_member!
-      ::Github::OrganizationMember.create!(username: username)
+      ::Github::OrganizationMember.create!(username: user_name)
     end
 
     def remove_member!
-      ::Github::OrganizationMember.where(username: username).update_all(alumnus: true)
+      ::Github::OrganizationMember.where(username: user_name).update_all(alumnus: true)
     end
   end
 end

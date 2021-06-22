@@ -6,7 +6,12 @@ class Github::Team::CreateTest < ActiveSupport::TestCase
 
     stub_request(:post, "https://api.github.com/orgs/exercism/teams").
       with(
-        body: { name: "C# maintainers", repo_names: ["exercism/csharp"] }.to_json
+        body: {
+          name: "C# maintainers",
+          repo_names: ["exercism/csharp"],
+          privacy: :closed,
+          parent_team_id: nil
+        }.to_json
       ).
       to_return(
         status: 200,
@@ -14,6 +19,6 @@ class Github::Team::CreateTest < ActiveSupport::TestCase
         headers: { 'Content-Type': 'application/json' }
       )
 
-    Github::Team::Create.("C# maintainers", "exercism/csharp")
+    Github::Team::Create.("C# maintainers", "csharp")
   end
 end

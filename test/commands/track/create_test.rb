@@ -33,7 +33,9 @@ class Track::CreateTest < ActiveSupport::TestCase
   end
 
   test "creates github team" do
-    Github::Team::Create.expects(:call).with("fsharp", "exercism/fsharp")
+    maintainers_team = mock
+    Github::Team.stubs(:new).with('track-maintainers').returns(maintainers_team)
+    Github::Team::Create.expects(:call).with("fsharp", "fsharp", parent_team: maintainers_team)
 
     Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/fsharp', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
                              tags: ['Compiles to:Binary', 'Runtime:Browser'])

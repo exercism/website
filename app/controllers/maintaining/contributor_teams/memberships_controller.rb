@@ -9,10 +9,9 @@ class Maintaining::ContributorTeams::MembershipsController < ApplicationControll
   end
 
   def create
-    # TODO: use command
-    @membership = @team.memberships.build(membership_params)
-
-    if @membership.save
+    if ContributorTeam::Membership::CreateOrUpdate.(membership_params[:user], @team,
+      seniority: membership_params[:seniority],
+      visible: membership_params[:visible])
       redirect_to maintaining_contributor_team_path(@team)
     else
       render :new
@@ -22,8 +21,9 @@ class Maintaining::ContributorTeams::MembershipsController < ApplicationControll
   def edit; end
 
   def update
-    # TODO: use command
-    if @membership.update(membership_params.except(:user))
+    if ContributorTeam::Membership::CreateOrUpdate.(membership_params[:user], @team,
+      seniority: membership_params[:seniority],
+      visible: membership_params[:visible])
       redirect_to maintaining_contributor_team_path(@team)
     else
       render :edit
@@ -31,7 +31,7 @@ class Maintaining::ContributorTeams::MembershipsController < ApplicationControll
   end
 
   def destroy
-    @membership.destroy
+    ContributorTeam::Membership::Destroy.(@membership.user, @membership.team)
 
     redirect_to maintaining_contributor_team_path(@team)
   end

@@ -46,7 +46,7 @@ class Track < ApplicationRecord
   end
   
   def repo_name
-    "exercism/#{slug}"
+    slug
   end
 
   def course?

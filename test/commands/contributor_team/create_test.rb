@@ -24,7 +24,9 @@ class ContributorTeam::CreateTest < ActiveSupport::TestCase
   test "creates github team if team does not exist" do
     track = create :track, slug: 'csharp'
 
-    Github::Team::Create.expects(:call).with("csharp", "exercism/csharp")
+    maintainers_team = mock
+    Github::Team.stubs(:new).with('track-maintainers').returns(maintainers_team)
+    Github::Team::Create.expects(:call).with("csharp", "csharp", parent_team: maintainers_team)
 
     ContributorTeam::Create.(
       'C# maintainers',

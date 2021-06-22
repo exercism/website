@@ -3,10 +3,15 @@ class Github::Team
 
   initialize_with :name
 
-  def create(repo)
+  def create(repo_name, parent_team: nil)
     return unless active?
 
-    Exercism.octokit_client.create_team(organization, name: name, repo_names: [repo])
+    Exercism.octokit_client.create_team(organization,
+      name: name,
+      repo_names: ["#{organization}/#{repo_name}"],
+      privacy: :closed,
+      parent_team_id: parent_team&.team_id,
+      accept: 'application/vnd.github.hellcat-preview+json')
   end
 
   def add_member(github_username)
@@ -21,16 +26,16 @@ class Github::Team
     Exercism.octokit_client.remove_team_membership(team_id, github_username)
   end
 
-  def add_to_repository(repo, permission)
+  def add_to_repository(repo_name, permission)
     return unless active?
 
-    Exercism.octokit_client.add_team_repository(team_id, repo, permission: permission)
+    Exercism.octokit_client.add_team_repository(team_id, "#{organization}/#{repo_name}", permission: permission)
   end
 
-  def remove_from_repository(repo)
+  def remove_from_repository(repo_name)
     return unless active?
 
-    Exercism.octokit_client.remove_team_repository(team_id, repo)
+    Exercism.octokit_client.remove_team_repository(team_id, "#{organization}/#{repo_name}")
   end
 
   memoize
@@ -54,7 +59,9 @@ class Github::Team
 
   memoize
   def organization
+    return ENV["GITHUB_ORGANIZATION"] || Exercism.config.github_organization if Rails.env.development?
+
     # TODO: add github_organization property to Exercism.config
-    ENV["GITHUB_ORGANIZATION"].presence || Exercism.config.github_organization
+    Exercism.config.github_organization
   end
 end

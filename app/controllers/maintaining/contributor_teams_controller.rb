@@ -20,11 +20,13 @@ class Maintaining::ContributorTeamsController < ApplicationController
   end
 
   def create
-    # TODO: use command
-    @team = ContributorTeam.new(team_params)
+    team = ContributorTeam::Create.(team_params[:name],
+      github_name: team_params[:github_name],
+      type: team_params[:type],
+      track: team_params[:track])
 
-    if @team.save
-      redirect_to maintaining_contributor_team_path(@team)
+    if team
+      redirect_to maintaining_contributor_team_path(team)
     else
       render :new
     end

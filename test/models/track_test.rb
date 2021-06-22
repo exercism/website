@@ -143,6 +143,6 @@ class TrackTest < ActiveSupport::TestCase
   test "repo_name" do
     track = create :track, slug: 'ruby'
 
-    assert_equal 'exercism/ruby', track.repo_name
+    assert_equal 'ruby', track.repo_name
   end
 end

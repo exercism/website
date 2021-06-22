@@ -237,6 +237,8 @@ import {
   User,
   SiteUpdate,
   CommunicationPreferences,
+  TrackProgress,
+  TrackProgressList,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
@@ -294,6 +296,17 @@ initReact({
       defaultCategory={data.default_category}
     />
   ),
+  'journey-learning-section': (data: any) => {
+    const tracks = new TrackProgressList({
+      items: data.tracks.map(
+        (track: any) => new TrackProgress(camelizeKeysAs<TrackProgress>(track))
+      ),
+    })
+
+    return (
+      <JourneyComponents.LearningSection tracks={tracks} links={data.links} />
+    )
+  },
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),

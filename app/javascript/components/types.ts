@@ -514,3 +514,113 @@ export type PullRequest = {
 export type CommunicationPreferences = {
   emailOnMentorStartedDiscussionNotification: boolean
 }
+
+export class TrackProgress {
+  title: string
+  slug: string
+  numExercises: number
+  numCompletedExercises: number
+  numSolutions: number
+  numLines: number
+  numConceptsLearnt: number
+  iconUrl: string
+
+  get completion(): number {
+    return (100 * this.numCompletedExercises) / this.numExercises
+  }
+
+  // TODO
+  get velocity(): number {
+    return 9.05
+  }
+
+  constructor({
+    title,
+    slug,
+    numExercises,
+    numCompletedExercises,
+    numConceptsLearnt,
+    numSolutions,
+    numLines,
+    iconUrl,
+  }: {
+    title: string
+    slug: string
+    numExercises: number
+    numCompletedExercises: number
+    numSolutions: number
+    numLines: number
+    numConceptsLearnt: number
+    iconUrl: string
+  }) {
+    this.title = title
+    this.slug = slug
+    this.numExercises = numExercises
+    this.numCompletedExercises = numCompletedExercises
+    this.numConceptsLearnt = numConceptsLearnt
+    this.numSolutions = numSolutions
+    this.numLines = numLines
+    this.iconUrl = iconUrl
+  }
+}
+
+export class TrackProgressList {
+  items: readonly TrackProgress[]
+
+  get numConceptsLearnt(): number {
+    return this.items.reduce<number>(
+      (sum, track) => (sum += track.numConceptsLearnt),
+      0
+    )
+  }
+
+  get completion(): number {
+    return (100 * this.numCompletedExercises) / this.numExercises
+  }
+
+  // TODO
+  get velocity(): number {
+    return 2.52
+  }
+
+  get numCompletedExercises(): number {
+    return this.items.reduce<number>(
+      (sum, track) => (sum += track.numCompletedExercises),
+      0
+    )
+  }
+
+  get numExercises(): number {
+    return this.items.reduce<number>(
+      (sum, track) => (sum += track.numExercises),
+      0
+    )
+  }
+
+  get numSolutions(): number {
+    return this.items.reduce<number>(
+      (sum, track) => (sum += track.numSolutions),
+      0
+    )
+  }
+
+  get numLines(): number {
+    return this.items.reduce<number>((sum, track) => (sum += track.numLines), 0)
+  }
+
+  get length(): number {
+    return this.items.length
+  }
+
+  sort(): TrackProgressList {
+    return new TrackProgressList({
+      items: [...this.items]
+        .sort((a, b) => (a.completion < b.completion ? -1 : 1))
+        .reverse(),
+    })
+  }
+
+  constructor({ items }: { items: readonly TrackProgress[] }) {
+    this.items = items
+  }
+}

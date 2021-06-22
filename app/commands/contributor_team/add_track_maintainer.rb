@@ -11,7 +11,7 @@ class ContributorTeam
       if well_maintained?
         github_reviewers_team.remove_from_repository(track.repo_name)
       else
-        github_reviewers_team.add_to_repository(track.repo_name)
+        github_reviewers_team.add_to_repository(track.repo_name, :push)
       end
 
       user.update(roles: user.roles + [:maintainer]) unless user.roles.include?(:maintainer)

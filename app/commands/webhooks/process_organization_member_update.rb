@@ -1,5 +1,5 @@
 module Webhooks
-  class ProcessMembershipUpdate
+  class ProcessOrganizationMemberUpdate
     include Mandate
 
     initialize_with :action, :username, :organization

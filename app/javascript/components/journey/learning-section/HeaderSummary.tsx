@@ -14,7 +14,7 @@ export const HeaderSummary = ({
 
   return (
     <p>
-      You&apos; progressed the furthest in{' '}
+      You&apos;ve progressed the furthest in{' '}
       <TrackHeaderSummaryText<TrackProgress>
         tracks={tracksToDisplay}
         SpanComponent={TrackSummary}

@@ -148,6 +148,7 @@ import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
+import '../../css/pages/settings'
 import '../../css/pages/contributing-dashboard'
 import '../../css/pages/contributing-contributors'
 import '../../css/pages/contributing-tasks'

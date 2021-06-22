@@ -149,4 +149,57 @@ class UserTest < ActiveSupport::TestCase
       assert user.recently_used_cli?
     end
   end
+
+  test "auth_token" do
+    user = create :user
+    create :user_auth_token, user: user, active: false
+    token = create :user_auth_token, user: user, active: true
+    create :user_auth_token, user: user, active: false
+
+    assert_equal token.token, user.auth_token
+  end
+
+  test "create_auth_token!" do
+    user = create :user
+
+    user.create_auth_token!
+    token_1 = user.auth_tokens.first
+
+    assert_equal 1, user.auth_tokens.size
+    assert token_1.active?
+
+    user.create_auth_token!
+    token_1.reload
+    token_2 = user.auth_tokens.last
+
+    assert_equal 2, user.auth_tokens.size
+    refute token_1.active?
+    assert token_2.active?
+  end
+
+  test "pronoun_parts" do
+    user = create :user
+    assert_nil user.pronouns
+    assert_equal ['', '', ''], user.pronoun_parts
+
+    user.pronoun_parts = %w[he him his]
+    assert_equal "he/him/his", user.pronouns
+    assert_equal %w[he him his], user.pronoun_parts
+
+    user.pronoun_parts = ["she", "", "her"]
+    assert_equal "she//her", user.pronouns
+    assert_equal ["she", "", "her"], user.pronoun_parts
+
+    user.pronoun_parts = ["they", "their", ""]
+    assert_equal "they/their/", user.pronouns
+    assert_equal ["they", "their", ""], user.pronoun_parts
+
+    user.pronoun_parts = { 2 => "his", 0 => "he", 1 => "" }
+    assert_equal "he//his", user.pronouns
+    assert_equal ["he", "", "his"], user.pronoun_parts
+
+    user.pronoun_parts = { '2' => "her", '0' => "she", '1' => "" }
+    assert_equal "she//her", user.pronouns
+    assert_equal ["she", "", "her"], user.pronoun_parts
+  end
 end

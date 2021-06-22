@@ -1,0 +1,118 @@
+#page-settings-general.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:general)
+
+    %article
+      %h1 Account Settings
+
+      - if current_user.unconfirmed_email.present?
+        .unconfirmed-email
+          %span We've sent a confirmation email to #{current_user.unconfirmed_email}
+          = render ViewComponents::ProminentLink.new("Resend email", "#")
+
+      %section
+        = form_with model: current_user, url: settings_path, method: :patch do |f|
+          %h2 Profile
+          .details
+            .name.field
+              = f.label :name, class: 'label'
+              = f.text_field :name
+            .location.field
+              = f.label :location, class: 'label'
+              %label.c-faux-input
+                = graphical_icon "location"
+                = f.text_field :location
+          .bio.field
+            = f.label :bio, class: 'label'
+            = f.text_area :bio
+            .instructions
+              Tell the world about you 🌎. Emojis encouraged!
+          .form-footer
+            = f.button "Save profile data", class: "btn-primary btn-m", method: :patch
+
+      %section.pronouns-section
+        = form_with model: current_user, url: settings_path, method: :patch do |f|
+          %h2 How would you like to be addressed? (optional)
+          %hr.c-divider.--small
+          .instructions
+            We recommend listing the pronouns you'd like people to use when referring to you.
+            %strong In the example testimonial below, enter the pronouns you'd like us to show to your mentors and students.
+            You can leave this blank, in which case we will not suggest any pronouns.
+            = link_to "Learn more about how we use pronouns.", "#"
+
+          .testimonial
+            .text
+              = current_user.handle
+              was really great.
+              = f.text_field "pronoun_parts[0]", placeholder: "e.g. They", value: current_user.pronoun_parts[0]
+              answered all my questions.
+              I'd recommend
+              = f.text_field "pronoun_parts[1]", placeholder: "e.g. them", value: current_user.pronoun_parts[1]
+              to others because
+              = f.text_field "pronoun_parts[2]", placeholder: "e.g. their", value: current_user.pronoun_parts[2]
+              advice was very helpful.
+            .commonly-used
+              .info Use a common option:
+              %button she/her/her
+              %button he/him/his
+              %button they/their/them
+              %button Use handle
+              %button Leave blank
+
+          .form-footer
+            = f.button "Save pronouns", class: "btn-primary btn-m", method: :patch
+
+      %section
+        = form_with model: current_user, url: sudo_update_settings_path, method: :patch do |f|
+          %h2 Change your handle
+          %hr.c-divider.--small
+          .field
+            = f.label :handle, "Your handle", class: 'label'
+            %label.c-faux-input
+              = graphical_icon "at-symbol"
+              = f.text_field :handle, required: true
+
+          .field
+            = f.label :sudo_password, "Confirm your password", class: 'label'
+            = f.password_field :sudo_password, required: true
+            %p.info We recommend only changing your handle in rare circumstances as public solution links will break, and it is confusing for mentors.
+          .form-footer
+            = f.button "Change handle", class: "btn-primary btn-m", method: :patch
+
+      %section
+        = form_with model: current_user, url: sudo_update_settings_path, method: :patch do |f|
+          %h2 Change your email
+          %hr.c-divider.--small
+          .field
+            = f.label :email, "Your email address", class: 'label'
+            = f.text_field :email, required: true
+
+          .field
+            = f.label :sudo_password, "Confirm your password", class: 'label'
+            = f.password_field :sudo_password, required: true
+
+            %p.info You can change your email using the form above. We will send you a new confirmation email for you to accept.
+          .form-footer
+            = f.button "Change email", class: "btn-primary btn-m", method: :patch
+
+      %section
+        = form_with model: current_user, url: sudo_update_settings_path, method: :patch do |f|
+          %h2 Change your password
+          %hr.c-divider.--small
+          .field
+            = f.label :sudo_password, "Current Password", class: 'label'
+            = f.password_field :sudo_password, required: true
+
+          .field
+            = f.label :password, "New password", class: 'label'
+            = f.password_field :password, required: true
+          .field
+            = f.label :password_confirmation, "Confirm new password", class: 'label'
+            = f.password_field :password_confirmation, required: true
+
+            %p.info
+              %strong Warning: Changing your password will sign you out.
+              You can then sign back in with your new password.
+          .form-footer
+            = f.button "Change email", class: "btn-primary btn-m", method: :patch
+

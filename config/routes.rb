@@ -200,6 +200,12 @@ Rails.application.routes.draw do
   # ############ #
   # Normal pages #
   # ############ #
+  resource :settings, only: %i[show update] do
+    get :api
+    patch :reset_api_token
+    patch :sudo_update
+  end
+
   resource :dashboard, only: [:show], controller: "dashboard"
 
   resources :docs, only: %i[index]

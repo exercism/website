@@ -67,6 +67,27 @@ class User < ApplicationRecord
     handle
   end
 
+  def pronoun_parts
+    a = pronouns.to_s.split("/")
+    a.fill("", a.length...3)
+  end
+
+  def pronoun_parts=(parts)
+    parts = parts.sort_by(&:first).map(&:second) if parts.is_a?(Hash)
+    self.pronouns = parts.map(&:strip).join("/")
+  end
+
+  def create_auth_token!
+    transaction do
+      auth_tokens.update_all(active: false)
+      auth_tokens.create!(active: true)
+    end
+  end
+
+  def auth_token
+    auth_tokens.active.first.try(&:token)
+  end
+
   def formatted_reputation(*args)
     rep = reputation(*args)
     User::FormatReputation.(rep)

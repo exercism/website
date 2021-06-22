@@ -1,18 +1,36 @@
 input:not([type="submit"]),
+.c-faux-input,
 textarea {
     @apply rounded-5 border-2 border-transparent;
     @apply py-12 px-16;
-    @apply text-16 leading-160 font-medium text-textColor2;
+    @apply text-16 leading-160 text-textColor2;
     @apply bg-inputBackgroundColor;
 
     &::placeholder {
         @apply text-textColor7;
     }
 
-    &:focus {
+    &:focus,
+    &:focus-within {
         @apply border-inputBorderColorFocus;
         @apply bg-backgroundColorA;
         @apply shadow-inputSelected;
         @apply outline-none !important;
+    }
+}
+
+.c-faux-input {
+    @apply flex items-center;
+    & .c-icon {
+        height: 16px;
+        width: 16px;
+        @apply mr-16;
+        filter: var(--textColor2-filter);
+    }
+    & input {
+        @apply p-0 border-0 rounded-none;
+        @apply shadow-none bg-transparent  !important;
+        @apply border-l-1 border-borderColor5 !important;
+        @apply pl-16;
     }
 }

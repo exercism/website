@@ -1,0 +1,167 @@
+@import "../styles";
+
+.page-settings {
+    & .lg-container {
+        @apply flex items-start;
+        @apply pt-32;
+    }
+    & nav.settings-nav {
+        @apply shadow-lg rounded-8;
+        @apply py-24 px-32 mr-48;
+        @apply flex-shrink-0 flex-grow-0;
+
+        @apply text-18 leading-150 font-semibold;
+
+        & li:not(:last-child) {
+            @apply mb-8;
+        }
+        & a {
+            @apply text-lightBlue;
+        }
+    }
+    & article {
+        @apply flex-grow;
+
+        & h1 {
+            @apply text-h2 mb-16;
+        }
+        & h2 {
+            @apply text-h3 mb-16;
+        }
+        & .c-divider {
+            margin-top: -8px;
+            @apply mb-24;
+        }
+        & section {
+            @apply shadow-lg rounded-8;
+            @apply py-24 px-32 mb-24;
+
+            & .form-footer {
+                margin-left: -32px;
+                margin-right: -32px;
+                margin-bottom: -24px;
+                @apply py-16 px-32 mt-24;
+                @apply border-t-1 border-borderColor6;
+            }
+        }
+        & .label {
+            @apply font-mono font-bold text-14 leading-160 text-textColor2;
+            @apply uppercase;
+            @apply block mb-8;
+        }
+        & .field {
+            & > input {
+                @apply w-100;
+            }
+            & .input {
+                & input {
+                    @apply border-0;
+                }
+            }
+            & p.info {
+                @apply leading-160 text-textColor6;
+                @apply mt-8;
+                & strong {
+                    @apply text-textColor2 font-semibold text-caution;
+                }
+            }
+        }
+    }
+}
+#page-settings-api {
+    & section {
+        @apply flex flex-col items-start;
+    }
+
+    & .c-copy-text-to-clipboard {
+        width: 400px;
+        @apply mb-12;
+    }
+    & .c-prominent-link {
+        @apply mb-20;
+    }
+}
+#page-settings-general {
+    & .unconfirmed-email {
+        @apply border-2 border-orange rounded-8;
+        @apply bg-lightOrange;
+        @apply py-12 px-24 mb-24;
+        @apply text-caution font-medium text-16 leading-150;
+        @apply flex items-center;
+
+        & .c-prominent-link {
+            @apply ml-auto;
+        }
+    }
+    & .details {
+        @apply grid grid-cols-2 gap-24;
+        @apply mb-16;
+    }
+    & .field + .field {
+        @apply mt-12;
+    }
+    & .bio {
+        & textarea {
+            @apply w-100 mb-12;
+            height: 104px;
+        }
+
+        & .instructions {
+            @apply leading-150 text-textColor6;
+        }
+    }
+    & .pronouns-section {
+        & .instructions {
+            @apply mb-24;
+            @apply text-16 leading-160;
+
+            & strong {
+                @apply font-medium text-textColor2;
+            }
+            & a {
+                @apply font-semibold text-lightBlue;
+            }
+        }
+
+        & .testimonial {
+            @apply border-2 border-veryLightBlue2;
+            @apply bg-lightPurple rounded-8;
+            @apply rounded-8;
+
+            & .text {
+                @apply text-18 text-textColor2;
+                margin: 0 auto;
+                max-width: 1000px;
+                @apply py-16 px-24;
+                @apply text-center;
+            }
+
+            & input {
+                @apply bg-backgroundColorA;
+                @apply border-1 border-buttonBorderColor2;
+                @apply py-8 px-12 mx-4;
+                @apply text-center;
+                width: 100px;
+            }
+
+            & .commonly-used {
+                @apply bg-veryLightBlue2;
+                @apply py-12 px-24;
+                @apply flex items-center justify-center;
+                & .info {
+                    @apply mr-16;
+                    @apply text-16 leading-150 text-center text-textColor2 font-medium;
+                }
+                & button {
+                    @apply text-white font-semibold;
+                    @apply bg-lightBlue rounded-100;
+                    height: 29px;
+                    @apply px-8;
+                }
+                & button + button {
+                    @apply ml-8;
+                }
+            }
+        }
+    }
+}

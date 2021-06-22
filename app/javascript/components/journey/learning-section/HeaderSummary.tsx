@@ -1,5 +1,7 @@
 import React from 'react'
 import { TrackProgress, TrackProgressList } from '../../types'
+import { TrackHeaderSpan } from '../TrackHeaderSpan'
+import { TrackHeaderSummaryText } from '../TrackHeaderSummaryText'
 
 const MAX_TRACKS = 4
 
@@ -13,61 +15,18 @@ export const HeaderSummary = ({
   return (
     <p>
       You&apos; progressed the furthest in{' '}
-      <SummaryText tracks={tracksToDisplay} />
+      <TrackHeaderSummaryText<TrackProgress>
+        tracks={tracksToDisplay}
+        SpanComponent={TrackSummary}
+      />
     </p>
   )
 }
 
 const TrackSummary = ({ track }: { track: TrackProgress }): JSX.Element => {
-  const classNames = ['track', `t-b-${track.slug}`]
-
   return (
-    <span className={classNames.join(' ')}>
+    <TrackHeaderSpan slug={track.slug}>
       {track.title} ({track.completion.toFixed(2)}%)
-    </span>
+    </TrackHeaderSpan>
   )
-}
-
-const SummaryText = ({
-  tracks,
-}: {
-  tracks: readonly TrackProgress[]
-}): JSX.Element | null => {
-  switch (tracks.length) {
-    case 4:
-      return (
-        <React.Fragment>
-          <TrackSummary track={tracks[0]} />
-          {', '} followed by <TrackSummary track={tracks[1]} />
-          {', '}
-          <TrackSummary track={tracks[2]} />
-          {' and '}
-          <TrackSummary track={tracks[3]} />.
-        </React.Fragment>
-      )
-    case 3:
-      return (
-        <React.Fragment>
-          <TrackSummary track={tracks[0]} />
-          {', '} followed by <TrackSummary track={tracks[1]} />
-          {' and '}
-          <TrackSummary track={tracks[2]} />.
-        </React.Fragment>
-      )
-    case 2:
-      return (
-        <React.Fragment>
-          <TrackSummary track={tracks[0]} /> followed by{' '}
-          <TrackSummary track={tracks[1]} />.
-        </React.Fragment>
-      )
-    case 1:
-      return (
-        <React.Fragment>
-          <TrackSummary track={tracks[0]} />.
-        </React.Fragment>
-      )
-    default:
-      return null
-  }
 }

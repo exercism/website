@@ -624,3 +624,65 @@ export class TrackProgressList {
     this.items = items
   }
 }
+
+export class MentoredTrackProgress {
+  title: string
+  slug: string
+  iconUrl: string
+  numSessions: number
+  numStudents: number
+
+  constructor({
+    title,
+    slug,
+    iconUrl,
+    numSessions,
+    numStudents,
+  }: {
+    title: string
+    slug: string
+    iconUrl: string
+    numSessions: number
+    numStudents: number
+  }) {
+    this.title = title
+    this.slug = slug
+    this.iconUrl = iconUrl
+    this.numSessions = numSessions
+    this.numStudents = numStudents
+  }
+}
+
+export class MentoredTrackProgressList {
+  items: readonly MentoredTrackProgress[]
+
+  sort(): MentoredTrackProgressList {
+    return new MentoredTrackProgressList({
+      items: [...this.items]
+        .sort((a, b) => (a.numSessions < b.numSessions ? -1 : 1))
+        .reverse(),
+    })
+  }
+
+  get numSessions(): number {
+    return this.items.reduce<number>(
+      (sum, track) => (sum += track.numSessions),
+      0
+    )
+  }
+
+  get numStudents(): number {
+    return this.items.reduce<number>(
+      (sum, track) => (sum += track.numStudents),
+      0
+    )
+  }
+
+  get sessionRatio(): number {
+    return this.numSessions / this.numStudents
+  }
+
+  constructor({ items }: { items: readonly MentoredTrackProgress[] }) {
+    this.items = items
+  }
+}

@@ -239,6 +239,8 @@ import {
   CommunicationPreferences,
   TrackProgress,
   TrackProgressList,
+  MentoredTrackProgress,
+  MentoredTrackProgressList,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
@@ -305,6 +307,20 @@ initReact({
 
     return (
       <JourneyComponents.LearningSection tracks={tracks} links={data.links} />
+    )
+  },
+  'journey-mentoring-section': (data: any) => {
+    const tracks = new MentoredTrackProgressList({
+      items: data.tracks.map(
+        (track: any) =>
+          new MentoredTrackProgress(
+            camelizeKeysAs<MentoredTrackProgress>(track)
+          )
+      ),
+    })
+
+    return (
+      <JourneyComponents.MentoringSection tracks={tracks} ranks={data.ranks} />
     )
   },
   'common-markdown-editor': (data: any) => (

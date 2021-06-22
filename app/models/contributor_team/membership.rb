@@ -1,4 +1,9 @@
 class ContributorTeam::Membership < ApplicationRecord
+  enum status: {
+    pending: 0,
+    active: 1
+  }
+
   enum seniority: {
     junior: 0,
     medior: 1,
@@ -12,6 +17,10 @@ class ContributorTeam::Membership < ApplicationRecord
 
   belongs_to :user,
     inverse_of: :team_memberships
+
+  def status
+    super.to_sym
+  end
 
   def seniority
     super.to_sym

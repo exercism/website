@@ -203,6 +203,7 @@ Rails.application.routes.draw do
   resource :settings, only: %i[show update] do
     get :api
     patch :reset_api_token
+    patch :sudo_update
   end
 
   resource :dashboard, only: [:show], controller: "dashboard"

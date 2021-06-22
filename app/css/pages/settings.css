@@ -58,6 +58,13 @@
                     @apply border-0;
                 }
             }
+            & p.info {
+                @apply leading-160 text-textColor6;
+                @apply mt-8;
+                & strong {
+                    @apply text-textColor2 font-semibold text-caution;
+                }
+            }
         }
     }
 }
@@ -75,14 +82,28 @@
     }
 }
 #page-settings-general {
+    & .unconfirmed-email {
+        @apply border-2 border-orange rounded-8;
+        @apply bg-lightOrange;
+        @apply py-12 px-24 mb-24;
+        @apply text-caution font-medium text-16 leading-150;
+        @apply flex items-center;
+
+        & .c-prominent-link {
+            @apply ml-auto;
+        }
+    }
     & .details {
         @apply grid grid-cols-2 gap-24;
         @apply mb-16;
     }
+    & .field + .field {
+        @apply mt-12;
+    }
     & .bio {
         & textarea {
             @apply w-100 mb-12;
-            height: 92px;
+            height: 104px;
         }
 
         & .instructions {

@@ -176,4 +176,30 @@ class UserTest < ActiveSupport::TestCase
     refute token_1.active?
     assert token_2.active?
   end
+
+  test "pronoun_parts" do
+    user = create :user
+    assert_nil user.pronouns
+    assert_equal ['', '', ''], user.pronoun_parts
+
+    user.pronoun_parts = %w[he him his]
+    assert_equal "he/him/his", user.pronouns
+    assert_equal %w[he him his], user.pronoun_parts
+
+    user.pronoun_parts = ["she", "", "her"]
+    assert_equal "she//her", user.pronouns
+    assert_equal ["she", "", "her"], user.pronoun_parts
+
+    user.pronoun_parts = ["they", "their", ""]
+    assert_equal "they/their/", user.pronouns
+    assert_equal ["they", "their", ""], user.pronoun_parts
+
+    user.pronoun_parts = { 2 => "his", 0 => "he", 1 => "" }
+    assert_equal "he//his", user.pronouns
+    assert_equal ["he", "", "his"], user.pronoun_parts
+
+    user.pronoun_parts = { '2' => "her", '0' => "she", '1' => "" }
+    assert_equal "she//her", user.pronouns
+    assert_equal ["she", "", "her"], user.pronoun_parts
+  end
 end

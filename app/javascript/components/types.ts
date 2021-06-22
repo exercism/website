@@ -686,3 +686,49 @@ export class MentoredTrackProgressList {
     this.items = items
   }
 }
+
+export type ContributionCategoryId =
+  | 'publishing'
+  | 'mentoring'
+  | 'authoring'
+  | 'building'
+  | 'maintaining'
+  | 'other'
+
+export type ContributionCategory = {
+  id: ContributionCategoryId
+  reputation: number
+  metricFull?: string
+  metricShort?: string
+}
+
+export class TrackContribution {
+  id: string | null
+  title: string
+  iconUrl: string
+  categories: readonly ContributionCategory[]
+
+  get totalReputation(): number {
+    return this.categories.reduce(
+      (sum, category) => sum + category.reputation,
+      0
+    )
+  }
+
+  constructor({
+    id,
+    title,
+    iconUrl,
+    categories,
+  }: {
+    id: string | null
+    title: string
+    iconUrl: string
+    categories: readonly ContributionCategory[]
+  }) {
+    this.id = id
+    this.title = title
+    this.iconUrl = iconUrl
+    this.categories = categories
+  }
+}

@@ -241,6 +241,7 @@ import {
   TrackProgressList,
   MentoredTrackProgress,
   MentoredTrackProgressList,
+  TrackContribution,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
@@ -271,7 +272,6 @@ import { Request as ContributingTasksRequest } from '../components/contributing/
 import * as Settings from '../components/settings'
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
-import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
 import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
 import { Links as SolutionViewLinks } from '../components/common/SolutionView'
 import { ProgressGraph } from '../components/progress-graph/ProgressGraph'
@@ -321,6 +321,20 @@ initReact({
 
     return (
       <JourneyComponents.MentoringSection tracks={tracks} ranks={data.ranks} />
+    )
+  },
+  'journey-contributing-section': (data: any) => {
+    const tracks = data.tracks.map(
+      (track: any) =>
+        new TrackContribution(camelizeKeysAs<TrackContribution>(track))
+    )
+
+    return (
+      <JourneyComponents.ContributingSection
+        tracks={tracks}
+        handle={data.handle}
+        links={data.links}
+      />
     )
   },
   'common-markdown-editor': (data: any) => (
@@ -684,15 +698,20 @@ initReact({
       )}
     />
   ),
-  'profile-contributions-summary': (data: any) => (
-    <Profile.ContributionsSummary
-      tracks={camelizeKeysAs<readonly ProfileContributionsSummaryTrack[]>(
-        data.tracks
-      )}
-      handle={data.handle}
-      links={data.links}
-    />
-  ),
+  'profile-contributions-summary': (data: any) => {
+    const tracks = data.tracks.map(
+      (track: any) =>
+        new TrackContribution(camelizeKeysAs<TrackContribution>(track))
+    )
+
+    return (
+      <Profile.ContributionsSummary
+        tracks={tracks}
+        handle={data.handle}
+        links={data.links}
+      />
+    )
+  },
   'profile-first-time-modal': (data: any) => (
     <Profile.FirstTimeModal links={data.links} />
   ),

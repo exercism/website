@@ -2,6 +2,7 @@ import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
 import { Iteration, IterationStatus, ExerciseType } from '../../types'
 import pluralize from 'pluralize'
+import { toSentence } from '../../../utils/toSentence'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
@@ -221,14 +222,4 @@ export const Header = ({
       }
     }
   }
-}
-
-function toSentence(arr: string[]) {
-  if (arr.length === 0) {
-    return arr[0]
-  }
-
-  const last = arr.pop()
-
-  return `${arr.join(', ')} and ${last}`
 }

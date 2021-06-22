@@ -1,6 +1,6 @@
 import React from 'react'
-import { Badge } from '../../types'
-import { GraphicalIcon } from '../../common'
+import { Badge } from '../types'
+import { GraphicalIcon } from './'
 
 export const BadgeMedallion = ({ badge }: { badge: Badge }): JSX.Element => {
   const classNames = ['c-badge-medallion', `--${badge.rarity}`]

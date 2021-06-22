@@ -242,6 +242,8 @@ import {
   MentoredTrackProgress,
   MentoredTrackProgressList,
   TrackContribution,
+  Badge,
+  BadgeList,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
@@ -335,6 +337,15 @@ initReact({
         handle={data.handle}
         links={data.links}
       />
+    )
+  },
+  'journey-badges-section': (data: any) => {
+    const badges = new BadgeList({
+      items: camelizeKeysAs<readonly Badge[]>(data.badges),
+    })
+
+    return (
+      <JourneyComponents.BadgesSection badges={badges} links={data.links} />
     )
   },
   'common-markdown-editor': (data: any) => (

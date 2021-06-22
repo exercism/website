@@ -732,3 +732,55 @@ export class TrackContribution {
     this.categories = categories
   }
 }
+
+export class BadgeList {
+  items: readonly Badge[]
+
+  sort(): BadgeList {
+    return new BadgeList({
+      items: [...this.items]
+        .sort((a, b) =>
+          new BadgeRarityValue(a.rarity).value <
+          new BadgeRarityValue(b.rarity).value
+            ? -1
+            : 1
+        )
+        .reverse(),
+    })
+  }
+
+  filter(rarity: BadgeRarity): BadgeList {
+    return new BadgeList({
+      items: [...this.items].filter((badge) => badge.rarity === rarity),
+    })
+  }
+
+  get length(): number {
+    return this.items.length
+  }
+
+  constructor({ items }: { items: readonly Badge[] }) {
+    this.items = items
+  }
+}
+
+class BadgeRarityValue {
+  rarity: BadgeRarity
+
+  get value(): number {
+    switch (this.rarity) {
+      case 'common':
+        return 0
+      case 'rare':
+        return 1
+      case 'ultimate':
+        return 2
+      case 'legendary':
+        return 3
+    }
+  }
+
+  constructor(rarity: BadgeRarity) {
+    this.rarity = rarity
+  }
+}

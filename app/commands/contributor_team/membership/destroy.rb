@@ -7,6 +7,8 @@ class ContributorTeam::Membership
     def call
       ContributorTeam::Membership.where(user: user, team: team).destroy_all
 
+      # TODO: remove member from organization if no team memberships remaining
+
       user.update(roles: user.roles - [role]) unless keep_role?
     end
 

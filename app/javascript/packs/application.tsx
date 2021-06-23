@@ -257,6 +257,7 @@ import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
 import * as CommunitySolutions from '../components/community-solutions'
 import * as Contributing from '../components/contributing'
+import { Request as ContributingTasksRequest } from '../components/contributing/TasksList'
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
@@ -378,7 +379,7 @@ initReact({
   ),
   'contributing-tasks-list': (data: any) => (
     <Contributing.TasksList
-      request={camelizeKeysAs<Request>(data.request)}
+      request={camelizeKeysAs<ContributingTasksRequest>(data.request)}
       tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
     />
   ),

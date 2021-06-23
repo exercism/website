@@ -11,9 +11,9 @@ import { camelizeKeys, decamelizeKeys } from 'humps'
 import { sendRequest } from '../utils/send-request'
 import { stringify } from 'qs'
 
-export type Request = {
+export type Request<Query = Record<string, any>> = {
   endpoint: string | undefined
-  query?: Record<string, any>
+  query?: Query
   options: QueryConfig<any>
 }
 

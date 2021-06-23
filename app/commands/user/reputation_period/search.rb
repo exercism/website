@@ -8,7 +8,7 @@ class User::ReputationPeriod
       20
     end
 
-    def initialize(period: :forever, category: :any, track_id: 0, user_handle: nil, page: 1)
+    def initialize(period: nil, category: nil, track_id: 0, user_handle: nil, page: 1)
       @period = period
       @category = category
 
@@ -49,14 +49,14 @@ class User::ReputationPeriod
     # is valid and if not, default to 0 (the general one).
     # It breaks without the to_s for nil as nil is converted to NULL
     def filter_period!
-      @rows = @rows.where(period: period.to_s)
+      @rows = @rows.where(period: User::ReputationPeriod.periods.key?(period) ? period : :forever)
     end
 
     # This uses a little Rails magic to check the category
     # is valid and if not, default to 0 (the general one).
     # It breaks without the to_s for nil as nil is converted to NULL
     def filter_category!
-      @rows = @rows.where(category: category.to_s)
+      @rows = @rows.where(category: User::ReputationPeriod.categories.key?(category) ? category : :any)
     end
 
     # We set track_ids to be 0 rather than null.

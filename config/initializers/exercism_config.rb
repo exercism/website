@@ -8,3 +8,12 @@ else
 end
 
 Exercism.config.hcaptcha_endpoint = "https://hcaptcha.com"
+
+# TODO: Move this upstream
+module Exercism
+  class ToolingJob
+    def execution_exception
+      data.fetch(:execution_exception, nil)
+    end
+  end
+end

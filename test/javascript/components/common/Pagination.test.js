@@ -201,7 +201,7 @@ test('"Next" button is disabled when on the last page', () => {
 })
 
 test('shows left gap indicator when above the window', () => {
-  render(<Pagination current={3} total={3} around={1} />)
+  render(<Pagination current={3} total={6} around={1} />)
 
   expect(screen.getByText('…')).toBeInTheDocument()
 })
@@ -213,7 +213,7 @@ test('hides left gap indicator when above the window', () => {
 })
 
 test('shows right gap indicator when above the window', () => {
-  render(<Pagination current={1} total={3} around={1} />)
+  render(<Pagination current={1} total={5} around={1} />)
 
   expect(screen.getByText('…')).toBeInTheDocument()
 })

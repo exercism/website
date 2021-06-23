@@ -8,8 +8,8 @@ class AssembleContributionsSummary
     {
       tracks: [
         SerializeTrackForSelect::ALL_TRACK.merge(categories: categories_data),
-        tracks.map { |track| SerializeTrackForSelect.(track).merge(categories: categories_data(track.id)) }
-      ].flatten,
+        *tracks.map { |track| SerializeTrackForSelect.(track).merge(categories: categories_data(track.id)) }
+      ],
       handle: handle,
       links: {
         contributions: Exercism::Routes.contributions_profile_url(user.handle)

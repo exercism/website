@@ -1,0 +1,22 @@
+@import "../styles";
+
+.m-reset-account,
+.m-delete-account {
+    & h2 {
+        @apply text-h4 mb-8;
+    }
+    & .info {
+        @apply mb-16;
+        @apply text-textColor2 text-16 leading-150;
+
+        & strong {
+            @apply text-alert font-semibold;
+        }
+        & p {
+            @apply mb-8;
+        }
+        & ul {
+            @apply list-disc pl-20;
+        }
+    }
+}

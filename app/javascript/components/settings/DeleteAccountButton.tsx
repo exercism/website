@@ -18,7 +18,7 @@ export const DeleteAccountButton = ({
     <React.Fragment>
       <button
         type="button"
-        className="c-delete-account-button"
+        className="c-delete-account-button btn-alert btn-m"
         onClick={() => setOpen(!open)}
       >
         Delete account

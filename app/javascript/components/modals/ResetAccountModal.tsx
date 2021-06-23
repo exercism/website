@@ -45,7 +45,24 @@ export const ResetAccountModal = ({
   return (
     <Modal {...props} className="m-reset-account">
       <form onSubmit={() => mutation()}>
-        <label htmlFor="confirmation">Handle:</label>
+        <h2> Reset your account</h2>
+        <div className="info">
+          <p>By resetting your account, you will lose:</p>
+          <ul>
+            <li>All solutions you have submitted</li>
+            <li>All mentoring you have received</li>
+            <li>All mentoring you have given and any testimonials received.</li>
+            <li>
+              Any reputation you have earned through mentoring or publishing
+              solutions.
+            </li>
+          </ul>
+        </div>
+        <h3>Confirm you mean to do this</h3>
+        <label htmlFor="confirmation">
+          Enter your handle (case sensitive) in the box below
+        </label>
+
         <input
           id="confirmation"
           type="text"

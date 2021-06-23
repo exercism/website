@@ -118,6 +118,7 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
+import '../../css/modals/reset-account'
 import '../../css/modals/badge'
 import '../../css/modals/update-exercise'
 import '../../css/modals/makers'

@@ -2,7 +2,7 @@
 
 @keyframes copiedFadeOut {
     0% {
-        opacity: 100%;
+        opacity: 1;
         top: 5px;
     }
 
@@ -48,6 +48,7 @@
             background-repeat: no-repeat;
             background-position: 16px center;
             top: 5px;
+            opacity: 1;
             left: 50%;
             margin-left: -53px;
             animation: copiedFadeOut 0.7s ease-in forwards;

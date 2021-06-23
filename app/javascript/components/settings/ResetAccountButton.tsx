@@ -18,7 +18,7 @@ export const ResetAccountButton = ({
     <React.Fragment>
       <button
         type="button"
-        className="c-reset-account-button"
+        className="c-reset-account-button btn-alert btn-m"
         onClick={() => setOpen(!open)}
       >
         Reset account

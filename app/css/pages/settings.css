@@ -4,6 +4,7 @@
     & .lg-container {
         @apply flex items-start;
         @apply pt-32;
+        @apply mb-80;
     }
     & nav.settings-nav {
         @apply shadow-lg rounded-8;
@@ -11,6 +12,8 @@
         @apply flex-shrink-0 flex-grow-0;
 
         @apply text-18 leading-150 font-semibold;
+        width: 31%;
+        min-width: 340px;
 
         & li:not(:last-child) {
             @apply mb-8;
@@ -160,6 +163,33 @@
                 }
                 & button + button {
                     @apply ml-8;
+                }
+            }
+        }
+    }
+    & .danger-section {
+        @apply grid grid-cols-2 gap-24;
+        & .box {
+            @apply border-2 border-alert rounded-8;
+            @apply bg-veryLightRed;
+            @apply py-16 px-24;
+            @apply self-start;
+
+            & h2 {
+                @apply text-h4 mb-8;
+            }
+            & .info {
+                @apply mb-16;
+                @apply text-textColor2 text-16 leading-150;
+
+                & strong {
+                    @apply text-alert font-semibold;
+                }
+                & p {
+                    @apply mb-8;
+                }
+                & ul {
+                    @apply list-disc pl-20;
                 }
             }
         }

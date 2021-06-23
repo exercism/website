@@ -1,6 +1,6 @@
 import React from 'react'
-import { GraphicalIcon } from '../common'
-import { TrackProgressList } from '../types'
+import { GraphicalIcon } from '../../common'
+import { TrackProgressList } from '../../types'
 import { HeaderSummary } from './learning-section/HeaderSummary'
 import { TracksEnrolledSummary } from './learning-section/TracksEnrolledSummary'
 import { ExercisesCompletedSummary } from './learning-section/ExercisesCompletedSummary'
@@ -9,18 +9,17 @@ import { LearningOverview } from './learning-section/LearningOverview'
 import { TrackSummary } from './learning-section/TrackSummary'
 import { LearningStats } from './learning-section/LearningStats'
 
+export type Props = {
+  tracks: TrackProgressList
+  links: Links
+}
+
 type Links = {
   solutions: string
   fable: string
 }
 
-export const LearningSection = ({
-  tracks,
-  links,
-}: {
-  tracks: TrackProgressList
-  links: Links
-}): JSX.Element => {
+export const LearningSection = ({ tracks, links }: Props): JSX.Element => {
   return (
     <section className="learning-section">
       <header className="section-header">

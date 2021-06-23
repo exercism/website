@@ -1,8 +1,8 @@
 import React from 'react'
 import { TrackSummaryHeader } from './track-summary/TrackSummaryHeader'
 import { TimeGraph } from './track-summary/TimeGraph'
-import { GraphicalIcon } from '../../common'
-import { TrackProgress } from '../../types'
+import { GraphicalIcon } from '../../../common'
+import { TrackProgress } from '../../../types'
 
 export const TrackSummary = ({
   track,

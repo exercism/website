@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from '../../../common'
+import { Icon } from '../../../../common'
 
 export const TrackProgressBar = ({
   completion,

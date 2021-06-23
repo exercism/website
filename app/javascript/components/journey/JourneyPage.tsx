@@ -11,6 +11,7 @@ import { TabContext, Tab } from '../common/Tab'
 import { ContributionsList } from './ContributionsList'
 import { SolutionsList } from './SolutionsList'
 import { BadgesList } from './BadgesList'
+import { Overview } from './Overview'
 
 type CategoryId = 'solutions' | 'reputation'
 
@@ -84,6 +85,12 @@ export const JourneyPage = ({
       {categories.map((category) => {
         return (
           <Tab.Panel id={category.id} context={TabsContext} key={category.id}>
+            {category.id === 'overview' ? (
+              <Overview
+                isEnabled={currentCategory.id === 'overview'}
+                request={category.request}
+              />
+            ) : null}
             {category.id === 'solutions' ? (
               <SolutionsList
                 isEnabled={currentCategory.id === 'solutions'}

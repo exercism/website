@@ -1,8 +1,13 @@
 import React from 'react'
-import { ProminentLink } from '../common'
-import { BadgeMedallion } from '../common/BadgeMedallion'
-import { BadgeList } from '../types'
+import { ProminentLink } from '../../common'
+import { BadgeMedallion } from '../../common/BadgeMedallion'
+import { BadgeList } from '../../types'
 import { BadgeSummary } from './badges-section/BadgeSummary'
+
+export type Props = {
+  badges: BadgeList
+  links: Links
+}
 
 type Links = {
   badges: string
@@ -10,13 +15,7 @@ type Links = {
 
 const MAX_BADGES = 4
 
-export const BadgesSection = ({
-  badges,
-  links,
-}: {
-  badges: BadgeList
-  links: Links
-}): JSX.Element => {
+export const BadgesSection = ({ badges, links }: Props): JSX.Element => {
   const badgesToShow = badges.sort().items.slice(0, MAX_BADGES)
 
   return (

@@ -242,8 +242,6 @@ import {
   MentoredTrackProgress,
   MentoredTrackProgressList,
   TrackContribution,
-  Badge,
-  BadgeList,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
@@ -300,54 +298,6 @@ initReact({
       defaultCategory={data.default_category}
     />
   ),
-  'journey-learning-section': (data: any) => {
-    const tracks = new TrackProgressList({
-      items: data.tracks.map(
-        (track: any) => new TrackProgress(camelizeKeysAs<TrackProgress>(track))
-      ),
-    })
-
-    return (
-      <JourneyComponents.LearningSection tracks={tracks} links={data.links} />
-    )
-  },
-  'journey-mentoring-section': (data: any) => {
-    const tracks = new MentoredTrackProgressList({
-      items: data.tracks.map(
-        (track: any) =>
-          new MentoredTrackProgress(
-            camelizeKeysAs<MentoredTrackProgress>(track)
-          )
-      ),
-    })
-
-    return (
-      <JourneyComponents.MentoringSection tracks={tracks} ranks={data.ranks} />
-    )
-  },
-  'journey-contributing-section': (data: any) => {
-    const tracks = data.tracks.map(
-      (track: any) =>
-        new TrackContribution(camelizeKeysAs<TrackContribution>(track))
-    )
-
-    return (
-      <JourneyComponents.ContributingSection
-        tracks={tracks}
-        handle={data.handle}
-        links={data.links}
-      />
-    )
-  },
-  'journey-badges-section': (data: any) => {
-    const badges = new BadgeList({
-      items: camelizeKeysAs<readonly Badge[]>(data.badges),
-    })
-
-    return (
-      <JourneyComponents.BadgesSection badges={badges} links={data.links} />
-    )
-  },
   'common-markdown-editor': (data: any) => (
     <Common.MarkdownEditor contextId={data.context_id} />
   ),

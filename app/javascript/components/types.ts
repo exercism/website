@@ -621,7 +621,7 @@ export class TrackProgressList {
   }
 
   constructor({ items }: { items: readonly TrackProgress[] }) {
-    this.items = items
+    this.items = items.map((item) => new TrackProgress(item))
   }
 }
 
@@ -683,7 +683,7 @@ export class MentoredTrackProgressList {
   }
 
   constructor({ items }: { items: readonly MentoredTrackProgress[] }) {
-    this.items = items
+    this.items = items.map((item) => new MentoredTrackProgress(item))
   }
 }
 

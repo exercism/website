@@ -1,6 +1,6 @@
 import React from 'react'
-import { TrackProgress } from '../../../types'
-import { GraphicalIcon, TrackIcon } from '../../../common'
+import { TrackProgress } from '../../../../types'
+import { GraphicalIcon, TrackIcon } from '../../../../common'
 import { TrackProgressBar } from './TrackProgressBar'
 
 export const TrackSummaryHeader = ({

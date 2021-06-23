@@ -1,5 +1,8 @@
 import React from 'react'
-import { MentoredTrackProgress, MentoredTrackProgressList } from '../../types'
+import {
+  MentoredTrackProgress,
+  MentoredTrackProgressList,
+} from '../../../types'
 import { TrackHeaderSpan } from '../TrackHeaderSpan'
 import { TrackHeaderSummaryText } from '../TrackHeaderSummaryText'
 

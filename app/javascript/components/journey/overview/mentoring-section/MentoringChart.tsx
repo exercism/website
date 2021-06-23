@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Chart from 'chart.js/auto'
 import { ChartConfiguration, ChartDataset } from 'chart.js'
-import { MentoredTrackProgressList } from '../../types'
+import { MentoredTrackProgressList } from '../../../types'
 
 const CONFIG: ChartConfiguration<'doughnut'> = {
   type: 'doughnut',

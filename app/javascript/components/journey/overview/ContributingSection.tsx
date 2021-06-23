@@ -1,21 +1,24 @@
 import React from 'react'
-import { TrackContribution } from '../types'
-import { ContributionsSummary } from '../profile/ContributionsSummary'
-import { GraphicalIcon } from '../common'
+import { TrackContribution } from '../../types'
+import { ContributionsSummary } from '../../profile/ContributionsSummary'
+import { GraphicalIcon } from '../../common'
 import { HeaderSummary } from './contributing-section/HeaderSummary'
+
+export type Props = {
+  tracks: readonly TrackContribution[]
+  handle: string
+  links: Links
+}
 
 type Links = {
   contributions: string
 }
+
 export const ContributingSection = ({
   tracks,
   handle,
   links,
-}: {
-  tracks: readonly TrackContribution[]
-  handle: string
-  links: Links
-}): JSX.Element => {
+}: Props): JSX.Element => {
   return (
     <section className="contributing-section">
       <header className="section-header">

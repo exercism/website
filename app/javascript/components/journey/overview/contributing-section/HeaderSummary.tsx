@@ -1,5 +1,5 @@
 import React from 'react'
-import { TrackContribution } from '../../types'
+import { TrackContribution } from '../../../types'
 import { TrackHeaderSummaryText } from '../TrackHeaderSummaryText'
 import { TrackHeaderSpan } from '../TrackHeaderSpan'
 

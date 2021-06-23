@@ -1,7 +1,7 @@
 import pluralize from 'pluralize'
 import React from 'react'
-import { BadgeList, BadgeRarity } from '../../types'
-import { toSentence } from '../../../utils/toSentence'
+import { BadgeList, BadgeRarity } from '../../../types'
+import { toSentence } from '../../../../utils/toSentence'
 
 const BADGE_RARITIES: BadgeRarity[] = [
   'legendary',

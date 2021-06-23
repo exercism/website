@@ -109,7 +109,13 @@ module ReactComponents
         {
           id: "overview",
           title: "Overview",
-          request: {},
+          request: {
+            endpoint: Exercism::Routes.api_journey_overview_url,
+            query: {},
+            options: {
+              initial_data: AssembleJourneyOverview.(current_user)
+            }
+          },
           path: Exercism::Routes.journey_path,
           icon: "overview"
         }

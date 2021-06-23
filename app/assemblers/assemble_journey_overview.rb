@@ -57,7 +57,7 @@ class AssembleJourneyOverview
             ratio: nil
           }
         },
-        contributing: AssembleContributionsSummary.(user),
+        contributing: AssembleContributionsSummary.(user, nil),
         badges: {
           badges: SerializeUserAcquiredBadges.(user.acquired_badges.revealed),
           links: {

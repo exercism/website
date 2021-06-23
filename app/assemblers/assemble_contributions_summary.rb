@@ -2,7 +2,7 @@ class AssembleContributionsSummary
   include Mandate
   include ActionView::Helpers::NumberHelper
 
-  initialize_with :user
+  initialize_with :user, :handle
 
   def call
     {
@@ -10,7 +10,7 @@ class AssembleContributionsSummary
         SerializeTrackForSelect::ALL_TRACK.merge(categories: categories_data),
         tracks.map { |track| SerializeTrackForSelect.(track).merge(categories: categories_data(track.id)) }
       ].flatten,
-      handle: user.handle,
+      handle: handle,
       links: {
         contributions: Exercism::Routes.contributions_profile_url(user.handle)
       }

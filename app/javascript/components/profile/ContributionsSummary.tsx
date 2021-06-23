@@ -45,7 +45,7 @@ export const ContributionsSummary = ({
   showHeader = true,
 }: {
   tracks: readonly TrackContribution[]
-  handle: string
+  handle?: string
   links: Links
   showHeader?: boolean
 }): JSX.Element => {
@@ -179,7 +179,11 @@ export const ContributionsSummary = ({
 
           <ProminentLink
             link={links.contributions}
-            text={`See ${handle}'s contributions`}
+            text={
+              handle
+                ? `See ${handle}'s contributions`
+                : 'See your contributions'
+            }
             withBg
           />
         </div>

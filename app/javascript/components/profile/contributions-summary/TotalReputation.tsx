@@ -5,13 +5,15 @@ export const TotalReputation = ({
   handle,
   reputation,
 }: {
-  handle: string
+  handle?: string
   reputation: number
 }): JSX.Element => {
+  const address = handle ? `${handle} has` : 'You have'
+
   return (
     <div className="c-primary-reputation --large">
       <div className="--inner">
-        {handle} has
+        {address}
         <GraphicalIcon icon="reputation" />
         {reputation.toLocaleString()} Reputation
       </div>

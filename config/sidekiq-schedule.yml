@@ -12,21 +12,21 @@ sweep_reputation_periods:
 
 # 3am every day (avoid DST issues)
 mark_outdated_reputation_week_periods:
-  cron: "0 3 * * *"
+  cron: "1 0 * * *"
   class: "MarkOutdatedReputationPeriodsJob"
   queue: reputation
   args: ["week"]
 
 # 4am every date (1hr after above)
 mark_outdated_reputation_month_periods:
-  cron: "0 4 * * *"
+  cron: "5 0 * * *"
   class: "MarkOutdatedReputationPeriodsJob"
   queue: reputation
   args: ["month"]
 
 # 5am every date (1hr after above)
 mark_outdated_reputation_year_periods:
-  cron: "0 5 * * *"
+  cron: "15 0 * * *"
   class: "MarkOutdatedReputationPeriodsJob"
   queue: reputation
   args: ["year"]

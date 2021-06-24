@@ -9,9 +9,7 @@ class Track
         ContributorTeam::Create.(track.slug, type: :track_maintainers, track: track)
       end
     rescue ActiveRecord::RecordNotUnique
-      Track.find_by!(slug: slug).tap do |track|
-        track.update!(attributes)
-      end
+      Track.find_by!(slug: slug)
     end
   end
 end

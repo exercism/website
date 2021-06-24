@@ -5,7 +5,7 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     user = create :user
     team = create :contributor_team
 
-    Github::Team.any_instance.stubs(:add_member)
+    Github::Team.any_instance.stubs(:add_member).returns({ state: "active" })
 
     ContributorTeam::Membership::CreateOrUpdate.(
       user,
@@ -52,7 +52,7 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     user = create :user
     team = create :contributor_team
 
-    Github::Team.any_instance.stubs(:add_member).with(user.github_username)
+    Github::Team.any_instance.stubs(:add_member).with(user.github_username).returns({ state: "active" })
 
     ContributorTeam::Membership::CreateOrUpdate.(
       user,
@@ -60,6 +60,38 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
       seniority: :junior,
       visible: true
     )
+  end
+
+  test "sets membership status to pending if added github team membership is pending" do
+    user = create :user
+    team = create :contributor_team
+
+    Github::Team.any_instance.stubs(:add_member).with(user.github_username).returns({ state: "pending" })
+
+    membership = ContributorTeam::Membership::CreateOrUpdate.(
+      user,
+      team,
+      seniority: :junior,
+      visible: true
+    )
+
+    assert_equal :pending, membership.status
+  end
+
+  test "sets membership status to active if added github team membership is active" do
+    user = create :user
+    team = create :contributor_team
+
+    Github::Team.any_instance.stubs(:add_member).with(user.github_username).returns({ state: "active" })
+
+    membership = ContributorTeam::Membership::CreateOrUpdate.(
+      user,
+      team,
+      seniority: :junior,
+      visible: true
+    )
+
+    assert_equal :active, membership.status
   end
 
   test "does not add contributor to github team if existing membership" do
@@ -81,7 +113,7 @@ class ContributorTeam::Membership::CreateOrUpdateTest < ActiveSupport::TestCase
     user = create :user
     team = create :contributor_team, type: :track_maintainers
 
-    Github::Team.any_instance.stubs(:add_member)
+    Github::Team.any_instance.stubs(:add_member).returns({ state: "active" })
 
     assert_idempotent_command do
       ContributorTeam::Membership::CreateOrUpdate.(

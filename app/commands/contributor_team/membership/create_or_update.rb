@@ -5,9 +5,9 @@ class ContributorTeam::Membership
     initialize_with :user, :team, :attributes
 
     def call
-      ContributorTeam::Membership.create!(user: user, team: team, **attributes).tap do
-        # TODO: update status based on API response
-        Github::Team.new(team.github_name).add_member(user.github_username)
+      ContributorTeam::Membership.create!(user: user, team: team, **attributes).tap do |membership|
+        response = Github::Team.new(team.github_name).add_member(user.github_username)
+        membership.update(status: response[:state].to_sym)
       end
     rescue ActiveRecord::RecordNotUnique
       ContributorTeam::Membership.find_by!(user: user, team: team).tap do |membership|

@@ -108,6 +108,9 @@
 
     & > button,
     & > .c-results-zone > button {
+        & .value {
+            @apply flex items-center;
+        }
         & .track-title {
             @apply flex-grow;
             white-space: nowrap;
@@ -123,11 +126,6 @@
 
         & label.c-radio-wrapper {
             & .row {
-                /*                 @apply flex items-center; */
-                /*                 @apply py-8 pl-16; */
-                /*                 padding-right: 76px; /1* This needs to line up with the dropdown *1/ */
-                /*                 min-width: 360px; */
-
                 white-space: nowrap;
 
                 & .title {

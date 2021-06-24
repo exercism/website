@@ -8,6 +8,7 @@ class Tracks::MentorRequestsController < ApplicationController
 
     # TODO: Change to "if %i[requested in_progress].include(@solution.mentoring_status)
     return redirect_to action: :show if @solution.mentor_requests.pending.exists?
+    return redirect_to action: :show if @solution.mentor_discussions.in_progress_for_student.exists?
   end
 
   def show

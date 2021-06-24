@@ -23,11 +23,11 @@ module Flows
             sign_in!(user)
             visit track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
             click_on "End discussion"
-            within(".m-confirm-finish-student-mentor-discussion") { click_on "End discussion" }
+            within(".m-confirm-finish-student-mentor-discussion") { click_on "Review and end discussion" }
             click_on "It was good!"
             fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)", with: "Good mentor!"
             click_on "Finish"
-            click_on "Complete"
+            click_on "Back to the exercise"
 
             assert_text "Nice, it looks like you’re done here!"
           end

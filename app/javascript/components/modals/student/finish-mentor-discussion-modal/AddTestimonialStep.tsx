@@ -51,7 +51,8 @@ export const AddTestimonialStep = ({
     setValue(e.target.value)
   }, [])
   const primaryButtonText = value.length === 0 ? 'Skip' : 'Finish'
-  const primaryButtonClass = value.length === 0 ? 'btn' : 'btn-primary btn-m'
+  const primaryButtonClass =
+    value.length === 0 ? 'btn-default btn-m' : 'btn-primary btn-m'
 
   return (
     <section className="testimonial-step">
@@ -85,7 +86,7 @@ export const AddTestimonialStep = ({
                 type="button"
                 onClick={handleBack}
                 status={status}
-                className="btn"
+                className="btn-default btn-m"
               >
                 <GraphicalIcon icon="arrow-left" />
                 <span>Back</span>

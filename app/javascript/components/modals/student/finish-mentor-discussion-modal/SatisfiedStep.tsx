@@ -40,21 +40,44 @@ export const SatisfiedStep = ({
   }, [onBack])
 
   return (
-    <div>
-      <FormButton type="button" onClick={() => finish(true)} status={status}>
-        Yes please
-      </FormButton>
-      <FormButton type="button" onClick={() => finish(false)} status={status}>
-        No thanks
-      </FormButton>
-      <FormButton type="button" onClick={handleBack} status={status}>
-        Back
-      </FormButton>
-      <FetchingBoundary
-        status={status}
-        error={error}
-        defaultError={DEFAULT_ERROR}
-      />
-    </div>
+    <section className="acceptable-decision-step">
+      <h2>Sorry that this mentoring wasn't great.</h2>
+      <p className="explanation">
+        Would you like to put this exercise back in the queue for another mentor
+        to look at?
+      </p>
+
+      <div className="form-buttons">
+        <FormButton
+          type="button"
+          onClick={handleBack}
+          status={status}
+          className="btn-default btn-m"
+        >
+          Back
+        </FormButton>
+        <FormButton
+          type="button"
+          onClick={() => finish(false)}
+          status={status}
+          className="btn-enhanced btn-m"
+        >
+          No thanks
+        </FormButton>
+        <FormButton
+          type="button"
+          onClick={() => finish(true)}
+          status={status}
+          className="btn-enhanced btn-m"
+        >
+          Yes please
+        </FormButton>
+        <FetchingBoundary
+          status={status}
+          error={error}
+          defaultError={DEFAULT_ERROR}
+        />
+      </div>
+    </section>
   )
 }

@@ -123,7 +123,9 @@ test('shows summary of report', async () => {
   userEvent.click(await screen.findByRole('button', { name: 'Finish' }))
 
   expect(
-    await screen.findByText('Your solution will be requeued')
+    await screen.findByText(
+      'Your solution has been put back in the queue and another mentor will hopefully pick it up soon. We hope you have a positive mentoring session on this solution next time!'
+    )
   ).toBeInTheDocument()
   expect(
     screen.queryByText('Thank you for your report')

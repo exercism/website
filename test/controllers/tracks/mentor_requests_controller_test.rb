@@ -14,6 +14,19 @@ class Tracks::MentorRequestsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to track_exercise_mentor_request_url(track, exercise)
   end
 
+  test "new: redirects to show when a mentor discussion is in progress" do
+    user = create :user
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution = create :concept_solution, user: user, exercise: exercise
+    create :mentor_discussion, solution: solution
+
+    sign_in!(user)
+    get new_track_exercise_mentor_request_url(track, exercise)
+
+    assert_redirected_to track_exercise_mentor_request_url(track, exercise)
+  end
+
   test "redirects fullfiled requests" do
     user = create :user
     track = create :track

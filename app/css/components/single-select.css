@@ -35,7 +35,10 @@
 
         @apply text-16 leading-150 font-medium;
 
-        & .action-icon {
+        & > .value {
+            @apply mr-auto;
+        }
+        & > .action-icon {
             height: 16px;
             width: 16px;
             @apply ml-24 mr-0;

@@ -17,6 +17,8 @@
     }
     & .explanation {
         @apply text-p-large;
+    }
+    & .lhs .explanation {
         max-width: 640px;
     }
     & .form-buttons {
@@ -200,9 +202,37 @@
             @apply mt-8;
         }
     }
-    & .unhappy-final-step {
+    & .acceptable-decision-step,
+    & .unhappy-final-step,
+    & .acceptable-final-step {
         & .form-buttons {
             @apply mt-24;
+        }
+    }
+    & section.celebrate-step {
+        @apply p-64;
+        margin: -40px -48px;
+
+        @apply flex flex-col items-center justify-start;
+
+        &.neon-cat {
+            background: rgb(15, 68, 113);
+
+            & .gif {
+                height: 160px;
+                @apply mb-24;
+            }
+            & h2 {
+                @apply text-h1 mb-24 text-white text-center;
+            }
+            & p {
+                @apply text-20 leading-150 text-white text-center;
+                @apply mb-48;
+                & strong {
+                    @apply block mb-8;
+                    @apply font-semibold;
+                }
+            }
         }
     }
 }

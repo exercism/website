@@ -21,7 +21,11 @@ test('shows message when a solution is requeued', async () => {
 
   render(<UnhappyStep report={report} links={links} />)
 
-  expect(screen.getByText('Your solution will be requeued')).toBeInTheDocument()
+  expect(
+    screen.getByText(
+      'Your solution has been put back in the queue and another mentor will hopefully pick it up soon. We hope you have a positive mentoring session on this solution next time!'
+    )
+  ).toBeInTheDocument()
 })
 
 test('shows message when a report is not submitted and a solution is not requeued', async () => {

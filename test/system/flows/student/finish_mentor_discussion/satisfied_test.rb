@@ -23,7 +23,7 @@ module Flows
             sign_in!(user)
             visit track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
             click_on "End discussion"
-            within(".m-confirm-finish-student-mentor-discussion") { click_on "End discussion" }
+            within(".m-confirm-finish-student-mentor-discussion") { click_on "Review and end discussion" }
             click_on "Acceptable"
             click_on "No thanks"
 
@@ -48,10 +48,10 @@ module Flows
             sign_in!(user)
             visit track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
             click_on "End discussion"
-            within(".m-confirm-finish-student-mentor-discussion") { click_on "End discussion" }
+            within(".m-confirm-finish-student-mentor-discussion") { click_on "Review and end discussion" }
             click_on "Acceptable"
             click_on "Yes please"
-            click_on "Continue"
+            click_on "Go back to your solution"
 
             assert_text "View mentoring request"
           end

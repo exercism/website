@@ -36,7 +36,7 @@ export const ConfirmFinishMentorDiscussionModal = ({
           className="btn-primary btn-s"
           onClick={() => onConfirm()}
         >
-          Review and End discussion...
+          Review and end discussion...
           <div className="kb-shortcut">F3</div>
         </button>
       </div>

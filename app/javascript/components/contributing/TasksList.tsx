@@ -1,7 +1,10 @@
 import React, { useCallback } from 'react'
 import { Pagination } from '../common'
 import { Task } from './tasks-list/Task'
-import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
+import {
+  usePaginatedRequestQuery,
+  Request as BaseRequest,
+} from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import {
   Task as TaskProps,
@@ -40,6 +43,18 @@ type PaginatedResult = {
 }
 
 export type TasksListOrder = 'newest' | 'oldest' | 'track'
+
+export type Request = BaseRequest<{
+  page: number
+  actions: string[]
+  knowledge: string[]
+  areas: string[]
+  sizes: string[]
+  types: string[]
+  repoUrl: string
+  track: string
+  order: string
+}>
 
 export const TasksList = ({
   request: initialRequest,

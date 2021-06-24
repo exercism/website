@@ -17,5 +17,17 @@ export const Difficulty = ({
           <div className="icon"></div>Easy
         </div>
       )
+    case 'medium':
+      return (
+        <div className={`c-difficulty-tag --medium ${sizeClassName}`}>
+          <div className="icon"></div>Medium
+        </div>
+      )
+    case 'hard':
+      return (
+        <div className={`c-difficulty-tag --hard ${sizeClassName}`}>
+          <div className="icon"></div>Hard
+        </div>
+      )
   }
 }

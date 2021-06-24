@@ -13,7 +13,7 @@ class SerializeExercise
       type: exercise.tutorial? ? "tutorial" : exercise.git_type,
       title: exercise.title,
       icon_url: exercise.icon_url,
-      difficulty: "easy", # TOOD
+      difficulty: exercise.difficulty_category,
       blurb: exercise.blurb,
       is_external: user_track.external?,
       is_unlocked: unlocked?,

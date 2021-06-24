@@ -27,7 +27,7 @@ class Solution
         solution.user,
         :published_solution,
         solution: solution,
-        level: solution.exercise.difficulty_description
+        level: solution.exercise.difficulty_category
       )
     end
 

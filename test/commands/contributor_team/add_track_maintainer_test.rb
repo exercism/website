@@ -8,7 +8,6 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
 
     Github::Team.any_instance.stubs(:add_member)
     Github::Team.any_instance.stubs(:add_to_repository)
-    Github::Team.any_instance.stubs(:members).returns([])
 
     # Create other track team to ensure the right team is chosen
     csharp_track = create :track, slug: 'csharp'
@@ -27,7 +26,6 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
 
     Github::Team.any_instance.stubs(:add_member)
     Github::Team.any_instance.stubs(:add_to_repository)
-    Github::Team.any_instance.stubs(:members).returns([])
 
     ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
@@ -41,7 +39,6 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
 
     Github::Team.any_instance.stubs(:add_member)
     Github::Team.any_instance.stubs(:add_to_repository)
-    Github::Team.any_instance.stubs(:members).returns([])
 
     ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
@@ -55,7 +52,6 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
 
     Github::Team.any_instance.stubs(:add_member)
     Github::Team.any_instance.stubs(:add_to_repository)
-    Github::Team.any_instance.stubs(:members).returns([])
 
     ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
@@ -72,5 +68,32 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     assert_raises do
       ContributorTeam::AddTrackMaintainer.(user, track)
     end
+  end
+
+  test "removes reviewer team from track repository if at least two active members in track team" do
+    user = create :user
+    track = create :track, slug: 'csharp'
+    team = create :contributor_team, track: track, type: :track_maintainers
+    create :contributor_team_membership, team: team, user: (create :user)
+    create :contributor_team_membership, team: team, user: (create :user)
+
+    # Exercism.config.stubs(:github_organization).returns('exercism')
+    Github::Team.any_instance.stubs(:add_member)
+    Github::Team.any_instance.expects(:remove_from_repository).with('csharp')
+
+    ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
+  end
+
+  test "adds reviewer team to track repository less than two active members in track team" do
+    user = create :user
+    track = create :track, slug: 'csharp'
+    team = create :contributor_team, track: track, type: :track_maintainers
+    create :contributor_team_membership, team: team, user: (create :user)
+    create :contributor_team_membership, team: team, user: (create :user), status: :pending
+
+    Github::Team.any_instance.stubs(:add_member)
+    Github::Team.any_instance.expects(:add_to_repository).with('csharp', :push)
+
+    ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
   end
 end

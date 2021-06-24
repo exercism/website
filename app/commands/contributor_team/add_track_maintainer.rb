@@ -21,7 +21,7 @@ class ContributorTeam
     attr_reader :team
 
     def well_maintained?
-      Github::Team.new(team.github_name).members.size >= 2
+      team.memberships.where(status: :active).size >= 2
     end
 
     def github_reviewers_team

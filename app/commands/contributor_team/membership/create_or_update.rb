@@ -6,6 +6,7 @@ class ContributorTeam::Membership
 
     def call
       ContributorTeam::Membership.create!(user: user, team: team, **attributes).tap do
+        # TODO: update status based on API response
         Github::Team.new(team.github_name).add_member(user.github_username)
       end
     rescue ActiveRecord::RecordNotUnique

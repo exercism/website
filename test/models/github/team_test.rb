@@ -2,7 +2,7 @@ require "test_helper"
 
 class Github::TeamTest < ActiveSupport::TestCase
   test "create team without parent team" do
-    Github::Team.any_instance.stubs(:organization).returns('exercism')
+    Github::Team.stubs(:organization).returns('exercism')
 
     stub_request(:post, "https://api.github.com/orgs/exercism/teams").
       with(
@@ -28,7 +28,7 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "create team with parent team" do
-    Github::Team.any_instance.stubs(:organization).returns('exercism')
+    Github::Team.stubs(:organization).returns('exercism')
 
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/track-maintainers").
       to_return(
@@ -59,7 +59,7 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "add member" do
-    Github::Team.any_instance.stubs(:organization).returns('exercism')
+    Github::Team.stubs(:organization).returns('exercism')
 
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/csharp-maintainers").
       to_return(
@@ -77,7 +77,7 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "remove_member" do
-    Github::Team.any_instance.stubs(:organization).returns('exercism')
+    Github::Team.stubs(:organization).returns('exercism')
 
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/csharp-maintainers").
       to_return(
@@ -95,7 +95,7 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "add_to_repository" do
-    Github::Team.any_instance.stubs(:organization).returns('exercism')
+    Github::Team.stubs(:organization).returns('exercism')
 
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/reviewers").
       to_return(
@@ -114,7 +114,7 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "remove_from_repository" do
-    Github::Team.any_instance.stubs(:organization).returns('exercism')
+    Github::Team.stubs(:organization).returns('exercism')
 
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/reviewers").
       to_return(
@@ -132,7 +132,7 @@ class Github::TeamTest < ActiveSupport::TestCase
   end
 
   test "members" do
-    Github::Team.any_instance.stubs(:organization).returns('exercism')
+    Github::Team.stubs(:organization).returns('exercism')
 
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/reviewers").
       to_return(
@@ -157,5 +157,23 @@ class Github::TeamTest < ActiveSupport::TestCase
     assert_equal 3, team.members.size
     assert_equal %w[member-one member-two member-three], team.members.pluck(:login)
     assert_equal [1, 2, 3], team.members.pluck(:id)
+  end
+
+  test "teams" do
+    Github::Team.stubs(:organization).returns('exercism')
+
+    stub_request(:get, "https://api.github.com/orgs/exercism/teams?per_page=100").
+      to_return(
+        status: 200,
+        body: [
+          { slug: "reviewers", id: 1 },
+          { slug: "csharp", id: 2 }
+        ].to_json,
+        headers: { 'Content-Type': 'application/json' }
+      )
+
+    teams = Github::Team.teams
+
+    assert_equal 2, teams.size
   end
 end

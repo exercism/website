@@ -147,7 +147,7 @@ export const ReportStep = ({
                 type="button"
                 onClick={handleBack}
                 status={status}
-                className="btn"
+                className="btn-default btn-m"
               >
                 <GraphicalIcon icon="arrow-left" />
                 <span>Back</span>

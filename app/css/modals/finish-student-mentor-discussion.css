@@ -17,6 +17,8 @@
     }
     & .explanation {
         @apply text-p-large;
+    }
+    & .lhs .explanation {
         max-width: 640px;
     }
     & .form-buttons {
@@ -200,7 +202,9 @@
             @apply mt-8;
         }
     }
-    & .unhappy-final-step {
+    & .acceptable-decision-step,
+    & .unhappy-final-step,
+    & .acceptable-final-step {
         & .form-buttons {
             @apply mt-24;
         }

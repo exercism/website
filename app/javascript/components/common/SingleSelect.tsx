@@ -62,7 +62,9 @@ export const SingleSelect = <T extends unknown>({
   return (
     <div className={classNames.join(' ')}>
       <button type="button" {...buttonAttributes}>
-        <SelectedComponent option={value} />
+        <div className="value">
+          <SelectedComponent option={value} />
+        </div>
         <Icon
           icon="chevron-down"
           alt="Click to change"

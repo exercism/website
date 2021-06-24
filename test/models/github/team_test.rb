@@ -73,7 +73,7 @@ class Github::TeamTest < ActiveSupport::TestCase
 
     team = Github::Team.new('csharp-maintainers')
 
-    team.add_member('ErikSchierboom')
+    team.add_membership('ErikSchierboom')
   end
 
   test "remove_member" do
@@ -91,7 +91,7 @@ class Github::TeamTest < ActiveSupport::TestCase
 
     team = Github::Team.new('csharp-maintainers')
 
-    team.remove_member('ErikSchierboom')
+    team.remove_membershipship('ErikSchierboom')
   end
 
   test "add_to_repository" do

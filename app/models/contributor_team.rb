@@ -1,4 +1,6 @@
 class ContributorTeam < ApplicationRecord
+  extend Mandate::Memoize
+
   disable_sti!
 
   scope :for_track, ->(track) { where(track: track) }
@@ -19,4 +21,20 @@ class ContributorTeam < ApplicationRecord
   def type
     super.to_sym
   end
+
+  def role_for_members
+    MEMBER_ROLE_FOR_TYPES[type]
+  end
+
+  memoize
+  def github_team
+    Github::Team.new(github_name)
+  end
+
+  MEMBER_ROLE_FOR_TYPES = {
+    track_maintainers: :maintainer,
+    project_maintainers: :maintainer,
+    reviewers: :reviewer
+  }.freeze
+  private_constant :OUTPUT_TYPES
 end

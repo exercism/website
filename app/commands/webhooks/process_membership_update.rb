@@ -5,15 +5,13 @@ module Webhooks
     initialize_with :action, :user_name, :team_name, :organization_name
 
     def call
-      # TODO: use organization as defined in Exercism.config.github_organization
-      return unless organization_name == 'exercism'
-      return unless action == 'added' || action == 'removed'
+      return unless %(added removed).include?(action)
       return unless team
       return unless user
+      return unless organization_name == team.github_team.organization
 
-      # If the action was 'removed', that means the membership was removed on GitHub.
-      # However, as the data in our database is leading, we'll re-add the membership
-      ContributorTeam::Membership::CreateOrUpdate.(user, team, status: :active)
+      ContributorTeam::UpdateReviewersPermission.(team)
+      ContributorTeam::CheckOrgMembership.(user)
     end
 
     private

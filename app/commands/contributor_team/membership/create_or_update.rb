@@ -5,9 +5,10 @@ class ContributorTeam::Membership
     initialize_with :user, :team, :attributes
 
     def call
-      ContributorTeam::Membership.create!(user: user, team: team, **attributes).tap do |membership|
-        response = Github::Team.new(team.github_name).add_member(user.github_username)
-        membership.update(status: response[:state].to_sym)
+      ContributorTeam::Membership.create!(user: user, team: team, **attributes).tap do |_membership|
+        user.update(roles: user.roles + [team.role_for_members]) unless user.roles.include?(team.role_for_members)
+
+        team.github_team.add_membership(user.github_username)
       end
     rescue ActiveRecord::RecordNotUnique
       ContributorTeam::Membership.find_by!(user: user, team: team).tap do |membership|

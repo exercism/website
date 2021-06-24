@@ -32,11 +32,19 @@
         .c-exercise-type-tag.--concept
           = graphical_icon 'concept-exercise'
           Learning Exercise
-      - else
-        / TODO: Use the React component for this
+      - elsif exercise.difficulty_category == :easy
+        / TODO: Use the React component for these
         .c-difficulty-tag.--easy
           .icon
           Easy
+      - elsif exercise.difficulty_category == :medium
+        .c-difficulty-tag.--medium
+          .icon
+          Medium
+      - elsif exercise.difficulty_category == :hard
+        .c-difficulty-tag.--hard
+          .icon
+          Hard
 
   .decorations
 

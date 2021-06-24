@@ -183,7 +183,7 @@ type ExerciseCore = {
   isExternal: boolean
 }
 
-export type ExerciseDifficulty = 'easy'
+export type ExerciseDifficulty = 'easy' | 'medium' | 'hard'
 
 export type File = {
   filename: string

@@ -87,6 +87,12 @@ module.exports = {
       easy: '#5FB268',
       easyLight: '#EFFFF1',
 
+      medium: '#A5A256',
+      mediumLight: '#F7F5E0',
+
+      hard: '#CB8D6A',
+      hardLight: '#F4EBE5',
+
       unnamed10: '#3D3B45',
       unnamed13: '#33363F',
       unnamed15: '#F0F3F9',

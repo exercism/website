@@ -14,4 +14,16 @@
         }
         @apply text-easy border-easy bg-easyLight;
     }
+    &.--medium {
+        & .icon {
+            @apply bg-medium;
+        }
+        @apply text-medium border-medium bg-mediumLight;
+    }
+    &.--hard {
+        & .icon {
+            @apply bg-hard;
+        }
+        @apply text-hard border-hard bg-hardLight;
+    }
 }

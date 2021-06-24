@@ -93,14 +93,14 @@ class Exercise < ApplicationRecord
     "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
   end
 
-  def difficulty_description
+  def difficulty_category
     case difficulty
     when 1..3
-      "easy"
+      :easy
     when 4..7
-      "medium"
+      :medium
     else
-      "hard"
+      :hard
     end
   end
 

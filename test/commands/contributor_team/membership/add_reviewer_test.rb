@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
+class ContributorTeam::Membership::AddReviewerTest < ActiveSupport::TestCase
   test "add user to reviewers team" do
     user = create :user
     team = create :contributor_team, track: nil, type: :reviewers
@@ -10,7 +10,7 @@ class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
     # Create other reviewer team to ensure the right team is chosen
     create :contributor_team, :random, track: nil, type: :reviewers
 
-    ContributorTeam::AddReviewer.(user, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddReviewer.(user, visible: true, seniority: :junior)
 
     assert_includes team.members, user
   end
@@ -21,7 +21,7 @@ class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
 
     Github::Team.any_instance.stubs(:add_member)
 
-    ContributorTeam::AddReviewer.(user, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddReviewer.(user, visible: true, seniority: :junior)
 
     assert_includes user.roles, :reviewer
   end
@@ -32,7 +32,7 @@ class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
 
     Github::Team.any_instance.stubs(:add_member)
 
-    ContributorTeam::AddReviewer.(user, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddReviewer.(user, visible: true, seniority: :junior)
 
     assert_equal 1, (user.roles.count { |r| r == :reviewer })
   end
@@ -43,7 +43,7 @@ class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
 
     Github::Team.any_instance.stubs(:add_member)
 
-    ContributorTeam::AddReviewer.(user, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddReviewer.(user, visible: true, seniority: :junior)
 
     assert_equal 3, user.roles.size
     assert_includes user.roles, :admin
@@ -55,7 +55,7 @@ class ContributorTeam::AddReviewerTest < ActiveSupport::TestCase
     user = create :user
 
     assert_raises do
-      ContributorTeam::AddReviewer.(user)
+      ContributorTeam::Membership::AddReviewer.(user)
     end
   end
 end

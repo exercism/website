@@ -1,4 +1,4 @@
-class ContributorTeam
+class ContributorTeam::Membership
   class AddReviewer
     include Mandate
 

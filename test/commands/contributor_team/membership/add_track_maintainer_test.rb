@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
+class ContributorTeam::Membership::AddTrackMaintainerTest < ActiveSupport::TestCase
   test "add user to track maintainers team" do
     user = create :user
     track = create :track
@@ -14,7 +14,7 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     create :contributor_team, :random, track: csharp_track, type: :track_maintainers
     create :contributor_team, :random, track: nil, type: :reviewers
 
-    ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
     assert_includes team.members, user
   end
@@ -27,7 +27,7 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     Github::Team.any_instance.stubs(:add_member)
     Github::Team.any_instance.stubs(:add_to_repository)
 
-    ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
     assert_includes user.roles, :maintainer
   end
@@ -40,7 +40,7 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     Github::Team.any_instance.stubs(:add_member)
     Github::Team.any_instance.stubs(:add_to_repository)
 
-    ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
     assert_equal 1, (user.roles.count { |r| r == :maintainer })
   end
@@ -53,7 +53,7 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     Github::Team.any_instance.stubs(:add_member)
     Github::Team.any_instance.stubs(:add_to_repository)
 
-    ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
 
     assert_equal 3, user.roles.size
     assert_includes user.roles, :admin
@@ -66,7 +66,7 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     user = create :user
 
     assert_raises do
-      ContributorTeam::AddTrackMaintainer.(user, track)
+      ContributorTeam::Membership::AddTrackMaintainer.(user, track)
     end
   end
 
@@ -81,7 +81,7 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     Github::Team.any_instance.stubs(:add_member)
     Github::Team.any_instance.expects(:remove_from_repository).with('csharp')
 
-    ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
   end
 
   test "adds reviewer team to track repository less than two active members in track team" do
@@ -94,6 +94,6 @@ class ContributorTeam::AddTrackMaintainerTest < ActiveSupport::TestCase
     Github::Team.any_instance.stubs(:add_member)
     Github::Team.any_instance.expects(:add_to_repository).with('csharp', :push)
 
-    ContributorTeam::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
+    ContributorTeam::Membership::AddTrackMaintainer.(user, track, visible: true, seniority: :junior)
   end
 end

@@ -78,7 +78,12 @@ const Inner = ({
         />
       )
     case 'celebration':
-      return <CelebrationStep links={links} />
+      return (
+        <CelebrationStep
+          mentorHandle={discussion.mentor.handle}
+          links={links}
+        />
+      )
     case 'satisfied':
       return (
         <SatisfiedStep

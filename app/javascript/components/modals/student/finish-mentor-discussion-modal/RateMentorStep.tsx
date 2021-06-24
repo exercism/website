@@ -48,17 +48,17 @@ export const RateMentorStep = ({
           <div className="buttons-section">
             <h3>How was your discussion with {discussion.mentor.handle}?</h3>
             <div className="buttons">
-              <button type="button" onClick={onHappy} className="happy">
-                <GraphicalIcon icon="happy-face" />
-                It was good!
+              <button type="button" onClick={onUnhappy} className="sad">
+                <GraphicalIcon icon="sad-face" />
+                Problematic
               </button>
               <button type="button" onClick={onSatisfied} className="neutral">
                 <GraphicalIcon icon="neutral-face" />
                 Acceptable
               </button>
-              <button type="button" onClick={onUnhappy} className="sad">
-                <GraphicalIcon icon="sad-face" />
-                Problematic
+              <button type="button" onClick={onHappy} className="happy">
+                <GraphicalIcon icon="happy-face" />
+                It was good!
               </button>
             </div>
           </div>

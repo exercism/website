@@ -6,8 +6,7 @@ class Track
 
     def call
       Track.create!(slug: slug, **attributes).tap do |track|
-        ContributorTeam::Create.("#{track.title} maintainers", github_name: track.slug, type: :track_maintainers,
-                                                               track: track)
+        ContributorTeam::Create.(track.slug, type: :track_maintainers, track: track)
       end
     rescue ActiveRecord::RecordNotUnique
       Track.find_by!(slug: slug).tap do |track|

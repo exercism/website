@@ -42,8 +42,7 @@ class User < ApplicationRecord
   has_many :track_mentorships, dependent: :destroy
   has_many :mentored_tracks, through: :track_mentorships, source: :track
 
-  # TODO: Validate presence of name
-
+  validates :name, presence: true
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
   has_one_attached :avatar

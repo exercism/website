@@ -11,24 +11,7 @@
           = render ViewComponents::ProminentLink.new("Resend email", "#")
 
       %section
-        = form_with model: current_user, url: settings_path, method: :patch do |f|
-          %h2 Profile
-          .details
-            .name.field
-              = f.label :name, class: 'label'
-              = f.text_field :name
-            .location.field
-              = f.label :location, class: 'label'
-              %label.c-faux-input
-                = graphical_icon "location"
-                = f.text_field :location
-          .bio.field
-            = f.label :bio, class: 'label'
-            = f.text_area :bio
-            .instructions
-              Tell the world about you 🌎. Emojis encouraged!
-          .form-footer
-            = f.button "Save profile data", class: "btn-primary btn-m", method: :patch
+        = render ReactComponents::Settings::ProfileForm.new
 
       %section.pronouns-section
         = form_with model: current_user, url: settings_path, method: :patch do |f|

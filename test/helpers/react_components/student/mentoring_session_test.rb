@@ -47,7 +47,7 @@ module ReactComponents::Student
             reputation: mentor.formatted_reputation,
             num_discussions: 0
           },
-          is_first_time_on_track: true,
+          track_objectives: nil,
           videos: [],
           links: {
             exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
@@ -85,7 +85,7 @@ module ReactComponents::Student
             SerializeIteration.(iteration).merge(num_comments: 0, unread: false)
           ],
           mentor: nil,
-          is_first_time_on_track: true,
+          track_objectives: nil,
           videos: [
             {
               url: "#",

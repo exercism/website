@@ -14,7 +14,7 @@ module ReactComponents
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
             mentor: mentor_data,
-            track_objectives: user_track.objectives,
+            track_objectives: user_track&.objectives,
             videos: videos,
             links: {
               exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),

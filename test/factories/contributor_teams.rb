@@ -6,7 +6,7 @@ FactoryBot.define do
 
     trait :random do
       track { create :track, :random_slug }
-      github_name { "#{track.slug}-maintainers" }
+      github_name { "#{track}-maintainers" }
     end
   end
 end

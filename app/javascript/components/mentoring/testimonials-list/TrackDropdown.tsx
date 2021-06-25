@@ -13,10 +13,10 @@ const OptionComponent = ({ option: track }: { option: Track }) => {
 
 const SelectedComponent = ({ option: track }: { option: Track }) => {
   return (
-    <div>
+    <>
       <TrackLogo track={track} />
       <div className="tw-sr-only">{track.title}</div>
-    </div>
+    </>
   )
 }
 
@@ -44,6 +44,7 @@ export const TrackDropdown = ({
       setValue={handleSet}
       OptionComponent={OptionComponent}
       SelectedComponent={SelectedComponent}
+      size="inline"
     />
   )
 }

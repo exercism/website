@@ -7,15 +7,15 @@
         & .c-search-bar {
             @apply py-16 px-24;
 
-            & .c-track-dropdown {
-                @apply mr-12;
+            & .c-single-select {
+                @apply ml-auto;
+            }
+            & .c-track-select {
+                @apply ml-0 mr-24;
             }
             & .--search {
                 width: 100%;
                 max-width: 450px;
-            }
-            & .c-single-select {
-                @apply ml-auto;
             }
         }
 

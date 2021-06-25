@@ -5,8 +5,7 @@ module Webhooks
     initialize_with :action, :user_name, :organization_name
 
     def call
-      # TODO: use organization as defined in Exercism.config.github_organization
-      return unless organization_name == 'exercism'
+      return unless organization_name == organization.name
 
       case action
       when 'member_added'
@@ -23,6 +22,11 @@ module Webhooks
 
     def remove_member!
       ::Github::OrganizationMember.where(username: user_name).update_all(alumnus: true)
+    end
+
+    memoize
+    def organization
+      Github::Organization.new
     end
   end
 end

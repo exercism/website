@@ -8,6 +8,8 @@ module API
         params[:comment]
       )
 
+      UserTrack.for(current_user, @solution.track).update!(objectives: params[:track_objectives])
+
       render json: {
         mentor_request: SerializeMentorSessionRequest.(mentor_request)
       }

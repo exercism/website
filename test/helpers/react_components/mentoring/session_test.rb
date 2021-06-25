@@ -8,6 +8,7 @@ module Mentoring
       mentor = create :user
       student = create :user
       track = create :track, slug: "ruby"
+      user_track = create :user_track, track: track, user: student
       exercise = create :concept_exercise, track: track, slug: "clock"
       solution = create :concept_solution, user: student, exercise: exercise
       mentor_request = create :mentor_request,
@@ -97,7 +98,7 @@ module Mentoring
             SerializeIteration.(iteration_2).merge(num_comments: 1, unread: false),
             SerializeIteration.(iteration_3).merge(num_comments: 2, unread: true)
           ],
-          student: SerializeStudent.(student, relationship: nil, anonymous_mode: false),
+          student: SerializeStudent.(student, user_track: user_track, relationship: nil, anonymous_mode: false),
           mentor_solution: nil,
           notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
           out_of_date: false,

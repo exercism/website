@@ -512,7 +512,7 @@ initReact({
       mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
-      isFirstTimeOnTrack={data.is_first_time_on_track}
+      trackObjectives={data.track_objectives}
       videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}

@@ -14,7 +14,7 @@ module ReactComponents
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
             mentor: mentor_data,
-            is_first_time_on_track: true, # TODO
+            track_objectives: user_track.objectives,
             videos: videos,
             links: {
               exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
@@ -33,6 +33,11 @@ module ReactComponents
       memoize
       def student
         solution.user
+      end
+
+      memoize
+      def user_track
+        UserTrack.for(student, track)
       end
 
       memoize

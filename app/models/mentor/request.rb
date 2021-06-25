@@ -33,7 +33,7 @@ class Mentor::Request < ApplicationRecord
 
   has_markdown_field :comment
 
-  delegate :title, to: :track, prefix: :track
+  delegate :title, :slug, to: :track, prefix: :track
   delegate :handle, :avatar_url, to: :student, prefix: :student
   delegate :title, :icon_url, to: :exercise, prefix: :exercise
 

@@ -28,7 +28,7 @@
     }
     & .track-objectives {
         & h3 {
-            @apply text-16 leading-170 text-textColor2 font-semibold;
+            @apply text-14 leading-160 text-textColor2 font-semibold;
         }
         & p {
             @apply text-15 leading-160;

@@ -1,8 +1,9 @@
 class SerializeStudent
   include Mandate
 
-  def initialize(student, relationship:, anonymous_mode:)
+  def initialize(student, user_track:, relationship:, anonymous_mode:)
     @student = student
+    @user_track = user_track
     @relationship = relationship
     @anonymous_mode = anonymous_mode
   end
@@ -21,7 +22,7 @@ class SerializeStudent
       reputation: student.formatted_reputation,
       is_favorited: !!relationship&.favorited?,
       is_blocked: !!relationship&.blocked_by_mentor?,
-      track_objectives: "Come from an OO background, looking to get into functional.", # TODO
+      track_objectives: user_track&.objectives,
       num_total_discussions: num_total_discussions,
       num_discussions_with_mentor: relationship&.num_discussions.to_i,
       links: {
@@ -33,7 +34,7 @@ class SerializeStudent
   end
 
   private
-  attr_reader :student, :relationship, :anonymous_mode
+  attr_reader :student, :user_track, :relationship, :anonymous_mode
 
   def anonymous_details
     {

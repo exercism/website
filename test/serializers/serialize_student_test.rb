@@ -16,7 +16,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       reputation: student.formatted_reputation,
       is_favorited: true,
       is_blocked: false,
-      track_objectives: "Come from an OO background, looking to get into functional.",
+      track_objectives: nil,
       num_total_discussions: 3,
       num_discussions_with_mentor: 5,
       links: {
@@ -27,6 +27,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     }
     assert_equal expected, SerializeStudent.(
       student,
+      user_track: nil,
       relationship: relationship,
       anonymous_mode: false
     )
@@ -45,7 +46,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       reputation: student.formatted_reputation,
       is_favorited: false,
       is_blocked: false,
-      track_objectives: "Come from an OO background, looking to get into functional.",
+      track_objectives: nil,
       num_total_discussions: 0,
       num_discussions_with_mentor: 0,
       links: {
@@ -56,6 +57,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     }
     assert_equal expected, SerializeStudent.(
       student,
+      user_track: nil,
       relationship: nil,
       anonymous_mode: nil
     )
@@ -75,6 +77,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     }
     assert_equal expected, SerializeStudent.(
       student,
+      user_track: nil,
       relationship: nil,
       anonymous_mode: true
     )
@@ -87,6 +90,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
 
     result = SerializeStudent.(
       student,
+      user_track: nil,
       relationship: nil,
       anonymous_mode: false
     )
@@ -94,5 +98,19 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     assert_equal bio, result[:bio]
     assert_equal location, result[:location]
     assert_equal "12.3k", result[:reputation]
+  end
+
+  test "track_objectives" do
+    objectives = "some objectives"
+    user_track = create :user_track, objectives: objectives
+
+    result = SerializeStudent.(
+      create(:user),
+      user_track: user_track,
+      relationship: nil,
+      anonymous_mode: false
+    )
+
+    assert_equal objectives, result[:track_objectives]
   end
 end

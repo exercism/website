@@ -17,7 +17,7 @@ type Links = {
 }
 
 export const MentoringRequest = ({
-  isFirstTimeOnTrack,
+  trackObjectives,
   track,
   exercise,
   request,
@@ -26,7 +26,7 @@ export const MentoringRequest = ({
   links,
   onCreate,
 }: {
-  isFirstTimeOnTrack: boolean
+  trackObjectives: string
   track: Track
   exercise: Exercise
   request?: Request
@@ -45,7 +45,7 @@ export const MentoringRequest = ({
     />
   ) : (
     <MentoringRequestForm
-      isFirstTimeOnTrack={isFirstTimeOnTrack}
+      trackObjectives={trackObjectives}
       track={track}
       exercise={exercise}
       onSuccess={onCreate}

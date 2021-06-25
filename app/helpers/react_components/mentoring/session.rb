@@ -23,6 +23,7 @@ module ReactComponents
             iterations: iterations,
             student: SerializeStudent.(
               student,
+              user_track: UserTrack.for(student, track),
               relationship: mentor_student_relationship,
               anonymous_mode: discussion&.anonymous_mode?
             ),

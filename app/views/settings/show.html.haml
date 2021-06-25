@@ -14,36 +14,7 @@
         = render ReactComponents::Settings::ProfileForm.new
 
       %section.pronouns-section
-        = form_with model: current_user, url: settings_path, method: :patch do |f|
-          %h2 How would you like to be addressed? (optional)
-          %hr.c-divider.--small
-          .instructions
-            We recommend listing the pronouns you'd like people to use when referring to you.
-            %strong In the example testimonial below, enter the pronouns you'd like us to show to your mentors and students.
-            You can leave this blank, in which case we will not suggest any pronouns.
-            = link_to "Learn more about how we use pronouns.", "#"
-
-          .testimonial
-            .text
-              = current_user.handle
-              was really great.
-              = f.text_field "pronoun_parts[0]", placeholder: "e.g. They", value: current_user.pronoun_parts[0]
-              answered all my questions.
-              I'd recommend
-              = f.text_field "pronoun_parts[1]", placeholder: "e.g. them", value: current_user.pronoun_parts[1]
-              to others because
-              = f.text_field "pronoun_parts[2]", placeholder: "e.g. their", value: current_user.pronoun_parts[2]
-              advice was very helpful.
-            .commonly-used
-              .info Use a common option:
-              %button she/her/her
-              %button he/him/his
-              %button they/their/them
-              %button Use handle
-              %button Leave blank
-
-          .form-footer
-            = f.button "Save pronouns", class: "btn-primary btn-m", method: :patch
+        = render ReactComponents::Settings::PronounsForm.new
 
       %section
         = form_with model: current_user, url: sudo_update_settings_path, method: :patch do |f|

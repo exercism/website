@@ -3,7 +3,7 @@ module API
     def update
       permitted = params.require(:user).permit(
         :name, :location, :bio,
-        pronoun_parts: {}
+        pronoun_parts: []
       )
 
       if current_user.update(permitted)

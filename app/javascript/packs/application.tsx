@@ -675,6 +675,13 @@ initReact({
   'settings-profile-form': (data: any) => (
     <Settings.ProfileForm defaultUser={data.user} links={data.links} />
   ),
+  'settings-pronouns-form': (data: any) => (
+    <Settings.PronounsForm
+      handle={data.handle}
+      defaultPronounParts={data.pronoun_parts}
+      links={data.links}
+    />
+  ),
 })
 
 import { highlightAll } from '../utils/highlight'

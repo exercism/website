@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :mentor_discussion, class: 'Mentor::Discussion' do
     mentor { create :user }
-    request { create :mentor_request }
     solution { create :practice_solution, track: track }
+    request { create :mentor_request, solution: solution, status: :fulfilled }
 
     transient do
       track do

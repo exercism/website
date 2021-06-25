@@ -1,7 +1,15 @@
 module ReactComponents
   module Mentoring
     class Session < ReactComponent
-      initialize_with :solution
+      def initialize(request: nil, discussion: nil)
+        raise "Either request or discussion must be provided" unless request || discussion
+
+        @request = request.presence || discussion.request
+        @discussion = discussion || request.discussion
+        @solution = @request.solution
+
+        super()
+      end
 
       def to_s
         super(
@@ -26,15 +34,8 @@ module ReactComponents
         )
       end
 
-      memoize
-      def request
-        ::Mentor::Request.find_by(solution: solution)
-      end
-
-      memoize
-      def discussion
-        ::Mentor::Discussion.find_by(solution: solution, mentor: current_user)
-      end
+      private
+      attr_reader :solution, :request, :discussion
 
       memoize
       def mentor_student_relationship
@@ -51,8 +52,7 @@ module ReactComponents
 
       def iterations
         if discussion
-          comment_counts = ::Mentor::DiscussionPost.
-            where(discussion: discussion).
+          comment_counts = discussion.posts.
             group(:iteration_id, :seen_by_mentor).
             count
         end
@@ -60,7 +60,7 @@ module ReactComponents
         solution.iterations.map do |iteration|
           counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
           num_comments = discussion ? counts.sum(&:second) : 0
-          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : 0
+          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : false
 
           SerializeIteration.(iteration).merge(num_comments: num_comments, unread: unread)
         end

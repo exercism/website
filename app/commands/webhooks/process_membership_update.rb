@@ -6,12 +6,10 @@ module Webhooks
 
     def call
       return unless %(added removed).include?(action)
-      return unless team
-      return unless user
-      return unless organization_name == team.github_team.organization
+      return unless organization_name == organization.name
 
-      ContributorTeam::UpdateReviewersPermission.(team)
-      ContributorTeam::CheckOrgMembership.(user)
+      ContributorTeam::UpdateReviewersPermission.(team) if team
+      Github::OrganizationMember::RemoveWhenNoTeamMemberships.(user.github_username) if user
     end
 
     private
@@ -23,6 +21,11 @@ module Webhooks
     memoize
     def team
       ContributorTeam.find_by(github_name: team_name)
+    end
+
+    memoize
+    def organization
+      Github::Organization.new
     end
   end
 end

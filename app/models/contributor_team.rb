@@ -36,5 +36,5 @@ class ContributorTeam < ApplicationRecord
     project_maintainers: :maintainer,
     reviewers: :reviewer
   }.freeze
-  private_constant :OUTPUT_TYPES
+  private_constant :MEMBER_ROLE_FOR_TYPES
 end

@@ -11,11 +11,11 @@ class Github::Organization
     name.present?
   end
 
-  def team_memberships_count(user)
+  def team_memberships_count(github_username)
     query = <<~QUERY.strip
       {
         organization(login: "exercism") {
-          teams(userLogins: ["#{user.github_username}"]) {
+          teams(userLogins: ["#{github_username}"]) {
             totalCount
           }
         }

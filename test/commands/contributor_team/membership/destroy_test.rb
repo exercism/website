@@ -81,7 +81,7 @@ class ContributorTeam::Membership::DestroyTest < ActiveSupport::TestCase
   end
 
   test "removes user from github team" do
-    Github::Team.stubs(:organization).returns('exercism')
+    Github::Organization.any_instance.stubs(:name).returns('exercism')
 
     stub_request(:get, "https://api.github.com/orgs/exercism/teams/ruby-maintainers").
       to_return(status: 200, body: { id: 2_022_925 }.to_json, headers: { 'Content-Type': 'application/json' })

@@ -1,8 +1,9 @@
 module API
   class MarkdownController < BaseController
     def parse
-      html = Markdown::Parse.(params[:markdown].to_s)
-
+      opts = params.permit!.to_hash.with_indifferent_access[:parse_options]
+      opts = opts ? opts.symbolize_keys : {}
+      html = Markdown::Parse.(params[:markdown].to_s, **opts)
       render json: { html: html }
     end
   end

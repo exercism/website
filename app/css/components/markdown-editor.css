@@ -36,16 +36,19 @@
                 border-radius: 0;
             }
             & .cm-header-1 {
-                @apply text-h4;
+                @apply text-h4 text-18 font-bold;
             }
             & .cm-header-2 {
-                @apply text-h5;
+                @apply text-h4 text-16 font-bold;
             }
-            & .cm-header-3 {
-                @apply text-h6;
+            & .cm-header-3,
+            & .cm-header-4,
+            & .cm-header-5,
+            & .cm-header-6 {
+                @apply text-15 font-normal;
             }
             & .cm-strong {
-                @apply font-semibold;
+                @apply text-textColor2 font-medium;
             }
         }
     }
@@ -62,5 +65,8 @@
             @apply text-red font-medium;
             @apply mr-12;
         }
+    }
+    & .editor-preview {
+        @apply bg-backgroundColorA;
     }
 }

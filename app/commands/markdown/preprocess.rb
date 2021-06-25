@@ -48,7 +48,9 @@ class Markdown::Preprocess
         mutation[:node].delete
       when :lower_header_level
         lines[mutation[:node].sourcepos[:start_line] - 1].insert(mutation[:node].sourcepos[:start_column] - 1, '#')
-        mutation[:node].header_level = mutation[:node].header_level + lower_heading_levels_by
+
+        new_level = mutation[:node].header_level + lower_heading_levels_by
+        mutation[:node].header_level = [new_level, 6].min
       end
     end
 

@@ -1,6 +1,8 @@
 @import "../styles";
 
 .c-textual-content {
+    @apply font-body;
+
     &.--large {
         & * {
             @apply text-18;
@@ -90,6 +92,9 @@
         & h3 {
             @apply text-h4 text-18 mb-4;
         }
+        & h4 {
+            @apply text-h4 text-16 mb-4;
+        }
         & * + h3 {
             @apply mt-32;
         }
@@ -133,7 +138,7 @@
         }
 
         & strong {
-            @apply font-semibold;
+            @apply text-textColor2 font-medium;
         }
         & em {
             @apply italic;
@@ -153,6 +158,7 @@
                 margin-left: 6px;
                 @apply mt-0;
                 @apply mb-8;
+                @apply pl-4;
             }
         }
         & ul li {

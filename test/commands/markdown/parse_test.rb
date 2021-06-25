@@ -162,6 +162,11 @@ Done')
     assert_equal "<h3>Level two</h3>\n<h4>Level three</h4>\n", Markdown::Parse.("## Level two\n\n### Level three")
   end
 
+  test "does not lower headings beyond h6" do
+    str = "#### Level four\n\n##### Level five\n\n###### Level six\n\n####### Level seven"
+    assert_equal "<h5>Level four</h5>\n<h6>Level five</h6>\n<h6>Level six</h6>\n<p>####### Level seven</p>\n", Markdown::Parse.(str)
+  end
+
   test "does not increment level of level one heading if stripping" do
     assert_equal "", Markdown::Parse.("# Level one\n", strip_h1: true)
     assert_equal "<h2>Level one</h2>\n", Markdown::Parse.("# Level one\n", strip_h1: false)

@@ -67,11 +67,17 @@ export const MarkdownEditor = ({
 
           sendPostRequest({
             endpoint: url,
-            body: { markdown: markdown },
+            body: {
+              parse_options: {
+                strip_h1: false,
+                lower_heading_levels_by: 2,
+              },
+              markdown: markdown,
+            },
             isMountedRef: isMountedRef,
           })
             .then((json: any) => {
-              preview.innerHTML = json.html
+              preview.innerHTML = `<div class="c-textual-content --small">${json.html}</div>`
             })
             .catch(() => {
               preview.innerHTML = '<p>Unable to parse markdown</p>'

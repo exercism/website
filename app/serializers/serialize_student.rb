@@ -22,7 +22,7 @@ class SerializeStudent
       reputation: student.formatted_reputation,
       is_favorited: !!relationship&.favorited?,
       is_blocked: !!relationship&.blocked_by_mentor?,
-      track_objectives: user_track&.objectives,
+      track_objectives: user_track&.objectives.to_s,
       num_total_discussions: num_total_discussions,
       num_discussions_with_mentor: relationship&.num_discussions.to_i,
       links: {

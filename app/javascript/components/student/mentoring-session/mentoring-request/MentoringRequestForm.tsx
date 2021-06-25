@@ -113,7 +113,7 @@ export const MentoringRequestForm = ({
             id="request-mentoring-form-track-objectives"
             required
             aria-describedby="request-mentoring-form-track-description"
-            value={trackObjectives}
+            defaultValue={trackObjectives}
           />
         </div>
         <div className="question">

@@ -1,6 +1,6 @@
 require_relative './base_test_case'
 
-class Webhooks::ProcessMembershipUpdateTest < Webhooks::BaseTestCase
+class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should return 403 when signature is invalid" do
     payload = {
       action: 'added',

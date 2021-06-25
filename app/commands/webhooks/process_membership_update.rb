@@ -8,7 +8,7 @@ module Webhooks
       return unless %(added removed).include?(action)
       return unless organization_name == organization.name
 
-      ContributorTeam::UpdateReviewersPermission.(team) if team
+      ContributorTeam::UpdateReviewersTeamPermissions.(team) if team
       Github::OrganizationMember::RemoveWhenNoTeamMemberships.(user.github_username) if user
     end
 

@@ -9,7 +9,7 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
       team = create :contributor_team, github_name: 'team11'
       Github::OrganizationMember::RemoveWhenNoTeamMemberships.stubs(:call)
 
-      ContributorTeam::UpdateReviewersPermission.expects(:call).with(team)
+      ContributorTeam::UpdateReviewersTeamPermissions.expects(:call).with(team)
 
       Webhooks::ProcessMembershipUpdate.(action, 'user22', 'team11', 'exercism')
     end
@@ -21,7 +21,7 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
       create :contributor_team, github_name: 'team11'
       Github::OrganizationMember::RemoveWhenNoTeamMemberships.stubs(:call)
 
-      ContributorTeam::UpdateReviewersPermission.expects(:call).never
+      ContributorTeam::UpdateReviewersTeamPermissions.expects(:call).never
 
       Webhooks::ProcessMembershipUpdate.(action, 'user22', 'unknown-team', 'exercism')
     end
@@ -31,7 +31,7 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
 
       user = create :user, github_username: 'user22'
       create :contributor_team, github_name: 'team11'
-      ContributorTeam::UpdateReviewersPermission.stubs(:call)
+      ContributorTeam::UpdateReviewersTeamPermissions.stubs(:call)
 
       Github::OrganizationMember::RemoveWhenNoTeamMemberships.expects(:call).with(user.github_username)
 
@@ -43,7 +43,7 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
 
       create :user, github_username: 'user22'
       create :contributor_team, github_name: 'team11'
-      ContributorTeam::UpdateReviewersPermission.stubs(:call)
+      ContributorTeam::UpdateReviewersTeamPermissions.stubs(:call)
 
       Github::OrganizationMember::RemoveWhenNoTeamMemberships.expects(:call).never
 
@@ -58,7 +58,7 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
     create :contributor_team, github_name: 'team11'
 
     Github::OrganizationMember::RemoveWhenNoTeamMemberships.expects(:call).never
-    ContributorTeam::UpdateReviewersPermission.expects(:call).never
+    ContributorTeam::UpdateReviewersTeamPermissions.expects(:call).never
 
     Webhooks::ProcessMembershipUpdate.('add', 'user22', 'team11', 'invalid-org')
   end
@@ -68,7 +68,7 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
     create :contributor_team, github_name: 'team11'
 
     Github::OrganizationMember::RemoveWhenNoTeamMemberships.expects(:call).never
-    ContributorTeam::UpdateReviewersPermission.expects(:call).never
+    ContributorTeam::UpdateReviewersTeamPermissions.expects(:call).never
 
     Webhooks::ProcessMembershipUpdate.('invalid-action', 'user22', 'team11', 'exercism')
   end

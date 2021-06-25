@@ -33,7 +33,6 @@
       %thead
         %tr
           %th Name
-          %th GitHub Name
           %th Type
           %th # Members
           %th Track
@@ -41,11 +40,8 @@
       %tbody
         - @teams.each do |team|
           %tr
-            %td= team.name
             %td= team.github_name
             %td= team.type.to_s.humanize
             %td= team.members.size
             %td= team.track&.title
             %td= render ViewComponents::ProminentLink.new("More", maintaining_contributor_team_path(team))
-
-    = link_to "Create a team", new_maintaining_contributor_team_path, class: 'btn-primary btn-m'

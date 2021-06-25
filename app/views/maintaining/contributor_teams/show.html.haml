@@ -1,9 +1,8 @@
 #page-maintaining-track
   .lg-container.container
-    %h1 Maintaining #{@team.name}
+    %h1 Maintaining #{@team.github_name}
 
     .data
-      %div GitHub name: #{@team.github_name}
       %div Type: #{@team.type.to_s.humanize}
       - if @team.track.present?
         %div Track: #{@team.track.title}

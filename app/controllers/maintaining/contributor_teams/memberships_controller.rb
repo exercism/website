@@ -21,7 +21,7 @@ class Maintaining::ContributorTeams::MembershipsController < ApplicationControll
   def edit; end
 
   def update
-    if ContributorTeam::Membership::CreateOrUpdate.(membership_params[:user], @team,
+    if ContributorTeam::Membership::CreateOrUpdate.(@membership.user, @membership.team,
       seniority: membership_params[:seniority],
       visible: membership_params[:visible])
       redirect_to maintaining_contributor_team_path(@team)

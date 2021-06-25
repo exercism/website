@@ -1,7 +1,7 @@
 #page-team-new
   .sm-container.container
     %header
-      %h1 Update #{@membership.user.github_username} contributor in team #{@team.name}
+      %h1 Update #{@membership.user.github_username} member of team #{@team.github_name}
       %hr.c-divider
 
     %section.form-section
@@ -12,4 +12,4 @@
         .field
           = f.label :visible, "Visible on website?"
           = f.check_box :visible
-        = button_tag "Update contributor", class: "btn-primary btn-m"
+        = button_tag "Update member", class: "btn-primary btn-m"

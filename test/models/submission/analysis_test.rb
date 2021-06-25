@@ -24,6 +24,17 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     assert_nil analysis.summary
   end
 
+  test "comments doesn't raise" do
+    TestHelpers.use_website_copy_test_repo!
+
+    comments = ["ruby.two-fer.incorrect_default_param"]
+    analysis = create :submission_analysis, data: { comments: comments }
+
+    Markdown::Parse.expects(:call).raises
+    expected = []
+    assert_equal expected, analysis.comments
+  end
+
   test "comments for single simple comments" do
     TestHelpers.use_website_copy_test_repo!
 

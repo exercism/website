@@ -55,9 +55,13 @@ class Submission::Analysis < ApplicationRecord
         type: type&.to_sym || DEFAULT_TYPE,
         html: Markdown::Parse.(markdown)
       }
+    rescue StandardError => e
+      # TODO: Open this issue on the relevant track's analyzer repo
+      Bugsnag.notify(e)
+      nil
     end
 
-    comments.sort_by { |c| TYPES.index(c[:type]) }
+    comments.compact.sort_by { |c| TYPES.index(c[:type]) }
   end
 
   def ops_success?

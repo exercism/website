@@ -6,7 +6,7 @@ module Github
       initialize_with :github_username
 
       def call
-        return if organization.team_memberships_count(github_username) >= 1
+        return if organization.team_membership_count_for_user(github_username) >= 1
 
         Exercism.octokit_client.remove_organization_membership(organization.name, github_username)
       end

@@ -5,6 +5,8 @@ class ContributorTeam
     initialize_with :team
 
     def call
+      return if team.github_name == reviewers_team.name
+
       if team.memberships.size < 2
         team_repository_names.each do |repo_name|
           reviewers_team.add_to_repository(repo_name, :push)

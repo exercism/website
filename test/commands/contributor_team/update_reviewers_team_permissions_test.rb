@@ -79,4 +79,10 @@ class ContributorTeam::UpdateReviewersTeamPermissionsTest < ActiveSupport::TestC
 
     ContributorTeam::UpdateReviewersTeamPermissions.(team)
   end
+
+  test "does not do anything if team is reviewer team" do
+    team = create :contributor_team, github_name: 'reviewers'
+
+    ContributorTeam::UpdateReviewersTeamPermissions.(team)
+  end
 end

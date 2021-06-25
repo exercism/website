@@ -1,7 +1,11 @@
 class Github::Team
   include Mandate
 
-  initialize_with :name
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+  end
 
   def add_membership(github_username)
     return unless organization.active?

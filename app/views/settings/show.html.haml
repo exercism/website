@@ -17,21 +17,7 @@
         = render ReactComponents::Settings::PronounsForm.new
 
       %section
-        = form_with model: current_user, url: sudo_update_settings_path, method: :patch do |f|
-          %h2 Change your handle
-          %hr.c-divider.--small
-          .field
-            = f.label :handle, "Your handle", class: 'label'
-            %label.c-faux-input
-              = graphical_icon "at-symbol"
-              = f.text_field :handle, required: true
-
-          .field
-            = f.label :sudo_password, "Confirm your password", class: 'label'
-            = f.password_field :sudo_password, required: true
-            %p.info We recommend only changing your handle in rare circumstances as public solution links will break, and it is confusing for mentors.
-          .form-footer
-            = f.button "Change handle", class: "btn-primary btn-m", method: :patch
+        = render ReactComponents::Settings::HandleForm.new
 
       %section
         = form_with model: current_user, url: sudo_update_settings_path, method: :patch do |f|

@@ -12,5 +12,17 @@ module API
         render_400(:failed_validations, errors: current_user.errors)
       end
     end
+
+    def sudo_update
+      unless current_user.valid_password?(params.dig(:user, :sudo_password))
+        Rails.logger.debug "Wrong password"
+
+        return render_400(:incorrect_password)
+      end
+
+      permitted = params.require(:user).permit(:handle)
+
+      return render json: {}, status: :ok if current_user.update(permitted)
+    end
   end
 end

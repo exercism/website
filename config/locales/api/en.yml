@@ -31,3 +31,4 @@ en:
       iteration_not_found: "The iteration could not be found"
       failed_validations: "Unable to save the resource"
       scratchpad_page_not_found: "The scratchpad page could not be found"
+      incorrect_password: "Incorrect password"

@@ -41,7 +41,9 @@ Rails.application.routes.draw do
     # TODO: This is just a stub
     resources :users, only: [:update]
 
-    resource :settings, only: [:update]
+    resource :settings, only: [:update] do
+      patch :sudo_update
+    end
 
     scope :v2 do # rubocop:disable Naming/VariableNumber
       get "ping" => "ping#index"

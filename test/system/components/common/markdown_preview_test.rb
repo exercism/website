@@ -17,7 +17,7 @@ module Components
           fill_in_editor "## Hello"
           find('button.preview').click
 
-          assert_selector "h3", text: "Hello"
+          assert_selector "h4", text: "Hello"
         end
       end
     end

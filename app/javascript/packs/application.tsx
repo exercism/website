@@ -691,6 +691,9 @@ initReact({
   'settings-password-form': (data: any) => (
     <Settings.PasswordForm links={data.links} />
   ),
+  'settings-token-form': (data: any) => (
+    <Settings.TokenForm defaultToken={data.token} links={data.links} />
+  ),
 })
 
 import { highlightAll } from '../utils/highlight'

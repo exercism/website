@@ -3,7 +3,10 @@ import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../utils/send-request'
 import { useMutation } from 'react-query'
 
-export const useSettingsMutation = <T extends unknown>({
+export const useSettingsMutation = <
+  T extends unknown,
+  U extends unknown = void
+>({
   endpoint,
   method,
   body,
@@ -14,10 +17,10 @@ export const useSettingsMutation = <T extends unknown>({
   method: 'POST' | 'PATCH'
   body: T
   timeout?: number
-  onSuccess?: () => void
+  onSuccess?: (params: U) => void
 }) => {
   const isMountedRef = useIsMounted()
-  const [baseMutation, { status, error, reset }] = useMutation(
+  const [baseMutation, { status, error, reset }] = useMutation<U>(
     () => {
       return sendRequest({
         endpoint: endpoint,

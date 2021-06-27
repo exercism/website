@@ -45,6 +45,10 @@ Rails.application.routes.draw do
       patch :sudo_update
     end
 
+    resource :auth_token, only: [] do
+      patch :reset
+    end
+
     scope :v2 do # rubocop:disable Naming/VariableNumber
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
@@ -205,8 +209,7 @@ Rails.application.routes.draw do
   # Normal pages #
   # ############ #
   resource :settings, only: %i[show update] do
-    get :api
-    patch :reset_api_token
+    resource :api, only: %i[show], controller: "settings/api"
     patch :sudo_update
   end
 

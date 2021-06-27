@@ -7,7 +7,7 @@ module ViewComponents
     def to_s
       items = [
         item_for("Account settings", :settings, :general),
-        item_for("API / CLI", :api_settings, :api),
+        item_for("API / CLI", :settings_api, :api),
         item_for("Preferences", :settings, :preferences),
         item_for("Communication Preferences", :settings, :communication)
       ]

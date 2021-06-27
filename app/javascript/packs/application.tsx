@@ -685,6 +685,9 @@ initReact({
   'settings-handle-form': (data: any) => (
     <Settings.HandleForm defaultHandle={data.handle} links={data.links} />
   ),
+  'settings-email-form': (data: any) => (
+    <Settings.EmailForm defaultEmail={data.email} links={data.links} />
+  ),
 })
 
 import { highlightAll } from '../utils/highlight'

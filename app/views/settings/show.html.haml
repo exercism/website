@@ -20,20 +20,7 @@
         = render ReactComponents::Settings::HandleForm.new
 
       %section
-        = form_with model: current_user, url: sudo_update_settings_path, method: :patch do |f|
-          %h2 Change your email
-          %hr.c-divider.--small
-          .field
-            = f.label :email, "Your email address", class: 'label'
-            = f.text_field :email, required: true
-
-          .field
-            = f.label :sudo_password, "Confirm your password", class: 'label'
-            = f.password_field :sudo_password, required: true
-
-            %p.info You can change your email using the form above. We will send you a new confirmation email for you to accept.
-          .form-footer
-            = f.button "Change email", class: "btn-primary btn-m", method: :patch
+        = render ReactComponents::Settings::EmailForm.new
 
       %section
         = form_with model: current_user, url: sudo_update_settings_path, method: :patch do |f|

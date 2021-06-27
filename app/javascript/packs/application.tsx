@@ -688,6 +688,9 @@ initReact({
   'settings-email-form': (data: any) => (
     <Settings.EmailForm defaultEmail={data.email} links={data.links} />
   ),
+  'settings-password-form': (data: any) => (
+    <Settings.PasswordForm links={data.links} />
+  ),
 })
 
 import { highlightAll } from '../utils/highlight'

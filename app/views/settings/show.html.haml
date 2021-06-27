@@ -23,23 +23,4 @@
         = render ReactComponents::Settings::EmailForm.new
 
       %section
-        = form_with model: current_user, url: sudo_update_settings_path, method: :patch do |f|
-          %h2 Change your password
-          %hr.c-divider.--small
-          .field
-            = f.label :sudo_password, "Current Password", class: 'label'
-            = f.password_field :sudo_password, required: true
-
-          .field
-            = f.label :password, "New password", class: 'label'
-            = f.password_field :password, required: true
-          .field
-            = f.label :password_confirmation, "Confirm new password", class: 'label'
-            = f.password_field :password_confirmation, required: true
-
-            %p.info
-              %strong Warning: Changing your password will sign you out.
-              You can then sign back in with your new password.
-          .form-footer
-            = f.button "Change email", class: "btn-primary btn-m", method: :patch
-
+        = render ReactComponents::Settings::PasswordForm.new

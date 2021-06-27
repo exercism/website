@@ -8,21 +8,28 @@ export const useSettingsMutation = <T extends unknown>({
   method,
   body,
   timeout = 3000,
+  onSuccess = () => null,
 }: {
   endpoint: string
   method: 'POST' | 'PATCH'
   body: T
   timeout?: number
+  onSuccess?: () => void
 }) => {
   const isMountedRef = useIsMounted()
-  const [baseMutation, { status, error, reset }] = useMutation(() => {
-    return sendRequest({
-      endpoint: endpoint,
-      method: method,
-      body: JSON.stringify(body),
-      isMountedRef: isMountedRef,
-    })
-  })
+  const [baseMutation, { status, error, reset }] = useMutation(
+    () => {
+      return sendRequest({
+        endpoint: endpoint,
+        method: method,
+        body: JSON.stringify(body),
+        isMountedRef: isMountedRef,
+      })
+    },
+    {
+      onSuccess: onSuccess,
+    }
+  )
 
   const mutation = useCallback(() => {
     reset()

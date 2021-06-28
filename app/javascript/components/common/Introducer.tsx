@@ -8,17 +8,21 @@ import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to hide introducer')
 
+type IntroducerSize = 'small' | 'base'
+
 export const Introducer = ({
   icon,
   content,
   children,
   endpoint,
   hidden: defaultHidden = false,
+  size = 'base',
 }: React.PropsWithChildren<{
   icon: string
   content?: string
-  hidden?: boolean
   endpoint: string
+  hidden?: boolean
+  size?: IntroducerSize
 }>): JSX.Element | null => {
   const [hidden, setHidden] = useState(defaultHidden)
   const ref = useRef<HTMLDivElement | null>(null)
@@ -44,7 +48,7 @@ export const Introducer = ({
   }
 
   return (
-    <div ref={ref} className="c-introducer">
+    <div ref={ref} className={`c-introducer --${size}`}>
       <GraphicalIcon icon={icon} category="graphics" className="visual-icon" />
       {content ? (
         <div className="info" dangerouslySetInnerHTML={{ __html: content }} />

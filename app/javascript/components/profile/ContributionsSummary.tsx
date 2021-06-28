@@ -48,12 +48,13 @@ export const ContributionsSummary = ({
   handle?: string
   links: Links
   showHeader?: boolean
-}): JSX.Element => {
+}): JSX.Element | null => {
   const allTrack = tracks.find((track) => track.id === null)
 
   if (!allTrack) {
     throw new Error('No data found for all track')
   }
+
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
   const [currentTrack, setCurrentTrack] = useState(tracks[0])
   const labelRefs = useRef(

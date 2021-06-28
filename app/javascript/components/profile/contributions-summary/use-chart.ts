@@ -52,7 +52,7 @@ const generateConfig = (
       scales: {
         r: {
           beginAtZero: true,
-          ticks: { display: false },
+          ticks: { display: false, callback: (val) => `${val}` },
           angleLines: { color: borderColor },
           grid: { color: borderColor },
         },

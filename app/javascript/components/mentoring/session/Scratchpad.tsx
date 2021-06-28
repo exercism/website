@@ -8,15 +8,26 @@ import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
 import { camelizeKeys } from 'humps'
 import { Loading } from '../../common/Loading'
-import { Icon } from '../../common/Icon'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { TrackIcon } from '../../common/TrackIcon'
+import { Introducer } from '../../common'
 
 type ScratchpadPage = {
   contentMarkdown: string
 }
 
-export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
+type Links = {
+  markdown: string
+  hideIntroducer: string
+  self: string
+}
+
+export const Scratchpad = ({
+  isIntroducerHidden,
+  links,
+}: {
+  isIntroducerHidden: boolean
+  links: Links
+}): JSX.Element => {
   const isMountedRef = useIsMounted()
   const editorRef = useRef<MarkdownEditorHandle | null>()
   const [content, setContent] = useState('')
@@ -46,7 +57,7 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
       setError('')
 
       sendRequest({
-        endpoint: endpoint,
+        endpoint: links.self,
         method: 'PATCH',
         body: JSON.stringify({
           scratchpad_page: { content_markdown: editorRef.current?.value() },
@@ -68,12 +79,12 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
           }
         })
     },
-    [endpoint, isMountedRef, page]
+    [links, isMountedRef, page]
   )
 
   const pullPage = useCallback(() => {
     sendRequest({
-      endpoint: endpoint,
+      endpoint: links.self,
       body: null,
       method: 'GET',
       isMountedRef: isMountedRef,
@@ -93,7 +104,7 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
       .catch(() => {
         // TODO: do something
       })
-  }, [endpoint, isMountedRef])
+  }, [links, isMountedRef])
 
   useEffect(pullPage, [pullPage])
 
@@ -123,19 +134,18 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
 
   return (
     <>
-      <div className="c-explainer">
-        <GraphicalIcon icon="scratchpad" category="graphics" />
-        <div className="--content">
-          <h3>Introducing your scratchpad</h3>
-          <p>
-            A <a href="#">Markdown-supported</a> place for you to write notes
-            and add code snippets you’d like to refer to during mentoring.
-          </p>
-        </div>
-        <button>
-          <Icon icon="cross" alt="Remove this explainer section" />
-        </button>
-      </div>
+      <Introducer
+        icon="scratchpad"
+        endpoint={links.hideIntroducer}
+        hidden={isIntroducerHidden}
+      >
+        <h3>Introducing your scratchpad</h3>
+        <p>
+          A <a href={links.markdown}>Markdown-supported</a> place for you to
+          write notes and add code snippets you’d like to refer to during
+          mentoring.
+        </p>
+      </Introducer>
 
       <div className="title">
         {/* TODO: Add real exercise/track for this */}
@@ -151,7 +161,7 @@ export const Scratchpad = ({ endpoint }: { endpoint: string }): JSX.Element => {
         <MarkdownEditor
           editorDidMount={handleEditorDidMount}
           onChange={handleChange}
-          contextId={`scratchpad-${endpoint}`}
+          contextId={`scratchpad-${links.self}`}
           options={{ status: [] }}
         />
         <footer className="editor-footer">

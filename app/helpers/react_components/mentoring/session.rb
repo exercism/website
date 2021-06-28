@@ -26,6 +26,14 @@ module ReactComponents
               relationship: mentor_student_relationship,
               anonymous_mode: discussion&.anonymous_mode?
             ),
+            scratchpad: {
+              is_introducer_hidden: (view_context.session[:hidden_introducers] || []).include?("scratchpad"),
+              links: {
+                markdown: "#",
+                hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
+                self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+              }
+            },
             mentor_solution: mentor_solution,
             notes: notes,
             out_of_date: solution.out_of_date?,
@@ -45,8 +53,7 @@ module ReactComponents
       def links
         {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
-          exercise: Exercism::Routes.track_exercise_path(track, exercise),
-          scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+          exercise: Exercism::Routes.track_exercise_path(track, exercise)
         }
       end
 

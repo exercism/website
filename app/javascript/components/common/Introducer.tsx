@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { GraphicalIcon, Icon } from './'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
@@ -11,12 +11,16 @@ const DEFAULT_ERROR = new Error('Unable to hide introducer')
 export const Introducer = ({
   icon,
   content,
+  children,
   endpoint,
-}: {
+  hidden: defaultHidden = false,
+}: React.PropsWithChildren<{
   icon: string
-  content: string
+  content?: string
+  hidden?: boolean
   endpoint: string
-}): JSX.Element | null => {
+}>): JSX.Element | null => {
+  const [hidden, setHidden] = useState(defaultHidden)
   const ref = useRef<HTMLDivElement | null>(null)
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(
@@ -30,15 +34,22 @@ export const Introducer = ({
     },
     {
       onSuccess: () => {
-        ref.current!.parentElement!.classList.add('hidden')
+        setHidden(true)
       },
     }
   )
 
+  if (hidden) {
+    return null
+  }
+
   return (
     <div ref={ref} className="c-introducer">
       <GraphicalIcon icon={icon} category="graphics" className="visual-icon" />
-      <div className="info" dangerouslySetInnerHTML={{ __html: content }} />
+      {content ? (
+        <div className="info" dangerouslySetInnerHTML={{ __html: content }} />
+      ) : null}
+      {children ? <div className="info">{children}</div> : null}
       {endpoint ? (
         <>
           <FormButton

@@ -36,7 +36,15 @@ export type Settings = {
 
 export type Links = {
   mentorDashboard: string
-  scratchpad: string
+}
+
+export type Scratchpad = {
+  isIntroducerHidden: boolean
+  links: {
+    markdown: string
+    hideIntroducer: string
+    self: string
+  }
 }
 
 export type SessionProps = {
@@ -51,6 +59,7 @@ export type SessionProps = {
   outOfDate: boolean
   mentorSolution: CommunitySolution
   request: Request
+  scratchpad: Scratchpad
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
@@ -73,6 +82,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     mentorSolution,
     outOfDate,
     request,
+    scratchpad,
     userId,
   } = session
   const [tab, setTab] = useState<TabIndex>('discussion')
@@ -160,7 +170,7 @@ export const Session = (props: SessionProps): JSX.Element => {
               )}
             </Tab.Panel>
             <Tab.Panel id="scratchpad" context={TabsContext}>
-              <Scratchpad endpoint={links.scratchpad} />
+              <Scratchpad {...scratchpad} />
             </Tab.Panel>
             <Tab.Panel id="guidance" context={TabsContext}>
               <Guidance

@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     # TODO: This is just a stub
     resources :users, only: [:update]
 
+    resource :communication_preferences, only: [:update]
+
     resource :settings, only: [:update] do
       patch :sudo_update
     end
@@ -210,6 +212,7 @@ Rails.application.routes.draw do
   # ############ #
   resource :settings, only: %i[show update] do
     resource :api, only: %i[show], controller: "settings/api"
+    resource :communication_preferences, only: %i[show], controller: "settings/communication_preferences"
     patch :sudo_update
   end
 

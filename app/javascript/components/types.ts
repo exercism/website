@@ -510,3 +510,7 @@ export type PullRequest = {
   mergedAt: string
   mergedBy: string
 }
+
+export type CommunicationPreferences = {
+  emailOnMentorStartedDiscussionNotification: boolean
+}

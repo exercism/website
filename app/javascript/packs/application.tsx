@@ -235,6 +235,7 @@ import {
   MentoredTrackExercise,
   User,
   SiteUpdate,
+  CommunicationPreferences,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
@@ -693,6 +694,14 @@ initReact({
   ),
   'settings-token-form': (data: any) => (
     <Settings.TokenForm defaultToken={data.token} links={data.links} />
+  ),
+  'settings-communication-preferences-form': (data: any) => (
+    <Settings.CommunicationPreferencesForm
+      defaultPreferences={camelizeKeysAs<CommunicationPreferences>(
+        data.preferences
+      )}
+      links={data.links}
+    />
   ),
 })
 

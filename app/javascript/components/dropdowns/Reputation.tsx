@@ -105,7 +105,11 @@ export const Reputation = ({
   const cacheKey = 'reputations'
   const { data, error, status, refetch } = useRequestQuery<APIResponse>(
     cacheKey,
-    { endpoint: endpoint, query: { per: MAX_TOKENS }, options: {} },
+    {
+      endpoint: endpoint,
+      query: { per: MAX_TOKENS },
+      options: { staleTime: 0 },
+    },
     isMountedRef
   )
   const {
@@ -154,7 +158,7 @@ export const Reputation = ({
     }
 
     queryCache.invalidateQueries(cacheKey)
-  }, [listAttributes.hidden])
+  }, [listAttributes.hidden, refetch])
 
   return (
     <React.Fragment>

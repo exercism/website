@@ -20,8 +20,10 @@ stubRange()
 stubIntersectionObserver()
 
 test('highlights currently selected iteration', async () => {
-  const links = {
-    scratchpad: 'http://exercism.test/scratchpad',
+  const scratchpad = {
+    links: {
+      self: 'http://exercism.test/scratchpad',
+    },
   }
   const discussion = {
     id: 1,
@@ -63,11 +65,12 @@ test('highlights currently selected iteration', async () => {
     render(
       <Session
         exercise={exercise}
-        links={links}
+        scratchpad={scratchpad}
         track={track}
         student={student}
         iterations={iterations}
         discussion={discussion}
+        links={{}}
       />
     )
     userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
@@ -83,9 +86,13 @@ test('highlights currently selected iteration', async () => {
 
 test('shows back button', async () => {
   const links = {
-    scratchpad: 'https://exercism.test/scratchpad',
     mentorDashboard: 'https://exercism.test/mentor/dashboard',
     exercise: 'https://exercism.test/exercise',
+  }
+  const scratchpad = {
+    links: {
+      self: 'https://exercism.test/scratchpad',
+    },
   }
   const discussion = {
     id: 1,
@@ -125,6 +132,7 @@ test('shows back button', async () => {
       student={student}
       iterations={iterations}
       discussion={discussion}
+      scratchpad={scratchpad}
     />
   )
   queryCache.cancelQueries()
@@ -138,8 +146,12 @@ test('shows back button', async () => {
 
 test('hides latest label if on old iteration', async () => {
   const links = {
-    scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
+  }
+  const scratchpad = {
+    links: {
+      self: 'https://exercism.test/scratchpad',
+    },
   }
   const discussion = {
     id: 1,
@@ -186,6 +198,7 @@ test('hides latest label if on old iteration', async () => {
       student={student}
       iterations={iterations}
       discussion={discussion}
+      scratchpad={scratchpad}
     />
   )
   await awaitPopper()
@@ -202,8 +215,12 @@ test('hides latest label if on old iteration', async () => {
 
 test('switches to posts tab when comment success', async () => {
   const links = {
-    scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
+  }
+  const scratchpad = {
+    links: {
+      self: 'https://exercism.test/scratchpad',
+    },
   }
   const discussion = {
     id: 1,
@@ -249,6 +266,7 @@ test('switches to posts tab when comment success', async () => {
       student={student}
       iterations={iterations}
       discussion={discussion}
+      scratchpad={scratchpad}
     />
   )
 
@@ -276,8 +294,12 @@ test('switches to posts tab when comment success', async () => {
 
 test('switches tabs', async () => {
   const links = {
-    scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
+  }
+  const scratchpad = {
+    links: {
+      self: 'https://exercism.test/scratchpad',
+    },
   }
   const discussion = {
     id: 1,
@@ -317,6 +339,7 @@ test('switches tabs', async () => {
       student={student}
       iterations={iterations}
       discussion={discussion}
+      scratchpad={scratchpad}
     />
   )
   userEvent.click(screen.getByRole('tab', { name: 'Scratchpad' }))
@@ -338,8 +361,12 @@ test('switches tabs', async () => {
 
 test('go to previous iteration', async () => {
   const links = {
-    scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
+  }
+  const scratchpad = {
+    links: {
+      self: 'https://exercism.test/scratchpad',
+    },
   }
   const discussion = {
     id: 1,
@@ -386,6 +413,7 @@ test('go to previous iteration', async () => {
         student={student}
         iterations={iterations}
         discussion={discussion}
+        scratchpad={scratchpad}
       />
     )
   })
@@ -404,8 +432,12 @@ test('go to previous iteration', async () => {
 
 test('go to next iteration', async () => {
   const links = {
-    scratchpad: 'https://exercism.test/scratchpad',
     exercise: 'https://exercism.test/exercise',
+  }
+  const scratchpad = {
+    links: {
+      self: 'https://exercism.test/scratchpad',
+    },
   }
   const discussion = {
     id: 1,
@@ -451,6 +483,7 @@ test('go to next iteration', async () => {
       student={student}
       iterations={iterations}
       discussion={discussion}
+      scratchpad={scratchpad}
     />
   )
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))

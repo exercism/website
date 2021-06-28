@@ -26,6 +26,9 @@ module ReactComponents
               relationship: mentor_student_relationship,
               anonymous_mode: discussion&.anonymous_mode?
             ),
+            mentor_solution: mentor_solution,
+            notes: notes,
+            out_of_date: solution.out_of_date?,
             scratchpad: {
               is_introducer_hidden: (view_context.session[:hidden_introducers] || []).include?("scratchpad"),
               links: {
@@ -34,9 +37,6 @@ module ReactComponents
                 self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
               }
             },
-            mentor_solution: mentor_solution,
-            notes: notes,
-            out_of_date: solution.out_of_date?,
             links: links
           }
         )

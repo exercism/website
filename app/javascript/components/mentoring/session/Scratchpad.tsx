@@ -10,23 +10,24 @@ import { camelizeKeys } from 'humps'
 import { Loading } from '../../common/Loading'
 import { TrackIcon } from '../../common/TrackIcon'
 import { Introducer } from '../../common'
+import {
+  MentorSessionTrack as Track,
+  MentorSessionExercise as Exercise,
+} from '../../types'
+import { Scratchpad as ScratchpadProps } from '../Session'
 
 type ScratchpadPage = {
   contentMarkdown: string
 }
 
-type Links = {
-  markdown: string
-  hideIntroducer: string
-  self: string
-}
-
 export const Scratchpad = ({
-  isIntroducerHidden,
-  links,
+  scratchpad,
+  track,
+  exercise,
 }: {
-  isIntroducerHidden: boolean
-  links: Links
+  scratchpad: ScratchpadProps
+  track: Track
+  exercise: Exercise
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const editorRef = useRef<MarkdownEditorHandle | null>()
@@ -57,7 +58,7 @@ export const Scratchpad = ({
       setError('')
 
       sendRequest({
-        endpoint: links.self,
+        endpoint: scratchpad.links.self,
         method: 'PATCH',
         body: JSON.stringify({
           scratchpad_page: { content_markdown: editorRef.current?.value() },
@@ -79,12 +80,12 @@ export const Scratchpad = ({
           }
         })
     },
-    [links, isMountedRef, page]
+    [isMountedRef, page, scratchpad.links.self]
   )
 
   const pullPage = useCallback(() => {
     sendRequest({
-      endpoint: links.self,
+      endpoint: scratchpad.links.self,
       body: null,
       method: 'GET',
       isMountedRef: isMountedRef,
@@ -104,7 +105,7 @@ export const Scratchpad = ({
       .catch(() => {
         // TODO: do something
       })
-  }, [links, isMountedRef])
+  }, [isMountedRef, scratchpad.links.self])
 
   useEffect(pullPage, [pullPage])
 
@@ -136,24 +137,20 @@ export const Scratchpad = ({
     <>
       <Introducer
         icon="scratchpad"
-        endpoint={links.hideIntroducer}
-        hidden={isIntroducerHidden}
+        endpoint={scratchpad.links.hideIntroducer}
+        hidden={scratchpad.isIntroducerHidden}
       >
         <h3>Introducing your scratchpad</h3>
         <p>
-          A <a href={links.markdown}>Markdown-supported</a> place for you to
-          write notes and add code snippets you’d like to refer to during
+          A <a href={scratchpad.links.markdown}>Markdown-supported</a> place for
+          you to write notes and add code snippets you’d like to refer to during
           mentoring.
         </p>
       </Introducer>
 
       <div className="title">
-        {/* TODO: Add real exercise/track for this */}
-        Your notes for <strong>Hamming</strong> in
-        <TrackIcon
-          iconUrl="https://assets.exercism.io/tracks/ruby-hex-white.png"
-          title="Ruby"
-        />
+        Your notes for <strong>{exercise.title}</strong> in
+        <TrackIcon iconUrl={track.iconUrl} title={track.title} />
         <strong>Ruby</strong>
       </div>
 
@@ -161,7 +158,7 @@ export const Scratchpad = ({
         <MarkdownEditor
           editorDidMount={handleEditorDidMount}
           onChange={handleChange}
-          contextId={`scratchpad-${links.self}`}
+          contextId={`scratchpad-${scratchpad.links.self}`}
           options={{ status: [] }}
         />
         <footer className="editor-footer">

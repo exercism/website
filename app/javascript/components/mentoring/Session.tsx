@@ -170,7 +170,11 @@ export const Session = (props: SessionProps): JSX.Element => {
               )}
             </Tab.Panel>
             <Tab.Panel id="scratchpad" context={TabsContext}>
-              <Scratchpad {...scratchpad} />
+              <Scratchpad
+                scratchpad={scratchpad}
+                track={track}
+                exercise={exercise}
+              />
             </Tab.Panel>
             <Tab.Panel id="guidance" context={TabsContext}>
               <Guidance

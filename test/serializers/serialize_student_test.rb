@@ -16,7 +16,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       reputation: student.formatted_reputation,
       is_favorited: true,
       is_blocked: false,
-      track_objectives: nil,
+      track_objectives: "",
       num_total_discussions: 3,
       num_discussions_with_mentor: 5,
       links: {
@@ -46,7 +46,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       reputation: student.formatted_reputation,
       is_favorited: false,
       is_blocked: false,
-      track_objectives: nil,
+      track_objectives: "",
       num_total_discussions: 0,
       num_discussions_with_mentor: 0,
       links: {

@@ -109,7 +109,7 @@ module API
           id: discussion.uuid,
           student: SerializeStudent.(
             discussion.student,
-            user_track: UserTrack.for(student, discussion.track),
+            user_track: UserTrack.for(discussion.student, discussion.track),
             relationship: relationship,
             anonymous_mode: discussion.anonymous_mode?
           ),

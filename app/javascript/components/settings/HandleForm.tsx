@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { GraphicalIcon, FormButton } from '../common'
+import { GraphicalIcon, FormButton, Icon } from '../common'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 
@@ -95,5 +95,10 @@ export const HandleForm = ({
 }
 
 const SuccessMessage = () => {
-  return <span>Your handle has been changed.</span>
+  return (
+    <div className="status success">
+      <Icon icon="completed-check-circle" alt="Success" />
+      Your handle has been saved
+    </div>
+  )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useSettingsMutation } from './useSettingsMutation'
-import { FormButton } from '../common'
+import { FormButton, Icon } from '../common'
 import { FormMessage } from './FormMessage'
 
 type Links = {
@@ -92,5 +92,10 @@ export const EmailForm = ({
 }
 
 const SuccessMessage = ({ email }: { email: string }) => {
-  return <span>We&apos;ve sent a confirmation email to {email} </span>
+  return (
+    <div className="status success">
+      <Icon icon="completed-check-circle" alt="Success" />
+      We&apos;ve sent a confirmation email to {email}
+    </div>
+  )
 }

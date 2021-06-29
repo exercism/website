@@ -45,9 +45,21 @@ export const ResetAccountModal = ({
   return (
     <Modal {...props} className="m-reset-account">
       <form onSubmit={() => mutation()}>
-        <h2> Reset your account</h2>
         <div className="info">
-          <p>By resetting your account, you will lose:</p>
+          <h2>You're about to reset your Exercism account</h2>
+          <p>
+            <strong>
+              Please read this carefully before commiting to reset your account.
+            </strong>
+          </p>
+          <p>
+            This is <em>irreversible</em> and will mean you’ll lose everything
+            you’ve done on your account.
+          </p>
+          <hr />
+          <p>
+            <strong>By resetting your account, you will lose:</strong>
+          </p>
           <ul>
             <li>All solutions you have submitted</li>
             <li>All mentoring you have received</li>
@@ -58,9 +70,9 @@ export const ResetAccountModal = ({
             </li>
           </ul>
         </div>
-        <h3>Confirm you mean to do this</h3>
+        <hr />
         <label htmlFor="confirmation">
-          Enter your handle (case sensitive) in the box below
+          To confirm, write your handle <pre>{handle}</pre> in the box below:
         </label>
 
         <input
@@ -68,10 +80,20 @@ export const ResetAccountModal = ({
           type="text"
           value={attempt}
           onChange={(e) => setAttempt(e.target.value)}
+          autoComplete="off"
         />
-        <FormButton type="submit" disabled={!isAttemptPass} status={status}>
-          Reset account
-        </FormButton>
+        <hr />
+        <div className="btns">
+          <button className="btn-default btn-m">Cancel</button>
+          <FormButton
+            type="submit"
+            disabled={!isAttemptPass}
+            status={status}
+            className="btn-primary btn-m"
+          >
+            Reset account
+          </FormButton>
+        </div>
         <ErrorBoundary resetKeys={[status]}>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
         </ErrorBoundary>

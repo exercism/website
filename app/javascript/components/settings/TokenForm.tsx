@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { CopyToClipboardButton, FormButton } from '../common'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
-import { ProminentLink } from '../common'
+import { ProminentLink, Icon } from '../common'
 
 type Links = {
   reset: string
@@ -47,19 +47,27 @@ export const TokenForm = ({
       <div className="label">Your authentication token is:</div>
       <CopyToClipboardButton textToCopy={token} />
       <ProminentLink link={links.info} text="Where do I use this?" />
-      <FormButton status={status} className="btn-warning btn-m">
-        Reset token
-      </FormButton>
-      <FormMessage
-        status={status}
-        defaultError={DEFAULT_ERROR}
-        error={error}
-        SuccessMessage={SuccessMessage}
-      />
+
+      <div className="form-footer">
+        <FormButton status={status} className="btn-warning btn-m">
+          Reset token
+        </FormButton>
+        <FormMessage
+          status={status}
+          defaultError={DEFAULT_ERROR}
+          error={error}
+          SuccessMessage={SuccessMessage}
+        />
+      </div>
     </form>
   )
 }
 
 const SuccessMessage = () => {
-  return <span>Your auth token has been reset</span>
+  return (
+    <div className="status success">
+      <Icon icon="completed-check-circle" alt="Success" />
+      Your token has been reset
+    </div>
+  )
 }

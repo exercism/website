@@ -2,21 +2,53 @@
 
 .m-reset-account,
 .m-delete-account {
+    & form {
+        @apply flex flex-col;
+    }
     & h2 {
-        @apply text-h4 mb-8;
+        @apply text-h2 mb-8;
+    }
+    & hr {
+        @apply mt-32 mb-24;
+        @apply border-borderColor6;
     }
     & .info {
-        @apply mb-16;
         @apply text-textColor2 text-16 leading-150;
 
+        & hr {
+            @apply mt-16 mb-20;
+        }
+
+        & em {
+            @apply text-alert not-italic font-semibold;
+        }
         & strong {
-            @apply text-alert font-semibold;
+            @apply font-semibold;
         }
         & p {
             @apply mb-8;
         }
         & ul {
             @apply list-disc pl-20;
+            & li:not(:last-child) {
+                @apply mb-4;
+            }
+        }
+    }
+
+    & label {
+        @apply text-textColor2 text-16 leading-180 font-semibold;
+        @apply mb-16;
+        & pre {
+            @apply inline-block;
+            @apply items-center justify-center rounded-5;
+            @apply bg-veryLightBlue px-6 text-gotToLoveAPurple;
+        }
+    }
+    & .btns {
+        @apply flex;
+        & button {
+            @apply mr-24;
         }
     }
 }

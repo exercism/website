@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { FormButton, GraphicalIcon } from '../common'
+import { FormButton, GraphicalIcon, Icon } from '../common'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 
@@ -52,6 +52,7 @@ export const ProfileForm = ({
             type="text"
             value={user.name || ''}
             onChange={(e) => setUser({ ...user, name: e.target.value })}
+            required
           />
         </div>
         <div className="location field">
@@ -98,5 +99,10 @@ export const ProfileForm = ({
 }
 
 const SuccessMessage = () => {
-  return <span>Your profile has been saved</span>
+  return (
+    <div className="status success">
+      <Icon icon="completed-check-circle" alt="Success" />
+      Your profile has been saved
+    </div>
+  )
 }

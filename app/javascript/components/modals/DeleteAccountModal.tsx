@@ -45,16 +45,51 @@ export const DeleteAccountModal = ({
   return (
     <Modal {...props} className="m-delete-account">
       <form onSubmit={() => mutation()}>
-        <label htmlFor="confirmation">Handle:</label>
+        <div className="info">
+          <h2>You're about to delete your Exercism account</h2>
+          <p>
+            <strong>Please read this carefully before continuing.</strong>
+          </p>
+          <p>
+            This is <em>irreversible</em> and will mean you’ll lose everything
+            you’ve done on your account.
+          </p>
+          <hr />
+          <p>
+            <strong>By deleting your account, you will lose access to:</strong>
+          </p>
+          <ul>
+            <li>All solutions you have submitted</li>
+            <li>All mentoring you have received</li>
+            <li>All mentoring you have given and any testimonials received.</li>
+            <li>All your personal data, which will be deleted</li>
+          </ul>
+        </div>
+        <hr />
+        <label htmlFor="confirmation">
+          To confirm, write your handle <pre>{handle}</pre> in the box below:
+        </label>
+
         <input
           id="confirmation"
           type="text"
           value={attempt}
           onChange={(e) => setAttempt(e.target.value)}
+          autoComplete="off"
         />
-        <FormButton type="submit" disabled={!isAttemptPass} status={status}>
-          Delete account
-        </FormButton>
+        <hr />
+        <div className="btns">
+          <button className="btn-default btn-m">Cancel</button>
+
+          <FormButton
+            type="submit"
+            disabled={!isAttemptPass}
+            status={status}
+            className="btn-primary btn-m"
+          >
+            Delete account
+          </FormButton>
+        </div>
         <ErrorBoundary resetKeys={[status]}>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
         </ErrorBoundary>

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { FormButton } from '../common'
+import { FormButton, Icon } from '../common'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 
@@ -73,31 +73,31 @@ export const PronounsForm = ({
       </div>
       <div className="testimonial">
         <div className="text">
-          {handle} was really great.{' '}
+          {handle} was really great.
           <input
             type="text"
             value={pronounParts[0] || ''}
             placeholder="e.g. They"
             onChange={(e) => setPronounPart(e.target.value, 0)}
-          />{' '}
-          answered all my questions. I recommend{' '}
+          />
+          answered all my questions. I'll recommend
           <input
             type="text"
             value={pronounParts[1] || ''}
             placeholder="e.g. them"
             onChange={(e) => setPronounPart(e.target.value, 1)}
-          />{' '}
+          />
           to others because
           <input
             type="text"
             value={pronounParts[2] || ''}
             placeholder="e.g. their"
             onChange={(e) => setPronounPart(e.target.value, 2)}
-          />{' '}
+          />
           advice was very helpful.
         </div>
         <div className="commonly-used">
-          <div className="info">Use a common option:</div>
+          <div className="info">Frequently used:</div>
           <button
             type="button"
             onClick={() => setPronounParts(['She', 'her', 'her'])}
@@ -112,7 +112,7 @@ export const PronounsForm = ({
           </button>
           <button
             type="button"
-            onClick={() => setPronounParts(['They', 'their', 'them'])}
+            onClick={() => setPronounParts(['They', 'them', 'their'])}
           >
             they / their / them
           </button>
@@ -143,5 +143,10 @@ export const PronounsForm = ({
 }
 
 const SuccessMessage = () => {
-  return <span>Your pronouns have been saved.</span>
+  return (
+    <div className="status success">
+      <Icon icon="completed-check-circle" alt="Success" />
+      Your pronouns has been saved
+    </div>
+  )
 }

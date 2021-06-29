@@ -10,7 +10,7 @@ export const useSettingsMutation = <
   endpoint,
   method,
   body,
-  timeout = 3000,
+  timeout = 4000,
   onSuccess = () => null,
 }: {
   endpoint: string

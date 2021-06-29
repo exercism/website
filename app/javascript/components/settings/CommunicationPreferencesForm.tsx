@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useSettingsMutation } from './useSettingsMutation'
-import { FormButton } from '../common'
+import { FormButton, Icon } from '../common'
 import { FormMessage } from './FormMessage'
 import { CommunicationPreferences } from '../types'
 
@@ -84,5 +84,10 @@ export const CommunicationPreferencesForm = ({
 }
 
 const SuccessMessage = () => {
-  return <span>Your preferences have been updated</span>
+  return (
+    <div className="status success">
+      <Icon icon="completed-check-circle" alt="Success" />
+      Your preferences have been updated
+    </div>
+  )
 }

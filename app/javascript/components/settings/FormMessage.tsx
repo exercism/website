@@ -2,9 +2,15 @@ import React from 'react'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 import { FallbackProps } from 'react-error-boundary'
 import { QueryStatus } from 'react-query'
+import { Icon } from '../common'
 
 const ErrorMessage = ({ error }: FallbackProps): JSX.Element => {
-  return <span>{error.message}</span>
+  return (
+    <div className="status error">
+      <Icon icon="failed-cross-circle" alt="Error" />
+      {error.message}
+    </div>
+  )
 }
 
 export const FormMessage = ({

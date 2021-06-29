@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useSettingsMutation } from './useSettingsMutation'
-import { FormButton } from '../common'
+import { FormButton, Icon } from '../common'
 import { FormMessage } from './FormMessage'
 
 type Links = {

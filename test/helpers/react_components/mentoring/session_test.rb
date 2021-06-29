@@ -23,7 +23,8 @@ module Mentoring
       component.stubs(current_user: mentor)
       scratchpad = ScratchpadPage.new(about: exercise)
 
-      assert_component component,
+      assert_component(
+        render(component),
         "mentoring-session",
         {
           user_id: mentor.id,
@@ -40,12 +41,20 @@ module Mentoring
           mentor_solution: nil,
           notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
           out_of_date: false,
+          scratchpad: {
+            is_introducer_hidden: false,
+            links: {
+              markdown: "#",
+              hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
+              self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+            }
+          },
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
-            exercise: Exercism::Routes.track_exercise_path(track, exercise),
-            scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+            exercise: Exercism::Routes.track_exercise_path(track, exercise)
           }
         }
+      )
     end
 
     test "mentoring discussion renders correctly" do
@@ -74,7 +83,8 @@ module Mentoring
       component.stubs(current_user: mentor)
       scratchpad = ScratchpadPage.new(about: exercise)
 
-      assert_component component,
+      assert_component(
+        render(component),
         "mentoring-session",
         {
           user_id: mentor.id,
@@ -91,12 +101,20 @@ module Mentoring
           mentor_solution: nil,
           notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
           out_of_date: false,
+          scratchpad: {
+            is_introducer_hidden: false,
+            links: {
+              markdown: "#",
+              hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
+              self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+            }
+          },
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
-            exercise: Exercism::Routes.track_exercise_path(track, exercise),
-            scratchpad: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+            exercise: Exercism::Routes.track_exercise_path(track, exercise)
           }
         }
+      )
     end
   end
 end

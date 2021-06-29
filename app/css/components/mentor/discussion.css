@@ -466,7 +466,7 @@
             }
             @apply flex flex-col;
             @apply py-24 px-20;
-            & > .c-explainer {
+            & > .c-introducer {
                 @apply mb-20;
             }
             & > .title {

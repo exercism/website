@@ -26,23 +26,54 @@
     @apply py-12 px-48;
     @apply flex items-center;
 
+    &.--small {
+        @apply py-16 px-24;
+
+        & .visual-icon {
+            height: 48px;
+            width: 48px;
+            @apply mr-24;
+        }
+        & .info {
+            & h2,
+            & h3 {
+                @apply text-h6;
+            }
+
+            & p {
+                @apply text-p-small;
+            }
+        }
+        & .close {
+            @apply pr-0;
+            & .c-icon {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+
     & .visual-icon {
         height: 102px;
         width: 102px;
         @apply mr-32;
     }
     & .info {
-        & h2 {
+        & h2,
+        & h3 {
             @apply text-h4 mb-4;
         }
         & p {
             @apply text-p-base;
             max-width: 680px;
+
+            & a {
+                @apply text-lightBlue font-medium;
+            }
         }
     }
     & .close {
-        @apply ml-auto;
-        @apply p-12;
+        @apply ml-auto flex-shrink-0 p-12;
         filter: var(--textColor6-filter);
         & .c-icon {
             width: 24px;

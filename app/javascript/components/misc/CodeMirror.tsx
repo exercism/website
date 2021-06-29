@@ -11,6 +11,7 @@ import { defaultTabBinding } from '@codemirror/commands'
 const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
 const tabCaptureCompartment = new Compartment()
+const keymapCompartment = new Compartment()
 
 export type Handler = {
   setValue: (value: string) => void
@@ -73,7 +74,7 @@ export const CodeMirror = ({
       state: EditorState.create({
         doc: value,
         extensions: [
-          keymap.of(commands),
+          keymapCompartment.of(keymap.of(commands)),
           basicSetup,
           a11yTabBindingPanel(),
           tabCaptureCompartment.of(
@@ -136,6 +137,16 @@ export const CodeMirror = ({
       ),
     })
   }, [isTabCaptured])
+
+  useEffect(() => {
+    if (!viewRef.current) {
+      return
+    }
+
+    viewRef.current.dispatch({
+      effects: keymapCompartment.reconfigure(keymap.of(commands)),
+    })
+  }, [commands])
 
   return <div className="editor" ref={setTextarea} />
 }

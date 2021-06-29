@@ -517,6 +517,7 @@ export function Editor({
                 submission={submission}
                 timeout={timeout}
                 onUpdate={updateSubmission}
+                onRunTests={runTests}
                 onSubmit={submit}
                 isSubmitDisabled={isSubmitDisabled}
                 averageTestDuration={averageTestDuration}

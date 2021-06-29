@@ -8,6 +8,7 @@ export const ResultsPanel = ({
   submission,
   timeout,
   onUpdate,
+  onRunTests,
   onSubmit,
   isSubmitDisabled,
   averageTestDuration,
@@ -16,9 +17,10 @@ export const ResultsPanel = ({
   timeout: number
   onUpdate: (testRun: TestRun) => void
   onSubmit: () => void
+  onRunTests: () => void
   isSubmitDisabled: boolean
   averageTestDuration: number
-}) => (
+}): JSX.Element => (
   <Tab.Panel id="results" context={TabsContext}>
     {submission && submission.testRun ? (
       <section className="results">
@@ -36,15 +38,19 @@ export const ResultsPanel = ({
       <section className="run-tests-prompt">
         <GraphicalIcon icon="run-tests-prompt" />
         <h2>
-          <button className="btn-keyboard-shortcut">
+          <button
+            className="btn-keyboard-shortcut"
+            type="button"
+            onClick={onRunTests}
+          >
             <span>Run tests </span>
             <span className="--kb">F2</span>
           </button>{' '}
           to check your code
         </h2>
         <p>
-          We'll run your code against tests to check whether it works, then give
-          you the results here.
+          We&apos;ll run your code against tests to check whether it works, then
+          give you the results here.
         </p>
       </section>
     )}

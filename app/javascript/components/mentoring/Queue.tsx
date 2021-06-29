@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useTrackList } from './queue/useTrackList'
 import { useExerciseList } from './queue/useExerciseList'
 import { MentoredTrack, MentoredTrackExercise } from '../types'
@@ -99,6 +99,22 @@ export const Queue = ({
     setSelectedExercise(null)
   }, [selectedTrack])
 
+  const handleExerciseChange = useCallback(
+    (exercise) => {
+      setPage(1)
+      setSelectedExercise(exercise)
+    },
+    [setPage]
+  )
+
+  const handleTrackChange = useCallback(
+    (track) => {
+      setPage(1)
+      setSelectedTrack(track)
+    },
+    [setPage]
+  )
+
   return (
     <div className="queue-section-content">
       <div className="c-mentor-queue">
@@ -129,7 +145,7 @@ export const Queue = ({
           tracks={tracks}
           isFetching={isTrackListFetching}
           value={selectedTrack}
-          setValue={setSelectedTrack}
+          setValue={handleTrackChange}
           cacheKey={TRACKS_LIST_CACHE_KEY}
           total={resolvedData?.meta.totalCount}
           links={links}
@@ -138,7 +154,7 @@ export const Queue = ({
           status={exerciseListStatus}
           exercises={exercises}
           value={selectedExercise}
-          setValue={setSelectedExercise}
+          setValue={handleExerciseChange}
           error={exerciseListError}
         />
       </div>

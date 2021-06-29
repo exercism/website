@@ -11,7 +11,7 @@ module Flows
 
         use_capybara_host do
           sign_in!(user)
-          visit test_components_settings_delete_account_button_path
+          visit settings_path
 
           click_on "Delete account"
           fill_in "Handle:", with: "handle"

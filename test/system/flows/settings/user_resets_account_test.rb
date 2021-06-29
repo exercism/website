@@ -11,10 +11,10 @@ module Flows
 
         use_capybara_host do
           sign_in!(user)
-          visit test_components_settings_reset_account_button_path
+          visit settings_path
 
           click_on "Reset account"
-          fill_in "Handle:", with: "handle"
+          fill_in "Enter your handle", with: "handle"
           within(".m-reset-account") { click_on "Reset account" }
 
           assert_text "Account reset"

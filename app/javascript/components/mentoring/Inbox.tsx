@@ -72,11 +72,11 @@ export const Inbox = ({
   useHistory({ pushOn: removeEmpty(request.query) })
 
   const setTrack = (track: string | null) => {
-    setQuery({ ...request.query, track: track, page: 1 })
+    setQuery({ ...request.query, track: track, page: undefined })
   }
 
   const setStatus = (status: string) => {
-    setQuery({ ...request.query, status: status, page: 1 })
+    setQuery({ ...request.query, status: status, page: undefined })
   }
 
   return (

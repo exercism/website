@@ -61,7 +61,6 @@ type Props = {
   value: MentoredTrack
   setValue: (value: MentoredTrack) => void
   cacheKey: string
-  total?: number
   links: {
     tracks: string
     updateTracks: string
@@ -75,7 +74,6 @@ const Component = ({
   setValue,
   cacheKey,
   links,
-  total,
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -125,7 +123,7 @@ const Component = ({
         >
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
           <div className="track-title">{value.title}</div>
-          {total !== undefined ? <div className="count">{total}</div> : null}
+          <div className="count">{value.numSolutionsQueued}</div>
           <Icon
             icon="chevron-down"
             alt="Click to change"

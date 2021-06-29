@@ -131,7 +131,6 @@ export const Queue = ({
           value={selectedTrack}
           setValue={setSelectedTrack}
           cacheKey={TRACKS_LIST_CACHE_KEY}
-          total={resolvedData?.meta.totalCount}
           links={links}
         />
         <ExerciseFilterList

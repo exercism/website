@@ -73,8 +73,6 @@ export function FileEditorCodeMirror({
     editorDidMount({ getFiles, setFiles, openPalette })
   }, [editorDidMount, getFiles, openPalette, setFiles])
 
-  console.log(files)
-
   return (
     <TabsContext.Provider
       value={{

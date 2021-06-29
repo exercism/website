@@ -110,6 +110,7 @@ module Github
             title: pr[:title],
             repo: response[:data][:repository][:nameWithOwner],
             created_at: pr[:createdAt].present? ? Time.parse(pr[:createdAt]).utc : nil,
+            closed_at: pr[:closedAt].present? ? Time.parse(pr[:closedAt]).utc : nil,
             merged: pr[:merged],
             merged_at: pr[:mergedAt].present? ? Time.parse(pr[:mergedAt]).utc : nil,
             merged_by_username: pr[:mergedBy].present? ? pr[:mergedBy][:login] : nil,

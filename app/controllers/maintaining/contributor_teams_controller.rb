@@ -9,5 +9,6 @@ class Maintaining::ContributorTeamsController < ApplicationController
 
   def show
     @team = ContributorTeam.includes(:memberships).find(params[:id])
+    @members_diff = ContributorTeam::DiffMembers.(@team)
   end
 end

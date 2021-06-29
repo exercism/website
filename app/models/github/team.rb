@@ -37,6 +37,12 @@ class Github::Team
     Exercism.octokit_client.team_repositories(team_id)
   end
 
+  def members
+    return unless organization.active?
+
+    Exercism.octokit_client.team_members(team_id)
+  end
+
   def create(repo_name, parent_team: nil)
     return unless organization.active?
 

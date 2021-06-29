@@ -24,3 +24,23 @@
 
       %section
         = render ReactComponents::Settings::PasswordForm.new
+
+      .danger-section
+        .reset.box
+          %h2 Reset account
+          .info
+            %p By resetting your account, you will lose:
+            %ul
+              %li All solutions you have submitted
+              %li All mentoring you have received
+              %li All mentoring you have given and any testimonials received.
+              %li Any reputation you have earned through mentoring or publishing solutions.
+
+          = render ReactComponents::Settings::ResetAccountButton.new
+
+        .box
+          %h2 Delete account
+          .info
+            %strong This option will eliminate your account entirely with all data.
+            You’ll get a chance to confirm your choice.
+          = render ReactComponents::Settings::DeleteAccountButton.new

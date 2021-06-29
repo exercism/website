@@ -118,6 +118,7 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
+import '../../css/modals/reset-account'
 import '../../css/modals/badge'
 import '../../css/modals/update-exercise'
 import '../../css/modals/makers'
@@ -702,6 +703,12 @@ initReact({
       )}
       links={data.links}
     />
+  ),
+  'settings-delete-account-button': (data: any) => (
+    <Settings.DeleteAccountButton handle={data.handle} links={data.links} />
+  ),
+  'settings-reset-account-button': (data: any) => (
+    <Settings.ResetAccountButton handle={data.handle} links={data.links} />
   ),
 })
 

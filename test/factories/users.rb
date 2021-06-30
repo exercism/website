@@ -26,5 +26,9 @@ FactoryBot.define do
       accepted_terms_at { nil }
       accepted_privacy_policy_at { nil }
     end
+
+    trait :system do
+      id { User::SYSTEM_USER_ID }
+    end
   end
 end

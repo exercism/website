@@ -18,7 +18,7 @@ module Flows
           fill_in "e.g. their", with: "Their"
           click_on "Save pronouns"
 
-          assert_text "Your pronouns have been saved"
+          assert_text "Your pronouns have been updated"
         end
       end
     end

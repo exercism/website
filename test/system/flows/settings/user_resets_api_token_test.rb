@@ -13,10 +13,10 @@ module Flows
         use_capybara_host do
           sign_in!(user)
 
-          visit settings_api_path
+          visit api_cli_settings_path
 
           click_on "Reset token"
-          assert_text "Your auth token has been reset"
+          assert_text "Your token has been reset"
         end
       end
     end

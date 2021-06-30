@@ -146,7 +146,7 @@ const SuccessMessage = () => {
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your pronouns has been saved
+      Your pronouns have been updated
     </div>
   )
 }

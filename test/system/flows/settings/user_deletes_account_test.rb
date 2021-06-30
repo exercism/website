@@ -14,7 +14,7 @@ module Flows
           visit settings_path
 
           click_on "Delete account"
-          fill_in "Handle:", with: "handle"
+          fill_in "To confirm, write your handle handle in the box below:", with: "handle"
           within(".m-delete-account") { click_on "Delete account" }
 
           assert_text "Account deleted"

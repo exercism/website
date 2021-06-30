@@ -13,8 +13,8 @@ module Flows
         use_capybara_host do
           sign_in!(user)
 
-          visit settings_communication_preferences_path
-          check "Email me when a mentor starts a discussion"
+          visit communication_preferences_settings_path
+          find('label', text: "Email me when a mentor starts a discussion").click
           click_on "Change preferences"
 
           assert_text "Your preferences have been updated"

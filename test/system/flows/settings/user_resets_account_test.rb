@@ -14,7 +14,7 @@ module Flows
           visit settings_path
 
           click_on "Reset account"
-          fill_in "Enter your handle", with: "handle"
+          fill_in "To confirm, write your handle handle in the box below:", with: "handle"
           within(".m-reset-account") { click_on "Reset account" }
 
           assert_text "Account reset"

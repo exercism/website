@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   include User::Roles
 
+  SYSTEM_USER_ID = 1
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,

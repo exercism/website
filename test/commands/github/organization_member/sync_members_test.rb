@@ -29,7 +29,7 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
 
     Github::Organization.any_instance.stubs(:member_usernames).returns(['ErikSchierboom'])
     Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
-    Github::Organization.any_instance.stubs(:remove_membership)
+    Github::Organization.any_instance.stubs(:remove_member)
 
     Github::OrganizationMember::SyncMembers.()
 
@@ -57,8 +57,8 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
     Github::Organization.any_instance.stubs(:member_usernames).returns(%w[ErikSchierboom DJ iHiD])
     Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
 
-    Github::Organization.any_instance.expects(:remove_membership).with('DJ')
-    Github::Organization.any_instance.expects(:remove_membership).with('iHiD')
+    Github::Organization.any_instance.expects(:remove_member).with('DJ')
+    Github::Organization.any_instance.expects(:remove_member).with('iHiD')
 
     Github::OrganizationMember::SyncMembers.()
   end
@@ -69,7 +69,7 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
     Github::Organization.any_instance.stubs(:member_usernames).returns(['ErikSchierboom'])
     Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
 
-    Github::Organization.any_instance.expects(:remove_membership).with('ErikSchierboom').never
+    Github::Organization.any_instance.expects(:remove_member).with('ErikSchierboom').never
 
     Github::OrganizationMember::SyncMembers.()
   end

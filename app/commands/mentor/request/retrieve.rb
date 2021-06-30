@@ -13,7 +13,7 @@ module Mentor
                      page: 1,
                      criteria: nil, order: nil,
                      track_slug: nil, exercise_slug: nil,
-                     sorted: true, paginated: true)
+                     limit_tracks: true, sorted: true, paginated: true)
         @mentor = mentor
         @page = page
         @criteria = criteria
@@ -21,6 +21,7 @@ module Mentor
         @track_slug = track_slug
         @exercise_slug = exercise_slug
 
+        @limit_tracks = limit_tracks
         @sorted = sorted
         @paginated = paginated
       end
@@ -39,7 +40,7 @@ module Mentor
       attr_reader :mentor, :page, :criteria, :order,
         :track_slug, :exercise_slug
 
-      %i[sorted paginated].each do |attr|
+      %i[sorted paginated limit_tracks].each do |attr|
         define_method("#{attr}?") { instance_variable_get("@#{attr}") }
       end
 
@@ -81,6 +82,8 @@ module Mentor
       end
 
       def filter_track!
+        return unless limit_tracks?
+
         track_ids = track_slug.present? ?
           Track.where(slug: track_slug).select(:id) :
           mentor.track_mentorships.select(:track_id)

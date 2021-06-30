@@ -6,6 +6,7 @@ import { PostsWrapper } from '../../mentoring/discussion/PostsContext'
 import { MentorInfo } from './MentorInfo'
 import { MentorDiscussion, Iteration } from '../../types'
 import { Mentor } from '../MentoringSession'
+import { GraphicalIcon } from '../../common'
 
 export const DiscussionInfo = ({
   discussion,
@@ -33,6 +34,23 @@ export const DiscussionInfo = ({
             userId={userId}
             onIterationScroll={onIterationScroll}
           />
+          <div className="student-review timeline-entry">
+            <GraphicalIcon
+              icon="completed-check-circle"
+              className="timeline-marker"
+            />
+            <div className="--details timeline-content">
+              <h3>{mentor.handle} ended this discussion.</h3>
+              <p>
+                <strong>It's time to review {mentor.handle}'s mentoring</strong>
+                You’ll be able to leave feedback and share what you thought of
+                your experience.
+              </p>
+              <button className="btn-primary btn-s">
+                Review &amp; finish discussion
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <section className="comment-section --comment">

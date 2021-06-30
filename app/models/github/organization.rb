@@ -72,13 +72,13 @@ class Github::Organization
 
   def team_member_usernames
     cursor = nil
-    users = [].to_set
+    users = Set.new
 
     loop do
       response = fetch_team_member_usernames(cursor)
 
       response.dig(:data, :organization, :teams, :nodes).each do |team|
-        users |= team.dig(:members, :nodes).pluck(:login)
+        users.merge(team.dig(:members, :nodes).pluck(:login))
       end
 
       break users unless response.dig(:data, :organization, :teams, :pageInfo, :hasNextPage)

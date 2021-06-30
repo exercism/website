@@ -24,7 +24,6 @@ module Webhooks
       ::Github::OrganizationMember.where(username: user_name).update_all(alumnus: true)
     end
 
-    memoize
     def organization
       Github::Organization.instance
     end

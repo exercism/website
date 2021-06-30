@@ -21,7 +21,6 @@ module Github
         organization.member_usernames
       end
 
-      memoize
       def organization
         Github::Organization.instance
       end

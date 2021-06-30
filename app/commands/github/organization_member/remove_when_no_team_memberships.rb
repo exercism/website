@@ -12,7 +12,6 @@ module Github
       end
 
       private
-      memoize
       def organization
         Github::Organization.instance
       end

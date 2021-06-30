@@ -23,7 +23,6 @@ module Webhooks
       ContributorTeam.find_by(github_name: team_name)
     end
 
-    memoize
     def organization
       Github::Organization.instance
     end

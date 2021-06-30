@@ -61,7 +61,6 @@ class Github::Team
     Exercism.octokit_client.get("https://api.github.com/orgs/#{organization.name}/teams/#{name}")[:id]
   end
 
-  memoize
   def organization
     Github::Organization.instance
   end

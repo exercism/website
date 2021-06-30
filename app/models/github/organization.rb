@@ -1,5 +1,6 @@
 class Github::Organization
   include Mandate
+  include Singleton
 
   memoize
   def name

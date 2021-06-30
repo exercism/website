@@ -14,7 +14,7 @@ module Github
       private
       memoize
       def organization
-        Github::Organization.new
+        Github::Organization.instance
       end
     end
   end

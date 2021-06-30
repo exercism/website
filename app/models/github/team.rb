@@ -63,6 +63,6 @@ class Github::Team
 
   memoize
   def organization
-    Github::Organization.new
+    Github::Organization.instance
   end
 end

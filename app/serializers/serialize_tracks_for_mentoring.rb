@@ -34,9 +34,12 @@ class SerializeTracksForMentoring
   end
 
   def request_counts_with_mentor
-    Mentor::Request.
-      pending.
-      where.not(student_id: mentor.id).
+    ::Mentor::Request::Retrieve.(
+      mentor: mentor,
+      limit_tracks: false,
+      sorted: false,
+      paginated: false
+    ).
       where(track_id: tracks).
       group(:track_id).count
   end

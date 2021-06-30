@@ -1,7 +1,7 @@
 - if discussions.present?
   .previous-discussions
     - discussions.each do |discussion|
-      .discussion
+      = link_to track_exercise_mentor_discussion_path(track, exercise, discussion), class: "discussion" do
         = avatar(discussion.mentor, css_class: 'c-avatar mentor-avatar')
         .info
           %h4= discussion.mentor.handle

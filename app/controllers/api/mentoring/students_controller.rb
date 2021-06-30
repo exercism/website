@@ -5,9 +5,13 @@ module API
     # TODO: Add test coverage
     def show
       relationship = Mentor::StudentRelationship.find_by(mentor: current_user, student: @student)
+      user_track = UserTrack.for(@student, params[:track_slug]) if params[:track_slug].present?
       render json: {
         student: SerializeStudent.(
-          @student, relationship: relationship, anonymous_mode: false
+          @student,
+          user_track: user_track,
+          relationship: relationship,
+          anonymous_mode: false
         )
       }
     end
@@ -56,7 +60,10 @@ module API
       relationship = Mentor::StudentRelationship.find_by!(mentor: current_user, student: @student)
       render json: {
         student: SerializeStudent.(
-          @student, relationship: relationship, anonymous_mode: false
+          @student,
+          user_track: nil,
+          relationship: relationship,
+          anonymous_mode: false
         )
       }
     rescue StandardError

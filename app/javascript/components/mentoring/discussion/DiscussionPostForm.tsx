@@ -110,7 +110,8 @@ export const DiscussionPostForm = ({
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="c-markdown-editor">
+      {/* TODO: Add --compressed or --expanded */}
+      <form onSubmit={handleSubmit} className="c-markdown-editor --expanded">
         <MarkdownEditor
           contextId={contextId}
           value={value}

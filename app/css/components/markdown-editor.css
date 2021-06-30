@@ -9,6 +9,21 @@
         display: none;
     }
 
+    &.--compressed {
+        height: 99px;
+        &:before {
+            content: "Add a comment";
+            @apply py-12 px-16;
+            @apply text-16 leading-160 text-textColor7;
+            @apply absolute z-1;
+            top: 0;
+            left: 0;
+        }
+    }
+    &.--expanded {
+        min-height: 320px;
+    }
+
     & > *:first-child {
         @apply flex flex-col flex-grow;
     }
@@ -20,7 +35,7 @@
 
         & .editor-toolbar {
             border-width: 0; /* Override default */
-            @apply border-t-1 border-borderColor5;
+            @apply border-t-1 border-borderColor5 rounded-none;
             @apply flex items-center;
 
             grid-row-start: footer;

@@ -30,5 +30,9 @@ FactoryBot.define do
     trait :system do
       id { User::SYSTEM_USER_ID }
     end
+
+    trait :ghost do
+      id { User::GHOST_USER_ID }
+    end
   end
 end

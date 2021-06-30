@@ -5,7 +5,7 @@ module ReactComponents
         super("settings-delete-account-button", {
           handle: current_user.handle,
           links: {
-            delete: Exercism::Routes.temp_user_url
+            reset: Exercism::Routes.destroy_account_settings_url
           }
         })
       end

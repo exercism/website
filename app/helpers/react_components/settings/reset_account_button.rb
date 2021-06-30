@@ -5,7 +5,7 @@ module ReactComponents
         super("settings-reset-account-button", {
           handle: current_user.handle,
           links: {
-            reset: Exercism::Routes.reset_temp_user_url
+            reset: Exercism::Routes.reset_account_settings_url
           }
         })
       end

@@ -9,7 +9,7 @@ import { useConfirmation } from '../../hooks/use-confirmation'
 
 type APIResponse = {
   links: {
-    settings: string
+    home: string
   }
 }
 
@@ -29,13 +29,13 @@ export const ResetAccountModal = ({
       return sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
-        body: null,
+        body: JSON.stringify({ handle: handle }),
         isMountedRef: isMountedRef,
       })
     },
     {
       onSuccess: (response) => {
-        window.location.replace(response.links.settings)
+        window.location.replace(response.links.home)
       },
     }
   )

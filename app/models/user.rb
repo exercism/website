@@ -2,6 +2,7 @@ class User < ApplicationRecord
   include User::Roles
 
   SYSTEM_USER_ID = 1
+  GHOST_USER_ID = 1
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
@@ -24,7 +25,8 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :mentor_discussions, foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy,
                                 class_name: "Mentor::Discussion"
-  has_many :mentor_discussion_posts, as: :author, dependent: :destroy,
+  has_many :mentor_discussion_posts, inverse_of: :author,
+                                     dependent: :destroy,
                                      class_name: "Mentor::DiscussionPost"
   has_many :mentor_testimonials, foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy,
                                  class_name: "Mentor::Testimonial"

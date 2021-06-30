@@ -209,10 +209,11 @@ Rails.application.routes.draw do
   # ############ #
   # Normal pages #
   # ############ #
-  resource :settings, only: %i[show update] do
+  resource :settings, only: %i[show] do
     get :api_cli
     get :communication_preferences
-    patch :sudo_update
+    patch :reset_account
+    delete :destroy_account
   end
 
   resource :dashboard, only: [:show], controller: "dashboard"
@@ -328,10 +329,6 @@ Rails.application.routes.draw do
   # TODO: Remove these before launching
   namespace :temp do
     resources :tracks, only: [:create]
-
-    resource :user, only: [:destroy] do
-      patch :reset
-    end
     resource :user_deletion, only: [:show]
     resource :user_reset, only: [:show]
 

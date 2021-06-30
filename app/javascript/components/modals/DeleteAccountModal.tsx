@@ -29,7 +29,7 @@ export const DeleteAccountModal = ({
       return sendRequest({
         endpoint: endpoint,
         method: 'DELETE',
-        body: null,
+        body: JSON.stringify({ handle: handle }),
         isMountedRef: isMountedRef,
       })
     },

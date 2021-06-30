@@ -34,6 +34,11 @@ label.c-checkbox-wrapper {
             transform: scale(1);
         }
     }
+
+    & .c-checkbox {
+        @apply mr-16;
+        @apply flex-shrink-0;
+    }
 }
 .c-checkbox {
     height: 21px;

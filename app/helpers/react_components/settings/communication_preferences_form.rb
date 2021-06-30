@@ -5,7 +5,7 @@ module ReactComponents
         super("settings-communication-preferences-form", {
           preferences: SerializeCommunicationPreferences.(current_user.communication_preferences),
           links: {
-            update: Exercism::Routes.api_communication_preferences_url
+            update: Exercism::Routes.api_settings_communication_preferences_url
           }
         })
       end

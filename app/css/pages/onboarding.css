@@ -92,10 +92,6 @@
             @apply bg-backgroundColorD rounded-8;
             @apply py-12 px-24 mt-24;
             @apply text-16 leading-paragraph font-medium;
-
-            & .c-checkbox {
-                @apply mr-16;
-            }
         }
     }
 }

@@ -41,23 +41,22 @@ Rails.application.routes.draw do
     # TODO: This is just a stub
     resources :users, only: [:update]
 
-    resource :communication_preferences, only: [:update]
-
-    resource :settings, only: [:update] do
-      patch :sudo_update
-    end
-
-    resource :auth_token, only: [] do
-      patch :reset
-    end
-
     scope :v2 do # rubocop:disable Naming/VariableNumber
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
+      resource :settings, only: [:update] do
+        patch :sudo_update
+      end
       namespace :settings do
+        resource :communication_preferences, only: [:update]
+
         resources :introducers, only: [] do
           patch :hide, on: :member
+        end
+
+        resource :auth_token, only: [] do
+          patch :reset
         end
       end
 
@@ -211,8 +210,8 @@ Rails.application.routes.draw do
   # Normal pages #
   # ############ #
   resource :settings, only: %i[show update] do
-    resource :api, only: %i[show], controller: "settings/api"
-    resource :communication_preferences, only: %i[show], controller: "settings/communication_preferences"
+    get :api_cli
+    get :communication_preferences
     patch :sudo_update
   end
 

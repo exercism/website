@@ -1,4 +1,8 @@
 class SettingsController < ApplicationController
+  def api_cli; end
+
+  def communication_preferences; end
+
   def update
     permitted = params.require(:user).permit(
       :name, :location, :bio,

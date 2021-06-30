@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useSettingsMutation } from './useSettingsMutation'
-import { FormButton, Icon } from '../common'
+import { FormButton, Icon, GraphicalIcon } from '../common'
 import { FormMessage } from './FormMessage'
 import { CommunicationPreferences } from '../types'
 
@@ -48,8 +48,9 @@ export const CommunicationPreferencesForm = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Communication</h2>
-      <div className="field">
+      <h2>Mentoring</h2>
+
+      <label className="c-checkbox-wrapper">
         <input
           type="checkbox"
           id="communication_preferences_email_on_mentor_started_discussion_notification"
@@ -61,13 +62,13 @@ export const CommunicationPreferencesForm = ({
             })
           }
         />
-        <label
-          htmlFor="communication_preferences_email_on_mentor_started_discussion_notification"
-          className="label"
-        >
+        <div className="row">
+          <div className="c-checkbox">
+            <GraphicalIcon icon="checkmark" />
+          </div>
           Email me when a mentor starts a discussion
-        </label>
-      </div>
+        </div>
+      </label>
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
           Change preferences

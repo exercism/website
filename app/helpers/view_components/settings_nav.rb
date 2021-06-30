@@ -7,9 +7,9 @@ module ViewComponents
     def to_s
       items = [
         item_for("Account settings", :settings, :general),
-        item_for("API / CLI", :settings_api, :api),
+        item_for("API / CLI", :api_cli_settings, :api_cli),
         item_for("Preferences", :settings, :preferences),
-        item_for("Communication Preferences", :settings_communication_preferences, :communication)
+        item_for("Communication Preferences", :communication_preferences_settings, :communication)
       ]
 
       tag.nav(class: "settings-nav") do

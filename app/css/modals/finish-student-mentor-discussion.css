@@ -172,10 +172,6 @@
             @apply mb-16;
 
             @apply text-16 leading-160 text-textColor2;
-
-            & .c-checkbox {
-                @apply mr-16;
-            }
         }
         & .report {
             @apply mt-8 mb-16;

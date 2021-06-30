@@ -5,7 +5,7 @@ module ReactComponents
         super("settings-token-form", {
           token: current_user.auth_token,
           links: {
-            reset: Exercism::Routes.reset_api_auth_token_url,
+            reset: Exercism::Routes.reset_api_settings_auth_token_url,
             info: "#"
           }
         })

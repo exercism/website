@@ -244,3 +244,11 @@
         }
     }
 }
+#page-settings-preferences {
+    & .c-checkbox-wrapper {
+        @apply mb-16;
+        & .row {
+            @apply text-16 leading-160 font-medium;
+        }
+    }
+}

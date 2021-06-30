@@ -89,7 +89,6 @@
                     @apply text-15 leading-150 text-textColor6 font-medium;
 
                     & .c-checkbox {
-                        @apply mr-16;
                         height: 16px;
                         width: 16px;
                         & img {

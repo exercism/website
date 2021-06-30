@@ -15,7 +15,7 @@ class ContributorTeam::Membership
     private
     memoize
     def remains_in_team_role?
-      user.teams.any? { |t| t.role_for_members == team.role_for_members }
+      user.teams.map(&:role_for_members).include?(team.role_for_members)
     end
   end
 end

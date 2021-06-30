@@ -28,19 +28,15 @@ export const AddDiscussionPost = ({
       <>
         <DiscussionPostForm
           onSuccess={handleSuccess}
+          onCancel={() => {
+            setOpen(false)
+          }}
           endpoint={endpoint}
           method="POST"
           contextId={contextId}
           value={value}
         />
-        <button
-          type="button"
-          onClick={() => {
-            setOpen(false)
-          }}
-        >
-          Cancel
-        </button>
+
         {/* TODO: DRY up the duplication of this */}
         <div className="note">
           Check out our {/* TODO */}

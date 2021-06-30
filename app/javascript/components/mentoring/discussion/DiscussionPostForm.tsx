@@ -5,7 +5,7 @@ import {
 } from '../../common/MarkdownEditor'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
-import { Loading } from '../../common/Loading'
+import { Loading, GraphicalIcon } from '../../common'
 import { useMutation, queryCache } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { PostsContext } from './PostsContext'
@@ -18,6 +18,7 @@ type ComponentProps = {
   endpoint: string
   method: 'POST' | 'PATCH'
   onSuccess?: () => void
+  onCancel?: () => void
   contextId: string
   value?: string
 }
@@ -36,6 +37,7 @@ export const DiscussionPostForm = ({
   endpoint,
   method,
   onSuccess = () => {},
+  onCancel = () => {},
   contextId,
   value = '',
 }: ComponentProps): JSX.Element => {
@@ -115,12 +117,21 @@ export const DiscussionPostForm = ({
           editorDidMount={handleEditorMount}
         />
         <footer className="editor-footer">
+          {/* TODO: Only one of these should show, depending on whether there is content in the text area or not */}
           <button
-            className="btn-primary btn-s"
+            className="btn-primary btn-xs"
             type="submit"
             disabled={status === 'loading'}
           >
-            Send
+            <GraphicalIcon icon="send" />
+            <span>Send</span>
+          </button>
+          <button
+            type="button"
+            className="btn-default btn-xs"
+            onClick={onCancel}
+          >
+            Cancel
           </button>
         </footer>
       </form>

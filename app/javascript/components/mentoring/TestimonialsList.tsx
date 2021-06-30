@@ -70,7 +70,7 @@ export const TestimonialsList = ({
 
   const setTrack = useCallback(
     (track) => {
-      setQuery({ ...request.query, track: track })
+      setQuery({ ...request.query, track: track, page: undefined })
     },
     [request.query, setQuery]
   )

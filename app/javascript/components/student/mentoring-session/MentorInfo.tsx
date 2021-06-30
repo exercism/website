@@ -12,15 +12,7 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
           <Reputation value={mentor.reputation.toString()} type="primary" />
         </div>
         <div className="handle">{mentor.handle}</div>
-        <div className="bio">
-          {mentor.bio}
-          <span
-            className="flags"
-            dangerouslySetInnerHTML={{
-              __html: '&#127468;&#127463; &#127466;&#127480;',
-            }}
-          />
-        </div>
+        <div className="bio">{mentor.bio}</div>
         {/* TODO: View previous sessions as a student */}
       </div>
       <Avatar src={mentor.avatarUrl} handle={mentor.handle} />

@@ -154,7 +154,9 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     Git::SyncPracticeExercise.(exercise)
 
-    assert_equal [dates, time], exercise.practiced_concepts
+    assert_equal 2, exercise.practiced_concepts.size
+    assert_includes exercise.practiced_concepts, dates
+    assert_includes exercise.practiced_concepts, time
   end
 
   test "removes practiced concepts that are not in config.json" do
@@ -168,7 +170,9 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     Git::SyncPracticeExercise.(exercise)
 
-    assert_equal [time, dates], exercise.practiced_concepts
+    assert_equal 2, exercise.practiced_concepts.size
+    assert_includes exercise.practiced_concepts, dates
+    assert_includes exercise.practiced_concepts, time
   end
 
   test "adds authors that are in .meta/config.json" do

@@ -24,16 +24,7 @@ export const StudentInfo = ({
           />
         </div>
         <div className="handle">{student.handle}</div>
-        <div className="bio">
-          {student.bio}
-          <span
-            className="flags"
-            dangerouslySetInnerHTML={{
-              __html: '&#127468;&#127463; &#127466;&#127480;',
-            }}
-          />
-          {/*TODO: Map these to codes like above {student.languagesSpoken.join(', ')}*/}
-        </div>
+        <div className="bio">{student.bio}</div>
         <div className="options">
           {student.links ? (
             <StudentInfoActions student={student} setStudent={setStudent} />

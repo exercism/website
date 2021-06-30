@@ -63,7 +63,7 @@ export const CommunitySolutionsList = ({
 
   const setTrack = useCallback(
     (slug) => {
-      setQuery({ ...request.query, trackSlug: slug })
+      setQuery({ ...request.query, trackSlug: slug, page: undefined })
     },
     [request.query, setQuery]
   )

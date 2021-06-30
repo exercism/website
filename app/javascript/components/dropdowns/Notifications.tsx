@@ -90,7 +90,11 @@ export const Notifications = ({
   const [isStale, setIsStale] = useState(false)
   const { data, error, status, refetch } = useRequestQuery<APIResponse>(
     CACHE_KEY,
-    { endpoint: endpoint, query: { per: MAX_NOTIFICATIONS }, options: {} },
+    {
+      endpoint: endpoint,
+      query: { per: MAX_NOTIFICATIONS },
+      options: { staleTime: 0 },
+    },
     isMountedRef
   )
   const {
@@ -126,7 +130,7 @@ export const Notifications = ({
 
       setIsStale(false)
     })
-  }, [listAttributes.hidden, isStale, isMountedRef])
+  }, [listAttributes.hidden, isStale, isMountedRef, refetch])
 
   return (
     <React.Fragment>

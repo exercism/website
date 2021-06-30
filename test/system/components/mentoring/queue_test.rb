@@ -165,6 +165,27 @@ module Components
         end
       end
 
+      test "language track filter shows correct counts" do
+        ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
+        mentor = create :user
+        ruby = create :track, title: "Ruby", slug: "ruby"
+        create :user_track_mentorship, track: ruby, user: mentor
+        series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
+        student = create :user, name: "User 2"
+        create_mentor_request exercise: series, student: student
+        csharp = create :track, title: "C#", slug: "csharp"
+        create :user_track_mentorship, track: csharp, user: mentor
+        tournament = create :concept_exercise, title: "Tournament", track: csharp, slug: "tournament"
+        other_student = create :user, name: "User 1"
+        create_mentor_request exercise: tournament, student: other_student
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentoring_queue_path
+          within(".mentor-queue-filtering") { assert_text "C#\n1" }
+        end
+      end
+
       test "filters by exercise" do
         ::Mentor::Request::Retrieve.stubs(requests_per_page: 1)
         mentor = create :user

@@ -34,7 +34,7 @@ export const ExerciseTooltip = React.forwardRef<
     solution: SolutionForStudent
   }>(
     `exercise-tooltip-${slug}`,
-    { endpoint: endpoint, options: {} },
+    { endpoint: endpoint, options: { staleTime: 0 } },
     isMountedRef
   )
 
@@ -47,8 +47,8 @@ export const ExerciseTooltip = React.forwardRef<
         LoadingComponent={LoadingComponent}
       >
         {data ? (
-        /* If we want the track we need to add a pivot to this,
-         * and use track={data.track}*/
+          /* If we want the track we need to add a pivot to this,
+           * and use track={data.track}*/
           <ExerciseWidget
             exercise={data.exercise}
             solution={data.solution}

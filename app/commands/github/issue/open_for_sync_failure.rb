@@ -23,7 +23,7 @@ module Github
           ```
           #{error.message}
 
-          #{error.backtrace}
+          #{error.backtrace.join("\n")}
           ```
 
           Please tag @iHiD if you require more information.

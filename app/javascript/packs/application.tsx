@@ -240,7 +240,10 @@ import {
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
-import { Links as MentoringSessionLinks } from '../components/mentoring/Session'
+import {
+  Links as MentoringSessionLinks,
+  Scratchpad as MentoringSessionScratchpad,
+} from '../components/mentoring/Session'
 import {
   Mentor as StudentMentoringSessionMentor,
   Video as StudentMentoringSessionVideo,
@@ -326,6 +329,7 @@ initReact({
       icon={data.icon}
       content={data.content}
       endpoint={data.endpoint}
+      hidden={data.hidden}
     />
   ),
   'common-cli-walkthrough': (data: any) => (
@@ -417,6 +421,7 @@ initReact({
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
+      scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
       notes={data.notes}
       outOfDate={data.out_of_date}
     />
@@ -510,7 +515,7 @@ initReact({
       mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
-      isFirstTimeOnTrack={data.is_first_time_on_track}
+      trackObjectives={data.track_objectives}
       videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}

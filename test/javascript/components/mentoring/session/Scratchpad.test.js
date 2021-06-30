@@ -28,7 +28,15 @@ test('hides local storage autosave message', async () => {
   server.listen()
 
   render(
-    <Scratchpad endpoint="https://exercism.test/scratchpad" discussionId={1} />
+    <Scratchpad
+      scratchpad={{
+        links: {
+          self: 'https://exercism.test/scratchpad',
+        },
+      }}
+      exercise={{}}
+      track={{}}
+    />
   )
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
 
@@ -61,7 +69,15 @@ test('shows errors from API', async () => {
   server.listen()
 
   render(
-    <Scratchpad endpoint="https://exercism.test/scratchpad" discussionId={1} />
+    <Scratchpad
+      scratchpad={{
+        links: {
+          self: 'https://exercism.test/scratchpad',
+        },
+      }}
+      exercise={{}}
+      track={{}}
+    />
   )
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
   userEvent.click(screen.getByRole('button', { name: 'Save' }))
@@ -99,8 +115,13 @@ test('clears errors when resubmitting', async () => {
     render(
       <TestQueryCache>
         <Scratchpad
-          endpoint="https://exercism.test/scratchpad"
-          discussionId={1}
+          scratchpad={{
+            links: {
+              self: 'https://exercism.test/scratchpad',
+            },
+          }}
+          exercise={{}}
+          track={{}}
         />
       </TestQueryCache>
     )
@@ -132,7 +153,15 @@ test('revert to saved button shows if content changed', async () => {
   server.listen()
 
   render(
-    <Scratchpad endpoint="https://exercism.test/scratchpad" discussionId={1} />
+    <Scratchpad
+      scratchpad={{
+        links: {
+          self: 'https://exercism.test/scratchpad',
+        },
+      }}
+      exercise={{}}
+      track={{}}
+    />
   )
 
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
@@ -160,7 +189,15 @@ test('revert to saved button is hidden', async () => {
   server.listen()
 
   render(
-    <Scratchpad endpoint="https://exercism.test/scratchpad" discussionId={1} />
+    <Scratchpad
+      scratchpad={{
+        links: {
+          self: 'https://exercism.test/scratchpad',
+        },
+      }}
+      exercise={{}}
+      track={{}}
+    />
   )
 
   await waitForElementToBeRemoved(screen.queryByText('Loading'))

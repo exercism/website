@@ -12,6 +12,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 url: 'https://github.com/exercism/ruby/pull/19',
                 id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4',
                 createdAt: '2021-02-05T15:29:25Z',
+                closedAt: nil,
                 labels: {
                   nodes: []
                 },
@@ -42,6 +43,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 url: 'https://github.com/exercism/ruby/pull/8',
                 id: 'MDExOlB1bGxSZXF1ZXN0NTYzOTgwNTkw',
                 createdAt: '2021-01-29T13:20:35Z',
+                closedAt: '2020-04-05T09:10:12Z',
                 labels: {
                   nodes: []
                 },
@@ -52,10 +54,8 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                   login: 'ErikSchierboom'
                 },
                 merged: true,
-                mergedAt: '2020-02-02T02:03:01Z',
-                mergedBy: {
-                  login: 'iHiD'
-                },
+                mergedAt: nil,
+                mergedBy: nil,
                 reviews: {
                   nodes: [
                     {
@@ -92,6 +92,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 url: 'https://github.com/exercism/ruby/pull/2',
                 id: 'MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz',
                 createdAt: '2020-03-27T06:39:20Z',
+                closedAt: nil,
                 labels: {
                   nodes: []
                 },
@@ -153,6 +154,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       number: 19,
       title: "The cat sat on the mat",
       created_at: Time.parse('2021-02-05T15:29:25Z').utc,
+      closed_at: nil,
       state: "closed",
       action: "closed",
       author_username: "ErikSchierboom",
@@ -179,7 +181,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     assert_equal "The cat sat on the mat", prs.second.title
     assert_equal "exercism/ruby", prs.second.repo
     assert_equal "ErikSchierboom", prs.second.author_username
-    assert_equal "iHiD", prs.second.merged_by_username
+    assert_nil prs.second.merged_by_username
     expected_second_data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/8",
       html_url: "https://github.com/exercism/ruby/pull/8",
@@ -188,13 +190,14 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       number: 8,
       title: "The cat sat on the mat",
       created_at: Time.parse('2021-01-29T13:20:35Z').utc,
+      closed_at: Time.parse('2020-04-05T09:10:12Z').utc,
       state: "closed",
       action: "closed",
       author_username: "ErikSchierboom",
       labels: [],
       merged: true,
-      merged_at: Time.parse('2020-02-02T02:03:01Z').utc,
-      merged_by_username: "iHiD",
+      merged_at: nil,
+      merged_by_username: nil,
       reviews: [
         {
           node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg0MzAyODk0",
@@ -224,6 +227,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       number: 2,
       title: "The cat sat on the mat",
       created_at: Time.parse('2020-03-27T06:39:20Z').utc,
+      closed_at: nil,
       state: "closed",
       action: "closed",
       author_username: "porkostomus",

@@ -11,7 +11,7 @@ module Github
         ::Github::OrganizationMember.where.not(username: organization_member_usernames).update_all(alumnus: true)
 
         ::Github::OrganizationMember.where.not(username: organization.team_member_usernames).find_each do |member|
-          organization.remove_membership(member.username)
+          organization.remove_member(member.username)
         end
       end
 

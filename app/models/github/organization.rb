@@ -4,7 +4,7 @@ class Github::Organization
 
   memoize
   def name
-    ENV["GITHUB_ORGANIZATION"] || Exercism.config.github_organization
+    ENV["GITHUB_ORGANIZATION"].presence || Exercism.config.github_organization
   end
 
   memoize
@@ -12,8 +12,8 @@ class Github::Organization
     name.present?
   end
 
-  def remove_membership(_github_username)
-    Exercism.octokit_client.remove_organization_membership(name, username)
+  def remove_member(github_username)
+    Exercism.octokit_client.remove_organization_member(name, github_username)
   end
 
   def team_membership_count_for_user(github_username)
@@ -50,8 +50,7 @@ class Github::Organization
     query = <<~QUERY.strip
       {
         organization(login: "#{name}") {
-          membersWithRole(first: 100
-                          #{%(, after: "#{cursor}") if cursor}) {
+          membersWithRole(first: 100 #{%(, after: "#{cursor}") if cursor}) {
             nodes {
               login
             }

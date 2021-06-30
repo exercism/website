@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Nudge } from '../../../../../app/javascript/components/student/Nudge'
 import {
@@ -28,6 +28,7 @@ test('does not animate on initial load', async () => {
       iconUrl: '',
     },
   }
+
   const { container } = render(
     <Nudge
       solution={solution}

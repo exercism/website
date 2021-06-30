@@ -15,7 +15,12 @@ test('form is disabled when handle is wrong', async () => {
     />
   )
 
-  userEvent.type(screen.getByLabelText('Handle:'), 'wrong')
+  userEvent.type(
+    screen.getByLabelText(
+      'To confirm, write your handle handle in the box below:'
+    ),
+    'wrong'
+  )
 
   expect(screen.getByRole('button', { name: 'Reset account' })).toBeDisabled()
 })
@@ -31,7 +36,12 @@ test('form is enabled when handle is correct', async () => {
     />
   )
 
-  userEvent.type(screen.getByLabelText('Handle:'), 'handle')
+  userEvent.type(
+    screen.getByLabelText(
+      'To confirm, write your handle handle in the box below:'
+    ),
+    'handle'
+  )
 
   expect(
     screen.getByRole('button', { name: 'Reset account' })

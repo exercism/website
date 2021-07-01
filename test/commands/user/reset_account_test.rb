@@ -35,7 +35,8 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       user_track_1 = create :user_track, user: user, track: ruby
       user_track_2 = create :user_track, user: user, track: js
 
-      request = create :mentor_request, solution: create(:practice_solution, user: user)
+      pending_request = create :mentor_request, solution: create(:practice_solution, user: user)
+      fulfilled_request = create :mentor_request, :fulfilled, solution: create(:practice_solution, user: user)
 
       UserTrack::Destroy.expects(:call).with(user_track_1)
       UserTrack::Destroy.expects(:call).with(user_track_2)
@@ -43,8 +44,10 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       User::ResetAccount.(user)
 
       assert_raises ActiveRecord::RecordNotFound do
-        request.reload
+        pending_request.reload
       end
+
+      assert_equal User::GHOST_USER_ID, fulfilled_request.reload.student_id
     end
   end
 

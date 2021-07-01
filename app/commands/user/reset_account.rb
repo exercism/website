@@ -26,6 +26,7 @@ class User
       end
 
       Mentor::Request.where(student_id: user.id).pending.delete_all
+      Mentor::Request.where(student_id: user.id).update_all(student_id: User::GHOST_USER_ID)
     end
 
     def reset_mentoring!

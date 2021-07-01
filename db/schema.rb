@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_25_141655) do
+ActiveRecord::Schema.define(version: 2021_06_30_161923) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -433,9 +433,10 @@ ActiveRecord::Schema.define(version: 2021_06_25_141655) do
     t.integer "num_loc", limit: 3, default: 0, null: false
     t.bigint "published_iteration_id"
     t.string "git_important_files_hash"
+    t.string "unique_key", null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
-    t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id", unique: true
+    t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
     t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
   end

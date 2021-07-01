@@ -13,7 +13,7 @@ module Git
         authors.find_each { |author| ::Exercise::Authorship::Create.(exercise, author) }
 
         # This is required to remove authors that were already added
-        exercise.update!(authors: authors)
+        exercise.reload.update!(authors: authors)
 
         # TODO: consider what to do with missing authors
         missing_authors = authors_config - authors.pluck(:github_username)

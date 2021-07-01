@@ -59,11 +59,9 @@
             .count= (last_8_weeks_counts.sum / 8.0).round(1)
             %h3 Avg. exercises completed per week (last 8 weeks)
 
-          .graph
-            = ReactComponents::ProgressGraph.new(last_8_weeks_counts, 70, 140)
+          = ReactComponents::ProgressGraph.new(last_8_weeks_counts, 70, 145)
 
-          / TODO
-
+        / TODO
         -#
           %section.learning-pattern
             = graphical_icon "steady-learning-pattern"

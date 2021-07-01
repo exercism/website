@@ -356,11 +356,16 @@
                 }
             }
 
+            & .c-react-wrapper-progress-graph {
+                @apply ml-48 flex-shrink-0;
+            }
+
+            & .graph,
             & .c-progress-graph {
                 height: 70px;
                 width: 145px;
-                @apply ml-48 flex-shrink-0;
-
+            }
+            & .c-progress-graph {
                 stroke-width: 3px;
                 stroke-linecap: round;
 

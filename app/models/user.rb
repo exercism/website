@@ -10,6 +10,7 @@ class User < ApplicationRecord
     :recoverable, :rememberable,
     :confirmable, :validatable,
     :omniauthable, omniauth_providers: [:github]
+
   has_many :auth_tokens, dependent: :destroy
 
   has_one :profile, dependent: :destroy

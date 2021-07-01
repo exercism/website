@@ -93,7 +93,9 @@ export const ResetAccountModal = ({
         />
         <hr />
         <div className="btns">
-          <button className="btn-default btn-m">Cancel</button>
+          <button className="btn-default btn-m" disabled>
+            Cancel
+          </button>
           <FormButton
             type="submit"
             disabled={!isAttemptPass}

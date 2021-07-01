@@ -15,7 +15,7 @@
             You’ve progressed the furthest in
             = succeed(',') do
               %span.track.t-b-csharp C# (78.2%)
-            followed by 
+            followed by
             = succeed(',') do
               %span.track.t-b-kotlin Kotlin (77.8%)
             %span.track.t-b-fsharp F# (65.1%)
@@ -71,16 +71,8 @@
 
               .track-details
                 .time-area
-                  - points = "0,95, 20,93, 40,85, 60,70, 80,64, 100,59, 120,55, 140,48, 160,40, 180,32, 200,22, 220,20, 240,15, 260,13, 280,10, 300,4"
-                  <svg viewBox="0 0 300 100">
-                  <polyline fill="none" stroke="url(#paint0_linear)" stroke-width="3.5" points="#{points}"/>
-                  <defs>
-                  <linearGradient id="paint0_linear" x1="66" y1="2.5" x2="66" y2="50.5" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#2200FF"/>
-                  <stop offset="1" stop-color="#9E00FF"/>
-                  </linearGradient>
-                  </defs>
-                  </svg>
+                  .graph
+                    = ReactComponents::ProgressGraph.new([0, 2, 4, 3, 5, 0, 3], 120, 300)
 
                   .info
                     %h4 Last 12 months
@@ -114,7 +106,7 @@
             You’ve mostly mentored in
             = succeed(',') do
               %span.track.t-b-csharp C# (48%)
-            followed by 
+            followed by
             %span.track.t-b-fsharp F# (32%)
             and
             %span.track.t-b-javascript Javascript (20%).
@@ -204,7 +196,7 @@
             You’ve contributed most to
             = succeed(',') do
               %span.track.t-b-csharp C# (48%)
-            followed by 
+            followed by
             %span.track.t-b-fsharp F# (32%)
             and
             %span.track.t-b-javascript Javascript

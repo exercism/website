@@ -267,6 +267,7 @@ import { Category as ProfileContributionsListCategory } from '../components/prof
 import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
 import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
 import { Links as SolutionViewLinks } from '../components/common/SolutionView'
+import { ProgressGraph } from '../components/progress-graph/ProgressGraph'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -674,6 +675,18 @@ initReact({
     <Profile.AvatarSelector
       user={camelizeKeysAs<User>(data.user)}
       links={data.links}
+    />
+  ),
+  'progress-graph': (data: {
+    values: Array<number>
+    width: number
+    height: number
+  }) => (
+    <ProgressGraph
+      data={data.values}
+      height={data.height}
+      width={data.width}
+      smooth
     />
   ),
 })

@@ -34,6 +34,7 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         'react/prop-types': 'off',
+        'react/display-name': 'off',
       },
     },
     {

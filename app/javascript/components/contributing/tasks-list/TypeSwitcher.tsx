@@ -11,7 +11,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-docs" className="task-icon" />
           <div className="info">
             <div className="title">Docs</div>
-            <div className="description">Help build Exercism's docs </div>
+            <div className="description">Help build Exercism's docs</div>
           </div>
         </React.Fragment>
       )
@@ -22,7 +22,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <div className="info">
             <div className="title">CI</div>
             <div className="description">
-              Automation and continuous integration{' '}
+              Automation and continuous integration
             </div>
           </div>
         </React.Fragment>
@@ -33,7 +33,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-docker" className="task-icon" />
           <div className="info">
             <div className="title">Docker</div>
-            <div className="description">Help improve our Dockerfiles </div>
+            <div className="description">Help improve our Dockerfiles</div>
           </div>
         </React.Fragment>
       )
@@ -43,7 +43,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-coding" className="task-icon" />
           <div className="info">
             <div className="title">Coding</div>
-            <div className="description">Write production code </div>
+            <div className="description">Write production code</div>
           </div>
         </React.Fragment>
       )
@@ -53,7 +53,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-content" className="task-icon" />
           <div className="info">
             <div className="title">Content</div>
-            <div className="description">Develop exercises and concepts </div>
+            <div className="description">Develop exercises and concepts</div>
           </div>
         </React.Fragment>
       )

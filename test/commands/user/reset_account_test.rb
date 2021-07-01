@@ -53,12 +53,14 @@ class User::ResetAccountTest < ActiveSupport::TestCase
 
     user = create :user
     discussion = create :mentor_discussion, mentor: user
+    discussion_post = create :mentor_discussion_post, author: user
     testimonial = create :mentor_testimonial, mentor: user
 
     User::ResetAccount.(user)
 
     assert_equal ghost_user, discussion.reload.mentor
     assert_equal ghost_user, testimonial.reload.mentor
+    assert_equal ghost_user, discussion_post.reload.author
   end
 
   test "cleans up profile" do
@@ -112,6 +114,24 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     User::ResetAccount.(user)
     assert_raises ActiveRecord::RecordNotFound do
       track_mentorship.reload
+    end
+  end
+
+  test "cleans up scratchpad_pages" do
+    user = create :user
+    scratchpad_page = create :scratchpad_page, author: user
+    User::ResetAccount.(user)
+    assert_raises ActiveRecord::RecordNotFound do
+      scratchpad_page.reload
+    end
+  end
+
+  test "cleans up solution_stars" do
+    user = create :user
+    solution_star = create :solution_star, user: user
+    User::ResetAccount.(user)
+    assert_raises ActiveRecord::RecordNotFound do
+      solution_star.reload
     end
   end
 end

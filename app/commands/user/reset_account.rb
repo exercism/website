@@ -30,6 +30,7 @@ class User
 
     def reset_mentoring!
       user.mentor_discussions.update_all(mentor_id: User::GHOST_USER_ID)
+      user.mentor_discussion_posts.update_all(user_id: User::GHOST_USER_ID)
       user.mentor_testimonials.update_all(mentor_id: User::GHOST_USER_ID)
     end
 
@@ -40,6 +41,8 @@ class User
       user.reputation_tokens.delete_all
       user.acquired_badges.delete_all
       user.track_mentorships.delete_all
+      user.scratchpad_pages.delete_all
+      user.solution_stars.delete_all
     end
   end
 end

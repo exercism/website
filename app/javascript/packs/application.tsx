@@ -118,6 +118,7 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
+import '../../css/modals/reset-account'
 import '../../css/modals/badge'
 import '../../css/modals/update-exercise'
 import '../../css/modals/makers'
@@ -235,6 +236,7 @@ import {
   MentoredTrackExercise,
   User,
   SiteUpdate,
+  CommunicationPreferences,
 } from '../components/types'
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
@@ -262,6 +264,7 @@ import * as Profile from '../components/profile'
 import * as CommunitySolutions from '../components/community-solutions'
 import * as Contributing from '../components/contributing'
 import { Request as ContributingTasksRequest } from '../components/contributing/TasksList'
+import * as Settings from '../components/settings'
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
@@ -513,7 +516,7 @@ initReact({
       mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
-      isFirstTimeOnTrack={data.is_first_time_on_track}
+      trackObjectives={data.track_objectives}
       videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
@@ -688,6 +691,42 @@ initReact({
       width={data.width}
       smooth
     />
+  ),
+  'settings-profile-form': (data: any) => (
+    <Settings.ProfileForm defaultUser={data.user} links={data.links} />
+  ),
+  'settings-pronouns-form': (data: any) => (
+    <Settings.PronounsForm
+      handle={data.handle}
+      defaultPronounParts={data.pronoun_parts}
+      links={data.links}
+    />
+  ),
+  'settings-handle-form': (data: any) => (
+    <Settings.HandleForm defaultHandle={data.handle} links={data.links} />
+  ),
+  'settings-email-form': (data: any) => (
+    <Settings.EmailForm defaultEmail={data.email} links={data.links} />
+  ),
+  'settings-password-form': (data: any) => (
+    <Settings.PasswordForm links={data.links} />
+  ),
+  'settings-token-form': (data: any) => (
+    <Settings.TokenForm defaultToken={data.token} links={data.links} />
+  ),
+  'settings-communication-preferences-form': (data: any) => (
+    <Settings.CommunicationPreferencesForm
+      defaultPreferences={camelizeKeysAs<CommunicationPreferences>(
+        data.preferences
+      )}
+      links={data.links}
+    />
+  ),
+  'settings-delete-account-button': (data: any) => (
+    <Settings.DeleteAccountButton handle={data.handle} links={data.links} />
+  ),
+  'settings-reset-account-button': (data: any) => (
+    <Settings.ResetAccountButton handle={data.handle} links={data.links} />
   ),
 })
 

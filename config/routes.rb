@@ -45,9 +45,18 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
+      resource :settings, only: [:update] do
+        patch :sudo_update
+      end
       namespace :settings do
+        resource :communication_preferences, only: [:update]
+
         resources :introducers, only: [] do
           patch :hide, on: :member
+        end
+
+        resource :auth_token, only: [] do
+          patch :reset
         end
       end
 
@@ -200,10 +209,11 @@ Rails.application.routes.draw do
   # ############ #
   # Normal pages #
   # ############ #
-  resource :settings, only: %i[show update] do
-    get :api
-    patch :reset_api_token
-    patch :sudo_update
+  resource :settings, only: %i[show] do
+    get :api_cli
+    get :communication_preferences
+    patch :reset_account
+    delete :destroy_account
   end
 
   resource :dashboard, only: [:show], controller: "dashboard"
@@ -319,6 +329,8 @@ Rails.application.routes.draw do
   # TODO: Remove these before launching
   namespace :temp do
     resources :tracks, only: [:create]
+    resource :user_deletion, only: [:show]
+    resource :user_reset, only: [:show]
 
     resources :modals, only: [] do
       collection do

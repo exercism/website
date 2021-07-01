@@ -150,7 +150,7 @@
             & > .previous-discussions {
                 & .discussion {
                     @apply shadow-base rounded-8 bg-backgroundColorA;
-                    @apply py-8 px-24;
+                    @apply py-8 px-24 mb-12;
                     @apply flex items-center;
 
                     & > .c-avatar {

@@ -1,3 +1,22 @@
+# Create system user
+User.find_by_id(1) || User.create!(
+  handle: 'exercism-bot',
+  email: "#{SecureRandom.uuid}@exercism.io",
+  name: 'Exercism Bot',
+  github_username: 'exercism-bot',
+  password: SecureRandom.uuid,
+  bio: "I am the Exercism Bot"
+)
+User.find_by_id(2) || User.create!(
+  handle: 'exercism-ghost',
+  email: "#{SecureRandom.uuid}@exercism.io",
+  name: 'Exercism Ghost',
+  github_username: 'exercism-ghost',
+  password: SecureRandom.uuid,
+  bio: "I am the Ghost of old users who have left"
+)
+
+
 puts "Creating User iHiD"
 iHiD = User.find_by(handle: 'iHiD') || User.create!(
   handle: 'iHiD',

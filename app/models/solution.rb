@@ -43,6 +43,7 @@ class Solution < ApplicationRecord
     # to remove any spurious, accidental, and arbitrary
     # meaning.
     self.uuid = SecureRandom.compact_uuid unless self.uuid
+    self.unique_key = "#{user_id}:#{exercise_id}"
 
     self.git_slug = exercise.slug unless self.git_slug
     self.git_sha = exercise.git_sha unless self.git_sha

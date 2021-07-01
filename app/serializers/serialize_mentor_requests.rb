@@ -13,6 +13,7 @@ class SerializeMentorRequests
     relationship = relationships[request.student_id]
     had_mentoring_previously = students_who_have_had_mentoring.include?(request.student_id)
     status = "First timer" unless had_mentoring_previously
+    tooltip_url = Exercism::Routes.api_mentoring_student_path(request.student, track_slug: request.track_slug)
 
     {
       # TODO: Maybe expose a UUID instead?
@@ -31,7 +32,7 @@ class SerializeMentorRequests
       have_mentored_previously: !!relationship,
       is_favorited: !!relationship&.favorited?,
       status: status,
-      tooltip_url: Exercism::Routes.api_mentoring_student_path(request.student),
+      tooltip_url: tooltip_url,
 
       # TODO: Rename this to web_url
       url: Exercism::Routes.mentoring_request_url(request)

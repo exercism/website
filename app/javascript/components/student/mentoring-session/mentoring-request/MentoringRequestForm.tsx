@@ -25,13 +25,13 @@ type Links = {
 const DEFAULT_ERROR = new Error('Unable to create mentor request')
 
 export const MentoringRequestForm = ({
-  isFirstTimeOnTrack,
+  trackObjectives,
   track,
   exercise,
   links,
   onSuccess,
 }: {
-  isFirstTimeOnTrack: boolean
+  trackObjectives: string
   track: Track
   exercise: Exercise
   links: Links
@@ -45,7 +45,7 @@ export const MentoringRequestForm = ({
         method: 'POST',
         body: JSON.stringify({
           comment: solutionCommentRef.current?.value,
-          track_comment: trackCommentRef.current?.value,
+          track_objectives: trackObjectivesRef.current?.value,
         }),
         isMountedRef: isMountedRef,
       }).then((json) => {
@@ -76,7 +76,7 @@ export const MentoringRequestForm = ({
     [mutation]
   )
 
-  const trackCommentRef = useRef<HTMLTextAreaElement>(null)
+  const trackObjectivesRef = useRef<HTMLTextAreaElement>(null)
   const solutionCommentRef = useRef<HTMLTextAreaElement>(null)
 
   return (
@@ -100,23 +100,22 @@ export const MentoringRequestForm = ({
           </div>
           <GraphicalIcon icon="mentoring" category="graphics" />
         </div>
-        {isFirstTimeOnTrack ? (
-          <div className="question">
-            <label htmlFor="request-mentoring-form-track-comment">
-              What are you hoping to learn from this track?
-            </label>
-            <p id="request-mentoring-form-track-description">
-              Tell our mentors a little about your programming background and
-              what you’re aiming to learn from {track.title}.
-            </p>
-            <textarea
-              ref={trackCommentRef}
-              id="request-mentoring-form-track-comment"
-              required
-              aria-describedby="request-mentoring-form-track-description"
-            />
-          </div>
-        ) : null}
+        <div className="question">
+          <label htmlFor="request-mentoring-form-track-objectives">
+            What are you hoping to learn from this track?
+          </label>
+          <p id="request-mentoring-form-track-description">
+            Tell our mentors a little about your programming background and what
+            you’re aiming to learn from {track.title}.
+          </p>
+          <textarea
+            ref={trackObjectivesRef}
+            id="request-mentoring-form-track-objectives"
+            required
+            aria-describedby="request-mentoring-form-track-description"
+            defaultValue={trackObjectives}
+          />
+        </div>
         <div className="question">
           <label htmlFor="request-mentoring-form-solution-comment">
             How can a mentor help you with this solution?

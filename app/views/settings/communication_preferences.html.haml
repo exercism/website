@@ -1,0 +1,9 @@
+#page-settings-preferences.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:communication)
+
+    %article
+      %h1 Communication Preferences
+
+      %section
+        = render ReactComponents::Settings::CommunicationPreferencesForm.new

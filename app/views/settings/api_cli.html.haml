@@ -1,0 +1,9 @@
+#page-settings-api.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:api_cli)
+
+    %article
+      %h1 API &amp; CLI Settings
+
+      %section
+        = render ReactComponents::Settings::TokenForm.new

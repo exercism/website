@@ -46,7 +46,7 @@ export const MentoringSession = ({
   mentor,
   iterations,
   exercise,
-  isFirstTimeOnTrack,
+  trackObjectives,
   videos,
   track,
   request: initialRequest,
@@ -57,7 +57,7 @@ export const MentoringSession = ({
   mentor?: Mentor
   iterations: readonly Iteration[]
   exercise: Exercise
-  isFirstTimeOnTrack: boolean
+  trackObjectives: string
   videos: Video[]
   track: Track
   request?: Request
@@ -114,7 +114,7 @@ export const MentoringSession = ({
           />
         ) : (
           <MentoringRequest
-            isFirstTimeOnTrack={isFirstTimeOnTrack}
+            trackObjectives={trackObjectives}
             track={track}
             exercise={exercise}
             request={mentorRequest}

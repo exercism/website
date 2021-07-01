@@ -23,6 +23,7 @@ export const PureExerciseStatusBar = React.memo(ExerciseStatusBar)
 const statusMapper = (data: ExerciseData, key: number): JSX.Element => {
   return (
     <ExerciseStatusDot
+      key={key}
       slug={data.slug}
       exerciseStatus={data.status}
       type={data.type}

@@ -1,9 +1,28 @@
 @import "../styles";
 
+@keyframes settingsStatusFadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes settingsStatusFadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
 .page-settings {
     & .lg-container {
         @apply flex items-start;
         @apply pt-32;
+        @apply mb-80;
     }
     & nav.settings-nav {
         @apply shadow-lg rounded-8;
@@ -11,6 +30,8 @@
         @apply flex-shrink-0 flex-grow-0;
 
         @apply text-18 leading-150 font-semibold;
+        width: 31%;
+        min-width: 340px;
 
         & li:not(:last-child) {
             @apply mb-8;
@@ -42,6 +63,33 @@
                 margin-bottom: -24px;
                 @apply py-16 px-32 mt-24;
                 @apply border-t-1 border-borderColor6;
+
+                @apply flex items-center;
+
+                & .status {
+                    height: 48px;
+                    @apply px-24 ml-24;
+                    @apply text-16 font-medium;
+                    @apply flex items-center;
+                    @apply border-2 rounded-8;
+                    opacity: 0;
+                    animation: settingsStatusFadeIn 0.3s ease-out forwards,
+                        0.3s 3s settingsStatusFadeOut ease-in forwards;
+
+                    & .c-icon {
+                        height: 24px;
+                        width: 24px;
+                        @apply mr-16;
+                    }
+                }
+                & .success {
+                    @apply bg-veryLightGreen border-darkGreen;
+                    @apply text-darkSuccessGreen;
+                }
+                & .error {
+                    @apply bg-bgRed border-alert;
+                    @apply text-alert;
+                }
             }
         }
         & .label {
@@ -70,7 +118,7 @@
 }
 #page-settings-api {
     & section {
-        @apply flex flex-col items-start;
+        @apply flex flex-col;
     }
 
     & .c-copy-text-to-clipboard {
@@ -96,6 +144,9 @@
     & .details {
         @apply grid grid-cols-2 gap-24;
         @apply mb-16;
+        & .field {
+            @apply mt-0 !important;
+        }
     }
     & .field + .field {
         @apply mt-12;
@@ -139,7 +190,7 @@
             & input {
                 @apply bg-backgroundColorA;
                 @apply border-1 border-buttonBorderColor2;
-                @apply py-8 px-12 mx-4;
+                @apply py-8 px-12 mx-8;
                 @apply text-center;
                 width: 100px;
             }
@@ -155,13 +206,49 @@
                 & button {
                     @apply text-white font-semibold;
                     @apply bg-lightBlue rounded-100;
-                    height: 29px;
-                    @apply px-8;
+                    height: 28px;
+                    @apply px-10;
+                    white-space: nowrap;
                 }
                 & button + button {
                     @apply ml-8;
                 }
             }
+        }
+    }
+    & .danger-section {
+        @apply grid grid-cols-2 gap-24;
+        & .box {
+            @apply border-2 border-alert rounded-8;
+            @apply bg-veryLightRed;
+            @apply py-16 px-24;
+            @apply self-start;
+
+            & h2 {
+                @apply text-h4 mb-8;
+            }
+            & .info {
+                @apply mb-16;
+                @apply text-textColor2 text-16 leading-150;
+
+                & strong {
+                    @apply text-alert font-semibold;
+                }
+                & p {
+                    @apply mb-8;
+                }
+                & ul {
+                    @apply list-disc pl-20;
+                }
+            }
+        }
+    }
+}
+#page-settings-preferences {
+    & .c-checkbox-wrapper {
+        @apply mb-16;
+        & .row {
+            @apply text-16 leading-160 font-medium;
         }
     }
 }

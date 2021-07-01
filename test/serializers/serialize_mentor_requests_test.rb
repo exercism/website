@@ -24,7 +24,7 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
         have_mentored_previously: false,
         is_favorited: false,
         status: "First timer",
-        tooltip_url: Exercism::Routes.api_mentoring_student_path(student),
+        tooltip_url: Exercism::Routes.api_mentoring_student_path(student, track_slug: "ruby"),
 
         url: Exercism::Routes.mentoring_request_url(request)
       }

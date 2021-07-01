@@ -7,6 +7,6 @@ class AddUniqueKeyToSolutions < ActiveRecord::Migration[6.1]
     change_column_null :solutions, :unique_key, false
 
     add_index :solutions, :unique_key, unique: true
-    remove_index :solutions, [:user_id, :exercise_id]
+    remove_index :solutions, [:user_id, :exercise_id] # index_solutions_on_exercise_id_and_user_id
   end
 end

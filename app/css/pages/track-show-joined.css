@@ -355,9 +355,22 @@
                     @apply text-16 leading-150 text-textColor2;
                 }
             }
-            & svg {
+
+            & .c-react-wrapper-progress-graph {
                 @apply ml-48 flex-shrink-0;
+            }
+
+            & .graph,
+            & .c-progress-graph {
+                height: 70px;
                 width: 145px;
+            }
+            & .c-progress-graph {
+                stroke-width: 3px;
+                stroke-linecap: round;
+
+                --progress-graph-first-color: rgb(15, 33, 244);
+                --progress-graph-last-color: rgb(136, 30, 245);
             }
         }
 

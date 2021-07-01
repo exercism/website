@@ -59,23 +59,9 @@
             .count= (last_8_weeks_counts.sum / 8.0).round(1)
             %h3 Avg. exercises completed per week (last 8 weeks)
 
-          - max = last_8_weeks_counts.max.to_f
-          - if max.zero?
-            - points = last_8_weeks_counts.map.with_index { |_, idx| "#{idx * 20},0" }
-          - else
-            - points = last_8_weeks_counts.map.with_index { |p, idx| "#{idx * 20},#{70 - (p / max * 70)}" }.join(" ")
+          = ReactComponents::ProgressGraph.new(last_8_weeks_counts, 70, 145)
 
-          <svg viewBox="0 0 140 70">
-          <polyline fill="none" stroke="url(#paint0_linear)" stroke-width="3.5" points="#{points}"/>
-          <defs>
-          <linearGradient id="paint0_linear" x1="66" y1="2.5" x2="66" y2="50.5" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#2200FF"/>
-          <stop offset="1" stop-color="#9E00FF"/>
-          </linearGradient>
-          </defs>
-          </svg>
-          / TODO
-
+        / TODO
         -#
           %section.learning-pattern
             = graphical_icon "steady-learning-pattern"

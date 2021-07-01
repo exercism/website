@@ -174,10 +174,16 @@
                         & .time-area {
                             @apply flex flex-col items-center;
 
-                            & svg {
+                            & .c-progress-graph {
                                 height: 120px;
                                 width: 300px;
                                 @apply mb-32;
+
+                                stroke-width: 4px;
+                                stroke-linecap: round;
+
+                                --progress-graph-first-color: rgb(15, 33, 244);
+                                --progress-graph-last-color: rgb(136, 30, 245);
                             }
                             & .info {
                                 @apply shadow-base rounded-8;

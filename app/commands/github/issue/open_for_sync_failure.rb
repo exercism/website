@@ -3,7 +3,7 @@ module Github
     class OpenForSyncFailure
       include Mandate
 
-      initialize_with :track, :error, :git_sha
+      initialize_with :track, :exception, :git_sha
 
       def call
         if missing?
@@ -21,9 +21,9 @@ module Github
 
           The error was:
           ```
-          #{error.message}
+          #{exception.message}
 
-          #{error.backtrace.join("\n")}
+          #{exception.backtrace.join("\n")}
           ```
 
           Please tag @exercism/maintainers-admin if you require more information.

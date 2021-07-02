@@ -59,7 +59,7 @@ module Github
       end
 
       def deadlock_exception?
-        exception.is_a?(Mysql2::Error) && exception.message.include?("Deadlock found when trying to get lock")
+        exception.is_a?(ActiveRecord::Deadlocked)
       end
     end
   end

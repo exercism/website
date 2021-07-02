@@ -8,29 +8,18 @@ module Github
       def call
         return if deadlock_exception?
 
-        Github::Issue::Open.(repo, title, body)
-      end
-
-      private
-      def deadlock_exception?
-        exception.is_a?(ActiveRecord::Deadlocked)
-      end
-
-      def repo
-        "exercism/#{track.slug}"
-      end
-
-      def title
-        if git_sha.present?
-          "🤖 Sync error for commit #{git_sha[0..5]}"
-        else
-          "🤖 Sync error: Could not find main branch"
+        if missing?
+          create_issue
+        elsif closed?
+          reopen_issue
         end
       end
 
-      def body
-        <<~BODY.strip
-          We hit an error trying to sync the latest commit (#{git_sha || 'unknown'}) to the website.
+      private
+      def create_issue
+        title = "🤖 Sync error for commit #{git_sha[0..5]}"
+        body = <<~BODY.strip
+          We hit an error trying to sync the latest commit (#{git_sha}) to the website.
 
           The error was:
           ```
@@ -41,6 +30,36 @@ module Github
 
           Please tag @exercism/maintainers-admin if you require more information.
         BODY
+
+        Exercism.octokit_client.create_issue(repo, title, body)
+      end
+
+      def reopen_issue
+        Exercism.octokit_client.reopen_issue(repo, issue.number)
+      end
+
+      def missing?
+        issue.nil?
+      end
+
+      def closed?
+        issue.state == "closed"
+      end
+
+      memoize
+      def repo
+        "exercism/#{track.slug}"
+      end
+
+      memoize
+      def issue
+        # TODO: Elevate this into exercism-config gem
+        author = "exercism-bot"
+        Exercism.octokit_client.search_issues("#{git_sha} is:issue in:body repo:#{repo} author:#{author}")[:items]&.first
+      end
+
+      def deadlock_exception?
+        exception.is_a?(ActiveRecord::Deadlocked)
       end
     end
   end

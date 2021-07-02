@@ -3,9 +3,11 @@ module Github
     class OpenForSyncFailure
       include Mandate
 
-      initialize_with :track, :error, :git_sha
+      initialize_with :track, :exception, :git_sha
 
       def call
+        return if deadlock_exception?
+
         if missing?
           create_issue
         elsif closed?
@@ -21,12 +23,12 @@ module Github
 
           The error was:
           ```
-          #{error.message}
+          #{exception.message}
 
-          #{error.backtrace.join("\n")}
+          #{exception.backtrace.join("\n")}
           ```
 
-          Please tag @iHiD if you require more information.
+          Please tag @exercism/maintainers-admin if you require more information.
         BODY
 
         Exercism.octokit_client.create_issue(repo, title, body)
@@ -54,6 +56,10 @@ module Github
         # TODO: Elevate this into exercism-config gem
         author = "exercism-bot"
         Exercism.octokit_client.search_issues("#{git_sha} is:issue in:body repo:#{repo} author:#{author}")[:items]&.first
+      end
+
+      def deadlock_exception?
+        exception.is_a?(ActiveRecord::Deadlocked)
       end
     end
   end

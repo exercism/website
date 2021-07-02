@@ -32,7 +32,7 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
         json["labels"].empty? &&
           json["title"] == "🤖 Sync error for commit 2e25f7" &&
           json["body"].include?("We hit an error trying to sync the latest commit (2e25f799c1830b93a8ad65a2bbbb1c50f381e639) to the website.") && # rubocop:disable Layout/LineLength
-          json["body"].include?("Please tag @iHiD if you require more information.") &&
+          json["body"].include?("Please tag @exercism/maintainers-admin if you require more information.") &&
           json["body"].match?(/open_for_sync_failure_test\.rb:\d+:in `block in <class:OpenForSyncFailureTest>/)
       end.
       to_return(status: 200, body: "", headers: {}).

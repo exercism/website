@@ -26,7 +26,7 @@ module Github
           #{error.backtrace.join("\n")}
           ```
 
-          Please tag @iHiD if you require more information.
+          Please tag @exercism/maintainers-admin if you require more information.
         BODY
 
         Exercism.octokit_client.create_issue(repo, title, body)

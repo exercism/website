@@ -129,9 +129,7 @@ module Git
     # This includes meta files
     memoize
     def tooling_filepaths
-      filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
-        !filepath.match?(track.ignore_regexp)
-      end
+      filepaths
     end
 
     # This includes meta files
@@ -172,7 +170,6 @@ module Git
       special_filepaths << SPECIAL_FILEPATHS[:hints] if filepaths.include?(hints_filepath)
 
       filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
-        next if filepath.match?(track.ignore_regexp) # TODO: remove this
         next if filepath.start_with?('.docs/')
         next if filepath.start_with?('.meta/') && filepath != config_filepath
 

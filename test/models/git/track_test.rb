@@ -5,12 +5,12 @@ module Git
     test "passing_repo_works" do
       repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       track = Git::Track.new(repo: repo)
-      assert_equal(/test/, track.test_regexp)
+      assert_equal("ruby", track.slug)
     end
 
     test "passing_repo_url_works" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal(/test/, track.test_regexp)
+      assert_equal("ruby", track.slug)
     end
 
     test "passing_both_repo_and_repo_url_raises" do
@@ -23,26 +23,6 @@ module Git
       assert_raises do
         Git::Repository.new
       end
-    end
-
-    test "retrieves_test_regexp" do
-      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal(/test/, track.test_regexp)
-    end
-
-    test "has_correct_default_test_regexp" do
-      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-naked"))
-      assert_equal(/[tT]est/, track.test_regexp)
-    end
-
-    test "retrieves_ignore_regexp" do
-      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal(/[iI]gno/, track.ignore_regexp)
-    end
-
-    test "has_correct_default_ignore_regexp" do
-      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-naked"))
-      assert_equal(/[iI]gnore/, track.ignore_regexp)
     end
 
     test "retrieves_about" do

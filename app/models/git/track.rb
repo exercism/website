@@ -19,16 +19,6 @@ module Git
       @git_sha = git_sha
     end
 
-    def test_regexp
-      pattern = config[:test_pattern]
-      Regexp.new(pattern.presence || "[tT]est")
-    end
-
-    def ignore_regexp
-      pattern = config[:ignore_pattern]
-      Regexp.new(pattern.presence || "[iI]gnore")
-    end
-
     memoize
     def title
       config[:language]

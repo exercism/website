@@ -181,8 +181,7 @@ module Git
 
       filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
         next if filepath.start_with?('.docs/')
-
-        next if !filepath == config_filepath && filepath.start_with?('.meta/')
+        next if filepath.start_with?('.meta/') && filepath != config_filepath
         next if example_filepaths.include?(filepath)
         next if exemplar_filepaths.include?(filepath)
 

@@ -20,8 +20,10 @@ module Mentor
           ).
           select("COUNT(*)").to_sql
 
-        Mentor::StudentRelationship.where(id: relationship.id).
-          update_all("num_discussions = (#{Arel.sql(sql)})")
+        ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
+          Mentor::StudentRelationship.where(id: relationship.id).
+            update_all("num_discussions = (#{Arel.sql(sql)})")
+        end
       end
     end
   end

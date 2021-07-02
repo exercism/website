@@ -6,6 +6,8 @@ module Github
       initialize_with :track, :exception, :git_sha
 
       def call
+        return if deadlock_exception?
+
         if missing?
           create_issue
         elsif closed?
@@ -54,6 +56,10 @@ module Github
         # TODO: Elevate this into exercism-config gem
         author = "exercism-bot"
         Exercism.octokit_client.search_issues("#{git_sha} is:issue in:body repo:#{repo} author:#{author}")[:items]&.first
+      end
+
+      def deadlock_exception?
+        exception.is_a?(Mysql2::Error) && exception.message.include?("Deadlock found when trying to get lock")
       end
     end
   end

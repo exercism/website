@@ -9,7 +9,7 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
     begin
       raise StandardError, "Could not find Concept X"
     rescue StandardError => e
-      error = e
+      exception = e
     end
 
     track = create :track, slug: 'ruby'
@@ -38,12 +38,12 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
       to_return(status: 200, body: "", headers: {}).
       times(1)
 
-    Github::Issue::OpenForSyncFailure.(track, error, track.git_head_sha)
+    Github::Issue::OpenForSyncFailure.(track, exception, track.git_head_sha)
   end
 
   test "re-opens issue when issue was closed" do
     head_git_sha = "2e25f799c1830b93a8ad65a2bbbb1c50f381e639"
-    error = StandardError.new "Could not find Concept X"
+    exception = StandardError.new "Could not find Concept X"
 
     track = create :track, slug: 'ruby'
     track.stubs(:git_head_sha).returns(head_git_sha)
@@ -67,12 +67,12 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
       to_return(status: 200, body: "", headers: {}).
       times(1)
 
-    Github::Issue::OpenForSyncFailure.(track, error, track.git_head_sha)
+    Github::Issue::OpenForSyncFailure.(track, exception, track.git_head_sha)
   end
 
   test "does nothing when issue already open" do
     head_git_sha = "2e25f799c1830b93a8ad65a2bbbb1c50f381e639"
-    error = StandardError.new "Could not find Concept X"
+    exception = StandardError.new "Could not find Concept X"
 
     track = create :track, slug: 'ruby'
     track.stubs(:git_head_sha).returns(head_git_sha)
@@ -91,7 +91,17 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
         headers: { 'Content-Type': 'application/json' }
       )
 
-    Github::Issue::OpenForSyncFailure.(track, error, track.git_head_sha)
+    Github::Issue::OpenForSyncFailure.(track, exception, track.git_head_sha)
+
+    # If the GitHub API would have been called, we would not have gotten to this point
+  end
+
+  test "does nothing when exception is deadlock" do
+    track = create :track
+
+    exception = Mysql2::Error.new "Deadlock found when trying to get lock; try restarting transaction"
+
+    Github::Issue::OpenForSyncFailure.(track, exception, track.git_head_sha)
 
     # If the GitHub API would have been called, we would not have gotten to this point
   end

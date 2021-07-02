@@ -10,6 +10,16 @@ class Webhooks::ProcessOrganizationMemberUpdateTest < ActiveSupport::TestCase
     refute member.alumnus
   end
 
+  test "sets alumnus to false for member if member already exists and action is 'member_added' and organization is exercism" do
+    Github::Organization.any_instance.stubs(:name).returns('exercism')
+
+    member = create :github_organization_member, username: 'user22', alumnus: true
+
+    Webhooks::ProcessOrganizationMemberUpdate.('member_added', 'user22', 'exercism')
+
+    refute member.reload.alumnus
+  end
+
   test "does not add member if action is 'member_added' and organization is not exercism" do
     Github::Organization.any_instance.stubs(:name).returns('exercism')
 

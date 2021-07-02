@@ -5,7 +5,7 @@ module Github
 
       def call
         organization_member_usernames.each do |username|
-          ::Github::OrganizationMember.create_or_find_by!(username: username)
+          ::Github::OrganizationMember::CreateOrUpdate.(username, alumnus: false)
         end
 
         ::Github::OrganizationMember.where.not(username: organization_member_usernames).update_all(alumnus: true)

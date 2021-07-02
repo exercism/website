@@ -15,10 +15,22 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
     Github::Organization.any_instance.stubs(:member_usernames).returns(['ErikSchierboom'])
     Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
 
+    member = create :github_organization_member, username: 'ErikSchierboom'
+
     Github::OrganizationMember::SyncMembers.()
 
-    member = ::Github::OrganizationMember.find_by(username: 'ErikSchierboom')
     refute member.alumnus
+  end
+
+  test "set alumnus to false for existing members" do
+    Github::Organization.any_instance.stubs(:member_usernames).returns(['ErikSchierboom'])
+    Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
+
+    member = create :github_organization_member, username: 'ErikSchierboom', alumnus: true
+
+    Github::OrganizationMember::SyncMembers.()
+
+    refute member.reload.alumnus
   end
 
   test "makes missing members alumnus" do

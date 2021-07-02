@@ -86,8 +86,18 @@ module Git
     end
 
     memoize
+    def exemplar_filepaths
+      config.dig(:files, :exemplar).to_a
+    end
+
+    memoize
+    def example_filepaths
+      config.dig(:files, :example).to_a
+    end
+
+    memoize
     def exemplar_files
-      config[:files][:exemplar].index_with do |filepath|
+      exemplar_filepaths.index_with do |filepath|
         read_file_blob(filepath)
       end
     rescue StandardError
@@ -96,7 +106,7 @@ module Git
 
     memoize
     def example_files
-      config[:files][:example].index_with do |filepath|
+      example_filepaths.index_with do |filepath|
         read_file_blob(filepath)
       end
     rescue StandardError
@@ -171,7 +181,10 @@ module Git
 
       filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
         next if filepath.start_with?('.docs/')
-        next if filepath.start_with?('.meta/') && filepath != config_filepath
+
+        next if !filepath == config_filepath && filepath.start_with?('.meta/')
+        next if example_filepaths.include?(filepath)
+        next if exemplar_filepaths.include?(filepath)
 
         true
       end

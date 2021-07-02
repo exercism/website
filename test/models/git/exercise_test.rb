@@ -75,6 +75,35 @@ module Git
       assert_equal expected_filepaths, exercise.cli_filepaths
     end
 
+    test "cli_filepaths excludes exemplar files outside hints" do
+      exercise = Git::Exercise.new(:numbers, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        "README.md",
+        "HELP.md",
+        "HINTS.md",
+        ".meta/config.json",
+        "assembly_line.rb",
+        "assembly_line_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.cli_filepaths
+    end
+
+    test "cli_filepaths excludes example files outside hints" do
+      exercise = Git::Exercise.new(:leap, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        "README.md",
+        "HELP.md",
+        ".meta/config.json",
+        "leap.rb",
+        "leap_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.cli_filepaths
+    end
+
     test "important_filepaths without appends" do
       exercise = Git::Exercise.new(:anagram, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

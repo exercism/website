@@ -75,7 +75,7 @@ module Git
       assert_equal expected_filepaths, exercise.cli_filepaths
     end
 
-    test "cli_filepaths excludes exemplar files outside hints" do
+    test "cli_filepaths excludes exemplar files outside hidden dirs" do
       exercise = Git::Exercise.new(:numbers, "concept", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
@@ -90,7 +90,7 @@ module Git
       assert_equal expected_filepaths, exercise.cli_filepaths
     end
 
-    test "cli_filepaths excludes example files outside hints" do
+    test "cli_filepaths excludes example files outside hidden dirs" do
       exercise = Git::Exercise.new(:leap, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 

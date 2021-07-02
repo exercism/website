@@ -99,7 +99,7 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
   test "does nothing when exception is deadlock" do
     track = create :track
 
-    exception = Mysql2::Error.new "Deadlock found when trying to get lock; try restarting transaction"
+    exception = ActiveRecord::Deadlocked.new
 
     Github::Issue::OpenForSyncFailure.(track, exception, track.git_head_sha)
 

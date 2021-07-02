@@ -14,12 +14,19 @@ export const DiscussionActions = ({
   discussion: MentorDiscussion
   links: Links
 }): JSX.Element => {
-  return discussion.isFinished ? (
+  return discussion.isFinished || discussion.status === 'mentor_finished' ? (
     <div className="finished">
       <GraphicalIcon icon="completed-check-circle" />
       Ended
     </div>
   ) : (
-    <FinishButton discussion={discussion} links={links} />
+    <FinishButton
+      discussion={discussion}
+      links={links}
+      className="btn-keyboard-shortcut finish-button"
+    >
+      <div className="--hint">End discussion</div>
+      <div className="--kb">F3</div>
+    </FinishButton>
   )
 }

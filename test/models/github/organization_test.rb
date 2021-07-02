@@ -2,7 +2,7 @@ require "test_helper"
 
 class Github::OrganizationTest < ActiveSupport::TestCase
   test "remove_member" do
-    skip
+    skip # enable once organization functionality has been tested properly
     Github::Organization.instance.stubs(:name).returns('exercism')
 
     stub_request(:delete, "https://api.github.com/orgs/exercism/members/erikschierboom").

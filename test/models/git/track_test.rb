@@ -185,5 +185,39 @@ module Git
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal 1.2, track.average_test_duration
     end
+
+    test "title" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal "Ruby", track.title
+    end
+
+    test "slug" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal "ruby", track.slug
+    end
+
+    test "blurb" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity."
+      assert_equal expected, track.blurb
+    end
+
+    test "active?" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert track.active?
+    end
+
+    test "tags" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = [
+        "execution_mode/interpreted",
+        "platform/windows",
+        "platform/linux",
+        "platform/mac",
+        "paradigm/declarative",
+        "paradigm/object_oriented"
+      ]
+      assert_equal expected, track.tags
+    end
   end
 end

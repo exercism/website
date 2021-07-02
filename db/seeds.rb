@@ -89,9 +89,9 @@ track_slugs.each do |track_slug|
     git_track = Git::Track.new(repo.head_commit.oid, repo_url: repo_url)
     track = Track::Create.(
       track_slug,
-      title: git_track.config[:language],
-      blurb: git_track.config[:blurb],
-      tags: git_track.config[:tags].to_a,
+      title: git_track.title,
+      blurb: git_track.blurb,
+      tags: git_track.tags,
       repo_url: repo_url,
       synced_to_git_sha: first_commit.oid
     )

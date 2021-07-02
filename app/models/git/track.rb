@@ -30,6 +30,31 @@ module Git
     end
 
     memoize
+    def title
+      config[:language]
+    end
+
+    memoize
+    def slug
+      config[:slug]
+    end
+
+    memoize
+    def blurb
+      config[:blurb]
+    end
+
+    memoize
+    def tags
+      config[:tags].to_a
+    end
+
+    memoize
+    def active?
+      config[:active].present?
+    end
+
+    memoize
     def key_features
       config[:key_features].to_a
     end

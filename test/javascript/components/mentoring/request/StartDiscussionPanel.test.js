@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, act } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -31,7 +31,8 @@ test('shows loading message while locking mentoring request', async () => {
       />
     </TestQueryCache>
   )
-  userEvent.click(await screen.findByRole('button', { name: 'Send' }))
+  const button = screen.getByRole('button', { name: 'Send' })
+  act(() => userEvent.click(button))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 

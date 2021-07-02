@@ -54,7 +54,7 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
 
             {links.update ? (
               <EditDiscussionPost
-                value={contentMarkdown}
+                defaultValue={contentMarkdown}
                 endpoint={links.update}
                 contextId={`edit_${id}`}
               />

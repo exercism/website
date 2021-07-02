@@ -4,6 +4,7 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { MarkdownEditor } from '../../../../app/javascript/components/common/MarkdownEditor'
+import userEvent from '@testing-library/user-event'
 
 test('shows error message when API returns an error', async () => {
   const server = setupServer(
@@ -19,7 +20,8 @@ test('shows error message when API returns an error', async () => {
       url="https://exercism.test/parse_markdown"
     />
   )
-  fireEvent.click(screen.getByTitle('Toggle Preview (Ctrl-P)'))
+  const previewButton = await screen.findByTitle('Toggle Preview (Ctrl-P)')
+  userEvent.click(previewButton)
 
   await waitFor(() =>
     expect(screen.queryByText('Unable to parse markdown')).toBeInTheDocument()

@@ -1,16 +1,16 @@
-import React, { useCallback, useRef, useEffect, useContext } from 'react'
+import React, { useCallback, useContext, useState, useEffect } from 'react'
 import {
   MarkdownEditor,
   MarkdownEditorHandle,
 } from '../../common/MarkdownEditor'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
-import { Loading, GraphicalIcon } from '../../common'
 import { useMutation, queryCache } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { PostsContext } from './PostsContext'
 import { DiscussionPostProps } from './DiscussionPost'
 import { typecheck } from '../../../utils/typecheck'
+import { FormFooter } from './discussion-post-form/FormFooter'
 
 const DEFAULT_ERROR = new Error('Unable to save post')
 
@@ -19,7 +19,10 @@ type ComponentProps = {
   method: 'POST' | 'PATCH'
   onSuccess?: () => void
   onCancel?: () => void
+  onClick?: () => void
+  onChange?: (value: string) => void
   contextId: string
+  expanded?: boolean
   value?: string
 }
 
@@ -36,14 +39,21 @@ const ErrorFallback = ({ error }: { error: Error }) => {
 export const DiscussionPostForm = ({
   endpoint,
   method,
-  onSuccess = () => {},
-  onCancel = () => {},
+  onSuccess = () => null,
+  onCancel = () => null,
+  onClick = () => null,
+  onChange = () => null,
   contextId,
+  expanded = true,
   value = '',
 }: ComponentProps): JSX.Element => {
-  const editorRef = useRef<MarkdownEditorHandle | null>(null)
+  const [editor, setEditor] = useState<MarkdownEditorHandle | null>(null)
   const isMountedRef = useIsMounted()
   const { cacheKey } = useContext(PostsContext)
+  const classNames = [
+    'c-markdown-editor',
+    expanded ? '--expanded' : '--compressed',
+  ].filter((className) => className.length > 0)
   const [mutation, { status, error }] = useMutation<
     DiscussionPostProps | undefined
   >(
@@ -51,7 +61,7 @@ export const DiscussionPostForm = ({
       return sendRequest({
         endpoint: endpoint,
         method: method,
-        body: JSON.stringify({ content: editorRef.current?.value() }),
+        body: JSON.stringify({ content: value }),
         isMountedRef: isMountedRef,
       }).then((json) => {
         if (!json) {
@@ -93,50 +103,55 @@ export const DiscussionPostForm = ({
     [mutation]
   )
 
-  const handleEditorMount = useCallback(
-    (editor: MarkdownEditorHandle) => {
-      editorRef.current = editor
+  const handleClick = useCallback(() => {
+    onClick()
+  }, [onClick])
+
+  const handleChange = useCallback(
+    (value: string) => {
+      onChange(value)
     },
-    [editorRef]
+    [onChange]
   )
 
+  const handleCancel = useCallback(
+    (e) => {
+      e.stopPropagation()
+      onCancel()
+    },
+    [onCancel]
+  )
+
+  const handleEditorDidMount = useCallback((editor) => {
+    setEditor(editor)
+  }, [])
+
   useEffect(() => {
-    if (!editorRef.current) {
+    if (!expanded || !editor) {
       return
     }
 
-    editorRef.current.value(value)
-  }, [value])
+    editor.focus()
+  }, [expanded, editor])
 
   return (
     <>
-      {/* TODO: Add --compressed or --expanded */}
-      <form onSubmit={handleSubmit} className="c-markdown-editor --expanded">
+      <form
+        onSubmit={handleSubmit}
+        onClick={handleClick}
+        className={classNames.join(' ')}
+        data-testid="markdown-editor"
+      >
         <MarkdownEditor
           contextId={contextId}
           value={value}
-          editorDidMount={handleEditorMount}
+          onChange={handleChange}
+          editorDidMount={handleEditorDidMount}
         />
-        <footer className="editor-footer">
-          {/* TODO: Only one of these should show, depending on whether there is content in the text area or not */}
-          <button
-            className="btn-primary btn-xs"
-            type="submit"
-            disabled={status === 'loading'}
-          >
-            <GraphicalIcon icon="send" />
-            <span>Send</span>
-          </button>
-          <button
-            type="button"
-            className="btn-default btn-xs"
-            onClick={onCancel}
-          >
-            Cancel
-          </button>
-        </footer>
+        {expanded ? (
+          <FormFooter onCancel={handleCancel} value={value} status={status} />
+        ) : null}
       </form>
-      {status === 'loading' ? <Loading /> : null}
       <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
         <ErrorMessage error={error} />
       </ErrorBoundary>

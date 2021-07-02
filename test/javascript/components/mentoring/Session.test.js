@@ -5,6 +5,7 @@ import {
   screen,
   act,
   waitForElementToBeRemoved,
+  waitFor,
 } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -271,10 +272,15 @@ test('switches to posts tab when comment success', async () => {
   )
 
   userEvent.click(screen.getByRole('tab', { name: 'Scratchpad' }))
-  userEvent.click(screen.getByRole('button', { name: 'Add a comment' }))
-  document
-    .querySelector('.comment-section .CodeMirror')
-    .CodeMirror.setValue('#Hello')
+  userEvent.click(screen.getByTestId('markdown-editor'))
+  await waitFor(() =>
+    expect(document.querySelector('.comment-section .CodeMirror')).toBeDefined()
+  )
+  act(() =>
+    document
+      .querySelector('.comment-section .CodeMirror')
+      .CodeMirror.setValue('#Hello')
+  )
   const button = screen.getByRole('button', { name: 'Send' })
   userEvent.click(button)
 

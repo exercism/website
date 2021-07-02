@@ -30,18 +30,9 @@ export const Scratchpad = ({
   exercise: Exercise
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const editorRef = useRef<MarkdownEditorHandle | null>()
   const [content, setContent] = useState('')
   const [error, setError] = useState('')
   const [page, setPage] = useState<ScratchpadPage | null>(null)
-
-  const handleEditorDidMount = useCallback((editor: MarkdownEditorHandle) => {
-    editorRef.current = editor
-
-    if (editorRef.current) {
-      setContent(editorRef.current.value() || '')
-    }
-  }, [])
 
   const handleChange = useCallback((content) => {
     setContent(content)
@@ -51,17 +42,13 @@ export const Scratchpad = ({
     (e) => {
       e.preventDefault()
 
-      if (!editorRef.current || !page) {
-        return
-      }
-
       setError('')
 
       sendRequest({
         endpoint: scratchpad.links.self,
         method: 'PATCH',
         body: JSON.stringify({
-          scratchpad_page: { content_markdown: editorRef.current?.value() },
+          scratchpad_page: { content_markdown: content },
         }),
         isMountedRef: isMountedRef,
       })
@@ -80,7 +67,7 @@ export const Scratchpad = ({
           }
         })
     },
-    [isMountedRef, page, scratchpad.links.self]
+    [content, isMountedRef, scratchpad.links.self]
   )
 
   const pullPage = useCallback(() => {
@@ -110,23 +97,19 @@ export const Scratchpad = ({
   useEffect(pullPage, [pullPage])
 
   const revert = useCallback(() => {
-    if (!editorRef.current || !page) {
+    if (!page) {
       return
     }
 
-    editorRef.current.value(page.contentMarkdown)
+    setContent(page.contentMarkdown)
   }, [page])
 
   useEffect(() => {
-    if (!editorRef.current || !page) {
+    if (!page) {
       return
     }
 
-    if (editorRef.current.value() !== '') {
-      return
-    }
-
-    editorRef.current.value(page.contentMarkdown || '')
+    setContent(page.contentMarkdown)
   }, [page])
 
   if (!page) {
@@ -157,10 +140,10 @@ export const Scratchpad = ({
 
       <form onSubmit={handleSubmit} className="c-markdown-editor">
         <MarkdownEditor
-          editorDidMount={handleEditorDidMount}
           onChange={handleChange}
           contextId={`scratchpad-${scratchpad.links.self}`}
           options={{ status: [] }}
+          value={content}
         />
         <footer className="editor-footer">
           {content === page.contentMarkdown ? null : (

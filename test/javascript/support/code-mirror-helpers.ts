@@ -14,4 +14,5 @@ export function stubRange(): void {
 
     return range
   }
+  window.focus = jest.fn()
 }

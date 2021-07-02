@@ -231,7 +231,27 @@ module Components
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           wait_for_websockets
-          click_on "Add a comment"
+          find("form").click
+          fill_in_editor "# Hello", within: ".comment-section"
+          click_on "Send"
+        end
+
+        assert_css "img[src='#{mentor.avatar_url}']"
+        assert_text "author"
+        assert_text "Hello"
+      end
+
+      test "submit a new post after discussion is finished" do
+        mentor = create :user, handle: "author"
+        solution = create :concept_solution
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, status: :mentor_finished
+        create :iteration, solution: solution
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          wait_for_websockets
+          click_on "still post."
           fill_in_editor "# Hello", within: ".comment-section"
           click_on "Send"
         end

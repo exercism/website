@@ -57,7 +57,7 @@ class ProfilesController < ApplicationController
     if params[:user]
       current_user.update!(
         params[:user].
-        permit(:name, :location, :bio, :pronouns)
+        permit(:name, :location, :bio)
       )
     end
 

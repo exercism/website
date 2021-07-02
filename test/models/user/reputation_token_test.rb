@@ -71,4 +71,11 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
       token.seen!
     end
   end
+
+  test "updates user's reputation" do
+    user = create :user, handle: "User22", github_username: "user22"
+    create :user_reputation_token, user: user
+
+    assert 10, user.reload.reputation
+  end
 end

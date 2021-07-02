@@ -13,6 +13,7 @@ class User
           params: params
         ).tap do |token|
           token.save!
+
           User::ReputationPeriod::MarkForNewToken.(token)
         rescue ActiveRecord::RecordNotUnique
           return klass.find_by!(user: user, uniqueness_key: token.uniqueness_key)

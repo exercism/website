@@ -33,10 +33,14 @@ class User::ReputationToken < ApplicationRecord
     self.value = self.determine_value
   end
 
-  after_save do
-    # We're updating in a single query instead of two queries to avoid race-conditions
+  after_save_commit do
     summing_sql = Arel.sql("(#{user.reputation_tokens.select('SUM(value)').to_sql})")
-    User.where(id: user.id).update_all(reputation: summing_sql)
+
+    # We're updating in a single query instead of two queries to avoid race-conditions
+    # and using read_committed to avoid deadlocks
+    ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
+      User.where(id: user.id).update_all(reputation: summing_sql)
+    end
   end
 
   def params=(hash)

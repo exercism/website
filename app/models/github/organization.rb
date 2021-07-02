@@ -13,7 +13,10 @@ class Github::Organization
   end
 
   def remove_member(github_username)
-    Exercism.octokit_client.remove_organization_member(name, github_username)
+    # TODO: remove below line and enable commented line below that
+    # once organization functionality has been tested properly
+    Github::Issue::OpenForOrganizationMemberRemove.(name, github_username)
+    # Exercism.octokit_client.remove_organization_member(name, github_username)
   end
 
   def team_membership_count_for_user(github_username)

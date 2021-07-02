@@ -2,10 +2,20 @@ require "test_helper"
 
 class Github::OrganizationTest < ActiveSupport::TestCase
   test "remove_member" do
+    skip
     Github::Organization.instance.stubs(:name).returns('exercism')
 
     stub_request(:delete, "https://api.github.com/orgs/exercism/members/erikschierboom").
       to_return(status: 200, body: "", headers: {})
+
+    Github::Organization.instance.remove_member('erikschierboom')
+  end
+
+  # TODO: remove once organization functionality has been tested properly
+  test "remove_member (temp)" do
+    Github::Organization.instance.stubs(:name).returns('exercism')
+
+    Github::Issue::OpenForOrganizationMemberRemove.expects(:call).with('exercism', 'erikschierboom')
 
     Github::Organization.instance.remove_member('erikschierboom')
   end

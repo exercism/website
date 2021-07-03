@@ -18,6 +18,12 @@
             @apply absolute z-1;
             top: 0;
             left: 0;
+            cursor: text;
+        }
+        &:focus-within {
+            &:before {
+                @apply hidden;
+            }
         }
     }
     &.--expanded {
@@ -67,6 +73,9 @@
 
             & .CodeMirror-scroll {
                 min-height: auto !important;
+            }
+            & .CodeMirror-lines {
+                @apply p-0;
             }
             & .cm-comment {
                 background: none;

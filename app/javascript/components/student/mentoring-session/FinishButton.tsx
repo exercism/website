@@ -12,11 +12,14 @@ type Status = 'initialized' | 'confirming' | 'finishing'
 
 export const FinishButton = ({
   discussion,
+  className,
+  children,
   links,
-}: {
+}: React.PropsWithChildren<{
+  className: string
   discussion: MentorDiscussion
   links: Links
-}): JSX.Element => {
+}>): JSX.Element => {
   const [status, setStatus] = useState<Status>('initialized')
 
   useEffect(() => {
@@ -44,13 +47,12 @@ export const FinishButton = ({
     <React.Fragment>
       <button
         type="button"
-        className="btn-keyboard-shortcut finish-button"
+        className={className}
         onClick={() => {
           setStatus('confirming')
         }}
       >
-        <div className="--hint">End discussion</div>
-        <div className="--kb">F3</div>
+        {children}
       </button>
       <ConfirmFinishMentorDiscussionModal
         open={status === 'confirming'}

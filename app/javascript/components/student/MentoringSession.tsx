@@ -111,6 +111,7 @@ export const MentoringSession = ({
             userId={userId}
             iterations={iterations}
             onIterationScroll={handleIterationScroll}
+            links={{ exercise: exercise.links.self }}
           />
         ) : (
           <MentoringRequest

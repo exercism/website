@@ -48,6 +48,9 @@
           - if discussion.awaiting_student?
             .--turn Your turn to respond
 
+          - if discussion.mentor_finished?
+            .--turn Review your mentor
+
           .--comments
             = graphical_icon :comment
             = pluralize discussion.posts.count, "comment"

@@ -429,7 +429,8 @@
                     }
                 }
             }
-            & .finished-wizard.timeline-entry {
+            & .finished-wizard.timeline-entry,
+            & .student-review.timeline-entry {
                 @apply pt-24;
 
                 &:before {
@@ -443,17 +444,27 @@
                         @apply pb-12 mb-12;
                         @apply border-b-1 border-borderColor6;
                     }
-                    & > .--step {
-                        /* Leading-160 */
-                        & p {
-                            @apply text-16 leading-160 font-medium;
-                            @apply mb-12;
-                        }
-                        & .buttons {
-                            @apply flex items-center;
-                            & button {
-                                @apply mr-12;
-                            }
+                    & p {
+                        @apply text-p-base font-medium;
+                        @apply mb-12;
+                    }
+                }
+            }
+
+            & .student-review.timeline-entry {
+                & p {
+                    & strong {
+                        @apply block font-semibold text-textColor2;
+                    }
+                }
+            }
+            & .finished-wizard.timeline-entry {
+                & > .--step {
+                    /* Leading-160 */
+                    & .buttons {
+                        @apply flex items-center;
+                        & button {
+                            @apply mr-12;
                         }
                     }
                 }
@@ -734,8 +745,4 @@
             }
         }
     }
-}
-.hello {
-    padding: 20px;
-    background: red;
 }

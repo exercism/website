@@ -9,7 +9,10 @@
         %strong= discussion.mentor.handle
 
       .details
-        .--turn Your turn to respond
+        - if discussion.mentor_finished?
+          .--turn Review your mentor
+        - else
+          .--turn Your turn to respond
         .--comments
           = graphical_icon "comment"
           = pluralize discussion.num_posts, "comment"

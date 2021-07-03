@@ -167,7 +167,6 @@
                 @apply py-16 px-24;
                 & .c-markdown-editor {
                     @apply mb-8 flex-grow;
-                    min-height: 320px;
                 }
                 & button.faux-input {
                     @apply relative;

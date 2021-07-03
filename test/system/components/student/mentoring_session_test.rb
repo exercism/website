@@ -90,7 +90,7 @@ module Components
           sign_in!(student)
           visit track_exercise_mentor_discussion_path(track, exercise, discussion)
           wait_for_websockets
-          click_on "Add a comment"
+          find("form").click
           fill_in_editor "# Hello", within: ".comment-section"
           click_on "Send"
         end

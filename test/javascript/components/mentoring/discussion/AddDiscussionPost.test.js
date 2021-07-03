@@ -1,12 +1,17 @@
 import React from 'react'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import { render, waitFor, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { AddDiscussionPost } from '../../../../../app/javascript/components/mentoring/discussion/AddDiscussionPost'
 import userEvent from '@testing-library/user-event'
+import { stubRange } from '../../../support/code-mirror-helpers'
+import { TestQueryCache } from '../../../support/TestQueryCache'
+import { act } from 'react-dom/test-utils'
 
-test('shows form after clicking on "Add a comment" button', async () => {
+stubRange()
+
+test('expands and compresses form', async () => {
   render(
     <AddDiscussionPost
       endpoint="https://exercism.test/posts"
@@ -14,51 +19,49 @@ test('shows form after clicking on "Add a comment" button', async () => {
     />
   )
 
-  userEvent.click(screen.getByRole('button', { name: 'Add a comment' }))
+  const editor = screen.getByTestId('markdown-editor')
 
-  expect(
-    await screen.findByRole('button', { name: 'Send' })
-  ).toBeInTheDocument()
-  expect(
-    screen.queryByRole('button', { name: 'Add a comment' })
-  ).not.toBeInTheDocument()
-})
+  await act(async () => userEvent.click(editor))
+  expect(editor).toHaveAttribute('class', 'c-markdown-editor --expanded')
 
-test('hides form after clicking on "Cancel" button', async () => {
-  render(
-    <AddDiscussionPost
-      endpoint="https://exercism.test/posts"
-      contextId="test"
-    />
+  await act(async () =>
+    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
   )
-
-  userEvent.click(screen.getByRole('button', { name: 'Add a comment' }))
-  userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-
-  expect(screen.queryByRole('button', { name: 'Send' })).not.toBeInTheDocument()
-  expect(
-    screen.queryByRole('button', { name: 'Cancel' })
-  ).not.toBeInTheDocument()
+  expect(editor).toHaveAttribute('class', 'c-markdown-editor --compressed')
 })
 
-test('hides form when request succeeds', async () => {
+test.skip('clears text when clicking the Cancel button', async () => {
+  // TODO: It's hard to assert on the text editor being cleared
+})
+
+test('when request succeeds, form is compressed', async () => {
   const server = setupServer(
-    rest.post('https://exercism.test/posts', (req, res, ctx) => {
+    rest.post('http://exercism.test/posts', (req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ post: {} }))
     })
   )
   server.listen()
 
-  const { getByText, queryByText } = render(
-    <AddDiscussionPost
-      endpoint="https://exercism.test/posts"
-      contextId="test"
-    />
+  render(
+    <TestQueryCache>
+      <AddDiscussionPost
+        endpoint="http://exercism.test/posts"
+        contextId="test"
+      />
+    </TestQueryCache>
   )
-  fireEvent.click(getByText('Add a comment'))
-  fireEvent.click(getByText('Send'))
+  const editor = screen.getByTestId('markdown-editor')
+  await act(async () => userEvent.click(editor))
+  const textarea = screen.getByRole('textbox')
+  await act(async () => userEvent.type(textarea, 'Hello'))
+  const sendButton = screen.getByRole('button', { name: 'Send' })
+  await act(async () => userEvent.click(sendButton))
 
-  await waitFor(() => expect(queryByText('Send')).not.toBeInTheDocument())
+  await waitFor(() =>
+    expect(editor).toHaveAttribute('class', 'c-markdown-editor --compressed')
+  )
+  // TODO: Assert text is cleared.
 
   server.close()
+  localStorage.clear()
 })

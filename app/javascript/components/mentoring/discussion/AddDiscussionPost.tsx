@@ -12,75 +12,71 @@ export const AddDiscussionPost = ({
   contextId: string
   onSuccess?: () => void
 }): JSX.Element => {
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState(
-    localStorage.getItem(`smde_${contextId}`) || ''
-  )
+  const [state, setState] = useState({
+    expanded: false,
+    value: localStorage.getItem(`smde_${contextId}`) || '',
+  })
 
   const handleSuccess = useCallback(() => {
-    setOpen(false)
-    setValue('')
+    setState({ value: '', expanded: false })
+
     onSuccess()
   }, [onSuccess])
 
-  if (open) {
-    return (
-      <>
-        <DiscussionPostForm
-          onSuccess={handleSuccess}
-          endpoint={endpoint}
-          method="POST"
-          contextId={contextId}
-          value={value}
-        />
-        <button
-          type="button"
-          onClick={() => {
-            setOpen(false)
-          }}
-        >
-          Cancel
-        </button>
-        {/* TODO: DRY up the duplication of this */}
-        <div className="note">
-          Check out our {/* TODO */}
-          <a href="#">mentoring docs</a> and be the best mentor you can be.
-        </div>
-      </>
-    )
-  } else {
-    if (isFinished) {
-      return (
-        <button
-          onClick={() => {
-            setOpen(true)
-          }}
-          className="continuation-btn"
-          type="button"
-        >
-          <strong>This discussion has ended.</strong> Have more to say? You can{' '}
-          <em>still post</em>.
-        </button>
-      )
-    } else {
-      return (
-        <>
-          <button
-            className="faux-input"
-            onClick={() => {
-              setOpen(true)
-            }}
-            type="button"
-          >
-            Add a comment
-          </button>
-          {/* TODO: DRY up the duplication of this */}
-          <div className="note">
-            Check out our {/* TODO */}
-            <a href="#">mentoring docs</a> and be the best mentor you can be.
-          </div>
-        </>
-      )
+  const handleClick = useCallback(() => {
+    if (state.expanded) {
+      return
     }
+
+    setState({ ...state, expanded: true })
+  }, [state])
+
+  const handleContinue = useCallback(() => {
+    setState({ ...state, expanded: true })
+  }, [state])
+
+  const handleCancel = useCallback(() => {
+    setState({ value: '', expanded: false })
+  }, [])
+
+  const handleChange = useCallback(
+    (value: string) => {
+      setState({ ...state, value: value })
+    },
+    [state]
+  )
+
+  if (isFinished && !state.expanded) {
+    return (
+      <button
+        onClick={handleContinue}
+        className="continuation-btn"
+        type="button"
+      >
+        <strong>This discussion has ended.</strong> Have more to say? You can{' '}
+        <em>still post</em>.
+      </button>
+    )
   }
+
+  return (
+    <>
+      <DiscussionPostForm
+        onSuccess={handleSuccess}
+        onClick={handleClick}
+        onCancel={handleCancel}
+        onChange={handleChange}
+        endpoint={endpoint}
+        method="POST"
+        contextId={contextId}
+        value={state.value}
+        expanded={state.expanded}
+      />
+
+      <div className="note">
+        Check out our {/* TODO */}
+        <a href="#">mentoring docs</a> and be the best mentor you can be.
+      </div>
+    </>
+  )
 }

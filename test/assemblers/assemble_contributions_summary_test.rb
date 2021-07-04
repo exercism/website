@@ -87,7 +87,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
       }
     }
 
-    assert_equal expected, AssembleContributionsSummary.(user, user.handle)
+    assert_equal expected, AssembleContributionsSummary.(user, for_self: false)
   end
 
   test "renders correctly with no data" do
@@ -115,6 +115,6 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
       }
     }
 
-    assert_equal expected, AssembleContributionsSummary.(user, user.handle)
+    assert_equal expected, AssembleContributionsSummary.(user, for_self: false)
   end
 end

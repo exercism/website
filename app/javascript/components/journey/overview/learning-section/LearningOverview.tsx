@@ -1,5 +1,5 @@
 import React from 'react'
-import { TrackProgressList } from '../../../types'
+import { TrackProgressList } from '../../types'
 
 export const LearningOverview = ({
   tracks,

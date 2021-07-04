@@ -1,6 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common'
-import { TrackProgressList } from '../../types'
+import { TrackProgressList } from '../types'
 import { HeaderSummary } from './learning-section/HeaderSummary'
 import { TracksEnrolledSummary } from './learning-section/TracksEnrolledSummary'
 import { ExercisesCompletedSummary } from './learning-section/ExercisesCompletedSummary'

@@ -114,6 +114,10 @@ class UserTrack
       num_exercises - unlocked_exercise_ids.size
     end
 
+    def num_started_exercises
+      num_in_progress_exercises + num_completed_exercises
+    end
+
     def num_in_progress_exercises
       in_progress_exercise_ids.size
     end

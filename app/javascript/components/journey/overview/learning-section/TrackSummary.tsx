@@ -1,8 +1,7 @@
 import React from 'react'
 import { TrackSummaryHeader } from './track-summary/TrackSummaryHeader'
-import { TimeGraph } from './track-summary/TimeGraph'
-import { GraphicalIcon } from '../../../common'
-import { TrackProgress } from '../../../types'
+import { GraphicalIcon, ProgressGraph } from '../../../common'
+import { TrackProgress } from '../../types'
 
 export const TrackSummary = ({
   track,
@@ -18,7 +17,12 @@ export const TrackSummary = ({
       </summary>
       <div className="track-details">
         <div className="time-area">
-          <TimeGraph track={track} />
+          <ProgressGraph
+            data={track.progressOverTime}
+            height={120}
+            width={300}
+            smooth
+          />
           <div className="info">
             <h4>Last 12 months</h4>
             <p>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { MentoredTrackProgressList } from '../../../types'
+import { MentoredTrackProgressList } from '../../types'
 import { CommunityRank } from './CommunityRank'
 
 export const StudentsMentoredSummary = ({
@@ -11,7 +11,7 @@ export const StudentsMentoredSummary = ({
 }): JSX.Element => {
   return (
     <div className="box">
-      <div className="journey-h3">{tracks.numStudents}</div>
+      <div className="journey-h3">{tracks.totals.students}</div>
       <div className="journey-label">Total students mentored</div>
       {rank ? <CommunityRank rank={rank} /> : null}
     </div>

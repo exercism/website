@@ -1,6 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common'
-import { MentoredTrackProgressList } from '../../types'
+import { MentoredTrackProgressList, MentoringRanks } from '../types'
 import { HeaderSummary } from './mentoring-section/HeaderSummary'
 import { MentoringChart } from './mentoring-section/MentoringChart'
 import { SessionsMentoredSummary } from './mentoring-section/SessionsMentoredSummary'
@@ -10,13 +10,7 @@ import { TrackSummary } from './mentoring-section/TrackSummary'
 
 export type Props = {
   tracks: MentoredTrackProgressList
-  ranks: Ranks
-}
-
-type Ranks = {
-  sessions?: number
-  students?: number
-  ratio?: number
+  ranks: MentoringRanks
 }
 
 export const MentoringSection = ({ tracks, ranks }: Props): JSX.Element => {
@@ -30,9 +24,9 @@ export const MentoringSection = ({ tracks, ranks }: Props): JSX.Element => {
       <div className="content">
         <div className="info">
           <div className="summary-boxes">
-            <SessionsMentoredSummary tracks={tracks} rank={ranks.sessions} />
+            <SessionsMentoredSummary tracks={tracks} rank={ranks.discussions} />
             <StudentsMentoredSummary tracks={tracks} rank={ranks.students} />
-            <SessionRatioSummary tracks={tracks} rank={ranks.ratio} />
+            <SessionRatioSummary tracks={tracks} />
           </div>
           <div className="track-metrics">
             {tracks.sort().items.map((track) => (

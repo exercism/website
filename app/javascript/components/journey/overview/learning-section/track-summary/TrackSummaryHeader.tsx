@@ -1,5 +1,5 @@
 import React from 'react'
-import { TrackProgress } from '../../../../types'
+import { TrackProgress } from '../../../types'
 import { GraphicalIcon, TrackIcon } from '../../../../common'
 import { TrackProgressBar } from './TrackProgressBar'
 

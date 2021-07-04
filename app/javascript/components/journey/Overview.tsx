@@ -20,24 +20,25 @@ import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import {
+  MentoringTotals,
+  MentoringRanks,
   MentoredTrackProgressList,
   MentoredTrackProgress,
   TrackProgress,
   TrackProgressList,
-  TrackContribution,
-  Badge,
-  BadgeList,
-} from '../types'
+} from './types'
+import { TrackContribution, Badge, BadgeList } from '../types'
 
 type JourneyOverview = {
   learning: { tracks: readonly TrackProgress[] } & Omit<
     LearningSectionProps,
     'tracks'
   >
-  mentoring: { tracks: readonly MentoredTrackProgress[] } & Omit<
-    MentoringSectionProps,
-    'tracks'
-  >
+  mentoring: {
+    tracks: readonly MentoredTrackProgress[]
+    totals: MentoringTotals
+    ranks: MentoringRanks
+  } & Omit<MentoringSectionProps, 'tracks'>
   contributing: { tracks: readonly TrackContribution[] } & Omit<
     ContributingSectionProps,
     'tracks'
@@ -58,6 +59,8 @@ const formatData = ({ overview }: { overview: JourneyOverview }) => {
         ...overview.mentoring,
         tracks: new MentoredTrackProgressList({
           items: overview.mentoring.tracks,
+          totals: overview.mentoring.totals,
+          ranks: overview.mentoring.ranks,
         }),
       },
       contributing: {

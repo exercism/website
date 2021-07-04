@@ -1,6 +1,6 @@
 import React from 'react'
 import { TrackIcon } from '../../../common'
-import { MentoredTrackProgress } from '../../../types'
+import { MentoredTrackProgress } from '../../types'
 import pluralize from 'pluralize'
 
 export const TrackSummary = ({
@@ -15,7 +15,7 @@ export const TrackSummary = ({
       <div className="details">
         <div className="journey-label">{track.title}</div>
         <div className="journey-h4">
-          {track.numSessions} {pluralize('session', track.numSessions)}
+          {track.numDiscussions} {pluralize('session', track.numDiscussions)}
         </div>
       </div>
     </div>

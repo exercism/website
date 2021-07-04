@@ -8,7 +8,7 @@ import {
   line,
   controlPointPosition,
   DataPoint,
-} from '../../../../app/javascript/components/progress-graph/svg-graph-util'
+} from '../../../../app/javascript/components/common/svg-graph-util'
 
 describe('minMaxNormalize', () => {
   it('should normalize value between 0 an 1', () => {

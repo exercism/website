@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :user
 
       def to_s
-        super("profile-contributions-summary", AssembleContributionsSummary.(user, user.handle))
+        super("profile-contributions-summary", AssembleContributionsSummary.(user, for_self: false))
       end
     end
   end

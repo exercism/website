@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Chart from 'chart.js/auto'
 import { ChartConfiguration, ChartDataset } from 'chart.js'
-import { MentoredTrackProgressList } from '../../../types'
+import { MentoredTrackProgressList } from '../../types'
 
 const CONFIG: ChartConfiguration<'doughnut'> = {
   type: 'doughnut',
@@ -43,7 +43,7 @@ export const MentoringChart = ({
 
     const dataset: ChartDataset<'doughnut'> = {
       label: 'Sessions mentored per track',
-      data: tracks.items.map((track) => track.numSessions),
+      data: tracks.items.map((track) => track.numDiscussions),
       backgroundColor: tracks.items.map(
         (track) =>
           `rgb(${getComputedStyle(document.documentElement).getPropertyValue(

@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  MentoredTrackProgress,
-  MentoredTrackProgressList,
-} from '../../../types'
+import { MentoredTrackProgress, MentoredTrackProgressList } from '../../types'
 import { TrackHeaderSpan } from '../TrackHeaderSpan'
 import { TrackHeaderSummaryText } from '../TrackHeaderSummaryText'
 
@@ -11,7 +8,7 @@ class MentoredTrackProgressWithPercentage {
   numTotalSessions: number
 
   get percentage(): number {
-    return (100 * this.track.numSessions) / this.numTotalSessions
+    return (100 * this.track.numDiscussions) / this.numTotalSessions
   }
 
   get slug(): string {
@@ -40,7 +37,10 @@ export const HeaderSummary = ({
     .items.slice(0, MAX_TRACKS)
     .map(
       (track) =>
-        new MentoredTrackProgressWithPercentage(track, tracks.numSessions)
+        new MentoredTrackProgressWithPercentage(
+          track,
+          tracks.totals.discussions
+        )
     )
 
   return (

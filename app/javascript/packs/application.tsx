@@ -237,12 +237,9 @@ import {
   User,
   SiteUpdate,
   CommunicationPreferences,
-  TrackProgress,
-  TrackProgressList,
-  MentoredTrackProgress,
-  MentoredTrackProgressList,
   TrackContribution,
 } from '../components/types'
+
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
 import {
@@ -274,7 +271,6 @@ import { TrackData as ProfileCommunitySolutionsListTrackData } from '../componen
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
 import { Links as SolutionViewLinks } from '../components/common/SolutionView'
-import { ProgressGraph } from '../components/progress-graph/ProgressGraph'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -689,12 +685,12 @@ initReact({
       links={data.links}
     />
   ),
-  'progress-graph': (data: {
+  'common-progress-graph': (data: {
     values: Array<number>
     width: number
     height: number
   }) => (
-    <ProgressGraph
+    <Common.ProgressGraph
       data={data.values}
       height={data.height}
       width={data.width}

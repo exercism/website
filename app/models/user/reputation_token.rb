@@ -59,7 +59,7 @@ class User::ReputationToken < ApplicationRecord
   end
 
   def seen!
-    update(seen: true)
+    update_column(:seen, true)
   end
 
   protected

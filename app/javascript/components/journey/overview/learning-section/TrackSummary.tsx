@@ -18,13 +18,13 @@ export const TrackSummary = ({
       <div className="track-details">
         <div className="time-area">
           <ProgressGraph
-            data={track.progressOverTime}
+            data={track.progressChart.data}
             height={120}
             width={300}
             smooth
           />
           <div className="info">
-            <h4>Last 12 months</h4>
+            <h4>{track.progressChart.period}</h4>
             <p>
               {track.numCompletedExercises} / {track.numExercises} (
               {track.completion.toFixed(2)}%) exercises completed

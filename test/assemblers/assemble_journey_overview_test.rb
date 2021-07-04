@@ -54,10 +54,76 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
       num_concepts_learnt: 2,
       icon_url: track.icon_url,
       num_lines: 250,
-      num_solutions: 7
+      num_solutions: 7,
+      progress_chart: {
+        period: "Last 14 days",
+        data: Array.new(14) { 0 }
+      }
     }]
 
     assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning][:tracks]
+  end
+
+  test "progress charts - year" do
+    track = create :track
+    user = create :user
+    create :user_track, user: user, track: track
+
+    dates = []
+    values = [1, 3, 4, 2, 1, 3, 4, 5, 2, 3, 5, 9]
+    values.each.with_index do |value, idx|
+      dates += value.times.map { (Time.current - (values.size - 1 - idx).months).to_i } # rubocop:disable Performance/TimesMap
+    end
+    UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
+
+    expected = {
+      period: "Last 12 months",
+      data: values
+    }
+
+    assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0][:progress_chart]
+  end
+
+  test "progress charts - weeks" do
+    track = create :track
+    user = create :user
+    create :user_track, user: user, track: track
+
+    # Create a dates array containing values for each period
+    dates = []
+    values = [1, 3, 4, 2, 1, 3, 2, 3, 5, 9]
+    values.each.with_index do |value, idx|
+      dates += value.times.map { (Time.current - ((values.size - 1 - idx) * 7).days).to_i } # rubocop:disable Performance/TimesMap
+    end
+    UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
+
+    expected = {
+      period: "Last 10 weeks",
+      data: values
+    }
+
+    assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0][:progress_chart]
+  end
+
+  test "progress charts - days" do
+    track = create :track
+    user = create :user
+    create :user_track, user: user, track: track
+
+    # Create a dates array containing values for each period
+    dates = []
+    values = [1, 3, 4, 2, 1, 3, 2, 3, 5, 9, 3, 1, 2, 6]
+    values.each.with_index do |value, idx|
+      dates += value.times.map { (Time.current - (values.size - 1 - idx).days).to_i } # rubocop:disable Performance/TimesMap
+    end
+    UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
+
+    expected = {
+      period: "Last 14 days",
+      data: values
+    }
+
+    assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0][:progress_chart]
   end
 
   test "with mentored tracks" do

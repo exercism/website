@@ -9,6 +9,11 @@ export type MentoringRanks = {
   students?: number
 }
 
+export type TrackProgressChart = {
+  data: number[]
+  period: string
+}
+
 export class TrackProgress {
   title: string
   slug: string
@@ -18,6 +23,7 @@ export class TrackProgress {
   numLines: number
   numConceptsLearnt: number
   iconUrl: string
+  progressChart: TrackProgressChart
 
   get completion(): number {
     return (100 * this.numCompletedExercises) / this.numExercises
@@ -26,10 +32,6 @@ export class TrackProgress {
   // TODO
   get velocity(): number {
     return 9.05
-  }
-
-  get progressOverTime(): number[] {
-    return [300, 200, 130, 123, 151, 545, 234, 123]
   }
 
   constructor({
@@ -41,6 +43,7 @@ export class TrackProgress {
     numSolutions,
     numLines,
     iconUrl,
+    progressChart,
   }: {
     title: string
     slug: string
@@ -50,6 +53,7 @@ export class TrackProgress {
     numLines: number
     numConceptsLearnt: number
     iconUrl: string
+    progressChart: TrackProgressChart
   }) {
     this.title = title
     this.slug = slug
@@ -59,6 +63,7 @@ export class TrackProgress {
     this.numSolutions = numSolutions
     this.numLines = numLines
     this.iconUrl = iconUrl
+    this.progressChart = progressChart
   }
 }
 

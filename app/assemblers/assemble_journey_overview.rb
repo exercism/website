@@ -29,6 +29,19 @@ class AssembleJourneyOverview
   def learning_tracks_data
     user.user_tracks.includes(:track).map do |user_track|
       track = user_track.track
+
+      first_completion = user_track.exercise_completion_dates.min
+      if first_completion && first_completion < (Time.current - 10.months).to_i
+        progress_period = "Last 12 months"
+        progress_data = track_chart_values(user_track, 12.months.ago, :month, 12, 12)
+      elsif first_completion && first_completion < (Time.current - 6.weeks).to_i
+        progress_period = "Last 10 weeks"
+        progress_data = track_chart_values(user_track, 10.weeks.ago, :cweek, 53, 10)
+      else
+        progress_period = "Last 14 days"
+        progress_data = track_chart_values(user_track, 14.days.ago, :yday, 365, 14)
+      end
+
       {
         title: track.title,
         slug: track.slug,
@@ -37,9 +50,27 @@ class AssembleJourneyOverview
         num_completed_exercises: user_track.num_completed_exercises,
         num_concepts_learnt: user_track.num_concepts_learnt,
         num_lines: 250, # TODO
-        num_solutions: user_track.num_started_exercises
+        num_solutions: user_track.num_started_exercises,
+        progress_chart: {
+          period: progress_period,
+          data: progress_data
+        }
       }
     end
+  end
+
+  def track_chart_values(user_track, since, group_by, max, range)
+    # Get all the completion dates since `since` and count how many are in each
+    # `group_by` group. (e.g. since 10.weeks.ago grouped by cweek).
+    since = since.to_i
+    data = user_track.exercise_completion_dates.select { |d| d > since }.
+      map { |d| Time.zone.at(d).to_date.send(group_by) }.
+      group_by(&:itself).
+      transform_values(&:count)
+
+    # Build a range that wraps around the end of the year, with values or zeros.
+    current = Date.current.send(group_by)
+    ((current - range)...current).to_a.map { |w| (w % max) + 1 }.map { |w| data.fetch(w, 0) }
   end
 
   def mentoring_data

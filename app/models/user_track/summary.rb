@@ -68,6 +68,11 @@ class UserTrack
       Exercise.where(id: completed_exercises_ids)
     end
 
+    memoize
+    def exercise_completion_dates
+      mapped_exercises.values.map(&:completed_at).compact
+    end
+
     ####################
     # Exercise methods #
     ####################
@@ -95,15 +100,15 @@ class UserTrack
     end
 
     def num_completed_exercises
-      mapped_exercises.values.count(&:completed)
+      mapped_exercises.values.count(&:completed_at)
     end
 
     def num_completed_concept_exercises
-      mapped_exercises.values.select { |e| e.type == "concept" }.count(&:completed)
+      mapped_exercises.values.select { |e| e.type == "concept" }.count(&:completed_at)
     end
 
     def num_completed_practice_exercises
-      mapped_exercises.values.select { |e| e.type == "practice" }.count(&:completed)
+      mapped_exercises.values.select { |e| e.type == "practice" }.count(&:completed_at)
     end
 
     def num_available_exercises
@@ -131,11 +136,11 @@ class UserTrack
     end
 
     def in_progress_exercise_ids
-      mapped_exercises.values.select(&:has_solution).reject(&:completed).map(&:id)
+      mapped_exercises.values.select(&:has_solution).reject(&:completed_at).map(&:id)
     end
 
     def completed_exercises_ids
-      mapped_exercises.values.select(&:completed).map(&:id)
+      mapped_exercises.values.select(&:completed_at).map(&:id)
     end
 
     ###################
@@ -273,7 +278,7 @@ class UserTrack
 
     ExerciseSummary = Struct.new(
       :id, :slug, :type, :status,
-      :unlocked, :has_solution, :completed,
+      :unlocked, :has_solution, :completed_at,
       keyword_init: true
     )
   end

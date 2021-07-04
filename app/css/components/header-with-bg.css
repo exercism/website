@@ -11,7 +11,7 @@
             rgba(250, 250, 255, 0) 77.6%,
             #fafaff 100%
         ),
-        url("../../../app/javascript/images/bg-tracks-header@2x.png"), #fafaff;
+        url("../../../app/packs/images/bg-tracks-header@2x.png"), #fafaff;
 
     background-size: 100%;
     background-position: -190px;

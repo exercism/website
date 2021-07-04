@@ -1,12 +1,12 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
-const environment = require('./environment')
+const webpackConfig = require('./base')
 
 // Enable type checking as part of the Webpack compilation process
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const path = require('path')
 
-environment.plugins.append(
+webpackConfig.plugins.append(
   'ForkTsCheckerWebpackPlugin',
   new ForkTsCheckerWebpackPlugin({
     typescript: {
@@ -16,4 +16,4 @@ environment.plugins.append(
   })
 )
 
-module.exports = environment.toWebpackConfig()
+module.exports = webpackConfig

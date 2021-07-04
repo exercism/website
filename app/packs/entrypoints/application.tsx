@@ -2,6 +2,8 @@
 // present in this directory. You're encouraged to place your actual application logic in
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@rails/ujs').start()
@@ -240,7 +242,6 @@ import {
   TrackContribution,
 } from '../components/types'
 
-import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
 import {
   Links as MentoringSessionLinks,
@@ -558,26 +559,6 @@ initReact({
       showSubmissionMethod={true}
       showTestsStatusAsButton={!!data.show_tests_status_as_button}
       showFeedbackIndicator={!!data.show_feedback_indicator}
-    />
-  ),
-  editor: (data: any) => (
-    <Editor
-      endpoint={data.endpoint}
-      initialSubmission={camelizeKeysAs<Submission>(data.submission)}
-      files={data.files}
-      tests={data.tests}
-      highlightJSLanguage={data.highlightjs_language}
-      averageTestDuration={data.average_test_duration}
-      exercisePath={data.exercise_path}
-      trackTitle={data.track_title}
-      trackSlug={data.track_slug}
-      exerciseTitle={data.exercise_title}
-      introduction={data.introduction}
-      assignment={camelizeKeysAs<Assignment>(data.assignment)}
-      exampleFiles={data.example_files}
-      storageKey={data.storage_key}
-      debuggingInstructions={data.debugging_instructions}
-      config={camelizeKeysAs<EditorConfig>(data.config)}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

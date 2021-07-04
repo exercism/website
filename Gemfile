@@ -40,7 +40,7 @@ gem 'sidekiq-failures'
 gem "sidekiq-scheduler"
 
 # View-level Dependencies
-gem 'webpacker', '~> 5.x'
+gem 'webpacker', '~> 6.x'
 gem 'turbolinks', '~> 5'
 gem 'hamlit'
 gem 'commonmarker'

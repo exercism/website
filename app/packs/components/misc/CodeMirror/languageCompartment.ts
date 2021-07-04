@@ -71,9 +71,10 @@ export const loadLanguageCompartment = async (
     case 'erlang':
       const { erlang } = await import('@codemirror/legacy-modes/mode/erlang')
       return compartment.of(StreamLanguage.define(erlang))
-    case 'factor':
-      const { factor } = await import('@codemirror/legacy-modes/mode/factor')
-      return compartment.of(StreamLanguage.define(factor))
+    // TODO: Factor errors
+    // case 'factor':
+    //   const { factor } = await import('@codemirror/legacy-modes/mode/factor')
+    //   return compartment.of(StreamLanguage.define(factor))
     case 'forth':
       const { forth } = await import('@codemirror/legacy-modes/mode/forth')
       return compartment.of(StreamLanguage.define(forth))

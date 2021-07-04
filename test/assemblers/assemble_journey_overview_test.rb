@@ -46,27 +46,21 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     UserTrack.any_instance.expects(num_concepts_learnt: 2)
     UserTrack.any_instance.expects(num_started_exercises: 7)
 
-    expected = {
-      tracks: [{
-        title: track.title,
-        slug: track.slug,
-        num_exercises: 10,
-        num_completed_exercises: 5,
-        num_concepts_learnt: 2,
-        icon_url: track.icon_url,
-        num_lines: 250,
-        num_solutions: 7
-      }],
-      links: {
-        solutions: Exercism::Routes.solutions_journey_url,
-        fable: "#"
-      }
-    }
+    expected = [{
+      title: track.title,
+      slug: track.slug,
+      num_exercises: 10,
+      num_completed_exercises: 5,
+      num_concepts_learnt: 2,
+      icon_url: track.icon_url,
+      num_lines: 250,
+      num_solutions: 7
+    }]
 
-    assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning]
+    assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning][:tracks]
   end
 
-  test "with mentoring tracks" do
+  test "with mentored tracks" do
     ruby = create :track, slug: :ruby
     js = create :track, slug: :js
 

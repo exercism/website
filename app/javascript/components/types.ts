@@ -514,3 +514,101 @@ export type PullRequest = {
 export type CommunicationPreferences = {
   emailOnMentorStartedDiscussionNotification: boolean
 }
+
+export type ContributionCategoryId =
+  | 'publishing'
+  | 'mentoring'
+  | 'authoring'
+  | 'building'
+  | 'maintaining'
+  | 'other'
+
+export type ContributionCategory = {
+  id: ContributionCategoryId
+  reputation: number
+  metricFull?: string
+  metricShort?: string
+}
+
+export class TrackContribution {
+  id: string | null
+  title: string
+  iconUrl: string
+  categories: readonly ContributionCategory[]
+
+  get totalReputation(): number {
+    return this.categories.reduce(
+      (sum, category) => sum + category.reputation,
+      0
+    )
+  }
+
+  constructor({
+    id,
+    title,
+    iconUrl,
+    categories,
+  }: {
+    id: string | null
+    title: string
+    iconUrl: string
+    categories: readonly ContributionCategory[]
+  }) {
+    this.id = id
+    this.title = title
+    this.iconUrl = iconUrl
+    this.categories = categories
+  }
+}
+
+export class BadgeList {
+  items: readonly Badge[]
+
+  sort(): BadgeList {
+    return new BadgeList({
+      items: [...this.items]
+        .sort((a, b) =>
+          new BadgeRarityValue(a.rarity).value <
+          new BadgeRarityValue(b.rarity).value
+            ? -1
+            : 1
+        )
+        .reverse(),
+    })
+  }
+
+  filter(rarity: BadgeRarity): BadgeList {
+    return new BadgeList({
+      items: [...this.items].filter((badge) => badge.rarity === rarity),
+    })
+  }
+
+  get length(): number {
+    return this.items.length
+  }
+
+  constructor({ items }: { items: readonly Badge[] }) {
+    this.items = items
+  }
+}
+
+class BadgeRarityValue {
+  rarity: BadgeRarity
+
+  get value(): number {
+    switch (this.rarity) {
+      case 'common':
+        return 0
+      case 'rare':
+        return 1
+      case 'ultimate':
+        return 2
+      case 'legendary':
+        return 3
+    }
+  }
+
+  constructor(rarity: BadgeRarity) {
+    this.rarity = rarity
+  }
+}

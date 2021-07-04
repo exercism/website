@@ -10,32 +10,11 @@ import { useChart } from './contributions-summary/use-chart'
 import { TotalReputation } from './contributions-summary/TotalReputation'
 import { CategorySummary } from './contributions-summary/CategorySummary'
 import { TrackSelect } from './contributions-summary/TrackSelect'
+import { TrackContribution, ContributionCategory } from '../types'
 
 const leftMargin = 100
 const topMargin = 150
 const buffer = 8
-
-export type CategoryId =
-  | 'publishing'
-  | 'mentoring'
-  | 'authoring'
-  | 'building'
-  | 'maintaining'
-  | 'other'
-
-export type Category = {
-  id: CategoryId
-  reputation: number
-  metricFull?: string
-  metricShort?: string
-}
-
-export type Track = {
-  id: string
-  title: string
-  iconUrl: string
-  categories: readonly Category[]
-}
 
 type Links = {
   contributions: string
@@ -59,27 +38,23 @@ export const CATEGORY_ICONS = {
   other: 'more-horizontal',
 }
 
-export const getTotalReputation = (track: Track): number => {
-  return track.categories.reduce(
-    (sum, category) => sum + category.reputation,
-    0
-  )
-}
-
 export const ContributionsSummary = ({
   tracks,
   handle,
   links,
+  showHeader = true,
 }: {
-  tracks: readonly Track[]
-  handle: string
+  tracks: readonly TrackContribution[]
+  handle?: string
   links: Links
-}): JSX.Element => {
+  showHeader?: boolean
+}): JSX.Element | null => {
   const allTrack = tracks.find((track) => track.id === null)
 
   if (!allTrack) {
     throw new Error('No data found for all track')
   }
+
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
   const [currentTrack, setCurrentTrack] = useState(tracks[0])
   const labelRefs = useRef(
@@ -183,13 +158,15 @@ export const ContributionsSummary = ({
     <div className="lg-container container">
       <section className="contributions-section c-contributions-summary">
         <div className="summary">
-          <header className="section-header">
-            <GraphicalIcon icon="contribute" hex={true} />
-            <h2>Contributions</h2>
-          </header>
+          {showHeader ? (
+            <header className="section-header">
+              <GraphicalIcon icon="contribute" hex={true} />
+              <h2>Contributions</h2>
+            </header>
+          ) : null}
           <TotalReputation
             handle={handle}
-            reputation={getTotalReputation(allTrack)}
+            reputation={allTrack.totalReputation}
           />
           <TrackSelect
             tracks={tracks}
@@ -203,7 +180,11 @@ export const ContributionsSummary = ({
 
           <ProminentLink
             link={links.contributions}
-            text={`See ${handle}'s contributions`}
+            text={
+              handle
+                ? `See ${handle}'s contributions`
+                : 'See your contributions'
+            }
             withBg
           />
         </div>
@@ -227,17 +208,18 @@ export const ContributionsSummary = ({
   )
 }
 
-const CategoryLabel = forwardRef<HTMLDivElement, { category: Category }>(
-  ({ category }, ref) => {
-    return (
-      <div className="label" ref={ref}>
-        <GraphicalIcon icon={CATEGORY_ICONS[category.id]} hex />
-        <div className="title">{CATEGORY_TITLES[category.id]}</div>
-        {category.metricShort ? (
-          <div className="subtitle">{category.metricShort}</div>
-        ) : null}
-      </div>
-    )
-  }
-)
+const CategoryLabel = forwardRef<
+  HTMLDivElement,
+  { category: ContributionCategory }
+>(({ category }, ref) => {
+  return (
+    <div className="label" ref={ref}>
+      <GraphicalIcon icon={CATEGORY_ICONS[category.id]} hex />
+      <div className="title">{CATEGORY_TITLES[category.id]}</div>
+      {category.metricShort ? (
+        <div className="subtitle">{category.metricShort}</div>
+      ) : null}
+    </div>
+  )
+})
 CategoryLabel.displayName = 'CategoryLabel'

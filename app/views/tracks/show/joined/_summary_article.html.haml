@@ -59,7 +59,7 @@
             .count= (last_8_weeks_counts.sum / 8.0).round(1)
             %h3 Avg. exercises completed per week (last 8 weeks)
 
-          = ReactComponents::ProgressGraph.new(last_8_weeks_counts, 70, 145)
+          = ReactComponents::Common::ProgressGraph.new(last_8_weeks_counts, 70, 145)
 
         / TODO
         -#

@@ -237,7 +237,9 @@ import {
   User,
   SiteUpdate,
   CommunicationPreferences,
+  TrackContribution,
 } from '../components/types'
+
 import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
 import {
@@ -267,10 +269,8 @@ import { Request as ContributingTasksRequest } from '../components/contributing/
 import * as Settings from '../components/settings'
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
-import { Track as ProfileContributionsSummaryTrack } from '../components/profile/ContributionsSummary'
 import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
 import { Links as SolutionViewLinks } from '../components/common/SolutionView'
-import { ProgressGraph } from '../components/progress-graph/ProgressGraph'
 
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -655,15 +655,20 @@ initReact({
       )}
     />
   ),
-  'profile-contributions-summary': (data: any) => (
-    <Profile.ContributionsSummary
-      tracks={camelizeKeysAs<readonly ProfileContributionsSummaryTrack[]>(
-        data.tracks
-      )}
-      handle={data.handle}
-      links={data.links}
-    />
-  ),
+  'profile-contributions-summary': (data: any) => {
+    const tracks = data.tracks.map(
+      (track: any) =>
+        new TrackContribution(camelizeKeysAs<TrackContribution>(track))
+    )
+
+    return (
+      <Profile.ContributionsSummary
+        tracks={tracks}
+        handle={data.handle}
+        links={data.links}
+      />
+    )
+  },
   'profile-first-time-modal': (data: any) => (
     <Profile.FirstTimeModal links={data.links} />
   ),
@@ -680,12 +685,12 @@ initReact({
       links={data.links}
     />
   ),
-  'progress-graph': (data: {
+  'common-progress-graph': (data: {
     values: Array<number>
     width: number
     height: number
   }) => (
-    <ProgressGraph
+    <Common.ProgressGraph
       data={data.values}
       height={data.height}
       width={data.width}

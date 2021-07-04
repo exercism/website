@@ -31,7 +31,7 @@ class UserTrack
     memoize
     def exercises_hash
       exercises_data.transform_values do |exercise|
-        exercise.slice(:id, :slug, :status, :unlocked, :has_solution, :completed)
+        exercise.slice(:id, :slug, :status, :unlocked, :has_solution, :completed_at)
       end
     end
 
@@ -48,7 +48,7 @@ class UserTrack
           select { |e| e[:practiced_concepts].include?(concept.slug) }.
           map { |e| e[:slug] }
 
-        completed_solutions = solutions_data.values.select { |s| s[:completed] }
+        completed_solutions = solutions_data.values.select { |s| s[:completed_at] }
         num_completed_concept_solutions = completed_solutions.count { |s| concept_exercises.include?(s[:slug]) }
         num_completed_practice_solutions = completed_solutions.count { |s| practice_exercises.include?(s[:slug]) }
 
@@ -85,7 +85,7 @@ class UserTrack
           prerequisite_concept_slugs: prerequisite_concept_slugs,
           practiced_concepts: practiced_concepts,
           has_solution: !!solution_data,
-          completed: solution_data&.fetch(:completed) || false
+          completed_at: solution_data&.fetch(:completed_at) || nil
         }
         exercise_data[:taught_concepts] = exercise.taught_concepts.pluck(:slug) if exercise.concept_exercise?
         data[exercise.slug] = exercise_data
@@ -93,7 +93,7 @@ class UserTrack
     end
 
     def calculate_unlocking!
-      tutorial_pending = solutions_data.none? { |_, s| s[:completed] }
+      tutorial_pending = solutions_data.none? { |_, s| s[:completed_at] }
 
       @exercises_data.each do |slug, exercise_data|
         # Exercises are unlocked if:
@@ -123,7 +123,7 @@ class UserTrack
         data[solution.exercise.slug] = {
           slug: solution.exercise.slug,
           status: solution.status,
-          completed: solution.completed?
+          completed_at: solution.completed_at&.to_i
         }
       end
     end
@@ -148,7 +148,7 @@ class UserTrack
     def learnt_concept_slugs
       return [] unless user_track
 
-      completed_solution_slugs = solutions_data.select { |_, s| s[:completed] }.keys
+      completed_solution_slugs = solutions_data.select { |_, s| s[:completed_at] }.keys
       exercises_data.select { |slug, _| completed_solution_slugs.include?(slug) }.
         flat_map { |_, exercise_data| exercise_data[:taught_concepts] }
     end

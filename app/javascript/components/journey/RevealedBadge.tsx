@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { GraphicalIcon } from '../common'
+import { BadgeMedallion } from '../common/BadgeMedallion'
 import { Badge as BadgeProps } from '../types'
 import { BadgeModal } from '../modals/BadgeModal'
 
@@ -12,9 +13,7 @@ export const RevealedBadge = ({
   return (
     <React.Fragment>
       <button className="c-badge" onClick={() => setOpen(!open)}>
-        <div className={`c-badge-medallion --${badge.rarity}`}>
-          <GraphicalIcon icon={badge.iconName} />
-        </div>
+        <BadgeMedallion badge={badge} />
         <div className="--info">
           <div className="--name">{badge.name}</div>
           <div className="--desc">{badge.description}</div>

@@ -1,15 +1,12 @@
 import React from 'react'
-import {
-  Category,
-  CATEGORY_ICONS,
-  CATEGORY_TITLES,
-} from '../ContributionsSummary'
+import { CATEGORY_ICONS, CATEGORY_TITLES } from '../ContributionsSummary'
+import { ContributionCategory } from '../../types'
 import { GraphicalIcon } from '../../common'
 
 export const CategorySummary = ({
   category,
 }: {
-  category: Category
+  category: ContributionCategory
 }): JSX.Element => {
   return (
     <div className="category">

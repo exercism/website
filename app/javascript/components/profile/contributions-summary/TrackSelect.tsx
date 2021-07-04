@@ -1,18 +1,20 @@
 import React, { useCallback } from 'react'
-import { Track, getTotalReputation } from '../ContributionsSummary'
+import { TrackContribution } from '../../types'
 import {
   TrackSelect as BaseTrackSelect,
   TrackLogo,
 } from '../../common/TrackSelect'
 
-const OptionComponent = ({ option: track }: { option: Track }): JSX.Element => {
+const OptionComponent = ({
+  option: track,
+}: {
+  option: TrackContribution
+}): JSX.Element => {
   return (
     <React.Fragment>
       <TrackLogo track={track} />
       <div className="title">{track.title}</div>
-      <div className="count">
-        {getTotalReputation(track).toLocaleString()} rep
-      </div>
+      <div className="count">{track.totalReputation.toLocaleString()} rep</div>
     </React.Fragment>
   )
 }
@@ -20,15 +22,13 @@ const OptionComponent = ({ option: track }: { option: Track }): JSX.Element => {
 const SelectedComponent = ({
   option: track,
 }: {
-  option: Track
+  option: TrackContribution
 }): JSX.Element => {
   return (
     <React.Fragment>
       <TrackLogo track={track} />
       <div className="track-title">{track.title}</div>
-      <div className="count">
-        {getTotalReputation(track).toLocaleString()} rep
-      </div>
+      <div className="count">{track.totalReputation.toLocaleString()} rep</div>
     </React.Fragment>
   )
 }
@@ -38,9 +38,9 @@ export const TrackSelect = ({
   value,
   setValue,
 }: {
-  tracks: readonly Track[]
-  value: Track
-  setValue: (value: Track) => void
+  tracks: readonly TrackContribution[]
+  value: TrackContribution
+  setValue: (value: TrackContribution) => void
 }): JSX.Element => {
   const handleSet = useCallback(
     (track) => {
@@ -56,7 +56,7 @@ export const TrackSelect = ({
   )
 
   return (
-    <BaseTrackSelect<Track>
+    <BaseTrackSelect<TrackContribution>
       tracks={tracks}
       value={value}
       setValue={handleSet}

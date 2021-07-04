@@ -1,6 +1,6 @@
 import React from 'react'
 import { Badge as BadgeProps } from '../types'
-import { BadgeMedallion } from './badge-modal/BadgeMedallion'
+import { BadgeMedallion } from '../common/BadgeMedallion'
 import { Modal, ModalProps } from './Modal'
 import { timeFormat } from '../../utils/time'
 

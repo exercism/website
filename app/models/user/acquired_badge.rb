@@ -3,6 +3,7 @@ class User::AcquiredBadge < ApplicationRecord
   belongs_to :user
 
   scope :unrevealed, -> { where(revealed: false) }
+  scope :revealed, -> { where(revealed: true) }
   delegate :name, :rarity, to: :badge
 
   before_create do

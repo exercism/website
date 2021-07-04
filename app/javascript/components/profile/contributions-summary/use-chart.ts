@@ -31,30 +31,38 @@ const padReputation = (reputation: number[]): number[] => {
   return reputation.map((r) => min + r)
 }
 
-const CONFIG: ChartConfiguration<'radar'> = {
-  type: 'radar',
-  data: {
-    labels: [],
-    datasets: [],
-  },
-  options: {
-    aspectRatio: 1,
-    elements: {
-      line: { borderWidth: 3 },
+const generateConfig = (
+  canvas: HTMLCanvasElement
+): ChartConfiguration<'radar'> => {
+  const borderColor = getComputedStyle(canvas).getPropertyValue(
+    '--chartBorderColor'
+  )
+
+  return {
+    type: 'radar',
+    data: {
+      labels: [],
+      datasets: [],
     },
-    scales: {
-      r: {
-        beginAtZero: true,
-        ticks: { display: false },
-        angleLines: { color: '#D5D8E4' },
-        grid: { color: '#D5D8E4' },
+    options: {
+      aspectRatio: 1,
+      elements: {
+        line: { borderWidth: 3 },
+      },
+      scales: {
+        r: {
+          beginAtZero: true,
+          ticks: { display: false, callback: (val) => `${val}` },
+          angleLines: { color: borderColor },
+          grid: { color: borderColor },
+        },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false },
       },
     },
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: false },
-    },
-  },
+  }
 }
 
 export const useChart = (
@@ -69,7 +77,8 @@ export const useChart = (
     if (!canvas) {
       return
     }
-    const chart = new Chart<'radar'>(canvas, CONFIG)
+
+    const chart = new Chart<'radar'>(canvas, generateConfig(canvas))
 
     setChart(chart)
 

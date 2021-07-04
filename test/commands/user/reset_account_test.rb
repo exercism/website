@@ -102,6 +102,15 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     end
   end
 
+  test "cleans up reputation_periods" do
+    user = create :user
+    reputation_period = create :user_reputation_period, user: user
+    User::ResetAccount.(user)
+    assert_raises ActiveRecord::RecordNotFound do
+      reputation_period.reload
+    end
+  end
+
   test "cleans up acquired_badges" do
     user = create :user
     acquired_badge = create :user_acquired_badge, user: user

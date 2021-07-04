@@ -37,6 +37,7 @@ class User < ApplicationRecord
                                  class_name: "Mentor::Testimonial"
 
   has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
+  has_many :reputation_periods, class_name: "User::ReputationPeriod", dependent: :destroy
 
   has_many :acquired_badges, dependent: :destroy
   has_many :badges, through: :acquired_badges

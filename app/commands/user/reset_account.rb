@@ -40,6 +40,7 @@ class User
       user.activities.delete_all
       user.notifications.delete_all
       user.reputation_tokens.delete_all
+      user.reputation_periods.delete_all
       user.acquired_badges.delete_all
       user.track_mentorships.delete_all
       user.scratchpad_pages.delete_all

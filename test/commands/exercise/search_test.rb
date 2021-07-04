@@ -3,8 +3,8 @@ require "test_helper"
 class Exercise::SearchTest < ActiveSupport::TestCase
   test "filters by track" do
     track = create :track, slug: "js"
-    concept_exercise = create :concept_exercise, track: track
-    practice_exercise = create :practice_exercise, track: track
+    concept_exercise = create :concept_exercise, track: track, position: 1
+    practice_exercise = create :practice_exercise, track: track, position: 2
 
     # Create on a different rack
     create :concept_exercise
@@ -14,8 +14,8 @@ class Exercise::SearchTest < ActiveSupport::TestCase
 
   test "criteria" do
     track = create :track
-    food = create :concept_exercise, title: "Food Chain", track: track
-    bob = create :concept_exercise, title: "Bob", track: track
+    food = create :concept_exercise, title: "Food Chain", track: track, position: 1
+    bob = create :concept_exercise, title: "Bob", track: track, position: 2
 
     assert_equal [food, bob], Exercise::Search.(track)
     assert_equal [food, bob], Exercise::Search.(track, criteria: " ")
@@ -30,6 +30,7 @@ class Exercise::SearchTest < ActiveSupport::TestCase
     concept = create :concept, track: track
     ce_locked_1 = create :concept_exercise, slug: "ce_locked_1", track: track, position: 7
     ce_locked_2 = create :concept_exercise, slug: "ce_locked_2", track: track, position: 12
+    ce_locked_3 = create :concept_exercise, slug: "ce_locked_3", track: track, position: 8
     ce_started = create :concept_exercise, slug: "ce_started", track: track, position: 18
 
     pe_iterated = create :practice_exercise, slug: "pe_iterated", track: track, position: 5
@@ -48,6 +49,7 @@ class Exercise::SearchTest < ActiveSupport::TestCase
 
     ce_locked_1.prerequisites << concept
     ce_locked_2.prerequisites << concept
+    ce_locked_3.prerequisites << concept
     pe_locked.prerequisites << concept
 
     assert_equal [
@@ -58,6 +60,7 @@ class Exercise::SearchTest < ActiveSupport::TestCase
       pe_completed,
       pe_published,
       ce_locked_1,
+      ce_locked_3,
       ce_locked_2,
       pe_locked
     ].map(&:slug), Exercise::Search.(track, user_track: user_track).map(&:slug)

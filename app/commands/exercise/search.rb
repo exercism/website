@@ -38,12 +38,12 @@ class Exercise
         locked
       ]
 
-      @exercises = @exercises.sort_by do |exercise|
+      @exercises.sort_by! do |exercise|
         status = user_track.exercise_status(exercise).to_sym
         status_modifier = mapping.index(status)
         type_modifier = exercise.concept_exercise? ? 0 : 1
 
-        "#{status_modifier}#{type_modifier}#{exercise.id.to_s.rjust(5, '0')}".to_i
+        "#{status_modifier}#{type_modifier}#{exercise.position.to_s.rjust(5, '0')}".to_i
       end
     end
 

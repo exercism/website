@@ -2,9 +2,37 @@ require "test_helper"
 
 class AssembleJourneyOverviewTest < ActiveSupport::TestCase
   test "with new user" do
-    skip
     user = create :user
-    expected = {}
+    expected = {
+      overview: {
+        learning: {
+          tracks: [],
+          links: {
+            solutions: Exercism::Routes.solutions_journey_url,
+            fable: "#"
+          }
+        },
+        mentoring: {
+          tracks: [],
+          totals: {
+            discussions: 0,
+            students: 0,
+            ratio: 0
+          },
+          ranks: {
+            discussions: 1,
+            students: 3
+          }
+        },
+        contributing: AssembleContributionsSummary.(user, for_self: true),
+        badges: {
+          badges: SerializeUserAcquiredBadges.(user.acquired_badges.revealed),
+          links: {
+            badges: Exercism::Routes.badges_journey_url
+          }
+        }
+      }
+    }
 
     assert_equal expected, AssembleJourneyOverview.(user)
   end

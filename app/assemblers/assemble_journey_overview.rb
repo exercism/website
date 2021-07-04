@@ -66,12 +66,11 @@ class AssembleJourneyOverview
       totals: {
         discussions: num_total_discussions,
         students: num_total_students,
-        ratio: num_total_discussions.to_f / num_total_students
+        ratio: num_total_students.zero? ? 0 : num_total_discussions.to_f / num_total_students
       },
       ranks: {
         discussions: 1, # TODO
-        students: 3, # TODO
-        ratio: 10
+        students: 3 # TODO
       }
     }
   end

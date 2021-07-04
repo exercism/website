@@ -25,6 +25,11 @@ export const BadgeSummary = ({
         )}`
       : ''
   }).filter((part) => part.length > 0)
+  console.log(parts)
 
-  return <p className="text-p-large">You have {toSentence(parts)}.</p>
+  return (
+    <p className="text-p-large">
+      You have {parts.length == 0 ? 'no badges' : toSentence(parts)}.
+    </p>
+  )
 }

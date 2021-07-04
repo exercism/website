@@ -4,10 +4,12 @@ FactoryBot.define do
     exercise { create :practice_exercise, track: track }
 
     trait :completed do
+      status { :completed }
       completed_at { Time.current }
     end
 
     trait :published do
+      status { :published }
       published_at { Time.current }
     end
 

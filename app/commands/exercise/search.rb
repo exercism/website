@@ -40,9 +40,10 @@ class Exercise
 
       @exercises = @exercises.sort_by do |exercise|
         status = user_track.exercise_status(exercise).to_sym
-        modifier = mapping.index(status)
+        status_modifier = mapping.index(status)
+        type_modifier = exercise.concept_exercise? ? 0 : 1
 
-        "#{modifier}#{exercise.id.to_s.rjust(5, '0')}".to_i
+        "#{status_modifier}#{type_modifier}#{exercise.id.to_s.rjust(5, '0')}".to_i
       end
     end
 

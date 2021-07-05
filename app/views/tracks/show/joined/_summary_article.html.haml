@@ -49,6 +49,8 @@
         %section.activities
           - recent_solutions.each do |solution|
             = render ViewComponents::Track::SolutionActivity.new(solution, user_track)
+          = render ViewComponents::ProminentLink.new("See all #{track.title} exercises", track_exercise_path(track), with_bg: true)
+
       - else
         = render "tracks/show/joined/activities_zero_state_section"
 

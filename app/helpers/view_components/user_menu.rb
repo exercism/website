@@ -20,11 +20,9 @@ module ViewComponents
     end
 
     def menu_items
-      if current_user.profile
-        profile_path = Exercism::Routes.profile_path(current_user)
-      else
-        profile_path = Exercism::Routes.intro_profiles_path
-      end
+      profile_path = current_user.profile ?
+        Exercism::Routes.profile_path(current_user) :
+        Exercism::Routes.intro_profiles_path
 
       [
         { html: profile_item, className: "profile" },
@@ -36,7 +34,11 @@ module ViewComponents
     end
 
     def profile_item
-      link_to "#" do
+      profile_path = current_user.profile ?
+        Exercism::Routes.profile_path(current_user) :
+        Exercism::Routes.intro_profiles_path
+
+      link_to profile_path do
         avatar(current_user, alt: "Your uploaded avatar") +
           tag.div(class: 'info') do
             tag.div(current_user.name, class: 'name') +

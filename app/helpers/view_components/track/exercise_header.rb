@@ -16,8 +16,6 @@ module ViewComponents
 
       private
       def tabs
-        return if exercise.tutorial?
-
         tag.div(class: "lg-container navbar") do
           tag.div(class: "tabs") do
             safe_join(
@@ -30,9 +28,8 @@ module ViewComponents
                 ),
 
                 iterations_tab,
-                community_solutions_tab,
-                mentoring_tab
-
+                (community_solutions_tab unless exercise.tutorial?),
+                (mentoring_tab unless exercise.tutorial?)
               ]
             )
           end + (render ::ReactComponents::Student::OpenEditorButton.new(exercise))

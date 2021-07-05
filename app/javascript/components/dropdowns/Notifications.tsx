@@ -93,7 +93,7 @@ export const Notifications = ({
     {
       endpoint: endpoint,
       query: { per: MAX_NOTIFICATIONS },
-      options: { staleTime: 0 },
+      options: {},
     },
     isMountedRef
   )
@@ -116,21 +116,15 @@ export const Notifications = ({
     )
 
     return () => subscription.unsubscribe()
-  }, [refetch])
+  }, [])
 
   useEffect(() => {
-    if (!listAttributes.hidden) {
+    if (!listAttributes.hidden || !isStale) {
       return
     }
 
-    queryCache.invalidateQueries(CACHE_KEY).then(() => {
-      if (!isMountedRef.current) {
-        return
-      }
-
-      setIsStale(false)
-    })
-  }, [listAttributes.hidden, isStale, isMountedRef, refetch])
+    refetch()
+  }, [isStale, listAttributes.hidden, refetch])
 
   return (
     <React.Fragment>

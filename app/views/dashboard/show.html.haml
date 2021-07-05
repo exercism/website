@@ -24,7 +24,7 @@
       .intro
         = graphical_icon "logo"
         .content
-          %h1 Welcome back!
+          %h1 Welcome back, #{current_user.handle}!
           %p.welcome
             Solve coding exercises and get mentored to gain true fluency in your chosen programming languages.
             %strong Exercism is open-source and not-for-profit.
@@ -56,7 +56,7 @@
           = link_to mentoring_inbox_path, class: 'action' do
             = graphical_icon "phone-chat", category: 'graphics'
             Try your hand at mentoring
-          = link_to "#", class: 'action' do
+          = link_to contributing_root_path, class: 'action' do
             = graphical_icon "hacker-boy", category: 'graphics'
             Contribute to building Exercism
           = link_to "#", class: 'action' do

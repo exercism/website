@@ -100,6 +100,7 @@ export const Reputation = ({
   endpoint: string
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
+  const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
   const cacheKey = 'reputations'
@@ -108,7 +109,7 @@ export const Reputation = ({
     {
       endpoint: endpoint,
       query: { per: MAX_TOKENS },
-      options: { staleTime: 0 },
+      options: {},
     },
     isMountedRef
   )
@@ -131,10 +132,10 @@ export const Reputation = ({
   })
 
   useEffect(() => {
-    const connection = new ReputationChannel(refetch)
+    const connection = new ReputationChannel(() => setIsStale(true))
 
     return () => connection.disconnect()
-  }, [refetch])
+  }, [])
 
   useEffect(() => {
     if (!data) {
@@ -153,12 +154,12 @@ export const Reputation = ({
   }, [data])
 
   useEffect(() => {
-    if (!listAttributes.hidden) {
+    if (!listAttributes.hidden || !isStale) {
       return
     }
 
-    queryCache.invalidateQueries(cacheKey)
-  }, [listAttributes.hidden, refetch])
+    refetch()
+  }, [isStale, listAttributes.hidden, refetch])
 
   return (
     <React.Fragment>

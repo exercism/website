@@ -56,8 +56,8 @@ module Mentor
       def search!
         return if criteria.blank?
 
-        # TODO: This is just a stub implementation
-        @testimonials = @testimonials.joins(:student).where("users.handle LIKE ?", "%#{criteria}%")
+        @testimonials = @testimonials.joins(:student).revealed.
+          where("users.handle LIKE ? OR content LIKE ?", "%#{criteria}%", "%#{criteria}%")
       end
 
       def sort!

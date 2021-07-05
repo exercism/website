@@ -68,4 +68,17 @@ class Mentor::Testimonial::RetrieveTest < ActiveSupport::TestCase
     assert_equal 10, testimonials.limit_value
     assert_equal 25, testimonials.total_count
   end
+
+  test "searches correctly" do
+    mentor = create :user
+    student = create :user, handle: "fred"
+    create :mentor_testimonial, mentor: mentor
+    create :mentor_testimonial, :unrevealed, mentor: mentor, student: student
+    fred = create :mentor_testimonial, :revealed, mentor: mentor, student: student
+    foobar = create :mentor_testimonial, :revealed, mentor: mentor, content: "foobar"
+
+    assert_equal [foobar, fred], Mentor::Testimonial::Retrieve.(mentor: mentor, criteria: "f")
+    assert_equal [fred], Mentor::Testimonial::Retrieve.(mentor: mentor, criteria: "fr")
+    assert_equal [foobar], Mentor::Testimonial::Retrieve.(mentor: mentor, criteria: "fo")
+  end
 end

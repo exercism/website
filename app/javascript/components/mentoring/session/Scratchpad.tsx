@@ -135,7 +135,7 @@ export const Scratchpad = ({
       <div className="title">
         Your notes for <strong>{exercise.title}</strong> in
         <TrackIcon iconUrl={track.iconUrl} title={track.title} />
-        <strong>Ruby</strong>
+        <strong>{track.title}</strong>
       </div>
 
       <form onSubmit={handleSubmit} className="c-markdown-editor">

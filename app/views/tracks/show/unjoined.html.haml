@@ -31,8 +31,13 @@
             = graphical_icon(:plus)
             %span Join the #{@track.title} Track
 
-          = link_to "#concepts", class: "btn-secondary btn-l" do
-            Explore concepts
+          - if @track.course?
+            = link_to track_concepts_path(@track), class: "btn-secondary btn-l" do
+              Explore concepts
+          - else
+            = link_to track_exercises_path(@track), class: "btn-secondary btn-l" do
+              Explore exercises
+
       .graphics
         = track_icon(@track)
 

@@ -54,7 +54,7 @@ export type SessionProps = {
   links: Links
   discussion: Discussion
   iterations: readonly Iteration[]
-  userId: number
+  userHandle: string
   notes: string
   outOfDate: boolean
   mentorSolution: CommunitySolution
@@ -83,7 +83,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     outOfDate,
     request,
     scratchpad,
-    userId,
+    userHandle,
   } = session
   const [tab, setTab] = useState<TabIndex>('discussion')
 
@@ -136,7 +136,7 @@ export const Session = (props: SessionProps): JSX.Element => {
           switchToTab: (id: string) => setTab(id as TabIndex),
         }}
       >
-        <PostsWrapper discussionId={session.discussion?.id}>
+        <PostsWrapper discussionUuid={session.discussion?.uuid}>
           <div className="rhs">
             <div className="tabs" role="tablist">
               <Tab id="discussion" context={TabsContext}>
@@ -159,7 +159,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                   discussion={discussion}
                   iterations={iterations}
                   student={student}
-                  userId={userId}
+                  userHandle={userHandle}
                   onIterationScroll={handleIterationScroll}
                 />
               ) : (

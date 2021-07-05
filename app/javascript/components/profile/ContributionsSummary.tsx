@@ -49,7 +49,7 @@ export const ContributionsSummary = ({
   links: Links
   showHeader?: boolean
 }): JSX.Element | null => {
-  const allTrack = tracks.find((track) => track.id === null)
+  const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {
     throw new Error('No data found for all track')
@@ -61,9 +61,9 @@ export const ContributionsSummary = ({
     currentTrack.categories.map(() => createRef<HTMLDivElement>())
   )
   const trackColor =
-    currentTrack.id !== 'all'
+    currentTrack.slug !== 'all'
       ? getComputedStyle(document.documentElement).getPropertyValue(
-          `--track-color-${currentTrack.id}`
+          `--track-color-${currentTrack.slug}`
         )
       : undefined
 

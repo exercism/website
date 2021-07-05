@@ -62,7 +62,7 @@ export const Nudge = ({
   track,
 }: Props): JSX.Element | null => {
   const isMountedRef = useIsMounted()
-  const CACHE_KEY = `nudge-${solution.id}`
+  const CACHE_KEY = `nudge-${solution.uuid}`
   const [queryEnabled, setQueryEnabled] = useState(true)
   const { resolvedData } = usePaginatedRequestQuery<{
     status: IterationStatus
@@ -126,7 +126,7 @@ export const Nudge = ({
 
   useEffect(() => {
     const channel = new LatestIterationStatusChannel(
-      solution.id,
+      solution.uuid,
       (response) => {
         queryCache.setQueryData(CACHE_KEY, response)
       }

@@ -30,9 +30,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          id: "",
+          uuid: "",
           iteration_idx: 2,
-          author_id: student.id,
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
@@ -43,9 +42,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           }
         },
         {
-          id: discussion_post.uuid,
+          uuid: discussion_post.uuid,
           iteration_idx: 2,
-          author_id: student.id,
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
@@ -80,8 +78,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          id: "",
-          author_id: student.id,
+          uuid: "",
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
@@ -132,9 +129,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          id: discussion_post.uuid,
+          uuid: discussion_post.uuid,
           iteration_idx: 2,
-          author_id: student.id,
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
@@ -216,8 +212,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal it_2, post.iteration
     expected = {
       post: {
-        id: post.uuid,
-        author_id: user.id,
+        uuid: post.uuid,
         author_handle: user.handle,
         author_avatar_url: user.avatar_url,
         by_student: true,
@@ -333,8 +328,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     discussion_post.reload
     expected = {
       post: {
-        id: discussion_post.uuid,
-        author_id: student.id,
+        uuid: discussion_post.uuid,
         author_handle: "student",
         author_avatar_url: student.avatar_url,
         by_student: true,

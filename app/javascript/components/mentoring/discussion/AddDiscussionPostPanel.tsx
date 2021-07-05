@@ -24,7 +24,7 @@ export const AddDiscussionPostPanel = ({
         onSuccess={() => {
           switchToTab('discussion')
         }}
-        contextId={`${discussion.id}_new_post`}
+        contextId={`${discussion.uuid}_new_post`}
       />
     </section>
   )

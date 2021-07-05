@@ -33,10 +33,10 @@ const TrackOptions = ({
       {tracks.map((track) => {
         return (
           <TrackCheckbox
-            key={track.id}
+            key={track.slug}
             {...track}
-            checked={selected.includes(track.id)}
-            onChange={(e) => handleChange(e, track.id)}
+            checked={selected.includes(track.slug)}
+            onChange={(e) => handleChange(e, track.slug)}
           />
         )
       })}

@@ -13,8 +13,8 @@ class TrackContributionWithPercentage {
     return (100 * this.track.totalReputation) / this.totalReputation
   }
 
-  get id(): string | null {
-    return this.track.id
+  get slug(): string | null {
+    return this.track.slug
   }
 
   get title(): string {
@@ -32,7 +32,7 @@ export const HeaderSummary = ({
 }: {
   tracks: readonly TrackContribution[]
 }): JSX.Element => {
-  const allTrack = tracks.find((track) => track.id === null)
+  const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {
     throw new Error('Incomplete track data')
@@ -63,12 +63,12 @@ const TrackSummary = ({
 }: {
   track: TrackContributionWithPercentage
 }): JSX.Element => {
-  if (!track.id) {
+  if (!track.slug) {
     throw new Error('No summary for track')
   }
 
   return (
-    <TrackHeaderSpan slug={track.id}>
+    <TrackHeaderSpan slug={track.slug}>
       {track.title} ({track.percentage.toFixed(2)}%)
     </TrackHeaderSpan>
   )

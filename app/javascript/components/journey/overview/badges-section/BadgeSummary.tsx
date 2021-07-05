@@ -25,7 +25,6 @@ export const BadgeSummary = ({
         )}`
       : ''
   }).filter((part) => part.length > 0)
-  console.log(parts)
 
   return (
     <p className="text-p-large">

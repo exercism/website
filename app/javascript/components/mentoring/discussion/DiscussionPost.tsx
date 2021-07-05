@@ -9,8 +9,7 @@ type DiscussionPostLinks = {
 }
 
 export type DiscussionPostProps = {
-  id: number
-  authorId: number
+  uuid: string
   iterationIdx: number
   links: DiscussionPostLinks
   authorHandle: string
@@ -24,11 +23,10 @@ export type DiscussionPostProps = {
 export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
   (
     {
-      id,
+      uuid,
       links,
       authorHandle,
       authorAvatarUrl,
-      byStudent,
       contentMarkdown,
       contentHtml,
       updatedAt,
@@ -56,7 +54,7 @@ export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
               <EditDiscussionPost
                 defaultValue={contentMarkdown}
                 endpoint={links.update}
-                contextId={`edit_${id}`}
+                contextId={`edit_${uuid}`}
               />
             ) : null}
           </header>

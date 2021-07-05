@@ -83,12 +83,12 @@ export const Queue = ({
       return
     }
 
-    if (tracks.find((track) => track.id === selectedTrack.id)) {
+    if (tracks.find((track) => track.slug === selectedTrack.slug)) {
       return
     }
 
     setSelectedTrack(tracks[0])
-  }, [selectedTrack.id, tracks])
+  }, [selectedTrack.slug, tracks])
 
   useEffect(() => {
     if (!isMounted.current) {

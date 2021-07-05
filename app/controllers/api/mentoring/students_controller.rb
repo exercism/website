@@ -51,7 +51,7 @@ module API
 
     private
     def use_student
-      @student = User.find_by!(handle: params[:id])
+      @student = User.find_by!(handle: params[:handle])
     rescue StandardError
       render_400(:invalid_mentor_student_relationship)
     end

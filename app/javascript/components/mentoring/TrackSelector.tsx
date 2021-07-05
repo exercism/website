@@ -13,7 +13,7 @@ export type APIResponse = {
 }
 
 export type Track = {
-  id: string
+  slug: string
   title: string
   iconUrl: string
   avgWaitTime: string

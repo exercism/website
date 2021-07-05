@@ -14,7 +14,7 @@ import { OrderSelect } from './community-solutions-list/OrderSelect'
 export type TrackData = {
   iconUrl: string
   title: string
-  id: string | null
+  slug: string | null
   numSolutions: number
 }
 
@@ -113,7 +113,7 @@ export const CommunitySolutionsList = ({
                 {resolvedData.results.map((solution) => {
                   return (
                     <CommunitySolution
-                      key={solution.id}
+                      key={solution.uuid}
                       solution={solution}
                       context="profile"
                     />

@@ -20,7 +20,7 @@ module API
 
     private
     def use_mentor_discussion
-      @discussion = Mentor::Discussion.find_by(uuid: params[:id])
+      @discussion = Mentor::Discussion.find_by(uuid: params[:uuid])
       return render_404(:mentor_discussion_not_found) unless @discussion
 
       @solution = @discussion.solution

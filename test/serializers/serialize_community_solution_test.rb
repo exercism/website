@@ -6,7 +6,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
     create :user_track, user: solution.user, track: solution.track
     iteration = create :iteration, solution: solution
     expected = {
-      id: solution.uuid,
+      uuid: solution.uuid,
       snippet: solution.snippet,
       num_views: solution.num_views,
       num_stars: solution.num_stars,

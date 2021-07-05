@@ -6,7 +6,7 @@ module API
 
     def reveal
       # TODO
-      testimonial = current_user.mentor_testimonials.find_by(uuid: params[:id])
+      testimonial = current_user.mentor_testimonials.find_by(uuid: params[:uuid])
       return render_404(:mentor_testimonial_not_found) unless testimonial
 
       testimonial.update!(revealed: true)

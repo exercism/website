@@ -3,7 +3,7 @@ module API
     class SolutionsController < BaseController
       def show
         begin
-          solution = current_user.solutions.find_by!(uuid: params[:id])
+          solution = current_user.solutions.find_by!(uuid: params[:uuid])
         rescue ActiveRecord::RecordNotFound
           return render_solution_not_found
         end
@@ -14,16 +14,16 @@ module API
       end
 
       def latest
-        return render_404(:track_not_found, fallback_url: tracks_url) if params[:track_id].blank?
+        return render_404(:track_not_found, fallback_url: tracks_url) if params[:track_slug].blank?
 
         begin
-          track = Track.find_by!(slug: params[:track_id])
+          track = Track.find_by!(slug: params[:track_slug])
         rescue ActiveRecord::RecordNotFound
           return render_404(:track_not_found, fallback_url: tracks_url)
         end
 
         begin
-          exercise = track.exercises.find_by!(slug: params[:exercise_id])
+          exercise = track.exercises.find_by!(slug: params[:exercise_slug])
         rescue ActiveRecord::RecordNotFound
           return render_404(:exercise_not_found, fallback_url: track_url(track))
         end
@@ -47,7 +47,7 @@ module API
 
       def update
         begin
-          solution = Solution.find_by!(uuid: params[:id])
+          solution = Solution.find_by!(uuid: params[:uuid])
         rescue ActiveRecord::RecordNotFound
           return render_solution_not_found
         end
@@ -72,11 +72,11 @@ module API
 
       private
       def set_track
-        @track = Track.find_by!(slug: params[:track_id])
+        @track = Track.find_by!(slug: params[:track_slug])
       end
 
       def set_exercise
-        @exercise = @track.exercises.find_by!(slug: params[:exercise_id])
+        @exercise = @track.exercises.find_by!(slug: params[:exercise_slug])
       end
 
       def respond_with_authored_solution(solution)

@@ -16,20 +16,20 @@ type Links = {
 export const DiscussionInfo = ({
   discussion,
   mentor,
-  userId,
+  userHandle,
   iterations,
   onIterationScroll,
   links,
 }: {
   discussion: MentorDiscussion
   mentor: Mentor
-  userId: number
+  userHandle: string
   iterations: readonly Iteration[]
   onIterationScroll: (iteration: Iteration) => void
   links: Links
 }): JSX.Element => {
   return (
-    <PostsWrapper discussionId={discussion.id}>
+    <PostsWrapper discussionUuid={discussion.uuid}>
       <div id="panel-discussion">
         <MentorInfo mentor={mentor} />
         <div className="discussion">
@@ -37,8 +37,8 @@ export const DiscussionInfo = ({
             endpoint={discussion.links.posts}
             iterations={iterations}
             userIsStudent={true}
-            discussionId={discussion.id}
-            userId={userId}
+            discussionUuid={discussion.uuid}
+            userHandle={userHandle}
             onIterationScroll={onIterationScroll}
           />
           {discussion.status === 'mentor_finished' ? (
@@ -73,7 +73,7 @@ export const DiscussionInfo = ({
         <AddDiscussionPost
           isFinished={discussion.isFinished}
           endpoint={discussion.links.posts}
-          contextId={`discussion-${discussion.id}_new_post`}
+          contextId={`discussion-${discussion.uuid}_new_post`}
         />
       </section>
     </PostsWrapper>

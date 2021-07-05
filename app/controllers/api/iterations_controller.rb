@@ -10,7 +10,7 @@ module API
 
     def create
       begin
-        submission = @solution.submissions.find_by!(uuid: params[:submission_id])
+        submission = @solution.submissions.find_by!(uuid: params[:submission_uuid])
       rescue ActiveRecord::RecordNotFound
         return render_submission_not_found
       end
@@ -25,7 +25,7 @@ module API
     private
     def use_solution
       begin
-        @solution = Solution.find_by!(uuid: params[:solution_id])
+        @solution = Solution.find_by!(uuid: params[:solution_uuid])
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end

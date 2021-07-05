@@ -73,7 +73,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
     submission = create :submission, solution: solution
 
-    post api_solution_iterations_path(solution.uuid, submission_id: submission.uuid),
+    post api_solution_iterations_path(solution.uuid, submission_uuid: submission.uuid),
       headers: @headers,
       as: :json
 
@@ -92,7 +92,7 @@ class API::IterationsControllerTest < API::BaseTestCase
 
     Iteration::Create.expects(:call).with(solution, submission).returns(create(:iteration, submission: submission))
 
-    post api_solution_iterations_path(solution.uuid, submission_id: submission.uuid),
+    post api_solution_iterations_path(solution.uuid, submission_uuid: submission.uuid),
       headers: @headers,
       as: :json
 

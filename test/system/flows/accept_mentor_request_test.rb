@@ -44,7 +44,8 @@ module Flows
       solution = create :concept_solution, user: student
       request = create :mentor_request, solution: solution, comment_markdown: "How to do this?",
                                         updated_at: 2.days.ago
-      create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
+      submission = create :submission, solution: solution
+      create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25), submission: submission
 
       use_capybara_host do
         sign_in!(mentor)

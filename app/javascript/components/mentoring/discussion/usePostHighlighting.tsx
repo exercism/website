@@ -4,7 +4,7 @@ import { DiscussionPostProps } from './DiscussionPost'
 
 export const usePostHighlighting = (
   posts: DiscussionPostProps[] | undefined,
-  userId: number
+  userHandle: string
 ) => {
   const [
     highlightedPost,
@@ -18,10 +18,10 @@ export const usePostHighlighting = (
       return
     }
 
-    if (highlightedPost.authorId === userId) {
+    if (highlightedPost.authorHandle === userHandle) {
       highlightedPostRef.current.scrollIntoView()
     }
-  }, [highlightedPost, highlightedPostRef, userId])
+  }, [highlightedPost, highlightedPostRef, userHandle])
 
   useEffect(() => {
     if (!posts || posts.length === 0) {
@@ -31,7 +31,7 @@ export const usePostHighlighting = (
     const lastPost = posts[posts.length - 1]
 
     setHighlightedPost(lastPost)
-  }, [posts, setHasNewMessages, userId])
+  }, [posts, setHasNewMessages])
 
   useEffect(() => {
     if (!highlightedPostRef.current) {

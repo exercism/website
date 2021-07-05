@@ -8,7 +8,7 @@ class SerializeUserAcquiredBadgesTest < ActiveSupport::TestCase
 
     expected = [
       {
-        id: acquired_badge.uuid,
+        uuid: acquired_badge.uuid,
         is_revealed: false,
         unlocked_at: acquired_badge.created_at.iso8601,
         name: "Rookie",

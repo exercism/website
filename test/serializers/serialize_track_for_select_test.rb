@@ -4,7 +4,7 @@ class SerializeTrackForSelectTest < ActiveSupport::TestCase
   test "track" do
     track = create :track
     expected = {
-      id: track.slug,
+      slug: track.slug,
       title: track.title,
       icon_url: track.icon_url
     }
@@ -13,7 +13,7 @@ class SerializeTrackForSelectTest < ActiveSupport::TestCase
 
   test "all" do
     expected = {
-      id: nil,
+      slug: nil,
       title: "All Tracks",
       icon_url: "ICON"
     }

@@ -20,7 +20,7 @@ class SerializeTrackTest < ActiveSupport::TestCase
     num_practice_exercises.times { create :practice_exercise, track: track }
 
     expected = {
-      id: track.slug,
+      slug: track.slug,
       title: track.title,
       num_concepts: num_concepts,
       num_exercises: num_concept_exercises + num_practice_exercises,

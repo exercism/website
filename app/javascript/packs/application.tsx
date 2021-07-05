@@ -258,6 +258,8 @@ import {
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
+import { Request as MentoringDiscussionsRequest } from '../components/mentoring/Inbox'
+import { Request as TestimonialsListRequest } from '../components/mentoring/TestimonialsList'
 import { Links as PublishedSolutionLinks } from '../components/student/PublishedSolution'
 import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
@@ -394,7 +396,9 @@ initReact({
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
-      discussionsRequest={data.discussions_request}
+      discussionsRequest={camelizeKeysAs<MentoringDiscussionsRequest>(
+        data.discussions_request
+      )}
       tracksRequest={data.tracks_request}
       sortOptions={data.sort_options}
     />
@@ -413,7 +417,7 @@ initReact({
   ),
   'mentoring-session': (data: any) => (
     <Mentoring.Session
-      userId={data.user_id}
+      userHandle={data.user_handle}
       discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
@@ -434,7 +438,7 @@ initReact({
   ),
   'mentoring-testimonials-list': (data: any) => (
     <Mentoring.TestimonialsList
-      request={camelizeKeysAs<Request>(data.request)}
+      request={camelizeKeysAs<TestimonialsListRequest>(data.request)}
       tracks={camelizeKeysAs<readonly MentoringTestimonialsListTrack[]>(
         data.tracks
       )}
@@ -501,7 +505,7 @@ initReact({
   ),
   'student-iteration-page': (data: any) => (
     <Student.IterationPage
-      solutionId={data.solution_id}
+      solutionUuid={data.solution_uuid}
       request={camelizeKeysAs<IterationPageRequest>(data.request)}
       exercise={camelizeKeysAs<IterationPageExercise>(data.exercise)}
       track={camelizeKeysAs<IterationPageTrack>(data.track)}
@@ -510,7 +514,7 @@ initReact({
   ),
   'student-mentoring-session': (data: any) => (
     <Student.MentoringSession
-      userId={data.user_id}
+      userHandle={data.user_handle}
       discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}

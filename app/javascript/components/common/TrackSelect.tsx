@@ -6,7 +6,7 @@ type Size = 'inline' | 'single' | 'multi' | 'large'
 
 type Track = {
   title: string
-  id: string | null
+  slug: string | null
   iconUrl: string
 }
 
@@ -15,7 +15,7 @@ export const TrackLogo = <T extends Track>({
 }: {
   track: T
 }): JSX.Element => {
-  return track.id ? (
+  return track.slug ? (
     <TrackIcon iconUrl={track.iconUrl} title={track.title} />
   ) : (
     <GraphicalIcon icon="all-tracks" className="all" />

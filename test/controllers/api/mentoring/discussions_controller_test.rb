@@ -29,7 +29,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     get api_mentoring_discussions_path, params: {
       status: 'status_param',
       page: 'page_param',
-      track: 'track_param',
+      track_slug: 'track_param',
       student: 'student_param',
       criteria: 'criteria_param',
       order: 'order_param'
@@ -104,9 +104,9 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     assert_response 200
 
     expected = [
-      { id: nil, title: 'All Tracks', icon_url: "ICON", count: 3 },
-      { id: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 },
-      { id: go.slug, title: go.title, icon_url: go.icon_url, count: 2 }
+      { slug: nil, title: 'All Tracks', icon_url: "ICON", count: 3 },
+      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 },
+      { slug: go.slug, title: go.title, icon_url: go.icon_url, count: 2 }
     ]
     assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
   end
@@ -133,7 +133,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     mentor_request = create :mentor_request
     create :mentor_request_lock, request: mentor_request
-    post api_mentoring_discussions_path(mentor_request_id: mentor_request), headers: @headers, as: :json
+    post api_mentoring_discussions_path(mentor_request_uuid: mentor_request), headers: @headers, as: :json
     assert_response 400
     expected = { error: {
       type: "mentor_request_locked",
@@ -156,7 +156,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     post api_mentoring_discussions_path,
       params: {
         iteration_idx: 2,
-        mentor_request_id: mentor_request.uuid,
+        mentor_request_uuid: mentor_request.uuid,
         content: content
       },
       headers: @headers, as: :json

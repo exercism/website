@@ -20,7 +20,7 @@ export class SolutionChannel {
     this.subscription = consumer.subscriptions.create(
       {
         channel: 'SolutionChannel',
-        id: solution.id,
+        uuid: solution.uuid,
       },
       {
         received: (response: {

@@ -61,7 +61,7 @@ export const SolutionSummary = ({
   links: SolutionSummaryLinks
 }): JSX.Element | null => {
   const isMountedRef = useIsMounted()
-  const CACHE_KEY = `solution-${solution.id}-summary`
+  const CACHE_KEY = `solution-${solution.uuid}-summary`
   const [queryEnabled, setQueryEnabled] = useState(true)
   const { resolvedData } = usePaginatedRequestQuery<{
     iterations: Iteration[]
@@ -79,7 +79,7 @@ export const SolutionSummary = ({
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
-      { id: solution.id },
+      { uuid: solution.uuid },
       (response) => {
         queryCache.setQueryData(CACHE_KEY, response)
       }

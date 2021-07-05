@@ -7,7 +7,7 @@ class SerializeSubmissionTestRun
     return unless test_run
 
     {
-      id: test_run.id,
+      uuid: test_run.uuid,
       submission_uuid: test_run.submission.uuid,
       version: test_run.version,
       status: status,

@@ -50,7 +50,7 @@ export const BuildingContributionsList = ({
           <React.Fragment>
             <div className="maintaining">
               {resolvedData.results.map((contribution) => (
-                <Contribution key={contribution.id} {...contribution} />
+                <Contribution key={contribution.uuid} {...contribution} />
               ))}
             </div>
             <Pagination

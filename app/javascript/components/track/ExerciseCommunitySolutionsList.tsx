@@ -87,7 +87,7 @@ export const ExerciseCommunitySolutionsList = ({
                 {resolvedData.results.map((solution) => {
                   return (
                     <CommunitySolution
-                      key={solution.id}
+                      key={solution.uuid}
                       solution={solution}
                       context="exercise"
                     />

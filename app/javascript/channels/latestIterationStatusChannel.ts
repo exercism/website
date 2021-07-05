@@ -8,11 +8,11 @@ export type ChannelResponse = {
 export class LatestIterationStatusChannel {
   subscription: ActionCable.Channel
 
-  constructor(id: string, onReceive: (response: ChannelResponse) => void) {
+  constructor(uuid: string, onReceive: (response: ChannelResponse) => void) {
     this.subscription = consumer.subscriptions.create(
       {
         channel: 'LatestIterationStatusChannel',
-        id: id,
+        uuid: uuid,
       },
       {
         received: (response: ChannelResponse) => {

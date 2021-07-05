@@ -2,7 +2,7 @@ import { SubmissionTestsStatus } from '../types'
 
 export type Submission = {
   testsStatus: SubmissionTestsStatus
-  id: string
+  uuid: string
   links: SubmissionLinks
   testRun?: TestRun
 }
@@ -16,7 +16,7 @@ type SubmissionLinks = {
 }
 
 export type TestRun = {
-  id: number | null
+  uuid: number | null
   submissionUuid: string
   version: number
   status: TestRunStatus

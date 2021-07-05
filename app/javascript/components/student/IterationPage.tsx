@@ -37,13 +37,13 @@ export type IterationPageRequest = {
 }
 
 export const IterationPage = ({
-  solutionId,
+  solutionUuid,
   request,
   exercise,
   track,
   links,
 }: {
-  solutionId: string
+  solutionUuid: string
   request: IterationPageRequest
   exercise: Exercise
   track: Track
@@ -58,7 +58,7 @@ export const IterationPage = ({
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
-      { id: solutionId },
+      { uuid: solutionUuid },
       (response) => {
         queryCache.setQueryData(CACHE_KEY, { iterations: response.iterations })
       }
@@ -67,7 +67,7 @@ export const IterationPage = ({
     return () => {
       solutionChannel.disconnect()
     }
-  }, [CACHE_KEY, solutionId])
+  }, [CACHE_KEY, solutionUuid])
 
   useEffect(() => {
     if (

@@ -9,7 +9,7 @@ class SerializeTrack
 
   def call
     {
-      id: track.slug,
+      slug: track.slug,
       title: track.title,
       num_concepts: user_track.num_concepts,
       num_exercises: user_track.num_exercises,

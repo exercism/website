@@ -14,7 +14,7 @@ class SerializeTracksForMentoring
 
   def serialize_track(track)
     {
-      id: track.slug,
+      slug: track.slug,
       title: track.title,
       icon_url: track.icon_url,
       num_solutions_queued: request_counts[track.id].to_i,

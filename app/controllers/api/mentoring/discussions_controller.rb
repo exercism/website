@@ -9,7 +9,7 @@ module API
         current_user,
         params[:status],
         page: params[:page],
-        track_slug: params[:track],
+        track_slug: params[:track_slug],
         student_handle: params[:student],
         criteria: params[:criteria],
         order: params[:order]
@@ -56,7 +56,7 @@ module API
     end
 
     def create
-      mentor_request = Mentor::Request.find_by(uuid: params[:mentor_request_id])
+      mentor_request = Mentor::Request.find_by(uuid: params[:mentor_request_uuid])
       return render_404(:mentor_request_not_found) unless mentor_request
 
       begin
@@ -84,7 +84,7 @@ module API
     end
 
     def mark_as_nothing_to_do
-      discussion = ::Mentor::Discussion.find_by(uuid: params[:id])
+      discussion = ::Mentor::Discussion.find_by(uuid: params[:uuid])
 
       return render_404(:mentor_discussion_not_found) if discussion.blank?
       return render_403(:mentor_discussion_not_accessible) unless discussion.viewable_by?(current_user)
@@ -100,7 +100,7 @@ module API
     # TODO: An actual implementation of this endpoint.
     # The JSON response below is what I expect for the React component.
     def finish
-      discussion = current_user.mentor_discussions.find_by(uuid: params[:id])
+      discussion = current_user.mentor_discussions.find_by(uuid: params[:uuid])
       discussion.mentor_finished!
       relationship = Mentor::StudentRelationship.find_or_create_by!(mentor: discussion.mentor, student: discussion.student)
 

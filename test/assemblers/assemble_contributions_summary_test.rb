@@ -41,7 +41,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
     expected = {
       tracks: [
         {
-          id: nil,
+          slug: nil,
           title: "All Tracks",
           icon_url: "ICON",
           categories: [
@@ -56,7 +56,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
           ]
         },
         {
-          id: "elixir", title: "Elixir", icon_url: elixir.icon_url, categories: [
+          slug: "elixir", title: "Elixir", icon_url: elixir.icon_url, categories: [
             # TODO: Reputation
             { id: :publishing, reputation: 0, metric_full: "3 solutions published", metric_short: "3 solutions" },
             # TODO: Reputation
@@ -68,7 +68,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
           ]
         },
         {
-          id: "js", title: "JavaScript", icon_url: js.icon_url, categories: [
+          slug: "js", title: "JavaScript", icon_url: js.icon_url, categories: [
             # TODO: Reputation
             { id: :publishing, reputation: 0, metric_full: "2 solutions published", metric_short: "2 solutions" },
             # TODO: Reputation
@@ -96,7 +96,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
     expected = {
       tracks: [
         {
-          id: nil,
+          slug: nil,
           title: "All Tracks",
           icon_url: "ICON",
           categories: [

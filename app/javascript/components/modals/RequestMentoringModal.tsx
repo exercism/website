@@ -77,7 +77,7 @@ export const RequestMentoringModal = ({
                     .replace('$EXERCISE_SLUG', solution.exercise.slug)
                     .replace('$TRACK_SLUG', solution.track.slug)
                   return (
-                    <a href={link} className="exercise" key={solution.id}>
+                    <a href={link} className="exercise" key={solution.uuid}>
                       <TrackIcon
                         iconUrl={solution.track.iconUrl}
                         title={solution.track.title}

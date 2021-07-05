@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_30_161923) do
+ActiveRecord::Schema.define(version: 2021_07_06_061801) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -238,8 +238,10 @@ ActiveRecord::Schema.define(version: 2021_06_30_161923) do
     t.bigint "track_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", null: false
     t.index ["issue_url"], name: "index_github_tasks_on_issue_url", unique: true
     t.index ["track_id"], name: "index_github_tasks_on_track_id"
+    t.index ["uuid"], name: "index_github_tasks_on_uuid", unique: true
   end
 
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -483,7 +485,9 @@ ActiveRecord::Schema.define(version: 2021_06_30_161923) do
     t.text "output"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", null: false
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
+    t.index ["uuid"], name: "index_submission_test_runs_on_uuid", unique: true
   end
 
   create_table "submissions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

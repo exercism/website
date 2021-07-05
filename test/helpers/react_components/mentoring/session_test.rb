@@ -28,7 +28,7 @@ module Mentoring
         render(component),
         "mentoring-session",
         {
-          user_id: mentor.id,
+          user_handle: mentor.handle,
           request: SerializeMentorSessionRequest.(mentor_request),
           discussion: nil,
           track: SerializeMentorSessionTrack.(track),
@@ -89,7 +89,7 @@ module Mentoring
         render(component),
         "mentoring-session",
         {
-          user_id: mentor.id,
+          user_handle: mentor.handle,
           request: SerializeMentorSessionRequest.(mentor_request),
           discussion: SerializeMentorDiscussion.(discussion, :mentor),
           track: SerializeMentorSessionTrack.(track),

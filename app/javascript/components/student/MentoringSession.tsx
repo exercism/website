@@ -41,7 +41,7 @@ export type Mentor = {
 }
 
 export const MentoringSession = ({
-  userId,
+  userHandle,
   discussion,
   mentor,
   iterations,
@@ -52,7 +52,7 @@ export const MentoringSession = ({
   request: initialRequest,
   links,
 }: {
-  userId: number
+  userHandle: string
   discussion?: MentorDiscussion
   mentor?: Mentor
   iterations: readonly Iteration[]
@@ -108,7 +108,7 @@ export const MentoringSession = ({
           <DiscussionInfo
             discussion={discussion}
             mentor={mentor}
-            userId={userId}
+            userHandle={userHandle}
             iterations={iterations}
             onIterationScroll={handleIterationScroll}
             links={{ exercise: exercise.links.self }}

@@ -15,7 +15,7 @@ module ReactComponents
         super(
           "mentoring-session",
           {
-            user_id: current_user.id,
+            user_handle: current_user.handle,
             request: SerializeMentorSessionRequest.(request),
             discussion: discussion ? SerializeMentorDiscussion.(discussion, :mentor) : nil,
             track: SerializeMentorSessionTrack.(track),

@@ -7,7 +7,7 @@ module ReactComponents
         super(
           "student-iteration-page",
           {
-            solution_id: solution.uuid,
+            solution_uuid: solution.uuid,
             request: request,
             exercise: {
               title: exercise.title,

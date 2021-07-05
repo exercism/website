@@ -29,7 +29,7 @@ module API
 
     private
     def use_track
-      @track = Track.find(params[:track_id])
+      @track = Track.find_by!(slug: params[:track_slug])
       @user_track = UserTrack.for(current_user, @track)
     end
   end

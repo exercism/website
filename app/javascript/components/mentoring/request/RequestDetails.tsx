@@ -15,8 +15,7 @@ export const RequestDetails = ({
     <div className="discussion">
       <IterationMarker iteration={iteration} userIsStudent={false} />
       <DiscussionPost
-        id={-1}
-        authorId={-1}
+        uuid="iteration-marker"
         iterationIdx={iteration.idx}
         authorHandle={request.student.handle}
         authorAvatarUrl={request.student.avatarUrl}

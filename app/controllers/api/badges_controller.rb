@@ -18,7 +18,7 @@ module API
 
     # TODO: Add test coverage etc to this.
     def reveal
-      badge = current_user.acquired_badges.find_by!(uuid: params[:id])
+      badge = current_user.acquired_badges.find_by!(uuid: params[:uuid])
       badge.update!(revealed: true)
 
       render json: { badge: SerializeUserAcquiredBadge.(badge) }

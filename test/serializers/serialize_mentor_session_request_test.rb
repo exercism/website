@@ -5,7 +5,7 @@ class SerializeMentorSessionRequestTest < ActiveSupport::TestCase
     request = create :mentor_request
 
     expected = {
-      id: request.uuid,
+      uuid: request.uuid,
       comment: request.comment_html,
       updated_at: request.updated_at.iso8601,
       is_locked: request.locked?,

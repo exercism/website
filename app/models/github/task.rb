@@ -59,4 +59,8 @@ class Github::Task < ApplicationRecord
       super()&.to_sym
     end
   end
+
+  before_create do
+    self.uuid = SecureRandom.compact_uuid if self.uuid.blank?
+  end
 end

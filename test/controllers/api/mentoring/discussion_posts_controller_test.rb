@@ -31,8 +31,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          id: "",
-          author_id: student.id,
+          uuid: "",
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
@@ -43,8 +42,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
           links: {}
         },
         {
-          id: discussion_post.uuid,
-          author_id: mentor.id,
+          uuid: discussion_post.uuid,
           author_handle: "author",
           author_avatar_url: mentor.avatar_url,
           by_student: false,
@@ -79,8 +77,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          id: "",
-          author_id: student.id,
+          uuid: "",
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
@@ -115,8 +112,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          id: discussion_post.uuid,
-          author_id: mentor.id,
+          uuid: discussion_post.uuid,
           author_handle: "author",
           author_avatar_url: mentor.avatar_url,
           by_student: false,
@@ -212,8 +208,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     assert_equal it_2, post.iteration
     expected = {
       post: {
-        id: post.uuid,
-        author_id: user.id,
+        uuid: post.uuid,
         author_handle: user.handle,
         author_avatar_url: user.avatar_url,
         by_student: false,
@@ -262,7 +257,6 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       post: {
         id: post.uuid,
-        author_id: user.id,
         author_handle: user.handle,
         author_avatar_url: user.avatar_url,
         by_student: true,
@@ -370,8 +364,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     discussion_post.reload
     expected = {
       post: {
-        id: discussion_post.uuid,
-        author_id: mentor.id,
+        uuid: discussion_post.uuid,
         author_handle: "mentor",
         author_avatar_url: mentor.avatar_url,
         by_student: false,

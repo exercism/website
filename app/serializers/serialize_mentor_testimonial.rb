@@ -5,7 +5,7 @@ class SerializeMentorTestimonial
 
   def call
     {
-      id: testimonial.uuid,
+      uuid: testimonial.uuid,
       content: testimonial.content,
       student: {
         avatar_url: testimonial.student.avatar_url,

@@ -85,7 +85,7 @@ export const DiscussionPostForm = ({
         queryCache.setQueryData(
           [cacheKey],
           oldData.posts.map((post) => {
-            return post.id === data.id ? data : post
+            return post.uuid === data.uuid ? data : post
           })
         )
 

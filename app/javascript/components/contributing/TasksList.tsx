@@ -52,7 +52,7 @@ export type Request = BaseRequest<{
   sizes: string[]
   types: string[]
   repoUrl: string
-  track: string
+  trackSlug: string
   order: string
 }>
 
@@ -76,9 +76,10 @@ export const TasksList = ({
     request,
     isMountedRef
   )
-  const track = tracks.find((t) => t.id === request.query.track) || tracks[0]
+  const track =
+    tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
   const isFiltering =
-    request.query.track ||
+    request.query.trackSlug ||
     request.query.actions.length > 0 ||
     request.query.types.length > 0 ||
     request.query.sizes.length > 0 ||
@@ -87,7 +88,7 @@ export const TasksList = ({
 
   const setTrack = useCallback(
     (track) => {
-      setQuery({ ...request.query, track: track.id, page: undefined })
+      setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]
   )
@@ -131,7 +132,7 @@ export const TasksList = ({
     setQuery({
       ...request.query,
       page: undefined,
-      track: '',
+      trackSlug: '',
       actions: [],
       types: [],
       sizes: [],
@@ -185,7 +186,7 @@ export const TasksList = ({
               </header>
               <div className="tasks">
                 {resolvedData.results.map((task) => (
-                  <Task task={task} key={task.id} />
+                  <Task task={task} key={task.uuid} />
                 ))}
                 <Pagination
                   disabled={latestData === undefined}

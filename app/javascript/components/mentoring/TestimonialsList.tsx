@@ -1,6 +1,9 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { useIsMounted } from 'use-is-mounted'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
+import {
+  Request as BaseRequest,
+  usePaginatedRequestQuery,
+} from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { Testimonial } from '../types'
@@ -22,12 +25,19 @@ export type PaginatedResult = {
 }
 
 export type Track = {
-  id: string
+  slug: string
   title: string
   iconUrl: string
 }
 
 export type Order = 'unrevealed' | 'newest' | 'oldest'
+
+export type Request = BaseRequest<{
+  criteria?: string
+  order?: string
+  trackSlug?: string
+  page?: number
+}>
 
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 const DEFAULT_ORDER = 'unrevealed'
@@ -69,8 +79,8 @@ export const TestimonialsList = ({
   )
 
   const setTrack = useCallback(
-    (track) => {
-      setQuery({ ...request.query, track: track, page: undefined })
+    (trackSlug) => {
+      setQuery({ ...request.query, trackSlug: trackSlug, page: undefined })
     },
     [request.query, setQuery]
   )
@@ -94,7 +104,7 @@ export const TestimonialsList = ({
         <div className="c-search-bar">
           <TrackDropdown
             tracks={tracks}
-            value={request.query.track}
+            value={request.query.trackSlug}
             setValue={setTrack}
           />
           <input
@@ -132,21 +142,21 @@ export const TestimonialsList = ({
                     {resolvedData.results.map((testimonial) => {
                       return testimonial.isRevealed ? (
                         <RevealedTestimonial
-                          key={testimonial.id}
+                          key={testimonial.uuid}
                           testimonial={testimonial}
                           isRevealed={revealedTestimonials.includes(
-                            testimonial.id
+                            testimonial.uuid
                           )}
                         />
                       ) : (
                         <UnrevealedTestimonial
-                          key={testimonial.id}
+                          key={testimonial.uuid}
                           testimonial={testimonial}
                           cacheKey={cacheKey}
                           onRevealed={() =>
                             setRevealedTestimonials([
                               ...revealedTestimonials,
-                              testimonial.id,
+                              testimonial.uuid,
                             ])
                           }
                         />

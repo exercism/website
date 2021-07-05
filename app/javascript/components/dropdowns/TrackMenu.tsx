@@ -3,6 +3,7 @@ import { useDropdown } from './useDropdown'
 import { Track } from '../types'
 import { Icon, GraphicalIcon } from '../common'
 import { ActivatePracticeModeModal } from './track-menu/ActivatePracticeModeModal'
+import { ActivateLearningModeModal } from './track-menu/ActivateLearningModeModal'
 import { ResetTrackModal } from './track-menu/ResetTrackModal'
 import { LeaveTrackModal } from './track-menu/LeaveTrackModal'
 
@@ -10,12 +11,12 @@ export type Links = {
   repo: string
   documentation: string
   activatePracticeMode: string
-  deactivatePracticeMode: string
+  activateLearningMode: string
   reset: string
   leave: string
 }
 
-type ModalType = 'practice' | 'reset' | 'leave'
+type ModalType = 'learning' | 'practice' | 'reset' | 'leave'
 
 export const TrackMenu = ({
   track,
@@ -24,6 +25,7 @@ export const TrackMenu = ({
   track: Track
   links: Links
 }): JSX.Element => {
+  console.log(links)
   const [modal, setModal] = useState<ModalType | null>(null)
   const {
     buttonAttributes,
@@ -71,7 +73,14 @@ export const TrackMenu = ({
                   Activate practice mode…
                 </button>
               </li>
-            ) : null}
+            ) : (
+              <li {...itemAttributes(2)}>
+                <button type="button" onClick={() => setModal('learning')}>
+                  <GraphicalIcon icon="learning-mode" />
+                  Enable learning mode…
+                </button>
+              </li>
+            )}
             <li {...itemAttributes(3)}>
               <button type="button" onClick={() => setModal('reset')}>
                 <GraphicalIcon icon="reset" />
@@ -91,6 +100,11 @@ export const TrackMenu = ({
         open={modal === 'practice'}
         onClose={() => setModal(null)}
         endpoint={links.activatePracticeMode}
+      />
+      <ActivateLearningModeModal
+        open={modal === 'learning'}
+        onClose={() => setModal(null)}
+        endpoint={links.activateLearningMode}
       />
       <ResetTrackModal
         open={modal === 'reset'}

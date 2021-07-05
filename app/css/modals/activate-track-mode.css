@@ -1,5 +1,6 @@
 @import "../styles";
 
+.c-modal.m-activate-learning-mode,
 .c-modal.m-activate-practice-mode {
     & .--modal-content {
         @apply flex flex-col items-center;

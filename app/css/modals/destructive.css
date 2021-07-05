@@ -1,7 +1,6 @@
 @import "../styles";
 
-.m-reset-account,
-.m-delete-account {
+.m-destructive {
     & form {
         @apply flex flex-col;
     }

@@ -34,7 +34,12 @@ module ViewComponents
       def tags
         ts = []
 
-        ts << tag.div("Practice Mode", class: 'c-tag --practice-mode') if user_track&.practice_mode?
+        if user_track&.practice_mode?
+          ts << tag.div(class: 'c-tag --practice-mode') do
+            graphical_icon("practice-mode") +
+              tag.span("Practice Mode")
+          end
+        end
 
         tag.div class: "tags" do
           safe_join(ts)

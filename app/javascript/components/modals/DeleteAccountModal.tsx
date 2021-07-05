@@ -51,7 +51,7 @@ export const DeleteAccountModal = ({
   const { attempt, setAttempt, isAttemptPass } = useConfirmation(handle)
 
   return (
-    <Modal {...props} className="m-delete-account">
+    <Modal {...props} className="m-delete-account m-destructive">
       <form onSubmit={handleSubmit}>
         <div className="info">
           <h2>You&apos;re about to delete your Exercism account</h2>

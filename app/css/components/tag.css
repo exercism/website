@@ -8,6 +8,13 @@
     @apply border-1;
     white-space: nowrap;
 
+    & .c-icon {
+        height: 16px;
+        width: 16px;
+        @apply mr-8;
+        filter: var(--textColor6-filter);
+    }
+
     &.--small {
         @apply text-13 leading-150 px-10;
     }
@@ -15,5 +22,9 @@
     &.--practice-mode {
         @apply border-backgroundColorH;
         @apply text-textColor9 bg-textColor6;
+
+        & .c-icon {
+            filter: var(--white-filter);
+        }
     }
 }

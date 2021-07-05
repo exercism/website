@@ -3,8 +3,18 @@ module API
   class UserTracksController < BaseController
     before_action :use_track
 
+    def activate_learning_mode
+      @user_track.update(practice_mode: false)
+      render_track_mode
+    end
+
     def activate_practice_mode
       @user_track.update(practice_mode: true)
+      render_track_mode
+    end
+
+    def reset
+      UserTrack::Reset.(@user_track)
 
       render json: {
         user_track: {
@@ -15,23 +25,14 @@ module API
       }
     end
 
-    def reset
-      user_track = UserTrack.find(params[:id])
-      render json: {
-        user_track: {
-          links: {
-            self: Exercism::Routes.reset_temp_user_track_url(user_track)
-          }
-        }
-      }
-    end
-
     def leave
-      user_track = UserTrack.find(params[:id])
+      UserTrack::Reset.(@user_track) if params[:reset]
+      @user_track.destroy
+
       render json: {
         user_track: {
           links: {
-            self: Exercism::Routes.leave_temp_user_track_url(user_track)
+            self: tracks_url
           }
         }
       }
@@ -39,9 +40,19 @@ module API
 
     private
     def use_track
-      @track = Track.find(params[:track_id])
+      @track = Track.find(params[:id])
       # TODO: Rescue and handle
       @user_track = UserTrack.for!(current_user, @track)
+    end
+
+    def render_track_mode
+      render json: {
+        user_track: {
+          links: {
+            self: track_url(@track)
+          }
+        }
+      }
     end
   end
 end

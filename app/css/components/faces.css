@@ -16,12 +16,4 @@
             width: 32px;
         }
     }
-
-    &:not(.--static) {
-        &:hover {
-            & .face {
-                margin-left: 1px;
-            }
-        }
-    }
 }

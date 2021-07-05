@@ -25,22 +25,22 @@ module ReactComponents
           repo: track.repo_url,
           documentation: Exercism::Routes.track_docs_url(track),
           activate_practice_mode: activate_practice_mode_url,
-          deactivate_practice_mode: deactivate_practice_mode_url,
-          reset: Exercism::Routes.reset_api_user_track_url(user_track),
-          leave: Exercism::Routes.leave_api_user_track_url(user_track)
+          activate_learning_mode: activate_learning_mode_url,
+          reset: Exercism::Routes.reset_api_track_url(track),
+          leave: Exercism::Routes.leave_api_track_url(track)
         }
       end
 
       def activate_practice_mode_url
         return if user_track.practice_mode?
 
-        Exercism::Routes.api_track_activate_practice_mode_url(track)
+        Exercism::Routes.activate_practice_mode_api_track_url(track)
       end
 
-      def deactivate_practice_mode_url
-        return if user_track.practice_mode?
+      def activate_learning_mode_url
+        return unless user_track.practice_mode?
 
-        Exercism::Routes.api_track_deactivate_practice_mode_url(track)
+        Exercism::Routes.activate_learning_mode_api_track_url(track)
       end
     end
   end

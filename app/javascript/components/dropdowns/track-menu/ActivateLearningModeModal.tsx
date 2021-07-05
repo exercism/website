@@ -13,9 +13,9 @@ type UserTrack = {
   }
 }
 
-const DEFAULT_ERROR = new Error('Unable to switch to practice mode')
+const DEFAULT_ERROR = new Error('Unable to switch to learning mode')
 
-export const ActivatePracticeModeModal = ({
+export const ActivateLearningModeModal = ({
   endpoint,
   onClose,
   ...props
@@ -48,15 +48,17 @@ export const ActivatePracticeModeModal = ({
   )
 
   return (
-    <Modal className="m-activate-practice-mode" onClose={onClose} {...props}>
-      <GraphicalIcon icon="practice-mode" category="graphics" />
-      <h2>Activate Practice Mode</h2>
+    <Modal className="m-activate-learning-mode" onClose={onClose} {...props}>
+      <GraphicalIcon icon="learning-mode" category="graphics" />
+      <h2>Activate Learning Mode</h2>
       <p>
-        Activating Practice Mode will unlock all the Practice Exercises on this
-        track, but will disable Concepts and Learning Exercises.
+        Activating Learning Mode will enable Concepts and Learning Exercises on
+        this track, but will lock Exercises that you've not yet complete
+        prerequisites for. You will still have access to any exercises you have
+        started.
       </p>
       <div className="warning">
-        You can switch in and out of Practice Mode at any time.
+        You can switch in and out of Learning Mode at any time.
       </div>
 
       <FormButton
@@ -64,7 +66,7 @@ export const ActivatePracticeModeModal = ({
         status={status}
         className="btn-primary btn-m"
       >
-        Activate Practice Mode
+        Activate Learning Mode
       </FormButton>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

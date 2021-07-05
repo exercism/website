@@ -146,13 +146,13 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
 
     solution = create :concept_solution, track: mentored_track
 
-    25.times { create :mentor_request, solution: solution }
+    52.times { create :mentor_request, solution: solution }
 
     requests = Mentor::Request::Retrieve.(mentor: user, page: 2)
     assert_equal 2, requests.current_page
     assert_equal 3, requests.total_pages
-    assert_equal 10, requests.limit_value
-    assert_equal 25, requests.total_count
+    assert_equal 25, requests.limit_value
+    assert_equal 52, requests.total_count
   end
 
   test "boosts by a function of reputation" do

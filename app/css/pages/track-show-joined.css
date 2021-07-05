@@ -398,6 +398,10 @@
             @apply py-16 px-24 mb-24;
             @apply flex items-center;
 
+            &:hover {
+                @apply shadow-base;
+            }
+
             & .count {
                 @apply text-28 leading-150 font-medium text-textColor2;
             }

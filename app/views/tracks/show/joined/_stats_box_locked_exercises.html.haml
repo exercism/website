@@ -1,0 +1,11 @@
+/ TOOD
+= link_to "#", class: "stats-box" do
+  .info
+    .count= user_track.num_locked_exercises
+    %h3
+      = "Exercise".pluralize(user_track.num_locked_exercises)
+      locked
+    .icons
+      - user_track.sample_locked_exercises.each do |exercise|
+        = exercise_icon exercise
+  = graphical_icon "chevron-right", css_class: "action-icon"

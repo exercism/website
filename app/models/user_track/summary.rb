@@ -41,16 +41,20 @@ class UserTrack
       Exercise.where(id: unlocked_exercise_ids)
     end
 
-    def sample_available_exercises(size)
+    def sample_available_exercises(size = 5)
       Exercise.where(id: available_exercise_ids.sample(size))
     end
 
-    def sample_in_progress_exercises(size)
+    def sample_in_progress_exercises(size = 5)
       Exercise.where(id: in_progress_exercise_ids.sample(size))
     end
 
-    def sample_completed_exercises(size)
+    def sample_completed_exercises(size = 5)
       Exercise.where(id: completed_exercises_ids.sample(size))
+    end
+
+    def sample_locked_exercises(size = 5)
+      Exercise.where(id: locked_exercises_ids.sample(size))
     end
 
     memoize
@@ -128,11 +132,11 @@ class UserTrack
     end
 
     def unlocked_exercise_ids
-      mapped_exercises.values.select(&:unlocked).map(&:id)
+      mapped_exercises.values.select(&:unlocked?).map(&:id)
     end
 
     def available_exercise_ids
-      mapped_exercises.values.select(&:unlocked).reject(&:has_solution).map(&:id)
+      mapped_exercises.values.select(&:unlocked?).reject(&:has_solution).map(&:id)
     end
 
     def in_progress_exercise_ids
@@ -141,6 +145,10 @@ class UserTrack
 
     def completed_exercises_ids
       mapped_exercises.values.select(&:completed_at).map(&:id)
+    end
+
+    def locked_exercises_ids
+      mapped_exercises.values.select(&:locked?).map(&:id)
     end
 
     ###################
@@ -280,6 +288,14 @@ class UserTrack
       :id, :slug, :type, :status,
       :unlocked, :has_solution, :completed_at,
       keyword_init: true
-    )
+    ) do
+      def unlocked?
+        unlocked
+      end
+
+      def locked?
+        !unlocked
+      end
+    end
   end
 end

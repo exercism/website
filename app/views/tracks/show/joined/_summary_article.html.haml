@@ -53,7 +53,7 @@
         = render "tracks/show/joined/activities_zero_state_section"
 
     .rhs
-      - if user_track.tutorial_exercise_completed?
+      - if last_8_weeks_counts.any?(&:positive?)
         %section.weekly-count
           .text
             .count= (last_8_weeks_counts.sum / 8.0).round(1)
@@ -61,69 +61,27 @@
 
           = ReactComponents::Common::ProgressGraph.new(last_8_weeks_counts, 70, 145)
 
-        / TODO
-        -#
-          %section.learning-pattern
-            = graphical_icon "steady-learning-pattern"
-            .info
-              %h3 Cheetah Learning Pattern
-              %p You occasionally complete numerous exercises in a week
-
-      = link_to "#", class: "stats-box" do
-        / TOOD
-        .info
-          .count= user_track.num_completed_exercises
-          %h3 Exercises completed
-          .icons
-            - sample_completed_exercises.each do |exercise|
-              = exercise_icon exercise
-        = graphical_icon "chevron-right", css_class: "action-icon"
+      - if user_track.num_completed_exercises.positive?
+        = render "tracks/show/joined/stats_box_completed_exercises", track: track, user_track: user_track
 
       - if track.course?
-        = link_to "#", class: "stats-box" do
-          .info
-            .count= user_track.num_concepts_learnt
-            %h3
-              = "Concept".pluralize(user_track.num_concepts_learnt)
-              learnt
+        - if user_track.num_concepts_learnt.positive?
+          = render "tracks/show/joined/stats_box_learnt_concepts", track: track, user_track: user_track
+        - else
+          = render "tracks/show/joined/stats_box_available_exercises", track: track, user_track: user_track
 
-            .icons
-              - sample_learnt_concepts.each do |concept|
-                = render ViewComponents::ConceptIcon.new concept, :base
-          = graphical_icon "chevron-right", css_class: "action-icon"
-
-        = link_to "#", class: "stats-box" do
-          .info
-            .count= user_track.num_concepts_mastered
-            %h3
-              = "Concept".pluralize(user_track.num_concepts_mastered)
-              mastered
-            .icons
-              - sample_mastered_concepts.each do |concept|
-                = render ViewComponents::ConceptIcon.new concept, :base
-          = graphical_icon "chevron-right", css_class: "action-icon"
+        - if user_track.num_concepts_mastered.positive?
+          = render "tracks/show/joined/stats_box_mastered_concepts", track: track, user_track: user_track
 
       - else
-        = link_to "#", class: "stats-box" do
-          .info
-            .count= user_track.num_in_progress_exercises
-            %h3
-              = "Exercise".pluralize(user_track.num_in_progress_exercises)
-              in-progress
-            .icons
-              - sample_in_progress_exercises.each do |exercise|
-                = exercise_icon exercise
-          = graphical_icon "chevron-right", css_class: "action-icon"
+        - if user_track.num_in_progress_exercises.positive?
+          = render "tracks/show/joined/stats_box_in_progress_exercises", track: track, user_track: user_track
 
-        / TOOD
-        = link_to "#", class: "stats-box" do
-          .info
-            .count= user_track.num_available_exercises
-            %h3 Exercises available
-            .icons
-              - sample_available_exercises.each do |exercise|
-                = exercise_icon exercise
-          = graphical_icon "chevron-right", css_class: "action-icon"
+        - if user_track.num_available_exercises.positive?
+          = render "tracks/show/joined/stats_box_available_exercises", track: track, user_track: user_track
+
+      - unless user_track.num_completed_exercises.positive?
+        = render "tracks/show/joined/stats_box_locked_exercises", track: track, user_track: user_track
 
       = render ViewComponents::ProminentLink.new("View #{track.title} Documentation", track_docs_path(track), with_bg: true, external: true)
 

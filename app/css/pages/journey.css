@@ -132,4 +132,7 @@
             @apply flex-grow text-h3;
         }
     }
+    & .c-react-wrapper-journey-journey-page {
+        min-height: 400px;
+    }
 }

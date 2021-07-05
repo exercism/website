@@ -112,7 +112,7 @@ module ViewComponents
       # TOOD: Add test coverage
       return nil unless current_user.acquired_badges.unrevealed.exists?
 
-      link_to('', Exercism::Routes.badges_journey_path, class: 'new-badge')
+      link_to('', Exercism::Routes.badges_journey_path(anchor: "journey-content"), class: 'new-badge')
     end
   end
 end

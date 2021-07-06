@@ -7,9 +7,7 @@ module ReactComponents
         return if user_track.blank? || user_track.external?
 
         super("dropdowns-track-menu", {
-          track: {
-            title: track.title
-          },
+          track: SerializeTrack.(track, user_track),
           links: links
         })
       end

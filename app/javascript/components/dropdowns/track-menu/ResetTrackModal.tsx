@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Modal, ModalProps } from '../../modals/Modal'
 import { useMutation } from 'react-query'
 import { useIsMounted } from 'use-is-mounted'
@@ -6,6 +6,8 @@ import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { FormButton } from '../../common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
+import { useConfirmation } from '../../../hooks/use-confirmation'
+import { Track } from '../../types'
 
 type UserTrack = {
   links: {
@@ -17,12 +19,14 @@ const DEFAULT_ERROR = new Error('Unable to reset track')
 
 export const ResetTrackModal = ({
   endpoint,
+  track,
   onClose,
   ...props
-}: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
-  // TODO: Read this in
-  const track = { title: 'Ruby', slug: 'ruby' }
-
+}: Omit<ModalProps, 'className'> & {
+  endpoint: string
+  track: Track
+}): JSX.Element => {
+  const confirmation = `reset ${track.slug}`
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<UserTrack | undefined>(
     () => {
@@ -49,6 +53,8 @@ export const ResetTrackModal = ({
       },
     }
   )
+
+  const { attempt, setAttempt, isAttemptPass } = useConfirmation(confirmation)
 
   return (
     <Modal className="m-reset-track m-destructive" onClose={onClose} {...props}>
@@ -77,15 +83,22 @@ export const ResetTrackModal = ({
         </div>
         <hr />
         <label htmlFor="confirmation">
-          To confirm, write <pre>reset {track.slug}</pre> in the box below:
+          To confirm, write <pre>{confirmation}</pre> in the box below:
         </label>
 
-        <input id="confirmation" type="text" autoComplete="off" />
+        <input
+          id="confirmation"
+          type="text"
+          autoComplete="off"
+          value={attempt}
+          onChange={(e) => setAttempt(e.target.value)}
+        />
         <hr />
         <div className="btns">
           <FormButton
             onClick={() => onClose()}
             status={status}
+            type="button"
             className="btn-default btn-m"
           >
             Cancel
@@ -93,6 +106,7 @@ export const ResetTrackModal = ({
           <FormButton
             onClick={() => mutation()}
             status={status}
+            disabled={!isAttemptPass}
             className="btn-primary btn-m"
           >
             Reset track

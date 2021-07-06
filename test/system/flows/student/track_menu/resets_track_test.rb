@@ -8,19 +8,22 @@ module Flows
         include CapybaraHelpers
 
         test "student resets track" do
+          create :user, :ghost
           user = create :user
           track = create :track, title: "Ruby"
           create :concept_exercise, track: track
+          create :concept_solution, status: :completed, user: user, completed_at: 2.days.ago
           create :user_track, user: user, track: track
 
           use_capybara_host do
             sign_in!(user)
             visit track_url(track)
-            click_on "Track menu"
+            click_on "Track options"
             click_on "Reset track"
+            fill_in "To confirm", with: "reset ruby"
             within(".m-reset-track") { click_on "Reset track" }
 
-            assert_text "Track has been reset"
+            assert_text "You’ve just started the Ruby track"
           end
         end
       end

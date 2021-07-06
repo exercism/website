@@ -21,11 +21,12 @@ type ModalType = 'learning' | 'practice' | 'reset' | 'leave'
 export const TrackMenu = ({
   track,
   links,
+  ariaHideApp = false,
 }: {
   track: Track
   links: Links
+  ariaHideApp?: boolean
 }): JSX.Element => {
-  console.log(links)
   const [modal, setModal] = useState<ModalType | null>(null)
   const {
     buttonAttributes,
@@ -100,21 +101,26 @@ export const TrackMenu = ({
         open={modal === 'practice'}
         onClose={() => setModal(null)}
         endpoint={links.activatePracticeMode}
+        ariaHideApp={ariaHideApp}
       />
       <ActivateLearningModeModal
         open={modal === 'learning'}
         onClose={() => setModal(null)}
         endpoint={links.activateLearningMode}
+        ariaHideApp={ariaHideApp}
       />
       <ResetTrackModal
         open={modal === 'reset'}
+        track={track}
         onClose={() => setModal(null)}
         endpoint={links.reset}
+        ariaHideApp={ariaHideApp}
       />
       <LeaveTrackModal
         open={modal === 'leave'}
         onClose={() => setModal(null)}
         endpoint={links.leave}
+        ariaHideApp={ariaHideApp}
       />
     </div>
   )

@@ -30,12 +30,12 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :solutions, only: %i[show update] do
+      resources :solutions, only: %i[show update], param: :uuid do
         get :latest, on: :collection
         get 'files/*filepath', to: 'files#show', format: false, as: "file"
       end
 
-      resources :tracks, only: [:show]
+      resources :tracks, only: [:show], param: :slug
     end
 
     # TODO: This is just a stub
@@ -62,14 +62,14 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :tracks, only: %i[index show] do
-        resources :exercises, only: %i[index], controller: "exercises" do
+      resources :tracks, only: %i[index show], param: :slug do
+        resources :exercises, only: %i[index], controller: "exercises", param: :slug do
           resources :makers, only: [:index], controller: "exercises/makers"
-          resources :community_solutions, only: [:index], controller: "community_solutions" do
+          resources :community_solutions, only: [:index], controller: "community_solutions", param: :handle do
             resource :star, only: %i[create destroy], controller: "community_solution_stars"
           end
         end
-        resources :concepts, only: [] do
+        resources :concepts, only: [], param: :slug do
           resources :makers, only: [:index], controller: "concepts/makers"
         end
       end
@@ -81,22 +81,22 @@ Rails.application.routes.draw do
 
       resources :notifications, only: [:index]
 
-      resources :reputation, only: %i[index] do
+      resources :reputation, only: %i[index], param: :uuid do
         member do
           patch :mark_as_seen
         end
       end
 
-      resources :badges, only: %i[index] do
+      resources :badges, only: %i[index], param: :uuid do
         member do
           patch :reveal
         end
       end
 
-      resources :profiles, only: [] do
+      resources :profiles, only: [], param: :handle do
         get :summary, on: :member
 
-        resources :testimonials, only: [:index], controller: "profiles/testimonials"
+        resources :testimonials, only: [:index], controller: "profiles/testimonials", param: :uuid
         resources :solutions, only: [:index], controller: 'profiles/solutions'
         resources :contributions, only: [], controller: 'profiles/contributions' do
           collection do
@@ -111,7 +111,7 @@ Rails.application.routes.draw do
 
       resources :tasks, only: [:index]
 
-      resources :solutions, only: %i[index show update] do
+      resources :solutions, only: %i[index show update], param: :uuid do
         member do
           get :diff
 
@@ -122,22 +122,22 @@ Rails.application.routes.draw do
           patch :sync
         end
 
-        resources :submissions, only: %i[create], controller: "solutions/submissions" do
+        resources :submissions, only: %i[create], controller: "solutions/submissions", param: :uuid do
           resource :test_run, only: %i[show], controller: "solutions/submission_test_runs"
           resources :cancellations, only: %i[create], controller: "solutions/submission_cancellations"
           resources :files, only: %i[index], controller: "solutions/submission_files"
         end
 
-        resources :iterations, only: %i[create] do
+        resources :iterations, only: %i[create], param: :uuid do
           get :latest_status, on: :collection
         end
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"
         resources :last_iteration_files, only: %i[index], controller: "solutions/last_iteration_files"
 
         resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
-        resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions" do
+        resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions", param: :uuid do
           patch :finish, on: :member
-          resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts"
+          resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts", param: :uuid
         end
       end
 
@@ -147,7 +147,7 @@ Rails.application.routes.draw do
           get :mentored
         end
 
-        resources :requests, only: %i[index] do
+        resources :requests, only: %i[index], param: :uuid do
           collection do
             get :tracks
             get :exercises
@@ -157,7 +157,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :discussions, only: %i[index create] do
+        resources :discussions, only: %i[index create], param: :uuid do
           member do
             patch :mark_as_nothing_to_do
             patch :finish
@@ -167,16 +167,16 @@ Rails.application.routes.draw do
             get :tracks # TODO: Remove this
           end
 
-          resources :posts, only: %i[index create update], controller: "discussion_posts"
+          resources :posts, only: %i[index create update], controller: "discussion_posts", param: :uuid
         end
 
-        resources :testimonials, only: [:index] do
+        resources :testimonials, only: [:index], param: :uuid do
           member do
             patch :reveal
           end
         end
 
-        resources :students, only: [:show] do
+        resources :students, only: [:show], param: :handle do
           member do
             post :block
             delete :block, to: "students#unblock"
@@ -248,7 +248,7 @@ Rails.application.routes.draw do
     get "/", to: "external#show"
     resource :inbox, only: [:show], controller: "inbox"
     resource :queue, only: [:show], controller: "queue"
-    resources :requests, only: [:show] do
+    resources :requests, only: [:show], param: :uuid do
       get :unavailable, on: :member
     end
     resources :discussions, only: [:show]
@@ -365,7 +365,7 @@ Rails.application.routes.draw do
     namespace :test do
       namespace :components do
         resource :editor, only: [:show], controller: "editor"
-        namespace :student do
+        namespace :student, param: :handle do
           resource :concept_map, only: [:show], controller: 'concept_map'
         end
         namespace :maintaining do

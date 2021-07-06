@@ -29,10 +29,10 @@ export const TrackDropdown = ({
   value: string
   setValue: (value: string) => void
 }): JSX.Element => {
-  const track = tracks.find((track) => track.id === value) || tracks[0]
+  const track = tracks.find((track) => track.slug === value) || tracks[0]
   const handleSet = useCallback(
-    (track) => {
-      setValue(track.id)
+    (track: Track) => {
+      setValue(track.slug)
     },
     [setValue]
   )

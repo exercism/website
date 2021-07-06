@@ -4,7 +4,7 @@ module API
       solutions = Solution::SearchUserSolutions.(
         current_user,
         criteria: params[:criteria],
-        track_slug: params[:track_id],
+        track_slug: params[:track_slug],
         status: params[:status],
         mentoring_status: params[:mentoring_status],
         page: params[:page],
@@ -21,7 +21,7 @@ module API
 
     def show
       begin
-        solution = Solution.find_by!(uuid: params[:id])
+        solution = Solution.find_by!(uuid: params[:uuid])
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
@@ -37,7 +37,7 @@ module API
 
     def complete
       begin
-        solution = Solution.find_by!(uuid: params[:id])
+        solution = Solution.find_by!(uuid: params[:uuid])
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
@@ -79,7 +79,7 @@ module API
 
     def publish
       begin
-        solution = Solution.find_by!(uuid: params[:id])
+        solution = Solution.find_by!(uuid: params[:uuid])
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
@@ -100,7 +100,7 @@ module API
 
     def published_iteration
       begin
-        solution = Solution.find_by!(uuid: params[:id])
+        solution = Solution.find_by!(uuid: params[:uuid])
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
@@ -118,7 +118,7 @@ module API
 
     def unpublish
       begin
-        solution = Solution.find_by!(uuid: params[:id])
+        solution = Solution.find_by!(uuid: params[:uuid])
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
@@ -139,7 +139,7 @@ module API
 
     def diff
       begin
-        solution = Solution.find_by!(uuid: params[:id])
+        solution = Solution.find_by!(uuid: params[:uuid])
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
@@ -161,7 +161,7 @@ module API
 
     def sync
       begin
-        solution = Solution.find_by!(uuid: params[:id])
+        solution = Solution.find_by!(uuid: params[:uuid])
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
@@ -176,11 +176,11 @@ module API
 
     private
     def set_track
-      @track = Track.find_by!(slug: params[:track_id])
+      @track = Track.find(params[:track_slug])
     end
 
     def set_exercise
-      @exercise = @track.exercises.find_by!(slug: params[:exercise_id])
+      @exercise = @track.exercises.find(params[:exercise_slug])
     end
 
     def respond_with_authored_solution(solution)

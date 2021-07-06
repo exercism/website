@@ -16,7 +16,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     create :mentor_discussion_post, discussion: discussion
 
     expected = {
-      id: discussion.uuid,
+      uuid: discussion.uuid,
       status: discussion.status,
       finished_at: discussion.finished_at,
       finished_by: discussion.finished_by,

@@ -5,7 +5,7 @@ class SerializeCommunitySolution
 
   def call
     {
-      id: solution.uuid,
+      uuid: solution.uuid,
       snippet: solution.snippet,
       num_views: solution.num_views,
       num_stars: solution.num_stars,

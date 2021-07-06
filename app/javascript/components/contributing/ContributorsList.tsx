@@ -63,11 +63,11 @@ export const ContributorsList = ({
 
   const setTrack = useCallback(
     (track) => {
-      setQuery({ ...request.query, track: track.id, page: undefined })
+      setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
     },
     [request.query, setQuery]
   )
-  const track = tracks.find((t) => t.id === request.query.track) || tracks[0]
+  const track = tracks.find((t) => t.slug === request.query.track) || tracks[0]
 
   useHistory({ pushOn: removeEmpty(request.query) })
 

@@ -30,7 +30,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     get api_solutions_path(
       criteria: "ru",
-      track_id: "ruby",
+      track_slug: "ruby",
       status: "published",
       mentoring_status: "completed",
       page: "2",

@@ -54,13 +54,13 @@ module ReactComponents
           joins(:track).
           where(last_viewed: true).
           pick('tracks.slug')
-        track_data = tracks_data.find { |td| td[:id] == last_viewed_slug } || tracks_data.first
+        track_data = tracks_data.find { |td| td[:slug] == last_viewed_slug } || tracks_data.first
 
-        track_data.merge(exercises: exercises_data(track_data[:id]))
+        track_data.merge(exercises: exercises_data(track_data[:slug]))
       end
 
       def default_exercise
-        exercises_data(default_track[:id]).find { |ed| ed[:slug] == params[:exercise_slug] }
+        exercises_data(default_track[:slug]).find { |ed| ed[:slug] == params[:exercise_slug] }
       end
 
       def queue_request
@@ -70,7 +70,7 @@ module ReactComponents
             order: params[:order],
             criteria: params[:criteria],
             page: params[:page],
-            track_slug: default_track[:id],
+            track_slug: default_track[:slug],
             exercise_slug: default_exercise.try(:[], :slug)
           }.compact,
           options: {
@@ -80,8 +80,8 @@ module ReactComponents
         }
       end
 
-      def exercises_data(track_id)
-        ::Mentor::Request::RetrieveExercises.(mentor, track_id)
+      def exercises_data(track_slug)
+        ::Mentor::Request::RetrieveExercises.(mentor, track_slug)
       end
 
       memoize

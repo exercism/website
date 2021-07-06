@@ -6,7 +6,6 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     relationship = create :mentor_student_relationship, student: student, num_discussions: 5, favorited: true
     3.times { create :mentor_discussion, solution: create(:practice_solution, user: student) }
     expected = {
-      id: student.id,
       handle: student.handle,
       name: student.name,
       bio: nil,
@@ -36,7 +35,6 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
   test "without relationship" do
     student = create :user
     expected = {
-      id: student.id,
       handle: student.handle,
       name: student.name,
       bio: nil,
@@ -65,11 +63,8 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
 
   test "anonymous_mode" do
     student = create :user
-    uuid = SecureRandom.uuid
-    SecureRandom.expects(:uuid).returns(uuid)
 
     expected = {
-      id: "anon-#{uuid}",
       name: "User in Anonymous mode",
       handle: "anonymous",
       reputation: 0,

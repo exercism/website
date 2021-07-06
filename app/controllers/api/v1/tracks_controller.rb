@@ -2,7 +2,7 @@ module API
   class V1::TracksController < BaseController
     def show
       begin
-        track = Track.find_by!(slug: params[:id])
+        track = Track.find_by!(slug: params[:slug])
       rescue StandardError
         return render_404(:track_not_found, fallback_url: tracks_url)
       end

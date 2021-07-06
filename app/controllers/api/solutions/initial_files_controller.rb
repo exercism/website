@@ -3,7 +3,7 @@ module API
     class InitialFilesController < BaseController
       def index
         begin
-          solution = Solution.find_by!(uuid: params[:solution_id])
+          solution = Solution.find_by!(uuid: params[:solution_uuid])
         rescue ActiveRecord::RecordNotFound
           return render_solution_not_found
         end

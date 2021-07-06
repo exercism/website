@@ -23,7 +23,7 @@ export const DiscussionList = ({
     <div className="discussions">
       <h3>Mentoring discussions</h3>
       {discussions.map((discussion) => (
-        <MentorDiscussionSummary key={discussion.id} {...discussion} />
+        <MentorDiscussionSummary key={discussion.uuid} {...discussion} />
       ))}
     </div>
   )

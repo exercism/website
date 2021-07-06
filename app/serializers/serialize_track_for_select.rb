@@ -2,7 +2,7 @@ class SerializeTrackForSelect
   include Mandate
 
   ALL_TRACK = {
-    id: nil,
+    slug: nil,
     title: "All Tracks",
     icon_url: "ICON"
   }.freeze
@@ -11,7 +11,7 @@ class SerializeTrackForSelect
 
   def call
     {
-      id: track.slug,
+      slug: track.slug,
       title: track.title,
       icon_url: track.icon_url
     }

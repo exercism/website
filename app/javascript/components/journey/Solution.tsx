@@ -1,10 +1,10 @@
 import React from 'react'
 import { fromNow } from '../../utils/time'
-import { GraphicalIcon, Icon, TrackIcon, ExerciseIcon } from '../common'
+import { GraphicalIcon, TrackIcon, ExerciseIcon } from '../common'
 import pluralize from 'pluralize'
 
 export type SolutionProps = {
-  id: string
+  uuid: string
   privateUrl: string
   status: string
   numViews: number

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, ModalProps } from './Modal'
 import { TrackSelector } from '../mentoring/TrackSelector'
-import { CloseButton } from './mentor-registration-modal/CloseButton'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
@@ -28,7 +27,7 @@ export const MentorChangeTracksModal = ({
   onSuccess: () => void
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.id))
+  const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.slug))
 
   const [mutation] = useMutation<TrackListAPIResponse>(
     () => {

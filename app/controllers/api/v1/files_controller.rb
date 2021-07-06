@@ -2,7 +2,7 @@ module API
   class V1::FilesController < BaseController
     def show
       begin
-        solution = Solution.find_by!(uuid: params[:solution_id])
+        solution = Solution.find_by!(uuid: params[:solution_uuid])
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end

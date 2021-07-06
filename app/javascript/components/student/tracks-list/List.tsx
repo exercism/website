@@ -15,14 +15,14 @@ export const List = ({ data }: { data: StudentTrack[] }): JSX.Element => {
       {joinedTracks.length !== 0 ? (
         <div className="joined-tracks">
           {joinedTracks.map((track) => {
-            return <Track key={track.id} track={track} />
+            return <Track key={track.slug} track={track} />
           })}
         </div>
       ) : null}
       {unjoinedTracks.length !== 0 ? (
         <div className="unjoined-tracks">
           {unjoinedTracks.map((track) => {
-            return <Track key={track.id} track={track} />
+            return <Track key={track.slug} track={track} />
           })}
         </div>
       ) : null}

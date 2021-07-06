@@ -21,7 +21,7 @@ class AssembleContributors
 
   memoize
   def track_id
-    Track.find(params[:track]).id if params[:track].present?
+    Track.find(params[:track_slug]).id if params[:track_slug].present?
   end
 
   memoize

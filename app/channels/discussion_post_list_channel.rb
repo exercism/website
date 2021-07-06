@@ -4,7 +4,7 @@ class DiscussionPostListChannel < ApplicationCable::Channel
   end
 
   def subscribed
-    discussion = Mentor::Discussion.find_by!(uuid: params[:discussion_id])
+    discussion = Mentor::Discussion.find_by!(uuid: params[:discussion_uuid])
 
     return unless discussion.viewable_by?(current_user)
 

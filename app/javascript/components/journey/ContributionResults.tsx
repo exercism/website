@@ -30,7 +30,7 @@ export const ContributionResults = ({
       </div>
       <div className="reputation-tokens">
         {results.map((contribution) => {
-          return <Contribution {...contribution} key={contribution.id} />
+          return <Contribution {...contribution} key={contribution.uuid} />
         })}
       </div>
     </div>

@@ -52,7 +52,7 @@ class AssembleContributorsTest < ActiveSupport::TestCase
     AssembleContributors.(
       period: period,
       category: category,
-      track: track.slug,
+      track_slug: track.slug,
       user_handle: user_handle,
       page: page
     )

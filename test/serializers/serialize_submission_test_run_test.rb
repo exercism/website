@@ -15,7 +15,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     actual = SerializeSubmissionTestRun.(test_run)
 
     expected = {
-      id: test_run.id,
+      uuid: test_run.uuid,
       submission_uuid: test_run.submission.uuid,
       version: 0,
       status: :pass,

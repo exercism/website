@@ -34,7 +34,7 @@ class AssembleTasksTest < ActiveSupport::TestCase
       sizes: sizes,
       types: types,
       repo_url: repo_url,
-      track: track.slug,
+      track_slug: track.slug,
       order: order,
       page: page,
       sorted: false,

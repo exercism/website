@@ -35,9 +35,13 @@ export const BadgeResults = ({
       <div className="badges">
         {results.map((badge) => {
           return badge.isRevealed ? (
-            <RevealedBadge badge={badge} key={badge.id} />
+            <RevealedBadge badge={badge} key={badge.uuid} />
           ) : (
-            <UnrevealedBadge badge={badge} cacheKey={cacheKey} key={badge.id} />
+            <UnrevealedBadge
+              badge={badge}
+              cacheKey={cacheKey}
+              key={badge.uuid}
+            />
           )
         })}
       </div>

@@ -34,7 +34,7 @@ module ReactComponents
             order: params[:order],
             criteria: params[:criteria],
             page: params[:page] ? params[:page].to_i : 1,
-            track: params[:track]
+            track_slug: params[:track_slug]
           }.compact,
           options: { stale_time: 0 }
         }

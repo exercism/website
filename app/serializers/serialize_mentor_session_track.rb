@@ -5,7 +5,7 @@ class SerializeMentorSessionTrack
 
   def call
     {
-      id: track.slug,
+      slug: track.slug,
       title: track.title,
       highlightjs_language: track.highlightjs_language,
       indent_size: track.indent_size,

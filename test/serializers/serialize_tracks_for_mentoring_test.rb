@@ -26,7 +26,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
 
     expected = [
       {
-        id: "csharp",
+        slug: "csharp",
         title: "C#",
         icon_url: csharp.icon_url,
         num_solutions_queued: 6,
@@ -36,7 +36,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         }
       },
       {
-        id: "fsharp",
+        slug: "fsharp",
         title: "F#",
         icon_url: fsharp.icon_url,
         num_solutions_queued: 0,
@@ -46,7 +46,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         }
       },
       {
-        id: "ruby",
+        slug: "ruby",
         title: "Ruby",
         icon_url: ruby.icon_url,
         num_solutions_queued: 3,
@@ -96,7 +96,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
 
     expected = [
       {
-        id: "csharp",
+        slug: "csharp",
         title: "C#",
         icon_url: csharp.icon_url,
         num_solutions_queued: 6,
@@ -106,7 +106,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         }
       },
       {
-        id: "elixir",
+        slug: "elixir",
         title: "Elixir",
         icon_url: elixir.icon_url,
         num_solutions_queued: 4,
@@ -116,7 +116,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         }
       },
       {
-        id: "fsharp",
+        slug: "fsharp",
         title: "F#",
         icon_url: fsharp.icon_url,
         num_solutions_queued: 0,
@@ -126,7 +126,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         }
       },
       {
-        id: "ruby",
+        slug: "ruby",
         title: "Ruby",
         icon_url: ruby.icon_url,
         num_solutions_queued: 3,

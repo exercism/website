@@ -4,7 +4,7 @@ import { Track } from '../TrackSelector'
 import { Icon, TrackIcon } from '../../common'
 
 export const TrackCheckbox = ({
-  id,
+  slug,
   title,
   iconUrl,
   avgWaitTime,
@@ -19,12 +19,12 @@ export const TrackCheckbox = ({
     <div className="track">
       <input
         type="checkbox"
-        id={id}
+        id={slug}
         checked={checked}
         onChange={onChange}
-        aria-labelledby={`${id}-label`}
+        aria-labelledby={`${slug}-label`}
       />
-      <label className="track" htmlFor={id} id={`${id}-label`}>
+      <label className="track" htmlFor={slug} id={`${slug}-label`}>
         {checked ? (
           <div className="selected-icon">
             <Icon icon="checkmark" alt="Track selected" />

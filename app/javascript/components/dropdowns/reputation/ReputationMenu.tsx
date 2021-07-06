@@ -61,7 +61,7 @@ export const ReputationMenu = ({
         queryCache.setQueryData(cacheKey, {
           ...oldData,
           results: oldData.results.map((oldToken) => {
-            return oldToken.id === token.id ? token : oldToken
+            return oldToken.uuid === token.uuid ? token : oldToken
           }),
         })
       },
@@ -73,7 +73,7 @@ export const ReputationMenu = ({
       {tokens.map((token, i) => {
         return (
           <li
-            key={token.id}
+            key={token.uuid}
             {...itemAttributes(i)}
             onMouseEnter={() => {
               markAsSeen(token)

@@ -88,7 +88,7 @@ class User::ReputationToken < ApplicationRecord
 
   def cacheable_rendering_data
     data = {
-      id: uuid,
+      uuid: uuid,
       value: value,
       text: text,
       icon_url: icon_url,

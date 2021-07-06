@@ -5,7 +5,7 @@ class SerializeMentorSessionTrackTest < ActiveSupport::TestCase
     track = create :track
 
     expected = {
-      id: track.slug,
+      slug: track.slug,
       title: track.title,
       highlightjs_language: track.highlightjs_language,
       indent_size: track.indent_size,

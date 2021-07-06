@@ -12,7 +12,6 @@ class SerializeStudent
     return anonymous_details if anonymous_mode
 
     {
-      id: student.id,
       handle: student.handle,
       name: student.name.presence, # TODO: We need a flag to protect this maybe?
       bio: student.bio.presence,
@@ -38,7 +37,6 @@ class SerializeStudent
 
   def anonymous_details
     {
-      id: "anon-#{SecureRandom.uuid}",
       name: "User in Anonymous mode",
       handle: "anonymous",
       reputation: 0,

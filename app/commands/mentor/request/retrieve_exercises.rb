@@ -23,7 +23,7 @@ module Mentor
 
       memoize
       def track
-        Track.find_by!(slug: track_slug)
+        Track.find(track_slug)
       end
 
       memoize

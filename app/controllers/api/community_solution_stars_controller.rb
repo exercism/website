@@ -26,9 +26,9 @@ module API
 
     private
     def use_solution
-      @track = Track.find(params[:track_id])
-      @exercise = @track.exercises.find(params[:exercise_id])
-      user = User.find_by!(handle: params[:community_solution_id])
+      @track = Track.find(params[:track_slug])
+      @exercise = @track.exercises.find(params[:exercise_slug])
+      user = User.find_by!(handle: params[:community_solution_handle])
       @solution = @exercise.solutions.published.find_by!(user_id: user.id)
     end
   end

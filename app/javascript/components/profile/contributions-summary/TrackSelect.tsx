@@ -44,7 +44,7 @@ export const TrackSelect = ({
 }): JSX.Element => {
   const handleSet = useCallback(
     (track) => {
-      const matchingTrack = tracks.find((t) => t.id === track.id)
+      const matchingTrack = tracks.find((t) => t.slug === track.slug)
 
       if (!matchingTrack) {
         throw new Error('No matching track')

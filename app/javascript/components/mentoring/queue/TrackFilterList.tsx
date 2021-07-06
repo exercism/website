@@ -136,13 +136,13 @@ const Component = ({
           <ul {...listAttributes}>
             {tracks.map((track, i) => {
               return (
-                <li key={track.id} {...itemAttributes(i)}>
+                <li key={track.slug} {...itemAttributes(i)}>
                   <TrackFilter
                     onChange={() => {
                       setValue(track)
                       setOpen(false)
                     }}
-                    checked={value.id === track.id}
+                    checked={value.slug === track.slug}
                     {...track}
                   />
                 </li>

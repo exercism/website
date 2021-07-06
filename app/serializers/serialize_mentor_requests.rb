@@ -16,8 +16,7 @@ class SerializeMentorRequests
     tooltip_url = Exercism::Routes.api_mentoring_student_path(request.student, track_slug: request.track_slug)
 
     {
-      # TODO: Maybe expose a UUID instead?
-      id: request.uuid,
+      uuid: request.uuid,
 
       track_title: request.track_title,
       exercise_icon_url: request.exercise_icon_url,

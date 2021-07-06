@@ -27,7 +27,7 @@ module ReactComponents::Student
       assert_component component,
         "student-mentoring-session",
         {
-          user_id: student.id,
+          user_handle: student.handle,
           request: SerializeMentorSessionRequest.(mentor_request),
           discussion: SerializeMentorDiscussion.(discussion, :student),
           track: SerializeMentorSessionTrack.(track),
@@ -38,7 +38,6 @@ module ReactComponents::Student
             SerializeIteration.(iteration_3).merge(num_comments: 2, unread: true)
           ],
           mentor: {
-            id: mentor.id,
             name: mentor.name,
             handle: mentor.handle,
             bio: mentor.bio,
@@ -76,7 +75,7 @@ module ReactComponents::Student
       assert_component component,
         "student-mentoring-session",
         {
-          user_id: student.id,
+          user_handle: student.handle,
           request: SerializeMentorSessionRequest.(mentor_request),
           discussion: nil,
           track: SerializeMentorSessionTrack.(track),

@@ -17,7 +17,7 @@ class API::Mentoring::RegistrationControllerTest < API::BaseTestCase
 
     post api_mentoring_registration_path,
       params: {
-        track_ids: %w[ruby csharp],
+        track_slugs: %w[ruby csharp],
         accept_terms: true
       },
       headers: @headers, as: :json

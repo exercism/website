@@ -57,7 +57,7 @@ class MentoringQueueTest < ReactComponentTestCase
             initial_data: {
               tracks: [
                 {
-                  id: "csharp",
+                  slug: "csharp",
                   title: "C#",
                   icon_url: csharp.icon_url,
                   num_solutions_queued: 6,
@@ -67,7 +67,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   }
                 },
                 {
-                  id: "fsharp",
+                  slug: "fsharp",
                   title: "F#",
                   icon_url: fsharp.icon_url,
                   num_solutions_queued: 0,
@@ -77,7 +77,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   }
                 },
                 {
-                  id: "ruby",
+                  slug: "ruby",
                   title: "Ruby",
                   icon_url: ruby.icon_url,
                   num_solutions_queued: 3,
@@ -92,7 +92,7 @@ class MentoringQueueTest < ReactComponentTestCase
           }
         },
         default_track: {
-          id: "csharp",
+          slug: "csharp",
           title: "C#",
           icon_url: csharp.icon_url,
           num_solutions_queued: 6,

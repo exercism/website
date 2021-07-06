@@ -21,7 +21,7 @@ export const useExerciseList = ({
     isFetching,
     error,
   } = usePaginatedRequestQuery<MentoredTrackExercise[]>(
-    ['mentored-exercises', track?.id],
+    ['mentored-exercises', track?.slug],
     {
       endpoint: track?.links.exercises,
       options: {

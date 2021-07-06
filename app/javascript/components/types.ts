@@ -37,7 +37,7 @@ export type Concept = {
 }
 
 export type Contribution = {
-  id: string
+  uuid: string
   value: number
   text: string
   iconUrl: string
@@ -51,7 +51,7 @@ export type Contribution = {
 }
 
 export type Testimonial = {
-  id: string
+  uuid: string
   content: string
   student: {
     avatarUrl: string
@@ -108,7 +108,7 @@ export type Student = {
 }
 
 export type SolutionForStudent = {
-  id: string
+  uuid: string
   privateUrl: string
   publicUrl: string
   status: SolutionStatus
@@ -141,7 +141,7 @@ export type DiscussionStatus =
   | 'finished'
 
 export type CommunitySolution = {
-  id: string
+  uuid: string
   snippet: string
   numLoc: string
   numStars: string
@@ -197,7 +197,7 @@ export type APIError = {
 }
 
 export type MentorSessionRequest = {
-  id: string
+  uuid: string
   comment: string
   updatedAt: string
   isLocked: boolean
@@ -214,7 +214,7 @@ export type MentorSessionRequest = {
   }
 }
 export type MentorSessionTrack = {
-  id: string
+  slug: string
   title: string
   iconUrl: string
   highlightjsLanguage: string
@@ -223,7 +223,7 @@ export type MentorSessionTrack = {
 }
 
 export type MentorSessionExercise = {
-  id: string
+  slug: string
   title: string
   iconUrl: string
   links: {
@@ -232,7 +232,7 @@ export type MentorSessionExercise = {
 }
 
 export type StudentTrack = {
-  id: string
+  slug: string
   webUrl: string
   iconUrl: string
   title: string
@@ -248,7 +248,7 @@ export type StudentTrack = {
 }
 
 export type Track = {
-  id: string
+  slug: string
   title: string
   iconUrl: string
   numConcepts: number
@@ -360,7 +360,7 @@ export type MentorDiscussionStatus =
 export type MentorDiscussionFinishedBy = 'mentor' | 'student'
 
 export type MentorDiscussion = {
-  id: string
+  uuid: string
   status: MentorDiscussionStatus
   finishedAt?: string
   finishedBy?: MentorDiscussionFinishedBy
@@ -405,7 +405,7 @@ export type MentoredTrackExercise = {
 }
 
 export type MentoredTrack = {
-  id: string
+  slug: string
   title: string
   iconUrl: string
   numSolutionsQueued: number
@@ -429,7 +429,7 @@ export type Contributor = {
 export type BadgeRarity = 'common' | 'rare' | 'ultimate' | 'legendary'
 
 export type Badge = {
-  id: string
+  uuid: string
   rarity: BadgeRarity
   iconName: string
   name: string
@@ -442,7 +442,7 @@ export type Badge = {
 }
 
 export type Task = {
-  id: string
+  uuid: string
   title: string
   tags: TaskTags
   track: Pick<Track, 'title' | 'iconUrl'>
@@ -531,7 +531,7 @@ export type ContributionCategory = {
 }
 
 export class TrackContribution {
-  id: string | null
+  slug: string | null
   title: string
   iconUrl: string
   categories: readonly ContributionCategory[]
@@ -544,17 +544,17 @@ export class TrackContribution {
   }
 
   constructor({
-    id,
+    slug,
     title,
     iconUrl,
     categories,
   }: {
-    id: string | null
+    slug: string | null
     title: string
     iconUrl: string
     categories: readonly ContributionCategory[]
   }) {
-    this.id = id
+    this.slug = slug
     this.title = title
     this.iconUrl = iconUrl
     this.categories = categories

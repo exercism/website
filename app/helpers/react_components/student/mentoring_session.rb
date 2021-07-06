@@ -7,7 +7,7 @@ module ReactComponents
         super(
           "student-mentoring-session",
           {
-            user_id: student.id,
+            user_handle: student.handle,
             request: SerializeMentorSessionRequest.(request),
             discussion: discussion ? SerializeMentorDiscussion.(discussion, student) : nil,
             track: SerializeMentorSessionTrack.(track),
@@ -49,7 +49,6 @@ module ReactComponents
         return nil unless mentor
 
         {
-          id: mentor.id,
           name: mentor.name,
           handle: mentor.handle,
           bio: mentor.bio,

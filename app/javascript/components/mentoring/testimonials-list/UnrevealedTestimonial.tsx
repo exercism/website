@@ -62,7 +62,7 @@ export const UnrevealedTestimonial = ({
     queryCache.setQueryData(cacheKey, {
       ...oldData,
       results: oldData.results.map((oldTestimonial) => {
-        return oldTestimonial.id === revealedTestimonial.id
+        return oldTestimonial.uuid === revealedTestimonial.uuid
           ? revealedTestimonial
           : oldTestimonial
       }),

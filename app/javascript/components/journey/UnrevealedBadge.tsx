@@ -59,7 +59,7 @@ export const UnrevealedBadge = ({
     queryCache.setQueryData(cacheKey, {
       ...oldData,
       results: oldData.results.map((oldBadge) => {
-        return oldBadge.id === revealedBadge.id ? revealedBadge : oldBadge
+        return oldBadge.uuid === revealedBadge.uuid ? revealedBadge : oldBadge
       }),
     })
   }, [cacheKey, revealedBadge])

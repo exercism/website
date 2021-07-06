@@ -53,7 +53,7 @@ export const StartDiscussionPanel = ({
         endpoint: request.links.discussion,
         method: 'POST',
         body: JSON.stringify({
-          mentor_request_id: request.id,
+          mentor_request_uuid: request.uuid,
           content: editorRef.current?.value(),
           iteration_idx: lastIteration.idx,
         }),
@@ -90,7 +90,7 @@ export const StartDiscussionPanel = ({
     <section className="comment-section --comment">
       <form onSubmit={handleSubmit} className="c-markdown-editor --expanded">
         <MarkdownEditor
-          contextId={`start-discussion-request-${request.id}`}
+          contextId={`start-discussion-request-${request.uuid}`}
           editorDidMount={handleEditorMount}
         />
         <footer className="editor-footer">

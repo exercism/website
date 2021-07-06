@@ -28,7 +28,7 @@ module API
     end
 
     def update
-      post = Mentor::DiscussionPost.find_by(uuid: params[:id])
+      post = Mentor::DiscussionPost.find_by(uuid: params[:uuid])
 
       return render_404(:mentor_discussion_post_not_found) if post.blank?
       return render_403(:mentor_discussion_post_not_accessible) unless post.author == current_user
@@ -43,7 +43,7 @@ module API
 
     private
     def use_mentor_discussion
-      @discussion = Mentor::Discussion.find_by(uuid: params[:discussion_id])
+      @discussion = Mentor::Discussion.find_by(uuid: params[:discussion_uuid])
       return render_404(:mentor_discussion_not_found) unless @discussion
 
       @solution = @discussion.solution

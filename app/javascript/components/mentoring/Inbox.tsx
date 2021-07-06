@@ -5,11 +5,14 @@ import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
 import { useList } from '../../hooks/use-list'
-import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
+import {
+  usePaginatedRequestQuery,
+  Request as BaseRequest,
+} from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
-import { MentorDiscussion } from '../types'
+import { MentorDiscussion, DiscussionStatus } from '../types'
 
 export type SortOption = {
   value: string
@@ -26,6 +29,14 @@ export type APIResponse = {
     finishedTotal: number
   }
 }
+
+export type Request = BaseRequest<{
+  status: DiscussionStatus
+  order?: string
+  criteria?: string
+  page?: number
+  trackSlug?: string
+}>
 
 export const Inbox = ({
   tracksRequest,
@@ -71,8 +82,8 @@ export const Inbox = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const setTrack = (track: string | null) => {
-    setQuery({ ...request.query, track: track, page: undefined })
+  const setTrack = (trackSlug: string | null) => {
+    setQuery({ ...request.query, trackSlug: trackSlug, page: undefined })
   }
 
   const setStatus = (status: string) => {
@@ -122,7 +133,7 @@ export const Inbox = ({
               ...tracksRequest,
               query: { status: request.query.status },
             }}
-            value={request.query.track || null}
+            value={request.query.trackSlug || null}
             setTrack={setTrack}
           />
           <TextFilter

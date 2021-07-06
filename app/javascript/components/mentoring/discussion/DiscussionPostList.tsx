@@ -30,16 +30,16 @@ type IntersectionStatus = {
 
 export const DiscussionPostList = ({
   endpoint,
-  discussionId,
+  discussionUuid,
   iterations,
-  userId,
+  userHandle,
   userIsStudent,
   onIterationScroll,
 }: {
   endpoint: string
-  discussionId: string
+  discussionUuid: string
   iterations: readonly Iteration[]
-  userId: number
+  userHandle: string
   userIsStudent: boolean
   onIterationScroll: (iteration: Iteration) => void
 }): JSX.Element | null => {
@@ -65,7 +65,7 @@ export const DiscussionPostList = ({
   )
   const { highlightedPost, highlightedPostRef } = usePostHighlighting(
     posts,
-    userId
+    userHandle
   )
   const [intersectionStatus, setIntersectionStatus] = useState<
     IntersectionStatus[]
@@ -99,11 +99,11 @@ export const DiscussionPostList = ({
     if (posts && posts !== data.posts) {
       const lastPost = posts[posts.length - 1]
 
-      if (lastPost.authorId !== userId) {
+      if (lastPost.authorHandle !== userHandle) {
         setHasNewMessages(true)
       }
     }
-  }, [data, posts, setHasNewMessages, userId])
+  }, [data, posts, setHasNewMessages, userHandle])
 
   useEffect(() => {
     setIterationWithPosts(
@@ -128,7 +128,7 @@ export const DiscussionPostList = ({
 
   useEffect(() => {
     const channel = new DiscussionPostChannel(
-      { discussionId: discussionId },
+      { discussionUuid: discussionUuid },
       () => {
         queryCache.invalidateQueries(cacheKey)
       }
@@ -137,7 +137,7 @@ export const DiscussionPostList = ({
     return () => {
       channel.disconnect()
     }
-  }, [cacheKey, discussionId])
+  }, [cacheKey, discussionUuid])
 
   useEffect(() => {
     const observer = new IntersectionObserver(registerEntry, {
@@ -194,7 +194,7 @@ export const DiscussionPostList = ({
                 return (
                   <DiscussionPost
                     ref={highlightedPost === post ? highlightedPostRef : null}
-                    key={post.id}
+                    key={post.uuid}
                     {...post}
                   />
                 )

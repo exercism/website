@@ -31,7 +31,7 @@ module ReactComponents
           sizes: params[:sizes] || [],
           types: params[:types] || [],
           repo_url: params[:repo_url] || "",
-          track: params[:track] || "",
+          track_slug: params[:track_slug] || "",
           order: params[:order] || "newest",
           page: params[:page] || 1
         }

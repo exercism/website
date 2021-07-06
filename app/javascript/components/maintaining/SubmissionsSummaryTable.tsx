@@ -4,7 +4,7 @@ import 'actioncable'
 import consumer from '../../utils/action-cable-consumer'
 
 type Submission = {
-  id: string
+  uuid: string
   track: string
   exercise: string
   testsStatus: string
@@ -17,7 +17,7 @@ type SubmissionEvent = {
 }
 
 function SubmissionsSummaryTableRow({
-  id,
+  uuid,
   track,
   exercise,
   testsStatus,
@@ -26,7 +26,7 @@ function SubmissionsSummaryTableRow({
 }: Submission) {
   return (
     <tr>
-      <td>{id}</td>
+      <td>{uuid}</td>
       <td>{track}</td>
       <td>{exercise}</td>
       <td>{testsStatus}</td>
@@ -40,14 +40,14 @@ export function SubmissionsSummaryTable({
   submissions,
 }: {
   submissions: readonly Submission[]
-}) {
+}): JSX.Element {
   const [stateSubmissions, setSubmissions] = useState(submissions)
 
   useEffect(() => {
     const received = (event: SubmissionEvent) => {
       const existingSubmissions = [...stateSubmissions]
       const existingIndex = existingSubmissions.findIndex(
-        (submission) => submission.id === event.submission.id
+        (submission) => submission.uuid === event.submission.uuid
       )
 
       if (existingIndex !== -1) {
@@ -81,8 +81,8 @@ export function SubmissionsSummaryTable({
       <tbody>
         {stateSubmissions.map((submission) => (
           <SubmissionsSummaryTableRow
-            key={submission.id}
-            id={submission.id}
+            key={submission.uuid}
+            uuid={submission.uuid}
             track={submission.track}
             exercise={submission.exercise}
             testsStatus={submission.testsStatus}

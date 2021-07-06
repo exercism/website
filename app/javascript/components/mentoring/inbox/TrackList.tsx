@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { TrackSelect, TrackLogo } from '../../common/TrackSelect'
 
 export type Track = {
-  id: string
+  slug: string
   title: string
   iconUrl: string
   count: number
@@ -36,11 +36,11 @@ export const TrackList = ({
   value: string | null
   setTrack: (value: string | null) => void
 }): JSX.Element => {
-  const track = tracks.find((t) => t.id === value) || tracks[0]
+  const track = tracks.find((t) => t.slug === value) || tracks[0]
 
   const handleSet = useCallback(
-    (track) => {
-      setTrack(track.id)
+    (track: Track) => {
+      setTrack(track.slug)
     },
     [setTrack]
   )

@@ -7,13 +7,13 @@ export const DiscussionDetails = ({
   discussion,
   iterations,
   student,
-  userId,
+  userHandle,
   onIterationScroll,
 }: {
   discussion: MentorDiscussion
   iterations: readonly Iteration[]
   student: Student
-  userId: number
+  userHandle: string
   onIterationScroll: (iteration: Iteration) => void
 }): JSX.Element => {
   const [defaultWizardStep, setDefaultWizardStep] = useState<ModalStep>(
@@ -26,8 +26,8 @@ export const DiscussionDetails = ({
         endpoint={discussion.links.posts}
         iterations={iterations}
         userIsStudent={false}
-        discussionId={discussion.id}
-        userId={userId}
+        discussionUuid={discussion.uuid}
+        userHandle={userHandle}
         onIterationScroll={onIterationScroll}
       />
       {discussion.isFinished ? (

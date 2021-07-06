@@ -48,7 +48,7 @@ class Mentor::Request::RetrieveExercisesTest < ActiveSupport::TestCase
       }
 
     ]
-    actual = Mentor::Request::RetrieveExercises.(user, :csharp)
+    actual = Mentor::Request::RetrieveExercises.(user, "csharp")
     assert_equal expected, actual
   end
 end

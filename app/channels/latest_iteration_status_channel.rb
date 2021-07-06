@@ -1,6 +1,6 @@
 class LatestIterationStatusChannel < ApplicationCable::Channel
   def subscribed
-    solution = Solution.find_by!(uuid: params[:id])
+    solution = Solution.find_by!(uuid: params[:uuid])
 
     stream_from "latest_iteration_status:#{solution.uuid}"
   end

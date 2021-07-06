@@ -21,7 +21,7 @@ module ReactComponents::Contributing
         sizes: %w[tiny small],
         types: ["ci"],
         repo_url: "exercism/ruby",
-        track: "ruby",
+        track_slug: "ruby",
         order: "newest",
         page: 1
       }
@@ -36,7 +36,7 @@ module ReactComponents::Contributing
             initial_data: {
               results: [
                 {
-                  id: task_1.id,
+                  uuid: task_1.uuid,
                   title: "Improve test speed",
                   tags: {
                     action: "fix",
@@ -58,7 +58,7 @@ module ReactComponents::Contributing
                   }
                 },
                 {
-                  id: task_2.id,
+                  uuid: task_2.uuid,
                   title: "Sync anagram",
                   tags: {
                     action: "fix",
@@ -89,18 +89,7 @@ module ReactComponents::Contributing
             }
           }
         },
-        tracks: [
-          {
-            id: nil,
-            title: "All Tracks",
-            icon_url: "ICON"
-          },
-          {
-            id: track.slug,
-            title: track.title,
-            icon_url: track.icon_url
-          }
-        ]
+        tracks: AssembleTracksForSelect.()
       }
       assert_component component, "contributing-tasks-list", expected
     end

@@ -11,7 +11,7 @@ class SerializeMentorTestimonialsTest < ActiveSupport::TestCase
 
     expected = [
       {
-        id: testimonial.uuid,
+        uuid: testimonial.uuid,
         content: "Great mentor!",
         student: {
           avatar_url: student.avatar_url,

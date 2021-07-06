@@ -31,7 +31,7 @@ export const BadgesSection = ({ badges, links }: Props): JSX.Element => {
       </div>
       <div className="badges">
         {badgesToShow.map((badge) => (
-          <BadgeMedallion key={badge.id} badge={badge} />
+          <BadgeMedallion key={badge.uuid} badge={badge} />
         ))}
       </div>
     </section>

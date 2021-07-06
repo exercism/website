@@ -7,7 +7,7 @@ module API
       end
 
       begin
-        User::BecomeMentor.(current_user, params[:track_ids])
+        User::BecomeMentor.(current_user, params[:track_slugs])
       rescue InvalidTrackSlugsError
         # TODO: Make this a proper response
         return render json: {}, status: :bad_request

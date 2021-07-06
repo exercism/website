@@ -64,7 +64,7 @@ module ReactComponents
       def discussions
         solution.mentor_discussions.map do |discussion|
           {
-            id: discussion.uuid,
+            uuid: discussion.uuid,
             mentor: {
               avatar_url: discussion.mentor.avatar_url,
               handle: discussion.mentor.handle

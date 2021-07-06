@@ -34,7 +34,7 @@ export const CommitStep = ({
         endpoint: links.registration,
         method: 'POST',
         body: JSON.stringify({
-          track_ids: selected,
+          track_slugs: selected,
           accept_terms: true,
         }),
         isMountedRef: isMountedRef,

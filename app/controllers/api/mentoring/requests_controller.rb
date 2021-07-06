@@ -22,7 +22,7 @@ module API
     end
 
     def lock
-      mentor_request = Mentor::Request.find_by(uuid: params[:id])
+      mentor_request = Mentor::Request.find_by(uuid: params[:uuid])
       return render_404(:mentor_request_not_found) unless mentor_request
 
       Mentor::Request::Lock.(mentor_request, current_user)

@@ -29,7 +29,7 @@ export const SolutionResults = ({
       </div>
       <div className="solutions">
         {results.map((solution) => {
-          return <Solution {...solution} key={solution.id} />
+          return <Solution {...solution} key={solution.uuid} />
         })}
       </div>
     </div>

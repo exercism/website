@@ -8,7 +8,7 @@ import { useDebounce } from '../../../hooks/use-debounce'
 import { useHistory } from '../../../hooks/use-history'
 
 export type MentoringRequest = {
-  id: string
+  uuid: string
   trackTitle: string
   trackIconUrl: string
   exerciseTitle: string
@@ -56,7 +56,7 @@ export const useMentoringQueue = ({
 } => {
   const isMountedRef = useIsMounted()
   const { request, setCriteria, setOrder, setPage } = useList(initialRequest)
-  const trackSlug = track?.id
+  const trackSlug = track?.slug
   const exerciseSlug = exercise?.slug
   const query = useMemo(() => {
     return {

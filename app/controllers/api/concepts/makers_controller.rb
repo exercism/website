@@ -29,8 +29,8 @@ module API
 
       private
       def use_concept
-        @track = Track.find(params[:track_id])
-        @concept = @track.concepts.find(params[:concept_id])
+        @track = Track.find(params[:track_slug])
+        @concept = @track.concepts.find(params[:concept_slug])
       end
     end
   end

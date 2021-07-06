@@ -49,7 +49,7 @@ export const PreviousMentoringSessionsModal = ({
     return (
       <a
         href={discussion.links.self}
-        key={discussion.id}
+        key={discussion.uuid}
         className="discussion"
       >
         <TrackIcon
@@ -102,7 +102,10 @@ export const PreviousMentoringSessionsModal = ({
             {resolvedData ? (
               <React.Fragment>
                 {resolvedData.results.map((discussion: MentorDiscussion) => (
-                  <DiscussionLink discussion={discussion} key={discussion.id} />
+                  <DiscussionLink
+                    discussion={discussion}
+                    key={discussion.uuid}
+                  />
                 ))}
                 <Pagination
                   disabled={latestData === undefined}

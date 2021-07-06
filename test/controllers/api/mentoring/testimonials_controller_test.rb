@@ -26,7 +26,7 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
       page: page,
       criteria: "Foobar",
       order: "recent",
-      track: track_slug
+      track_slug: track_slug
     }, headers: @headers, as: :json
   end
 

@@ -32,7 +32,7 @@ module API
     end
 
     def mark_as_seen
-      token = current_user.reputation_tokens.find_by!(uuid: params[:id])
+      token = current_user.reputation_tokens.find_by!(uuid: params[:uuid])
       token.seen!
 
       render json: { reputation: token.rendering_data }

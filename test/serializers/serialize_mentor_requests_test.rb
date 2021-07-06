@@ -11,7 +11,7 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
 
     expected = [
       {
-        id: request.uuid,
+        uuid: request.uuid,
 
         track_title: track.title,
         exercise_title: exercise.title,

@@ -39,13 +39,13 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     assert_response :success
     expected = {
       submission: {
-        id: Submission.last.uuid,
+        uuid: Submission.last.uuid,
         tests_status: 'queued',
         links: {
           cancel: Exercism::Routes.api_solution_submission_cancellations_url(solution.uuid, Submission.last),
           submit: Exercism::Routes.api_solution_iterations_url(
             Submission.last.solution.uuid,
-            submission_id: Submission.last.uuid
+            submission_uuid: Submission.last.uuid
           ),
           test_run: Exercism::Routes.api_solution_submission_test_run_url(solution.uuid, Submission.last.uuid),
           initial_files: Exercism::Routes.api_solution_initial_files_url(solution.uuid),

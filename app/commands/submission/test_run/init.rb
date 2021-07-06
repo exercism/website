@@ -44,11 +44,6 @@ class Submission
       def exercise_repo
         Git::Exercise.for_solution(solution)
       end
-
-      memoize
-      def test_regexp
-        solution.track.test_regexp
-      end
     end
   end
 end

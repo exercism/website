@@ -28,7 +28,7 @@ module Git
       # TODO: consider raising error when slug in config is different from track slug
 
       # TODO: We should raise a bugsnag here too
-      blurb = head_git_track.config[:blurb][0, 350]
+      blurb = head_git_track.blurb[0, 350]
 
       # Concepts must be synced before tracks
       concepts = sync_concepts!
@@ -37,9 +37,9 @@ module Git
 
       track.update!(
         blurb: blurb,
-        active: head_git_track.config[:active],
-        title: head_git_track.config[:language],
-        tags: head_git_track.config[:tags].to_a,
+        active: head_git_track.active?,
+        title: head_git_track.title,
+        tags: head_git_track.tags,
         concepts: concepts
       )
 

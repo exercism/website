@@ -5,12 +5,12 @@ module Git
     test "passing_repo_works" do
       repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       track = Git::Track.new(repo: repo)
-      assert_equal(/test/, track.test_regexp)
+      assert_equal("ruby", track.slug)
     end
 
     test "passing_repo_url_works" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal(/test/, track.test_regexp)
+      assert_equal("ruby", track.slug)
     end
 
     test "passing_both_repo_and_repo_url_raises" do
@@ -23,26 +23,6 @@ module Git
       assert_raises do
         Git::Repository.new
       end
-    end
-
-    test "retrieves_test_regexp" do
-      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal(/test/, track.test_regexp)
-    end
-
-    test "has_correct_default_test_regexp" do
-      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-naked"))
-      assert_equal(/[tT]est/, track.test_regexp)
-    end
-
-    test "retrieves_ignore_regexp" do
-      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal(/[iI]gno/, track.ignore_regexp)
-    end
-
-    test "has_correct_default_ignore_regexp" do
-      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-naked"))
-      assert_equal(/[iI]gnore/, track.ignore_regexp)
     end
 
     test "retrieves_about" do
@@ -184,6 +164,40 @@ module Git
     test "average_test_duration" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal 1.2, track.average_test_duration
+    end
+
+    test "title" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal "Ruby", track.title
+    end
+
+    test "slug" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal "ruby", track.slug
+    end
+
+    test "blurb" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity."
+      assert_equal expected, track.blurb
+    end
+
+    test "active?" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert track.active?
+    end
+
+    test "tags" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = [
+        "execution_mode/interpreted",
+        "platform/windows",
+        "platform/linux",
+        "platform/mac",
+        "paradigm/declarative",
+        "paradigm/object_oriented"
+      ]
+      assert_equal expected, track.tags
     end
   end
 end

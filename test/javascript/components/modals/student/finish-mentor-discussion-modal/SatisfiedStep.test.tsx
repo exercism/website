@@ -16,7 +16,7 @@ test('disables buttons while loading', async () => {
   }
   const server = setupServer(
     rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
-      return res(ctx.delay(10), ctx.status(200), ctx.json({}))
+      return res(ctx.delay(100), ctx.status(200), ctx.json({}))
     })
   )
   server.listen()

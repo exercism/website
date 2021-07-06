@@ -245,9 +245,30 @@ class Track
       logger.taught_concepts << numbers
       logger.prerequisites << booleans
 
-      Github::Issue::OpenForDependencyCycle.expects(:call).with(track)
+      assert_enqueued_jobs 1, only: OpenIssueForDependencyCycleJob do
+        assert_raises TrackHasCyclicPrerequisiteError do
+          Track::DetermineConceptMapLayout.(track)
+        end
+      end
+    end
 
-      Track::DetermineConceptMapLayout.(track)
+    def test_raises_error_when_prerequisite_cycle_found
+      track = create :track
+
+      numbers = create :concept, slug: 'numbers', track: track
+      booleans = create :concept, slug: 'booleans', track: track
+
+      pacman = create :concept_exercise, track: track
+      pacman.taught_concepts << booleans
+      pacman.prerequisites << numbers
+
+      logger = create :concept_exercise, track: track
+      logger.taught_concepts << numbers
+      logger.prerequisites << booleans
+
+      assert_raises TrackHasCyclicPrerequisiteError do
+        Track::DetermineConceptMapLayout.(track)
+      end
     end
   end
 end

@@ -1,0 +1,41 @@
+module Github
+  class Issue
+    class Open
+      include Mandate
+
+      initialize_with :repo, :title, :body
+
+      def call
+        if missing?
+          create_issue
+        elsif closed?
+          reopen_issue
+        end
+      end
+
+      private
+      def missing?
+        issue.nil?
+      end
+
+      def closed?
+        issue.state == "closed"
+      end
+
+      def create_issue
+        Exercism.octokit_client.create_issue(repo, title, body)
+      end
+
+      def reopen_issue
+        Exercism.octokit_client.reopen_issue(repo, issue.number)
+      end
+
+      memoize
+      def issue
+        # TODO: Elevate this into exercism-config gem
+        author = "exercism-bot"
+        Exercism.octokit_client.search_issues("\"#{title}\" is:issue in:title repo:#{repo} author:#{author}")[:items]&.first
+      end
+    end
+  end
+end

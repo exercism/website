@@ -193,17 +193,17 @@ import '../../css/pages/journey/badges'
 
 import 'tippy.js/animations/shift-away-subtle.css'
 import 'tippy.js/dist/svg-arrow.css'
-import 'easymde/dist/easymde.min.css'
 import '../../css/highlighters/highlightjs-light'
 import '../../css/highlighters/highlightjs-dark'
 
 import React from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 import * as Common from '../components/common'
-import * as Maintaining from '../components/maintaining'
-import * as Mentoring from '../components/mentoring'
-import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMentoringButton'
+import { CLIWalkthrough } from '../components/common/CLIWalkthrough'
+import { CLIWalkthroughButton } from '../components/common/CLIWalkthroughButton'
+
 import * as Student from '../components/student'
+
 import {
   SolutionSummaryLinks,
   Track as SolutionSummaryTrack,
@@ -213,89 +213,53 @@ import {
   Links as NudgeLinks,
   Track as NudgeTrack,
 } from '../components/student/Nudge'
-import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 import * as TrackComponents from '../components/track'
-import * as JourneyComponents from '../components/journey'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
-import { camelizeKeys } from 'humps'
 import {
   Iteration,
   Track,
   Exercise,
-  MentorSessionRequest,
-  MentorSessionTrack,
-  MentorSessionExercise,
+  // MentorSessionRequest,
+  // MentorSessionTrack,
+  // MentorSessionExercise,
   MentorDiscussion,
   MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
   Testimonial,
-  MentoredTrackExercise,
+  // MentoredTrackExercise,
   User,
   SiteUpdate,
   CommunicationPreferences,
   TrackContribution,
 } from '../components/types'
-
-import { Student as MentoringSessionStudent } from '../components/types'
-import {
-  Links as MentoringSessionLinks,
-  Scratchpad as MentoringSessionScratchpad,
-} from '../components/mentoring/Session'
-import {
-  Mentor as StudentMentoringSessionMentor,
-  Video as StudentMentoringSessionVideo,
-  Links as StudentMentoringSessionLinks,
-} from '../components/student/MentoringSession'
-import { Links as RequestMentoringButtonLinks } from '../components/student/RequestMentoringButton'
 import {
   Track as IterationPageTrack,
   Exercise as IterationPageExercise,
   Links as IterationPageLinks,
   IterationPageRequest,
 } from '../components/student/IterationPage'
-import { Request as MentoringDiscussionsRequest } from '../components/mentoring/Inbox'
-import { Request as TestimonialsListRequest } from '../components/mentoring/TestimonialsList'
 import { Links as PublishedSolutionLinks } from '../components/student/PublishedSolution'
-import { Track as MentoringTestimonialsListTrack } from '../components/mentoring/TestimonialsList'
 import * as Tooltips from '../components/tooltips'
 import * as Dropdowns from '../components/dropdowns'
 import * as Profile from '../components/profile'
 import * as CommunitySolutions from '../components/community-solutions'
 import * as Contributing from '../components/contributing'
 import { Request as ContributingTasksRequest } from '../components/contributing/TasksList'
-import * as Settings from '../components/settings'
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
-import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
 import { Links as SolutionViewLinks } from '../components/common/SolutionView'
 
+import { Request } from '../hooks/request-query'
+import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
 }
 
-// Add all react components here.
-// Each should map 1-1 to a component in app/helpers/components
+// // Add all react components here.
+// // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  'maintaining-submissions-summary-table': (data: any) => (
-    <Maintaining.SubmissionsSummaryTable
-      submissions={data.submissions.map((s: any) => {
-        return camelizeKeys(s)
-      })}
-    />
-  ),
-  'journey-journey-page': (data: any) => (
-    <JourneyComponents.JourneyPage
-      categories={camelizeKeysAs<readonly JourneyPageCategory[]>(
-        data.categories
-      )}
-      defaultCategory={data.default_category}
-    />
-  ),
-  'common-markdown-editor': (data: any) => (
-    <Common.MarkdownEditor contextId={data.context_id} />
-  ),
   'common-concept-widget': (data: any) => (
     <Common.ConceptWidget concept={data.concept} />
   ),
@@ -332,11 +296,9 @@ initReact({
       hidden={data.hidden}
     />
   ),
-  'common-cli-walkthrough': (data: any) => (
-    <Common.CLIWalkthrough html={data.html} />
-  ),
+  'common-cli-walkthrough': (data: any) => <CLIWalkthrough html={data.html} />,
   'common-cli-walkthrough-button': (data: any) => (
-    <Common.CLIWalkthroughButton html={data.html} />
+    <CLIWalkthroughButton html={data.html} />
   ),
   'track-exercise-community-solutions-list': (data: any) => (
     <TrackComponents.ExerciseCommunitySolutionsList
@@ -389,56 +351,6 @@ initReact({
     <Contributing.TasksList
       request={camelizeKeysAs<ContributingTasksRequest>(data.request)}
       tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
-    />
-  ),
-  'mentoring-inbox': (data: any) => (
-    <Mentoring.Inbox
-      discussionsRequest={camelizeKeysAs<MentoringDiscussionsRequest>(
-        data.discussions_request
-      )}
-      tracksRequest={data.tracks_request}
-      sortOptions={data.sort_options}
-    />
-  ),
-  'mentoring-queue': (data: any) => (
-    <Mentoring.Queue
-      queueRequest={camelizeKeysAs<Request>(data.queue_request)}
-      tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
-      defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
-      defaultExercise={camelizeKeysAs<MentoredTrackExercise>(
-        data.default_exercise
-      )}
-      links={camelizeKeysAs<MentoringQueueLinks>(data.links)}
-      sortOptions={data.sort_options}
-    />
-  ),
-  'mentoring-session': (data: any) => (
-    <Mentoring.Session
-      userHandle={data.user_handle}
-      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
-      mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
-      student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
-      track={camelizeKeysAs<MentorSessionTrack>(data.track)}
-      exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
-      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
-      links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
-      request={camelizeKeysAs<MentorSessionRequest>(data.request)}
-      scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
-      notes={data.notes}
-      outOfDate={data.out_of_date}
-    />
-  ),
-  'mentoring-try-mentoring-button': (data: any) => (
-    <Mentoring.TryMentoringButton
-      links={camelizeKeysAs<TryMentoringButtonLinks>(data.links)}
-    />
-  ),
-  'mentoring-testimonials-list': (data: any) => (
-    <Mentoring.TestimonialsList
-      request={camelizeKeysAs<TestimonialsListRequest>(data.request)}
-      tracks={camelizeKeysAs<readonly MentoringTestimonialsListTrack[]>(
-        data.tracks
-      )}
     />
   ),
   'student-tracks-list': (data: any) => (
@@ -502,31 +414,11 @@ initReact({
   ),
   'student-iteration-page': (data: any) => (
     <Student.IterationPage
-      solutionUuid={data.solution_uuid}
+      solutionUuid={data.solution_id}
       request={camelizeKeysAs<IterationPageRequest>(data.request)}
       exercise={camelizeKeysAs<IterationPageExercise>(data.exercise)}
       track={camelizeKeysAs<IterationPageTrack>(data.track)}
       links={camelizeKeysAs<IterationPageLinks>(data.links)}
-    />
-  ),
-  'student-mentoring-session': (data: any) => (
-    <Student.MentoringSession
-      userHandle={data.user_handle}
-      discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
-      iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
-      mentor={camelizeKeysAs<StudentMentoringSessionMentor>(data.mentor)}
-      track={camelizeKeysAs<MentorSessionTrack>(data.track)}
-      exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
-      trackObjectives={data.track_objectives}
-      videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
-      request={camelizeKeysAs<MentorSessionRequest>(data.request)}
-      links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
-    />
-  ),
-  'student-request-mentoring-button': (data: any) => (
-    <Student.RequestMentoringButton
-      request={data.request}
-      links={camelizeKeysAs<RequestMentoringButtonLinks>(data.links)}
     />
   ),
   'student-publish-solution-button': (data: any) => (
@@ -546,11 +438,9 @@ initReact({
   'student-update-exercise-notice': (data: any) => (
     <Student.UpdateExerciseNotice links={data.links} />
   ),
-  'concept-map': (data: any) => {
-    const mapData: IConceptMap = camelizeKeysAs<IConceptMap>(data.graph)
-
-    return <ConceptMap {...mapData} />
-  },
+  'concept-map': (data: any) => (
+    <ConceptMap {...camelizeKeysAs<IConceptMap>(data.graph)} />
+  ),
   'track-iteration-summary': (data: any) => (
     <TrackComponents.IterationSummaryWithWebsockets
       iteration={camelizeKeysAs<Iteration>(data.iteration)}
@@ -678,46 +568,9 @@ initReact({
       smooth
     />
   ),
-  'settings-profile-form': (data: any) => (
-    <Settings.ProfileForm defaultUser={data.user} links={data.links} />
-  ),
-  'settings-pronouns-form': (data: any) => (
-    <Settings.PronounsForm
-      handle={data.handle}
-      defaultPronounParts={data.pronoun_parts}
-      links={data.links}
-    />
-  ),
-  'settings-handle-form': (data: any) => (
-    <Settings.HandleForm defaultHandle={data.handle} links={data.links} />
-  ),
-  'settings-email-form': (data: any) => (
-    <Settings.EmailForm defaultEmail={data.email} links={data.links} />
-  ),
-  'settings-password-form': (data: any) => (
-    <Settings.PasswordForm links={data.links} />
-  ),
-  'settings-token-form': (data: any) => (
-    <Settings.TokenForm defaultToken={data.token} links={data.links} />
-  ),
-  'settings-communication-preferences-form': (data: any) => (
-    <Settings.CommunicationPreferencesForm
-      defaultPreferences={camelizeKeysAs<CommunicationPreferences>(
-        data.preferences
-      )}
-      links={data.links}
-    />
-  ),
-  'settings-delete-account-button': (data: any) => (
-    <Settings.DeleteAccountButton handle={data.handle} links={data.links} />
-  ),
-  'settings-reset-account-button': (data: any) => (
-    <Settings.ResetAccountButton handle={data.handle} links={data.links} />
-  ),
 })
 
 import { highlightAll } from '../utils/highlight'
-import { Request } from '../hooks/request-query'
 
 document.addEventListener('turbolinks:load', () => {
   highlightAll()

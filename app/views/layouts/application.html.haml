@@ -6,8 +6,13 @@
     = csrf_meta_tags
     = csp_meta_tag
     = action_cable_meta_tag
-    = javascript_packs_with_chunks_tag 'application', 'editor', 'data-turbolinks-track': 'reload'
-    = stylesheet_packs_with_chunks_tag 'application', 'editor', media: 'all', 'data-turbolinks-track': 'reload'
+
+    - if user_signed_in?
+      = javascript_packs_with_chunks_tag 'application', 'internal', 'editor', 'data-turbolinks-track': 'reload'
+      = stylesheet_packs_with_chunks_tag 'application', 'internal', 'editor', media: 'all', 'data-turbolinks-track': 'reload'
+    - else
+      = javascript_packs_with_chunks_tag 'application', 'data-turbolinks-track': 'reload'
+      = stylesheet_packs_with_chunks_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
 
     %meta{ name: "language-server-url", content: Exercism.config.language_server_url }
     %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url }

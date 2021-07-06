@@ -1,7 +1,6 @@
 export { TracksList } from './TracksList'
 export { ExerciseList } from './ExerciseList'
 export { CompleteExerciseButton } from './CompleteExerciseButton'
-export { MentoringSession } from './MentoringSession'
 export { SolutionSummary } from './SolutionSummary'
 export { IterationPage } from './IterationPage'
 export { MentoringDropdown } from './MentoringDropdown'

@@ -16,9 +16,12 @@ module Github
       end
 
       private
-      def create_issue
-        title = "🤖 Sync error for commit #{git_sha[0..5]}"
-        body = <<~BODY.strip
+      def title
+        "🤖 Sync error for commit #{git_sha[0..5]}"
+      end
+
+      def body
+        <<~BODY.strip
           We hit an error trying to sync the latest commit (#{git_sha}) to the website.
 
           The error was:
@@ -30,7 +33,9 @@ module Github
 
           Please tag @exercism/maintainers-admin if you require more information.
         BODY
+      end
 
+      def create_issue
         Exercism.octokit_client.create_issue(repo, title, body)
       end
 
@@ -55,7 +60,7 @@ module Github
       def issue
         # TODO: Elevate this into exercism-config gem
         author = "exercism-bot"
-        Exercism.octokit_client.search_issues("#{git_sha} is:issue in:body repo:#{repo} author:#{author}")[:items]&.first
+        Exercism.octokit_client.search_issues("\"#{title}\" is:issue in:title repo:#{repo} author:#{author}")[:items]&.first
       end
 
       def deadlock_exception?

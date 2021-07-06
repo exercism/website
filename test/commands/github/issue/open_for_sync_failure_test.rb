@@ -15,7 +15,7 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
     track = create :track, slug: 'ruby'
     track.stubs(:git_head_sha).returns(head_git_sha)
 
-    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=2e25f799c1830b93a8ad65a2bbbb1c50f381e639%20is:issue%20in:body%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
       to_return(
         status: 200,
         body: {
@@ -48,7 +48,7 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
     track = create :track, slug: 'ruby'
     track.stubs(:git_head_sha).returns(head_git_sha)
 
-    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=2e25f799c1830b93a8ad65a2bbbb1c50f381e639%20is:issue%20in:body%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
       to_return(
         status: 200,
         body: {
@@ -77,7 +77,7 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
     track = create :track, slug: 'ruby'
     track.stubs(:git_head_sha).returns(head_git_sha)
 
-    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=2e25f799c1830b93a8ad65a2bbbb1c50f381e639%20is:issue%20in:body%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
       to_return(
         status: 200,
         body: {

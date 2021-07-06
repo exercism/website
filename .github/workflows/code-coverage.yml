@@ -88,9 +88,19 @@ jobs:
           ./cc-test-reporter before-build
 
       ###
+      # Precompile JS
+      - name: Precompile JS
+        env:
+          NODE_ENV: test
+          RAILS_ENV: test
+          EXERCISM_CI: true
+        run: |
+          ./bin/webpack
+      ###
       # Run the tests
       - name: Build Code Coverage
         env:
+          NODE_ENV: test
           EXERCISM_ENV: test
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}

@@ -11,10 +11,11 @@ require('turbolinks').start()
 require('@rails/activestorage').start()
 require('channels')
 
+import 'tailwindcss/base'
+import 'tailwindcss/components'
+import 'tailwindcss/utilities'
 import 'focus-visible'
 
-// TODO: Let's get all of these loading automatically
-// without needing to be specified individually here.
 import '../../css/application'
 import '../../css/layout'
 import '../../css/defaults'
@@ -124,7 +125,6 @@ import '../../css/modals/update-exercise'
 import '../../css/modals/makers'
 import '../../css/modals/test-run'
 import '../../css/modals/crop-avatar'
-import '../../css/modals/editor-hints'
 import '../../css/modals/profile-first-time'
 import '../../css/modals/completed-tutorial-exercise'
 import '../../css/modals/completed-exercise'
@@ -158,7 +158,6 @@ import '../../css/pages/dashboard'
 import '../../css/pages/docs-show'
 import '../../css/pages/docs-index'
 import '../../css/pages/docs-tracks'
-import '../../css/pages/editor'
 import '../../css/pages/onboarding'
 import '../../css/pages/profile-intro'
 import '../../css/pages/profile-new'
@@ -217,7 +216,6 @@ import {
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 import * as TrackComponents from '../components/track'
 import * as JourneyComponents from '../components/journey'
-import { Editor, EditorConfig } from '../components/Editor'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
 import { camelizeKeys } from 'humps'
@@ -240,7 +238,6 @@ import {
   TrackContribution,
 } from '../components/types'
 
-import { Assignment, Submission } from '../components/editor/types'
 import { Student as MentoringSessionStudent } from '../components/types'
 import {
   Links as MentoringSessionLinks,
@@ -562,26 +559,6 @@ initReact({
       showSubmissionMethod={true}
       showTestsStatusAsButton={!!data.show_tests_status_as_button}
       showFeedbackIndicator={!!data.show_feedback_indicator}
-    />
-  ),
-  editor: (data: any) => (
-    <Editor
-      endpoint={data.endpoint}
-      initialSubmission={camelizeKeysAs<Submission>(data.submission)}
-      files={data.files}
-      tests={data.tests}
-      highlightJSLanguage={data.highlightjs_language}
-      averageTestDuration={data.average_test_duration}
-      exercisePath={data.exercise_path}
-      trackTitle={data.track_title}
-      trackSlug={data.track_slug}
-      exerciseTitle={data.exercise_title}
-      introduction={data.introduction}
-      assignment={camelizeKeysAs<Assignment>(data.assignment)}
-      exampleFiles={data.example_files}
-      storageKey={data.storage_key}
-      debuggingInstructions={data.debugging_instructions}
-      config={camelizeKeysAs<EditorConfig>(data.config)}
     />
   ),
   'mentored-student-tooltip': (data: any) => (

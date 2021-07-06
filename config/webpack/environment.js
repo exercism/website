@@ -13,4 +13,5 @@ environment.plugins.prepend(
   )
 )
 
+environment.splitChunks()
 module.exports = environment

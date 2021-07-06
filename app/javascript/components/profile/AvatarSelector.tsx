@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import 'react-image-crop/lib/ReactCrop.scss'
+import 'react-image-crop/dist/ReactCrop.css'
 import { User } from '../types'
 import { Modal } from '../modals/Modal'
 import { InitializedStep } from './avatar-selector/InitializedStep'

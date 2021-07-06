@@ -16,13 +16,15 @@ environment.plugins.append(
   })
 )
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
-environment.plugins.append(
-  'BundleAnalyzerPlugin',
-  new BundleAnalyzerPlugin({
-    defaultSizes: 'gzip',
-  })
-)
+if (process.env.RAILS_ENV == 'development') {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+    .BundleAnalyzerPlugin
+  environment.plugins.append(
+    'BundleAnalyzerPlugin',
+    new BundleAnalyzerPlugin({
+      defaultSizes: 'gzip',
+    })
+  )
+}
 
 module.exports = environment.toWebpackConfig()

@@ -19,6 +19,8 @@ class Track
         levels: concept_levels,
         connections: concept_connections
       }
+    rescue TrackHasCyclicPrerequisiteError
+      Github::Issue::OpenForDependencyCycle.(track)
     end
 
     private

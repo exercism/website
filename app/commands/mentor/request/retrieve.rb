@@ -6,7 +6,7 @@ module Mentor
       # Use class method rather than constant for
       # easier stubbing during testing
       def self.requests_per_page
-        10
+        25
       end
 
       def initialize(mentor:,

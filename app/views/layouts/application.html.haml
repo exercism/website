@@ -8,8 +8,12 @@
     = action_cable_meta_tag
 
     - if user_signed_in?
-      = javascript_packs_with_chunks_tag 'application', 'internal', 'editor', 'data-turbolinks-track': 'reload'
-      = stylesheet_packs_with_chunks_tag 'application', 'internal', 'editor', media: 'all', 'data-turbolinks-track': 'reload'
+      - if namespace_name == "tracks" && controller_name == "exercises" && action_name == "edit"
+        = javascript_packs_with_chunks_tag 'application', 'internal', 'editor', 'data-turbolinks-track': 'reload'
+        = stylesheet_packs_with_chunks_tag 'application', 'internal', 'editor', media: 'all', 'data-turbolinks-track': 'reload'
+      - else
+        = javascript_packs_with_chunks_tag 'application', 'internal', 'data-turbolinks-track': 'reload'
+        = stylesheet_packs_with_chunks_tag 'application', 'internal', media: 'all', 'data-turbolinks-track': 'reload'
     - else
       = javascript_packs_with_chunks_tag 'application', 'data-turbolinks-track': 'reload'
       = stylesheet_packs_with_chunks_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'

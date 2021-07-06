@@ -9,7 +9,6 @@ require('@rails/ujs').start()
 require('turbolinks').start()
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@rails/activestorage').start()
-require('channels')
 
 import 'tailwindcss/base'
 import 'tailwindcss/components'
@@ -204,15 +203,6 @@ import { CLIWalkthroughButton } from '../components/common/CLIWalkthroughButton'
 
 import * as Student from '../components/student'
 
-import {
-  SolutionSummaryLinks,
-  Track as SolutionSummaryTrack,
-  SolutionSummaryRequest,
-} from '../components/student/SolutionSummary'
-import {
-  Links as NudgeLinks,
-  Track as NudgeTrack,
-} from '../components/student/Nudge'
 import * as TrackComponents from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
 import { IConceptMap } from '../components/concept-map/concept-map-types'
@@ -234,15 +224,9 @@ import {
   CommunicationPreferences,
   TrackContribution,
 } from '../components/types'
-import {
-  Track as IterationPageTrack,
-  Exercise as IterationPageExercise,
-  Links as IterationPageLinks,
-  IterationPageRequest,
-} from '../components/student/IterationPage'
-import { Links as PublishedSolutionLinks } from '../components/student/PublishedSolution'
+
 import * as Tooltips from '../components/tooltips'
-import * as Dropdowns from '../components/dropdowns'
+import { Dropdown } from '../components/dropdowns/Dropdown'
 import * as Profile from '../components/profile'
 import * as CommunitySolutions from '../components/community-solutions'
 import * as Contributing from '../components/contributing'
@@ -389,68 +373,10 @@ initReact({
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
     />
   ),
-  'student-solution-summary': (data: any) => (
-    <Student.SolutionSummary
-      discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
-      solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
-      request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
-      links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
-      track={camelizeKeysAs<SolutionSummaryTrack>(data.track)}
-      exerciseType={data.exercise_type}
-    />
-  ),
-  'student-nudge': (data: any) => (
-    <Student.Nudge
-      solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
-      track={camelizeKeysAs<NudgeTrack>(data.track)}
-      discussions={camelizeKeysAs<readonly MentorDiscussion[]>(
-        data.discussions
-      )}
-      request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
-      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-      exerciseType={data.exercise_type}
-      links={camelizeKeysAs<NudgeLinks>(data.links)}
-    />
-  ),
-  'student-iteration-page': (data: any) => (
-    <Student.IterationPage
-      solutionUuid={data.solution_id}
-      request={camelizeKeysAs<IterationPageRequest>(data.request)}
-      exercise={camelizeKeysAs<IterationPageExercise>(data.exercise)}
-      track={camelizeKeysAs<IterationPageTrack>(data.track)}
-      links={camelizeKeysAs<IterationPageLinks>(data.links)}
-    />
-  ),
-  'student-publish-solution-button': (data: any) => (
-    <Student.PublishSolutionButton
-      endpoint={data.endpoint}
-      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-    />
-  ),
-  'student-published-solution': (data: any) => (
-    <Student.PublishedSolution
-      solution={camelizeKeysAs<CommunitySolution>(data.solution)}
-      publishedIterationIdx={data.published_iteration_idx}
-      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-      links={camelizeKeysAs<PublishedSolutionLinks>(data.links)}
-    />
-  ),
-  'student-update-exercise-notice': (data: any) => (
-    <Student.UpdateExerciseNotice links={data.links} />
-  ),
   'concept-map': (data: any) => (
     <ConceptMap {...camelizeKeysAs<IConceptMap>(data.graph)} />
   ),
-  'track-iteration-summary': (data: any) => (
-    <TrackComponents.IterationSummaryWithWebsockets
-      iteration={camelizeKeysAs<Iteration>(data.iteration)}
-      className={data.class_name}
-      isLatest={false}
-      showSubmissionMethod={true}
-      showTestsStatusAsButton={!!data.show_tests_status_as_button}
-      showFeedbackIndicator={!!data.show_feedback_indicator}
-    />
-  ),
+
   'mentored-student-tooltip': (data: any) => (
     <Tooltips.StudentTooltip
       requestId={data.endpoint}
@@ -478,20 +404,7 @@ initReact({
     />
   ),
   'dropdowns-dropdown': (data: any) => (
-    <Dropdowns.Dropdown
-      menuButton={data.menu_button}
-      menuItems={data.menu_items}
-    />
-  ),
-  'dropdowns-notifications': (data: any) => (
-    <Dropdowns.Notifications endpoint={data.endpoint} />
-  ),
-  'dropdowns-reputation': (data: any) => (
-    <Dropdowns.Reputation
-      endpoint={data.endpoint}
-      defaultIsSeen={data.is_seen}
-      defaultReputation={data.reputation}
-    />
+    <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
@@ -575,10 +488,6 @@ import { highlightAll } from '../utils/highlight'
 document.addEventListener('turbolinks:load', () => {
   highlightAll()
 })
-
-// Uncomment to copy all static images under ../images to the output folder and reference
-// them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
-// or the `imagePath` JavaScript helper below.
 
 const images = require.context('../images', true)
 const imagePath = (name: any) => images(name)

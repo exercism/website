@@ -1,5 +1,7 @@
 import 'easymde/dist/easymde.min.css'
 
+require('channels')
+
 import React from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
@@ -12,7 +14,7 @@ import {
   MentorSessionExercise,
   MentorDiscussion,
   MentoredTrack,
-  // SolutionForStudent,
+  SolutionForStudent,
   CommunitySolution,
   Testimonial,
   MentoredTrackExercise,
@@ -25,6 +27,9 @@ import {
 import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
+import { Nudge as StudentNudge } from '../components/student/Nudge'
+import { IterationPage as StudentIterationPage } from '../components/student/IterationPage'
+import { SolutionSummary as StudentSolutionSummary } from '../components/student/SolutionSummary'
 import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMentoringButton'
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
 
@@ -46,6 +51,27 @@ import * as JourneyComponents from '../components/journey'
 import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
 import * as Settings from '../components/settings'
 import { MarkdownEditor } from '../components/common/MarkdownEditor'
+
+import { Notifications as NotificationsDropdown } from '../components/dropdowns/Notifications'
+import { Reputation as ReputationDropdown } from '../components/dropdowns/Reputation'
+
+import {
+  Track as IterationPageTrack,
+  Exercise as IterationPageExercise,
+  Links as IterationPageLinks,
+  IterationPageRequest,
+} from '../components/student/IterationPage'
+import { IterationSummaryWithWebsockets } from '../components/track/IterationSummary'
+import {
+  SolutionSummaryLinks,
+  Track as SolutionSummaryTrack,
+  SolutionSummaryRequest,
+} from '../components/student/SolutionSummary'
+import {
+  Links as NudgeLinks,
+  Track as NudgeTrack,
+} from '../components/student/Nudge'
+import { Links as PublishedSolutionLinks } from '../components/student/PublishedSolution'
 
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
@@ -179,5 +205,76 @@ initReact({
   ),
   'settings-reset-account-button': (data: any) => (
     <Settings.ResetAccountButton handle={data.handle} links={data.links} />
+  ),
+  'dropdowns-notifications': (data: any) => (
+    <NotificationsDropdown endpoint={data.endpoint} />
+  ),
+  'dropdowns-reputation': (data: any) => (
+    <ReputationDropdown
+      endpoint={data.endpoint}
+      defaultIsSeen={data.is_seen}
+      defaultReputation={data.reputation}
+    />
+  ),
+  'track-iteration-summary': (data: any) => (
+    <IterationSummaryWithWebsockets
+      iteration={camelizeKeysAs<Iteration>(data.iteration)}
+      className={data.class_name}
+      isLatest={false}
+      showSubmissionMethod={true}
+      showTestsStatusAsButton={!!data.show_tests_status_as_button}
+      showFeedbackIndicator={!!data.show_feedback_indicator}
+    />
+  ),
+  'student-iteration-page': (data: any) => (
+    <StudentIterationPage
+      solutionUuid={data.solution_uuid}
+      request={camelizeKeysAs<IterationPageRequest>(data.request)}
+      exercise={camelizeKeysAs<IterationPageExercise>(data.exercise)}
+      track={camelizeKeysAs<IterationPageTrack>(data.track)}
+      links={camelizeKeysAs<IterationPageLinks>(data.links)}
+    />
+  ),
+  'student-solution-summary': (data: any) => (
+    <StudentSolutionSummary
+      discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
+      solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
+      request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
+      links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
+      track={camelizeKeysAs<SolutionSummaryTrack>(data.track)}
+      exerciseType={data.exercise_type}
+    />
+  ),
+
+  'student-nudge': (data: any) => (
+    <StudentNudge
+      solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
+      track={camelizeKeysAs<NudgeTrack>(data.track)}
+      discussions={camelizeKeysAs<readonly MentorDiscussion[]>(
+        data.discussions
+      )}
+      request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+      exerciseType={data.exercise_type}
+      links={camelizeKeysAs<NudgeLinks>(data.links)}
+    />
+  ),
+
+  'student-publish-solution-button': (data: any) => (
+    <Student.PublishSolutionButton
+      endpoint={data.endpoint}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+    />
+  ),
+  'student-published-solution': (data: any) => (
+    <Student.PublishedSolution
+      solution={camelizeKeysAs<CommunitySolution>(data.solution)}
+      publishedIterationIdx={data.published_iteration_idx}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+      links={camelizeKeysAs<PublishedSolutionLinks>(data.links)}
+    />
+  ),
+  'student-update-exercise-notice': (data: any) => (
+    <Student.UpdateExerciseNotice links={data.links} />
   ),
 })

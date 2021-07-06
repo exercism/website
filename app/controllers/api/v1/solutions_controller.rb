@@ -17,13 +17,13 @@ module API
         return render_404(:track_not_found, fallback_url: tracks_url) if params[:track_slug].blank?
 
         begin
-          track = Track.find_by!(slug: params[:track_slug])
+          track = Track.find(params[:track_slug])
         rescue ActiveRecord::RecordNotFound
           return render_404(:track_not_found, fallback_url: tracks_url)
         end
 
         begin
-          exercise = track.exercises.find_by!(slug: params[:exercise_slug])
+          exercise = track.exercises.find(params[:exercise_slug])
         rescue ActiveRecord::RecordNotFound
           return render_404(:exercise_not_found, fallback_url: track_url(track))
         end
@@ -72,11 +72,11 @@ module API
 
       private
       def set_track
-        @track = Track.find_by!(slug: params[:track_slug])
+        @track = Track.find(params[:track_slug])
       end
 
       def set_exercise
-        @exercise = @track.exercises.find_by!(slug: params[:exercise_slug])
+        @exercise = @track.exercises.find(params[:exercise_slug])
       end
 
       def respond_with_authored_solution(solution)

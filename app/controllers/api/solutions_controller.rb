@@ -176,11 +176,11 @@ module API
 
     private
     def set_track
-      @track = Track.find_by!(slug: params[:track_slug])
+      @track = Track.find(params[:track_slug])
     end
 
     def set_exercise
-      @exercise = @track.exercises.find_by!(slug: params[:exercise_slug])
+      @exercise = @track.exercises.find(params[:exercise_slug])
     end
 
     def respond_with_authored_solution(solution)

@@ -29,8 +29,8 @@ module API
 
       private
       def use_exercise
-        @track = Track.find_by!(slug: params[:track_slug])
-        @exercise = @track.exercises.find_by!(slug: params[:exercise_slug])
+        @track = Track.find(params[:track_slug])
+        @exercise = @track.exercises.find(params[:exercise_slug])
       end
     end
   end

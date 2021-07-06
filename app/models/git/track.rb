@@ -41,7 +41,7 @@ module Git
 
     memoize
     def active?
-      config[:active].present?
+      !!config[:active]
     end
 
     memoize

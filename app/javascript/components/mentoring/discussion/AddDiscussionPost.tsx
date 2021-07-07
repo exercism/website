@@ -36,8 +36,8 @@ export const AddDiscussionPost = ({
   }, [state])
 
   const handleCancel = useCallback(() => {
-    setState({ value: '', expanded: false })
-  }, [])
+    setState({ ...state, expanded: false })
+  }, [state])
 
   const handleChange = useCallback(
     (value: string) => {

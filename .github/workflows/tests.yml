@@ -150,7 +150,7 @@ jobs:
       # Run the tests
       - name: Run Ruby tests
         env:
-          EXERCISM_ENV: test
+          RAILS_ENV: test
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
@@ -237,11 +237,10 @@ jobs:
       # Precompile JS
       - name: Precompile JS
         env:
-          EXERCISM_ENV: test
+          RAILS_ENV: test
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          RAILS_ENV: test
         run: |
           ./bin/webpack
 
@@ -249,7 +248,7 @@ jobs:
       # Run the tests
       - name: Run Ruby system tests
         env:
-          EXERCISM_ENV: test
+          RAILS_ENV: test
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
@@ -305,6 +304,6 @@ jobs:
 
       - name: Run asset tests
         env:
-          EXERCISM_ENV: test
+          RAILS_ENV: test
           EXERCISM_CI: true
         run: bundle exec bin/webpack

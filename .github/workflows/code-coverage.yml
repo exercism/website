@@ -88,6 +88,14 @@ jobs:
           ./cc-test-reporter before-build
 
       ###
+      # Precompile JS
+      - name: Precompile JS
+        env:
+          RAILS_ENV: test
+          EXERCISM_CI: true
+        run: |
+          ./bin/webpack
+      ###
       # Run the tests
       - name: Build Code Coverage
         env:

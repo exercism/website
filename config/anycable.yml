@@ -33,7 +33,7 @@ default: &default # Turn on/off access logs ("Started..." and "Finished...")
 development: &development
   <<: *default
   log_grpc: false
-  debug: true
+  debug: false
 
 production:
   <<: *default

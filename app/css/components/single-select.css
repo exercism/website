@@ -8,7 +8,7 @@
     & > .c-results-zone > button {
         @apply flex items-center;
         @apply border-1 border-buttonBorderColor2;
-        @apply shadow-xsZ1 rounded-8 bg-backgroundColorA;
+        @apply shadow-smZ1 rounded-8 bg-backgroundColorA;
         @apply w-100;
         @apply text-left;
         white-space: nowrap;
@@ -33,7 +33,7 @@
         height: 48px;
         @apply px-24;
 
-        @apply text-16 leading-150 font-medium;
+        @apply text-16 leading-150;
 
         & > .value {
             @apply mr-auto;
@@ -55,7 +55,7 @@
 
                 /* padding-right: 81px; /1* This needs to line up with the dropdown *1/ */
                 /* min-width: 360px; */
-                @apply text-16 leading-150 font-medium;
+                @apply text-16 leading-150;
 
                 & > .c-icon {
                     width: 24px;

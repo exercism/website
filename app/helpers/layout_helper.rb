@@ -11,13 +11,17 @@ module LayoutHelper
   end
 
   def js_packs
-    packs = ['application']
-    packs << 'internal' if user_signed_in?
-    if (namespace_name == "tracks" && controller_name == "exercises" && action_name == "edit") ||
-       (namespace_name == "test" && controller_name == "editor" && action_name == "show")
-      packs << 'editor'
-    end
+    [
+      'application',
+      ('internal' if user_signed_in?),
+      ('editor' if render_editor_js_pack?)
+    ].compact
+  end
 
-    packs
+  def render_editor_js_pack?
+    return true if namespace_name == "tracks" && controller_name == "exercises" && action_name == "edit"
+    return true if namespace_name == "test" && controller_name == "editor" && action_name == "show"
+
+    false
   end
 end

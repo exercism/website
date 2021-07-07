@@ -65,6 +65,10 @@ const renderTooltips = (mappings) => {
     .forEach((elem) => {
       const name = elem.dataset['tooltipType'] + '-tooltip'
       const generator = mappings[name]
+
+      if (!generator) {
+        return
+      }
       const component = generator(elem.dataset, elem)
 
       // Create an element render the React component in

@@ -17,8 +17,8 @@ import 'focus-visible'
 
 import '../../css/application'
 import '../../css/layout'
-import '../../css/defaults'
 
+import '../../css/ui-kit/inputs'
 import '../../css/ui-kit/buttons'
 import '../../css/ui-kit/tracks'
 

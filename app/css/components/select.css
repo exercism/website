@@ -2,7 +2,7 @@
 
 .c-select {
     @apply grid items-center;
-    @apply text-16 font-medium leading-huge;
+    @apply text-16 leading-huge;
     @apply bg-backgroundColorA;
     @apply cursor-pointer;
     @apply border-1 border-buttonBorderColor2 rounded-5;

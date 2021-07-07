@@ -19,6 +19,9 @@ class Track
         levels: concept_levels,
         connections: concept_connections
       }
+    rescue TrackHasCyclicPrerequisiteError
+      OpenIssueForDependencyCycleJob.perform_later(track)
+      raise
     end
 
     private

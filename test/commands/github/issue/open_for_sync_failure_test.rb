@@ -4,8 +4,7 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
   test "opens issue when issue was not yet created" do
     head_git_sha = "2e25f799c1830b93a8ad65a2bbbb1c50f381e639"
 
-    # We raise the error and then catch it to make sure that the
-    # error has a proper backtrace
+    # Raise the error and catch it to ensure a proper backtrace
     begin
       raise StandardError, "Could not find Concept X"
     rescue StandardError => e
@@ -15,7 +14,7 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
     track = create :track, slug: 'ruby'
     track.stubs(:git_head_sha).returns(head_git_sha)
 
-    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=2e25f799c1830b93a8ad65a2bbbb1c50f381e639%20is:issue%20in:body%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
       to_return(
         status: 200,
         body: {
@@ -43,12 +42,18 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
 
   test "re-opens issue when issue was closed" do
     head_git_sha = "2e25f799c1830b93a8ad65a2bbbb1c50f381e639"
-    exception = StandardError.new "Could not find Concept X"
+
+    # Raise the error and catch it to ensure a proper backtrace
+    begin
+      raise StandardError, "Could not find Concept X"
+    rescue StandardError => e
+      exception = e
+    end
 
     track = create :track, slug: 'ruby'
     track.stubs(:git_head_sha).returns(head_git_sha)
 
-    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=2e25f799c1830b93a8ad65a2bbbb1c50f381e639%20is:issue%20in:body%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
       to_return(
         status: 200,
         body: {
@@ -72,12 +77,18 @@ class Github::Issue::OpenForSyncFailureTest < ActiveSupport::TestCase
 
   test "does nothing when issue already open" do
     head_git_sha = "2e25f799c1830b93a8ad65a2bbbb1c50f381e639"
-    exception = StandardError.new "Could not find Concept X"
+
+    # Raise the error and catch it to ensure a proper backtrace
+    begin
+      raise StandardError, "Could not find Concept X"
+    rescue StandardError => e
+      exception = e
+    end
 
     track = create :track, slug: 'ruby'
     track.stubs(:git_head_sha).returns(head_git_sha)
 
-    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=2e25f799c1830b93a8ad65a2bbbb1c50f381e639%20is:issue%20in:body%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
       to_return(
         status: 200,
         body: {

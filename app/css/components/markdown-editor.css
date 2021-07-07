@@ -25,7 +25,12 @@
                 @apply hidden;
             }
         }
+
+        & .CodeMirror-line {
+            visibility: hidden;
+        }
     }
+
     &.--expanded {
         min-height: 320px;
     }

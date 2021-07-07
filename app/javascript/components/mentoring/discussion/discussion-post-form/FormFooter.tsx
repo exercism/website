@@ -27,6 +27,7 @@ export const FormFooter = ({
         className="btn-default btn-xs"
         onClick={onCancel}
         status={status}
+        disabled={value.length !== 0}
       >
         Cancel
       </FormButton>

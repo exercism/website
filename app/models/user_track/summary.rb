@@ -41,18 +41,22 @@ class UserTrack
       Exercise.where(id: unlocked_exercise_ids)
     end
 
+    # TODO: Add test coverage
     def sample_available_exercises(size = 5)
       Exercise.where(id: available_exercise_ids.sample(size))
     end
 
+    # TODO: Add test coverage
     def sample_in_progress_exercises(size = 5)
       Exercise.where(id: in_progress_exercise_ids.sample(size))
     end
 
+    # TODO: Add test coverage
     def sample_completed_exercises(size = 5)
       Exercise.where(id: completed_exercises_ids.sample(size))
     end
 
+    # TODO: Add test coverage
     def sample_locked_exercises(size = 5)
       Exercise.where(id: locked_exercises_ids.sample(size))
     end
@@ -210,6 +214,16 @@ class UserTrack
     memoize
     def mastered_concept_slugs
       mapped_concepts.values.select(&:mastered?).map(&:slug)
+    end
+
+    # TODO: Add test coverage
+    def sample_learnt_concepts(size = 5)
+      Concept.where(id: learnt_concept_ids.sample(size))
+    end
+
+    # TODO: Add test coverage
+    def sample_mastered_concepts(size = 5)
+      Concept.where(id: mastered_concept_ids.sample(size))
     end
 
     memoize

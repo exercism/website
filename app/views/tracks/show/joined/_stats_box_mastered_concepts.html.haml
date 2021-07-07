@@ -5,6 +5,6 @@
       = "Concept".pluralize(user_track.num_concepts_mastered)
       mastered
     .icons
-      - sample_mastered_concepts.each do |concept|
+      - user_track.sample_mastered_concepts.each do |concept|
         = render ViewComponents::ConceptIcon.new concept, :base
   = graphical_icon "chevron-right", css_class: "action-icon"

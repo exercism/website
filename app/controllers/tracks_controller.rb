@@ -27,11 +27,6 @@ class TracksController < ApplicationController
       current_week = Date.current.cweek
       @last_8_weeks_counts = ((current_week - 8)...current_week).to_a.map { |w| (w % 53) + 1 }.map { |w| data.fetch(w, 0) }
 
-      if @track.course?
-        @sample_learnt_concepts = @user_track.learnt_concepts.order("RAND()").limit(5)
-        @sample_mastered_concepts = @user_track.mastered_concepts.order("RAND()").limit(5)
-      end
-
       @recent_solutions = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track)
       @updates = SiteUpdate.published.for_track(@track).sorted.limit(10)
 

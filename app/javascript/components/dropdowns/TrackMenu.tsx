@@ -118,6 +118,7 @@ export const TrackMenu = ({
       />
       <LeaveTrackModal
         open={modal === 'leave'}
+        track={track}
         onClose={() => setModal(null)}
         endpoint={links.leave}
         ariaHideApp={ariaHideApp}

@@ -8,19 +8,46 @@ module Flows
         include CapybaraHelpers
 
         test "student leaves track" do
+          create :user, :ghost
           user = create :user
           track = create :track, title: "Ruby"
           create :concept_exercise, track: track
+          create :concept_solution, status: :completed, user: user, completed_at: 2.days.ago
           create :user_track, user: user, track: track
 
           use_capybara_host do
             sign_in!(user)
             visit track_url(track)
-            click_on "Track menu"
+            click_on "Track options"
             click_on "Leave track"
             within(".m-leave-track") { click_on "Leave track" }
 
-            assert_text "You have left the track"
+            click_on "Ruby"
+            click_on "Join the Ruby track"
+            assert_text "You’re 100% through the Ruby track."
+          end
+        end
+
+        test "student leaves and resets track" do
+          create :user, :ghost
+          user = create :user
+          track = create :track, title: "Ruby"
+          create :concept_exercise, track: track
+          create :concept_solution, status: :completed, user: user, completed_at: 2.days.ago
+          create :user_track, user: user, track: track
+
+          use_capybara_host do
+            sign_in!(user)
+            visit track_url(track)
+            click_on "Track options"
+            click_on "Leave track"
+            click_on "Leave + Reset"
+            fill_in "To confirm", with: "reset ruby"
+            within("form") { click_on "Leave + Reset" }
+
+            click_on "Ruby"
+            click_on "Join the Ruby track"
+            assert_text "You’ve just started the Ruby track"
           end
         end
       end

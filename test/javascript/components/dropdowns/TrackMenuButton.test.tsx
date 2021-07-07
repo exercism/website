@@ -34,3 +34,65 @@ test('closes reset button modal when clicking on cancel', async () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   )
 })
+
+test('closes leave modal when clicking on cancel', async () => {
+  render(
+    <TrackMenu
+      track={createTrack()}
+      links={{
+        repo: '',
+        documentation: '',
+        activateLearningMode: '',
+        activatePracticeMode: '',
+        reset: '',
+        leave: '',
+      }}
+      ariaHideApp={false}
+    />
+  )
+
+  const menuButton = screen.getByRole('button')
+  act(() => userEvent.click(menuButton))
+  await act(async () =>
+    userEvent.click(await screen.findByRole('button', { name: /Leave track…/ }))
+  )
+  await act(async () =>
+    userEvent.click(await screen.findByRole('button', { name: 'Cancel' }))
+  )
+
+  await waitFor(() =>
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  )
+})
+test('closes leave modal when clicking on cancel in the leave + reset form', async () => {
+  render(
+    <TrackMenu
+      track={createTrack()}
+      links={{
+        repo: '',
+        documentation: '',
+        activateLearningMode: '',
+        activatePracticeMode: '',
+        reset: '',
+        leave: '',
+      }}
+      ariaHideApp={false}
+    />
+  )
+
+  const menuButton = screen.getByRole('button')
+  act(() => userEvent.click(menuButton))
+  await act(async () =>
+    userEvent.click(await screen.findByRole('button', { name: /Leave track…/ }))
+  )
+  await act(async () =>
+    userEvent.click(await screen.findByRole('tab', { name: 'Leave + Reset' }))
+  )
+  await act(async () =>
+    userEvent.click(await screen.findByRole('button', { name: 'Cancel' }))
+  )
+
+  await waitFor(() =>
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  )
+})

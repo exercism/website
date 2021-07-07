@@ -17,7 +17,7 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     assert_template "tracks/index"
   end
 
-  test "params get passed correctly" do
+  test "index: params get passed correctly" do
     ruby_1 = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
     js = create :track, slug: :js, title: "JS #{SecureRandom.hex}"
     ruby_2 = create :track, slug: :ruby_2, title: "Ruby #{SecureRandom.hex}"

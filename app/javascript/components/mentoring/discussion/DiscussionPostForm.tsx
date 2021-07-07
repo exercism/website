@@ -1,16 +1,11 @@
-import React, { useCallback, useContext, useState, useEffect } from 'react'
-import {
-  MarkdownEditor,
-  MarkdownEditorHandle,
-} from '../../common/MarkdownEditor'
+import React, { useCallback, useContext } from 'react'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { useMutation, queryCache } from 'react-query'
-import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { PostsContext } from './PostsContext'
 import { DiscussionPostProps } from './DiscussionPost'
 import { typecheck } from '../../../utils/typecheck'
-import { FormFooter } from './discussion-post-form/FormFooter'
+import { MarkdownEditorForm } from '../../common/MarkdownEditorForm'
 
 const DEFAULT_ERROR = new Error('Unable to save post')
 
@@ -26,16 +21,6 @@ type ComponentProps = {
   value?: string
 }
 
-const ErrorMessage = ({ error }: { error: unknown }) => {
-  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
-
-  return null
-}
-
-const ErrorFallback = ({ error }: { error: Error }) => {
-  return <p>{error.message}</p>
-}
-
 export const DiscussionPostForm = ({
   endpoint,
   method,
@@ -47,13 +32,8 @@ export const DiscussionPostForm = ({
   expanded = true,
   value = '',
 }: ComponentProps): JSX.Element => {
-  const [editor, setEditor] = useState<MarkdownEditorHandle | null>(null)
   const isMountedRef = useIsMounted()
   const { cacheKey } = useContext(PostsContext)
-  const classNames = [
-    'c-markdown-editor',
-    expanded ? '--expanded' : '--compressed',
-  ].filter((className) => className.length > 0)
   const [mutation, { status, error }] = useMutation<
     DiscussionPostProps | undefined
   >(
@@ -94,14 +74,9 @@ export const DiscussionPostForm = ({
     }
   )
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault()
-
-      mutation()
-    },
-    [mutation]
-  )
+  const handleSubmit = useCallback(() => {
+    mutation()
+  }, [mutation])
 
   const handleClick = useCallback(() => {
     onClick()
@@ -114,47 +89,22 @@ export const DiscussionPostForm = ({
     [onChange]
   )
 
-  const handleCancel = useCallback(
-    (e) => {
-      e.stopPropagation()
-      onCancel()
-    },
-    [onCancel]
-  )
-
-  const handleEditorDidMount = useCallback((editor) => {
-    setEditor(editor)
-  }, [])
-
-  useEffect(() => {
-    if (!expanded || !editor) {
-      return
-    }
-
-    editor.focus()
-  }, [expanded, editor])
+  const handleCancel = useCallback(() => {
+    onCancel()
+  }, [onCancel])
 
   return (
-    <>
-      <form
-        onSubmit={handleSubmit}
-        onClick={handleClick}
-        className={classNames.join(' ')}
-        data-testid="markdown-editor"
-      >
-        <MarkdownEditor
-          contextId={contextId}
-          value={value}
-          onChange={handleChange}
-          editorDidMount={handleEditorDidMount}
-        />
-        {expanded ? (
-          <FormFooter onCancel={handleCancel} value={value} status={status} />
-        ) : null}
-      </form>
-      <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
-        <ErrorMessage error={error} />
-      </ErrorBoundary>
-    </>
+    <MarkdownEditorForm
+      onSubmit={handleSubmit}
+      onClick={handleClick}
+      onCancel={handleCancel}
+      onChange={handleChange}
+      contextId={contextId}
+      value={value}
+      expanded={expanded}
+      status={status}
+      error={error}
+      defaultError={DEFAULT_ERROR}
+    />
   )
 }

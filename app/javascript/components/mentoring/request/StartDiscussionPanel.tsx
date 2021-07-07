@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import {
   MentorDiscussion as Discussion,
   Iteration,
@@ -8,24 +8,9 @@ import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { useMutation } from 'react-query'
-import {
-  MarkdownEditor,
-  MarkdownEditorHandle,
-} from '../../common/MarkdownEditor'
-import { Loading } from '../../common'
-import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
+import { MarkdownEditorForm } from '../../common/MarkdownEditorForm'
 
 const DEFAULT_ERROR = new Error('Unable to start discussion')
-
-const ErrorMessage = ({ error }: { error: unknown }) => {
-  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
-
-  return null
-}
-
-const ErrorFallback = ({ error }: { error: Error }) => {
-  return <p>{error.message}</p>
-}
 
 export const StartDiscussionPanel = ({
   iterations,
@@ -36,16 +21,13 @@ export const StartDiscussionPanel = ({
   request: Request
   setDiscussion: (discussion: Discussion) => void
 }): JSX.Element => {
+  const contextId = `start-discussion-request-${request.uuid}`
+  const [state, setState] = useState({
+    expanded: false,
+    value: localStorage.getItem(`smde_${contextId}`) || '',
+  })
   const lastIteration = iterations[iterations.length - 1]
   const isMountedRef = useIsMounted()
-  const editorRef = useRef<MarkdownEditorHandle | null>(null)
-
-  const handleEditorMount = useCallback(
-    (editor: MarkdownEditorHandle) => {
-      editorRef.current = editor
-    },
-    [editorRef]
-  )
 
   const [mutation, { status, error }] = useMutation<Discussion | undefined>(
     () => {
@@ -54,7 +36,7 @@ export const StartDiscussionPanel = ({
         method: 'POST',
         body: JSON.stringify({
           mentor_request_uuid: request.uuid,
-          content: editorRef.current?.value(),
+          content: state.value,
           iteration_idx: lastIteration.idx,
         }),
         isMountedRef: isMountedRef,
@@ -77,36 +59,43 @@ export const StartDiscussionPanel = ({
     }
   )
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault()
+  const handleSubmit = useCallback(() => {
+    mutation()
+  }, [mutation])
 
-      mutation()
+  const handleClick = useCallback(() => {
+    if (state.expanded) {
+      return
+    }
+
+    setState({ ...state, expanded: true })
+  }, [state])
+
+  const handleCancel = useCallback(() => {
+    setState({ ...state, expanded: false })
+  }, [state])
+
+  const handleChange = useCallback(
+    (value: string) => {
+      setState({ ...state, value: value })
     },
-    [mutation]
+    [state]
   )
 
   return (
     <section className="comment-section --comment">
-      <form onSubmit={handleSubmit} className="c-markdown-editor --expanded">
-        <MarkdownEditor
-          contextId={`start-discussion-request-${request.uuid}`}
-          editorDidMount={handleEditorMount}
-        />
-        <footer className="editor-footer">
-          <button
-            className="btn-primary btn-s"
-            type="submit"
-            disabled={status === 'loading'}
-          >
-            Send
-          </button>
-        </footer>
-        {status === 'loading' ? <Loading /> : null}
-        <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
-          <ErrorMessage error={error} />
-        </ErrorBoundary>
-      </form>
+      <MarkdownEditorForm
+        onSubmit={handleSubmit}
+        onClick={handleClick}
+        onCancel={handleCancel}
+        onChange={handleChange}
+        contextId={contextId}
+        value={state.value}
+        expanded={state.expanded}
+        status={status}
+        error={error}
+        defaultError={DEFAULT_ERROR}
+      />
       {/* TODO: Extract into common component with the other identical notes in app/javascript/components/mentoring/discussion/AddDiscussionPost.tsx */}
       <div className="note">
         Check out our {/* TODO */}

@@ -5,39 +5,10 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { StartDiscussionPanel } from '../../../../../app/javascript/components/mentoring/request/StartDiscussionPanel'
 import { silenceConsole } from '../../../support/silence-console'
-import { TestQueryCache } from '../../../support/TestQueryCache'
+import { stubRange } from '../../../support/code-mirror-helpers'
 import userEvent from '@testing-library/user-event'
 
-test('shows loading message while locking mentoring request', async () => {
-  const request = {
-    links: {
-      discussion: 'https://exercism.test/discussion',
-    },
-  }
-  const iterations = [{ idx: 1 }]
-  const server = setupServer(
-    rest.post('https://exercism.test/discussion', (req, res, ctx) => {
-      return res(ctx.delay(10), ctx.status(200), ctx.json({ discussion: {} }))
-    })
-  )
-  server.listen()
-
-  render(
-    <TestQueryCache>
-      <StartDiscussionPanel
-        request={request}
-        iterations={iterations}
-        setDiscussion={() => null}
-      />
-    </TestQueryCache>
-  )
-  const button = screen.getByRole('button', { name: 'Send' })
-  act(() => userEvent.click(button))
-
-  expect(await screen.findByText('Loading')).toBeInTheDocument()
-
-  server.close()
-})
+stubRange()
 
 test('disables button while locking mentoring request', async () => {
   const request = {
@@ -57,13 +28,19 @@ test('disables button while locking mentoring request', async () => {
     <StartDiscussionPanel
       request={request}
       iterations={iterations}
-      setDiscussion={() => {}}
+      setDiscussion={jest.fn()}
     />
   )
-  const sendButton = screen.getByRole('button', { name: 'Send' })
-  userEvent.click(sendButton)
+  await act(async () => userEvent.click(screen.getByTestId('markdown-editor')))
+  const textarea = screen.getByRole('textbox')
+  await act(async () => userEvent.type(textarea, 'Hello'))
+  await act(async () =>
+    userEvent.click(screen.getByRole('button', { name: 'Send' }))
+  )
 
-  await waitFor(() => expect(sendButton).toBeDisabled())
+  await waitFor(() =>
+    expect(screen.getByRole('button', { name: 'Send' })).toBeDisabled()
+  )
 
   server.close()
 })
@@ -91,7 +68,12 @@ test('shows API errors', async () => {
   server.listen()
 
   render(<StartDiscussionPanel request={request} iterations={iterations} />)
-  userEvent.click(screen.getByRole('button', { name: 'Send' }))
+  await act(async () => userEvent.click(screen.getByTestId('markdown-editor')))
+  const textarea = screen.getByRole('textbox')
+  await act(async () => userEvent.type(textarea, 'Hello'))
+  await act(async () =>
+    userEvent.click(screen.getByRole('button', { name: 'Send' }))
+  )
 
   expect(
     await screen.findByText('Unable to start discussion')
@@ -110,7 +92,12 @@ test('shows generic errors', async () => {
   const iterations = [{ idx: 1 }]
 
   render(<StartDiscussionPanel request={request} iterations={iterations} />)
-  userEvent.click(screen.getByRole('button', { name: 'Send' }))
+  await act(async () => userEvent.click(screen.getByTestId('markdown-editor')))
+  const textarea = screen.getByRole('textbox')
+  await act(async () => userEvent.type(textarea, 'Hello'))
+  await act(async () =>
+    userEvent.click(screen.getByRole('button', { name: 'Send' }))
+  )
 
   expect(
     await screen.findByText('Unable to start discussion')

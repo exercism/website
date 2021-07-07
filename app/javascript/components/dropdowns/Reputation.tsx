@@ -7,8 +7,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { QueryStatus } from 'react-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
-import { useRequestQuery } from '../../hooks/request-query'
-import { queryCache } from 'react-query'
+import { usePaginatedRequestQuery } from '../../hooks/request-query'
 
 export type Links = {
   tokens: string
@@ -104,7 +103,9 @@ export const Reputation = ({
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
   const cacheKey = 'reputations'
-  const { data, error, status, refetch } = useRequestQuery<APIResponse>(
+  const { resolvedData, error, status, refetch } = usePaginatedRequestQuery<
+    APIResponse
+  >(
     cacheKey,
     {
       endpoint: endpoint,
@@ -119,7 +120,7 @@ export const Reputation = ({
     listAttributes,
     itemAttributes,
     open,
-  } = useDropdown((data?.results.length || 0) + 1, undefined, {
+  } = useDropdown((resolvedData?.results.length || 0) + 1, undefined, {
     placement: 'bottom-start',
     modifiers: [
       {
@@ -138,20 +139,20 @@ export const Reputation = ({
   }, [])
 
   useEffect(() => {
-    if (!data) {
+    if (!resolvedData) {
       return
     }
 
-    setReputation(data.meta.totalReputation)
-  }, [data])
+    setReputation(resolvedData.meta.totalReputation)
+  }, [resolvedData])
 
   useEffect(() => {
-    if (!data) {
+    if (!resolvedData) {
       return
     }
 
-    setIsSeen(data.meta.isAllSeen)
-  }, [data])
+    setIsSeen(resolvedData.meta.isAllSeen)
+  }, [resolvedData])
 
   useEffect(() => {
     if (!listAttributes.hidden || !isStale) {
@@ -159,6 +160,7 @@ export const Reputation = ({
     }
 
     refetch()
+    setIsStale(false)
   }, [isStale, listAttributes.hidden, refetch])
 
   return (
@@ -171,7 +173,7 @@ export const Reputation = ({
       {open ? (
         <div className="c-reputation-dropdown" {...panelAttributes}>
           <DropdownContent
-            data={data}
+            data={resolvedData}
             cacheKey={cacheKey}
             status={status}
             error={error}

@@ -6,11 +6,11 @@ import { NotificationMenuItem } from './notifications/NotificationMenuItem'
 import { Notification } from './notifications/types'
 import { useNotificationDropdown } from './notifications/useNotificationDropdown'
 import { DropdownAttributes } from './useDropdown'
-import { useRequestQuery } from '../../hooks/request-query'
+import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useIsMounted } from 'use-is-mounted'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
-import { queryCache, QueryStatus } from 'react-query'
+import { QueryStatus } from 'react-query'
 
 export type APIResponse = {
   results: Notification[]
@@ -88,7 +88,9 @@ export const Notifications = ({
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
   const [isStale, setIsStale] = useState(false)
-  const { data, error, status, refetch } = useRequestQuery<APIResponse>(
+  const { resolvedData, error, status, refetch } = usePaginatedRequestQuery<
+    APIResponse
+  >(
     CACHE_KEY,
     {
       endpoint: endpoint,
@@ -103,7 +105,7 @@ export const Notifications = ({
     listAttributes,
     itemAttributes,
     open,
-  } = useNotificationDropdown(data)
+  } = useNotificationDropdown(resolvedData)
 
   useEffect(() => {
     const subscription = consumer.subscriptions.create(
@@ -124,19 +126,20 @@ export const Notifications = ({
     }
 
     refetch()
+    setIsStale(false)
   }, [isStale, listAttributes.hidden, refetch])
 
   return (
     <React.Fragment>
       <NotificationsIcon
-        count={data?.meta?.unreadCount || 0}
+        count={resolvedData?.meta?.unreadCount || 0}
         aria-label="Open notifications"
         {...buttonAttributes}
       />
       {open ? (
         <div className="c-notifications-dropdown" {...panelAttributes}>
           <DropdownContent
-            data={data}
+            data={resolvedData}
             status={status}
             error={error}
             itemAttributes={itemAttributes}

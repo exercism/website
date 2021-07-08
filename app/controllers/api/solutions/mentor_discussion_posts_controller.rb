@@ -37,7 +37,7 @@ module API
         DiscussionPostListChannel.notify!(post.discussion)
         render json: { post: SerializeMentorDiscussionPost.(post, current_user) }
       else
-        render_400(:mentor_discussion_post_not_deleted)
+        render_400(:failed_validations, errors: post.errors)
       end
     end
 
@@ -47,12 +47,10 @@ module API
       return render_404(:mentor_discussion_post_not_found) if post.blank?
       return render_403(:mentor_discussion_post_not_accessible) unless post.author == current_user
 
-      if post.destroy
-        DiscussionPostListChannel.notify!(post.discussion)
-        render json: { post: SerializeMentorDiscussionPost.(post, current_user) }
-      else
-        render_400(:failed_validations, errors: post.errors)
-      end
+      post.destroy
+
+      DiscussionPostListChannel.notify!(post.discussion)
+      render json: { post: SerializeMentorDiscussionPost.(post, current_user) }
     end
 
     private

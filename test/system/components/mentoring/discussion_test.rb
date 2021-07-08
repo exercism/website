@@ -253,6 +253,7 @@ module Components
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           wait_for_websockets
           click_on "still post."
+          find("form").click
           fill_in_editor "# Hello", within: ".comment-section"
           click_on "Send"
         end
@@ -280,7 +281,7 @@ module Components
           find_all(".post").last.hover
           click_on "Edit"
           fill_in_editor "# Edited"
-          click_on "Send"
+          click_on "Update"
         end
 
         assert_css "h3", text: "Edited"

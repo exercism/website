@@ -51,7 +51,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
           updated_at: Time.utc(2016, 12, 25).iso8601,
           iteration_idx: 2,
           links: {
-            update: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post)
+            self: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post)
           }
         }
       ]
@@ -121,7 +121,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
           updated_at: Time.utc(2016, 12, 25).iso8601,
           iteration_idx: 2,
           links: {
-            update: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post)
+            self: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post)
           }
         }
       ]
@@ -217,7 +217,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         updated_at: post.updated_at.iso8601,
         iteration_idx: 2,
         links: {
-          update: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
+          self: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
         }
       }
     }
@@ -265,7 +265,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         updated_at: post.updated_at.iso8601,
         iteration_idx: 2,
         links: {
-          update: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
+          self: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
         }
       }
     }
@@ -373,10 +373,96 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         updated_at: discussion_post.updated_at.iso8601,
         iteration_idx: 1,
         links: {
-          update: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post)
+          self: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post)
         }
       }
     }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  ###
+  # Destroy
+  ###
+  test "destroy returns 404 error when post not found" do
+    mentor = create(:user)
+    setup_user(mentor)
+    discussion = create :mentor_discussion, mentor: mentor
+
+    delete api_mentoring_discussion_post_path(discussion, 1), headers: @headers, as: :json
+
+    assert_response 404
+    expected = { error: {
+      type: "mentor_discussion_post_not_found",
+      message: I18n.t("api.errors.mentor_discussion_post_not_found")
+    } }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "destroy returns 403 error when discussion cannot be accessed" do
+    mentor = create(:user)
+    setup_user(mentor)
+    discussion_post = create(:mentor_discussion_post)
+
+    delete api_mentoring_discussion_post_path(discussion_post.discussion, discussion_post), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "mentor_discussion_not_accessible",
+      message: I18n.t("api.errors.mentor_discussion_not_accessible")
+    } }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "destroy returns 403 error when post cannot be accessed" do
+    mentor = create(:user)
+    setup_user(mentor)
+    discussion = create(:mentor_discussion, mentor: mentor)
+    discussion_post = create(:mentor_discussion_post, discussion: discussion, author: create(:user))
+
+    delete api_mentoring_discussion_post_path(discussion, discussion_post), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "mentor_discussion_post_not_accessible",
+      message: I18n.t("api.errors.mentor_discussion_post_not_accessible")
+    } }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "destroys a post" do
+    mentor = create(:user, handle: "mentor")
+    setup_user(mentor)
+    discussion = create :mentor_discussion, mentor: mentor
+    iteration = create :iteration, idx: 1
+    discussion_post = create(:mentor_discussion_post,
+      discussion: discussion,
+      author: mentor,
+      iteration: iteration,
+      content_markdown: "Hello",
+      updated_at: Time.utc(2016, 12, 25))
+
+    delete api_mentoring_discussion_post_path(discussion, discussion_post),
+      params: { content: "content" },
+      headers: @headers,
+      as: :json
+
+    assert_response 200
+    expected = {
+      post: {
+        uuid: discussion_post.uuid,
+        author_handle: "mentor",
+        author_avatar_url: mentor.avatar_url,
+        by_student: false,
+        content_markdown: "Hello",
+        content_html: "<p>Hello</p>\n",
+        updated_at: discussion_post.updated_at.iso8601,
+        iteration_idx: 1,
+        links: {
+          self: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post)
+        }
+      }
+    }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    refute Mentor::DiscussionPost.exists?(discussion_post.id)
   end
 end

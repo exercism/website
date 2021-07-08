@@ -1,10 +1,8 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPostEdit } from '../../../../../../app/javascript/components/mentoring/discussion/discussion-post/DiscussionPostEdit'
-import userEvent from '@testing-library/user-event'
 import { stubRange } from '../../../../support/code-mirror-helpers'
-import { act } from 'react-dom/test-utils'
 import { createDiscussionPost } from '../../../../factories/DiscussionPostFactory'
 
 stubRange()

@@ -1,34 +1,20 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPost } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPost'
-import userEvent from '@testing-library/user-event'
 import { stubRange } from '../../../support/code-mirror-helpers'
-import { act } from 'react-dom/test-utils'
 import { createDiscussionPost } from '../../../factories/DiscussionPostFactory'
 
 stubRange()
 
-test('clicking edit opens edit form', async () => {
-  render(<DiscussionPost post={createDiscussionPost({})} />)
+test('editing action shows editor', async () => {
+  render(<DiscussionPost post={createDiscussionPost({})} action="editing" />)
 
-  await act(async () =>
-    userEvent.click(screen.getByRole('button', { name: /Edit/ }))
-  )
-
-  expect(await screen.findByTestId('markdown-editor')).toBeInTheDocument()
+  expect(screen.getByTestId('markdown-editor')).toBeInTheDocument()
 })
 
-test('clicking cancel closes edit form', async () => {
-  render(
-    <DiscussionPost post={createDiscussionPost({})} defaultAction="editing" />
-  )
+test('viewing action does not show editor', async () => {
+  render(<DiscussionPost post={createDiscussionPost({})} action="viewing" />)
 
-  await act(async () =>
-    userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
-  )
-
-  await waitFor(() =>
-    expect(screen.queryByTestId('markdown-editor')).not.toBeInTheDocument()
-  )
+  expect(screen.queryByTestId('markdown-editor')).not.toBeInTheDocument()
 })

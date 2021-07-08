@@ -14,14 +14,9 @@ export const NewFormFooter = ({
   if (value.length === 0) {
     return (
       <footer className="editor-footer">
-        <FormButton
-          type="button"
-          className="btn-default btn-xs"
-          onClick={onCancel}
-          status={status}
-        >
+        <button type="button" className="btn-default btn-xs" onClick={onCancel}>
           Cancel
-        </FormButton>
+        </button>
       </footer>
     )
   } else {

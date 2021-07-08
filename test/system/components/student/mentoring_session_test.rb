@@ -150,7 +150,7 @@ module Components
           find_all(".post").last.hover
           click_on "Edit"
           fill_in_editor "# Edited"
-          click_on "Send"
+          click_on "Update"
         end
 
         assert_css "h3", text: "Edited"

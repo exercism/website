@@ -1,6 +1,6 @@
 module Github
   class Issue
-    class OpenForSyncFailure
+    class OpenForTrackSyncFailure
       include Mandate
 
       initialize_with :track, :exception, :git_sha

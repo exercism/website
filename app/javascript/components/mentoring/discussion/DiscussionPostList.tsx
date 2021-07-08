@@ -16,6 +16,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { IterationMarker } from '../session/IterationMarker'
 import { PostsContext } from './PostsContext'
 import { useRequestQuery } from '../../../hooks/request-query'
+import { usePostEditing } from './discussion-post-list/use-post-editing'
 
 type IterationWithPost = {
   iteration: Iteration
@@ -70,6 +71,7 @@ export const DiscussionPostList = ({
   const [intersectionStatus, setIntersectionStatus] = useState<
     IntersectionStatus[]
   >([])
+  const { editingPost, handleEdit, handleEditCancel } = usePostEditing()
 
   const registerEntry = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -196,6 +198,9 @@ export const DiscussionPostList = ({
                     ref={highlightedPost === post ? highlightedPostRef : null}
                     key={post.uuid}
                     post={post}
+                    action={editingPost === post ? 'editing' : 'viewing'}
+                    onEdit={handleEdit(post)}
+                    onEditCancel={handleEditCancel}
                   />
                 )
               })}

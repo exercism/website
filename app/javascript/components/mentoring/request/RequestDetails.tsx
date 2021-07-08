@@ -26,7 +26,7 @@ export const RequestDetails = ({
     /* TODO: This wrapper is needed to make the styling correct. Maybe unscope the iteration marker? */
     <div className="discussion">
       <IterationMarker iteration={iteration} userIsStudent={false} />
-      <DiscussionPost post={markerPost} />
+      <DiscussionPost action="viewing" post={markerPost} />
     </div>
   )
 }

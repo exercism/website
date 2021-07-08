@@ -22,21 +22,23 @@ type DiscussionPostAction = 'viewing' | 'editing'
 
 export const DiscussionPost = forwardRef<
   HTMLDivElement,
-  { post: DiscussionPostProps; defaultAction?: DiscussionPostAction }
->(({ post, defaultAction = 'viewing' }, ref) => {
-  const [action, setAction] = useState<DiscussionPostAction>(defaultAction)
-
+  {
+    post: DiscussionPostProps
+    action: DiscussionPostAction
+    onEdit?: () => void
+    onEditCancel?: () => void
+  }
+>(({ post, action, onEdit = () => null, onEditCancel = () => null }, ref) => {
   const handleEdit = useCallback(() => {
-    setAction('editing')
-  }, [])
-
+    onEdit()
+  }, [onEdit])
   const handleEditCancel = useCallback(() => {
-    setAction('viewing')
-  }, [])
+    onEditCancel()
+  }, [onEditCancel])
 
   const handleEditSuccess = useCallback(() => {
-    setAction('viewing')
-  }, [])
+    onEditCancel()
+  }, [onEditCancel])
 
   switch (action) {
     case 'viewing':

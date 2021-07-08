@@ -48,6 +48,34 @@ module Components
         assert_text "Hello, student"
       end
 
+      test "deletes an existing post" do
+        mentor = create :user, handle: "author"
+        student = create :user, handle: "student"
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
+        request = create :mentor_request
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
+        submission = create :submission, solution: solution
+        iteration = create :iteration, solution: solution, submission: submission
+        create(:mentor_discussion_post,
+          discussion: discussion,
+          iteration: iteration,
+          author: student,
+          content_markdown: "How are you?")
+
+        use_capybara_host do
+          sign_in!(student)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
+          find_all(".post").last.hover
+          click_on "Edit"
+          fill_in_editor ""
+          accept_alert { click_on "Delete" }
+        end
+
+        assert_no_css "h3", text: "How are you?"
+      end
+
       test "refetches when new post comes in" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
@@ -122,7 +150,7 @@ module Components
           find_all(".post").last.hover
           click_on "Edit"
           fill_in_editor "# Edited"
-          click_on "Send"
+          click_on "Update"
         end
 
         assert_css "h3", text: "Edited"

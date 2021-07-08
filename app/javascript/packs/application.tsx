@@ -21,6 +21,7 @@ import '../../css/layout'
 import '../../css/ui-kit/inputs'
 import '../../css/ui-kit/buttons'
 import '../../css/ui-kit/tracks'
+import '../../css/ui-kit/animations'
 
 import '../../css/components/contributions-summary'
 import '../../css/components/progress'

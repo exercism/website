@@ -1,0 +1,75 @@
+import React from 'react'
+import { render, waitFor, screen } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
+import { MarkdownEditorForm } from '../../../../app/javascript/components/common/MarkdownEditorForm'
+import { silenceConsole } from '../../support/silence-console'
+import { stubRange } from '../../support/code-mirror-helpers'
+import { QueryStatus } from 'react-query'
+
+stubRange()
+
+test('hides footer when form is compressed', async () => {
+  render(
+    <MarkdownEditorForm
+      expanded={false}
+      onSubmit={jest.fn()}
+      onCancel={jest.fn()}
+      onChange={jest.fn()}
+      value=""
+      error={null}
+      status={'loading' as QueryStatus}
+      defaultError={new Error()}
+      action="new"
+    />
+  )
+
+  await waitFor(() =>
+    expect(
+      screen.queryByRole('button', { name: /Send/ })
+    ).not.toBeInTheDocument()
+  )
+})
+
+test('shows error messages', async () => {
+  silenceConsole()
+  render(
+    <MarkdownEditorForm
+      expanded={false}
+      onSubmit={jest.fn()}
+      onCancel={jest.fn()}
+      onChange={jest.fn()}
+      value=""
+      error={new Error()}
+      status={'error' as QueryStatus}
+      defaultError={new Error('Unable to save')}
+      action="new"
+    />
+  )
+
+  expect(await screen.findByText('Unable to save')).toBeInTheDocument()
+})
+
+test('focuses text editor when expanded', async () => {
+  render(
+    <MarkdownEditorForm
+      expanded
+      onSubmit={jest.fn()}
+      onCancel={jest.fn()}
+      onChange={jest.fn()}
+      value=""
+      error={new Error()}
+      status={'error' as QueryStatus}
+      defaultError={new Error()}
+      action="new"
+    />
+  )
+
+  await waitFor(() => {
+    const editor = document.querySelector('.CodeMirror')
+
+    expect(editor).toHaveAttribute(
+      'class',
+      'CodeMirror cm-s-easymde CodeMirror-wrap CodeMirror-focused'
+    )
+  })
+})

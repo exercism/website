@@ -1,6 +1,7 @@
 @import "../styles";
 
 .c-markdown-editor {
+    min-width: 520px;
     @apply flex flex-col relative;
     @apply border-1 border-buttonBorderColor2 rounded-8;
     @apply overflow-hidden;
@@ -25,7 +26,12 @@
                 @apply hidden;
             }
         }
+
+        & .CodeMirror-line {
+            visibility: hidden;
+        }
     }
+
     &.--expanded {
         min-height: 320px;
     }
@@ -74,7 +80,9 @@
             & .CodeMirror-scroll {
                 min-height: auto !important;
             }
-            & .CodeMirror-lines {
+            & .CodeMirror-lines,
+            & pre.CodeMirror-line,
+            & pre.CodeMirror-line-like {
                 @apply p-0;
             }
             & .cm-comment {
@@ -107,6 +115,7 @@
 
         & button {
             @apply ml-12;
+            animation: fadeIn 0.2s forwards;
         }
 
         & .--warning {

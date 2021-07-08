@@ -15,15 +15,6 @@
     }
 }
 
-@keyframes nudgeFadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 #page-exercise-show {
     & section.completed-heading {
         @apply flex items-center py-12 px-32 shadow-lg rounded-8 mb-24;
@@ -108,7 +99,7 @@
             @apply py-0 mb-0;
 
             animation: nudgeSlideIn 0.35s ease-out 1s 1 normal forwards,
-                nudgeFadeIn 0.5s ease-out 1.25s 1 normal forwards;
+                fadeIn 0.5s ease-out 1.25s 1 normal forwards;
         }
     }
 

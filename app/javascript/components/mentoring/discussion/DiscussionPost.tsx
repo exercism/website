@@ -1,11 +1,9 @@
-import React, { forwardRef } from 'react'
-import { shortFromNow } from '../../../utils/time'
-import { EditDiscussionPost } from './EditDiscussionPost'
-import { Avatar } from '../../common/Avatar'
-import { useHighlighting } from '../../../utils/highlight'
+import React, { forwardRef, useCallback, useState } from 'react'
+import { DiscussionPostView } from './discussion-post/DiscussionPostView'
+import { DiscussionPostEdit } from './discussion-post/DiscussionPostEdit'
 
 type DiscussionPostLinks = {
-  update?: string
+  self?: string
 }
 
 export type DiscussionPostProps = {
@@ -20,51 +18,38 @@ export type DiscussionPostProps = {
   updatedAt: string
 }
 
-export const DiscussionPost = forwardRef<HTMLDivElement, DiscussionPostProps>(
-  (
-    {
-      uuid,
-      links,
-      authorHandle,
-      authorAvatarUrl,
-      contentMarkdown,
-      contentHtml,
-      updatedAt,
-    },
-    ref
-  ) => {
-    const contentRef = useHighlighting<HTMLDivElement>()
+type DiscussionPostAction = 'viewing' | 'editing'
 
-    return (
-      <div
-        ref={ref}
-        className={`post timeline-entry ${links.update ? '--editable' : ''}`}
-      >
-        <Avatar
-          handle={authorHandle}
-          src={authorAvatarUrl}
-          className="timeline-marker"
-        />
-        <div className="timeline-content">
-          <header className="timeline-entry-header">
-            <div className="author">{authorHandle}</div>
-            <time>{shortFromNow(updatedAt)}</time>
-
-            {links.update ? (
-              <EditDiscussionPost
-                defaultValue={contentMarkdown}
-                endpoint={links.update}
-                contextId={`edit_${uuid}`}
-              />
-            ) : null}
-          </header>
-          <div
-            className="post-content c-textual-content --small"
-            ref={contentRef}
-            dangerouslySetInnerHTML={{ __html: contentHtml }}
-          />
-        </div>
-      </div>
-    )
+export const DiscussionPost = forwardRef<
+  HTMLDivElement,
+  {
+    post: DiscussionPostProps
+    action: DiscussionPostAction
+    onEdit?: () => void
+    onEditCancel?: () => void
   }
-)
+>(({ post, action, onEdit = () => null, onEditCancel = () => null }, ref) => {
+  const handleEdit = useCallback(() => {
+    onEdit()
+  }, [onEdit])
+  const handleEditCancel = useCallback(() => {
+    onEditCancel()
+  }, [onEditCancel])
+
+  const handleEditSuccess = useCallback(() => {
+    onEditCancel()
+  }, [onEditCancel])
+
+  switch (action) {
+    case 'viewing':
+      return <DiscussionPostView post={post} onEdit={handleEdit} ref={ref} />
+    case 'editing':
+      return (
+        <DiscussionPostEdit
+          post={post}
+          onSuccess={handleEditSuccess}
+          onCancel={handleEditCancel}
+        />
+      )
+  }
+})

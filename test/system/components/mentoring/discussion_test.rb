@@ -253,6 +253,7 @@ module Components
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
           wait_for_websockets
           click_on "still post."
+          find("form").click
           fill_in_editor "# Hello", within: ".comment-section"
           click_on "Send"
         end
@@ -280,10 +281,35 @@ module Components
           find_all(".post").last.hover
           click_on "Edit"
           fill_in_editor "# Edited"
-          click_on "Send"
+          click_on "Update"
         end
 
         assert_css "h3", text: "Edited"
+        assert_no_css "h3", text: "Hello"
+      end
+
+      test "deletes an existing post" do
+        mentor = create :user, handle: "author"
+        solution = create :concept_solution
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
+        submission = create :submission, solution: solution
+        iteration = create :iteration, solution: solution, submission: submission
+        create(:mentor_discussion_post,
+          discussion: discussion,
+          iteration: iteration,
+          author: mentor,
+          content_markdown: "Hello",
+          updated_at: Time.current)
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          find_all(".post").last.hover
+          click_on "Edit"
+          fill_in_editor ""
+          accept_alert { click_on "Delete" }
+        end
+
         assert_no_css "h3", text: "Hello"
       end
 

@@ -137,7 +137,7 @@ Rails.application.routes.draw do
         resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
         resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions", param: :uuid do
           patch :finish, on: :member
-          resources :posts, only: %i[index create update], controller: "solutions/mentor_discussion_posts", param: :uuid
+          resources :posts, only: %i[index create update destroy], controller: "solutions/mentor_discussion_posts", param: :uuid
         end
       end
 
@@ -167,7 +167,7 @@ Rails.application.routes.draw do
             get :tracks # TODO: Remove this
           end
 
-          resources :posts, only: %i[index create update], controller: "discussion_posts", param: :uuid
+          resources :posts, only: %i[index create update destroy], controller: "discussion_posts", param: :uuid
         end
 
         resources :testimonials, only: [:index], param: :uuid do

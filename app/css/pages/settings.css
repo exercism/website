@@ -1,23 +1,4 @@
 @import "../styles";
-
-@keyframes settingsStatusFadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-@keyframes settingsStatusFadeOut {
-    0% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
 .page-settings {
     & .lg-container {
         @apply flex items-start;
@@ -73,8 +54,8 @@
                     @apply flex items-center;
                     @apply border-2 rounded-8;
                     opacity: 0;
-                    animation: settingsStatusFadeIn 0.3s ease-out forwards,
-                        0.3s 3s settingsStatusFadeOut ease-in forwards;
+                    animation: fadeIn 0.3s ease-out forwards,
+                        0.3s 3s fadeOut ease-in forwards;
 
                     & .c-icon {
                         height: 24px;

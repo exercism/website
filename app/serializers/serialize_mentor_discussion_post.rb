@@ -24,11 +24,11 @@ class SerializeMentorDiscussionPost
 
     if post.by_student?
       {
-        update: Exercism::Routes.api_solution_discussion_post_url(post.discussion.solution.uuid, post.discussion, post)
+        self: Exercism::Routes.api_solution_discussion_post_url(post.discussion.solution.uuid, post.discussion, post)
       }
     else
       {
-        update: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
+        self: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
       }
     end
   end

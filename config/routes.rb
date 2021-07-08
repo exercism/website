@@ -47,6 +47,8 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
+      resources :donations
+
       resource :settings, only: [:update] do
         patch :sudo_update
       end
@@ -352,6 +354,8 @@ Rails.application.routes.draw do
 
   # TODO: Remove these before launching
   namespace :temp do
+    resource :stripe, only: [:show], controller: "stripe"
+
     resources :tracks, only: [:create]
     resource :user_deletion, only: [:show]
     resource :user_reset, only: [:show]

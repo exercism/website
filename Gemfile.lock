@@ -420,6 +420,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stripe (5.24.0)
     sysexits (1.2.0)
     temple (0.8.2)
     thor (1.1.0)
@@ -521,6 +522,7 @@ DEPENDENCIES
   skylight
   solargraph
   spring
+  stripe
   turbolinks (~> 5)
   turbolinks_render
   tzinfo-data

@@ -24,10 +24,10 @@ module Donations
           expand: ['latest_invoice.payment_intent']
         )
 
-        OpenStruct.new({
-                         id: subscription.id,
-                         client_secret: subscription.latest_invoice.payment_intent.client_secret
-                       })
+        OpenStruct.new(
+          id: subscription.id,
+          client_secret: subscription.latest_invoice.payment_intent.client_secret
+        )
       end
     end
   end

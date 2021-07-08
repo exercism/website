@@ -51,7 +51,7 @@ module API
     end
   end
 
-  # TOOD: Merge into the other identical place
+  # TODO: Merge into the other identical place
   class MentorRequestComment
     include ActiveModel::Model
 

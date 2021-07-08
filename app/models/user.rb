@@ -152,7 +152,7 @@ class User < ApplicationRecord
   def avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
 
-    # TOOD: Read correct s3 bucket
+    # TODO: Read correct s3 bucket
     # TODO: Add this image to the repo etc
     super || "https://100k-faces.glitch.me/random-image?r=#{SecureRandom.hex(3)}"
     # super || "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg"

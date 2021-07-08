@@ -22,7 +22,7 @@ module Git
 
     memoize
     def repo
-      # TODO: Put a constant somewhere for this (also used in sync_doc)
+      # TODO: (Optional): Put a constant somewhere for this (also used in sync_doc)
       Git::Repository.new(repo_url: "https://github.com/exercism/docs")
     end
   end

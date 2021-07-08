@@ -16,14 +16,14 @@ module Git
 
       doc.update!(attributes)
     rescue StandardError
-      # TODO: Raise issue on GH.
+      # TODO: (Blocking): Raise issue on GH.
     end
 
     private
     attr_reader :config, :section, :track
 
     def repo_url
-      # TODO: Put a constant somewhere for this
+      # TODO: (Optional): Put a constant somewhere for this
       track ? track.repo_url : "https://github.com/exercism/docs"
     end
 

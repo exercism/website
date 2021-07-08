@@ -23,11 +23,12 @@ module Git
     def call
       fetch_git_repo!
 
-      # TODO: validate track using configlet to prevent invalid track data
+      # TODO: (Optional): validate track using configlet to prevent invalid track data
 
-      # TODO: consider raising error when slug in config is different from track slug
+      # TODO: (Optional): consider raising error when slug in config is different from track slug
 
-      # TODO: We should raise a bugsnag here too
+      # TODO: (Optional): We should raise a bugsnag here too. Note: this is not needed if
+      # we validate a track using configlet
       blurb = head_git_track.blurb[0, 350]
 
       # Concepts must be synced before tracks
@@ -85,9 +86,7 @@ module Git
           status: exercise_config[:status] || :active,
           icon_name: git_exercise.icon_name,
           position: position + 1,
-
-          # TODO: Remove the || ... once we have configlet checking things properly.
-          title: exercise_config[:name].presence || exercise_config[:slug].titleize,
+          title: exercise_config[:name].presence,
           blurb: git_exercise.blurb,
           taught_concepts: exercise_concepts(exercise_config[:concepts]),
           prerequisites: exercise_concepts(exercise_config[:prerequisites])
@@ -109,9 +108,7 @@ module Git
           status: exercise_config[:status] || :active,
           icon_name: git_exercise.icon_name,
           position: exercise_config[:slug] == 'hello-world' ? 0 : position + 1 + head_git_track.concept_exercises.length,
-
-          # TODO: Remove the || ... once we have configlet checking things properly.
-          title: exercise_config[:name].presence || exercise_config[:slug].titleize,
+          title: exercise_config[:name].presence,
           blurb: git_exercise.blurb,
           difficulty: exercise_config[:difficulty],
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
@@ -123,7 +120,7 @@ module Git
 
     def exercise_concepts(concept_slugs)
       track.concepts.where(slug: concept_slugs.to_a).tap do |concepts|
-        # TODO: We should be able to remove this once configlet is in place
+        # TODO: (Optional): We should be able to remove this once configlet is in place
         missing_concepts = concept_slugs.to_a - concepts.map(&:slug)
         Rails.logger.error "Missing concepts: #{missing_concepts.join(', ')}" if missing_concepts.present?
       end

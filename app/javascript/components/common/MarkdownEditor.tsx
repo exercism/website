@@ -49,7 +49,7 @@ export const MarkdownEditor = ({
   const editorOptions = useMemo<SimpleMDEReactProps['options']>(() => {
     return {
       autosave: contextId
-        ? { enabled: true, uniqueId: contextId, delay: 5000 }
+        ? { enabled: true, uniqueId: contextId, delay: 1000 }
         : undefined,
       autoRefresh: true,
       blockStyles: {
@@ -64,7 +64,6 @@ export const MarkdownEditor = ({
         'link',
         'unordered-list',
         'ordered-list',
-        'fullscreen',
         'preview',
       ],
       status: ['autosave'],

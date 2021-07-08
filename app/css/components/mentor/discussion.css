@@ -112,8 +112,8 @@
         @apply flex flex-col;
         @apply shadow-base bg-backgroundColorA;
         z-index: 2;
-        width: 570px;
-        min-width: 570px;
+        width: 620px;
+        min-width: 620px;
         height: 100%;
         overflow: hidden;
 

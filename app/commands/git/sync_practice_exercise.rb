@@ -13,8 +13,7 @@ module Git
 
       exercise.update!(
         slug: exercise_config[:slug],
-        # TODO: Remove the || ... once we have configlet checking things properly.
-        title: exercise_config[:name].presence || exercise_config[:slug].titleize,
+        title: exercise_config[:name].presence,
         status: exercise_config[:status] || :active,
         difficulty: exercise_config[:difficulty],
         icon_name: head_git_exercise.icon_name,
@@ -67,7 +66,7 @@ module Git
         concept_config = head_git_track.concepts.find { |e| e[:slug] == slug }
         ::Concept.find_by!(uuid: concept_config[:uuid])
       rescue StandardError
-        # TODO: Remove this rescue when configlet works
+        # TODO: (Optional): Remove this rescue when configlet works
       end.compact
     end
 

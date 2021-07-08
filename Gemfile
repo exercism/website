@@ -52,6 +52,9 @@ gem 'devise', '~> 4.7.1'
 # Omniauth
 gem 'omniauth-github'
 
+# Payments
+gem 'stripe'
+
 # Turbolinks form errors compatibility
 gem 'turbolinks_render'
 

@@ -9,7 +9,7 @@ class Github::Issue::OpenForDocSyncFailureTest < ActiveSupport::TestCase
       exception = e
     end
 
-    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/docs%20author:exercism-bot"). # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Document%20sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/docs%20author:exercism-bot"). # rubocop:disable Layout/LineLength
       to_return(
         status: 200,
         body: {
@@ -24,7 +24,7 @@ class Github::Issue::OpenForDocSyncFailureTest < ActiveSupport::TestCase
       with do |request|
         json = JSON.parse(request.body)
         json["labels"].empty? &&
-          json["title"] == "🤖 Sync error for commit 2e25f7" &&
+          json["title"] == "🤖 Document sync error for commit 2e25f7" &&
           json["body"].include?("We hit an error trying to sync the latest commit (2e25f799c1830b93a8ad65a2bbbb1c50f381e639) to the website.") && # rubocop:disable Layout/LineLength
           json["body"].include?("Please tag @exercism/maintainers-admin if you require more information.") &&
           json["body"].match?(/open_for_doc_sync_failure_test\.rb:\d+:in `block in <class:OpenForDocSyncFailureTest>/)
@@ -52,7 +52,7 @@ class Github::Issue::OpenForDocSyncFailureTest < ActiveSupport::TestCase
       exception = e
     end
 
-    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/docs%20author:exercism-bot"). # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Document%20sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/docs%20author:exercism-bot"). # rubocop:disable Layout/LineLength
       to_return(
         status: 200,
         body: {
@@ -91,7 +91,7 @@ class Github::Issue::OpenForDocSyncFailureTest < ActiveSupport::TestCase
       exception = e
     end
 
-    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/docs%20author:exercism-bot"). # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Document%20sync%20error%20for%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/docs%20author:exercism-bot"). # rubocop:disable Layout/LineLength
       to_return(
         status: 200,
         body: {

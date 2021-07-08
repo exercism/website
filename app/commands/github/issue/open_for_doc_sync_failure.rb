@@ -15,7 +15,7 @@ module Github
       end
 
       def title
-        "🤖 Sync error for commit #{git_sha[0..5]}"
+        "🤖 Document sync error for commit #{git_sha[0..5]}"
       end
 
       def body

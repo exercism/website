@@ -45,7 +45,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "git sync SHA does not change when concept syncing fails" do
     track = create :track, active: true, synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
     Git::SyncConcept.expects(:call).raises(RuntimeError)
-    Github::Issue::OpenForSyncFailure.stubs(:call)
+    Github::Issue::OpenForTrackSyncFailure.stubs(:call)
 
     Git::SyncTrack.(track)
 
@@ -55,7 +55,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "git sync SHA does not change when concept exercise syncing fails" do
     track = create :track, active: true, synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
     Git::SyncConceptExercise.expects(:call).raises(RuntimeError)
-    Github::Issue::OpenForSyncFailure.stubs(:call)
+    Github::Issue::OpenForTrackSyncFailure.stubs(:call)
 
     Git::SyncTrack.(track)
 
@@ -65,7 +65,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "git sync SHA does not change when practice exercise syncing fails" do
     track = create :track, active: true, synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
     Git::SyncPracticeExercise.expects(:call).raises(RuntimeError)
-    Github::Issue::OpenForSyncFailure.stubs(:call)
+    Github::Issue::OpenForTrackSyncFailure.stubs(:call)
 
     Git::SyncTrack.(track)
 
@@ -434,7 +434,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     error = StandardError.new "Could not find Concept X"
     track.stubs(:update!).raises(error)
 
-    Github::Issue::OpenForSyncFailure.expects(:call).with(track, error, track.git_head_sha)
+    Github::Issue::OpenForTrackSyncFailure.expects(:call).with(track, error, track.git_head_sha)
 
     Git::SyncTrack.(track)
   end

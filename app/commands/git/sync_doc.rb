@@ -2,10 +2,11 @@ module Git
   class SyncDoc
     include Mandate
 
-    def initialize(config, section, track: nil)
+    def initialize(config, section, git_sha, track: nil)
       @config = config
       @track = track
       @section = section
+      @git_sha = git_sha
     end
 
     def call
@@ -15,16 +16,15 @@ module Git
       ) { |d| d.attributes = attributes }
 
       doc.update!(attributes)
-    rescue StandardError
-      # TODO: (Blocking): Raise issue on GH.
+    rescue StandardError => e
+      Github::Issue::OpenForDocSyncFailure.(config, section, e, git_sha)
     end
 
     private
-    attr_reader :config, :section, :track
+    attr_reader :config, :section, :track, :git_sha
 
     def repo_url
-      # TODO: (Optional): Put a constant somewhere for this
-      track ? track.repo_url : "https://github.com/exercism/docs"
+      track ? track.repo_url : Document::REPO_URL
     end
 
     def attributes

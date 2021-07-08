@@ -1,27 +1,21 @@
 module Github
   class Issue
-    class OpenForSyncFailure
+    class OpenForDocSyncFailure
       include Mandate
 
-      initialize_with :track, :exception, :git_sha
+      initialize_with :document, :section, :exception, :git_sha
 
       def call
-        return if deadlock_exception?
-
         Github::Issue::Open.(repo, title, body)
       end
 
       private
-      def deadlock_exception?
-        exception.is_a?(ActiveRecord::Deadlocked)
-      end
-
       def repo
-        "exercism/#{track.slug}"
+        Document::REPO_NAME
       end
 
       def title
-        "🤖 Sync error for commit #{git_sha[0..5]}"
+        "🤖 Document sync error for commit #{git_sha[0..5]}"
       end
 
       def body

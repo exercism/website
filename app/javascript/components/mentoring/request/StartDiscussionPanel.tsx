@@ -95,6 +95,7 @@ export const StartDiscussionPanel = ({
         status={status}
         error={error}
         defaultError={DEFAULT_ERROR}
+        action="new"
       />
       {/* TODO: Extract into common component with the other identical notes in app/javascript/components/mentoring/discussion/AddDiscussionPost.tsx */}
       <div className="note">

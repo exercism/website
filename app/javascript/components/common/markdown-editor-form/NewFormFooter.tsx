@@ -1,0 +1,41 @@
+import React from 'react'
+import { QueryStatus } from 'react-query'
+import { GraphicalIcon, FormButton } from '..'
+
+export const NewFormFooter = ({
+  status,
+  value,
+  onCancel,
+}: {
+  status: QueryStatus
+  value: string
+  onCancel: (e: React.FormEvent) => void
+}): JSX.Element => {
+  if (value.length === 0) {
+    return (
+      <footer className="editor-footer">
+        <FormButton
+          type="button"
+          className="btn-default btn-xs"
+          onClick={onCancel}
+          status={status}
+        >
+          Cancel
+        </FormButton>
+      </footer>
+    )
+  } else {
+    return (
+      <footer className="editor-footer">
+        <FormButton
+          className="btn-primary btn-xs"
+          type="submit"
+          status={status}
+        >
+          <GraphicalIcon icon="send" />
+          <span>Send</span>
+        </FormButton>
+      </footer>
+    )
+  }
+}

@@ -70,11 +70,7 @@ export const DiscussionInfo = ({
       </div>
       <section className="comment-section --comment">
         <NewMessageAlert />
-        <AddDiscussionPost
-          isFinished={discussion.isFinished}
-          endpoint={discussion.links.posts}
-          contextId={`discussion-${discussion.uuid}_new_post`}
-        />
+        <AddDiscussionPost discussion={discussion} />
       </section>
     </PostsWrapper>
   )

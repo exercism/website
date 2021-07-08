@@ -3,19 +3,20 @@ import { render, waitFor, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { AddDiscussionPost } from '../../../../../app/javascript/components/mentoring/discussion/AddDiscussionPost'
+import { AddDiscussionPostForm } from '../../../../../app/javascript/components/mentoring/discussion/AddDiscussionPostForm'
 import userEvent from '@testing-library/user-event'
 import { stubRange } from '../../../support/code-mirror-helpers'
 import { TestQueryCache } from '../../../support/TestQueryCache'
 import { act } from 'react-dom/test-utils'
+import { createMentorDiscussion } from '../../../factories/MentorDiscussionFactory'
 
 stubRange()
 
 test('expands and compresses form', async () => {
   render(
-    <AddDiscussionPost
-      endpoint="https://exercism.test/posts"
-      contextId="test"
+    <AddDiscussionPostForm
+      discussion={createMentorDiscussion({})}
+      onSuccess={jest.fn()}
     />
   )
 
@@ -44,9 +45,17 @@ test('when request succeeds, form is compressed', async () => {
 
   render(
     <TestQueryCache>
-      <AddDiscussionPost
-        endpoint="http://exercism.test/posts"
-        contextId="test"
+      <AddDiscussionPostForm
+        discussion={createMentorDiscussion({
+          links: {
+            posts: 'http://exercism.test/posts',
+            self: 'https://exercism.test/discussions/1',
+            markAsNothingToDo:
+              'https://exercism.test/discussions/1/mark_as_nothing_to_do',
+            finish: 'https://exercism.test/discussions/1/finish',
+          },
+        })}
+        onSuccess={jest.fn()}
       />
     </TestQueryCache>
   )

@@ -20,10 +20,12 @@ const ErrorFallback = ({ error }: { error: Error }) => {
   return <p>{error.message}</p>
 }
 
+export type MarkdownEditorFormAction = 'new' | 'edit'
+
 export const MarkdownEditorForm = ({
   expanded,
   onSubmit,
-  onClick,
+  onClick = () => null,
   onCancel,
   onChange,
   contextId,
@@ -31,17 +33,19 @@ export const MarkdownEditorForm = ({
   status,
   error,
   defaultError,
+  action,
 }: {
   expanded: boolean
   onSubmit: () => void
-  onClick: () => void
+  onClick?: () => void
   onCancel: () => void
   onChange: (value: string) => void
-  contextId: string
+  contextId?: string
   value: string
   status: QueryStatus
   error: unknown
   defaultError: Error
+  action: MarkdownEditorFormAction
 }): JSX.Element => {
   const [editor, setEditor] = useState<MarkdownEditorHandle | null>(null)
   const classNames = [
@@ -105,7 +109,12 @@ export const MarkdownEditorForm = ({
           editorDidMount={handleEditorDidMount}
         />
         {expanded ? (
-          <FormFooter onCancel={handleCancel} value={value} status={status} />
+          <FormFooter
+            onCancel={handleCancel}
+            value={value}
+            status={status}
+            action={action}
+          />
         ) : null}
       </form>
       <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>

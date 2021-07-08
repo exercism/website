@@ -19,12 +19,10 @@ export const AddDiscussionPostPanel = ({
         }}
       />
       <AddDiscussionPost
-        isFinished={discussion.isFinished}
-        endpoint={discussion.links.posts}
+        discussion={discussion}
         onSuccess={() => {
           switchToTab('discussion')
         }}
-        contextId={`${discussion.uuid}_new_post`}
       />
     </section>
   )

@@ -195,7 +195,7 @@ export const DiscussionPostList = ({
                   <DiscussionPost
                     ref={highlightedPost === post ? highlightedPostRef : null}
                     key={post.uuid}
-                    {...post}
+                    post={post}
                   />
                 )
               })}

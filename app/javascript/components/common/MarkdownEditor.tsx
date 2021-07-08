@@ -19,7 +19,7 @@ export const MarkdownEditor = ({
   value = '',
   options = {},
 }: {
-  contextId: string
+  contextId?: string
   url?: string
   editorDidMount?: (editor: MarkdownEditorHandle) => void
   defaultValue?: string
@@ -48,7 +48,9 @@ export const MarkdownEditor = ({
 
   const editorOptions = useMemo<SimpleMDEReactProps['options']>(() => {
     return {
-      autosave: { enabled: true, uniqueId: contextId, delay: 5000 },
+      autosave: contextId
+        ? { enabled: true, uniqueId: contextId, delay: 5000 }
+        : undefined,
       autoRefresh: true,
       blockStyles: {
         italic: '_',

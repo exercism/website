@@ -1,52 +1,39 @@
 import React, { useCallback, useState } from 'react'
-import { DiscussionPostForm } from './DiscussionPostForm'
+import { MentorDiscussion } from '../../types'
+import { AddDiscussionPostForm } from './AddDiscussionPostForm'
 
 export const AddDiscussionPost = ({
-  isFinished,
-  endpoint,
-  contextId,
-  onSuccess = () => {},
+  discussion,
+  onSuccess = () => null,
 }: {
-  isFinished: boolean
-  endpoint: string
-  contextId: string
+  discussion: MentorDiscussion
   onSuccess?: () => void
 }): JSX.Element => {
-  const [state, setState] = useState({
-    expanded: false,
-    value: localStorage.getItem(`smde_${contextId}`) || '',
-  })
+  const [stillPosting, setStillPosting] = useState(!discussion.isFinished)
 
   const handleSuccess = useCallback(() => {
-    setState({ value: '', expanded: false })
-
     onSuccess()
   }, [onSuccess])
 
-  const handleClick = useCallback(() => {
-    if (state.expanded) {
-      return
-    }
-
-    setState({ ...state, expanded: true })
-  }, [state])
-
   const handleContinue = useCallback(() => {
-    setState({ ...state, expanded: true })
-  }, [state])
+    setStillPosting(true)
+  }, [])
 
-  const handleCancel = useCallback(() => {
-    setState({ ...state, expanded: false })
-  }, [state])
+  if (stillPosting) {
+    return (
+      <>
+        <AddDiscussionPostForm
+          discussion={discussion}
+          onSuccess={handleSuccess}
+        />
 
-  const handleChange = useCallback(
-    (value: string) => {
-      setState({ ...state, value: value })
-    },
-    [state]
-  )
-
-  if (isFinished && !state.expanded) {
+        <div className="note">
+          Check out our {/* TODO */}
+          <a href="#">mentoring docs</a> and be the best mentor you can be.
+        </div>
+      </>
+    )
+  } else {
     return (
       <button
         onClick={handleContinue}
@@ -58,25 +45,4 @@ export const AddDiscussionPost = ({
       </button>
     )
   }
-
-  return (
-    <>
-      <DiscussionPostForm
-        onSuccess={handleSuccess}
-        onClick={handleClick}
-        onCancel={handleCancel}
-        onChange={handleChange}
-        endpoint={endpoint}
-        method="POST"
-        contextId={contextId}
-        value={state.value}
-        expanded={state.expanded}
-      />
-
-      <div className="note">
-        Check out our {/* TODO */}
-        <a href="#">mentoring docs</a> and be the best mentor you can be.
-      </div>
-    </>
-  )
 }

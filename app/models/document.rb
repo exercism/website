@@ -26,4 +26,7 @@ class Document < ApplicationRecord
     markdown = repo.read_text_blob(repo.head_commit, git_path)
     Markdown::Parse.(markdown, strip_h1: true, lower_heading_levels_by: 0)
   end
+
+  REPO_NAME = "exercism/docs".freeze
+  REPO_URL = "https://github.com/#{REPO_NAME}".freeze
 end

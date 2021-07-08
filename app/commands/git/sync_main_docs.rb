@@ -16,14 +16,13 @@ module Git
       config = repo.read_json_blob(repo.head_commit, "#{section}/config.json")
 
       config.to_a.each do |doc_config|
-        Git::SyncDoc.(doc_config, section)
+        Git::SyncDoc.(doc_config, section, repo.head_commit.oid)
       end
     end
 
     memoize
     def repo
-      # TODO: (Optional): Put a constant somewhere for this (also used in sync_doc)
-      Git::Repository.new(repo_url: "https://github.com/exercism/docs")
+      Git::Repository.new(repo_url: Document::REPO_URL)
     end
   end
 end

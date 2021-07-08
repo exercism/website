@@ -9,7 +9,7 @@ export const DiscussionPostView = forwardRef<
   HTMLDivElement,
   { post: DiscussionPostProps; onEdit: () => void }
 >(({ onEdit, post }, ref) => {
-  const isEditable = post.links.update
+  const isEditable = post.links.self
   const contentRef = useHighlighting<HTMLDivElement>()
 
   const handleEdit = useCallback(() => {

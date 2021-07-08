@@ -287,6 +287,31 @@ module Components
         assert_no_css "h3", text: "Hello"
       end
 
+      test "deletes an existing post" do
+        mentor = create :user, handle: "author"
+        solution = create :concept_solution
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
+        submission = create :submission, solution: solution
+        iteration = create :iteration, solution: solution, submission: submission
+        create(:mentor_discussion_post,
+          discussion: discussion,
+          iteration: iteration,
+          author: mentor,
+          content_markdown: "Hello",
+          updated_at: Time.current)
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          find_all(".post").last.hover
+          click_on "Edit"
+          fill_in_editor ""
+          accept_alert { click_on "Delete" }
+        end
+
+        assert_no_css "h3", text: "Hello"
+      end
+
       test "user can't edit another's post" do
         student = create :user
         mentor = create :user, handle: "author"

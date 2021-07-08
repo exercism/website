@@ -3,7 +3,7 @@ import { DiscussionPostView } from './discussion-post/DiscussionPostView'
 import { DiscussionPostEdit } from './discussion-post/DiscussionPostEdit'
 
 type DiscussionPostLinks = {
-  update?: string
+  self?: string
 }
 
 export type DiscussionPostProps = {

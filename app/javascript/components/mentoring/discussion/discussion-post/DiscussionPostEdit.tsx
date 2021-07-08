@@ -9,6 +9,8 @@ import { MarkdownEditorForm } from '../../../common/MarkdownEditorForm'
 
 const DEFAULT_ERROR = new Error('Unable to edit post')
 
+type MutationAction = 'update' | 'delete'
+
 export const DiscussionPostEdit = ({
   post,
   onSuccess,
@@ -22,13 +24,15 @@ export const DiscussionPostEdit = ({
   const isMountedRef = useIsMounted()
   const { cacheKey } = useContext(PostsContext)
 
-  const [mutation, { status, error }] = useMutation<
-    DiscussionPostProps | undefined
+  const [mutation, { status: editStatus, error: editError }] = useMutation<
+    DiscussionPostProps | undefined,
+    unknown,
+    MutationAction
   >(
-    () => {
+    (action) => {
       return sendRequest({
-        endpoint: post.links.update,
-        method: 'PATCH',
+        endpoint: post.links.self,
+        method: action === 'update' ? 'PATCH' : 'DELETE',
         body: JSON.stringify({ content: value }),
         isMountedRef: isMountedRef,
       }).then((json) => {
@@ -40,7 +44,7 @@ export const DiscussionPostEdit = ({
       })
     },
     {
-      onSuccess: (data) => {
+      onSuccess: (data, action) => {
         if (!data) {
           return
         }
@@ -49,19 +53,36 @@ export const DiscussionPostEdit = ({
           posts: DiscussionPostProps[]
         }>(cacheKey) || { posts: [] }
 
-        queryCache.setQueryData(
-          [cacheKey],
-          oldData.posts.map((post) => {
-            return post.uuid === data.uuid ? data : post
-          })
-        )
+        switch (action) {
+          case 'delete': {
+            queryCache.setQueryData(
+              [cacheKey],
+              oldData.posts.filter((post) => post.uuid !== data.uuid)
+            )
 
-        onSuccess()
+            break
+          }
+          case 'update': {
+            queryCache.setQueryData(
+              [cacheKey],
+              oldData.posts.map((post) => {
+                return post.uuid === data.uuid ? data : post
+              })
+            )
+
+            onSuccess()
+
+            break
+          }
+        }
       },
     }
   )
   const handleSubmit = useCallback(() => {
-    mutation()
+    mutation('update')
+  }, [mutation])
+  const handleDelete = useCallback(() => {
+    mutation('delete')
   }, [mutation])
   const handleCancel = useCallback(() => onCancel(), [onCancel])
   const handleChange = useCallback((value) => setValue(value), [setValue])
@@ -72,9 +93,10 @@ export const DiscussionPostEdit = ({
       onSubmit={handleSubmit}
       onCancel={handleCancel}
       onChange={handleChange}
+      onDelete={handleDelete}
       value={value}
-      status={status}
-      error={error}
+      status={editStatus}
+      error={editError}
       defaultError={DEFAULT_ERROR}
       action="edit"
     />

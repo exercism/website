@@ -11,7 +11,7 @@ class Submission::Representation < ApplicationRecord
   has_one :solution, through: :submission
   has_one :exercise, through: :solution
 
-  # TOOD: We're going to need some indexes here!
+  # TODO: We're going to need some indexes here!
   has_one :exercise_representation,
     ->(sr) { where("exercise_representations.exercise_id": sr.solution.exercise_id) },
     foreign_key: :ast_digest,

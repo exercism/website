@@ -9,7 +9,7 @@ class Exercise::Representation < ApplicationRecord
 
   enum feedback_type: { essential: 0, actionable: 1, non_actionable: 2 }, _prefix: :feedback
 
-  # TOOD: We're going to need some indexes here!
+  # TODO: We're going to need some indexes here!
   has_many :submission_representations,
     ->(er) { joins(:solution).where("solutions.exercise_id": er.exercise_id) },
     class_name: "Submission::Representation",
@@ -17,7 +17,7 @@ class Exercise::Representation < ApplicationRecord
     primary_key: :ast_digest,
     inverse_of: :exercise_representation
 
-  # TOOD: We're going to need some indexes here!
+  # TODO: We're going to need some indexes here!
   scope :order_by_frequency, lambda {
     joins("
       LEFT JOIN submission_representations

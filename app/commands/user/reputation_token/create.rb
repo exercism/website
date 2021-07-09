@@ -6,6 +6,8 @@ class User
       initialize_with :user, :type, :params
 
       def call
+        return if user.system? || user.ghost?
+
         klass = "user/reputation_tokens/#{type}_token".camelize.constantize
 
         klass.new(

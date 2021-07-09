@@ -17,6 +17,34 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     end
   end
 
+  test "does not create reputation token for system user" do
+    user = create :user, :system
+    contributorship = create :exercise_contributorship, contributor: user
+
+    User::ReputationToken::Create.(
+      user,
+      :exercise_contribution, {
+        contributorship: contributorship
+      }
+    )
+
+    refute User::ReputationToken.exists?
+  end
+
+  test "does not create reputation token for ghost user" do
+    user = create :user, :ghost
+    contributorship = create :exercise_contributorship, contributor: user
+
+    User::ReputationToken::Create.(
+      user,
+      :exercise_contribution, {
+        contributorship: contributorship
+      }
+    )
+
+    refute User::ReputationToken.exists?
+  end
+
   test "idempotent" do
     user = create :user, handle: "User22", github_username: "user22"
     contributorship = create :exercise_contributorship, contributor: user

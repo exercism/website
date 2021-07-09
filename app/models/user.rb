@@ -167,6 +167,14 @@ class User < ApplicationRecord
     became_mentor_at.present?
   end
 
+  def system?
+    id == SYSTEM_USER_ID
+  end
+
+  def ghost?
+    id == GHOST_USER_ID
+  end
+
   # TODO: Remove if not used by launch
   # def favorited_by?(mentor)
   #   relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)

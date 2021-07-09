@@ -29,10 +29,12 @@ FactoryBot.define do
 
     trait :system do
       id { User::SYSTEM_USER_ID }
+      github_username { 'exercism-bot' }
     end
 
     trait :ghost do
       id { User::GHOST_USER_ID }
+      github_username { 'exercism-ghost' }
     end
   end
 end

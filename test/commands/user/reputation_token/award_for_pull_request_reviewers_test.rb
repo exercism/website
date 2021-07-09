@@ -202,6 +202,64 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     assert_equal 2, User::ReputationTokens::CodeReviewToken.find_each.size
   end
 
+  test "skip over reviews with reviewer username is exercism-bot" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = false
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    system_user = create :user, :system
+    create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "exercism-bot"
+    create :github_organization_member, username: "reviewer13"
+    reviews = [
+      { reviewer_username: "exercism-bot" },
+      { reviewer_username: "reviewer71" }
+    ]
+
+    User::ReputationToken::AwardForPullRequestReviewers.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+    )
+
+    assert_empty User::ReputationTokens::CodeReviewToken.where(user: system_user)
+  end
+
+  test "skip over reviews with reviewer username is exercism-ghost" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = false
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+    ghost_user = create :user, :ghost
+    create :user, handle: "Reviewer-13", github_username: "reviewer13"
+    create :github_organization_member, username: "exercism-ghost"
+    create :github_organization_member, username: "reviewer13"
+    reviews = [
+      { reviewer_username: "exercism-ghost" },
+      { reviewer_username: "reviewer71" }
+    ]
+
+    User::ReputationToken::AwardForPullRequestReviewers.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+    )
+
+    assert_empty User::ReputationTokens::CodeReviewToken.where(user: ghost_user)
+  end
+
   test "pull request reviewers are only awarded reputation if they are organization members" do
     action = 'closed'
     author = 'user22'

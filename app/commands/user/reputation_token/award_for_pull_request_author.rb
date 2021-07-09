@@ -28,7 +28,7 @@ class User
           external_url: params[:html_url],
           merged_at: params[:merged_at]
         )
-        token.update!(level: reputation_level)
+        token&.update!(level: reputation_level)
       end
 
       private

@@ -57,6 +57,56 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user: user).size
   end
 
+  test "reputation not awarded to pull request merger if merger is exercism-bot" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    merged_by = "exercism-bot"
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+
+    create :user, :system
+
+    User::ReputationToken::AwardForPullRequestMerger.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+    )
+
+    refute User::ReputationTokens::CodeMergeToken.exists?
+  end
+
+  test "reputation not awarded to pull request merger if merger is exercism-ghost" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    merged_by = "exercism-ghost"
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = []
+
+    create :user, :ghost
+
+    User::ReputationToken::AwardForPullRequestMerger.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title,
+      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+    )
+
+    refute User::ReputationTokens::CodeMergeToken.exists?
+  end
+
   test "reputation not awarded to pull request merger if merger is not known" do
     action = 'closed'
     author = 'user22'

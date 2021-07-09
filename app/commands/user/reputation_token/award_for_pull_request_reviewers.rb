@@ -35,7 +35,7 @@ class User
             merged_at: params[:merged_at],
             closed_at: params[:closed_at]
           )
-          token.update!(level: reputation_level)
+          token&.update!(level: reputation_level)
         end
 
         # TODO: consider what to do with missing reviewers

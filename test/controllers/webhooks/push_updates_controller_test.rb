@@ -4,7 +4,8 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should return 403 when signature is invalid" do
     payload = {
       ref: 'refs/heads/main',
-      repository: { name: 'csharp' },
+      repository: { name: 'csharp', owner: { login: 'exercism' } },
+      pusher: { name: 'user17' },
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
 
@@ -18,7 +19,8 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should return 200 when signature is valid" do
     payload = {
       ref: 'refs/heads/main',
-      repository: { name: 'csharp' },
+      repository: { name: 'csharp', owner: { login: 'exercism' } },
+      pusher: { name: 'user17' },
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
 
@@ -29,11 +31,12 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should process repo update when signature is valid" do
     payload = {
       ref: 'refs/heads/main',
-      repository: { name: 'csharp' },
+      repository: { name: 'csharp', owner: { login: 'exercism' } },
+      pusher: { name: 'user17' },
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
     Webhooks::ProcessPushUpdate.expects(:call).with(
-      'refs/heads/main', 'csharp', [
+      'refs/heads/main', 'exercism', 'csharp', 'user17', [
         ActionController::Parameters.new(added: [], removed: [], modified: ['README.md'])
       ]
     )
@@ -44,7 +47,8 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should return 204 when ping event is sent" do
     payload = {
       ref: 'refs/heads/main',
-      repository: { name: 'csharp' },
+      repository: { name: 'csharp', owner: { login: 'exercism' } },
+      pusher: { name: 'user17' },
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
 

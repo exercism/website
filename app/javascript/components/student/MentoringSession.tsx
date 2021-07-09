@@ -7,6 +7,8 @@ import { SessionInfo } from './mentoring-session/SessionInfo'
 import { DiscussionInfo } from './mentoring-session/DiscussionInfo'
 import { DiscussionActions } from './mentoring-session/DiscussionActions'
 
+import { useDiscussionIterations } from '../mentoring/discussion/use-discussion-iterations'
+
 import {
   Iteration,
   MentorDiscussion,
@@ -44,7 +46,7 @@ export const MentoringSession = ({
   userHandle,
   discussion,
   mentor,
-  iterations,
+  iterations: initialIterations,
   exercise,
   trackObjectives,
   videos,
@@ -68,6 +70,12 @@ export const MentoringSession = ({
   const handleCreateMentorRequest = useCallback((mentorRequest) => {
     setMentorRequest(mentorRequest)
   }, [])
+
+  const { iterations, status } = useDiscussionIterations({
+    discussion: discussion,
+    iterations: initialIterations,
+  })
+
   const [settings, setSettings] = useState({ scroll: false, click: false })
   const {
     currentIteration,
@@ -112,6 +120,7 @@ export const MentoringSession = ({
             iterations={iterations}
             onIterationScroll={handleIterationScroll}
             links={{ exercise: exercise.links.self }}
+            status={status}
           />
         ) : (
           <MentoringRequest

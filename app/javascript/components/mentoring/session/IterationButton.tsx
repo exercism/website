@@ -1,6 +1,26 @@
 import React from 'react'
 import { Iteration } from '../../types'
 
+class IterationWithCount {
+  iteration: Iteration
+
+  constructor(iteration: Iteration) {
+    this.iteration = iteration
+  }
+
+  get numComments(): number {
+    if (!this.iteration.posts) {
+      return 0
+    }
+
+    return this.iteration.posts.length
+  }
+
+  get unread() {
+    return this.iteration.unread
+  }
+}
+
 const formatCommentCount = (count: number) => {
   return count > 9 ? '9+' : count
 }
@@ -8,7 +28,7 @@ const formatCommentCount = (count: number) => {
 const CommentsCount = ({
   iteration,
 }: {
-  iteration: Iteration
+  iteration: IterationWithCount
 }): JSX.Element => {
   const classNames = ['comments']
 
@@ -34,13 +54,14 @@ export const IterationButton = ({
 }): JSX.Element => {
   const classNames = ['iteration']
   const label = [`Go to iteration ${iteration.idx}`]
+  const iterationWithCount = new IterationWithCount(iteration)
 
   if (selected) {
     classNames.push('active')
   }
 
-  if (iteration.numComments > 0) {
-    label.push(`${formatCommentCount(iteration.numComments)} comments`)
+  if (iterationWithCount.numComments > 0) {
+    label.push(`${formatCommentCount(iterationWithCount.numComments)} comments`)
   }
 
   return (
@@ -53,8 +74,8 @@ export const IterationButton = ({
       onClick={onClick}
     >
       {iteration.idx}
-      {iteration.numComments > 0 ? (
-        <CommentsCount iteration={iteration} />
+      {iterationWithCount.numComments > 0 ? (
+        <CommentsCount iteration={iterationWithCount} />
       ) : null}
     </button>
   )

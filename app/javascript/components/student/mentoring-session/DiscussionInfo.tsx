@@ -8,6 +8,7 @@ import { MentorDiscussion, Iteration } from '../../types'
 import { Mentor } from '../MentoringSession'
 import { GraphicalIcon } from '../../common'
 import { FinishButton } from './FinishButton'
+import { QueryStatus } from 'react-query'
 
 type Links = {
   exercise: string
@@ -20,6 +21,7 @@ export const DiscussionInfo = ({
   iterations,
   onIterationScroll,
   links,
+  status,
 }: {
   discussion: MentorDiscussion
   mentor: Mentor
@@ -27,19 +29,20 @@ export const DiscussionInfo = ({
   iterations: readonly Iteration[]
   onIterationScroll: (iteration: Iteration) => void
   links: Links
+  status: QueryStatus
 }): JSX.Element => {
   return (
-    <PostsWrapper discussionUuid={discussion.uuid}>
+    <PostsWrapper discussion={discussion}>
       <div id="panel-discussion">
         <MentorInfo mentor={mentor} />
         <div className="discussion">
           <DiscussionPostList
-            endpoint={discussion.links.posts}
             iterations={iterations}
             userIsStudent={true}
             discussionUuid={discussion.uuid}
             userHandle={userHandle}
             onIterationScroll={onIterationScroll}
+            status={status}
           />
           {discussion.status === 'mentor_finished' ? (
             <div className="student-review timeline-entry">

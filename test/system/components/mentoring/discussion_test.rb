@@ -117,8 +117,10 @@ module Components
         request = create :mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
                                           updated_at: 2.days.ago
         discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
-        create :iteration, idx: 2, solution: solution, created_at: 1.week.ago
-        iteration = create :iteration, idx: 1, solution: solution, created_at: 1.week.ago
+        submission = create :submission, solution: solution
+        create :iteration, idx: 2, solution: solution, created_at: 1.week.ago, submission: submission
+        submission = create :submission, solution: solution
+        iteration = create :iteration, idx: 1, solution: solution, created_at: 1.week.ago, submission: submission
         create(:mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,
@@ -138,7 +140,7 @@ module Components
         assert_text "student"
         assert_text "2d ago"
         assert_css "img[src='#{mentor.avatar_url}']"
-        assert_css ".comments.unread", text: "1"
+        assert_css ".comments.unread", text: "2"
         assert_text "author"
         assert_text "Hello, student"
       end
@@ -147,8 +149,12 @@ module Components
         mentor = create :user
         solution = create :concept_solution
         discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, tests_status: "failed"
-        iteration = create :iteration, idx: 1, solution: solution, created_at: Time.current - 2.days, submission: submission
+        submission = create :submission, tests_status: "failed", solution: solution
+        iteration = create :iteration,
+          idx: 1,
+          solution: solution,
+          created_at: Time.current - 2.days,
+          submission: submission
 
         use_capybara_host do
           sign_in!(mentor)

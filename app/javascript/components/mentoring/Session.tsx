@@ -11,6 +11,7 @@ import { IterationView } from './session/IterationView'
 import { DiscussionDetails } from './discussion/DiscussionDetails'
 import { DiscussionActions } from './discussion/DiscussionActions'
 import { AddDiscussionPostPanel } from './discussion/AddDiscussionPostPanel'
+import { useDiscussionIterations } from './discussion/use-discussion-iterations'
 
 import { RequestDetails } from './request/RequestDetails'
 import { MentoringRequestPanel } from './request/MentoringRequestPanel'
@@ -76,7 +77,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     track,
     exercise,
     links,
-    iterations,
+    iterations: initialIterations,
     discussion,
     notes,
     mentorSolution,
@@ -93,6 +94,11 @@ export const Session = (props: SessionProps): JSX.Element => {
     },
     [session]
   )
+
+  const { iterations, status } = useDiscussionIterations({
+    discussion: discussion,
+    iterations: initialIterations,
+  })
 
   const [settings, setSettings] = useState({ scroll: false, click: false })
   const {
@@ -130,13 +136,13 @@ export const Session = (props: SessionProps): JSX.Element => {
           setSettings={setSettings}
         />
       </div>
-      <TabsContext.Provider
-        value={{
-          current: tab,
-          switchToTab: (id: string) => setTab(id as TabIndex),
-        }}
-      >
-        <PostsWrapper discussionUuid={session.discussion?.uuid}>
+      <PostsWrapper discussion={session.discussion}>
+        <TabsContext.Provider
+          value={{
+            current: tab,
+            switchToTab: (id: string) => setTab(id as TabIndex),
+          }}
+        >
           <div className="rhs">
             <div className="tabs" role="tablist">
               <Tab id="discussion" context={TabsContext}>
@@ -156,6 +162,7 @@ export const Session = (props: SessionProps): JSX.Element => {
               <StudentInfo student={student} setStudent={setStudent} />
               {discussion ? (
                 <DiscussionDetails
+                  status={status}
                   discussion={discussion}
                   iterations={iterations}
                   student={student}
@@ -195,8 +202,8 @@ export const Session = (props: SessionProps): JSX.Element => {
               />
             )}
           </div>
-        </PostsWrapper>
-      </TabsContext.Provider>
+        </TabsContext.Provider>
+      </PostsWrapper>
     </div>
   )
 }

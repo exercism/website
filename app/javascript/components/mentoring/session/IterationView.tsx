@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Iteration } from '../../types'
 import { IterationsList } from './IterationsList'
 import { FilePanel } from './FilePanel'
@@ -45,7 +45,9 @@ export const IterationView = ({
     <React.Fragment>
       <IterationHeader
         iteration={currentIteration}
-        isLatest={iterations[iterations.length - 1] === currentIteration}
+        isLatest={
+          iterations[iterations.length - 1].uuid === currentIteration.uuid
+        }
         isOutOfDate={isOutOfDate}
       />
       <ResultsZone isFetching={isFetching}>

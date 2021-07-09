@@ -1,4 +1,5 @@
 import React, { createContext, useRef, useState } from 'react'
+import { MentorDiscussion } from '../../types'
 
 type PostsContextType = {
   cacheKey: string
@@ -15,20 +16,21 @@ export const PostsContext = createContext<PostsContextType>({
 })
 
 export const PostsWrapper = ({
-  discussionUuid,
+  discussion,
   children,
-}: React.PropsWithChildren<{ discussionUuid?: string }>): JSX.Element => {
+}: React.PropsWithChildren<{ discussion?: MentorDiscussion }>): JSX.Element => {
+  const cacheKey = `posts-discussion-${discussion?.uuid}`
   const [hasNewMessages, setHasNewMessages] = useState(false)
   const highlightedPostRef = useRef<HTMLDivElement | null>(null)
 
-  if (!discussionUuid) {
+  if (!discussion) {
     return <React.Fragment>{children}</React.Fragment>
   }
 
   return (
     <PostsContext.Provider
       value={{
-        cacheKey: `posts-discussion-${discussionUuid}`,
+        cacheKey,
         hasNewMessages,
         setHasNewMessages,
         highlightedPostRef,

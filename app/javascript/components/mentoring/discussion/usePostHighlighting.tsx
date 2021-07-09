@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import { PostsContext } from './PostsContext'
 import { DiscussionPostProps } from './DiscussionPost'
 
 export const usePostHighlighting = (
-  posts: DiscussionPostProps[] | undefined,
+  posts: DiscussionPostProps[],
   userHandle: string
 ) => {
   const [
@@ -14,6 +14,22 @@ export const usePostHighlighting = (
   const observer = useRef<IntersectionObserver | null>()
 
   useEffect(() => {
+    if (posts.length === 0) {
+      return
+    }
+
+    const lastPost = posts[posts.length - 1]
+
+    setHighlightedPost(lastPost)
+
+    if (lastPost.authorHandle === userHandle) {
+      return
+    }
+
+    setHasNewMessages(true)
+  }, [posts, setHasNewMessages, setHighlightedPost, userHandle])
+
+  useEffect(() => {
     if (!highlightedPostRef.current || !highlightedPost) {
       return
     }
@@ -22,16 +38,6 @@ export const usePostHighlighting = (
       highlightedPostRef.current.scrollIntoView()
     }
   }, [highlightedPost, highlightedPostRef, userHandle])
-
-  useEffect(() => {
-    if (!posts || posts.length === 0) {
-      return
-    }
-
-    const lastPost = posts[posts.length - 1]
-
-    setHighlightedPost(lastPost)
-  }, [posts, setHasNewMessages])
 
   useEffect(() => {
     if (!highlightedPostRef.current) {
@@ -50,10 +56,7 @@ export const usePostHighlighting = (
     return () => {
       observer.current?.disconnect()
     }
-  }, [posts, highlightedPost, highlightedPostRef, setHasNewMessages])
+  }, [highlightedPost, highlightedPostRef, setHasNewMessages])
 
-  return {
-    highlightedPost,
-    highlightedPostRef,
-  }
+  return { highlightedPost, highlightedPostRef }
 }

@@ -2,7 +2,7 @@ module Webhooks
   class ProcessPushUpdate
     include Mandate
 
-    initialize_with :ref, :repo_name, :commits
+    initialize_with :ref, :repo_owner, :repo_name, :commits
 
     def call
       return unless pushed_to_main?
@@ -15,7 +15,7 @@ module Webhooks
       else
         track = Track.find_by(slug: repo_name)
         SyncTrackJob.perform_later(track) if track
-        Github::NotifyTrackSyncerAboutTrackChanges.(track) if org_wide_file_changed?(track)
+        Github::DispatchEventToOrgWideFilesRepo.(:appends_update, [repo]) if org_wide_file_changed?
       end
     end
 
@@ -24,9 +24,11 @@ module Webhooks
       ref == "refs/heads/#{Git::Repository::MAIN_BRANCH_REF}"
     end
 
-    def org_wide_file_changed?(track)
-      return false unless track
+    def repo
+      "#{repo_owner}/#{repo_name}"
+    end
 
+    def org_wide_file_changed?
       commits.to_a.any? do |commit|
         Set.new([*commit[:added], *commit[:removed], *commit[:modified]]).any? do |file|
           file.starts_with?('.appends/')

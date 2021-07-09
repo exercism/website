@@ -4,7 +4,7 @@
 module Webhooks
   class PushUpdatesController < BaseController
     def create
-      ::Webhooks::ProcessPushUpdate.(params[:ref], params[:repository][:name], params[:commits])
+      ::Webhooks::ProcessPushUpdate.(params[:ref], params[:repository][:owner][:login], params[:repository][:name], params[:commits])
 
       head :no_content
     end

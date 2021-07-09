@@ -5,19 +5,19 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
     create :track, slug: 'ruby'
 
     assert_enqueued_jobs 1, only: SyncTrackJob do
-      Webhooks::ProcessPushUpdate.('refs/heads/main', 'ruby', [])
+      Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', [])
     end
   end
 
   test "should enqueue sync push job when pushing website-copy" do
     assert_enqueued_jobs 1, only: UpdateWebsiteCopyJob do
-      Webhooks::ProcessPushUpdate.('refs/heads/main', 'website-copy', [])
+      Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'website-copy', [])
     end
   end
 
   test "should enqueue sync push job when pushing docs" do
     assert_enqueued_jobs 1, only: SyncDocsJob do
-      Webhooks::ProcessPushUpdate.('refs/heads/main', 'docs', [])
+      Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'docs', [])
     end
   end
 
@@ -25,7 +25,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
     create :track, slug: :ruby
 
     assert_enqueued_jobs 0, only: SyncTrackJob do
-      Webhooks::ProcessPushUpdate.('refs/heads/develop', 'ruby', [])
+      Webhooks::ProcessPushUpdate.('refs/heads/develop', 'exercism', 'ruby', [])
     end
   end
 
@@ -33,53 +33,39 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
     create :track, slug: :ruby
 
     assert_enqueued_jobs 0, only: SyncTrackJob do
-      Webhooks::ProcessPushUpdate.('refs/heads/main', 'problem-specs', [])
+      Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'problem-specs', [])
     end
   end
 
-  test "should notify track syncer when commit contains added file in .appends directory" do
-    track = create :track, slug: 'ruby'
+  test "should dispatch org-wide-files event when commit contains added file in .appends directory" do
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:appends_update, ['exercism/ruby'])
 
-    Github::NotifyTrackSyncerAboutTrackChanges.expects(:call).with(track)
-
-    Webhooks::ProcessPushUpdate.('refs/heads/main', 'ruby', [
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', [
                                    { added: ['.appends/labels.yml'], removed: [], modified: [] }
                                  ])
   end
 
-  test "should notify track syncer when commit contains removed file from .appends directory" do
-    track = create :track, slug: 'ruby'
+  test "should dispatch org-wide-files event when commit contains removed file from .appends directory" do
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:appends_update, ['exercism/website'])
 
-    Github::NotifyTrackSyncerAboutTrackChanges.expects(:call).with(track)
-
-    Webhooks::ProcessPushUpdate.('refs/heads/main', 'ruby', [
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'website', [
                                    { added: [], removed: ['.appends/issues.json'], modified: [] }
                                  ])
   end
 
-  test "should notify track syncer when commit contains modified file in .appends directory" do
-    track = create :track, slug: 'ruby'
+  test "should dispatch org-wide-files event when commit contains modified file in .appends directory" do
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:appends_update, ['exercism/configlet'])
 
-    Github::NotifyTrackSyncerAboutTrackChanges.expects(:call).with(track)
-
-    Webhooks::ProcessPushUpdate.('refs/heads/main', 'ruby', [
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'configlet', [
                                    { added: [], removed: [], modified: ['.appends/LICENSE.md'] }
                                  ])
   end
 
-  test "should not notify track syncer when commit does not contain modified file in .appends directory" do
-    create :track, slug: :ruby
+  test "should not dispatch org-wide-files event when commit does not contain modified file in .appends directory" do
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).never
 
-    Github::NotifyTrackSyncerAboutTrackChanges.expects(:call).never
-
-    Webhooks::ProcessPushUpdate.('refs/heads/main', 'ruby', [
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', [
                                    { added: ['README.md'], removed: ['GENERATORS.md'], modified: ['CONTRIBUTING.md'] }
                                  ])
-  end
-
-  test "should not notify track syncer when pushing to non-track repo" do
-    Github::NotifyTrackSyncerAboutTrackChanges.expects(:call).never
-
-    Webhooks::ProcessPushUpdate.('refs/heads/main', 'problem-specs', [])
   end
 end

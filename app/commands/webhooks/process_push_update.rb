@@ -15,7 +15,7 @@ module Webhooks
       else
         track = Track.find_by(slug: repo_name)
         SyncTrackJob.perform_later(track) if track
-        Github::DispatchEventToOrgWideFilesRepo.(:appends_update, [repo], pusher_username) if org_wide_file_changed?
+        Github::DispatchEventToOrgWideFilesRepo.(:appends_update, [repo], pusher_username) if appends_file_changed?
       end
     end
 
@@ -28,7 +28,7 @@ module Webhooks
       "#{repo_owner}/#{repo_name}"
     end
 
-    def org_wide_file_changed?
+    def appends_file_changed?
       commits.to_a.any? do |commit|
         Set.new([*commit[:added], *commit[:removed], *commit[:modified]]).any? do |file|
           file.starts_with?('.appends/')

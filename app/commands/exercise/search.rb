@@ -18,10 +18,10 @@ class Exercise
 
     def filter_status!
       if !user_track || user_track.external?
-        @exercises = @exercises.where.not(status: %i[deprecated wip])
+        @exercises = @exercises.where(status: %i[active beta])
       else
-        @exercises = @exercises.where.not(status: %i[deprecated wip]).
-          or(@exercises.where(id: user_track.solutions.pluck(:exercise_id)))
+        @exercises = @exercises.where(status: %i[active beta]).
+          or(@exercises.where(id: user_track.solutions.select(:exercise_id)))
       end
     end
 

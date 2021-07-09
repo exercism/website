@@ -2,7 +2,7 @@ module Github
   class DispatchEventToOrgWideFilesRepo
     include Mandate
 
-    initialize_with :event_type, :repos
+    initialize_with :event_type, :repos, :pusher_github_username
 
     def call
       raise "Unsupported event type" unless EVENT_TYPES.include?(event_type)
@@ -14,7 +14,10 @@ module Github
     def body
       {
         event_type: event_type.to_s,
-        client_payload: { repos: repos }
+        client_payload: {
+          repos: repos,
+          pusher: pusher_github_username
+        }
       }.to_json
     end
 

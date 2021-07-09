@@ -5,6 +5,7 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       ref: 'refs/heads/main',
       repository: { name: 'csharp', owner: { login: 'exercism' } },
+      pusher: { name: 'user17' },
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
 
@@ -19,6 +20,7 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       ref: 'refs/heads/main',
       repository: { name: 'csharp', owner: { login: 'exercism' } },
+      pusher: { name: 'user17' },
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
 
@@ -30,10 +32,11 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       ref: 'refs/heads/main',
       repository: { name: 'csharp', owner: { login: 'exercism' } },
+      pusher: { name: 'user17' },
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
     Webhooks::ProcessPushUpdate.expects(:call).with(
-      'refs/heads/main', 'exercism', 'csharp', [
+      'refs/heads/main', 'exercism', 'csharp', 'user17', [
         ActionController::Parameters.new(added: [], removed: [], modified: ['README.md'])
       ]
     )
@@ -45,6 +48,7 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       ref: 'refs/heads/main',
       repository: { name: 'csharp', owner: { login: 'exercism' } },
+      pusher: { name: 'user17' },
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
 

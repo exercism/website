@@ -10,9 +10,19 @@ class Exercise
 
     def call
       @exercises = track.exercises
+      filter_status!
       filter_criteria!
       sort!
       @exercises
+    end
+
+    def filter_status!
+      if !user_track || user_track.external?
+        @exercises = @exercises.where.not(status: %i[deprecated wip])
+      else
+        @exercises = @exercises.where.not(status: %i[deprecated wip]).
+          or(@exercises.where(id: user_track.solutions.pluck(:exercise_id)))
+      end
     end
 
     def filter_criteria!

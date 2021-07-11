@@ -6,6 +6,7 @@ export const usePostHighlighting = (
   posts: DiscussionPostProps[],
   userHandle: string
 ) => {
+  const prevLastPost = useRef<DiscussionPostProps | null>(null)
   const [
     highlightedPost,
     setHighlightedPost,
@@ -14,20 +15,31 @@ export const usePostHighlighting = (
   const observer = useRef<IntersectionObserver | null>()
 
   useEffect(() => {
+    if (!highlightedPost || highlightedPost.authorHandle === userHandle) {
+      return
+    }
+
+    setHasNewMessages(true)
+  }, [highlightedPost, setHasNewMessages, userHandle])
+
+  useEffect(() => {
     if (posts.length === 0) {
       return
     }
 
     const lastPost = posts[posts.length - 1]
 
-    setHighlightedPost(lastPost)
-
-    if (lastPost.authorHandle === userHandle) {
+    if (prevLastPost.current === lastPost) {
       return
     }
 
-    setHasNewMessages(true)
-  }, [posts, setHasNewMessages, setHighlightedPost, userHandle])
+    if (prevLastPost.current === null) {
+      prevLastPost.current = lastPost
+      return
+    }
+
+    setHighlightedPost(lastPost)
+  }, [JSON.stringify(posts)])
 
   useEffect(() => {
     if (!highlightedPostRef.current || !highlightedPost) {

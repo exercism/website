@@ -17,6 +17,7 @@ import {
   MentorSessionExercise as Exercise,
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
+import { SplitPane } from '../common'
 
 export type Links = {
   exercise: string
@@ -88,53 +89,60 @@ export const MentoringSession = ({
   })
 
   return (
-    <div className="c-mentor-discussion">
-      <div className="lhs">
-        <header className="discussion-header">
-          <CloseButton url={links.exercise} />
-          <SessionInfo track={track} exercise={exercise} mentor={mentor} />
-          {discussion ? (
-            <DiscussionActions
-              discussion={discussion}
-              links={{ exercise: exercise.links.self }}
-            />
-          ) : null}
-        </header>
-        <IterationView
-          iterations={iterations}
-          currentIteration={currentIteration}
-          onClick={handleIterationClick}
-          language={track.highlightjsLanguage}
-          indentSize={track.indentSize}
-          isOutOfDate={false} /* TODO: Set this correctly */
-          settings={settings}
-          setSettings={setSettings}
-        />
-      </div>
-      <div className="rhs">
-        {discussion && mentor ? (
-          <DiscussionInfo
-            discussion={discussion}
-            mentor={mentor}
-            userHandle={userHandle}
+    <SplitPane
+      id="mentoring-session"
+      className="c-mentor-discussion"
+      defaultLeftWidth="50%"
+      left={
+        <div className="lhs">
+          <header className="discussion-header">
+            <CloseButton url={links.exercise} />
+            <SessionInfo track={track} exercise={exercise} mentor={mentor} />
+            {discussion ? (
+              <DiscussionActions
+                discussion={discussion}
+                links={{ exercise: exercise.links.self }}
+              />
+            ) : null}
+          </header>
+          <IterationView
             iterations={iterations}
-            onIterationScroll={handleIterationScroll}
-            links={{ exercise: exercise.links.self }}
-            status={status}
+            currentIteration={currentIteration}
+            onClick={handleIterationClick}
+            language={track.highlightjsLanguage}
+            indentSize={track.indentSize}
+            isOutOfDate={false} /* TODO: Set this correctly */
+            settings={settings}
+            setSettings={setSettings}
           />
-        ) : (
-          <MentoringRequest
-            trackObjectives={trackObjectives}
-            track={track}
-            exercise={exercise}
-            request={mentorRequest}
-            latestIteration={iterations[iterations.length - 1]}
-            videos={videos}
-            links={links}
-            onCreate={handleCreateMentorRequest}
-          />
-        )}
-      </div>
-    </div>
+        </div>
+      }
+      right={
+        <div className="rhs">
+          {discussion && mentor ? (
+            <DiscussionInfo
+              discussion={discussion}
+              mentor={mentor}
+              userHandle={userHandle}
+              iterations={iterations}
+              onIterationScroll={handleIterationScroll}
+              links={{ exercise: exercise.links.self }}
+              status={status}
+            />
+          ) : (
+            <MentoringRequest
+              trackObjectives={trackObjectives}
+              track={track}
+              exercise={exercise}
+              request={mentorRequest}
+              latestIteration={iterations[iterations.length - 1]}
+              videos={videos}
+              links={links}
+              onCreate={handleCreateMentorRequest}
+            />
+          )}
+        </div>
+      }
+    />
   )
 }

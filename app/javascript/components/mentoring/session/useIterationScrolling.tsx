@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react'
+import { useCallback, useState } from 'react'
 import { Iteration } from '../../types'
 
 export const iterationId = (iteration: Iteration): string => {

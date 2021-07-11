@@ -1,15 +1,32 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { useLocalStorage } from '../../utils/use-storage'
 
 export const SplitPane = ({
+  id,
   left,
   right,
+  className = '',
+  leftMinWidth = 100,
+  rightMinWidth = 100,
+  defaultLeftWidth,
 }: {
+  id: string
   left: React.ReactNode
   right: React.ReactNode
+  className?: string
+  leftMinWidth?: number
+  rightMinWidth?: number
+  defaultLeftWidth?: string | number
 }): JSX.Element => {
+  const [leftWidth, setLeftWidth] = useLocalStorage<
+    string | number | undefined
+  >(`split-pane-${id}`, defaultLeftWidth)
   const [dragging, setDragging] = useState(false)
   const leftRef = useRef<HTMLDivElement>(null)
   const splitPaneRef = useRef<HTMLDivElement>(null)
+  const classNames = ['c-split-pane', className]
+    .filter((className) => className.length > 0)
+    .join(' ')
 
   const resizeLeft = useCallback(
     (clientX: number) => {
@@ -25,7 +42,7 @@ export const SplitPane = ({
         return
       }
 
-      leftRef.current.style.width = `${clientX}px`
+      setLeftWidth(clientX)
     },
     [dragging]
   )
@@ -71,8 +88,12 @@ export const SplitPane = ({
   }, [onMouseMove, onTouchMove, onMouseUp])
 
   return (
-    <div className="c-split-pane" ref={splitPaneRef}>
-      <div className="--split-lhs" ref={leftRef}>
+    <div className={classNames} ref={splitPaneRef}>
+      <div
+        className="--split-lhs"
+        ref={leftRef}
+        style={{ width: leftWidth, minWidth: leftMinWidth }}
+      >
         {left}
       </div>
       <div
@@ -81,7 +102,9 @@ export const SplitPane = ({
         onTouchStart={onTouchStart}
         onTouchEnd={onMouseUp}
       />
-      <div className="--split-rhs">{right}</div>
+      <div className="--split-rhs" style={{ minWidth: rightMinWidth }}>
+        {right}
+      </div>
     </div>
   )
 }

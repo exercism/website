@@ -457,6 +457,7 @@ export function Editor({
         </div>
 
         <SplitPane
+          id="editor"
           left={
             <>
               <FileEditorCodeMirror

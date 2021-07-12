@@ -17,7 +17,9 @@ class AssembleExerciseList < Assembler
 
   memoize
   def solutions
-    user ? SerializeSolutions.(user.solutions.where(exercise_id: exercises), user) : []
+    return [] unless user
+
+    SerializeSolutions.(user.solutions.where(exercise_id: exercises), user)
   end
 
   memoize

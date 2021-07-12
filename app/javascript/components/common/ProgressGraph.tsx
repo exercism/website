@@ -2,10 +2,10 @@ import * as React from 'react'
 import { useRef } from 'react'
 
 import {
+  mapToSvgDimensions,
   minMaxNormalize,
-  drawSegmentPath,
-  drawSmoothPath,
-  DataPoint,
+  smoothDataPoints,
+  transformCatmullRomSplineToBezierCurve,
 } from './svg-graph-util'
 
 interface IProgressGraph {
@@ -19,7 +19,6 @@ export const ProgressGraph: React.FC<IProgressGraph> = ({
   data,
   height,
   width,
-  smooth = false,
 }) => {
   const randomIdRef = useRef<null | number>(null)
 
@@ -36,18 +35,11 @@ export const ProgressGraph: React.FC<IProgressGraph> = ({
   const aspectRatio = width / height
   const hInset = height * 0.1
   const vInset = Math.round(hInset / aspectRatio)
-  const vBuffer = height * 0.05 // due to smoothing, some curves can go outside the boundaries without this buffer
 
-  const step = width / (data.length - 1)
   const normalizedData = minMaxNormalize(data)
-  const dataPoints = normalizedData.map(
-    (n, i) =>
-      ({
-        x: i * step,
-        y: height - vBuffer - (height - vBuffer) * n, // SVG coordinates start from the upper left corner
-      } as DataPoint)
-  )
-  const path = smooth ? drawSmoothPath(dataPoints) : drawSegmentPath(dataPoints)
+  const dataPoints = mapToSvgDimensions(normalizedData, height, width)
+  const smoothedDataPoints = smoothDataPoints(dataPoints, height)
+  const path = transformCatmullRomSplineToBezierCurve(smoothedDataPoints)
 
   return (
     <svg
@@ -57,6 +49,15 @@ export const ProgressGraph: React.FC<IProgressGraph> = ({
       }`}
     >
       <defs>
+        <mask
+          id={`progress-graph-color-mask-${getRandomId()}`}
+          x="0"
+          y="0"
+          width={width}
+          height={height}
+        >
+          <path d={path} stroke="white" fill="transparent" />
+        </mask>
         <linearGradient
           id={`progress-graph-color-gradient-${getRandomId()}`}
           x1="0%"
@@ -76,10 +77,14 @@ export const ProgressGraph: React.FC<IProgressGraph> = ({
       </defs>
 
       <g>
-        <path
-          d={path}
-          stroke={`url(#progress-graph-color-gradient-${getRandomId()})`}
-          fill="transparent"
+        <rect
+          x={`-${hInset}`}
+          y={`-${vInset}`}
+          width={`${width + 2 * hInset}`}
+          height={`${height + 2 * vInset}`}
+          stroke="none"
+          fill={`url(#progress-graph-color-gradient-${getRandomId()})`}
+          mask={`url(#progress-graph-color-mask-${getRandomId()})`}
         />
       </g>
     </svg>

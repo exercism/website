@@ -694,7 +694,6 @@ initReact({
       data={data.values}
       height={data.height}
       width={data.width}
-      smooth
     />
   ),
   'settings-profile-form': (data: any) => (

@@ -143,6 +143,121 @@ class MentoringQueueTest < ReactComponentTestCase
       }
   end
 
+  test "mentoring queue renders requests for last seen track" do
+    user = create :user
+
+    ruby = create :track, slug: "ruby", title: "Ruby"
+    csharp = create :track, slug: "csharp", title: "C#"
+
+    create :user_track_mentorship, user: user, track: ruby
+    create :user_track_mentorship, user: user, track: csharp, last_viewed: true
+
+    # This shouldn't be included
+    strings = create :concept_exercise, track: ruby
+
+    # These are csharp and should be included
+    zipper = create :concept_exercise, track: csharp, slug: :zipper, title: "Zipper"
+    bob = create :practice_exercise, track: csharp, slug: :bob, title: "Bob"
+    fred = create :practice_exercise, track: csharp, slug: :fred, title: "Fred"
+
+    # Make some requests for each except fred
+    3.times { create :mentor_request, solution: create(:concept_solution, exercise: strings) }
+    2.times { create :mentor_request, solution: create(:concept_solution, exercise: zipper) }
+    4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
+
+    # Create mentor solutions to fred and zipper, with zipper completed
+    create :concept_solution, user: user, exercise: fred
+    create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
+
+    component = ReactComponents::Mentoring::Queue.new(user, {})
+
+    assert_component component,
+      "mentoring-queue",
+      {
+        queue_request: {
+          endpoint: Exercism::Routes.api_mentoring_requests_path,
+          query: { track_slug: "csharp" },
+          options: {
+            initial_data: AssembleMentorRequests.({ track_slug: "csharp" }, user),
+            stale_time: 0
+          }
+        },
+        tracks_request: {
+          endpoint: Exercism::Routes.mentored_api_mentoring_tracks_url,
+          options: {
+            initial_data: {
+              tracks: [
+                {
+                  slug: "csharp",
+                  title: "C#",
+                  icon_url: csharp.icon_url,
+                  num_solutions_queued: 6,
+                  avg_wait_time: "2 days",
+                  links: {
+                    exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
+                  }
+                },
+                {
+                  slug: "ruby",
+                  title: "Ruby",
+                  icon_url: ruby.icon_url,
+                  num_solutions_queued: 3,
+                  avg_wait_time: "2 days",
+                  links: {
+                    exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: ruby.slug)
+                  }
+                }
+              ]
+            },
+            stale_time: 0
+          }
+        },
+        default_track: {
+          slug: "csharp",
+          title: "C#",
+          icon_url: csharp.icon_url,
+          num_solutions_queued: 6,
+          avg_wait_time: "2 days",
+          links: {
+            exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
+          },
+          exercises: [
+            {
+              slug: "bob",
+              title: "Bob",
+              icon_url: bob.icon_url,
+              count: 4,
+              completed_by_mentor: false
+            },
+            {
+              slug: "fred",
+              title: "Fred",
+              icon_url: fred.icon_url,
+              count: 0,
+              completed_by_mentor: false
+            },
+            {
+              slug: "zipper",
+              title: "Zipper",
+              icon_url: zipper.icon_url,
+              count: 2,
+              completed_by_mentor: true
+            }
+          ]
+        },
+        default_exercise: nil,
+        sort_options: [
+
+          { value: "", label: "Sort by oldest first" },
+          { value: "recent", label: "Sort by recent first" }
+        ],
+        links: {
+          tracks: Exercism::Routes.api_mentoring_tracks_url,
+          update_tracks: Exercism::Routes.api_mentoring_tracks_url
+        }
+      }
+  end
+
   test "mentoring queue honours current track" do
     user = create :user
 

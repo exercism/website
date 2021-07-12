@@ -14,7 +14,8 @@ module LayoutHelper
     [
       'application',
       ('internal' if user_signed_in?),
-      ('editor' if render_editor_js_pack?)
+      ('editor' if render_editor_js_pack?),
+      ('test' if render_test_js_pack?)
     ].compact
   end
 
@@ -23,5 +24,9 @@ module LayoutHelper
     return true if namespace_name == "test" && controller_name == "editor" && action_name == "show"
 
     false
+  end
+
+  def render_test_js_pack?
+    namespace_name == "test"
   end
 end

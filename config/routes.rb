@@ -363,6 +363,9 @@ Rails.application.routes.draw do
 
   unless Rails.env.production?
     namespace :test do
+      namespace :misc do
+        resource :loading_overlay, only: [:show], controller: "loading_overlay"
+      end
       namespace :components do
         resource :editor, only: [:show], controller: "editor"
         namespace :student, param: :handle do

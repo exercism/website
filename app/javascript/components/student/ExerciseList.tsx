@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ExerciseWidget } from '../common'
-import { Track } from '../types'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { Exercise, SolutionForStudent } from '../types'
 import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 const DEFAULT_ERROR = new Error('Unable to load exercises')
 
@@ -40,12 +40,12 @@ class Result {
 class StatusFilter {
   values?: FilterValue[]
   title: string
-  edClass?: string
+  id?: string
 
-  constructor(title: string, values?: FilterValue[], edClass?: string) {
+  constructor(title: string, values?: FilterValue[], id?: string) {
     this.values = values
     this.title = title
-    this.edClass = edClass
+    this.id = id
   }
 
   apply(results: Result[] | undefined) {
@@ -76,7 +76,7 @@ const Tab = ({
 
   return (
     <button type="button" className={classNames.join(' ')} onClick={onClick}>
-      {filter.edClass ? <div className={`c-ed --${filter.edClass}`} /> : null}
+      {filter.id ? <div className={`c-ed --${filter.id}`} /> : null}
       {filter.title}
       <div className="count">{filter.apply(results).length}</div>
     </button>
@@ -92,16 +92,18 @@ const STATUS_FILTERS = [
 ]
 
 export const ExerciseList = ({
-  track,
   request: initialRequest,
+  defaultStatus,
 }: {
-  track: Track
   request: Request
+  defaultStatus?: string
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const { request, setCriteria } = useList(initialRequest)
+  const { request, setCriteria: setRequestCriteria } = useList(initialRequest)
+  const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const [statusFilter, setStatusFilter] = useState<StatusFilter>(
-    STATUS_FILTERS[0]
+    STATUS_FILTERS.find((filter) => filter.id === defaultStatus) ||
+      STATUS_FILTERS[0]
   )
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     { solutions: SolutionForStudent[]; exercises: Exercise[] },
@@ -116,6 +118,23 @@ export const ExerciseList = ({
     return new Result(exercise, solution)
   })
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
+  useHistory({
+    pushOn: removeEmpty({
+      criteria: request.query.criteria,
+      status: statusFilter.id,
+    }),
+  })
+
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
@@ -123,7 +142,7 @@ export const ExerciseList = ({
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={request.query.criteria || ''}
+          value={criteria || ''}
           type="text"
           className="--search"
           placeholder="Search by title"

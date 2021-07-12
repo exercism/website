@@ -41,6 +41,30 @@ module Components
         assert_no_text "Lasagna"
       end
 
+      test "applies url params to search" do
+        user = create :user
+        track = create :track
+        lasagna = create :concept_exercise, track: track, title: "Lasagna", slug: "lasagna"
+        create :concept_exercise, track: track, title: "Running", slug: "running"
+        create :user_track, track: track, user: user
+        solution = create :concept_solution, exercise: lasagna, user: user
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
+        strings = create :concept_exercise, track: track, title: "Strings", slug: "lasagna"
+        solution = create :concept_solution, exercise: strings, user: user
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercises_path(track, status: "in_progress", criteria: "La")
+        end
+
+        assert_text "Lasagna"
+        assert_no_text "Running"
+        assert_no_text "Strings"
+      end
+
       test "filters exercises by status" do
         user = create :user
         track = create :track

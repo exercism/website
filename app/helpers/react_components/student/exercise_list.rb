@@ -1,42 +1,28 @@
 module ReactComponents
   module Student
     class ExerciseList < ReactComponent
-      initialize_with :track, :user_track
+      initialize_with :track, :params
 
       def to_s
         super("student-exercise-list", {
-          track: SerializeTrack.(track, UserTrack.for(current_user, track)),
-          request: request
+          request: request,
+          status: params[:status]
         })
       end
 
       private
-      def data
-        if current_user
-          solutions = SerializeSolutions.(
-            current_user.solutions.where(exercise_id: track.exercises),
-            current_user
-          )
-        else
-          solutions = []
-        end
-
-        {
-          exercises: SerializeExercises.(
-            Exercise::Search.(track, user_track: user_track),
-            user_track: UserTrack.for(current_user, track)
-          ),
-          solutions: solutions
-        }
-      end
-
       def request
+        query = {
+          criteria: params[:criteria],
+          sideload: ["solutions"]
+        }.compact
+
         {
           endpoint: Exercism::Routes.api_track_exercises_path(track),
           options: {
-            initial_data: data
+            initial_data: AssembleExerciseList.(current_user, track, query)
           },
-          query: { sideload: [:solutions] }
+          query: query
         }
       end
     end

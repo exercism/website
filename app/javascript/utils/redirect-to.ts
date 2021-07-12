@@ -33,7 +33,7 @@ declare global {
 }
 
 export const redirectTo = (url: string): void => {
-  window.Turbolinks.visit(url, { action: 'replace' })
+  window.Turbolinks.visit(url)
 
   new LoadingOverlay().show()
 }

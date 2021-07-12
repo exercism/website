@@ -47,7 +47,7 @@ class MentoringQueueTest < ReactComponentTestCase
             exercise_slug: "bob"
           },
           options: {
-            initial_data: AssembleMentorRequests.(params, user),
+            initial_data: AssembleMentorRequests.(user, params),
             stale_time: 0
           }
         },
@@ -178,7 +178,7 @@ class MentoringQueueTest < ReactComponentTestCase
           endpoint: Exercism::Routes.api_mentoring_requests_path,
           query: { track_slug: "csharp" },
           options: {
-            initial_data: AssembleMentorRequests.({ track_slug: "csharp" }, user),
+            initial_data: AssembleMentorRequests.(user, { track_slug: "csharp" }),
             stale_time: 0
           }
         },

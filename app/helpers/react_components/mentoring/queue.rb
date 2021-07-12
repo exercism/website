@@ -64,13 +64,10 @@ module ReactComponents
       end
 
       def queue_request
-        query = {
-          order: params[:order],
-          criteria: params[:criteria],
-          page: params[:page],
+        query = params.merge(
           track_slug: default_track[:slug],
           exercise_slug: default_exercise.try(:[], :slug)
-        }.compact
+        ).compact
 
         {
           endpoint: Exercism::Routes.api_mentoring_requests_path,

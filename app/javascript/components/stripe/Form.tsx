@@ -1,9 +1,8 @@
 import React from 'react'
-
-import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 
 import { SubscriptionForm } from './SubscriptionForm'
+import { OneOffForm } from './OneOffForm'
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -15,6 +14,7 @@ export function Form({}: {}) {
   return (
     <Elements stripe={stripePromise}>
       <SubscriptionForm />
+      <OneOffForm />
     </Elements>
   )
 }

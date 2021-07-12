@@ -4,21 +4,25 @@ module ReactComponents
       initialize_with :track, :params
 
       def to_s
-        super("student-exercise-list", { request: request })
+        super("student-exercise-list", {
+          request: request,
+          status: params[:status]
+        })
       end
 
       private
       def request
+        query = {
+          criteria: params[:criteria],
+          sideload: ["solutions"]
+        }.compact
+
         {
           endpoint: Exercism::Routes.api_track_exercises_path(track),
           options: {
-            initial_data: AssembleExerciseList.(
-              current_user,
-              track,
-              params.merge(sideload: ["solutions"])
-            )
+            initial_data: AssembleExerciseList.(current_user, track, query)
           },
-          query: { sideload: ["solutions"] }
+          query: query
         }
       end
     end

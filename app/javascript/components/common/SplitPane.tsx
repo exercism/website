@@ -30,28 +30,36 @@ export const SplitPane = ({
     [dragging]
   )
 
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
+  const onMouseDown = useCallback(() => {
     setDragging(true)
   }, [])
 
-  const onTouchStart = useCallback((e: React.TouchEvent) => {
+  const onTouchStart = useCallback(() => {
     setDragging(true)
   }, [])
 
   const onMouseMove = useCallback(
     (e: MouseEvent) => {
+      if (!dragging) {
+        return
+      }
+
       e.preventDefault()
       resizeLeft(e.clientX)
     },
-    [resizeLeft]
+    [dragging, resizeLeft]
   )
 
   const onTouchMove = useCallback(
     (e: TouchEvent) => {
+      if (!dragging) {
+        return
+      }
+
       e.preventDefault()
       resizeLeft(e.touches[0].clientX)
     },
-    [resizeLeft]
+    [dragging, resizeLeft]
   )
 
   const onMouseUp = useCallback(() => {

@@ -8,9 +8,11 @@ type Links = {
 export const ResetAccountButton = ({
   handle,
   links,
+  ariaHideApp = true,
 }: {
   handle: string
   links: Links
+  ariaHideApp?: boolean
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
 
@@ -28,6 +30,7 @@ export const ResetAccountButton = ({
         onClose={() => setOpen(false)}
         handle={handle}
         endpoint={links.reset}
+        ariaHideApp={ariaHideApp}
       />
     </React.Fragment>
   )

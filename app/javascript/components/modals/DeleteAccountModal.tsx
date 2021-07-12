@@ -87,9 +87,14 @@ export const DeleteAccountModal = ({
         />
         <hr />
         <div className="btns">
-          <button className="btn-default btn-m" disabled>
+          <FormButton
+            status={status}
+            className="btn-default btn-m"
+            type="button"
+            onClick={props.onClose}
+          >
             Cancel
-          </button>
+          </FormButton>
 
           <FormButton
             type="submit"

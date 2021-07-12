@@ -47,7 +47,10 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :donations
+      namespace :donations do
+        resources :subscriptions, only: [:create]
+        resources :payments, only: [:create]
+      end
 
       resource :settings, only: [:update] do
         patch :sudo_update

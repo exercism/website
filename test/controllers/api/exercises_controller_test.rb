@@ -90,5 +90,19 @@ module API
       }.to_json
       assert_equal expected, response.body
     end
+
+    test "index should search when not logged in" do
+      track = create :track
+      exercise = create :concept_exercise, track: track, title: "Bob"
+
+      get api_track_exercises_path(track, sideload: [:solutions]), as: :json
+
+      assert_response :success
+      expected = {
+        exercises: SerializeExercises.([exercise]),
+        solutions: []
+      }.to_json
+      assert_equal expected, response.body
+    end
   end
 end

@@ -113,105 +113,112 @@ export const Session = (props: SessionProps): JSX.Element => {
   })
 
   return (
-    <SplitPane
-      id="mentoring-session"
-      className="c-mentor-discussion"
-      defaultLeftWidth="50%"
-      left={
-        <div className="lhs">
-          <header className="discussion-header">
-            <CloseButton url={links.mentorDashboard} />
-            <SessionInfo student={student} track={track} exercise={exercise} />
-            {discussion ? (
-              <DiscussionActions
-                {...discussion}
-                session={session}
-                setSession={setSession}
+    <div className="c-mentor-discussion">
+      <SplitPane
+        id="mentoring-session"
+        defaultLeftWidth="90%"
+        leftMinWidth={550}
+        rightMinWidth={625}
+        left={
+          <>
+            <header className="discussion-header">
+              <CloseButton url={links.mentorDashboard} />
+              <SessionInfo
+                student={student}
+                track={track}
+                exercise={exercise}
               />
-            ) : null}
-          </header>
-          <IterationView
-            iterations={iterations}
-            currentIteration={currentIteration}
-            onClick={handleIterationClick}
-            isOutOfDate={outOfDate}
-            language={track.highlightjsLanguage}
-            indentSize={track.indentSize}
-            settings={settings}
-            setSettings={setSettings}
-          />
-        </div>
-      }
-      right={
-        <PostsWrapper discussion={session.discussion}>
-          <TabsContext.Provider
-            value={{
-              current: tab,
-              switchToTab: (id: string) => setTab(id as TabIndex),
-            }}
-          >
-            <div className="rhs">
-              <div className="tabs" role="tablist">
-                <Tab id="discussion" context={TabsContext}>
-                  <GraphicalIcon icon="comment" />
-                  <Tab.Title text="Discussion" />
-                </Tab>
-                <Tab id="scratchpad" context={TabsContext}>
-                  <GraphicalIcon icon="scratchpad" />
-                  <Tab.Title text="Scratchpad" />
-                </Tab>
-                <Tab id="guidance" context={TabsContext}>
-                  <GraphicalIcon icon="guidance" />
-                  <Tab.Title text="Guidance" />
-                </Tab>
-              </div>
-              <Tab.Panel id="discussion" context={TabsContext}>
-                <StudentInfo student={student} setStudent={setStudent} />
-                {discussion ? (
-                  <DiscussionDetails
-                    status={status}
-                    discussion={discussion}
-                    iterations={iterations}
-                    student={student}
-                    userHandle={userHandle}
-                    onIterationScroll={handleIterationScroll}
-                  />
-                ) : (
-                  <RequestDetails
-                    iteration={iterations[iterations.length - 1]}
-                    request={request}
-                  />
-                )}
-              </Tab.Panel>
-              <Tab.Panel id="scratchpad" context={TabsContext}>
-                <Scratchpad
-                  scratchpad={scratchpad}
-                  track={track}
-                  exercise={exercise}
-                />
-              </Tab.Panel>
-              <Tab.Panel id="guidance" context={TabsContext}>
-                <Guidance
-                  notes={notes}
-                  mentorSolution={mentorSolution}
-                  track={track}
-                  exercise={exercise}
-                />
-              </Tab.Panel>
               {discussion ? (
-                <AddDiscussionPostPanel discussion={discussion} />
-              ) : (
-                <MentoringRequestPanel
-                  iterations={iterations}
-                  request={request}
+                <DiscussionActions
+                  {...discussion}
                   session={session}
                   setSession={setSession}
                 />
-              )}
-            </div>
-          </TabsContext.Provider>
-        </PostsWrapper>
-      }
-    />
+              ) : null}
+            </header>
+            <IterationView
+              iterations={iterations}
+              currentIteration={currentIteration}
+              onClick={handleIterationClick}
+              isOutOfDate={outOfDate}
+              language={track.highlightjsLanguage}
+              indentSize={track.indentSize}
+              settings={settings}
+              setSettings={setSettings}
+            />
+          </>
+        }
+        right={
+          <PostsWrapper discussion={session.discussion}>
+            <TabsContext.Provider
+              value={{
+                current: tab,
+                switchToTab: (id: string) => setTab(id as TabIndex),
+              }}
+            >
+              <>
+                <div className="tabs" role="tablist">
+                  <Tab id="discussion" context={TabsContext}>
+                    <GraphicalIcon icon="comment" />
+                    <Tab.Title text="Discussion" />
+                  </Tab>
+                  <Tab id="scratchpad" context={TabsContext}>
+                    <GraphicalIcon icon="scratchpad" />
+                    <Tab.Title text="Scratchpad" />
+                  </Tab>
+                  <Tab id="guidance" context={TabsContext}>
+                    <GraphicalIcon icon="guidance" />
+                    <Tab.Title text="Guidance" />
+                  </Tab>
+                </div>
+                <Tab.Panel id="discussion" context={TabsContext}>
+                  <StudentInfo student={student} setStudent={setStudent} />
+                  {discussion ? (
+                    <DiscussionDetails
+                      status={status}
+                      discussion={discussion}
+                      iterations={iterations}
+                      student={student}
+                      userHandle={userHandle}
+                      onIterationScroll={handleIterationScroll}
+                    />
+                  ) : (
+                    <RequestDetails
+                      iteration={iterations[iterations.length - 1]}
+                      request={request}
+                    />
+                  )}
+                </Tab.Panel>
+                <Tab.Panel id="scratchpad" context={TabsContext}>
+                  <Scratchpad
+                    scratchpad={scratchpad}
+                    track={track}
+                    exercise={exercise}
+                  />
+                </Tab.Panel>
+                <Tab.Panel id="guidance" context={TabsContext}>
+                  <Guidance
+                    notes={notes}
+                    mentorSolution={mentorSolution}
+                    track={track}
+                    exercise={exercise}
+                  />
+                </Tab.Panel>
+                {discussion ? (
+                  <AddDiscussionPostPanel discussion={discussion} />
+                ) : (
+                  <MentoringRequestPanel
+                    iterations={iterations}
+                    request={request}
+                    session={session}
+                    setSession={setSession}
+                  />
+                )}
+              </>
+            </TabsContext.Provider>
+          </PostsWrapper>
+        }
+      />
+    </div>
   )
 }

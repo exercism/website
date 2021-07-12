@@ -92,10 +92,8 @@ const STATUS_FILTERS = [
 ]
 
 export const ExerciseList = ({
-  track,
   request: initialRequest,
 }: {
-  track: Track
   request: Request
 }): JSX.Element => {
   const isMountedRef = useIsMounted()

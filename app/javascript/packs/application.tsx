@@ -342,10 +342,7 @@ initReact({
     <Student.TracksList request={data.request} tagOptions={data.tag_options} />
   ),
   'student-exercise-list': (data: any) => (
-    <Student.ExerciseList
-      request={camelizeKeysAs<Request>(data.request)}
-      track={camelizeKeysAs<Track>(data.track)}
-    />
+    <Student.ExerciseList request={camelizeKeysAs<Request>(data.request)} />
   ),
   'student-exercise-status-chart': (data: any) => (
     <Student.ExerciseStatusChart

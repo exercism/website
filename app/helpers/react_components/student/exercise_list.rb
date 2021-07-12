@@ -4,10 +4,7 @@ module ReactComponents
       initialize_with :track, :user_track
 
       def to_s
-        super("student-exercise-list", {
-          track: SerializeTrack.(track, UserTrack.for(current_user, track)),
-          request: request
-        })
+        super("student-exercise-list", { request: request })
       end
 
       private

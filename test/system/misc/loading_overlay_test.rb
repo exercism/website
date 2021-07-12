@@ -13,9 +13,9 @@ module Misc
         visit test_misc_loading_overlay_path
         click_on "Redirect"
 
-        assert_css ".loading-overlay.--loading"
+        assert_css ".c-loading-overlay.--loading"
         assert_text "Welcome to Exercism's docs"
-        assert_no_css ".loading-overlay.--loading"
+        assert_no_css ".c-loading-overlay.--loading"
       end
     end
   end

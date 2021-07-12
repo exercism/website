@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Iteration } from '../../types'
 import { IterationSummaryWithWebsockets } from '../../track/IterationSummary'
 

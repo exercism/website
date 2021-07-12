@@ -12,7 +12,7 @@ const NavigationButtons = ({
   current: Iteration
   onClick: (iteration: Iteration) => void
 }) => {
-  const currentIndex = iterations.indexOf(current)
+  const currentIndex = iterations.findIndex((i) => i.idx === current.idx)
 
   return (
     <React.Fragment>
@@ -20,7 +20,7 @@ const NavigationButtons = ({
         type="button"
         aria-label="Go to previous iteration"
         onClick={() => onClick(iterations[currentIndex - 1])}
-        disabled={iterations[0] === current}
+        disabled={iterations[0].idx === current.idx}
         className="btn-keyboard-shortcut previous"
       >
         <div className="--kb">
@@ -32,7 +32,7 @@ const NavigationButtons = ({
         type="button"
         aria-label="Go to next iteration"
         onClick={() => onClick(iterations[currentIndex + 1])}
-        disabled={iterations[iterations.length - 1] === current}
+        disabled={iterations[iterations.length - 1].idx === current.idx}
         className="btn-keyboard-shortcut next"
       >
         <div className="--hint">Next</div>
@@ -61,7 +61,7 @@ export const IterationsList = ({
             key={iteration.idx}
             iteration={iteration}
             onClick={() => onClick(iteration)}
-            selected={current === iteration}
+            selected={current.idx === iteration.idx}
           />
         ))}
       </nav>

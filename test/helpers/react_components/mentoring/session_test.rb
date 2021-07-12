@@ -34,9 +34,9 @@ module Mentoring
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [
-            SerializeIteration.(iteration_1).merge(num_comments: 0, unread: false),
-            SerializeIteration.(iteration_2).merge(num_comments: 0, unread: false),
-            SerializeIteration.(iteration_3).merge(num_comments: 0, unread: false)
+            SerializeIteration.(iteration_1).merge(unread: false),
+            SerializeIteration.(iteration_2).merge(unread: false),
+            SerializeIteration.(iteration_3).merge(unread: false)
           ],
           student: SerializeStudent.(student, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
@@ -95,9 +95,9 @@ module Mentoring
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [
-            SerializeIteration.(iteration_1).merge(num_comments: 0, unread: false),
-            SerializeIteration.(iteration_2).merge(num_comments: 1, unread: false),
-            SerializeIteration.(iteration_3).merge(num_comments: 2, unread: true)
+            SerializeIteration.(iteration_1).merge(unread: false),
+            SerializeIteration.(iteration_2).merge(unread: false),
+            SerializeIteration.(iteration_3).merge(unread: true)
           ],
           student: SerializeStudent.(student, user_track: user_track, relationship: nil, anonymous_mode: false),
           mentor_solution: nil,

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { Iteration } from '../../types'
 
 export const iterationId = (iteration: Iteration): string => {
@@ -17,6 +17,7 @@ export const useIterationScrolling = ({
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
+
   const handleIterationScroll = useCallback(
     (iteration) => {
       if (!isScrollOn) {

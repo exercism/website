@@ -9,7 +9,6 @@ export const createIteration = (props: Partial<Iteration>): Iteration => ({
   uuid: 'uuid',
   idx: 1,
   status: IterationStatus.NO_AUTOMATED_FEEDBACK,
-  numComments: 10,
   unread: false,
   numEssentialAutomatedComments: 2,
   numActionableAutomatedComments: 2,
@@ -18,10 +17,12 @@ export const createIteration = (props: Partial<Iteration>): Iteration => ({
   createdAt: new Date().toISOString(),
   testsStatus: SubmissionTestsStatus.PASSED,
   isPublished: false,
+  posts: undefined,
   links: {
     self: 'https://test.exercism.io/iterations/1',
     solution: 'https://test.exercism.io/iterations/1/solution',
     files: 'https://test.exercism.io/iterations/1/files',
+    testRun: 'https://test.exercism.io/iterations/1/test_run',
   },
   ...props,
 })

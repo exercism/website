@@ -1,5 +1,6 @@
 import { Props as ConceptWidgetProps } from './common/ConceptWidget'
 import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
+import { DiscussionPostProps } from './mentoring/discussion/DiscussionPost'
 
 export type Size = 'small' | 'large'
 
@@ -265,7 +266,6 @@ export type Iteration = {
   uuid: string
   idx: number
   status: IterationStatus
-  numComments: number
   unread: boolean
   numEssentialAutomatedComments: number
   numActionableAutomatedComments: number
@@ -277,6 +277,7 @@ export type Iteration = {
   testsStatus: SubmissionTestsStatus
   isPublished: boolean
   files?: File[]
+  posts?: DiscussionPostProps[]
   links: {
     self: string
     solution: string

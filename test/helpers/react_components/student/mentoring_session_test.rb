@@ -33,9 +33,9 @@ module ReactComponents::Student
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [
-            SerializeIteration.(iteration_1).merge(num_comments: 0, unread: false),
-            SerializeIteration.(iteration_2).merge(num_comments: 1, unread: false),
-            SerializeIteration.(iteration_3).merge(num_comments: 2, unread: true)
+            SerializeIteration.(iteration_1).merge(unread: false),
+            SerializeIteration.(iteration_2).merge(unread: false),
+            SerializeIteration.(iteration_3).merge(unread: true)
           ],
           mentor: {
             name: mentor.name,
@@ -81,7 +81,7 @@ module ReactComponents::Student
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [
-            SerializeIteration.(iteration).merge(num_comments: 0, unread: false)
+            SerializeIteration.(iteration).merge(unread: false)
           ],
           mentor: nil,
           track_objectives: "",

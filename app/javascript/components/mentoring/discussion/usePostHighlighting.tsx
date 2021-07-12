@@ -1,17 +1,45 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import { PostsContext } from './PostsContext'
 import { DiscussionPostProps } from './DiscussionPost'
 
 export const usePostHighlighting = (
-  posts: DiscussionPostProps[] | undefined,
+  posts: DiscussionPostProps[],
   userHandle: string
 ) => {
+  const prevLastPost = useRef<DiscussionPostProps | null>(null)
   const [
     highlightedPost,
     setHighlightedPost,
   ] = useState<DiscussionPostProps | null>(null)
   const { setHasNewMessages, highlightedPostRef } = useContext(PostsContext)
   const observer = useRef<IntersectionObserver | null>()
+
+  useEffect(() => {
+    if (!highlightedPost || highlightedPost.authorHandle === userHandle) {
+      return
+    }
+
+    setHasNewMessages(true)
+  }, [highlightedPost, setHasNewMessages, userHandle])
+
+  useEffect(() => {
+    if (posts.length === 0) {
+      return
+    }
+
+    const lastPost = posts[posts.length - 1]
+
+    if (prevLastPost.current === lastPost) {
+      return
+    }
+
+    if (prevLastPost.current === null) {
+      prevLastPost.current = lastPost
+      return
+    }
+
+    setHighlightedPost(lastPost)
+  }, [JSON.stringify(posts)])
 
   useEffect(() => {
     if (!highlightedPostRef.current || !highlightedPost) {
@@ -22,16 +50,6 @@ export const usePostHighlighting = (
       highlightedPostRef.current.scrollIntoView()
     }
   }, [highlightedPost, highlightedPostRef, userHandle])
-
-  useEffect(() => {
-    if (!posts || posts.length === 0) {
-      return
-    }
-
-    const lastPost = posts[posts.length - 1]
-
-    setHighlightedPost(lastPost)
-  }, [posts, setHasNewMessages])
 
   useEffect(() => {
     if (!highlightedPostRef.current) {
@@ -50,10 +68,7 @@ export const usePostHighlighting = (
     return () => {
       observer.current?.disconnect()
     }
-  }, [posts, highlightedPost, highlightedPostRef, setHasNewMessages])
+  }, [highlightedPost, highlightedPostRef, setHasNewMessages])
 
-  return {
-    highlightedPost,
-    highlightedPostRef,
-  }
+  return { highlightedPost, highlightedPostRef }
 }

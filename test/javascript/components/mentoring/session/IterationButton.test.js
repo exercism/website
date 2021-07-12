@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { IterationButton } from '../../../../../app/javascript/components/mentoring/session/IterationButton'
+import { createDiscussionPost } from '../../../factories/DiscussionPostFactory'
 
 test('applies correct properties to selected button', async () => {
   const iteration = { idx: 1 }
@@ -15,7 +16,7 @@ test('applies correct properties to selected button', async () => {
 })
 
 test('applies correct labels when numComments = 0', async () => {
-  const iteration = { idx: 1, numComments: 0 }
+  const iteration = { idx: 1, posts: [] }
   render(<IterationButton iteration={iteration} selected={true} />)
 
   expect(
@@ -25,7 +26,11 @@ test('applies correct labels when numComments = 0', async () => {
 })
 
 test('applies correct labels when numComments <= 9', async () => {
-  const iteration = { idx: 1, numComments: 4 }
+  const posts = Array.from(
+    Array.from({ length: 4 }, () => createDiscussionPost({}))
+  )
+
+  const iteration = { idx: 1, posts: posts }
   render(<IterationButton iteration={iteration} selected={true} />)
 
   expect(
@@ -35,7 +40,10 @@ test('applies correct labels when numComments <= 9', async () => {
 })
 
 test('applies correct labels when numComments > 9', async () => {
-  const iteration = { idx: 1, numComments: 10 }
+  const posts = Array.from(
+    Array.from({ length: 10 }, () => createDiscussionPost({}))
+  )
+  const iteration = { idx: 1, posts: posts }
   render(<IterationButton iteration={iteration} selected={true} />)
 
   expect(
@@ -45,14 +53,20 @@ test('applies correct labels when numComments > 9', async () => {
 })
 
 test('applies correct labels when iteration is unread', async () => {
-  const iteration = { idx: 1, numComments: 10, unread: true }
+  const posts = Array.from(
+    Array.from({ length: 10 }, () => createDiscussionPost({}))
+  )
+  const iteration = { idx: 1, posts: posts, unread: true }
   render(<IterationButton iteration={iteration} selected={true} />)
 
   expect(screen.getByText('9+')).toHaveAttribute('class', 'comments unread')
 })
 
 test('applies correct labels when iteration is read', async () => {
-  const iteration = { idx: 1, numComments: 10, unread: false }
+  const posts = Array.from(
+    Array.from({ length: 10 }, () => createDiscussionPost({}))
+  )
+  const iteration = { idx: 1, posts: posts, unread: false }
   render(<IterationButton iteration={iteration} selected={true} />)
 
   expect(screen.getByText('9+')).toHaveAttribute('class', 'comments')

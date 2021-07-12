@@ -52,6 +52,7 @@ import '../../css/components/docs-side-nav'
 import '../../css/components/docs-tracks-list'
 import '../../css/components/iterations-footer'
 import '../../css/components/solution-iterations'
+import '../../css/components/loading-overlay'
 
 import '../../css/components/share-panel'
 import '../../css/components/split-pane'
@@ -492,3 +493,7 @@ document.addEventListener('turbolinks:load', () => {
 
 const images = require.context('../images', true)
 const imagePath = (name: any) => images(name)
+
+// Loading overlay events
+import { bindRedirectEvents } from '../utils/redirect-to'
+bindRedirectEvents()

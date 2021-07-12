@@ -6,6 +6,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { FormButton } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 import { useConfirmation } from '../../hooks/use-confirmation'
+import { redirectTo } from '../../utils/redirect-to'
 
 type APIResponse = {
   links: {
@@ -35,7 +36,7 @@ export const DeleteAccountModal = ({
     },
     {
       onSuccess: (response) => {
-        window.location.replace(response.links.home)
+        redirectTo(response.links.home)
       },
     }
   )

@@ -9,29 +9,6 @@ import { expectConsoleError } from '../../../support/silence-console'
 import { TestQueryCache } from '../../../support/TestQueryCache'
 import { awaitPopper } from '../../../support/await-popper'
 
-const oldWindowLocation = window.location
-
-beforeAll(() => {
-  delete window.location
-
-  window.location = Object.defineProperties(
-    {},
-    {
-      ...Object.getOwnPropertyDescriptors(oldWindowLocation),
-      replace: {
-        configurable: true,
-        value: jest.fn(),
-      },
-    }
-  )
-})
-beforeEach(() => {
-  window.location.replace.mockReset()
-})
-afterAll(() => {
-  window.location = oldWindowLocation
-})
-
 test('disables buttons when loading', async () => {
   const server = setupServer(
     rest.patch('https://exercism.test/start', (req, res, ctx) => {

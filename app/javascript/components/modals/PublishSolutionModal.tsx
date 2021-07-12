@@ -8,6 +8,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { FormButton } from '../common'
 import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
 import { IterationSelector } from './student/IterationSelector'
+import { redirectTo } from '../../utils/redirect-to'
 
 const DEFAULT_ERROR = new Error('Unable to publish solution')
 
@@ -34,7 +35,7 @@ export const PublishSolutionModal = ({
     },
     {
       onSuccess: (solution) => {
-        window.location.replace(solution.privateUrl)
+        redirectTo(solution.privateUrl)
       },
     }
   )

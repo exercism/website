@@ -4,6 +4,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { FormButton } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
+import { redirectTo } from '../../../utils/redirect-to'
 
 const DEFAULT_ERROR = new Error('Unable to start exercise')
 
@@ -28,7 +29,7 @@ export const StartExerciseButton = ({
     },
     {
       onSuccess: (data) => {
-        window.location.replace(data.links.exercise)
+        redirectTo(data.links.exercise)
       },
     }
   )

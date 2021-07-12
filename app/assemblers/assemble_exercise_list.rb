@@ -1,7 +1,7 @@
-class AssembleExerciseList
+class AssembleExerciseList < Assembler
   include Mandate
 
-  initialize_with :current_user, :track, :params
+  initialize_with :user, :track, :params
 
   def call
     {
@@ -10,24 +10,18 @@ class AssembleExerciseList
     }.compact
   end
 
-  def sideload?(item)
-    return false unless params[:sideload]
-
-    params[:sideload].include?(item.to_s)
-  end
-
   memoize
   def exercises
     Exercise::Search.(track, user_track: user_track, criteria: params[:criteria])
   end
 
   memoize
-  def user_track
-    UserTrack.for(current_user, track)
+  def solutions
+    user ? SerializeSolutions.(user.solutions.where(exercise_id: exercises), user) : []
   end
 
   memoize
-  def solutions
-    current_user ? SerializeSolutions.(current_user.solutions.where(exercise_id: exercises), current_user) : []
+  def user_track
+    UserTrack.for(user, track)
   end
 end

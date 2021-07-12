@@ -1,13 +1,10 @@
-.loading-overlay {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-color: white;
+.c-loading-overlay {
+    @apply w-100 h-100 absolute bg-backgroundColorA;
+    @apply z-redirect;
+    @apply hidden;
     opacity: 0.5;
-    z-index: 50;
-    display: none;
-}
 
-.loading-overlay.--loading {
-    display: block;
+    &.--loading {
+        @apply block;
+    }
 }

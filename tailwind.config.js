@@ -199,6 +199,7 @@ module.exports = {
     height: {
       arbitary: '1px',
       '48': '48px',
+      '100': '100%',
     },
     lineHeight: {
       none: '1',
@@ -267,6 +268,7 @@ module.exports = {
       dropdown: '50',
       tooltip: '80',
       modal: '100',
+      redirect: '150',
     },
   },
   variants: {},

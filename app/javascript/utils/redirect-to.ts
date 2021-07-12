@@ -4,7 +4,7 @@ class LoadingOverlay {
   element: HTMLDivElement
 
   constructor() {
-    const element = document.querySelector<HTMLDivElement>('.loading-overlay')
+    const element = document.querySelector<HTMLDivElement>('.c-loading-overlay')
 
     if (element === null) {
       throw new Error('No loading overlay found!')

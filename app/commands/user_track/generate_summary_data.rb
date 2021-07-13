@@ -67,8 +67,8 @@ class UserTrack
 
     def generate_exercises_data!
       exercises = (
-        track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a +
-        track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
+        track.concept_exercises.enabled(user_track).includes(:taught_concepts, :prerequisites).to_a +
+        track.practice_exercises.enabled(user_track).includes(:practiced_concepts, :prerequisites).to_a
       ).freeze
 
       @exercises_data = exercises.each_with_object({}) do |exercise, data|
@@ -132,7 +132,6 @@ class UserTrack
     def exercise_is_unlocked?(exercise_data, tutorial_pending)
       return true unless user_track
       return true if solutions_data[exercise_data[:slug]]
-      return false if %i[wip deprecated].include?(exercise_data[:status])
       return exercise_data[:tutorial] if tutorial_pending
 
       (exercise_data[:prerequisite_concept_slugs] - learnt_concept_slugs).empty?

@@ -1,13 +1,13 @@
 class AssembleMentorRequests
   include Mandate
 
-  initialize_with :params, :current_user
+  initialize_with :mentor, :params
 
   def call
     SerializePaginatedCollection.(
       requests,
       serializer: SerializeMentorRequests,
-      serializer_args: current_user,
+      serializer_args: mentor,
       meta: {
         unscoped_total: unscoped_total
       }
@@ -17,7 +17,7 @@ class AssembleMentorRequests
   memoize
   def unscoped_total
     ::Mentor::Request::Retrieve.(
-      mentor: current_user,
+      mentor: mentor,
       page: params[:page],
       track_slug: params[:track_slug],
       exercise_slug: params[:exercise_slug],
@@ -28,7 +28,7 @@ class AssembleMentorRequests
 
   def requests
     ::Mentor::Request::Retrieve.(
-      mentor: current_user,
+      mentor: mentor,
       page: params[:page],
       criteria: params[:criteria],
       order: params[:order],

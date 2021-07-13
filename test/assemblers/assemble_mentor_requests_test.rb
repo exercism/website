@@ -33,7 +33,7 @@ class AssembleMentorRequestsTest < ActiveSupport::TestCase
       exercise_slug: exercise_slug
     }
 
-    AssembleMentorRequests.(params, user)
+    AssembleMentorRequests.(user, params)
   end
 
   test "retrieves requests" do
@@ -42,15 +42,15 @@ class AssembleMentorRequestsTest < ActiveSupport::TestCase
     mentored_track = create :track
     create :user_track_mentorship, user: user, track: mentored_track
     solution = create :concept_solution, track: mentored_track
-    30.times { create :mentor_request, solution: solution }
+    15.times { create :mentor_request, solution: solution }
 
     assert_equal SerializePaginatedCollection.(
       Mentor::Request.page(1).per(25),
       serializer: SerializeMentorRequests,
       serializer_args: user,
       meta: {
-        unscoped_total: 30
+        unscoped_total: 15
       }
-    ), AssembleMentorRequests.({}, user)
+    ), AssembleMentorRequests.(user, {})
   end
 end

@@ -131,12 +131,12 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
 
     solution = create :concept_solution, track: mentored_track
 
-    second = create :mentor_request, created_at: Time.current - 2.minutes, solution: solution
-    first = create :mentor_request, created_at: Time.current - 3.minutes, solution: solution
-    third = create :mentor_request, created_at: Time.current - 1.minute, solution: solution
+    first = create :mentor_request, solution: solution
+    second = create :mentor_request, solution: solution
+    third = create :mentor_request, solution: solution
 
     assert_equal [first, second, third], Mentor::Request::Retrieve.(mentor: user)
-    assert_equal [second, first, third], Mentor::Request::Retrieve.(mentor: user, sorted: false)
+    assert_equal [first, second, third], Mentor::Request::Retrieve.(mentor: user, sorted: false)
   end
 
   test "pagination works" do

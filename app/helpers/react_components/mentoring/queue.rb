@@ -73,7 +73,7 @@ module ReactComponents
           endpoint: Exercism::Routes.api_mentoring_requests_path,
           query: query,
           options: {
-            initial_data: AssembleMentorRequests.(query, mentor),
+            initial_data: AssembleMentorRequests.(mentor, query),
             stale_time: 0
           }
         }

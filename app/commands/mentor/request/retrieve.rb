@@ -100,9 +100,9 @@ module Mentor
       def sort!
         case order
         when "recent"
-          @requests = @requests.order("mentor_requests.created_at DESC")
+          @requests = @requests.order("mentor_requests.id DESC")
         else
-          @requests = @requests.order("mentor_requests.created_at")
+          @requests = @requests.order("mentor_requests.id ASC")
         end
       end
 

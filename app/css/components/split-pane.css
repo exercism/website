@@ -1,8 +1,6 @@
 .c-split-pane {
+    @apply flex flex-grow items-stretch overflow-hidden;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
 
     & > .--split-lhs {
         height: 100%;

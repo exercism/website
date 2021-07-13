@@ -187,8 +187,6 @@
     }
 
     & .c-split-pane {
-        @apply flex flex-grow items-stretch overflow-hidden;
-
         & .--split-lhs {
             @apply flex flex-col;
             @apply bg-backgroundColorB;

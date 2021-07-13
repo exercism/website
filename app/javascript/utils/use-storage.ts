@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { StoredMemoryValue, useMutableMemoryValue } from 'use-memory-value'
 
 export function useStorage<T>(key: string, initialValue: T) {
@@ -15,7 +15,7 @@ export function useLocalStorage<T>(
     try {
       const item = JSON.parse(localStorage.getItem(key) || '') as T
 
-      return item || initialValue
+      return item
     } catch (error) {
       return initialValue
     }

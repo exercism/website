@@ -9,7 +9,7 @@ module Mentor
       # catch whatever exception is raised in the controller and handle
       # gracefully.
       def call
-        ActiveRecord::Base.transaction do
+        discussion = ActiveRecord::Base.transaction do
           request.lock!
 
           raise SolutionLockedByAnotherMentorError unless request.lockable_by?(mentor)
@@ -20,32 +20,36 @@ module Mentor
           # whole load need to fail.
           request.fulfilled!
 
-          discussion = Mentor::Discussion.create!(
+          Mentor::Discussion.create!(
             mentor: mentor,
             request: request,
             awaiting_student_since: Time.current
-          )
-
-          discussion_post = Mentor::DiscussionPost.create!(
-            iteration: iteration,
-            discussion: discussion,
-            author: mentor,
-            content_markdown: content_markdown
-          )
-
-          User::Notification::Create.(
-            student,
-            :mentor_started_discussion,
-            {
-              discussion: discussion,
-              discussion_post: discussion_post
-            }
-          )
-
-          Mentor::StudentRelationship::CacheNumDiscussions.(mentor, student)
-
-          discussion
+          ).tap { |d| process_discussion!(d) }
         end
+
+        # This must be outside of the transaction above as it
+        # changes the transaction isolation level
+        Mentor::StudentRelationship::CacheNumDiscussions.(mentor, student)
+
+        discussion
+      end
+
+      def process_discussion!(discussion)
+        discussion_post = Mentor::DiscussionPost.create!(
+          iteration: iteration,
+          discussion: discussion,
+          author: mentor,
+          content_markdown: content_markdown
+        )
+
+        User::Notification::Create.(
+          student,
+          :mentor_started_discussion,
+          {
+            discussion: discussion,
+            discussion_post: discussion_post
+          }
+        )
       end
 
       memoize

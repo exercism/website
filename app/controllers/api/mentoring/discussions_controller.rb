@@ -67,6 +67,7 @@ module API
           params[:content]
         )
       rescue SolutionLockedByAnotherMentorError
+        # TODO: (blocking): Are we handling this in React
         return render_400(:mentor_request_locked)
       end
 

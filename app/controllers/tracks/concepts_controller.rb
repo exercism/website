@@ -31,13 +31,13 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def tooltip
-    @exercises = @concept.concept_exercises + @concept.practice_exercises
+    @exercises = @concept.concept_exercises.enabled(@user_track) + @concept.practice_exercises.enabled(@user_track)
     @num_completed_exercises = @user_track.num_completed_exercises_for_concept(@concept)
     @locked = !@user_track.concept_unlocked?(@concept)
     @learnt = @user_track.concept_learnt?(@concept)
     @mastered = @user_track.concept_mastered?(@concept)
     @prerequisite_names = Concept.joins(:unlocked_exercises).
-      where('exercise_prerequisites.exercise_id': @concept.concept_exercises).
+      where('exercise_prerequisites.exercise_id': @concept.concept_exercises.enabled(@user_track)).
       pluck(:name)
 
     render_template_as_json

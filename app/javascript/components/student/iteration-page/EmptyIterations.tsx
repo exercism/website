@@ -4,12 +4,12 @@ import {
   CopyToClipboardButton,
   GraphicalIcon,
   FormButton,
-  Loading,
 } from '../../common'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { FetchingBoundary } from '../../FetchingBoundary'
+import { redirectTo } from '../../../utils/redirect-to'
 
 type Links = {
   startExercise: string
@@ -47,7 +47,7 @@ export const EmptyIterations = ({
           return
         }
 
-        window.location.replace(solution.links.edit)
+        redirectTo(solution.links.edit)
       },
     }
   )

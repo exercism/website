@@ -1,0 +1,10 @@
+.c-loading-overlay {
+    @apply w-100 h-100 absolute bg-backgroundColorA;
+    @apply z-redirect;
+    @apply hidden;
+    opacity: 0.5;
+
+    &.--loading {
+        @apply block;
+    }
+}

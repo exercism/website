@@ -43,6 +43,7 @@ import { isEqual } from 'lodash'
 import { sendRequest, sendPostRequest, APIError } from '../utils/send-request'
 import { TabContext } from './common/Tab'
 import { SplitPane } from './common'
+import { redirectTo } from '../utils/redirect-to'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
@@ -209,7 +210,7 @@ export function Editor({
         }
 
         const iteration = typecheck<Iteration>(json, 'iteration')
-        location.assign(iteration.links.solution)
+        redirectTo(iteration.links.solution)
       })
       .finally(() => {
         controllerRef.current = undefined

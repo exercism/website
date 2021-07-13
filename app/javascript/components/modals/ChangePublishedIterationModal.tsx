@@ -8,6 +8,7 @@ import { useIsMounted } from 'use-is-mounted'
 import { FormButton } from '../common'
 import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
 import { IterationSelector } from './student/IterationSelector'
+import { redirectTo } from '../../utils/redirect-to'
 
 const DEFAULT_ERROR = new Error('Unable to change published iteration')
 export type RedirectType = 'public' | 'private'
@@ -42,9 +43,9 @@ export const ChangePublishedIterationModal = ({
     {
       onSuccess: (solution) => {
         if (redirectType == 'public') {
-          window.location.replace(solution.publicUrl)
+          redirectTo(solution.publicUrl)
         } else {
-          window.location.replace(solution.privateUrl)
+          redirectTo(solution.privateUrl)
         }
       },
     }

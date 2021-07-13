@@ -50,6 +50,14 @@ class Exercise < ApplicationRecord
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
   }
 
+  scope :enabled, lambda { |user_track|
+    if !user_track || user_track.external?
+      where(status: %i[active beta])
+    else
+      where(status: %i[active beta]).or(where(id: user_track.solutions.select(:exercise_id)))
+    end
+  }
+
   def self.for(track_slug, exercise_slug)
     joins(:track).find_by('tracks.slug': track_slug, slug: exercise_slug)
   end

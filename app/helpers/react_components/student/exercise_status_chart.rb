@@ -41,10 +41,7 @@ module ReactComponents
 
       memoize
       def exercises
-        track.exercises.
-          where(status: %i[active beta]).
-          or(track.exercises.where(id: user_track.solutions.select(:exercise_id))).
-          sorted
+        track.exercises.enabled(user_track).sorted
       end
     end
   end

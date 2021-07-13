@@ -66,17 +66,8 @@ class UserTrack
     end
 
     def generate_exercises_data!
-      concept_exercises =
-        track.concept_exercises.
-          includes(:taught_concepts, :prerequisites).
-          where(status: %i[active beta]).
-          or(track.concept_exercises.where(id: user_track.solutions.select(:exercise_id)))
-
-      practice_exercises = track.practice_exercises.
-        includes(:practiced_concepts, :prerequisites).
-        where(status: %i[active beta]).
-        or(track.practice_exercises.where(id: user_track.solutions.select(:exercise_id)))
-
+      concept_exercises = track.concept_exercises.enabled(user_track).includes(:taught_concepts, :prerequisites)
+      practice_exercises = track.practice_exercises.enabled(user_track).includes(:practiced_concepts, :prerequisites)
       exercises = (concept_exercises.to_a + practice_exercises.to_a).freeze
 
       @exercises_data = exercises.each_with_object({}) do |exercise, data|

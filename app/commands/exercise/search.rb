@@ -9,20 +9,10 @@ class Exercise
     end
 
     def call
-      @exercises = track.exercises
-      filter_status!
+      @exercises = track.exercises.enabled(user_track)
       filter_criteria!
       sort!
       @exercises
-    end
-
-    def filter_status!
-      if !user_track || user_track.external?
-        @exercises = @exercises.where(status: %i[active beta])
-      else
-        @exercises = @exercises.where(status: %i[active beta]).
-          or(@exercises.where(id: user_track.solutions.select(:exercise_id)))
-      end
     end
 
     def filter_criteria!

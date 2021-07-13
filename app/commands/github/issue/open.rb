@@ -32,8 +32,7 @@ module Github
 
       memoize
       def issue
-        # TODO: Elevate this into exercism-config gem
-        author = "exercism-bot"
+        author = Exercism.config.github_bot_username
         Exercism.octokit_client.search_issues("\"#{title}\" is:issue in:title repo:#{repo} author:#{author}")[:items]&.first
       end
     end

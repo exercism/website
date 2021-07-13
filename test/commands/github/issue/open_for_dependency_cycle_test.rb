@@ -2,6 +2,8 @@ require "test_helper"
 
 class Github::Issue::OpenForDependencyCycleTest < ActiveSupport::TestCase
   test "opens issue when issue was not yet created" do
+    Exercism.config.stubs(:github_bot_username).returns('exercism-bot')
+
     track = create :track, slug: 'ruby', synced_to_git_sha: '2e25f799c1830b93a8ad65a2bbbb1c50f381e639'
 
     stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Concept%20prerequisite%20cycle%20found%20in%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
@@ -31,6 +33,8 @@ class Github::Issue::OpenForDependencyCycleTest < ActiveSupport::TestCase
   end
 
   test "re-opens issue when issue was closed" do
+    Exercism.config.stubs(:github_bot_username).returns('exercism-bot')
+
     track = create :track, slug: 'ruby', synced_to_git_sha: '2e25f799c1830b93a8ad65a2bbbb1c50f381e639'
 
     stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Concept%20prerequisite%20cycle%20found%20in%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength
@@ -56,6 +60,8 @@ class Github::Issue::OpenForDependencyCycleTest < ActiveSupport::TestCase
   end
 
   test "does nothing when issue already open" do
+    Exercism.config.stubs(:github_bot_username).returns('exercism-bot')
+
     track = create :track, slug: 'ruby', synced_to_git_sha: '2e25f799c1830b93a8ad65a2bbbb1c50f381e639'
 
     stub_request(:get, "https://api.github.com/search/issues?per_page=100&q=%22%F0%9F%A4%96%20Concept%20prerequisite%20cycle%20found%20in%20commit%202e25f7%22%20is:issue%20in:title%20repo:exercism/ruby%20author:exercism-bot"). # rubocop:disable Layout/LineLength

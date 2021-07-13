@@ -16,7 +16,7 @@ class UserTrack
       mapping = Hash.new { |k, v| k[v] = Set.new }
 
       Exercise::TaughtConcept.joins(:exercise, :concept).
-        where('exercises.track_id': track.id).
+        where('exercises.id': track.concept_exercises.enabled(user_track)).
         pluck("track_concepts.slug", "exercises.slug").
         each do |concept_slug, exercise_slug|
         next if concept_slug.nil?
@@ -26,7 +26,7 @@ class UserTrack
       end
 
       Exercise::PracticedConcept.joins(:exercise, :concept).
-        where('exercises.track_id': track.id).
+        where('exercises.id': track.practice_exercises.enabled(user_track)).
         pluck("track_concepts.slug", "exercises.slug").
         each do |concept_slug, exercise_slug|
         next if concept_slug.nil?

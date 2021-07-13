@@ -81,6 +81,7 @@ class UserTrack
           id: exercise.id,
           slug: exercise.slug,
           type: exercise.git_type.to_sym,
+          status: exercise.status,
           tutorial: exercise.tutorial?,
           prerequisite_concept_slugs: prerequisite_concept_slugs,
           practiced_concepts: practiced_concepts,
@@ -132,6 +133,7 @@ class UserTrack
       return true unless user_track
       return true if solutions_data[exercise_data[:slug]]
       return exercise_data[:tutorial] if tutorial_pending
+      return false if %i[wip deprecated].include?(exercise_data[:status])
 
       (exercise_data[:prerequisite_concept_slugs] - learnt_concept_slugs).empty?
     end

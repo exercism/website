@@ -5,7 +5,7 @@ class Solution
     initialize_with :solution, :user_track
 
     def call
-      # TODO: Guard against already being completed
+      # TODO: (Required) Guard against already being completed
 
       ActiveRecord::Base.transaction do
         mark_solution_as_complete!

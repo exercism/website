@@ -53,7 +53,7 @@ module ViewComponents
       return if slug.blank?
 
       doc = indexed_docs[slug]
-      return unless doc # TODO: Delete this
+      return unless doc # TODO: (Optional) Delete this
 
       if doc.track
         url = Exercism::Routes.track_doc_path(doc.track, doc)

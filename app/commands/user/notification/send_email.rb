@@ -13,7 +13,7 @@ class User::Notification
       # Do this first, so we can do it outside of the lock
       return unless user_wants_email?
 
-      # TODO: Check for daily-batch preference
+      # TODO: (Required) Check for daily-batch preference
 
       # We now lock and recheck things. We do the rechecking in the locked
       # record to avoid race conditions.

@@ -25,7 +25,7 @@ class User
     end
 
     def setup!
-      # TODO: Make this work as an inner query, not an array
+      # TODO: (Optional) Make this work as an inner query, not an array
       ids = @user.authored_exercises.select(:id) +
             @user.contributed_exercises.select(:id)
 

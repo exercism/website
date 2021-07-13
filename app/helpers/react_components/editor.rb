@@ -50,7 +50,7 @@ module ReactComponents
       Markdown::Parse.(track.debugging_instructions)
     end
 
-    # TODO: remove this before launch
+    # TODO: (Required) remove this before launch
     def example_files
       return solution.exercise.send(:git).exemplar_files if solution.exercise.concept_exercise?
 

@@ -5,7 +5,7 @@ module Contributing
     def index
       response.set_header('Link', '<https://exercism.io/profiles>; rel="canonical"')
 
-      # TODO: Set these correctly
+      # TODO: (Required) Set these correctly
       @featured_contributor = User.first
       @latest_contributor = User.second
     end

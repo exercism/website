@@ -23,11 +23,11 @@ module Git
     def call
       fetch_git_repo!
 
-      # TODO: (Optional): validate track using configlet to prevent invalid track data
+      # TODO: (Optional) validate track using configlet to prevent invalid track data
 
-      # TODO: (Optional): consider raising error when slug in config is different from track slug
+      # TODO: (Optional) consider raising error when slug in config is different from track slug
 
-      # TODO: (Optional): We should raise a bugsnag here too. Note: this is not needed if
+      # TODO: (Optional) We should raise a bugsnag here too. Note: this is not needed if
       # we validate a track using configlet
       blurb = head_git_track.blurb[0, 350]
 
@@ -120,7 +120,7 @@ module Git
 
     def exercise_concepts(concept_slugs)
       track.concepts.where(slug: concept_slugs.to_a).tap do |concepts|
-        # TODO: (Optional): We should be able to remove this once configlet is in place
+        # TODO: (Optional) We should be able to remove this once configlet is in place
         missing_concepts = concept_slugs.to_a - concepts.map(&:slug)
         Rails.logger.error "Missing concepts: #{missing_concepts.join(', ')}" if missing_concepts.present?
       end

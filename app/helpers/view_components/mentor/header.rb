@@ -35,9 +35,9 @@ module ViewComponents
 
       def stats
         tag.div(class: "stats") do
-          # TODO
+          # TODO: (Required)
           tag.div("131 solutions mentored", class: "stat") +
-            # TODO
+            # TODO: (Required)
             tag.div("95% satisfaction", class: "stat")
         end
       end

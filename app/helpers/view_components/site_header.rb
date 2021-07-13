@@ -100,16 +100,16 @@ module ViewComponents
     end
 
     def new_testimonial_icon
-      # TODO: Cache this?
-      # TODO: Add test coverage
+      # TODO: (Optional) Cache this?
+      # TODO: (Optional) Add test coverage
       return nil unless current_user.mentor_testimonials.unrevealed.exists?
 
       link_to('', Exercism::Routes.mentoring_testimonials_path, class: 'new-testimonial')
     end
 
     def new_badge_icon
-      # TODO: Cache this?
-      # TODO: Add test coverage
+      # TODO: (Optional) Cache this?
+      # TODO: (Optional) Add test coverage
       return nil unless current_user.acquired_badges.unrevealed.exists?
 
       link_to('', Exercism::Routes.badges_journey_path(anchor: "journey-content"), class: 'new-badge')

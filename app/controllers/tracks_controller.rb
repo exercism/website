@@ -12,7 +12,7 @@ class TracksController < ApplicationController
 
     @num_tracks = Track.count
 
-    # TODO: Change this to only select the fields needed for an icon
+    # TODO: (Optional) Change this to only select the fields needed for an icon
     @track_icon_urls = Track.active.order('rand()').limit(8).map(&:icon_url)
   end
 
@@ -20,7 +20,7 @@ class TracksController < ApplicationController
     @user_track = UserTrack.for(current_user, @track)
 
     if @user_track
-      # TODO: Move this into a method somewhere else and add tests
+      # TODO: (Optional) Move this into a method somewhere else and add tests
       data = @user_track.solutions.
         where('completed_at > ?', Time.current.beginning_of_week - 8.weeks).
         group("week(completed_at)").count

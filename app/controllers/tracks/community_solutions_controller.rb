@@ -15,7 +15,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
       solutions.published.find_by!(exercise_id: @exercise.id)
     @author = @solution.user
 
-    # TODO: Real algorithm here
+    # TODO: (Required) Real algorithm here
     @other_solutions = @exercise.solutions.published.limit(3)
     @mentor_discussions = @solution.mentor_discussions.
       finished.not_negatively_rated.includes(:mentor)

@@ -32,7 +32,7 @@ class User::ReputationPeriod
         per(self.class.requests_per_page).
         without_count
 
-      # TODO: Cache this with the expiry key as the id of the last added reputation token
+      # TODO: (Optional) Cache this with the expiry key as the id of the last added reputation token
       # and the other keys as the composite parts of the query
       # Unless we specify a user_handle, in which case don't bother
       total_count = @rows.count

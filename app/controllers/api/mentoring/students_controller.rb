@@ -2,7 +2,7 @@ module API
   class Mentoring::StudentsController < BaseController
     before_action :use_student
 
-    # TODO: Add test coverage
+    # TODO: (Optional) Add test coverage
     def show
       relationship = Mentor::StudentRelationship.find_by(mentor: current_user, student: @student)
       user_track = UserTrack.for(@student, params[:track_slug]) if params[:track_slug].present?

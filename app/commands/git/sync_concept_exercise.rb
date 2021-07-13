@@ -64,7 +64,7 @@ module Git
         concept_config = head_git_track.concepts.find { |e| e[:slug] == slug }
         ::Concept.find_by!(uuid: concept_config[:uuid])
       rescue StandardError
-        # TODO: (Optional): Remove this rescue when configlet works
+        # TODO: (Optional) Remove this rescue when configlet works
       end.compact
     end
 

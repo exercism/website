@@ -29,7 +29,7 @@ module Github
         loop do
           page_data = fetch_page(cursor)
 
-          # TODO: filter out PRs we want to ignore (e.g. the v3 bulk rename PRs)
+          # TODO: (Optional) filter out PRs we want to ignore (e.g. the v3 bulk rename PRs)
           results += pull_requests_from_page_data(page_data)
           break results unless page_data.dig(:data, :repository, :pullRequests, :pageInfo, :hasNextPage)
 

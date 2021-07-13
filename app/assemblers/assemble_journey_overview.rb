@@ -10,7 +10,7 @@ class AssembleJourneyOverview
           tracks: learning_tracks_data,
           links: {
             solutions: Exercism::Routes.solutions_journey_url,
-            fable: "#" # TODO
+            fable: "#" # TODO: (Required)
           }
         },
         mentoring: mentoring_data,
@@ -49,7 +49,7 @@ class AssembleJourneyOverview
         num_exercises: user_track.num_exercises,
         num_completed_exercises: user_track.num_completed_exercises,
         num_concepts_learnt: user_track.num_concepts_learnt,
-        num_lines: 250, # TODO
+        num_lines: 250, # TODO: (Required)
         num_solutions: user_track.num_started_exercises,
         progress_chart: {
           period: progress_period,
@@ -100,8 +100,8 @@ class AssembleJourneyOverview
         ratio: num_total_students.zero? ? 0 : num_total_discussions.to_f / num_total_students
       },
       ranks: {
-        discussions: 1, # TODO
-        students: 3 # TODO
+        discussions: 1, # TODO: (Required)
+        students: 3 # TODO: (Required)
       }
     }
   end

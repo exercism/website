@@ -12,7 +12,7 @@ class User
         user = User.find_by(github_username: params[:merged_by_username])
 
         unless user
-          # TODO: decide what to do with user that cannot be found
+          # TODO: (Optional) decide what to do with user that cannot be found
           Rails.logger.error "Missing merged by user: #{params[:merged_by_username]}"
           return
         end

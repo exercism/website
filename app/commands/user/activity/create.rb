@@ -18,8 +18,8 @@ class User::Activity
         solution: params.delete(:solution),
         params: params
       ).tap do
-        # TODO: Broadcast new activity
-        # AcivitiiesChannel.broadcast_changed!(user)
+        # TODO: (Optional) Broadcast new activity
+        # ActivitiesChannel.broadcast_changed!(user)
       end
     end
 

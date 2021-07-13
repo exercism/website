@@ -5,7 +5,7 @@ module Mentor
 
       initialize_with :mentor, :request, :iteration_idx, :content_markdown
 
-      # TODO: Guard against a user mentoring their own solution and
+      # TODO: (Required) Guard against a user mentoring their own solution and
       # catch whatever exception is raised in the controller and handle
       # gracefully.
       def call

@@ -12,7 +12,7 @@ class User
         user = User.find_by(github_username: params[:author_username])
 
         unless user
-          # TODO: decide what to do with user that cannot be found
+          # TODO: (Optional) decide what to do with user that cannot be found
           Rails.logger.error "Missing author: #{params[:author_username]}"
           return
         end

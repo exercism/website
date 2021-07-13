@@ -88,7 +88,7 @@ module ViewComponents
 
       memoize
       def contributors_size
-        # TODO: This might just be too slow to cope with, in which case consider caching it daily
+        # TODO: (Optional) This might just be too slow to cope with, in which case consider caching it daily
         number_with_delimiter(User::ReputationPeriod.about_everything.forever.any_category.count)
       end
     end

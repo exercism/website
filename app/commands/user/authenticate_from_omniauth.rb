@@ -1,5 +1,5 @@
 class User
-  # TODO: update the github_username field from the v2 users' handle
+  # TODO: (Required) update the github_username field from the v2 users' handle
   class AuthenticateFromOmniauth
     include Mandate
 

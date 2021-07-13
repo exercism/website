@@ -102,7 +102,7 @@ module Mentor
         when "recent"
           @requests = @requests.order("mentor_requests.id DESC")
         else
-          @requests = @requests.order("mentor_requests.id")
+          @requests = @requests.order("mentor_requests.id ASC")
         end
       end
 

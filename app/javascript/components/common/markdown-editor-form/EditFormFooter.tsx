@@ -11,7 +11,7 @@ export const EditFormFooter = ({
   status: QueryStatus
   value: string
   onCancel: (e: React.FormEvent) => void
-  onDelete: (e: React.FormEvent) => void
+  onDelete?: (e: React.FormEvent) => void
 }): JSX.Element => {
   return (
     <footer className="editor-footer">
@@ -29,6 +29,7 @@ export const EditFormFooter = ({
           type="button"
           status={status}
           onClick={onDelete}
+          disabled={onDelete === undefined}
         >
           <span>Delete</span>
         </FormButton>

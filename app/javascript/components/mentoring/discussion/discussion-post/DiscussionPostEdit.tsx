@@ -32,7 +32,7 @@ export const DiscussionPostEdit = ({
   >(
     (action) => {
       return sendRequest({
-        endpoint: post.links.self,
+        endpoint: action === 'update' ? post.links.edit : post.links.delete,
         method: action === 'update' ? 'PATCH' : 'DELETE',
         body: JSON.stringify({ content: value }),
         isMountedRef: isMountedRef,
@@ -50,25 +50,39 @@ export const DiscussionPostEdit = ({
           return
         }
 
-        const oldData = queryCache.getQueryData<{
-          posts: DiscussionPostProps[]
-        }>(cacheKey) || { posts: [] }
-
         switch (action) {
           case 'delete': {
-            queryCache.setQueryData(
+            queryCache.setQueryData<{ posts: DiscussionPostProps[] }>(
               [cacheKey],
-              oldData.posts.filter((post) => post.uuid !== data.uuid)
+              (oldData) => {
+                if (!oldData) {
+                  return { posts: [] }
+                }
+
+                return {
+                  posts: oldData.posts.filter(
+                    (post) => post.uuid !== data.uuid
+                  ),
+                }
+              }
             )
 
             break
           }
           case 'update': {
-            queryCache.setQueryData(
+            queryCache.setQueryData<{ posts: DiscussionPostProps[] }>(
               [cacheKey],
-              oldData.posts.map((post) => {
-                return post.uuid === data.uuid ? data : post
-              })
+              (oldData) => {
+                if (!oldData) {
+                  return { posts: [post] }
+                }
+
+                return {
+                  posts: oldData.posts.map((post) => {
+                    return post.uuid === data.uuid ? data : post
+                  }),
+                }
+              }
             )
 
             onSuccess()
@@ -105,7 +119,7 @@ export const DiscussionPostEdit = ({
           onSubmit={handleSubmit}
           onCancel={handleCancel}
           onChange={handleChange}
-          onDelete={handleDelete}
+          onDelete={post.links.delete ? handleDelete : undefined}
           value={value}
           status={editStatus}
           error={editError}

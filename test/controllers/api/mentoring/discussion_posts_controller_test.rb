@@ -31,7 +31,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          uuid: "",
+          uuid: "request-comment",
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
@@ -51,7 +51,8 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
           updated_at: Time.utc(2016, 12, 25).iso8601,
           iteration_idx: 2,
           links: {
-            self: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post)
+            edit: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post),
+            delete: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post)
           }
         }
       ]
@@ -77,7 +78,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          uuid: "",
+          uuid: "request-comment",
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
@@ -121,7 +122,8 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
           updated_at: Time.utc(2016, 12, 25).iso8601,
           iteration_idx: 2,
           links: {
-            self: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post)
+            edit: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post),
+            delete: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post)
           }
         }
       ]
@@ -217,7 +219,8 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         updated_at: post.updated_at.iso8601,
         iteration_idx: 2,
         links: {
-          self: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
+          edit: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post),
+          delete: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
         }
       }
     }
@@ -373,7 +376,8 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         updated_at: discussion_post.updated_at.iso8601,
         iteration_idx: 1,
         links: {
-          self: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post)
+          edit: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post),
+          delete: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post)
         }
       }
     }
@@ -458,7 +462,8 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         updated_at: discussion_post.updated_at.iso8601,
         iteration_idx: 1,
         links: {
-          self: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post)
+          edit: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post),
+          delete: Exercism::Routes.api_mentoring_discussion_post_url(discussion_post.discussion, discussion_post)
         }
       }
     }

@@ -128,6 +128,52 @@ module Components
         assert_text "Hello"
       end
 
+      test "edits first post" do
+        mentor = create :user, handle: "author"
+        student = create :user, handle: "student"
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
+        request = create :mentor_request, solution: solution, comment_markdown: "Hello"
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(student)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
+          find_all(".post").last.hover
+          click_on "Edit"
+          fill_in_editor "# Edited"
+          click_on "Update"
+        end
+
+        assert_css "h3", text: "Edited"
+        assert_no_css "h3", text: "Hello"
+      end
+
+      test "user cant delete first post" do
+        mentor = create :user, handle: "author"
+        student = create :user, handle: "student"
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
+        request = create :mentor_request, solution: solution, comment_markdown: "Hello"
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(student)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
+          find_all(".post").last.hover
+          click_on "Edit"
+          fill_in_editor ""
+        end
+
+        assert_button "Delete", disabled: true
+      end
+
       test "edit an existing post" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"

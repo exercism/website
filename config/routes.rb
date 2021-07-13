@@ -141,6 +141,10 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :mentor_request, only: %i[], param: :uuid do
+        resource :comment, only: %i[update], controller: "mentor_requests/comments"
+      end
+
       namespace :mentoring do
         resource :registration, only: %i[create], controller: 'registration'
         resource :tracks, only: %i[show update] do

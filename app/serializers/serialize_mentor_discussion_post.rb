@@ -13,23 +13,27 @@ class SerializeMentorDiscussionPost
       content_markdown: post.content_markdown,
       content_html: post.content_html,
       updated_at: post.updated_at.iso8601,
-      links: post.try(:links) || links
+      links: links
     }
   end
 
   private
   def links
-    return {} if post.uuid.blank?
     return {} unless post.author == user
 
+    post.try(:links) || default_links
+  end
+
+  def default_links
     if post.by_student?
-      {
-        self: Exercism::Routes.api_solution_discussion_post_url(post.discussion.solution.uuid, post.discussion, post)
-      }
+      link = Exercism::Routes.api_solution_discussion_post_url(post.discussion.solution.uuid, post.discussion, post)
     else
-      {
-        self: Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
-      }
+      link = Exercism::Routes.api_mentoring_discussion_post_url(post.discussion, post)
     end
+
+    {
+      edit: link,
+      delete: link
+    }
   end
 end

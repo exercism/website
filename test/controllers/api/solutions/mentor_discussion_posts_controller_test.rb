@@ -30,7 +30,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          uuid: "",
+          uuid: "request-comment",
           iteration_idx: 2,
           author_handle: "student",
           author_avatar_url: student.avatar_url,
@@ -38,7 +38,9 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           content_markdown: "Request comment",
           content_html: "<p>Request comment</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
-          links: {}
+          links: {
+            edit: Exercism::Routes.api_mentor_request_comment_url(discussion.request.uuid)
+          }
         },
         {
           uuid: discussion_post.uuid,
@@ -50,7 +52,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           content_html: "<p>Discussion post</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
           links: {
-            self: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
+            edit: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post),
+            delete: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
           }
         }
       ]
@@ -77,7 +80,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     expected = {
       posts: [
         {
-          uuid: "",
+          uuid: "request-comment",
           author_handle: "student",
           author_avatar_url: student.avatar_url,
           by_student: true,
@@ -85,7 +88,9 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           content_html: "<p>Hello</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
           iteration_idx: 7,
-          links: {}
+          links: {
+            edit: Exercism::Routes.api_mentor_request_comment_url(discussion.request.uuid)
+          }
         }
       ]
     }
@@ -137,7 +142,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           content_html: "<p>Hello</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
           links: {
-            self: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
+            edit: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post),
+            delete: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
           }
         }
       ]
@@ -220,7 +226,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
         updated_at: post.updated_at.iso8601,
         iteration_idx: 2,
         links: {
-          self: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, post)
+          edit: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, post),
+          delete: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, post)
         }
       }
     }
@@ -336,7 +343,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
         updated_at: discussion_post.updated_at.iso8601,
         iteration_idx: 1,
         links: {
-          self: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
+          edit: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post),
+          delete: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
         }
       }
     }
@@ -426,7 +434,8 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
         updated_at: discussion_post.updated_at.iso8601,
         iteration_idx: 1,
         links: {
-          self: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
+          edit: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post),
+          delete: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
         }
       }
     }

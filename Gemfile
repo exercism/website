@@ -100,4 +100,4 @@ group :test do
   gem 'rails-controller-testing'
 end
 
-gem "addressable", "~> 2.7"
+gem "addressable", "~> 2.8"

@@ -21,7 +21,7 @@ const WRAP = [
 
 const TAB_MODE = [
   { label: 'Editor', value: 'captured' },
-  { label: 'Accesibility', value: 'default' },
+  { label: 'Accessibility', value: 'default' },
 ]
 
 const Setting = React.forwardRef<

@@ -10,6 +10,7 @@ module Mentor
         # TODO: (Optional) Set track.updated_at to be touched when any exercises changes
 
         # Then add the order and enumerate here
+        # TODO: do we want to exclude wip exercises?
         track.exercises.order(title: :asc).map do |exercise|
           {
             slug: exercise.slug,

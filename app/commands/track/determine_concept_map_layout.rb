@@ -6,9 +6,9 @@ class Track
   class DetermineConceptMapLayout
     include Mandate
 
-    def initialize(track)
+    def initialize(track, user_track)
       @track = track
-      @graph = Graph.new(track)
+      @graph = Graph.new(track, user_track)
     end
 
     # Layout computes the ordering of the exercises in a track by creating
@@ -86,7 +86,8 @@ class Track
       # Node for representing an exercise within a track
       Node = Struct.new(:index, :slug, :name, :prerequisites, :level, keyword_init: true)
 
-      def initialize(track)
+      def initialize(track, _user_track)
+        @track = track
         @track = track
         @nodes = determine_nodes
         @edges = determine_edges
@@ -116,7 +117,7 @@ class Track
       end
 
       private
-      attr_reader :edges, :track
+      attr_reader :edges, :track, :user_track
 
       # Creates adjacency list for a graph with directed edges
       memoize
@@ -131,7 +132,7 @@ class Track
       end
 
       def determine_nodes
-        nodes = track.concept_exercises.includes(:taught_concepts, :prerequisites).flat_map do |exercise|
+        nodes = track.concept_exercises.enabled(user_track).includes(:taught_concepts, :prerequisites).flat_map do |exercise|
           exercise.taught_concepts.map do |concept|
             Node.new(
               index: nil,

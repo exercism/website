@@ -6,7 +6,7 @@ class Tracks::ConceptsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
 
   def index
-    @concept_map_data = Track::DetermineConceptMapLayout.(@track)
+    @concept_map_data = Track::DetermineConceptMapLayout.(@track, @user_track)
 
     @concept_map_data[:status] =
       UserTrack::GenerateConceptStatusMapping.(@user_track)

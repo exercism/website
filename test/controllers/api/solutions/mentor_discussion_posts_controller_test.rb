@@ -39,7 +39,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           content_html: "<p>Request comment</p>\n",
           updated_at: Time.utc(2016, 12, 25).iso8601,
           links: {
-            edit: Exercism::Routes.api_mentor_request_comment_url(discussion.request.uuid)
+            edit: Exercism::Routes.api_solution_mentor_request_url(solution.uuid, discussion.request.uuid)
           }
         },
         {
@@ -89,7 +89,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           updated_at: Time.utc(2016, 12, 25).iso8601,
           iteration_idx: 7,
           links: {
-            edit: Exercism::Routes.api_mentor_request_comment_url(discussion.request.uuid)
+            edit: Exercism::Routes.api_solution_mentor_request_url(solution.uuid, discussion.request.uuid)
           }
         }
       ]

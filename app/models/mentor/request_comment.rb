@@ -43,7 +43,7 @@ class Mentor::RequestComment
 
   def links
     {
-      edit: Exercism::Routes.api_mentor_request_comment_url(request)
+      edit: Exercism::Routes.api_solution_mentor_request_url(request.solution.uuid, request)
     }
   end
 end

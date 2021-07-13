@@ -66,10 +66,18 @@ class UserTrack
     end
 
     def generate_exercises_data!
-      exercises = (
-        track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a +
-        track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
-      ).freeze
+      concept_exercises =
+        track.concept_exercises.
+          includes(:taught_concepts, :prerequisites).
+          where(status: %i[active beta]).
+          or(track.concept_exercises.where(id: user_track.solutions.select(:exercise_id)))
+
+      practice_exercises = track.practice_exercises.
+        includes(:practiced_concepts, :prerequisites).
+        where(status: %i[active beta]).
+        or(track.practice_exercises.where(id: user_track.solutions.select(:exercise_id)))
+
+      exercises = (concept_exercises.to_a + practice_exercises.to_a).freeze
 
       @exercises_data = exercises.each_with_object({}) do |exercise, data|
         prerequisite_concept_slugs = exercise.prerequisites.pluck(:slug)
@@ -81,7 +89,6 @@ class UserTrack
           id: exercise.id,
           slug: exercise.slug,
           type: exercise.git_type.to_sym,
-          status: exercise.status,
           tutorial: exercise.tutorial?,
           prerequisite_concept_slugs: prerequisite_concept_slugs,
           practiced_concepts: practiced_concepts,
@@ -133,7 +140,6 @@ class UserTrack
       return true unless user_track
       return true if solutions_data[exercise_data[:slug]]
       return exercise_data[:tutorial] if tutorial_pending
-      return false if %i[wip deprecated].include?(exercise_data[:status])
 
       (exercise_data[:prerequisite_concept_slugs] - learnt_concept_slugs).empty?
     end

@@ -244,6 +244,8 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     assert_equal [beta_concept_exercise, active_concept_exercise, deprecated_concept_exercise], summary.unlocked_concept_exercises
     assert_equal [beta_practice_exercise, active_practice_exercise, deprecated_practice_exercise, hello_world],
       summary.unlocked_practice_exercises
+
+    # TODO: (Optional): show wip exercises for maintainers
   end
 
   private

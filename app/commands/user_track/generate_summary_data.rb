@@ -81,7 +81,6 @@ class UserTrack
           id: exercise.id,
           slug: exercise.slug,
           type: exercise.git_type.to_sym,
-          status: exercise.status,
           tutorial: exercise.tutorial?,
           prerequisite_concept_slugs: prerequisite_concept_slugs,
           practiced_concepts: practiced_concepts,

@@ -45,7 +45,7 @@ class AssembleMentorRequestsTest < ActiveSupport::TestCase
     15.times { create :mentor_request, solution: solution }
 
     assert_equal SerializePaginatedCollection.(
-      Mentor::Request.page(1).per(10),
+      Mentor::Request.page(1).per(25),
       serializer: SerializeMentorRequests,
       serializer_args: user,
       meta: {

@@ -19,8 +19,8 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def show
-    @concept_exercises = @concept.concept_exercises
-    @practice_exercises = @concept.practice_exercises
+    @concept_exercises = @concept.concept_exercises.enabled(@user_track)
+    @practice_exercises = @concept.practice_exercises.enabled(@user_track)
 
     if current_user
       @solutions = current_user.solutions.where(exercise_id: @concept_exercises.map(&:id) + @practice_exercises.map(&:id)).

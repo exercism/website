@@ -21,7 +21,6 @@ export const TrackSummary = ({
             data={track.progressChart.data}
             height={120}
             width={300}
-            smooth
           />
           <div className="info">
             <h4>{track.progressChart.period}</h4>

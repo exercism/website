@@ -480,7 +480,6 @@ initReact({
       data={data.values}
       height={data.height}
       width={data.width}
-      smooth
     />
   ),
 })

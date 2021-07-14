@@ -14,7 +14,7 @@ class Mentoring::RequestsController < ApplicationController
 
       redirect_to mentoring_discussion_path(discussion)
     else
-      # TODO: Handle cancelled requests
+      # TODO: (Required) Handle cancelled requests
       redirect_to action: :unavailable
     end
   end

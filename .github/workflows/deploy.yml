@@ -19,7 +19,7 @@ env:
   ecr_repository_anycable_go: "webserver-anycable-go"
   dockerfile_anycable_go: "docker/anycable-go.Dockerfile"
 
-  # TODO: Move this to be a secret
+  # TODO: (Required) Move this to be a secret
   s3_bucket: "exercism-assets-staging"
 
 on:

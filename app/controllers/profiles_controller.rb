@@ -8,7 +8,7 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    # TODO: Order all these by most prominent first
+    # TODO: (Required) Order all these by most prominent first
     @solutions = @user.solutions.published.first(3)
     @testimonials = @user.mentor_testimonials.published.first(3)
 

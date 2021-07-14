@@ -34,7 +34,7 @@ class Solution
       <<~TEXT.strip
         ## #{submitting_solution_intro_text}
 
-        TODO
+        TODO: (Required) define generic submit instructions
       TEXT
     end
 
@@ -45,7 +45,7 @@ class Solution
       <<~TEXT.strip
         ## #{help_intro_text}
 
-        TODO
+        TODO: (Required) define generic help text
 
         #{track_help_text}
       TEXT

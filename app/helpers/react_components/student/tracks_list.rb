@@ -1,7 +1,7 @@
 module ReactComponents
   module Student
     class TracksList < ReactComponent
-      # TODO: Remove `user` and its usage here once API supports session requests
+      # TODO: (Optional) Remove `user` and its usage here once API supports session requests
       def initialize(user, tracks, params)
         super()
 

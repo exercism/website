@@ -1,4 +1,4 @@
-# TODO: Remove
+# TODO: (Optional) Remove
 module Temp
   class UsersController < ApplicationController
     def destroy

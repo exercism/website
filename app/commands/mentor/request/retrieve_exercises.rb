@@ -6,8 +6,8 @@ module Mentor
       initialize_with :mentor, :track_slug
 
       def call
-        # TODO: Cache this using track.updated_at
-        # TODO: Set track.updated_at to be touched when any exercises changes
+        # TODO: (Optional) Cache this using track.updated_at
+        # TODO: (Optional) Set track.updated_at to be touched when any exercises changes
 
         # Then add the order and enumerate here
         track.exercises.order(title: :asc).map do |exercise|

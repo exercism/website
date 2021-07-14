@@ -15,7 +15,7 @@ module Git
         # This is required to remove authors that were already added
         concept.reload.update!(authors: authors)
 
-        # TODO: (Optional): consider what to do with missing authors
+        # TODO: (Optional) consider what to do with missing authors
         missing_authors = authors_config - authors.pluck(:github_username)
         Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
       end

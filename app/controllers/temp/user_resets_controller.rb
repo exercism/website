@@ -1,4 +1,4 @@
-# TODO: Remove
+# TODO: (Optional) Remove
 module Temp
   class UserResetsController < ApplicationController
     def show; end

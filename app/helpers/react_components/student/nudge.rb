@@ -40,7 +40,7 @@ module ReactComponents
         {
           mentoring_info: "#",
           complete_exercise: Exercism::Routes.complete_api_solution_url(solution.uuid),
-          share_mentoring: "https://some.link/we/need/to-decide-on", # TODO
+          share_mentoring: "https://some.link/we/need/to-decide-on", # TODO: (Required)
           request_mentoring: Exercism::Routes.new_track_exercise_mentor_request_path(solution.track, solution.exercise),
           pending_mentor_request: Exercism::Routes.track_exercise_mentor_request_path(solution.track, solution.exercise)
         }.tap do |links|

@@ -6,7 +6,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
     solution = create :concept_solution, exercise: exercise
 
     contents = Solution::GenerateHelpFile.(solution)
-    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO\n\n## Need to get help?\n\nTODO\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
+    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO: (Required) define generic submit instructions\n\n## Need to get help?\n\nTODO: (Required) define generic help text\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
     assert_equal expected, contents
   end
 
@@ -15,7 +15,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: exercise
 
     contents = Solution::GenerateHelpFile.(solution)
-    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO\n\n## Need to get help?\n\nTODO\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
+    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO: (Required) define generic submit instructions\n\n## Need to get help?\n\nTODO: (Required) define generic help text\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
     assert_equal expected, contents
   end
 end

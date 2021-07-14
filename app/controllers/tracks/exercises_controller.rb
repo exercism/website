@@ -11,7 +11,7 @@ class Tracks::ExercisesController < ApplicationController
     @num_completed = @user_track.num_completed_exercises
   end
 
-  # TODO: There is lots of logic in this view
+  # TODO: (Optional) There is lots of logic in this view
   # that should be extracted into a view model
   # to allow for pre-caching of solution data
   def show
@@ -26,7 +26,7 @@ class Tracks::ExercisesController < ApplicationController
     }
   end
 
-  # TODO: This should be an API method, not a HTML one.
+  # TODO: (Required) This should be an API method, not a HTML one.
   def start
     Solution::Create.(current_user, @exercise)
 
@@ -52,7 +52,7 @@ class Tracks::ExercisesController < ApplicationController
     end
   end
 
-  # TODO: Delete when this is working via the API
+  # TODO: (Required) Delete when this is working via the API
   def complete
     Solution::Complete.(@solution, @user_track)
     redirect_to action: :show

@@ -5,7 +5,7 @@ module Mentor
 
       initialize_with :request, :mentor
 
-      # TODO: Add a guard that a mentor should only have
+      # TODO: (Required) Add a guard that a mentor should only have
       # two solutions locked to them at any time. When someone
       # hits 'start discussion' that should remove the lock.
 

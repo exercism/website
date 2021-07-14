@@ -6,7 +6,7 @@ class Tracks::MentorRequestsController < ApplicationController
     @first_time_on_track = true
     @first_time_mentoring = true
 
-    # TODO: Change to "if %i[requested in_progress].include(@solution.mentoring_status)
+    # TODO: (Optional) Change to "if %i[requested in_progress].include(@solution.mentoring_status)
     return redirect_to action: :show if @solution.mentor_requests.pending.exists?
     return redirect_to action: :show if @solution.mentor_discussions.in_progress_for_student.exists?
   end
@@ -17,7 +17,7 @@ class Tracks::MentorRequestsController < ApplicationController
     if @mentor_request.fulfilled?
       redirect_to track_exercise_mentor_discussion_path(@track, @exercise, @mentor_request.discussion)
     elsif @mentor_request.cancelled?
-      # TODO: Handle cancelled requests
+      # TODO: (Required) Handle cancelled requests
     end
   end
 

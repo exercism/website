@@ -5,7 +5,7 @@ module API
       before_action :authenticate_user
       before_action :use_concept
 
-      # TODO: This needs test coverage
+      # TODO: (Optional) This needs test coverage
       def index
         mapper = proc do |user|
           {

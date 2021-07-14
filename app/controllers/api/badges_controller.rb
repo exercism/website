@@ -16,7 +16,7 @@ module API
       )
     end
 
-    # TODO: Add test coverage etc to this.
+    # TODO: (Optional) Add test coverage etc to this.
     def reveal
       badge = current_user.acquired_badges.find_by!(uuid: params[:uuid])
       badge.update!(revealed: true)

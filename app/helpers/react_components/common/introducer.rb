@@ -17,7 +17,7 @@ module ReactComponents
         capture_haml { block.() }
       end
 
-      # TODO: This is just a temporary implementation
+      # TODO: (Optional) This is just a temporary implementation
       def hidden?
         (context.session[:hidden_introducers] || []).include?(id.to_s)
       end

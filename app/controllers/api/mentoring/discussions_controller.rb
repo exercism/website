@@ -3,7 +3,7 @@ module API
     include Webpacker::Helper
     include ActionView::Helpers::AssetUrlHelper
 
-    # TODO: Add filters
+    # TODO: (Optional) Add filters (the criteria aren't the filters?)
     def index
       discussions = ::Mentor::Discussion::Retrieve.(
         current_user,
@@ -67,7 +67,7 @@ module API
           params[:content]
         )
       rescue SolutionLockedByAnotherMentorError
-        # TODO: (blocking): Are we handling this in React
+        # TODO: (Required): Are we handling this in React
         return render_400(:mentor_request_locked)
       end
 
@@ -98,7 +98,7 @@ module API
       }
     end
 
-    # TODO: An actual implementation of this endpoint.
+    # TODO: (Required) An actual implementation of this endpoint.
     # The JSON response below is what I expect for the React component.
     def finish
       discussion = current_user.mentor_discussions.find_by(uuid: params[:uuid])

@@ -19,7 +19,7 @@ class Solution
     def call
       @solutions = exercise.solutions.published
 
-      # TODO: Implement this properly.
+      # TODO: (Optional) Implement this properly.
       @solutions = solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%") if @criteria.present?
 
       @solutions.page(page).per(per)

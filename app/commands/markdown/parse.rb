@@ -1,7 +1,7 @@
 class Markdown::Parse
   include Mandate
 
-  # TODO: This needs fixing in mandate but I don't know
+  # TODO: (Optional) This needs fixing in mandate but I don't know
   # how to do it without breaking hashes passed as the
   # last argument
   def self.call(*args, **kwargs)

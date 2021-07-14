@@ -1,4 +1,4 @@
-# TODO: Remove
+# TODO: (Optional) Remove
 module Temp
   class ModalsController < ApplicationController
     def completed_exercise
@@ -9,8 +9,8 @@ module Temp
 
       if @exercise.concept_exercise?
         @concepts = @exercise.taught_concepts
-        @unlocked_concepts = [] # TODO
-        @unlocked_exercises = [] # TODO
+        @unlocked_concepts = [] # TODO: (Optional)
+        @unlocked_exercises = [] # TODO: (Optional)
       else
         @concepts = @exercise.prerequisites
       end

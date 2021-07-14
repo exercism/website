@@ -16,7 +16,7 @@ class User::ReputationPeriod
         end
       end
 
-      # TODO: When new version of Rails is released, change to this:
+      # TODO: (Optional) When new version of Rails is released, change to this:
       # User::ReputationPeriod.upsert_all(rows, on_duplicate: {dirty: false})
       User::ReputationPeriod.upsert_all(rows)
     end

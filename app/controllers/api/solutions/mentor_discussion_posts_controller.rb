@@ -1,4 +1,4 @@
-# TODO: Check to see which parts of this and
+# TODO: (Optional) Check to see which parts of this and
 # api/mentoring/discussion_posts can be DRYed up
 module API
   class Solutions::MentorDiscussionPostsController < BaseController

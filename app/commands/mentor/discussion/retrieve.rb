@@ -17,7 +17,7 @@ module Mentor
                      track_slug: nil,
                      sorted: true, paginated: true)
 
-        # TODO: Guard valid status
+        # TODO: (Required) Guard valid status
 
         @mentor = mentor
         @status = status.to_sym
@@ -68,7 +68,7 @@ module Mentor
         end
       end
 
-      # TODO: This is just a stub implementation
+      # TODO: (Optional) This is just a stub implementation
       def filter_track!
         return if track_slug.blank?
 

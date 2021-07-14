@@ -69,7 +69,6 @@ module API
       rescue StudentCannotMentorThemselvesError
         return render_400(:student_cannot_mentor_themselves)
       rescue SolutionLockedByAnotherMentorError
-        # TODO: (Required): Are we handling this in React
         return render_400(:mentor_request_locked)
       end
 

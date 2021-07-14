@@ -35,6 +35,8 @@ class Mentor::Discussion < ApplicationRecord
   scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished]) }
   scope :not_negatively_rated, -> { where(rating: [nil, 3, 4, 5]) }
 
+  delegate :comment, to: :request, prefix: true, allow_nil: true
+
   before_validation do
     self.solution = request.solution unless self.solution
   end

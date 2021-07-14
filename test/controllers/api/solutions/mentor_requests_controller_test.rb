@@ -1,22 +1,22 @@
 require_relative '../base_test_case'
 
 class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
-  guard_incorrect_token! :api_solution_mentor_request_path, args: 2, method: :post
-  guard_incorrect_token! :api_solution_mentor_request_path, args: 3, method: :get
+  guard_incorrect_token! :api_solution_mentor_requests_path, args: 2, method: :post
+  guard_incorrect_token! :api_solution_mentor_requests_path, args: 3, method: :get
 
   ###
   # Create
   ###
   test "create should 404 if the solution doesn't exist" do
     setup_user
-    post api_solution_mentor_request_path(999), headers: @headers, as: :json
+    post api_solution_mentor_requests_path(999), headers: @headers, as: :json
     assert_response 404
   end
 
   test "create should 404 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
-    post api_solution_mentor_request_path(solution.uuid), headers: @headers, as: :json
+    post api_solution_mentor_requests_path(solution.uuid), headers: @headers, as: :json
     assert_response 403
     expected = { error: {
       type: "solution_not_accessible",
@@ -32,7 +32,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: user
 
     comment = "foo to the baaar"
-    post api_solution_mentor_request_path(solution.uuid),
+    post api_solution_mentor_requests_path(solution.uuid),
       params: { comment: comment },
       headers: @headers, as: :json
 

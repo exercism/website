@@ -1,9 +1,10 @@
-import React, { forwardRef, useCallback, useState } from 'react'
+import React, { forwardRef, useCallback } from 'react'
 import { DiscussionPostView } from './discussion-post/DiscussionPostView'
 import { DiscussionPostEdit } from './discussion-post/DiscussionPostEdit'
 
 type DiscussionPostLinks = {
-  self?: string
+  edit?: string
+  delete?: string
 }
 
 export type DiscussionPostProps = {

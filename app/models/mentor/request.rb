@@ -31,7 +31,7 @@ class Mentor::Request < ApplicationRecord
 
   validates :comment_markdown, presence: true
 
-  has_markdown_field :comment
+  has_markdown_field :comment, strip_h1: false, lower_heading_levels_by: 2
 
   delegate :title, :slug, to: :track, prefix: :track
   delegate :handle, :avatar_url, to: :student, prefix: :student
@@ -84,5 +84,9 @@ class Mentor::Request < ApplicationRecord
 
   def locked?
     locks.exists?
+  end
+
+  def comment
+    Mentor::RequestComment.from(self)
   end
 end

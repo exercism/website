@@ -27,7 +27,7 @@ export const MarkdownEditorForm = ({
   onSubmit,
   onClick = () => null,
   onCancel,
-  onDelete = () => null,
+  onDelete,
   onChange = () => null,
   contextId,
   value,
@@ -89,7 +89,11 @@ export const MarkdownEditorForm = ({
   )
 
   const handleDelete = useCallback(
-    (e) => {
+    (e: React.FormEvent) => {
+      if (!onDelete) {
+        return
+      }
+
       e.stopPropagation()
 
       confirm('Are you sure you want to delete this post?') ? onDelete() : null
@@ -122,7 +126,7 @@ export const MarkdownEditorForm = ({
         {expanded ? (
           <FormFooter
             onCancel={handleCancel}
-            onDelete={handleDelete}
+            onDelete={onDelete ? handleDelete : undefined}
             value={value}
             status={status}
             action={action}

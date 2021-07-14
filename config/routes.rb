@@ -134,7 +134,7 @@ Rails.application.routes.draw do
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"
         resources :last_iteration_files, only: %i[index], controller: "solutions/last_iteration_files"
 
-        resource :mentor_request, only: %i[create], controller: "solutions/mentor_requests"
+        resources :mentor_requests, only: %i[create update], controller: "solutions/mentor_requests", param: :uuid
         resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions", param: :uuid do
           patch :finish, on: :member
           resources :posts, only: %i[index create update destroy], controller: "solutions/mentor_discussion_posts", param: :uuid

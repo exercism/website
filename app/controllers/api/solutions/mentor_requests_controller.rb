@@ -1,6 +1,7 @@
 module API
   class Solutions::MentorRequestsController < BaseController
     before_action :use_solution
+    before_action :use_mentor_request, only: :update
 
     def create
       mentor_request = Mentor::Request::Create.(
@@ -15,6 +16,16 @@ module API
       }
     end
 
+    def update
+      if @mentor_request.update(comment_markdown: params[:content])
+        render json: {
+          post: SerializeMentorDiscussionPost.(@mentor_request.comment, current_user)
+        }
+      else
+        render_400(:failed_validations, errors: @mentor_request.errors)
+      end
+    end
+
     private
     def use_solution
       begin
@@ -24,6 +35,12 @@ module API
       end
 
       return render_solution_not_accessible unless @solution.user_id == current_user.id
+    end
+
+    def use_mentor_request
+      @mentor_request = @solution.mentor_requests.find_by!(uuid: params[:uuid])
+
+      return render_solution_not_accessible unless @mentor_request.solution.user_id == current_user.id
     end
   end
 end

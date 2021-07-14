@@ -5,7 +5,7 @@ module API
     before_action :use_mentor_discussion
 
     def index
-      mentor_request_comment = MentorRequestComment.from(@discussion)
+      mentor_request_comment = @discussion.request_comment
       posts = @discussion.posts
 
       serialized_posts = [mentor_request_comment, *posts].
@@ -60,44 +60,6 @@ module API
 
       @solution = @discussion.solution
       return render_403(:mentor_discussion_not_accessible) unless @solution.user_id == current_user.id
-    end
-  end
-
-  # TODO: Merge into the other identical place
-  class MentorRequestComment
-    include ActiveModel::Model
-
-    attr_accessor :uuid, :author, :by_student, :content_markdown, :content_html, :iteration_idx, :updated_at, :discussion
-
-    def self.from(discussion)
-      mentor_request = discussion.request
-      return nil unless mentor_request
-      return nil if mentor_request.comment_html.blank?
-
-      if discussion.posts.any?
-        iteration_idx = discussion.posts.first.iteration_idx
-      else
-        iteration_idx = discussion.iterations.last.idx
-      end
-
-      new(
-        uuid: "",
-        iteration_idx: iteration_idx,
-        author: mentor_request.student,
-        by_student: true,
-        content_markdown: mentor_request.comment_markdown,
-        content_html: mentor_request.comment_html,
-        updated_at: mentor_request.updated_at,
-        discussion: discussion
-      )
-    end
-
-    def by_student?
-      by_student
-    end
-
-    def links
-      {}
     end
   end
 end

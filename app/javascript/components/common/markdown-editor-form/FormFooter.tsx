@@ -10,7 +10,7 @@ export const FormFooter = ({
 }: {
   status: QueryStatus
   value: string
-  onDelete: (e: React.FormEvent) => void
+  onDelete?: (e: React.FormEvent) => void
   onCancel: (e: React.FormEvent) => void
   action: MarkdownEditorFormAction
 }): JSX.Element => {

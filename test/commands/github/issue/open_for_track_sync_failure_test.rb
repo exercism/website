@@ -2,6 +2,8 @@ require "test_helper"
 
 class Github::Issue::OpenForTrackSyncFailureTest < ActiveSupport::TestCase
   test "opens issue when issue was not yet created" do
+    Exercism.config.stubs(:github_bot_username).returns('exercism-bot')
+
     head_git_sha = "2e25f799c1830b93a8ad65a2bbbb1c50f381e639"
 
     # Raise the error and catch it to ensure a proper backtrace
@@ -41,6 +43,8 @@ class Github::Issue::OpenForTrackSyncFailureTest < ActiveSupport::TestCase
   end
 
   test "re-opens issue when issue was closed" do
+    Exercism.config.stubs(:github_bot_username).returns('exercism-bot')
+
     head_git_sha = "2e25f799c1830b93a8ad65a2bbbb1c50f381e639"
 
     # Raise the error and catch it to ensure a proper backtrace
@@ -76,6 +80,8 @@ class Github::Issue::OpenForTrackSyncFailureTest < ActiveSupport::TestCase
   end
 
   test "does nothing when issue already open" do
+    Exercism.config.stubs(:github_bot_username).returns('exercism-bot')
+
     head_git_sha = "2e25f799c1830b93a8ad65a2bbbb1c50f381e639"
 
     # Raise the error and catch it to ensure a proper backtrace

@@ -2,6 +2,8 @@ require "test_helper"
 
 class Github::Issue::OpenForDocSyncFailureTest < ActiveSupport::TestCase
   test "opens issue when issue was not yet created" do
+    Exercism.config.stubs(:github_bot_username).returns('exercism-bot')
+
     # Raise the error and catch it to ensure a proper backtrace
     begin
       raise StandardError, "Could not find Concept X"
@@ -45,6 +47,8 @@ class Github::Issue::OpenForDocSyncFailureTest < ActiveSupport::TestCase
   end
 
   test "re-opens issue when issue was closed" do
+    Exercism.config.stubs(:github_bot_username).returns('exercism-bot')
+
     # Raise the error and catch it to ensure a proper backtrace
     begin
       raise StandardError, "Could not find Concept X"
@@ -84,6 +88,8 @@ class Github::Issue::OpenForDocSyncFailureTest < ActiveSupport::TestCase
   end
 
   test "does nothing when issue already open" do
+    Exercism.config.stubs(:github_bot_username).returns('exercism-bot')
+
     # Raise the error and catch it to ensure a proper backtrace
     begin
       raise StandardError, "Could not find Concept X"

@@ -65,7 +65,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     setup_user
     solution = create :practice_solution, user: @current_user
     create :submission, solution: solution
-    content = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO\n\n## Need to get help?\n\nTODO\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
+    content = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO: (Required) define generic submit instructions\n\n## Need to get help?\n\nTODO: (Required) define generic help text\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
 
     get "/api/v1/solutions/#{solution.uuid}/files/HELP.md", headers: @headers, as: :json
     assert_response 200

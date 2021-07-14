@@ -126,4 +126,19 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     assert_equal :pending, request.reload.status
     assert_equal 0, Mentor::Discussion.count
   end
+
+  test "request not fullfiled if mentoring own solution" do
+    mentor = create :user
+    solution = create :practice_solution, user: mentor
+    request = create :mentor_request, solution: solution
+    submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
+
+    assert_raises StudentCannotMentorOwnSolutionError do
+      Mentor::Discussion::Create.(mentor, request, iteration.idx, "foobar")
+    end
+
+    assert_equal :pending, request.reload.status
+    assert_equal 0, Mentor::Discussion.count
+  end
 end

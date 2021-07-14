@@ -29,7 +29,7 @@ module API
         end
 
         begin
-          user_track = UserTrack.find_by!(user: current_user, track: track)
+          user_track = UserTrack.for(current_user, track)
         rescue ActiveRecord::RecordNotFound
           return render_403(:track_not_joined)
         end

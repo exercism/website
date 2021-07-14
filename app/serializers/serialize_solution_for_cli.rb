@@ -30,7 +30,7 @@ class SerializeSolutionForCLI
   private
   def user_handle
     # Handles can change on anonymous tracks
-    user_track = UserTrack.find_by!(track: track, user: solution.user)
+    user_track = UserTrack.for(solution.user, track)
     if user_track.anonymous_during_mentoring?
       solution.anonymised_user_handle
     else

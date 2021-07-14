@@ -143,6 +143,25 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "create should 400 if the mentor is also the student" do
+    user = create :user
+    setup_user(user)
+
+    solution = create :practice_solution, user: user
+    submission = create :submission, solution: solution
+    create :iteration, submission: submission
+    mentor_request = create :mentor_request, solution: solution
+
+    post api_mentoring_discussions_path(mentor_request_uuid: mentor_request), headers: @headers, as: :json
+    assert_response 400
+    expected = { error: {
+      type: "student_cannot_mentor_themselves",
+      message: I18n.t('api.errors.student_cannot_mentor_themselves')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
   test "create should create correctly" do
     user = create :user
     setup_user(user)

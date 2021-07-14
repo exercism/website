@@ -19,7 +19,7 @@ class SubmissionFileTooLargeError < RuntimeError; end
 
 class SolutionLockedByAnotherMentorError < RuntimeError; end
 
-class StudentCannotMentorOwnSolutionError < RuntimeError; end
+class StudentCannotMentorThemselvesError < RuntimeError; end
 
 class SolutionNotFoundError < RuntimeError; end
 

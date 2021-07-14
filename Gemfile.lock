@@ -74,8 +74,8 @@ GEM
       ruby-next-core (>= 0.11.0)
     ast (2.4.2)
     aws-eventstream (1.1.1)
-    aws-partitions (1.454.0)
-    aws-sdk-core (3.114.0)
+    aws-partitions (1.478.0)
+    aws-sdk-core (3.117.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -96,7 +96,7 @@ GEM
     aws-sdk-secretsmanager (1.46.0)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.2.3)
+    aws-sigv4 (1.2.4)
       aws-eventstream (~> 1, >= 1.0.2)
     backport (1.1.2)
     bcrypt (3.1.16)
@@ -137,7 +137,7 @@ GEM
     erubi (1.10.0)
     et-orbi (1.2.4)
       tzinfo
-    exercism-config (0.68.0)
+    exercism-config (0.70.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate

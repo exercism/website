@@ -86,9 +86,9 @@ class Track
       # Node for representing an exercise within a track
       Node = Struct.new(:index, :slug, :name, :prerequisites, :level, keyword_init: true)
 
-      def initialize(track, _user_track)
+      def initialize(track, user_track)
         @track = track
-        @track = track
+        @user_track = user_track
         @nodes = determine_nodes
         @edges = determine_edges
       end

@@ -31,12 +31,6 @@ class UserTrackTest < ActiveSupport::TestCase
   test ".for handles bad data" do
     track = create :track
     ut = create :user_track, track: track
-    assert_nil UserTrack.for(create(:user), nil, external_if_missing: false)
-    assert_nil UserTrack.for(nil, nil, external_if_missing: false)
-    assert_nil UserTrack.for(create(:user), track, external_if_missing: false)
-    assert_nil UserTrack.for(ut.user, create(:track, :random_slug), external_if_missing: false)
-    assert_nil UserTrack.for(nil, track, external_if_missing: false)
-    assert_nil UserTrack.for(nil, track.slug, external_if_missing: false)
 
     assert_nil UserTrack.for(create(:user), nil)
     assert_nil UserTrack.for(nil, nil)

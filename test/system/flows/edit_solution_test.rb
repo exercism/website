@@ -14,6 +14,7 @@ module Components
           user = create :user
           create :user_auth_token, user: user
           bob = create :concept_exercise
+          create :user_track, user: user, track: bob.track
           solution = create :concept_solution, user: user, exercise: bob
 
           sign_in!(user)
@@ -42,6 +43,7 @@ module Components
           user = create :user
           create :user_auth_token, user: user
           bob = create :concept_exercise
+          create :user_track, user: user, track: bob.track
           solution = create :concept_solution, user: user, exercise: bob
 
           sign_in!(user)

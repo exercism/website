@@ -196,6 +196,7 @@ import 'tippy.js/animations/shift-away-subtle.css'
 import 'tippy.js/dist/svg-arrow.css'
 import '../../css/highlighters/highlightjs-light'
 import '../../css/highlighters/highlightjs-dark'
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
 import React from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'

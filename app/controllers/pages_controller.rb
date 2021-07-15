@@ -5,7 +5,7 @@ class PagesController < ApplicationController
     "https://raw.githubusercontent.com/exercism/v3-beta/main/README.md?q=#{Time.current.min}"
   end
 
-  def index
+  def beta
     # solution = Solution.first
     resp = RestClient.get(self.class.readme_url)
 

@@ -280,5 +280,5 @@ module.exports = {
     container: false,
   },
   // s- for style
-  prefix: 'tw-',
+  // prefix: 'tw-',
 }

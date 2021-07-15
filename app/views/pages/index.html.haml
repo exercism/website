@@ -1,5 +1,56 @@
-#page-staging
-  .lg-container
-    %h1 Welcome to the Exercism v3 Beta
-    .c-textual-content.--large
-      = raw @content
+#page-landing
+  %header.py-40.c-header-with-bg
+    .lg-container.flex
+      .flex-grow
+        %h1.text-h1.mb-16
+          Get
+          %strong.leading-none.font-bold really
+          good at programming.
+        %p.text-p-xlarge.mb-28
+          Develop fluency in over 55 programming languages with our unique blend of learning, practice and mentoring.
+          Exercism is fun, effective and
+          %strong.font-semibold.text-textColor2 100% free, forever.
+        .buttons.flex.mb-40
+          = link_to "Sign up for free", new_user_registration_path, class: 'btn-primary btn-l mr-24'
+          = link_to "Explore languages", tracks_path, class: 'btn-secondary btn-l shadow-buttonS'
+
+        .organisation.flex.items-center.py-16.pl-32.pr-48.rounded-8.shadow-xsZ1.relative.bg-lightPurple
+          = icon "exercism-with-logo-black", "Exercism"
+          %p.text-p-base is an independent, community funded, not-for-profit organisation.
+          = link_to "Learn more", "#", class: "c-prominent-link ml-40"
+
+      = graphical_icon "landing-page-top", category: :graphics, css_class: "hidden lg:block"
+
+  %section.tracks
+    .lg-container
+      .section-header
+        = graphical_icon :tracks, hex: true
+        %h2.text-h1 Explore over 68 programming language tracks, at no cost.
+        %hr.c-divider.--large
+
+<script src="https://unpkg.com/rough-notation/lib/rough-notation.iife.js"></script>
+
+:javascript
+  const annotationH1 = RoughNotation.annotate(
+    document.querySelector('#page-landing h1 strong'),
+    {
+      type: 'underline',
+      color:'#6A93FF',
+      strokeWidth:6,
+      iterations: 1,
+      padding: -7,
+      multiline: true
+    });
+
+  const annotationP = RoughNotation.annotate(
+    document.querySelector('#page-landing p strong'),
+    {
+      type: 'underline',
+      color:'#6A93FF',
+      strokeWidth:2,
+      iterations: 1,
+      padding: -2,
+      multiline: true
+    });
+  setTimeout(function() { annotationH1.show() }, 1000)
+  setTimeout(function() { annotationP.show() }, 2000)

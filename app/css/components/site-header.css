@@ -14,12 +14,12 @@
         margin-right: 56px;
 
         & .c-icon {
-            height: 24px;
-            width: 132px;
+            height: 28px;
+            width: 154px;
         }
     }
 
-    & nav {
+    & nav.signed-in {
         @apply flex-grow;
 
         & ul {
@@ -55,6 +55,22 @@
                 left: -11px;
                 top: -9px;
             }
+        }
+    }
+
+    & nav.signed-out {
+        @apply ml-auto;
+
+        & ul {
+            @apply flex items-center;
+        }
+
+        & li {
+            @apply mr-32;
+        }
+        & a {
+            @apply flex items-center relative;
+            @apply text-16 leading-160 text-textColor6 font-semibold;
         }
     }
 
@@ -149,8 +165,9 @@
             }
         }
     }
-    & .external-section {
-        @apply flex items-center flex-grow justify-end;
+    & .auth-buttons {
+        @apply flex items-center justify-end;
+        @apply ml-8;
 
         & a:first-child {
             @apply mr-16;

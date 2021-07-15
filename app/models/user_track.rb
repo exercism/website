@@ -41,6 +41,11 @@ class UserTrack < ApplicationRecord
     end
   end
 
+  memoize
+  def exercises
+    track.exercises.where(status: %i[active beta]).or(track.exercises.where(id: solutions.select(:exercise_id)))
+  end
+
   def external?
     false
   end

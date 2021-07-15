@@ -36,59 +36,6 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_equal [exercise_1, exercise_2, exercise_3, exercise_4], Exercise.sorted
   end
 
-  test "scope :enabled" do
-    track = create :track
-    user = create :user
-    user_track = create :user_track, track: track, user: user
-
-    create :concept_exercise, :random_slug, track: track, status: :wip
-    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
-    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active
-    deprecated_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :deprecated
-
-    create :practice_exercise, :random_slug, track: track, status: :wip
-    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta
-    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active
-    deprecated_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :deprecated
-
-    # wip and deprecated exercises are not enabled when no user track provided
-    assert_equal [
-      beta_concept_exercise,
-      active_concept_exercise,
-      beta_practice_exercise,
-      active_practice_exercise
-    ], Exercise.enabled(nil)
-
-    # wip and deprecated exercises are not enabled for external tracks
-    assert_equal [
-      beta_concept_exercise,
-      active_concept_exercise,
-      beta_practice_exercise,
-      active_practice_exercise
-    ], Exercise.enabled(UserTrack::External.new(Track.for!(track.id)))
-
-    # wip and deprecated exercises are not enabled for user track that has not started the exercise
-    assert_equal [
-      beta_concept_exercise,
-      active_concept_exercise,
-      beta_practice_exercise,
-      active_practice_exercise
-    ], Exercise.enabled(user_track)
-
-    create :concept_solution, user: user, exercise: deprecated_concept_exercise
-    create :practice_solution, user: user, exercise: deprecated_practice_exercise
-
-    # deprecated exercises are enabled (but wip still aren't) if user has started the exercise
-    assert_equal [
-      beta_concept_exercise,
-      active_concept_exercise,
-      deprecated_concept_exercise,
-      beta_practice_exercise,
-      active_practice_exercise,
-      deprecated_practice_exercise
-    ], Exercise.enabled(user_track)
-  end
-
   test "prerequisite_exercises" do
     strings = create :concept
     bools = create :concept

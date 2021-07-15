@@ -55,4 +55,27 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     assert_equal 3, ut.num_exercises_for_concept(concept_1)
     assert_equal 2, ut.num_exercises_for_concept(concept_2)
   end
+
+  test "exercises" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    create :concept_exercise, :random_slug, track: track, status: :wip
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active
+    create :concept_exercise, :random_slug, track: track, status: :deprecated
+
+    create :practice_exercise, :random_slug, track: track, status: :wip
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active
+    create :practice_exercise, :random_slug, track: track, status: :deprecated
+
+    # wip and deprecated exercises are not included
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
+  end
 end

@@ -50,6 +50,7 @@ class Exercise < ApplicationRecord
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
   }
 
+  # TODO: (Required) Replace this scope with method on UserTrack
   scope :enabled, lambda { |user_track|
     if !user_track || user_track.external?
       where(status: %i[active beta])

@@ -14,6 +14,11 @@ class UserTrack
       :updated_at,
       to: :track
 
+    memoize
+    def exercises
+      track.exercises.where(status: %i[active beta])
+    end
+
     #######################
     # Non-summary methods #
     #######################

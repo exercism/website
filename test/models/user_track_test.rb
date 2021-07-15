@@ -347,4 +347,56 @@ class UserTrackTest < ActiveSupport::TestCase
     create :mentor_request, :cancelled, solution: create(:concept_solution, track: ut.track, user: ut.user)
     assert_equal [req], UserTrack.find(ut.id).pending_mentoring_requests
   end
+
+  test "exercises" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    # wip exercises and unstarted deprecated exercises are not included
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
+  end
+
+  test "exercises includes deprecated exercises that the user started" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    deprecated_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    deprecated_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    create :concept_solution, user: user, exercise: deprecated_concept_exercise
+    create :practice_solution, user: user, exercise: deprecated_practice_exercise
+
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      deprecated_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise,
+      deprecated_practice_exercise
+    ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
+  end
 end

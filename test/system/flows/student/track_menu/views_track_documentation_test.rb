@@ -16,9 +16,9 @@ module Flows
           use_capybara_host do
             sign_in!(user)
             visit track_url(track)
-            click_on "Track menu"
+            click_on "Track options"
 
-            assert_link "Ruby documentation", href: track.documentation_url
+            assert_link "Ruby documentation", href: track_docs_url(track)
           end
         end
       end

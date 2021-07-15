@@ -16,11 +16,11 @@ module Flows
           use_capybara_host do
             sign_in!(user)
             visit track_url(track)
-            click_on "Track menu"
-            click_on "Activate practice mode"
-            within(".m-activate-practice-mode") { click_on "Activate practice mode" }
+            click_on "Track options"
+            click_on "Activate Practice Mode"
+            within(".m-activate-practice-mode") { click_on "Activate Practice Mode" }
 
-            assert_text "In practice mode"
+            assert_text "Practice Mode"
           end
         end
       end

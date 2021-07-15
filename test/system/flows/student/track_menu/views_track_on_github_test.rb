@@ -16,7 +16,7 @@ module Flows
           use_capybara_host do
             sign_in!(user)
             visit track_url(track)
-            click_on "Track menu"
+            click_on "Track options"
 
             assert_link "See Ruby track on Github", href: track.repo_url
           end

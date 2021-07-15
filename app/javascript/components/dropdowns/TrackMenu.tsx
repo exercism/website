@@ -71,14 +71,14 @@ export const TrackMenu = ({
               <li {...itemAttributes(2)}>
                 <button type="button" onClick={() => setModal('practice')}>
                   <GraphicalIcon icon="practice-mode" />
-                  Activate practice mode…
+                  Activate Practice Mode…
                 </button>
               </li>
             ) : (
               <li {...itemAttributes(2)}>
                 <button type="button" onClick={() => setModal('learning')}>
                   <GraphicalIcon icon="concepts" />
-                  Enable learning mode…
+                  Enable Learning Mode…
                 </button>
               </li>
             )}

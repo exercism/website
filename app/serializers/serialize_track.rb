@@ -41,7 +41,7 @@ class SerializeTrack
   end
 
   def user_data_for_track
-    return {} if !user_track || user_track.external?
+    return {} if user_track.external?
 
     {
       is_joined: true,

@@ -52,7 +52,7 @@ class Exercise < ApplicationRecord
 
   # TODO: (Required) Replace this scope with method on UserTrack
   scope :enabled, lambda { |user_track|
-    if !user_track || user_track.external?
+    if user_track.external?
       where(status: %i[active beta])
     else
       where(status: %i[active beta]).or(where(id: user_track.solutions.select(:exercise_id)))

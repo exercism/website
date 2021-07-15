@@ -29,7 +29,7 @@ class Exercise
     def sort!
       @exercises = @exercises.order(:position).to_a
 
-      return if !user_track || user_track.external?
+      return if user_track.external?
 
       mapping = %i[
         iterated started

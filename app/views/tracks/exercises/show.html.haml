@@ -58,7 +58,7 @@
         = render "tracks/exercises/show/action_box_completed", track: @track, exercise: @exercise, solution: @solution
       - elsif @solution&.iterated?
         = render "tracks/exercises/show/action_box_continue", track: @track, exercise: @exercise, solution: @solution
-      - elsif @user_track && !@user_track.external?
+      - elsif !@user_track.external?
         - if @user_track.exercise_unlocked?(@exercise)
           = render "tracks/exercises/show/action_box_start", track: @track, exercise: @exercise
         - else

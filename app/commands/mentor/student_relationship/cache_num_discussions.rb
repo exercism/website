@@ -6,7 +6,8 @@ module Mentor
       initialize_with :mentor, :student
 
       def call
-        # TODO: (Required) Don't create if they haven't had a discussion
+        return unless Mentor::Discussion.between(mentor: mentor, student: student).exists?
+
         relationship = Mentor::StudentRelationship.create_or_find_by!(
           mentor: mentor,
           student: student

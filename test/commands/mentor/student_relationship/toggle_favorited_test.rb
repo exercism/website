@@ -1,9 +1,17 @@
 require "test_helper"
 
 class Mentor::StudentRelationship::ToggleFavoritedTest < ActiveSupport::TestCase
+  test "fails if they've not had a discussion" do
+    Mentor::StudentRelationship::ToggleFavorited.(create(:user), create(:user), false)
+
+    refute Mentor::StudentRelationship.any?
+  end
+
   test "creates record and favorites" do
     mentor = create :user
     student = create :user
+    solution = create :concept_solution, user: student
+    create :mentor_discussion, mentor: mentor, solution: solution
 
     Mentor::StudentRelationship::ToggleFavorited.(mentor, student, true)
 
@@ -16,6 +24,8 @@ class Mentor::StudentRelationship::ToggleFavoritedTest < ActiveSupport::TestCase
   test "creates record without favorite" do
     mentor = create :user
     student = create :user
+    solution = create :concept_solution, user: student
+    create :mentor_discussion, mentor: mentor, solution: solution
 
     Mentor::StudentRelationship::ToggleFavorited.(mentor, student, false)
 
@@ -26,7 +36,12 @@ class Mentor::StudentRelationship::ToggleFavoritedTest < ActiveSupport::TestCase
   end
 
   test "changes existing relationship to favorite" do
-    rel = create :mentor_student_relationship
+    mentor = create :user
+    student = create :user
+    solution = create :concept_solution, user: student
+    create :mentor_discussion, mentor: mentor, solution: solution
+    rel = create :mentor_student_relationship, mentor: mentor, student: student, favorited: false
+
     refute rel.favorited?
 
     Mentor::StudentRelationship::ToggleFavorited.(rel.mentor, rel.student, true)
@@ -35,7 +50,11 @@ class Mentor::StudentRelationship::ToggleFavoritedTest < ActiveSupport::TestCase
   end
 
   test "changes existing relationship to not favorite" do
-    rel = create :mentor_student_relationship, favorited: true
+    mentor = create :user
+    student = create :user
+    solution = create :concept_solution, user: student
+    create :mentor_discussion, mentor: mentor, solution: solution
+    rel = create :mentor_student_relationship, mentor: mentor, student: student, favorited: true
     assert rel.favorited?
 
     Mentor::StudentRelationship::ToggleFavorited.(rel.mentor, rel.student, false)

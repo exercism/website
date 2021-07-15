@@ -1,9 +1,17 @@
 require "test_helper"
 
 class Mentor::StudentRelationship::ToggleBlockedByMentorTest < ActiveSupport::TestCase
+  test "fails if they've not had a discussion" do
+    Mentor::StudentRelationship::ToggleBlockedByMentor.(create(:user), create(:user), false)
+
+    refute Mentor::StudentRelationship.any?
+  end
+
   test "creates record and blocks" do
     mentor = create :user
     student = create :user
+    solution = create :concept_solution, user: student
+    create :mentor_discussion, mentor: mentor, solution: solution
 
     Mentor::StudentRelationship::ToggleBlockedByMentor.(mentor, student, true)
 
@@ -16,6 +24,8 @@ class Mentor::StudentRelationship::ToggleBlockedByMentorTest < ActiveSupport::Te
   test "creates record without blocked" do
     mentor = create :user
     student = create :user
+    solution = create :concept_solution, user: student
+    create :mentor_discussion, mentor: mentor, solution: solution
 
     Mentor::StudentRelationship::ToggleBlockedByMentor.(mentor, student, false)
 
@@ -26,7 +36,11 @@ class Mentor::StudentRelationship::ToggleBlockedByMentorTest < ActiveSupport::Te
   end
 
   test "changes existing relationship to blocked" do
-    rel = create :mentor_student_relationship
+    mentor = create :user
+    student = create :user
+    solution = create :concept_solution, user: student
+    create :mentor_discussion, mentor: mentor, solution: solution
+    rel = create :mentor_student_relationship, mentor: mentor, student: student, blocked_by_mentor: false
     refute rel.blocked_by_mentor?
 
     Mentor::StudentRelationship::ToggleBlockedByMentor.(rel.mentor, rel.student, true)
@@ -35,7 +49,11 @@ class Mentor::StudentRelationship::ToggleBlockedByMentorTest < ActiveSupport::Te
   end
 
   test "changes existing relationship to not blocked" do
-    rel = create :mentor_student_relationship, blocked_by_mentor: true
+    mentor = create :user
+    student = create :user
+    solution = create :concept_solution, user: student
+    create :mentor_discussion, mentor: mentor, solution: solution
+    rel = create :mentor_student_relationship, mentor: mentor, student: student, blocked_by_mentor: true
     assert rel.blocked_by_mentor?
 
     Mentor::StudentRelationship::ToggleBlockedByMentor.(rel.mentor, rel.student, false)

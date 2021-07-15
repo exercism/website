@@ -15,7 +15,11 @@ test('buttons are disabled while waiting for response', async () => {
   })
   const server = setupServer(
     rest.patch('https://exercism.test/tracks/ruby/leave', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ userTrack: { links: {} } }))
+      return res(
+        ctx.delay(10),
+        ctx.status(200),
+        ctx.json({ userTrack: { links: {} } })
+      )
     })
   )
   server.listen()
@@ -45,6 +49,7 @@ test('user sees error messages', async () => {
   const server = setupServer(
     rest.patch('https://exercism.test/tracks/ruby/leave', (req, res, ctx) => {
       return res(
+        ctx.delay(10),
         ctx.status(422),
         ctx.json({ error: { message: 'Unable to leave' } })
       )

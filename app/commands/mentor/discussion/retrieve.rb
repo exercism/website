@@ -4,6 +4,7 @@ module Mentor
       include Mandate
 
       REQUESTS_PER_PAGE = 10
+      STATUSES = %i[awaiting_mentor awaiting_student finished].freeze
 
       def self.requests_per_page
         REQUESTS_PER_PAGE
@@ -17,7 +18,10 @@ module Mentor
                      track_slug: nil,
                      sorted: true, paginated: true)
 
-        # TODO: (Required) Guard valid status
+        # This will be a code-level exception rather than a user-level
+        # exception so we don't worry about a special class. Getting this
+        # tells us that we've got a bug.
+        raise "Invalid status: #{status}" unless STATUSES.include?(status)
 
         @mentor = mentor
         @status = status.to_sym

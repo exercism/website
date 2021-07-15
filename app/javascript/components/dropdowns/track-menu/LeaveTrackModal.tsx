@@ -31,18 +31,27 @@ export const LeaveTrackModal = ({
 
   return (
     <Modal className="m-leave-track m-destructive" onClose={onClose} {...props}>
+      <div className="info">
+        <h2>You’re about to leave the {track.title} track.</h2>
+        <p className="large">
+          No longer interested in learning Elixir? No problem!
+        </p>
+      </div>
+
       <TabsContext.Provider
         value={{
           current: tab,
           switchToTab: (id: string) => setTab(id as TabIndex),
         }}
       >
-        <Tab context={TabsContext} id="leave">
-          Leave
-        </Tab>
-        <Tab context={TabsContext} id="reset">
-          Leave + Reset
-        </Tab>
+        <div className="tabs">
+          <Tab context={TabsContext} id="leave">
+            Leave
+          </Tab>
+          <Tab context={TabsContext} id="reset">
+            Leave + Reset
+          </Tab>
+        </div>
         <Tab.Panel context={TabsContext} id="leave">
           <LeaveTrackForm
             endpoint={endpoint}

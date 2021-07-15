@@ -40,7 +40,7 @@ module API
 
     private
     def use_track
-      @track = Track.find(params[:id])
+      @track = Track.find(params[:slug])
       # TODO: Rescue and handle
       @user_track = UserTrack.for!(current_user, @track)
     end

@@ -79,6 +79,7 @@ module.exports = {
       tabBackgroundColorSelected: 'var(--tabBackgroundColorSelected)',
       tabColorSelected: 'var(--tabColorSelected)',
       tabIconColorSelected: 'var(--tabIconColorSelected)',
+      tabBorderColorSelected: 'var(--tabBorderColorSelected)',
       successColor: 'var(--successColor)',
       lockedColor: 'var(--lockedColor)',
 

@@ -77,7 +77,7 @@ export const TrackMenu = ({
             ) : (
               <li {...itemAttributes(2)}>
                 <button type="button" onClick={() => setModal('learning')}>
-                  <GraphicalIcon icon="learning-mode" />
+                  <GraphicalIcon icon="concepts" />
                   Enable learning mode…
                 </button>
               </li>

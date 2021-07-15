@@ -53,7 +53,27 @@ export const LeaveResetTrackForm = ({
   return (
     <form>
       <div className="info">
-        <h2>You’re about to leave and reset the {track.title} track.</h2>
+        <p>
+          <strong>By leaving and resetting this track, you will:</strong>
+        </p>
+        <ul>
+          <li>
+            Lose access to all solutions you have submitted in {track.title}
+          </li>
+          <li>
+            Lose access to all mentoring you have received in {track.title}
+          </li>
+          <li>
+            Lose any reputation you have earned for publishing solutions in{' '}
+            {track.title}
+          </li>
+          <li>Remove {track.title} from your active tracks list</li>
+        </ul>
+
+        <p>
+          This is <em>irreversible</em> and will mean you’ll lose everything
+          you’ve done on this track.
+        </p>
       </div>
       <hr />
       <label htmlFor="confirmation">

@@ -54,6 +54,8 @@ import { MarkdownEditor } from '../components/common/MarkdownEditor'
 
 import { Notifications as NotificationsDropdown } from '../components/dropdowns/Notifications'
 import { Reputation as ReputationDropdown } from '../components/dropdowns/Reputation'
+import { TrackMenu as TrackMenuDropdown } from '../components/dropdowns/TrackMenu'
+import { Links as TrackMenuLinks } from '../components/dropdowns/TrackMenu'
 
 import {
   Track as IterationPageTrack,
@@ -214,6 +216,12 @@ initReact({
       endpoint={data.endpoint}
       defaultIsSeen={data.is_seen}
       defaultReputation={data.reputation}
+    />
+  ),
+  'dropdowns-track-menu': (data: any) => (
+    <TrackMenuDropdown
+      track={data.track}
+      links={camelizeKeysAs<TrackMenuLinks>(data.links)}
     />
   ),
   'track-iteration-summary': (data: any) => (

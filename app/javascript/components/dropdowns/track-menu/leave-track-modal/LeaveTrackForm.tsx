@@ -3,6 +3,7 @@ import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { typecheck } from '../../../../utils/typecheck'
 import { FormButton } from '../../../common/FormButton'
+import { Icon } from '../../../common'
 import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
 import { Track } from '../../../types'
 import { UserTrack } from '../LeaveTrackModal'
@@ -50,7 +51,24 @@ export const LeaveTrackForm = ({
   return (
     <form>
       <div className="info">
-        <h2>You’re about to leave the {track.title} track.</h2>
+        <p>
+          <strong>When you leave the track, you still keep:</strong>
+        </p>
+        <ul>
+          <li>All solutions you have submitted in {track.title}</li>
+          <li>All mentoring you have received in {track.title}</li>
+        </ul>
+        <p>
+          <strong>However, we will:</strong>
+        </p>
+        <ul>
+          <li>End all mentoring discussions in {track.title}</li>
+          <li>Remove {track.title} from your active tracks list</li>
+        </ul>
+        <div className="info-box">
+          <Icon icon="info-circle" alt="Info" />
+          You’re free to join back at anytime and return to where you left off.
+        </div>
       </div>
       <div className="btns">
         <FormButton

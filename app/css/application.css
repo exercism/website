@@ -40,6 +40,7 @@
     --c-4A475F: #4a475f;
     --c-191525: #191525;
     --c-2F2943: #2f2943;
+    --c-A7B7D6: #a7b7d6;
 
     --darkThemeBackgroundColor: var(--c-282339);
     --track-color-c: 52, 19, 148;
@@ -144,6 +145,7 @@
     --inputBoxShadowColorFocus: rgba(46, 87, 232, 0.25);
     --tabBackgroundColorSelected: var(--c-E1EBFF);
     --tabIconColorSelected: var(--c-604FCD);
+    --tabBorderColorSelected: var(--c-A7B7D6);
     --modalBackgroundColor: rgba(251, 252, 254, 0.7);
     --lockedColor: var(--c-E8EDF7);
     --paginationCurrentBorderColor: var(--c-6E82AA);

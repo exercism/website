@@ -225,7 +225,6 @@ import {
 
 import * as Tooltips from '../components/tooltips'
 import { Dropdown } from '../components/dropdowns/Dropdown'
-import { Links as TrackMenuLinks } from '../components/dropdowns/TrackMenu'
 import * as Profile from '../components/profile'
 import * as CommunitySolutions from '../components/community-solutions'
 import * as Contributing from '../components/contributing'
@@ -390,12 +389,7 @@ initReact({
   'dropdowns-dropdown': (data: any) => (
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
-  'dropdowns-track-menu': (data: any) => (
-    <Dropdowns.TrackMenu
-      track={data.track}
-      links={camelizeKeysAs<TrackMenuLinks>(data.links)}
-    />
-  ),
+
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),

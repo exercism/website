@@ -78,4 +78,42 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
       active_practice_exercise
     ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
   end
+
+  test "concept_exercises" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    create :concept_exercise, :random_slug, track: track, status: :wip
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active
+    create :concept_exercise, :random_slug, track: track, status: :deprecated
+
+    # Sanity check: practice exercise should not be included
+    create :practice_exercise, :random_slug, track: track
+
+    # wip and deprecated exercises are not included
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise
+    ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
+  end
+
+  test "practice_exercises" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    create :practice_exercise, :random_slug, track: track, status: :wip
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active
+    create :practice_exercise, :random_slug, track: track, status: :deprecated
+
+    # Sanity check: concept exercise should not be included
+    create :concept_exercise, :random_slug, track: track
+
+    # wip and deprecated exercises are not included
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
+  end
 end

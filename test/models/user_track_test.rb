@@ -399,4 +399,88 @@ class UserTrackTest < ActiveSupport::TestCase
       deprecated_practice_exercise
     ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
   end
+
+  test "concept_exercises" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    # Sanity check: practice exercise should not be included
+    create :practice_exercise, :random_slug, track: track
+
+    # wip exercises and unstarted deprecated exercises are not included
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise
+    ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
+  end
+
+  test "concept_exercises includes deprecated concept exercises that the user started" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    deprecated_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    create :concept_solution, user: user, exercise: deprecated_concept_exercise
+
+    # Sanity check: practice exercise should not be included
+    create :practice_exercise, :random_slug, track: track
+
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      deprecated_concept_exercise
+    ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
+  end
+
+  test "practice_exercises" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    # Sanity check: concept exercise should not be included
+    create :concept_exercise, :random_slug, track: track
+
+    # wip exercises and unstarted deprecated practice exercises are not included
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
+  end
+
+  test "practice_exercises includes deprecated practice exercises that the user started" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    deprecated_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    create :practice_solution, user: user, exercise: deprecated_practice_exercise
+
+    # Sanity check: concept exercise should not be included
+    create :concept_exercise, :random_slug, track: track
+
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise,
+      deprecated_practice_exercise
+    ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
+  end
 end

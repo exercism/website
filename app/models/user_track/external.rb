@@ -16,7 +16,17 @@ class UserTrack
 
     memoize
     def exercises
-      track.exercises.where(status: %i[active beta])
+      filter_exercises(track.exercises)
+    end
+
+    memoize
+    def concept_exercises
+      filter_exercises(track.concept_exercises)
+    end
+
+    memoize
+    def practice_exercises
+      filter_exercises(track.practice_exercises)
     end
 
     #######################
@@ -127,7 +137,7 @@ class UserTrack
     ###################
     # Private methods #
     ###################
-
+    private
     memoize
     def concept_exercises_counts
       taught_counts = Exercise::TaughtConcept.
@@ -145,6 +155,10 @@ class UserTrack
 
       # Sum the counts
       taught_counts.merge(practice_counts) { |_, t, p| t + p }
+    end
+
+    def filter_exercises(exercises)
+      exercises.where(status: %i[active beta])
     end
   end
 end

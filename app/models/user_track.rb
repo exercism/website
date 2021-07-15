@@ -43,7 +43,17 @@ class UserTrack < ApplicationRecord
 
   memoize
   def exercises
-    track.exercises.where(status: %i[active beta]).or(track.exercises.where(id: solutions.select(:exercise_id)))
+    filter_exercises(track.exercises)
+  end
+
+  memoize
+  def concept_exercises
+    filter_exercises(track.concept_exercises)
+  end
+
+  memoize
+  def practice_exercises
+    filter_exercises(track.practice_exercises)
   end
 
   def external?
@@ -110,6 +120,10 @@ class UserTrack < ApplicationRecord
   end
 
   private
+  def filter_exercises(exercises)
+    exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
+  end
+
   # A track's summary is an efficiently created summary of all
   # of a user_track's data. It's cached across requests, allowing
   # us to quickly retrieve data without requiring lots of complex

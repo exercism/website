@@ -12,7 +12,7 @@ class AssembleExerciseList < Assembler
 
   memoize
   def exercises
-    Exercise::Search.(track, user_track: user_track, criteria: params[:criteria])
+    Exercise::Search.(user_track, criteria: params[:criteria])
   end
 
   memoize

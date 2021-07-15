@@ -51,7 +51,7 @@ class AssembleExerciseListTest < ActiveSupport::TestCase
     serialized_exercises = mock
     serialized_solutions = mock
 
-    Exercise::Search.expects(:call).with(track, user_track: user_track, criteria: criteria).returns(exercises)
+    Exercise::Search.expects(:call).with(user_track, criteria: criteria).returns(exercises)
     SerializeExercises.expects(:call).with(exercises, user_track: user_track).returns(serialized_exercises)
     SerializeSolutions.expects(:call).returns(serialized_solutions)
 

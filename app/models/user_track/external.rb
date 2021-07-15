@@ -13,20 +13,27 @@ class UserTrack
     delegate :concepts, :num_concepts, :updated_at,
       to: :track
 
+    memoize
     def exercises
-      enabled_exercises
+      filter_enabled_exercises(track.exercises)
     end
 
-    def concept_exercises(for_concept: nil)
-      return filter_enabled_exercises(for_concept.concept_exercises) if for_concept.present?
-
-      enabled_concept_exercises
+    memoize
+    def concept_exercises
+      filter_enabled_exercises(track.concept_exercises)
     end
 
-    def practice_exercises(for_concept: nil)
-      return filter_enabled_exercises(for_concept.practice_exercises) if for_concept.present?
+    memoize
+    def practice_exercises
+      filter_enabled_exercises(track.practice_exercises)
+    end
 
-      enabled_practice_exercises
+    def concept_exercises_for(concept: nil)
+      filter_enabled_exercises(concept.concept_exercises) if concept.present?
+    end
+
+    def practice_exercises_for(concept: nil)
+      filter_enabled_exercises(concept.practice_exercises) if concept.present?
     end
 
     #######################
@@ -88,7 +95,7 @@ class UserTrack
     ###############################
 
     def num_exercises
-      enabled_exercises.size
+      exercises.size
     end
 
     def num_completed_exercises
@@ -159,21 +166,6 @@ class UserTrack
 
       # Sum the counts
       taught_counts.merge(practice_counts) { |_, t, p| t + p }
-    end
-
-    memoize
-    def enabled_exercises
-      filter_enabled_exercises(track.exercises)
-    end
-
-    memoize
-    def enabled_concept_exercises
-      filter_enabled_exercises(track.concept_exercises)
-    end
-
-    memoize
-    def enabled_practice_exercises
-      filter_enabled_exercises(track.practice_exercises)
     end
 
     def filter_enabled_exercises(exercises)

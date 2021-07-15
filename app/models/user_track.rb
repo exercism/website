@@ -39,20 +39,27 @@ class UserTrack < ApplicationRecord
     end
   end
 
+  memoize
   def exercises
-    enabled_exercises
+    filter_enabled_exercises(track.exercises)
   end
 
-  def concept_exercises(for_concept: nil)
-    return filter_enabled_exercises(for_concept.concept_exercises) if for_concept.present?
-
-    enabled_concept_exercises
+  memoize
+  def concept_exercises
+    filter_enabled_exercises(track.concept_exercises)
   end
 
-  def practice_exercises(for_concept: nil)
-    return filter_enabled_exercises(for_concept.practice_exercises) if for_concept.present?
+  memoize
+  def practice_exercises
+    filter_enabled_exercises(track.practice_exercises)
+  end
 
-    enabled_practice_exercises
+  def concept_exercises_for(concept: nil)
+    filter_enabled_exercises(concept.concept_exercises) if concept.present?
+  end
+
+  def practice_exercises_for(concept: nil)
+    filter_enabled_exercises(concept.practice_exercises) if concept.present?
   end
 
   def unlocked_concepts_for(exercise: nil)
@@ -127,21 +134,6 @@ class UserTrack < ApplicationRecord
   end
 
   private
-  memoize
-  def enabled_exercises
-    filter_enabled_exercises(track.exercises)
-  end
-
-  memoize
-  def enabled_concept_exercises
-    filter_enabled_exercises(track.concept_exercises)
-  end
-
-  memoize
-  def enabled_practice_exercises
-    filter_enabled_exercises(track.practice_exercises)
-  end
-
   def filter_enabled_exercises(exercises)
     exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
   end

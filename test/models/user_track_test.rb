@@ -478,7 +478,7 @@ class UserTrackTest < ActiveSupport::TestCase
     ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
   end
 
-  test "concept_exercises for_concept" do
+  test "concept_exercises_for concept" do
     track = create :track
     user = create :user
     user_track = create :user_track, track: track, user: user
@@ -511,10 +511,10 @@ class UserTrackTest < ActiveSupport::TestCase
     pe_1.practiced_concepts << c_1
 
     expected = [ce_1, ce_2].map(&:slug).sort
-    assert_equal expected, user_track.concept_exercises(for_concept: c_1).map(&:slug).sort
+    assert_equal expected, user_track.concept_exercises_for(concept: c_1).map(&:slug).sort
   end
 
-  test "practice_exercises for_concept" do
+  test "practice_exercises_for concept" do
     track = create :track
     user = create :user
     user_track = create :user_track, track: track, user: user
@@ -547,7 +547,7 @@ class UserTrackTest < ActiveSupport::TestCase
     ce_1.taught_concepts << c_1
 
     expected = [pe_1, pe_2].map(&:slug).sort
-    assert_equal expected, user_track.practice_exercises(for_concept: c_1).map(&:slug).sort
+    assert_equal expected, user_track.practice_exercises_for(concept: c_1).map(&:slug).sort
   end
 
   test "unlocked_exercises_for" do

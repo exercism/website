@@ -5,6 +5,8 @@ class Mentoring::RequestsController < ApplicationController
   before_action :disable_site_header!
 
   def show
+    # TODO: (Required) Redirect to mentor queue if this is your own request
+
     if @mentor_request.pending?
       return redirect_to action: :unavailable unless @mentor_request.lockable_by?(current_user)
 

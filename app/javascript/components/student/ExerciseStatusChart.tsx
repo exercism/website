@@ -37,7 +37,6 @@ export const ExerciseStatusChart = ({
         return (
           <ExerciseStatusDot
             key={slug}
-            slug={slug}
             exerciseStatus={status}
             type={type}
             links={dotLinks}

@@ -1,35 +1,30 @@
 import React from 'react'
-import { Tooltip } from './Tooltip'
+import { useRequestQuery } from '../../hooks/request-query'
+import { FetchingBoundary } from '../FetchingBoundary'
+import { Loading } from './Loading'
 
-interface ConceptTooltipProps {
-  contentEndpoint: string
-  hoverRequestToShow: boolean
-  focusRequestToShow: boolean
-  referenceElement: HTMLElement | null
-  referenceConceptSlug: string
-  focusable?: boolean
-}
+const DEFAULT_ERROR = new Error('Unable to load concept')
 
 export const ConceptTooltip = ({
-  contentEndpoint,
-  hoverRequestToShow,
-  focusRequestToShow,
-  referenceElement,
-  referenceConceptSlug,
-}: ConceptTooltipProps): JSX.Element | null => {
-  const tooltipId = `concept-tooltip${
-    referenceConceptSlug ? `-${referenceConceptSlug}` : referenceConceptSlug
-  }`
+  endpoint,
+}: {
+  endpoint: string
+}): JSX.Element | null => {
+  const { data, error, status } = useRequestQuery<{ html: string }>(endpoint, {
+    endpoint: endpoint,
+    options: {},
+  })
 
   return (
-    <Tooltip
-      id={tooltipId}
-      className="c-concept-tooltip"
-      referenceElement={referenceElement}
-      contentEndpoint={contentEndpoint}
-      hoverRequestToShow={hoverRequestToShow}
-      focusRequestToShow={focusRequestToShow}
-      focusable={false}
-    />
+    <div className="c-concept-tooltip">
+      <FetchingBoundary
+        status={status}
+        error={error}
+        defaultError={DEFAULT_ERROR}
+        LoadingComponent={() => <Loading alt="Loading concept data" />}
+      >
+        {data ? <div dangerouslySetInnerHTML={{ __html: data.html }} /> : null}
+      </FetchingBoundary>
+    </div>
   )
 }

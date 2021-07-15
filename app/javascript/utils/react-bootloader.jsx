@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Bugsnag from '@bugsnag/js'
 import BugsnagPluginReact from '@bugsnag/plugin-react'
+import { LazyTippy } from '../components/misc/LazyTippy'
+import { followCursor } from 'tippy.js'
 
 Bugsnag.start({
   apiKey: process.env.BUGSNAG_API_KEY,
@@ -71,17 +73,19 @@ const renderTooltips = (mappings) => {
       }
       const component = generator(elem.dataset, elem)
 
-      // Create an element render the React component in
-      const tooltipElem = document.createElement('div')
+      const tooltipElem = document.createElement('span')
       elem.insertAdjacentElement('afterend', tooltipElem)
 
-      const showTooltip = () => render(tooltipElem, component)
-      const hideTooltip = () => ReactDOM.unmountComponentAtNode(tooltipElem)
-
-      elem.addEventListener('mouseenter', () => showTooltip())
-      elem.addEventListener('onfocus', () => showTooltip())
-
-      elem.addEventListener('mouseleave', () => hideTooltip())
-      elem.addEventListener('onblur', () => hideTooltip())
+      render(
+        tooltipElem,
+        <LazyTippy
+          content={component}
+          reference={elem}
+          animation="shift-away-subtle"
+          followCursor="horizontal"
+          maxWidth="none"
+          plugins={[followCursor]}
+        />
+      )
     })
 }

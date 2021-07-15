@@ -1,38 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { Student, Track, SolutionForStudent } from '../types'
+import React from 'react'
+import { Student } from '../types'
 import { useRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { FetchingBoundary } from '../FetchingBoundary'
-
-import { Loading, Avatar, GraphicalIcon, Icon, Reputation } from '../common'
-import { Student as StudentData } from '../types'
+import { Avatar, GraphicalIcon, Icon, Reputation } from '../common'
 import pluralize from 'pluralize'
-import { fromNow } from '../../utils/time'
+import { Loading } from './Loading'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
-const LoadingComponent = () => {
-  const [isShowing, setIsShowing] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShowing(true)
-    }, 200)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  return isShowing ? (
-    <Icon icon="spinner" alt="Loading student data" className="--spinner" />
-  ) : null
-}
-
 export const StudentTooltip = React.forwardRef<
   HTMLDivElement,
-  React.HTMLProps<HTMLDivElement> & { endpoint: string; requestId: string }
->(({ endpoint, requestId, ...props }, ref) => {
+  React.HTMLProps<HTMLDivElement> & { endpoint: string }
+>(({ endpoint, ...props }, ref) => {
   const { data, error, status } = useRequestQuery<{ student: Student }>(
-    `student-tooltip-${requestId}`,
+    endpoint,
     { endpoint: endpoint, options: {} }
   )
 
@@ -42,7 +23,7 @@ export const StudentTooltip = React.forwardRef<
         status={status}
         error={error}
         defaultError={DEFAULT_ERROR}
-        LoadingComponent={LoadingComponent}
+        LoadingComponent={() => <Loading alt="Loading student data" />}
       >
         {data ? (
           /* If we want the track we need to add a pivot to this,

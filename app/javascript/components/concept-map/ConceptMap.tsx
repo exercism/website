@@ -8,7 +8,6 @@ import {
   IConcept,
   isIConcept,
   ConceptConnection,
-  ExerciseData,
 } from './concept-map-types'
 import { useFontLoaded } from './hooks/useFontLoaded'
 import { camelize } from 'humps'
@@ -80,7 +79,6 @@ export const ConceptMap = ({
                       handleLeave={unsetActiveSlug}
                       status={status[slug] ?? 'unavailable'}
                       isActive={isActive}
-                      isActiveHover={activeSlug === slug}
                     />
                   )
                 })}

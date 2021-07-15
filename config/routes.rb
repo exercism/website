@@ -59,7 +59,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :tracks, only: [], controller: "user_tracks", param: :slug  do
+      resources :tracks, only: [], controller: "user_tracks", param: :slug do
         member do
           patch :activate_practice_mode
           patch :activate_learning_mode

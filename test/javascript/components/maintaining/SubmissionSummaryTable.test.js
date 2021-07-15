@@ -13,7 +13,7 @@ test('renders component', () => {
     <SubmissionsSummaryTable
       submissions={[
         {
-          id: 1,
+          uuid: 1,
           testsStatus: 'passed',
           representationStatus: 'queued',
           analysisStatus: 'approved',

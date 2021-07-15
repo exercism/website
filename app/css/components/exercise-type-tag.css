@@ -5,9 +5,6 @@
     @apply border-borderColor6;
 
     & .c-icon {
-        height: 16px;
-        width: 16px;
-        @apply mr-8;
         filter: var(--textColor6-filter);
     }
 }

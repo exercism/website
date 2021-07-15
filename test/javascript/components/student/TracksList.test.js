@@ -20,7 +20,7 @@ test('shows stale data while fetching', async () => {
         endpoint: 'https://exercism.test/tracks',
         query: {},
         options: {
-          initialData: { tracks: [{ id: 2, title: 'Ruby', tags: [] }] },
+          initialData: { tracks: [{ slug: 'ruby', title: 'Ruby', tags: [] }] },
         },
       }}
       tagOptions={[]}
@@ -53,7 +53,7 @@ test('hides reset filter button when no filters are selected', async () => {
         endpoint: 'https://exercism.test/tracks',
         query: {},
         options: {
-          initialData: { tracks: [{ id: 2, title: 'Ruby', tags: [] }] },
+          initialData: { tracks: [{ slug: 'ruby', title: 'Ruby', tags: [] }] },
         },
       }}
       tagOptions={[]}

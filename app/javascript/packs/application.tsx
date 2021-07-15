@@ -120,11 +120,12 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
-import '../../css/modals/reset-account'
+import '../../css/modals/destructive'
 import '../../css/modals/badge'
 import '../../css/modals/update-exercise'
 import '../../css/modals/makers'
 import '../../css/modals/test-run'
+import '../../css/modals/activate-track-mode'
 import '../../css/modals/crop-avatar'
 import '../../css/modals/profile-first-time'
 import '../../css/modals/completed-tutorial-exercise'
@@ -388,6 +389,7 @@ initReact({
   'dropdowns-dropdown': (data: any) => (
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
+
   'common-copy-to-clipboard-button': (data: any) => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),

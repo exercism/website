@@ -62,7 +62,19 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :tracks, only: [], controller: "user_tracks", param: :slug do
+        member do
+          patch :activate_practice_mode
+          patch :activate_learning_mode
+          patch :reset
+          patch :leave
+        end
+      end
+
       resources :tracks, only: %i[index show], param: :slug do
+        patch 'activate_practice_mode' => "user_tracks#activate_practice_mode"
+        patch 'deactivate_practice_mode' => "user_tracks#deactivate_practice_mode"
+
         resources :exercises, only: %i[index], controller: "exercises", param: :slug do
           resources :makers, only: [:index], controller: "exercises/makers"
           resources :community_solutions, only: [:index], controller: "community_solutions", param: :handle do
@@ -221,8 +233,8 @@ Rails.application.routes.draw do
   resource :dashboard, only: [:show], controller: "dashboard"
 
   resources :docs, only: %i[index]
-  get 'docs/tracks/:track_slug/*slug', to: 'docs#track_show', as: :track_doc
   get 'docs/tracks/:track_slug', to: 'docs#track_index', as: :track_docs
+  get 'docs/tracks/:track_slug/*slug', to: 'docs#track_show', as: :track_doc
   get 'docs/tracks', to: 'docs#tracks'
   get 'docs/:section/*slug', to: 'docs#show', as: :doc
   get 'docs/:section', to: 'docs#section', as: :docs_section
@@ -334,6 +346,11 @@ Rails.application.routes.draw do
     resource :user_deletion, only: [:show]
     resource :user_reset, only: [:show]
 
+    resources :user_tracks, only: [] do
+      get :practice_mode, on: :member
+      get :reset, on: :member
+      get :leave, on: :member
+    end
     resources :modals, only: [] do
       collection do
         get :mentoring_sessions

@@ -28,7 +28,8 @@
     }
 
     & .people {
-        @apply flex items-center;
+        min-width: 200px;
+        @apply flex items-center justify-end;
         & .c-faces {
             @apply mr-16;
         }
@@ -37,6 +38,20 @@
         }
         & .mentors {
             @apply text-15 leading-160 font-medium text-textColor2;
+        }
+    }
+
+    & .c-track-menu {
+        @apply ml-48;
+        & > button {
+            @apply p-8;
+            @apply border-1 border-borderColor5;
+            @apply shadow-keystroke rounded-5;
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                filter: var(--textColor5-filter);
+            }
         }
     }
 }

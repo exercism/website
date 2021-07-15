@@ -4,7 +4,8 @@
     @apply z-dropdown;
 
     & li {
-        & button {
+        & button,
+        & a {
             @apply flex w-100;
             @apply px-16 py-8;
             @apply text-textColor6 font-medium;
@@ -12,10 +13,19 @@
             @apply bg-backgroundColorA;
             @apply flex items-center;
 
-            & .c-icon {
+            & .emoji {
+                line-height: 16px;
+            }
+            & .c-icon:first-child,
+            & .emoji {
                 width: 16px;
                 height: 16px;
                 @apply mr-16;
+            }
+            & .c-icon.external-link {
+                width: 12px;
+                height: 12px;
+                @apply ml-16;
             }
 
             &:hover {

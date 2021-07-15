@@ -1,7 +1,6 @@
 @import "../styles";
 
-.m-reset-account,
-.m-delete-account {
+.m-destructive {
     & form {
         @apply flex flex-col;
     }
@@ -27,11 +26,28 @@
         }
         & p {
             @apply mb-8;
+            &.large {
+                @apply text-18;
+            }
         }
         & ul {
             @apply list-disc pl-20;
             & li:not(:last-child) {
                 @apply mb-4;
+            }
+        }
+        & ul + p {
+            @apply mt-16;
+        }
+        & .info-box {
+            @apply flex items-center;
+            @apply border-1 border-borderColor6 rounded-8;
+            @apply py-8 px-16 mt-16 mb-32;
+            @apply font-medium text-textColor6 text-16 leading-160;
+            & .c-icon {
+                height: 16px;
+                width: 16px;
+                @apply mr-16;
             }
         }
     }
@@ -49,6 +65,25 @@
         @apply flex;
         & button {
             @apply mr-24;
+        }
+    }
+}
+
+.m-leave-track {
+    & .tabs {
+        @apply grid grid-cols-2 gap-16;
+        @apply mt-20 mb-24;
+
+        & .c-tab {
+            line-height: 46px;
+            @apply text-16 text-textColor2 justify-center;
+            @apply rounded-8 border-1 border-borderColor6;
+            @apply shadow-sm;
+
+            &.selected {
+                @apply border-tabBorderColorSelected;
+                @apply shadow-none;
+            }
         }
     }
 }

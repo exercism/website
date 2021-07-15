@@ -28,7 +28,22 @@ module ViewComponents
       end
 
       def rhs
-        people
+        tags + people + (render ReactComponents::Dropdowns::TrackMenu.new(track))
+      end
+
+      def tags
+        ts = []
+
+        if user_track&.practice_mode?
+          ts << tag.div(class: 'c-tag --practice-mode') do
+            graphical_icon("practice-mode") +
+              tag.span("Practice Mode")
+          end
+        end
+
+        tag.div class: "tags" do
+          safe_join(ts)
+        end
       end
 
       def people
@@ -84,6 +99,11 @@ module ViewComponents
 
       def guard!
         raise "Incorrect track nav tab" unless TABS.include?(selected_tab)
+      end
+
+      memoize
+      def user_track
+        UserTrack.for(current_user, track)
       end
     end
   end

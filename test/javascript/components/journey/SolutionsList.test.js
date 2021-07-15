@@ -55,14 +55,14 @@ import { silenceConsole } from '../../support/silence-console'
 test('paginates solutions', async () => {
   const solutions = [
     {
-      id: 'uuid-1',
+      uuid: 'uuid-1',
       exercise: {
         title: 'Lasagna',
       },
       track: {},
     },
     {
-      id: 'uuid-2',
+      uuid: 'uuid-2',
       exercise: {
         title: 'Bob',
       },
@@ -105,14 +105,14 @@ test('paginates solutions', async () => {
 test('searches solutions', async () => {
   const solutions = [
     {
-      id: 'uuid-1',
+      uuid: 'uuid-1',
       exercise: {
         title: 'Lasagna',
       },
       track: {},
     },
     {
-      id: 'uuid-2',
+      uuid: 'uuid-2',
       exercise: {
         title: 'Bob',
       },
@@ -158,7 +158,7 @@ test('searches solutions', async () => {
 test('filters solutions', async () => {
   const solutions = [
     {
-      id: 'uuid-1',
+      uuid: 'uuid-1',
       exercise: {
         title: 'Lasagna',
       },
@@ -167,7 +167,7 @@ test('filters solutions', async () => {
       mentoringStatus: 'in_progress',
     },
     {
-      id: 'uuid-2',
+      uuid: 'uuid-2',
       exercise: {
         title: 'Bob',
       },

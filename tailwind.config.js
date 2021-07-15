@@ -37,6 +37,7 @@ module.exports = {
       lg: 'var(--box-shadow-lg)',
       lgZ1: '0px 4px 42px 0px rgba(79, 114, 205, 0.3)',
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
+      keystroke: '0px 1px 0px 1px rgba(203, 201, 217, 0.6)',
     },
     colors: {
       transparent: 'transparent',
@@ -78,6 +79,7 @@ module.exports = {
       tabBackgroundColorSelected: 'var(--tabBackgroundColorSelected)',
       tabColorSelected: 'var(--tabColorSelected)',
       tabIconColorSelected: 'var(--tabIconColorSelected)',
+      tabBorderColorSelected: 'var(--tabBorderColorSelected)',
       successColor: 'var(--successColor)',
       lockedColor: 'var(--lockedColor)',
 
@@ -145,6 +147,7 @@ module.exports = {
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
       brown: '#47300C',
+      lightBrown: '#955D09',
 
       warning: '#F69605',
       warningBtnBorder: '#704D19',

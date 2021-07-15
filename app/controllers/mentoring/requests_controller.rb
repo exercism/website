@@ -5,19 +5,21 @@ class Mentoring::RequestsController < ApplicationController
   before_action :disable_site_header!
 
   def show
-    # TODO: (Required) Redirect to mentor queue if this is your own request
+    # Redirect to mentor queue if this is your own request
+    return redirect_to mentoring_queue_path if @mentor_request.student_id == current_user.id
 
-    if @mentor_request.pending?
-      return redirect_to action: :unavailable unless @mentor_request.lockable_by?(current_user)
+    # TODO: (Required) Handle cancelled requests
+    redirect_to action: :unavailable if @mentor_request.cancelled?
 
-    elsif @mentor_request.fulfilled?
+    # Handle locked solutions
+    return redirect_to action: :unavailable if @mentor_request.pending? && !@mentor_request.lockable_by?(current_user)
+
+    # Handle already-fulfilled solutions
+    if @mentor_request.fulfilled? # rubocop:disable Style/GuardClause
       discussion = @mentor_request.discussion
       return redirect_to action: :unavailable unless discussion&.mentor_id == current_user.id
 
       redirect_to mentoring_discussion_path(discussion)
-    else
-      # TODO: (Required) Handle cancelled requests
-      redirect_to action: :unavailable
     end
   end
 

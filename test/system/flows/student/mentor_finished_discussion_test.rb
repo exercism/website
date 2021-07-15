@@ -30,6 +30,7 @@ module Flows
       test "student reviews discussion" do
         user = create :user
         track = create :track
+        create :user_track, user: user, track: track
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, exercise: exercise, user: user
         submission = create :submission, solution: solution,

@@ -16,7 +16,7 @@ test('renders zero state', async () => {
 test('renders discussions', async () => {
   const discussions = [
     {
-      id: 'uuid',
+      uuid: 'uuid',
       mentor: {},
       links: {
         self: 'https://exercism.test/discussion',

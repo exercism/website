@@ -25,7 +25,6 @@ test('shows message when test times out', async () => {
         ctx.delay(10),
         ctx.json({
           submission: {
-            id: 2,
             uuid: '123',
             tests_status: 'queued',
             links: {
@@ -116,7 +115,7 @@ test('disables submit button unless tests passed', async () => {
         ctx.delay(10),
         ctx.json({
           test_run: {
-            id: null,
+            uuid: null,
             submission_uuid: '123',
             status: 'queued',
             message: '',
@@ -168,7 +167,7 @@ test('disables submit button when files changed', async () => {
       return res(
         ctx.json({
           test_run: {
-            id: null,
+            uuid: null,
             submission_uuid: '123',
             status: 'pass',
             message: '',

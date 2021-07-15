@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../../utils/send-request'
 import { typecheck } from '../../../../utils/typecheck'
 import { FormButton } from '../../../common/FormButton'
@@ -21,15 +20,14 @@ export const LeaveResetTrackForm = ({
   onCancel: () => void
 }): JSX.Element => {
   const confirmation = `reset ${track.slug}`
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<UserTrack | undefined>(
     async () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
         body: JSON.stringify({ reset: true }),
-        isMountedRef: isMountedRef,
-      }).then((json) => {
+      })
+      return fetch.then((json) => {
         if (!json) {
           return
         }

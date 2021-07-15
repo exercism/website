@@ -41,7 +41,7 @@ module ReactComponents
 
       memoize
       def exercises
-        track.exercises.enabled(user_track).sorted
+        user_track.exercises.sorted
       end
     end
   end

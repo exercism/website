@@ -11,8 +11,7 @@ module API
       UserTrack.stubs(:for).with(@current_user, track).returns(user_track)
 
       Exercise::Search.expects(:call).with(
-        track,
-        user_track: user_track,
+        user_track,
         criteria: "ru"
       ).returns(Exercise.page(1))
 
@@ -30,8 +29,7 @@ module API
       user_track = create :user_track, user: @current_user, track: track
 
       Exercise::Search.expects(:call).with(
-        track,
-        user_track: user_track,
+        user_track,
         criteria: "ru"
       ).returns(Exercise.page(1))
 

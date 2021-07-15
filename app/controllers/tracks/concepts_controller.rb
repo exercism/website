@@ -6,13 +6,13 @@ class Tracks::ConceptsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
 
   def index
-    @concept_map_data = Track::DetermineConceptMapLayout.(@track, @user_track)
+    @concept_map_data = Track::DetermineConceptMapLayout.(@user_track)
 
     @concept_map_data[:status] =
       UserTrack::GenerateConceptStatusMapping.(@user_track)
 
     @concept_map_data[:exercises_data] =
-      UserTrack::GenerateExerciseStatusMapping.(@track, @user_track)
+      UserTrack::GenerateExerciseStatusMapping.(@user_track)
 
     @num_concepts = @track.concepts.count
     @user_track ? @num_completed = @user_track.num_concepts_learnt : @num_completed = 0

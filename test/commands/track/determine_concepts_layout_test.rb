@@ -12,7 +12,7 @@ class Track
           levels: [],
           connections: []
         },
-        Track::DetermineConceptMapLayout.(track, user_track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
@@ -38,7 +38,7 @@ class Track
           levels: [['basics']],
           connections: []
         },
-        Track::DetermineConceptMapLayout.(track, user_track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
@@ -75,7 +75,7 @@ class Track
           levels: [['basics'], ['booleans']],
           connections: [{ from: 'basics', to: 'booleans' }]
         },
-        Track::DetermineConceptMapLayout.(track, user_track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
@@ -123,7 +123,7 @@ class Track
           levels: [['basics'], ['booleans'], ['atoms']],
           connections: [{ from: 'basics', to: 'booleans' }, { from: 'booleans', to: 'atoms' }]
         },
-        Track::DetermineConceptMapLayout.(track, user_track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
@@ -172,7 +172,7 @@ class Track
           levels: [['basics'], ['booleans'], ['atoms']],
           connections: [{ from: 'basics', to: 'booleans' }, { from: 'booleans', to: 'atoms' }]
         },
-        Track::DetermineConceptMapLayout.(track, user_track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
@@ -234,7 +234,7 @@ class Track
             { from: 'atoms', to: 'cond' }
           ]
         },
-        Track::DetermineConceptMapLayout.(track, user_track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
@@ -255,7 +255,7 @@ class Track
 
       assert_enqueued_jobs 1, only: OpenIssueForDependencyCycleJob do
         assert_raises TrackHasCyclicPrerequisiteError do
-          Track::DetermineConceptMapLayout.(track, user_track)
+          Track::DetermineConceptMapLayout.(user_track)
         end
       end
     end
@@ -276,7 +276,7 @@ class Track
       logger.prerequisites << booleans
 
       assert_raises TrackHasCyclicPrerequisiteError do
-        Track::DetermineConceptMapLayout.(track, user_track)
+        Track::DetermineConceptMapLayout.(user_track)
       end
     end
   end

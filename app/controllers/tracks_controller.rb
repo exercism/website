@@ -19,7 +19,10 @@ class TracksController < ApplicationController
   def show
     @user_track = UserTrack.for(current_user, @track)
 
-    if @user_track
+    if @user_track.external?
+      @showcase_exercises = @track.exercises.enabled(@user_track).order("RAND()").limit(3).to_a
+      render "tracks/show/unjoined"
+    else
       # TODO: (Optional) Move this into a method somewhere else and add tests
       data = @user_track.solutions.
         where('completed_at > ?', Time.current.beginning_of_week - 8.weeks).
@@ -31,9 +34,6 @@ class TracksController < ApplicationController
       @updates = SiteUpdate.published.for_track(@track).sorted.limit(10)
 
       render "tracks/show/joined"
-    else
-      @showcase_exercises = @track.exercises.enabled(@user_track).order("RAND()").limit(3).to_a
-      render "tracks/show/unjoined"
     end
   end
 

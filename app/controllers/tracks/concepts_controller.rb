@@ -46,7 +46,7 @@ class Tracks::ConceptsController < ApplicationController
   private
   def use_track
     @track = Track.find(params[:track_id])
-    @user_track = UserTrack.for(current_user, @track, external_if_missing: true)
+    @user_track = UserTrack.for(current_user, @track)
   end
 
   def use_concepts

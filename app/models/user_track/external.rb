@@ -34,6 +34,10 @@ class UserTrack
       []
     end
 
+    def objectives
+      nil
+    end
+
     def exercise_type(obj)
       return obj.git_type if obj.is_a?(Exercise)
 

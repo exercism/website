@@ -29,7 +29,7 @@ class UserTrack < ApplicationRecord
     )
   end
 
-  def self.for(user_param, track_param, external_if_missing: false)
+  def self.for(user_param, track_param, external_if_missing: true)
     for!(user_param, track_param)
   rescue ActiveRecord::RecordNotFound
     return nil unless external_if_missing

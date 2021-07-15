@@ -117,7 +117,7 @@ class User < ApplicationRecord
   end
 
   def joined_track?(track)
-    !!UserTrack.for(self, track)
+    !UserTrack.for(self, track).external?
   end
 
   def unrevealed_badges

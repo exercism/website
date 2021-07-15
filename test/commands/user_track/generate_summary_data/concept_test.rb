@@ -108,7 +108,7 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
     assert_equal expected, summary.concept(concept.slug)
   end
 
-  test "no user_track" do
+  test "external user_track" do
     track = create :track
     concept = create :concept, track: track
 
@@ -124,7 +124,7 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
     pe_3 = create :practice_exercise, :random_slug, track: track
     pe_3.practiced_concepts << create(:concept, track: track)
 
-    summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, nil))
+    summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, UserTrack::External.new(track)))
 
     expected = UserTrack::Summary::ConceptSummary.new(
       id: concept.id,

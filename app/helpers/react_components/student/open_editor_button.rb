@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :exercise
 
       def to_s
-        return unless user_track
+        return if user_track.external?
 
         super(
           "student-open-editor-button",

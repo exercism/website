@@ -5,7 +5,7 @@ class UserTrack
     initialize_with :user_track
 
     def call
-      return {} unless user_track && !user_track.external?
+      return {} if user_track.external?
 
       {}.tap do |output|
         set_status = ->(slugs, status) { slugs.each { |slug| output[slug] = status } }

@@ -20,7 +20,7 @@ class Solution
 
     private
     def guard!
-      raise UserTrackNotFoundError unless user_track
+      raise UserTrackNotFoundError if user_track.external?
       raise ExerciseLockedError unless user_track.exercise_unlocked?(exercise)
     end
 
@@ -48,6 +48,7 @@ class Solution
       end
     end
 
+    memoize
     def user_track
       UserTrack.for(user, exercise.track)
     end

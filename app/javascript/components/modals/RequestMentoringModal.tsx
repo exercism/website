@@ -10,7 +10,6 @@ import {
 import { Modal, ModalProps } from './Modal'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useList } from '../../hooks/use-list'
-import { useIsMounted } from 'use-is-mounted'
 import { SolutionForStudent } from '../types'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
@@ -35,7 +34,6 @@ export const RequestMentoringModal = ({
   request: Request
   links: Links
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { request, setPage, setCriteria } = useList(initialRequest)
   const {
     status,
@@ -45,8 +43,7 @@ export const RequestMentoringModal = ({
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     ['exercises-for-mentoring', request.query],
-    request,
-    isMountedRef
+    request
   )
 
   return (

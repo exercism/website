@@ -1,12 +1,15 @@
 import { camelizeKeys } from 'humps'
 
-export function fetchJSON(endpoint: string, options: any) {
+export const fetchJSON = <T extends any>(
+  input: RequestInfo,
+  options: RequestInit
+): Promise<T> => {
   const headers = {
     'content-type': 'application/json',
     accept: 'application/json',
   }
 
-  return fetch(endpoint, Object.assign(options, { headers: headers }))
+  return fetch(input, Object.assign(options, { headers: headers }))
     .then((response) => {
       if (!response.ok) {
         throw response
@@ -27,6 +30,6 @@ export function fetchJSON(endpoint: string, options: any) {
       return response.json()
     })
     .then((json) => {
-      return camelizeKeys(json)
+      return camelizeKeys(json) as T
     })
 }

@@ -3,12 +3,12 @@ import { useMutation, queryCache, QueryKey } from 'react-query'
 import { fromNow } from '../../../utils/time'
 import { GraphicalIcon, TrackIcon } from '../../common'
 import { Testimonial } from '../../types'
-import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { PaginatedResult } from '../TestimonialsList'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { TestimonialModal } from '../../modals/TestimonialModal'
+import { useIsMounted } from 'use-is-mounted'
 
 const DEFAULT_ERROR = new Error('Unable to reveal testimonial')
 
@@ -21,32 +21,28 @@ export const UnrevealedTestimonial = ({
   onRevealed: () => void
   cacheKey: QueryKey
 }): JSX.Element => {
+  const isMountedRef = useIsMounted()
   const [open, setOpen] = useState(false)
   const [
     revealedTestimonial,
     setRevealedTestimonial,
   ] = useState<Testimonial | null>(null)
-  const isMountedRef = useIsMounted()
-  const [reveal, { status, error }] = useMutation<Testimonial | undefined>(
+  const [reveal, { status, error }] = useMutation<Testimonial>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: testimonial.links.reveal,
         method: 'PATCH',
         body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<Testimonial>(json, 'testimonial')
       })
+
+      return fetch.then((json) => typecheck<Testimonial>(json, 'testimonial'))
     },
     {
       onSuccess: (testimonial) => {
-        if (!testimonial) {
+        if (!isMountedRef.current) {
           return
         }
+
         setRevealedTestimonial(testimonial)
         setOpen(true)
       },

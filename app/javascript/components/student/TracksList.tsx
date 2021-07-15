@@ -2,7 +2,6 @@ import React, { useCallback, useState, useEffect } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
-import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
 import { useList } from '../../hooks/use-list'
 import { StudentTrack } from '../types'
@@ -30,7 +29,6 @@ export const TracksList = ({
   tagOptions: readonly TagOption[]
   request: Request
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { request, setCriteria: setRequestCriteria, setQuery } = useList(
     initialRequest
   )
@@ -38,7 +36,7 @@ export const TracksList = ({
   const CACHE_KEY = ['track-list', request.endpoint, request.query]
   const { resolvedData, isError, isFetching } = usePaginatedRequestQuery<
     APIResponse
-  >(CACHE_KEY, request, isMountedRef)
+  >(CACHE_KEY, request)
 
   const setTags = useCallback(
     (tags) => {

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Exercise, Track, SolutionForStudent } from '../types'
 import { Icon, ExerciseWidget } from '../common'
 import { useRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { FetchingBoundary } from '../FetchingBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
@@ -27,16 +26,11 @@ export const ExerciseTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string; slug: string }
 >(({ endpoint, slug, ...props }, ref) => {
-  const isMountedRef = useIsMounted()
   const { data, error, status } = useRequestQuery<{
     track: Track
     exercise: Exercise
     solution: SolutionForStudent
-  }>(
-    `exercise-tooltip-${slug}`,
-    { endpoint: endpoint, options: { staleTime: 0 } },
-    isMountedRef
-  )
+  }>(`exercise-tooltip-${slug}`, { endpoint: endpoint, options: {} })
 
   return (
     <div className="c-exercise-tooltip" {...props} ref={ref}>

@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { sendRequest } from '../../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { useMutation, queryCache } from 'react-query'
 import { PostsContext } from './PostsContext'
 import { DiscussionPostProps } from './DiscussionPost'
@@ -22,28 +21,20 @@ export const AddDiscussionPostForm = ({
     expanded: false,
     value: localStorage.getItem(`smde_${contextId}`) || '',
   })
-  const isMountedRef = useIsMounted()
   const { cacheKey } = useContext(PostsContext)
   const handleSuccess = useCallback(() => {
     setState({ value: '', expanded: false })
     onSuccess()
   }, [onSuccess])
-  const [mutation, { status, error }] = useMutation<
-    DiscussionPostProps | undefined
-  >(
+  const [mutation, { status, error }] = useMutation<DiscussionPostProps>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: discussion.links.posts,
         method: 'POST',
         body: JSON.stringify({ content: state.value }),
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<DiscussionPostProps>(json, 'post')
       })
+
+      return fetch.then((json) => typecheck<DiscussionPostProps>(json, 'post'))
     },
     {
       onSettled: () => queryCache.invalidateQueries(cacheKey),

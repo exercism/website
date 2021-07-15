@@ -11,7 +11,6 @@ import { Modal, ModalProps } from './Modal'
 import pluralize from 'pluralize'
 import { FavoriteButton } from '../mentoring/session/FavoriteButton'
 import { useList } from '../../hooks/use-list'
-import { useIsMounted } from 'use-is-mounted'
 import { PaginatedResult, MentorDiscussion, Student } from '../types'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -28,7 +27,6 @@ export const PreviousMentoringSessionsModal = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { request, setPage } = useList({
     endpoint: student.links.previousSessions,
   })
@@ -41,7 +39,7 @@ export const PreviousMentoringSessionsModal = ({
   } = usePaginatedRequestQuery<
     PaginatedResult<readonly MentorDiscussion[]>,
     Error | Response
-  >([request.endpoint, request.query], request, isMountedRef)
+  >([request.endpoint, request.query], request)
 
   const numPrevious = student.numDiscussionsWithMentor - 1
 

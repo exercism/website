@@ -3,7 +3,6 @@ import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { MentorSessionRequest as Request } from '../../types'
-import { useIsMounted } from 'use-is-mounted'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 
@@ -26,30 +25,18 @@ export const StartMentoringPanel = ({
   request: Request
   setRequest: (request: Request) => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
-  const [lock, { status, error }] = useMutation<Request | undefined>(
+  const [lock, { status, error }] = useMutation<Request>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: request.links.lock,
         body: null,
         method: 'PATCH',
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<Request>(json, 'request')
       })
+
+      return fetch.then((json) => typecheck<Request>(json, 'request'))
     },
     {
-      onSuccess: (request) => {
-        if (!request) {
-          return
-        }
-
-        setRequest(request)
-      },
+      onSuccess: (request) => setRequest(request),
     }
   )
 

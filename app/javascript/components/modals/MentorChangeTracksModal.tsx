@@ -26,17 +26,17 @@ export const MentorChangeTracksModal = ({
   cacheKey: string
   onSuccess: () => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.slug))
 
   const [mutation] = useMutation<TrackListAPIResponse>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: links.updateTracks,
         method: 'PATCH',
         body: JSON.stringify({ track_slugs: selected }),
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: (response) => {

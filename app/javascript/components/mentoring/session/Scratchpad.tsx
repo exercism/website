@@ -1,10 +1,6 @@
-import React, { useCallback, useState, useRef, useEffect } from 'react'
-import {
-  MarkdownEditor,
-  MarkdownEditorHandle,
-} from '../../common/MarkdownEditor'
+import React, { useCallback, useState, useEffect } from 'react'
+import { MarkdownEditor } from '../../common/MarkdownEditor'
 import { sendRequest } from '../../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
 import { camelizeKeys } from 'humps'
 import { Loading } from '../../common/Loading'
@@ -15,6 +11,7 @@ import {
   MentorSessionExercise as Exercise,
 } from '../../types'
 import { Scratchpad as ScratchpadProps } from '../Session'
+import { useMutation } from 'react-query'
 
 type ScratchpadPage = {
   contentMarkdown: string
@@ -29,7 +26,6 @@ export const Scratchpad = ({
   track: Track
   exercise: Exercise
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [content, setContent] = useState('')
   const [error, setError] = useState('')
   const [page, setPage] = useState<ScratchpadPage | null>(null)
@@ -38,45 +34,48 @@ export const Scratchpad = ({
     setContent(content)
   }, [])
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault()
-
-      setError('')
-
-      sendRequest({
+  const [mutation] = useMutation<ScratchpadPage>(
+    () => {
+      const { fetch } = sendRequest({
         endpoint: scratchpad.links.self,
         method: 'PATCH',
         body: JSON.stringify({
           scratchpad_page: { content_markdown: content },
         }),
-        isMountedRef: isMountedRef,
       })
-        .then((json: any) => {
-          if (!json) {
-            return
-          }
 
-          setPage(
-            typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage')
-          )
-        })
-        .catch((err) => {
-          if (err instanceof Response) {
-            err.json().then((res: any) => setError(res.error.message))
-          }
-        })
+      return fetch.then((json) =>
+        typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage')
+      )
     },
-    [content, isMountedRef, scratchpad.links.self]
+    {
+      onSuccess: (page) => setPage(page),
+      onError: (err) => {
+        if (err instanceof Response) {
+          err.json().then((res: any) => setError(res.error.message))
+        }
+      },
+    }
+  )
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      setError('')
+      mutation()
+    },
+    [mutation]
   )
 
   const pullPage = useCallback(() => {
-    sendRequest({
+    const { fetch } = sendRequest({
       endpoint: scratchpad.links.self,
       body: null,
       method: 'GET',
-      isMountedRef: isMountedRef,
     })
+
+    fetch
       .then((json) => {
         const page = typecheck<ScratchpadPage>(
           camelizeKeys(json),
@@ -92,7 +91,7 @@ export const Scratchpad = ({
       .catch(() => {
         // TODO: do something
       })
-  }, [isMountedRef, scratchpad.links.self])
+  }, [scratchpad.links.self])
 
   useEffect(pullPage, [pullPage])
 

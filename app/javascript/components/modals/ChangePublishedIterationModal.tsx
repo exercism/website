@@ -25,20 +25,20 @@ export const ChangePublishedIterationModal = ({
   defaultIterationIdx: number | null
   iterations: readonly Iteration[]
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [iterationIdx, setIterationIdx] = useState<number | null>(
     defaultIterationIdx
   )
   const [mutation, { status, error }] = useMutation<SolutionForStudent>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
         body: JSON.stringify({ published_iteration_idx: iterationIdx }),
-        isMountedRef: isMountedRef,
-      }).then((response) => {
-        return typecheck<SolutionForStudent>(response, 'solution')
       })
+
+      return fetch.then((response) =>
+        typecheck<SolutionForStudent>(response, 'solution')
+      )
     },
     {
       onSuccess: (solution) => {

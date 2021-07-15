@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { useIsMounted } from 'use-is-mounted'
 import {
   Request as BaseRequest,
   usePaginatedRequestQuery,
@@ -49,7 +48,6 @@ export const TestimonialsList = ({
   request: Request
   tracks: readonly Track[]
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const {
     request,
     setQuery,
@@ -69,14 +67,10 @@ export const TestimonialsList = ({
     latestData,
     isFetching,
     error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    cacheKey,
-    {
-      ...request,
-      query: removeEmpty(request.query),
-    },
-    isMountedRef
-  )
+  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+  })
 
   const setTrack = useCallback(
     (trackSlug) => {

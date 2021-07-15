@@ -31,13 +31,9 @@ export const StudentTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string; requestId: string }
 >(({ endpoint, requestId, ...props }, ref) => {
-  const isMountedRef = useIsMounted()
-  const { data, error, status } = useRequestQuery<{
-    student: Student
-  }>(
+  const { data, error, status } = useRequestQuery<{ student: Student }>(
     `student-tooltip-${requestId}`,
-    { endpoint: endpoint, options: {} },
-    isMountedRef
+    { endpoint: endpoint, options: {} }
   )
 
   return (

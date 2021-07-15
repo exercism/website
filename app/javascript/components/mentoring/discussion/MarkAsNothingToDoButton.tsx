@@ -1,5 +1,4 @@
 import React from 'react'
-import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
@@ -20,14 +19,14 @@ export const MarkAsNothingToDoButton = (props: ComponentProps): JSX.Element => {
 const DEFAULT_ERROR = new Error('Unable to mark discussion as nothing to do')
 
 const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(() => {
-    return sendRequest({
+    const { fetch } = sendRequest({
       endpoint: endpoint,
       method: 'PATCH',
       body: null,
-      isMountedRef: isMountedRef,
     })
+
+    return fetch
   })
 
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })

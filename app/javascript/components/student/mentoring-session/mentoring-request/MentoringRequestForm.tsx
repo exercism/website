@@ -11,7 +11,6 @@ import {
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { typecheck } from '../../../../utils/typecheck'
-import { useIsMounted } from 'use-is-mounted'
 import { MentorSessionRequest as Request } from '../../../types'
 import { FetchingBoundary } from '../../../FetchingBoundary'
 
@@ -37,33 +36,21 @@ export const MentoringRequestForm = ({
   links: Links
   onSuccess: (mentorRequest: Request) => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation<Request | undefined>(
+  const [mutation, { status, error }] = useMutation<Request>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: links.createMentorRequest,
         method: 'POST',
         body: JSON.stringify({
           comment: solutionCommentRef.current?.value,
           track_objectives: trackObjectivesRef.current?.value,
         }),
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<Request>(json, 'mentorRequest')
       })
+
+      return fetch.then((json) => typecheck<Request>(json, 'mentorRequest'))
     },
     {
-      onSuccess: (mentorRequest) => {
-        if (!mentorRequest) {
-          return
-        }
-
-        onSuccess(mentorRequest)
-      },
+      onSuccess: onSuccess,
     }
   )
 

@@ -2,7 +2,6 @@ import React from 'react'
 import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { ResultsZone } from '../../ResultsZone'
-import { useIsMounted } from 'use-is-mounted'
 import { TestRunSummary } from '../../editor/TestRunSummary'
 import { TestRun } from '../../editor/types'
 
@@ -17,10 +16,9 @@ export const TestsInformation = ({
 }: {
   request: Request
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { resolvedData, status, error, isFetching } = usePaginatedRequestQuery<
     APIResponse
-  >(['test-run', request.endpoint], request, isMountedRef)
+  >(['test-run', request.endpoint], request)
 
   return (
     <ResultsZone isFetching={isFetching}>

@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react'
-import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { FormButton } from '../../../common'
@@ -19,15 +18,15 @@ export const SatisfiedStep = ({
   onNotRequeued: () => void
   onBack: () => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [finish, { status, error }] = useMutation(
     (requeue: boolean) => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',
         body: JSON.stringify({ rating: 3, requeue: requeue }),
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: (data, requeue) => {

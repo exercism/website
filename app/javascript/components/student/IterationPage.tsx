@@ -3,7 +3,6 @@ import { Loading } from '../common'
 import { Iteration } from '../types'
 import { IterationReport } from './iteration-page/IterationReport'
 import { EmptyIterations } from './iteration-page/EmptyIterations'
-import { useIsMounted } from 'use-is-mounted'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { SolutionChannel } from '../../channels/solutionChannel'
 import { queryCache } from 'react-query'
@@ -50,11 +49,10 @@ export const IterationPage = ({
   links: Links
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean[]>([])
-  const isMountedRef = useIsMounted()
   const CACHE_KEY = `iterations-${track.title}-${exercise.title}`
   const { resolvedData } = usePaginatedRequestQuery<{
     iterations: readonly Iteration[]
-  }>(CACHE_KEY, request, isMountedRef)
+  }>(CACHE_KEY, request)
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(

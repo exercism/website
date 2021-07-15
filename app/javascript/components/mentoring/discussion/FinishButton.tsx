@@ -3,7 +3,6 @@ import { FinishMentorDiscussionModal } from '../../modals/mentor/FinishMentorDis
 import { ModalProps } from '../../modals/Modal'
 import { MentorDiscussion as Discussion } from '../../types'
 import Mousetrap from 'mousetrap'
-import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
@@ -18,30 +17,18 @@ export const FinishButton = ({
   onSuccess: (discussion: Discussion) => void
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
-  const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation(
+  const [mutation, { status, error }] = useMutation<Discussion>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
         body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<Discussion>(json, 'discussion')
       })
+
+      return fetch.then((json) => typecheck<Discussion>(json, 'discussion'))
     },
     {
-      onSuccess: (discussion) => {
-        if (!discussion) {
-          return
-        }
-
-        onSuccess(discussion)
-      },
+      onSuccess: (discussion) => onSuccess(discussion),
     }
   )
 

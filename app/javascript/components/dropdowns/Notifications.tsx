@@ -7,7 +7,6 @@ import { Notification } from './notifications/types'
 import { useNotificationDropdown } from './notifications/useNotificationDropdown'
 import { DropdownAttributes } from './useDropdown'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { QueryStatus } from 'react-query'
@@ -86,19 +85,14 @@ export const Notifications = ({
 }: {
   endpoint: string
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [isStale, setIsStale] = useState(false)
   const { resolvedData, error, status, refetch } = usePaginatedRequestQuery<
     APIResponse
-  >(
-    CACHE_KEY,
-    {
-      endpoint: endpoint,
-      query: { per: MAX_NOTIFICATIONS },
-      options: {},
-    },
-    isMountedRef
-  )
+  >(CACHE_KEY, {
+    endpoint: endpoint,
+    query: { per: MAX_NOTIFICATIONS },
+    options: {},
+  })
   const {
     buttonAttributes,
     panelAttributes,

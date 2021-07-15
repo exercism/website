@@ -1,5 +1,4 @@
 import React from 'react'
-import { useIsMounted } from 'use-is-mounted'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { ModalProps, Modal } from './Modal'
@@ -99,15 +98,12 @@ export const ExerciseMakersModal = ({
   endpoint,
   ...props
 }: { endpoint: string } & Omit<ModalProps, 'className'>): JSX.Element => {
-  const isMountedRef = useIsMounted()
-
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     APIResponse
-  >(
-    ['exercise-makers', endpoint],
-    { endpoint: endpoint, options: { enabled: props.open } },
-    isMountedRef
-  )
+  >(['exercise-makers', endpoint], {
+    endpoint: endpoint,
+    options: { enabled: props.open },
+  })
 
   return (
     <Modal {...props} className="m-makers">

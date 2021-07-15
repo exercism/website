@@ -4,7 +4,6 @@ import {
   Iteration,
   MentorSessionRequest as Request,
 } from '../../types'
-import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { useMutation } from 'react-query'
@@ -27,11 +26,10 @@ export const StartDiscussionPanel = ({
     value: localStorage.getItem(`smde_${contextId}`) || '',
   })
   const lastIteration = iterations[iterations.length - 1]
-  const isMountedRef = useIsMounted()
 
-  const [mutation, { status, error }] = useMutation<Discussion | undefined>(
+  const [mutation, { status, error }] = useMutation<Discussion>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: request.links.discussion,
         method: 'POST',
         body: JSON.stringify({
@@ -39,23 +37,12 @@ export const StartDiscussionPanel = ({
           content: state.value,
           iteration_idx: lastIteration.idx,
         }),
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<Discussion>(json, 'discussion')
       })
+
+      return fetch.then((json) => typecheck<Discussion>(json, 'discussion'))
     },
     {
-      onSuccess: (discussion) => {
-        if (!discussion) {
-          return
-        }
-
-        setDiscussion(discussion)
-      },
+      onSuccess: (discussion) => setDiscussion(discussion),
     }
   )
 

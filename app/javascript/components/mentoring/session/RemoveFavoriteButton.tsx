@@ -3,17 +3,13 @@ import { FormButton } from '../../common'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { useMutation } from 'react-query'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { Student } from '../../types'
+import { typecheck } from '../../../utils/typecheck'
 
 type ComponentProps = {
   endpoint: string
   onSuccess: (student: Student) => void
-}
-
-type APIResponse = {
-  student: Student
 }
 
 export const RemoveFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -31,20 +27,20 @@ const Component = ({
   onSuccess,
   ...props
 }: ComponentProps): JSX.Element | null => {
-  const isMountedRef = useIsMounted()
   const [isHovering, setIsHovering] = useState(false)
 
-  const [mutation, { status, error }] = useMutation<APIResponse>(
+  const [mutation, { status, error }] = useMutation<Student>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'DELETE',
         body: null,
-        isMountedRef: isMountedRef,
       })
+
+      return fetch.then((json) => typecheck<Student>('student', json))
     },
     {
-      onSuccess: (response) => onSuccess(response.student),
+      onSuccess: (student) => onSuccess(student),
     }
   )
 

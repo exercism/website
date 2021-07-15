@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useRef } from 'react'
 import { MentorDiscussion } from '../../../types'
 import { Avatar, GraphicalIcon } from '../../../common'
-import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { FormButton } from '../../../common'
@@ -26,10 +25,9 @@ export const ReportStep = ({
     reason: 'coc',
   })
   const messageRef = useRef<HTMLTextAreaElement>(null)
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',
         body: JSON.stringify({
@@ -39,8 +37,9 @@ export const ReportStep = ({
           report_reason: state.reason,
           report_message: messageRef.current?.value,
         }),
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: () => {

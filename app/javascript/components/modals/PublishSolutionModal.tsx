@@ -4,7 +4,6 @@ import { Iteration, SolutionForStudent } from '../types'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
 import { typecheck } from '../../utils/typecheck'
-import { useIsMounted } from 'use-is-mounted'
 import { FormButton } from '../common'
 import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
 import { IterationSelector } from './student/IterationSelector'
@@ -20,18 +19,18 @@ export const PublishSolutionModal = ({
   endpoint: string
   iterations: readonly Iteration[]
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [iterationIdx, setIterationIdx] = useState<number | null>(null)
   const [mutation, { status, error }] = useMutation<SolutionForStudent>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
         body: JSON.stringify({ iteration_idx: iterationIdx }),
-        isMountedRef: isMountedRef,
-      }).then((response) => {
-        return typecheck<SolutionForStudent>(response, 'solution')
       })
+
+      return fetch.then((json) =>
+        typecheck<SolutionForStudent>(json, 'solution')
+      )
     },
     {
       onSuccess: (solution) => {

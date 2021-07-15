@@ -1,4 +1,3 @@
-import { useIsMounted } from 'use-is-mounted'
 import { useRequestQuery } from '../../../hooks/request-query'
 import { DiscussionPostProps } from './DiscussionPost'
 import { MentorDiscussion, Iteration } from '../../types'
@@ -29,11 +28,9 @@ export const useDiscussionIterations = ({
   discussion?: MentorDiscussion
   iterations: readonly Iteration[]
 }): { iterations: readonly Iteration[]; status: QueryStatus } => {
-  const isMountedRef = useIsMounted()
   const { data, status } = useRequestQuery<{ posts: DiscussionPostProps[] }>(
     `posts-discussion-${discussion?.uuid}`,
-    { endpoint: discussion?.links.posts, options: { enabled: !!discussion } },
-    isMountedRef
+    { endpoint: discussion?.links.posts, options: { enabled: !!discussion } }
   )
 
   return {

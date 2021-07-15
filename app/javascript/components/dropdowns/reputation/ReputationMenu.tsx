@@ -5,7 +5,6 @@ import { ReputationToken, APIResponse } from '../Reputation'
 import { DropdownAttributes } from '../useDropdown'
 import { useMutation, queryCache } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../utils/typecheck'
 
 export const ReputationMenu = ({
@@ -22,36 +21,24 @@ export const ReputationMenu = ({
   DropdownAttributes,
   'listAttributes' | 'itemAttributes'
 >): JSX.Element => {
-  const isMountedRef = useIsMounted()
-  const [markAsSeen] = useMutation<
-    ReputationToken | undefined,
-    unknown,
-    ReputationToken
-  >(
+  const [markAsSeen] = useMutation<ReputationToken, unknown, ReputationToken>(
     (token) => {
       if (token.isSeen) {
-        return Promise.resolve(undefined)
+        return Promise.resolve(token)
       }
 
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: token.links.markAsSeen,
         method: 'PATCH',
         body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<ReputationToken>(json, 'reputation')
       })
+
+      return fetch.then((json) =>
+        typecheck<ReputationToken>(json, 'reputation')
+      )
     },
     {
       onSuccess: (token) => {
-        if (!token) {
-          return
-        }
-
         const oldData = queryCache.getQueryData<APIResponse>(cacheKey)
 
         if (!oldData) {

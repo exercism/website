@@ -4,7 +4,6 @@ import { TrackIcon, Reputation, GraphicalIcon, Pagination } from '../../common'
 import { fromNow } from '../../../utils/date'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { ResultsZone } from '../../ResultsZone'
-import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../../hooks/use-list'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 
@@ -24,8 +23,6 @@ export const BuildingContributionsList = ({
 }: {
   request: Request
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
-
   const { request, setPage } = useList(initialRequest)
   const {
     status,
@@ -35,8 +32,7 @@ export const BuildingContributionsList = ({
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     [request.endpoint, request.query],
-    request,
-    isMountedRef
+    request
   )
 
   return (

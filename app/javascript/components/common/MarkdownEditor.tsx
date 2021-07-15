@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import SimpleMDE, { SimpleMDEReactProps } from 'react-simplemde-editor'
-import { sendPostRequest } from '../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
+import { sendRequest } from '../../utils/send-request'
 
 export type MarkdownEditorHandle = {
   value: (value: string | void) => string | void
@@ -27,8 +26,6 @@ export const MarkdownEditor = ({
   onChange?: (value: string) => void
   options?: EasyMDE.Options
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
-
   const getInstance = useCallback(
     (editor) => {
       if (!editorDidMount) {
@@ -72,19 +69,21 @@ export const MarkdownEditor = ({
           return 'Preview unavailable'
         }
 
-        sendPostRequest({
+        const { fetch } = sendRequest<{ html: string }>({
           endpoint: url,
-          body: {
+          method: 'POST',
+          body: JSON.stringify({
             parse_options: {
               strip_h1: false,
               lower_heading_levels_by: 2,
             },
             markdown: markdown,
-          },
-          isMountedRef: isMountedRef,
+          }),
         })
-          .then((json: any) => {
-            preview.innerHTML = `<div class="c-textual-content --small">${json.html}</div>`
+
+        fetch
+          .then((response) => {
+            preview.innerHTML = `<div class="c-textual-content --small">${response.html}</div>`
           })
           .catch(() => {
             preview.innerHTML = '<p>Unable to parse markdown</p>'
@@ -94,7 +93,7 @@ export const MarkdownEditor = ({
       },
       ...options,
     }
-  }, [contextId, isMountedRef, JSON.stringify(options), url])
+  }, [contextId, JSON.stringify(options), url])
 
   return (
     <SimpleMDE

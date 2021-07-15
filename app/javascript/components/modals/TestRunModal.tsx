@@ -2,7 +2,6 @@ import React from 'react'
 import { TestRunSummary } from '../editor/TestRunSummary'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Modal, ModalProps } from './Modal'
-import { useIsMounted } from 'use-is-mounted'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { TestRun } from '../editor/types'
 import { ResultsZone } from '../ResultsZone'
@@ -17,14 +16,12 @@ export const TestRunModal = ({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { resolvedData, status, error, isFetching } = usePaginatedRequestQuery<
     APIResponse
-  >(
-    ['test-run', endpoint],
-    { endpoint: endpoint, options: { enabled: props.open } },
-    isMountedRef
-  )
+  >(['test-run', endpoint], {
+    endpoint: endpoint,
+    options: { enabled: props.open },
+  })
 
   return (
     <Modal className="m-test-run" {...props}>

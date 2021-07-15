@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { CommunitySolution as CommunitySolutionProps } from '../types'
@@ -40,7 +39,6 @@ export const CommunitySolutionsList = ({
   request: Request
   tracks: TrackData[]
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const {
     request,
     setCriteria: setRequestCriteria,
@@ -57,8 +55,7 @@ export const CommunitySolutionsList = ({
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     ['profile-community-solution-list', request.endpoint, request.query],
-    request,
-    isMountedRef
+    request
   )
 
   const setTrack = useCallback(

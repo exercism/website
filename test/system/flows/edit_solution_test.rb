@@ -18,7 +18,6 @@ module Components
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
-          fill_in_editor "test"
           click_on "Run Tests"
           wait_for_submission
           2.times { wait_for_websockets }
@@ -47,7 +46,6 @@ module Components
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
-          fill_in_editor "test"
           click_on "Run Tests"
           wait_for_submission
           2.times { wait_for_websockets }

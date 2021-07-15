@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { CommunitySolution as CommunitySolutionProps } from '../types'
@@ -27,7 +26,6 @@ export const ExerciseCommunitySolutionsList = ({
 }: {
   request: Request
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { request, setPage, setCriteria: setRequestCriteria } = useList(
     initialRequest
   )
@@ -40,8 +38,7 @@ export const ExerciseCommunitySolutionsList = ({
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     ['exercise-community-solution-list', request.endpoint, request.query],
-    request,
-    isMountedRef
+    request
   )
 
   useEffect(() => {

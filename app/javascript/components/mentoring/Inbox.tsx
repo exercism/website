@@ -9,7 +9,6 @@ import {
   usePaginatedRequestQuery,
   Request as BaseRequest,
 } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { ResultsZone } from '../ResultsZone'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { MentorDiscussion, DiscussionStatus } from '../types'
@@ -57,7 +56,6 @@ export const Inbox = ({
     setPage,
     setQuery,
   } = useList(discussionsRequest)
-  const isMountedRef = useIsMounted()
   const {
     status,
     resolvedData,
@@ -66,8 +64,7 @@ export const Inbox = ({
     refetch,
   } = usePaginatedRequestQuery<APIResponse>(
     ['mentor-discussion-list', request.endpoint, request.query],
-    request,
-    isMountedRef
+    request
   )
 
   useEffect(() => {

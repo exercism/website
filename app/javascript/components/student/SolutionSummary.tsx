@@ -6,7 +6,6 @@ import { Mentoring } from './solution-summary/Mentoring'
 import { Loading, ProminentLink } from '../common'
 import { SolutionChannel } from '../../channels/solutionChannel'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { queryCache } from 'react-query'
 import {
   Iteration,
@@ -60,22 +59,17 @@ export const SolutionSummary = ({
   exerciseType: ExerciseType
   links: SolutionSummaryLinks
 }): JSX.Element | null => {
-  const isMountedRef = useIsMounted()
   const CACHE_KEY = `solution-${solution.uuid}-summary`
   const [queryEnabled, setQueryEnabled] = useState(true)
   const { resolvedData } = usePaginatedRequestQuery<{
     iterations: Iteration[]
-  }>(
-    CACHE_KEY,
-    {
-      ...request,
-      options: {
-        ...request.options,
-        refetchInterval: queryEnabled ? REFETCH_INTERVAL : false,
-      },
+  }>(CACHE_KEY, {
+    ...request,
+    options: {
+      ...request.options,
+      refetchInterval: queryEnabled ? REFETCH_INTERVAL : false,
     },
-    isMountedRef
-  )
+  })
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(

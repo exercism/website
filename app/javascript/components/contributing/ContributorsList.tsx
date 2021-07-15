@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { PaginatedResult, Contributor, Track } from '../types'
 import { ContributorRow } from './contributors-list/ContributorRow'
 import { PeriodButton } from './contributors-list/PeriodButton'
-import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
@@ -30,7 +29,6 @@ export const ContributorsList = ({
   request: Request
   tracks: readonly Track[]
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { request, setPage, setQuery } = useList(initialRequest)
   const {
     status,
@@ -43,8 +41,7 @@ export const ContributorsList = ({
     {
       ...request,
       options: { ...request.options },
-    },
-    isMountedRef
+    }
   )
 
   const setPeriod = useCallback(

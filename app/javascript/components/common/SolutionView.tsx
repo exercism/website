@@ -5,7 +5,6 @@ import { ResultsZone } from '../ResultsZone'
 import { IterationsList } from '../mentoring/session/IterationsList'
 import { FilePanel } from '../mentoring/session/FilePanel'
 import { IterationSummaryWithWebsockets } from '../track/IterationSummary'
-import { useIsMounted } from 'use-is-mounted'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { PublishSettings } from '../student/published-solution/PublishSettings'
 
@@ -34,14 +33,12 @@ export const SolutionView = ({
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
-  const isMountedRef = useIsMounted()
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
     files: File[]
-  }>(
-    currentIteration.links.files,
-    { endpoint: currentIteration.links.files, options: {} },
-    isMountedRef
-  )
+  }>(currentIteration.links.files, {
+    endpoint: currentIteration.links.files,
+    options: {},
+  })
 
   return (
     <div className="c-solution-iterations">

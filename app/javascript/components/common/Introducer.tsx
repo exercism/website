@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import { GraphicalIcon, Icon } from './'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { FormButton } from './FormButton'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
@@ -26,15 +25,15 @@ export const Introducer = ({
 }>): JSX.Element | null => {
   const [hidden, setHidden] = useState(defaultHidden)
   const ref = useRef<HTMLDivElement | null>(null)
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
         body: null,
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: () => {

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useIsMounted } from 'use-is-mounted'
 import { useRequestQuery, Request } from '../../../hooks/request-query'
 import { Loading } from '../../common/Loading'
 import { TrackList, Track } from './TrackList'
@@ -13,11 +12,9 @@ export const TrackFilter = ({
   value: string | null
   setTrack: (track: string | null) => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { isLoading, isError, data: tracks } = useRequestQuery<Track[]>(
     ['track-filter', request.query],
-    request,
-    isMountedRef
+    request
   )
 
   return (

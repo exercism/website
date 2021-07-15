@@ -1,5 +1,4 @@
 import { useEffect, useCallback } from 'react'
-import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../utils/send-request'
 import { useMutation } from 'react-query'
 
@@ -19,15 +18,15 @@ export const useSettingsMutation = <
   timeout?: number
   onSuccess?: (params: U) => void
 }) => {
-  const isMountedRef = useIsMounted()
   const [baseMutation, { status, error, reset }] = useMutation<U>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: method,
         body: JSON.stringify(body),
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: onSuccess,

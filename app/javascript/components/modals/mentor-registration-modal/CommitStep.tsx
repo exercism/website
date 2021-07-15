@@ -4,7 +4,6 @@ import { ReputationInfo } from './commit-step/ReputationInfo'
 import { Checkbox } from './commit-step/Checkbox'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { ErrorMessage, ErrorBoundary } from '../../ErrorBoundary'
 
 export type Links = {
@@ -27,18 +26,18 @@ export const CommitStep = ({
   onContinue: () => void
   onBack: () => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: links.registration,
         method: 'POST',
         body: JSON.stringify({
           track_slugs: selected,
           accept_terms: true,
         }),
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: () => {

@@ -3,7 +3,6 @@ import { ReputationIcon } from './reputation/ReputationIcon'
 import { ReputationMenu } from './reputation/ReputationMenu'
 import { ReputationChannel } from '../../channels/reputationChannel'
 import { useDropdown, DropdownAttributes } from './useDropdown'
-import { useIsMounted } from 'use-is-mounted'
 import { QueryStatus } from 'react-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
@@ -98,22 +97,17 @@ export const Reputation = ({
   defaultIsSeen: boolean
   endpoint: string
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
   const cacheKey = 'reputations'
   const { resolvedData, error, status, refetch } = usePaginatedRequestQuery<
     APIResponse
-  >(
-    cacheKey,
-    {
-      endpoint: endpoint,
-      query: { per: MAX_TOKENS },
-      options: {},
-    },
-    isMountedRef
-  )
+  >(cacheKey, {
+    endpoint: endpoint,
+    query: { per: MAX_TOKENS },
+    options: {},
+  })
   const {
     buttonAttributes,
     panelAttributes,

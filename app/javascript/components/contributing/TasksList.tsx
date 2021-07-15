@@ -5,7 +5,6 @@ import {
   usePaginatedRequestQuery,
   Request as BaseRequest,
 } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import {
   Task as TaskProps,
   Track,
@@ -63,7 +62,6 @@ export const TasksList = ({
   request: Request
   tracks: readonly Track[]
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { request, setPage, setQuery, setOrder } = useList(initialRequest)
   const {
     status,
@@ -73,8 +71,7 @@ export const TasksList = ({
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     ['contributing-tasks', request.endpoint, request.query],
-    request,
-    isMountedRef
+    request
   )
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]

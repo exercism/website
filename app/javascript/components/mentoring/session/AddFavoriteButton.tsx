@@ -1,19 +1,15 @@
 import React from 'react'
 import { useMutation } from 'react-query'
-import { useIsMounted } from 'use-is-mounted'
-import { sendPostRequest } from '../../../utils/send-request'
+import { sendRequest } from '../../../utils/send-request'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { Student } from '../../types'
 import { FormButton } from '../../common'
+import { typecheck } from '../../../utils/typecheck'
 
 type ComponentProps = {
   endpoint: string
   onSuccess: (student: Student) => void
-}
-
-type APIResponse = {
-  student: Student
 }
 
 export const AddFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -30,17 +26,18 @@ const Component = ({
   endpoint,
   onSuccess,
 }: ComponentProps): JSX.Element | null => {
-  const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation<APIResponse>(
+  const [mutation, { status, error }] = useMutation<Student>(
     () => {
-      return sendPostRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
+        method: 'POST',
         body: null,
-        isMountedRef: isMountedRef,
       })
+
+      return fetch.then((json) => typecheck<Student>(json, 'student'))
     },
     {
-      onSuccess: (response) => onSuccess(response.student),
+      onSuccess: (student) => onSuccess(student),
     }
   )
 

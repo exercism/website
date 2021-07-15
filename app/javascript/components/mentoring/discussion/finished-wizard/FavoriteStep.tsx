@@ -1,7 +1,6 @@
 import React from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
@@ -25,31 +24,23 @@ export const FavoriteStep = ({
   onFavorite: (student: Student) => void
   onSkip: () => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
-  const [handleFavorite, { status, error }] = useMutation(
+  const [handleFavorite, { status, error }] = useMutation<Student>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: student.links.favorite,
         method: 'POST',
         body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<Student>(json, 'student')
       })
+
+      return fetch.then((json) => typecheck<Student>(json, 'student'))
     },
     {
       onSuccess: (student) => {
-        if (!student) {
+        if (!onFavorite) {
           return
         }
 
-        if (onFavorite) {
-          onFavorite(student)
-        }
+        onFavorite(student)
       },
     }
   )

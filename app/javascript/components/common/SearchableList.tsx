@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { GraphicalIcon, Loading, Pagination } from '../common'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { FilterPanel } from './searchable-list/FilterPanel'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
@@ -52,7 +51,6 @@ export const SearchableList = ({
   ResultsComponent: React.ComponentType<ResultsType>
   isEnabled?: boolean
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const {
     request,
     setPage,
@@ -72,15 +70,11 @@ export const SearchableList = ({
     latestData,
     isFetching,
     error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    cacheKey,
-    {
-      ...request,
-      query: removeEmpty(request.query),
-      options: { ...request.options, enabled: isEnabled },
-    },
-    isMountedRef
-  )
+  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+    options: { ...request.options, enabled: isEnabled },
+  })
 
   const setFilter = useCallback(
     (filter) => {

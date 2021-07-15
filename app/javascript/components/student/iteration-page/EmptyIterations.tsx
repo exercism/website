@@ -34,12 +34,13 @@ export const EmptyIterations = ({
   const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<Solution>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: links.startExercise,
         method: 'PATCH',
         body: null,
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: (solution) => {

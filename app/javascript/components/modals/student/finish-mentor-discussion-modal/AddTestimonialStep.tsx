@@ -3,7 +3,6 @@ import { MentorDiscussion } from '../../../types'
 import { Avatar, GraphicalIcon } from '../../../common'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { FormButton } from '../../../common'
 import { FetchingBoundary } from '../../../FetchingBoundary'
 import { TestimonialField } from './TestimonialField'
@@ -20,18 +19,18 @@ export const AddTestimonialStep = ({
   discussion: MentorDiscussion
 }): JSX.Element => {
   const [value, setValue] = useState('')
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',
         body: JSON.stringify({
           rating: 5,
           testimonial: value,
         }),
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: onSubmit,

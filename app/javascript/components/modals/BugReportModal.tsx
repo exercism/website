@@ -1,7 +1,7 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react'
-import { sendPostRequest } from '../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
+import { sendRequest } from '../../utils/send-request'
 import { Modal } from './Modal'
+import { useMutation } from 'react-query'
 
 enum BugReportModalStatus {
   INITIALIZED = 'initialized',
@@ -28,42 +28,46 @@ export const BugReportModal = ({
   open: boolean
   onClose: () => void
 }): JSX.Element => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [status, setStatus] = useState(BugReportModalStatus.INITIALIZED)
   const url = document.querySelector<HTMLMetaElement>(
     'meta[name="bug-reports-url"]'
   )?.content
-  const controllerRef = useRef<AbortController | undefined>(
-    new AbortController()
+  const [mutation] = useMutation(
+    () => {
+      if (!url) {
+        throw 'No bug report URL found'
+      }
+
+      const { fetch } = sendRequest({
+        endpoint: url,
+        method: 'POST',
+        body: JSON.stringify({
+          bug_report: {
+            content_markdown: textareaRef.current?.value,
+          },
+        }),
+      })
+
+      return fetch
+    },
+    {
+      onSuccess: () => {
+        setStatus(BugReportModalStatus.SUCCEEDED)
+      },
+    }
   )
-  const isMountedRef = useIsMounted()
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()
+
       if (!url) {
         return
       }
 
-      return sendPostRequest({
-        endpoint: url,
-        body: {
-          bug_report: {
-            content_markdown: e.target.elements.content_markdown.value,
-          },
-        },
-        isMountedRef: isMountedRef,
-      })
-        .then((json: any) => {
-          if (!json) {
-            return
-          }
-
-          setStatus(BugReportModalStatus.SUCCEEDED)
-        })
-        .finally(() => {
-          controllerRef.current = undefined
-        })
+      mutation()
     },
-    [isMountedRef, url]
+    [url, mutation]
   )
 
   useEffect(() => {
@@ -84,7 +88,7 @@ export const BugReportModal = ({
       <Status status={status} />
       <form onSubmit={handleSubmit}>
         <label htmlFor="content_markdown">Report</label>
-        <textarea id="content_markdown"></textarea>
+        <textarea id="content_markdown" ref={textareaRef}></textarea>
         <button type="submit" disabled={!url}>
           Submit
         </button>

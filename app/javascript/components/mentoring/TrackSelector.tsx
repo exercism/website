@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { TracksList } from './track-selector/TracksList'
 import { SelectedTracksMessage } from './track-selector/SelectedTracksMessage'
 import { ContinueButton } from './track-selector/ContinueButton'
@@ -31,14 +30,13 @@ export const TrackSelector = ({
   setSelected: (selected: string[]) => void
   onContinue: () => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { request, setCriteria } = useList({
     endpoint: tracksEndpoint,
     options: {},
   })
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     APIResponse
-  >(['tracks', request.endpoint, request.query], request, isMountedRef)
+  >(['tracks', request.endpoint, request.query], request)
 
   const handleContinue = useCallback(() => {
     onContinue()

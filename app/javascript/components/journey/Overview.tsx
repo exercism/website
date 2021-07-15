@@ -15,7 +15,6 @@ import {
   BadgesSection,
   Props as BadgesSectionProps,
 } from './overview/BadgesSection'
-import { useIsMounted } from 'use-is-mounted'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -84,17 +83,12 @@ export const Overview = ({
   request: Request
   isEnabled: boolean
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<{
     overview: JourneyOverview
-  }>(
-    'journey-overview',
-    {
-      ...request,
-      options: { ...request.options, enabled: isEnabled },
-    },
-    isMountedRef
-  )
+  }>('journey-overview', {
+    ...request,
+    options: { ...request.options, enabled: isEnabled },
+  })
   const formattedData = resolvedData ? formatData(resolvedData) : null
 
   return (

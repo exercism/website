@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Iteration } from '../../types'
 import { IterationsList } from './IterationsList'
 import { FilePanel } from './FilePanel'
@@ -32,14 +32,12 @@ export const IterationView = ({
   settings: Settings
   setSettings: (settings: Settings) => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
     files: File[]
-  }>(
-    currentIteration.links.files,
-    { endpoint: currentIteration.links.files, options: {} },
-    isMountedRef
-  )
+  }>(currentIteration.links.files, {
+    endpoint: currentIteration.links.files,
+    options: {},
+  })
 
   return (
     <React.Fragment>

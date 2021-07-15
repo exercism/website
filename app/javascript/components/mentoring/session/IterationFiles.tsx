@@ -5,7 +5,6 @@ import { useRequestQuery } from '../../../hooks/request-query'
 import { File } from '../../types'
 import { Loading } from '../../common'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { useIsMounted } from 'use-is-mounted'
 
 const TabsContext = createContext<TabContext>({
   current: '',
@@ -39,11 +38,10 @@ const Component = ({
   language,
   indentSize,
 }: ComponentProps): JSX.Element | null => {
-  const isMountedRef = useIsMounted()
   const { data, error, status } = useRequestQuery<
     { files: File[] },
     Error | Response
-  >(endpoint, { endpoint: endpoint, options: {} }, isMountedRef)
+  >(endpoint, { endpoint: endpoint, options: {} })
   const [tab, setTab] = useState<string | null>(null)
 
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })

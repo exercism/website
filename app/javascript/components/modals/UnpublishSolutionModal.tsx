@@ -1,6 +1,5 @@
 import React from 'react'
 import { Modal, ModalProps } from './Modal'
-import { useIsMounted } from 'use-is-mounted'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
 import { typecheck } from '../../utils/typecheck'
@@ -15,17 +14,17 @@ export const UnpublishSolutionModal = ({
   endpoint,
   ...props
 }: ModalProps & { endpoint: string }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<SolutionForStudent>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
         body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        return typecheck<SolutionForStudent>(json, 'solution')
       })
+
+      return fetch.then((json) =>
+        typecheck<SolutionForStudent>(json, 'solution')
+      )
     },
     {
       onSuccess: (solution) => {

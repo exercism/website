@@ -23,10 +23,7 @@ type PaginatedRequest = {
   options: PaginatedQueryConfig<any>
 }
 
-function handleFetch(
-  request: Request,
-  isMountedRef: React.MutableRefObject<boolean>
-) {
+function handleFetch(request: Request) {
   const delimiter =
     request.endpoint && request.endpoint.includes('?') ? '&' : '?'
   const params = request.query
@@ -35,44 +32,38 @@ function handleFetch(
       })}`
     : ''
 
-  return sendRequest({
-    endpoint: `${request.endpoint}${params}`,
-    body: null,
-    method: 'GET',
-    isMountedRef: isMountedRef,
-  })
+  return () => {
+    const { fetch, cancel } = sendRequest({
+      endpoint: `${request.endpoint}${params}`,
+      body: null,
+      method: 'GET',
+    })
+
+    const fetchWithCancel = fetch as any
+    fetchWithCancel.cancel = cancel
+
+    return fetch
+  }
 }
 
 export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
   key: QueryKey,
-  request: PaginatedRequest,
-  isMountedRef: React.MutableRefObject<boolean>
+  request: PaginatedRequest
 ): PaginatedQueryResult<TResult, TError> {
-  return usePaginatedQuery<TResult, TError>(
-    key,
-    () => {
-      return handleFetch(request, isMountedRef)
-    },
-    {
-      refetchOnWindowFocus: false,
-      staleTime: 1000 * 30,
-      ...camelizeKeys(request.options),
-    }
-  )
+  return usePaginatedQuery<TResult, TError>(key, handleFetch(request), {
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 30,
+    ...camelizeKeys(request.options),
+  })
 }
 
 export function useRequestQuery<TResult = unknown, TError = unknown>(
   key: QueryKey,
-  request: Request,
-  isMountedRef: React.MutableRefObject<boolean>
+  request: Request
 ): QueryResult<TResult, TError> {
-  return useQuery<TResult, TError>(
-    key,
-    () => handleFetch(request, isMountedRef),
-    {
-      refetchOnWindowFocus: false,
-      staleTime: 1000 * 30,
-      ...camelizeKeys(request.options),
-    }
-  )
+  return useQuery<TResult, TError>(key, handleFetch(request), {
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 30,
+    ...camelizeKeys(request.options),
+  })
 }

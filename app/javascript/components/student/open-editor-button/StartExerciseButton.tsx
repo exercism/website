@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { FormButton } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
@@ -15,17 +14,17 @@ export const StartExerciseButton = ({
   endpoint: string
   className?: string
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<{
     links: { exercise: string }
   }>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
         body: null,
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: (data) => {

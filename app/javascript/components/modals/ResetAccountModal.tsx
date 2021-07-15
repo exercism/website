@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { Modal, ModalProps } from './Modal'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { FormButton } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 import { useConfirmation } from '../../hooks/use-confirmation'
@@ -24,15 +23,15 @@ export const ResetAccountModal = ({
   handle: string
   endpoint: string
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<APIResponse>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
         body: JSON.stringify({ handle: handle }),
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
       onSuccess: (response) => {

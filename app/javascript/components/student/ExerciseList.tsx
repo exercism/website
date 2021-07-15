@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { ExerciseWidget } from '../common'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { Exercise, SolutionForStudent } from '../types'
-import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../hooks/use-list'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
@@ -98,7 +97,6 @@ export const ExerciseList = ({
   request: Request
   defaultStatus?: string
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const { request, setCriteria: setRequestCriteria } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const [statusFilter, setStatusFilter] = useState<StatusFilter>(
@@ -108,7 +106,7 @@ export const ExerciseList = ({
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     { solutions: SolutionForStudent[]; exercises: Exercise[] },
     Error | Response
-  >(['exercise-list', request.endpoint, request.query], request, isMountedRef)
+  >(['exercise-list', request.endpoint, request.query], request)
 
   const results = resolvedData?.exercises.map((exercise) => {
     const solution = resolvedData.solutions.find(

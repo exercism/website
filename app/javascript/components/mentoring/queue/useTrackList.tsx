@@ -1,5 +1,4 @@
 import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { MentoredTrack } from '../../types'
 import { QueryStatus } from 'react-query'
 
@@ -19,11 +18,9 @@ export const useTrackList = ({
   error: unknown
   isFetching: boolean
 } => {
-  const isMountedRef = useIsMounted()
-
   const { resolvedData, isFetching, status, error } = usePaginatedRequestQuery<
     APIResponse
-  >(cacheKey, request, isMountedRef)
+  >(cacheKey, request)
 
   return {
     tracks: resolvedData ? resolvedData.tracks : [],

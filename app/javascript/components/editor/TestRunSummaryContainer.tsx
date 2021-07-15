@@ -3,7 +3,6 @@ import { TestRun, TestRunStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
 import { fetchJSON } from '../../utils/fetch-json'
 import { useRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { TestRunSummary } from './TestRunSummary'
 
 const REFETCH_INTERVAL = 2000
@@ -25,7 +24,6 @@ export const TestRunSummaryContainer = ({
   cancelLink: string
   averageTestDuration: number
 }): JSX.Element | null => {
-  const isMountedRef = useIsMounted()
   const { data } = useRequestQuery<{ testRun: TestRun }>(
     `test-run-${testRun.submissionUuid}`,
     {
@@ -35,8 +33,7 @@ export const TestRunSummaryContainer = ({
         refetchInterval:
           testRun.status === TestRunStatus.QUEUED ? REFETCH_INTERVAL : false,
       },
-    },
-    isMountedRef
+    }
   )
   const setTestRun = useCallback(
     (testRun) => {

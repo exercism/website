@@ -28,31 +28,21 @@ export const MentorAgainStep = ({
   onYes: SuccessFn
   onNo: SuccessFn
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [choice, setChoice] = useState<Choice | null>(null)
-  const [mutate, { status, error }] = useMutation(
+  const [mutate, { status, error }] = useMutation<Student>(
     () => {
       const method = choice === 'yes' ? 'DELETE' : 'POST'
 
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: student.links.block,
         method: method,
         body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<Student>(json, 'student')
       })
+
+      return fetch.then((json) => typecheck<Student>(json, 'student'))
     },
     {
       onSuccess: (student) => {
-        if (!student) {
-          return
-        }
-
         choice === 'yes' ? onYes(student) : onNo(student)
       },
     }

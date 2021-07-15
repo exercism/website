@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
 import { QueryStatus, useMutation } from 'react-query'
-import { useIsMounted } from 'use-is-mounted'
 import { sendRequest } from '../../../utils/send-request'
 import { Loading } from '../../common'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
@@ -44,27 +43,21 @@ export const PublishSolutionForm = ({
   const [iterationIdxToPublish, setIterationIdxToPublish] = useState<
     number | null
   >(null)
-  const isMountedRef = useIsMounted()
   const [mutation, { status, error }] = useMutation<ExerciseCompletion>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
         body: JSON.stringify({
           publish: toPublish,
           iteration_idx: iterationIdxToPublish,
         }),
-        isMountedRef: isMountedRef,
       })
+
+      return fetch
     },
     {
-      onSuccess: (data) => {
-        if (!data) {
-          return
-        }
-
-        onSuccess(data)
-      },
+      onSuccess: onSuccess,
     }
   )
 

@@ -20,29 +20,18 @@ export const UnrevealedBadge = ({
 }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [revealedBadge, setRevealedBadge] = useState<BadgeProps | null>(null)
-
-  const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation<BadgeProps | undefined>(
+  const [mutation, { status, error }] = useMutation<BadgeProps>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: badge.links.reveal,
         method: 'PATCH',
         body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<BadgeProps>(json, 'badge')
       })
+
+      return fetch.then((json) => typecheck<BadgeProps>(json, 'badge'))
     },
     {
       onSuccess: (badge) => {
-        if (!badge) {
-          return
-        }
-
         setRevealedBadge(badge)
         setIsModalOpen(true)
       },

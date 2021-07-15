@@ -16,7 +16,6 @@ import {
 import { LatestIterationStatusChannel } from '../../channels/latestIterationStatusChannel'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import pluralize from 'pluralize'
-import { useIsMounted } from 'use-is-mounted'
 import { queryCache } from 'react-query'
 
 export type Track = {
@@ -61,22 +60,17 @@ export const Nudge = ({
   iterations,
   track,
 }: Props): JSX.Element | null => {
-  const isMountedRef = useIsMounted()
   const CACHE_KEY = `nudge-${solution.uuid}`
   const [queryEnabled, setQueryEnabled] = useState(true)
   const { resolvedData } = usePaginatedRequestQuery<{
     status: IterationStatus
-  }>(
-    CACHE_KEY,
-    {
-      ...request,
-      options: {
-        ...request.options,
-        refetchInterval: queryEnabled ? REFETCH_INTERVAL : false,
-      },
+  }>(CACHE_KEY, {
+    ...request,
+    options: {
+      ...request.options,
+      refetchInterval: queryEnabled ? REFETCH_INTERVAL : false,
     },
-    isMountedRef
-  )
+  })
 
   const iterationStatus = resolvedData?.status
 

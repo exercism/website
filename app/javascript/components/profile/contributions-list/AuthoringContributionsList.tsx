@@ -3,7 +3,6 @@ import { ExerciseWidget, Pagination } from '../../common'
 import { ExerciseAuthorship } from '../../types'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { ResultsZone } from '../../ResultsZone'
-import { useIsMounted } from 'use-is-mounted'
 import { useList } from '../../../hooks/use-list'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 
@@ -23,8 +22,6 @@ export const AuthoringContributionsList = ({
 }: {
   request: Request
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
-
   const { request, setPage } = useList(initialRequest)
   const {
     status,
@@ -34,8 +31,7 @@ export const AuthoringContributionsList = ({
     error,
   } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
     [request.endpoint, request.query],
-    request,
-    isMountedRef
+    request
   )
 
   return (

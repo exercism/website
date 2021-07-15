@@ -3,7 +3,6 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import { Modal, ModalProps } from './Modal'
 import { Icon } from '../common'
 import { useRequestQuery } from '../../hooks/request-query'
-import { useIsMounted } from 'use-is-mounted'
 import { ExerciseUpdateForm } from './exercise-update-modal/ExerciseUpdateForm'
 import { Exercise } from '../types'
 
@@ -25,12 +24,9 @@ export const ExerciseUpdateModal = ({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
-  const isMountedRef = useIsMounted()
-
   const { data, status, error } = useRequestQuery<{ diff: ExerciseDiff }>(
     ['exercise-update', endpoint],
-    { endpoint: endpoint, options: {} },
-    isMountedRef
+    { endpoint: endpoint, options: {} }
   )
   return (
     <Modal {...props} className="m-update-exercise">

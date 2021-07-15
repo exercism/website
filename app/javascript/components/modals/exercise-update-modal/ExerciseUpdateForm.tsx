@@ -2,7 +2,6 @@ import React, { createContext, useState } from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { ExerciseDiff } from '../ExerciseUpdateModal'
-import { useIsMounted } from 'use-is-mounted'
 import { GraphicalIcon, ExerciseIcon, FormButton } from '../../common'
 import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
 import { SolutionForStudent } from '../../types'
@@ -25,19 +24,19 @@ export const ExerciseUpdateForm = ({
   diff: ExerciseDiff
   onCancel: () => void
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [tab, setTab] = useState(diff.files[0].filename)
 
   const [mutation, { status, error }] = useMutation<SolutionForStudent>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: diff.links.update,
         method: 'PATCH',
         body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        return typecheck<SolutionForStudent>(json, 'solution')
       })
+
+      return fetch.then((json) =>
+        typecheck<SolutionForStudent>(json, 'solution')
+      )
     },
     {
       onSuccess: (solution) => {

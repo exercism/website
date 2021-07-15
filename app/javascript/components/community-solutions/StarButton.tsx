@@ -3,7 +3,6 @@ import { FormButton, Icon } from '../common'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
 import { typecheck } from '../../utils/typecheck'
-import { useIsMounted } from 'use-is-mounted'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
 type Links = {
@@ -26,32 +25,22 @@ export const StarButton = ({
   defaultIsStarred: boolean
   links: Links
 }): JSX.Element => {
-  const isMountedRef = useIsMounted()
   const [state, setState] = useState({
     numStars: defaultNumStars,
     isStarred: defaultIsStarred,
   })
-  const [mutation, { status, error }] = useMutation(
+  const [mutation, { status, error }] = useMutation<APIResponse>(
     () => {
-      return sendRequest({
+      const { fetch } = sendRequest({
         endpoint: links.star,
         method: state.isStarred ? 'DELETE' : 'POST',
         body: null,
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<APIResponse>(json, 'star')
       })
+
+      return fetch.then((json) => typecheck<APIResponse>(json, 'star'))
     },
     {
       onSuccess: (response) => {
-        if (!response) {
-          return
-        }
-
         setState(response)
       },
     }

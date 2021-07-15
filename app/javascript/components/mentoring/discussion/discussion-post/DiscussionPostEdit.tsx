@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useContext } from 'react'
-import { useIsMounted } from 'use-is-mounted'
 import { PostsContext } from '../PostsContext'
 import { useMutation, queryCache } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
@@ -22,34 +21,30 @@ export const DiscussionPostEdit = ({
   onCancel: () => void
 }): JSX.Element => {
   const [value, setValue] = useState(post.contentMarkdown)
-  const isMountedRef = useIsMounted()
   const { cacheKey } = useContext(PostsContext)
 
   const [mutation, { status: editStatus, error: editError }] = useMutation<
-    DiscussionPostProps | undefined,
+    DiscussionPostProps,
     unknown,
     MutationAction
   >(
     (action) => {
-      return sendRequest({
-        endpoint: action === 'update' ? post.links.edit : post.links.delete,
+      const endpoint = action === 'update' ? post.links.edit : post.links.delete
+
+      if (!endpoint) {
+        throw `No endpoint for action ${action}`
+      }
+
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
         method: action === 'update' ? 'PATCH' : 'DELETE',
         body: JSON.stringify({ content: value }),
-        isMountedRef: isMountedRef,
-      }).then((json) => {
-        if (!json) {
-          return
-        }
-
-        return typecheck<DiscussionPostProps>(json, 'post')
       })
+
+      return fetch.then((json) => typecheck<DiscussionPostProps>(json, 'post'))
     },
     {
       onSuccess: (data, action) => {
-        if (!data) {
-          return
-        }
-
         switch (action) {
           case 'delete': {
             queryCache.setQueryData<{ posts: DiscussionPostProps[] }>(

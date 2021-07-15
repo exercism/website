@@ -743,5 +743,9 @@
                 }
             }
         }
+        & .editor-error {
+            @apply text-darkRed font-medium;
+            @apply mb-12;
+        }
     }
 }

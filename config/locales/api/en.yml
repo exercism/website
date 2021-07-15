@@ -28,6 +28,7 @@ en:
       mentor_discussion_post_not_found: "The post could not be found"
       mentor_discussion_post_not_deleted: "The post could not be deleted"
       mentor_discussion_post_not_accessible: "You do not have permission to view this discussion post"
+      student_cannot_mentor_themselves: "You can't mentor your own solutions."
       permission_denied: "You do not have access to this resource"
       iteration_not_found: "The iteration could not be found"
       failed_validations: "Unable to save the resource"

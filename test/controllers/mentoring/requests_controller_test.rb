@@ -9,6 +9,17 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to mentoring_path
   end
 
+  test "redirects own solution" do
+    mentor = create :user
+    sign_in!(mentor)
+
+    solution = create :practice_solution, user: mentor
+    request = create :mentor_request, solution: solution
+
+    get mentoring_request_path(request)
+    assert_redirected_to mentoring_queue_path
+  end
+
   test "redirects locked" do
     mentor = create :user
     sign_in!(mentor)

@@ -17,7 +17,8 @@ const ErrorMessage = ({
 }
 
 const ErrorFallback = ({ error }: { error: Error }) => {
-  return <p>{error.message}</p>
+  // TODO: (Required) Add styling to this
+  return <div className="editor-error">{error.message}</div>
 }
 
 export type MarkdownEditorFormAction = 'new' | 'edit'
@@ -110,7 +111,10 @@ export const MarkdownEditorForm = ({
   }, [expanded, editor])
 
   return (
-    <React.Fragment>
+    <>
+      <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
+        <ErrorMessage error={error} defaultError={defaultError} />
+      </ErrorBoundary>
       <form
         onSubmit={handleSubmit}
         onClick={handleClick}
@@ -133,9 +137,6 @@ export const MarkdownEditorForm = ({
           />
         ) : null}
       </form>
-      <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>
-        <ErrorMessage error={error} defaultError={defaultError} />
-      </ErrorBoundary>
-    </React.Fragment>
+    </>
   )
 }

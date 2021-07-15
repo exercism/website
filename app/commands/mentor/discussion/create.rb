@@ -12,6 +12,7 @@ module Mentor
         discussion = ActiveRecord::Base.transaction do
           request.lock!
 
+          raise StudentCannotMentorThemselvesError if request.student == mentor
           raise SolutionLockedByAnotherMentorError unless request.lockable_by?(mentor)
 
           # Now we're in the happy path.

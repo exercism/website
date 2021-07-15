@@ -43,6 +43,10 @@ class UserTrack
       true
     end
 
+    def practice_mode?
+      false
+    end
+
     def last_touched_at
       nil
     end

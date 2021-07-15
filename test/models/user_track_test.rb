@@ -483,4 +483,174 @@ class UserTrackTest < ActiveSupport::TestCase
       deprecated_practice_exercise
     ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
   end
+
+  test "concept_exercises for_concept" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    c_1 = create :concept, track: track, slug: "strings"
+    c_2 = create :concept, track: track, slug: "numbers"
+
+    ce_1 = create :concept_exercise, :random_slug, track: track
+    ce_1.taught_concepts << c_1
+
+    ce_2 = create :concept_exercise, :random_slug, track: track
+    ce_2.taught_concepts << c_1
+    ce_2.prerequisites << c_2
+
+    # Sanity check: don't include concept exercise with different concept
+    ce_3 = create :concept_exercise, :random_slug, track: track
+    ce_3.taught_concepts << c_2
+
+    # Sanity check: don't include concept exercise exercise that has concept as prerequisite
+    ce_4 = create :concept_exercise, :random_slug, track: track
+    ce_4.prerequisites << c_1
+
+    # Sanity check: don't include concept exercise without taught concept
+    ce_5 = create :concept_exercise, :random_slug, track: track
+    ce_5.taught_concepts = []
+
+    # Sanity check: don't include practice exercises
+    create :practice_exercise, :random_slug, track: track
+    pe_1 = create :practice_exercise, :random_slug, track: track
+    pe_1.practiced_concepts << c_1
+
+    expected = [ce_1, ce_2].map(&:slug).sort
+    assert_equal expected, user_track.concept_exercises(for_concept: c_1).map(&:slug).sort
+  end
+
+  test "practice_exercises for_concept" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    c_1 = create :concept, track: track, slug: "strings"
+    c_2 = create :concept, track: track, slug: "numbers"
+
+    pe_1 = create :practice_exercise, :random_slug, track: track
+    pe_1.practiced_concepts << c_1
+
+    pe_2 = create :practice_exercise, :random_slug, track: track
+    pe_2.practiced_concepts << c_1
+    pe_2.practiced_concepts << c_2
+
+    # Sanity check: don't include practice exercise with different concept
+    pe_3 = create :practice_exercise, :random_slug, track: track
+    pe_3.practiced_concepts << c_2
+
+    # Sanity check: don't include practice exercise that has concept as prerequisite
+    pe_4 = create :practice_exercise, :random_slug, track: track
+    pe_4.prerequisites << c_1
+
+    # Sanity check: don't include practice exercise without practiced concept
+    pe_5 = create :practice_exercise, :random_slug, track: track
+    pe_5.practiced_concepts = []
+
+    # Sanity check: don't include concept exercises
+    create :concept_exercise, :random_slug, track: track
+    ce_1 = create :concept_exercise, :random_slug, track: track
+    ce_1.taught_concepts << c_1
+
+    expected = [pe_1, pe_2].map(&:slug).sort
+    assert_equal expected, user_track.practice_exercises(for_concept: c_1).map(&:slug).sort
+  end
+
+  test "unlocked_exercises_for" do
+    track = create :track
+    basics = create :concept, track: track, slug: "co_basics"
+    enums = create :concept, track: track, slug: "co_enums"
+    strings = create :concept, track: track, slug: "co_strings"
+
+    # Nothing teaches recursion
+    create :concept, track: track, slug: "co_recursion"
+
+    basics_exercise = create :concept_exercise, slug: "ex_basics", track: track
+    basics_exercise.taught_concepts << basics
+
+    enums_exercise = create :concept_exercise, slug: "ex_enums", track: track
+    enums_exercise.prerequisites << basics
+    enums_exercise.taught_concepts << enums
+
+    strings_exercise = create :concept_exercise, slug: "ex_strings", track: track
+    strings_exercise.prerequisites << enums
+    strings_exercise.prerequisites << basics
+    strings_exercise.taught_concepts << strings
+
+    practice_exercise = create :practice_exercise, slug: "ex_prac_enums", track: track
+    practice_exercise.prerequisites << enums
+    practice_exercise.practiced_concepts << enums
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+    create :hello_world_solution, :completed, track: track, user: user_track.user
+
+    # The basics exercise has not been completed so no unlocked exercises
+    assert_empty user_track.unlocked_exercises_for(exercise: basics_exercise)
+
+    # Completing the basics exercise unlocks the enums exercise
+    create :concept_solution, :completed, exercise: basics_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [enums_exercise], user_track.unlocked_exercises_for(exercise: basics_exercise)
+
+    # Completing the enums exercise unlocks the strings exercise
+    create :concept_solution, :completed, exercise: enums_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [enums_exercise, strings_exercise], user_track.unlocked_exercises_for(exercise: basics_exercise)
+  end
+
+  test "unlocked_concepts_for" do
+    track = create :track
+    basics = create :concept, track: track, slug: "co_basics"
+    enums = create :concept, track: track, slug: "co_enums"
+    strings = create :concept, track: track, slug: "co_strings"
+
+    # Nothing teaches recursion
+    create :concept, track: track, slug: "co_recursion"
+
+    basics_exercise = create :concept_exercise, slug: "ex_basics", track: track
+    basics_exercise.taught_concepts << basics
+
+    enums_exercise = create :concept_exercise, slug: "ex_enums", track: track
+    enums_exercise.prerequisites << basics
+    enums_exercise.taught_concepts << enums
+
+    strings_exercise = create :concept_exercise, slug: "ex_strings", track: track
+    strings_exercise.prerequisites << enums
+    strings_exercise.prerequisites << basics
+    strings_exercise.taught_concepts << strings
+
+    practice_exercise = create :practice_exercise, slug: "ex_prac_enums", track: track
+    practice_exercise.prerequisites << enums
+    practice_exercise.practiced_concepts << enums
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+    create :hello_world_solution, :completed, track: track, user: user_track.user
+
+    # The basics exercise has not been completed so no unlocked concepts
+    assert_empty user_track.unlocked_concepts_for(exercise: basics_exercise)
+
+    # Completing the basics exercise unlocks the enums concept
+    create :concept_solution, :completed, exercise: basics_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [enums], user_track.unlocked_concepts_for(exercise: basics_exercise)
+
+    # Completing the enums exercise unlocks the strings concepts
+    create :concept_solution, :completed, exercise: enums_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [enums, strings], user_track.unlocked_concepts_for(exercise: basics_exercise)
+  end
 end

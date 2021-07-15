@@ -14,19 +14,20 @@ class UserTrack
       :updated_at,
       to: :track
 
-    memoize
     def exercises
-      filter_exercises(track.exercises)
+      enabled_exercises
     end
 
-    memoize
-    def concept_exercises
-      filter_exercises(track.concept_exercises)
+    def concept_exercises(for_concept: nil)
+      return filter_enabled_exercises(for_concept.concept_exercises) if for_concept.present?
+
+      enabled_concept_exercises
     end
 
-    memoize
-    def practice_exercises
-      filter_exercises(track.practice_exercises)
+    def practice_exercises(for_concept: nil)
+      return filter_enabled_exercises(for_concept.practice_exercises) if for_concept.present?
+
+      enabled_practice_exercises
     end
 
     #######################
@@ -157,7 +158,22 @@ class UserTrack
       taught_counts.merge(practice_counts) { |_, t, p| t + p }
     end
 
-    def filter_exercises(exercises)
+    memoize
+    def enabled_exercises
+      filter_enabled_exercises(track.exercises)
+    end
+
+    memoize
+    def enabled_concept_exercises
+      filter_enabled_exercises(track.concept_exercises)
+    end
+
+    memoize
+    def enabled_practice_exercises
+      filter_enabled_exercises(track.practice_exercises)
+    end
+
+    def filter_enabled_exercises(exercises)
       exercises.where(status: %i[active beta])
     end
   end

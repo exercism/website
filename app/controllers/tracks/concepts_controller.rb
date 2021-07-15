@@ -19,8 +19,8 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def show
-    @concept_exercises = @concept.concept_exercises.enabled(@user_track)
-    @practice_exercises = @concept.practice_exercises.enabled(@user_track)
+    @concept_exercises = @user_track.concept_exercises(for_concept: @concept)
+    @practice_exercises = @user_track.practice_exercises(for_concept: @concept)
 
     if current_user
       @solutions = current_user.solutions.where(exercise_id: @concept_exercises.map(&:id) + @practice_exercises.map(&:id)).
@@ -31,13 +31,13 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def tooltip
-    @exercises = @concept.concept_exercises.enabled(@user_track) + @concept.practice_exercises.enabled(@user_track)
+    @exercises = @user_track.concept_exercises(for_concept: @concept) + @user_track.practice_exercises(for_concept: @concept)
     @num_completed_exercises = @user_track.num_completed_exercises_for_concept(@concept)
     @locked = !@user_track.concept_unlocked?(@concept)
     @learnt = @user_track.concept_learnt?(@concept)
     @mastered = @user_track.concept_mastered?(@concept)
     @prerequisite_names = Concept.joins(:unlocked_exercises).
-      where('exercise_prerequisites.exercise_id': @concept.concept_exercises.enabled(@user_track)).
+      where('exercise_prerequisites.exercise_id': @user_track.concept_exercises(for_concept: @concept)).
       pluck(:name)
 
     render_template_as_json

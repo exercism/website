@@ -21,6 +21,8 @@ module Components
           click_on "Run Tests"
           wait_for_submission
           2.times { wait_for_websockets }
+          sleep(1) # Wait for any further websocket activity
+
           test_run = create :submission_test_run,
             submission: Submission.last,
             ops_status: 200,

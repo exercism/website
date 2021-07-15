@@ -44,12 +44,9 @@ class Tracks::ExercisesController < ApplicationController
 
   def edit
     return if @solution
+    return redirect_to action: :show if @user_track.external?
 
-    if !@user_track.external?
-      @solution = Solution::Create.(current_user, @exercise)
-    else
-      redirect_to action: :show
-    end
+    @solution = Solution::Create.(current_user, @exercise)
   end
 
   # TODO: (Required) Delete when this is working via the API

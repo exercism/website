@@ -21,7 +21,7 @@ class Exercise
       criteria.strip.split(" ").each do |crit|
         @exercises = @exercises.where(
           "exercises.title LIKE ?",
-          "#{crit}%"
+          "%#{crit}%"
         )
       end
     end

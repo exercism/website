@@ -21,6 +21,8 @@ class Exercise::SearchTest < ActiveSupport::TestCase
     assert_equal [food, bob], Exercise::Search.(track, criteria: " ")
     assert_equal [food], Exercise::Search.(track, criteria: "fo")
     assert_equal [bob], Exercise::Search.(track, criteria: "bo")
+    assert_equal [food], Exercise::Search.(track, criteria: "chain")
+    assert_equal [bob], Exercise::Search.(track, criteria: "bob")
   end
 
   test "sorts correctly" do

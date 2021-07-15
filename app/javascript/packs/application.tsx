@@ -203,6 +203,7 @@ import { initReact } from '../utils/react-bootloader.jsx'
 import * as Common from '../components/common'
 import { CLIWalkthrough } from '../components/common/CLIWalkthrough'
 import { CLIWalkthroughButton } from '../components/common/CLIWalkthroughButton'
+import { followCursor } from 'tippy.js'
 
 import * as Student from '../components/student'
 
@@ -213,18 +214,11 @@ import {
   Iteration,
   Track,
   Exercise,
-  // MentorSessionRequest,
-  // MentorSessionTrack,
-  // MentorSessionExercise,
-  MentorDiscussion,
-  MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
   Testimonial,
-  // MentoredTrackExercise,
   User,
   SiteUpdate,
-  CommunicationPreferences,
   TrackContribution,
 } from '../components/types'
 
@@ -357,7 +351,6 @@ initReact({
   ),
   'student-exercise-status-dot': (data: any) => (
     <Student.ExerciseStatusDot
-      slug={data.slug}
       exerciseStatus={data.exercise_status}
       type={data.type}
       links={data.links}
@@ -381,30 +374,16 @@ initReact({
   ),
 
   'mentored-student-tooltip': (data: any) => (
-    <Tooltips.StudentTooltip
-      requestId={data.endpoint}
-      endpoint={data.endpoint}
-    />
+    <Tooltips.StudentTooltip endpoint={data.endpoint} />
   ),
-  'user-tooltip': (data: any, elem: HTMLElement) => (
-    <Tooltips.UserTooltip
-      contentEndpoint={data.endpoint}
-      referenceElement={elem}
-      referenceUserHandle={data.handle}
-      placement={data.placement}
-      hoverRequestToShow={true}
-      focusRequestToShow={true}
-    />
+  'user-tooltip': (data: any) => (
+    <Tooltips.UserTooltip endpoint={data.endpoint} />
   ),
-  'exercise-tooltip': (data: any, elem: HTMLElement) => (
-    <Tooltips.UserTooltip
-      contentEndpoint={data.endpoint}
-      referenceElement={elem}
-      referenceUserHandle={data.handle}
-      placement={data.placement}
-      hoverRequestToShow={true}
-      focusRequestToShow={true}
-    />
+  'exercise-tooltip': (data: any) => (
+    <Tooltips.ExerciseTooltip endpoint={data.endpoint} />
+  ),
+  'concept-tooltip': (data: any) => (
+    <Tooltips.ConceptTooltip endpoint={data.endpoint} />
   ),
   'dropdowns-dropdown': (data: any) => (
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
@@ -496,4 +475,5 @@ const imagePath = (name: any) => images(name)
 
 // Loading overlay events
 import { bindRedirectEvents } from '../utils/redirect-to'
+import { LazyTippy } from '../components/misc/LazyTippy'
 bindRedirectEvents()

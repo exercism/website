@@ -1,36 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Exercise, Track, SolutionForStudent } from '../types'
-import { Icon, ExerciseWidget } from '../common'
+import { ExerciseWidget } from '../common'
 import { useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
+import { Loading } from './Loading'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
-const LoadingComponent = () => {
-  const [isShowing, setIsShowing] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShowing(true)
-    }, 200)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  return isShowing ? (
-    <Icon icon="spinner" alt="Loading exercise data" className="--spinner" />
-  ) : null
-}
-
 export const ExerciseTooltip = React.forwardRef<
   HTMLDivElement,
-  React.HTMLProps<HTMLDivElement> & { endpoint: string; slug: string }
->(({ endpoint, slug, ...props }, ref) => {
+  React.HTMLProps<HTMLDivElement> & { endpoint: string }
+>(({ endpoint, ...props }, ref) => {
   const { data, error, status } = useRequestQuery<{
     track: Track
     exercise: Exercise
     solution: SolutionForStudent
-  }>(`exercise-tooltip-${slug}`, { endpoint: endpoint, options: {} })
+  }>(endpoint, { endpoint: endpoint, options: {} })
 
   return (
     <div className="c-exercise-tooltip" {...props} ref={ref}>
@@ -38,7 +23,7 @@ export const ExerciseTooltip = React.forwardRef<
         status={status}
         error={error}
         defaultError={DEFAULT_ERROR}
-        LoadingComponent={LoadingComponent}
+        LoadingComponent={() => <Loading alt="Unable to load exercises" />}
       >
         {data ? (
           /* If we want the track we need to add a pivot to this,

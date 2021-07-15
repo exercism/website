@@ -1,15 +1,14 @@
 import React, { forwardRef } from 'react'
 import { ExerciseStatus } from '../types'
-import { usePanel } from '../../hooks/use-panel'
 import { ExerciseTooltip } from '../tooltips/ExerciseTooltip'
+import { followCursor } from 'tippy.js'
+import { LazyTippy } from '../misc/LazyTippy'
 
 export const ExerciseStatusDot = ({
-  slug,
   exerciseStatus,
   type,
   links,
 }: {
-  slug: string
   exerciseStatus: ExerciseStatus
   type: string
   links: {
@@ -17,35 +16,19 @@ export const ExerciseStatusDot = ({
     exercise?: string
   }
 }): JSX.Element => {
-  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
-    placement: 'right-start',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 8],
-        },
-      },
-    ],
-  })
-
   return (
-    <React.Fragment>
+    <LazyTippy
+      animation="shift-away-subtle"
+      followCursor="horizontal"
+      maxWidth="none"
+      plugins={[followCursor]}
+      content={<ExerciseTooltip endpoint={links.tooltip} />}
+    >
       <ReferenceElement
-        {...buttonAttributes}
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
         className={`c-ed --${exerciseStatus} --${type}`}
         link={links.exercise}
       />
-      {open ? (
-        <ExerciseTooltip
-          slug={slug}
-          endpoint={links.tooltip}
-          {...panelAttributes}
-        />
-      ) : null}
-    </React.Fragment>
+    </LazyTippy>
   )
 }
 

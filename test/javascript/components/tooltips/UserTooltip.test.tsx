@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, waitFor, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -37,18 +37,16 @@ test('correct information is displayed', async () => {
   )
   server.listen()
 
-  const { getByText } = render(
-    <UserTooltip
-      contentEndpoint="https://exercism.test/tooltips/user_summary/1"
-      hoverRequestToShow={true}
-      focusRequestToShow={true}
-      referenceElement={null}
-      referenceUserHandle="erikshireboom"
-    />
+  render(
+    <UserTooltip endpoint="https://exercism.test/tooltips/user_summary/1" />
   )
 
-  await waitFor(() => expect(getByText('Erik ShireBOOM')).toBeInTheDocument())
-  await waitFor(() => expect(getByText('erikshireboom')).toBeInTheDocument())
+  await waitFor(() =>
+    expect(screen.getByText('Erik ShireBOOM')).toBeInTheDocument()
+  )
+  await waitFor(() =>
+    expect(screen.getByText('erikshireboom')).toBeInTheDocument()
+  )
 
   server.close()
 })

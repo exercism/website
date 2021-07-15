@@ -12,6 +12,7 @@ import {
 import { wrapAnimationFrame } from './helpers/animation-helpers'
 import { PureExerciseStatusBar } from './ExerciseStatusBar'
 import { ConceptIcon } from '../common/ConceptIcon'
+import { LazyTippy } from '../misc/LazyTippy'
 
 type ConceptProps = IConcept & {
   handleEnter: MouseEventHandler
@@ -19,7 +20,6 @@ type ConceptProps = IConcept & {
   status: ConceptStatus
   exercisesData: ExerciseData[]
   isActive: boolean
-  isActiveHover: boolean
 }
 
 export const Concept = ({
@@ -32,7 +32,6 @@ export const Concept = ({
   status,
   exercisesData,
   isActive,
-  isActiveHover,
 }: ConceptProps): JSX.Element => {
   const isLocked = status === 'locked'
   // sets the initial visibility, to avoid the flash of unstyled content
@@ -40,11 +39,6 @@ export const Concept = ({
 
   // reference to the concept anchor tag
   const conceptRef = useRef(null)
-
-  // the state of the anchor tag focus (if it is the active element)
-  const [hasFocus, setHasFocus] = useState<boolean>(
-    document.activeElement === conceptRef.current
-  )
 
   useEffect(() => {
     const current = conceptRef.current
@@ -75,28 +69,25 @@ export const Concept = ({
         data-concept-slug={slug}
         data-concept-status={status}
       >
-        <a
-          className="display"
-          href={webUrl}
-          onMouseEnter={wrapAnimationFrame(handleEnter)}
-          onMouseLeave={wrapAnimationFrame(handleLeave)}
-          onFocus={() => setHasFocus(true)}
-          onBlur={() => setHasFocus(false)}
+        <LazyTippy
+          content={<ConceptTooltip endpoint={tooltipUrl} />}
+          maxWidth="none"
+          duration={[null, 0]}
         >
-          <ConceptIcon name={name} size="medium" />
-          <span className="name" aria-label={getAriaLabel(status)}>
-            {name}
-          </span>
-        </a>
+          <a
+            className="display"
+            href={webUrl}
+            onMouseEnter={wrapAnimationFrame(handleEnter)}
+            onMouseLeave={wrapAnimationFrame(handleLeave)}
+          >
+            <ConceptIcon name={name} size="medium" />
+            <span className="name" aria-label={getAriaLabel(status)}>
+              {name}
+            </span>
+          </a>
+        </LazyTippy>
         {!isLocked && <PureExerciseStatusBar exercisesData={exercisesData} />}
       </div>
-      <ConceptTooltip
-        contentEndpoint={tooltipUrl}
-        hoverRequestToShow={isActiveHover}
-        focusRequestToShow={hasFocus}
-        referenceElement={conceptRef.current}
-        referenceConceptSlug={slug}
-      />
     </div>
   )
 }

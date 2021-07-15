@@ -27,7 +27,7 @@ export const Solution = ({
       followCursor="horizontal"
       maxWidth="none"
       plugins={[followCursor]}
-      content={<StudentTooltip endpoint={tooltipUrl} requestId={tooltipUrl} />}
+      content={<StudentTooltip endpoint={tooltipUrl} />}
     >
       <a href={url} className="--solution">
         <ExerciseIcon title={exerciseTitle} iconUrl={exerciseIconUrl} />

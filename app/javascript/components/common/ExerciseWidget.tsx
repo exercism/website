@@ -3,8 +3,9 @@ import { Track, Exercise, SolutionForStudent } from '../types'
 import { ExerciseIcon } from './ExerciseIcon'
 import { GraphicalIcon } from './GraphicalIcon'
 import { Info } from './exercise-widget/Info'
-import { usePanel } from '../../hooks/use-panel'
 import { ExerciseTooltip } from '../tooltips/ExerciseTooltip'
+import { LazyTippy } from '../misc/LazyTippy'
+import { followCursor } from 'tippy.js'
 
 type Links = {
   tooltip: string
@@ -29,26 +30,15 @@ export const ExerciseWidget = ({
   renderBlurb,
   isSkinny,
 }: Props): JSX.Element => {
-  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
-    placement: 'right-start',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 8],
-        },
-      },
-    ],
-  })
-  const mouseEvents = links
-    ? {
-        onMouseEnter: () => setOpen(true),
-        onMouseLeave: () => setOpen(false),
-      }
-    : {}
-
   return (
-    <React.Fragment>
+    <LazyTippy
+      animation="shift-away-subtle"
+      followCursor="horizontal"
+      maxWidth="none"
+      plugins={[followCursor]}
+      content={links ? <ExerciseTooltip endpoint={links.tooltip} /> : null}
+      disabled={links === undefined}
+    >
       <ReferenceElement
         exercise={exercise}
         track={track}
@@ -56,17 +46,8 @@ export const ExerciseWidget = ({
         renderAsLink={renderAsLink}
         renderBlurb={renderBlurb}
         isSkinny={isSkinny}
-        {...buttonAttributes}
-        {...mouseEvents}
       />
-      {open && links && links.tooltip ? (
-        <ExerciseTooltip
-          slug={exercise.slug}
-          endpoint={links.tooltip}
-          {...panelAttributes}
-        />
-      ) : null}
-    </React.Fragment>
+    </LazyTippy>
   )
 }
 

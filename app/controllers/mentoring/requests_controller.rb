@@ -8,8 +8,8 @@ class Mentoring::RequestsController < ApplicationController
     # Redirect to mentor queue if this is your own request
     return redirect_to mentoring_queue_path if @mentor_request.student_id == current_user.id
 
-    # TODO: (Required) Handle cancelled requests
-    redirect_to action: :unavailable if @mentor_request.cancelled?
+    # Handle cancelled requests
+    return redirect_to action: :unavailable if @mentor_request.cancelled?
 
     # Handle locked solutions
     return redirect_to action: :unavailable if @mentor_request.pending? && !@mentor_request.lockable_by?(current_user)

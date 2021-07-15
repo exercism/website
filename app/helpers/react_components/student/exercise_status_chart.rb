@@ -20,6 +20,7 @@ module ReactComponents
       private
       attr_reader :user_track
 
+      memoize
       def exercises_data
         @user_track = UserTrack.for(current_user, track)
 

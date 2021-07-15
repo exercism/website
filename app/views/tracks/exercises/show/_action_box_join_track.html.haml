@@ -1,14 +1,14 @@
 .action-box.join
-  .icons= track_icon track
+  .icons= track_icon user_track.track
   %h3
     Ready to start #{exercise.title}?
   %p
-    Join the #{track.title} track with
-    = link_to "#{track.num_concepts} concepts", track_concepts_path(track)
+    Join the #{user_track.track.title} track with
+    = link_to "#{user_track.num_concepts} concepts", track_concepts_path(user_track.track)
     and
-    = link_to "#{track.num_exercises} exercises", track_exercise_path(track)
+    = link_to "#{user_track.num_exercises} exercises", track_exercise_path(user_track.track)
     ready for you to dig into!
 
   .buttons
-    = button_to "Join the #{track.title} track", join_track_path(track), method: :post, class: "btn-primary btn-m"
-    = link_to "See all #{track.title} exercises", track_exercise_path(track), class: 'btn-secondary btn-m'
+    = button_to "Join the #{user_track.track.title} track", join_track_path(user_track.track), method: :post, class: "btn-primary btn-m"
+    = link_to "See all #{user_track.track.title} exercises", track_exercise_path(user_track.track), class: 'btn-secondary btn-m'

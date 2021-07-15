@@ -14,8 +14,8 @@
             %strong #{@user_track.num_exercises} exercises
 
           / TODO: Check numbers are active
-          - if @track.num_concepts.positive?
-            grouped into #{@track.num_concepts} #{@track.title} Concepts,
+          - if @user_track.num_concepts.positive?
+            grouped into #{@user_track.num_concepts} #{@track.title} Concepts,
           with automatic analysis
           of your code and
           = succeed(',') do

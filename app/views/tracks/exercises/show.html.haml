@@ -64,6 +64,6 @@
         - else
           = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
       - elsif user_signed_in?
-        = render "tracks/exercises/show/action_box_join_track", exercise: @exercise, track: @track
+        = render "tracks/exercises/show/action_box_join_track", exercise: @exercise, user_track: @user_track
       - else
-        = render "tracks/exercises/show/action_box_join_exercism", exercise: @exercise, track: @track
+        = render "tracks/exercises/show/action_box_join_exercism", exercise: @exercise, user_track: @user_track

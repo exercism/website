@@ -43,10 +43,9 @@ class Tracks::ExercisesController < ApplicationController
   end
 
   def edit
-    return if @solution
-    return redirect_to action: :show if @user_track.external?
+    return redirect_to(action: :show) if @user_track.external?
 
-    @solution = Solution::Create.(current_user, @exercise)
+    @solution ||= Solution::Create.(current_user, @exercise) # rubocop:disable Naming/MemoizedInstanceVariableName
   end
 
   # TODO: (Required) Delete when this is working via the API

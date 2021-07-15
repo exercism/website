@@ -33,7 +33,7 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           within(".lhs-footer") { click_on "Submit" }
 
-          assert_text "Iteration 1", wait: 5
+          assert_text "Iteration 1", wait: 10
         end
       end
 

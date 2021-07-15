@@ -1,6 +1,16 @@
 require "test_helper"
 
 class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
+  test "index: redirects if in practice mode" do
+    track = create :track
+    user = create :user
+    create :user_track, track: track, user: user, practice_mode: true
+    sign_in!(user)
+
+    get track_concepts_url(track)
+    assert_redirect_to track_path(track)
+  end
+
   test "index: renders correctly for external" do
     track = create :track
 

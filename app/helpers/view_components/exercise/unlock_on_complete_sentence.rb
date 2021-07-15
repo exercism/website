@@ -21,12 +21,12 @@ module ViewComponents
     private
     memoize
     def num_unlocked_exercises
-      exercise.unlocked_exercises(user_track).count
+      user_track.unlocked_exercises_for(exercise: exercise).count
     end
 
     memoize
     def unlocked_concept_names
-      exercise.unlocked_concepts(user_track).pluck(:name)
+      user_track.unlocked_concepts_for(exercise: exercise).pluck(:name)
     end
   end
 end

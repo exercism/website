@@ -15,8 +15,8 @@
 
   = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track), with_bg: true)
 
-  - unlocked_concepts = user_track.unlocked_concepts(for_exercise: exercise)
-  - unlocked_exercises = user_track.unlocked_exercises(for_exercise: exercise)
+  - unlocked_concepts = user_track.unlocked_concepts_for(exercise: exercise)
+  - unlocked_exercises = user_track.unlocked_exercises_for(exercise: exercise)
   - if unlocked_concepts.present? || unlocked_exercises.present?
     .unlocks
       - if unlocked_concepts.present?

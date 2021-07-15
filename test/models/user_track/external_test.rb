@@ -23,6 +23,23 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     assert_equal 0, ut.num_concepts_mastered
   end
 
+  test "num_exercises" do
+    track = create :track
+
+    create :concept_exercise, :random_slug, track: track, status: :wip
+    create :concept_exercise, :random_slug, track: track, status: :beta
+    create :concept_exercise, :random_slug, track: track, status: :active
+    create :concept_exercise, :random_slug, track: track, status: :deprecated
+
+    create :practice_exercise, :random_slug, track: track, status: :wip
+    create :practice_exercise, :random_slug, track: track, status: :beta
+    create :practice_exercise, :random_slug, track: track, status: :active
+    create :practice_exercise, :random_slug, track: track, status: :deprecated
+
+    ut = UserTrack::External.new(track)
+    assert_equal 4, ut.num_exercises
+  end
+
   test "num_concepts" do
     track = create :track
     create :concept, track: track

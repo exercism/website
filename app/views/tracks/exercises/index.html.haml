@@ -7,9 +7,9 @@
         %section.external-cta
           = track_icon(@track)
           .info
-            %h2 Practice #{@track.exercises.count} exercises in #{@track.title}
+            %h2 Practice #{@user_track.num_exercises} exercises in #{@track.title}
             %p
-              Learn and practice #{@track.title} by completing #{@track.exercises.count} exercises
+              Learn and practice #{@track.title} by completing #{@user_track.num_exercises} exercises
               that explore different concepts and ideas.
 
           = button_to join_track_path(@track), method: :post, class: "btn-primary btn-m" do

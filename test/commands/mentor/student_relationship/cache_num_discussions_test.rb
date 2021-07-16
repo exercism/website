@@ -1,14 +1,10 @@
 require "test_helper"
 
 class Mentor::StudentRelationship::CacheNumDiscussionTest < ActiveSupport::TestCase
-  test "creates record with 0" do
-    mentor = create :user
-    student = create :user
+  test "fails if they've not had a discussion" do
+    Mentor::StudentRelationship::CacheNumDiscussions.(create(:user), create(:user))
 
-    Mentor::StudentRelationship::CacheNumDiscussions.(mentor, student)
-
-    rel = Mentor::StudentRelationship.last
-    assert_equal 0, rel.num_discussions
+    refute Mentor::StudentRelationship.any?
   end
 
   test "creates record with 1" do

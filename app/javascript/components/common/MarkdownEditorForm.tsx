@@ -17,7 +17,6 @@ const ErrorMessage = ({
 }
 
 const ErrorFallback = ({ error }: { error: Error }) => {
-  // TODO: (Required) Add styling to this
   return <div className="editor-error">{error.message}</div>
 }
 

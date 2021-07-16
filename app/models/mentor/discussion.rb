@@ -35,7 +35,11 @@ class Mentor::Discussion < ApplicationRecord
   scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished]) }
   scope :not_negatively_rated, -> { where(rating: [nil, 3, 4, 5]) }
 
-  delegate :comment, to: :request, prefix: true, allow_nil: true
+  def self.between(mentor:, student:)
+    joins(:solution).
+      where('solutions.user_id': student.id).
+      where(mentor_id: mentor.id)
+  end
 
   before_validation do
     self.solution = request.solution unless self.solution
@@ -55,6 +59,7 @@ class Mentor::Discussion < ApplicationRecord
 
   delegate :title, :icon_url, to: :track, prefix: :track
   delegate :title, to: :exercise, prefix: :exercise
+  delegate :comment, to: :request, prefix: true, allow_nil: true
 
   def status
     super.to_sym

@@ -30,11 +30,13 @@ class Solution
 
     def submitting
       submitting_solution_intro_text = I18n.t("exercises.documents.submitting_solution_intro").strip
+      submitting_solution_text = I18n.t("exercises.documents.submitting_solution",
+        { solution_file_paths: solution.exercise.git.solution_filepaths.join(" ") }).strip
 
       <<~TEXT.strip
         ## #{submitting_solution_intro_text}
 
-        TODO: (Required) define generic submit instructions
+        #{submitting_solution_text}
       TEXT
     end
 

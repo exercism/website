@@ -37,6 +37,8 @@ In the database we store:
 These allow us to pivot on things like whether a user is an active subscriber, and tell user's their total donation amount to date.
 We also cache these values on the user model to avoid lots of db lookups.
 
+### Webhooks
+
 ## Setting things up
 
 ### Login

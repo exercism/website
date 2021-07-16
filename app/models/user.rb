@@ -64,6 +64,9 @@ class User < ApplicationRecord
 
   has_many :dismissed_introducers, dependent: :destroy
 
+  has_many :donation_subscriptions, class_name: "Donations::Subscription", dependent: :nullify
+  has_many :donation_payments, class_name: "Donations::Payment", dependent: :nullify
+
   # TODO: validate presence of name
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 

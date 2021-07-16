@@ -12,7 +12,7 @@ module Donations
             price_data: {
               unit_amount: amount_in_cents,
               currency: 'usd',
-              product: Donations::STRIPE_RECURRING_PRODUCT_ID,
+              product: Exercism::STRIPE_RECURRING_PRODUCT_ID,
               recurring: {
                 interval: 'month'
               }

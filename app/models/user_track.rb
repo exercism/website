@@ -67,7 +67,7 @@ class UserTrack < ApplicationRecord
   end
 
   def unlocked_exercises_for(exercise: nil)
-    exercise.unlocked_exercises.to_a.filter { |e| exercise_unlocked?(e) } if exercise.present?
+    filter_enabled_exercises(exercise.unlocked_exercises).to_a.filter { |e| exercise_unlocked?(e) } if exercise.present?
   end
 
   def external?

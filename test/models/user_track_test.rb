@@ -555,6 +555,7 @@ class UserTrackTest < ActiveSupport::TestCase
     basics = create :concept, track: track, slug: "co_basics"
     enums = create :concept, track: track, slug: "co_enums"
     strings = create :concept, track: track, slug: "co_strings"
+    extensions = create :concept, track: track, slug: "co_extensions"
 
     # Nothing teaches recursion
     create :concept, track: track, slug: "co_recursion"
@@ -570,6 +571,10 @@ class UserTrackTest < ActiveSupport::TestCase
     strings_exercise.prerequisites << enums
     strings_exercise.prerequisites << basics
     strings_exercise.taught_concepts << strings
+
+    extensions_exercise = create :concept_exercise, slug: "ex_extensions", track: track, status: :deprecated
+    extensions_exercise.prerequisites << strings
+    extensions_exercise.taught_concepts << extensions
 
     practice_exercise = create :practice_exercise, slug: "ex_prac_enums", track: track
     practice_exercise.prerequisites << enums
@@ -596,6 +601,18 @@ class UserTrackTest < ActiveSupport::TestCase
     # Reload the user track to override memoizing
     user_track.reset_summary!
 
+    assert_equal [strings_exercise, practice_exercise], user_track.unlocked_exercises_for(exercise: enums_exercise)
+    assert_equal [enums_exercise, strings_exercise], user_track.unlocked_exercises_for(exercise: basics_exercise)
+
+    # Completing the strings exercise should normally unlock the extensions exercise,
+    # but it shouldn't because that exercise is deprecated
+    create :concept_solution, :completed, exercise: strings_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_empty user_track.unlocked_exercises_for(exercise: strings_exercise)
+    assert_equal [strings_exercise, practice_exercise], user_track.unlocked_exercises_for(exercise: enums_exercise)
     assert_equal [enums_exercise, strings_exercise], user_track.unlocked_exercises_for(exercise: basics_exercise)
   end
 

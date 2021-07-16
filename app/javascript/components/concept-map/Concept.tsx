@@ -12,7 +12,7 @@ import {
 import { wrapAnimationFrame } from './helpers/animation-helpers'
 import { PureExerciseStatusBar } from './ExerciseStatusBar'
 import { ConceptIcon } from '../common/ConceptIcon'
-import { LazyTippy } from '../misc/LazyTippy'
+import { ExercismTippy } from '../misc/ExercismTippy'
 
 type ConceptProps = IConcept & {
   handleEnter: MouseEventHandler
@@ -69,9 +69,8 @@ export const Concept = ({
         data-concept-slug={slug}
         data-concept-status={status}
       >
-        <LazyTippy
+        <ExercismTippy
           content={<ConceptTooltip endpoint={tooltipUrl} />}
-          maxWidth="none"
           duration={[null, 0]}
         >
           <a
@@ -85,7 +84,7 @@ export const Concept = ({
               {name}
             </span>
           </a>
-        </LazyTippy>
+        </ExercismTippy>
         {!isLocked && <PureExerciseStatusBar exercisesData={exercisesData} />}
       </div>
     </div>

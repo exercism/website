@@ -476,5 +476,4 @@ const imagePath = (name: any) => images(name)
 
 // Loading overlay events
 import { bindRedirectEvents } from '../utils/redirect-to'
-import { LazyTippy } from '../components/misc/LazyTippy'
 bindRedirectEvents()

@@ -7,19 +7,12 @@ import { KnowledgeTag } from './task/KnowledgeTag'
 import { SizeTag } from './task/SizeTag'
 import { ModuleTag } from './task/ModuleTag'
 import { GraphicalIcon } from '../../common'
-import { LazyTippy } from '../../misc/LazyTippy'
-import { followCursor } from 'tippy.js'
+import { ExercismTippy } from '../../misc/ExercismTippy'
 import { TaskTooltip } from '../../tooltips/TaskTooltip'
 
 export const Task = ({ task }: { task: TaskProps }): JSX.Element => {
   return (
-    <LazyTippy
-      content={<TaskTooltip endpoint={task.links.tooltip} />}
-      animation="shift-away-subtle"
-      followCursor="horizontal"
-      maxWidth="none"
-      plugins={[followCursor]}
-    >
+    <ExercismTippy content={<TaskTooltip endpoint={task.links.tooltip} />}>
       <a
         href={task.links.githubUrl}
         className="task"
@@ -41,6 +34,6 @@ export const Task = ({ task }: { task: TaskProps }): JSX.Element => {
         </div>
         <GraphicalIcon icon="external-link" className="external-link" />
       </a>
-    </LazyTippy>
+    </ExercismTippy>
   )
 }

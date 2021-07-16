@@ -1,8 +1,7 @@
 import React, { forwardRef } from 'react'
 import { ExerciseStatus } from '../types'
 import { ExerciseTooltip } from '../tooltips/ExerciseTooltip'
-import { followCursor } from 'tippy.js'
-import { LazyTippy } from '../misc/LazyTippy'
+import { ExercismTippy } from '../misc/ExercismTippy'
 
 export const ExerciseStatusDot = ({
   exerciseStatus,
@@ -17,18 +16,12 @@ export const ExerciseStatusDot = ({
   }
 }): JSX.Element => {
   return (
-    <LazyTippy
-      animation="shift-away-subtle"
-      followCursor="horizontal"
-      maxWidth="none"
-      plugins={[followCursor]}
-      content={<ExerciseTooltip endpoint={links.tooltip} />}
-    >
+    <ExercismTippy content={<ExerciseTooltip endpoint={links.tooltip} />}>
       <ReferenceElement
         className={`c-ed --${exerciseStatus} --${type}`}
         link={links.exercise}
       />
-    </LazyTippy>
+    </ExercismTippy>
   )
 }
 

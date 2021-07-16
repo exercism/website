@@ -2,8 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Bugsnag from '@bugsnag/js'
 import BugsnagPluginReact from '@bugsnag/plugin-react'
-import { LazyTippy } from '../components/misc/LazyTippy'
-import { followCursor } from 'tippy.js'
+import { ExercismTippy } from '../components/misc/ExercismTippy'
 
 Bugsnag.start({
   apiKey: process.env.BUGSNAG_API_KEY,
@@ -78,14 +77,7 @@ const renderTooltips = (mappings) => {
 
       render(
         tooltipElem,
-        <LazyTippy
-          content={component}
-          reference={elem}
-          animation="shift-away-subtle"
-          followCursor="horizontal"
-          maxWidth="none"
-          plugins={[followCursor]}
-        />
+        <ExercismTippy content={component} reference={elem} />
       )
     })
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 import { FetchedTooltip } from './FetchedTooltip'
 
-const DEFAULT_ERROR = new Error('Unable to load user')
+const DEFAULT_ERROR = new Error('Unable to load taskk')
 
-export const UserTooltip = ({
+export const TaskTooltip = ({
   endpoint,
 }: {
   endpoint: string
@@ -11,8 +11,8 @@ export const UserTooltip = ({
   return (
     <FetchedTooltip
       endpoint={endpoint}
-      className="c-user-tooltip"
-      loadingAlt="Loading user data"
+      className="c-task-tooltip"
+      loadingAlt="Loading task data"
       defaultError={DEFAULT_ERROR}
     />
   )

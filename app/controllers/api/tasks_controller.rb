@@ -6,5 +6,7 @@ module API
     def index
       render json: AssembleTasks.(params)
     end
+
+    def tooltip; end
   end
 end

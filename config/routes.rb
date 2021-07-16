@@ -230,6 +230,10 @@ Rails.application.routes.draw do
     delete :destroy_account
   end
 
+  resources :tasks, only: [], param: :uuid do
+    get :tooltip, on: :member
+  end
+
   resource :dashboard, only: [:show], controller: "dashboard"
 
   resources :docs, only: %i[index]

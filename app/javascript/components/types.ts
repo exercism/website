@@ -450,6 +450,7 @@ export type Task = {
   isNew: boolean
   links: {
     githubUrl: string
+    tooltip: string
   }
 }
 

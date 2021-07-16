@@ -16,6 +16,17 @@ module Flows
         end
       end
 
+      test "user views task tooltip" do
+        create :github_task, title: "Fix bug"
+
+        use_capybara_host do
+          visit contributing_tasks_path
+          find(".task").hover
+
+          within(".c-task-tooltip") { assert_text "Fix bug" }
+        end
+      end
+
       test "user filters by track" do
         ruby = create :track, slug: "ruby"
         go = create :track, slug: "go"

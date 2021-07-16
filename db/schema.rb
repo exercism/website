@@ -52,6 +52,28 @@ ActiveRecord::Schema.define(version: 2021_07_08_225844) do
     t.index ["type"], name: "index_badges_on_type", unique: true
   end
 
+  create_table "contributor_team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "contributor_team_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "visible", default: true, null: false
+    t.integer "seniority", limit: 1, default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contributor_team_id", "user_id"], name: "index_contributor_team_memberships_on_team_id_and_user_id", unique: true
+    t.index ["contributor_team_id"], name: "index_contributor_team_memberships_on_contributor_team_id"
+    t.index ["user_id"], name: "index_contributor_team_memberships_on_user_id"
+  end
+
+  create_table "contributor_teams", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "track_id"
+    t.string "github_name", null: false
+    t.integer "type", limit: 1, default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_name"], name: "index_contributor_teams_on_github_name", unique: true
+    t.index ["track_id"], name: "index_contributor_teams_on_track_id"
+  end
+
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "track_id"
@@ -746,6 +768,9 @@ ActiveRecord::Schema.define(version: 2021_07_08_225844) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contributor_team_memberships", "contributor_teams"
+  add_foreign_key "contributor_team_memberships", "users"
+  add_foreign_key "contributor_teams", "tracks"
   add_foreign_key "documents", "tracks"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"

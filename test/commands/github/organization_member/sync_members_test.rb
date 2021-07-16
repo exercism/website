@@ -2,29 +2,8 @@ require "test_helper"
 
 class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
   test "adds new members" do
-    response = {
-      data: {
-        organization: {
-          membersWithRole: {
-            nodes: [
-              { login: 'ErikSchierboom' }
-            ],
-            pageInfo: {
-              hasNextPage: false,
-              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
-            }
-          }
-        },
-        rateLimit: {
-          remaining: 4991,
-          resetAt: '2021-03-10T15:32:50Z'
-        }
-      }
-    }
-
-    RestClient.unstub(:post)
-    stub_request(:post, "https://api.github.com/graphql").
-      to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
+    Github::Organization.any_instance.stubs(:member_usernames).returns(['ErikSchierboom'])
+    Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
 
     Github::OrganizationMember::SyncMembers.()
 
@@ -33,64 +12,36 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
   end
 
   test "keeps existing members" do
-    create :github_organization_member, username: 'ErikSchierboom'
+    Github::Organization.any_instance.stubs(:member_usernames).returns(['ErikSchierboom'])
+    Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
 
-    response = {
-      data: {
-        organization: {
-          membersWithRole: {
-            nodes: [
-              { login: 'ErikSchierboom' }
-            ],
-            pageInfo: {
-              hasNextPage: false,
-              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
-            }
-          }
-        },
-        rateLimit: {
-          remaining: 4991,
-          resetAt: '2021-03-10T15:32:50Z'
-        }
-      }
-    }
-
-    RestClient.unstub(:post)
-    stub_request(:post, "https://api.github.com/graphql").
-      to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
+    member = create :github_organization_member, username: 'ErikSchierboom'
 
     Github::OrganizationMember::SyncMembers.()
 
-    member = ::Github::OrganizationMember.find_by(username: 'ErikSchierboom')
     refute member.alumnus
   end
 
+  test "set alumnus to false for existing members" do
+    Github::Organization.any_instance.stubs(:member_usernames).returns(['ErikSchierboom'])
+    Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
+
+    member = create :github_organization_member, username: 'ErikSchierboom', alumnus: true
+
+    Github::OrganizationMember::SyncMembers.()
+
+    refute member.reload.alumnus
+  end
+
   test "makes missing members alumnus" do
-    member = create :github_organization_member, username: 'iHiD'
+    member = create :github_organization_member, username: 'iHiD', alumnus: false
 
-    response = {
-      data: {
-        organization: {
-          membersWithRole: {
-            nodes: [
-              { login: 'ErikSchierboom' }
-            ],
-            pageInfo: {
-              hasNextPage: false,
-              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
-            }
-          }
-        },
-        rateLimit: {
-          remaining: 4991,
-          resetAt: '2021-03-10T15:32:50Z'
-        }
-      }
-    }
+    # Sanity check
+    refute member.alumnus
 
-    RestClient.unstub(:post)
-    stub_request(:post, "https://api.github.com/graphql").
-      to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
+    Github::Organization.any_instance.stubs(:member_usernames).returns(['ErikSchierboom'])
+    Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
+    Github::Organization.any_instance.stubs(:remove_member)
 
     Github::OrganizationMember::SyncMembers.()
 
@@ -98,176 +49,40 @@ class Github::OrganizationMember::SyncMembersTest < ActiveSupport::TestCase
   end
 
   test "imports all members" do
-    first_response = {
-      data: {
-        organization: {
-          membersWithRole: {
-            nodes: [
-              { login: 'ErikSchierboom' },
-              { login: 'iHiD' }
-            ],
-            pageInfo: {
-              hasNextPage: true,
-              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
-            }
-          }
-        },
-        rateLimit: {
-          remaining: 4991,
-          resetAt: '2021-03-10T15:32:50Z'
-        }
-      }
-    }
-
-    second_response = {
-      data: {
-        organization: {
-          membersWithRole: {
-            nodes: [
-              { login: 'DJ' }
-            ],
-            pageInfo: {
-              hasNextPage: false,
-              endCursor: 'Y3Vyc29yOnYyOpK5MjAyMC0wMy0yN1QwNzozOToyMCswMTowMM4XhMuR'
-            }
-          }
-        },
-        rateLimit: {
-          remaining: 4989,
-          resetAt: '2021-03-10T15:32:50Z'
-        }
-      }
-    }
-
-    RestClient.unstub(:post)
-    stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?("after:") }.
-      to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
-
-    stub_request(:post, "https://api.github.com/graphql").
-      with { |request| request.body.include?("after: \\\"Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp\\\"") }.
-      to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
+    Github::Organization.any_instance.stubs(:member_usernames).returns(%w[ErikSchierboom DJ iHiD])
+    Github::Organization.any_instance.stubs(:team_member_usernames).returns(%w[ErikSchierboom DJ iHiD])
 
     Github::OrganizationMember::SyncMembers.()
 
     members = ::Github::OrganizationMember.all
     assert_equal 3, members.size
     assert_equal 'ErikSchierboom', members.first.username
-    assert_equal 'iHiD', members.second.username
-    assert_equal 'DJ', members.third.username
+    assert_equal 'DJ', members.second.username
+    assert_equal 'iHiD', members.third.username
   end
 
-  test "imports all members even if rate limit is reached" do
-    first_response = {
-      data: {
-        organization: {
-          membersWithRole: {
-            nodes: [
-              { login: 'ErikSchierboom' },
-              { login: 'iHiD' }
-            ],
-            pageInfo: {
-              hasNextPage: true,
-              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
-            }
-          }
-        },
-        rateLimit: {
-          remaining: 0,
-          resetAt: 5.seconds.from_now.utc.iso8601
-        }
-      }
-    }
+  test "removes members without team membership from organization" do
+    create :github_organization_member, username: 'DJ'
+    create :github_organization_member, username: 'ErikSchierboom'
+    create :github_organization_member, username: 'iHiD'
 
-    second_response = {
-      data: {
-        organization: {
-          membersWithRole: {
-            nodes: [
-              { login: 'DJ' }
-            ],
-            pageInfo: {
-              hasNextPage: false,
-              endCursor: 'Y3Vyc29yOnYyOpK5MjAyMC0wMy0yN1QwNzozOToyMCswMTowMM4XhMuR'
-            }
-          }
-        },
-        rateLimit: {
-          remaining: 4989,
-          resetAt: '2021-03-10T15:32:50Z'
-        }
-      }
-    }
+    Github::Organization.any_instance.stubs(:member_usernames).returns(%w[ErikSchierboom DJ iHiD])
+    Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
 
-    RestClient.unstub(:post)
-    stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?("after:") }.
-      to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
-
-    stub_request(:post, "https://api.github.com/graphql").
-      with { |request| request.body.include?("after: \\\"Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp\\\"") }.
-      to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
+    Github::Organization.any_instance.expects(:remove_member).with('DJ')
+    Github::Organization.any_instance.expects(:remove_member).with('iHiD')
 
     Github::OrganizationMember::SyncMembers.()
-
-    assert_equal 3, ::Github::OrganizationMember.find_each.size
   end
 
-  test "waits for rate limit to reset if rate limit was reached while fetching" do
-    first_response = {
-      data: {
-        organization: {
-          membersWithRole: {
-            nodes: [
-              { login: 'ErikSchierboom' },
-              { login: 'iHiD' }
-            ],
-            pageInfo: {
-              hasNextPage: true,
-              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
-            }
-          }
-        },
-        rateLimit: {
-          remaining: 0,
-          resetAt: 5.seconds.from_now.utc.iso8601
-        }
-      }
-    }
+  test "does not remove members with team membership from organization" do
+    create :github_organization_member, username: 'ErikSchierboom'
 
-    second_response = {
-      data: {
-        organization: {
-          membersWithRole: {
-            nodes: [
-              { login: 'DJ' }
-            ],
-            pageInfo: {
-              hasNextPage: false,
-              endCursor: 'Y3Vyc29yOnYyOpK5MjAyMC0wMy0yN1QwNzozOToyMCswMTowMM4XhMuR'
-            }
-          }
-        },
-        rateLimit: {
-          remaining: 4989,
-          resetAt: '2021-03-10T15:32:50Z'
-        }
-      }
-    }
+    Github::Organization.any_instance.stubs(:member_usernames).returns(['ErikSchierboom'])
+    Github::Organization.any_instance.stubs(:team_member_usernames).returns(['ErikSchierboom'])
 
-    RestClient.unstub(:post)
-    stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?("after:") }.
-      to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
+    Github::Organization.any_instance.expects(:remove_member).with('ErikSchierboom').never
 
-    stub_request(:post, "https://api.github.com/graphql").
-      with { |request| request.body.include?("after: \\\"Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp\\\"") }.
-      to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
-
-    start = Time.current
     Github::OrganizationMember::SyncMembers.()
-    elapsed = Time.current - start
-
-    assert elapsed > 5.seconds
   end
 end

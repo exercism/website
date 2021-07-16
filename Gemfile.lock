@@ -485,7 +485,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   commonmarker
   devise (~> 4.7.1)
-  exercism-config (>= 0.68.0)
+  exercism-config (>= 0.70.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   haml_lint

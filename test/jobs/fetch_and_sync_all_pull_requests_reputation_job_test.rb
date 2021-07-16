@@ -4,6 +4,8 @@ class FetchAndSyncAllPullRequestsReputationJobTest < ActiveJob::TestCase
   test "github pull requests are synced" do
     stub_requests
 
+    Github::OrganizationMember::SyncMembers.expects(:call)
+
     Github::PullRequest::SyncRepos.expects(:call)
 
     FetchAndSyncAllPullRequestsReputationJob.perform_now
@@ -19,6 +21,8 @@ class FetchAndSyncAllPullRequestsReputationJobTest < ActiveJob::TestCase
 
   test "reputation is awarded for pull requests" do
     stub_requests
+
+    Github::OrganizationMember::SyncMembers.stubs(:call)
 
     User::ReputationToken::AwardForPullRequests.expects(:call)
 

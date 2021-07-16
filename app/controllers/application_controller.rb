@@ -13,6 +13,12 @@ class ApplicationController < ActionController::Base
     redirect_to user_onboarding_path
   end
 
+  def ensure_admin!
+    return if current_user&.admin?
+
+    redirect_to maintaining_root_path
+  end
+
   def mark_notifications_as_read!
     return if devise_controller?
     return unless user_signed_in?

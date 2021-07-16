@@ -1,8 +1,7 @@
 import React from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
-import '../../css/pages/editor'
-import '../../css/modals/editor-hints'
+import '../../css/components/donations-form'
 
 import { Assignment, Submission } from '../components/editor/types'
 import { Form as StripeForm } from '../components/stripe/Form'

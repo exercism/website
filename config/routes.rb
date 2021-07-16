@@ -48,8 +48,13 @@ Rails.application.routes.draw do
       get "validate_token" => "validate_token#index"
 
       namespace :donations do
-        resources :subscriptions, only: [:create]
-        resources :payments, only: [:create]
+        # resources :subscriptions, only: [:create]
+        # resources :payments, only: [:create]
+        resources :payment_intents, only: [:create] do
+          member do
+            patch :failed
+          end
+        end
       end
 
       resource :settings, only: [:update] do

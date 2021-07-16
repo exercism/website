@@ -9,22 +9,25 @@ type PaymentIntent = {
   id: string
   clientSecret: string
 }
+export type PaymentIntentType = 'payment' | 'subscription'
 
 export function GenericForm({
-  paymentIntentEndpoint,
+  paymentIntentType,
+  amountInDollars,
   onSuccess,
 }: {
-  paymentIntentEndpoint: string
+  paymentIntentType: PaymentIntentType
   onSuccess: () => void
+  amountInDollars: number
 }) {
-  const [amountInDollars, setAmountInDollars] = useState(10)
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState<string | undefined>()
   const [processing, setProcessing] = useState(false)
   const [cardValid, setCardValid] = useState(false)
-  const [paymentIntent, setPaymentIntent] = useState<
-    PaymentIntent | undefined
-  >()
+
+  const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
+  const cancelPaymentIntentEndpoint =
+    '/api/v2/donations/payment_intents/$ID/failed'
 
   const cardStyle = {
     base: {
@@ -42,13 +45,10 @@ export function GenericForm({
       iconColor: '#fa755a',
     },
   }
+  const cardOptions = { style: cardStyle }
 
   const stripe = useStripe()
   const elements = useElements()
-
-  const handleAmountChange = useCallback((e) => {
-    setAmountInDollars(e.target.value)
-  }, [])
 
   const handleCardChange = async (event: StripeCardElementChangeEvent) => {
     // When we've got a completed card with no errors, set the card to be valid
@@ -58,20 +58,28 @@ export function GenericForm({
     setError(event.error ? event.error.message : undefined)
   }
 
-  const getPaymentRequest = () => {
-    return fetchJSON(paymentIntentEndpoint, {
+  // TODO: Do I need to usecallback here, or just normal function?
+  const cancelPaymentIntent = useCallback((paymentIntent: PaymentIntent) => {
+    const endpoint = cancelPaymentIntentEndpoint.replace(
+      '$ID',
+      paymentIntent.id
+    )
+    return fetchJSON(endpoint, {
+      method: 'PATCH',
+    })
+  }, [])
+
+  const getPaymentRequest = useCallback(() => {
+    return fetchJSON(createPaymentIntentEndpoint, {
       method: 'POST',
       body: JSON.stringify({
-        // payment_intent_id: paymentIntent?.id,
+        type: paymentIntentType,
         amount_in_dollars: amountInDollars,
       }),
-    }).then((data: any) => {
-      return data.paymentIntent.clientSecret
-    })
-  }
+    }).then((data: any) => data.paymentIntent)
+  }, [paymentIntentType, amountInDollars])
 
   const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
-    // Block native form submission.
     event.preventDefault()
 
     if (!stripe || !elements) {
@@ -83,20 +91,24 @@ export function GenericForm({
     // Set as processing to disable the button
     setProcessing(true)
 
-    getPaymentRequest().then(async (clientSecret: string) => {
+    getPaymentRequest().then(async (paymentIntent: PaymentIntent) => {
       // Get a reference to a mounted CardElement. Elements knows how
       // to find the CardElement because there can only ever be one of
       // each type of element. We could maybe use a ref here instead?
       const cardElement = elements.getElement(CardElement)!
-      const payload = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardElement,
-        },
-      })
+      const payload = await stripe.confirmCardPayment(
+        paymentIntent.clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+          },
+        }
+      )
 
       if (payload.error) {
         setError(`Payment failed ${payload.error.message}`)
         setProcessing(false)
+        cancelPaymentIntent(paymentIntent)
       } else {
         setError(undefined)
         setProcessing(false)
@@ -108,20 +120,8 @@ export function GenericForm({
 
   return (
     <form onSubmit={handleSubmit}>
-      $
-      <input
-        type="number"
-        min="0"
-        step="1"
-        placeholder="100"
-        value={amountInDollars}
-        onChange={handleAmountChange}
-      />
       <div className="card-element">
-        <CardElement
-          options={{ style: cardStyle }}
-          onChange={handleCardChange}
-        />
+        <CardElement options={cardOptions} onChange={handleCardChange} />
       </div>
       <button type="submit">Do it!!</button>
       <button

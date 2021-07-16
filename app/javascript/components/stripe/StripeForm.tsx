@@ -1,8 +1,13 @@
 import React, { useCallback, useState } from 'react'
 import { Icon } from '../common'
 import { sendRequest } from '../../utils/send-request'
-import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { loadStripe, StripeCardElementChangeEvent } from '@stripe/stripe-js'
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js'
 import { fetchJSON } from '../../utils/fetch-json'
 
 type PaymentIntent = {
@@ -11,7 +16,33 @@ type PaymentIntent = {
 }
 export type PaymentIntentType = 'payment' | 'subscription'
 
-export function GenericForm({
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe(
+  'pk_test_51IDGMXEoOT0Jqx0UcoKlkvB7O0VDvFdCBvOCiWiKv6CkSnkZn7IG6cIHuCWg7cegGogYJSy8WsaKzwFHQqN75T7b00d56MtilB'
+)
+
+const cardOptions = {
+  style: {
+    base: {
+      backgroundColor: '#ffffff',
+      color: '#130B43',
+      fontFamily: 'Poppins, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      lineHeight: '1.5',
+      fontWeight: '500',
+      '::placeholder': {
+        color: '#76709F',
+      },
+    },
+    invalid: {
+      color: '#D03B3B',
+      iconColor: '#D03B3B',
+    },
+  },
+}
+export function StripeForm({
   paymentIntentType,
   amountInDollars,
   onSuccess,
@@ -28,24 +59,6 @@ export function GenericForm({
   const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
   const cancelPaymentIntentEndpoint =
     '/api/v2/donations/payment_intents/$ID/failed'
-
-  const cardStyle = {
-    base: {
-      color: '#32325d',
-      fontFamily: 'Arial, sans-serif',
-      fontSmoothing: 'antialiased',
-      fontSize: '16px',
-      '::placeholder': {
-        color: '#32325d',
-      },
-    },
-    invalid: {
-      fontFamily: 'Arial, sans-serif',
-      color: '#fa755a',
-      iconColor: '#fa755a',
-    },
-  }
-  const cardOptions = { style: cardStyle }
 
   const stripe = useStripe()
   const elements = useElements()
@@ -120,24 +133,27 @@ export function GenericForm({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="card-element">
-        <CardElement options={cardOptions} onChange={handleCardChange} />
-      </div>
-      <button type="submit">Do it!!</button>
-      <button
-        className="btn-primary btn-s"
-        type="submit"
-        disabled={processing || !cardValid || succeeded}
-      >
-        {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
-        <span>Donate to Exercism</span>
-      </button>
-      {error && (
-        <div className="card-error" role="alert">
-          {error}
+      <div className="card-container">
+        <div className="title">Donate with Card</div>
+        <div className="card-element">
+          <CardElement options={cardOptions} onChange={handleCardChange} />
+          <button
+            className="btn-primary btn-s"
+            type="submit"
+            disabled={processing || !cardValid || succeeded}
+          >
+            {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
+            <span>Donate to Exercism</span>
+          </button>
+          {error && (
+            <div className="card-error" role="alert">
+              {error}
+            </div>
+          )}
         </div>
-      )}
+      </div>
       {succeeded ? <p className="result-message">Payment succeeded!</p> : null}
+      {/*<button type="submit">Do it!!</button>*/}
     </form>
   )
 }

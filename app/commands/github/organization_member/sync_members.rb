@@ -31,16 +31,16 @@ module Github
       def fetch_page(cursor)
         query = <<~QUERY.strip
           query {
-            organization(login: "exercism") {#{'    '}
+            organization(login: "exercism") {
               membersWithRole(first: 100
                               #{%(, after: "#{cursor}") if cursor}) {
                 nodes {
                   login
-                }#{'      '}
+                }
                 pageInfo {
                   hasNextPage
                   endCursor
-                }#{' '}
+                }
               }
             }
             rateLimit {

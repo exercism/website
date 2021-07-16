@@ -59,37 +59,37 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     assert_response 200
 
     expected_body = <<~EXPECTED.strip
-            # Bob
-      #{'      '}
-            Welcome to Bob on Exercism's Ruby Track.
-            If you need help running the tests or submitting your code, check out `HELP.md`.
-            If you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)
-      #{'      '}
-            ## Introduction
-      #{'      '}
-            Introduction for bob
-      #{'      '}
-            Extra introduction for bob
-      #{'      '}
-            ## Instructions
-      #{'      '}
-            Instructions for bob
-      #{'      '}
-            Extra instructions for bob
-      #{'      '}
-            ## Source
-      #{'      '}
-            ### Created by
-      #{'      '}
-            - @erikschierboom
-      #{'      '}
-            ### Contributed to by
-      #{'      '}
-            - @ihid
-      #{'      '}
-            ### Based on
-      #{'      '}
-            Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06
+      # Bob
+
+      Welcome to Bob on Exercism's Ruby Track.
+      If you need help running the tests or submitting your code, check out `HELP.md`.
+      If you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)
+
+      ## Introduction
+
+      Introduction for bob
+
+      Extra introduction for bob
+
+      ## Instructions
+
+      Instructions for bob
+
+      Extra instructions for bob
+
+      ## Source
+
+      ### Created by
+
+      - @erikschierboom
+
+      ### Contributed to by
+
+      - @ihid
+
+      ### Based on
+
+      Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06
     EXPECTED
     assert_includes response.body, expected_body
   end
@@ -103,39 +103,39 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     assert_response 200
 
     expected_body = <<~EXPECTED.strip
-            # Help
-      #{'      '}
-            ## Running the tests
-      #{'      '}
-            Run the tests using `ruby test`.
-      #{'      '}
-            ## Submitting your solution
-      #{'      '}
-            You can submit your solution using the `exercism submit bob.rb` command.
-            This command will upload your solution to the Exercism website and print the solution page's URL.
-      #{'      '}
-            It's possible to submit an incomplete solution which allows you to:
-      #{'      '}
-            - See how others have completed the exercise
-            - Request help from a mentor
-      #{'      '}
-            ## Need to get help?
-      #{'      '}
-            If you'd like help solving the exercise, check the following pages:
-      #{'      '}
-            - [Installing Ruby locally](https://exercism.io/docs/tracks/ruby/installation/)
-            - [How to learn Ruby](https://exercism.io/docs/tracks/ruby/learning/)
-            - [Useful Ruby resources](https://exercism.io/docs/tracks/ruby/resources/)
-            - [Testing on the Ruby track](https://exercism.io/docs/tracks/ruby/tests/)
-      #{'      '}
-            For more general, non-track specific help, check:
-      #{'      '}
-            - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
-            - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
-      #{'      '}
-            Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
-      #{'      '}
-            Stuck? Try the Ruby gitter channel.
+      # Help
+
+      ## Running the tests
+
+      Run the tests using `ruby test`.
+
+      ## Submitting your solution
+
+      You can submit your solution using the `exercism submit bob.rb` command.
+      This command will upload your solution to the Exercism website and print the solution page's URL.
+
+      It's possible to submit an incomplete solution which allows you to:
+
+      - See how others have completed the exercise
+      - Request help from a mentor
+
+      ## Need to get help?
+
+      If you'd like help solving the exercise, check the following pages:
+
+      - [Installing Ruby locally](https://exercism.io/docs/tracks/ruby/installation/)
+      - [How to learn Ruby](https://exercism.io/docs/tracks/ruby/learning/)
+      - [Useful Ruby resources](https://exercism.io/docs/tracks/ruby/resources/)
+      - [Testing on the Ruby track](https://exercism.io/docs/tracks/ruby/tests/)
+
+      For more general, non-track specific help, check:
+
+      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
+
+      Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
+
+      Stuck? Try the Ruby gitter channel.
     EXPECTED
     assert_equal response.body, expected_body
   end
@@ -149,11 +149,11 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     assert_response 200
 
     expected_body = <<~EXPECTED.strip
-            # Hints
-      #{'      '}
-            ## General
-      #{'      '}
-            - There are many useful string methods built-in
+      # Hints
+
+      ## General
+
+      - There are many useful string methods built-in
     EXPECTED
     assert_equal response.body, expected_body
   end

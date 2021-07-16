@@ -10,6 +10,8 @@ module Mentor
         # TODO: (Optional) Set track.updated_at to be touched when any exercises changes
 
         # Then add the order and enumerate here
+        # TODO: (Optional) do we want to exclude wip exercises or only list the
+        # exercises that have a mentoring request?
         track.exercises.order(title: :asc).map do |exercise|
           {
             slug: exercise.slug,

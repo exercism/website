@@ -18,8 +18,11 @@ module ReactComponents
       end
 
       private
+      attr_reader :user_track
+
+      memoize
       def exercises_data
-        user_track = UserTrack.for(current_user, track)
+        @user_track = UserTrack.for(current_user, track)
 
         exercises.each_with_object({}) do |exercise, hash|
           status = user_track.exercise_status(exercise)
@@ -39,7 +42,7 @@ module ReactComponents
 
       memoize
       def exercises
-        track.exercises.sorted
+        user_track.exercises.sorted
       end
     end
   end

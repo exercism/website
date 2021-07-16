@@ -2,14 +2,13 @@ class Exercise
   class Search
     include Mandate
 
-    def initialize(track, user_track: nil, criteria: nil)
-      @track = track
+    def initialize(user_track, criteria: nil)
       @user_track = user_track
       @criteria = criteria
     end
 
     def call
-      @exercises = track.exercises
+      @exercises = user_track.exercises
       filter_criteria!
       sort!
       @exercises
@@ -29,7 +28,7 @@ class Exercise
     def sort!
       @exercises = @exercises.order(:position).to_a
 
-      return if !user_track || user_track.external?
+      return if user_track.external?
 
       mapping = %i[
         iterated started
@@ -48,6 +47,6 @@ class Exercise
     end
 
     private
-    attr_reader :track, :user_track, :criteria
+    attr_reader :user_track, :criteria
   end
 end

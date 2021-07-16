@@ -1,12 +1,13 @@
+- track = user_track.track
 .action-box.join
   .icons= track_icon track
   %h3
     Ready to start #{exercise.title}?
   %p
     Join the #{track.title} track with
-    = link_to "#{track.num_concepts} concepts", track_concepts_path(track)
+    = link_to "#{user_track.num_concepts} concepts", track_concepts_path(track)
     and
-    = link_to "#{track.num_exercises} exercises", track_exercise_path(track)
+    = link_to "#{user_track.num_exercises} exercises", track_exercise_path(track)
     ready for you to dig into!
 
   .buttons

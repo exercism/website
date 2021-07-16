@@ -200,6 +200,54 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     ], summary.unlocked_practice_exercises
   end
 
+  test "unlocked exercises based on status" do
+    track = create :track
+    create :concept_exercise, :random_slug, track: track, status: :wip
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active
+    deprecated_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :deprecated
+
+    create :practice_exercise, :random_slug, track: track, status: :wip
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active
+    deprecated_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :deprecated
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+    hw_solution = create :hello_world_solution, :completed, track: track, user: user
+    hello_world = hw_solution.exercise
+
+    summary = summary_for(user_track)
+
+    # Test that the :wip and :deprecated exercises are not shown
+    assert_equal [
+      beta_concept_exercise, active_concept_exercise, beta_practice_exercise, active_practice_exercise, hello_world
+    ], summary.unlocked_exercises
+    assert_equal [beta_concept_exercise, active_concept_exercise], summary.unlocked_concept_exercises
+    assert_equal [beta_practice_exercise, active_practice_exercise, hello_world], summary.unlocked_practice_exercises
+
+    create :concept_solution, user: user, exercise: deprecated_concept_exercise
+    create :practice_solution, user: user, exercise: deprecated_practice_exercise
+
+    summary = summary_for(user_track)
+
+    # Test that :deprecated exercises are shown if the user has started them but :wip still aren't
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      deprecated_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise,
+      deprecated_practice_exercise,
+      hello_world
+    ], summary.unlocked_exercises
+    assert_equal [beta_concept_exercise, active_concept_exercise, deprecated_concept_exercise], summary.unlocked_concept_exercises
+    assert_equal [beta_practice_exercise, active_practice_exercise, deprecated_practice_exercise, hello_world],
+      summary.unlocked_practice_exercises
+
+    # TODO: (Optional): show wip exercises for maintainers
+  end
+
   private
   def summary_for(user_track)
     user_track = UserTrack.find(user_track.id)

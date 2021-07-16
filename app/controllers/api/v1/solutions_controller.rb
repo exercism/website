@@ -28,11 +28,8 @@ module API
           return render_404(:exercise_not_found, fallback_url: track_url(track))
         end
 
-        begin
-          user_track = UserTrack.find_by!(user: current_user, track: track)
-        rescue ActiveRecord::RecordNotFound
-          return render_403(:track_not_joined)
-        end
+        user_track = UserTrack.for(current_user, track)
+        return render_403(:track_not_joined) if user_track.external?
 
         begin
           solution = current_user.solutions.find_by!(exercise_id: exercise.id)

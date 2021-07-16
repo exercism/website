@@ -10,6 +10,7 @@ FactoryBot.define do
     title { slug.to_s.titleize }
     icon_name { 'bob' }
     position { 1 }
+    status { :active }
     git_sha { "HEAD" }
     synced_to_git_sha { "HEAD" }
     git_important_files_hash { "cf784d0ca95265de9254b5abeef9456c" }

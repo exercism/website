@@ -2,7 +2,7 @@ class UserTrack
   class GenerateExerciseStatusMapping
     include Mandate
 
-    initialize_with :track, :user_track
+    initialize_with :user_track
 
     def call
       user_track.concept_slugs.each.with_object({}) do |slug, hash|
@@ -16,7 +16,7 @@ class UserTrack
       mapping = Hash.new { |k, v| k[v] = Set.new }
 
       Exercise::TaughtConcept.joins(:exercise, :concept).
-        where('exercises.track_id': track.id).
+        where('exercises.id': user_track.concept_exercises).
         pluck("track_concepts.slug", "exercises.slug").
         each do |concept_slug, exercise_slug|
         next if concept_slug.nil?
@@ -26,7 +26,7 @@ class UserTrack
       end
 
       Exercise::PracticedConcept.joins(:exercise, :concept).
-        where('exercises.track_id': track.id).
+        where('exercises.id': user_track.practice_exercises).
         pluck("track_concepts.slug", "exercises.slug").
         each do |concept_slug, exercise_slug|
         next if concept_slug.nil?
@@ -42,8 +42,8 @@ class UserTrack
         exercise_slugs.map do |slug|
           {
             slug: slug,
-            url: Exercism::Routes.track_exercise_path(track.slug, slug),
-            tooltip_url: Exercism::Routes.tooltip_track_exercise_url(track, slug),
+            url: Exercism::Routes.track_exercise_path(user_track.track.slug, slug),
+            tooltip_url: Exercism::Routes.tooltip_track_exercise_url(user_track.track, slug),
             status: (user_track.external? ? "available" : user_track.exercise_status(slug)),
             type: user_track.exercise_type(slug)
           }

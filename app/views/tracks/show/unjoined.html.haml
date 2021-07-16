@@ -11,11 +11,11 @@
         %p
           Join Exercism’s #{@track.title} Track for access to
           %em.c-underline
-            %strong #{@track.num_exercises} exercises
+            %strong #{@user_track.num_exercises} exercises
 
           / TODO: Check numbers are active
-          - if @track.num_concepts.positive?
-            grouped into #{@track.num_concepts} #{@track.title} Concepts,
+          - if @user_track.num_concepts.positive?
+            grouped into #{@user_track.num_concepts} #{@track.title} Concepts,
           with automatic analysis
           of your code and
           = succeed(',') do
@@ -58,7 +58,7 @@
       .inner
         .info
           %h2
-            %em.c-underline #{@track.exercises.count} coding exercises
+            %em.c-underline #{@user_track.num_exercises} coding exercises
             for #{@track.title} on Exercism.
             From #{@showcase_exercises.first.title} to #{@showcase_exercises.last.title}.
           %hr.c-divider

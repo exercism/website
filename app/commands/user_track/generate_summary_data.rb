@@ -67,8 +67,8 @@ class UserTrack
 
     def generate_exercises_data!
       exercises = (
-        track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a +
-        track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
+        user_track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a +
+        user_track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
       ).freeze
 
       @exercises_data = exercises.each_with_object({}) do |exercise, data|
@@ -116,7 +116,7 @@ class UserTrack
 
     memoize
     def solutions_data
-      return {} unless user_track
+      return {} if user_track.external?
 
       solutions = user_track.solutions.includes(:exercise)
       solutions.each_with_object({}) do |solution, data|
@@ -129,7 +129,7 @@ class UserTrack
     end
 
     def exercise_is_unlocked?(exercise_data, tutorial_pending)
-      return true unless user_track
+      return true if user_track.external?
       return true if solutions_data[exercise_data[:slug]]
       return exercise_data[:tutorial] if tutorial_pending
 
@@ -146,7 +146,7 @@ class UserTrack
 
     memoize
     def learnt_concept_slugs
-      return [] unless user_track
+      return [] if user_track.external?
 
       completed_solution_slugs = solutions_data.select { |_, s| s[:completed_at] }.keys
       exercises_data.select { |slug, _| completed_solution_slugs.include?(slug) }.

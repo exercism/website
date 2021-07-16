@@ -10,15 +10,49 @@ class UserTrack
       @track = track
     end
 
-    delegate :concepts, :num_concepts, :num_exercises,
-      :updated_at,
+    delegate :concepts, :num_concepts, :updated_at,
       to: :track
+
+    memoize
+    def exercises
+      filter_enabled_exercises(track.exercises)
+    end
+
+    memoize
+    def concept_exercises
+      filter_enabled_exercises(track.concept_exercises)
+    end
+
+    memoize
+    def practice_exercises
+      filter_enabled_exercises(track.practice_exercises)
+    end
+
+    def concept_exercises_for_concept(concept)
+      filter_enabled_exercises(concept.concept_exercises)
+    end
+
+    def practice_exercises_for_concept(concept)
+      filter_enabled_exercises(concept.practice_exercises)
+    end
+
+    def unlocked_concepts_for_exercise(exercise)
+      exercise.unlocked_concepts
+    end
+
+    def unlocked_exercises_for_exercise(exercise)
+      filter_enabled_exercises(exercise.unlocked_exercises)
+    end
 
     #######################
     # Non-summary methods #
     #######################
     def external?
       true
+    end
+
+    def practice_mode?
+      false
     end
 
     def last_touched_at
@@ -32,6 +66,10 @@ class UserTrack
 
     def learnt_concepts
       []
+    end
+
+    def objectives
+      nil
     end
 
     def exercise_type(obj)
@@ -67,6 +105,10 @@ class UserTrack
     ###############################
     # Exercises aggregate methods #
     ###############################
+
+    def num_exercises
+      exercises.size
+    end
 
     def num_completed_exercises
       0
@@ -118,7 +160,7 @@ class UserTrack
     ###################
     # Private methods #
     ###################
-
+    private
     memoize
     def concept_exercises_counts
       taught_counts = Exercise::TaughtConcept.
@@ -136,6 +178,10 @@ class UserTrack
 
       # Sum the counts
       taught_counts.merge(practice_counts) { |_, t, p| t + p }
+    end
+
+    def filter_enabled_exercises(exercises)
+      exercises.where(status: %i[active beta])
     end
   end
 end

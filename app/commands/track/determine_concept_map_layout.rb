@@ -6,9 +6,9 @@ class Track
   class DetermineConceptMapLayout
     include Mandate
 
-    def initialize(track)
-      @track = track
-      @graph = Graph.new(track)
+    def initialize(user_track)
+      @user_track = user_track
+      @graph = Graph.new(user_track)
     end
 
     # Layout computes the ordering of the exercises in a track by creating
@@ -20,12 +20,12 @@ class Track
         connections: concept_connections
       }
     rescue TrackHasCyclicPrerequisiteError
-      OpenIssueForDependencyCycleJob.perform_later(track)
+      OpenIssueForDependencyCycleJob.perform_later(user_track.track)
       raise
     end
 
     private
-    attr_reader :track, :graph
+    attr_reader :user_track, :graph
 
     memoize
     def concepts
@@ -33,8 +33,8 @@ class Track
         {
           slug: concept.slug,
           name: concept.name,
-          web_url: Exercism::Routes.track_concept_url(track.slug, concept.slug),
-          tooltip_url: Exercism::Routes.tooltip_track_concept_url(track.slug, concept.slug)
+          web_url: Exercism::Routes.track_concept_url(user_track.track.slug, concept.slug),
+          tooltip_url: Exercism::Routes.tooltip_track_concept_url(user_track.track.slug, concept.slug)
         }
       end
 
@@ -86,8 +86,8 @@ class Track
       # Node for representing an exercise within a track
       Node = Struct.new(:index, :slug, :name, :prerequisites, :level, keyword_init: true)
 
-      def initialize(track)
-        @track = track
+      def initialize(user_track)
+        @user_track = user_track
         @nodes = determine_nodes
         @edges = determine_edges
       end
@@ -116,7 +116,7 @@ class Track
       end
 
       private
-      attr_reader :edges, :track
+      attr_reader :edges, :user_track
 
       # Creates adjacency list for a graph with directed edges
       memoize
@@ -131,7 +131,7 @@ class Track
       end
 
       def determine_nodes
-        nodes = track.concept_exercises.includes(:taught_concepts, :prerequisites).flat_map do |exercise|
+        nodes = user_track.concept_exercises.includes(:taught_concepts, :prerequisites).flat_map do |exercise|
           exercise.taught_concepts.map do |concept|
             Node.new(
               index: nil,

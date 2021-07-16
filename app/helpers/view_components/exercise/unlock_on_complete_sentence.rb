@@ -1,6 +1,6 @@
 module ViewComponents
   class Exercise::UnlockOnCompleteSentence < ViewComponent
-    initialize_with :exercise
+    initialize_with :exercise, :user_track
 
     def to_s
       return unless exercise.concept_exercise?
@@ -21,12 +21,12 @@ module ViewComponents
     private
     memoize
     def num_unlocked_exercises
-      exercise.unlocked_exercises.count
+      user_track.unlocked_exercises_for_exercise(exercise).count
     end
 
     memoize
     def unlocked_concept_names
-      exercise.unlocked_concepts.pluck(:name)
+      user_track.unlocked_concepts_for_exercise(exercise).pluck(:name)
     end
   end
 end

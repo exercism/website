@@ -29,16 +29,45 @@ class UserTrack < ApplicationRecord
     )
   end
 
-  def self.for(user_param, track_param, external_if_missing: false)
+  def self.for(user_param, track_param)
     for!(user_param, track_param)
   rescue ActiveRecord::RecordNotFound
-    return nil unless external_if_missing
-
     begin
       External.new(Track.for!(track_param))
     rescue ActiveRecord::RecordNotFound
       nil
     end
+  end
+
+  memoize
+  def exercises
+    filter_enabled_exercises(track.exercises)
+  end
+
+  memoize
+  def concept_exercises
+    filter_enabled_exercises(track.concept_exercises)
+  end
+
+  memoize
+  def practice_exercises
+    filter_enabled_exercises(track.practice_exercises)
+  end
+
+  def concept_exercises_for_concept(concept)
+    filter_enabled_exercises(concept.concept_exercises)
+  end
+
+  def practice_exercises_for_concept(concept)
+    filter_enabled_exercises(concept.practice_exercises)
+  end
+
+  def unlocked_concepts_for_exercise(exercise)
+    exercise.unlocked_concepts.to_a.filter { |c| concept_unlocked?(c) }
+  end
+
+  def unlocked_exercises_for_exercise(exercise)
+    filter_enabled_exercises(exercise.unlocked_exercises).to_a.filter { |e| exercise_unlocked?(e) }
   end
 
   def external?
@@ -105,6 +134,10 @@ class UserTrack < ApplicationRecord
   end
 
   private
+  def filter_enabled_exercises(exercises)
+    exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
+  end
+
   # A track's summary is an efficiently created summary of all
   # of a user_track's data. It's cached across requests, allowing
   # us to quickly retrieve data without requiring lots of complex

@@ -31,19 +31,13 @@ class UserTrackTest < ActiveSupport::TestCase
   test ".for handles bad data" do
     track = create :track
     ut = create :user_track, track: track
+
     assert_nil UserTrack.for(create(:user), nil)
     assert_nil UserTrack.for(nil, nil)
-    assert_nil UserTrack.for(create(:user), track)
-    assert_nil UserTrack.for(ut.user, create(:track, :random_slug))
-    assert_nil UserTrack.for(nil, track)
-    assert_nil UserTrack.for(nil, track.slug)
-
-    assert_nil UserTrack.for(create(:user), nil, external_if_missing: true)
-    assert_nil UserTrack.for(nil, nil, external_if_missing: true)
-    assert UserTrack.for(create(:user), track, external_if_missing: true).is_a?(UserTrack::External)
-    assert UserTrack.for(ut.user, create(:track, :random_slug), external_if_missing: true).is_a?(UserTrack::External)
-    assert UserTrack.for(nil, track, external_if_missing: true).is_a?(UserTrack::External)
-    assert UserTrack.for(nil, track.slug, external_if_missing: true).is_a?(UserTrack::External)
+    assert UserTrack.for(create(:user), track).is_a?(UserTrack::External)
+    assert UserTrack.for(ut.user, create(:track, :random_slug)).is_a?(UserTrack::External)
+    assert UserTrack.for(nil, track).is_a?(UserTrack::External)
+    assert UserTrack.for(nil, track.slug).is_a?(UserTrack::External)
   end
 
   test "touching only changes updated_at" do
@@ -346,5 +340,328 @@ class UserTrackTest < ActiveSupport::TestCase
     create :mentor_request, :fulfilled, solution: create(:concept_solution, track: ut.track, user: ut.user)
     create :mentor_request, :cancelled, solution: create(:concept_solution, track: ut.track, user: ut.user)
     assert_equal [req], UserTrack.find(ut.id).pending_mentoring_requests
+  end
+
+  test "exercises" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    # wip exercises and unstarted deprecated exercises are not included
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
+  end
+
+  test "exercises includes deprecated exercises that the user started" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    deprecated_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    deprecated_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    create :concept_solution, user: user, exercise: deprecated_concept_exercise
+    create :practice_solution, user: user, exercise: deprecated_practice_exercise
+
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      deprecated_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise,
+      deprecated_practice_exercise
+    ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
+  end
+
+  test "concept_exercises" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    # Sanity check: practice exercise should not be included
+    create :practice_exercise, :random_slug, track: track
+
+    # wip exercises and unstarted deprecated exercises are not included
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise
+    ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
+  end
+
+  test "concept_exercises includes deprecated concept exercises that the user started" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    deprecated_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    create :concept_solution, user: user, exercise: deprecated_concept_exercise
+
+    # Sanity check: practice exercise should not be included
+    create :practice_exercise, :random_slug, track: track
+
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      deprecated_concept_exercise
+    ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
+  end
+
+  test "practice_exercises" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    # Sanity check: concept exercise should not be included
+    create :concept_exercise, :random_slug, track: track
+
+    # wip exercises and unstarted deprecated practice exercises are not included
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
+  end
+
+  test "practice_exercises includes deprecated practice exercises that the user started" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    deprecated_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    create :practice_solution, user: user, exercise: deprecated_practice_exercise
+
+    # Sanity check: concept exercise should not be included
+    create :concept_exercise, :random_slug, track: track
+
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise,
+      deprecated_practice_exercise
+    ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
+  end
+
+  test "concept_exercises_for_concept" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    c_1 = create :concept, track: track, slug: "strings"
+    c_2 = create :concept, track: track, slug: "numbers"
+
+    ce_1 = create :concept_exercise, :random_slug, track: track
+    ce_1.taught_concepts << c_1
+
+    ce_2 = create :concept_exercise, :random_slug, track: track
+    ce_2.taught_concepts << c_1
+    ce_2.prerequisites << c_2
+
+    # Sanity check: don't include concept exercise with different concept
+    ce_3 = create :concept_exercise, :random_slug, track: track
+    ce_3.taught_concepts << c_2
+
+    # Sanity check: don't include concept exercise exercise that has concept as prerequisite
+    ce_4 = create :concept_exercise, :random_slug, track: track
+    ce_4.prerequisites << c_1
+
+    # Sanity check: don't include concept exercise without taught concept
+    ce_5 = create :concept_exercise, :random_slug, track: track
+    ce_5.taught_concepts = []
+
+    # Sanity check: don't include practice exercises
+    create :practice_exercise, :random_slug, track: track
+    pe_1 = create :practice_exercise, :random_slug, track: track
+    pe_1.practiced_concepts << c_1
+
+    expected = [ce_1, ce_2].map(&:slug).sort
+    assert_equal expected, user_track.concept_exercises_for_concept(c_1).map(&:slug).sort
+  end
+
+  test "practice_exercises_for_concept" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+
+    c_1 = create :concept, track: track, slug: "strings"
+    c_2 = create :concept, track: track, slug: "numbers"
+
+    pe_1 = create :practice_exercise, :random_slug, track: track
+    pe_1.practiced_concepts << c_1
+
+    pe_2 = create :practice_exercise, :random_slug, track: track
+    pe_2.practiced_concepts << c_1
+    pe_2.practiced_concepts << c_2
+
+    # Sanity check: don't include practice exercise with different concept
+    pe_3 = create :practice_exercise, :random_slug, track: track
+    pe_3.practiced_concepts << c_2
+
+    # Sanity check: don't include practice exercise that has concept as prerequisite
+    pe_4 = create :practice_exercise, :random_slug, track: track
+    pe_4.prerequisites << c_1
+
+    # Sanity check: don't include practice exercise without practiced concept
+    pe_5 = create :practice_exercise, :random_slug, track: track
+    pe_5.practiced_concepts = []
+
+    # Sanity check: don't include concept exercises
+    create :concept_exercise, :random_slug, track: track
+    ce_1 = create :concept_exercise, :random_slug, track: track
+    ce_1.taught_concepts << c_1
+
+    expected = [pe_1, pe_2].map(&:slug).sort
+    assert_equal expected, user_track.practice_exercises_for_concept(c_1).map(&:slug).sort
+  end
+
+  test "unlocked_exercises_for_exercise" do
+    track = create :track
+    basics = create :concept, track: track, slug: "co_basics"
+    enums = create :concept, track: track, slug: "co_enums"
+    strings = create :concept, track: track, slug: "co_strings"
+    extensions = create :concept, track: track, slug: "co_extensions"
+
+    # Nothing teaches recursion
+    create :concept, track: track, slug: "co_recursion"
+
+    basics_exercise = create :concept_exercise, slug: "ex_basics", track: track
+    basics_exercise.taught_concepts << basics
+
+    enums_exercise = create :concept_exercise, slug: "ex_enums", track: track
+    enums_exercise.prerequisites << basics
+    enums_exercise.taught_concepts << enums
+
+    strings_exercise = create :concept_exercise, slug: "ex_strings", track: track
+    strings_exercise.prerequisites << enums
+    strings_exercise.prerequisites << basics
+    strings_exercise.taught_concepts << strings
+
+    extensions_exercise = create :concept_exercise, slug: "ex_extensions", track: track, status: :deprecated
+    extensions_exercise.prerequisites << strings
+    extensions_exercise.taught_concepts << extensions
+
+    practice_exercise = create :practice_exercise, slug: "ex_prac_enums", track: track
+    practice_exercise.prerequisites << enums
+    practice_exercise.practiced_concepts << enums
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+    create :hello_world_solution, :completed, track: track, user: user_track.user
+
+    # The basics exercise has not been completed so no unlocked exercises
+    assert_empty user_track.unlocked_exercises_for_exercise(basics_exercise)
+
+    # Completing the basics exercise unlocks the enums exercise
+    create :concept_solution, :completed, exercise: basics_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [enums_exercise], user_track.unlocked_exercises_for_exercise(basics_exercise)
+
+    # Completing the enums exercise unlocks the strings exercise
+    create :concept_solution, :completed, exercise: enums_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [strings_exercise, practice_exercise], user_track.unlocked_exercises_for_exercise(enums_exercise)
+    assert_equal [enums_exercise, strings_exercise], user_track.unlocked_exercises_for_exercise(basics_exercise)
+
+    # Completing the strings exercise should normally unlock the extensions exercise,
+    # but it shouldn't because that exercise is deprecated
+    create :concept_solution, :completed, exercise: strings_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_empty user_track.unlocked_exercises_for_exercise(strings_exercise)
+    assert_equal [strings_exercise, practice_exercise], user_track.unlocked_exercises_for_exercise(enums_exercise)
+    assert_equal [enums_exercise, strings_exercise], user_track.unlocked_exercises_for_exercise(basics_exercise)
+  end
+
+  test "unlocked_concepts_for_exercise" do
+    track = create :track
+    basics = create :concept, track: track, slug: "co_basics"
+    enums = create :concept, track: track, slug: "co_enums"
+    strings = create :concept, track: track, slug: "co_strings"
+
+    # Nothing teaches recursion
+    create :concept, track: track, slug: "co_recursion"
+
+    basics_exercise = create :concept_exercise, slug: "ex_basics", track: track
+    basics_exercise.taught_concepts << basics
+
+    enums_exercise = create :concept_exercise, slug: "ex_enums", track: track
+    enums_exercise.prerequisites << basics
+    enums_exercise.taught_concepts << enums
+
+    strings_exercise = create :concept_exercise, slug: "ex_strings", track: track
+    strings_exercise.prerequisites << enums
+    strings_exercise.prerequisites << basics
+    strings_exercise.taught_concepts << strings
+
+    practice_exercise = create :practice_exercise, slug: "ex_prac_enums", track: track
+    practice_exercise.prerequisites << enums
+    practice_exercise.practiced_concepts << enums
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+    create :hello_world_solution, :completed, track: track, user: user_track.user
+
+    # The basics exercise has not been completed so no unlocked concepts
+    assert_empty user_track.unlocked_concepts_for_exercise(basics_exercise)
+
+    # Completing the basics exercise unlocks the enums concept
+    create :concept_solution, :completed, exercise: basics_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [enums], user_track.unlocked_concepts_for_exercise(basics_exercise)
+
+    # Completing the enums exercise unlocks the strings concepts
+    create :concept_solution, :completed, exercise: enums_exercise, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal [enums, strings], user_track.unlocked_concepts_for_exercise(basics_exercise)
   end
 end

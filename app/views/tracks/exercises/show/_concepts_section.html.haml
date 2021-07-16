@@ -8,15 +8,15 @@
         = render ViewComponents::ConceptIcon.new(concept, :medium)
         .name= concept.name
         .exercises
-          - concept.concept_exercises.each do |exercise|
+          - user_track.concept_exercises_for_concept(concept).each do |exercise|
             = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
-          - concept.practice_exercises.each do |exercise|
+          - user_track.practice_exercises_for_concept(concept).each do |exercise|
             = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
 
   = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track), with_bg: true)
 
-  - unlocked_concepts = exercise.unlocked_concepts.to_a
-  - unlocked_exercises = exercise.unlocked_exercises.to_a
+  - unlocked_concepts = user_track.unlocked_concepts_for_exercise(exercise)
+  - unlocked_exercises = user_track.unlocked_exercises_for_exercise(exercise)
   - if unlocked_concepts.present? || unlocked_exercises.present?
     .unlocks
       - if unlocked_concepts.present?
@@ -27,7 +27,6 @@
             = pluralize unlocked_concepts.size, "concept"
           .list
             - unlocked_concepts.each do |unlocked_concept|
-              - next unless user_track.concept_unlocked?(unlocked_concept)
               = render ReactComponents::Common::ConceptWidget.new(unlocked_concept)
 
       - if unlocked_exercises.present?
@@ -38,5 +37,4 @@
             = pluralize unlocked_exercises.size, "exercise"
           .list
             - unlocked_exercises.each do |unlocked_exercise|
-              - next unless user_track.exercise_unlocked?(unlocked_exercise)
               = ReactComponents::Common::ExerciseWidget.new(unlocked_exercise, user_track, skinny: true, with_tooltip: true)

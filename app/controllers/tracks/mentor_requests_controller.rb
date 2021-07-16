@@ -24,7 +24,7 @@ class Tracks::MentorRequestsController < ApplicationController
   private
   def use_solution
     @track = Track.find(params[:track_id])
-    @user_track = UserTrack.for(current_user, @track, external_if_missing: true)
+    @user_track = UserTrack.for(current_user, @track)
     @exercise = @track.exercises.find(params[:exercise_id])
     @solution = Solution.for(current_user, @exercise)
   end

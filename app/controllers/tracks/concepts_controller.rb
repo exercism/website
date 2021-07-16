@@ -6,21 +6,21 @@ class Tracks::ConceptsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
 
   def index
-    @concept_map_data = Track::DetermineConceptMapLayout.(@track)
+    @concept_map_data = Track::DetermineConceptMapLayout.(@user_track)
 
     @concept_map_data[:status] =
       UserTrack::GenerateConceptStatusMapping.(@user_track)
 
     @concept_map_data[:exercises_data] =
-      UserTrack::GenerateExerciseStatusMapping.(@track, @user_track)
+      UserTrack::GenerateExerciseStatusMapping.(@user_track)
 
     @num_concepts = @track.concepts.count
     @user_track ? @num_completed = @user_track.num_concepts_learnt : @num_completed = 0
   end
 
   def show
-    @concept_exercises = @concept.concept_exercises
-    @practice_exercises = @concept.practice_exercises
+    @concept_exercises = @user_track.concept_exercises_for_concept(@concept)
+    @practice_exercises = @user_track.practice_exercises_for_concept(@concept)
 
     if current_user
       @solutions = current_user.solutions.where(exercise_id: @concept_exercises.map(&:id) + @practice_exercises.map(&:id)).
@@ -31,13 +31,13 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def tooltip
-    @exercises = @concept.concept_exercises + @concept.practice_exercises
+    @exercises = @user_track.concept_exercises_for_concept(@concept) + @user_track.practice_exercises_for_concept(@concept)
     @num_completed_exercises = @user_track.num_completed_exercises_for_concept(@concept)
     @locked = !@user_track.concept_unlocked?(@concept)
     @learnt = @user_track.concept_learnt?(@concept)
     @mastered = @user_track.concept_mastered?(@concept)
     @prerequisite_names = Concept.joins(:unlocked_exercises).
-      where('exercise_prerequisites.exercise_id': @concept.concept_exercises).
+      where('exercise_prerequisites.exercise_id': @user_track.concept_exercises_for_concept(@concept)).
       pluck(:name)
 
     render_template_as_json
@@ -46,7 +46,7 @@ class Tracks::ConceptsController < ApplicationController
   private
   def use_track
     @track = Track.find(params[:track_id])
-    @user_track = UserTrack.for(current_user, @track, external_if_missing: true)
+    @user_track = UserTrack.for(current_user, @track)
   end
 
   def use_concepts

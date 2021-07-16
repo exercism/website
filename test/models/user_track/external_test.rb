@@ -23,6 +23,23 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     assert_equal 0, ut.num_concepts_mastered
   end
 
+  test "num_exercises" do
+    track = create :track
+
+    create :concept_exercise, :random_slug, track: track, status: :wip
+    create :concept_exercise, :random_slug, track: track, status: :beta
+    create :concept_exercise, :random_slug, track: track, status: :active
+    create :concept_exercise, :random_slug, track: track, status: :deprecated
+
+    create :practice_exercise, :random_slug, track: track, status: :wip
+    create :practice_exercise, :random_slug, track: track, status: :beta
+    create :practice_exercise, :random_slug, track: track, status: :active
+    create :practice_exercise, :random_slug, track: track, status: :deprecated
+
+    ut = UserTrack::External.new(track)
+    assert_equal 4, ut.num_exercises
+  end
+
   test "num_concepts" do
     track = create :track
     create :concept, track: track
@@ -54,5 +71,136 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     ut = UserTrack::External.new(track)
     assert_equal 3, ut.num_exercises_for_concept(concept_1)
     assert_equal 2, ut.num_exercises_for_concept(concept_2)
+  end
+
+  test "exercises" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    create :concept_exercise, :random_slug, track: track, status: :wip
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active
+    create :concept_exercise, :random_slug, track: track, status: :deprecated
+
+    create :practice_exercise, :random_slug, track: track, status: :wip
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active
+    create :practice_exercise, :random_slug, track: track, status: :deprecated
+
+    # wip and deprecated exercises are not included
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
+  end
+
+  test "concept_exercises" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    create :concept_exercise, :random_slug, track: track, status: :wip
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active
+    create :concept_exercise, :random_slug, track: track, status: :deprecated
+
+    # Sanity check: practice exercise should not be included
+    create :practice_exercise, :random_slug, track: track
+
+    # wip and deprecated exercises are not included
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise
+    ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
+  end
+
+  test "practice_exercises" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    create :practice_exercise, :random_slug, track: track, status: :wip
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active
+    create :practice_exercise, :random_slug, track: track, status: :deprecated
+
+    # Sanity check: concept exercise should not be included
+    create :concept_exercise, :random_slug, track: track
+
+    # wip and deprecated exercises are not included
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
+  end
+
+  test "concept_exercises_for_concept" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    c_1 = create :concept, track: track, slug: "strings"
+    c_2 = create :concept, track: track, slug: "numbers"
+
+    ce_1 = create :concept_exercise, :random_slug, track: track
+    ce_1.taught_concepts << c_1
+
+    ce_2 = create :concept_exercise, :random_slug, track: track
+    ce_2.taught_concepts << c_1
+    ce_2.prerequisites << c_2
+
+    # Sanity check: don't include concept exercise with different concept
+    ce_3 = create :concept_exercise, :random_slug, track: track
+    ce_3.taught_concepts << c_2
+
+    # Sanity check: don't include concept exercise exercise that has concept as prerequisite
+    ce_4 = create :concept_exercise, :random_slug, track: track
+    ce_4.prerequisites << c_1
+
+    # Sanity check: don't include concept exercise without taught concept
+    ce_5 = create :concept_exercise, :random_slug, track: track
+    ce_5.taught_concepts = []
+
+    # Sanity check: don't include practice exercises
+    create :practice_exercise, :random_slug, track: track
+    pe_1 = create :practice_exercise, :random_slug, track: track
+    pe_1.practiced_concepts << c_1
+
+    expected = [ce_1, ce_2].map(&:slug).sort
+    assert_equal expected, user_track.concept_exercises_for_concept(c_1).map(&:slug).sort
+  end
+
+  test "practice_exercises_for_concept" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    c_1 = create :concept, track: track, slug: "strings"
+    c_2 = create :concept, track: track, slug: "numbers"
+
+    pe_1 = create :practice_exercise, :random_slug, track: track
+    pe_1.practiced_concepts << c_1
+
+    pe_2 = create :practice_exercise, :random_slug, track: track
+    pe_2.practiced_concepts << c_1
+    pe_2.practiced_concepts << c_2
+
+    # Sanity check: don't include practice exercise with different concept
+    pe_3 = create :practice_exercise, :random_slug, track: track
+    pe_3.practiced_concepts << c_2
+
+    # Sanity check: don't include practice exercise that has concept as prerequisite
+    pe_4 = create :practice_exercise, :random_slug, track: track
+    pe_4.prerequisites << c_1
+
+    # Sanity check: don't include practice exercise without practiced concept
+    pe_5 = create :practice_exercise, :random_slug, track: track
+    pe_5.practiced_concepts = []
+
+    # Sanity check: don't include concept exercises
+    create :concept_exercise, :random_slug, track: track
+    ce_1 = create :concept_exercise, :random_slug, track: track
+    ce_1.taught_concepts << c_1
+
+    expected = [pe_1, pe_2].map(&:slug).sort
+    assert_equal expected, user_track.practice_exercises_for_concept(c_1).map(&:slug).sort
   end
 end

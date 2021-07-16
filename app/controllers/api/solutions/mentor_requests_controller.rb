@@ -9,7 +9,8 @@ module API
         params[:comment]
       )
 
-      UserTrack.for(current_user, @solution.track)&.update!(objectives: params[:track_objectives])
+      user_track = UserTrack.for(current_user, @solution.track)
+      user_track.update!(objectives: params[:track_objectives]) unless user_track.external?
 
       render json: {
         mentor_request: SerializeMentorSessionRequest.(mentor_request)

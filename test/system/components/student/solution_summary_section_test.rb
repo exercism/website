@@ -163,8 +163,8 @@ module Components
       end
 
       test "No feedback (Concept Exercise)" do
-        user = create :user
-        solution = create :concept_solution, user: user
+        user_track = create :user_track
+        solution = create :concept_solution, user: user_track.user, track: user_track.track
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,
@@ -173,7 +173,7 @@ module Components
         assert iteration.status.no_automated_feedback? # Sanity
 
         use_capybara_host do
-          sign_in!(user)
+          sign_in!(user_track.user)
           visit Exercism::Routes.private_solution_path(solution)
         end
 
@@ -228,8 +228,8 @@ module Components
       end
 
       test "Non actionable feedback (Concept Exercise)" do
-        user = create :user
-        solution = create :concept_solution, user: user
+        user_track = create :user_track
+        solution = create :concept_solution, user: user_track.user, track: user_track.track
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,
@@ -244,7 +244,7 @@ module Components
         assert iteration.status.non_actionable_automated_feedback? # Sanity
 
         use_capybara_host do
-          sign_in!(user)
+          sign_in!(user_track.user)
           visit Exercism::Routes.private_solution_path(solution)
         end
 
@@ -299,8 +299,8 @@ module Components
       end
 
       test "Actionable feedback (Concept Exercise)" do
-        user = create :user
-        solution = create :concept_solution, user: user
+        user_track = create :user_track
+        solution = create :concept_solution, user: user_track.user, track: user_track.track
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,
@@ -318,7 +318,7 @@ module Components
         assert iteration.status.actionable_automated_feedback? # Sanity
 
         use_capybara_host do
-          sign_in!(user)
+          sign_in!(user_track.user)
           visit Exercism::Routes.private_solution_path(solution)
         end
 
@@ -336,8 +336,8 @@ module Components
       end
 
       test "Essential feedback" do
-        user = create :user
-        solution = create :concept_solution, user: user
+        user_track = create :user_track
+        solution = create :concept_solution, user: user_track.user, track: user_track.track
         submission = create :submission, solution: solution,
                                          tests_status: :passed,
                                          representation_status: :generated,
@@ -356,7 +356,7 @@ module Components
         assert iteration.status.essential_automated_feedback? # Sanity
 
         use_capybara_host do
-          sign_in!(user)
+          sign_in!(user_track.user)
           visit Exercism::Routes.private_solution_path(solution)
         end
 

@@ -4,18 +4,21 @@ class Track
   class DetermineConceptMapLayoutTest < ActiveSupport::TestCase
     def test_layout_empty_level
       track = create :track
+      user_track = create :user_track, track: track
+
       assert_equal(
         {
           concepts: [],
           levels: [],
           connections: []
         },
-        Track::DetermineConceptMapLayout.(track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
     def test_layout_with_one_level
       track = create :track
+      user_track = create :user_track, track: track
 
       basics = create :concept, slug: 'basics', track: track
 
@@ -35,12 +38,13 @@ class Track
           levels: [['basics']],
           connections: []
         },
-        Track::DetermineConceptMapLayout.(track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
     def test_layout_with_two_levels
       track = create :track
+      user_track = create :user_track, track: track
 
       basics = create :concept, slug: 'basics', track: track
       booleans = create :concept, slug: 'booleans', track: track
@@ -71,12 +75,13 @@ class Track
           levels: [['basics'], ['booleans']],
           connections: [{ from: 'basics', to: 'booleans' }]
         },
-        Track::DetermineConceptMapLayout.(track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
     def test_layout_with_three_level
       track = create :track
+      user_track = create :user_track, track: track
 
       basics = create :concept, slug: 'basics', track: track
       booleans = create :concept, slug: 'booleans', track: track
@@ -118,12 +123,13 @@ class Track
           levels: [['basics'], ['booleans'], ['atoms']],
           connections: [{ from: 'basics', to: 'booleans' }, { from: 'booleans', to: 'atoms' }]
         },
-        Track::DetermineConceptMapLayout.(track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
     def test_layout_with_three_level_multiple_prereq
       track = create :track
+      user_track = create :user_track, track: track
 
       basics = create :concept, slug: 'basics', track: track
       booleans = create :concept, slug: 'booleans', track: track
@@ -166,12 +172,13 @@ class Track
           levels: [['basics'], ['booleans'], ['atoms']],
           connections: [{ from: 'basics', to: 'booleans' }, { from: 'booleans', to: 'atoms' }]
         },
-        Track::DetermineConceptMapLayout.(track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
     def test_layout_with_three_level_multiple_prereq_and_taught
       track = create :track
+      user_track = create :user_track, track: track
 
       basics = create :concept, slug: 'basics', track: track
       booleans = create :concept, slug: 'booleans', track: track
@@ -227,12 +234,13 @@ class Track
             { from: 'atoms', to: 'cond' }
           ]
         },
-        Track::DetermineConceptMapLayout.(track)
+        Track::DetermineConceptMapLayout.(user_track)
       )
     end
 
     def test_open_issue_when_prerequisite_cycle_found
       track = create :track
+      user_track = create :user_track, track: track
 
       numbers = create :concept, slug: 'numbers', track: track
       booleans = create :concept, slug: 'booleans', track: track
@@ -247,13 +255,14 @@ class Track
 
       assert_enqueued_jobs 1, only: OpenIssueForDependencyCycleJob do
         assert_raises TrackHasCyclicPrerequisiteError do
-          Track::DetermineConceptMapLayout.(track)
+          Track::DetermineConceptMapLayout.(user_track)
         end
       end
     end
 
     def test_raises_error_when_prerequisite_cycle_found
       track = create :track
+      user_track = create :user_track, track: track
 
       numbers = create :concept, slug: 'numbers', track: track
       booleans = create :concept, slug: 'booleans', track: track
@@ -267,7 +276,7 @@ class Track
       logger.prerequisites << booleans
 
       assert_raises TrackHasCyclicPrerequisiteError do
-        Track::DetermineConceptMapLayout.(track)
+        Track::DetermineConceptMapLayout.(user_track)
       end
     end
   end

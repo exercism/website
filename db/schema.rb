@@ -69,6 +69,27 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
   end
 
+  create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "subscription_id"
+    t.string "stripe_id", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
+    t.index ["user_id"], name: "index_donations_payments_on_user_id"
+  end
+
+  create_table "donations_subscriptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "stripe_id", null: false
+    t.boolean "active", default: true, null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
+  end
+
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
@@ -758,6 +779,9 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "documents", "tracks"
+  add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
+  add_foreign_key "donations_payments", "users"
+  add_foreign_key "donations_subscriptions", "users"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"

@@ -16,6 +16,12 @@ module API
         }
       end
 
+      def succeeded
+        ::Donations::PaymentIntent::HandleSuccess.(current_user, params[:id])
+
+        render json: {}
+      end
+
       def failed
         ::Donations::PaymentIntent::Cancel.(params[:id])
 

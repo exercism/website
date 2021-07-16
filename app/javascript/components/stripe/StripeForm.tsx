@@ -10,18 +10,6 @@ import {
 } from '@stripe/react-stripe-js'
 import { fetchJSON } from '../../utils/fetch-json'
 
-type PaymentIntent = {
-  id: string
-  clientSecret: string
-}
-export type PaymentIntentType = 'payment' | 'subscription'
-
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(
-  'pk_test_51IDGMXEoOT0Jqx0UcoKlkvB7O0VDvFdCBvOCiWiKv6CkSnkZn7IG6cIHuCWg7cegGogYJSy8WsaKzwFHQqN75T7b00d56MtilB'
-)
-
 const cardOptions = {
   style: {
     base: {
@@ -42,6 +30,19 @@ const cardOptions = {
     },
   },
 }
+
+type PaymentIntent = {
+  id: string
+  clientSecret: string
+}
+export type PaymentIntentType = 'payment' | 'subscription'
+
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe(
+  'pk_test_51IDGMXEoOT0Jqx0UcoKlkvB7O0VDvFdCBvOCiWiKv6CkSnkZn7IG6cIHuCWg7cegGogYJSy8WsaKzwFHQqN75T7b00d56MtilB'
+)
+
 export function StripeForm({
   paymentIntentType,
   amountInDollars,
@@ -57,8 +58,10 @@ export function StripeForm({
   const [cardValid, setCardValid] = useState(false)
 
   const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
-  const cancelPaymentIntentEndpoint =
+  const paymentIntentFailedEndpoint =
     '/api/v2/donations/payment_intents/$ID/failed'
+  const paymentIntentSucceededEndpoint =
+    '/api/v2/donations/payment_intents/$ID/succeeded'
 
   const stripe = useStripe()
   const elements = useElements()
@@ -73,7 +76,17 @@ export function StripeForm({
 
   // TODO: Do I need to usecallback here, or just normal function?
   const cancelPaymentIntent = useCallback((paymentIntent: PaymentIntent) => {
-    const endpoint = cancelPaymentIntentEndpoint.replace(
+    const endpoint = paymentIntentFailedEndpoint.replace(
+      '$ID',
+      paymentIntent.id
+    )
+    return fetchJSON(endpoint, {
+      method: 'PATCH',
+    })
+  }, [])
+
+  const notifyServerOfSuccess = useCallback((paymentIntent: PaymentIntent) => {
+    const endpoint = paymentIntentSucceededEndpoint.replace(
       '$ID',
       paymentIntent.id
     )
@@ -126,6 +139,7 @@ export function StripeForm({
         setError(undefined)
         setProcessing(false)
         setSucceeded(true)
+        notifyServerOfSuccess(paymentIntent)
         onSuccess()
       }
     })
@@ -153,7 +167,7 @@ export function StripeForm({
         </div>
       </div>
       {succeeded ? <p className="result-message">Payment succeeded!</p> : null}
-      {/*<button type="submit">Do it!!</button>*/}
+      <button type="submit">Do it!!</button>
     </form>
   )
 }

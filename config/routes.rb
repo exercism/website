@@ -52,6 +52,7 @@ Rails.application.routes.draw do
         # resources :payments, only: [:create]
         resources :payment_intents, only: [:create] do
           member do
+            patch :succeeded
             patch :failed
           end
         end

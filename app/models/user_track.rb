@@ -54,20 +54,20 @@ class UserTrack < ApplicationRecord
     filter_enabled_exercises(track.practice_exercises)
   end
 
-  def concept_exercises_for(concept: nil)
-    filter_enabled_exercises(concept.concept_exercises) if concept.present?
+  def concept_exercises_for_concept(concept)
+    filter_enabled_exercises(concept.concept_exercises)
   end
 
-  def practice_exercises_for(concept: nil)
-    filter_enabled_exercises(concept.practice_exercises) if concept.present?
+  def practice_exercises_for_concept(concept)
+    filter_enabled_exercises(concept.practice_exercises)
   end
 
-  def unlocked_concepts_for(exercise: nil)
-    exercise.unlocked_concepts.to_a.filter { |c| concept_unlocked?(c) } if exercise.present?
+  def unlocked_concepts_for_exercise(exercise)
+    exercise.unlocked_concepts.to_a.filter { |c| concept_unlocked?(c) }
   end
 
-  def unlocked_exercises_for(exercise: nil)
-    filter_enabled_exercises(exercise.unlocked_exercises).to_a.filter { |e| exercise_unlocked?(e) } if exercise.present?
+  def unlocked_exercises_for_exercise(exercise)
+    filter_enabled_exercises(exercise.unlocked_exercises).to_a.filter { |e| exercise_unlocked?(e) }
   end
 
   def external?

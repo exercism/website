@@ -478,7 +478,7 @@ class UserTrackTest < ActiveSupport::TestCase
     ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
   end
 
-  test "concept_exercises_for concept" do
+  test "concept_exercises_for_concept" do
     track = create :track
     user = create :user
     user_track = create :user_track, track: track, user: user
@@ -511,10 +511,10 @@ class UserTrackTest < ActiveSupport::TestCase
     pe_1.practiced_concepts << c_1
 
     expected = [ce_1, ce_2].map(&:slug).sort
-    assert_equal expected, user_track.concept_exercises_for(concept: c_1).map(&:slug).sort
+    assert_equal expected, user_track.concept_exercises_for_concept(c_1).map(&:slug).sort
   end
 
-  test "practice_exercises_for concept" do
+  test "practice_exercises_for_concept" do
     track = create :track
     user = create :user
     user_track = create :user_track, track: track, user: user
@@ -547,10 +547,10 @@ class UserTrackTest < ActiveSupport::TestCase
     ce_1.taught_concepts << c_1
 
     expected = [pe_1, pe_2].map(&:slug).sort
-    assert_equal expected, user_track.practice_exercises_for(concept: c_1).map(&:slug).sort
+    assert_equal expected, user_track.practice_exercises_for_concept(c_1).map(&:slug).sort
   end
 
-  test "unlocked_exercises_for" do
+  test "unlocked_exercises_for_exercise" do
     track = create :track
     basics = create :concept, track: track, slug: "co_basics"
     enums = create :concept, track: track, slug: "co_enums"
@@ -585,7 +585,7 @@ class UserTrackTest < ActiveSupport::TestCase
     create :hello_world_solution, :completed, track: track, user: user_track.user
 
     # The basics exercise has not been completed so no unlocked exercises
-    assert_empty user_track.unlocked_exercises_for(exercise: basics_exercise)
+    assert_empty user_track.unlocked_exercises_for_exercise(basics_exercise)
 
     # Completing the basics exercise unlocks the enums exercise
     create :concept_solution, :completed, exercise: basics_exercise, user: user
@@ -593,7 +593,7 @@ class UserTrackTest < ActiveSupport::TestCase
     # Reload the user track to override memoizing
     user_track.reset_summary!
 
-    assert_equal [enums_exercise], user_track.unlocked_exercises_for(exercise: basics_exercise)
+    assert_equal [enums_exercise], user_track.unlocked_exercises_for_exercise(basics_exercise)
 
     # Completing the enums exercise unlocks the strings exercise
     create :concept_solution, :completed, exercise: enums_exercise, user: user
@@ -601,8 +601,8 @@ class UserTrackTest < ActiveSupport::TestCase
     # Reload the user track to override memoizing
     user_track.reset_summary!
 
-    assert_equal [strings_exercise, practice_exercise], user_track.unlocked_exercises_for(exercise: enums_exercise)
-    assert_equal [enums_exercise, strings_exercise], user_track.unlocked_exercises_for(exercise: basics_exercise)
+    assert_equal [strings_exercise, practice_exercise], user_track.unlocked_exercises_for_exercise(enums_exercise)
+    assert_equal [enums_exercise, strings_exercise], user_track.unlocked_exercises_for_exercise(basics_exercise)
 
     # Completing the strings exercise should normally unlock the extensions exercise,
     # but it shouldn't because that exercise is deprecated
@@ -611,12 +611,12 @@ class UserTrackTest < ActiveSupport::TestCase
     # Reload the user track to override memoizing
     user_track.reset_summary!
 
-    assert_empty user_track.unlocked_exercises_for(exercise: strings_exercise)
-    assert_equal [strings_exercise, practice_exercise], user_track.unlocked_exercises_for(exercise: enums_exercise)
-    assert_equal [enums_exercise, strings_exercise], user_track.unlocked_exercises_for(exercise: basics_exercise)
+    assert_empty user_track.unlocked_exercises_for_exercise(strings_exercise)
+    assert_equal [strings_exercise, practice_exercise], user_track.unlocked_exercises_for_exercise(enums_exercise)
+    assert_equal [enums_exercise, strings_exercise], user_track.unlocked_exercises_for_exercise(basics_exercise)
   end
 
-  test "unlocked_concepts_for" do
+  test "unlocked_concepts_for_exercise" do
     track = create :track
     basics = create :concept, track: track, slug: "co_basics"
     enums = create :concept, track: track, slug: "co_enums"
@@ -646,7 +646,7 @@ class UserTrackTest < ActiveSupport::TestCase
     create :hello_world_solution, :completed, track: track, user: user_track.user
 
     # The basics exercise has not been completed so no unlocked concepts
-    assert_empty user_track.unlocked_concepts_for(exercise: basics_exercise)
+    assert_empty user_track.unlocked_concepts_for_exercise(basics_exercise)
 
     # Completing the basics exercise unlocks the enums concept
     create :concept_solution, :completed, exercise: basics_exercise, user: user
@@ -654,7 +654,7 @@ class UserTrackTest < ActiveSupport::TestCase
     # Reload the user track to override memoizing
     user_track.reset_summary!
 
-    assert_equal [enums], user_track.unlocked_concepts_for(exercise: basics_exercise)
+    assert_equal [enums], user_track.unlocked_concepts_for_exercise(basics_exercise)
 
     # Completing the enums exercise unlocks the strings concepts
     create :concept_solution, :completed, exercise: enums_exercise, user: user
@@ -662,6 +662,6 @@ class UserTrackTest < ActiveSupport::TestCase
     # Reload the user track to override memoizing
     user_track.reset_summary!
 
-    assert_equal [enums, strings], user_track.unlocked_concepts_for(exercise: basics_exercise)
+    assert_equal [enums, strings], user_track.unlocked_concepts_for_exercise(basics_exercise)
   end
 end

@@ -8,15 +8,15 @@
         = render ViewComponents::ConceptIcon.new(concept, :medium)
         .name= concept.name
         .exercises
-          - user_track.concept_exercises_for(concept: concept).each do |exercise|
+          - user_track.concept_exercises_for_concept(concept).each do |exercise|
             = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
-          - user_track.practice_exercises_for(concept: concept).each do |exercise|
+          - user_track.practice_exercises_for_concept(concept).each do |exercise|
             = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
 
   = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track), with_bg: true)
 
-  - unlocked_concepts = user_track.unlocked_concepts_for(exercise: exercise)
-  - unlocked_exercises = user_track.unlocked_exercises_for(exercise: exercise)
+  - unlocked_concepts = user_track.unlocked_concepts_for_exercise(exercise)
+  - unlocked_exercises = user_track.unlocked_exercises_for_exercise(exercise)
   - if unlocked_concepts.present? || unlocked_exercises.present?
     .unlocks
       - if unlocked_concepts.present?

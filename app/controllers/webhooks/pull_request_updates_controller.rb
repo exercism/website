@@ -2,7 +2,7 @@
 # for which the "Pull requests" event type must be enabled in GitHub.
 # See https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#pull_request
 module Webhooks
-  class PullRequestUpdatesController < BaseController
+  class PullRequestUpdatesController < GithubBaseController
     def create
       ::Webhooks::ProcessPullRequestUpdate.(
         # params[:action] does not work as it is populated by Rails with the action method name

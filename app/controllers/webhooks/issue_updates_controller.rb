@@ -2,7 +2,7 @@
 # for which the "Issues" event type must be enabled in GitHub.
 # See https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#issues
 module Webhooks
-  class IssueUpdatesController < BaseController
+  class IssueUpdatesController < GithubBaseController
     def create
       ::Webhooks::ProcessIssueUpdate.(
         # params[:action] does not work as it is populated by Rails with the action method name

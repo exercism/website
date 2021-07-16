@@ -73,9 +73,10 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.bigint "user_id", null: false
     t.bigint "subscription_id"
     t.string "stripe_id", null: false
-    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_id"], name: "index_donations_payments_on_stripe_id", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
     t.index ["user_id"], name: "index_donations_payments_on_user_id"
   end
@@ -84,9 +85,10 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.bigint "user_id", null: false
     t.string "stripe_id", null: false
     t.boolean "active", default: true, null: false
-    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_id"], name: "index_donations_subscriptions_on_stripe_id", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
 
@@ -774,6 +776,7 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

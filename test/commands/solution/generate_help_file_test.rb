@@ -27,13 +27,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
       If you'd like help solving the exercise, check the following pages:
 
-      - [Installing Ruby locally](https://exercism.io/docs/tracks/ruby/installation/)
-      - [How to learn Ruby](https://exercism.io/docs/tracks/ruby/learning/)
-      - [Useful Ruby resources](https://exercism.io/docs/tracks/ruby/resources/)
-      - [Testing on the Ruby track](https://exercism.io/docs/tracks/ruby/tests/)
-
-      For more general, non-track specific help, check:
-
+      - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
       - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
       - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
 
@@ -70,13 +64,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
       If you'd like help solving the exercise, check the following pages:
 
-      - [Installing Ruby locally](https://exercism.io/docs/tracks/ruby/installation/)
-      - [How to learn Ruby](https://exercism.io/docs/tracks/ruby/learning/)
-      - [Useful Ruby resources](https://exercism.io/docs/tracks/ruby/resources/)
-      - [Testing on the Ruby track](https://exercism.io/docs/tracks/ruby/tests/)
-
-      For more general, non-track specific help, check:
-
+      - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
       - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
       - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
 
@@ -114,13 +102,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
       If you'd like help solving the exercise, check the following pages:
 
-      - [Installing Ruby locally](https://exercism.io/docs/tracks/ruby/installation/)
-      - [How to learn Ruby](https://exercism.io/docs/tracks/ruby/learning/)
-      - [Useful Ruby resources](https://exercism.io/docs/tracks/ruby/resources/)
-      - [Testing on the Ruby track](https://exercism.io/docs/tracks/ruby/tests/)
-
-      For more general, non-track specific help, check:
-
+      - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
       - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
       - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
 

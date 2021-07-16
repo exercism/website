@@ -1,5 +1,5 @@
 module Webhooks
-  class GitHubBaseController < BaseController
+  class GithubBaseController < BaseController
     before_action :verify_github_webhook!
     before_action :handle_ping_event!
 

@@ -2,7 +2,7 @@
 # for which the "Organizations" event type must be enabled in GitHub.
 # See https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#organization
 module Webhooks
-  class OrganizationUpdatesController < BaseController
+  class OrganizationUpdatesController < GithubBaseController
     def create
       process_membership_update if member_added_or_removed?
 

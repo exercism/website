@@ -226,6 +226,7 @@ Rails.application.routes.draw do
   # Webhooks #
   # ######## #
   namespace :webhooks do
+    resource :stripe, only: [:create], controller: "stripe"
     resource :issue_updates, only: [:create]
     resource :push_updates, only: [:create]
     resource :pull_request_updates, only: [:create]

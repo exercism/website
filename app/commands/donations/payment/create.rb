@@ -10,12 +10,13 @@ module Donations
       end
 
       def call
-        Donations::Payment.create!(
+        Donations::Payment.create_or_find_by!(
           user: user,
-          stripe_id: stripe_data.id,
-          amount: stripe_data.amount,
-          subscription: subscription
-        )
+          stripe_id: stripe_data.id
+        ) do |payment|
+          payment.subscription = subscription
+          payment.amount_in_cents = stripe_data.amount
+        end
       end
 
       memoize

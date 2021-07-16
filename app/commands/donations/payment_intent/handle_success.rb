@@ -3,11 +3,26 @@ module Donations
     class HandleSuccess
       include Mandate
 
-      initialize_with :user, :id
+      def initialize(id: nil, payment_intent: nil)
+        raise "Specify either id or payment intent" unless id || payment_intent
+
+        @id = id
+        @payment_intent = payment_intent
+      end
 
       def call
         subscription = Donations::Subscription::Create.(user, subscription_data) if subscription_data
         Donations::Payment::Create.(user, payment_intent, subscription: subscription)
+      end
+
+      private
+      attr_reader :id
+
+      memoize
+      def user
+        raise "No customer in the payment intent" unless payment_intent.customer
+
+        User.find_by!(stripe_customer_id: payment_intent.customer)
       end
 
       memoize
@@ -22,7 +37,7 @@ module Donations
 
       memoize
       def payment_intent
-        Stripe::PaymentIntent.retrieve(id)
+        @payment_intent || Stripe::PaymentIntent.retrieve(id)
       end
     end
   end

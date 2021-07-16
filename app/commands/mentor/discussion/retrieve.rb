@@ -4,7 +4,7 @@ module Mentor
       include Mandate
 
       REQUESTS_PER_PAGE = 10
-      STATUSES = %i[awaiting_mentor awaiting_student finished].freeze
+      STATUSES = %i[all awaiting_mentor awaiting_student finished].freeze
 
       def self.requests_per_page
         REQUESTS_PER_PAGE

@@ -43,11 +43,13 @@ class Solution
     def help
       track_help_text = Markdown::Render.(solution.track.git.help, :text).strip
       help_intro_text = I18n.t("exercises.documents.help_intro").strip
+      help_text = I18n.t("exercises.documents.help",
+        { track_title: solution.track.title, track_slug: solution.track.slug }).strip
 
       <<~TEXT.strip
         ## #{help_intro_text}
 
-        TODO: (Required) define generic help text
+        #{help_text}
 
         #{track_help_text}
       TEXT

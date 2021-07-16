@@ -1,0 +1,8 @@
+.c-donations-form {
+    & .amounts {
+        & button.selected,
+        & input.selected {
+            outline: 3px solid blue;
+        }
+    }
+}

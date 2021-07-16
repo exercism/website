@@ -44,7 +44,7 @@ module Github
               nameWithOwner
               issues(first: 100 #{%(, after: "#{cursor}") if cursor}) {
                 nodes {
-                  id#{'                '}
+                  id
                   number
                   title
                   state

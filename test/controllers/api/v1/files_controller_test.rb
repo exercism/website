@@ -54,33 +54,102 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     setup_user
     solution = create :practice_solution, user: @current_user
     create :submission, solution: solution
-    content = "# Bob\n\nWelcome to Bob on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nIntroduction for bob\n\nExtra introduction for bob\n\n## Instructions\n\nInstructions for bob\n\nExtra instructions for bob\n\n## Source\n\n### Created by\n\n- @erikschierboom\n\n### Contributed to by\n\n- @ihid\n\n### Based on\n\nInspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06" # rubocop:disable Layout/LineLength
 
     get "/api/v1/solutions/#{solution.uuid}/files/README.md", headers: @headers, as: :json
     assert_response 200
-    assert_includes response.body, content
+
+    expected_body = <<~EXPECTED.strip
+      # Bob
+
+      Welcome to Bob on Exercism's Ruby Track.
+      If you need help running the tests or submitting your code, check out `HELP.md`.
+      If you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)
+
+      ## Introduction
+
+      Introduction for bob
+
+      Extra introduction for bob
+
+      ## Instructions
+
+      Instructions for bob
+
+      Extra instructions for bob
+
+      ## Source
+
+      ### Created by
+
+      - @erikschierboom
+
+      ### Contributed to by
+
+      - @ihid
+
+      ### Based on
+
+      Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06
+    EXPECTED
+    assert_includes response.body, expected_body
   end
 
   test "show should return special HELP.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
     create :submission, solution: solution
-    content = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO: (Required) define generic submit instructions\n\n## Need to get help?\n\nTODO: (Required) define generic help text\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
 
     get "/api/v1/solutions/#{solution.uuid}/files/HELP.md", headers: @headers, as: :json
     assert_response 200
-    assert_equal response.body, content
+
+    expected_body = <<~EXPECTED.strip
+      # Help
+
+      ## Running the tests
+
+      Run the tests using `ruby test`.
+
+      ## Submitting your solution
+
+      You can submit your solution using the `exercism submit bob.rb` command.
+      This command will upload your solution to the Exercism website and print the solution page's URL.
+
+      It's possible to submit an incomplete solution which allows you to:
+
+      - See how others have completed the exercise
+      - Request help from a mentor
+
+      ## Need to get help?
+
+      If you'd like help solving the exercise, check the following pages:
+
+      - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
+      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
+
+      Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
+
+      Stuck? Try the Ruby gitter channel.
+    EXPECTED
+    assert_equal response.body, expected_body
   end
 
   test "show should return special HINTS.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
     create :submission, solution: solution
-    content = "# Hints\n\n## General\n\n- There are many useful string methods built-in"
 
     get "/api/v1/solutions/#{solution.uuid}/files/HINTS.md", headers: @headers, as: :json
     assert_response 200
-    assert_equal response.body, content
+
+    expected_body = <<~EXPECTED.strip
+      # Hints
+
+      ## General
+
+      - There are many useful string methods built-in
+    EXPECTED
+    assert_equal response.body, expected_body
   end
 
   # test "show should return 200 if user is mentor" do

@@ -170,7 +170,72 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution, exercise: exercise
 
     contents = solution.read_file('README.md')
-    expected = "# Strings\n\nWelcome to Strings on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nA `String` in Ruby is an object that holds and manipulates an arbitrary sequence of bytes, typically representing characters. Strings are manipulated by calling the string's methods.\n\n## Instructions\n\nIn this exercise you'll be processing log-lines.\n\nEach log line is a string formatted as follows: `\"[<LEVEL>]: <MESSAGE>\"`.\n\nThere are three different log levels:\n\n- `INFO`\n- `WARNING`\n- `ERROR`\n\nYou have three tasks, each of which will take a log line and ask you to do something with it.\n\n## 1. Get message from a log line\n\nImplement the `LogLineParser.message` method to return a log line's message:\n\n```ruby\nLogLineParser.message('[ERROR]: Invalid operation')\n// Returns: \"Invalid operation\"\n```\n\nAny leading or trailing white space should be removed:\n\n```ruby\nLogLineParser.message('[WARNING]:  Disk almost full\\r\\n')\n// Returns: \"Disk almost full\"\n```\n\n## 2. Get log level from a log line\n\nImplement the `LogLineParser.log_level` method to return a log line's log level, which should be returned in lowercase:\n\n```ruby\nLogLineParser.log_level('[ERROR]: Invalid operation')\n// Returns: \"error\"\n```\n\n## 3. Reformat a log line\n\nImplement the `LogLineParser.reformat` method that reformats the log line, putting the message first and the log level after it in parentheses:\n\n```ruby\nLogLineParser.reformat('[INFO]: Operation completed')\n// Returns: \"Operation completed (info)\"\n```\n\n## Source\n\n### Created by\n\n- @pvcarrera" # rubocop:disable Layout/LineLength
+    expected = <<~EXPECTED.strip
+      # Strings
+
+      Welcome to Strings on Exercism's Ruby Track.
+      If you need help running the tests or submitting your code, check out `HELP.md`.
+      If you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)
+
+      ## Introduction
+
+      A `String` in Ruby is an object that holds and manipulates an arbitrary sequence of bytes, typically representing characters. Strings are manipulated by calling the string's methods.
+
+      ## Instructions
+
+      In this exercise you'll be processing log-lines.
+
+      Each log line is a string formatted as follows: `"[<LEVEL>]: <MESSAGE>"`.
+
+      There are three different log levels:
+
+      - `INFO`
+      - `WARNING`
+      - `ERROR`
+
+      You have three tasks, each of which will take a log line and ask you to do something with it.
+
+      ## 1. Get message from a log line
+
+      Implement the `LogLineParser.message` method to return a log line's message:
+
+      ```ruby
+      LogLineParser.message('[ERROR]: Invalid operation')
+      // Returns: "Invalid operation"
+      ```
+
+      Any leading or trailing white space should be removed:
+
+      ```ruby
+      LogLineParser.message('[WARNING]:  Disk almost full\\r\\n')
+      // Returns: "Disk almost full"
+      ```
+
+      ## 2. Get log level from a log line
+
+      Implement the `LogLineParser.log_level` method to return a log line's log level, which should be returned in lowercase:
+
+      ```ruby
+      LogLineParser.log_level('[ERROR]: Invalid operation')
+      // Returns: "error"
+      ```
+
+      ## 3. Reformat a log line
+
+      Implement the `LogLineParser.reformat` method that reformats the log line, putting the message first and the log level after it in parentheses:
+
+      ```ruby
+      LogLineParser.reformat('[INFO]: Operation completed')
+      // Returns: "Operation completed (info)"
+      ```
+
+      ## Source
+
+      ### Created by
+
+      - @pvcarrera
+    EXPECTED
+
     assert_equal expected, contents
   end
 
@@ -179,7 +244,39 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: exercise
 
     contents = solution.read_file('README.md')
-    expected = "# Bob\n\nWelcome to Bob on Exercism's Ruby Track.\nIf you need help running the tests or submitting your code, check out `HELP.md`.\nIf you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)\n\n## Introduction\n\nIntroduction for bob\n\nExtra introduction for bob\n\n## Instructions\n\nInstructions for bob\n\nExtra instructions for bob\n\n## Source\n\n### Created by\n\n- @erikschierboom\n\n### Contributed to by\n\n- @ihid\n\n### Based on\n\nInspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06" # rubocop:disable Layout/LineLength
+    expected = <<~EXPECTED.strip
+      # Bob
+
+      Welcome to Bob on Exercism's Ruby Track.
+      If you need help running the tests or submitting your code, check out `HELP.md`.
+      If you get stuck on the exercise, check out `HINTS.md`, but try and solve it without using those first :)
+
+      ## Introduction
+
+      Introduction for bob
+
+      Extra introduction for bob
+
+      ## Instructions
+
+      Instructions for bob
+
+      Extra instructions for bob
+
+      ## Source
+
+      ### Created by
+
+      - @erikschierboom
+
+      ### Contributed to by
+
+      - @ihid
+
+      ### Based on
+
+      Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial. - http://pine.fm/LearnToProgram/?Chapter=06
+    EXPECTED
     assert_equal expected, contents
   end
 
@@ -188,7 +285,35 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution, exercise: exercise
 
     contents = solution.read_file('HELP.md')
-    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO: (Required) define generic submit instructions\n\n## Need to get help?\n\nTODO: (Required) define generic help text\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
+    expected = <<~EXPECTED.strip
+      # Help
+
+      ## Running the tests
+
+      Run the tests using `ruby test`.
+
+      ## Submitting your solution
+
+      You can submit your solution using the `exercism submit log_line_parser.rb` command.
+      This command will upload your solution to the Exercism website and print the solution page's URL.
+
+      It's possible to submit an incomplete solution which allows you to:
+
+      - See how others have completed the exercise
+      - Request help from a mentor
+
+      ## Need to get help?
+
+      If you'd like help solving the exercise, check the following pages:
+
+      - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
+      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
+
+      Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
+
+      Stuck? Try the Ruby gitter channel.
+    EXPECTED
     assert_equal expected, contents
   end
 
@@ -197,7 +322,35 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: exercise
 
     contents = solution.read_file('HELP.md')
-    expected = "# Help\n\n## Running the tests\n\nRun the tests using `ruby test`.\n\n## Submitting your solution\n\nTODO: (Required) define generic submit instructions\n\n## Need to get help?\n\nTODO: (Required) define generic help text\n\nStuck? Try the Ruby gitter channel." # rubocop:disable Layout/LineLength
+    expected = <<~EXPECTED.strip
+      # Help
+
+      ## Running the tests
+
+      Run the tests using `ruby test`.
+
+      ## Submitting your solution
+
+      You can submit your solution using the `exercism submit bob.rb` command.
+      This command will upload your solution to the Exercism website and print the solution page's URL.
+
+      It's possible to submit an incomplete solution which allows you to:
+
+      - See how others have completed the exercise
+      - Request help from a mentor
+
+      ## Need to get help?
+
+      If you'd like help solving the exercise, check the following pages:
+
+      - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
+      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
+
+      Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
+
+      Stuck? Try the Ruby gitter channel.
+    EXPECTED
     assert_equal expected, contents
   end
 
@@ -206,7 +359,33 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution, exercise: exercise
 
     contents = solution.read_file('HINTS.md')
-    expected = "# Hints\n\n## General\n\n- The [rubymostas strings guide][ruby-for-beginners.rubymonstas.org-strings] has a nice introduction to Ruby strings.\n- The `String` object has many useful [built-in methods][docs-string-methods].\n\n## 1. Get message from a log line\n\n- There are different ways to search for text in a string, which can be found on the [Ruby language official documentation][docs-string-methods].\n- There are [built in methods][strip-white-space] to strip white space.\n\n## 2. Get log level from a log line\n\n- Ruby `String` objects have a [method][downcase] to perform this operation.\n\n## 3. Reformat a log line\n\n- There are several ways to [concatenate strings][ruby-for-beginners.rubymonstas.org-strings], but the preferred one is usually [string interpolation][ruby-for-beginners.rubymonstas.org-strings]\n\n[ruby-for-beginners.rubymonstas.org-strings]: http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\n[ruby-for-beginners.rubymonstas.org-interpolation]: http://ruby-for-beginners.rubymonstas.org/bonus/string_interpolation.html\n[docs-string-methods]: https://ruby-doc.org/core-2.7.0/String.html\n[strip-white-space]: https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\n[downcase]: https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase" # rubocop:disable Layout/LineLength
+    expected = <<~EXPECTED.strip
+      # Hints
+
+      ## General
+
+      - The [rubymostas strings guide][ruby-for-beginners.rubymonstas.org-strings] has a nice introduction to Ruby strings.
+      - The `String` object has many useful [built-in methods][docs-string-methods].
+
+      ## 1. Get message from a log line
+
+      - There are different ways to search for text in a string, which can be found on the [Ruby language official documentation][docs-string-methods].
+      - There are [built in methods][strip-white-space] to strip white space.
+
+      ## 2. Get log level from a log line
+
+      - Ruby `String` objects have a [method][downcase] to perform this operation.
+
+      ## 3. Reformat a log line
+
+      - There are several ways to [concatenate strings][ruby-for-beginners.rubymonstas.org-strings], but the preferred one is usually [string interpolation][ruby-for-beginners.rubymonstas.org-strings]
+
+      [ruby-for-beginners.rubymonstas.org-strings]: http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html
+      [ruby-for-beginners.rubymonstas.org-interpolation]: http://ruby-for-beginners.rubymonstas.org/bonus/string_interpolation.html
+      [docs-string-methods]: https://ruby-doc.org/core-2.7.0/String.html
+      [strip-white-space]: https://ruby-doc.org/core-2.7.0/String.html#method-i-strip
+      [downcase]: https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase
+    EXPECTED
     assert_equal expected, contents
   end
 
@@ -215,7 +394,13 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: exercise
 
     contents = solution.read_file('HINTS.md')
-    expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in"
+    expected = <<~EXPECTED.strip
+      # Hints
+
+      ## General
+
+      - There are many useful string methods built-in
+    EXPECTED
     assert_equal expected, contents
   end
 

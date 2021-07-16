@@ -22,7 +22,7 @@ export type TagOption = {
 
 export type Order = 'last_touched_first'
 
-export const TracksList = ({
+export default ({
   tagOptions,
   request: initialRequest,
 }: {

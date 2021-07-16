@@ -44,8 +44,8 @@ export const Header = ({
             <h2>Your solution is being processed…</h2>
             <p>
               Your solution is currently being tested, analysed, and compared to
-              other solutions to find for potential improvements. This should
-              only take a few seconds.
+              other solutions to find potential improvements. This should only
+              take a few seconds.
             </p>
           </div>
           <GraphicalIcon icon="spinner" className="spinner" />

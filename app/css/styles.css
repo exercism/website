@@ -29,6 +29,9 @@
 }
 .text-p-base {
     @apply text-16 leading-160;
+    & strong {
+        @apply font-medium text-textColor2;
+    }
 }
 .text-p-large {
     @apply text-18 leading-170;

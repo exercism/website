@@ -54,7 +54,8 @@ module ReactComponents::Contributing
                   opened_at: "2021-03-05T23:23:00Z",
                   is_new: false,
                   links: {
-                    github_url: "https://github.com/exercism/ruby/issues/888"
+                    github_url: "https://github.com/exercism/ruby/issues/888",
+                    tooltip: Exercism::Routes.tooltip_task_url(task_1.uuid)
                   }
                 },
                 {
@@ -76,7 +77,8 @@ module ReactComponents::Contributing
                   opened_at: "2020-10-17T02:39:37Z",
                   is_new: false,
                   links: {
-                    github_url: "https://github.com/exercism/ruby/issues/312"
+                    github_url: "https://github.com/exercism/ruby/issues/312",
+                    tooltip: Exercism::Routes.tooltip_task_url(task_2.uuid)
                   }
                 }
               ],

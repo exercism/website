@@ -31,7 +31,8 @@ class SerializeTasksTest < ActiveSupport::TestCase
           opened_at: 3.weeks.ago.iso8601,
           is_new: false,
           links: {
-            github_url: "https://github.com/exercism/fsharp/issues/99"
+            github_url: "https://github.com/exercism/fsharp/issues/99",
+            tooltip: Exercism::Routes.tooltip_task_url(task_1.uuid)
           }
         },
         {
@@ -53,7 +54,8 @@ class SerializeTasksTest < ActiveSupport::TestCase
           opened_at: 2.days.ago.iso8601,
           is_new: true,
           links: {
-            github_url: "https://github.com/exercism/ruby/issues/312"
+            github_url: "https://github.com/exercism/ruby/issues/312",
+            tooltip: Exercism::Routes.tooltip_task_url(task_2.uuid)
           }
         }
       ]

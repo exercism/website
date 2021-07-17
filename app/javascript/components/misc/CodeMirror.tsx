@@ -6,7 +6,7 @@ import { indentUnit } from '@codemirror/language'
 import { Themes } from '../editor/types'
 import { loadLanguageCompartment } from './CodeMirror/languageCompartment'
 import { a11yTabBindingPanel } from './CodeMirror/a11yTabBinding'
-import { defaultTabBinding } from '@codemirror/commands'
+import { useTabBinding } from './CodeMirror/use-tab-binding'
 
 const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
@@ -58,8 +58,11 @@ export const CodeMirror = ({
   }
 
   const getValue = () => {
-    return viewRef.current?.state.doc.toString() || ''
+    return (value = viewRef.current?.state.doc.toString() || '')
   }
+
+  const indentChar = Array.from({ length: tabSize }, () => ' ').join('')
+  const tabBinding = useTabBinding(indentChar, useSoftTabs)
 
   useEffect(() => {
     if (!textarea) {
@@ -78,10 +81,9 @@ export const CodeMirror = ({
           basicSetup,
           a11yTabBindingPanel(),
           tabCaptureCompartment.of(
-            keymap.of(isTabCaptured ? [defaultTabBinding] : [])
+            keymap.of(isTabCaptured ? [tabBinding] : [])
           ),
-          EditorState.tabSize.of(tabSize),
-          indentUnit.of(useSoftTabs ? '  ' : '	'),
+          indentUnit.of(indentChar),
           wrapCompartment.of(wrap ? EditorView.lineWrapping : []),
           themeCompartment.of(
             EditorView.theme({}, { dark: theme === Themes.DARK })
@@ -133,10 +135,10 @@ export const CodeMirror = ({
 
     viewRef.current.dispatch({
       effects: tabCaptureCompartment.reconfigure(
-        keymap.of(isTabCaptured ? [defaultTabBinding] : [])
+        keymap.of(isTabCaptured ? [tabBinding] : [])
       ),
     })
-  }, [isTabCaptured])
+  }, [isTabCaptured, tabBinding])
 
   useEffect(() => {
     if (!viewRef.current) {

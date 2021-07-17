@@ -1,0 +1,21 @@
+- track_icon_urls = current_user.mentored_tracks.limit(6).map(&:icon_url)
+
+%section.mentoring-section
+  .tw-flex.tw-items-center.tw-mb-12
+    %h3.text-h3 Mentoring
+    .track-icons.tw-ml-auto
+      - track_icon_urls.each do |icon_url|
+        = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon"
+
+
+  .discussions
+    - discussions.each do |discussion|
+      = link_to mentoring_discussion_path(discussion), "aria-label": "View profile of Erik Schierboom", class: 'c-mentor-discussion-summary' do
+        = avatar(discussion.student)
+        .info
+          .handle= discussion.student.handle
+          .exercise on #{discussion.exercise.title}
+        %time #{time_ago_in_words(discussion.updated_at, short: true)} ago
+        = graphical_icon :"chevron-right", css_class: "action-icon"
+
+  = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentoring_inbox_path)

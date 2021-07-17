@@ -16,7 +16,7 @@
         @apply flex-grow-0 flex-shrink-0 ml-48;
     }
     & .summary-bar {
-        @apply block bg-backgroundColorA shadow-lg py-8;
+        @apply block bg-backgroundColorA shadow-lg py-10;
 
         & .container {
             @apply flex items-center;
@@ -31,7 +31,7 @@
             @apply flex-grow;
 
             & .handle {
-                @apply text-h5-mono;
+                @apply text-h5;
             }
             & .extra {
                 @apply text-textColor6 leading-huge;
@@ -42,8 +42,8 @@
             @apply flex items-center;
             & .c-badge-medallion {
                 @apply ml-8;
-                height: 54px;
-                width: 54px;
+                height: 48px;
+                width: 48px;
             }
             & .count {
                 @apply text-15 text-textColor6 font-semibold;
@@ -51,13 +51,17 @@
             }
         }
         & .journey {
-            @apply flex pl-48 ml-48 items-center;
-            @apply text-textColor6 font-medium text-16 leading-huge;
-            @apply border-l-1 border-borderLight;
-            & .c-icon {
-                @apply ml-32;
-                height: 16px;
-                width: 16px;
+            @apply pl-32 ml-32;
+            @apply border-l-1 border-borderColor6;
+
+            & .c-prominent-link {
+                @apply rounded-8;
+
+                & .graphic {
+                    @apply ml-0 mr-12;
+                    height: 24px;
+                    width: 24px;
+                }
             }
         }
     }
@@ -68,8 +72,8 @@
             @apply flex;
 
             & .c-icon {
-                width: 80px;
-                height: 80px;
+                width: 64px;
+                height: 64px;
 
                 @apply flex-shrink-0 mr-32;
             }
@@ -149,17 +153,19 @@
         & .action {
             width: 25%;
 
+            @apply bg-backgroundColorA;
             @apply flex flex-col items-center justify-start;
-            @apply p-24 text-16 leading-paragraph text-center;
+            @apply p-24 text-16 leading-150 text-center;
             @apply border-r-1 border-borderColor7;
-            transition: box-shadow 0.2s ease-out;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 
             &:last-child {
                 @apply border-r-0;
             }
 
             &:hover {
-                @apply shadow-lg;
+                @apply shadow-lg rounded-5;
+                transform: scale(1.05);
             }
 
             & .c-icon {
@@ -240,7 +246,7 @@
                     @apply flex flex-col flex-grow;
 
                     & .title {
-                        @apply text-h5-mono;
+                        @apply text-h5;
                         @apply mb-8;
                     }
 
@@ -270,11 +276,52 @@
             }
         }
     }
+    & section.zero-section {
+        @apply flex flex-col items-center;
+        @apply shadow-base rounded-8 py-28 px-24;
+        @apply text-center;
+        @apply mb-24;
+
+        & .c-icon {
+            width: 96px;
+            height: 96px;
+            @apply mb-16;
+        }
+        & h3 {
+            @apply text-h5 mb-8;
+        }
+        & p {
+            @apply text-p-base;
+            @apply text-textColor6;
+        }
+        & p + * {
+            @apply mt-20;
+        }
+    }
+
+    & section.tracks-zero-section {
+        & .track-icons {
+            @apply relative flex mb-20;
+
+            & .c-track-icon {
+                height: 64px;
+                width: 64px;
+                margin-left: -18px;
+            }
+        }
+    }
+
     & section.mentoring-section {
         @apply mb-48;
 
-        & h3 {
-            @apply mb-12;
+        & .track-icons {
+            @apply relative flex;
+
+            & .c-track-icon {
+                height: 32px;
+                width: 32px;
+                margin-left: -12px;
+            }
         }
 
         & .discussions {

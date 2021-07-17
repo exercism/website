@@ -3,7 +3,7 @@
     .lg-container.container
       = avatar(current_user)
       .info
-        .handle @#{current_user.handle}
+        .handle= current_user.handle
         .extra= current_user.name
       / TODO: Add tests for this
       .badges
@@ -16,8 +16,10 @@
             + #{num_extra_badges} more
 
       .journey
-        Your Journey
-        = graphical_icon("chevron-right")
+        .c-prominent-link.--with-bg
+          = graphical_icon("journey", css_class: 'graphic')
+          See your journey on Exercism
+          = graphical_icon("chevron-right")
 
   .lg-container.container
     %header.dashboard-header
@@ -54,14 +56,14 @@
             = graphical_icon "bookworm", category: 'graphics'
             Continue learning on your tracks
           = link_to mentoring_inbox_path, class: 'action' do
-            = graphical_icon "phone-chat", category: 'graphics'
+            = graphical_icon "mentoring", category: 'graphics'
             Try your hand at mentoring
           = link_to contributing_root_path, class: 'action' do
-            = graphical_icon "hacker-boy", category: 'graphics'
+            = graphical_icon "contributing-header", category: 'graphics'
             Contribute to building Exercism
           = link_to "#", class: 'action' do
             = graphical_icon "floating-cash", category: 'graphics'
-            Support our growith financially
+            Donate to help us grow substainably
 
         %section.posts-section
           %h2 Community Posts
@@ -97,39 +99,18 @@
           = render ViewComponents::ProminentLink.new("See all updates", "#")
 
       .rhs
-        %section.tracks-section
-          .c-heading-with-count
-            %h3.--text.text-h3 Your Tracks
-            .--count{ 'aria-label': "#{@user_tracks.size} Tracks" }= @user_tracks.size
-
-          .tracks
-            - @user_tracks.each do |user_track|
-              = link_to user_track.track, class: 'track' do
-                = track_icon(user_track.track)
-                .info
-                  .title= user_track.track.title
-                  .progress
-                    %progress.progress-bar{ value: user_track.num_completed_exercises, max: user_track.num_exercises }
-                  .counts #{user_track.num_completed_exercises} / #{user_track.num_exercises} exercises completed
-                = graphical_icon :"chevron-right", css_class: "action-icon"
-
-          = render ViewComponents::ProminentLink.new("Discover more tracks", tracks_path)
+        - if @user_tracks.present?
+          = render "tracks_section", user_tracks: @user_tracks
+        - else
+          = render "tracks_zero_section"
 
         - if current_user.mentor?
-          %section.mentoring-section
-            %h3.text-h3 Mentoring
+          - if @mentor_discussions.present?
+            = render "mentoring_inbox", discussions: @mentor_discussions
+          - elsif @mentor_queue_has_requests
+            = render "mentoring_queue"
+          - else
+            = render "mentoring_completed"
+        - else
+          = render "mentoring_zero"
 
-            .discussions
-              - @mentor_discussions.each do |discussion|
-                = link_to mentoring_discussion_path(discussion), "aria-label": "View profile of Erik Schierboom", class: 'c-mentor-discussion-summary' do
-                  = avatar(discussion.student)
-                  .info
-                    .handle= discussion.student.handle
-                    .exercise on #{discussion.exercise.title}
-                  .comments
-                    = icon "comment", pluralize(discussion.num_posts, "comment")
-                    5
-                  %time #{time_ago_in_words(discussion.updated_at, short: true)} ago
-                  = graphical_icon :"chevron-right", css_class: "action-icon"
-
-            = render ViewComponents::ProminentLink.new("See everyone you’re mentoring", mentoring_inbox_path)

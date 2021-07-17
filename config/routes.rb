@@ -239,6 +239,7 @@ Rails.application.routes.draw do
   resource :settings, only: %i[show] do
     get :api_cli
     get :communication_preferences
+    get :donations
     patch :reset_account
     delete :destroy_account
   end

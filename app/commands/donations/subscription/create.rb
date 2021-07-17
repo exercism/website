@@ -6,12 +6,16 @@ module Donations
       initialize_with :user, :stripe_data
 
       def call
-        Donations::Subscription.create_or_find_by!(
+        Donations::Subscription.create!(
           user: user,
-          stripe_id: stripe_data.id
-        ) do |sub|
-          sub.amount_in_cents = stripe_data.plan.amount
+          stripe_id: stripe_data.id,
+          amount_in_cents: stripe_data.plan.amount,
+          active: true
+        ).tap do
+          user.update(active_subscription: true)
         end
+      rescue ActiveRecord::RecordNotUnique
+        Donations::Subscription.find_by!(stripe_id: stripe_data.id)
       end
     end
   end

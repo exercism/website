@@ -17,10 +17,11 @@
           we need your help to take us forward.
         .cta
           = link_to "Help fund Exercism", "#", class: "btn-primary btn-m"
-          .total
-            You’ve contributed
-            = link_to "$85.80 total", "#"
-            to Exercism 💙
+          - if current_user.total_donated_in_cents.positive?
+            .total
+              You’ve contributed
+              = link_to number_to_currency(current_user.total_donated_in_cents / 100.0), "#"
+              to Exercism 💙
 
 
     .methods-section

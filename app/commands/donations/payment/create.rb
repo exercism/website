@@ -10,13 +10,18 @@ module Donations
       end
 
       def call
-        Donations::Payment.create_or_find_by!(
+        charge = stripe_data.charges.first
+        Donations::Payment.create!(
           user: user,
-          stripe_id: stripe_data.id
-        ) do |payment|
-          payment.subscription = subscription
-          payment.amount_in_cents = stripe_data.amount
+          stripe_id: stripe_data.id,
+          stripe_receipt_url: charge.receipt_url,
+          subscription: subscription,
+          amount_in_cents: stripe_data.amount
+        ).tap do
+          user.update(total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))
         end
+      rescue ActiveRecord::RecordNotUnique
+        Donations::Payment.find_by!(stripe_id: stripe_data.id)
       end
 
       memoize

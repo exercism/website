@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.bigint "user_id", null: false
     t.bigint "subscription_id"
     t.string "stripe_id", null: false
+    t.string "stripe_receipt_url", null: false
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -771,6 +772,9 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
     t.integer "mentor_satisfaction_percentage", limit: 1
+    t.string "stripe_customer_id"
+    t.integer "total_donated_in_cents", default: 0
+    t.boolean "active_subscription", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

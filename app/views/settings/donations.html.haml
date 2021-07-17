@@ -1,0 +1,31 @@
+#page-settings-donations.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:donations)
+
+    %article
+      %h1 Donations
+      %section.subscription-section
+        %h2 Recurring Donation
+        - if current_user.active_subscription?
+          %p.tw-p-base
+            You current donating to Exercism on a recurring basis.
+            %strong Thank you!
+            Reguar donations allow us to anticipate our cashflow and make responsible decisions about hiring and growing Exercism.
+
+            .tw-flex.tw-items-center.tw-mt-16
+              %button.btn-default.btn-s Change your donation amount
+              %button.btn-default.btn-s Cancel your recurring donation
+
+        - else
+          %p You are not currently donating to Exercism on a recurring basis.
+
+      %section.reciepts-section
+        %h2 Your previous donations
+
+        %table
+          - current_user.donation_payments.each do |payment|
+            %tr
+              %td= payment.created_at
+              %td= number_to_currency(payment.amount_in_dollars)
+              %td= link_to "View Receipt", payment.stripe_receipt_url
+

@@ -24,7 +24,7 @@ class SerializeTask
       is_new: task.opened_at > 1.week.ago,
       links: {
         github_url: task.issue_url,
-        tooltip: Exercism::Routes.tooltip_task_url(task.uuid)
+        tooltip: Exercism::Routes.tooltip_contributing_task_url(task.uuid)
       }
     }
   end

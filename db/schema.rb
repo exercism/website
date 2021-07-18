@@ -774,7 +774,7 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.integer "mentor_satisfaction_percentage", limit: 1
     t.string "stripe_customer_id"
     t.integer "total_donated_in_cents", default: 0
-    t.boolean "active_subscription", default: false
+    t.boolean "active_donation_subscription", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

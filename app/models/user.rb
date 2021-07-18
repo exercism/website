@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include User::Roles
+  extend Mandate::Memoize
 
   SYSTEM_USER_ID = 1
   GHOST_USER_ID = 2
@@ -113,6 +114,26 @@ class User < ApplicationRecord
   def formatted_reputation(*args)
     rep = reputation(*args)
     User::FormatReputation.(rep)
+  end
+
+  memoize
+  def active_donation_subscription_amount_in_dollars
+    donation_subscriptions.active.last&.amount_in_dollars.to_i
+  end
+
+  memoize
+  def total_subscription_donations_in_dollars
+    donation_payments.subscription.sum(:amount_in_cents) / 100.0
+  end
+
+  memoize
+  def total_one_off_donations_in_dollars
+    total_donated_in_dollars - total_subscription_donations_in_dollars
+  end
+
+  memoize
+  def total_donated_in_dollars
+    total_donated_in_cents / 100.0
   end
 
   def reputation(track_slug: nil, category: nil)

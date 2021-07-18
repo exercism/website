@@ -207,4 +207,17 @@
             }
         }
     }
+    & .empty-state {
+        @apply flex flex-col items-center;
+        @apply py-32;
+
+        & h3 {
+            @apply text-textColor6;
+        }
+        & > .c-icon {
+            height: 52px;
+            width: 60px;
+            filter: var(--textColor6-filter);
+        }
+    }
 }

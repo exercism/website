@@ -4,28 +4,63 @@
 
     %article
       %h1 Donations
-      %section.subscription-section
-        %h2 Recurring Donation
-        - if current_user.active_subscription?
-          %p.tw-p-base
-            You current donating to Exercism on a recurring basis.
-            %strong Thank you!
-            Reguar donations allow us to anticipate our cashflow and make responsible decisions about hiring and growing Exercism.
+      %section
+        .subscription-box
+          = graphical_icon "donation-superhero", category: :graphics
+          .tw-flex.tw-flex-col.tw-items-start
+            - if current_user.active_donation_subscription?
+              %h2
+                You're current donating
+                = number_to_currency(current_user.active_donation_subscription_amount_in_dollars)
+                each month to Exercism.
+              %p.text-p-base
+                %strong Thank you!
+                Regular donations like yours allow us to anticipate our cashflow and make responsible decisions about hiring and growing Exercism.
 
-            .tw-flex.tw-items-center.tw-mt-16
-              %button.btn-default.btn-s Change your donation amount
-              %button.btn-default.btn-s Cancel your recurring donation
+              .options
+                %button Change amount
+                or
+                %button cancel your recurring donation
 
-        - else
-          %p You are not currently donating to Exercism on a recurring basis.
+            - else
+              %h2 Become a monthly supporter of Exercism
+              %p.text-p-base
+                Exercism is a not-for-profit organisation that relies on community donations to grow.
+                Support
+                = link_to "our mission", "#"
+                to help everyone get better at programming.
+              = link_to "Find out more", "#", class: "btn-primary btn-s"
 
-      %section.reciepts-section
-        %h2 Your previous donations
+        - if current_user.total_donated_in_cents.present?
+          - dollars, cents = current_user.total_donated_in_dollars.to_s.split('.')
+          .summary-box
+            .total
+              .amount
+                .currency $
+                .dollars= dollars.to_s.rjust(1, '0')
+                .cents .#{cents.to_s.ljust(2, '0')}
+              .explanation total donated
+            .breakdown
+              .subs
+                = number_to_currency(current_user.total_subscription_donations_in_dollars)
+                from recurring
+              .one-off
+                = number_to_currency(current_user.total_one_off_donations_in_dollars)
+                from one-time
 
-        %table
-          - current_user.donation_payments.each do |payment|
+          %table.payments
             %tr
-              %td= payment.created_at
-              %td= number_to_currency(payment.amount_in_dollars)
-              %td= link_to "View Receipt", payment.stripe_receipt_url
+              %th Date
+              %th Donation Amount
+              %th Type
+              %th
+            - current_user.donation_payments.each do |payment|
+              %tr
+                %td= format_date(payment.created_at)
+                %td= number_to_currency(payment.amount_in_dollars)
+                %td= payment.subscription ? "Recurring donation" : "One-time donation"
+                %td
+                  = link_to payment.stripe_receipt_url, class: 'btn-enhanced btn-xs' do
+                    = graphical_icon "download"
+                    %span View Receipt
 

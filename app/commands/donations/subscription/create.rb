@@ -12,7 +12,7 @@ module Donations
           amount_in_cents: stripe_data.plan.amount,
           active: true
         ).tap do
-          user.update(active_subscription: true)
+          user.update(active_donation_subscription: true)
         end
       rescue ActiveRecord::RecordNotUnique
         Donations::Subscription.find_by!(stripe_id: stripe_data.id)

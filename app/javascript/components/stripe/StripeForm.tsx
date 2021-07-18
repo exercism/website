@@ -18,7 +18,7 @@ const cardOptions = {
       fontFamily: 'Poppins, sans-serif',
       fontSmoothing: 'antialiased',
       fontSize: '16px',
-      lineHeight: '1.5',
+      lineHeight: '32px',
       fontWeight: '500',
       '::placeholder': {
         color: '#76709F',
@@ -157,7 +157,11 @@ export function StripeForm({
             disabled={processing || !cardValid || succeeded}
           >
             {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
-            <span>Donate to Exercism</span>
+            <span>
+              {paymentIntentType == 'payment'
+                ? `Donate $${amountInDollars} to Exercism`
+                : `Donate $${amountInDollars} to Exercism monthly`}
+            </span>
           </button>
           {error && (
             <div className="card-error" role="alert">
@@ -166,8 +170,15 @@ export function StripeForm({
           )}
         </div>
       </div>
+      {paymentIntentType == 'subscription' ? (
+        <div className="extra-info">
+          Thank you for your ongoing support! We will debit ${amountInDollars}{' '}
+          on around this day each month. You can change or cancel your donation
+          at any time.
+        </div>
+      ) : null}
       {succeeded ? <p className="result-message">Payment succeeded!</p> : null}
-      <button type="submit">Do it!!</button>
+      {/*<button type="submit">Do it!!</button>*/}
     </form>
   )
 }

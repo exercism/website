@@ -1,62 +1,97 @@
 .c-donations-form {
     @apply shadow-baseZ1 rounded-8;
-    @apply py-16 px-24;
     @apply flex flex-col;
 
-    & .tabs {
-        @apply flex items-center justify-center;
-        @apply mb-16;
-        @apply pb-12;
-        @apply border-b-1 border-borderColor6;
-        & .c-tab {
-            line-height: 40px;
+    & .--tabs {
+        @apply flex items-center;
+        @apply overflow-hidden;
+        border-radius: 8px 8px 0 0;
+
+        & .tab {
+            @apply py-20;
+            @apply w-1-2;
+            @apply text-18 leading-160 text-textColor6 font-semibold;
+            @apply bg-backgroundColorG;
+            @apply border-b-3 border-borderColor6;
+
+            &.selected {
+                @apply bg-backgroundColorA;
+                @apply text-lightBlue;
+                @apply shadow-xsZ1;
+                @apply z-1;
+                @apply border-lightBlue;
+            }
+        }
+    }
+    & .--content {
+        & .amounts {
+            @apply py-24 px-24;
+            @apply border-b-1 border-borderColor6;
+            & .preset-amounts {
+                @apply grid grid-cols-4 gap-x-16;
+                @apply mb-20;
+
+                & button {
+                    @apply text-textColor6;
+
+                    &.selected {
+                        @apply text-lightBlue;
+                        @apply bg-veryLightBlue2;
+                        @apply border-2 border-lightBlue;
+                    }
+                }
+            }
+
+            & h3 {
+                @apply text-16 leading-150 font-semibold;
+                @apply text-textColor6;
+                @apply mb-8;
+            }
+
+            & .c-faux-input {
+                & input {
+                    min-width: 0;
+                    @apply flex-grow;
+                    line-height: 34px;
+                }
+                &.selected {
+                    @apply bg-veryLightBlue2;
+                    @apply border-1 border-lightBlue;
+                    box-shadow: 0px 0px 0px 1px #2e57e8,
+                        0px 0px 2px 2px var(--inputBoxShadowColorFocus);
+                    & input {
+                        @apply text-lightBlue font-semibold;
+                    }
+                }
+            }
+        }
+        & form {
+            @apply py-24 px-24;
+        }
+        & .card-container {
             @apply rounded-8;
-        }
-    }
+            @apply bg-backgroundColorC;
+            @apply p-6;
+            & .title {
+                @apply pb-6;
+                @apply text-textColor5 font-medium leading-150 text-center;
+            }
+            & .card-element {
+                @apply bg-backgroundColorA rounded-5;
+                @apply py-12 px-16;
 
-    & .amounts {
-        @apply self-center;
-        @apply grid grid-cols-2 gap-16;
-        @apply mb-32;
-        max-width: 300px;
-
-        & .c-faux-input {
-            @apply py-0;
-            input {
-                max-width: 75px;
+                & button {
+                    @apply mt-12 w-100;
+                }
+                & .card-error {
+                    @apply mt-12 text-center;
+                    @apply text-darkRed font-medium;
+                }
             }
         }
-        & button.selected,
-        & .c-faux-input.selected {
-            @apply border-1 border-darkSuccessGreen;
-            @apply bg-veryLightGreen;
-            @apply shadow-baseZ1;
-        }
-        & button.selected,
-        & .c-faux-input.selected input {
-            @apply text-darkSuccessGreen;
-            @apply font-bold;
-        }
-    }
-    & .card-container {
-        @apply rounded-8;
-        @apply bg-backgroundColorC;
-        @apply p-6;
-        & .title {
-            @apply pb-6;
-            @apply text-textColor5 font-medium leading-150 text-center;
-        }
-        & .card-element {
-            @apply bg-backgroundColorA rounded-5;
-            @apply py-12 px-16;
-
-            & button {
-                @apply mt-12 w-100;
-            }
-            & .card-error {
-                @apply mt-12 text-center;
-                @apply text-darkRed font-medium;
-            }
+        & .extra-info {
+            @apply mt-16;
+            @apply text-13 leading-160 text-textColor6 text-center;
         }
     }
 }

@@ -30,71 +30,92 @@ function Amounts({
     <>
       {transactionType == 'payment' ? (
         <div className="amounts">
-          <button
-            className="btn-secondary btn-s"
-            value={100}
-            onClick={handleAmountChange}
-          >
-            $100
-          </button>
-          <button
-            className="btn-secondary btn-s"
-            value={200}
-            onClick={handleAmountChange}
-          >
-            $200
-          </button>
-          <button
-            className="btn-secondary btn-s"
-            value={500}
-            onClick={handleAmountChange}
-          >
-            $500
-          </button>
+          <div className="preset-amounts">
+            <button
+              className="btn-enhanced btn-l"
+              value={32}
+              onClick={handleAmountChange}
+            >
+              $32
+            </button>
+            <button
+              className="btn-enhanced btn-l"
+              value={128}
+              onClick={handleAmountChange}
+            >
+              $128
+            </button>
+            <button
+              className="btn-enhanced btn-l"
+              value={256}
+              onClick={handleAmountChange}
+            >
+              $256
+            </button>
+            <button
+              className="btn-enhanced btn-l"
+              value={512}
+              onClick={handleAmountChange}
+            >
+              $512
+            </button>
+          </div>
 
+          <h3>Or choose a different one-off donation:</h3>
           <label className="c-faux-input">
             <div className="icon">$</div>
             <input
               type="number"
               min="0"
               step="1"
-              placeholder="Other"
+              placeholder="Specify donation"
               onChange={handleAmountChange}
             />
           </label>
         </div>
       ) : (
         <div className="amounts">
-          <button
-            className="btn-secondary btn-s"
-            value={10}
-            onClick={handleAmountChange}
-          >
-            $10
-          </button>
-          <button
-            className="btn-secondary btn-s"
-            value={20}
-            onClick={handleAmountChange}
-          >
-            $20
-          </button>
-          <button
-            className="btn-secondary btn-s selected"
-            value={50}
-            onClick={handleAmountChange}
-          >
-            $50
-          </button>
+          <div className="preset-amounts">
+            <button
+              className="btn-enhanced btn-l"
+              value={16}
+              onClick={handleAmountChange}
+            >
+              $16
+            </button>
+            <button
+              className="btn-enhanced btn-l selected"
+              value={32}
+              onClick={handleAmountChange}
+            >
+              $32
+            </button>
+            <button
+              className="btn-enhanced btn-l"
+              value={64}
+              onClick={handleAmountChange}
+            >
+              $64
+            </button>
+            <button
+              className="btn-enhanced btn-l"
+              value={128}
+              onClick={handleAmountChange}
+            >
+              $128
+            </button>
+          </div>
 
+          <h3>Or choose a different monthly donation:</h3>
           <label className="c-faux-input">
             <div className="icon">$</div>
             <input
               type="number"
               min="0"
               step="1"
-              placeholder="Other"
+              placeholder="Specify donation"
               onChange={handleAmountChange}
+              onFocus={handleAmountChange}
             />
           </label>
         </div>
@@ -104,45 +125,51 @@ function Amounts({
 }
 
 export function Form({}: {}) {
-  const [amountInDollars, setAmountInDollars] = useState(50)
+  const [amountInDollars, setAmountInDollars] = useState(32)
   const [transactionType, setTransactionType] = useState<PaymentIntentType>(
     'subscription'
   )
 
   const handleAmountChange = useCallback((e) => {
-    console.log(e)
+    if (e.target.value == 0) {
+      return
+    }
+
     setAmountInDollars(e.target.value)
-    for (let child of e.target.closest('.amounts').children) {
-      child.classList.remove('selected')
+
+    for (let descendant of e.target.closest('.amounts').querySelectorAll('*')) {
+      descendant.classList.remove('selected')
     }
     e.target.closest('.c-faux-input, button').classList.add('selected')
   }, [])
 
   return (
     <div className="c-donations-form">
-      <div className="tabs">
-        <button className="c-tab" onClick={() => setTransactionType('payment')}>
-          One-off
-        </button>
+      <div className="--tabs">
         <button
-          className="c-tab selected"
+          className="tab selected"
           onClick={() => setTransactionType('subscription')}
         >
           💙 Monthly
         </button>
+        <button className="tab" onClick={() => setTransactionType('payment')}>
+          One-off
+        </button>
       </div>
-      <Amounts
-        transactionType={transactionType}
-        handleAmountChange={handleAmountChange}
-      />
-
-      <Elements stripe={stripePromise} options={elementsOptions}>
-        <StripeForm
-          paymentIntentType={transactionType}
-          amountInDollars={amountInDollars}
-          onSuccess={() => null}
+      <div className="--content">
+        <Amounts
+          transactionType={transactionType}
+          handleAmountChange={handleAmountChange}
         />
-      </Elements>
+
+        <Elements stripe={stripePromise} options={elementsOptions}>
+          <StripeForm
+            paymentIntentType={transactionType}
+            amountInDollars={amountInDollars}
+            onSuccess={() => null}
+          />
+        </Elements>
+      </div>
     </div>
   )
 }

@@ -123,7 +123,7 @@ class User < ApplicationRecord
 
   memoize
   def total_subscription_donations_in_dollars
-    donation_payments.subscription.sum(:amount_in_cents) / 100.0
+    donation_payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
   end
 
   memoize
@@ -133,7 +133,7 @@ class User < ApplicationRecord
 
   memoize
   def total_donated_in_dollars
-    total_donated_in_cents / 100.0
+    total_donated_in_cents / BigDecimal(100)
   end
 
   def reputation(track_slug: nil, category: nil)

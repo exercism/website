@@ -5,6 +5,6 @@ class Donations::Payment < ApplicationRecord
   scope :subscription, -> { where.not(subscription_id: nil) }
 
   def amount_in_dollars
-    amount_in_cents / 100.0
+    amount_in_cents / BigDecimal(100)
   end
 end

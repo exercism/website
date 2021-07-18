@@ -28,7 +28,7 @@ class SerializeTaskTest < ActiveSupport::TestCase
         is_new: true,
         links: {
           github_url: "https://github.com/exercism/ruby/issues/312",
-          tooltip: Exercism::Routes.tooltip_task_url(task.uuid)
+          tooltip: Exercism::Routes.tooltip_contributing_task_url(task.uuid)
         }
       }
       assert_equal expected, SerializeTask.(task)
@@ -57,7 +57,7 @@ class SerializeTaskTest < ActiveSupport::TestCase
         is_new: false,
         links: {
           github_url: "https://github.com/exercism/configlet/issues/888",
-          tooltip: Exercism::Routes.tooltip_task_url(task.uuid)
+          tooltip: Exercism::Routes.tooltip_contributing_task_url(task.uuid)
         }
       }
       assert_equal expected, SerializeTask.(task)

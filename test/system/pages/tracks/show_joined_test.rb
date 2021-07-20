@@ -15,6 +15,8 @@ module Pages
         ce_2 = create :concept_exercise, track: track, slug: 'lasa'
         pe_1 = create :practice_exercise, track: track, slug: 'food'
         create :practice_exercise, track: track, slug: 'bob'
+        create :practice_exercise, track: track, slug: 'leap', status: :deprecated
+        create :practice_exercise, track: track, slug: 'iso', status: :wip
         c_1 = create :concept, track: track
         c_2 = create :concept, track: track
         ce_1.taught_concepts << c_1
@@ -51,6 +53,8 @@ module Pages
         hello_world = create :hello_world_exercise, track: track
         pe_1 = create :practice_exercise, track: track, slug: 'bob'
         create :practice_exercise, track: track, slug: 'food'
+        create :practice_exercise, track: track, slug: 'leap', status: :deprecated
+        create :practice_exercise, track: track, slug: 'iso', status: :wip
 
         user = create :user
         create :user_track, user: user, track: track

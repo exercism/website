@@ -18,7 +18,7 @@ module Mentor
           # whole load need to fail.
           request.fulfilled!
 
-          request.locks.destroy_all
+          request.locks.where(locked_by: mentor).destroy_all
 
           Mentor::Discussion.create!(
             mentor: mentor,

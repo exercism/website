@@ -124,8 +124,6 @@ module API
         return render_solution_not_found
       end
 
-      # TODO: (Required): Add check if solution is not complete
-
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       user_track = UserTrack.for(current_user, solution.track)

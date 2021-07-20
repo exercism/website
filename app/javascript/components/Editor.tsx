@@ -86,6 +86,7 @@ export function Editor({
   storageKey,
   debuggingInstructions,
   config,
+  saveInterval = 500,
 }: {
   endpoint: string
   timeout?: number
@@ -104,6 +105,7 @@ export function Editor({
   storageKey: string
   debuggingInstructions?: string
   config: EditorConfig
+  saveInterval?: number
 }) {
   const [tab, setTab] = useState<TabIndex>('instructions')
   const [theme, setTheme] = useState<Themes>(Themes.LIGHT)
@@ -115,7 +117,7 @@ export function Editor({
   const editorRef = useRef<FileEditorHandle>()
   const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(initialFiles)
-  const [files] = useSaveFiles(storageKey, initialFiles, () => {
+  const [files] = useSaveFiles(storageKey, initialFiles, saveInterval, () => {
     return editorRef.current?.getFiles() || initialFiles
   })
   const [keybindings, setKeybindings] = useState<Keybindings>(
@@ -466,7 +468,6 @@ export function Editor({
               <footer className="lhs-footer">
                 <EditorStatusSummary
                   status={status}
-                  onCancel={cancel}
                   error={apiError?.message}
                 />
                 <RunTestsButton

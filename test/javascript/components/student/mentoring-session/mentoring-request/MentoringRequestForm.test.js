@@ -5,24 +5,31 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { MentoringRequestForm } from '../../../../../../app/javascript/components/student/mentoring-session/mentoring-request/MentoringRequestForm'
 import userEvent from '@testing-library/user-event'
-import { silenceConsole } from '../../../../support/silence-console'
+import {
+  expectConsoleError,
+  silenceConsole,
+} from '../../../../support/silence-console'
+
+const server = setupServer(
+  rest.post('https://exercism.test/mentor_requests', (req, res, ctx) => {
+    return res(
+      ctx.delay(10),
+      ctx.status(200),
+      ctx.json({
+        mentorRequest: {
+          id: '1',
+        },
+      })
+    )
+  })
+)
+
+beforeAll(() => server.listen())
+beforeEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 test('disables submit button', async () => {
-  const server = setupServer(
-    rest.post('https://exercism.test/mentor_requests', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(200),
-        ctx.json({
-          mentorRequest: {
-            id: '1',
-          },
-        })
-      )
-    })
-  )
-  server.listen()
-
+  const handleSuccess = jest.fn()
   render(
     <MentoringRequestForm
       links={{
@@ -30,7 +37,7 @@ test('disables submit button', async () => {
       }}
       exercise={{}}
       track={{}}
-      onSuccess={() => {}}
+      onSuccess={handleSuccess}
     />
   )
   const button = screen.getByRole('button', {
@@ -41,25 +48,11 @@ test('disables submit button', async () => {
   await waitFor(() => {
     expect(button).toBeDisabled()
   })
-
-  server.close()
+  await waitFor(() => expect(handleSuccess).toHaveBeenCalled())
 })
 
 test('shows loading message', async () => {
-  const server = setupServer(
-    rest.post('https://exercism.test/mentor_requests', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(200),
-        ctx.json({
-          mentorRequest: {
-            id: '1',
-          },
-        })
-      )
-    })
-  )
-  server.listen()
+  const handleSuccess = jest.fn()
 
   render(
     <MentoringRequestForm
@@ -68,7 +61,7 @@ test('shows loading message', async () => {
       }}
       exercise={{}}
       track={{}}
-      onSuccess={() => {}}
+      onSuccess={handleSuccess}
     />
   )
   userEvent.click(
@@ -76,63 +69,61 @@ test('shows loading message', async () => {
   )
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
-
-  server.close()
+  await waitFor(() => expect(handleSuccess).toHaveBeenCalled())
 })
 
 test('shows API error message', async () => {
-  silenceConsole()
-  const server = setupServer(
-    rest.post('https://exercism.test/mentor_requests', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(422),
-        ctx.json({
-          error: {
-            message: 'No mentors available',
-          },
-        })
-      )
-    })
-  )
-  server.listen()
+  await expectConsoleError(async () => {
+    server.use(
+      rest.post('https://exercism.test/mentor_requests', (req, res, ctx) => {
+        return res(
+          ctx.delay(10),
+          ctx.status(422),
+          ctx.json({
+            error: {
+              message: 'No mentors available',
+            },
+          })
+        )
+      })
+    )
 
-  render(
-    <MentoringRequestForm
-      links={{
-        createMentorRequest: 'https://exercism.test/mentor_requests',
-      }}
-      exercise={{}}
-      track={{}}
-      onSuccess={() => {}}
-    />
-  )
-  userEvent.click(
-    screen.getByRole('button', { name: 'Submit mentoring request' })
-  )
+    render(
+      <MentoringRequestForm
+        links={{
+          createMentorRequest: 'https://exercism.test/mentor_requests',
+        }}
+        exercise={{}}
+        track={{}}
+        onSuccess={() => {}}
+      />
+    )
+    userEvent.click(
+      screen.getByRole('button', { name: 'Submit mentoring request' })
+    )
 
-  expect(await screen.findByText('No mentors available')).toBeInTheDocument()
-
-  server.close()
+    expect(await screen.findByText('No mentors available')).toBeInTheDocument()
+  })
 })
 
 test('shows generic error message', async () => {
-  silenceConsole()
-  render(
-    <MentoringRequestForm
-      links={{
-        createMentorRequest: 'weirdendpoint',
-      }}
-      exercise={{}}
-      track={{}}
-      onSuccess={() => {}}
-    />
-  )
-  userEvent.click(
-    screen.getByRole('button', { name: 'Submit mentoring request' })
-  )
+  await expectConsoleError(async () => {
+    render(
+      <MentoringRequestForm
+        links={{
+          createMentorRequest: 'weirdendpoint',
+        }}
+        exercise={{}}
+        track={{}}
+        onSuccess={() => {}}
+      />
+    )
+    userEvent.click(
+      screen.getByRole('button', { name: 'Submit mentoring request' })
+    )
 
-  expect(
-    await screen.findByText('Unable to create mentor request')
-  ).toBeInTheDocument()
+    expect(
+      await screen.findByText('Unable to create mentor request')
+    ).toBeInTheDocument()
+  })
 })

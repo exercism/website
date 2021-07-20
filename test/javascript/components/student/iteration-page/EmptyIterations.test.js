@@ -2,80 +2,63 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render } from '../../../test-utils'
+import { screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { EmptyIterations } from '../../../../../app/javascript/components/student/iteration-page/EmptyIterations'
 import { expectConsoleError } from '../../../support/silence-console'
-import { TestQueryCache } from '../../../support/TestQueryCache'
-import { awaitPopper } from '../../../support/await-popper'
+import { redirectTo } from '../../../../../app/javascript/utils/redirect-to'
+
+jest.mock('../../../../../app/javascript/utils/redirect-to')
+
+const server = setupServer(
+  rest.patch('https://exercism.test/start', (req, res, ctx) => {
+    return res(
+      ctx.delay(10),
+      ctx.status(200),
+      ctx.json({ links: { edit: '' } })
+    )
+  })
+)
+
+beforeAll(() => server.listen())
+beforeEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 test('disables buttons when loading', async () => {
-  const server = setupServer(
-    rest.patch('https://exercism.test/start', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(200),
-        ctx.json({ links: { edit: '' } })
-      )
-    })
-  )
-  server.listen()
-
   render(
-    <TestQueryCache>
-      <EmptyIterations
-        links={{ startExercise: 'https://exercism.test/start' }}
-      />
-    </TestQueryCache>
+    <EmptyIterations links={{ startExercise: 'https://exercism.test/start' }} />
   )
-  await awaitPopper()
+
   const startBtn = await screen.findByRole('button', {
     name: 'Start in Editor',
   })
+
   userEvent.click(startBtn)
 
   await waitFor(() => {
     expect(startBtn).toBeDisabled()
   })
-
-  server.close()
 })
 
 test('shows loading message when loading', async () => {
-  const server = setupServer(
-    rest.patch('https://exercism.test/start', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(200),
-        ctx.json({ links: { edit: '' } })
-      )
-    })
-  )
-  server.listen()
-
   render(
-    <TestQueryCache>
-      <EmptyIterations
-        links={{ startExercise: 'https://exercism.test/start' }}
-      />
-    </TestQueryCache>
+    <EmptyIterations links={{ startExercise: 'https://exercism.test/start' }} />
   )
+
   userEvent.click(
     await screen.findByRole('button', { name: 'Start in Editor' })
   )
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 
-  server.close()
+  await waitFor(() => expect(redirectTo).toHaveBeenCalled())
 })
 
 test('shows generic errors', async () => {
-  expectConsoleError(async () => {
-    render(
-      <TestQueryCache>
-        <EmptyIterations links={{ startExercise: '' }} />
-      </TestQueryCache>
-    )
+  await expectConsoleError(async () => {
+    render(<EmptyIterations links={{ startExercise: 'weirdendpoint' }} />)
+
     userEvent.click(
       await screen.findByRole('button', { name: 'Start in Editor' })
     )
@@ -87,33 +70,26 @@ test('shows generic errors', async () => {
 })
 
 test('shows API errors', async () => {
-  expectConsoleError(async () => {
-    const server = setupServer(
+  await expectConsoleError(async () => {
+    server.use(
       rest.patch('https://exercism.test/start', (req, res, ctx) => {
         return res(
           ctx.delay(10),
           ctx.status(422),
-          ctx.json({ error: { message: 'Unable to start exercise' } })
+          ctx.json({ error: { message: 'Unable to start' } })
         )
       })
     )
-    server.listen()
 
     render(
-      <TestQueryCache>
-        <EmptyIterations
-          links={{ startExercise: 'https://exercism.test/start' }}
-        />
-      </TestQueryCache>
+      <EmptyIterations
+        links={{ startExercise: 'https://exercism.test/start' }}
+      />
     )
     userEvent.click(
       await screen.findByRole('button', { name: 'Start in Editor' })
     )
 
-    expect(
-      await screen.findByText('Unable to start exercise')
-    ).toBeInTheDocument()
-
-    server.close()
+    expect(await screen.findByText('Unable to start')).toBeInTheDocument()
   })
 })

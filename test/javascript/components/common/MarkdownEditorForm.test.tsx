@@ -1,8 +1,9 @@
 import React from 'react'
-import { render, waitFor, screen } from '@testing-library/react'
+import { render } from '../../test-utils'
+import { waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { MarkdownEditorForm } from '../../../../app/javascript/components/common/MarkdownEditorForm'
-import { silenceConsole } from '../../support/silence-console'
+import { expectConsoleError } from '../../support/silence-console'
 import { stubRange } from '../../support/code-mirror-helpers'
 import { QueryStatus } from 'react-query'
 
@@ -31,22 +32,23 @@ test('hides footer when form is compressed', async () => {
 })
 
 test('shows error messages', async () => {
-  silenceConsole()
-  render(
-    <MarkdownEditorForm
-      expanded={false}
-      onSubmit={jest.fn()}
-      onCancel={jest.fn()}
-      onChange={jest.fn()}
-      value=""
-      error={new Error()}
-      status={'error' as QueryStatus}
-      defaultError={new Error('Unable to save')}
-      action="new"
-    />
-  )
+  await expectConsoleError(async () => {
+    render(
+      <MarkdownEditorForm
+        expanded={false}
+        onSubmit={jest.fn()}
+        onCancel={jest.fn()}
+        onChange={jest.fn()}
+        value=""
+        error={new Error()}
+        status={'error' as QueryStatus}
+        defaultError={new Error('Unable to save')}
+        action="new"
+      />
+    )
 
-  expect(await screen.findByText('Unable to save')).toBeInTheDocument()
+    expect(await screen.findByText('Unable to save')).toBeInTheDocument()
+  })
 })
 
 test('focuses text editor when expanded', async () => {
@@ -57,8 +59,8 @@ test('focuses text editor when expanded', async () => {
       onCancel={jest.fn()}
       onChange={jest.fn()}
       value=""
-      error={new Error()}
-      status={'error' as QueryStatus}
+      error={null}
+      status={'success' as QueryStatus}
       defaultError={new Error()}
       action="new"
     />

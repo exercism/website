@@ -50,7 +50,7 @@ module API
 
       changes = UserTrack::MonitorChanges.(user_track) do
         Solution::Complete.(solution, user_track)
-        Solution::Publish.(solution, params[:iteration_idx]) if params[:publish]
+        Solution::Publish.(solution, user_track, params[:iteration_idx]) if params[:publish]
       end
 
       output = {
@@ -91,8 +91,7 @@ module API
       user_track = UserTrack.for(current_user, solution.track)
       return render_404(:track_not_joined) if user_track.external?
 
-      Solution::Complete.(solution, user_track) unless solution.completed?
-      Solution::Publish.(solution, params[:iteration_idx])
+      Solution::Publish.(solution, user_track, params[:iteration_idx])
 
       render json: {
         solution: SerializeSolution.(solution)

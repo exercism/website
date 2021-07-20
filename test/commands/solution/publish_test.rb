@@ -6,7 +6,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution, idx: 1
     other_iteration = create :iteration, solution: solution, idx: 2
 
-    Solution::Publish.(solution, 1)
+    Solution::Publish.(solution, solution.user_track, 1)
 
     assert solution.reload.published?
     assert iteration.reload.published?
@@ -18,7 +18,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution, idx: 1
     other_iteration = create :iteration, solution: solution, idx: 2
 
-    Solution::Publish.(solution, nil)
+    Solution::Publish.(solution, solution.user_track, nil)
 
     assert solution.reload.published?
     assert iteration.reload.published?
@@ -30,7 +30,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution, idx: 1
     other_iteration = create :iteration, solution: solution, idx: 2
 
-    Solution::Publish.(solution, 5)
+    Solution::Publish.(solution, solution.user_track, 5)
 
     assert solution.reload.published?
     assert iteration.reload.published?
@@ -42,8 +42,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :iteration, solution: solution
 
     AwardReputationTokenJob.expects(:perform_later).once
-    Solution::Publish.(solution, nil)
-    Solution::Publish.(solution, nil)
+    Solution::Publish.(solution, solution.user_track, nil)
+    Solution::Publish.(solution, solution.user_track, nil)
   end
 
   test "does not award for concept exercises" do
@@ -53,10 +53,10 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :iteration, solution: concept_solution
 
     AwardReputationTokenJob.expects(:perform_later).once
-    Solution::Publish.(practice_solution, nil)
+    Solution::Publish.(practice_solution, practice_solution.user_track, nil)
 
     AwardReputationTokenJob.expects(:perform_later).never
-    Solution::Publish.(concept_solution, nil)
+    Solution::Publish.(concept_solution, practice_solution.user_track, nil)
   end
 
   test "creates activity" do
@@ -67,11 +67,22 @@ class Solution::PublishTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user, exercise: exercise
     iteration = create :iteration, solution: solution
 
-    Solution::Publish.(solution, iteration.idx)
+    Solution::Publish.(solution, solution.user_track, iteration.idx)
 
     activity = User::Activities::PublishedExerciseActivity.last
     assert_equal user, activity.user
     assert_equal exercise.track, activity.track
     assert_equal solution, activity.solution
+  end
+
+  test "completes solution if not completed" do
+    freeze_time do
+      solution = create :practice_solution, completed_at: nil
+      create :iteration, solution: solution, idx: 1
+
+      Solution::Publish.(solution, solution.user_track, 1)
+
+      assert_equal Time.current, solution.reload.completed_at
+    end
   end
 end

@@ -11,8 +11,8 @@ module Pages
           track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
           hello_world = create :hello_world_exercise, track: track
           ce_1 = create :concept_exercise, track: track, slug: 'movie'
-          ce_2 = create :concept_exercise, track: track, slug: 'lasa'
-          ce_3 = create :concept_exercise, track: track, slug: 'school', status: :deprecated
+          ce_2 = create :concept_exercise, track: track, slug: 'team'
+          ce_3 = create :concept_exercise, track: track, slug: 'book', status: :deprecated
           pe_1 = create :practice_exercise, track: track, slug: 'bob'
           pe_2 = create :practice_exercise, track: track, slug: 'iso'
           c_1 = create :concept, track: track, slug: 'basics'
@@ -43,7 +43,7 @@ module Pages
 
             # Locked due to 'basics' Concept not being unlocked, which is taught by the 'movie' Concept Exercise)
             visit track_exercise_path(track, ce_2)
-            assert_text "Unlock Lasa"
+            assert_text "Unlock Team"
             assert_text "Movie"
 
             # Locked due to 'basics' Concept not being unlocked, which is taught by the 'movie' Concept Exercise)
@@ -52,11 +52,11 @@ module Pages
             assert_text "Movie"
 
             # Locked due to 'basics' Concept not being unlocked, which is taught by the 'movie' Concept Exercise)
-            # Locked due to 'strings' Concept not being unlocked, which is taught by the 'lasa' Concept Exercise)
+            # Locked due to 'strings' Concept not being unlocked, which is taught by the 'team' Concept Exercise)
             visit track_exercise_path(track, pe_2)
             assert_text "Unlock Iso"
             assert_text "Movie"
-            assert_text "Lasa"
+            assert_text "Team"
 
             create :concept_solution, :completed, user: user, exercise: ce_1
 
@@ -68,15 +68,15 @@ module Pages
             visit track_exercise_path(track, pe_1)
             assert_text "Start in editor"
 
-            # Locked due to 'strings' Concept not being unlocked, which is taught by the 'lasa' Concept Exercise)
+            # Locked due to 'strings' Concept not being unlocked, which is taught by the 'team' Concept Exercise)
             visit track_exercise_path(track, pe_2)
             assert_text "Unlock Iso"
-            assert_text "Lasa"
+            assert_text "Team"
 
             create :concept_solution, :completed, user: user, exercise: ce_2
 
             # Unlocked due to 'basics' Concept being unlocked after completing the 'movie' Concept Exercise
-            # Unlocked due to 'strings' Concept being unlocked after completing the 'lasa' Concept Exercise
+            # Unlocked due to 'strings' Concept being unlocked after completing the 'team' Concept Exercise
             visit track_exercise_path(track, pe_2)
             assert_text "Start in editor"
           end

@@ -31,7 +31,7 @@ module ReactComponents
             notes: notes,
             out_of_date: solution.out_of_date?,
             scratchpad: {
-              is_introducer_hidden: (view_context.session[:hidden_introducers] || []).include?("scratchpad"),
+              is_introducer_hidden: current_user&.introducer_dismissed?("scratchpad"),
               links: {
                 markdown: "#",
                 hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_08_225844) do
+ActiveRecord::Schema.define(version: 2021_07_20_075622) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -604,6 +604,15 @@ ActiveRecord::Schema.define(version: 2021_07_08_225844) do
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
 
+  create_table "user_dismissed_introducers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "slug", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "slug"], name: "index_user_dismissed_introducers_on_user_id_and_slug", unique: true
+    t.index ["user_id"], name: "index_user_dismissed_introducers_on_user_id"
+  end
+
   create_table "user_notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "user_id", null: false
@@ -811,6 +820,7 @@ ActiveRecord::Schema.define(version: 2021_07_08_225844) do
   add_foreign_key "user_activities", "users"
   add_foreign_key "user_auth_tokens", "users"
   add_foreign_key "user_communication_preferences", "users"
+  add_foreign_key "user_dismissed_introducers", "users"
   add_foreign_key "user_notifications", "exercises"
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"

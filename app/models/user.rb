@@ -54,6 +54,8 @@ class User < ApplicationRecord
   has_many :track_mentorships, dependent: :destroy
   has_many :mentored_tracks, through: :track_mentorships, source: :track
 
+  has_many :dismissed_introducers, dependent: :destroy
+
   # TODO: validate presence of name
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
@@ -173,6 +175,14 @@ class User < ApplicationRecord
 
   def ghost?
     id == GHOST_USER_ID
+  end
+
+  def dismiss_introducer!(slug)
+    dismissed_introducers.create_or_find_by!(slug: slug)
+  end
+
+  def introducer_dismissed?(slug)
+    dismissed_introducers.where(slug: slug).exists?
   end
 
   # TODO: Remove if not used by launch

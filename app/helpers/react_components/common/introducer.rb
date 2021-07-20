@@ -1,7 +1,7 @@
 module ReactComponents
   module Common
     class Introducer < ReactComponent
-      initialize_with :id, :icon
+      initialize_with :slug, :icon
 
       def to_s
         return if hidden?
@@ -17,15 +17,14 @@ module ReactComponents
         capture_haml { block.() }
       end
 
-      # TODO: (Optional) This is just a temporary implementation
       def hidden?
-        (context.session[:hidden_introducers] || []).include?(id.to_s)
+        current_user&.introducer_dismissed?(slug.to_s)
       end
 
       def endpoint
         return nil unless user_signed_in?
 
-        Exercism::Routes.hide_api_settings_introducer_path(id)
+        Exercism::Routes.hide_api_settings_introducer_path(slug)
       end
 
       def render_in(context, *args, &block)

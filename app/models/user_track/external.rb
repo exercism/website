@@ -15,25 +15,25 @@ class UserTrack
 
     memoize
     def exercises
-      filter_enabled_exercises(track.exercises)
+      enabled_exercises(track.exercises)
     end
 
     memoize
     def concept_exercises
-      filter_enabled_exercises(track.concept_exercises)
+      enabled_exercises(track.concept_exercises)
     end
 
     memoize
     def practice_exercises
-      filter_enabled_exercises(track.practice_exercises)
+      enabled_exercises(track.practice_exercises)
     end
 
     def concept_exercises_for_concept(concept)
-      filter_enabled_exercises(concept.concept_exercises)
+      enabled_exercises(concept.concept_exercises)
     end
 
     def practice_exercises_for_concept(concept)
-      filter_enabled_exercises(concept.practice_exercises)
+      enabled_exercises(concept.practice_exercises)
     end
 
     def unlocked_concepts_for_exercise(exercise)
@@ -41,7 +41,11 @@ class UserTrack
     end
 
     def unlocked_exercises_for_exercise(exercise)
-      filter_enabled_exercises(exercise.unlocked_exercises)
+      enabled_exercises(exercise.unlocked_exercises)
+    end
+
+    def enabled_exercises(exercises)
+      exercises.where(status: %i[active beta])
     end
 
     #######################
@@ -178,10 +182,6 @@ class UserTrack
 
       # Sum the counts
       taught_counts.merge(practice_counts) { |_, t, p| t + p }
-    end
-
-    def filter_enabled_exercises(exercises)
-      exercises.where(status: %i[active beta])
     end
   end
 end

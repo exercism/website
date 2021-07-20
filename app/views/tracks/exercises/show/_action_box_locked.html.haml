@@ -7,6 +7,6 @@
     %strong #{exercise.title}.
 
   .prereqs
-    - exercise.prerequisite_exercises.each do |prereq|
+    - user_track.enabled_exercises(exercise.prerequisite_exercises).each do |prereq|
       = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, skinny: true)
 

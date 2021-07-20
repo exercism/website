@@ -202,4 +202,12 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "she//her", user.pronouns
     assert_equal ["she", "", "her"], user.pronoun_parts
   end
+
+  test "dismiss_introducer!" do
+    user = create :user
+    refute user.introducer_dismissed?('scratchpad')
+
+    user.dismiss_introducer!('scratchpad')
+    assert user.introducer_dismissed?('scratchpad')
+  end
 end

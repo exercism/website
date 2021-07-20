@@ -10,7 +10,7 @@ class Submission
       @submitted_via = submitted_via
 
       # TODO: (Optional) - Move this into another service
-      # TODO: (Required) - Guard filenames
+      # TODO: (Optional) - Consider risks around filenames
       @submitted_files.each do |f|
         f[:digest] = Digest::SHA1.hexdigest(f[:content])
       end

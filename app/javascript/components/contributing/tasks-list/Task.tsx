@@ -12,7 +12,7 @@ import { TaskTooltip } from '../../tooltips/TaskTooltip'
 
 export const Task = ({ task }: { task: TaskProps }): JSX.Element => {
   return (
-    <ExercismTippy content={<TaskTooltip endpoint={task.links.tooltip} />}>
+    <ExercismTippy content={<TaskTooltip task={task} />}>
       <a
         href={task.links.githubUrl}
         className="task"

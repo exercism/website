@@ -17,13 +17,25 @@ module Flows
       end
 
       test "user views task tooltip" do
-        create :github_task, title: "Fix bug"
+        track = create :track, title: "Ruby"
+        create :github_task,
+          track: track,
+          action: "create",
+          type: "docs",
+          size: "large",
+          knowledge: "intermediate",
+          area: "test-runner"
 
         use_capybara_host do
           visit contributing_tasks_path
           find(".task").hover
 
-          within(".c-task-tooltip") { assert_text "Fix bug" }
+          assert_text "For this task you will be creating docs for the Ruby Test Runner"
+          assert_text "This is a docs type task"
+          assert_text "This task requires you to Create"
+          assert_text "This task is Large"
+          assert_text "This task requires Intermediate knowledge"
+          assert_text "This task is about Test Runners"
         end
       end
 

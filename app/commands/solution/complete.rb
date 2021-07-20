@@ -5,19 +5,16 @@ class Solution
     initialize_with :solution, :user_track
 
     def call
-      # TODO: (Required) Guard against already being completed
+      solution.with_lock do
+        return if solution.completed?
 
-      ActiveRecord::Base.transaction do
-        mark_solution_as_complete!
+        solution.update!(completed_at: Time.current)
       end
+
       record_activity!
     end
 
     private
-    def mark_solution_as_complete!
-      solution.update!(completed_at: Time.current)
-    end
-
     def record_activity!
       User::Activity::Create.(
         :completed_exercise,

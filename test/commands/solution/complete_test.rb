@@ -54,4 +54,25 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     assert_equal exercise.track, activity.track
     assert_equal solution, activity.solution
   end
+
+  test "does nothing when solution has already been completed" do
+    freeze_time do
+      exercise = create :concept_exercise
+      completed_at = Time.current - 5.minutes
+
+      user = create :user
+      user_track = create :user_track, user: user, track: exercise.track
+      solution = create :concept_solution, user: user, exercise: exercise, completed_at: completed_at
+
+      # Sanity check
+      assert solution.completed?
+
+      Solution::Complete.(solution, user_track)
+
+      solution.reload
+      assert solution.completed?
+      assert_equal completed_at, solution.completed_at
+      refute User::Activities::CompletedExerciseActivity.exists?
+    end
+  end
 end

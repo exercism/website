@@ -275,7 +275,6 @@ initReact({
       icon={data.icon}
       content={data.content}
       endpoint={data.endpoint}
-      hidden={data.hidden}
     />
   ),
   'common-cli-walkthrough': (data: any) => <CLIWalkthrough html={data.html} />,

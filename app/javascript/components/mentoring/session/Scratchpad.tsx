@@ -117,20 +117,20 @@ export const Scratchpad = ({
 
   return (
     <>
-      <Introducer
-        icon="scratchpad"
-        endpoint={scratchpad.links.hideIntroducer}
-        hidden={scratchpad.isIntroducerHidden}
-        size="small"
-      >
-        <h2>Introducing your scratchpad</h2>
-        <p>
-          A <a href={scratchpad.links.markdown}>Markdown-supported</a> place for
-          you to write notes and add code snippets you’d like to refer to during
-          mentoring.
-        </p>
-      </Introducer>
-
+      {scratchpad.isIntroducerHidden ? (
+        <Introducer
+          icon="scratchpad"
+          endpoint={scratchpad.links.hideIntroducer}
+          size="small"
+        >
+          <h2>Introducing your scratchpad</h2>
+          <p>
+            A <a href={scratchpad.links.markdown}>Markdown-supported</a> place
+            for you to write notes and add code snippets you’d like to refer to
+            during mentoring.
+          </p>
+        </Introducer>
+      ) : null}
       <div className="title">
         Your notes for <strong>{exercise.title}</strong> in
         <TrackIcon iconUrl={track.iconUrl} title={track.title} />

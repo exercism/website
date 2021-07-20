@@ -8,7 +8,7 @@ module Components
         visit test_components_common_introducer_path
         click_on "Permanently hide this introducer"
 
-        assert_no_css ".c-introducer"
+        assert_css ".c-introducer", visible: false
 
         # Reload page
         visit test_components_common_introducer_path

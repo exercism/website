@@ -43,6 +43,7 @@ module API
       end
 
       return render_solution_not_accessible unless solution.user_id == current_user.id
+      return render_400(:solution_without_iterations) if solution.iterations.empty?
 
       user_track = UserTrack.for(current_user, solution.track)
       return render_404(:track_not_joined) if user_track.external?
@@ -87,6 +88,7 @@ module API
       # TODO: (Required) Add check if solution is not complete
 
       return render_solution_not_accessible unless solution.user_id == current_user.id
+      return render_400(:solution_without_iterations) if solution.iterations.empty?
 
       user_track = UserTrack.for(current_user, solution.track)
       return render_404(:track_not_joined) if user_track.external?

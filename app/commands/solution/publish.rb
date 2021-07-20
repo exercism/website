@@ -5,9 +5,9 @@ class Solution
     initialize_with :solution, :user_track, :iteration_idx
 
     def call
-      solution.with_lock do
-        Solution::Complete.(solution, user_track) unless solution.completed?
+      Solution::Complete.(solution, user_track) unless solution.completed?
 
+      solution.with_lock do
         return if solution.published?
 
         ActiveRecord::Base.transaction do

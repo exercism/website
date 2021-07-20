@@ -2,7 +2,7 @@ module API
   module Settings
     class IntroducersController < BaseController
       def hide
-        current_user.dismiss_introducer!(params[:id])
+        current_user.dismiss_introducer!(params[:slug])
 
         render json: {}
       end

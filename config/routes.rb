@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       namespace :settings do
         resource :communication_preferences, only: [:update]
 
-        resources :introducers, only: [] do
+        resources :introducers, only: [], param: :slug do
           patch :hide, on: :member
         end
 

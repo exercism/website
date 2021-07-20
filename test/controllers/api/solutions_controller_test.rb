@@ -425,4 +425,80 @@ class API::SolutionsControllerTest < API::BaseTestCase
       assert_equal :published, solution.status
     end
   end
+
+  ############
+  # Unpublish #
+  ############
+  test "unpublish renders 404 when solution not found" do
+    setup_user
+
+    patch unpublish_api_solution_path("xxx"),
+      headers: @headers, as: :json
+
+    assert_response 404
+    assert_equal(
+      {
+        "error" => {
+          "type" => "solution_not_found",
+          "message" => I18n.t("api.errors.solution_not_found")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "unpublish should 404 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    patch unpublish_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "unpublish renders 404 when track not joined" do
+    setup_user
+
+    solution = create :concept_solution, user: @current_user
+    patch unpublish_api_solution_path(solution.uuid),
+      headers: @headers, as: :json
+
+    assert_response 404
+    assert_equal(
+      {
+        "error" => {
+          "type" => "track_not_joined",
+          "message" => I18n.t("api.errors.track_not_joined")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "unpublish unpublishes the solution" do
+    freeze_time do
+      setup_user
+
+      exercise = create :concept_exercise
+      create :user_track, track: exercise.track, user: @current_user
+      solution = create :concept_solution, exercise: exercise, user: @current_user, completed_at: Time.current
+      create :iteration, solution: solution
+
+      patch unpublish_api_solution_path(solution.uuid, publish: true),
+        headers: @headers, as: :json
+
+      assert_response 200
+
+      solution.reload
+      assert_equal Time.current, solution.completed_at
+      assert_nil solution.published_at
+      assert_nil solution.published_iteration_id
+      assert_equal :completed, solution.status
+    end
+  end
 end

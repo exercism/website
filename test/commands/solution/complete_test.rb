@@ -23,11 +23,12 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     user = create :user
     user_track = create :user_track, user: user, track: track
     solution = create :concept_solution, user: user, exercise: exercise
-    create :iteration, solution: solution
+    submission = create :submission, solution: solution
+    create :iteration, submission: submission
 
     Solution::Complete.(solution, user_track)
 
-    assert user_track.reload.concept_learnt?(concept)
+    assert user_track.concept_learnt?(concept)
   end
 
   test "sets practice exercise solution as completed" do

@@ -17,6 +17,8 @@ class MissingTracksError < RuntimeError; end
 
 class SubmissionFileTooLargeError < RuntimeError; end
 
+class SolutionHasNoIterationsError < RuntimeError; end
+
 class SolutionLockedByAnotherMentorError < RuntimeError; end
 
 class StudentCannotMentorThemselvesError < RuntimeError; end

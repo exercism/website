@@ -436,12 +436,12 @@ class API::SolutionsControllerTest < API::BaseTestCase
     )
   end
 
-  test "publish renders 400 when solution has no iterations" do
+  test "publish renders 400 when solution not completed and has no iterations" do
     setup_user
 
     exercise = create :concept_exercise
     create :user_track, track: exercise.track, user: @current_user
-    solution = create :concept_solution, exercise: exercise, user: @current_user, completed_at: Time.current
+    solution = create :concept_solution, exercise: exercise, user: @current_user, completed_at: nil
 
     patch publish_api_solution_path(solution.uuid, publish: true),
       headers: @headers, as: :json

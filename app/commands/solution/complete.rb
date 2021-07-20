@@ -5,6 +5,8 @@ class Solution
     initialize_with :solution, :user_track
 
     def call
+      raise SolutionHasNoIterationsError if solution.iterations.empty?
+
       solution.with_lock do
         return if solution.completed?
 

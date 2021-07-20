@@ -19,7 +19,6 @@ export const PublishSolutionModal = ({
   endpoint: string
   iterations: readonly Iteration[]
 }): JSX.Element => {
-  console.log('test')
   const [iterationIdx, setIterationIdx] = useState<number | null>(null)
   const [mutation, { status, error }] = useMutation<SolutionForStudent>(
     () => {

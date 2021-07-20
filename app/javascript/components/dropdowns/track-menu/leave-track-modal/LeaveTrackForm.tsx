@@ -7,6 +7,7 @@ import { Icon } from '../../../common'
 import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
 import { Track } from '../../../types'
 import { UserTrack } from '../LeaveTrackModal'
+import { redirectTo } from '../../../../utils/redirect-to'
 
 const DEFAULT_ERROR = new Error('Unable to leave track')
 
@@ -40,7 +41,7 @@ export const LeaveTrackForm = ({
           return
         }
 
-        window.location.replace(track.links.self)
+        redirectTo(track.links.self)
       },
     }
   )

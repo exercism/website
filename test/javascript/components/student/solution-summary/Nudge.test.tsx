@@ -1,12 +1,12 @@
 import React from 'react'
-import { act, render } from '@testing-library/react'
+import { render } from '../../../test-utils'
+import { waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Nudge } from '../../../../../app/javascript/components/student/Nudge'
 import {
   SolutionMentoringStatus,
   SolutionStatus,
 } from '../../../../../app/javascript/components/types'
-import flushPromises from 'flush-promises'
 
 test('does not animate on initial load', async () => {
   const solution = {
@@ -33,7 +33,10 @@ test('does not animate on initial load', async () => {
     <Nudge
       solution={solution}
       exerciseType="concept"
-      request={{ endpoint: 'https://exercism.test/iterations', options: {} }}
+      request={{
+        endpoint: 'https://exercism.test/iterations',
+        options: { initialData: [] },
+      }}
       discussions={[]}
       links={{
         mentoringInfo: '',
@@ -48,10 +51,11 @@ test('does not animate on initial load', async () => {
       }}
     />
   )
-  await flushPromises()
 
-  expect(container.firstChild).toHaveAttribute(
-    'class',
-    'mentoring-request-nudge'
+  await waitFor(() =>
+    expect(container.firstChild).toHaveAttribute(
+      'class',
+      'mentoring-request-nudge'
+    )
   )
 })

@@ -1,13 +1,11 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { render } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { MentorRegistrationModal } from '../../../../app/javascript/components/modals/MentorRegistrationModal'
-import { TestQueryCache } from '../../support/TestQueryCache'
-import { awaitPopper } from '../../support/await-popper'
-import { queryCache } from 'react-query'
 
 test('preserves chosen tracks when moving through steps', async () => {
   const links = {
@@ -24,7 +22,7 @@ test('preserves chosen tracks when moving through steps', async () => {
         ctx.json({
           tracks: [
             {
-              id: 'ruby',
+              slug: 'ruby',
               title: 'Ruby',
               icon_url: 'https://exercism.test/tracks/ruby.png',
               avg_wait_time: '2 days',
@@ -38,9 +36,7 @@ test('preserves chosen tracks when moving through steps', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
-      <MentorRegistrationModal open={true} links={links} ariaHideApp={false} />
-    </TestQueryCache>
+    <MentorRegistrationModal open={true} links={links} ariaHideApp={false} />
   )
 
   userEvent.click(await screen.findByRole('checkbox', { name: /Ruby/ }))
@@ -49,7 +45,5 @@ test('preserves chosen tracks when moving through steps', async () => {
 
   expect(await screen.findByRole('checkbox', { name: /Ruby/ })).toBeChecked()
 
-  await awaitPopper()
-  queryCache.cancelQueries()
   server.close()
 })

@@ -6,7 +6,27 @@ import { LeaveResetTrackForm } from '../../../../../../app/javascript/components
 import { createTrack } from '../../../../factories/TrackFactory'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { silenceConsole } from '../../../../support/silence-console'
+import {
+  expectConsoleError,
+  silenceConsole,
+} from '../../../../support/silence-console'
+import { redirectTo } from '../../../../../../app/javascript/utils/redirect-to'
+
+jest.mock('../../../../../../app/javascript/utils/redirect-to')
+
+const server = setupServer(
+  rest.patch('https://exercism.test/tracks/ruby/leave', (req, res, ctx) => {
+    return res(
+      ctx.delay(10),
+      ctx.status(200),
+      ctx.json({ userTrack: { links: {} } })
+    )
+  })
+)
+
+beforeAll(() => server.listen())
+beforeEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 test('form is disabled when confirmation is wrong', async () => {
   render(
@@ -45,21 +65,6 @@ test('form is enabled when confirmation is correct', async () => {
 })
 
 test('buttons are disabled while waiting for response', async () => {
-  Object.defineProperty(window, 'location', {
-    writable: true,
-    value: { replace: jest.fn() },
-  })
-  const server = setupServer(
-    rest.patch('https://exercism.test/tracks/ruby/leave', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(200),
-        ctx.json({ userTrack: { links: {} } })
-      )
-    })
-  )
-  server.listen()
-
   render(
     <LeaveResetTrackForm
       track={createTrack({ slug: 'ruby' })}
@@ -80,67 +85,63 @@ test('buttons are disabled while waiting for response', async () => {
 
   await waitFor(() => expect(leaveButton).toBeDisabled())
   await waitFor(() => expect(cancelButton).toBeDisabled())
-
-  server.close()
+  await waitFor(() => expect(redirectTo).toHaveBeenCalled())
 })
 
 test('user sees error messages', async () => {
-  silenceConsole()
+  await expectConsoleError(async () => {
+    server.use(
+      rest.patch('https://exercism.test/tracks/ruby/leave', (req, res, ctx) => {
+        return res(
+          ctx.delay(10),
+          ctx.status(422),
+          ctx.json({ error: { message: 'Unable to leave' } })
+        )
+      })
+    )
 
-  const server = setupServer(
-    rest.patch('https://exercism.test/tracks/ruby/leave', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(422),
-        ctx.json({ error: { message: 'Unable to leave' } })
-      )
-    })
-  )
-  server.listen()
+    render(
+      <LeaveResetTrackForm
+        track={createTrack({ slug: 'ruby' })}
+        endpoint="https://exercism.test/tracks/ruby/leave"
+        onCancel={jest.fn()}
+      />
+    )
 
-  render(
-    <LeaveResetTrackForm
-      track={createTrack({ slug: 'ruby' })}
-      endpoint="https://exercism.test/tracks/ruby/leave"
-      onCancel={jest.fn()}
-    />
-  )
+    userEvent.type(
+      screen.getByLabelText('To confirm, write reset ruby in the box below:'),
+      'reset ruby'
+    )
 
-  userEvent.type(
-    screen.getByLabelText('To confirm, write reset ruby in the box below:'),
-    'reset ruby'
-  )
+    userEvent.click(screen.getByRole('button', { name: 'Leave + Reset' }))
 
-  userEvent.click(screen.getByRole('button', { name: 'Leave + Reset' }))
-
-  await waitFor(() =>
-    expect(screen.getByText('Unable to leave')).toBeInTheDocument()
-  )
-
-  server.close()
+    await waitFor(() =>
+      expect(screen.getByText('Unable to leave')).toBeInTheDocument()
+    )
+  })
 })
 
 test('user sees generic error message', async () => {
-  silenceConsole()
+  await expectConsoleError(async () => {
+    render(
+      <LeaveResetTrackForm
+        track={createTrack({ slug: 'ruby' })}
+        endpoint="wrongendpoint"
+        onCancel={jest.fn()}
+      />
+    )
 
-  render(
-    <LeaveResetTrackForm
-      track={createTrack({ slug: 'ruby' })}
-      endpoint="wrongendpoint"
-      onCancel={jest.fn()}
-    />
-  )
+    userEvent.type(
+      screen.getByLabelText('To confirm, write reset ruby in the box below:'),
+      'reset ruby'
+    )
 
-  userEvent.type(
-    screen.getByLabelText('To confirm, write reset ruby in the box below:'),
-    'reset ruby'
-  )
+    userEvent.click(screen.getByRole('button', { name: 'Leave + Reset' }))
 
-  userEvent.click(screen.getByRole('button', { name: 'Leave + Reset' }))
-
-  await waitFor(() =>
-    expect(
-      screen.getByText('Unable to leave and reset track')
-    ).toBeInTheDocument()
-  )
+    await waitFor(() =>
+      expect(
+        screen.getByText('Unable to leave and reset track')
+      ).toBeInTheDocument()
+    )
+  })
 })

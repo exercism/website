@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLocalStorage } from '../../utils/use-storage'
 import { File } from '../types'
-
-const SAVE_INTERVAL = 500
 
 export const useSaveFiles = (
   storageKey: string,
   initialFiles: File[],
+  saveInterval: number,
   getFiles: () => File[]
 ): [File[], (files: File[]) => void] => {
   const [files, setFiles] = useLocalStorage<File[]>(
@@ -23,10 +22,10 @@ export const useSaveFiles = (
       }
 
       setFiles(getFiles())
-    }, SAVE_INTERVAL)
+    }, saveInterval)
 
     return () => clearInterval(interval)
-  }, [files, getFiles, setFiles])
+  }, [files, getFiles, saveInterval, setFiles])
 
   return [files, setFiles]
 }

@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render } from '../../../../test-utils'
+import { waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPostEdit } from '../../../../../../app/javascript/components/mentoring/discussion/discussion-post/DiscussionPostEdit'
 import { stubRange } from '../../../../support/code-mirror-helpers'

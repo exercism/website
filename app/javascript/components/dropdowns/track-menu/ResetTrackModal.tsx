@@ -7,6 +7,7 @@ import { FormButton } from '../../common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
 import { useConfirmation } from '../../../hooks/use-confirmation'
 import { Track } from '../../types'
+import { redirectTo } from '../../../utils/redirect-to'
 
 type UserTrack = {
   links: {
@@ -48,7 +49,7 @@ export const ResetTrackModal = ({
           return
         }
 
-        window.location.replace(track.links.self)
+        redirectTo(track.links.self)
       },
     }
   )

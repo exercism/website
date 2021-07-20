@@ -1,28 +1,37 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render } from '../../../../test-utils'
+import {
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { AddTestimonialStep } from '../../../../../../app/javascript/components/modals/student/finish-mentor-discussion-modal/AddTestimonialStep'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { TestQueryCache } from '../../../../support/TestQueryCache'
-import { silenceConsole } from '../../../../support/silence-console'
+import {
+  expectConsoleError,
+  silenceConsole,
+} from '../../../../support/silence-console'
+import { createMentorDiscussion } from '../../../../factories/MentorDiscussionFactory'
+
+const server = setupServer(
+  rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({}))
+  })
+)
+
+beforeAll(() => server.listen())
+beforeEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 test('button says "Submit testimonial" if text box is populated', async () => {
-  const discussion = {
-    mentor: {
-      handle: 'mentor',
-    },
-    links: {
-      finish: '',
-    },
-  }
-
   render(
     <AddTestimonialStep
       onSubmit={jest.fn()}
       onBack={jest.fn()}
-      discussion={discussion}
+      discussion={createMentorDiscussion()}
     />
   )
   userEvent.type(screen.getByLabelText(/Leave mentor a testimonial/), 'Test')
@@ -33,20 +42,11 @@ test('button says "Submit testimonial" if text box is populated', async () => {
 })
 
 test('button says "Skip testimonial" if text box is not populated', async () => {
-  const discussion = {
-    mentor: {
-      handle: 'mentor',
-    },
-    links: {
-      finish: '',
-    },
-  }
-
   render(
     <AddTestimonialStep
       onSubmit={jest.fn()}
       onBack={jest.fn()}
-      discussion={discussion}
+      discussion={createMentorDiscussion()}
     />
   )
 
@@ -56,29 +56,21 @@ test('button says "Skip testimonial" if text box is not populated', async () => 
 })
 
 test('disables buttons while loading', async () => {
-  const server = setupServer(
-    rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
-      return res(ctx.delay(10), ctx.status(200), ctx.json({}))
-    })
-  )
-  const discussion = {
-    mentor: {
-      handle: 'mentor',
-    },
+  const discussion = createMentorDiscussion({
     links: {
+      self: '',
+      posts: '',
+      markAsNothingToDo: '',
       finish: 'https://exercism.test/mentor_ratings',
     },
-  }
-  server.listen()
+  })
 
   render(
-    <TestQueryCache>
-      <AddTestimonialStep
-        onSubmit={jest.fn()}
-        onBack={jest.fn()}
-        discussion={discussion}
-      />
-    </TestQueryCache>
+    <AddTestimonialStep
+      onSubmit={jest.fn()}
+      onBack={jest.fn()}
+      discussion={discussion}
+    />
   )
   const submitButton = screen.getByRole('button', { name: 'Skip' })
   const skipButton = screen.getByRole('button', { name: 'Back' })
@@ -90,104 +82,91 @@ test('disables buttons while loading', async () => {
   await waitFor(() => {
     expect(skipButton).toBeDisabled()
   })
-
-  server.close()
 })
 
 test('shows loading message', async () => {
-  const server = setupServer(
-    rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
-      return res(ctx.delay(10), ctx.status(200), ctx.json({}))
-    })
-  )
-  const discussion = {
-    mentor: {
-      handle: 'mentor',
-    },
+  const discussion = createMentorDiscussion({
     links: {
+      self: '',
+      posts: '',
+      markAsNothingToDo: '',
       finish: 'https://exercism.test/mentor_ratings',
     },
-  }
-  server.listen()
+  })
 
   render(
-    <TestQueryCache>
-      <AddTestimonialStep
-        onSubmit={jest.fn()}
-        onBack={jest.fn()}
-        discussion={discussion}
-      />
-    </TestQueryCache>
+    <AddTestimonialStep
+      onSubmit={jest.fn()}
+      onBack={jest.fn()}
+      discussion={discussion}
+    />
   )
   userEvent.click(screen.getByRole('button', { name: 'Skip' }))
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 
-  server.close()
+  await waitForElementToBeRemoved(() => screen.getByText('Loading'))
 })
 
 test('shows error message', async () => {
-  silenceConsole()
-  const server = setupServer(
-    rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(422),
-        ctx.json({
-          error: {
-            message: 'Unknown error',
-          },
-        })
-      )
+  await expectConsoleError(async () => {
+    server.use(
+      rest.patch('https://exercism.test/mentor_ratings', (req, res, ctx) => {
+        return res(
+          ctx.delay(10),
+          ctx.status(422),
+          ctx.json({
+            error: {
+              message: 'Unknown error',
+            },
+          })
+        )
+      })
+    )
+    const discussion = createMentorDiscussion({
+      links: {
+        self: '',
+        posts: '',
+        markAsNothingToDo: '',
+        finish: 'https://exercism.test/mentor_ratings',
+      },
     })
-  )
-  const discussion = {
-    mentor: {
-      handle: 'mentor',
-    },
-    links: {
-      finish: 'https://exercism.test/mentor_ratings',
-    },
-  }
-  server.listen()
 
-  render(
-    <TestQueryCache>
+    render(
       <AddTestimonialStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
         discussion={discussion}
       />
-    </TestQueryCache>
-  )
-  userEvent.click(screen.getByRole('button', { name: 'Skip' }))
+    )
+    userEvent.click(screen.getByRole('button', { name: 'Skip' }))
 
-  expect(await screen.findByText('Unknown error')).toBeInTheDocument()
-
-  server.close()
+    expect(await screen.findByText('Unknown error')).toBeInTheDocument()
+  })
 })
 
 test('shows generic error message', async () => {
-  silenceConsole()
-  const discussion = {
-    mentor: {
-      handle: 'mentor',
-    },
-    links: { finish: 'weirdendpoint' },
-  }
+  await expectConsoleError(async () => {
+    const discussion = createMentorDiscussion({
+      links: {
+        self: '',
+        posts: '',
+        markAsNothingToDo: '',
+        finish: 'weirdendpoint',
+      },
+    })
 
-  render(
-    <TestQueryCache>
+    render(
       <AddTestimonialStep
         onSubmit={jest.fn()}
         onBack={jest.fn()}
         discussion={discussion}
       />
-    </TestQueryCache>
-  )
-  userEvent.click(screen.getByRole('button', { name: 'Skip' }))
+    )
+    userEvent.click(screen.getByRole('button', { name: 'Skip' }))
 
-  expect(
-    await screen.findByText('Unable to submit mentor rating')
-  ).toBeInTheDocument()
+    expect(
+      await screen.findByText('Unable to submit mentor rating')
+    ).toBeInTheDocument()
+  })
 })

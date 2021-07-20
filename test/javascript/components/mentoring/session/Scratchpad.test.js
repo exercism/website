@@ -1,11 +1,7 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-  act,
-} from '@testing-library/react'
+import { render } from '../../../test-utils'
+import { screen, waitForElementToBeRemoved, act } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -13,198 +9,125 @@ import { Scratchpad } from '../../../../../app/javascript/components/mentoring/s
 import { stubRange } from '../../../support/code-mirror-helpers'
 import { awaitPopper } from '../../../support/await-popper'
 import { TestQueryCache } from '../../../support/TestQueryCache'
+import { build } from '@jackfranklin/test-data-bot'
+import { expectConsoleError } from '../../../support/silence-console'
 
 stubRange()
 
+const server = setupServer(
+  rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
+    return res(
+      ctx.delay(10),
+      ctx.json({ scratchpad_page: { content_markdown: '' } })
+    )
+  })
+)
+
+beforeAll(() => server.listen())
+beforeEach(() => server.resetHandlers())
+afterAll(() => server.close())
+
+const buildScratchpad = build({
+  fields: {
+    scratchpad: {
+      links: {
+        self: 'https://exercism.test/scratchpad',
+      },
+    },
+    exercise: {},
+    track: {},
+  },
+})
+
 test('hides local storage autosave message', async () => {
-  const server = setupServer(
-    rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.json({ scratchpad_page: { content_markdown: null } })
-      )
-    })
-  )
-  server.listen()
+  const props = buildScratchpad()
 
-  render(
-    <Scratchpad
-      scratchpad={{
-        links: {
-          self: 'https://exercism.test/scratchpad',
-        },
-      }}
-      exercise={{}}
-      track={{}}
-    />
-  )
+  render(<Scratchpad {...props} />)
+
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
-
   expect(screen.queryByText(/Autosaved/)).not.toBeInTheDocument()
-
-  server.close()
 })
 
 test('shows errors from API', async () => {
-  const server = setupServer(
-    rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.json({ scratchpad_page: { content_markdown: null } })
-      )
-    }),
-    rest.patch('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(404),
-        ctx.json({
-          error: {
-            type: 'generic',
-            message: 'Unable to save page',
-          },
-        })
-      )
-    })
-  )
-  server.listen()
+  await expectConsoleError(async () => {
+    server.use(
+      rest.patch('https://exercism.test/scratchpad', (req, res, ctx) => {
+        return res(
+          ctx.status(404),
+          ctx.json({
+            error: {
+              type: 'generic',
+              message: 'Unable to save page',
+            },
+          })
+        )
+      })
+    )
+    const props = buildScratchpad()
 
-  render(
-    <Scratchpad
-      scratchpad={{
-        links: {
-          self: 'https://exercism.test/scratchpad',
-        },
-      }}
-      exercise={{}}
-      track={{}}
-    />
-  )
-  await waitForElementToBeRemoved(screen.queryByText('Loading'))
-  userEvent.click(screen.getByRole('button', { name: 'Save' }))
+    render(<Scratchpad {...props} />)
+    await waitForElementToBeRemoved(screen.queryByText('Loading'))
 
-  expect(await screen.findByText('Unable to save page')).toBeInTheDocument()
-
-  server.close()
+    userEvent.click(screen.getByRole('button', { name: 'Save' }))
+    expect(await screen.findByText('Unable to save page')).toBeInTheDocument()
+  })
 })
 
 test('clears errors when resubmitting', async () => {
-  const server = setupServer(
-    rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.json({ scratchpad_page: { content_markdown: null } })
-      )
-    }),
-    rest.patch('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.status(404),
-        ctx.json({
-          error: {
-            type: 'generic',
-            message: 'Unable to save page',
-          },
-        })
-      )
-    })
-  )
-  server.listen()
-  await awaitPopper()
-
-  act(() => {
-    render(
-      <TestQueryCache>
-        <Scratchpad
-          scratchpad={{
-            links: {
-              self: 'https://exercism.test/scratchpad',
+  await expectConsoleError(async () => {
+    server.use(
+      rest.patch('https://exercism.test/scratchpad', (req, res, ctx) => {
+        return res(
+          ctx.status(404),
+          ctx.json({
+            error: {
+              type: 'generic',
+              message: 'Unable to save page',
             },
-          }}
-          exercise={{}}
-          track={{}}
-        />
-      </TestQueryCache>
+          })
+        )
+      })
     )
-  })
-  await awaitPopper()
-  await waitForElementToBeRemoved(screen.queryByText('Loading'))
-  act(() => {
+    const props = buildScratchpad()
+
+    render(<Scratchpad {...props} />)
+
+    await waitForElementToBeRemoved(screen.queryByText('Loading'))
     userEvent.click(screen.getByRole('button', { name: 'Save' }))
+
+    expect(await screen.findByText('Unable to save page')).toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('button', { name: 'Save' }))
+
+    expect(screen.queryByText('Unable to save page')).not.toBeInTheDocument()
+
+    await screen.findByText('Unable to save page')
   })
-
-  expect(await screen.findByText('Unable to save page')).toBeInTheDocument()
-
-  userEvent.click(screen.getByRole('button', { name: 'Save' }))
-
-  expect(screen.queryByText('Unable to save page')).not.toBeInTheDocument()
-
-  server.close()
 })
 
 test('revert to saved button shows if content changed', async () => {
-  const server = setupServer(
-    rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.json({ scratchpad_page: { content_markdown: '' } })
-      )
-    })
-  )
-  server.listen()
+  const props = buildScratchpad()
 
-  render(
-    <Scratchpad
-      scratchpad={{
-        links: {
-          self: 'https://exercism.test/scratchpad',
-        },
-      }}
-      exercise={{}}
-      track={{}}
-    />
-  )
+  render(<Scratchpad {...props} />)
 
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
 
   act(() => {
     document.querySelector('.CodeMirror').CodeMirror.setValue('#Hello')
   })
-
   expect(
     await screen.findByRole('button', { name: 'Revert to saved' })
   ).toBeInTheDocument()
-
-  server.close()
 })
 
 test('revert to saved button is hidden', async () => {
-  const server = setupServer(
-    rest.get('https://exercism.test/scratchpad', (req, res, ctx) => {
-      return res(
-        ctx.delay(10),
-        ctx.json({ scratchpad_page: { content_markdown: '' } })
-      )
-    })
-  )
-  server.listen()
+  const props = buildScratchpad()
 
-  render(
-    <Scratchpad
-      scratchpad={{
-        links: {
-          self: 'https://exercism.test/scratchpad',
-        },
-      }}
-      exercise={{}}
-      track={{}}
-    />
-  )
+  render(<Scratchpad {...props} />)
 
   await waitForElementToBeRemoved(screen.queryByText('Loading'))
 
   expect(
     screen.queryByRole('button', { name: 'Revert to saved' })
   ).not.toBeInTheDocument()
-
-  server.close()
 })

@@ -7,6 +7,7 @@ import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
 import { Track } from '../../../types'
 import { UserTrack } from '../LeaveTrackModal'
 import { useConfirmation } from '../../../../hooks/use-confirmation'
+import { redirectTo } from '../../../../utils/redirect-to'
 
 const DEFAULT_ERROR = new Error('Unable to leave and reset track')
 
@@ -41,7 +42,7 @@ export const LeaveResetTrackForm = ({
           return
         }
 
-        window.location.replace(track.links.self)
+        redirectTo(track.links.self)
       },
     }
   )

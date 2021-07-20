@@ -3,18 +3,11 @@ import { makeQueryCache, ReactQueryCacheProvider } from 'react-query'
 
 export const TestQueryCache = ({
   children,
-  enabled = true,
 }: {
-  children: React.ReactNode
-  enabled?: boolean
+  children?: React.ReactNode
 }): JSX.Element => {
   const queryCache = makeQueryCache({
-    defaultConfig: {
-      queries: {
-        retry: false,
-        enabled: enabled,
-      },
-    },
+    defaultConfig: { queries: { retry: false } },
   })
 
   return (

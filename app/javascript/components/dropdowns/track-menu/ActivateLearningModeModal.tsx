@@ -5,6 +5,7 @@ import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { FormButton, GraphicalIcon } from '../../common'
 import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
+import { redirectTo } from '../../../utils/redirect-to'
 
 type UserTrack = {
   links: {
@@ -40,7 +41,7 @@ export const ActivateLearningModeModal = ({
           return
         }
 
-        window.location.replace(track.links.self)
+        redirectTo(track.links.self)
       },
     }
   )

@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render } from '../../../test-utils'
+import { screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { DiscussionPost } from '../../../../../app/javascript/components/mentoring/discussion/DiscussionPost'
 import { stubRange } from '../../../support/code-mirror-helpers'
@@ -10,7 +11,9 @@ stubRange()
 test('editing action shows editor', async () => {
   render(<DiscussionPost post={createDiscussionPost({})} action="editing" />)
 
-  expect(screen.getByTestId('markdown-editor')).toBeInTheDocument()
+  await waitFor(() =>
+    expect(screen.getByTestId('markdown-editor')).toBeInTheDocument()
+  )
 })
 
 test('viewing action does not show editor', async () => {

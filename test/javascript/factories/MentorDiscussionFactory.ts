@@ -1,7 +1,7 @@
 import { MentorDiscussion } from '../../../app/javascript/components/types'
 
 export const createMentorDiscussion = (
-  props: Partial<MentorDiscussion>
+  props: Partial<MentorDiscussion> = {}
 ): MentorDiscussion => {
   return {
     uuid: 'mentor-discussion',

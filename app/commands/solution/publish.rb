@@ -2,9 +2,11 @@ class Solution
   class Publish
     include Mandate
 
-    initialize_with :solution, :iteration_idx
+    initialize_with :solution, :user_track, :iteration_idx
 
     def call
+      Solution::Complete.(solution, user_track) unless solution.completed?
+
       solution.with_lock do
         return if solution.published?
 

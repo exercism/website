@@ -237,6 +237,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
     setup_user
 
     solution = create :concept_solution, user: @current_user
+    create :iteration, solution: solution
+
     patch complete_api_solution_path(solution.uuid),
       headers: @headers, as: :json
 
@@ -252,6 +254,28 @@ class API::SolutionsControllerTest < API::BaseTestCase
     )
   end
 
+  test "complete renders 400 when solution has no iterations" do
+    setup_user
+
+    exercise = create :concept_exercise
+    create :user_track, track: exercise.track, user: @current_user
+    solution = create :concept_solution, exercise: exercise, user: @current_user
+
+    patch complete_api_solution_path(solution.uuid),
+      headers: @headers, as: :json
+
+    assert_response 400
+    assert_equal(
+      {
+        "error" => {
+          "type" => "solution_without_iterations",
+          "message" => I18n.t("api.errors.solution_without_iterations")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
   test "complete completes exercise" do
     freeze_time do
       setup_user
@@ -259,6 +283,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       exercise = create :concept_exercise
       create :user_track, track: exercise.track, user: @current_user
       solution = create :concept_solution, exercise: exercise, user: @current_user
+      create :iteration, solution: solution
 
       patch complete_api_solution_path(solution.uuid),
         headers: @headers, as: :json
@@ -298,6 +323,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       setup_user
 
       track = create :track
+
       concept_1 = create :concept, track: track
       concept_2 = create :concept, track: track
 
@@ -320,6 +346,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
       user_track = create :user_track, track: track, user: @current_user
       solution = create :concept_solution, exercise: concept_exercise_1, user: @current_user
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission
 
       patch complete_api_solution_path(solution.uuid),
         headers: @headers, as: :json
@@ -347,7 +375,204 @@ class API::SolutionsControllerTest < API::BaseTestCase
           }
         ]
       }.to_json
+
       assert_equal expected, response.body
+    end
+  end
+
+  ############
+  # Publish #
+  ############
+  test "publish renders 404 when solution not found" do
+    setup_user
+
+    patch publish_api_solution_path("xxx"),
+      headers: @headers, as: :json
+
+    assert_response 404
+    assert_equal(
+      {
+        "error" => {
+          "type" => "solution_not_found",
+          "message" => I18n.t("api.errors.solution_not_found")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "publish should 404 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    patch publish_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "publish renders 404 when track not joined" do
+    setup_user
+
+    solution = create :concept_solution, user: @current_user
+    create :iteration, solution: solution
+
+    patch publish_api_solution_path(solution.uuid),
+      headers: @headers, as: :json
+
+    assert_response 404
+    assert_equal(
+      {
+        "error" => {
+          "type" => "track_not_joined",
+          "message" => I18n.t("api.errors.track_not_joined")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "publish renders 400 when solution not completed and has no iterations" do
+    setup_user
+
+    exercise = create :concept_exercise
+    create :user_track, track: exercise.track, user: @current_user
+    solution = create :concept_solution, exercise: exercise, user: @current_user, completed_at: nil
+
+    patch publish_api_solution_path(solution.uuid, publish: true),
+      headers: @headers, as: :json
+
+    assert_response 400
+    assert_equal(
+      {
+        "error" => {
+          "type" => "solution_without_iterations",
+          "message" => I18n.t("api.errors.solution_without_iterations")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "publish completes the solution if not already completed" do
+    freeze_time do
+      setup_user
+
+      exercise = create :concept_exercise
+      create :user_track, track: exercise.track, user: @current_user
+      solution = create :concept_solution, exercise: exercise, user: @current_user, completed_at: nil
+      create :iteration, solution: solution
+
+      patch publish_api_solution_path(solution.uuid, publish: true),
+        headers: @headers, as: :json
+
+      assert_response 200
+
+      solution.reload
+      assert_equal Time.current, solution.completed_at
+      assert_equal Time.current, solution.published_at
+      assert_equal :published, solution.status
+    end
+  end
+
+  test "publish publishes the solution" do
+    freeze_time do
+      setup_user
+
+      exercise = create :concept_exercise
+      create :user_track, track: exercise.track, user: @current_user
+      solution = create :concept_solution, exercise: exercise, user: @current_user, completed_at: Time.current
+      create :iteration, solution: solution
+
+      patch publish_api_solution_path(solution.uuid, publish: true),
+        headers: @headers, as: :json
+
+      assert_response 200
+
+      solution.reload
+      assert_equal Time.current, solution.completed_at
+      assert_equal Time.current, solution.published_at
+      assert_equal :published, solution.status
+    end
+  end
+
+  ############
+  # Unpublish #
+  ############
+  test "unpublish renders 404 when solution not found" do
+    setup_user
+
+    patch unpublish_api_solution_path("xxx"),
+      headers: @headers, as: :json
+
+    assert_response 404
+    assert_equal(
+      {
+        "error" => {
+          "type" => "solution_not_found",
+          "message" => I18n.t("api.errors.solution_not_found")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "unpublish should 404 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    patch unpublish_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response 403
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "unpublish renders 404 when track not joined" do
+    setup_user
+
+    solution = create :concept_solution, user: @current_user
+    patch unpublish_api_solution_path(solution.uuid),
+      headers: @headers, as: :json
+
+    assert_response 404
+    assert_equal(
+      {
+        "error" => {
+          "type" => "track_not_joined",
+          "message" => I18n.t("api.errors.track_not_joined")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
+  test "unpublish unpublishes the solution" do
+    freeze_time do
+      setup_user
+
+      exercise = create :concept_exercise
+      create :user_track, track: exercise.track, user: @current_user
+      solution = create :concept_solution, exercise: exercise, user: @current_user, completed_at: Time.current
+      create :iteration, solution: solution
+
+      patch unpublish_api_solution_path(solution.uuid, publish: true),
+        headers: @headers, as: :json
+
+      assert_response 200
+
+      solution.reload
+      assert_equal Time.current, solution.completed_at
+      assert_nil solution.published_at
+      assert_nil solution.published_iteration_id
+      assert_equal :completed, solution.status
     end
   end
 end

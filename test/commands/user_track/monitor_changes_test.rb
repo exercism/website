@@ -27,6 +27,8 @@ class Solution::CompleteWithSummaryTest < ActiveSupport::TestCase
       user = create :user
       user_track = create :user_track, user: user, track: track
       solution = create :concept_solution, user: user, exercise: concept_exercise_1
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission
 
       summary = UserTrack::MonitorChanges.(user_track) do
         Solution::Complete.(solution, user_track)

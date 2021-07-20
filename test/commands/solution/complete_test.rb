@@ -7,6 +7,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     user = create :user
     user_track = create :user_track, user: user, track: exercise.track
     solution = create :concept_solution, user: user, exercise: exercise
+    create :iteration, solution: solution
 
     Solution::Complete.(solution, user_track)
 
@@ -22,6 +23,8 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     user = create :user
     user_track = create :user_track, user: user, track: track
     solution = create :concept_solution, user: user, exercise: exercise
+    submission = create :submission, solution: solution
+    create :iteration, submission: submission
 
     Solution::Complete.(solution, user_track)
 
@@ -34,6 +37,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     user = create :user
     user_track = create :user_track, user: user, track: exercise.track
     solution = create :practice_solution, user: user, exercise: exercise
+    create :iteration, solution: solution
 
     Solution::Complete.(solution, user_track)
 
@@ -46,6 +50,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     user = create :user
     user_track = create :user_track, user: user, track: exercise.track
     solution = create :practice_solution, user: user, exercise: exercise
+    create :iteration, solution: solution
 
     Solution::Complete.(solution, user_track)
 
@@ -63,6 +68,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
       user = create :user
       user_track = create :user_track, user: user, track: exercise.track
       solution = create :concept_solution, user: user, exercise: exercise, completed_at: completed_at
+      create :iteration, solution: solution
 
       # Sanity check
       assert solution.completed?
@@ -73,6 +79,18 @@ class Solution::CompleteTest < ActiveSupport::TestCase
       assert solution.completed?
       assert_equal completed_at, solution.completed_at
       refute User::Activities::CompletedExerciseActivity.exists?
+    end
+  end
+
+  test "raises when solution has no iterations" do
+    exercise = create :practice_exercise
+
+    user = create :user
+    user_track = create :user_track, user: user, track: exercise.track
+    solution = create :practice_solution, user: user, exercise: exercise
+
+    assert_raises SolutionHasNoIterationsError do
+      Solution::Complete.(solution, user_track)
     end
   end
 end

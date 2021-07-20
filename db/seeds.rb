@@ -130,7 +130,7 @@ submission.files.create!(
 Iteration::Create.(solution, submission)
 
 Solution::Complete.(solution, user_track)
-Solution::Publish.(solution, [])
+Solution::Publish.(solution, user_track, [])
 
 ## Create mentoring solutions
 UserTrack.create!(user: erik, track: ruby)

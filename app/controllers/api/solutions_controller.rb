@@ -49,7 +49,9 @@ module API
 
       changes = UserTrack::MonitorChanges.(user_track) do
         Solution::Complete.(solution, user_track)
-        Solution::Publish.(solution, params[:iteration_idx]) if params[:publish]
+        Solution::Publish.(solution, user_track, params[:iteration_idx]) if params[:publish]
+      rescue SolutionHasNoIterationsError
+        return render_400(:solution_without_iterations)
       end
 
       output = {
@@ -84,14 +86,16 @@ module API
         return render_solution_not_found
       end
 
-      # TODO: (Required) Add check if solution is not complete
-
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
       user_track = UserTrack.for(current_user, solution.track)
       return render_404(:track_not_joined) if user_track.external?
 
-      Solution::Publish.(solution, params[:iteration_idx])
+      begin
+        Solution::Publish.(solution, user_track, params[:iteration_idx])
+      rescue SolutionHasNoIterationsError
+        return render_400(:solution_without_iterations)
+      end
 
       render json: {
         solution: SerializeSolution.(solution)
@@ -122,8 +126,6 @@ module API
       rescue ActiveRecord::RecordNotFound
         return render_solution_not_found
       end
-
-      # TODO: (Required): Add check if solution is not complete
 
       return render_solution_not_accessible unless solution.user_id == current_user.id
 

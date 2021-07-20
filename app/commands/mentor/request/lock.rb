@@ -12,7 +12,7 @@ module Mentor
 
           # Guard against not being lockable
           raise SolutionLockedByAnotherMentorError unless request.lockable_by?(mentor)
-          raise MentorSolutionLockLimitReachedError if mentor.locks.size >= Mentor::RequestLock::MAX_LOCKS_PER_MENTOR
+          raise MentorSolutionLockLimitReachedError if mentor.mentor_locks.size >= Mentor::RequestLock::MAX_LOCKS_PER_MENTOR
 
           Mentor::RequestLock.create!(
             request: request,

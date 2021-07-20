@@ -56,7 +56,7 @@ class User < ApplicationRecord
 
   has_many :dismissed_introducers, dependent: :destroy
 
-  has_many :locks,
+  has_many :mentor_locks,
     class_name: "Mentor::RequestLock",
     foreign_key: :locked_by_id,
     inverse_of: :locked_by,

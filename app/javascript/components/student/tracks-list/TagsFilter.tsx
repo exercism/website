@@ -59,6 +59,10 @@ export const TagsFilter = ({
     }
   }, [expanded])
 
+  useEffect(() => {
+    setSelectedTags(value)
+  }, [value])
+
   const handleReset = useCallback(
     (e) => {
       e.preventDefault()

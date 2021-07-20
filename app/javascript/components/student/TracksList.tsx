@@ -45,6 +45,11 @@ export const TracksList = ({
     [request.query, setQuery]
   )
 
+  const handleReset = useCallback(() => {
+    setCriteria('')
+    setQuery({ ...request.query, tags: [] })
+  }, [request.query, setQuery])
+
   const sortedTracks = resolvedData?.tracks.sort((a, b) => {
     if (a.lastTouchedAt === null || b.lastTouchedAt === null) {
       return 0
@@ -89,7 +94,9 @@ export const TracksList = ({
         {isError && <p>Something went wrong</p>}
         {resolvedData && (
           <ResultsZone isFetching={isFetching}>
-            {sortedTracks ? <List data={sortedTracks} /> : null}
+            {sortedTracks ? (
+              <List data={sortedTracks} onReset={handleReset} />
+            ) : null}
           </ResultsZone>
         )}
       </section>

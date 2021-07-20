@@ -5,10 +5,6 @@ module Mentor
 
       initialize_with :request, :mentor
 
-      # TODO: (Required) Add a guard that a mentor should only have
-      # two solutions locked to them at any time. When someone
-      # hits 'start discussion' that should remove the lock.
-
       def call
         ActiveRecord::Base.transaction do
           # This is a DB lock (The naming is confusing!)
@@ -16,6 +12,7 @@ module Mentor
 
           # Guard against not being lockable
           raise SolutionLockedByAnotherMentorError unless request.lockable_by?(mentor)
+          raise MentorSolutionLockLimitReachedError if mentor.locks.size >= Mentor::RequestLock::MAX_LOCKS_PER_MENTOR
 
           Mentor::RequestLock.create!(
             request: request,

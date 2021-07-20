@@ -56,6 +56,12 @@ class User < ApplicationRecord
 
   has_many :dismissed_introducers, dependent: :destroy
 
+  has_many :locks,
+    class_name: "Mentor::RequestLock",
+    foreign_key: :locked_by_id,
+    inverse_of: :locked_by,
+    dependent: :destroy
+
   # TODO: validate presence of name
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 

@@ -1,6 +1,6 @@
-require "test_helper"
+require_relative "../view_component_test_case"
 
-class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
+class ViewComponents::Track::SolutionActivityTest < ViewComponentTestCase
   include IconsHelper
   include Webpacker::Helper
 

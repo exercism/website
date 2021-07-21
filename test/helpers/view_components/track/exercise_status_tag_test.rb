@@ -1,6 +1,6 @@
-require "test_helper"
+require_relative "../view_component_test_case"
 
-class ViewComponents::Track::ExerciseStatusTagTest < ActionView::TestCase
+class ViewComponents::Track::ExerciseStatusTagTest < ViewComponentTestCase
   include Webpacker::Helper
 
   test "available" do

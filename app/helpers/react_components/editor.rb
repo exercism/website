@@ -19,7 +19,7 @@ module ReactComponents
             solution.uuid,
             auth_token: solution.user.auth_tokens.first.to_s
           ),
-          submission: SerializeSubmission.(solution.submissions.last),
+          submission: SerializeSubmission.(solution.latest_submission),
           files: SerializeFiles.(solution.solution_files),
           highlightjs_language: track.highlightjs_language,
           average_test_duration: track.average_test_duration,

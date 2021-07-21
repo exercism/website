@@ -1,6 +1,17 @@
 require 'test_helper'
 
 class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
+  test "should not do anything if the test run is not pending" do
+    submission = create :submission
+    job = create_test_runner_job!(submission, execution_status: 200, results: {})
+
+    submission.tests_cancelled!
+    Submission::TestRun::Process.(job)
+
+    assert submission.reload.tests_cancelled?
+    assert_equal :cancelled, submission.test_run.status
+  end
+
   test "creates test_run record" do
     submission = create :submission
     ops_status = 201

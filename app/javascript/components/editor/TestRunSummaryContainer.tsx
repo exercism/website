@@ -55,7 +55,7 @@ export const TestRunSummaryContainer = ({
   const cancel = useCallback(() => {
     setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
 
-    fetchJSON(cancelLink, { method: 'POST' })
+    fetchJSON(cancelLink, { method: 'PATCH' })
   }, [cancelLink, setTestRun, testRun])
 
   useEffect(() => {

@@ -54,14 +54,14 @@ class Submission::CreateTest < ActiveSupport::TestCase
 
     # The second time *in a row* it should fail
     assert_raises DuplicateSubmissionError do
-      Submission::Create.(solution, files, :cli)
+      Submission::Create.(solution.reload, files, :cli)
     end
 
     # Submit something different
-    Submission::Create.(solution, [files.first], :cli)
+    Submission::Create.(solution.reload, [files.first], :cli)
 
     # The duplicate should now succeed
-    Submission::Create.(solution, files, :cli)
+    Submission::Create.(solution.reload, files, :cli)
   end
 
   test "award rookie badge job is enqueued" do

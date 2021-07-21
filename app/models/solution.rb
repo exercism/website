@@ -92,6 +92,18 @@ class Solution < ApplicationRecord
     iterations.last
   end
 
+  memoize
+  def latest_submission
+    submissions.where.not(tests_status: :cancelled).last
+  end
+
+  memoize
+  def latest_valid_submission
+    submissions.where.not(
+      tests_status: %i[cancelled exceptioned]
+    ).last
+  end
+
   def status
     super.to_sym
   end

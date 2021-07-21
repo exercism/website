@@ -32,7 +32,17 @@ class Submission
             raise "Unknown status"
           end
         rescue StandardError
-          submission.tests_exceptioned!
+          update_status!(:exceptioned)
+        end
+
+        # Work through and process the test run
+        # then before broadcasting, check whether it's been
+        # cancelled, and update it if so.
+        # This whole bit is very racey so the order is very
+        # important to consider.
+        if submission.tests_cancelled?
+          test_run.update!(status: "cancelled")
+          return
         end
 
         submission.broadcast!
@@ -44,20 +54,20 @@ class Submission
       attr_reader :tooling_job
 
       def handle_ops_error!
-        submission.tests_exceptioned!
+        update_status!(:exceptioned)
       end
 
       def handle_pass!
-        submission.tests_passed!
+        update_status!(:passed)
       end
 
       def handle_fail!
-        submission.tests_failed!
+        update_status!(:failed)
         cancel_other_services!
       end
 
       def handle_error!
-        submission.tests_errored!
+        update_status!(:errored)
         cancel_other_services!
       end
 
@@ -69,6 +79,14 @@ class Submission
       memoize
       def submission
         Submission.find_by!(uuid: tooling_job.submission_uuid)
+      end
+
+      def update_status!(status)
+        submission.with_lock do
+          return if submission.tests_cancelled?
+
+          submission.send("tests_#{status}!")
+        end
       end
 
       memoize

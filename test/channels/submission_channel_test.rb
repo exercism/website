@@ -11,7 +11,7 @@ class SubmissionChannelTest < ActionCable::Channel::TestCase
         uuid: submission.uuid,
         tests_status: "not_queued",
         links: {
-          cancel: Exercism::Routes.api_solution_submission_cancellations_url(solution.uuid, submission),
+          cancel: Exercism::Routes.cancel_api_solution_submission_test_run_url(solution.uuid, submission),
           submit: Exercism::Routes.api_solution_iterations_url(submission.solution.uuid, submission_uuid: submission.uuid),
           test_run: Exercism::Routes.api_solution_submission_test_run_url(solution.uuid, submission.uuid),
           initial_files: Exercism::Routes.api_solution_initial_files_url(solution.uuid),

@@ -135,8 +135,9 @@ Rails.application.routes.draw do
         end
 
         resources :submissions, only: %i[create], controller: "solutions/submissions", param: :uuid do
-          resource :test_run, only: %i[show], controller: "solutions/submission_test_runs"
-          resources :cancellations, only: %i[create], controller: "solutions/submission_cancellations"
+          resource :test_run, only: %i[show], controller: "solutions/submission_test_runs" do
+            patch :cancel
+          end
           resources :files, only: %i[index], controller: "solutions/submission_files"
         end
 

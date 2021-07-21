@@ -21,9 +21,9 @@ module ReactComponents
             },
             links: {
               get_mentoring: Exercism::Routes.new_track_exercise_mentor_request_url(track, exercise),
-              automated_feedback_info: "TODO", # TODO: (Required)
+              automated_feedback_info: Exercism::Routes.doc_path('feedback', 'automated'),
               start_exercise: Exercism::Routes.start_temp_track_exercise_url(track, exercise),
-              solving_exercises_locally: "TODO" # TODO: (Required)
+              solving_exercises_locally: Exercism::Routes.doc_path('solving-exercises', 'locally')
             }
           }
         )

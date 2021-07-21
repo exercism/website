@@ -15,4 +15,4 @@
 
   = ReactComponents::Common::CopyToClipboardButton.new(exercise.download_cmd)
 
-  = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", "#")
+  = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", Exercism::Routes.doc_path('solving-exercises', 'locally'))

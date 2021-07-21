@@ -55,7 +55,6 @@ export enum TestRunStatus {
   OPS_ERROR = 'ops_error',
   QUEUED = 'queued',
   TIMEOUT = 'timeout',
-  CANCELLING = 'cancelling',
   CANCELLED = 'cancelled',
 }
 

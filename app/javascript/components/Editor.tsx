@@ -215,10 +215,6 @@ export function Editor({
     submitMutation()
   }, [submission, submissionDispatch, submitMutation])
 
-  const cancel = useCallback(() => {
-    submissionDispatch({ type: SubmissionActionType.SUBMISSION_CANCELLED })
-  }, [submissionDispatch])
-
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
       submissionDispatch({
@@ -481,8 +477,7 @@ export function Editor({
                   }
                   isProcessing={
                     submissionStatus === SubmissionStatus.CREATING ||
-                    submission?.testRun?.status === TestRunStatus.QUEUED ||
-                    submission?.testRun?.status === TestRunStatus.CANCELLING
+                    submission?.testRun?.status === TestRunStatus.QUEUED
                   }
                 />
                 <SubmitButton onClick={submit} disabled={isSubmitDisabled} />

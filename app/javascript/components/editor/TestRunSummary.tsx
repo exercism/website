@@ -198,6 +198,9 @@ const TestRunSummaryContent = ({
         </div>
       )
     }
+    case TestRunStatus.CANCELLED: {
+      return <div role="status">Test run cancelled</div>
+    }
     default:
       return null
   }

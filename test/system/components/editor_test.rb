@@ -284,8 +284,20 @@ module Components
         click_on "Run Tests"
         wait_for_submission
         click_on "Cancel"
+        assert_text "Test run cancelled"
+        2.times { wait_for_websockets }
+        test_run = create :submission_test_run,
+          submission: Submission.last,
+          message: "Can't run the tests",
+          ops_status: 400,
+          raw_results: {
+            version: 2,
+            status: "error",
+            tests: []
+          }
+        Submission::TestRunsChannel.broadcast!(test_run)
 
-        assert_no_text "Running tests..."
+        assert_no_text "AN ERROR OCCURRED"
       end
     end
 

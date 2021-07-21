@@ -51,26 +51,12 @@ export const TestRunSummaryContainer = ({
       timer.current = undefined
     }, timeout)
   }, [setTestRun, testRun, timeout])
-  const handleTimeout = useCallback(() => {
-    channel.current?.disconnect()
-  }, [channel])
-  const handleCancelling = useCallback(() => {
-    clearTimeout(timer.current)
 
-    fetchJSON(cancelLink, {
-      method: 'POST',
-    }).then(() => {
-      setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-    })
-  }, [cancelLink, testRun, setTestRun])
-  const handleCancelled = useCallback(() => {
-    clearTimeout(timer.current)
-
-    channel.current?.disconnect()
-  }, [channel, timer])
   const cancel = useCallback(() => {
     setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-  }, [testRun, setTestRun])
+
+    fetchJSON(cancelLink, { method: 'POST' })
+  }, [cancelLink, setTestRun, testRun])
 
   useEffect(() => {
     if (!data) {
@@ -89,35 +75,23 @@ export const TestRunSummaryContainer = ({
       case TestRunStatus.QUEUED:
         handleQueued()
         break
-      case TestRunStatus.TIMEOUT:
-        handleTimeout()
-        break
-      case TestRunStatus.CANCELLING:
-        handleCancelling()
-        break
-      case TestRunStatus.CANCELLED:
-        handleCancelled()
-        break
       default:
         clearTimeout(timer.current)
+        channel.current?.disconnect()
         break
     }
-  }, [
-    handleCancelled,
-    handleCancelling,
-    handleQueued,
-    handleTimeout,
-    testRun.status,
-  ])
+  }, [handleQueued, testRun.status])
 
   useEffect(() => {
     channel.current = new TestRunChannel(testRun, (updatedTestRun: TestRun) => {
+      if (testRun.status !== TestRunStatus.QUEUED) {
+        return
+      }
+
       setTestRun(updatedTestRun)
     })
 
-    return () => {
-      channel.current?.disconnect()
-    }
+    return () => channel.current?.disconnect()
   }, [setTestRun, testRun])
 
   useEffect(() => {

@@ -268,4 +268,24 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal "User in Anonymous mode", discussion.student_name
     assert_nil discussion.student_avatar_url
   end
+
+  test "recalculates num_solutions_mentored" do
+    mentor = create :user
+
+    discussion_1 = create :mentor_discussion, mentor: mentor
+    discussion_2 = create :mentor_discussion, mentor: mentor
+    discussion_3 = create :mentor_discussion, mentor: mentor
+
+    # Sanity check
+    assert_equal 0, mentor.num_solutions_mentored
+
+    discussion_1.student_finished!
+    assert_equal 1, mentor.reload.num_solutions_mentored
+
+    discussion_2.finished!
+    assert_equal 2, mentor.reload.num_solutions_mentored
+
+    discussion_3.finished!
+    assert_equal 3, mentor.reload.num_solutions_mentored
+  end
 end

@@ -13,8 +13,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "scopes and helpers" do
     awaiting_student = create :mentor_discussion, :awaiting_student
     awaiting_mentor = create :mentor_discussion, :awaiting_mentor
-    mentor_finished = create :mentor_discussion, :mentor_finished
-    finished = create :mentor_discussion, :finished
+    mentor_finished = create :mentor_discussion, :mentor_finished, rating: :great
+    finished = create :mentor_discussion, :finished, rating: :problematic
 
     # TODO: See where these are used to decide if we need it
     assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.in_progress_for_student
@@ -25,6 +25,10 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal [awaiting_mentor], Mentor::Discussion.awaiting_mentor
     assert_equal [mentor_finished], Mentor::Discussion.mentor_finished
     assert_equal [finished], Mentor::Discussion.finished
+
+    assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.not_negatively_rated
+    assert_equal [mentor_finished], Mentor::Discussion.satisfactory_rated
+    assert_equal [mentor_finished, finished], Mentor::Discussion.rated
 
     refute awaiting_student.finished_for_student?
     refute awaiting_mentor.finished_for_student?

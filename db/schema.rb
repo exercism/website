@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_20_075622) do
+ActiveRecord::Schema.define(version: 2021_07_21_064506) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -745,7 +745,8 @@ ActiveRecord::Schema.define(version: 2021_07_20_075622) do
     t.string "pronouns"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "stripe_customer_id"
+    t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
+    t.integer "satisfaction_rating", limit: 1, default: 100, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

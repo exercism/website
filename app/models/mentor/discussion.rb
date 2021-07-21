@@ -33,8 +33,8 @@ class Mentor::Discussion < ApplicationRecord
   scope :in_progress_for_student, -> { where(status: %i[awaiting_student awaiting_mentor mentor_finished]) }
   scope :finished_for_student, -> { where(status: :finished) }
   scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished]) }
-  scope :not_negatively_rated, -> { where(rating: [nil, 3, 4, 5]) }
-  scope :satisfactory_rated, -> { where(rating: [3, 4, 5]) }
+  scope :not_negatively_rated, -> { where(rating: [nil, :acceptable, :good, :great]) }
+  scope :satisfactory_rated, -> { where(rating: %i[acceptable good great]) }
   scope :rated, -> { where.not(rating: nil) }
 
   def self.between(mentor:, student:)

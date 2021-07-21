@@ -288,4 +288,33 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     discussion_3.finished!
     assert_equal 3, mentor.reload.num_solutions_mentored
   end
+
+  test "recalculates satisfaction_rating" do
+    mentor = create :user
+
+    # Sanity check
+    assert_equal 100, mentor.satisfaction_rating
+
+    create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
+    assert_equal 100, mentor.reload.satisfaction_rating
+
+    create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
+    assert_equal 50, mentor.reload.satisfaction_rating
+
+    create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :acceptable
+    assert_equal 67, mentor.reload.satisfaction_rating
+
+    create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :good
+    assert_equal 75, mentor.reload.satisfaction_rating
+  end
+
+  test "satisfaction_rating is rounded up" do
+    mentor = create :user
+
+    create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
+    create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :problematic
+    create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
+
+    assert_equal 34, mentor.reload.satisfaction_rating
+  end
 end

@@ -34,6 +34,8 @@ class Mentor::Discussion < ApplicationRecord
   scope :finished_for_student, -> { where(status: :finished) }
   scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished]) }
   scope :not_negatively_rated, -> { where(rating: [nil, 3, 4, 5]) }
+  scope :satisfactory_rated, -> { where(rating: [3, 4, 5]) }
+  scope :rated, -> { where.not(rating: nil) }
 
   def self.between(mentor:, student:)
     joins(:solution).
@@ -56,6 +58,7 @@ class Mentor::Discussion < ApplicationRecord
   after_save_commit do
     solution.update_mentoring_status! if previous_changes.key?('status')
     update_num_solutions_mentored! if previous_changes.key?('status')
+    update_satisfaction_rating! if previous_changes.key?('rating')
   end
 
   delegate :title, :icon_url, to: :track, prefix: :track
@@ -162,12 +165,32 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def update_num_solutions_mentored!
+    count_sql = Arel.sql(
+      Mentor::Discussion.where(mentor_id: mentor.id).finished_for_mentor.select("COUNT(*)").to_sql
+    )
+
     # We're updating in a single query instead of two queries to avoid race-conditions
     # and using read_committed to avoid deadlocks
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
-      User.where(id: mentor.id).
-        update_all(num_solutions_mentored:
-          mentor.mentor_discussions.where(status: %i[mentor_finished finished]).count)
+      User.where(id: mentor.id).update_all("num_solutions_mentored = (#{count_sql})")
+    end
+  end
+
+  def update_satisfaction_rating!
+    satisfactory_rated_count_sql = Arel.sql(
+      Mentor::Discussion.where(mentor_id: mentor.id).satisfactory_rated.select("COUNT(*)").to_sql
+    )
+
+    rated_count_sql = Arel.sql(
+      Mentor::Discussion.where(mentor_id: mentor.id).rated.select("COUNT(*)").to_sql
+    )
+
+    satisfaction_rating_sql = "CEIL((#{satisfactory_rated_count_sql}) / (#{rated_count_sql}) * 100)"
+
+    # We're updating in a single query instead of two queries to avoid race-conditions
+    # and using read_committed to avoid deadlocks
+    ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
+      User.where(id: mentor.id).update_all("satisfaction_rating = #{satisfaction_rating_sql}")
     end
   end
 end

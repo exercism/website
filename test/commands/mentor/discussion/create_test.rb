@@ -141,4 +141,18 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     assert_equal :pending, request.reload.status
     assert_equal 0, Mentor::Discussion.count
   end
+
+  test "removes locks" do
+    mentor = create :user
+    solution = create :practice_solution
+    request = create :mentor_request, solution: solution
+    submission = create :submission, solution: solution
+    iteration = create :iteration, submission: submission
+    content_markdown = "Some interesting info"
+    create :mentor_request_lock, request: request, locked_by: mentor
+
+    Mentor::Discussion::Create.(mentor, request, iteration.idx, content_markdown)
+
+    assert_empty Mentor::RequestLock.where(request: request)
+  end
 end

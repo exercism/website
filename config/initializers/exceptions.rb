@@ -21,6 +21,8 @@ class SolutionHasNoIterationsError < RuntimeError; end
 
 class SolutionLockedByAnotherMentorError < RuntimeError; end
 
+class MentorSolutionLockLimitReachedError < RuntimeError; end
+
 class StudentCannotMentorThemselvesError < RuntimeError; end
 
 class SolutionNotFoundError < RuntimeError; end

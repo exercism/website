@@ -165,7 +165,7 @@ class Mentor::Discussion < ApplicationRecord
     UpdateMentorStatsJob.perform_later(
       mentor,
       update_num_solutions: previous_changes.key?('status'),
-      update_satisfaction_percentage: previous_changes.key?('rating')
+      update_satisfaction_rating: previous_changes.key?('rating')
     )
   end
 end

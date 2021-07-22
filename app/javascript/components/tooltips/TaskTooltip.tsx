@@ -15,7 +15,10 @@ export const TaskTooltip = ({ task }: { task: Task }): JSX.Element | null => {
       {task.tags.action ? <ActionInfo action={task.tags.action} /> : null}
       {task.tags.size ? <SizeInfo size={task.tags.size} /> : null}
       {task.tags.knowledge ? (
-        <KnowledgeInfo knowledge={task.tags.knowledge} />
+        <KnowledgeInfo
+          knowledge={task.tags.knowledge}
+          module={task.tags.module}
+        />
       ) : null}
       {task.tags.module ? <ModuleInfo module={task.tags.module} /> : null}
     </div>

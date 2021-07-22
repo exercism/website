@@ -3,62 +3,69 @@ import { Task, TaskAction, TaskModule } from '../../types'
 
 export const Summary = ({ task }: { task: Task }): JSX.Element => {
   return (
-    <section>
-      <SummaryTag />
-      <SummaryDetails task={task} />
+    <section className="summary">
+      <div className="icon">
+        <SummaryTag />
+      </div>
+      <div className="details">
+        <SummaryDetails task={task} />
+      </div>
     </section>
   )
 }
 
 const SummaryTag = () => {
-  return <div>Task</div>
+  return <div className="task-icon">Task</div>
 }
 
-const SummaryVerb = ({ action }: { action?: TaskAction }) => {
+export function verbForAction(action?: TaskAction) {
   switch (action) {
     case 'create':
-      return <span>creating</span>
+      return <>creating</>
     case 'fix':
-      return <span>fixing</span>
+      return <>fixing</>
     case 'improve':
-      return <span>improving</span>
+      return <>improving</>
     case 'proofread':
-      return <span>proofreading</span>
+      return <>proofreading</>
     case 'sync':
-      return <span>syncing</span>
+      return <>syncing</>
     default:
       return null
   }
 }
 
-const ModuleDescription = ({ module }: { module?: TaskModule }) => {
+export function descriptionForModule(module?: TaskModule) {
   switch (module) {
     case 'analyzer':
-      return <span>Analyzer</span>
+      return <>Analyzers</>
     case 'concept':
-      return <span>Concept</span>
+      return <>Concepts</>
     case 'concept-exercise':
-      return <span>Concept Exercise</span>
+      return <>Learning Exercises</>
     case 'generator':
-      return <span>Generator</span>
+      return <>Generators</>
     case 'practice-exercise':
-      return <span>Practice Exercise</span>
+      return <>Practice Exercises</>
     case 'representer':
-      return <span>Representer</span>
+      return <>Representers</>
     case 'test-runner':
-      return <span>Test Runner</span>
+      return <>Test Runners</>
     default:
       return null
   }
 }
 
 const SummaryDetails = ({ task }: { task: Task }) => {
+  const desc = descriptionForModule(task.tags.module)
+  const verb = verbForAction(task.tags.action)
+
+  console.log(verb)
   return (
-    <p>
-      For this task you will be <SummaryVerb action={task.tags.action} />{' '}
-      {task.tags.type}
-      {task.track ? `for the {task.track.title} ` : null}
-      <ModuleDescription module={task.tags.module} />
-    </p>
+    <h3>
+      For this task you will be {verb ? verb : 'working on'}{' '}
+      {desc ? desc : 'Exercism'}
+      {task.track ? `for the {task.track.title} ` : null}.
+    </h3>
   )
 }

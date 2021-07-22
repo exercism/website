@@ -21,7 +21,7 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
       return (
         <>
           <h3>
-            This task requires you to <strong>Create</strong>
+            This task requires you to <strong>create</strong> something new.
           </h3>
           <p>This means you’ll be bulding something from scratch.</p>
         </>
@@ -30,7 +30,7 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
       return (
         <>
           <h3>
-            This task requires you to <strong>Fix</strong>
+            This task requires you to <strong>fix</strong> something broken.
           </h3>
           <p>
             This means you’ll be bulding taking something that's currently not
@@ -42,27 +42,39 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
       return (
         <>
           <h3>
-            This task requires you to <strong>Improve</strong>
+            This task requires you to <strong>improve</strong> something.
           </h3>
-          <p></p>
+          <p>
+            We often merge things at Exercism that take the project forward and
+            add follow-up issues to improve things. This is an opportunity to
+            add a feature or improvement.
+          </p>
         </>
       )
     case 'proofread':
       return (
         <>
           <h3>
-            This task requires you to <strong>Proofread</strong>
+            This task requires you to <strong>proofread</strong>.
           </h3>
-          <p></p>
+          <p>
+            Help checks our docs and content make sense, are grammatical, and
+            are consumable by non-native speakers.
+          </p>
         </>
       )
     case 'sync':
       return (
         <>
           <h3>
-            This task requires you to <strong>Sync</strong>
+            This task requires you to <strong>sync</strong> content to the
+            latest verisons.
           </h3>
-          <p></p>
+          <p>
+            Exercism have a central repository of exercises that are updated by
+            a cross-language team. This task involves updating one Track's
+            implementation to the latest version of an Exercise.
+          </p>
         </>
       )
   }

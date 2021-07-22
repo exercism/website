@@ -9,15 +9,25 @@
         @apply py-8 px-8;
         @apply flex items-center;
 
+        &:first-child {
+            @apply pt-0;
+        }
+        &:last-child {
+            @apply pb-0;
+        }
+
         & + section {
             @apply border-t-1 border-borderColor6;
         }
 
         & > .icon {
-            @apply grid place-items-center;
+            @apply flex-shrink-0 grid place-items-center;
             @apply mr-24;
-            width: 32px;
+            width: 45px;
 
+            & .action-icon {
+                @apply border-none;
+            }
             & .knowledge-tag {
                 @apply border-none p-0;
                 & .c-icon {
@@ -39,6 +49,17 @@
         }
         & p {
             @apply leading-150;
+        }
+        &.summary {
+            @apply pb-16;
+            & .task-icon {
+                @apply bg-lightGold rounded-3 border-none;
+                @apply text-12 font-bold leading-150 font-mono uppercase;
+                @apply py-4 px-8;
+            }
+            & h3 {
+                @apply text-18 leading-150 font-medium;
+            }
         }
     }
 }

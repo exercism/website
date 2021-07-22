@@ -19,33 +19,64 @@ const SizeDetails = ({ size }: { size: TaskSize }): JSX.Element => {
   switch (size) {
     case 'tiny':
       return (
-        <h3>
-          This task is <strong>Tiny</strong>
-        </h3>
+        <>
+          <h3>
+            This is a <strong>tiny task</strong>.
+          </h3>
+          <p>
+            Depending on your experience, you should be able to complete it in a
+            few minutes.
+          </p>
+        </>
       )
     case 'small':
       return (
-        <h3>
-          This task is <strong>Small</strong>
-        </h3>
+        <>
+          <h3>
+            This is a <strong>small task</strong>.
+          </h3>
+          <p>
+            Depending on your experience, you should be able to complete it
+            under an hour.
+          </p>
+        </>
       )
     case 'medium':
       return (
-        <h3>
-          This task is <strong>Medium</strong>
-        </h3>
+        <>
+          <h3>
+            This is <strong>medium sized task</strong>.
+          </h3>
+          <p>
+            Depending on your experience, you should be able to complete it in a
+            few hours. This is a great task to deepen your knowledge of working
+            on Exercism and make a sigificant contribution.
+          </p>
+        </>
       )
     case 'large':
       return (
-        <h3>
-          This task is <strong>Large</strong>
-        </h3>
+        <>
+          <h3>
+            This task is <strong>Large</strong>
+          </h3>
+          <p>
+            This will take you many hours to complete. It's a great task to get
+            your teeth into and will be a big contribution to Exercism.
+          </p>
+        </>
       )
     case 'massive':
       return (
-        <h3>
-          This task is <strong>Massive</strong>
-        </h3>
+        <>
+          <h3>
+            This task is <strong>a project</strong>.
+          </h3>
+          <p>
+            This will take you days to complete, even if you are experienced
+            with contributing to Exercism.
+          </p>
+        </>
       )
   }
 }

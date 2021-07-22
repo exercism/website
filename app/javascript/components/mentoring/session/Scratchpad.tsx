@@ -117,7 +117,7 @@ export const Scratchpad = ({
 
   return (
     <>
-      {scratchpad.isIntroducerHidden ? (
+      {scratchpad.isIntroducerHidden ? null : (
         <Introducer
           icon="scratchpad"
           endpoint={scratchpad.links.hideIntroducer}
@@ -130,7 +130,7 @@ export const Scratchpad = ({
             during mentoring.
           </p>
         </Introducer>
-      ) : null}
+      )}
       <div className="title">
         Your notes for <strong>{exercise.title}</strong> in
         <TrackIcon iconUrl={track.iconUrl} title={track.title} />

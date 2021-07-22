@@ -1,13 +1,13 @@
 @import "../styles";
 
-.c-introducer-wrapper {
+.c-react-wrapper-common-introducer {
     min-height: 130px;
     @apply mt-8 mb-40;
 
     /* We get rid of this parent container when
      * things are hidden, rather than the child */
-    transition: max-height 0.2s ease-in, margin 0.2s ease-in,
-        opacity 0.15s ease-in;
+    transition: min-height 0.2s ease-in, max-height 0.2s ease-in,
+        margin 0.2s ease-in, opacity 0.15s ease-in;
     max-height: 160px;
     overflow: hidden;
 
@@ -19,12 +19,22 @@
     }
 }
 
+.c-react-wrapper-common-introducer .c-introducer {
+    &.hidden {
+        display: flex;
+    }
+}
+
 .c-introducer {
     @apply bg-randomBlue border-2 rounded-12;
     border-color: #9e00ff;
     @apply shadow-baseZ1;
     @apply py-12 px-48;
     @apply flex items-center;
+
+    &.hidden {
+        display: none;
+    }
 
     &.--small {
         @apply py-16 px-24;

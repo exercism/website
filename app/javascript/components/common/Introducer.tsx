@@ -14,16 +14,14 @@ export const Introducer = ({
   content,
   children,
   endpoint,
-  hidden: defaultHidden = false,
   size = 'base',
 }: React.PropsWithChildren<{
   icon: string
   content?: string
   endpoint: string
-  hidden?: boolean
   size?: IntroducerSize
 }>): JSX.Element | null => {
-  const [hidden, setHidden] = useState(defaultHidden)
+  const [hidden, setHidden] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
   const [mutation, { status, error }] = useMutation(
     () => {
@@ -37,17 +35,26 @@ export const Introducer = ({
     },
     {
       onSuccess: () => {
+        if (
+          ref.current &&
+          ref.current.parentElement &&
+          ref.current.parentElement.classList.contains(
+            'c-react-wrapper-common-introducer'
+          )
+        ) {
+          ref.current.parentElement.classList.add('hidden')
+        }
         setHidden(true)
       },
     }
   )
 
-  if (hidden) {
-    return null
-  }
+  const classNames = ['c-introducer', `--${size}`, hidden ? 'hidden' : '']
+    .filter((className) => className.length > 0)
+    .join(' ')
 
   return (
-    <div ref={ref} className={`c-introducer --${size}`}>
+    <div ref={ref} className={classNames}>
       <GraphicalIcon icon={icon} category="graphics" className="visual-icon" />
       {content ? (
         <div className="info" dangerouslySetInnerHTML={{ __html: content }} />

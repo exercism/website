@@ -274,49 +274,55 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "recalculates num_solutions_mentored" do
     mentor = create :user
 
-    discussion_1 = create :mentor_discussion, mentor: mentor
-    discussion_2 = create :mentor_discussion, mentor: mentor
-    discussion_3 = create :mentor_discussion, mentor: mentor
+    perform_enqueued_jobs do
+      discussion_1 = create :mentor_discussion, mentor: mentor
+      discussion_2 = create :mentor_discussion, mentor: mentor
+      discussion_3 = create :mentor_discussion, mentor: mentor
 
-    # Sanity check
-    assert_equal 0, mentor.num_solutions_mentored
+      # Sanity check
+      assert_equal 0, mentor.num_solutions_mentored
 
-    discussion_1.student_finished!
-    assert_equal 1, mentor.reload.num_solutions_mentored
+      discussion_1.student_finished!
+      assert_equal 1, mentor.reload.num_solutions_mentored
 
-    discussion_2.finished!
-    assert_equal 2, mentor.reload.num_solutions_mentored
+      discussion_2.finished!
+      assert_equal 2, mentor.reload.num_solutions_mentored
 
-    discussion_3.finished!
-    assert_equal 3, mentor.reload.num_solutions_mentored
+      discussion_3.finished!
+      assert_equal 3, mentor.reload.num_solutions_mentored
+    end
   end
 
   test "recalculates mentor_satisfaction_percentage" do
     mentor = create :user
 
-    # Sanity check
-    assert_nil mentor.mentor_satisfaction_percentage
+    perform_enqueued_jobs do
+      # Sanity check
+      assert_nil mentor.mentor_satisfaction_percentage
 
-    create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
-    assert_equal 100, mentor.reload.mentor_satisfaction_percentage
+      create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
+      assert_equal 100, mentor.reload.mentor_satisfaction_percentage
 
-    create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
-    assert_equal 50, mentor.reload.mentor_satisfaction_percentage
+      create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
+      assert_equal 50, mentor.reload.mentor_satisfaction_percentage
 
-    create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :acceptable
-    assert_equal 67, mentor.reload.mentor_satisfaction_percentage
+      create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :acceptable
+      assert_equal 67, mentor.reload.mentor_satisfaction_percentage
 
-    create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :good
-    assert_equal 75, mentor.reload.mentor_satisfaction_percentage
+      create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :good
+      assert_equal 75, mentor.reload.mentor_satisfaction_percentage
+    end
   end
 
   test "mentor_satisfaction_percentage is rounded up" do
     mentor = create :user
 
-    create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
-    create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :problematic
-    create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
+    perform_enqueued_jobs do
+      create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
+      create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :problematic
+      create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
 
-    assert_equal 34, mentor.reload.mentor_satisfaction_percentage
+      assert_equal 34, mentor.reload.mentor_satisfaction_percentage
+    end
   end
 end

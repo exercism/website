@@ -34,8 +34,6 @@ class Mentor::Discussion < ApplicationRecord
   scope :finished_for_student, -> { where(status: :finished) }
   scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished]) }
   scope :not_negatively_rated, -> { where(rating: [nil, :acceptable, :good, :great]) }
-  scope :satisfactory_rated, -> { where(rating: %i[acceptable good great]) }
-  scope :rated, -> { where.not(rating: nil) }
 
   def self.between(mentor:, student:)
     joins(:solution).
@@ -177,15 +175,15 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def update_mentor_satisfaction_percentage!
-    satisfactory_rated_count_sql = Arel.sql(
-      Mentor::Discussion.where(mentor_id: mentor.id).satisfactory_rated.select("COUNT(*)").to_sql
+    rated_acceptable_or_better_count_sql = Arel.sql(
+      Mentor::Discussion.where(mentor: mentor, rating: %i[acceptable good great]).select("COUNT(*)").to_sql
     )
 
     rated_count_sql = Arel.sql(
-      Mentor::Discussion.where(mentor_id: mentor.id).rated.select("COUNT(*)").to_sql
+      Mentor::Discussion.where(mentor: mentor).where.not(rating: nil).select("COUNT(*)").to_sql
     )
 
-    mentor_satisfaction_percentage_sql = "CEIL((#{satisfactory_rated_count_sql}) / (#{rated_count_sql}) * 100)"
+    mentor_satisfaction_percentage_sql = "CEIL((#{rated_acceptable_or_better_count_sql}) / (#{rated_count_sql}) * 100)"
 
     # We're updating in a single query instead of two queries to avoid race-conditions
     # and using read_committed to avoid deadlocks

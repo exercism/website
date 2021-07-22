@@ -27,8 +27,6 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal [finished], Mentor::Discussion.finished
 
     assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.not_negatively_rated
-    assert_equal [mentor_finished], Mentor::Discussion.satisfactory_rated
-    assert_equal [mentor_finished, finished], Mentor::Discussion.rated
 
     refute awaiting_student.finished_for_student?
     refute awaiting_mentor.finished_for_student?

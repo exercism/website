@@ -4,10 +4,14 @@ import { TaskAction } from '../../types'
 
 export const ActionInfo = ({ action }: { action: TaskAction }): JSX.Element => {
   return (
-    <div className="info">
-      <ActionIcon action={action} />
-      <ActionDetails action={action} />
-    </div>
+    <section>
+      <div className="icon">
+        <ActionIcon action={action} />
+      </div>
+      <div className="details">
+        <ActionDetails action={action} />
+      </div>
+    </section>
   )
 }
 
@@ -15,33 +19,51 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
   switch (action) {
     case 'create':
       return (
-        <p>
-          This task requires you to <strong>Create</strong>
-        </p>
+        <>
+          <h3>
+            This task requires you to <strong>Create</strong>
+          </h3>
+          <p>This means you’ll be bulding something from scratch.</p>
+        </>
       )
     case 'fix':
       return (
-        <p>
-          This task requires you to <strong>Fix</strong>
-        </p>
+        <>
+          <h3>
+            This task requires you to <strong>Fix</strong>
+          </h3>
+          <p>
+            This means you’ll be bulding taking something that's currently not
+            working and fixing it.
+          </p>
+        </>
       )
     case 'improve':
       return (
-        <p>
-          This task requires you to <strong>Improve</strong>
-        </p>
+        <>
+          <h3>
+            This task requires you to <strong>Improve</strong>
+          </h3>
+          <p></p>
+        </>
       )
     case 'proofread':
       return (
-        <p>
-          This task requires you to <strong>Proofread</strong>
-        </p>
+        <>
+          <h3>
+            This task requires you to <strong>Proofread</strong>
+          </h3>
+          <p></p>
+        </>
       )
     case 'sync':
       return (
-        <p>
-          This task requires you to <strong>Sync</strong>
-        </p>
+        <>
+          <h3>
+            This task requires you to <strong>Sync</strong>
+          </h3>
+          <p></p>
+        </>
       )
   }
 }

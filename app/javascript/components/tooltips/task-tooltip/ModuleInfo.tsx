@@ -4,10 +4,14 @@ import { TaskModule } from '../../types'
 
 export const ModuleInfo = ({ module }: { module: TaskModule }): JSX.Element => {
   return (
-    <div className="info">
-      <ModuleTag module={module} />
-      <ModuleDetails module={module} />
-    </div>
+    <section>
+      <div className="icon">
+        <ModuleTag module={module} />
+      </div>
+      <div className="details">
+        <ModuleDetails module={module} />
+      </div>
+    </section>
   )
 }
 
@@ -15,45 +19,45 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
   switch (module) {
     case 'analyzer':
       return (
-        <p>
+        <h3>
           This task is about <strong>Analyzers</strong>
-        </p>
+        </h3>
       )
     case 'concept':
       return (
-        <p>
+        <h3>
           This task is about <strong>Concepts</strong>
-        </p>
+        </h3>
       )
     case 'concept-exercise':
       return (
-        <p>
+        <h3>
           This task is about <strong>Concept Exercises</strong>
-        </p>
+        </h3>
       )
     case 'generator':
       return (
-        <p>
+        <h3>
           This task is about <strong>Generators</strong>
-        </p>
+        </h3>
       )
     case 'practice-exercise':
       return (
-        <p>
+        <h3>
           This task is about <strong>Practice Exercises</strong>
-        </p>
+        </h3>
       )
     case 'representer':
       return (
-        <p>
+        <h3>
           This task is about <strong>Representers</strong>
-        </p>
+        </h3>
       )
     case 'test-runner':
       return (
-        <p>
+        <h3>
           This task is about <strong>Test Runners</strong>
-        </p>
+        </h3>
       )
   }
 }

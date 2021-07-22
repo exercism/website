@@ -4,17 +4,21 @@ import { TaskType } from '../../types'
 
 export const TypeInfo = ({ type }: { type: TaskType }): JSX.Element => {
   return (
-    <div className="info">
-      <TypeIcon type={type} />
-      <TypeDetails type={type} />
-    </div>
+    <section>
+      <div className="icon">
+        <TypeIcon type={type} />
+      </div>
+      <div className="details">
+        <TypeDetails type={type} />
+      </div>
+    </section>
   )
 }
 
 const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
   return (
-    <p>
+    <h3>
       This is a <strong>{type}</strong> type task
-    </p>
+    </h3>
   )
 }

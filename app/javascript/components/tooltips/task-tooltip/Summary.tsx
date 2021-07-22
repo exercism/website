@@ -3,10 +3,10 @@ import { Task, TaskAction, TaskModule } from '../../types'
 
 export const Summary = ({ task }: { task: Task }): JSX.Element => {
   return (
-    <div className="info">
+    <section>
       <SummaryTag />
       <SummaryDetails task={task} />
-    </div>
+    </section>
   )
 }
 
@@ -27,7 +27,7 @@ const SummaryVerb = ({ action }: { action?: TaskAction }) => {
     case 'sync':
       return <span>syncing</span>
     default:
-      throw new Error('How do we handle this?')
+      return null
   }
 }
 
@@ -48,7 +48,7 @@ const ModuleDescription = ({ module }: { module?: TaskModule }) => {
     case 'test-runner':
       return <span>Test Runner</span>
     default:
-      throw new Error('How do we handle this?')
+      return null
   }
 }
 
@@ -56,7 +56,8 @@ const SummaryDetails = ({ task }: { task: Task }) => {
   return (
     <p>
       For this task you will be <SummaryVerb action={task.tags.action} />{' '}
-      {task.tags.type} for the {task.track.title}{' '}
+      {task.tags.type}
+      {task.track ? `for the {task.track.title} ` : null}
       <ModuleDescription module={task.tags.module} />
     </p>
   )

@@ -1,0 +1,44 @@
+/* See also app/css/pages/contributing-tasks.css */
+.c-task-tooltip {
+    @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
+    @apply relative z-tooltip;
+
+    width: 540px;
+
+    & section {
+        @apply py-8 px-8;
+        @apply flex items-center;
+
+        & + section {
+            @apply border-t-1 border-borderColor6;
+        }
+
+        & > .icon {
+            @apply grid place-items-center;
+            @apply mr-24;
+            width: 32px;
+
+            & .knowledge-tag {
+                @apply border-none p-0;
+                & .c-icon {
+                    @apply hidden;
+                }
+                & .dot {
+                    height: 8px;
+                    width: 8px;
+                    margin-right: 3px;
+                    margin-left: 0;
+                }
+            }
+        }
+        & h3 {
+            @apply leading-150 font-medium;
+            & strong {
+                @apply font-semibold;
+            }
+        }
+        & p {
+            @apply leading-150;
+        }
+    }
+}

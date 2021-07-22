@@ -107,7 +107,6 @@ export function Editor({
   links,
 }: Props): JSX.Element {
   const editorRef = useRef<FileEditorHandle>()
-  const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
 
   const [tab, setTab] = useState<TabIndex>('instructions')
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
@@ -230,10 +229,6 @@ export function Editor({
     })
   }, [revertToLastIteration, dispatch, setFiles, JSON.stringify(submission)])
 
-  const toggleKeyboardShortcuts = useCallback(() => {
-    editorRef.current?.openPalette()
-  }, [editorRef])
-
   const handleRevertToExerciseStart = useCallback(() => {
     if (!submission) {
       return
@@ -295,10 +290,6 @@ export function Editor({
           />
           <div className="options">
             <Header.ActionHints assignment={panels.instructions.assignment} />
-            <Header.ActionKeyboardShortcuts
-              ref={keyboardShortcutsRef}
-              onClick={toggleKeyboardShortcuts}
-            />
             <Header.ActionSettings
               settings={settings}
               setSettings={setSettings}

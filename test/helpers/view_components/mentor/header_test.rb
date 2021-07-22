@@ -1,6 +1,6 @@
-require_relative "../view_component_test_case"
+require "test_helper"
 
-class ViewComponents::Mentor::HeaderTest < ViewComponentTestCase
+class ViewComponents::Mentor::HeaderTest < ActionView::TestCase
   test "stats with satisfaction" do
     user = create :user, num_solutions_mentored: 337, mentor_satisfaction_percentage: 88
     sign_in! user

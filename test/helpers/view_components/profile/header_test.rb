@@ -1,6 +1,6 @@
-require_relative "../view_component_test_case"
+require "test_helper"
 
-class ViewComponents::Profile::HeaderTest < ViewComponentTestCase
+class ViewComponents::Profile::HeaderTest < ActionView::TestCase
   test "roles" do
     user = create :user, roles: [:must_be_present]
     create :user_profile, user: user

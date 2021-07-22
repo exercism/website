@@ -33,7 +33,7 @@ class Mentor::Discussion < ApplicationRecord
   scope :in_progress_for_student, -> { where(status: %i[awaiting_student awaiting_mentor mentor_finished]) }
   scope :finished_for_student, -> { where(status: :finished) }
   scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished]) }
-  scope :not_negatively_rated, -> { where(rating: [nil, 3, 4, 5]) }
+  scope :not_negatively_rated, -> { where(rating: [nil, :acceptable, :good, :great]) }
 
   def self.between(mentor:, student:)
     joins(:solution).
@@ -55,6 +55,7 @@ class Mentor::Discussion < ApplicationRecord
 
   after_save_commit do
     solution.update_mentoring_status! if previous_changes.key?('status')
+    update_stats! if previous_changes.key?('status') || previous_changes.key?('rating')
   end
 
   delegate :title, :icon_url, to: :track, prefix: :track
@@ -157,6 +158,14 @@ class Mentor::Discussion < ApplicationRecord
       status: :awaiting_mentor,
       awaiting_mentor_since: awaiting_mentor_since || Time.current,
       awaiting_student_since: nil
+    )
+  end
+
+  def update_stats!
+    UpdateMentorStatsJob.perform_later(
+      mentor,
+      update_num_solutions_mentored: previous_changes.key?('status'),
+      update_satisfaction_rating: previous_changes.key?('rating')
     )
   end
 end

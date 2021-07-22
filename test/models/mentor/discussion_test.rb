@@ -13,8 +13,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "scopes and helpers" do
     awaiting_student = create :mentor_discussion, :awaiting_student
     awaiting_mentor = create :mentor_discussion, :awaiting_mentor
-    mentor_finished = create :mentor_discussion, :mentor_finished
-    finished = create :mentor_discussion, :finished
+    mentor_finished = create :mentor_discussion, :mentor_finished, rating: :great
+    finished = create :mentor_discussion, :finished, rating: :problematic
 
     # TODO: See where these are used to decide if we need it
     assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.in_progress_for_student
@@ -25,6 +25,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal [awaiting_mentor], Mentor::Discussion.awaiting_mentor
     assert_equal [mentor_finished], Mentor::Discussion.mentor_finished
     assert_equal [finished], Mentor::Discussion.finished
+
+    assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.not_negatively_rated
 
     refute awaiting_student.finished_for_student?
     refute awaiting_mentor.finished_for_student?
@@ -267,5 +269,82 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal "anonymous", discussion.student_handle
     assert_equal "User in Anonymous mode", discussion.student_name
     assert_nil discussion.student_avatar_url
+  end
+
+  test "recalculates num_solutions_mentored" do
+    mentor = create :user
+
+    perform_enqueued_jobs do
+      discussion_1 = create :mentor_discussion, mentor: mentor
+      discussion_2 = create :mentor_discussion, mentor: mentor
+      discussion_3 = create :mentor_discussion, mentor: mentor
+
+      # Sanity check
+      assert_equal 0, mentor.num_solutions_mentored
+
+      discussion_1.student_finished!
+      assert_equal 1, mentor.reload.num_solutions_mentored
+
+      discussion_2.finished!
+      assert_equal 2, mentor.reload.num_solutions_mentored
+
+      discussion_3.finished!
+      assert_equal 3, mentor.reload.num_solutions_mentored
+    end
+  end
+
+  test "recalculates mentor_satisfaction_percentage" do
+    mentor = create :user
+
+    perform_enqueued_jobs do
+      # Sanity check
+      assert_nil mentor.mentor_satisfaction_percentage
+
+      create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
+      assert_equal 100, mentor.reload.mentor_satisfaction_percentage
+
+      create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
+      assert_equal 50, mentor.reload.mentor_satisfaction_percentage
+
+      create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :acceptable
+      assert_equal 67, mentor.reload.mentor_satisfaction_percentage
+
+      create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :good
+      assert_equal 75, mentor.reload.mentor_satisfaction_percentage
+    end
+  end
+
+  test "mentor_satisfaction_percentage is rounded up" do
+    mentor = create :user
+
+    perform_enqueued_jobs do
+      create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
+      create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :problematic
+      create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
+
+      assert_equal 34, mentor.reload.mentor_satisfaction_percentage
+    end
+  end
+
+  test "does not update num solutions mentored if status is unchanged" do
+    mentor = create :user
+    discussion = create :mentor_discussion, mentor: mentor
+
+    perform_enqueued_jobs do
+      Mentor::UpdateNumSolutionsMentored.expects(:call).never
+
+      discussion.update(rating: :great)
+    end
+  end
+
+  test "does not update satisfaction rating if rating is unchanged" do
+    mentor = create :user
+    discussion = create :mentor_discussion, mentor: mentor
+
+    perform_enqueued_jobs do
+      Mentor::UpdateSatisfactionRating.expects(:call).never
+
+      discussion.update(status: :finished)
+    end
   end
 end

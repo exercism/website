@@ -35,10 +35,15 @@ module ViewComponents
 
       def stats
         tag.div(class: "stats") do
-          # TODO: (Required)
-          tag.div("131 solutions mentored", class: "stat") +
-            # TODO: (Required)
-            tag.div("95% satisfaction", class: "stat")
+          safe_join(
+            [
+              tag.div("#{current_user.num_solutions_mentored} solutions mentored", class: "stat"),
+              (if current_user.mentor_satisfaction_percentage
+                 tag.div("#{current_user.mentor_satisfaction_percentage}% satisfaction",
+                   class: "stat")
+               end)
+            ].compact
+          )
         end
       end
 

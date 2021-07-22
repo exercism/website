@@ -5,14 +5,10 @@ import React, {
   useEffect,
   createContext,
 } from 'react'
-import { Keybindings, WrapSetting, Themes, TabBehavior } from './types'
 import { File } from '../types'
-
 import { CodeMirror, Handler } from '../misc/CodeMirror'
-
-import { EditorConfig } from '../Editor'
-
 import { Tab, TabContext } from '../common/Tab'
+import { EditorSettings } from '../Editor/types'
 
 export type FileEditorHandle = {
   getFiles: () => File[]
@@ -30,23 +26,15 @@ export function FileEditorCodeMirror({
   editorDidMount,
   onRunTests,
   onSubmit,
-  theme,
-  keybindings,
   files,
-  wrap,
-  tabBehavior,
-  config,
+  settings,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
   language: string
   onRunTests: () => void
   onSubmit: () => void
-  theme: Themes
-  keybindings: Keybindings
+  settings: EditorSettings
   files: File[]
-  wrap: WrapSetting
-  tabBehavior: TabBehavior
-  config: EditorConfig
 }): JSX.Element {
   const [tab, setTab] = useState(files[0].filename)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -104,12 +92,12 @@ export function FileEditorCodeMirror({
 
                 editorRefs.current = oldEditors
               }}
-              tabSize={config.tabSize}
-              useSoftTabs={config.useSoftTabs}
+              tabSize={settings.tabSize}
+              useSoftTabs={settings.useSoftTabs}
               language={language}
-              wrap={wrap !== 'off'}
-              isTabCaptured={tabBehavior === 'captured'}
-              theme={theme}
+              wrap={settings.wrap !== 'off'}
+              isTabCaptured={settings.tabBehavior === 'captured'}
+              theme={settings.theme}
               commands={[
                 {
                   key: 'F2',

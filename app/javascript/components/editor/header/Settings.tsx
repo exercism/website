@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { Icon } from '../../common/Icon'
-import { Keybindings, WrapSetting, Themes, TabBehavior } from '../types'
+import { Keybindings, Themes, EditorSettings } from '../types'
 import { useDropdown } from '../../dropdowns/useDropdown'
 
 const THEMES = [
@@ -65,7 +65,7 @@ const Setting = React.forwardRef<
         }
       }
     },
-    [options, set, value]
+    [options, props, set, value]
   )
 
   return (
@@ -92,25 +92,13 @@ const Setting = React.forwardRef<
 })
 
 export function Settings({
-  theme,
-  keybindings,
-  wrap,
-  tabBehavior,
-  setTheme,
-  setKeybindings,
-  setWrap,
-  setTabBehavior,
+  settings,
+  setSettings,
 }: {
-  theme: string
-  keybindings: Keybindings
-  wrap: WrapSetting
-  tabBehavior: TabBehavior
-  setTheme: (theme: Themes) => void
-  setKeybindings: (keybinding: Keybindings) => void
-  setWrap: (wrap: WrapSetting) => void
-  setTabBehavior: (behavior: TabBehavior) => void
+  settings: EditorSettings
+  setSettings: (settings: EditorSettings) => void
 }) {
-  const [localKeybindings, setLocalKeybindings] = useState(keybindings)
+  const [localKeybindings, setLocalKeybindings] = useState(settings.keybindings)
   const {
     buttonAttributes,
     panelAttributes,
@@ -134,8 +122,33 @@ export function Settings({
       return
     }
 
-    setKeybindings(localKeybindings)
-  }, [localKeybindings, open, setKeybindings])
+    if (settings.keybindings === localKeybindings) {
+      return
+    }
+
+    setSettings({ ...settings, keybindings: localKeybindings })
+  }, [localKeybindings, open, setSettings, settings])
+
+  const handleThemeChange = useCallback(
+    (theme) => {
+      setSettings({ ...settings, theme: theme })
+    },
+    [setSettings, settings]
+  )
+
+  const handleWrapChange = useCallback(
+    (wrap) => {
+      setSettings({ ...settings, wrap: wrap })
+    },
+    [setSettings, settings]
+  )
+
+  const handleTabBehaviorChange = useCallback(
+    (tabBehavior) => {
+      setSettings({ ...settings, tabBehavior: tabBehavior })
+    },
+    [setSettings, settings]
+  )
 
   return (
     <React.Fragment>
@@ -153,9 +166,9 @@ export function Settings({
           <ul {...listAttributes}>
             <Setting
               title="Theme"
-              value={theme}
+              value={settings.theme}
               options={THEMES}
-              set={(theme) => setTheme(theme as Themes)}
+              set={handleThemeChange}
               {...itemAttributes(0)}
             />
             {/*<Setting
@@ -169,16 +182,16 @@ export function Settings({
             />*/}
             <Setting
               title="Wrap"
-              value={wrap}
+              value={settings.wrap}
               options={WRAP}
-              set={(wrap) => setWrap(wrap as WrapSetting)}
+              set={handleWrapChange}
               {...itemAttributes(2)}
             />
             <Setting
               title="Tab mode"
-              value={tabBehavior}
+              value={settings.tabBehavior}
               options={TAB_MODE}
-              set={(tabBehavior) => setTabBehavior(tabBehavior as TabBehavior)}
+              set={handleTabBehaviorChange}
               {...itemAttributes(3)}
             />
           </ul>

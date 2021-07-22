@@ -84,3 +84,12 @@ export type AssignmentTask = {
   text: string
   hints: string[]
 }
+
+export type EditorSettings = {
+  theme: Themes
+  wrap: WrapSetting
+  tabBehavior: TabBehavior
+  keybindings: Keybindings
+  tabSize: number
+  useSoftTabs: boolean
+}

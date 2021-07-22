@@ -29,7 +29,6 @@ export const TestRunSummaryContainer = ({
     {
       endpoint: testRun.links.self,
       options: {
-        initialData: { testRun: testRun },
         refetchInterval:
           testRun.status === TestRunStatus.QUEUED ? REFETCH_INTERVAL : false,
       },
@@ -50,20 +49,16 @@ export const TestRunSummaryContainer = ({
       setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
       timer.current = undefined
     }, timeout)
-  }, [setTestRun, testRun, timeout])
+  }, [setTestRun, JSON.stringify(testRun), timeout])
 
   const cancel = useCallback(() => {
     setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
 
     fetchJSON(cancelLink, { method: 'PATCH' })
-  }, [cancelLink, setTestRun, testRun])
+  }, [cancelLink, setTestRun, JSON.stringify(testRun)])
 
   useEffect(() => {
-    if (!data) {
-      return
-    }
-
-    if (!data.testRun) {
+    if (!data || !data.testRun) {
       return
     }
 
@@ -92,7 +87,7 @@ export const TestRunSummaryContainer = ({
     })
 
     return () => channel.current?.disconnect()
-  }, [setTestRun, testRun])
+  }, [setTestRun, JSON.stringify(testRun)])
 
   useEffect(() => {
     return () => {

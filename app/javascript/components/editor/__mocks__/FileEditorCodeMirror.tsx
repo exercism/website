@@ -6,31 +6,53 @@ import React, {
   useCallback,
 } from 'react'
 
+import { EditorSettings } from '../../Editor'
+import { File } from '../../types'
+
 export enum Keybindings {
   DEFAULT = 'default',
   VIM = 'vim',
   EMACS = 'emacs',
 }
 
+export type FileEditorHandle = {
+  getFiles: () => File[]
+  setFiles: (files: File[]) => void
+  openPalette: () => void
+}
+
 export function FileEditorCodeMirror({
-  files,
-  language,
   editorDidMount,
-  wrap,
-  theme,
-  keybindings,
-  tabBehavior,
+  language,
+  files,
+  settings,
+}: {
+  editorDidMount: (editor: FileEditorHandle) => void
+  language: string
+  settings: EditorSettings
+  files: File[]
 }): JSX.Element {
   const [isPaletteOpen, setIsPaletteOpen] = useState(false)
-  const textareaRef = useRef(files.map(() => createRef()))
+  const textareaRef = useRef(files.map(() => createRef<HTMLTextAreaElement>()))
   const getFiles = useCallback(() => {
     return textareaRef.current.map((ref, i) => {
-      return { filename: files[i].filename, content: ref.current.value }
+      if (!ref.current) {
+        throw 'No files found'
+      }
+
+      return {
+        filename: files[i].filename,
+        content: ref.current.value,
+      }
     })
   }, [files])
 
   const setFiles = useCallback((files) => {
     return textareaRef.current.map((ref, i) => {
+      if (!ref.current) {
+        return
+      }
+
       ref.current.value = files[i].content
     })
   }, [])
@@ -47,12 +69,12 @@ export function FileEditorCodeMirror({
 
   return (
     <div>
-      <p>Theme: {theme}</p>
+      <p>Theme: {settings.theme}</p>
       <p>Language: {language}</p>
-      <p>Keybindings: {keybindings}</p>
-      <p>Wrap: {wrap}</p>
+      <p>Keybindings: {settings.keybindings}</p>
+      <p>Wrap: {settings.wrap}</p>
       <p>Palette open: {isPaletteOpen.toString()}</p>
-      <p>Tab behavior: {tabBehavior}</p>
+      <p>Tab behavior: {settings.tabBehavior}</p>
       {files.map((file, i) => (
         <div key={file.filename}>
           <p>Value: {file.content}</p>

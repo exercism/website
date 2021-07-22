@@ -2,30 +2,33 @@ import { useEffect } from 'react'
 import { useLocalStorage } from '../../utils/use-storage'
 import { File } from '../types'
 
-export const useSaveFiles = (
-  storageKey: string,
-  initialFiles: File[],
-  saveInterval: number,
-  getFiles: () => File[]
-): [File[], (files: File[]) => void] => {
+export const useSaveFiles = ({
+  key,
+  saveInterval,
+  defaultFiles,
+  getFiles,
+}: {
+  key: string
+  saveInterval: number
+  defaultFiles: File[]
+  getFiles: () => File[] | undefined
+}) => {
   const [files, setFiles] = useLocalStorage<File[]>(
-    `solution-files-${storageKey}`,
-    initialFiles
+    `solution-files-${key}`,
+    defaultFiles
   )
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newFiles = getFiles()
+      const newFiles = getFiles() || defaultFiles
 
       if (JSON.stringify(files) === JSON.stringify(newFiles)) {
         return
       }
 
-      setFiles(getFiles())
+      setFiles(newFiles)
     }, saveInterval)
 
     return () => clearInterval(interval)
-  }, [files, getFiles, saveInterval, setFiles])
-
-  return [files, setFiles]
+  }, [files, getFiles, defaultFiles, saveInterval, setFiles])
 }

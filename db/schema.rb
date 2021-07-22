@@ -746,7 +746,7 @@ ActiveRecord::Schema.define(version: 2021_07_21_064506) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
-    t.integer "satisfaction_rating", limit: 1, default: 100, null: false
+    t.integer "mentor_satisfaction_percentage", limit: 1, default: 100, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

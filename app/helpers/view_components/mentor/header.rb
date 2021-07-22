@@ -36,7 +36,7 @@ module ViewComponents
       def stats
         tag.div(class: "stats") do
           tag.div("#{current_user.num_solutions_mentored} solutions mentored", class: "stat") +
-            tag.div("#{current_user.satisfaction_rating}% satisfaction", class: "stat")
+            tag.div("#{current_user.mentor_satisfaction_percentage}% satisfaction", class: "stat")
         end
       end
 

@@ -166,7 +166,7 @@ class Mentor::Discussion < ApplicationRecord
 
   def update_num_solutions_mentored!
     count_sql = Arel.sql(
-      Mentor::Discussion.where(mentor_id: mentor.id).finished_for_mentor.select("COUNT(*)").to_sql
+      Mentor::Discussion.where(mentor: mentor).finished_for_mentor.select("COUNT(*)").to_sql
     )
 
     # We're updating in a single query instead of two queries to avoid race-conditions

@@ -27,6 +27,10 @@ class Exercism::Routes
     )
   end
 
+  def self.solving_exercises_locally_path
+    Exercism::Routes.doc_path('using', 'solving-exercises/working-locally')
+  end
+
   def self.routes
     Rails.application.routes.url_helpers
   end

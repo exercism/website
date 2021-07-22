@@ -30,12 +30,12 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
-      resources :solutions, only: %i[show update], param: :uuid do
+      resources :solutions, only: %i[show update] do
         get :latest, on: :collection
         get 'files/*filepath', to: 'files#show', format: false, as: "file"
       end
 
-      resources :tracks, only: [:show], param: :slug
+      resources :tracks, only: [:show]
     end
 
     # TODO: This is just a stub

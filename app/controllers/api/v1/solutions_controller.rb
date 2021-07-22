@@ -3,7 +3,7 @@ module API
     class SolutionsController < BaseController
       def show
         begin
-          solution = current_user.solutions.find_by!(uuid: params[:uuid])
+          solution = current_user.solutions.find_by!(uuid: params[:id])
         rescue ActiveRecord::RecordNotFound
           return render_solution_not_found
         end
@@ -14,22 +14,25 @@ module API
       end
 
       def latest
-        return render_404(:track_not_found, fallback_url: tracks_url) if params[:track_slug].blank?
+        return render_404(:track_not_found, fallback_url: tracks_url) if params[:track_id].blank?
 
         begin
-          track = Track.find(params[:track_slug])
+          track = Track.find_by!(slug: params[:track_id])
         rescue ActiveRecord::RecordNotFound
           return render_404(:track_not_found, fallback_url: tracks_url)
         end
 
         begin
-          exercise = track.exercises.find(params[:exercise_slug])
+          exercise = track.exercises.find_by!(slug: params[:exercise_id])
         rescue ActiveRecord::RecordNotFound
           return render_404(:exercise_not_found, fallback_url: track_url(track))
         end
 
-        user_track = UserTrack.for(current_user, track)
-        return render_403(:track_not_joined) if user_track.external?
+        begin
+          user_track = UserTrack.find_by!(user: current_user, track: track)
+        rescue ActiveRecord::RecordNotFound
+          return render_403(:track_not_joined)
+        end
 
         begin
           solution = current_user.solutions.find_by!(exercise_id: exercise.id)
@@ -44,7 +47,7 @@ module API
 
       def update
         begin
-          solution = Solution.find_by!(uuid: params[:uuid])
+          solution = Solution.find_by!(uuid: params[:id])
         rescue ActiveRecord::RecordNotFound
           return render_solution_not_found
         end
@@ -68,14 +71,6 @@ module API
       end
 
       private
-      def set_track
-        @track = Track.find(params[:track_slug])
-      end
-
-      def set_exercise
-        @exercise = @track.exercises.find(params[:exercise_slug])
-      end
-
       def respond_with_authored_solution(solution)
         solution.sync_git! unless solution.downloaded?
 

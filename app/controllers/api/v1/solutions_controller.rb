@@ -71,14 +71,6 @@ module API
       end
 
       private
-      def set_track
-        @track = Track.find_by!(slug: params[:track_id])
-      end
-
-      def set_exercise
-        @exercise = @track.exercises.find_by!(slug: params[:exercise_id])
-      end
-
       def respond_with_authored_solution(solution)
         solution.sync_git! unless solution.downloaded?
 

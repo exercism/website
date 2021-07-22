@@ -6,17 +6,17 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     create :user_track, user: solution.user, track: solution.track
     expected = {
       solution: {
-        uuid: solution.uuid,
+        id: solution.uuid,
         url: "https://test.exercism.io/tracks/ruby/exercises/strings",
         user: {
           handle: solution.user.handle,
           is_requester: true
         },
         exercise: {
-          slug: solution.exercise.slug,
+          id: solution.exercise.slug,
           instructions_url: "https://test.exercism.io/tracks/ruby/exercises/strings",
           track: {
-            slug: solution.track.slug,
+            id: solution.track.slug,
             language: solution.track.title
           }
         },

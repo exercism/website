@@ -6,17 +6,17 @@ class SerializeSolutionForCLI
   def call
     {
       solution: {
-        uuid: solution.uuid,
+        id: solution.uuid,
         url: solution_url,
         user: {
           handle: user_handle,
           is_requester: solution.user_id == requester.id
         },
         exercise: {
-          slug: solution.exercise.slug,
+          id: solution.exercise.slug,
           instructions_url: instructions_url,
           track: {
-            slug: track.slug,
+            id: track.slug,
             language: track.title
           }
         },

@@ -297,7 +297,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     mentor = create :user
 
     # Sanity check
-    assert_equal 100, mentor.mentor_satisfaction_percentage
+    assert_nil mentor.mentor_satisfaction_percentage
 
     create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
     assert_equal 100, mentor.reload.mentor_satisfaction_percentage

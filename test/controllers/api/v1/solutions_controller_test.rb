@@ -13,7 +13,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "latest should return 404 when the track doesn't exist" do
     setup_user
     exercise = create :concept_exercise
-    get latest_api_v1_solutions_path(exercise_slug: exercise.slug, track_slug: SecureRandom.uuid), headers: @headers, as: :json
+    get latest_api_v1_solutions_path(exercise_id: exercise.slug, track_id: SecureRandom.uuid), headers: @headers, as: :json
     assert_response 404
     expected = { error: {
       type: "track_not_found",
@@ -28,7 +28,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "latest should return 404 when there is no exercise" do
     setup_user
     track = create :track
-    get latest_api_v1_solutions_path(track_slug: track.slug), headers: @headers, as: :json
+    get latest_api_v1_solutions_path(track_id: track.slug), headers: @headers, as: :json
     assert_response 404
     expected = { error: {
       type: "exercise_not_found",
@@ -44,7 +44,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     setup_user
     track = create :track
     exercise = create :concept_exercise, track: track
-    get latest_api_v1_solutions_path(exercise_slug: exercise.slug, track_slug: track.slug), headers: @headers, as: :json
+    get latest_api_v1_solutions_path(exercise_id: exercise.slug, track_id: track.slug), headers: @headers, as: :json
     assert_response 403
     expected = { error: {
       type: "track_not_joined",
@@ -63,7 +63,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     UserTrack.any_instance.expects(:exercise_unlocked?).returns(false)
 
-    get latest_api_v1_solutions_path(track_slug: track.slug, exercise_slug: exercise.slug), headers: @headers, as: :json
+    get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
     assert_response 403
     expected = { error: {
@@ -80,7 +80,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     create :concept_solution, user: @current_user, exercise: exercise
     create :user_track, user: @current_user, track: exercise.track
 
-    get latest_api_v1_solutions_path(track_slug: exercise.track.slug, exercise_slug: exercise.slug), headers: @headers, as: :json
+    get latest_api_v1_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
     assert_response :success
   end
 
@@ -91,7 +91,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     UserTrack.any_instance.stubs(exercise_unlocked?: true)
 
-    get latest_api_v1_solutions_path(track_slug: exercise.track.slug, exercise_slug: exercise.slug), headers: @headers, as: :json
+    get latest_api_v1_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
     assert_response :success
   end
 
@@ -102,7 +102,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     create :user_track, user: @current_user, track: track
     solution = create :concept_solution, user: @current_user, exercise: exercise
 
-    get latest_api_v1_solutions_path(track_slug: track.slug, exercise_slug: exercise.slug), headers: @headers, as: :json
+    get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
     assert_response :success
     serializer = SerializeSolutionForCLI.(solution, @current_user)
@@ -117,7 +117,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       solution = create :concept_solution, user: @current_user, exercise: exercise
       create :user_track, user: solution.user, track: track
 
-      get latest_api_v1_solutions_path(track_slug: track.slug, exercise_slug: exercise.slug), headers: @headers, as: :json
+      get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
       assert_response :success
 
       solution.reload
@@ -134,7 +134,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     create :user_track, user: @current_user, track: solution.track
 
     Solution.any_instance.expects(:sync_git!)
-    get latest_api_v1_solutions_path(track_slug: solution.track.slug, exercise_slug: solution.exercise.slug),
+    get latest_api_v1_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
       headers: @headers, as: :json
   end
 
@@ -147,7 +147,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     create :user_track, user: @current_user, track: solution.track
 
     Solution.any_instance.expects(:sync_git!).never
-    get latest_api_v1_solutions_path(track_slug: solution.track.slug, exercise_slug: solution.exercise.slug),
+    get latest_api_v1_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
       headers: @headers, as: :json
   end
 

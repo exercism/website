@@ -44,6 +44,9 @@ jobs:
       ###############
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

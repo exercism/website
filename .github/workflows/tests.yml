@@ -6,15 +6,31 @@ on:
   pull_request:
 
 jobs:
+  #####################
+  ##### Submodule #####
+  #####################
+  submodules:
+    if: github.repository == 'exercism/website'
+
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout using GitHub's checkout action
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
+
+      - name: Check if website-icons submodule uses main branch
+        run: git submodule status website-icons | grep -q "heads/main"
+
   ##################
   ##### RUBOCOP ####
   ##################
   rubocop:
-    # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -39,11 +55,15 @@ jobs:
   js-tests:
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
     steps:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
       ###
 
       # Caching using GitHub's caching action
@@ -76,6 +96,7 @@ jobs:
   ruby-tests:
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -108,6 +129,9 @@ jobs:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
 
       ###
       # Setup Ruby
@@ -164,6 +188,7 @@ jobs:
   system-tests:
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -195,6 +220,9 @@ jobs:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
@@ -260,11 +288,15 @@ jobs:
   asset-tests:
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
     steps:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile

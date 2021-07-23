@@ -14,6 +14,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
 
       - uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true

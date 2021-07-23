@@ -1,4 +1,5 @@
 import React from 'react'
+import { IconCategory, loadIcon } from '../../utils/icon-loader'
 
 export function GraphicalIcon({
   icon,
@@ -8,14 +9,14 @@ export function GraphicalIcon({
 }: {
   icon: string
   className?: string
-  category?: string
+  category?: IconCategory
   hex?: boolean
 }) {
   const classNames = ['c-icon', className, hex ? '--hex' : ''].filter(
     (className) => className.length > 0
   )
 
-  const iconFile = require(`../../images/${category || 'icons'}/${icon}.svg`)
+  const iconFile = loadIcon(icon, category)
 
   return hex ? (
     <div className={classNames.join(' ')}>

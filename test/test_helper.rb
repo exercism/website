@@ -57,7 +57,7 @@ module TestHelpers
   end
 
   def self.image_pack_url(icon_name, category: 'icons')
-    asset_pack_url("media/images/#{category}/#{icon_name}.svg")
+    asset_pack_url("media/#{category}/#{icon_name}.svg")
   end
 end
 

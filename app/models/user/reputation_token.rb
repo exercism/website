@@ -111,7 +111,7 @@ class User::ReputationToken < ApplicationRecord
     return exercise.icon_url if exercise
 
     asset_pack_url(
-      "media/images/graphics/#{icon_name}.svg",
+      "media/graphics/#{icon_name}.svg",
       host: Rails.application.config.action_controller.asset_host
     )
   end

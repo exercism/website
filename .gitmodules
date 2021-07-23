@@ -1,0 +1,3 @@
+[submodule "website-icons"]
+	path = website-icons
+	url = https://github.com/exercism/website-icons

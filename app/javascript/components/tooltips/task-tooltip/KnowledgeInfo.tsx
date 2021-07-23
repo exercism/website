@@ -35,7 +35,7 @@ const KnowledgeDetails = ({
       return (
         <>
           <h3>
-            This task requires <strong>no</strong> existing Exercism knowledge
+            This task requires <strong>no</strong> existing Exercism knowledge.
           </h3>
           {/* TODO: Change emoji to slightly-smiling */}
           <p>
@@ -49,7 +49,7 @@ const KnowledgeDetails = ({
       return (
         <>
           <h3>
-            This task requires <strong>elementary</strong> Exercism knowledge
+            This task requires <strong>elementary</strong> Exercism knowledge.
           </h3>
           <p>
             You'll need to know a little bit about how Exercism works, but you
@@ -62,7 +62,7 @@ const KnowledgeDetails = ({
       return (
         <>
           <h3>
-            This task requires <strong>intermediate</strong> Exercism knowledge
+            This task requires <strong>intermediate</strong> Exercism knowledge.
           </h3>
           <p>
             You'll need to know the key principles of{' '}
@@ -76,7 +76,7 @@ const KnowledgeDetails = ({
       return (
         <>
           <h3>
-            This task requires <strong>advanced</strong> Exercism knowledge
+            This task requires <strong>advanced</strong> Exercism knowledge.
           </h3>
           <p>
             You'll need to have a solid understanding of

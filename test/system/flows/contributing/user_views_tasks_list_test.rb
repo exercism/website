@@ -30,12 +30,12 @@ module Flows
           visit contributing_tasks_path
           find(".task").hover
 
-          assert_text "For this task you will be creating docs for the Ruby Test Runner"
-          assert_text "This is a docs type task"
-          assert_text "This task requires you to Create"
-          assert_text "This task is Large"
-          assert_text "This task requires Intermediate knowledge"
-          assert_text "This task is about Test Runners"
+          assert_text "For this task you will be creating Test Runner docs for the Ruby Track."
+          assert_text "This task involves writing docs."
+          assert_text "This task requires you to create something new."
+          assert_text "This is a large task."
+          assert_text "This task requires intermediate Exercism knowledge."
+          assert_text "This task is about Test Runners."
         end
       end
 

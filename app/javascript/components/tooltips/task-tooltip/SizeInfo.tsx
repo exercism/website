@@ -58,7 +58,7 @@ const SizeDetails = ({ size }: { size: TaskSize }): JSX.Element => {
       return (
         <>
           <h3>
-            This task is <strong>Large</strong>
+            This is a <strong>large task</strong>.
           </h3>
           <p>
             This will take you many hours to complete. It's a great task to get

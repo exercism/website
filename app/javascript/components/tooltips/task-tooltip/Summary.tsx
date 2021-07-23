@@ -38,34 +38,43 @@ export function verbForAction(action?: TaskAction) {
 export function descriptionForModule(module?: TaskModule) {
   switch (module) {
     case 'analyzer':
-      return <>Analyzers</>
+      return 'Analyzers'
     case 'concept':
-      return <>Concepts</>
+      return 'Concepts'
     case 'concept-exercise':
-      return <>Learning Exercises</>
+      return 'Learning Exercises'
     case 'generator':
-      return <>Generators</>
+      return 'Generators'
     case 'practice-exercise':
-      return <>Practice Exercises</>
+      return 'Practice Exercises'
     case 'representer':
-      return <>Representers</>
+      return 'Representers'
     case 'test-runner':
-      return <>Test Runners</>
+      return 'Test Runners'
     default:
       return null
   }
 }
 
-const SummaryDetails = ({ task }: { task: Task }) => {
-  const desc = descriptionForModule(task.tags.module)
+export const SummaryDetails = ({ task }: { task: Task }) => {
+  let module = descriptionForModule(task.tags.module)
+  module = module ? module.replace(/s$/, '') : 'Exercism'
   const verb = verbForAction(task.tags.action)
 
-  console.log(verb)
+  let type
+  switch (task.tags.type) {
+    case 'fix':
+      type = 'fixes'
+      break
+    default:
+      type = task.tags.type
+  }
+
   return (
     <h3>
-      For this task you will be {verb ? verb : 'working on'}{' '}
-      {desc ? desc : 'Exercism'}
-      {task.track ? `for the {task.track.title} ` : null}.
+      For this task you will be {verb ? verb : 'working on'} {module}{' '}
+      {type ? type : 'changes'}
+      {task.track ? ` for the ${task.track.title} Track` : null}.
     </h3>
   )
 }

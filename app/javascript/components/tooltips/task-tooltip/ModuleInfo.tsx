@@ -21,7 +21,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
       return (
         <>
           <h3>
-            For this task, you'll be working on <strong>Analyzers</strong>.
+            For this task, you'll be working on <strong>Analyzers</strong>..
           </h3>
           <p>
             Analyzers take code and generating automated suggestions for how to
@@ -33,7 +33,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
       return (
         <>
           <h3>
-            This task is about <strong>Concepts</strong>
+            This task is about <strong>Concepts</strong>.
           </h3>
           <p>
             Concepts are comprised of brief introductions and more complex
@@ -45,7 +45,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
       return (
         <>
           <h3>
-            This task is about <strong>Learning Exercises</strong>
+            This task is about <strong>Learning Exercises</strong>.
           </h3>
           <p>
             Learning Exercises teach one or more Concepts. They are
@@ -57,7 +57,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
       return (
         <>
           <h3>
-            This task is about <strong>Generators</strong>
+            This task is about <strong>Generators</strong>.
           </h3>
           <p>
             Generators are pieces of tooling that Tracks use to keep in sync
@@ -69,7 +69,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
       return (
         <>
           <h3>
-            This task is about <strong>Practice Exercises</strong>
+            This task is about <strong>Practice Exercises</strong>.
           </h3>
           <p>
             Most exercises are Practice Exercises - they enable students to
@@ -81,7 +81,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
       return (
         <>
           <h3>
-            This task is about <strong>Representers</strong>
+            This task is about <strong>Representers</strong>.
             <p>
               Representers create normalised versions of students' submissions,
               which can have mentoring comments attached to them.
@@ -93,7 +93,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
       return (
         <>
           <h3>
-            This task is about <strong>Test Runners</strong>
+            This task is about <strong>Test Runners</strong>.
           </h3>
           <p>
             Test Runners allow Exercism to run students' code and determine

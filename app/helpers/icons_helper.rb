@@ -23,6 +23,11 @@ module IconsHelper
   def track_icon(track, css_class: nil)
     image_tag track.icon_url, alt: track.title,
                               class: "c-track-icon #{css_class} --#{track.slug}"
+
+    # Use the code below to load the icon from webpack
+    # image_pack_tag "media/tracks/#{track.slug}.svg",
+    #   alt: track.title,
+    #   class: "c-track-icon #{css_class} --#{track.slug}"
   end
 
   def exercise_icon(exercise, css_class: nil)
@@ -32,5 +37,11 @@ module IconsHelper
       alt: exercise.title,
       class: "c-icon c-exercise-icon #{css_class}",
       onerror: "if (this.src != '#{error_icon}') this.src = '#{error_icon}';"
+
+    # Use the code below to load the icon from webpack
+    # image_pack_tag "media/exercises/#{exercise.icon_name}.svg",
+    #   alt: exercise.title,
+    #   class: "c-icon c-exercise-icon #{css_class}",
+    #   onerror: "if (this.src != '#{error_icon}') this.src = '#{error_icon}';"
   end
 end

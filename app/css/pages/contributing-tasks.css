@@ -1,9 +1,7 @@
 @import "../styles";
 
-#contributing-tasks {
-    @apply pb-140;
-    @apply mb-140;
-
+.c-task-tooltip,
+#contributing-tasks .task {
     & .size-tag {
         height: 24px;
         width: 24px;
@@ -39,6 +37,28 @@
             @apply border-transparent;
         }
     }
+
+    & .action-icon {
+        height: 40px;
+        width: 40px;
+        @apply border-2 border-textColor2 rounded-circle;
+        @apply grid place-items-center;
+        & .c-icon {
+            height: 25px;
+            width: 25px;
+        }
+    }
+
+    & .module {
+        height: 24px;
+        width: 24px;
+        filter: var(--textColor2-filter);
+    }
+}
+
+#contributing-tasks {
+    @apply pb-140;
+    @apply mb-140;
 
     & .c-search-bar {
         @apply mb-32;
@@ -104,15 +124,7 @@
             @apply border-b-1 border-borderColor7;
 
             & .action-icon {
-                height: 40px;
-                width: 40px;
                 @apply mr-16;
-                @apply border-2 border-textColor2 rounded-circle;
-                @apply grid place-items-center;
-                & .c-icon {
-                    height: 25px;
-                    width: 25px;
-                }
             }
             & .info {
                 & .heading {
@@ -169,12 +181,6 @@
 
                 & > * {
                     @apply ml-48;
-                }
-
-                & .module {
-                    height: 24px;
-                    width: 24px;
-                    filter: var(--textColor2-filter);
                 }
             }
             & .external-link {

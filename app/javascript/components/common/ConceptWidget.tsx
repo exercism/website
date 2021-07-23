@@ -1,8 +1,7 @@
 import React, { useRef } from 'react'
 import { Concept } from '../types'
 import { ConceptTooltip } from '../tooltips/ConceptTooltip'
-import { LazyTippy } from '../misc/LazyTippy'
-import { followCursor } from 'tippy.js'
+import { ExercismTippy } from '../misc/ExercismTippy'
 
 export type Props = { concept: Concept }
 
@@ -10,12 +9,8 @@ export const ConceptWidget = ({ concept }: Props): JSX.Element => {
   const conceptRef = useRef(null)
 
   return (
-    <LazyTippy
+    <ExercismTippy
       content={<ConceptTooltip endpoint={concept.links.tooltip} />}
-      animation="shift-away-subtle"
-      followCursor="horizontal"
-      maxWidth="none"
-      plugins={[followCursor]}
     >
       <a
         ref={conceptRef}
@@ -27,6 +22,6 @@ export const ConceptWidget = ({ concept }: Props): JSX.Element => {
         </div>
         <div className="name">{concept.name}</div>
       </a>
-    </LazyTippy>
+    </ExercismTippy>
   )
 }

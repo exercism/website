@@ -16,6 +16,29 @@ module Flows
         end
       end
 
+      test "user views task tooltip" do
+        track = create :track, title: "Ruby"
+        create :github_task,
+          track: track,
+          action: "create",
+          type: "docs",
+          size: "large",
+          knowledge: "intermediate",
+          area: "test-runner"
+
+        use_capybara_host do
+          visit contributing_tasks_path
+          find(".task").hover
+
+          assert_text "For this task you will be creating Test Runner docs for the Ruby Track."
+          assert_text "This task involves writing docs."
+          assert_text "This task requires you to create something new."
+          assert_text "This is a large task."
+          assert_text "This task requires intermediate Exercism knowledge."
+          assert_text "This task is about Test Runners."
+        end
+      end
+
       test "user filters by track" do
         ruby = create :track, slug: "ruby"
         go = create :track, slug: "go"

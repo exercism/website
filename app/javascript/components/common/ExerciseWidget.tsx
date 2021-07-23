@@ -4,8 +4,7 @@ import { ExerciseIcon } from './ExerciseIcon'
 import { GraphicalIcon } from './GraphicalIcon'
 import { Info } from './exercise-widget/Info'
 import { ExerciseTooltip } from '../tooltips/ExerciseTooltip'
-import { LazyTippy } from '../misc/LazyTippy'
-import { followCursor } from 'tippy.js'
+import { ExercismTippy } from '../misc/ExercismTippy'
 
 type Links = {
   tooltip: string
@@ -31,11 +30,7 @@ export const ExerciseWidget = ({
   isSkinny,
 }: Props): JSX.Element => {
   return (
-    <LazyTippy
-      animation="shift-away-subtle"
-      followCursor="horizontal"
-      maxWidth="none"
-      plugins={[followCursor]}
+    <ExercismTippy
       content={links ? <ExerciseTooltip endpoint={links.tooltip} /> : null}
       disabled={links === undefined}
     >
@@ -47,7 +42,7 @@ export const ExerciseWidget = ({
         renderBlurb={renderBlurb}
         isSkinny={isSkinny}
       />
-    </LazyTippy>
+    </ExercismTippy>
   )
 }
 

@@ -80,6 +80,7 @@ import '../../css/tooltips/concept'
 import '../../css/tooltips/user'
 import '../../css/tooltips/exercise'
 import '../../css/tooltips/student'
+import '../../css/tooltips/task'
 import '../../css/components/user_activity'
 import '../../css/components/search-bar'
 import '../../css/components/community-solution'
@@ -476,5 +477,4 @@ const imagePath = (name: any) => images(name)
 
 // Loading overlay events
 import { bindRedirectEvents } from '../utils/redirect-to'
-import { LazyTippy } from '../components/misc/LazyTippy'
 bindRedirectEvents()

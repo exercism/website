@@ -278,7 +278,9 @@ Rails.application.routes.draw do
   namespace :contributing do
     root to: "dashboard#show"
     resources :contributors, only: [:index]
-    resources :tasks, only: [:index]
+    resources :tasks, only: [:index], param: :uuid do
+      get :tooltip, on: :member
+    end
   end
 
   resources :tracks, only: %i[index show] do

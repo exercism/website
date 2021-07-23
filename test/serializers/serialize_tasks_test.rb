@@ -12,50 +12,8 @@ class SerializeTasksTest < ActiveSupport::TestCase
       tasks = [task_1, task_2]
 
       expected = [
-        {
-          uuid: task_1.uuid,
-          title: "Fix generator",
-          tags: {
-            action: :fix,
-            knowledge: nil,
-            module: :representer,
-            size: nil,
-            type: :docs
-          },
-          track: {
-            slug: "ruby",
-            title: "Ruby",
-            icon_url: "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/tracks/ruby.svg"
-          },
-          opened_by_username: "ErikSchierboom",
-          opened_at: 3.weeks.ago.iso8601,
-          is_new: false,
-          links: {
-            github_url: "https://github.com/exercism/fsharp/issues/99"
-          }
-        },
-        {
-          uuid: task_2.uuid,
-          title: "Sync anagram",
-          tags: {
-            action: :improve,
-            knowledge: :none,
-            module: :analyzer,
-            size: :massive,
-            type: :ci
-          },
-          track: {
-            slug: "ruby",
-            title: "Ruby",
-            icon_url: "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/tracks/ruby.svg"
-          },
-          opened_by_username: "iHiD",
-          opened_at: 2.days.ago.iso8601,
-          is_new: true,
-          links: {
-            github_url: "https://github.com/exercism/ruby/issues/312"
-          }
-        }
+        SerializeTask.(task_1),
+        SerializeTask.(task_2)
       ]
       assert_equal expected, SerializeTasks.(tasks)
     end

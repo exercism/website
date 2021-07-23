@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { IconCategory, loadIconFile } from '../../utils/icon-file'
 
 export function Icon({
   icon,
@@ -9,14 +10,13 @@ export function Icon({
   icon: string
   alt: string
   className?: string
-  category?: string
+  category?: IconCategory
 }): JSX.Element {
   const classNames = ['c-icon']
   if (className !== undefined) {
     classNames.push(className)
   }
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const iconFile = require(`../../../../website-icons/${category}/${icon}.svg`)
+  const iconFile = loadIconFile(icon, category)
 
   return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
 }

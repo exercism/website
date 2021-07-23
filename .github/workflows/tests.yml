@@ -10,7 +10,6 @@ jobs:
   ##### RUBOCOP ####
   ##################
   rubocop:
-    # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest

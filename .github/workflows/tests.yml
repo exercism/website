@@ -43,6 +43,9 @@ jobs:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
       ###
 
       # Caching using GitHub's caching action
@@ -107,6 +110,9 @@ jobs:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
 
       ###
       # Setup Ruby
@@ -194,6 +200,9 @@ jobs:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
@@ -264,6 +273,9 @@ jobs:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile

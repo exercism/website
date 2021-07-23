@@ -40,6 +40,9 @@ jobs:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile

@@ -6,7 +6,7 @@ type ExerciseIconProps = {
   className?: string
 }
 
-const errorIcon = require(`../../images/graphics/missing-exercise.svg`)
+const errorIcon = require(`../../../../website-icons/graphics/missing-exercise.svg`)
 
 function imageErrorHandler(e: React.SyntheticEvent<HTMLImageElement, Event>) {
   const el = e.target as HTMLImageElement

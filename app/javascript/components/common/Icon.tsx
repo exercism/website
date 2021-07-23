@@ -16,7 +16,7 @@ export function Icon({
     classNames.push(className)
   }
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const iconFile = require(`../../images/${category}/${icon}.svg`)
+  const iconFile = require(`../../../../website-icons/${category}/${icon}.svg`)
 
   return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
 }

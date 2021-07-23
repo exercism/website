@@ -15,7 +15,9 @@ export function GraphicalIcon({
     (className) => className.length > 0
   )
 
-  const iconFile = require(`../../images/${category || 'icons'}/${icon}.svg`)
+  const iconFile = require(`../../../../website-icons/${
+    category || 'icons'
+  }/${icon}.svg`)
 
   return hex ? (
     <div className={classNames.join(' ')}>

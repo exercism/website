@@ -279,6 +279,4 @@ module.exports = {
   corePlugins: {
     container: false,
   },
-  // s- for style
-  // prefix: 'tw-',
 }

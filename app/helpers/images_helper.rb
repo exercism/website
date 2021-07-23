@@ -4,7 +4,7 @@ module ImagesHelper
       class: [css_class, extra_css_class].compact.join(" "),
       style: "background-image:url(#{src})"
     ) do
-      image_tag(src, alt: alt.to_s, class: "tw-sr-only")
+      image_tag(src, alt: alt.to_s, class: "sr-only")
     end
   end
 
@@ -26,7 +26,7 @@ module ImagesHelper
         "aria-title": "Link to #{user.handle}'s profile"
       )
     ) do
-      image_tag(user.avatar_url, alt: "Uploaded avatar of #{user.handle}", class: "tw-sr-only")
+      image_tag(user.avatar_url, alt: "Uploaded avatar of #{user.handle}", class: "sr-only")
     end
   end
 end

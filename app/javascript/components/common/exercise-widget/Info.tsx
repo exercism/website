@@ -33,7 +33,7 @@ export const Info = ({
         ) : null}
         {solution && solution.hasNotifications ? (
           <div className="c-notification-dot">
-            <span className="tw-sr-only">has notifications</span>
+            <span className="sr-only">has notifications</span>
           </div>
         ) : null}
       </div>

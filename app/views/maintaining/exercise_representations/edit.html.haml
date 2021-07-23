@@ -19,18 +19,18 @@
 
 #maintaining-exercise-representation-form
   %h2.text-h3 Edit Represenation
-  .tw-flex
-    .submission.tw-w-1-2.tw-mr-32
-      %h3.text-h4.tw-mb-8 Submission
+  .flex
+    .submission.w-1-2.mr-32
+      %h3.text-h4.mb-8 Submission
       %pre{ style: "overflow:scroll" }
         = @representation.source_submission.files.first.content
 
-      %h3.text-h4.tw-mb-8.tw-mt-48 AST
+      %h3.text-h4.mb-8.mt-48 AST
       %pre{ style: "overflow:scroll" }
         = @representation.ast
 
     = form_for @representation, url: maintaining_exercise_representation_path(@representation) do |f|
-      %h3.text-h4.tw-mb-8 Feedback
+      %h3.text-h4.mb-8 Feedback
       = f.text_area :feedback_markdown, style: "width:400px;height:400px;"
 
       %div

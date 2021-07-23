@@ -14,7 +14,7 @@ export const KnowledgeTag = ({
         <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
-          <div className="tw-sr-only">Knowledge: none</div>
+          <div className="sr-only">Knowledge: none</div>
         </div>
       )
     case 'elementary':
@@ -22,7 +22,7 @@ export const KnowledgeTag = ({
         <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
-          <div className="tw-sr-only">Knowledge: elementary</div>
+          <div className="sr-only">Knowledge: elementary</div>
         </div>
       )
     case 'intermediate':
@@ -30,7 +30,7 @@ export const KnowledgeTag = ({
         <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
-          <div className="tw-sr-only">Knowledge: intermediate</div>
+          <div className="sr-only">Knowledge: intermediate</div>
         </div>
       )
     case 'advanced':
@@ -38,7 +38,7 @@ export const KnowledgeTag = ({
         <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
-          <div className="tw-sr-only">Knowledge: advanced</div>
+          <div className="sr-only">Knowledge: advanced</div>
         </div>
       )
     default:

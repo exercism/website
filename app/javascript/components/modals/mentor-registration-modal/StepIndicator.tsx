@@ -19,7 +19,7 @@ const Step = ({
       className={classNames.join(' ')}
       aria-current={selected ? 'step' : undefined}
     >
-      <span className="tw-sr-only">{srText}</span>
+      <span className="sr-only">{srText}</span>
     </li>
   )
 }

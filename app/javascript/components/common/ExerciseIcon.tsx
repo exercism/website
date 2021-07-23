@@ -1,4 +1,5 @@
 import React from 'react'
+import { loadIcon } from '../../utils/icon-loader'
 
 type ExerciseIconProps = {
   iconUrl: string
@@ -6,7 +7,7 @@ type ExerciseIconProps = {
   className?: string
 }
 
-const errorIcon = require(`../../../../website-icons/graphics/missing-exercise.svg`)
+const errorIcon = loadIcon('missing-exercise', 'graphics')
 
 function imageErrorHandler(e: React.SyntheticEvent<HTMLImageElement, Event>) {
   const el = e.target as HTMLImageElement

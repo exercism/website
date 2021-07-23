@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IconCategory, loadIconFile } from '../../utils/icon-file'
+import { IconCategory, loadIcon } from '../../utils/icon-loader'
 
 export function Icon({
   icon,
@@ -16,7 +16,7 @@ export function Icon({
   if (className !== undefined) {
     classNames.push(className)
   }
-  const iconFile = loadIconFile(icon, category)
+  const iconFile = loadIcon(icon, category)
 
   return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
 }

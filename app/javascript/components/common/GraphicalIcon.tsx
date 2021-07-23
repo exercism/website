@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconCategory, loadIconFile } from '../../utils/icon-file'
+import { IconCategory, loadIcon } from '../../utils/icon-loader'
 
 export function GraphicalIcon({
   icon,
@@ -16,7 +16,7 @@ export function GraphicalIcon({
     (className) => className.length > 0
   )
 
-  const iconFile = loadIconFile(icon, category)
+  const iconFile = loadIcon(icon, category)
 
   return hex ? (
     <div className={classNames.join(' ')}>

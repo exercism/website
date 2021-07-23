@@ -21,15 +21,15 @@ const SummaryTag = () => {
 export function verbForAction(action?: TaskAction) {
   switch (action) {
     case 'create':
-      return <>creating</>
+      return 'creating'
     case 'fix':
-      return <>fixing</>
+      return 'fixing'
     case 'improve':
-      return <>improving</>
+      return 'improving'
     case 'proofread':
-      return <>proofreading</>
+      return 'proofreading'
     case 'sync':
-      return <>syncing</>
+      return 'syncing'
     default:
       return null
   }
@@ -61,19 +61,10 @@ export const SummaryDetails = ({ task }: { task: Task }) => {
   module = module ? module.replace(/s$/, '') : 'Exercism'
   const verb = verbForAction(task.tags.action)
 
-  let type
-  switch (task.tags.type) {
-    case 'fix':
-      type = 'fixes'
-      break
-    default:
-      type = task.tags.type
-  }
-
   return (
     <h3>
       For this task you will be {verb ? verb : 'working on'} {module}{' '}
-      {type ? type : 'changes'}
+      {task.tags.type ? task.tags.type : 'changes'}
       {task.track ? ` for the ${task.track.title} Track` : null}.
     </h3>
   )

@@ -6,14 +6,31 @@ on:
   pull_request:
 
 jobs:
+  #####################
+  ##### Submodule #####
+  #####################
+  submodules:
+    if: github.repository == 'exercism/website'
+
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout using GitHub's checkout action
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.WEBSITE_ICONS_PRIVATE_KEY }}
+
+      - name: Check if website-icons submodule uses main branch
+        run: git submodule status website-icons | grep -q "heads/main"
+
   ##################
   ##### RUBOCOP ####
   ##################
   rubocop:
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -38,6 +55,7 @@ jobs:
   js-tests:
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
     steps:
       ###
@@ -78,6 +96,7 @@ jobs:
   ruby-tests:
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -169,6 +188,7 @@ jobs:
   system-tests:
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -268,6 +288,7 @@ jobs:
   asset-tests:
     if: github.repository == 'exercism/website'
 
+    needs: submodules
     runs-on: ubuntu-latest
     steps:
       ###

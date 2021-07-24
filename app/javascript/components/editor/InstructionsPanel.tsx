@@ -5,6 +5,7 @@ import { Assignment, AssignmentTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
 import { GraphicalIcon, Icon } from '../common'
 import { File } from '../types'
+import { useHighlighting } from '../../utils/highlight'
 
 export const InstructionsPanel = ({
   introduction,
@@ -16,18 +17,22 @@ export const InstructionsPanel = ({
   assignment: Assignment
   exampleFiles: File[]
   debuggingInstructions?: string
-}) => (
-  <Tab.Panel id="instructions" context={TabsContext}>
-    <section className="instructions-pane">
-      <div className="c-textual-content --small">
-        <Introduction introduction={introduction} />
-        <Instructions assignment={assignment} />
-        <Debug debuggingInstructions={debuggingInstructions} />
-        <ExampleFiles files={exampleFiles} />
-      </div>
-    </section>
-  </Tab.Panel>
-)
+}) => {
+  const ref = useHighlighting<HTMLDivElement>()
+
+  return (
+    <Tab.Panel id="instructions" context={TabsContext}>
+      <section className="instructions-pane" ref={ref}>
+        <div className="c-textual-content --small">
+          <Introduction introduction={introduction} />
+          <Instructions assignment={assignment} />
+          <Debug debuggingInstructions={debuggingInstructions} />
+          <ExampleFiles files={exampleFiles} />
+        </div>
+      </section>
+    </Tab.Panel>
+  )
+}
 
 const ExampleFiles = ({ files }: { files: File[] }) => {
   if (files === null || files === undefined || files.length === 0) {
@@ -40,7 +45,9 @@ const ExampleFiles = ({ files }: { files: File[] }) => {
       {files.map((file, i) => (
         <React.Fragment key={i}>
           <h4>{file.filename}</h4>
-          <pre dangerouslySetInnerHTML={{ __html: file.content }} />
+          <pre>
+            <code dangerouslySetInnerHTML={{ __html: file.content }} />
+          </pre>
         </React.Fragment>
       ))}
     </>

@@ -217,15 +217,28 @@ export function Editor({
         let editorError = null
 
         if (err instanceof Error) {
-          editorError = {
-            type: 'unknown',
-            message: 'Unable to revert file, please try again.',
-          }
+          editorError = Promise.resolve(() => {
+            return {
+              type: 'unknown',
+              message: 'Unable to revert file, please try again.',
+            }
+          })
         } else if (err instanceof Response) {
-          editorError = (await err.json()).error
+          editorError = err
+            .json()
+            .then((json) => json.error)
+            .catch(() => {
+              return {
+                type: 'unknown',
+                message: 'Unable to revert file, please try again.',
+              }
+            })
         }
 
-        dispatch({ status: EditorStatus.REVERT_FAILED, error: editorError })
+        dispatch({
+          status: EditorStatus.REVERT_FAILED,
+          error: await editorError,
+        })
       },
     })
   }, [revertToLastIteration, dispatch, setFiles, JSON.stringify(submission)])
@@ -246,15 +259,28 @@ export function Editor({
         let editorError = null
 
         if (err instanceof Error) {
-          editorError = {
-            type: 'unknown',
-            message: 'Unable to revert file, please try again.',
-          }
+          editorError = Promise.resolve(() => {
+            return {
+              type: 'unknown',
+              message: 'Unable to revert file, please try again.',
+            }
+          })
         } else if (err instanceof Response) {
-          editorError = (await err.json()).error
+          editorError = err
+            .json()
+            .then((json) => json.error)
+            .catch(() => {
+              return {
+                type: 'unknown',
+                message: 'Unable to revert file, please try again.',
+              }
+            })
         }
 
-        dispatch({ status: EditorStatus.REVERT_FAILED, error: editorError })
+        dispatch({
+          status: EditorStatus.REVERT_FAILED,
+          error: await editorError,
+        })
       },
     })
   }, [revertToExerciseStart, setFiles, dispatch, JSON.stringify(submission)])

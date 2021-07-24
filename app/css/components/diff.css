@@ -33,6 +33,7 @@
         text-align: right;
         cursor: pointer;
         @apply flex items-center;
+        width: 90px;
 
         & .line-num1,
         & .line-num2 {

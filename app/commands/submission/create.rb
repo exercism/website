@@ -32,8 +32,10 @@ class Submission
     private
     attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via, :submission
 
+    # In this guard we check the last submission that wasn't
+    # cancelled or exceptioned.
     def guard!
-      last_submission = solution.submissions.last
+      last_submission = solution.latest_valid_submission
       return unless last_submission
 
       prev_files = last_submission.files.map { |f| "#{f.filename}|#{f.digest}" }

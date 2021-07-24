@@ -42,7 +42,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
         uuid: Submission.last.uuid,
         tests_status: 'queued',
         links: {
-          cancel: Exercism::Routes.api_solution_submission_cancellations_url(solution.uuid, Submission.last),
+          cancel: Exercism::Routes.cancel_api_solution_submission_test_run_url(solution.uuid, Submission.last),
           submit: Exercism::Routes.api_solution_iterations_url(
             Submission.last.solution.uuid,
             submission_uuid: Submission.last.uuid

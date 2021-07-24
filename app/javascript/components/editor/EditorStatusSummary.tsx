@@ -1,17 +1,17 @@
 import React from 'react'
-import { EditorStatus } from '../Editor'
+import { EditorStatus } from './useEditorStatus'
 
 export const EditorStatusSummary = ({
   status,
   error,
 }: {
   status: EditorStatus
-  error: string | undefined
-}) => {
+  error?: string
+}): JSX.Element | null => {
   switch (status) {
     case EditorStatus.CREATING_ITERATION:
       return <p>Submitting...</p>
-    case EditorStatus.SUBMISSION_CANCELLED:
+    case EditorStatus.CREATE_SUBMISSION_FAILED:
       return <p>{error}</p>
     case EditorStatus.REVERT_FAILED:
       return <p>{error}</p>

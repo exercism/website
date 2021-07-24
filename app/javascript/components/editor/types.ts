@@ -55,7 +55,6 @@ export enum TestRunStatus {
   OPS_ERROR = 'ops_error',
   QUEUED = 'queued',
   TIMEOUT = 'timeout',
-  CANCELLING = 'cancelling',
   CANCELLED = 'cancelled',
 }
 
@@ -84,4 +83,13 @@ export type AssignmentTask = {
   title: string
   text: string
   hints: string[]
+}
+
+export type EditorSettings = {
+  theme: Themes
+  wrap: WrapSetting
+  tabBehavior: TabBehavior
+  keybindings: Keybindings
+  tabSize: number
+  useSoftTabs: boolean
 }

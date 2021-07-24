@@ -2,6 +2,7 @@ class Submission < ApplicationRecord
   extend Mandate::Memoize
 
   belongs_to :solution
+  has_one :user, through: :solution
   has_one :exercise, through: :solution
   has_one :track, through: :exercise
   has_one :iteration, dependent: :destroy

@@ -29,7 +29,6 @@ export const TestRunSummaryContainer = ({
     {
       endpoint: testRun.links.self,
       options: {
-        initialData: { testRun: testRun },
         refetchInterval:
           testRun.status === TestRunStatus.QUEUED ? REFETCH_INTERVAL : false,
       },
@@ -50,75 +49,45 @@ export const TestRunSummaryContainer = ({
       setTestRun({ ...testRun, status: TestRunStatus.TIMEOUT })
       timer.current = undefined
     }, timeout)
-  }, [setTestRun, testRun, timeout])
-  const handleTimeout = useCallback(() => {
-    channel.current?.disconnect()
-  }, [channel])
-  const handleCancelling = useCallback(() => {
-    clearTimeout(timer.current)
+  }, [setTestRun, JSON.stringify(testRun), timeout])
 
-    fetchJSON(cancelLink, {
-      method: 'POST',
-    }).then(() => {
-      setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-    })
-  }, [cancelLink, testRun, setTestRun])
-  const handleCancelled = useCallback(() => {
-    clearTimeout(timer.current)
-
-    channel.current?.disconnect()
-  }, [channel, timer])
   const cancel = useCallback(() => {
     setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
-  }, [testRun, setTestRun])
+
+    fetchJSON(cancelLink, { method: 'PATCH' })
+  }, [cancelLink, setTestRun, JSON.stringify(testRun)])
 
   useEffect(() => {
-    if (!data) {
-      return
-    }
-
-    if (!data.testRun) {
+    if (!data || !data.testRun) {
       return
     }
 
     setTestRun(data.testRun)
-  }, [data, setTestRun])
+  }, [JSON.stringify(data), setTestRun])
 
   useEffect(() => {
     switch (testRun.status) {
       case TestRunStatus.QUEUED:
         handleQueued()
         break
-      case TestRunStatus.TIMEOUT:
-        handleTimeout()
-        break
-      case TestRunStatus.CANCELLING:
-        handleCancelling()
-        break
-      case TestRunStatus.CANCELLED:
-        handleCancelled()
-        break
       default:
         clearTimeout(timer.current)
+        channel.current?.disconnect()
         break
     }
-  }, [
-    handleCancelled,
-    handleCancelling,
-    handleQueued,
-    handleTimeout,
-    testRun.status,
-  ])
+  }, [handleQueued, testRun.status])
 
   useEffect(() => {
     channel.current = new TestRunChannel(testRun, (updatedTestRun: TestRun) => {
+      if (testRun.status !== TestRunStatus.QUEUED) {
+        return
+      }
+
       setTestRun(updatedTestRun)
     })
 
-    return () => {
-      channel.current?.disconnect()
-    }
-  }, [setTestRun, testRun])
+    return () => channel.current?.disconnect()
+  }, [setTestRun, JSON.stringify(testRun)])
 
   useEffect(() => {
     return () => {

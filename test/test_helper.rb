@@ -36,6 +36,19 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
   require Rails.root / "test" / "support" / path
 end
 
+# This "fixes" reload in Madnate.
+# TODO: (Optional) Move this into Mandate
+module ActiveRecord
+  class Base
+    def reload(*args)
+      super
+      @__mandate_memoized_results = {}
+
+      self
+    end
+  end
+end
+
 module TestHelpers
   extend Webpacker::Helper
   extend ActionView::Helpers::AssetUrlHelper

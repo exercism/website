@@ -1,26 +1,23 @@
 import React, {
   useRef,
-  useEffect,
   useCallback,
   useState,
+  useEffect,
   createContext,
 } from 'react'
-import { typecheck } from '../utils/typecheck'
 import {
   Submission,
   TestRun,
   TestRunStatus,
-  Keybindings,
-  WrapSetting,
-  Themes,
   Assignment,
-  TabBehavior,
+  EditorSettings,
 } from './editor/types'
 import { File } from './types'
-import { Iteration } from './types'
 import { Header } from './editor/Header'
-import { FileEditorHandle } from './editor/FileEditorAce'
-import { FileEditorCodeMirror } from './editor/FileEditorCodeMirror'
+import {
+  FileEditorCodeMirror,
+  FileEditorHandle,
+} from './editor/FileEditorCodeMirror'
 import { InstructionsPanel } from './editor/InstructionsPanel'
 import { TestsPanel } from './editor/TestsPanel'
 import { ResultsPanel } from './editor/ResultsPanel'
@@ -30,37 +27,56 @@ import { ResultsTab } from './editor/ResultsTab'
 import { EditorStatusSummary } from './editor/EditorStatusSummary'
 import { RunTestsButton } from './editor/RunTestsButton'
 import { SubmitButton } from './editor/SubmitButton'
-import { camelizeKeys } from 'humps'
-import { useSaveFiles } from './editor/useSaveFiles'
-import {
-  useSubmission,
-  ActionType as SubmissionActionType,
-  SubmissionStatus,
-} from './editor/useSubmission'
-import { useFileRevert, RevertStatus } from './editor/useFileRevert'
 import { isEqual } from 'lodash'
-import { sendRequest, APIError } from '../utils/send-request'
+import { redirectTo } from '../utils/redirect-to'
 import { TabContext } from './common/Tab'
 import { SplitPane } from './common'
-import { redirectTo } from '../utils/redirect-to'
-import { useMutation } from 'react-query'
+
+import { useSaveFiles } from './editor/useSaveFiles'
+import { useEditorFiles } from './editor/useEditorFiles'
+import { useSubmissionsList } from './editor/useSubmissionsList'
+import { useFileRevert } from './editor/useFileRevert'
+import { useIteration } from './editor/useIteration'
+import { useDefaultSettings } from './editor/useDefaultSettings'
+import { useEditorStatus, EditorStatus } from './editor/useEditorStatus'
+import { useEditorTestRunStatus } from './editor/useEditorTestRunStatus'
+import { useSubmissionCancelling } from './editor/useSubmissionCancelling'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
-export type EditorConfig = {
-  tabSize: number
-  useSoftTabs: boolean
+type Links = {
+  runTests: string
+  back: string
 }
 
-export enum EditorStatus {
-  INITIALIZED = 'initialized',
-  CREATING_SUBMISSION = 'creatingSubmission',
-  SUBMISSION_CREATED = 'submissionCreated',
-  CREATING_ITERATION = 'creatingIteration',
-  SUBMISSION_CANCELLED = 'submissionCancelled',
-  REVERTING = 'reverting',
-  REVERTED = 'reverted',
-  REVERT_FAILED = 'revertFailed',
+type EditorPanels = {
+  instructions: {
+    introduction: string
+    debuggingInstructions?: string
+    assignment: Assignment
+    exampleFiles: File[]
+  }
+  tests?: {
+    tests: string
+    language: string
+  }
+  results: {
+    averageTestDuration: number
+  }
+}
+
+type Track = {
+  title: string
+  slug: string
+}
+
+type Exercise = {
+  title: string
+}
+
+type AutosaveConfig = {
+  key: string
+  saveInterval: number
 }
 
 export const TabsContext = createContext<TabContext>({
@@ -68,165 +84,115 @@ export const TabsContext = createContext<TabContext>({
   switchToTab: () => {},
 })
 
-export function Editor({
-  endpoint,
-  timeout = 60000,
-  initialSubmission,
-  files: initialFiles,
-  highlightJSLanguage,
-  averageTestDuration,
-  exercisePath,
-  trackTitle,
-  trackSlug,
-  exerciseTitle,
-  introduction,
-  tests,
-  assignment,
-  exampleFiles,
-  storageKey,
-  debuggingInstructions,
-  config,
-  saveInterval = 500,
-}: {
-  endpoint: string
+export type Props = {
   timeout?: number
-  initialSubmission?: Submission
-  files: File[]
-  highlightJSLanguage: string
-  averageTestDuration: number
-  exercisePath: string
-  trackTitle: string
-  trackSlug: string
-  exerciseTitle: string
-  introduction: string
-  tests?: string
-  assignment: Assignment
-  exampleFiles: File[]
-  storageKey: string
-  debuggingInstructions?: string
-  config: EditorConfig
-  saveInterval?: number
-}) {
-  const [tab, setTab] = useState<TabIndex>('instructions')
-  const [theme, setTheme] = useState<Themes>(Themes.LIGHT)
-  const [
-    { status: revertStatus, apiError: revertApiError },
-    revertDispatch,
-  ] = useFileRevert()
-  const [apiError, setApiError] = useState<APIError | null>(null)
-  const editorRef = useRef<FileEditorHandle>()
-  const keyboardShortcutsRef = useRef<HTMLButtonElement>(null)
-  const [submissionFiles, setSubmissionFiles] = useState<File[]>(initialFiles)
-  const [files] = useSaveFiles(storageKey, initialFiles, saveInterval, () => {
-    return editorRef.current?.getFiles() || initialFiles
-  })
-  const [keybindings, setKeybindings] = useState<Keybindings>(
-    Keybindings.DEFAULT
-  )
-  const [wrap, setWrap] = useState<WrapSetting>('on')
-  const [tabBehavior, setTabBehavior] = useState<TabBehavior>('captured')
-  const [
-    { submission, status: submissionStatus, apiError: submissionApiError },
-    submissionDispatch,
-  ] = useSubmission(initialSubmission)
-  const [status, setStatus] = useState(EditorStatus.INITIALIZED)
-  const [runTestsMutation] = useMutation<Submission, unknown, File[]>(
-    (files) => {
-      const { fetch } = sendRequest({
-        endpoint: endpoint,
-        method: 'POST',
-        body: JSON.stringify({ files: files }),
-      })
+  defaultSubmissions: Submission[]
+  defaultFiles: File[]
+  defaultSettings: Partial<EditorSettings>
+  autosave: AutosaveConfig
+  panels: EditorPanels
+  track: Track
+  exercise: Exercise
+  links: Links
+}
 
-      return fetch.then((response) =>
-        typecheck<Submission>(response, 'submission')
-      )
-    },
-    {
-      onSuccess: (submission) => {
-        submissionDispatch({
-          type: SubmissionActionType.SUBMISSION_CREATED,
-          payload: { submission: submission },
-        })
-        setTab('results')
+export function Editor({
+  timeout = 60000,
+  defaultSubmissions,
+  defaultFiles,
+  defaultSettings,
+  autosave,
+  panels,
+  track,
+  exercise,
+  links,
+}: Props): JSX.Element {
+  const editorRef = useRef<FileEditorHandle>()
+
+  const [hasCancelled, setHasCancelled] = useSubmissionCancelling()
+  const [tab, setTab] = useState<TabIndex>('instructions')
+  const [settings, setSettings] = useDefaultSettings(defaultSettings)
+  const [{ status, error }, dispatch] = useEditorStatus()
+  const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)
+  const {
+    create: createSubmission,
+    current: submission,
+    set: setSubmission,
+    remove: removeSubmission,
+  } = useSubmissionsList(defaultSubmissions, { create: links.runTests })
+  const { revertToExerciseStart, revertToLastIteration } = useFileRevert()
+  const { create: createIteration } = useIteration()
+  const { get: getFiles, set: setFiles } = useEditorFiles({
+    defaultFiles,
+    editorRef,
+  })
+  const [files] = useSaveFiles({ getFiles, ...autosave })
+  const testRunStatus = useEditorTestRunStatus(submission)
+  const isSubmitDisabled =
+    testRunStatus !== TestRunStatus.PASS || !isEqual(submissionFiles, files)
+  const isProcessing =
+    status === EditorStatus.CREATING_SUBMISSION ||
+    status === EditorStatus.CREATING_ITERATION ||
+    testRunStatus === TestRunStatus.QUEUED
+  const haveFilesChanged =
+    submission === null ||
+    !isEqual(submissionFiles, files) ||
+    testRunStatus === TestRunStatus.OPS_ERROR ||
+    testRunStatus === TestRunStatus.TIMEOUT ||
+    testRunStatus === TestRunStatus.CANCELLED
+
+  const runTests = useCallback(() => {
+    dispatch({ status: EditorStatus.CREATING_SUBMISSION })
+
+    createSubmission(files, {
+      onSuccess: () => {
+        dispatch({ status: EditorStatus.INITIALIZED })
         setSubmissionFiles(files)
       },
-      onError: (err) => {
-        if (err instanceof Error) {
-          submissionDispatch({
-            type: SubmissionActionType.SUBMISSION_CANCELLED,
+      onError: (error) => {
+        let editorError = null
+
+        if (error instanceof Response) {
+          error.json().then((res) => {
+            editorError = res.error
           })
         }
 
-        if (err instanceof Response) {
-          err.json().then((res: any) => {
-            submissionDispatch({
-              type: SubmissionActionType.SUBMISSION_CANCELLED,
-              payload: { apiError: res.error },
-            })
-          })
-        }
+        dispatch({
+          status: EditorStatus.CREATE_SUBMISSION_FAILED,
+          error: editorError,
+        })
       },
+    })
+  }, [createSubmission, dispatch, files])
+
+  const submit = useCallback(() => {
+    if (isSubmitDisabled) {
+      return
     }
-  )
 
-  const [submitMutation] = useMutation<Iteration>(
-    () => {
-      if (!submission) {
-        throw 'Expected submission'
-      }
+    if (!submission) {
+      throw 'Submission expected'
+    }
 
-      const { fetch } = sendRequest({
-        endpoint: submission.links.submit,
-        method: 'POST',
-        body: null,
-      })
+    dispatch({ status: EditorStatus.CREATING_ITERATION })
 
-      return fetch.then((json) => typecheck<Iteration>(json, 'iteration'))
-    },
-    {
+    createIteration(submission, {
       onSuccess: (iteration) => {
         redirectTo(iteration.links.solution)
       },
-    }
-  )
-
-  const runTests = useCallback(() => {
-    const files = editorRef.current?.getFiles()
-
-    if (!files) {
-      return
-    }
-
-    submissionDispatch({ type: SubmissionActionType.CREATING_SUBMISSION })
-    runTestsMutation(files)
-  }, [submissionDispatch, runTestsMutation])
-
-  const submit = useCallback(() => {
-    if (!submission) {
-      return
-    }
-
-    if (submission.testRun?.status !== TestRunStatus.PASS) {
-      return
-    }
-
-    submissionDispatch({ type: SubmissionActionType.CREATING_ITERATION })
-    submitMutation()
-  }, [submission, submissionDispatch, submitMutation])
-
-  const cancel = useCallback(() => {
-    submissionDispatch({ type: SubmissionActionType.SUBMISSION_CANCELLED })
-  }, [submissionDispatch])
+    })
+  }, [createIteration, dispatch, isSubmitDisabled, JSON.stringify(submission)])
 
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
-      submissionDispatch({
-        type: SubmissionActionType.SUBMISSION_CHANGED,
-        payload: { testRun: testRun },
-      })
+      if (!submission) {
+        throw 'Submission expected'
+      }
+
+      setSubmission(submission.uuid, { ...submission, testRun: testRun })
     },
-    [submissionDispatch]
+    [setSubmission, JSON.stringify(submission)]
   )
   const editorDidMount = useCallback(
     (editor) => {
@@ -235,184 +201,110 @@ export function Editor({
     [editorRef]
   )
 
-  const isSubmitDisabled =
-    submission?.testRun?.status !== TestRunStatus.PASS ||
-    !isEqual(submissionFiles, files)
-
-  useEffect(() => {
-    if (!initialSubmission) {
-      return
-    }
-
-    const { fetch } = sendRequest({
-      endpoint: initialSubmission.links.testRun,
-      body: null,
-      method: 'GET',
-    })
-
-    fetch.then((json) => {
-      if (!json) {
-        return
-      }
-
-      const testRun = typecheck<TestRun>(camelizeKeys(json), 'testRun')
-
-      if (testRun) {
-        setTab('results')
-      }
-
-      updateSubmission(testRun)
-    })
-  }, [initialSubmission, updateSubmission])
-
-  const [revertToLastIterationMutation] = useMutation<File[]>(
-    () => {
-      if (!submission) {
-        throw 'Submission expected'
-      }
-
-      const { fetch } = sendRequest({
-        endpoint: submission.links.lastIterationFiles,
-        body: null,
-        method: 'GET',
-      })
-
-      return fetch.then((json) => typecheck<File[]>(json, 'files'))
-    },
-    {
-      onSuccess: (files) => {
-        editorRef.current?.setFiles(files)
-        revertDispatch({ type: RevertStatus.SUCCEEDED })
-      },
-      onError: (err) => {
-        if (err instanceof Error) {
-          revertDispatch({
-            type: RevertStatus.FAILED,
-            payload: {
-              apiError: {
-                type: 'unknown',
-                message: 'Unable to revert file, please try again.',
-              } as APIError,
-            },
-          })
-        }
-
-        if (err instanceof Response) {
-          err.json().then((res: any) => {
-            revertDispatch({
-              type: RevertStatus.FAILED,
-              payload: { apiError: res.error },
-            })
-          })
-        }
-      },
-    }
-  )
-
-  const revertToLastIteration = useCallback(() => {
+  const handleRevertToLastIteration = useCallback(() => {
     if (!submission) {
       return
     }
 
-    revertDispatch({ type: RevertStatus.INITIALIZED })
-    revertToLastIterationMutation()
-  }, [revertDispatch, revertToLastIterationMutation, submission])
+    dispatch({ status: EditorStatus.REVERTING })
 
-  const toggleKeyboardShortcuts = useCallback(() => {
-    editorRef.current?.openPalette()
-  }, [editorRef])
-
-  const [revertToExerciseStartMutation] = useMutation<File[]>(
-    () => {
-      if (!submission) {
-        throw 'Submission expected'
-      }
-
-      const { fetch } = sendRequest({
-        endpoint: submission.links.initialFiles,
-        body: null,
-        method: 'GET',
-      })
-
-      return fetch.then((json) => typecheck<File[]>(json, 'files'))
-    },
-    {
+    revertToLastIteration(submission, {
       onSuccess: (files) => {
-        editorRef.current?.setFiles(files)
-        revertDispatch({ type: RevertStatus.SUCCEEDED })
+        dispatch({ status: EditorStatus.INITIALIZED })
+        setFiles(files)
       },
-      onError: (err) => {
+      onError: async (err) => {
+        let editorError = null
+
         if (err instanceof Error) {
-          revertDispatch({
-            type: RevertStatus.FAILED,
-            payload: {
-              apiError: {
+          editorError = Promise.resolve(() => {
+            return {
+              type: 'unknown',
+              message: 'Unable to revert file, please try again.',
+            }
+          })
+        } else if (err instanceof Response) {
+          editorError = err
+            .json()
+            .then((json) => json.error)
+            .catch(() => {
+              return {
                 type: 'unknown',
                 message: 'Unable to revert file, please try again.',
-              } as APIError,
-            },
-          })
-        }
-
-        if (err instanceof Response) {
-          err.json().then((res: any) => {
-            revertDispatch({
-              type: RevertStatus.FAILED,
-              payload: { apiError: res.error },
+              }
             })
-          })
         }
-      },
-    }
-  )
 
-  const revertToExerciseStart = useCallback(() => {
+        dispatch({
+          status: EditorStatus.REVERT_FAILED,
+          error: await editorError,
+        })
+      },
+    })
+  }, [revertToLastIteration, dispatch, setFiles, JSON.stringify(submission)])
+
+  const handleRevertToExerciseStart = useCallback(() => {
     if (!submission) {
       return
     }
 
-    revertDispatch({ type: RevertStatus.INITIALIZED })
-    revertToExerciseStartMutation()
-  }, [revertDispatch, revertToExerciseStartMutation, submission])
+    dispatch({ status: EditorStatus.REVERTING })
 
-  useEffect(() => {
-    switch (submissionStatus) {
-      case SubmissionStatus.CREATED:
-        setStatus(EditorStatus.SUBMISSION_CREATED)
-        break
-      case SubmissionStatus.CANCELLED:
-        setStatus(EditorStatus.SUBMISSION_CANCELLED)
-        break
-      case SubmissionStatus.CREATING:
-        setStatus(EditorStatus.CREATING_SUBMISSION)
-        break
-      case SubmissionStatus.CREATING_ITERATION:
-        setStatus(EditorStatus.CREATING_ITERATION)
-        break
+    revertToExerciseStart(submission, {
+      onSuccess: (files) => {
+        dispatch({ status: EditorStatus.INITIALIZED })
+        setFiles(files)
+      },
+      onError: async (err) => {
+        let editorError = null
+
+        if (err instanceof Error) {
+          editorError = Promise.resolve(() => {
+            return {
+              type: 'unknown',
+              message: 'Unable to revert file, please try again.',
+            }
+          })
+        } else if (err instanceof Response) {
+          editorError = err
+            .json()
+            .then((json) => json.error)
+            .catch(() => {
+              return {
+                type: 'unknown',
+                message: 'Unable to revert file, please try again.',
+              }
+            })
+        }
+
+        dispatch({
+          status: EditorStatus.REVERT_FAILED,
+          error: await editorError,
+        })
+      },
+    })
+  }, [revertToExerciseStart, setFiles, dispatch, JSON.stringify(submission)])
+
+  const handleCancelled = useCallback(() => {
+    if (!submission) {
+      return
     }
-  }, [submissionStatus])
+
+    removeSubmission(submission.uuid)
+    setHasCancelled(true)
+  }, [JSON.stringify(submission)])
 
   useEffect(() => {
-    switch (revertStatus) {
-      case RevertStatus.INITIALIZED:
-        setStatus(EditorStatus.REVERTING)
-        break
-      case RevertStatus.SUCCEEDED:
-        setStatus(EditorStatus.REVERTED)
-        break
-      case RevertStatus.FAILED:
-        setStatus(EditorStatus.REVERT_FAILED)
-        break
+    if (!submission) {
+      return
     }
-  }, [revertStatus])
 
-  useEffect(() => {
-    setApiError(submissionApiError)
-  }, [submissionApiError])
+    setTab('results')
 
-  useEffect(() => {
-    setApiError(revertApiError)
-  }, [revertApiError])
+    if (submission.testRun?.status === TestRunStatus.CANCELLED) {
+      handleCancelled()
+    }
+  }, [JSON.stringify(submission)])
 
   return (
     <TabsContext.Provider
@@ -423,27 +315,20 @@ export function Editor({
     >
       <div id="page-editor">
         <div className="header">
-          <Header.Back exercisePath={exercisePath} />
-          <Header.Title trackTitle={trackTitle} exerciseTitle={exerciseTitle} />
+          <Header.Back exercisePath={links.back} />
+          <Header.Title
+            trackTitle={track.title}
+            exerciseTitle={exercise.title}
+          />
           <div className="options">
-            <Header.ActionHints assignment={assignment} />
-            <Header.ActionKeyboardShortcuts
-              ref={keyboardShortcutsRef}
-              onClick={toggleKeyboardShortcuts}
-            />
+            <Header.ActionHints assignment={panels.instructions.assignment} />
             <Header.ActionSettings
-              theme={theme}
-              keybindings={keybindings}
-              wrap={wrap}
-              tabBehavior={tabBehavior}
-              setTheme={setTheme}
-              setKeybindings={setKeybindings}
-              setWrap={setWrap}
-              setTabBehavior={setTabBehavior}
+              settings={settings}
+              setSettings={setSettings}
             />
             <Header.ActionMore
-              onRevertToExerciseStart={revertToExerciseStart}
-              onRevertToLastIteration={revertToLastIteration}
+              onRevertToExerciseStart={handleRevertToExerciseStart}
+              onRevertToLastIteration={handleRevertToLastIteration}
             />
           </div>
         </div>
@@ -455,35 +340,18 @@ export function Editor({
               <FileEditorCodeMirror
                 editorDidMount={editorDidMount}
                 files={files}
-                language={trackSlug}
-                theme={theme}
-                keybindings={keybindings}
-                wrap={wrap}
-                tabBehavior={tabBehavior}
+                language={track.slug}
+                settings={settings}
                 onRunTests={runTests}
                 onSubmit={submit}
-                config={config}
               />
 
               <footer className="lhs-footer">
-                <EditorStatusSummary
-                  status={status}
-                  error={apiError?.message}
-                />
+                <EditorStatusSummary status={status} error={error?.message} />
                 <RunTestsButton
                   onClick={runTests}
-                  haveFilesChanged={
-                    submission === null ||
-                    !isEqual(submissionFiles, files) ||
-                    submission?.testRun?.status === TestRunStatus.OPS_ERROR ||
-                    submission?.testRun?.status === TestRunStatus.TIMEOUT ||
-                    submission?.testRun?.status === TestRunStatus.CANCELLED
-                  }
-                  isProcessing={
-                    submissionStatus === SubmissionStatus.CREATING ||
-                    submission?.testRun?.status === TestRunStatus.QUEUED ||
-                    submission?.testRun?.status === TestRunStatus.CANCELLING
-                  }
+                  haveFilesChanged={haveFilesChanged}
+                  isProcessing={isProcessing}
                 />
                 <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
               </footer>
@@ -493,18 +361,11 @@ export function Editor({
             <>
               <div className="tabs">
                 <InstructionsTab />
-                {tests ? <TestsTab /> : null}
+                {panels.tests ? <TestsTab /> : null}
                 <ResultsTab />
               </div>
-              <InstructionsPanel
-                introduction={introduction}
-                assignment={assignment}
-                exampleFiles={exampleFiles}
-                debuggingInstructions={debuggingInstructions}
-              />
-              {tests ? (
-                <TestsPanel tests={tests} language={highlightJSLanguage} />
-              ) : null}
+              <InstructionsPanel {...panels.instructions} />
+              {panels.tests ? <TestsPanel {...panels.tests} /> : null}
               <ResultsPanel
                 submission={submission}
                 timeout={timeout}
@@ -512,7 +373,8 @@ export function Editor({
                 onRunTests={runTests}
                 onSubmit={submit}
                 isSubmitDisabled={isSubmitDisabled}
-                averageTestDuration={averageTestDuration}
+                hasCancelled={hasCancelled}
+                {...panels.results}
               />
             </>
           }

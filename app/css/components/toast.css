@@ -1,0 +1,42 @@
+@keyframes toastSlideIn {
+    from {
+        bottom: -100px;
+        opacity: 0;
+    }
+    to {
+        bottom: 32px;
+        opacity: 1;
+    }
+}
+
+@keyframes toastSlideOut {
+    from {
+        bottom: 32px;
+        opacity: 1;
+    }
+    to {
+        bottom: -100px;
+        opacity: 0;
+    }
+}
+
+.c-toast {
+    @apply fixed;
+    @apply flex items-center;
+    @apply bg-textColor2 rounded-100;
+    @apply py-8 px-16;
+    bottom: 24px;
+    right: 24px;
+
+    animation: toastSlideIn 0.5s ease-out 0s 1 normal forwards,
+        toastSlideOut 0.5s ease-in 4s 1 normal forwards;
+
+    & .c-icon {
+        height: 24px;
+        width: 24px;
+        @apply mr-12;
+    }
+    & span {
+        @apply text-16 leading-150 text-textColor9 font-semibold;
+    }
+}

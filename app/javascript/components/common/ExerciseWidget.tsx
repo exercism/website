@@ -32,7 +32,7 @@ export const ExerciseWidget = ({
   return (
     <ExercismTippy
       content={links ? <ExerciseTooltip endpoint={links.tooltip} /> : null}
-      disabled={links === undefined}
+      disabled={links === undefined || !links.tooltip}
     >
       <ReferenceElement
         exercise={exercise}

@@ -126,18 +126,17 @@ export function Editor({
     defaultFiles,
     editorRef,
   })
-  const [savedFiles] = useSaveFiles({ getFiles, ...autosave })
+  const [files] = useSaveFiles({ getFiles, ...autosave })
   const testRunStatus = useEditorTestRunStatus(submission)
   const isSubmitDisabled =
-    testRunStatus !== TestRunStatus.PASS ||
-    !isEqual(submissionFiles, getFiles())
+    testRunStatus !== TestRunStatus.PASS || !isEqual(submissionFiles, files)
   const isProcessing =
     status === EditorStatus.CREATING_SUBMISSION ||
     status === EditorStatus.CREATING_ITERATION ||
     testRunStatus === TestRunStatus.QUEUED
   const haveFilesChanged =
     submission === null ||
-    !isEqual(submissionFiles, getFiles()) ||
+    !isEqual(submissionFiles, files) ||
     testRunStatus === TestRunStatus.OPS_ERROR ||
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
@@ -145,10 +144,10 @@ export function Editor({
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
-    createSubmission(getFiles(), {
+    createSubmission(files, {
       onSuccess: () => {
         dispatch({ status: EditorStatus.INITIALIZED })
-        setSubmissionFiles(getFiles())
+        setSubmissionFiles(files)
       },
       onError: (error) => {
         let editorError = null
@@ -165,7 +164,7 @@ export function Editor({
         })
       },
     })
-  }, [createSubmission, dispatch, getFiles])
+  }, [createSubmission, dispatch, files])
 
   const submit = useCallback(() => {
     if (isSubmitDisabled) {
@@ -281,10 +280,6 @@ export function Editor({
     }
   }, [JSON.stringify(submission)])
 
-  useEffect(() => {
-    setFiles(savedFiles)
-  }, [JSON.stringify(savedFiles), setFiles])
-
   return (
     <TabsContext.Provider
       value={{
@@ -318,7 +313,7 @@ export function Editor({
             <>
               <FileEditorCodeMirror
                 editorDidMount={editorDidMount}
-                files={getFiles()}
+                files={files}
                 language={track.slug}
                 settings={settings}
                 onRunTests={runTests}

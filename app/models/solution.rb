@@ -93,11 +93,17 @@ class Solution < ApplicationRecord
   end
 
   memoize
+  # Submissions that have the tests cancelled should never be
+  # show to a user. This is the submission we show in the editor by default.
   def latest_submission
     submissions.where.not(tests_status: :cancelled).last
   end
 
   memoize
+  # Submissions that exception are not considered valid.
+  # We use this to calculate which solutions someone may submit
+  # mutliple times in a row (e.g. if they clicked cancel or the
+  # test-runner failed, they should be able to resubmit)
   def latest_valid_submission
     submissions.where.not(
       tests_status: %i[cancelled exceptioned]

@@ -540,4 +540,16 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution, exercise: exercise
     assert_equal exercise.git_important_files_hash, solution.git_important_files_hash
   end
+
+  test "latest_submission and latest_valid_submission" do
+    solution = create :practice_solution
+    create :submission, solution: solution, tests_status: :failed
+    errored = create :submission, solution: solution, tests_status: :errored
+    exceptioned = create :submission, solution: solution, tests_status: :exceptioned
+    cancelled = create :submission, solution: solution, tests_status: :cancelled
+
+    assert_equal cancelled, solution.submissions.last
+    assert_equal exceptioned, solution.latest_submission
+    assert_equal errored, solution.latest_valid_submission
+  end
 end

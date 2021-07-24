@@ -123,6 +123,7 @@ export function Editor({
     defaultFiles,
     editorRef,
   })
+  const [savedFiles] = useSaveFiles({ getFiles, ...autosave })
   const testRunStatus = useEditorTestRunStatus(submission)
   const isSubmitDisabled =
     testRunStatus !== TestRunStatus.PASS ||
@@ -210,7 +211,7 @@ export function Editor({
         dispatch({ status: EditorStatus.INITIALIZED })
         setFiles(files)
       },
-      onError: (err) => {
+      onError: async (err) => {
         let editorError = null
 
         if (err instanceof Error) {
@@ -219,9 +220,7 @@ export function Editor({
             message: 'Unable to revert file, please try again.',
           }
         } else if (err instanceof Response) {
-          err.json().then((res) => {
-            editorError = res.error
-          })
+          editorError = (await err.json()).error
         }
 
         dispatch({ status: EditorStatus.REVERT_FAILED, error: editorError })
@@ -241,7 +240,7 @@ export function Editor({
         dispatch({ status: EditorStatus.INITIALIZED })
         setFiles(files)
       },
-      onError: (err) => {
+      onError: async (err) => {
         let editorError = null
 
         if (err instanceof Error) {
@@ -250,21 +249,13 @@ export function Editor({
             message: 'Unable to revert file, please try again.',
           }
         } else if (err instanceof Response) {
-          err.json().then((res) => {
-            editorError = res.error
-          })
+          editorError = (await err.json()).error
         }
 
         dispatch({ status: EditorStatus.REVERT_FAILED, error: editorError })
       },
     })
   }, [revertToExerciseStart, setFiles, dispatch, JSON.stringify(submission)])
-
-  useSaveFiles({
-    defaultFiles: defaultFiles,
-    getFiles,
-    ...autosave,
-  })
 
   useEffect(() => {
     if (!submission) {
@@ -273,6 +264,10 @@ export function Editor({
 
     setTab('results')
   }, [JSON.stringify(submission)])
+
+  useEffect(() => {
+    setFiles(savedFiles)
+  }, [JSON.stringify(savedFiles), setFiles])
 
   return (
     <TabsContext.Provider

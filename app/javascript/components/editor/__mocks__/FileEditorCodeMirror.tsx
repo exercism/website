@@ -24,7 +24,7 @@ export type FileEditorHandle = {
 export function FileEditorCodeMirror({
   editorDidMount,
   language,
-  files,
+  files: defaultFiles,
   settings,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
@@ -32,30 +32,11 @@ export function FileEditorCodeMirror({
   settings: EditorSettings
   files: File[]
 }): JSX.Element {
+  const [files, setFiles] = useState<File[]>(defaultFiles)
   const [isPaletteOpen, setIsPaletteOpen] = useState(false)
-  const textareaRef = useRef(files.map(() => createRef<HTMLTextAreaElement>()))
   const getFiles = useCallback(() => {
-    return textareaRef.current.map((ref, i) => {
-      if (!ref.current) {
-        throw 'No files found'
-      }
-
-      return {
-        filename: files[i].filename,
-        content: ref.current.value,
-      }
-    })
+    return files
   }, [files])
-
-  const setFiles = useCallback((files) => {
-    return textareaRef.current.map((ref, i) => {
-      if (!ref.current) {
-        return
-      }
-
-      ref.current.value = files[i].content
-    })
-  }, [])
 
   useEffect(() => {
     editorDidMount({
@@ -79,9 +60,17 @@ export function FileEditorCodeMirror({
         <div key={file.filename}>
           <p>Value: {file.content}</p>
           <textarea
-            ref={textareaRef.current[i]}
             defaultValue={file.content}
             data-testid="editor-value"
+            onChange={(e) => {
+              setFiles(
+                files.map((f) =>
+                  file.filename === f.filename
+                    ? { ...f, content: e.target.value }
+                    : f
+                )
+              )
+            }}
           />
         </div>
       ))}

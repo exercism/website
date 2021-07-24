@@ -63,7 +63,7 @@ export const TestRunSummaryContainer = ({
     }
 
     setTestRun(data.testRun)
-  }, [data, setTestRun])
+  }, [JSON.stringify(data), setTestRun])
 
   useEffect(() => {
     switch (testRun.status) {

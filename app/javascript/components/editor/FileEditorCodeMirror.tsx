@@ -8,7 +8,7 @@ import React, {
 import { File } from '../types'
 import { CodeMirror, Handler } from '../misc/CodeMirror'
 import { Tab, TabContext } from '../common/Tab'
-import { EditorSettings } from '../Editor/types'
+import { EditorSettings } from '../editor/types'
 
 export type FileEditorHandle = {
   getFiles: () => File[]

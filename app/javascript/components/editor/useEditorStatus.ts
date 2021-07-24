@@ -37,10 +37,10 @@ const reducer = (state: State, action: Action): State => {
     case EditorStatus.CREATING_SUBMISSION:
     case EditorStatus.CREATING_ITERATION:
     case EditorStatus.REVERTING:
-      return { status: EditorStatus.INITIALIZED, error: null }
+      return { status: action.status, error: null }
     case EditorStatus.CREATE_SUBMISSION_FAILED:
     case EditorStatus.REVERT_FAILED:
-      return { status: EditorStatus.INITIALIZED, error: action.error }
+      return { status: action.status, error: action.error }
   }
 }
 

@@ -7,6 +7,8 @@ import { Themes } from '../editor/types'
 import { loadLanguageCompartment } from './CodeMirror/languageCompartment'
 import { a11yTabBindingPanel } from './CodeMirror/a11yTabBinding'
 import { useTabBinding } from './CodeMirror/use-tab-binding'
+import { defaultHighlightStyle } from '@codemirror/highlight'
+import { oneDarkTheme, oneDarkHighlightStyle } from '@codemirror/theme-one-dark'
 
 const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
@@ -86,7 +88,9 @@ export const CodeMirror = ({
           indentUnit.of(indentChar),
           wrapCompartment.of(wrap ? EditorView.lineWrapping : []),
           themeCompartment.of(
-            EditorView.theme({}, { dark: theme === Themes.DARK })
+            theme === Themes.LIGHT
+              ? [defaultHighlightStyle]
+              : [oneDarkTheme, oneDarkHighlightStyle]
           ),
         ],
       }),
@@ -123,7 +127,9 @@ export const CodeMirror = ({
 
     viewRef.current.dispatch({
       effects: themeCompartment.reconfigure(
-        EditorView.theme({}, { dark: theme === Themes.DARK })
+        theme === Themes.LIGHT
+          ? [defaultHighlightStyle]
+          : [oneDarkTheme, oneDarkHighlightStyle]
       ),
     })
   }, [theme])

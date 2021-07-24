@@ -445,7 +445,6 @@
             @apply text-15 font-mono leading-160;
         }
         & .cm-gutters {
-            @apply bg-backgroundColorB;
             @apply border-borderColor7;
 
             & .cm-lineNumbers .cm-gutterElement {

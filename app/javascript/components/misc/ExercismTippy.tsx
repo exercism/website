@@ -1,6 +1,6 @@
 import React from 'react'
 import { LazyTippy, LazyTippyProps } from './LazyTippy'
-import { followCursor } from 'tippy.js'
+import { followCursor, roundArrow } from 'tippy.js'
 
 export type ExercismTippyProps = LazyTippyProps
 
@@ -12,6 +12,18 @@ export const ExercismTippy = (props: ExercismTippyProps): JSX.Element => {
       maxWidth="none"
       plugins={[followCursor]}
       {...props}
+    />
+  )
+}
+
+export const ExercismGenericTooltip = (
+  props: ExercismTippyProps
+): JSX.Element => {
+  return (
+    <ExercismTippy
+      arrow={roundArrow}
+      {...props}
+      content={<div className="c-generic-tooltip">{props.content}</div>}
     />
   )
 }

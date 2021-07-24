@@ -11,7 +11,7 @@ export const useSubmissionCancelling = (): [
       return
     }
 
-    const timer = setTimeout(() => setHasCancelled(false), 3000)
+    const timer = setTimeout(() => setHasCancelled(false), 5000)
 
     return () => clearInterval(timer)
   }, [hasCancelled])

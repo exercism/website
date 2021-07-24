@@ -25,7 +25,12 @@ export const ResultsPanel = ({
 }): JSX.Element => {
   return (
     <Tab.Panel id="results" context={TabsContext}>
-      {hasCancelled ? <p>Test run cancelled</p> : null}
+      {hasCancelled ? (
+        <div className="c-toast cancelled">
+          <GraphicalIcon icon="completed-check-circle" />
+          <span>Test run cancelled</span>
+        </div>
+      ) : null}
       {submission && submission.testRun ? (
         <section className="results">
           <TestRunSummaryContainer

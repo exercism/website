@@ -23,6 +23,7 @@ import '../../css/ui-kit/buttons'
 import '../../css/ui-kit/tracks'
 import '../../css/ui-kit/animations'
 
+import '../../css/components/toast'
 import '../../css/components/contributions-summary'
 import '../../css/components/progress'
 import '../../css/components/site-update'

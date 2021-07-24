@@ -19,6 +19,7 @@ export const useSubmissionsList = (
     config?: { onSuccess: () => void; onError: (error: unknown) => void }
   ) => void
   set: (uuid: string, data: Submission) => void
+  remove: (uuid: string) => void
 } => {
   const [list, setList] = useState(defaultList)
 
@@ -68,6 +69,13 @@ export const useSubmissionsList = (
     [JSON.stringify(list)]
   )
 
+  const remove = useCallback(
+    (uuid: string) => {
+      setList(list.filter((s) => s.uuid !== uuid))
+    },
+    [JSON.stringify(list)]
+  )
+
   const current = list[list.length - 1] || null
 
   useEffect(() => {
@@ -92,5 +100,5 @@ export const useSubmissionsList = (
     })
   }, [JSON.stringify(defaultList), set])
 
-  return { current, create, set }
+  return { current, create, set, remove }
 }

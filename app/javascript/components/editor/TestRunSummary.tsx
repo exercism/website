@@ -146,7 +146,8 @@ const TestRunSummaryContent = ({
           <p>
             An error occurred while running your tests. This might mean that
             there was an issue in our infrastructure, or it might mean that you
-            have something in your code that's causing our systems to break.
+            have something in your code that&apos;s causing our systems to
+            break.
           </p>
           <p>
             Please check your code, and if nothing seems to be wrong, try
@@ -197,9 +198,6 @@ const TestRunSummaryContent = ({
           ) : null}
         </div>
       )
-    }
-    case TestRunStatus.CANCELLED: {
-      return <div role="status">Test run cancelled</div>
     }
     default:
       return null

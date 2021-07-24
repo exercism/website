@@ -12,6 +12,7 @@ export const ResultsPanel = ({
   onSubmit,
   isSubmitDisabled,
   averageTestDuration,
+  hasCancelled,
 }: {
   submission: Submission | null
   timeout: number
@@ -20,9 +21,11 @@ export const ResultsPanel = ({
   onRunTests: () => void
   isSubmitDisabled: boolean
   averageTestDuration: number
+  hasCancelled: boolean
 }): JSX.Element => {
   return (
     <Tab.Panel id="results" context={TabsContext}>
+      {hasCancelled ? <p>Test run cancelled</p> : null}
       {submission && submission.testRun ? (
         <section className="results">
           <TestRunSummaryContainer

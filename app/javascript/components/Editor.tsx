@@ -40,6 +40,7 @@ import { useIteration } from './editor/useIteration'
 import { useDefaultSettings } from './editor/useDefaultSettings'
 import { useEditorStatus, EditorStatus } from './editor/useEditorStatus'
 import { useEditorTestRunStatus } from './editor/useEditorTestRunStatus'
+import { useSubmissionCancelling } from './editor/useSubmissionCancelling'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
@@ -108,6 +109,7 @@ export function Editor({
 }: Props): JSX.Element {
   const editorRef = useRef<FileEditorHandle>()
 
+  const [hasCancelled, setHasCancelled] = useSubmissionCancelling()
   const [tab, setTab] = useState<TabIndex>('instructions')
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
@@ -116,6 +118,7 @@ export function Editor({
     create: createSubmission,
     current: submission,
     set: setSubmission,
+    remove: removeSubmission,
   } = useSubmissionsList(defaultSubmissions, { create: links.runTests })
   const { revertToExerciseStart, revertToLastIteration } = useFileRevert()
   const { create: createIteration } = useIteration()
@@ -257,12 +260,25 @@ export function Editor({
     })
   }, [revertToExerciseStart, setFiles, dispatch, JSON.stringify(submission)])
 
+  const handleCancelled = useCallback(() => {
+    if (!submission) {
+      return
+    }
+
+    removeSubmission(submission.uuid)
+    setHasCancelled(true)
+  }, [JSON.stringify(submission)])
+
   useEffect(() => {
     if (!submission) {
       return
     }
 
     setTab('results')
+
+    if (submission.testRun?.status === TestRunStatus.CANCELLED) {
+      handleCancelled()
+    }
   }, [JSON.stringify(submission)])
 
   useEffect(() => {
@@ -336,6 +352,7 @@ export function Editor({
                 onRunTests={runTests}
                 onSubmit={submit}
                 isSubmitDisabled={isSubmitDisabled}
+                hasCancelled={hasCancelled}
                 {...panels.results}
               />
             </>

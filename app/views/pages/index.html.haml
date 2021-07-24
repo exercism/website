@@ -21,12 +21,65 @@
 
       = graphical_icon "landing-page-top", category: :graphics, css_class: "hidden lg:block"
 
-  %section.tracks
+  %section.tracks-section
     .lg-container
-      .section-header
+      .section-header.items-center.self-center
         = graphical_icon :tracks, hex: true
-        %h2.text-h1 Explore over 68 programming language tracks, at no cost.
-        %hr.c-divider.--large
+        %h2.text-h1.text-center Explore over 68 programming language tracks, at no cost.
+        %hr.c-divider.--large.mt-28
+      .mb-80.grid.grid-cols-2.sm:grid-cols-4.lg:grid-cols-6
+        - @tracks.each do |track|
+          = link_to track_path(track), class: 'track' do
+            = track_icon(track)
+            .title= track.title
+            .students-count #{track.num_students} students
+      .cta.border-t-3.border-veryLightBlue
+        = render ViewComponents::ProminentLink.new("See all #{@num_tracks} Language Tracks", tracks_path, with_bg: true)
+
+  %section.exercises-section
+    .lg-container
+      .flex.items-center.mb-72
+        .flex-grow
+          .section-header
+            = graphical_icon :exercises, hex: true
+            %h2.text-h2
+              Over 3,450 coding exercises.
+              %br
+              From Minesweeper to Valentine’s Day.
+            %hr.c-divider.mt-20
+              %p.text-p-xlarge.mb-32
+                Learn by doing. Get better at programming through fun coding exercises that build your understanding of concepts.
+
+          .exercises
+            - @showcase_exercises.each do |sample|
+              .exercise
+                = exercise_icon sample[:exercise]
+                .exercise-info
+                  %h3= sample[:exercise].title
+                  %p= sample[:exercise].blurb
+                .track-icons
+                  - @tracks.sort_by { rand }[0, 3].each do |track|
+                    = track_icon(track)
+                .font-semibold.text-textColor7.ml-16.whitespace-no-wrap +#{sample[:num_tracks]} more
+
+        = graphical_icon "landing-page-exercise", category: :graphics, css_class: "hidden lg:block main-icon"
+
+      .features.grid.grid-cols-1.md:grid-cols-3.gap-80
+        .feature
+          = graphical_icon "features-local"
+          %h3.text-h4 Write code locally, in your own space
+          %p.text-p-base Exercism is primarily built as a CLI-first tool. Download and submit exercises right from your terminal.
+
+        .feature
+          = graphical_icon "features-editor"
+          %h3.text-h4 Use the Exercism in-browser editor
+          %p.text-p-base Don’t spend hours installing a language locally just to try it out. We support all 70 of our programming languages in our in-browser editor.
+
+        .feature
+          = graphical_icon "features-feedback"
+          %h3.text-h4 Get automated analysis on your code
+          %p.text-p-base Not quite sure how well you’ve done? We run automatic analysis on your solutions to give you quick feedback and points of improvement.
+
 
 <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
 

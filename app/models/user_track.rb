@@ -5,7 +5,11 @@ class UserTrack < ApplicationRecord
   serialize :summary_data, JSON
 
   belongs_to :user
-  belongs_to :track
+
+  # TODO: (required): Ensure this counter_cache doesn't change updated_at
+  # and probably move it to a bg job as it'll be slow
+  belongs_to :track, counter_cache: :num_students
+
   has_many :solutions,
     lambda { |ut|
       joins(:exercise).

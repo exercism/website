@@ -11,10 +11,6 @@ class ViewComponents::Track::ExerciseStatusTagTest < ActionView::TestCase
     assert_tag(:locked, "Locked", "locked")
   end
 
-  test "started" do
-    assert_tag(:started, "Started", "started")
-  end
-
   test "in_progress" do
     assert_tag(:iterated, "In progress", "in-progress")
   end

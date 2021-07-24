@@ -40,7 +40,7 @@ end
 # TODO: (Optional) Move this into Mandate
 module ActiveRecord
   class Base
-    def reload
+    def reload(*args)
       super
       @__mandate_memoized_results = {}
 

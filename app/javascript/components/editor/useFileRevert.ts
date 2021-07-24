@@ -1,37 +1,41 @@
-import { useReducer } from 'react'
-import { APIError } from '../../utils/send-request'
-
-type State = {
-  status: RevertStatus
-  apiError: APIError | null
-}
-
-export enum RevertStatus {
-  NONE = 'none',
-  INITIALIZED = 'initialized',
-  SUCCEEDED = 'succeeded',
-  FAILED = 'failed',
-}
-
-type Action =
-  | { type: RevertStatus.NONE }
-  | { type: RevertStatus.INITIALIZED }
-  | { type: RevertStatus.SUCCEEDED }
-  | { type: RevertStatus.FAILED; payload: { apiError: APIError } }
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case RevertStatus.INITIALIZED:
-      return { status: RevertStatus.INITIALIZED, apiError: null }
-    case RevertStatus.SUCCEEDED:
-      return { status: RevertStatus.SUCCEEDED, apiError: null }
-    case RevertStatus.FAILED:
-      return { status: RevertStatus.FAILED, apiError: action.payload.apiError }
-    default:
-      return state
-  }
-}
+import { sendRequest } from '../../utils/send-request'
+import { Submission } from './types'
+import { File } from '../types'
+import { useMutation } from 'react-query'
+import { typecheck } from '../../utils/typecheck'
 
 export const useFileRevert = () => {
-  return useReducer(reducer, { status: RevertStatus.NONE, apiError: null })
+  const [revertToLastIteration] = useMutation<File[], unknown, Submission>(
+    (submission) => {
+      if (!submission) {
+        throw 'Submission expected'
+      }
+
+      const { fetch } = sendRequest({
+        endpoint: submission.links.lastIterationFiles,
+        body: null,
+        method: 'GET',
+      })
+
+      return fetch.then((json) => typecheck<File[]>(json, 'files'))
+    }
+  )
+
+  const [revertToExerciseStart] = useMutation<File[], unknown, Submission>(
+    (submission) => {
+      if (!submission) {
+        throw 'Submission expected'
+      }
+
+      const { fetch } = sendRequest({
+        endpoint: submission.links.initialFiles,
+        body: null,
+        method: 'GET',
+      })
+
+      return fetch.then((json) => typecheck<File[]>(json, 'files'))
+    }
+  )
+
+  return { revertToExerciseStart, revertToLastIteration }
 }

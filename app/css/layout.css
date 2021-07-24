@@ -31,7 +31,7 @@ body {
 
 .lg-container {
     max-width: 1440px;
-    padding: 0 32px;
+    padding: 0 var(--lg-container-padding-x);
 }
 
 [data-react-data] {

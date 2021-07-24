@@ -1,7 +1,8 @@
 !!!
 %html{ lang: "en-US" }
   %head
-    %meta{ content: "text/html; charset=utf-8", "http-equiv": "Content-Type" }/
+    %meta{ content: "text/html; charset=utf-8", "http-equiv": "Content-Type" }
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1" }
     %title Exercism
     = csrf_meta_tags
     = csp_meta_tag
@@ -9,7 +10,7 @@
 
     = stylesheet_packs_with_chunks_tag(*css_packs, media: 'all', 'data-turbolinks-track': 'reload')
     = javascript_packs_with_chunks_tag('core', 'data-turbolinks-track': 'reload')
-    = javascript_packs_with_chunks_tag(*js_packs, 'data-turbolinks-track': 'reload', defer: true)
+    = javascript_packs_with_chunks_tag(*js_packs, 'data-turbolinks-track': 'reload')
     = javascript_packs_with_chunks_tag(*deferred_js_packs, defer: true)
 
     %meta{ name: "language-server-url", content: Exercism.config.language_server_url }

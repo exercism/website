@@ -1,7 +1,7 @@
 #page-landing
-  %header.py-40.c-header-with-bg
+  %header.pt-20.sm:pt-40.pb-56.sm:pb-64.c-header-with-bg
     .lg-container.flex
-      .flex-grow
+      .lhs.md:items-center.lg:items-start.md:text-center.lg:text-left
         %h1.text-h1.mb-16
           Get
           %strong.leading-none.font-bold really
@@ -10,20 +10,22 @@
           Develop fluency in over 55 programming languages with our unique blend of learning, practice and mentoring.
           Exercism is fun, effective and
           %strong.font-semibold.text-textColor2 100% free, forever.
-        .buttons.flex.mb-40
-          = link_to "Sign up for free", new_user_registration_path, class: 'btn-primary btn-l mr-24'
+        .buttons.flex.mb-40.flex-col.sm:flex-row
+          = link_to "Sign up for free", new_user_registration_path, class: 'btn-primary btn-l mb-12 sm:mb-0 sm:mr-24 '
           = link_to "Explore languages", tracks_path, class: 'btn-secondary btn-l shadow-buttonS'
 
-        .organisation.flex.items-center.py-16.pl-32.pr-48.rounded-8.shadow-xsZ1.relative.bg-lightPurple
-          = icon "exercism-with-logo-black", "Exercism"
-          %p.text-p-base is an independent, community funded, not-for-profit organisation.
-          = link_to "Learn more", "#", class: "c-prominent-link ml-40"
+        .organisation.flex-col.sm:flex-row.sm:items-center.px-24.sm:pl-32.sm:pr-48
+          = icon "exercism-with-logo-black", "Exercism", css_class: 'mr-16'
+
+          .flex.flex-col.sm:flex-row.lg:flex-col.xl:flex-row.sm:items-center.lg:items-start.xl:items-center
+            %p.text-p-base.mb-8.sm-mb-0  is an independent, community funded, not-for-profit organisation.
+            = link_to "Learn more", "#", class: "c-prominent-link sm:ml-40 lg:ml-0 xl:ml-40"
 
       = graphical_icon "landing-page-top", category: :graphics, css_class: "hidden lg:block"
 
   %section.tracks-section
     .lg-container
-      .section-header.items-center.self-center
+      .section-header.items-center.self-center.mb-40
         = graphical_icon :tracks, hex: true
         %h2.text-h1.text-center Explore over 68 programming language tracks, at no cost.
         %hr.c-divider.--large.mt-28
@@ -36,35 +38,37 @@
       .cta.border-t-3.border-veryLightBlue
         = render ViewComponents::ProminentLink.new("See all #{@num_tracks} Language Tracks", tracks_path, with_bg: true)
 
-  %section.exercises-section
+  %section.exercises-section.mb-20.md:mb-80
     .lg-container
-      .flex.items-center.mb-72
+      .flex.flex-col.lg:flex-row.lg:items-center.mb-72
         .flex-grow
-          .section-header
+          .section-header.mb-24.sm:mb-32
             = graphical_icon :exercises, hex: true
             %h2.text-h2
               Over 3,450 coding exercises.
               %br
               From Minesweeper to Valentine’s Day.
             %hr.c-divider.mt-20
-              %p.text-p-xlarge.mb-32
+              %p.text-p-xlarge
                 Learn by doing. Get better at programming through fun coding exercises that build your understanding of concepts.
 
           .exercises
             - @showcase_exercises.each do |sample|
-              .exercise
+              .exercise.sm:items-center
                 = exercise_icon sample[:exercise]
-                .exercise-info
-                  %h3= sample[:exercise].title
-                  %p= sample[:exercise].blurb
-                .track-icons
-                  - @tracks.sort_by { rand }[0, 3].each do |track|
-                    = track_icon(track)
-                .font-semibold.text-textColor7.ml-16.whitespace-no-wrap +#{sample[:num_tracks]} more
+                .flex-grow.flex.flex-col.sm:flex-row.sm:items-center
+                  .exercise-info.mb-8.sm:mb-0
+                    %h3= sample[:exercise].title
+                    %p= sample[:exercise].blurb
+                  .flex.items-center.flex-shrink-0
+                    .track-icons.sm:ml-16
+                      - @tracks.sort_by { rand }[0, 3].each do |track|
+                        = track_icon(track)
+                    .font-semibold.text-textColor7.ml-16.whitespace-no-wrap +#{sample[:num_tracks]} more
 
-        = graphical_icon "landing-page-exercise", category: :graphics, css_class: "hidden lg:block main-icon"
+        = graphical_icon "landing-page-exercise", category: :graphics, css_class: "main-graphic lg:max-w-1-2 lg:ml-20"
 
-      .features.grid.grid-cols-1.md:grid-cols-3.gap-80
+      .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
           = graphical_icon "features-local"
           %h3.text-h4 Write code locally, in your own space
@@ -79,6 +83,41 @@
           = graphical_icon "features-feedback"
           %h3.text-h4 Get automated analysis on your code
           %p.text-p-base Not quite sure how well you’ve done? We run automatic analysis on your solutions to give you quick feedback and points of improvement.
+
+
+  %section.mentoring-section
+    .lg-container
+      .flex.flex-col.md:flex-row.items-center.justify-center.mb-24.sm:mb-56
+        = graphical_icon 'mentoring-coffee', category: :graphics, css_class: 'top-graphic mb-20 md:mb-0 lg:mr-128'
+        .section-header
+          = graphical_icon :exercises, hex: true
+          %h2.text-h2 Deepen your knowledge with  human mentoring, for free.
+          %hr.c-divider.mt-20.mb-28
+
+          %p.text-p-xlarge
+            Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of particular programming language.
+
+      = graphical_icon "landing-page-mentoring", category: :graphics, css_class: "main-graphic mb-64"
+
+      .flex.flex-col.items-center
+        %h3.text-h2 Why mentoring?
+        %hr.c-divider.mt-24.mb-24
+
+      .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
+        .feature
+          = graphical_icon "features-do-not-know"
+          %h3.text-h4 You don’t know what you don’t know
+          %p.text-p-base Cras vel dolor vel neque mattis hendrerit. Duis sed leo eget velit imperdiet ultrices. Phasellus dictum justo lacus.
+
+        .feature
+          = graphical_icon "features-fluency"
+          %h3.text-h4 Learn language-specific conventions
+          %p.text-p-base Cras vel dolor vel neque mattis hendrerit. Duis sed leo eget velit imperdiet ultrices. Phasellus dictum justo lacus.
+
+        .feature
+          = graphical_icon "features-feedback"
+          %h3.text-h4 Integer viverra eget massa at auctor
+          %p.text-p-base Cras vel dolor vel neque mattis hendrerit. Duis sed leo eget velit imperdiet ultrices. Phasellus dictum justo lacus.
 
 
 <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>

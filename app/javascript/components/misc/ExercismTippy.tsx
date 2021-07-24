@@ -16,9 +16,7 @@ export const ExercismTippy = (props: ExercismTippyProps): JSX.Element => {
   )
 }
 
-export const ExercismGenericTooltip = (
-  props: ExercismTippyProps
-): JSX.Element => {
+export const GenericTooltip = (props: ExercismTippyProps): JSX.Element => {
   return (
     <ExercismTippy
       arrow={roundArrow}

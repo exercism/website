@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExercismGenericTooltip } from '../misc/ExercismTippy'
+import { GenericTooltip } from '../misc/ExercismTippy'
 
 export const SubmitButton = ({
   onClick,
@@ -8,7 +8,7 @@ export const SubmitButton = ({
   onClick: () => void
   disabled: boolean
 }) => (
-  <ExercismGenericTooltip
+  <GenericTooltip
     disabled={!disabled}
     content={
       'You need to get the tests passing before you can submit your solution'
@@ -25,5 +25,5 @@ export const SubmitButton = ({
         <div className="kb-shortcut">F3</div>
       </button>
     </div>
-  </ExercismGenericTooltip>
+  </GenericTooltip>
 )

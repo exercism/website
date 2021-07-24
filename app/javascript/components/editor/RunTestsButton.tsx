@@ -1,6 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
-import { ExercismGenericTooltip } from '../misc/ExercismTippy'
+import { GenericTooltip } from '../misc/ExercismTippy'
 
 export const RunTestsButton = ({
   haveFilesChanged,
@@ -13,7 +13,7 @@ export const RunTestsButton = ({
   const isDisabled = !haveFilesChanged || isProcessing
 
   return (
-    <ExercismGenericTooltip
+    <GenericTooltip
       disabled={!isDisabled}
       content={'You have not made any changes since you last ran the tests'}
     >
@@ -29,6 +29,6 @@ export const RunTestsButton = ({
           <div className="kb-shortcut">F2</div>
         </button>
       </div>
-    </ExercismGenericTooltip>
+    </GenericTooltip>
   )
 }

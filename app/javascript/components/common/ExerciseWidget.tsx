@@ -7,7 +7,7 @@ import { ExerciseTooltip } from '../tooltips/ExerciseTooltip'
 import { ExercismTippy } from '../misc/ExercismTippy'
 
 type Links = {
-  tooltip: string
+  tooltip?: string
 }
 
 export type Props = {
@@ -24,15 +24,17 @@ export const ExerciseWidget = ({
   exercise,
   track,
   solution,
-  links,
+  links = {},
   renderAsLink,
   renderBlurb,
   isSkinny,
 }: Props): JSX.Element => {
   return (
     <ExercismTippy
-      content={links ? <ExerciseTooltip endpoint={links.tooltip} /> : null}
-      disabled={links === undefined || !links.tooltip}
+      content={
+        links.tooltip ? <ExerciseTooltip endpoint={links.tooltip} /> : null
+      }
+      disabled={!links.tooltip}
     >
       <ReferenceElement
         exercise={exercise}

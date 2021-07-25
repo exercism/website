@@ -8,7 +8,7 @@ import {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { TracksList } from '../../../../app/javascript/components/student/TracksList'
+import TracksList from '../../../../app/javascript/components/student/TracksList'
 import userEvent from '@testing-library/user-event'
 
 const ALL_TRACKS = [{ slug: 'ruby', title: 'Ruby', tags: [] }]

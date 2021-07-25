@@ -47,7 +47,7 @@ test('focuses on filter only after expanding and closing', () => {
   fireEvent.click(getByText('Filter by'))
   fireEvent.click(getByText('Close'))
 
-  expect(getByText('Filter by')).toHaveFocus()
+  expect(getByRole('button', { name: /filter by/i })).toHaveFocus()
 })
 
 test('does not focus on filter by default', () => {

@@ -202,7 +202,6 @@ const StudentExerciseList = lazy(() =>
 import * as Common from '../components/common'
 import { CLIWalkthrough } from '../components/common/CLIWalkthrough'
 import { CLIWalkthroughButton } from '../components/common/CLIWalkthroughButton'
-import { followCursor } from 'tippy.js'
 
 import * as Student from '../components/student'
 

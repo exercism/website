@@ -21,5 +21,6 @@ export const buildEditor = build<Props>({
       runTests: 'https://exercism.test/submissions',
       back: '',
     },
+    features: { theme: true, keybindings: true },
   },
 })

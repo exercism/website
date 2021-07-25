@@ -1,7 +1,8 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useContext } from 'react'
 import { Icon } from '../../common/Icon'
 import { Keybindings, Themes, EditorSettings } from '../types'
 import { useDropdown } from '../../dropdowns/useDropdown'
+import { FeaturesContext } from '../../Editor'
 
 const THEMES = [
   { label: 'Light', value: Themes.LIGHT },
@@ -24,14 +25,16 @@ const TAB_MODE = [
   { label: 'Accessibility', value: 'default' },
 ]
 
+type SettingProp = {
+  title: string
+  value: string | Keybindings
+  options: { label: string; value: string | Keybindings }[]
+  set: (value: string) => void
+}
+
 const Setting = React.forwardRef<
   HTMLLIElement,
-  React.HTMLProps<HTMLLIElement> & {
-    title: string
-    value: string | Keybindings
-    options: { label: string; value: string | Keybindings }[]
-    set: (value: string) => void
-  }
+  React.HTMLProps<HTMLLIElement> & SettingProp
 >(({ title, options, value, set, ...props }, ref) => {
   const handleKeyDown = useCallback(
     (e) => {
@@ -98,14 +101,74 @@ export function Settings({
   settings: EditorSettings
   setSettings: (settings: EditorSettings) => void
 }) {
+  const features = useContext(FeaturesContext)
   const [localKeybindings, setLocalKeybindings] = useState(settings.keybindings)
+  const handleThemeChange = useCallback(
+    (theme) => {
+      setSettings({ ...settings, theme: theme })
+    },
+    [setSettings, settings]
+  )
+
+  const handleWrapChange = useCallback(
+    (wrap) => {
+      setSettings({ ...settings, wrap: wrap })
+    },
+    [setSettings, settings]
+  )
+
+  const handleTabBehaviorChange = useCallback(
+    (tabBehavior) => {
+      setSettings({ ...settings, tabBehavior: tabBehavior })
+    },
+    [setSettings, settings]
+  )
+
+  const dropdownOptions: SettingProp[] = [
+    {
+      title: 'Theme',
+      value: settings.theme,
+      options: THEMES,
+      set: handleThemeChange,
+    },
+    {
+      title: 'Keybindings',
+      value: localKeybindings,
+      options: KEYBINDINGS,
+      set: (keybinding) => setLocalKeybindings(keybinding as Keybindings),
+    },
+    {
+      title: 'Wrap',
+      value: settings.wrap,
+      options: WRAP,
+      set: handleWrapChange,
+    },
+    {
+      title: 'Tab mode',
+      value: settings.tabBehavior,
+      options: TAB_MODE,
+      set: handleTabBehaviorChange,
+    },
+  ]
+
+  const optionsToShow = dropdownOptions.filter((option) => {
+    switch (option.title) {
+      case 'Theme':
+        return features.theme
+      case 'Keybindings':
+        return features.keybindings
+      default:
+        return true
+    }
+  })
+
   const {
     buttonAttributes,
     panelAttributes,
     listAttributes,
     itemAttributes,
     open,
-  } = useDropdown(3, undefined, {
+  } = useDropdown(optionsToShow.length, undefined, {
     placement: 'bottom-end',
     modifiers: [
       {
@@ -129,27 +192,6 @@ export function Settings({
     setSettings({ ...settings, keybindings: localKeybindings })
   }, [localKeybindings, open, setSettings, settings])
 
-  const handleThemeChange = useCallback(
-    (theme) => {
-      setSettings({ ...settings, theme: theme })
-    },
-    [setSettings, settings]
-  )
-
-  const handleWrapChange = useCallback(
-    (wrap) => {
-      setSettings({ ...settings, wrap: wrap })
-    },
-    [setSettings, settings]
-  )
-
-  const handleTabBehaviorChange = useCallback(
-    (tabBehavior) => {
-      setSettings({ ...settings, tabBehavior: tabBehavior })
-    },
-    [setSettings, settings]
-  )
-
   return (
     <React.Fragment>
       <button className="settings-btn" {...buttonAttributes}>
@@ -164,36 +206,15 @@ export function Settings({
           className="settings-dialog"
         >
           <ul {...listAttributes}>
-            <Setting
-              title="Theme"
-              value={settings.theme}
-              options={THEMES}
-              set={handleThemeChange}
-              {...itemAttributes(0)}
-            />
-            {/*<Setting
-              title="Keybindings"
-              value={localKeybindings}
-              options={KEYBINDINGS}
-              set={(keybinding) =>
-                setLocalKeybindings(keybinding as Keybindings)
-              }
-              {...itemAttributes(1)}
-            />*/}
-            <Setting
-              title="Wrap"
-              value={settings.wrap}
-              options={WRAP}
-              set={handleWrapChange}
-              {...itemAttributes(2)}
-            />
-            <Setting
-              title="Tab mode"
-              value={settings.tabBehavior}
-              options={TAB_MODE}
-              set={handleTabBehaviorChange}
-              {...itemAttributes(3)}
-            />
+            {optionsToShow.map((option, i) => {
+              return (
+                <Setting
+                  key={option.title}
+                  {...option}
+                  {...itemAttributes(i)}
+                />
+              )
+            })}
           </ul>
         </div>
       ) : null}

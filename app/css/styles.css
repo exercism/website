@@ -28,19 +28,30 @@
 .text-h6 {
     @apply text-16 font-semibold text-textColor1 leading-140;
 }
-.text-p-small {
-    @apply text-14 leading-160;
-}
-.text-p-base {
-    @apply text-16 leading-160;
+
+.text--p {
+    & a {
+        @apply text-lightBlue font-medium;
+    }
     & strong {
         @apply font-medium text-textColor2;
     }
 }
+
+.text-p-small {
+    @apply text--p;
+    @apply text-14 leading-160;
+}
+.text-p-base {
+    @apply text--p;
+    @apply text-16 leading-160;
+}
 .text-p-large {
+    @apply text--p;
     @apply text-18 leading-170;
 }
 .text-p-xlarge {
+    @apply text--p;
     @apply text-20 leading-170;
 }
 

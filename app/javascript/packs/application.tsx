@@ -10,6 +10,7 @@ import '../../css/ui-kit/inputs'
 import '../../css/ui-kit/buttons'
 import '../../css/ui-kit/tracks'
 import '../../css/ui-kit/animations'
+import '../../css/ui-kit/effects'
 
 import '../../css/components/toast'
 import '../../css/components/contributions-summary'

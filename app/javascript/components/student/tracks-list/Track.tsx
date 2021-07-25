@@ -1,31 +1,43 @@
 import React from 'react'
 import { TrackIcon } from '../../common/TrackIcon'
-import { Icon } from '../../common/Icon'
+import { Icon, GraphicalIcon } from '../../common'
 import { ProgressBar } from './ProgressBar'
 import { fromNow } from '../../../utils/time'
 import { StudentTrack } from '../../types'
 
 export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
   return (
-    <a className="--track" href={track.webUrl}>
-      <TrackIcon iconUrl={track.iconUrl} title={track.title} />
+    <a className="--track e-hover-grow" href={track.webUrl}>
+      <TrackIcon
+        iconUrl={track.iconUrl}
+        title={track.title}
+        className="hidden lg:block"
+      />
       <div className="--info">
         <div className="--heading">
+          <TrackIcon
+            iconUrl={track.iconUrl}
+            title={track.title}
+            className="block lg:hidden"
+          />
           <h3 className="--title">{track.title}</h3>
-          {track.numConcepts > 5 ? (
-            <div className="--v3">
-              <Icon icon="checkmark" alt="This track has Learning mode" />
-              Concepts
-            </div>
-          ) : null}
-          {track.isNew ? (
-            <div className="--new">
-              <Icon icon="stars" alt="This track is new" />
-              New
-            </div>
-          ) : null}
+          <div className="items-center hidden md:flex">
+            {track.numConcepts > 5 ? (
+              <div className="--v3"> Learning Mode </div>
+            ) : track.isNew ? (
+              <div className="--new">
+                <Icon icon="stars" alt="This track is new" />
+                New
+              </div>
+            ) : null}
+          </div>
           {track.hasNotifications && <div className="c-notification-dot" />}
-          {track.isJoined && <div className="--joined">Joined</div>}
+          {track.isJoined && (
+            <div className="--joined">
+              <GraphicalIcon icon="checkmark" className="lg:mr-8" />
+              <span className="hidden lg:block">Joined</span>
+            </div>
+          )}
         </div>
         <ul className="--counts">
           <li>

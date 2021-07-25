@@ -8,11 +8,6 @@
         @apply bg-backgroundColorA shadow-base;
         @apply py-12 mb-32;
 
-        & input.--search {
-            @apply flex-grow;
-            max-width: 550px;
-        }
-
         & .--tag-option-list {
             @apply absolute left-0 right-0;
             @apply bg-backgroundColorA;
@@ -66,7 +61,7 @@
             }
         }
         & .--state {
-            @apply flex items-center;
+            @apply hidden items-center;
             @apply px-20;
             @apply bg-lightOrange rounded-5;
             @apply mr-48;
@@ -78,9 +73,21 @@
             & .--reset-btn {
                 @apply ml-24;
             }
+            @screen lg {
+                @apply flex;
+            }
+        }
+        & .--filter-btn {
+            @apply mr-0;
+            @screen lg {
+                @apply mr-40;
+            }
         }
         & .c-single-select {
-            @apply ml-auto;
+            @apply hidden ml-auto;
+            @screen lg {
+                @apply flex;
+            }
         }
     }
     & .joined-tracks {
@@ -100,10 +107,9 @@
     & .--track {
         @apply bg-backgroundColorA shadow-base rounded-8;
         @apply flex items-start py-20 px-24;
-        transition: box-shadow 0.2s ease-out;
 
         &:hover {
-            @apply shadow-lgZ1;
+            @apply shadow-lgZ1 z-shadow;
         }
 
         & > .c-track-icon {
@@ -115,7 +121,13 @@
             @apply flex-grow;
 
             & .--heading {
-                @apply flex items-center mb-12;
+                @apply flex items-center mb-16;
+
+                & > .c-track-icon {
+                    height: 48px;
+                    width: 48px;
+                    @apply mr-12;
+                }
 
                 & .--title {
                     @apply mr-12;
@@ -151,11 +163,18 @@
                 }
 
                 & .--joined {
+                    @apply flex items-center;
                     @apply flex-shrink-0;
                     @apply text-14 leading-170 font-semibold text-lightBlue;
                     @apply bg-veryLightBlue;
                     @apply ml-auto;
                     @apply py-4 px-12 rounded-5;
+                    height: 32px;
+                    & .c-icon {
+                        height: 12px;
+                        width: 12px;
+                        filter: var(--link-blue-filter);
+                    }
                 }
             }
 

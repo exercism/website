@@ -21,10 +21,6 @@
                     transition: transform 0.3s ease-out;
                 }
             }
-            @media screen and (max-width: 1024px) {
-                & > .c-icon {
-                }
-            }
         }
         & .organisation {
             border: 1px solid pink;
@@ -53,7 +49,7 @@
             & a {
                 white-space: nowrap;
             }
-            @media screen and (min-width: 768px) {
+            @screen md {
                 & > .c-icon {
                     height: 21px;
                     width: 116px;
@@ -110,7 +106,7 @@
                 content: "";
                 position: absolute;
 
-                @media screen and (max-width: 1020px) {
+                @media screen and (max-width: 1024px) {
                     transform: scale(0.8);
                 }
                 @media screen and (max-width: 850px) {
@@ -120,14 +116,14 @@
             &:before {
                 left: 96px;
                 top: 62px;
-                @media screen and (max-width: 1020px) {
+                @media screen and (max-width: 1024px) {
                     left: 5%;
                 }
             }
             &:after {
                 right: 32px;
                 top: 79px;
-                @media screen and (max-width: 1020px) {
+                @media screen and (max-width: 1024px) {
                     right: 5%;
                 }
             }
@@ -169,7 +165,7 @@
     }
     & section.exercises-section {
         & .main-graphic {
-            @media screen and (min-width: 1024px) {
+            @screen lg {
                 width: 733px;
                 margin-right: calc(0px - var(--lg-container-padding-x));
             }
@@ -226,7 +222,7 @@
                 content: "";
                 position: absolute;
 
-                @media screen and (max-width: 1020px) {
+                @media screen and (max-width: 1024px) {
                     transform: scale(0.8);
                 }
                 @media screen and (max-width: 850px) {

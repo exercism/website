@@ -157,15 +157,15 @@
             @apply flex flex-col items-center justify-start;
             @apply p-24 text-16 leading-150 text-center;
             @apply border-r-1 border-borderColor7;
-            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 
             &:last-child {
                 @apply border-r-0;
             }
 
             &:hover {
-                @apply shadow-lg rounded-5;
-                transform: scale(1.05);
+                @apply shadow-lgZ1;
+                @apply rounded-5;
+                @apply z-shadow border-transparent;
             }
 
             & .c-icon {

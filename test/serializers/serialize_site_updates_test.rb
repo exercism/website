@@ -17,10 +17,17 @@ class SerializeSiteUpdatesTest < ActiveSupport::TestCase
 
     expected = [
       update.rendering_data.merge(
-        exercise_widget: {
-          exercise: SerializeExercise.(update.exercise),
-          solution: nil
-        }
+        exercise_widget: AssembleExerciseWidget.(
+          update.exercise,
+          nil,
+          solution: nil,
+          with_tooltip: false,
+          render_as_link: true,
+          render_blurb: true,
+          render_track: true,
+          recommended: false,
+          skinny: false
+        )
       )
     ]
 
@@ -37,10 +44,17 @@ class SerializeSiteUpdatesTest < ActiveSupport::TestCase
 
     expected = [
       update.rendering_data.merge(
-        exercise_widget: {
-          exercise: SerializeExercise.(update.exercise),
-          solution: SerializeSolution.(solution, user_track: user_track)
-        }
+        exercise_widget: AssembleExerciseWidget.(
+          update.exercise,
+          user_track,
+          solution: solution,
+          with_tooltip: false,
+          render_as_link: true,
+          render_blurb: true,
+          render_track: true,
+          recommended: false,
+          skinny: false
+        )
       )
     ]
     assert_equal expected, SerializeSiteUpdates.([update], user: user)

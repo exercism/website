@@ -64,4 +64,18 @@ class Mentor::RequestTest < ActiveSupport::TestCase
     assert_equal [unlocked], Mentor::Request.unlocked
     assert_equal [unlocked, locked_by_mentor], Mentor::Request.unlocked_for(mentor)
   end
+
+  test "validates comment_markdown correctly" do
+    refute build(:mentor_request, comment_markdown: "").valid?
+
+    request = create :mentor_request
+    assert_raises do
+      request.update!(comment_markdown: "")
+    end
+
+    request = create :mentor_request
+    request.update_columns(comment_markdown: '') # Skip validations
+    assert_equal "", request.reload.comment_markdown
+    request.fulfilled! # Check this still works
+  end
 end

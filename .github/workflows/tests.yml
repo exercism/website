@@ -118,6 +118,11 @@ jobs:
           bundler-cache: true
 
       ###
+      # Install graphicsmagick
+      - name: Install graphicsmagick
+        run: sudo apt-get install graphicsmagick
+
+      ###
       # Caching using GitHub's caching action
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path

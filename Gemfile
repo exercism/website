@@ -101,3 +101,4 @@ group :test do
 end
 
 gem "addressable", "~> 2.7"
+gem "mini_magick"

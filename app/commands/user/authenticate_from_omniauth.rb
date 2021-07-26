@@ -15,7 +15,7 @@ class User
       if user.email.ends_with?("@users.noreply.github.com")
         user.email = auth.info.email
         user.skip_reconfirmation!
-        user.save
+        user.save!
       end
 
       if user.github_username != auth.info.nickname
@@ -53,7 +53,9 @@ class User
         user.reset_password(new_password, new_password)
       end
 
-      user.save
+      # Make this a bang-save because if it's not we can get errors
+      # on a dirty object further down the chain.
+      user.save!
       user
     end
 

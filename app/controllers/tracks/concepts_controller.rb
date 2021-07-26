@@ -47,6 +47,8 @@ class Tracks::ConceptsController < ApplicationController
   def use_track
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def use_concepts
@@ -55,5 +57,7 @@ class Tracks::ConceptsController < ApplicationController
 
   def use_concept
     @concept = @track.concepts.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

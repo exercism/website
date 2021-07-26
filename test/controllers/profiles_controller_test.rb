@@ -4,19 +4,23 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   ########
   # Show #
   ########
+  test "show: 404s silently for missing user" do
+    get profile_url('foobar')
+
+    assert_rendered_404
+  end
+
+  test "show: 404s silently for missing profile" do
+    get profile_url(create(:user).handle)
+
+    assert_rendered_404
+  end
+
   test "show: shows a profile" do
     profile = create :user_profile
 
     get profile_url(profile)
     assert_template "profiles/show"
-  end
-
-  test "show: 404s with incorrect handle" do
-    sign_in!
-
-    assert_raises ActiveRecord::RecordNotFound do
-      get profile_url("foobar")
-    end
   end
 
   test "show: redirects_to intro if own handle" do

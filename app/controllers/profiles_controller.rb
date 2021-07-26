@@ -72,6 +72,8 @@ class ProfilesController < ApplicationController
   private
   def use_user
     @user = User.find_by(handle: params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def use_profile
@@ -80,7 +82,7 @@ class ProfilesController < ApplicationController
     unless @profile # rubocop:disable Style/GuardClause
       return redirect_to action: :intro if current_user&.handle == params[:id]
 
-      raise ActiveRecord::RecordNotFound
+      render_404
     end
   end
 end

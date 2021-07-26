@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
   before_action :ensure_onboarded!
   before_action :mark_notifications_as_read!
 
+  def process_action(*args)
+    super
+  rescue ActionDispatch::Http::MimeNegotiation::InvalidType,
+         ActionDispatch::Http::Parameters::ParseError => e
+    request.headers['Content-Type'] = 'application/json'
+    render status: :bad_request, json: { errors: [e.message] }
+  end
+
   def ensure_onboarded!
     return unless user_signed_in?
     return if current_user.onboarded?

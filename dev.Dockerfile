@@ -40,6 +40,9 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y nodejs yarn tmux
 
+# graphicsmagick
+RUN apt-get install -y graphicsmagick
+
 # chrome, for headless tests
 RUN DEBIAN_FRONTEND=noninteractive && \
     curl -L -O https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \

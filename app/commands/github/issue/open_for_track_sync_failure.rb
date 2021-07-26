@@ -21,12 +21,16 @@ module Github
       end
 
       def title
-        "🤖 Sync error for commit #{git_sha[0..5]}"
+        if git_sha.present?
+          "🤖 Sync error for commit #{git_sha[0..5]}"
+        else
+          "🤖 Sync error: Could not find main branch"
+        end
       end
 
       def body
         <<~BODY.strip
-          We hit an error trying to sync the latest commit (#{git_sha}) to the website.
+          We hit an error trying to sync the latest commit (#{git_sha || 'unknown'}) to the website.
 
           The error was:
           ```

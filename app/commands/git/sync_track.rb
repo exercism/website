@@ -50,7 +50,13 @@ module Git
       # we can set the track's synced git SHA to the HEAD SHA
       track.update!(synced_to_git_sha: head_git_track.commit.oid)
     rescue StandardError => e
-      Github::Issue::OpenForTrackSyncFailure.(track, e, head_git_track.commit.oid)
+      begin
+        oid = head_git_track.commit.oid
+      rescue StandardError
+        # oid can be nil - this is handled downstream
+      end
+
+      Github::Issue::OpenForTrackSyncFailure.(track, e, oid)
     end
 
     private

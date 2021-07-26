@@ -29,7 +29,7 @@ class Mentor::Request < ApplicationRecord
                       AND locked_by_id != ?)", user.id)
   }
 
-  validates :comment_markdown, presence: true
+  validates :comment_markdown, presence: true, if: :validate_comment_markdown?
 
   has_markdown_field :comment, strip_h1: false, lower_heading_levels_by: 2
 
@@ -88,5 +88,11 @@ class Mentor::Request < ApplicationRecord
 
   def comment
     Mentor::RequestComment.from(self)
+  end
+
+  def validate_comment_markdown?
+    return true if new_record?
+
+    changed_attributes.key?("comment_markdown")
   end
 end

@@ -40,4 +40,10 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     refute_includes @response.body, js.title
     refute_includes @response.body, ruby_2.title
   end
+
+  test "show: 404s silently for missing track" do
+    get track_url('foobar')
+
+    assert_rendered_404
+  end
 end

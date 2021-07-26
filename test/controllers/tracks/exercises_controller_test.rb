@@ -29,6 +29,18 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     assert_template "tracks/exercises/index"
   end
 
+  test "show: 404s silently for missing track" do
+    get track_exercise_url('foobar', 'foobar')
+
+    assert_rendered_404
+  end
+
+  test "show: 404s silently for missing exercise" do
+    get track_exercise_url(create(:track), 'foobar')
+
+    assert_rendered_404
+  end
+
   test "concept/show: renders correctly for external" do
     exercise = create :concept_exercise
 

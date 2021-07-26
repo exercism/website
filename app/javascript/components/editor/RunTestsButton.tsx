@@ -1,7 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
-import Tippy from '@tippyjs/react'
-import { roundArrow } from 'tippy.js'
+import { GenericTooltip } from '../misc/ExercismTippy'
 
 export const RunTestsButton = ({
   haveFilesChanged,
@@ -14,16 +13,9 @@ export const RunTestsButton = ({
   const isDisabled = !haveFilesChanged || isProcessing
 
   return (
-    <Tippy
-      animation="shift-away-subtle"
-      arrow={roundArrow}
-      maxWidth="none"
+    <GenericTooltip
       disabled={!isDisabled}
-      content={
-        <div className="c-generic-tooltip">
-          You have not made any changes since you last ran the tests
-        </div>
-      }
+      content={'You have not made any changes since you last ran the tests'}
     >
       <div className="run-tests-btn">
         <button
@@ -37,6 +29,6 @@ export const RunTestsButton = ({
           <div className="kb-shortcut">F2</div>
         </button>
       </div>
-    </Tippy>
+    </GenericTooltip>
   )
 }

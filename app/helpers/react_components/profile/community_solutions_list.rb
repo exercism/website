@@ -15,12 +15,12 @@ module ReactComponents
         {
           endpoint: Exercism::Routes.api_profile_solutions_url(user),
           query: params.slice(*AssembleProfileSolutionsList.keys),
-          options: { initial_data: AssembleProfileSolutionsList.(current_user, params) }
+          options: { initial_data: AssembleProfileSolutionsList.(user, params) }
         }
       end
 
       def tracks_data
-        counts = @user.solutions.joins(:exercise).published.group('exercises.track_id').count
+        counts = user.solutions.joins(:exercise).published.group('exercises.track_id').count
         tracks = ::Track.where(id: counts.keys).index_by(&:id)
 
         [

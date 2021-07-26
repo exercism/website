@@ -12,6 +12,7 @@
     "@codemirror/lang-rust": "^0.18.0",
     "@codemirror/legacy-modes": "^0.18.0",
     "@codemirror/stream-parser": "^0.18.2",
+    "@codemirror/theme-one-dark": "^0.18.1",
     "@codemirror/view": "^0.18.13",
     "@exercism/active-background": "^0.6.2",
     "@exercism/codemirror-lang-wren": "^0.7.1",

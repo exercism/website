@@ -84,6 +84,11 @@ export const TabsContext = createContext<TabContext>({
   switchToTab: () => {},
 })
 
+export const FeaturesContext = createContext<EditorFeatures>({
+  theme: false,
+  keybindings: false,
+})
+
 export type Props = {
   timeout?: number
   defaultSubmissions: Submission[]
@@ -94,6 +99,12 @@ export type Props = {
   track: Track
   exercise: Exercise
   links: Links
+  features?: EditorFeatures
+}
+
+type EditorFeatures = {
+  theme: boolean
+  keybindings: boolean
 }
 
 export function Editor({
@@ -106,6 +117,7 @@ export function Editor({
   track,
   exercise,
   links,
+  features = { theme: false, keybindings: false },
 }: Props): JSX.Element {
   const editorRef = useRef<FileEditorHandle>()
 
@@ -307,79 +319,81 @@ export function Editor({
   }, [JSON.stringify(submission)])
 
   return (
-    <TabsContext.Provider
-      value={{
-        current: tab,
-        switchToTab: (id: string) => setTab(id as TabIndex),
-      }}
-    >
-      <div id="page-editor">
-        <div className="header">
-          <Header.Back exercisePath={links.back} />
-          <Header.Title
-            trackTitle={track.title}
-            exerciseTitle={exercise.title}
-          />
-          <div className="options">
-            <Header.ActionHints assignment={panels.instructions.assignment} />
-            <Header.ActionSettings
-              settings={settings}
-              setSettings={setSettings}
+    <FeaturesContext.Provider value={features}>
+      <TabsContext.Provider
+        value={{
+          current: tab,
+          switchToTab: (id: string) => setTab(id as TabIndex),
+        }}
+      >
+        <div id="page-editor">
+          <div className="header">
+            <Header.Back exercisePath={links.back} />
+            <Header.Title
+              trackTitle={track.title}
+              exerciseTitle={exercise.title}
             />
-            <Header.ActionMore
-              onRevertToExerciseStart={handleRevertToExerciseStart}
-              onRevertToLastIteration={handleRevertToLastIteration}
-            />
-          </div>
-        </div>
-
-        <SplitPane
-          id="editor"
-          left={
-            <>
-              <FileEditorCodeMirror
-                editorDidMount={editorDidMount}
-                files={files}
-                language={track.slug}
+            <div className="options">
+              <Header.ActionHints assignment={panels.instructions.assignment} />
+              <Header.ActionSettings
                 settings={settings}
-                onRunTests={runTests}
-                onSubmit={submit}
+                setSettings={setSettings}
               />
+              <Header.ActionMore
+                onRevertToExerciseStart={handleRevertToExerciseStart}
+                onRevertToLastIteration={handleRevertToLastIteration}
+              />
+            </div>
+          </div>
 
-              <footer className="lhs-footer">
-                <EditorStatusSummary status={status} error={error?.message} />
-                <RunTestsButton
-                  onClick={runTests}
-                  haveFilesChanged={haveFilesChanged}
-                  isProcessing={isProcessing}
+          <SplitPane
+            id="editor"
+            left={
+              <>
+                <FileEditorCodeMirror
+                  editorDidMount={editorDidMount}
+                  files={files}
+                  language={track.slug}
+                  settings={settings}
+                  onRunTests={runTests}
+                  onSubmit={submit}
                 />
-                <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
-              </footer>
-            </>
-          }
-          right={
-            <>
-              <div className="tabs">
-                <InstructionsTab />
-                {panels.tests ? <TestsTab /> : null}
-                <ResultsTab />
-              </div>
-              <InstructionsPanel {...panels.instructions} />
-              {panels.tests ? <TestsPanel {...panels.tests} /> : null}
-              <ResultsPanel
-                submission={submission}
-                timeout={timeout}
-                onUpdate={updateSubmission}
-                onRunTests={runTests}
-                onSubmit={submit}
-                isSubmitDisabled={isSubmitDisabled}
-                hasCancelled={hasCancelled}
-                {...panels.results}
-              />
-            </>
-          }
-        />
-      </div>
-    </TabsContext.Provider>
+
+                <footer className="lhs-footer">
+                  <EditorStatusSummary status={status} error={error?.message} />
+                  <RunTestsButton
+                    onClick={runTests}
+                    haveFilesChanged={haveFilesChanged}
+                    isProcessing={isProcessing}
+                  />
+                  <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
+                </footer>
+              </>
+            }
+            right={
+              <>
+                <div className="tabs">
+                  <InstructionsTab />
+                  {panels.tests ? <TestsTab /> : null}
+                  <ResultsTab />
+                </div>
+                <InstructionsPanel {...panels.instructions} />
+                {panels.tests ? <TestsPanel {...panels.tests} /> : null}
+                <ResultsPanel
+                  submission={submission}
+                  timeout={timeout}
+                  onUpdate={updateSubmission}
+                  onRunTests={runTests}
+                  onSubmit={submit}
+                  isSubmitDisabled={isSubmitDisabled}
+                  hasCancelled={hasCancelled}
+                  {...panels.results}
+                />
+              </>
+            }
+          />
+        </div>
+      </TabsContext.Provider>
+    </FeaturesContext.Provider>
   )
 }

@@ -2126,6 +2126,15 @@
   resolved "https://registry.yarnpkg.com/@codemirror/text/-/text-0.18.0.tgz#a4a98862989ccef5545e730b269136d524c6a7c7"
   integrity sha512-HMzHNIAbjCiCf3tEJMRg6ul01KPuXxQGNiHlHgAnqPguq/CX+L4Nvj5JlWQAI91Pupk18zhmM1c6eaazX4YeTg==
 
+"@codemirror/theme-one-dark@^0.18.1":
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/@codemirror/theme-one-dark/-/theme-one-dark-0.18.1.tgz#fa625db384418e89b778d2ae49824c44d5280e3f"
+  integrity sha512-0XRfWYDfwUlPlN8yrO7bDB+EuHFqUNhTJwgp2iIixZWejuZQK0NxKmjuhkiGsEz25w7toM12uUsNJ5mo7iFQcA==
+  dependencies:
+    "@codemirror/highlight" "^0.18.0"
+    "@codemirror/state" "^0.18.0"
+    "@codemirror/view" "^0.18.0"
+
 "@codemirror/tooltip@^0.18.4":
   version "0.18.4"
   resolved "https://registry.yarnpkg.com/@codemirror/tooltip/-/tooltip-0.18.4.tgz#981bc0ced792c6754148edbc1f60092f3fa54207"

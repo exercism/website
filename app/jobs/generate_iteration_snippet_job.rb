@@ -11,13 +11,16 @@ class GenerateIterationSnippetJob < ApplicationJob
     # that's probably worth investigating
     return unless iteration
 
+    file = iteration.submission.files.first
+    return unless file
+
     # TODO: (Required) Set this through Exercism config
     url = "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/extract_snippet"
     snippet = RestClient.post(
       url,
       {
         language: iteration.track.slug,
-        source_code: iteration.submission.files.first.content
+        source_code: file.content
       }.to_json,
       { content_type: :json, accept: :json }
     ).body

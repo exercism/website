@@ -1,4 +1,6 @@
 class GenerateIterationSnippetJob < ApplicationJob
+  extend Mandate::Memoize
+
   queue_as :snippets
 
   def perform(iteration)
@@ -21,8 +23,13 @@ class GenerateIterationSnippetJob < ApplicationJob
     ).body
 
     iteration.update_column(:snippet, snippet)
+    iteration.solution.update_column(:snippet, snippet) if should_update_solution?(iteration)
+  end
 
-    # TODO: Think about how we want to handle solution snippets
-    iteration.solution.update_column(:snippet, snippet) if iteration.solution.iterations.last == iteration
+  def should_update_solution?(iteration)
+    solution = iteration.solution
+    return true if solution.published_iteration_id == iteration.id
+
+    solution.published_iteration_id.nil? && solution.iterations.last == iteration
   end
 end

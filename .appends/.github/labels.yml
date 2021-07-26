@@ -6,6 +6,10 @@
 - name: "bot/bugsnag"
   description: ""
   color: "A32E92"
+  
+- name: "bot/bugsnag-clientside"
+  description: ""
+  color: "A32E92"
 
 - name: "dependencies"
   description: "Pull requests that update a dependency file"

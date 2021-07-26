@@ -75,4 +75,14 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
 
     GenerateIterationSnippetJob.perform_now(iteration)
   end
+
+  test "handle long snippets" do
+    @snippet << ("x" * 1500)
+    iteration = create :iteration, submission: @submission
+
+    GenerateIterationSnippetJob.perform_now(iteration)
+    snippet = iteration.reload.snippet
+    assert snippet.ends_with?("\n\n...")
+    assert_equal 1405, snippet.length
+  end
 end

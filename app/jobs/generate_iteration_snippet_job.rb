@@ -25,6 +25,8 @@ class GenerateIterationSnippetJob < ApplicationJob
       { content_type: :json, accept: :json }
     ).body
 
+    snippet = "#{snippet[0, 1400]}\n\n..." if snippet.length > 1400
+
     iteration.update_column(:snippet, snippet)
     iteration.solution.update_column(:snippet, snippet) if should_update_solution?(iteration)
   rescue JSON::GeneratorError => e

@@ -479,3 +479,16 @@ const imagePath = (name: any) => images(name)
 // Loading overlay events
 import { bindRedirectEvents } from '../utils/redirect-to'
 bindRedirectEvents()
+
+// object.entries polyfill
+if (!Object.entries) {
+  Object.entries = function (obj: any) {
+    const ownProps = Object.keys(obj)
+    let i = ownProps.length
+    const resArray = new Array(i)
+
+    while (i--) resArray[i] = [ownProps[i], obj[ownProps[i]]]
+
+    return resArray
+  }
+}

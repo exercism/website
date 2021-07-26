@@ -12,7 +12,7 @@ module LayoutHelper
 
   def js_packs
     [
-      ('application' if landing_page?),
+      ('application' unless landing_page?),
       ('internal' if user_signed_in?),
       ('editor' if render_editor_js_pack?),
       ('test' if render_test_js_pack?)

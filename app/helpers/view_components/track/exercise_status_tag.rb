@@ -10,10 +10,8 @@ module ViewComponents
           tag.div("Available", class: 'c-exercise-status-tag --available')
         when :locked
           tag.div("Locked", class: 'c-exercise-status-tag --locked')
-        when :started
-          tag.div("Started", class: 'c-exercise-status-tag --started')
-        when :iterated
-          tag.div("In progress", class: 'c-exercise-status-tag --in-progress')
+        when :started, :iterated
+          tag.div("In-progress", class: 'c-exercise-status-tag --in-progress')
         when :completed
           tag.div("Completed", class: 'c-exercise-status-tag --completed')
         when :published

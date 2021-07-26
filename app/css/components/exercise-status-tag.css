@@ -18,10 +18,6 @@
             @apply mr-8;
         }
     }
-    &.--started {
-        @apply text-textColor6;
-        @apply border-buttonBorderColor2;
-    }
 
     &.--in-progress {
         @apply border-lightBlue bg-veryLightBlue;
@@ -29,9 +25,11 @@
     }
     &.--available {
         @apply border-buttonBorderColor2;
+        @apply bg-backgroundColorA;
     }
     &.--recommended {
         @apply border-buttonBorderColor2;
+        @apply bg-backgroundColorA;
     }
     &.--completed,
     &.--published {

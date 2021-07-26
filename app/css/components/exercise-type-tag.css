@@ -2,7 +2,8 @@
 .c-exercise-type-tag {
     @apply c-tag;
     @apply text-textColor2;
-    @apply border-borderColor6;
+    @apply border-buttonBorderColor2;
+    @apply bg-backgroundColorA;
 
     & .c-icon {
         filter: var(--textColor6-filter);

@@ -67,4 +67,12 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     assert_equal @snippet, iteration.reload.snippet
     assert_nil iteration.solution.reload.snippet
   end
+
+  test "silently drop unicode json errors" do
+    iteration = create :iteration, submission: @submission
+
+    RestClient.stubs(:post).raises(JSON::GeneratorError, "Invalid Unicode [fa ed fe 07 00]")
+
+    GenerateIterationSnippetJob.perform_now(iteration)
+  end
 end

@@ -24,6 +24,12 @@ class GenerateIterationSnippetJob < ApplicationJob
 
     iteration.update_column(:snippet, snippet)
     iteration.solution.update_column(:snippet, snippet) if should_update_solution?(iteration)
+  rescue JSON::GeneratorError => e
+    # Silently drop things where we can't parse characters in the resulting JSON.
+    # This is going to be down to unicode issues
+    return if e.message.include?("Invalid Unicode")
+
+    raise
   end
 
   def should_update_solution?(iteration)

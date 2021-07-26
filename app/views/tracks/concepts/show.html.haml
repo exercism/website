@@ -42,8 +42,8 @@
         .text You've mastered #{@concept.name} in #{@track.title}.
         = render ViewComponents::ProminentLink.new("Explore more concepts", track_concepts_path(@track))
 
-    .tw-flex
-      .tw-flex-grow.tw-w-arbitary
+    .flex
+      .flex-grow.w-arbitary
         %section.about
           .c-textual-content.--large
             %h2 About #{@concept.name}

@@ -12,11 +12,25 @@ module LayoutHelper
 
   def js_packs
     [
-      'application',
+      ('application' if landing_page?),
       ('internal' if user_signed_in?),
       ('editor' if render_editor_js_pack?),
       ('test' if render_test_js_pack?)
     ].compact
+  end
+
+  def deferred_js_packs
+    all = %w[application internal editor]
+    all - js_packs
+  end
+
+  # Always include application in the JS pack
+  def css_packs
+    (js_packs + ['application']).uniq
+  end
+
+  def landing_page?
+    namespace_name.nil? && controller_name == "pages" && action_name == "index"
   end
 
   def render_editor_js_pack?

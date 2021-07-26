@@ -1,14 +1,19 @@
 !!!
 %html{ lang: "en-US" }
   %head
-    %meta{ content: "text/html; charset=utf-8", "http-equiv": "Content-Type" }/
+    %meta{ content: "text/html; charset=utf-8", "http-equiv": "Content-Type" }
+    - unless user_signed_in?
+      %meta{ name: "viewport", content: "width=device-width, initial-scale=1" }
+
     %title Exercism
     = csrf_meta_tags
     = csp_meta_tag
     = action_cable_meta_tag
 
+    = stylesheet_packs_with_chunks_tag(*css_packs, media: 'all', 'data-turbolinks-track': 'reload')
+    = javascript_packs_with_chunks_tag('core', 'data-turbolinks-track': 'reload')
     = javascript_packs_with_chunks_tag(*js_packs, 'data-turbolinks-track': 'reload')
-    = stylesheet_packs_with_chunks_tag(*js_packs, media: 'all', 'data-turbolinks-track': 'reload')
+    = javascript_packs_with_chunks_tag(*deferred_js_packs, defer: true)
 
     %meta{ name: "language-server-url", content: Exercism.config.language_server_url }
     %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url }
@@ -29,6 +34,7 @@
     - if Rails.env.production?
       / TODO: Change domain
       %script{ defer: true, src: "/usage/js/script.js", data: { domain: "exercism.lol", api: "/usage/api/event" } }
+
 
 / TODO: Add test for this!
 - flash.clear

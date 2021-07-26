@@ -258,6 +258,9 @@ module.exports = {
       '1-2': '50%',
       '100': '100%',
     },
+    maxWidth: {
+      '1-2': '50%',
+    },
     zIndex: {
       '-1': '-1',
       '-2': '-2',
@@ -279,6 +282,4 @@ module.exports = {
   corePlugins: {
     container: false,
   },
-  // s- for style
-  prefix: 'tw-',
 }

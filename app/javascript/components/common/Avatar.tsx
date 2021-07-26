@@ -15,7 +15,7 @@ export const Avatar = ({
       className={`c-avatar ${className}`}
       style={{ backgroundImage: `url(${src})` }}
     >
-      <img src={src} alt={alt} className="tw-sr-only" />
+      <img src={src} alt={alt} className="sr-only" />
     </div>
   )
 }

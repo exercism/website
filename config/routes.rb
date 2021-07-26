@@ -325,7 +325,9 @@ Rails.application.routes.draw do
   get "licences/mit" => "licences/mit", as: :mit_licence
   get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
 
-  root to: "pages#index"
+  # TODO: (Required): Swap these over for launch
+  get "landing" => "pages#index", as: :landing_page
+  root to: "pages#beta"
 
   ##############
   # ELB routes #

@@ -1,0 +1,7 @@
+.e-hover-grow {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+}

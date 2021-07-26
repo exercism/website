@@ -11,6 +11,7 @@
             @apply mr-24;
         }
 
+        @apply w-arbitary flex-grow;
         @apply h-48 py-0 pl-40;
 
         background-size: 18px 18px;
@@ -25,17 +26,20 @@
     }
 
     & .--filter-btn {
-        @apply mr-40 rounded-5 px-24;
+        @apply flex-shrink-0;
+        @apply mr-40 rounded-5 px-12;
         @apply border-buttonBorderColor1;
         &:focus {
             @apply border-inputBorderColorFocus outline-none;
             @apply shadow-inputSelected;
         }
         & .c-icon {
-            @apply ml-12;
             height: 18px;
             width: 18px;
             filter: var(--buttonBorderColor1-filter);
+        }
+        @screen md {
+            @apply px-24;
         }
     }
     & .--reset-btn {

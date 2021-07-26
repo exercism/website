@@ -1,15 +1,3 @@
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('@rails/ujs').start()
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('turbolinks').start()
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('@rails/activestorage').start()
-
 import 'tailwindcss/base'
 import 'tailwindcss/components'
 import 'tailwindcss/utilities'
@@ -22,6 +10,7 @@ import '../../css/ui-kit/inputs'
 import '../../css/ui-kit/buttons'
 import '../../css/ui-kit/tracks'
 import '../../css/ui-kit/animations'
+import '../../css/ui-kit/effects'
 
 import '../../css/components/toast'
 import '../../css/components/contributions-summary'
@@ -153,6 +142,7 @@ import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
+import '../../css/pages/landing'
 import '../../css/pages/settings'
 import '../../css/pages/contributing-dashboard'
 import '../../css/pages/contributing-contributors'
@@ -201,12 +191,17 @@ import '../../css/highlighters/highlightjs-light'
 import '../../css/highlighters/highlightjs-dark'
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
+
+const StudentTracksList = lazy(() => import('../components/student/TracksList'))
+const StudentExerciseList = lazy(() =>
+  import('../components/student/ExerciseList')
+)
+
 import * as Common from '../components/common'
 import { CLIWalkthrough } from '../components/common/CLIWalkthrough'
 import { CLIWalkthroughButton } from '../components/common/CLIWalkthroughButton'
-import { followCursor } from 'tippy.js'
 
 import * as Student from '../components/student'
 
@@ -240,6 +235,8 @@ import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
 }
+
+const renderLoader = () => <p>Loading</p>
 
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components
@@ -337,13 +334,17 @@ initReact({
     />
   ),
   'student-tracks-list': (data: any) => (
-    <Student.TracksList request={data.request} tagOptions={data.tag_options} />
+    <Suspense fallback={renderLoader()}>
+      <StudentTracksList request={data.request} tagOptions={data.tag_options} />
+    </Suspense>
   ),
   'student-exercise-list': (data: any) => (
-    <Student.ExerciseList
-      request={camelizeKeysAs<Request>(data.request)}
-      defaultStatus={data.status}
-    />
+    <Suspense fallback={renderLoader()}>
+      <StudentExerciseList
+        request={camelizeKeysAs<Request>(data.request)}
+        defaultStatus={data.status}
+      />
+    </Suspense>
   ),
   'student-exercise-status-chart': (data: any) => (
     <Student.ExerciseStatusChart

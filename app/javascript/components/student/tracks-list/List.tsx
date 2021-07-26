@@ -13,8 +13,8 @@ export const List = ({
   if (data.length === 0) {
     return (
       <div className="empty-state">
-        <GraphicalIcon icon="sad-exercism" className="tw-mb-20" />
-        <h3 className="text-h3 tw-mb-24">No results found</h3>
+        <GraphicalIcon icon="sad-exercism" className="mb-20" />
+        <h3 className="text-h3 mb-24">No results found</h3>
         <button type="button" onClick={onReset} className="btn-enhanced btn-s">
           <GraphicalIcon icon="reset" />
           <span>Reset search and filters</span>

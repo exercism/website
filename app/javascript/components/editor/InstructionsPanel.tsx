@@ -41,7 +41,7 @@ const ExampleFiles = ({ files }: { files: File[] }) => {
 
   return (
     <>
-      <h3 className="text-h3 tw-mt-20">Example files</h3>
+      <h3 className="text-h3 mt-20">Example files</h3>
       {files.map((file, i) => (
         <React.Fragment key={i}>
           <h4>{file.filename}</h4>

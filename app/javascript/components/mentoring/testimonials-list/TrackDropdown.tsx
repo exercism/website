@@ -15,7 +15,7 @@ const SelectedComponent = ({ option: track }: { option: Track }) => {
   return (
     <>
       <TrackLogo track={track} />
-      <div className="tw-sr-only">{track.title}</div>
+      <div className="sr-only">{track.title}</div>
     </>
   )
 }

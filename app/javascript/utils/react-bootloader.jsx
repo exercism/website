@@ -24,10 +24,20 @@ Bugsnag.start({
 const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React)
 
 export const initReact = (mappings) => {
-  document.addEventListener('turbolinks:load', () => {
+  const renderThings = () => {
     renderComponents(mappings)
     renderTooltips(mappings)
+  }
+  // This adds rendering for all future turbolinks clicks
+  document.addEventListener('turbolinks:load', () => {
+    renderThings()
   })
+
+  // This renders if turbolinks has already finished at the
+  // point at which this calls. See packs/core.tsx
+  if (window.DOMLoaded) {
+    renderThings()
+  }
 }
 
 const render = (elem, component) => {

@@ -1,9 +1,9 @@
 - track_icon_urls = current_user.mentored_tracks.limit(6).map(&:icon_url)
 
 %section.mentoring-section
-  .tw-flex.tw-items-center.tw-mb-12
+  .flex.items-center.mb-12
     %h3.text-h3 Mentoring
-    .track-icons.tw-ml-auto
+    .track-icons.ml-auto
       - track_icon_urls.each do |icon_url|
         = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon"
 

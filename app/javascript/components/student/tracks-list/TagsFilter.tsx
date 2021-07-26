@@ -83,7 +83,7 @@ export const TagsFilter = ({
         aria-haspopup="true"
         aria-expanded={expanded}
       >
-        Filter by
+        <span className="hidden sm:block sm:mr-12">Filter by</span>
         <GraphicalIcon icon="chevron-down" />
       </button>
       <div

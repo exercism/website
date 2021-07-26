@@ -1,5 +1,3 @@
-export { TracksList } from './TracksList'
-export { ExerciseList } from './ExerciseList'
 export { CompleteExerciseButton } from './CompleteExerciseButton'
 export { MentoringDropdown } from './MentoringDropdown'
 export { ExerciseStatusChart } from './ExerciseStatusChart'

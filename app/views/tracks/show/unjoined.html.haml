@@ -26,7 +26,7 @@
             %strong 100% free.
           /= @track.blurb
 
-        .btns.tw-flex.tw-gap-24
+        .btns.flex.gap-24
           = button_to join_track_path(@track), method: :post, class: "btn-primary btn-l" do
             = graphical_icon(:plus)
             %span Join the #{@track.title} Track

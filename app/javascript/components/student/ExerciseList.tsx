@@ -90,7 +90,7 @@ const STATUS_FILTERS = [
   new StatusFilter('Locked', ['locked'], 'locked'),
 ]
 
-export const ExerciseList = ({
+export default ({
   request: initialRequest,
   defaultStatus,
 }: {

@@ -226,6 +226,15 @@ class Solution < ApplicationRecord
     Git::Exercise.for_solution(self)
   end
 
+  # TODO: (optional) Rather than doing this, we should recalculate all
+  # hashes for all solutions and make this column not null. But this is a
+  # good lazy way to do this for now.
+  def git_important_files_hash
+    super || exercise.git_important_files_hash.tap do |hash|
+      update(git_important_files_hash: hash) unless new_record?
+    end
+  end
+
   private
   def determine_status
     return :published if published?

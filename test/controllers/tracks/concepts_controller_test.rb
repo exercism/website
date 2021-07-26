@@ -29,6 +29,18 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     assert_template "tracks/concepts/index"
   end
 
+  test "show: 404s silently for missing track" do
+    get track_concept_url('foobar', 'foobar')
+
+    assert_rendered_404
+  end
+
+  test "show: 404s silently for missing concept" do
+    get track_concept_url(create(:track), 'foobar')
+
+    assert_rendered_404
+  end
+
   test "show: renders correctly for external" do
     concept = create :concept, :with_git_data
     track = concept.track

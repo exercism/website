@@ -19,16 +19,21 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @other_solutions = @exercise.solutions.published.limit(3)
     @mentor_discussions = @solution.mentor_discussions.
       finished.not_negatively_rated.includes(:mentor)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   private
   def use_track
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def use_exercise
     @exercise = @track.exercises.find(params[:exercise_id])
-    @solution = Solution.for(current_user, @exercise)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

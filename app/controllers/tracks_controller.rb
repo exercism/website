@@ -45,5 +45,7 @@ class TracksController < ApplicationController
   private
   def use_track
     @track = Track.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

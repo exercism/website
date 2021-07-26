@@ -58,10 +58,14 @@ class Tracks::ExercisesController < ApplicationController
   def use_track
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def use_exercise
     @exercise = @track.exercises.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def use_solution

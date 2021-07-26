@@ -17,19 +17,24 @@ class SerializeSiteUpdates
 
     case update
     when SiteUpdates::NewExerciseUpdate
-      { exercise_widget: data_for_exercise(update) }
+      { exercise_widget: data_for_exercise_widget(update) }
     else
       {}
     end
   end
 
-  def data_for_exercise(update)
-    solution = solutions[update.exercise_id]
-
-    {
-      exercise: SerializeExercise.(update.exercise),
-      solution: solution ? SerializeSolution.(solution, user_track: user_tracks[update.track_id]) : nil
-    }
+  def data_for_exercise_widget(update)
+    AssembleExerciseWidget.(
+      update.exercise,
+      user_tracks[update.track_id],
+      solution: solutions[update.exercise_id],
+      with_tooltip: false,
+      render_as_link: true,
+      render_blurb: true,
+      render_track: true,
+      recommended: false,
+      skinny: false
+    )
   end
 
   private

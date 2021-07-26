@@ -7,7 +7,7 @@
     = csp_meta_tag
     = action_cable_meta_tag
 
-    = javascript_packs_with_chunks_tag(*js_packs, 'data-turbolinks-track': 'reload')
+    = javascript_packs_with_chunks_tag(*js_packs)
     = stylesheet_packs_with_chunks_tag(*js_packs, media: 'all', 'data-turbolinks-track': 'reload')
 
     %meta{ name: "language-server-url", content: Exercism.config.language_server_url }

@@ -3,6 +3,6 @@
 .github/
 log/
 node_modules/
-public/
+public/packs/
 storage/
 tmp/

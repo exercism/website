@@ -49,7 +49,7 @@ export function StripeForm({
   onSuccess,
 }: {
   paymentIntentType: PaymentIntentType
-  onSuccess: () => void
+  onSuccess: (type: PaymentIntentType, amount: number) => void
   amountInDollars: number
 }) {
   const [succeeded, setSucceeded] = useState(false)
@@ -132,7 +132,9 @@ export function StripeForm({
       )
 
       if (payload.error) {
-        setError(`Payment failed ${payload.error.message}`)
+        setError(
+          `Your payment failed. The message we got back from your bank was "${payload.error.message}"`
+        )
         setProcessing(false)
         cancelPaymentIntent(paymentIntent)
       } else {
@@ -140,7 +142,7 @@ export function StripeForm({
         setProcessing(false)
         setSucceeded(true)
         notifyServerOfSuccess(paymentIntent)
-        onSuccess()
+        onSuccess(paymentIntentType, amountInDollars)
       }
     })
   }
@@ -163,13 +165,13 @@ export function StripeForm({
                 : `Donate $${amountInDollars} to Exercism monthly`}
             </span>
           </button>
-          {error && (
-            <div className="card-error" role="alert">
-              {error}
-            </div>
-          )}
         </div>
       </div>
+      {error && (
+        <div className="card-error" role="alert">
+          {error}
+        </div>
+      )}
       {paymentIntentType == 'subscription' ? (
         <div className="extra-info">
           Thank you for your ongoing support! We will debit ${amountInDollars}{' '}
@@ -177,8 +179,6 @@ export function StripeForm({
           at any time.
         </div>
       ) : null}
-      {succeeded ? <p className="result-message">Payment succeeded!</p> : null}
-      {/*<button type="submit">Do it!!</button>*/}
     </form>
   )
 }

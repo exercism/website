@@ -83,11 +83,14 @@
                 & button {
                     @apply mt-12 w-100;
                 }
-                & .card-error {
-                    @apply mt-12 text-center;
-                    @apply text-darkRed font-medium;
-                }
             }
+        }
+        & .card-error {
+            @apply mt-16 text-center;
+            @apply text-15 text-darkRed font-semibold leading-150;
+            @apply border-2 border-darkRed rounded-8;
+            @apply bg-lightRed;
+            @apply py-12 px-24;
         }
         & .extra-info {
             @apply mt-16;

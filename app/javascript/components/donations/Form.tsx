@@ -61,7 +61,7 @@ function Amounts({
             </button>
           </div>
 
-          <h3>Or choose a different one-off donation:</h3>
+          <h3>Or specify a custom amount:</h3>
           <label className="c-faux-input">
             <div className="icon">$</div>
             <input
@@ -106,7 +106,7 @@ function Amounts({
             </button>
           </div>
 
-          <h3>Or choose a different monthly donation:</h3>
+          <h3>Or specify a custom amount:</h3>
           <label className="c-faux-input">
             <div className="icon">$</div>
             <input
@@ -124,7 +124,11 @@ function Amounts({
   )
 }
 
-export function Form({}: {}) {
+export function Form({
+  onSuccess,
+}: {
+  onSuccess: (type: PaymentIntentType, amountInDollars: number) => void
+}) {
   const [amountInDollars, setAmountInDollars] = useState(32)
   const [transactionType, setTransactionType] = useState<PaymentIntentType>(
     'subscription'
@@ -166,7 +170,7 @@ export function Form({}: {}) {
           <StripeForm
             paymentIntentType={transactionType}
             amountInDollars={amountInDollars}
-            onSuccess={() => null}
+            onSuccess={onSuccess}
           />
         </Elements>
       </div>

@@ -12,6 +12,7 @@ import '../../css/ui-kit/tracks'
 import '../../css/ui-kit/animations'
 import '../../css/ui-kit/effects'
 
+import '../../css/components/donations-form'
 import '../../css/components/toast'
 import '../../css/components/contributions-summary'
 import '../../css/components/progress'
@@ -111,6 +112,7 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
+import '../../css/modals/donation-confirmation'
 import '../../css/modals/destructive'
 import '../../css/modals/badge'
 import '../../css/modals/update-exercise'
@@ -142,6 +144,7 @@ import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
+import '../../css/pages/donate'
 import '../../css/pages/landing'
 import '../../css/pages/settings'
 import '../../css/pages/contributing-dashboard'
@@ -194,10 +197,12 @@ import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 import React, { lazy, Suspense } from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
-const StudentTracksList = lazy(() => import('../components/student/TracksList'))
-const StudentExerciseList = lazy(() =>
-  import('../components/student/ExerciseList')
+const DonationsFormWithModal = lazy(() =>
+  import('../components/donations/FormWithModal')
 )
+
+import StudentTracksList from '../components/student/TracksList'
+import StudentExerciseList from '../components/student/ExerciseList'
 
 import * as Common from '../components/common'
 import { CLIWalkthrough } from '../components/common/CLIWalkthrough'
@@ -241,6 +246,12 @@ const renderLoader = () => <p>Loading</p>
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components
 initReact({
+  'donations-with-modal-form': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <DonationsFormWithModal />
+    </Suspense>
+  ),
+
   'common-concept-widget': (data: any) => (
     <Common.ConceptWidget concept={data.concept} />
   ),
@@ -334,17 +345,13 @@ initReact({
     />
   ),
   'student-tracks-list': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <StudentTracksList request={data.request} tagOptions={data.tag_options} />
-    </Suspense>
+    <StudentTracksList request={data.request} tagOptions={data.tag_options} />
   ),
   'student-exercise-list': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <StudentExerciseList
-        request={camelizeKeysAs<Request>(data.request)}
-        defaultStatus={data.status}
-      />
-    </Suspense>
+    <StudentExerciseList
+      request={camelizeKeysAs<Request>(data.request)}
+      defaultStatus={data.status}
+    />
   ),
   'student-exercise-status-chart': (data: any) => (
     <Student.ExerciseStatusChart

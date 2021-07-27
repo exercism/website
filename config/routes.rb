@@ -336,6 +336,8 @@ Rails.application.routes.draw do
   # #### #
   resources :blog_posts, only: %i[index show], path: "blog"
 
+  get "donate" => "donations#index", as: :donate
+
   get "code-of-conduct" => "docs/code_of_conduct", as: :code_of_conduct
   get "terms-of-services" => "docs/terms_of_services", as: :terms_of_service
   get "privacy-policy" => "docs/privacy_policy", as: :privacy_policy
@@ -365,8 +367,6 @@ Rails.application.routes.draw do
 
   # TODO: Remove these before launching
   namespace :temp do
-    resource :stripe, only: [:show], controller: "stripe"
-
     resources :tracks, only: [:create]
     resource :user_deletion, only: [:show]
     resource :user_reset, only: [:show]
@@ -388,6 +388,7 @@ Rails.application.routes.draw do
         get :exercise_tooltip
         get :select_exercise_for_mentoring
         get :badge
+        get :donation_confirmation
       end
     end
     resource :mentoring, only: [], controller: "mentoring" do

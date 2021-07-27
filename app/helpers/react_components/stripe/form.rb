@@ -5,7 +5,7 @@ module ReactComponents
 
       def to_s
         super(
-          "stripe-form",
+          "donations-with-modal-form",
           {
           }
         )

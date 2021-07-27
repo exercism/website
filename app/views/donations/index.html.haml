@@ -1,0 +1,10 @@
+#page-donate
+  .lg-container
+    %header
+      %h1.text-h1
+        %strong Goal:
+        Help everyone get better at programming, regardless of their background ✨
+
+    .flex.items-start
+      = render ReactComponents::Stripe::Form.new(current_user)
+

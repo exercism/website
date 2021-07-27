@@ -1,0 +1,16 @@
+.m-donation-confirmation {
+    & .--modal-content {
+        @apply flex flex-col items-center text-center;
+        max-width: 780px;
+
+        & .c-badge-medallion {
+            height: 40px;
+            width: 40px;
+        }
+        & .c-icon.main-icon {
+            height: 64px;
+            width: 64px;
+            @apply mb-20;
+        }
+    }
+}

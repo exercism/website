@@ -1,0 +1,28 @@
+#page-donate {
+    & header {
+        @apply pt-48 pb-24 relative;
+        @apply flex flex-col items-center;
+        &:before {
+            @apply absolute;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAzIiBoZWlnaHQ9IjEwNyIgdmlld0JveD0iMCAwIDEwMyAxMDciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0wIDg3LjUwNzFMMTMuNTM4OCA3NC4wMDU1TDI3LjA3NzcgODcuNTA3MUwxMy41Mzg4IDEwMS4wMDlMMCA4Ny41MDcxWiIgZmlsbD0iIzU5RDJBRSIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTguNjE1NzQgODUuMDUyM0wxOS4wNzc2IDc0LjYxOTNDMjAuNjA3IDczLjA5NCAyMy4wODY3IDczLjA5NCAyNC42MTYyIDc0LjYxOTNMMzUuMDc4IDg1LjA1MjNDMzYuNjA3NCA4Ni41Nzc1IDM2LjYwNzQgODkuMDUwNCAzNS4wNzggOTAuNTc1NkwyNC42MTYyIDEwMS4wMDlDMjMuMDg2NyAxMDIuNTM0IDIwLjYwNyAxMDIuNTM0IDE5LjA3NzYgMTAxLjAwOUw4LjYxNTc0IDkwLjU3NTZDNy4wODYzIDg5LjA1MDQgNy4wODYyOSA4Ni41Nzc1IDguNjE1NzQgODUuMDUyM1pNMTEuMDc3MyA4Ny41MDcxQzEwLjkwNzQgODcuNjc2NiAxMC45MDc0IDg3Ljk1MTMgMTEuMDc3MyA4OC4xMjA4TDIxLjUzOTIgOTguNTUzOEMyMS43MDkxIDk4LjcyMzMgMjEuOTg0NiA5OC43MjMzIDIyLjE1NDYgOTguNTUzOEwzMi42MTY0IDg4LjEyMDhDMzIuNzg2MyA4Ny45NTEzIDMyLjc4NjMgODcuNjc2NiAzMi42MTY0IDg3LjUwNzFMMjIuMTU0NiA3Ny4wNzQxQzIxLjk4NDYgNzYuOTA0NiAyMS43MDkxIDc2LjkwNDYgMjEuNTM5MiA3Ny4wNzQxTDExLjA3NzMgODcuNTA3MVoiIGZpbGw9IiMzMzM2M0YiLz4KPHBhdGggZD0iTTU5LjU4MzggMS4wOTA4OEM2MC4yNjM1IDAuNDEyOTk3IDYxLjM2NTYgMC40MTI5OTYgNjIuMDQ1NCAxLjA5MDg4TDcxLjI3NjQgMTAuMjk2NUM3MS45NTYyIDEwLjk3NDQgNzEuOTU2MiAxMi4wNzM0IDcxLjI3NjQgMTIuNzUxM1YxMi43NTEzQzcwLjU5NjYgMTMuNDI5MiA2OS40OTQ1IDEzLjQyOTIgNjguODE0OCAxMi43NTEzTDU5LjU4MzggMy41NDU3MUM1OC45MDQgMi44Njc4MyA1OC45MDQgMS43Njg3NiA1OS41ODM4IDEuMDkwODhWMS4wOTA4OFoiIGZpbGw9IiMzMzM2M0YiLz4KPHBhdGggZD0iTTU1LjY2NzIgOC45MDIxQzU2LjM0NyA4LjIyNDIxIDU3LjQ0OTEgOC4yMjQyMSA1OC4xMjg4IDguOTAyMUw2Ny4zNTk4IDE4LjEwNzdDNjguMDM5NiAxOC43ODU2IDY4LjAzOTYgMTkuODg0NyA2Ny4zNTk4IDIwLjU2MjVWMjAuNTYyNUM2Ni42ODAxIDIxLjI0MDQgNjUuNTc4IDIxLjI0MDQgNjQuODk4MiAyMC41NjI1TDU1LjY2NzIgMTEuMzU2OUM1NC45ODc1IDEwLjY3OSA1NC45ODc1IDkuNTc5OTggNTUuNjY3MiA4LjkwMjFWOC45MDIxWiIgZmlsbD0iIzMzMzYzRiIvPgo8L3N2Zz4K");
+            background-size: contain;
+            background-repeat: no-repeat;
+            content: "";
+            height: 107px;
+            width: 103px;
+            left: 32px;
+            top: 50px;
+        }
+        & h1 {
+            @apply text-center;
+            max-width: 1000px;
+            & strong {
+                @apply text-purple font-bold;
+            }
+        }
+    }
+    & .c-donations-form {
+        @apply ml-auto;
+        max-width: 570px;
+    }
+}

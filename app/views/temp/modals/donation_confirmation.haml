@@ -1,0 +1,17 @@
+<div class="ReactModalPortal">
+<div class="ReactModal__Overlay ReactModal__Overlay--after-open c-modal m-donation-confirmation ">
+<div class="ReactModal__Content ReactModal__Content--after-open --modal-content" tabindex="-1" role="dialog" aria-modal="true">
+= graphical_icon "completed-check-circle", css_class: 'main-icon'
+%h2.text-h3.mb-8 You’ve donated $100.00 successfully - thank you 💙
+%p.text-p-large.mb-24 We truly appreciate your support. Exercism would not be possible without awesome contributors like yourself. You’ll be sent an email shortly with your donation confirmation and receipt.
+.flex.items-center.rounded-5.shadow-xsZ1.py-6.px-24.bg-lightOrange.mb-32.border-1.border-lightGold
+  .c-badge-medallion.--rare.mr-16
+    = graphical_icon 'automation'
+  .text-textColor2.text-18.leading-150
+    You’ve earned the
+    %strong.font-medium Supporter
+    badge!
+
+= link_to "Happy to help! I'm done here 👍", donate_path, class: 'btn-primary btn-l w-100'
+
+</div></div></div>

@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :track
 
       def to_s
-        return if user_track.blank? || user_track.external?
+        # return if user_track.blank? || user_track.external?
 
         super("dropdowns-track-menu", {
           track: SerializeTrack.(track, user_track),

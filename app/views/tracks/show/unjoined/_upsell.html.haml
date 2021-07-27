@@ -1,26 +1,28 @@
 %section.upsell-section
   .md-container
 
-    .feature
+    .feature.flex-col.md:flex-row
       .info
         = graphical_icon :logo, css_class: "small-icon"
         %h3 Get mentored the #{track.title} way
         / TODO: Use correct counts
         %p Every language has its own way of doing things. #{track.title} is no different. Nunc et ipsum in erat congue cursus. Donec dignissim accumsan elit, quis tristique massa scelerisque sed. Quisque tellus augue, laoreet in sem non, feugiat dictum leo. Morbi ac enim ut nulla vulputate pulvinar congue non velit.
         = render ViewComponents::ProminentLink.new("Learn more about mentoring", "#")
-      = graphical_icon 'mentoring', category: :graphics, css_class: 'graphic'
+      .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:ml-64
+        = graphical_icon 'mentoring', category: :graphics, css_class: 'graphic '
 
-    .feature
+    .feature.flex-col.md:flex-row-reverse
       .info
         = graphical_icon :mentoring, css_class: "small-icon"
         %h3 Community-sourced #{track.title} exercises
         / TODO: Use correct counts
         %p The #{track.title} track on Exercism has 120 concepts and 100 exercises to help you write better code. Discover new exercises as you progress and get engrossed in learning new concepts and improving the way you currently write.
         = render ViewComponents::ProminentLink.new("See all #{track.title} exercises", track_exercises_path(track))
-      = graphical_icon 'community-solutions', category: :graphics, css_class: 'graphic'
+      .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:mr-64
+        = graphical_icon 'community-solutions', category: :graphics, css_class: 'graphic'
 
     .cta
       = track_icon(track)
       %h3 Get started with the #{track.title} track
       %p The best part, it’s 100% free for everyone.
-      = button_to "Join the #{track.title} track", join_track_path(track), method: :post, class: 'btn-primary btn-m'
+      = button_to "Join the #{track.title} track", join_track_path(track), method: :post, class: 'btn-primary btn-m w-100 sm:w-auto'

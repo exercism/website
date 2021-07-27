@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'jit',
   future: {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
@@ -194,6 +195,7 @@ module.exports = {
       '28': '28px',
       '31': '31px',
       '32': '32px',
+      '39': '39px',
       '40': '40px',
       '48': '48px',
       '54': '54px',
@@ -243,6 +245,7 @@ module.exports = {
       '64': '64px',
       '72': '72px',
       '80': '80px',
+      '84': '84px',
       '88': '88px',
       '96': '96px',
       '128': '128px',

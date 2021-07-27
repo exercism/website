@@ -1,46 +1,76 @@
 @import "../../styles.css";
 
 .c-track-header {
-    @apply relative;
-    @apply bg-backgroundColorA pt-12 shadow-base;
-
-    & .container {
-        @apply flex items-center;
-
-        & .lhs {
-            @apply flex-grow;
-        }
+    @apply bg-backgroundColorA pt-16 shadow-base;
+    & > .container {
+        @apply relative;
     }
 
-    & .title {
-        @apply flex items-center;
-        @apply text-h1 text-31;
-        @apply mb-8;
-        & .c-track-icon {
+    & .text-h1 {
+        @apply text-28;
+        @screen md {
+            @apply text-39;
+        }
+    }
+    & .c-track-icon {
+        height: 48px;
+        width: 48px;
+        @apply mr-16;
+
+        @screen lg {
             height: 54px;
             width: 54px;
-            @apply mr-16;
+        }
+    }
+    & .students {
+        @apply text-15 leading-150 font-medium text-textColor6;
+        & .c-icon {
+            height: 21px;
+            width: 21px;
+            filter: var(--textColor6-filter);
+            @apply mr-12;
         }
     }
 
     & .tabs {
-        @apply flex flex-grow;
+        @apply flex flex-grow mt-8;
+        @media screen and (max-width: 435px) {
+            & .c-tab-2 {
+                @apply py-8;
+            }
+            & .c-icon {
+                @apply hidden;
+            }
+        }
+        & :last-child {
+            @apply mr-0;
+        }
     }
 
     & .people {
-        min-width: 200px;
-        @apply flex items-center justify-end;
+        @apply items-center justify-end;
+        @apply leading-150;
         & .c-faces {
             @apply mr-16;
         }
         & .contributors {
-            @apply text-15 leading-160 font-semibold text-textColor2;
+            @apply font-semibold text-textColor2;
         }
         & .mentors {
-            @apply text-15 leading-160 font-medium text-textColor2;
+            @apply font-medium text-textColor2;
         }
     }
 
+    & .c-react-wrapper-dropdowns-track-menu {
+        @apply absolute;
+        right: 0;
+        @screen lg {
+            right: var(--lg-container-padding-x);
+        }
+
+        top: 50%;
+        margin-top: -17px;
+    }
     & .c-track-menu {
         @apply ml-48;
         & > button {

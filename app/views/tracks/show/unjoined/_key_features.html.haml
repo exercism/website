@@ -11,6 +11,6 @@
       = track_icon(track)
       - track.key_features.first(6).each.with_index do |feature, idx|
         .feature{ class: "--#{idx}" }
-          = graphical_icon :"#{feature[:icon]}"
-          %h3= feature[:title]
-          %p= feature[:content]
+          = graphical_icon feature[:icon]
+          %h3.text-h4.mb-8= feature[:title]
+          %p.text-p-base.text-center= feature[:content]

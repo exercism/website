@@ -1,10 +1,6 @@
 .text-h1 {
-    @apply text-40 font-bold text-textColor1;
+    @apply text-39 font-bold text-textColor1;
     line-height: 1.25;
-
-    @media screen and (max-width: 768px) {
-        @apply text-28;
-    }
 }
 .text-h2 {
     @apply text-31 font-bold text-textColor1 leading-140;

@@ -19,6 +19,10 @@
         @apply text-13 leading-150 px-10;
     }
 
+    &.--compact {
+        @apply leading-130 py-4 px-12;
+    }
+
     &.--practice-mode {
         @apply border-backgroundColorH;
         @apply text-textColor9 bg-textColor6;

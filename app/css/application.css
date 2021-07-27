@@ -109,7 +109,10 @@
     --filter-twitter: invert(51%) sepia(82%) saturate(2086%) hue-rotate(175deg)
         brightness(98%) contrast(93%);
 
-    --lg-container-padding-x: 32px;
+    --lg-container-padding-x: 16px;
+    @screen md {
+        --lg-container-padding-x: 32px;
+    }
 }
 
 .theme-light {

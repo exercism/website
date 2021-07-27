@@ -26,8 +26,8 @@
             %strong 100% free.
           /= @track.blurb
 
-        .btns.flex.gap-24
-          = button_to join_track_path(@track), method: :post, class: "btn-primary btn-l" do
+        .btns.flex.flex-col.sm:flex-row
+          = button_to join_track_path(@track), method: :post, class: "btn-primary btn-l mb-24 sm:mb-0 sm:mr-24 w-100 sm:w-auto" do
             = graphical_icon(:plus)
             %span Join the #{@track.title} Track
 
@@ -38,13 +38,13 @@
             = link_to track_exercises_path(@track), class: "btn-secondary btn-l" do
               Explore exercises
 
-      .graphics
+      .graphics.hidden.lg:flex
         = track_icon(@track)
 
-  %section.about-section
+  %section.about-section.pb-48.md:pb-64
     .lg-container
-      .inner
-        .info
+      .inner.flex-col.md:flex-row
+        .info.mb-32.md:mb-0
           .c-textual-content.--large
             %h2 About #{@track.title}
             = ReactComponents::Common::Expander.new(Markdown::Parse.(@track.about), button_text_compressed: "Read more on #{@track.title}", button_text_expanded: "Read less")
@@ -75,7 +75,7 @@
 
           = render ViewComponents::ProminentLink.new("See all #{@track.title} exercises on Exercism", track_exercises_path(@track))
 
-        = image_pack_tag "screenshots/exercise-about.png", role: :presentation
+        = image_pack_tag "screenshots/exercise-about.png", role: :presentation, class: 'hidden lg:block'
 
   = render "tracks/show/unjoined/key_features", track: @track
   = render "tracks/show/unjoined/concepts", track: @track

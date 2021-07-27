@@ -28,7 +28,7 @@ module ReactComponents::Student
         "student-mentoring-session",
         {
           user_handle: student.handle,
-          request: SerializeMentorSessionRequest.(mentor_request),
+          request: SerializeMentorSessionRequest.(mentor_request, student),
           discussion: SerializeMentorDiscussion.(discussion, :student),
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
@@ -76,7 +76,7 @@ module ReactComponents::Student
         "student-mentoring-session",
         {
           user_handle: student.handle,
-          request: SerializeMentorSessionRequest.(mentor_request),
+          request: SerializeMentorSessionRequest.(mentor_request, student),
           discussion: nil,
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),

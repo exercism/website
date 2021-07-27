@@ -8,7 +8,7 @@ module ReactComponents
           "student-mentoring-session",
           {
             user_handle: student.handle,
-            request: SerializeMentorSessionRequest.(request),
+            request: SerializeMentorSessionRequest.(request, student),
             discussion: discussion ? SerializeMentorDiscussion.(discussion, student) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),

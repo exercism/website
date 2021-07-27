@@ -199,8 +199,7 @@ export type APIError = {
 
 export type MentorSessionRequest = {
   uuid: string
-  comment: string
-  updatedAt: string
+  comment?: DiscussionPostProps
   isLocked: boolean
   track: {
     title: string

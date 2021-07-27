@@ -14,5 +14,12 @@ FactoryBot.define do
     trait :cancelled do
       status { :cancelled }
     end
+
+    trait :v2 do
+      to_create do |request|
+        request.v2 = true
+        request.save!
+      end
+    end
   end
 end

@@ -9,7 +9,6 @@ class Mentor::RequestComment
     :content_html,
     :iteration_idx,
     :updated_at,
-    :discussion,
     :request
   )
 
@@ -17,12 +16,10 @@ class Mentor::RequestComment
     return nil unless request
     return nil if request.comment_html.blank?
 
-    discussion = request.discussion
-
-    if discussion.posts.any?
-      iteration_idx = discussion.posts.first.iteration_idx
+    if request.discussion&.posts&.any?
+      iteration_idx = request.discussion.posts.first.iteration_idx
     else
-      iteration_idx = discussion.iterations.last.idx
+      iteration_idx = request.iterations.last.idx
     end
 
     new(

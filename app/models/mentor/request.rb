@@ -9,6 +9,7 @@ class Mentor::Request < ApplicationRecord
   belongs_to :track
 
   has_many :locks, class_name: "Mentor::RequestLock", dependent: :destroy
+  has_many :iterations, through: :solution
 
   has_one :discussion,
     inverse_of: :request,
@@ -30,6 +31,7 @@ class Mentor::Request < ApplicationRecord
   }
 
   validates :comment_markdown, presence: true, if: :validate_comment_markdown?
+  attr_accessor :v2
 
   has_markdown_field :comment, strip_h1: false, lower_heading_levels_by: 2
 
@@ -91,6 +93,7 @@ class Mentor::Request < ApplicationRecord
   end
 
   def validate_comment_markdown?
+    return false if v2
     return true if new_record?
 
     changed_attributes.key?("comment_markdown")

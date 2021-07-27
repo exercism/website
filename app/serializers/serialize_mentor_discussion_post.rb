@@ -4,6 +4,8 @@ class SerializeMentorDiscussionPost
   initialize_with :post, :user
 
   def call
+    return if post.blank?
+
     {
       uuid: post.uuid,
       iteration_idx: post.iteration_idx,

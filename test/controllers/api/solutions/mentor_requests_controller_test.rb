@@ -30,6 +30,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
     solution = create :concept_solution, user: user
+    create :iteration, solution: solution
 
     comment = "foo to the baaar"
     post api_solution_mentor_requests_path(solution.uuid),
@@ -46,7 +47,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
 
     # TODO: Assert correct JSON
     expected = {
-      mentor_request: SerializeMentorSessionRequest.(req)
+      mentor_request: SerializeMentorSessionRequest.(req, user)
     }.to_json
     assert_equal expected, response.body
   end

@@ -1,15 +1,14 @@
 class SerializeMentorSessionRequest
   include Mandate
 
-  initialize_with :request
+  initialize_with :request, :user
 
   def call
     return if request.blank?
 
     {
       uuid: request.uuid,
-      comment: request.comment_html,
-      updated_at: request.updated_at.iso8601,
+      comment: SerializeMentorDiscussionPost.(Mentor::RequestComment.from(request), user),
       is_locked: request.locked?,
       student: {
         handle: request.student_handle,

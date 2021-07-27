@@ -22,7 +22,9 @@ class Mentoring::DiscussionsControllerTest < ActionDispatch::IntegrationTest
     mentor = create :user
     sign_in!(mentor)
 
-    discussion = create :mentor_discussion, mentor: mentor
+    solution = create :concept_solution
+    discussion = create :mentor_discussion, mentor: mentor, solution: solution
+    create :iteration, solution: solution
     get mentoring_discussion_path(discussion)
     assert_response :success
   end

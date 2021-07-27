@@ -13,7 +13,7 @@ module API
       user_track.update!(objectives: params[:track_objectives]) unless user_track.external?
 
       render json: {
-        mentor_request: SerializeMentorSessionRequest.(mentor_request)
+        mentor_request: SerializeMentorSessionRequest.(mentor_request, current_user)
       }
     end
 

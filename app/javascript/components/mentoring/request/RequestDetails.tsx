@@ -10,23 +10,13 @@ export const RequestDetails = ({
   iteration: Iteration
   request: Request
 }): JSX.Element => {
-  const markerPost = {
-    uuid: 'iteration-marker',
-    iterationIdx: iteration.idx,
-    authorHandle: request.student.handle,
-    authorAvatarUrl: request.student.avatarUrl,
-    byStudent: true,
-    contentMarkdown: request.comment,
-    contentHtml: request.comment,
-    updatedAt: request.updatedAt,
-    links: {},
-  }
-
   return (
     /* TODO: This wrapper is needed to make the styling correct. Maybe unscope the iteration marker? */
     <div className="discussion">
       <IterationMarker iteration={iteration} userIsStudent={false} />
-      <DiscussionPost action="viewing" post={markerPost} />
+      {request.comment ? (
+        <DiscussionPost action="viewing" post={request.comment} />
+      ) : null}
     </div>
   )
 }

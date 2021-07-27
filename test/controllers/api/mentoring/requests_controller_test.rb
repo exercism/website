@@ -93,7 +93,9 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
   test "locks should succeed" do
     user = create :user
     setup_user(user)
-    request = create :mentor_request
+    solution = create :concept_solution
+    request = create :mentor_request, solution: solution
+    create :iteration, solution: solution
 
     patch lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 

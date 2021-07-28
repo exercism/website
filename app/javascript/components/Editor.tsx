@@ -58,7 +58,6 @@ type EditorPanels = {
   }
   tests?: {
     tests: string
-    language: string
   }
   results: {
     averageTestDuration: number
@@ -378,7 +377,9 @@ export function Editor({
                   <ResultsTab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
-                {panels.tests ? <TestsPanel {...panels.tests} /> : null}
+                {panels.tests ? (
+                  <TestsPanel language={track.slug} {...panels.tests} />
+                ) : null}
                 <ResultsPanel
                   submission={submission}
                   timeout={timeout}

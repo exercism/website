@@ -118,7 +118,8 @@ class User < ApplicationRecord
 
   memoize
   def active_donation_subscription_amount_in_dollars
-    donation_subscriptions.active.last&.amount_in_dollars.to_i
+    d = donation_subscriptions.active.last&.amount_in_dollars
+    d ? d.to_i : nil
   end
 
   memoize

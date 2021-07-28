@@ -1,3 +1,7 @@
+# This responds to a new subscription that has been made
+# and creates a record of it in our database. The actual
+# creation of the subscription within Stripe happens through
+# "payment intents".
 module Donations
   class Subscription
     class Create
@@ -9,7 +13,7 @@ module Donations
         Donations::Subscription.create!(
           user: user,
           stripe_id: stripe_data.id,
-          amount_in_cents: stripe_data.plan.amount,
+          amount_in_cents: stripe_data.items.data[0].price.unit_amount,
           active: true
         ).tap do
           user.update(active_donation_subscription: true)

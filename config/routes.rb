@@ -56,6 +56,12 @@ Rails.application.routes.draw do
             patch :failed
           end
         end
+        resources :subscriptions, only: [] do
+          member do
+            patch :cancel
+            patch :update_amount
+          end
+        end
       end
 
       resource :settings, only: [:update] do

@@ -6,6 +6,7 @@ class Donations::PaymentIntent::CreateTest < Donations::TestBase
     amount_in_dollars = 10
     user = create :user, stripe_customer_id: customer_id
 
+    Donations::Customer::Create.expects(:call).with(user).returns(customer_id)
     Donations::PaymentIntent::CreateForSubscription.expects(:call).with(
       customer_id, amount_in_dollars
     )
@@ -17,6 +18,7 @@ class Donations::PaymentIntent::CreateTest < Donations::TestBase
     amount_in_dollars = 10
     user = create :user, stripe_customer_id: customer_id
 
+    Donations::Customer::Create.expects(:call).with(user).returns(customer_id)
     Donations::PaymentIntent::CreateForPayment.expects(:call).with(
       customer_id, amount_in_dollars
     )

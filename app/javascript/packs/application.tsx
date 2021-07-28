@@ -256,7 +256,11 @@ const renderLoader = () => <p>Loading</p>
 initReact({
   'donations-with-modal-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
-      <DonationsFormWithModal />
+      <DonationsFormWithModal
+        existingSubscriptionAmountinDollars={
+          data.existing_subscription_amount_in_dollars
+        }
+      />
     </Suspense>
   ),
 

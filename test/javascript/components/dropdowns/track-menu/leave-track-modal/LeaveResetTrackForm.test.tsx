@@ -6,10 +6,7 @@ import { LeaveResetTrackForm } from '../../../../../../app/javascript/components
 import { createTrack } from '../../../../factories/TrackFactory'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import {
-  expectConsoleError,
-  silenceConsole,
-} from '../../../../support/silence-console'
+import { expectConsoleError } from '../../../../support/silence-console'
 import { redirectTo } from '../../../../../../app/javascript/utils/redirect-to'
 
 jest.mock('../../../../../../app/javascript/utils/redirect-to')

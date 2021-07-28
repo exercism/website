@@ -1,9 +1,11 @@
+import 'react-app-polyfill/ie9'
 import '@testing-library/jest-dom/extend-expect'
 import { waitFor, act } from '@testing-library/react'
 import { queryCache } from 'react-query'
 import flushPromises from 'flush-promises'
 
 jest.mock('../../app/javascript/utils/action-cable-consumer')
+jest.retryTimes(3)
 
 afterEach(async () => {
   queryCache.cancelQueries()

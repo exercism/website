@@ -3,7 +3,13 @@ jest.mock(
 )
 
 import React from 'react'
-import { waitFor, screen, act, fireEvent } from '@testing-library/react'
+import {
+  waitFor,
+  screen,
+  act,
+  fireEvent,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
@@ -48,13 +54,13 @@ const server = setupServer(
 )
 
 beforeAll(() => {
-  jest.useFakeTimers()
   server.listen()
 })
-beforeEach(() => server.resetHandlers())
-afterEach(() => localStorage.clear())
+afterEach(() => {
+  localStorage.clear()
+  server.resetHandlers()
+})
 afterAll(() => {
-  jest.useRealTimers()
   server.close()
 })
 
@@ -69,8 +75,7 @@ function deferred() {
 }
 
 test('shows message when test times out', async () => {
-  const timeout = 50000
-  const props = buildEditor({ overrides: { timeout: timeout } })
+  const props = buildEditor({ overrides: { timeout: 1000 } })
   const { promise } = deferred()
 
   server.use(
@@ -95,14 +100,8 @@ test('shows message when test times out', async () => {
 
   render(<Editor {...props} />)
 
-  const button = screen.getByRole('button', { name: /Run Tests/ })
-  userEvent.click(button)
-  expect(
-    await screen.findByRole('button', { name: /cancel/i })
-  ).toBeInTheDocument()
-  act(() => {
-    jest.advanceTimersByTime(timeout + 10)
-  })
+  userEvent.click(screen.getByRole('button', { name: /Run Tests/ }))
+  expect(await screen.findByText(/Running tests/i)).toBeInTheDocument()
   expect(await screen.findByText('Your tests timed out')).toBeInTheDocument()
 })
 
@@ -112,6 +111,9 @@ test('cancels a pending submission', async () => {
   render(<Editor {...props} />)
 
   userEvent.click(screen.getByRole('button', { name: /Run Tests/ }))
+  await waitFor(() =>
+    expect(screen.getByText('Running tests...')).toBeInTheDocument()
+  )
   userEvent.click(await screen.findByRole('button', { name: /cancel/i }))
 
   await waitFor(() =>
@@ -143,6 +145,7 @@ test('disables submit button unless tests passed', async () => {
 })
 
 test('disables submit button when files changed', async () => {
+  jest.useFakeTimers()
   server.use(
     rest.get('https://exercism.test/test_run', (req, res, ctx) => {
       return res(
@@ -167,7 +170,12 @@ test('disables submit button when files changed', async () => {
       defaultSubmissions: [
         {
           uuid: '123',
-          testsStatus: 'passed',
+          testRun: {
+            status: 'pass',
+            links: {
+              self: 'https://exercism.test/test_run',
+            },
+          },
           links: {
             cancel: 'https://exercism.test/cancel',
             testRun: 'https://exercism.test/test_run',
@@ -183,7 +191,7 @@ test('disables submit button when files changed', async () => {
   const submitButton = (
     await screen.findAllByRole('button', { name: /submit/i })
   )[0]
-  await waitFor(() => expect(submitButton).not.toBeDisabled())
+  expect(submitButton).not.toBeDisabled()
   fireEvent.change(screen.getByTestId('editor-value'), {
     target: { value: 'code' },
   })
@@ -193,4 +201,6 @@ test('disables submit button when files changed', async () => {
   await waitFor(() => {
     expect(submitButton).toBeDisabled()
   })
+
+  jest.useRealTimers()
 })

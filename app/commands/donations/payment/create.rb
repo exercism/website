@@ -1,6 +1,12 @@
 module Donations
   class Payment
     class Create
+      class SubscriptionNotCreatedError < RuntimeError
+        def initialize
+          super "Subscription not yet created. Wait for webhook then try again."
+        end
+      end
+
       include Mandate
 
       def initialize(user, stripe_data, subscription: nil)
@@ -36,7 +42,7 @@ module Donations
         begin
           user.donation_subscriptions.find_by!(stripe_id: invoice.subscription)
         rescue ActiveRecord::RecordNotFound
-          raise "Subscription not yet created. Wait for webhook then try again."
+          raise SubscriptionNotCreatedError
         end
       end
 

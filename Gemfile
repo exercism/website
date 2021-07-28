@@ -101,6 +101,9 @@ group :test do
 
   # Adds assert_template
   gem 'rails-controller-testing'
+
+  # Used for stripe mocking
+  gem 'recursive-open-struct'
 end
 
 gem "addressable", "~> 2.7"

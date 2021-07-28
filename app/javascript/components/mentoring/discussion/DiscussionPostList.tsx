@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { usePostHighlighting } from './usePostHighlighting'
 import { queryCache, QueryStatus } from 'react-query'
-import { DiscussionPost } from './DiscussionPost'
+import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { Loading } from '../../common/Loading'
 import { Iteration } from '../../types'
 import { IterationMarker } from '../session/IterationMarker'
@@ -44,6 +44,43 @@ export const DiscussionPostList = ({
   const iterationsToShow = useListTrimming<IterationWithRef>(iterationsWithRef)
   useChannel(discussionUuid, () => queryCache.invalidateQueries(cacheKey))
 
+  const handleDelete = useCallback(
+    (deleted) => {
+      queryCache.setQueryData<{ posts: DiscussionPostProps[] }>(
+        [cacheKey],
+        (oldData) => {
+          if (!oldData) {
+            return { posts: [] }
+          }
+
+          return {
+            posts: oldData.posts.filter((post) => post.uuid !== deleted.uuid),
+          }
+        }
+      )
+    },
+    [cacheKey]
+  )
+  const handleUpdate = useCallback(
+    (updated) => {
+      queryCache.setQueryData<{ posts: DiscussionPostProps[] }>(
+        [cacheKey],
+        (oldData) => {
+          if (!oldData) {
+            return { posts: [updated] }
+          }
+
+          return {
+            posts: oldData.posts.map((post) => {
+              return post.uuid === updated.uuid ? updated : post
+            }),
+          }
+        }
+      )
+    },
+    [cacheKey]
+  )
+
   if (status === 'loading') {
     return (
       <div role="status" aria-label="Discussion post list loading indicator">
@@ -71,6 +108,8 @@ export const DiscussionPostList = ({
                   action={editingPost === post ? 'editing' : 'viewing'}
                   onEdit={handleEdit(post)}
                   onEditCancel={handleEditCancel}
+                  onUpdate={handleUpdate}
+                  onDelete={handleDelete}
                 />
               )
             })}

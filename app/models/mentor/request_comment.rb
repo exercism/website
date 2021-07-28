@@ -9,21 +9,19 @@ class Mentor::RequestComment
     :content_html,
     :iteration_idx,
     :updated_at,
-    :discussion,
     :request
   )
 
   def self.from(request)
     return nil unless request
-    return nil if request.comment_html.blank?
 
-    discussion = request.discussion
+    if request.discussion
+      return nil if request.comment_html.blank?
 
-    if discussion.posts.any?
-      iteration_idx = discussion.posts.first.iteration_idx
-    else
-      iteration_idx = discussion.iterations.last.idx
+      iteration_idx = request.discussion.posts.first.iteration_idx if request.discussion.posts.any?
     end
+
+    iteration_idx ||= request.iterations.last.idx
 
     new(
       uuid: "request-comment",

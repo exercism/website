@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useContext } from 'react'
-import { PostsContext } from '../PostsContext'
-import { useMutation, queryCache } from 'react-query'
+import React, { useState, useCallback } from 'react'
+import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { DiscussionPostProps } from '../DiscussionPost'
 import { typecheck } from '../../../../utils/typecheck'
@@ -13,15 +12,16 @@ type MutationAction = 'update' | 'delete'
 
 export const DiscussionPostEdit = ({
   post,
-  onSuccess,
+  onUpdate,
+  onDelete,
   onCancel,
 }: {
   post: DiscussionPostProps
-  onSuccess: () => void
+  onUpdate?: (post: DiscussionPostProps) => void
+  onDelete?: (post: DiscussionPostProps) => void
   onCancel: () => void
 }): JSX.Element => {
   const [value, setValue] = useState(post.contentMarkdown)
-  const { cacheKey } = useContext(PostsContext)
 
   const [mutation, { status: editStatus, error: editError }] = useMutation<
     DiscussionPostProps,
@@ -47,40 +47,20 @@ export const DiscussionPostEdit = ({
       onSuccess: (data, action) => {
         switch (action) {
           case 'delete': {
-            queryCache.setQueryData<{ posts: DiscussionPostProps[] }>(
-              [cacheKey],
-              (oldData) => {
-                if (!oldData) {
-                  return { posts: [] }
-                }
+            if (!onDelete) {
+              return
+            }
 
-                return {
-                  posts: oldData.posts.filter(
-                    (post) => post.uuid !== data.uuid
-                  ),
-                }
-              }
-            )
+            onDelete(data)
 
             break
           }
           case 'update': {
-            queryCache.setQueryData<{ posts: DiscussionPostProps[] }>(
-              [cacheKey],
-              (oldData) => {
-                if (!oldData) {
-                  return { posts: [post] }
-                }
+            if (!onUpdate) {
+              return
+            }
 
-                return {
-                  posts: oldData.posts.map((post) => {
-                    return post.uuid === data.uuid ? data : post
-                  }),
-                }
-              }
-            )
-
-            onSuccess()
+            onUpdate(data)
 
             break
           }

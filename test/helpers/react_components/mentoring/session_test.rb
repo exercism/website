@@ -29,7 +29,7 @@ module Mentoring
         "mentoring-session",
         {
           user_handle: mentor.handle,
-          request: SerializeMentorSessionRequest.(mentor_request),
+          request: SerializeMentorSessionRequest.(mentor_request, mentor),
           discussion: nil,
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
@@ -90,7 +90,7 @@ module Mentoring
         "mentoring-session",
         {
           user_handle: mentor.handle,
-          request: SerializeMentorSessionRequest.(mentor_request),
+          request: SerializeMentorSessionRequest.(mentor_request, mentor),
           discussion: SerializeMentorDiscussion.(discussion, :mentor),
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
@@ -148,7 +148,7 @@ module Mentoring
         "mentoring-session",
         {
           user_handle: mentor.handle,
-          request: SerializeMentorSessionRequest.(mentor_request),
+          request: SerializeMentorSessionRequest.(mentor_request, mentor),
           discussion: nil,
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),

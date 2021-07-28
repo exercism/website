@@ -38,6 +38,20 @@ module Flows
       end
     end
 
+    test "when request comment is blank, it is hidden" do
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, :v2, solution: solution, comment_markdown: ""
+      create :iteration, idx: 1, solution: solution
+
+      use_capybara_host do
+        sign_in!
+        visit mentoring_request_path(request)
+      end
+
+      refute_css ".post"
+    end
+
     test "mentor starts mentoring" do
       mentor = create :user, handle: "author"
       student = create :user, handle: "student"

@@ -145,6 +145,25 @@ module Components
         assert_text "Hello, student"
       end
 
+      test "empty mentor request comment is hidden" do
+        mentor = create :user, handle: "author"
+        student = create :user, handle: "student"
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
+        request = create :mentor_request, :v2, solution: solution, comment_markdown: ""
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        end
+
+        assert_no_css ".post"
+      end
+
       test "shows iteration information" do
         mentor = create :user
         solution = create :concept_solution

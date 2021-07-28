@@ -100,6 +100,7 @@ Naming/VariableNumber:
   EnforcedStyle: snake_case
   AllowedIdentifiers:
     - "strip_h1"
+    - "v2"
 
 Style/LambdaCall:
   EnforcedStyle: braces

@@ -26,6 +26,7 @@ module Donations
         Rails.logger.error(e)
       end
 
+      memoize
       def invoice
         payment_intent = Stripe::PaymentIntent.retrieve(id)
         return nil unless payment_intent.invoice

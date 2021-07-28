@@ -8,11 +8,29 @@ class Donations::TestBase < ActiveSupport::TestCase
     )
   end
 
-  def mock_stripe_subscription(id, amount)
-    RecursiveOpenStruct.new(
+  def mock_stripe_subscription(id, amount, status: 'active', item_id: SecureRandom.uuid, payment_intent: nil)
+    data = RecursiveOpenStruct.new(
       id: id,
-      plan: { amount: amount }
+      items: {
+        data: [
+          RecursiveOpenStruct.new(
+            id: item_id,
+            price: {
+              unit_amount: amount
+            }
+          )
+        ]
+      },
+      status: status
     )
+
+    if payment_intent
+      data.latest_invoice = {
+        payment_intent: payment_intent
+      }
+    end
+
+    data
   end
 
   def mock_stripe_payment(id, amount, receipt_url, invoice_id: nil)
@@ -26,9 +44,17 @@ class Donations::TestBase < ActiveSupport::TestCase
     )
   end
 
-  def mock_stripe_invoice(subscription_id)
+  def mock_stripe_invoice(id, subscription_id, status: 'open')
     OpenStruct.new(
-      subscription: subscription_id
+      id: id,
+      subscription: subscription_id,
+      status: status
     )
+  end
+
+  def mock_stripe_payment_intent(id, invoice_id: nil)
+    data = RecursiveOpenStruct.new(id: id)
+    data.invoice = invoice_id if invoice_id
+    data
   end
 end

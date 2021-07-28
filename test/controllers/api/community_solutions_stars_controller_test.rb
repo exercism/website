@@ -1,7 +1,7 @@
 require_relative './base_test_case'
 
 module API
-  class CommunitySolutionsControllerStarsTest < API::BaseTestCase
+  class CommunitySolutionsStarsControllerTest < API::BaseTestCase
     guard_incorrect_token! :api_track_exercise_community_solution_star_path, args: 3, method: :post
     guard_incorrect_token! :api_track_exercise_community_solution_star_path, args: 3, method: :delete
 

@@ -41,7 +41,7 @@ class Donations::Payment::CreateTest < Donations::TestBase
     subscription = create :donations_subscription, user: user, stripe_id: stripe_subscription_id
     data = mock_stripe_payment(5, 1500, "", invoice_id: invoice_id)
 
-    invoice = mock_stripe_invoice(stripe_subscription_id)
+    invoice = mock_stripe_invoice(nil, stripe_subscription_id)
     Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
 
     Donations::Payment::Create.(user, data)
@@ -57,7 +57,7 @@ class Donations::Payment::CreateTest < Donations::TestBase
     user = create :user
     data = mock_stripe_payment(5, 1500, "", invoice_id: invoice_id)
 
-    invoice = mock_stripe_invoice(SecureRandom.uuid)
+    invoice = mock_stripe_invoice(nil, SecureRandom.uuid)
     Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
 
     assert_raises Donations::Payment::Create::SubscriptionNotCreatedError do

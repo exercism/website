@@ -1,3 +1,8 @@
+# This responds to a new payment that has been made
+# and creates a record of it in our database. The actual
+# creation of the payment within Stripe happens through
+# "payment intents".
+
 module Donations
   class Payment
     class Create

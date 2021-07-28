@@ -152,6 +152,25 @@ module Components
         assert_no_css "h3", text: "Hello"
       end
 
+      test "empty mentor request comment is hidden" do
+        mentor = create :user, handle: "author"
+        student = create :user, handle: "student"
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise
+        request = create :mentor_request, :v2, solution: solution, comment_markdown: ""
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(student)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
+        end
+
+        assert_no_css ".post"
+      end
+
       test "user cant delete first post" do
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
@@ -171,7 +190,7 @@ module Components
           fill_in_editor ""
         end
 
-        assert_button "Delete", disabled: true
+        assert_no_button "Delete"
       end
 
       test "edit an existing post" do

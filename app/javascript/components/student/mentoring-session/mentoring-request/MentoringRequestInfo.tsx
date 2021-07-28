@@ -1,14 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CopyToClipboardButton, GraphicalIcon, Icon } from '../../../common'
-import { RequestDetails } from '../../../mentoring/request/RequestDetails'
 import { MentorSessionRequest as Request, Iteration } from '../../../types'
 import { timeFormat } from '../../../../utils/time'
 import { Video as VideoProps } from '../../MentoringSession'
 import { MentorSessionTrack as Track } from '../../../types'
+import { IterationMarker } from '../../../mentoring/session/IterationMarker'
+import {
+  DiscussionPost,
+  DiscussionPostAction,
+  DiscussionPostProps,
+} from '../../../mentoring/discussion/DiscussionPost'
 
 type Links = {
   privateMentoring: string
   mentoringGuide: string
+}
+
+const placeholder = {
+  contentMarkdown: '',
+  contentHtml:
+    "Please update this comment to tell a mentor what you'd like to learn in this exercise",
 }
 
 export const MentoringRequestInfo = ({
@@ -24,6 +35,23 @@ export const MentoringRequestInfo = ({
   request: Request
   iteration: Iteration
 }): JSX.Element => {
+  if (!request.comment) {
+    throw 'Request comment expected'
+  }
+
+  const [action, setAction] = useState<DiscussionPostAction>('viewing')
+  const [post, setPost] = useState<DiscussionPostProps>(request.comment)
+  const showPlaceholder = post.contentHtml.length === 0
+
+  const postProps = {
+    action,
+    post: showPlaceholder ? { ...post, ...placeholder } : post,
+    onEdit: () => setAction('editing'),
+    onEditCancel: () => setAction('viewing'),
+    onUpdate: (post: DiscussionPostProps) => setPost(post),
+    className: showPlaceholder ? 'placeholder' : '',
+  }
+
   return (
     <div className="mentoring-requested-section" id="panel-discussion">
       <div className="content">
@@ -47,7 +75,10 @@ export const MentoringRequestInfo = ({
           </div>
         </div>
 
-        <RequestDetails request={request} iteration={iteration} />
+        <div className="discussion">
+          <IterationMarker iteration={iteration} userIsStudent={false} />
+          <DiscussionPost {...postProps} />
+        </div>
 
         <div className="waiting-box">
           <h3>Waiting on a mentor?</h3>

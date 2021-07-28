@@ -7,8 +7,8 @@ import { useHighlighting } from '../../../../utils/highlight'
 
 export const DiscussionPostView = forwardRef<
   HTMLDivElement,
-  { post: DiscussionPostProps; onEdit: () => void }
->(({ onEdit, post }, ref) => {
+  { post: DiscussionPostProps; onEdit: () => void; className?: string }
+>(({ onEdit, post, className = '' }, ref) => {
   const isEditable = post.links.edit
   const contentRef = useHighlighting<HTMLDivElement>()
 
@@ -16,11 +16,15 @@ export const DiscussionPostView = forwardRef<
     onEdit()
   }, [onEdit])
 
+  const classNames = [
+    'post',
+    'timeline-entry',
+    isEditable ? '--editable' : '',
+    className,
+  ].filter((c) => c.length > 0)
+
   return (
-    <div
-      ref={ref}
-      className={`post timeline-entry ${isEditable ? '--editable' : ''}`}
-    >
+    <div ref={ref} className={classNames.join(' ')}>
       <Avatar
         handle={post.authorHandle}
         src={post.authorAvatarUrl}

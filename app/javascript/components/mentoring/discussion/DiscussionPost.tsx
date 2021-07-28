@@ -19,38 +19,81 @@ export type DiscussionPostProps = {
   updatedAt: string
 }
 
-type DiscussionPostAction = 'viewing' | 'editing'
+export type DiscussionPostAction = 'viewing' | 'editing'
 
-export const DiscussionPost = forwardRef<
-  HTMLDivElement,
-  {
-    post: DiscussionPostProps
-    action: DiscussionPostAction
-    onEdit?: () => void
-    onEditCancel?: () => void
+type Props = {
+  post: DiscussionPostProps
+  action: DiscussionPostAction
+  onUpdate?: (post: DiscussionPostProps) => void
+  onDelete?: (post: DiscussionPostProps) => void
+  onEdit?: () => void
+  onEditCancel?: () => void
+  className?: string
+}
+
+export const DiscussionPost = forwardRef<HTMLDivElement, Props>(
+  (
+    {
+      post,
+      action,
+      onUpdate,
+      onDelete,
+      onEdit = () => null,
+      onEditCancel = () => null,
+      className = '',
+    },
+    ref
+  ) => {
+    const handleEdit = useCallback(() => {
+      onEdit()
+    }, [onEdit])
+    const handleEditCancel = useCallback(() => {
+      onEditCancel()
+    }, [onEditCancel])
+
+    const handleUpdate = useCallback(
+      (post) => {
+        if (!onUpdate) {
+          return
+        }
+
+        onUpdate(post)
+        onEditCancel()
+      },
+      [onEditCancel, onUpdate]
+    )
+
+    const handleDelete = useCallback(
+      (post) => {
+        if (!onDelete) {
+          return
+        }
+
+        onDelete(post)
+        onEditCancel()
+      },
+      [onDelete, onEditCancel]
+    )
+
+    switch (action) {
+      case 'viewing':
+        return (
+          <DiscussionPostView
+            post={post}
+            onEdit={handleEdit}
+            ref={ref}
+            className={className}
+          />
+        )
+      case 'editing':
+        return (
+          <DiscussionPostEdit
+            post={post}
+            onUpdate={onUpdate ? handleUpdate : undefined}
+            onDelete={onDelete ? handleDelete : undefined}
+            onCancel={handleEditCancel}
+          />
+        )
+    }
   }
->(({ post, action, onEdit = () => null, onEditCancel = () => null }, ref) => {
-  const handleEdit = useCallback(() => {
-    onEdit()
-  }, [onEdit])
-  const handleEditCancel = useCallback(() => {
-    onEditCancel()
-  }, [onEditCancel])
-
-  const handleEditSuccess = useCallback(() => {
-    onEditCancel()
-  }, [onEditCancel])
-
-  switch (action) {
-    case 'viewing':
-      return <DiscussionPostView post={post} onEdit={handleEdit} ref={ref} />
-    case 'editing':
-      return (
-        <DiscussionPostEdit
-          post={post}
-          onSuccess={handleEditSuccess}
-          onCancel={handleEditCancel}
-        />
-      )
-  }
-})
+)

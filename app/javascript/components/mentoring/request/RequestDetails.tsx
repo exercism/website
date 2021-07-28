@@ -10,11 +10,14 @@ export const RequestDetails = ({
   iteration: Iteration
   request: Request
 }): JSX.Element => {
+  if (!request.comment) {
+    throw 'request comment expected'
+  }
   return (
     /* TODO: This wrapper is needed to make the styling correct. Maybe unscope the iteration marker? */
     <div className="discussion">
       <IterationMarker iteration={iteration} userIsStudent={false} />
-      {request.comment ? (
+      {request.comment.contentHtml.length > 0 ? (
         <DiscussionPost action="viewing" post={request.comment} />
       ) : null}
     </div>

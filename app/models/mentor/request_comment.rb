@@ -14,13 +14,14 @@ class Mentor::RequestComment
 
   def self.from(request)
     return nil unless request
-    return nil if request.comment_html.blank?
 
-    if request.discussion&.posts&.any?
-      iteration_idx = request.discussion.posts.first.iteration_idx
-    else
-      iteration_idx = request.iterations.last.idx
+    if request.discussion
+      return nil if request.comment_html.blank?
+
+      iteration_idx = request.discussion.posts.first.iteration_idx if request.discussion.posts.any?
     end
+
+    iteration_idx ||= request.iterations.last.idx
 
     new(
       uuid: "request-comment",

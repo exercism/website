@@ -24,15 +24,16 @@ export const EditFormFooter = ({
         Cancel
       </FormButton>
       {value.length === 0 ? (
-        <FormButton
-          className="btn-alert btn-xs"
-          type="button"
-          status={status}
-          onClick={onDelete}
-          disabled={onDelete === undefined}
-        >
-          <span>Delete</span>
-        </FormButton>
+        onDelete ? (
+          <FormButton
+            className="btn-alert btn-xs"
+            type="button"
+            status={status}
+            onClick={onDelete}
+          >
+            <span>Delete</span>
+          </FormButton>
+        ) : null
       ) : (
         <FormButton
           className="btn-primary btn-xs"

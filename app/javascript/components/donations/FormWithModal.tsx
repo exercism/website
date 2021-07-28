@@ -2,8 +2,14 @@ import React, { useState, useCallback } from 'react'
 import { Form } from './Form'
 import { PaymentIntentType } from './StripeForm'
 import { Modal } from '../modals/Modal'
+import { GraphicalIcon } from '../common/GraphicalIcon'
+import { BadgeMedallion } from '../common/BadgeMedallion'
 
-export default () => {
+export default ({
+  existingSubscriptionAmountinDollars,
+}: {
+  existingSubscriptionAmountinDollars: number | null
+}) => {
   const [paymentMade, setPaymentMade] = useState(false)
   const [paymentType, setPaymentType] = useState<
     PaymentIntentType | undefined
@@ -21,15 +27,42 @@ export default () => {
     []
   )
 
+  /*TODO: Decide on correct icon */
+  const badge = { rarity: 'rare', iconName: 'automation' }
   return (
     <>
-      <Form onSuccess={handleSuccess} />
+      <Form
+        onSuccess={handleSuccess}
+        existingSubscriptionAmountinDollars={
+          existingSubscriptionAmountinDollars
+        }
+      />
       <Modal
         open={paymentMade}
         onClose={() => {}}
         className="m-donation-confirmation"
       >
-        Thank you for your payment of ${paymentAmountInDollars}.
+        <GraphicalIcon icon="completed-check-circle" className="main-icon" />
+        <h2 className="text-h3 mb-8">
+          You’ve donated ${paymentAmountInDollars} successfully - thank you 💙
+        </h2>
+        <p className="text-p-large mb-24">
+          We truly appreciate your support. Exercism would not be possible
+          without awesome contributors like yourself. You’ll be sent an email
+          shortly with your donation confirmation and receipt.
+        </p>
+        <div className="flex items-center rounded-5 shadow-xsZ1 py-6 px-24 bg-lightOrange mb-32 border-1 border-lightGold">
+          {/* TODO: Make this works: <BadgeMedallion badge={badge} />*/}
+          <div className="text-textColor2 text-18 leading-150">
+            You’ve earned the{' '}
+            <strong className="font-medium"> Supporter</strong> badge!
+          </div>
+        </div>
+
+        {/*TODO: redirect to donate page */}
+        <a href="#" className="btn-primary btn-l w-100">
+          Happy to help! I'm done here 👍
+        </a>
       </Modal>
     </>
   )

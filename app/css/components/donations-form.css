@@ -1,3 +1,8 @@
+.c-react-wrapper-donations-with-modal-form {
+    width: 100%;
+    max-width: 570px;
+    @apply flex-shrink-0;
+}
 .c-donations-form {
     @apply shadow-baseZ1 rounded-8;
     @apply flex flex-col;
@@ -24,6 +29,38 @@
         }
     }
     & .--content {
+        @apply bg-backgroundColorA;
+        @apply relative;
+        & .existing-subscription {
+            @apply bg-lightOrange;
+            @apply border-2 border-orange rounded-8;
+            @apply text-brown text-15 leading-150;
+            @apply py-12 px-24 mx-24 mt-24 mb-16;
+            & strong {
+                @apply font-medium text-15;
+            }
+            & a {
+                @apply underline;
+            }
+        }
+        & .extra-cta {
+            @apply bg-lightPurple rounded-8;
+            @apply text-textColor6 font-medium text-center leading-150;
+            @apply py-4 px-24 mx-24;
+            & button {
+                @apply font-semibold underline;
+            }
+        }
+        & .form-cover {
+            @apply absolute;
+            top: 150px;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.6);
+            @apply z-overlay;
+            @apply cursor-not-allowed;
+        }
         & .amounts {
             @apply py-24 px-24;
             @apply border-b-1 border-borderColor6;

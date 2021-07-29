@@ -1,5 +1,5 @@
 #page-dashboard
-  = link_to journey_path, class: 'summary-bar' do
+  .summary-bar
     .lg-container.container
       = avatar(current_user)
       .info
@@ -16,7 +16,7 @@
             + #{num_extra_badges} more
 
       .journey
-        .c-prominent-link.--with-bg
+        = link_to journey_path, class: 'c-prominent-link --with-bg' do
           = graphical_icon("journey", css_class: 'graphic')
           See your journey on Exercism
           = graphical_icon("chevron-right")

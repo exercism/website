@@ -4,11 +4,8 @@
   %header.track-header.c-header-with-bg
     .lg-container.container
       .info
-        %h1= @track.title
-        %hr.c-divider
-
-        %h2 Want to learn and master #{@track.title}?
-        %p
+        %h1.text-h1 Want to learn and master #{@track.title}?
+        %p.text-p-xlarge
           Join Exercism’s #{@track.title} Track for access to
           %em.c-underline
             %strong #{@user_track.num_exercises} exercises
@@ -38,7 +35,7 @@
             = link_to track_exercises_path(@track), class: "btn-secondary btn-l" do
               Explore exercises
 
-      .graphics.hidden.lg:flex
+      .graphics.hidden.md:grid
         = track_icon(@track)
 
   %section.about-section.pb-48.md:pb-64

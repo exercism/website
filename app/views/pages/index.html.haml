@@ -1,35 +1,43 @@
 #page-landing
-  %header.pt-20.sm:pt-40.pb-56.sm:pb-64.c-header-with-bg
-    .lg-container.flex
+  %header.pt-24.sm:pt-32.md:pt-40.pb-56.sm:pb-56.c-header-with-bg
+    .lg-container.flex.items-center
       .lhs.md:items-center.lg:items-start.md:text-center.lg:text-left
-        %h1.text-h1.mb-16
+        %h1.text-h0.mb-12
           Get
           %strong.leading-none.font-bold really
           good at programming.
-        %p.text-p-xlarge.mb-28
-          Develop fluency in over 55 programming languages with our unique blend of learning, practice and mentoring.
+        %p.text-p-xlarge.mb-24
+          Develop fluency in over
+          %em.not-italic.font-medium.text-textColor2 55 programming languages
+          with our unique blend of learning, practice and mentoring.
           Exercism is fun, effective and
-          %strong.font-semibold.text-textColor2 100% free, forever.
+          %strong.text-textColor2 100% free, forever.
         .buttons.flex.mb-40.flex-col.sm:flex-row
           = link_to "Sign up for free", new_user_registration_path, class: 'btn-primary btn-l mb-12 sm:mb-0 sm:mr-24 '
           = link_to "Explore languages", tracks_path, class: 'btn-secondary btn-l shadow-buttonS'
 
-        .organisation.flex-col.sm:flex-row.sm:items-center.px-24.sm:pl-32.sm:pr-48
-          = icon "exercism-with-logo-black", "Exercism", css_class: 'mr-16'
+        .organisation.pt-16.sm:items-center.lg:items-start.xl:items-center.flex-col.sm:flex-row.lg:flex-col.xl:flex-row.px-24.sm:pl-32.sm:pr-48.pb-16.sm:pb-32.md:pb-16.lg:pb-16.xl:pb-16
+          = icon "exercism-with-logo-black", "Exercism", css_class: 'mr-16 mb-8 sm:mb-8 lg:mb-8'
 
           .flex.flex-col.sm:flex-row.lg:flex-col.xl:flex-row.sm:items-center.lg:items-start.xl:items-center
-            %p.text-p-base.mb-8.sm-mb-0  is an independent, community funded, not-for-profit organisation.
+            %p.text-p-base.mb-8.sm:mb-0.text-left is an independent, community funded, not-for-profit organisation.
             = link_to "Learn more", "#", class: "c-prominent-link sm:ml-40 lg:ml-0 xl:ml-40"
 
-      = graphical_icon "landing-page-top", category: :graphics, css_class: "hidden lg:block"
+      .graphic.hidden.lg:grid
+        = graphical_icon "landing-page-top", category: :graphics
 
-  %section.tracks-section
+  %section.tracks-section.pt-40.md:pt-56.mb-40.md:mb-56
     .lg-container
-      .section-header.items-center.self-center.mb-40
+      .section-header.items-center.self-center.mb-8.md:mb-12
         = graphical_icon :tracks, hex: true
-        %h2.text-h1.text-center Explore over 68 programming language tracks, at no cost.
-        %hr.c-divider.--large.mt-28
-      .mb-80.grid.grid-cols-2.sm:grid-cols-4.lg:grid-cols-6
+        %h2.text-h1.text-center
+          Explore and
+          %strong get fluent
+          in
+          %br
+          #{@num_tracks} programming languages
+        %hr.c-divider.--large
+      .mb-64.grid.grid-cols-2.sm:grid-cols-4.lg:grid-cols-6
         - @tracks.each do |track|
           = link_to track_path(track), class: 'track' do
             = track_icon(track)
@@ -38,19 +46,20 @@
       .cta.border-t-3.border-veryLightBlue
         = render ViewComponents::ProminentLink.new("See all #{@num_tracks} Language Tracks", tracks_path, with_bg: true)
 
-  %section.exercises-section.mb-20.md:mb-80
+  %section.exercises-section.pb-64
     .lg-container
-      .flex.flex-col.lg:flex-row.lg:items-center.mb-72
+      .flex.flex-col.lg:flex-row.lg:items-start.mb-48.lg:mb-72
         .flex-grow
           .section-header.mb-24.sm:mb-32
             = graphical_icon :exercises, hex: true
             %h2.text-h2
-              Over 3,450 coding exercises.
+              Over
+              %strong 3,450 coding exercises.
               %br
-              From Minesweeper to Valentine’s Day.
-            %hr.c-divider.mt-20
-              %p.text-p-xlarge
-                Learn by doing. Get better at programming through fun coding exercises that build your understanding of concepts.
+              From "Allergies" to "Zebra Puzzle".
+            %hr.c-divider
+            %p.text-p-xlarge
+              Learn by doing. Get better at programming through fun coding exercises that build your understanding of concepts.
 
           .exercises
             - @showcase_exercises.each do |sample|
@@ -66,7 +75,7 @@
                         = track_icon(track)
                     .font-semibold.text-textColor7.ml-16.whitespace-no-wrap +#{sample[:num_tracks]} more
 
-        = graphical_icon "landing-page-exercise", category: :graphics, css_class: "main-graphic lg:max-w-1-2 lg:ml-20"
+        = graphical_icon "landing-page-exercise", category: :graphics, css_class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1"
 
       .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
@@ -84,24 +93,25 @@
           %h3.text-h4 Get automated analysis on your code
           %p.text-p-base Not quite sure how well you’ve done? We run automatic analysis on your solutions to give you quick feedback and points of improvement.
 
-
-  %section.mentoring-section
+  %section.mentoring-section.mb-80.pt-48.md:pt-96.pb-64
     .lg-container
-      .flex.flex-col.md:flex-row.items-center.justify-center.mb-24.sm:mb-56
+      .flex.flex-col.md:flex-row.items-center.justify-center.mb-24.sm:mb-64
         = graphical_icon 'mentoring-coffee', category: :graphics, css_class: 'top-graphic mb-20 md:mb-0 lg:mr-128'
         .section-header
           = graphical_icon :exercises, hex: true
-          %h2.text-h2 Deepen your knowledge with  human mentoring, for free.
-          %hr.c-divider.mt-20.mb-28
+          %h2.text-h2
+            Deepen your knowledge with human mentoring,
+            %strong for free.
+          %hr.c-divider
 
           %p.text-p-xlarge
             Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of particular programming language.
 
-      = graphical_icon "landing-page-mentoring", category: :graphics, css_class: "main-graphic mb-64"
+      = graphical_icon "landing-page-mentoring", category: :graphics, css_class: "main-graphic mb-60 shadow-lgZ1"
 
       .flex.flex-col.items-center
         %h3.text-h2 Why mentoring?
-        %hr.c-divider.mt-24.mb-24
+        %hr.c-divider.mt-16.mb-24
 
       .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
@@ -126,21 +136,44 @@
   const annotationH1 = RoughNotation.annotate(
     document.querySelector('#page-landing h1 strong'),
     {
-      type: 'underline',
-      color:'#6A93FF',
+      type: 'highlight',
+      color:'#FFF176',
       strokeWidth:6,
       iterations: 1,
-      padding: -7,
-      multiline: true
+      multiline: true,
+      animationDuration: 500,
+      padding: 4,
     });
 
   const annotationP = RoughNotation.annotate(
     document.querySelector('#page-landing p strong'),
     {
-      type: 'highlight',
-      color:'#FFF176',
+      type: 'underline',
+      color:'#3F3A5A',
+      strokeWidth:2,
       iterations: 1,
-      multiline: true
+      padding: -4,
+      multiline: true,
+      animationDuration: 600
     });
+
+  const headingUnderlineStyle = {
+      type: 'underline',
+      color:'#3F3A5A',
+      strokeWidth:4,
+      iterations: 1,
+      padding: -5,
+      multiline: true
+    }
+
+  const annotationTracks = RoughNotation.annotate(document.querySelector('#page-landing .tracks-section h2 strong'),headingUnderlineStyle);
+  const annotationExercises = RoughNotation.annotate(document.querySelector('#page-landing .exercises-section h2 strong'),headingUnderlineStyle);
+  const annotationMentoring = RoughNotation.annotate(document.querySelector('#page-landing .mentoring-section h2 strong'),headingUnderlineStyle);
+
   setTimeout(function() { annotationH1.show() }, 1000)
-  setTimeout(function() { annotationP.show() }, 2000)
+  setTimeout(function() { annotationP.show() }, 1800)
+  setTimeout(function() { annotationTracks.show() }, 1800)
+  setTimeout(function() { annotationExercises.show() }, 1800)
+  setTimeout(function() { annotationMentoring.show() }, 1800)
+
+

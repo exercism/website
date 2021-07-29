@@ -59,22 +59,15 @@ module ViewComponents
           si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected == :dashboard) +
             si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
             si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
-            si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected == :contributing)
+            si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected == :contributing) +
+            si_nav_li("Donate", :contribute, "#", selected == :donate)
         end
       end
     end
 
-    def si_nav_li(title, icon_name, url, selected)
+    def si_nav_li(title, _icon_name, url, selected)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
-      tag.li(attrs) do
-        link_to url do
-          safe_join([
-            (icon('bubbly-background', "Selected", css_class: 'selected bg-icon') if selected),
-            graphical_icon(icon_name, css_class: 'main-icon'),
-            title
-          ].compact)
-        end
-      end
+      tag.li(link_to(title, url), attrs)
     end
 
     def signed_out_section
@@ -92,7 +85,8 @@ module ViewComponents
             tag.li { link_to "Language Tracks", Exercism::Routes.tracks_path } +
             # tag.li { link_to "What is Exercism?", "#" } + #TODO: (Required) Link to about page
             tag.li { link_to "Contribute", Exercism::Routes.contributing_root_path } +
-            tag.li { link_to "Mentor", Exercism::Routes.mentoring_path }
+            tag.li { link_to "Mentor", Exercism::Routes.mentoring_path } +
+            tag.li { link_to "Donate", "#" }
         end
       end
     end

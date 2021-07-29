@@ -1,6 +1,7 @@
 @import "../styles";
 
 #page-landing {
+    @apply bg-backgroundColorA;
     & header {
         & .lg-container {
             & .lhs {
@@ -8,11 +9,19 @@
             }
             & p {
                 max-width: 680px;
+                & strong {
+                    @apply font-semibold;
+                }
             }
-            & > .c-icon {
-                width: 448px;
-                height: 360px;
-                @apply ml-24;
+            & .graphic {
+                @apply ml-24 flex-grow;
+                @apply place-items-center;
+                max-width: 530px;
+
+                & > .c-icon {
+                    width: 448px;
+                    height: 360px;
+                }
             }
             & .btn-primary,
             & .btn-secondary {
@@ -23,10 +32,10 @@
             }
         }
         & .organisation {
-            border: 1px solid pink;
+            /* TODO: Use gradient */
+            border: 2px solid #604fcd;
             max-width: 690px;
             @apply flex relative;
-            @apply py-16;
             @apply rounded-8 shadow-xsZ1 bg-lightPurple;
 
             &:after {
@@ -41,19 +50,16 @@
                 left: 50%;
                 margin-left: -24px;
             }
-            & > .c-icon {
-                height: 25px;
-                width: 120px;
-                @apply mb-4;
+            & .c-icon {
+                height: 21px;
+                width: 116px;
             }
             & a {
                 white-space: nowrap;
             }
             @screen md {
                 & > .c-icon {
-                    height: 21px;
-                    width: 116px;
-                    @apply mr-24 mb-0;
+                    @apply mr-24;
                 }
                 &:after {
                     bottom: auto;
@@ -70,9 +76,14 @@
 
     & .feature {
         & .c-icon {
-            height: 48px;
-            width: 48px;
-            @apply mb-12;
+            height: 40px;
+            width: 40px;
+            @apply mb-8;
+            @screen lg {
+                height: 48px;
+                width: 48px;
+                @apply mb-12;
+            }
         }
         & h3 {
             @apply mb-6;
@@ -90,16 +101,39 @@
             height: 64px;
             width: 64px;
             @apply mb-12;
+
+            @screen md {
+                height: 80px;
+                width: 80px;
+                @apply mb-16;
+            }
         }
         & h2 {
             max-width: 740px;
+            & strong {
+                @apply font-bold;
+            }
+        }
+        & .c-divider {
+            @apply mt-20 mb-16;
+            transform: scale(0.8);
+
+            @screen md {
+                @apply mt-24 mb-20;
+                transform: scale(1);
+            }
         }
     }
 
     & section.tracks-section {
+        & .section-header {
+            & .c-icon {
+                @screen md {
+                    @apply mb-20;
+                }
+            }
+        }
         & .lg-container {
-            @apply pt-56 mb-48;
-
             &:before,
             &:after {
                 background-size: contain;
@@ -133,21 +167,31 @@
             @apply mb-80;
         }
         & .track {
-            @apply px-8;
-            @apply pb-56;
+            @apply px-8 py-24;
             @apply flex flex-col items-center;
+
+            transition: transform 0.2s ease-out;
+            &:hover {
+                transform: scale(1.1);
+                & .c-track-icon {
+                    filter: drop-shadow(
+                        0px 6px 3px rgba(var(--track-icon-color), 0.3)
+                    );
+                }
+            }
 
             & .c-track-icon {
                 width: 80px;
                 height: 80px;
                 @apply mb-12;
+                @apply flex-shrink-0;
                 filter: drop-shadow(
                     0px 5px 2px rgba(var(--track-icon-color), 0.2)
                 );
             }
             & .title {
                 @apply mb-4;
-                @apply text-h4 font-mono;
+                @apply text-h4 font-mono font-bold;
                 @apply truncate;
             }
             & .students.count {
@@ -164,8 +208,12 @@
         }
     }
     & section.exercises-section {
+        background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
+
         & .main-graphic {
             @screen lg {
+                /* TODO */
+                /* max-height:585px; */
                 width: 733px;
                 margin-right: calc(0px - var(--lg-container-padding-x));
             }
@@ -211,10 +259,26 @@
         }
     }
     & section.mentoring-section {
-        @apply mb-80;
+        @apply relative;
+        background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
+
+        @screen md {
+            &:before {
+                content: "";
+                background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzA4IiBoZWlnaHQ9IjE0OCIgdmlld0JveD0iMCAwIDMwOCAxNDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zMDIuNjIyIDMuNTQ5MDdDMzE0LjA0OCAzLjU0OTA3IDMxNC4wNDggMTQ1LjI5MiAyLjYyMDA5IDE0NS4yOTIiIHN0cm9rZT0iI0NCQzlEOSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtZGFzaGFycmF5PSI2IDkiLz4KPG1hc2sgaWQ9InBhdGgtMi1pbnNpZGUtMSIgZmlsbD0id2hpdGUiPgo8ZWxsaXBzZSBjeD0iMi42MjAxIiBjeT0iMTQ1LjI5MiIgcng9IjIuNjIwMSIgcnk9IjIuNzA4NDYiLz4KPC9tYXNrPgo8ZWxsaXBzZSBjeD0iMi42MjAxIiBjeT0iMTQ1LjI5MiIgcng9IjIuNjIwMSIgcnk9IjIuNzA4NDYiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yLjI0MDIgMTQ1LjI5MkMyLjI0MDIgMTQ1LjI0NCAyLjI2MTQ5IDE0NS4xNzggMi4zMTY1OSAxNDUuMTIxQzIuMzczMzkgMTQ1LjA2MiAyLjQ4MjczIDE0NSAyLjYyMDEgMTQ1VjE1MUM1LjgxNyAxNTEgOC4yNDAyIDE0OC4zNSA4LjI0MDIgMTQ1LjI5MkgyLjI0MDJaTTIuNjIwMSAxNDVDMi43NTc0NiAxNDUgMi44NjY4MSAxNDUuMDYyIDIuOTIzNjEgMTQ1LjEyMUMyLjk3ODcxIDE0NS4xNzggMyAxNDUuMjQ0IDMgMTQ1LjI5MkgtM0MtMyAxNDguMzUgLTAuNTc2ODA1IDE1MSAyLjYyMDEgMTUxVjE0NVpNMyAxNDUuMjkyQzMgMTQ1LjMzOSAyLjk3ODcxIDE0NS40MDUgMi45MjM2MSAxNDUuNDYyQzIuODY2ODEgMTQ1LjUyMSAyLjc1NzQ2IDE0NS41ODMgMi42MjAxIDE0NS41ODNWMTM5LjU4M0MtMC41NzY4MDUgMTM5LjU4MyAtMyAxNDIuMjMzIC0zIDE0NS4yOTJIM1pNMi42MjAxIDE0NS41ODNDMi40ODI3MyAxNDUuNTgzIDIuMzczMzkgMTQ1LjUyMSAyLjMxNjU5IDE0NS40NjJDMi4yNjE0OSAxNDUuNDA1IDIuMjQwMiAxNDUuMzM5IDIuMjQwMiAxNDUuMjkySDguMjQwMkM4LjI0MDIgMTQyLjIzMyA1LjgxNyAxMzkuNTgzIDIuNjIwMSAxMzkuNTgzVjE0NS41ODNaIiBmaWxsPSIjQ0JDOUQ5IiBtYXNrPSJ1cmwoI3BhdGgtMi1pbnNpZGUtMSkiLz4KPG1hc2sgaWQ9InBhdGgtNC1pbnNpZGUtMiIgZmlsbD0id2hpdGUiPgo8ZWxsaXBzZSBjeD0iMzAyLjYyMSIgY3k9IjMuNTQ5MDMiIHJ4PSIyLjYyMDEiIHJ5PSIyLjcwODQ2Ii8+CjwvbWFzaz4KPGVsbGlwc2UgY3g9IjMwMi42MjEiIGN5PSIzLjU0OTAzIiByeD0iMi42MjAxIiByeT0iMi43MDg0NiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTMwMi4yNDIgMy41NDkwM0MzMDIuMjQyIDMuNTAxNDYgMzAyLjI2MyAzLjQzNTMgMzAyLjMxOCAzLjM3ODM0QzMwMi4zNzUgMy4zMTk2MyAzMDIuNDg0IDMuMjU3NDkgMzAyLjYyMiAzLjI1NzQ5VjkuMjU3NDlDMzA1LjgxOCA5LjI1NzQ5IDMwOC4yNDIgNi42MDcxNiAzMDguMjQyIDMuNTQ5MDNIMzAyLjI0MlpNMzAyLjYyMiAzLjI1NzQ5QzMwMi43NTkgMy4yNTc0OSAzMDIuODY4IDMuMzE5NjMgMzAyLjkyNSAzLjM3ODM0QzMwMi45OCAzLjQzNTMgMzAzLjAwMSAzLjUwMTQ2IDMwMy4wMDEgMy41NDkwM0gyOTcuMDAxQzI5Ny4wMDEgNi42MDcxNiAyOTkuNDI1IDkuMjU3NDkgMzAyLjYyMiA5LjI1NzQ5VjMuMjU3NDlaTTMwMy4wMDEgMy41NDkwM0MzMDMuMDAxIDMuNTk2NiAzMDIuOTggMy42NjI3NiAzMDIuOTI1IDMuNzE5NzJDMzAyLjg2OCAzLjc3ODQ0IDMwMi43NTkgMy44NDA1OCAzMDIuNjIyIDMuODQwNThWLTIuMTU5NDJDMjk5LjQyNSAtMi4xNTk0MiAyOTcuMDAxIDAuNDkwOTAzIDI5Ny4wMDEgMy41NDkwM0gzMDMuMDAxWk0zMDIuNjIyIDMuODQwNThDMzAyLjQ4NCAzLjg0MDU4IDMwMi4zNzUgMy43Nzg0NCAzMDIuMzE4IDMuNzE5NzJDMzAyLjI2MyAzLjY2Mjc2IDMwMi4yNDIgMy41OTY2IDMwMi4yNDIgMy41NDkwM0gzMDguMjQyQzMwOC4yNDIgMC40OTA5MDMgMzA1LjgxOCAtMi4xNTk0MiAzMDIuNjIyIC0yLjE1OTQyVjMuODQwNThaIiBmaWxsPSIjQ0JDOUQ5IiBtYXNrPSJ1cmwoI3BhdGgtNC1pbnNpZGUtMikiLz4KPC9zdmc+Cg==");
+                position: absolute;
+                top: 0;
+                margin-left: -20px;
+                left: 50%;
+                width: 306px;
+                height: 148px;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+        }
 
         & .lg-container {
-            @apply relative pt-80;
+            @apply relative;
 
             &:before,
             &:after {
@@ -234,7 +298,7 @@
                 height: 156px;
                 width: 94px;
                 left: var(--lg-container-padding-x);
-                top: 62px;
+                top: 0px;
                 @media screen and (max-width: 1240px) {
                     display: none;
                 }
@@ -244,7 +308,7 @@
                 height: 151px;
                 width: 185px;
                 right: var(--lg-container-padding-x);
-                top: 79px;
+                top: 15px;
                 @media screen and (max-width: 124444) {
                     display: none;
                 }
@@ -253,9 +317,17 @@
         & .top-graphic {
             width: 280px;
             height: 250px;
+
+            @screen-md {
+                width: 210px;
+                height: 188px;
+            }
         }
         & .section-header {
             max-width: 680px;
+        }
+        & h2 {
+            max-width: 550px;
         }
     }
     & section.tracks-section,

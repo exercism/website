@@ -73,6 +73,9 @@
     }
     & .c-track-menu {
         @apply ml-48;
+        & li {
+            white-space: nowrap;
+        }
         & > button {
             @apply p-8;
             @apply border-1 border-borderColor5;

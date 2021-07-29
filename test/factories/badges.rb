@@ -7,4 +7,7 @@ FactoryBot.define do
 
   factory :rookie_badge, class: 'Badges::RookieBadge' do
   end
+
+  factory :anybody_there_badge, class: 'Badges::AnybodyThereBadge' do
+  end
 end

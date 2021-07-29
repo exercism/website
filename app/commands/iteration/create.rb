@@ -20,6 +20,7 @@ class Iteration
         Solution.reset_counters(solution.id, :iterations)
 
         GenerateIterationSnippetJob.perform_later(iteration)
+        AwardBadgeJob.perform_later(user, :anybody_there)
         record_activity!(iteration)
       end
     rescue ActiveRecord::RecordNotUnique
@@ -35,7 +36,7 @@ class Iteration
     def record_activity!(iteration)
       User::Activity::Create.(
         :submitted_iteration,
-        solution.user,
+        user,
         track: solution.track,
         solution: solution,
         iteration: iteration
@@ -44,5 +45,7 @@ class Iteration
       #   Rails.logger.error "Failed to create activity"
       #   Rails.logger.error e.message
     end
+
+    delegate :user, to: :solution
   end
 end

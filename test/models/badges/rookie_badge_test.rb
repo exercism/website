@@ -6,7 +6,7 @@ class Badge::RookieBadgeTest < ActiveSupport::TestCase
     assert_equal "Rookie", badge.name
     assert_equal :common, badge.rarity
     assert_equal :editor, badge.icon
-    assert_equal "Submitted an exercise", badge.description
+    assert_equal "Awarded for submitting an exercise", badge.description
   end
 
   test "award_to?" do

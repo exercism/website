@@ -12,9 +12,11 @@ class SerializeUserAcquiredBadgesTest < ActiveSupport::TestCase
         is_revealed: false,
         unlocked_at: acquired_badge.created_at.iso8601,
         name: "Rookie",
-        description: "Submitted an exercise",
+        description: "Awarded for submitting an exercise",
         rarity: :common,
         icon_name: :editor,
+        num_awardees: 1,
+        percentage_awardees: 0.01,
         links: {
           reveal: Exercism::Routes.reveal_api_badge_url(acquired_badge.uuid)
         }

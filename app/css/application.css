@@ -163,12 +163,16 @@
 
     --commonBadge-RGB: 240, 243, 249;
     --commonBadgeFill-RGB: 80, 83, 89;
-    --rareBadge-RGB: 219, 240, 255;
+    --commonBadgeShadow-RGB: 80, 83, 89; /* TODO */
+    --rareBadge-RGB: 159, 180, 255; /* 219, 240, 255 */
     --rareBadgeFill-RGB: 0, 20, 75;
+    --rareBadgeShadow-RGB: 219, 240, 255;
     --ultimateBadge-RGB: 246, 150, 5;
     --ultimateBadgeFill-RGB: 86, 0, 0;
+    --ultimateBadgeShadow-RGB: 246, 150, 5; /* TODO */
     --legendaryBadge-RGB: 235, 87, 87;
     --legendaryBadgeFill-RGB: 75, 0, 0;
+    --legendaryBadgeShadow-RGB: 235, 87, 87; /* TODO */
 
     /* https://codepen.io/sosuke/pen/Pjoqqp */
     --notifications-active-filter: invert(76%) sepia(54%) saturate(3406%)

@@ -4,12 +4,23 @@
     &.--common {
         --rgb: var(--commonBadge-RGB);
         --rgb-fill: var(--commonBadgeFill-RGB);
+        --rgb-shadow: var(--commonBadgeShadow-RGB);
+    }
+    &.--rare {
+        --rgb: var(--rareBadge-RGB);
+        --rgb-fill: var(--rareBadgeFill-RGB);
+        --rgb-shadow: var(--rareBadgeShadow-RGB);
     }
     &.--ultimate {
         --rgb: var(--ultimateBadge-RGB);
         --rgb-fill: var(--ultimateBadgeFill-RGB);
+        --rgb-shadow: var(--ultimateBadgeShadow-RGB);
     }
-
+    &.--legendary {
+        --rgb: var(--legendaryBadge-RGB);
+        --rgb-fill: var(--legendaryBadgeFill-RGB);
+        --rgb-shadow: var(--legendaryBadgeShadow-RGB);
+    }
     @apply pt-96 pb-48 px-48;
     background: rgba(34, 30, 49, 0.8);
 
@@ -17,7 +28,7 @@
         max-width: 740px;
         min-height: auto;
         background: rgba(34, 30, 49, 1);
-        box-shadow: 0px 2px 24px 0 rgb(var(--rgb));
+        box-shadow: 0px 2px 24px 0 rgb(var(--rgb-shadow));
 
         @apply pt-48 pb-64 px-48;
         @apply relative;

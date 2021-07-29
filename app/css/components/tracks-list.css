@@ -182,13 +182,19 @@
                 @apply flex items-center mb-12;
                 @apply font-medium text-15 leading-150;
                 & li {
-                    @apply flex items-center mr-24;
+                    @apply flex items-center;
+                    &:first-child {
+                        @apply mr-24;
+                    }
 
                     & .c-icon {
                         height: 21px;
                         width: 21px;
-                        @apply mr-12;
+                        @apply mr-8;
                         filter: var(--textColor6-filter);
+                        @screen md {
+                            @apply mr-12;
+                        }
                     }
                 }
             }
@@ -207,9 +213,9 @@
             }
 
             & .--tags {
-                /* This flex behaviour and max-height combo causes 
-                 * the tags to wrap but to be hidden if they overflow 
-                 * one line. This means we only see whole tags on 
+                /* This flex behaviour and max-height combo causes
+                 * the tags to wrap but to be hidden if they overflow
+                 * one line. This means we only see whole tags on
                  * the cards but we only ever see one row. */
                 @apply flex flex-wrap overflow-hidden gap-8;
                 max-height: 32px;

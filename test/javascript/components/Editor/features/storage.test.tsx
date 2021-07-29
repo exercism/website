@@ -34,12 +34,10 @@ const server = setupServer(
 
 beforeAll(() => server.listen())
 beforeEach(() => {
-  jest.useFakeTimers()
   localStorage.clear()
   server.resetHandlers()
 })
 afterAll(() => {
-  jest.useRealTimers()
   server.close()
 })
 
@@ -73,6 +71,7 @@ test('loads data from storage', async () => {
 })
 
 test('saves data to storage when data changed', async () => {
+  jest.useFakeTimers()
   const interval = 10000
   const props = buildEditor({
     overrides: {
@@ -93,6 +92,8 @@ test('saves data to storage when data changed', async () => {
   expect(localStorage.getItem('solution-files-files')).toEqual(
     JSON.stringify([{ filename: 'file', content: 'code' }])
   )
+
+  jest.useRealTimers()
 })
 
 test('revert to last iteration fails', async () => {

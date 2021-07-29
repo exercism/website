@@ -49,6 +49,7 @@
     "qs": "^6.9.6",
     "react": "^16.13.1",
     "react-ace": "^9.4.0",
+    "react-app-polyfill": "^2.0.0",
     "react-dom": "^16.13.1",
     "react-error-boundary": "^3.1.0",
     "react-fast-compare": "^3.2.0",
@@ -108,7 +109,7 @@
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "husky": "^4.2.5",
     "isomorphic-fetch": "^3.0.0",
-    "jest": "^26.1.0",
+    "jest": "27",
     "msw": "^0.21.2",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.5",
@@ -126,15 +127,13 @@
     "roots": [
       "test/javascript"
     ],
-    "setupFiles": [
-      "./test/javascript/test_helper.js"
-    ],
     "setupFilesAfterEnv": [
       "./test/javascript/setupTests.js"
     ],
     "moduleNameMapper": {
       "^[./a-zA-Z0-9$_-]+\\.svg$": "<rootDir>/app/javascript/images/GlobalImageStub.js"
-    }
+    },
+    "testEnvironment": "jsdom"
   },
   "husky": {
     "hooks": {

@@ -77,7 +77,9 @@ export const useErrorHandler = (
     }
 
     if (error instanceof Error) {
-      Bugsnag.notify(error)
+      if (process.env.NODE_ENV == 'production') {
+        Bugsnag.notify(error)
+      }
 
       handler(new HandledError(defaultError.message))
     } else if (error instanceof Response) {
@@ -88,7 +90,9 @@ export const useErrorHandler = (
           handler(new HandledError(res.error.message))
         })
         .catch((e) => {
-          Bugsnag.notify(e)
+          if (process.env.NODE_ENV == 'production') {
+            Bugsnag.notify(e)
+          }
 
           handler(new HandledError(defaultError.message))
         })

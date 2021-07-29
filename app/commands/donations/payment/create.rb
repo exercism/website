@@ -30,6 +30,7 @@ module Donations
           amount_in_cents: stripe_data.amount
         ).tap do
           user.update(total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))
+          AwardBadgeJob.perform_later(user, :supporter)
         end
       rescue ActiveRecord::RecordNotUnique
         Donations::Payment.find_by!(stripe_id: stripe_data.id)

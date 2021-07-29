@@ -2,9 +2,8 @@ FactoryBot.define do
   factory :badge, class: 'Badges::RookieBadge' do
   end
 
-  factory :member_badge, class: 'Badges::MemberBadge' do
-  end
-
-  factory :rookie_badge, class: 'Badges::RookieBadge' do
+  %i[member rookie supporter].each do |type|
+    factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do
+    end
   end
 end

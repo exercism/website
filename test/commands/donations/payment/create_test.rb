@@ -21,6 +21,14 @@ class Donations::Payment::CreateTest < Donations::TestBase
     assert_equal amount, user.total_donated_in_cents
   end
 
+  test "enqueues a job" do
+    user = create :user
+
+    assert_enqueued_with(job: AwardBadgeJob, args: [user, :supporter]) do
+      Donations::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
+    end
+  end
+
   test "works with subscription passed manually" do
     user = create :user
     subscription = create :donations_subscription

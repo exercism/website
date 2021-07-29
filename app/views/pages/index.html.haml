@@ -31,10 +31,11 @@
       .section-header.items-center.self-center.mb-8.md:mb-12
         = graphical_icon :tracks, hex: true
         %h2.text-h1.text-center
-          %strong Get fluent
-          in over
+          Explore and
+          %strong get fluent
+          in
           %br
-          68 programming languages
+          #{@num_tracks} programming languages
         %hr.c-divider.--large
       .mb-64.grid.grid-cols-2.sm:grid-cols-4.lg:grid-cols-6
         - @tracks.each do |track|
@@ -55,7 +56,7 @@
               Over
               %strong 3,450 coding exercises.
               %br
-              From Minesweeper to Valentine’s Day.
+              From "Allergies" to "Zebra Puzzle".
             %hr.c-divider
             %p.text-p-xlarge
               Learn by doing. Get better at programming through fun coding exercises that build your understanding of concepts.

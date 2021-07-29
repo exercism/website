@@ -52,6 +52,16 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     end
   end
 
+  test "enqueues anybody_there badge job" do
+    user = create :user
+    solution = create :concept_solution, user: user
+    submission = create :submission, solution: solution
+
+    assert_enqueued_with job: AwardBadgeJob, args: [user, :anybody_there] do
+      Iteration::Create.(solution, submission)
+    end
+  end
+
   test "starts test run if untested" do
     solution = create :concept_solution
     submission = create :submission, solution: solution

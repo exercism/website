@@ -10,4 +10,7 @@ FactoryBot.define do
 
   factory :anybody_there_badge, class: 'Badges::AnybodyThereBadge' do
   end
+
+  factory :growth_mindset_badge, class: 'Badges::GrowthMindsetBadge' do
+  end
 end

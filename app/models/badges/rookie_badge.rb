@@ -3,7 +3,7 @@ module Badges
     seed "Rookie",
       :common,
       :editor,
-      "Submitted an exercise"
+      "Awarded for submitting an exercise"
 
     def award_to?(user)
       user.submissions.exists?

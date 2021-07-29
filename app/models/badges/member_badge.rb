@@ -3,7 +3,7 @@ module Badges
     seed "Member",
       :common,
       :logo,
-      "Joined Exercism"
+      "Awarded for joining Exercism"
 
     def award_to?(_user)
       true

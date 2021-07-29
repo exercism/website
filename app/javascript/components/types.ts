@@ -436,6 +436,8 @@ export type Badge = {
   description: string
   isRevealed: boolean
   unlockedAt: string
+  numAwardees: number
+  percentageAwardees: number
   links: {
     reveal: string
   }

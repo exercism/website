@@ -10,20 +10,18 @@ export const TestsPanel = ({
   tests: string
   language: string
 }): JSX.Element => {
-  const ref = useHighlighting<HTMLDivElement>()
+  const ref = useHighlighting<HTMLPreElement>()
 
   return (
     <Tab.Panel id="tests" context={TabsContext} className="tests c-code-pane">
-      <div ref={ref}>
-        <pre>
-          <code
-            className={language}
-            data-highlight-line-numbers={true}
-            data-highlight-line-number-start={1}
-            dangerouslySetInnerHTML={{ __html: tests }}
-          />
-        </pre>
-      </div>
+      <pre ref={ref}>
+        <code
+          className={language}
+          data-highlight-line-numbers={true}
+          data-highlight-line-number-start={1}
+          dangerouslySetInnerHTML={{ __html: tests }}
+        />
+      </pre>
     </Tab.Panel>
   )
 }

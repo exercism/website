@@ -5,10 +5,10 @@ import { useHighlighting } from '../../utils/highlight'
 
 export const TestsPanel = ({
   tests,
-  language,
+  highlightjsLanguage,
 }: {
   tests: string
-  language: string
+  highlightjsLanguage: string
 }): JSX.Element => {
   const ref = useHighlighting<HTMLPreElement>()
 
@@ -16,7 +16,7 @@ export const TestsPanel = ({
     <Tab.Panel id="tests" context={TabsContext} className="tests c-code-pane">
       <pre ref={ref}>
         <code
-          className={language}
+          className={highlightjsLanguage}
           data-highlight-line-numbers={true}
           data-highlight-line-number-start={1}
           dangerouslySetInnerHTML={{ __html: tests }}

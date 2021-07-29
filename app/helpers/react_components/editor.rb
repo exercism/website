@@ -23,8 +23,10 @@ module ReactComponents
               debugging_instructions: debugging_instructions,
               example_files: SerializeFiles.(example_files)
             },
-            tests: solution.exercise.practice_exercise? ? { tests: solution.tests,
-                                                            highlightjs_language: track.highlightjs_language } : nil,
+            tests: solution.exercise.practice_exercise? ? {
+              tests: solution.tests,
+              highlightjs_language: track.highlightjs_language
+            } : nil,
             results: {
               average_test_duration: track.average_test_duration
             }

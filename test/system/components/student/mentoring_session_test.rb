@@ -54,7 +54,7 @@ module Components
         track = create :track
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, user: student, exercise: exercise
-        request = create :mentor_request
+        request = create :mentor_request, solution: solution
         discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission

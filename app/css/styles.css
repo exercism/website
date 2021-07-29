@@ -1,9 +1,33 @@
-.text-h1 {
-    @apply text-39 font-bold text-textColor1;
+.text-h0 {
+    @apply text-32 font-bold text-textColor1;
     line-height: 1.25;
+
+    @screen md {
+        @apply text-40;
+    }
+
+    @screen lg {
+        @apply text-48;
+    }
+}
+.text-h1 {
+    @apply text-32 font-bold text-textColor1;
+    line-height: 1.25;
+
+    @screen md {
+        @apply text-34;
+    }
+
+    @screen lg {
+        @apply text-39;
+    }
 }
 .text-h2 {
-    @apply text-31 font-bold text-textColor1 leading-140;
+    @apply text-28 font-bold text-textColor1 leading-140;
+
+    @screen md {
+        @apply text-31;
+    }
 }
 .text-h3 {
     @apply text-24 text-textColor1 font-semibold;
@@ -26,6 +50,8 @@
 }
 
 .text--p {
+    @apply leading-160;
+
     & a {
         @apply text-lightBlue font-medium;
     }
@@ -36,19 +62,23 @@
 
 .text-p-small {
     @apply text--p;
-    @apply text-14 leading-160;
+    @apply text-14;
 }
 .text-p-base {
     @apply text--p;
-    @apply text-16 leading-160;
+    @apply text-16;
 }
 .text-p-large {
     @apply text--p;
-    @apply text-18 leading-170;
+    @apply text-18;
 }
 .text-p-xlarge {
     @apply text--p;
-    @apply text-20 leading-170;
+    @apply text-18;
+
+    @screen sm {
+        @apply text-20;
+    }
 }
 
 .text-prose {

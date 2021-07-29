@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_23_155814) do
+ActiveRecord::Schema.define(version: 2021_07_29_195302) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.string "description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "num_awardees", default: 0, null: false
     t.index ["name"], name: "index_badges_on_name", unique: true
     t.index ["type"], name: "index_badges_on_type", unique: true
   end
@@ -67,6 +68,30 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.index ["slug"], name: "index_documents_on_slug"
     t.index ["track_id"], name: "index_documents_on_track_id"
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
+  end
+
+  create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "subscription_id"
+    t.string "stripe_id", null: false
+    t.string "stripe_receipt_url", null: false
+    t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_id"], name: "index_donations_payments_on_stripe_id", unique: true
+    t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
+    t.index ["user_id"], name: "index_donations_payments_on_user_id"
+  end
+
+  create_table "donations_subscriptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "stripe_id", null: false
+    t.boolean "active", default: true, null: false
+    t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_id"], name: "index_donations_subscriptions_on_stripe_id", unique: true
+    t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
 
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -748,16 +773,23 @@ ActiveRecord::Schema.define(version: 2021_07_23_155814) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
     t.integer "mentor_satisfaction_percentage", limit: 1
+    t.string "stripe_customer_id"
+    t.integer "total_donated_in_cents", default: 0
+    t.boolean "active_donation_subscription", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "documents", "tracks"
+  add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
+  add_foreign_key "donations_payments", "users"
+  add_foreign_key "donations_subscriptions", "users"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"

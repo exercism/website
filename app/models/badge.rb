@@ -49,4 +49,9 @@ class Badge < ApplicationRecord
   def icon
     super.to_sym
   end
+
+  # TODO: Cache number of users
+  def percentage_awardees
+    (num_awardees / 800_000.0).ceil(2)
+  end
 end

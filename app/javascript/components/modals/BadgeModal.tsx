@@ -1,5 +1,6 @@
 import React from 'react'
 import { Badge as BadgeProps } from '../types'
+import { GraphicalIcon } from '../common'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 import { Modal, ModalProps } from './Modal'
 import { timeFormat } from '../../utils/time'
@@ -12,7 +13,7 @@ export const BadgeModal = ({
   badge: BadgeProps
   wasUnrevealed?: boolean
 }): JSX.Element => {
-  const classNames = ['m-badge', `--${badge.rarity}`]
+  const classNames = ['m-badge', `--${badge.rarity}`, 'theme-dark']
 
   return (
     <Modal {...props} className={classNames.join(' ')} cover={true}>
@@ -27,6 +28,14 @@ export const BadgeModal = ({
         <time dateTime={badge.unlockedAt}>
           {timeFormat(badge.unlockedAt, 'DD MMM YYYY')}
         </time>
+      </div>
+      <div className="num-awardees text-p-base">
+        <GraphicalIcon icon="students" />
+        <strong>{badge.numAwardees}</strong> members have earned this badge.
+      </div>
+      <div className="percentage-awardees">
+        That's <strong>{badge.percentageAwardees}%</strong> of all Exercism
+        users
       </div>
     </Modal>
   )

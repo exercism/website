@@ -14,6 +14,8 @@ class SerializeUserAcquiredBadge
       description: badge.description,
       rarity: badge.rarity,
       icon_name: badge.icon, # TODO: Change this to a URL
+      num_awardees: badge.num_awardees,
+      percentage_awardees: badge.percentage_awardees,
       links: {
         reveal: Exercism::Routes.reveal_api_badge_url(acquired_badge.uuid)
       }

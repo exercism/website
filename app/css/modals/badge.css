@@ -27,8 +27,8 @@
         @apply flex flex-col items-center;
     }
     & .c-badge-medallion {
-        height: 72px;
-        width: 72px;
+        height: 80px;
+        width: 80px;
         @apply mb-24;
     }
     & h2 {
@@ -37,7 +37,7 @@
         @apply mb-12;
     }
     & .name {
-        @apply text-h1 text-white mb-20;
+        @apply text-h1 mb-20;
     }
     & .rarity {
         @apply font-bold font-mono text-12 leading-130;
@@ -55,6 +55,26 @@
         @apply text-p-large text-unnamed15 mb-4;
     }
     & .earned-at {
-        @apply text-p-base text-borderLight;
+        @apply text-p-base text-borderLight mb-32;
+    }
+    & .num-awardees {
+        /* TODO */
+        background: #191525;
+        @apply flex items-center;
+        @apply py-8 px-16 mb-10;
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            @apply mr-8;
+            filter: var(--white-filter);
+        }
+        & strong {
+            @apply mr-8;
+        }
+    }
+    & .percentage-awardees {
+        & strong {
+            @apply text-textColor1 font-medium;
+        }
     }
 }

@@ -22,6 +22,8 @@ class User < ApplicationRecord
   has_many :submissions, through: :solutions, dependent: :destroy
   has_many :iterations, through: :solutions
 
+  has_many :solution_mentor_discussions, through: :solutions, source: :mentor_discussions
+
   has_many :activities, class_name: "User::Activity", dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :mentor_discussions, foreign_key: :mentor_id,
@@ -54,13 +56,13 @@ class User < ApplicationRecord
   has_many :track_mentorships, dependent: :destroy
   has_many :mentored_tracks, through: :track_mentorships, source: :track
 
-  has_many :dismissed_introducers, dependent: :destroy
-
   has_many :mentor_locks,
     class_name: "Mentor::RequestLock",
     foreign_key: :locked_by_id,
     inverse_of: :locked_by,
     dependent: :destroy
+
+  has_many :dismissed_introducers, dependent: :destroy
 
   # TODO: validate presence of name
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true

@@ -29,7 +29,7 @@ export const ShareSolutionButton = ({
   return (
     <React.Fragment>
       <button
-        className="share-button"
+        className="c-share-button"
         type="button"
         {...buttonAttributes}
         onClick={() => setOpen(!open)}

@@ -108,10 +108,12 @@
 
     --filter-twitter: invert(51%) sepia(82%) saturate(2086%) hue-rotate(175deg)
         brightness(98%) contrast(93%);
+    --filter-CBC9D9: invert(93%) sepia(8%) saturate(833%) hue-rotate(199deg)
+        brightness(90%) contrast(88%);
 
-    --lg-container-padding-x: 16px;
+    --container-padding-x: 16px;
     @screen md {
-        --lg-container-padding-x: 32px;
+        --container-padding-x: 32px;
     }
 }
 

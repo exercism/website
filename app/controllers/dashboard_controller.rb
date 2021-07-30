@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
     @featured_badges = current_user.badges.order('id desc').limit(4)
     @num_badges = current_user.badges.count
     @updates = SiteUpdate.published.for_user(current_user).sorted.limit(10)
+    @blog_posts = BlogPost.published.ordered_by_recency.limit(3).includes(:author)
 
     if current_user.mentor? # rubocop:disable Style/GuardClause
       @mentor_discussions = Mentor::Discussion::Retrieve.(

@@ -21,6 +21,12 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
     end
   end
 
+  test "should enqueue sync push job when pushing blog" do
+    assert_enqueued_jobs 1, only: SyncBlogJob do
+      Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'blog', 'user17', [])
+    end
+  end
+
   test "should not enqueue sync push job when pushing to non-main branch" do
     create :track, slug: :ruby
 

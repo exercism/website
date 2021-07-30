@@ -63,6 +63,12 @@ module TestHelpers
     Git::WebsiteCopy.expects(:new).at_least_once.returns(repo)
   end
 
+  def self.use_blog_test_repo!
+    repo_url = TestHelpers.git_repo_url("blog")
+    repo = Git::Blog.new(repo_url: repo_url)
+    Git::Blog.expects(:new).at_least_once.returns(repo)
+  end
+
   def self.use_docs_test_repo!
     repo_url = TestHelpers.git_repo_url("docs")
     repo = Git::Repository.new(repo_url: repo_url)

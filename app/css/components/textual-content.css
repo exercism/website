@@ -5,7 +5,12 @@
 
     &.--large {
         & * {
-            @apply text-18;
+            @apply text-16;
+        }
+        @screen md {
+            & * {
+                @apply text-18;
+            }
         }
         & > * {
             &:not(:first-child) {

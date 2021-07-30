@@ -65,7 +65,7 @@
         @apply absolute;
         right: 0;
         @screen lg {
-            right: var(--lg-container-padding-x);
+            right: var(--container-padding-x);
         }
 
         top: 50%;

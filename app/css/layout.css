@@ -21,17 +21,17 @@ body {
 
 .sm-container {
     max-width: 1056px;
-    padding: 0 48px;
+    padding: 0 var(--container-padding-x);
 }
 
 .md-container {
     max-width: 1248px;
-    padding: 0 48px;
+    padding: 0 var(--container-padding-x);
 }
 
 .lg-container {
     max-width: 1440px;
-    padding: 0 var(--lg-container-padding-x);
+    padding: 0 var(--container-padding-x);
 }
 
 [data-react-data] {

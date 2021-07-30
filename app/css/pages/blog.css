@@ -1,0 +1,36 @@
+@import "../styles";
+
+#page-blog {
+    @apply bg-backgroundColorA;
+    & header {
+        @apply shadow-base;
+
+        & .main-graphic {
+            height: 80px;
+            width: 80px;
+            @screen md {
+                height: 128px;
+                width: 128px;
+            }
+        }
+        & p a {
+            @apply text-textColor5 border-b-1 border-borderColor5 font-normal;
+        }
+    }
+    & .highlighted-post {
+        & .main-image-link {
+            max-width: 40%;
+        }
+        & .info-bar {
+            @apply text-textColor6;
+            @apply mb-16;
+            @screen md {
+                @apply mb-24;
+            }
+            & .video img {
+                height: 24px;
+                width: 24px;
+            }
+        }
+    }
+}

@@ -20,13 +20,13 @@ const elementsOptions = {
   ],
 }
 
-export function Form({
+export const Form = ({
   existingSubscriptionAmountinDollars,
   onSuccess,
 }: {
   existingSubscriptionAmountinDollars: number | null
   onSuccess: (type: PaymentIntentType, amountInDollars: number) => void
-}) {
+}): JSX.Element => {
   const [amountInDollars, setAmountInDollars] = useState(32)
   const [transactionType, setTransactionType] = useState<PaymentIntentType>(
     'subscription'

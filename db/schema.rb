@@ -55,7 +55,6 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
 
   create_table "blog_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "author_id", null: false
-    t.string "git_filepath", null: false
     t.string "uuid", null: false
     t.string "slug", null: false
     t.string "category", null: false
@@ -67,6 +66,7 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["author_id"], name: "index_blog_posts_on_author_id"
+    t.index ["uuid"], name: "index_blog_posts_on_uuid", unique: true
   end
 
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

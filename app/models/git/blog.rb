@@ -2,7 +2,8 @@ module Git
   class Blog
     extend Mandate::Memoize
 
-    DEFAULT_REPO_URL = "https://github.com/exercism/blog".freeze
+    REPO_NAME = "exercism/blog".freeze
+    DEFAULT_REPO_URL = "https://github.com/#{REPO_NAME}".freeze
 
     def self.content_for(slug)
       new.content_for(slug)
@@ -14,6 +15,11 @@ module Git
 
     def initialize(repo_url: DEFAULT_REPO_URL)
       @repo = Repository.new(repo_url: repo_url)
+    end
+
+    memoize
+    def config
+      repo.read_json_blob(repo.head_commit, "config.json")
     end
 
     def content_for(slug)

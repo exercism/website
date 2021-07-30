@@ -3,8 +3,6 @@ class CreateBlogPosts < ActiveRecord::Migration[6.1]
     create_table :blog_posts do |t|
       t.belongs_to :author, null: false, foreign_key: {to_table: :users}
 
-      t.string :git_filepath, null: false
-
       t.string :uuid, null: false
       t.string :slug, null: false
       t.string :category, null: false
@@ -16,6 +14,8 @@ class CreateBlogPosts < ActiveRecord::Migration[6.1]
       t.string :youtube_url
 
       t.timestamps
+
+      t.index :uuid, unique: true
     end
   end
 end

@@ -5,7 +5,6 @@ FactoryBot.define do
     slug { "sorry-for-the-wait" }
     category { :updates }
     published_at { Time.current - 1.minute }
-    git_filepath { "foobar" }
 
     title { "Some blog post" }
     marketing_copy { "Have a read of this" }

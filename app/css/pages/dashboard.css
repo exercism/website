@@ -115,29 +115,6 @@
             @apply flex-shrink-0 mr-20;
             @apply self-start;
         }
-        & a.social {
-            height: 96px;
-            width: 96px;
-            transition: box-shadow 0.2s;
-            @apply bg-backgroundColorA shadow-sm rounded-circle;
-            @apply flex flex-col items-center justify-center;
-            @apply flex-shrink-0 ml-16;
-
-            @apply text-textColor3 font-medium leading-140;
-
-            &:hover {
-                @apply shadow-lg;
-            }
-
-            & .c-icon {
-                height: 32px;
-                width: 32px;
-                @apply mb-8;
-            }
-            &.twitter > .c-icon {
-                filter: var(--filter-twitter);
-            }
-        }
     }
 
     & article {

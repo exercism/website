@@ -21,11 +21,16 @@ class BlogPost < ApplicationRecord
   end
 
   def video?
-    youtube_url.present?
+    youtube_id.present?
   end
 
   def to_param
     slug
+  end
+
+  # TODO: Guarantee all images have urls instead
+  def image_url
+    super.presence || "https://i9.ytimg.com/vi_webp/08yykgEH1p0/sddefault.webp?v=60de2fe7&sqp=CISAkIgG&rs=AOn4CLDnkwE1bvFAmPk3NPom0WF9AMx0FQ"
   end
 
   def content

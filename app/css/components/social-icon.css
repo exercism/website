@@ -1,0 +1,41 @@
+.c-social-icon {
+    @apply py-8 px-16;
+    transition: box-shadow 0.2s;
+    @apply bg-backgroundColorA shadow-base rounded-100;
+    @apply flex  items-center justify-center;
+    @apply flex-shrink-0;
+
+    @apply text-textColor2 font-medium leading-140;
+
+    &:hover {
+        @apply shadow-lg;
+    }
+
+    & .c-icon {
+        height: 24px;
+        width: 24px;
+        @apply mr-8;
+    }
+    &.twitter > .c-icon {
+        filter: var(--filter-twitter);
+    }
+
+    & + .c-social-icon {
+        @apply ml-8;
+    }
+
+    @screen md {
+        height: 96px;
+        width: 96px;
+        @apply flex-col p-0 rounded-circle;
+
+        & .c-icon {
+            height: 32px;
+            width: 32px;
+            @apply mr-0 mb-8;
+        }
+        & + .social-icon {
+            @apply ml-16;
+        }
+    }
+}

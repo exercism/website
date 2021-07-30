@@ -318,6 +318,11 @@ Rails.application.routes.draw do
     end
   end
 
+  # #### #
+  # Blog #
+  # #### #
+  resources :blog_posts, only: %i[index show], path: "blog"
+
   get "code-of-conduct" => "docs/code_of_conduct", as: :code_of_conduct
   get "terms-of-services" => "docs/terms_of_services", as: :terms_of_service
   get "privacy-policy" => "docs/privacy_policy", as: :privacy_policy

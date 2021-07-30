@@ -38,19 +38,10 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
 
   test "open issue for sync failure when not synced successfully" do
     create :user, handle: "iHiD"
-    error = StandardError.new "Could not find Concept X"
+    error = StandardError.new "Could not sync Blog"
     BlogPost.any_instance.stubs(:update!).raises(error)
 
-    blog_post = {
-      uuid: "d925ec36-92dd-4bf6-be1d-969d192a4034",
-      category: "updates",
-      slug: "sorry-for-the-wait",
-      path: "updates/README.md",
-      title: "Sorry for the wait",
-      marketing_copy: "Our community is hard at work"
-    }
-
-    Github::Issue::OpenForBlogSyncFailure.expects(:call).with(blog_post, :updates, error, Git::Blog.new.head_commit.oid)
+    Github::Issue::OpenForBlogSyncFailure.expects(:call).with(error, Git::Blog.new.head_commit.oid)
 
     Git::SyncBlog.()
   end

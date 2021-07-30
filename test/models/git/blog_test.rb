@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module Git
-  class WebsiteCopyTest < ActiveSupport::TestCase
+  class BlogTest < ActiveSupport::TestCase
     setup do
       TestHelpers.use_blog_test_repo!
     end

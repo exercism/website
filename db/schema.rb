@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_29_195302) do
+ActiveRecord::Schema.define(version: 2021_07_30_105122) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -51,6 +51,22 @@ ActiveRecord::Schema.define(version: 2021_07_29_195302) do
     t.integer "num_awardees", default: 0, null: false
     t.index ["name"], name: "index_badges_on_name", unique: true
     t.index ["type"], name: "index_badges_on_type", unique: true
+  end
+
+  create_table "blog_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "author_id", null: false
+    t.string "git_filepath", null: false
+    t.string "uuid", null: false
+    t.string "slug", null: false
+    t.string "category", null: false
+    t.datetime "published_at", null: false
+    t.string "title", null: false
+    t.string "marketing_copy", limit: 280
+    t.string "image_url"
+    t.string "youtube_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_blog_posts_on_author_id"
   end
 
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -786,6 +802,7 @@ ActiveRecord::Schema.define(version: 2021_07_29_195302) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "documents", "tracks"
   add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
   add_foreign_key "donations_payments", "users"

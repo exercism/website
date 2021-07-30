@@ -1,0 +1,56 @@
+#page-blog-post.pb-80
+  %header.pt-24.md:pt-48.pb-64.md:pb-128
+    .md-container.flex.flex-col.md:flex-row-reverse
+      = avatar(@post.author)
+      .block.flex-grow
+        %h1.text-h0.mb-12.md:mb-18= @post.title
+        = render "info_bar", post: @post
+  .md-container.mb-32.md:mb-48
+    %article.shadow-lg.bg-backgroundColorA.rounded-8
+      .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
+        = graphical_icon "lightbulb", category: :graphics, css_class: "main-graphic hidden md:block"
+        .info.md:hidden
+          %h3.text-h6.mb-2 Find this post useful?
+          %p.text-p-small Share it around!
+        .info.hidden.md:block
+          %h3.text-h5.mb-2 Find the post interesting or useful?
+          %p.text-p-base Share it around and have others benefit too!
+
+        / TODO: Unify this with app/javascript/components/common/ShareSolutionButton.tsx
+        %button.c-share-button.ml-auto
+          .inner
+            = graphical_icon "share-with-gradient"
+            Share
+
+      .p-16.md:py-32.md:px-40.flex.flex-col
+        - if @post.video?
+          .video-container
+            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/XiV_vYn1Ea8", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+        .c-textual-content.--large
+          = raw @post.content_html
+
+        .published-at.mt-24.pt-16.border-t-1.border-borderColor6.text-16.text-textColor6.leading-150.md:self-start.mb-28
+          = format_date(@post.published_at)
+          &middot;
+          Found it useful?
+          %button.text-textColor2.font-medium.border-b-1.border-borderColor6 Share it.
+
+        .byline.shadow-sm.rounded-8.py-16.px-24.flex.flex-col.md:flex-row.md:items-center.border-1.border-borderColor6
+          .flex.items-center
+            = avatar(@post.author)
+            .info.mb-20.md:mb-0
+              .text-16.leading-150.text-textColor6.mb-2 Published by
+              .flex.items-center.mb-4
+                .text-h4.mr-16 @#{@post.author.handle}
+                = render ViewComponents::Reputation.new(@post.author.formatted_reputation, flashy: true, size: :small)
+              .text-16.leading-150.font-semibold.text-textColor6= @post.author.name
+
+  .sm-container.flex.flex-col
+    %h2.text-h3.mb-24 Other community posts
+    .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.mb-32
+      - @other_posts.each do |post|
+        = render ViewComponents::BlogPost.new(post)
+
+    .self-center
+      = render ViewComponents::ProminentLink.new("View all community blog posts", blog_posts_path)

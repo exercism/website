@@ -1,0 +1,13 @@
+.info-bar.flex.flex-col.md:flex-row.md:items-center.font-semibold
+  .flex.items-center.mr-20.mb-8.md:mb-0
+    .text-18.mr-16 @#{post.author.handle}
+    = render ViewComponents::Reputation.new(post.author.formatted_reputation, flashy: true, size: :small)
+  .hidden.md:block.mr-6 &#8729;
+  .flex.items-center
+    .text-16.mr-40
+      #{(time_ago_in_words post.published_at).capitalize} ago
+    - if post.video?
+      .video.flex.items-center.text-16
+        = graphical_icon :video
+        %span.ml-12 Video
+

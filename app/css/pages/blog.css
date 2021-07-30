@@ -21,9 +21,16 @@
         & .main-image-link {
             max-width: 40%;
         }
-        & .video {
-            height: 24px;
-            width: 24px;
+        & .info-bar {
+            @apply text-textColor6;
+            @apply mb-16;
+            @screen md {
+                @apply mb-24;
+            }
+            & .video img {
+                height: 24px;
+                width: 24px;
+            }
         }
     }
 }

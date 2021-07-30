@@ -12,6 +12,7 @@ import '../../css/ui-kit/tracks'
 import '../../css/ui-kit/animations'
 import '../../css/ui-kit/effects'
 
+import '../../css/components/share-button'
 import '../../css/components/social-icon'
 import '../../css/components/blog-post'
 import '../../css/components/toast'

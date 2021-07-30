@@ -24,18 +24,8 @@
     .highlighted-post.p-24.md:p-32.shadow-base.flex.flex-stretch.mb-48
       .mr-auto
         .text-h0.mb-12= main_post.title
-        .flex.flex-col.md:flex-row.md:items-center.font-semibold.text-textColor6.mb-16.md:mb-24
-          .flex.items-center.mr-20.mb-8.md:mb-0
-            .text-18.mr-16 @#{main_post.author.handle}
-            = render ViewComponents::Reputation.new(main_post.author.formatted_reputation, flashy: true, size: :small)
-          .hidden.md:block.mr-6 &#8729;
-          .flex.items-center
-            .text-16.mr-40
-              #{(time_ago_in_words main_post.published_at).capitalize} ago
-            - if main_post.video?
-              .video.flex.items-center.text-16
-                = graphical_icon :video
-                %span.ml-12 Video
+        = render "info_bar", post: main_post
+
         %p.text-p-large.mb-16.md:mb-20= main_post.description
         - link_text = main_post.video? ? "View More" : "Read more"
         = render ViewComponents::ProminentLink.new(link_text, main_post)

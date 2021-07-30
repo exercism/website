@@ -38,7 +38,7 @@ class BlogPost < ApplicationRecord
     super.presence || marketing_copy
   end
 
-  def content
+  def content_html
     markdown = Git::Blog.content_for(slug)
     Markdown::Parse.(markdown.to_s)
   end

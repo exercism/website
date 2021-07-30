@@ -2,7 +2,8 @@ import React, { useCallback, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import { StripeForm, PaymentIntentType } from './StripeForm'
-import { Icon } from '../common'
+import { SubscriptionForm } from './SubscriptionForm'
+import { PaymentForm } from './PaymentForm'
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -17,144 +18,6 @@ const elementsOptions = {
         'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
     },
   ],
-}
-
-function SubscriptionForm({
-  existingSubscriptionAmountinDollars,
-  handleAmountChange,
-  visible,
-}: {
-  existingSubscriptionAmountinDollars: number | null
-  handleAmountChange: (e: any) => void
-  visible: boolean
-}) {
-  return (
-    <div className={visible ? 'block' : 'hidden'}>
-      {existingSubscriptionAmountinDollars != null ? (
-        <>
-          <div className="existing-subscription">
-            <strong>
-              You already donate ${existingSubscriptionAmountinDollars} per
-              month to Exercism. Thank you!
-            </strong>
-             
-            <br />
-            To change or manage this go to <a href="#">Donation Settings</a>.
-          </div>
-          <div className="extra-cta">
-            Extra {/*TODO: button should switch to the one-time tab */}
-            <button>one-time donations</button> are still gratefully received!
-          </div>
-          <div className="form-cover" />
-        </>
-      ) : null}
-      <div className="amounts">
-        <div className="preset-amounts">
-          <button
-            className="btn-enhanced btn-l"
-            value={16}
-            onClick={handleAmountChange}
-          >
-            $16
-          </button>
-          <button
-            className="btn-enhanced btn-l selected"
-            value={32}
-            onClick={handleAmountChange}
-          >
-            $32
-          </button>
-          <button
-            className="btn-enhanced btn-l"
-            value={64}
-            onClick={handleAmountChange}
-          >
-            $64
-          </button>
-          <button
-            className="btn-enhanced btn-l"
-            value={128}
-            onClick={handleAmountChange}
-          >
-            $128
-          </button>
-        </div>
-
-        <h3>Or specify a custom amount:</h3>
-        <label className="c-faux-input">
-          <div className="icon">$</div>
-          <input
-            type="number"
-            min="0"
-            step="1"
-            placeholder="Specify donation"
-            onChange={handleAmountChange}
-            onFocus={handleAmountChange}
-          />
-        </label>
-      </div>
-    </div>
-  )
-}
-
-function PaymentForm({
-  handleAmountChange,
-  visible,
-}: {
-  handleAmountChange: (e: any) => void
-  visible: boolean
-}) {
-  if (!visible) {
-    return <></>
-  }
-  return (
-    <div className={`form ${visible ? 'block' : 'hidden'}`}>
-      <div className="amounts">
-        <div className="preset-amounts">
-          <button
-            className="btn-enhanced btn-l"
-            value={32}
-            onClick={handleAmountChange}
-          >
-            $32
-          </button>
-          <button
-            className="btn-enhanced btn-l"
-            value={128}
-            onClick={handleAmountChange}
-          >
-            $128
-          </button>
-          <button
-            className="btn-enhanced btn-l"
-            value={256}
-            onClick={handleAmountChange}
-          >
-            $256
-          </button>
-          <button
-            className="btn-enhanced btn-l"
-            value={512}
-            onClick={handleAmountChange}
-          >
-            $512
-          </button>
-        </div>
-
-        <h3>Or specify a custom amount:</h3>
-        <label className="c-faux-input">
-          <div className="icon">$</div>
-          <input
-            type="number"
-            min="0"
-            step="1"
-            placeholder="Specify donation"
-            onChange={handleAmountChange}
-          />
-        </label>
-      </div>
-    </div>
-  )
 }
 
 export function Form({

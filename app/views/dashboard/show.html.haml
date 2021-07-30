@@ -68,28 +68,8 @@
         %section.posts-section
           %h2 Community Posts
           .posts
-            = link_to "#", class: "post" do
-              .img
-              .new new
-              .title Welcome to Exercism v3!
-              .byline
-                .by @iHiD
-                &middot;
-                %date 4 days ago
-            = link_to "#", class: "post" do
-              .img
-              .title How we built 50+ tracks of coding exercise in a year and did so really really well!
-              .byline
-                .by @iHiD
-                &middot;
-                %date 4 days ago
-            = link_to "#", class: "post" do
-              .img
-              .title How we designed Exercism V3
-              .byline
-                .by @iHiD
-                &middot;
-                %date 4 days ago
+            - @blog_posts.each do |post|
+              = render ViewComponents::BlogPost.new(post)
           = render ViewComponents::ProminentLink.new("See all community posts", "#")
 
         %section.activity-section

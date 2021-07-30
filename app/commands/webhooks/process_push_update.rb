@@ -12,6 +12,8 @@ module Webhooks
         UpdateWebsiteCopyJob.perform_later
       when "docs"
         SyncDocsJob.perform_later
+      when "blog"
+        SyncBlogJob.perform_later
       else
         track = Track.find_by(slug: repo_name)
         SyncTrackJob.perform_later(track) if track

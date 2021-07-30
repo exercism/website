@@ -26,9 +26,9 @@ class BlogPostTest < ActiveSupport::TestCase
     assert post.video?
   end
 
-  test "content " do
+  test "content_html" do
     TestHelpers.use_blog_test_repo!
     expected = "<p>This is some great blog content\nFTW!!</p>\n"
-    assert_equal expected, create(:blog_post).content
+    assert_equal expected, create(:blog_post).content_html
   end
 end

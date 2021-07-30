@@ -12,12 +12,20 @@
         @apply overflow-hidden;
         border-radius: 8px 8px 0 0;
 
-        & .tab {
+        & .c-tab {
             @apply py-20;
             @apply w-1-2;
             @apply text-18 leading-160 text-textColor6 font-semibold;
             @apply bg-backgroundColorG;
             @apply border-b-3 border-borderColor6;
+
+            /* Override styles from .c-tab */
+            display: block;
+            align-items: center;
+            padding-left: 0;
+            padding-right: 0;
+            border-radius: 0;
+            margin: 0;
 
             &.selected {
                 @apply bg-backgroundColorA;

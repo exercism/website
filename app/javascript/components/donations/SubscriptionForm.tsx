@@ -3,14 +3,12 @@ import React from 'react'
 export const SubscriptionForm = ({
   existingSubscriptionAmountinDollars,
   handleAmountChange,
-  visible,
 }: {
   existingSubscriptionAmountinDollars: number | null
   handleAmountChange: (e: any) => void
-  visible: boolean
 }): JSX.Element => {
   return (
-    <div className={visible ? 'block' : 'hidden'}>
+    <div>
       {existingSubscriptionAmountinDollars != null ? (
         <>
           <div className="existing-subscription">

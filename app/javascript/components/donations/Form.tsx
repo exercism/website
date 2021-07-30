@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, createContext } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import { StripeForm, PaymentIntentType } from './StripeForm'
 import { SubscriptionForm } from './SubscriptionForm'
 import { PaymentForm } from './PaymentForm'
+import { Tab, TabContext } from '../common/Tab'
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -19,6 +20,11 @@ const elementsOptions = {
     },
   ],
 }
+
+const TabsContext = createContext<TabContext>({
+  current: 'subscription',
+  switchToTab: () => {},
+})
 
 export const Form = ({
   existingSubscriptionAmountinDollars,
@@ -46,39 +52,42 @@ export const Form = ({
   }, [])
 
   return (
-    <div className="c-donations-form">
-      <div className="--tabs">
-        <button
-          className="tab selected"
-          onClick={() => setTransactionType('subscription')}
-        >
-          💙 Monthly
-        </button>
-        <button className="tab" onClick={() => setTransactionType('payment')}>
-          One-off
-        </button>
+    <TabsContext.Provider
+      value={{
+        current: transactionType,
+        switchToTab: (id) => setTransactionType(id as PaymentIntentType),
+      }}
+    >
+      <div className="c-donations-form">
+        <div className="--tabs">
+          <Tab id="subscription" context={TabsContext}>
+            💙 Monthly
+          </Tab>
+          <Tab id="payment" context={TabsContext}>
+            One-off
+          </Tab>
+        </div>
+        <div className="--content">
+          <Tab.Panel id="subscription" context={TabsContext}>
+            <SubscriptionForm
+              existingSubscriptionAmountinDollars={
+                existingSubscriptionAmountinDollars
+              }
+              handleAmountChange={handleAmountChange}
+            />
+          </Tab.Panel>
+          <Tab.Panel id="payment" context={TabsContext}>
+            <PaymentForm handleAmountChange={handleAmountChange} />
+          </Tab.Panel>
+          <Elements stripe={stripePromise} options={elementsOptions}>
+            <StripeForm
+              paymentIntentType={transactionType}
+              amountInDollars={amountInDollars}
+              onSuccess={onSuccess}
+            />
+          </Elements>
+        </div>
       </div>
-      <div className="--content">
-        <SubscriptionForm
-          existingSubscriptionAmountinDollars={
-            existingSubscriptionAmountinDollars
-          }
-          handleAmountChange={handleAmountChange}
-          visible={transactionType == 'subscription'}
-        />
-        <PaymentForm
-          handleAmountChange={handleAmountChange}
-          visible={transactionType == 'payment'}
-        />
-
-        <Elements stripe={stripePromise} options={elementsOptions}>
-          <StripeForm
-            paymentIntentType={transactionType}
-            amountInDollars={amountInDollars}
-            onSuccess={onSuccess}
-          />
-        </Elements>
-      </div>
-    </div>
+    </TabsContext.Provider>
   )
 }

@@ -2,16 +2,11 @@ import React from 'react'
 
 export const PaymentForm = ({
   handleAmountChange,
-  visible,
 }: {
   handleAmountChange: (e: any) => void
-  visible: boolean
 }): JSX.Element => {
-  if (!visible) {
-    return <></>
-  }
   return (
-    <div className={`form ${visible ? 'block' : 'hidden'}`}>
+    <div className="form">
       <div className="amounts">
         <div className="preset-amounts">
           <button

@@ -28,9 +28,14 @@ class BlogPost < ApplicationRecord
     slug
   end
 
-  # TODO: Guarantee all images have urls instead
+  # TODO: Guarantee all posts have image_urls instead
   def image_url
     super.presence || "https://i9.ytimg.com/vi_webp/08yykgEH1p0/sddefault.webp?v=60de2fe7&sqp=CISAkIgG&rs=AOn4CLDnkwE1bvFAmPk3NPom0WF9AMx0FQ"
+  end
+
+  # TODO: Guarantee all posts have descriptions instead
+  def description
+    super.presence || marketing_copy
   end
 
   def content

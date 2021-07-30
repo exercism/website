@@ -22,7 +22,7 @@ class BlogPostTest < ActiveSupport::TestCase
     post = create(:blog_post)
     refute post.video?
 
-    post.update(youtube_url: "foo")
+    post.update(youtube_id: "foo")
     assert post.video?
   end
 

@@ -16,6 +16,7 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
     assert_equal "sorry-for-the-wait", post.slug
     assert_equal "Sorry for the wait", post.title
     assert_equal "Our community is hard at work", post.marketing_copy
+    assert_equal "Our community is hard at work so something.", post.description
   end
 
   test "updates existing posts" do
@@ -23,7 +24,8 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
     create :blog_post, uuid: "d925ec36-92dd-4bf6-be1d-969d192a4034",
                        slug: "rlly",
                        title: "Very wrong",
-                       marketing_copy: "Wrong"
+                       marketing_copy: "Wrong",
+                       description: "Naughty"
 
     Git::SyncBlog.()
 
@@ -34,6 +36,7 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
     assert_equal "sorry-for-the-wait", post.slug
     assert_equal "Sorry for the wait", post.title
     assert_equal "Our community is hard at work", post.marketing_copy
+    assert_equal "Our community is hard at work so something.", post.description
   end
 
   test "open issue for sync failure when not synced successfully" do

@@ -19,9 +19,10 @@ module Git
         category: data[:category],
         title: data[:title],
         published_at: data[:published_at],
+        description: data[:description],
         marketing_copy: data[:marketing_copy],
         image_url: data[:image_url],
-        youtube_url: data[:youtube_url]
+        youtube_id: data[:youtube_id]
       }
 
       post = BlogPost.create_or_find_by!(

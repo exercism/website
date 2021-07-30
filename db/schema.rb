@@ -60,9 +60,10 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.string "category", null: false
     t.datetime "published_at", null: false
     t.string "title", null: false
+    t.text "description"
     t.string "marketing_copy", limit: 280
     t.string "image_url"
-    t.string "youtube_url"
+    t.string "youtube_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["author_id"], name: "index_blog_posts_on_author_id"

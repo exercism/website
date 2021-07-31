@@ -15,18 +15,22 @@ class CreateUserReputationTokens < ActiveRecord::Migration[6.1]
       t.string :reason, null: false
       t.string :category, null: false
 
-      t.json :params, null: false
+      t.text :params, null: false
       t.string :level, null: true
       t.integer :version, null: false
-      t.json :rendering_data_cache, null: false
+      t.text :rendering_data_cache, null: false
 
       t.string :external_url, null: true
 
       t.boolean :seen, null: false, default: false
 
+      t.date :earned_on, null: false
+
       t.timestamps
 
       t.index %i[uniqueness_key user_id], unique: true
+      t.index :earned_on, name: "sweeper"
+      t.index :uuid, unique: true
     end
   end
 end

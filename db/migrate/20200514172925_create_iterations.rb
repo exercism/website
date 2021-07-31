@@ -9,9 +9,9 @@ class CreateIterations < ActiveRecord::Migration[6.1]
 
       t.string :snippet, null: true, limit: 1500
 
-      t.boolean :published, null: false, default: false
-
       t.timestamps
     end
+
+    add_foreign_key :solutions, :iterations, column: :published_iteration_id
   end
 end

@@ -5,7 +5,7 @@ class CreateExerciseRepresentations < ActiveRecord::Migration[6.0]
       t.belongs_to :source_submission, foreign_key: {to_table: :submissions }, null: false
       t.text :ast, null: false
       t.string :ast_digest, null: false
-      t.json :mapping, null: true
+      t.text :mapping, null: true
 
       t.column :feedback_type, :tinyint, null: true
       t.text :feedback_markdown, null: true

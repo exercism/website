@@ -28,6 +28,9 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :location, null: true
       t.string :pronouns, null: true
 
+      t.integer :num_solutions_mentored, limit: 3, null: false, default: 0
+      t.integer :mentor_satisfaction_percentage, limit: 1, null: true
+
       t.timestamps null: false
 
       t.index [:provider, :uid], unique: true

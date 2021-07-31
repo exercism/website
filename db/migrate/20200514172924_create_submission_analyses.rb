@@ -5,7 +5,7 @@ class CreateSubmissionAnalyses < ActiveRecord::Migration[6.0]
 
       t.integer :ops_status, limit: 2, null: false
 
-      t.json :data, null: true
+      t.text :data, null: true
 
       t.string :tooling_job_id, null: false
 

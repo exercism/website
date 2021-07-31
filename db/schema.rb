@@ -46,9 +46,9 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.string "rarity", null: false
     t.string "icon", null: false
     t.string "description", null: false
+    t.integer "num_awardees", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "num_awardees", default: 0, null: false
     t.index ["name"], name: "index_badges_on_name", unique: true
     t.index ["type"], name: "index_badges_on_type", unique: true
   end
@@ -85,30 +85,6 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.index ["slug"], name: "index_documents_on_slug"
     t.index ["track_id"], name: "index_documents_on_track_id"
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
-  end
-
-  create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "subscription_id"
-    t.string "stripe_id", null: false
-    t.string "stripe_receipt_url", null: false
-    t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["stripe_id"], name: "index_donations_payments_on_stripe_id", unique: true
-    t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
-    t.index ["user_id"], name: "index_donations_payments_on_user_id"
-  end
-
-  create_table "donations_subscriptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "stripe_id", null: false
-    t.boolean "active", default: true, null: false
-    t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["stripe_id"], name: "index_donations_subscriptions_on_stripe_id", unique: true
-    t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
 
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -192,11 +168,11 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.integer "status", limit: 1, default: 0, null: false
     t.string "git_sha", null: false
     t.string "synced_to_git_sha", null: false
+    t.string "git_important_files_hash", null: false
     t.integer "position", null: false
+    t.string "icon_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "icon_name", null: false
-    t.string "git_important_files_hash"
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
@@ -267,6 +243,7 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
   end
 
   create_table "github_tasks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
     t.string "title", null: false
     t.string "repo", null: false
     t.string "issue_url", null: false
@@ -280,7 +257,6 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.bigint "track_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "uuid", null: false
     t.index ["issue_url"], name: "index_github_tasks_on_issue_url", unique: true
     t.index ["track_id"], name: "index_github_tasks_on_track_id"
     t.index ["uuid"], name: "index_github_tasks_on_uuid", unique: true
@@ -455,11 +431,14 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
 
   create_table "solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
+    t.string "unique_key", null: false
     t.bigint "user_id", null: false
     t.bigint "exercise_id", null: false
+    t.bigint "published_iteration_id"
     t.string "uuid", null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
+    t.string "git_important_files_hash", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.string "iteration_status"
     t.datetime "last_iterated_at"
@@ -469,15 +448,12 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.datetime "completed_at"
     t.datetime "published_at"
     t.integer "mentoring_status", limit: 1, default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.integer "num_views", limit: 3, default: 0, null: false
     t.integer "num_stars", limit: 3, default: 0, null: false
     t.integer "num_comments", limit: 3, default: 0, null: false
     t.integer "num_loc", limit: 3, default: 0, null: false
-    t.bigint "published_iteration_id"
-    t.string "git_important_files_hash"
-    t.string "unique_key", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
@@ -517,6 +493,7 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
   end
 
   create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
     t.bigint "submission_id", null: false
     t.string "tooling_job_id", null: false
     t.string "status", null: false
@@ -527,7 +504,6 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.text "output"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "uuid", null: false
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
     t.index ["uuid"], name: "index_submission_test_runs_on_uuid", unique: true
   end
@@ -590,9 +566,9 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.integer "num_concepts", limit: 3, default: 0, null: false
     t.json "tags"
     t.boolean "active", default: true, null: false
+    t.integer "num_students", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "num_students", default: 0, null: false
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
@@ -724,9 +700,9 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.text "rendering_data_cache", null: false
     t.string "external_url"
     t.boolean "seen", default: false, null: false
+    t.date "earned_on", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.date "earned_on"
     t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
@@ -751,12 +727,12 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.bigint "track_id", null: false
     t.text "summary_data", null: false
     t.string "summary_key"
+    t.boolean "practice_mode", default: false, null: false
     t.boolean "anonymous_during_mentoring", default: false, null: false
+    t.datetime "last_touched_at", null: false
+    t.text "objectives"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "last_touched_at", null: false
-    t.boolean "practice_mode", default: false, null: false
-    t.text "objectives"
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_tracks_on_user_id"
@@ -786,28 +762,21 @@ ActiveRecord::Schema.define(version: 2021_07_30_105122) do
     t.string "avatar_url"
     t.string "location"
     t.string "pronouns"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
     t.integer "mentor_satisfaction_percentage", limit: 1
-    t.string "stripe_customer_id"
-    t.integer "total_donated_in_cents", default: 0
-    t.boolean "active_donation_subscription", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "documents", "tracks"
-  add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
-  add_foreign_key "donations_payments", "users"
-  add_foreign_key "donations_subscriptions", "users"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"

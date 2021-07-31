@@ -11,15 +11,5 @@ class CreateGithubIssues < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-
-    create_table :github_issue_labels do |t|
-      t.belongs_to :github_issue, null: false, foreign_key: true
-
-      t.string :label, null: false
-
-      t.index [:github_issue_id, :label], unique: true
-
-      t.timestamps
-    end
   end
 end

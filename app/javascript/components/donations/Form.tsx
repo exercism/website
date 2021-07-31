@@ -47,6 +47,7 @@ export const Form = ({
               {existingSubscriptionAmountinDollars != null ? (
                 <ExistingSubscriptionNotice
                   amountInDollars={existingSubscriptionAmountinDollars}
+                  onExtraDonation={() => setTransactionType('payment')}
                 />
               ) : null}
             </TransactionForm>

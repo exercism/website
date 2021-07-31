@@ -71,6 +71,7 @@ module V2ETL
       rename_table :iteration_files, :submission_files
       rename_table :profiles, :user_profiles
       rename_table :track_mentorships, :user_track_mentorships
+      rename_table :auth_tokens, :user_auth_tokens
     end
 
     def create_tables!
@@ -147,7 +148,7 @@ module V2ETL
       # This is worth doing last as it's the least likely to fail
       # and the least damanging if it does.
       process_tracks
-      # process_user_tracks
+      process_user_tracks
 
       # TODO: Populate users.github_usernames via GH API
 

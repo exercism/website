@@ -23,6 +23,8 @@ module V2ETL
 
         add_column :summary_key, :string, null: true
         add_column :summary_data, :json, null: true
+
+        rename_column :anonymous, :anonymous_during_mentoring
       end
     end
   end

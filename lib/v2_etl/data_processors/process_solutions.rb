@@ -12,6 +12,12 @@ module V2ETL
         Solution.where(mentoring_status: 0).where(id: Mentor::Discussion.where(status: %i[mentor_finished finished]).select(:solution_id)).update_all(mentoring_status: :finished)
         Solution.where(mentoring_status: 0).where(id: Mentor::Request.select(:solution_id)).update_all(mentoring_status: :requested)
 
+        ActiveRecord::Base.connection.execute("
+        UPDATE solutions SET num_iterations = (
+          SELECT COUNT(*) from iterations
+          WHERE iterations.solution_id = solutions.id
+        )")
+
         # TODO: Uncomment these
         # connection.remove_column :solutions, :approved_by_id
         # connection.remove_column :solutions, :mentoring_requested_at

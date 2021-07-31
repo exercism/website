@@ -42,19 +42,24 @@ export const CancellingOption = ({
     }
   )
 
-  const handleCancel = useCallback(() => {
-    mutation()
-  }, [mutation])
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
 
   return (
     <div className="options">
       <p>Are you sure you want to cancel your recurring donation?</p>
-      <FormButton type="button" onClick={handleCancel} status={status}>
-        Yes - please cancel it.
-      </FormButton>
-      <FormButton type="button" onClick={onClose} status={status}>
-        No, close this.
-      </FormButton>
+      <form onSubmit={handleSubmit}>
+        <FormButton status={status}>Yes - please cancel it.</FormButton>
+        <FormButton type="button" onClick={onClose} status={status}>
+          No, close this.
+        </FormButton>
+      </form>
       <ErrorBoundary resetKeys={[status]}>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
       </ErrorBoundary>

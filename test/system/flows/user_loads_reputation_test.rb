@@ -13,7 +13,6 @@ module Flows
       create :user_code_review_reputation_token,
         user: user,
         created_at: 2.days.ago,
-        value: 50,
         seen: false,
         params: {
           external_url: external_url,
@@ -32,7 +31,7 @@ module Flows
         assert_css ".--notification"
         assert_link "You reviewed PR#120 on pulls: I did something", href: external_url
         assert_text "7 months ago"
-        assert_text "50"
+        assert_text "+5"
         assert_link "See how you earned all your reputation", href: reputation_journey_url
       end
     end

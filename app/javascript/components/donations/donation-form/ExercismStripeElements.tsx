@@ -2,11 +2,17 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import React from 'react'
 
-const stripePromise = loadStripe(
-  'pk_test_51IDGMXEoOT0Jqx0UcoKlkvB7O0VDvFdCBvOCiWiKv6CkSnkZn7IG6cIHuCWg7cegGogYJSy8WsaKzwFHQqN75T7b00d56MtilB'
-)
+const publishableKey = document.querySelector<HTMLMetaElement>(
+  'meta[name="stripe-publishable-key"]'
+)?.content
 
-const elementsOptions = {
+if (!publishableKey) {
+  throw 'Publishable key not found!'
+}
+
+const stripe = loadStripe(publishableKey)
+
+const options = {
   fonts: [
     {
       cssSrc:
@@ -21,7 +27,7 @@ export const ExercismStripeElements = ({
   children?: React.ReactNode
 }): JSX.Element => {
   return (
-    <Elements stripe={stripePromise} options={elementsOptions}>
+    <Elements stripe={stripe} options={options}>
       {children}
     </Elements>
   )

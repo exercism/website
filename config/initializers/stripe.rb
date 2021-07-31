@@ -9,4 +9,6 @@ module Exercism
 
   # TODO: (Blocking) Use Exercism config for this with an ENV var for local testing
   STRIPE_ENDPOINT_SECRET = "whsec_rgY246H0vSUw0A9KpDOqsDDgAakEdCCT".freeze
+
+  STRIPE_PUBLISHABLE_KEY = 'pk_test_51IDGMXEoOT0Jqx0UcoKlkvB7O0VDvFdCBvOCiWiKv6CkSnkZn7IG6cIHuCWg7cegGogYJSy8WsaKzwFHQqN75T7b00d56MtilB'.freeze
 end

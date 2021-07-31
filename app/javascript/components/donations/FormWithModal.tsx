@@ -5,10 +5,16 @@ import { Modal } from '../modals/Modal'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 
+type Links = {
+  settings: string
+}
+
 export default ({
   existingSubscriptionAmountinDollars,
+  links,
 }: {
   existingSubscriptionAmountinDollars: number | null
+  links: Links
 }) => {
   const [paymentMade, setPaymentMade] = useState(false)
   const [paymentType, setPaymentType] = useState<
@@ -36,6 +42,7 @@ export default ({
         existingSubscriptionAmountinDollars={
           existingSubscriptionAmountinDollars
         }
+        links={links}
       />
       <Modal
         open={paymentMade}

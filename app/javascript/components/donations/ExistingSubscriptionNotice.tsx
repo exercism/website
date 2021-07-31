@@ -1,11 +1,17 @@
 import React from 'react'
 
+type Links = {
+  settings: string
+}
+
 export const ExistingSubscriptionNotice = ({
   amountInDollars,
   onExtraDonation,
+  links,
 }: {
   amountInDollars: number
   onExtraDonation: () => void
+  links: Links
 }): JSX.Element => {
   return (
     <React.Fragment>
@@ -15,7 +21,8 @@ export const ExistingSubscriptionNotice = ({
           you!
         </strong>
         <br />
-        To change or manage this go to <a href="#">Donation Settings</a>.
+        To change or manage this go to{' '}
+        <a href={links.settings}>Donation Settings</a>.
       </div>
       <div className="extra-cta">
         Extra{' '}

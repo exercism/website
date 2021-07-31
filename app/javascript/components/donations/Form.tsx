@@ -9,12 +9,18 @@ const TabsContext = createContext<TabContext>({
   switchToTab: () => {},
 })
 
+type Links = {
+  settings: string
+}
+
 export const Form = ({
   existingSubscriptionAmountinDollars,
   onSuccess,
+  links,
 }: {
   existingSubscriptionAmountinDollars: number | null
   onSuccess: (type: PaymentIntentType, amountInDollars: number) => void
+  links: Links
 }): JSX.Element => {
   const [transactionType, setTransactionType] = useState<PaymentIntentType>(
     'subscription'
@@ -48,6 +54,7 @@ export const Form = ({
                 <ExistingSubscriptionNotice
                   amountInDollars={existingSubscriptionAmountinDollars}
                   onExtraDonation={() => setTransactionType('payment')}
+                  links={links}
                 />
               ) : null}
             </TransactionForm>

@@ -260,6 +260,7 @@ initReact({
         existingSubscriptionAmountinDollars={
           data.existing_subscription_amount_in_dollars
         }
+        links={data.links}
       />
     </Suspense>
   ),

@@ -3,7 +3,7 @@ module V2ETL
     class TableMigration
       %i[
         rename_table
-        add_column remove_column rename_column change_column_null
+        add_column remove_column rename_column  change_column_null
         add_foreign_key remove_foreign_key
         add_index remove_index
       ].each do |meth|
@@ -13,18 +13,26 @@ module V2ETL
         end
       end
 
-      def add_non_nullable_column(name, type, default = nil, args = {})
+      def change_column(col, type, args = {})
+        connection.change_column table_name, col, type, args
+      end
+
+      def add_non_nullable_column(name, type, default = nil, limit: nil, joins: nil)
+        args = {limit: limit}.compact
         add_column name, type, args.merge(null: true)
 
         puts "populate_column [:#{table_name}, :#{name}]" # rubocop:disable Rails/Output
+        ar = model
+        ar = ar.joins(joins) if joins
+
         if block_given?
           transaction do
-            model.find_each do |record|
+            ar.find_each do |record|
               record.update_column(name, yield(record))
             end
           end
         else
-          model.update_all("#{name} = #{default}")
+          ar.update_all("#{table_name}.#{name} = #{default}")
         end
 
         change_column_null name, false

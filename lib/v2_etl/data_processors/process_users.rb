@@ -1,6 +1,6 @@
 module V2ETL
   module DataProcessors
-    class ProcessMentoringReputation
+    class ProcessUsers
       include Mandate
 
       def call

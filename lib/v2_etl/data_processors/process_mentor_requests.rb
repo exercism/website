@@ -26,7 +26,7 @@ module V2ETL
         WHERE mentoring_requested_at IS NOT NULL
         AND approved_by_id IS NULL
         AND completed_AT IS NULL
-        ORDER solutions.mentoring_requested_at ASC
+        ORDER BY solutions.mentoring_requested_at ASC
         SQL
 
         # Delete requests where the person hasn't iterated (?!)

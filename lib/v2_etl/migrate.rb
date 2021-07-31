@@ -72,13 +72,13 @@ module V2ETL
       rename_table :profiles, :user_profiles
       rename_table :track_mentorships, :user_track_mentorships
       rename_table :auth_tokens, :user_auth_tokens
+      rename_table :communication_preferences, :user_communication_preferences
     end
 
     def create_tables!
       # Create any new tables first
       # This ensures foreign keys will be present
       create_track_concepts
-      create_user_track_learnt_concepts
       create_exercise_prerequisites
       create_exercise_taught_concepts
       create_exercise_practiced_concepts
@@ -99,17 +99,24 @@ module V2ETL
       create_problem_reports
       create_exercise_authorships
       create_exercise_contributorships
+      create_concept_authorships
+      create_concept_contributorships
       create_scratchpad_pages
       create_user_acquired_badges
       create_user_notifications
       create_user_activities
-      create_user_auth_tokens
       create_user_reputation_tokens
+      create_user_reputation_periods
 
       create_github_pull_requests
       create_github_organization_members
+      create_github_issues
+      create_github_issue_labels
+      create_github_tasks
 
       create_documents
+      create_site_updates
+      create_user_dismissed_introducers
     end
 
     # Make any structural changes to the tables
@@ -125,6 +132,10 @@ module V2ETL
       migrate_user_tracks
       migrate_solutions
       migrate_users
+
+      migrate_solution_stars
+      migrate_user_communication_preferences
+      migrate_blog_posts
     end
 
     def migrate_data!

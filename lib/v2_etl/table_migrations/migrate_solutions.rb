@@ -21,8 +21,6 @@ module V2ETL
         # reflection
         # show_on_profile
         # allow_comments
-        # num_comments
-        # num_stars
 
         # TODO: Move this to solution_mentorship?
         # reminder_sent_at
@@ -35,6 +33,12 @@ module V2ETL
           where(downloaded_at: nil).
           delete_all
 
+        add_column :num_views, :integer, limit: 3, null: false, default: 0
+        add_column :num_loc, :integer, limit: 3, null: false, default: 0
+
+        add_column :published_iteration_id, :bigint
+        add_foreign_key :iterations, column: :published_iteration_id
+
         add_column :status, :tinyint, default: 0, null: false
         add_column :iteration_status, :string, null: true
         add_column :mentoring_status, :integer, limit: 1, default: 0, null: false
@@ -45,6 +49,13 @@ module V2ETL
 
         # Add missing columns
         add_non_nullable_column :type, :string, "'PracticeSolution'"
+
+        add_column :last_iterated_at, :datetime, null: true
+        add_non_nullable_column :git_important_files_hash, :string, 'exercises.git_important_files_hash', joins: [:exercise]
+
+        add_non_nullable_column :unique_key, :string, 'CONCAT(user_id, ":", exercise_id)'
+        add_index :unique_key, unique: true
+        remove_index name: :index_solutions_on_exercise_id_and_user_id
 
         # Remove redundant columns
         remove_column :last_updated_by_user_at

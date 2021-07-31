@@ -33,6 +33,7 @@ module V2ETL
         add_column :tags, :json
         add_column :num_exercises, :integer, limit: 3, default: 0, null: false
         add_column :num_concepts, :integer, limit: 3, default: 0, null: false
+        add_column :num_students, :integer, null: false, default: 0
 
         add_index :slug, unique: true
       end

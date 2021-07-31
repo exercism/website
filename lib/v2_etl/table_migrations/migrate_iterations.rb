@@ -51,9 +51,6 @@ module V2ETL
         end
         ActiveRecord::Base.connection.execute("SET optimizer_switch = 'derived_merge=on'")
 
-        # TODO: Set to true if it's the final iteration
-        add_column :published, :boolean, default: false
-
         add_column :snippet, :string, limit: 1500
 
         # Add indexes

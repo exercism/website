@@ -34,6 +34,9 @@ module V2ETL
         add_index %w[provider uid], unique: true
         add_index :github_username, unique: true
 
+        add_column :num_solutions_mentored, :integer, limit: 3, null: false, default: 0
+        add_column :mentor_satisfaction_percentage, :integer, limit: 1, null: true
+
         # TODO: Move default_allow_comments to preferences
         # TODO: Migrate show_v3_patience_modal
         # TODO: Migrate show_introducing_research_modal

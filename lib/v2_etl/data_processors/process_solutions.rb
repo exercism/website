@@ -18,9 +18,17 @@ module V2ETL
           WHERE iterations.solution_id = solutions.id
         )")
 
+        # Update all solutions to latest git shas
+        # The important_files_has is already set by this point
+        Solution.joins(:exercise).update_all(
+          "solutions.git_slug = exercises.slug,
+           solutions.git_sha = exercises.git_sha")
+
         # TODO: Uncomment these
         # connection.remove_column :solutions, :approved_by_id
         # connection.remove_column :solutions, :mentoring_requested_at
+
+        # TODO: Set last iteration to be published if the solution is published.
       end
     end
   end

@@ -32,6 +32,12 @@ module V2ETL
         add_non_nullable_column :synced_to_git_sha, :string, "''"
         add_column :status, :tinyint, null: false, default: 2
 
+        add_non_nullable_column :icon_name, :string, 'slug'
+
+        add_non_nullable_column :git_important_files_hash, :string do |exercise|
+          exercise.update!(git_important_files_hash: Git::GenerateHashForImportantExerciseFiles.(exercise))
+        end
+
         # TODO: Run this at the end of the fix script for this
         # Then switch these out
         # add_index :uuid, unique: true

@@ -4,6 +4,7 @@ import { PaymentIntentType } from './StripeForm'
 import { Modal } from '../modals/Modal'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { BadgeMedallion } from '../common/BadgeMedallion'
+import { BadgeRarity } from '../types'
 
 type Links = {
   donate: string
@@ -35,7 +36,7 @@ export default ({
   )
 
   /*TODO: Decide on correct icon */
-  const badge = { rarity: 'rare', iconName: 'automation' }
+  const badge = { rarity: 'rare' as BadgeRarity, iconName: 'automation' }
   return (
     <>
       <Form
@@ -60,7 +61,7 @@ export default ({
           shortly with your donation confirmation and receipt.
         </p>
         <div className="flex items-center rounded-5 shadow-xsZ1 py-6 px-24 bg-lightOrange mb-32 border-1 border-lightGold">
-          {/* TODO: Make this works: <BadgeMedallion badge={badge} />*/}
+          <BadgeMedallion badge={badge} />
           <div className="text-textColor2 text-18 leading-150">
             You’ve earned the{' '}
             <strong className="font-medium"> Supporter</strong> badge!

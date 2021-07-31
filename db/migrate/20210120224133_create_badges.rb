@@ -7,6 +7,8 @@ class CreateBadges < ActiveRecord::Migration[6.1]
       t.string :icon, null: false
       t.string :description, null: false
 
+      t.integer :num_awardees, default: 0, null: false
+
       t.timestamps
     end
   end

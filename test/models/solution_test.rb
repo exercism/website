@@ -541,16 +541,6 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal exercise.git_important_files_hash, solution.git_important_files_hash
   end
 
-  test "git_important_files_sha sets when called if nil" do
-    exercise = create :practice_exercise, slug: 'allergies', git_sha: '6f169b92d8500d9ec5f6e69d6927bf732ab5274a'
-    solution = create :practice_solution, exercise: exercise
-    solution.update_column(:git_important_files_hash, nil)
-    assert_nil solution.attributes['git_important_files_hash']
-
-    assert_equal exercise.git_important_files_hash, solution.git_important_files_hash
-    assert_equal exercise.git_important_files_hash, solution.attributes['git_important_files_hash']
-  end
-
   test "latest_submission and latest_valid_submission" do
     solution = create :practice_solution
     create :submission, solution: solution, tests_status: :failed

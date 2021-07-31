@@ -1,6 +1,8 @@
 class CreateSubmissionTestRuns < ActiveRecord::Migration[6.0]
   def change
     create_table :submission_test_runs do |t|
+      t.string :uuid, null: false, index: { unique: true }
+
       t.belongs_to :submission, foreign_key: true, null: false
       t.string :tooling_job_id, null: false
 
@@ -9,7 +11,7 @@ class CreateSubmissionTestRuns < ActiveRecord::Migration[6.0]
 
       t.integer :ops_status, limit: 2, null: false
 
-      t.json :raw_results, null: false
+      t.text :raw_results, null: false
 
       t.column :version, :tinyint, default: 0, null: false
       t.text :output

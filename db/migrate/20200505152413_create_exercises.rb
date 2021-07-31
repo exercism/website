@@ -15,8 +15,10 @@ class CreateExercises < ActiveRecord::Migration[6.0]
 
       t.string :git_sha, null: false
       t.string :synced_to_git_sha, null: false
+      t.string :git_important_files_hash, null: false
 
       t.integer :position, null: false
+      t.string :icon_name, null: false
 
       t.timestamps
 

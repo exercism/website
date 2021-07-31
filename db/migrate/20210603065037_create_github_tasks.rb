@@ -1,6 +1,8 @@
 class CreateGithubTasks < ActiveRecord::Migration[6.1]
   def change
     create_table :github_tasks do |t|
+      t.string :uuid, null: false, index: { unique: true }
+
       t.string :title, null: false
       t.string :repo, null: false
       t.string :issue_url, null: false, index: { unique: true }

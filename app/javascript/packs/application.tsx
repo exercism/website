@@ -270,7 +270,10 @@ initReact({
   ),
   'donations-subscription-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
-      <DonationsSubscriptionForm amountInDollars={data.amount_in_dollars} />
+      <DonationsSubscriptionForm
+        amountInDollars={data.amount_in_dollars}
+        links={data.links}
+      />
     </Suspense>
   ),
 

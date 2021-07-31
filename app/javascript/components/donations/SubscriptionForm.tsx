@@ -1,10 +1,17 @@
 import React from 'react'
 import currency from 'currency.js'
+import { FormOptions } from './subscription-form/FormOptions'
+
+type Links = {
+  cancel: string
+}
 
 export default ({
   amountInDollars,
+  links,
 }: {
   amountInDollars: number
+  links: Links
 }): JSX.Element => {
   return (
     <React.Fragment>
@@ -18,10 +25,7 @@ export default ({
         anticipate our cashflow and make responsible decisions about hiring and
         growing Exercism.
       </p>
-      <div className="options">
-        <button>Change amount</button> or{' '}
-        <button>cancel your recurring donation</button>
-      </div>
+      <FormOptions links={links} />
     </React.Fragment>
   )
 }

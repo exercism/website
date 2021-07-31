@@ -10,7 +10,7 @@
           .tw-flex.tw-flex-col.tw-items-start
             - if current_user.active_donation_subscription?
               %h2
-                You're current donating
+                You're currently donating
                 = number_to_currency(current_user.active_donation_subscription_amount_in_dollars)
                 each month to Exercism.
               %p.text-p-base

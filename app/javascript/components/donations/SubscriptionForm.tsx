@@ -4,6 +4,7 @@ import { FormOptions } from './subscription-form/FormOptions'
 
 type Links = {
   cancel: string
+  update: string
 }
 
 export default ({
@@ -25,7 +26,7 @@ export default ({
         anticipate our cashflow and make responsible decisions about hiring and
         growing Exercism.
       </p>
-      <FormOptions links={links} />
+      <FormOptions amountInDollars={amountInDollars} links={links} />
     </React.Fragment>
   )
 }

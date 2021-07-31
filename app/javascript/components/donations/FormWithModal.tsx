@@ -37,6 +37,7 @@ export default ({
 
   /*TODO: Decide on correct icon */
   const badge = { rarity: 'rare' as BadgeRarity, iconName: 'automation' }
+
   return (
     <>
       <Form
@@ -48,7 +49,7 @@ export default ({
       />
       <Modal
         open={paymentMade}
-        onClose={() => {}}
+        onClose={() => null}
         className="m-donation-confirmation"
       >
         <GraphicalIcon icon="completed-check-circle" className="main-icon" />

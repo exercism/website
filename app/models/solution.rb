@@ -47,7 +47,7 @@ class Solution < ApplicationRecord
 
     self.git_slug = exercise.slug unless self.git_slug
     self.git_sha = exercise.git_sha unless self.git_sha
-    self.git_important_files_hash = exercise.git_important_files_hash unless self.git_important_files_hash
+    self.git_important_files_hash = exercise.git_important_files_hash if attributes['git_important_files_hash'].blank?
   end
 
   before_update do

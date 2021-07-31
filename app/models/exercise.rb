@@ -58,7 +58,7 @@ class Exercise < ApplicationRecord
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
-    self.git_important_files_hash = Git::GenerateHashForImportantExerciseFiles.(self) unless self.git_important_files_hash
+    self.git_important_files_hash = Git::GenerateHashForImportantExerciseFiles.(self) if self.git_important_files_hash.blank?
   end
 
   before_update do

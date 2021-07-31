@@ -9,7 +9,8 @@ module ReactComponents
           {
             existing_subscription_amount_in_dollars: current_user&.active_donation_subscription_amount_in_dollars,
             links: {
-              settings: Exercism::Routes.donations_settings_url
+              settings: Exercism::Routes.donations_settings_url,
+              donate: Exercism::Routes.donate_url
             }
           }
         )

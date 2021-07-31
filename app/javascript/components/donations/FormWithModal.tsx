@@ -6,6 +6,7 @@ import { GraphicalIcon } from '../common/GraphicalIcon'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 
 type Links = {
+  donate: string
   settings: string
 }
 
@@ -66,9 +67,8 @@ export default ({
           </div>
         </div>
 
-        {/*TODO: redirect to donate page */}
-        <a href="#" className="btn-primary btn-l w-100">
-          Happy to help! I'm done here 👍
+        <a href={links.donate} className="btn-primary btn-l w-100">
+          Happy to help! I&apos;m done here 👍
         </a>
       </Modal>
     </>

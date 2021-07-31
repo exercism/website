@@ -23,7 +23,7 @@ export const Form = ({
   links: Links
 }): JSX.Element => {
   const [transactionType, setTransactionType] = useState<PaymentIntentType>(
-    'subscription'
+    existingSubscriptionAmountinDollars ? 'payment' : 'subscription'
   )
 
   return (

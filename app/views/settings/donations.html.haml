@@ -9,19 +9,7 @@
           = graphical_icon "donation-superhero", category: :graphics
           .tw-flex.tw-flex-col.tw-items-start
             - if current_user.active_donation_subscription?
-              %h2
-                You're currently donating
-                = number_to_currency(current_user.active_donation_subscription_amount_in_dollars)
-                each month to Exercism.
-              %p.text-p-base
-                %strong Thank you!
-                Regular donations like yours allow us to anticipate our cashflow and make responsible decisions about hiring and growing Exercism.
-
-              .options
-                %button Change amount
-                or
-                %button cancel your recurring donation
-
+              = render ReactComponents::Donations::SubscriptionForm.new
             - else
               %h2 Become a monthly supporter of Exercism
               %p.text-p-base

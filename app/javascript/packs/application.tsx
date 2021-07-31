@@ -209,6 +209,10 @@ const DonationsFormWithModal = lazy(() =>
   import('../components/donations/FormWithModal')
 )
 
+const DonationsSubscriptionForm = lazy(() =>
+  import('../components/donations/SubscriptionForm')
+)
+
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
 
@@ -262,6 +266,11 @@ initReact({
         }
         links={data.links}
       />
+    </Suspense>
+  ),
+  'donations-subscription-form': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <DonationsSubscriptionForm amountInDollars={data.amount_in_dollars} />
     </Suspense>
   ),
 

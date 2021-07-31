@@ -34,6 +34,7 @@
     "chart.js": "^3.1.0",
     "codemirror-lang-elixir": "^1.0.2",
     "core-js": "^3.6.5",
+    "currency.js": "^2.0.4",
     "dayjs": "^1.8.35",
     "diff2html": "^3.4.5",
     "easymde": "^2.15.0",

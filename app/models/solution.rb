@@ -47,7 +47,7 @@ class Solution < ApplicationRecord
 
     self.git_slug = exercise.slug unless self.git_slug
     self.git_sha = exercise.git_sha unless self.git_sha
-    self.git_important_files_hash = exercise.git_important_files_hash if attributes['git_important_files_hash'].blank?
+    self.git_important_files_hash = exercise.git_important_files_hash if self.git_important_files_hash.blank?
   end
 
   before_update do
@@ -224,15 +224,6 @@ class Solution < ApplicationRecord
   memoize
   def git_exercise
     Git::Exercise.for_solution(self)
-  end
-
-  # TODO: (optional) Rather than doing this, we should recalculate all
-  # hashes for all solutions and make this column not null. But this is a
-  # good lazy way to do this for now.
-  def git_important_files_hash
-    super || exercise.git_important_files_hash.tap do |hash|
-      update(git_important_files_hash: hash) unless new_record?
-    end
   end
 
   private

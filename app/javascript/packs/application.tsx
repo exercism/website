@@ -147,12 +147,9 @@ import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
-<<<<<<< HEAD
 import '../../css/pages/blog'
 import '../../css/pages/blog-post'
-=======
 import '../../css/pages/donate'
->>>>>>> c85980a4a (Add success modal)
 import '../../css/pages/landing'
 import '../../css/pages/settings'
 import '../../css/pages/contributing-dashboard'

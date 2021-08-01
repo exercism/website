@@ -112,7 +112,9 @@ class Exercise < ApplicationRecord
     ConceptExercise.that_teach(prerequisites).distinct
   end
 
-  memoize
+  # TODO: (Optional): This was memoized but because git_sha can change
+  # this can actually end up being incorrectly memoized. How do we
+  # deal with this?
   def git
     Git::Exercise.new(slug, git_type, git_sha, repo_url: track.repo_url)
   end

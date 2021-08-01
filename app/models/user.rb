@@ -160,6 +160,7 @@ class User < ApplicationRecord
 
   # TODO
   def avatar_url
+    return super if super.present?
     return Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
 
     # TODO: Read correct s3 bucket

@@ -33,7 +33,7 @@ module Flows
           visit donations_settings_path
           click_on "Change amount"
           fill_in "Change donation amount", with: 10
-          assert_text "Thanks for increasing your donation"
+          assert_text "Thank you for increasing your donation!"
           click_on "Change"
 
           assert_text "You're currently donating $10.00"

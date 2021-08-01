@@ -9,11 +9,11 @@ export const InitializedOption = ({
 }): JSX.Element => {
   return (
     <div className="options">
-      <button type="button" onClick={onUpdating}>
+      <button type="button" onClick={onUpdating} className="text-a-subtle">
         Change amount
       </button>{' '}
       or{' '}
-      <button type="button" onClick={onCancelling}>
+      <button type="button" onClick={onCancelling} className="text-a-subtle">
         cancel your recurring donation
       </button>
     </div>

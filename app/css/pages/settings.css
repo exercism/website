@@ -235,7 +235,7 @@
 }
 #page-settings-donations {
     & .subscription-box {
-        @apply flex items-center;
+        @apply flex items-start;
         @apply border-2 rounded-8;
         @apply py-20 px-24;
         @apply bg-lightPurple;
@@ -260,7 +260,28 @@
 
             & button {
                 @apply inline;
-                @apply border-b-1 border-textColor2;
+            }
+        }
+        & .expanded-option {
+            @apply mt-16 pt-16;
+            @apply border-t-1 border-borderColor6;
+
+            & form {
+                max-width: 420px;
+            }
+            & label {
+                @apply mb-8;
+            }
+            & .c-faux-input {
+                @apply mb-12;
+            }
+            & p.footnote {
+                @apply leading-150 text-textColor6;
+                @apply mb-12;
+
+                & strong {
+                    @apply font-medium text-textColor5;
+                }
             }
         }
     }

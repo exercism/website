@@ -6,6 +6,7 @@
         & .c-badge-medallion {
             height: 40px;
             width: 40px;
+            @apply mr-8;
         }
         & .c-icon.main-icon {
             height: 64px;

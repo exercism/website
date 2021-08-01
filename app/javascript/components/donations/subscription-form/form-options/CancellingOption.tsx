@@ -52,13 +52,24 @@ export const CancellingOption = ({
   )
 
   return (
-    <div className="options">
-      <p>Are you sure you want to cancel your recurring donation?</p>
+    <div className="expanded-option">
+      <p className="text-p-base">
+        Are you sure you want to cancel your recurring donation?
+      </p>
       <form onSubmit={handleSubmit}>
-        <FormButton status={status}>Yes - please cancel it.</FormButton>
-        <FormButton type="button" onClick={onClose} status={status}>
-          No, close this.
-        </FormButton>
+        <div className="flex">
+          <FormButton status={status} className="btn-xs btn-primary mr-12">
+            Yes - please cancel it.
+          </FormButton>
+          <FormButton
+            type="button"
+            onClick={onClose}
+            status={status}
+            className="btn-xs btn-enhanced"
+          >
+            No, close this.
+          </FormButton>
+        </div>
       </form>
       <ErrorBoundary resetKeys={[status]}>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

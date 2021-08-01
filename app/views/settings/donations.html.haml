@@ -7,7 +7,7 @@
       %section
         .subscription-box
           = graphical_icon "donation-superhero", category: :graphics
-          .tw-flex.tw-flex-col.tw-items-start
+          .flex.flex-col.items-start
             - if current_user.active_donation_subscription?
               = render ReactComponents::Donations::SubscriptionForm.new
             - else
@@ -15,9 +15,9 @@
               %p.text-p-base
                 Exercism is a not-for-profit organisation that relies on community donations to grow.
                 Support
-                = link_to "our mission", "#"
+                = link_to "our mission", "#", class: "text-a-subtle"
                 to help everyone get better at programming.
-              = link_to "Find out more", "#", class: "btn-primary btn-s"
+              = link_to "Find out more", donate_path, class: "btn-primary btn-s"
 
         - if current_user.total_donated_in_cents.present?
           - dollars, cents = current_user.total_donated_in_dollars.to_s.split('.')

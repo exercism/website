@@ -73,9 +73,11 @@ export const UpdatingOption = ({
   console.log(amountInDollars)
 
   return (
-    <div className="options">
+    <div className="expanded-option">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="donation_amount">Change donation amount</label>
+        <label htmlFor="donation_amount" className="text-label">
+          Change donation amount
+        </label>
         <label className="c-faux-input">
           <div className="icon">$</div>
           <input
@@ -89,22 +91,35 @@ export const UpdatingOption = ({
         </label>
         {amountInDollars !== '' ? (
           <React.Fragment>
-            <p>
+            <p className="footnote">
               You&apos;ll start being charged{' '}
-              {currency(amountInDollars, { precision: 2 }).format()} per month,
-              on your next billing date.
+              <strong>
+                {currency(amountInDollars, { precision: 2 }).format()} per month
+              </strong>
+              , on your next billing date.
+              {amountInDollars > currentAmountInDollars
+                ? ' Thank you for increasing your donation!'
+                : null}
             </p>
-            {amountInDollars > currentAmountInDollars ? (
-              <p>Thanks for increasing your donation</p>
-            ) : null}
           </React.Fragment>
         ) : null}
-        <FormButton status={status} disabled={amountInDollars === ''}>
-          Change
-        </FormButton>
-        <FormButton type="button" onClick={onClose} status={status}>
-          Close
-        </FormButton>
+        <div className="flex">
+          <FormButton
+            status={status}
+            disabled={amountInDollars === ''}
+            className="btn-xs btn-primary mr-12"
+          >
+            Change amount
+          </FormButton>
+          <FormButton
+            type="button"
+            onClick={onClose}
+            status={status}
+            className="btn-xs btn-enhanced"
+          >
+            Cancel this change
+          </FormButton>
+        </div>
       </form>
       <ErrorBoundary resetKeys={[status]}>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

@@ -188,3 +188,14 @@
     @apply btn-small;
     @apply border-0 text-lightBlue p-0;
 }
+
+a.text-a-subtle,
+button.text-a-subtle {
+    @apply text-textColor2 font-normal leading-140;
+    @apply border-b-1 border-textColor2;
+}
+
+.text-label {
+    @apply block;
+    @apply text-13 leading-150 text-textColor2 font-mono font-bold uppercase;
+}

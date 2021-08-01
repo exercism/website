@@ -35,6 +35,7 @@ textarea {
         @apply mr-16;
     }
     & input {
+        @apply flex-grow;
         @apply p-0 border-0 rounded-none;
         @apply shadow-none bg-transparent  !important;
         @apply border-l-1 border-borderColor5 !important;

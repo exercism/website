@@ -43,6 +43,9 @@
             @apply text-16 text-textColor6 font-semibold;
             @apply px-8 py-8;
         }
+        & li:last-child a {
+            @apply text-purple;
+        }
     }
 
     & nav.signed-out {
@@ -58,6 +61,9 @@
         & a {
             @apply flex items-center relative;
             @apply text-16 leading-160 text-textColor6 font-semibold;
+        }
+        & li:last-child a {
+            @apply text-purple;
         }
     }
 

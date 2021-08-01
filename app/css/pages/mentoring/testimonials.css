@@ -40,30 +40,45 @@
                 max-width: 420px;
             }
         }
-        & .testimonial {
+        & .unrevealed-testimonial {
             @apply py-12 px-24;
+            @apply flex items-center;
+            @apply bg-backgroundColorF;
+            @apply border-b-1;
+            border-color: #9e00ff;
+
+            /* Raise this above the normal rows */
+            margin-bottom: -1px;
+            position: relative;
+
+            & .info .student {
+                @apply font-semibold;
+            }
+
+            & time {
+                width: 120px;
+                @apply text-textColor2 text-right;
+            }
+        }
+
+        & .testimonial {
             @apply border-t-1 border-borderColor6;
             @apply flex items-center;
-            @apply w-100;
 
-            &.unrevealed {
-                @apply bg-backgroundColorF;
-                @apply border-b-1;
-                border-color: #9e00ff;
-
-                /* Raise this above the normal rows */
-                margin-bottom: -1px;
-                position: relative;
-
-                & .info .student {
-                    @apply font-semibold;
-                }
-
-                & time {
-                    width: 120px;
-                    @apply text-textColor2 text-right;
-                }
+            & a {
+                @apply flex-grow;
+                @apply py-12 px-24;
+                @apply flex items-center;
             }
+            & button {
+                @apply py-12 px-24;
+                @apply border-l-1 border-borderColor6;
+            }
+        }
+        & .testimonial,
+        & .unrevealed-testimonial {
+            @apply flex-grow;
+
             & .c-track-icon {
                 width: 32px;
                 height: 32px;

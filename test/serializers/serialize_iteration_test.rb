@@ -61,7 +61,7 @@ class SerializeIterationTest < ActiveSupport::TestCase
       expected = {
         uuid: iteration.uuid,
         idx: 0,
-        status: "untested",
+        status: "deleted",
         num_essential_automated_comments: 0,
         num_actionable_automated_comments: 0,
         num_non_actionable_automated_comments: 0,

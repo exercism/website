@@ -47,6 +47,23 @@ Rails.application.routes.draw do
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
 
+      namespace :donations do
+        # resources :subscriptions, only: [:create]
+        # resources :payments, only: [:create]
+        resources :payment_intents, only: [:create] do
+          member do
+            patch :succeeded
+            patch :failed
+          end
+        end
+        resources :subscriptions, only: [] do
+          member do
+            patch :cancel
+            patch :update_amount
+          end
+        end
+      end
+
       resource :settings, only: [:update] do
         patch :sudo_update
       end
@@ -215,6 +232,7 @@ Rails.application.routes.draw do
   # Webhooks #
   # ######## #
   namespace :webhooks do
+    resource :stripe, only: [:create], controller: "stripe"
     resource :issue_updates, only: [:create]
     resource :push_updates, only: [:create]
     resource :pull_request_updates, only: [:create]
@@ -227,6 +245,7 @@ Rails.application.routes.draw do
   resource :settings, only: %i[show] do
     get :api_cli
     get :communication_preferences
+    get :donations
     patch :reset_account
     delete :destroy_account
   end
@@ -323,6 +342,8 @@ Rails.application.routes.draw do
   # #### #
   resources :blog_posts, only: %i[index show], path: "blog"
 
+  get "donate" => "donations#index", as: :donate
+
   get "code-of-conduct" => "docs/code_of_conduct", as: :code_of_conduct
   get "terms-of-services" => "docs/terms_of_services", as: :terms_of_service
   get "privacy-policy" => "docs/privacy_policy", as: :privacy_policy
@@ -373,6 +394,7 @@ Rails.application.routes.draw do
         get :exercise_tooltip
         get :select_exercise_for_mentoring
         get :badge
+        get :donation_confirmation
       end
     end
     resource :mentoring, only: [], controller: "mentoring" do

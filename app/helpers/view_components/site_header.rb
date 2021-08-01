@@ -60,7 +60,7 @@ module ViewComponents
             si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
             si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
             si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected == :contributing) +
-            si_nav_li("Donate", :contribute, "#", selected == :donate)
+            si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected == :donate)
         end
       end
     end
@@ -86,7 +86,7 @@ module ViewComponents
             # tag.li { link_to "What is Exercism?", "#" } + #TODO: (Required) Link to about page
             tag.li { link_to "Contribute", Exercism::Routes.contributing_root_path } +
             tag.li { link_to "Mentor", Exercism::Routes.mentoring_path } +
-            tag.li { link_to "Donate", "#" }
+            tag.li { link_to "Donate 💜", Exercism::Routes.donate_path }
         end
       end
     end

@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include User::Roles
+  extend Mandate::Memoize
 
   SYSTEM_USER_ID = 1
   GHOST_USER_ID = 2
@@ -64,6 +65,9 @@ class User < ApplicationRecord
 
   has_many :dismissed_introducers, dependent: :destroy
 
+  has_many :donation_subscriptions, class_name: "Donations::Subscription", dependent: :nullify
+  has_many :donation_payments, class_name: "Donations::Payment", dependent: :nullify
+
   # TODO: validate presence of name
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
@@ -112,6 +116,28 @@ class User < ApplicationRecord
   def formatted_reputation(*args)
     rep = reputation(*args)
     User::FormatReputation.(rep)
+  end
+
+  memoize
+  def active_donation_subscription_amount_in_dollars
+    d = donation_subscriptions.active.last&.amount_in_dollars
+
+    d ? d.to_i : nil
+  end
+
+  memoize
+  def total_subscription_donations_in_dollars
+    donation_payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
+  end
+
+  memoize
+  def total_one_off_donations_in_dollars
+    total_donated_in_dollars - total_subscription_donations_in_dollars
+  end
+
+  memoize
+  def total_donated_in_dollars
+    total_donated_in_cents / BigDecimal(100)
   end
 
   def reputation(track_slug: nil, category: nil)

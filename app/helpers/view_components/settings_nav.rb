@@ -9,7 +9,8 @@ module ViewComponents
         item_for("Account settings", :settings, :general),
         item_for("API / CLI", :api_cli_settings, :api_cli),
         item_for("Preferences", :settings, :preferences),
-        item_for("Communication Preferences", :communication_preferences_settings, :communication)
+        item_for("Communication Preferences", :communication_preferences_settings, :communication),
+        item_for("Donations", :donations_settings, :donations)
       ]
 
       tag.nav(class: "settings-nav") do

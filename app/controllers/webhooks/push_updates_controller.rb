@@ -2,7 +2,7 @@
 # for which the "Pushes" event type must be enabled in GitHub.
 # See https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#push
 module Webhooks
-  class PushUpdatesController < BaseController
+  class PushUpdatesController < GithubBaseController
     def create
       ::Webhooks::ProcessPushUpdate.(
         params[:ref],

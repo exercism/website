@@ -1,6 +1,6 @@
 require "test_helper"
 
-class DocsControllerTest < ActionDispatch::IntegrationTest
+class Donations::PaymentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -233,3 +233,118 @@
         }
     }
 }
+#page-settings-donations {
+    & .subscription-box {
+        @apply flex items-start;
+        @apply border-2 rounded-8;
+        @apply py-20 px-24;
+        @apply bg-lightPurple;
+        /* TODO */
+        border-color: blue;
+        & > .c-icon {
+            height: 128px;
+            width: 128px;
+            @apply mr-16;
+        }
+        & h2 {
+            @apply text-h4 mb-4;
+        }
+        & p {
+            @apply mb-8;
+            & strong {
+                @apply font-medium text-textColor2;
+            }
+        }
+        & .options {
+            @apply text-16 leading-150 text-textColor2;
+
+            & button {
+                @apply inline;
+            }
+        }
+        & .expanded-option {
+            @apply mt-16 pt-16;
+            @apply border-t-1 border-borderColor6;
+
+            & form {
+                max-width: 420px;
+            }
+            & label {
+                @apply mb-8;
+            }
+            & .c-faux-input {
+                @apply mb-12;
+            }
+            & p.footnote {
+                @apply leading-150 text-textColor6;
+                @apply mb-12;
+
+                & strong {
+                    @apply font-medium text-textColor5;
+                }
+            }
+        }
+    }
+
+    & .summary-box {
+        @apply py-12 px-24 mt-32 mb-28;
+        @apply bg-backgroundColorE;
+        @apply rounded-8;
+
+        @apply flex items-center;
+
+        & .total {
+            @apply flex flex-col items-center;
+            @apply mr-40;
+
+            & .amount {
+                @apply flex;
+                @apply font-semibold text-textColor2;
+                @apply mb-8;
+                & .currency {
+                    @apply self-start mr-8;
+                }
+                & .dollars {
+                    @apply text-32;
+                    line-height: 0.9;
+                }
+                & .cents {
+                    @apply self-end;
+                    @apply text-16;
+                }
+            }
+            & .explanation {
+                @apply text-16 leading-140 text-textColor6 font-medium;
+            }
+        }
+        & .breakdown {
+            @apply text-16 leading-140 text-textColor6 font-medium;
+            & .subs {
+                @apply mb-6;
+            }
+        }
+    }
+    & table.payments {
+        @apply w-100;
+        & tr {
+            @apply border-b-1 border-borderColor6;
+        }
+        & th {
+            @apply text-left font-mono font-bold leading-150 text-textColor2;
+            @apply uppercase;
+            @apply py-8;
+        }
+        & td {
+            @apply text-16 leading-150;
+            @apply py-10;
+            min-width: 180px;
+            &:last-child {
+                @apply text-right;
+            }
+
+            & a {
+                @apply inline-flex;
+            }
+        }
+    }
+}

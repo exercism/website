@@ -1,0 +1,43 @@
+require_relative '../base_test_case'
+
+module API
+  class Donations::SubscriptionsControllerTest < API::BaseTestCase
+    guard_incorrect_token! :cancel_api_donations_subscription_path, args: 1, method: :patch
+    guard_incorrect_token! :update_amount_api_donations_subscription_path, args: 1, method: :patch
+
+    ##########
+    # Cancel #
+    ##########
+    test "cancel proxies correctly" do
+      user = create :user
+      subscription = create :donations_subscription, user: user
+
+      ::Donations::Subscription::Cancel.expects(:call).with(subscription)
+
+      setup_user(user)
+      patch cancel_api_donations_subscription_path(subscription.id), headers: @headers, as: :json
+
+      assert_response 200
+      expected = { subscription: { links: { index: donations_settings_url } } }
+      assert_equal(expected.to_json, response.body)
+    end
+
+    #################
+    # Update Amount #
+    #################
+    test "update_amount proxies correctly" do
+      user = create :user
+      subscription = create :donations_subscription, user: user
+      amount_in_dollars = '50'
+
+      ::Donations::Subscription::UpdateAmount.expects(:call).with(subscription, amount_in_dollars)
+
+      setup_user(user)
+      patch update_amount_api_donations_subscription_path(subscription.id, amount_in_dollars: amount_in_dollars), headers: @headers,
+                                                                                                                  as: :json
+      assert_response 200
+      expected = { subscription: { links: { index: donations_settings_url } } }
+      assert_equal(expected.to_json, response.body)
+    end
+  end
+end

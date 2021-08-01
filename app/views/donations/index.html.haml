@@ -1,0 +1,10 @@
+#page-donate
+  .lg-container
+    %header
+      %h1.text-h1
+        %strong Goal:
+        Bring the joy of programming to everyone ✨
+
+    .flex.items-start
+      = render ReactComponents::Donations::FormWithModal.new(current_user)
+

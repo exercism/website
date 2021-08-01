@@ -4,8 +4,6 @@ module V2ETL
       include Mandate
 
       def call
-        # TODO: Do we want to continue suppurting this?
-        # Should we let these people know.
         Mentor::Request.
           joins("INNER JOIN user_tracks ON 
             user_tracks.user_id = mentor_requests.student_id AND

@@ -1,7 +1,6 @@
 class CreateUserReputationPeriods < ActiveRecord::Migration[6.1]
   def change
     create_table :user_reputation_periods do |t|
-      # TODO: Update to foreign_key: true
       t.belongs_to :user, null: false, foreign_key: false
       t.bigint :track_id, null: false
 

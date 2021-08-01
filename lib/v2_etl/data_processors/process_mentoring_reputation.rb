@@ -12,7 +12,7 @@ module V2ETL
           params,
           uniqueness_key,
           version, rendering_data_cache, value, reason, category,
-          created_at, updated_at
+          created_at, updated_at, earned_on
         )
         SELECT
         UUID(), "User::ReputationTokens::MentoredToken",
@@ -20,7 +20,7 @@ module V2ETL
         CONCAT('{"discussion": "gid://website/Mentor::Discussion/', mentor_discussions.id, '"}'),
         CONCAT(mentor_id, "|mentored|Discussion#", mentor_discussions.id),
         1, "{}", 5, "mentored", "mentoring",
-        NOW(), NOW()
+        NOW(), NOW(), mentor_discussions.created_at
         FROM mentor_discussions
         INNER JOIN solutions on solutions.id = mentor_discussions.solution_id
         INNER JOIN exercises on solutions.exercise_id = exercises.id

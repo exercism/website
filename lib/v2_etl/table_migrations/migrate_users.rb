@@ -25,7 +25,6 @@ module V2ETL
         add_column :github_username, :string
         add_column :location, :string
         add_column :pronouns, :string
-        add_column :became_mentor_at, :datetime
         add_column :reputation, :integer, default: 0, null: false
 
         add_column :roles, :json, null: true
@@ -36,6 +35,10 @@ module V2ETL
 
         add_column :num_solutions_mentored, :integer, limit: 3, null: false, default: 0
         add_column :mentor_satisfaction_percentage, :integer, limit: 1, null: true
+
+        add_column :became_mentor_at, :datetime
+        User.where(is_mentor: true).update_all(became_mentor_at: Time.current)
+        remove_column :is_mentor
 
         # TODO: Move default_allow_comments to preferences
         # TODO: Migrate show_v3_patience_modal

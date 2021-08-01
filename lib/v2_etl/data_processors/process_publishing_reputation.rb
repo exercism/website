@@ -20,7 +20,7 @@ module V2ETL
               uniqueness_key,
               version, rendering_data_cache, value, reason, category,
               level,
-              created_at, updated_at
+              created_at, updated_at, earned_on
             )
             SELECT
             UUID(), "User::ReputationTokens::PublishedSolutionToken",
@@ -29,7 +29,7 @@ module V2ETL
             CONCAT(user_id, "|published_solution|Solution#", solutions.id),
             1, "{}", #{value}, "published_solution", "publishing",
             "#{level}",
-            NOW(), NOW()
+            NOW(), NOW(), solutions.published_at
             FROM solutions 
             INNER JOIN exercises on solutions.exercise_id = exercises.id
             WHERE published_at IS NOT NULL

@@ -18,7 +18,7 @@ module V2ETL
         add_column :youtube_id, :string
 
         add_non_nullable_column :author_id, :bigint do |post|
-          User.find_by(post.author_handle)&.id || 1
+          post.update(author: User.find_by(handle: post.author_handle) || User.first)
         end
         add_foreign_key :users, column: :author_id
 

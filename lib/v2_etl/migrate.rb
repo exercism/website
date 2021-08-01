@@ -14,6 +14,7 @@ module V2ETL
 
       # Disable foreign key checks for speed
       ActiveRecord::Base.connection.execute("SET FOREIGN_KEY_CHECKS=0")
+      ActiveRecord::Base.connection.execute("SET SESSION MAX_EXECUTION_TIME=28800")
 
       # The calls to reload in this method fix issues
       # with ActiveRecord caching the state of db tables.
@@ -52,19 +53,24 @@ module V2ETL
       # different to migrate so need data moving between them
       # rather than just having columns changed.
       rename_table :discussion_posts, :v2_discussion_posts
-
-      # TODO: Work out what to do with these three.
       rename_table :submissions, :v2_submissions
       rename_table :submission_test_runs, :v2_submission_test_runs
       rename_table :notifications, :v2_notifications
 
-      # Remove duplicate foreign key on sideways table
-      begin
-        execute("ALTER TABLE v2_submission_test_runs DROP FOREIGN KEY fk_rails_477e62a0ba")
-      rescue ActiveRecord::StatementInvalid
-        # It seems that the import/export of the db means that sometimes
-        # this doesn't appear.
+      # Remove duplicate foreign keys
+      [
+        [:v2_submission_test_runs, :fk_rails_477e62a0ba],
+       [:exercise_topics, :fk_rails_0e58b87007]
+      ].each do |table, key|
+
+        begin
+          execute("ALTER TABLE #{table} DROP FOREIGN KEY #{key}")
+        rescue ActiveRecord::StatementInvalid
+          # It seems that the import/export of the db means that sometimes
+          # this doesn't appear.
+        end
       end
+
 
       # Rename tables
       rename_table :solution_mentorships, :mentor_discussions
@@ -152,20 +158,15 @@ module V2ETL
       process_solutions
       process_activities
 
-      process_mentoring_reputation
-      process_publishing_reputation
-      process_users
+     process_mentoring_reputation
+     process_publishing_reputation
+     process_users
+     process_submissions
 
       # This is worth doing last as it's the least likely to fail
       # and the least damanging if it does.
       process_tracks
       process_user_tracks
-
-      # TODO: Populate users.github_usernames via GH API
-
-      # TODO: Migrate users.is_mentor to users.became_mentor_at
-      # based on the first solution_mentorship
-
     end
 
     def method_missing(meth) # rubocop:disable Style/MissingRespondToMissing

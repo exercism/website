@@ -2,53 +2,52 @@
 
 ## TODOs
 
-- Add index to users.uid for Erik's usersnames script
+- Add index to users.uid for Erik's usernames script
 
 This is how to do v2 - v3 ETL
 
-0. Change config/database.yml
-1. Load data into mysql
+1. Change config/database.yml
+2. Load data into mysql
 
 ```bash
 mysql -u root -e "drop database website_etl2"
 mysql -u root -e "create database website_etl2"
 mysql -u root website_etl2 < ../dump-for-v3-etl.sql
+mysql -u root -e "GRANT ALL PRIVILEGES ON website_etl2.* TO 'exercism_v3'@'localhost';"
 ```
 
-2. Run ETL
+3. Run ETL
 
 ```bash
 rails r 'require_relative Rails.root.join("lib/v2_etl/migrate"); V2ETL::Migrate.call'
 ```
 
-3. Fix up Nim
-4. Rename reasonml (https://github.com/exercism/reasonml/pull/135)
-5. Import GitHub Usernames
-6. `bundle exec rake sync_pull_requests_reputation`
-7. `bundle exec rake sync_authors_and_contributors`
-8. Iteration.find_each {|i|GenerateIterationSnippetJob.perform_later(i)}
-9. Import contributor teams (tracks/reviewers/tooling teams)
-10. Import contributor team members (see https://github.com/exercism/ErikSchierboom/blob/main/fsharp-scripts/Scripts/AnalyzeMaintainers.fs)
-11. Remove unneeded teams
-12. Fix submission filenames
+4. Import GitHub Usernames
 
+```bash
+mysql -u root website_etl2 < ../github_usernames.sql
 ```
-# Create regular expression to match one of the track slugs
-track_slugs = Track.pluck(:slug).map {|slug| Regexp.escape(slug)}
-track_slug_regex_match = "(#{track_slugs.join('|')})"
 
-files_to_upsert = []
+5. Take snapshot
+6. Fix up Nim (https://github.com/exercism/reasonml/issues/162)
+7. Rename reasonml (https://github.com/exercism/reasonml/issues/162)
 
-Submission::File.find_each do |file|
-    sanitized_file = file.filename
-    .gsub(/\\+/, '/') # Replace one or more consecutive backslashes with one slash
-    .gsub(/.*?\/#{track_slug_regex_match}\/[^\/]+\/(.+)/, '\2') # Strip off everything before and including the <track>/<exercise> part of the path
-    .gsub(/^\//, '') # Remove leading slash
+8. `bundle exec rails r 'Track.all.each { |t| SyncTrack.(t, force_sync: true) }'`
+9. Take snapshot
 
-    next if file.filename == sanitized_file
+10. Take snapshot
+11. Deploy
 
-    files_to_upsert << file.attributes.symbolize_keys.merge(filename: sanitized_file)
-end
+12. `bundle exec rails r SyncBlogJob.perform_later`
+13. `bundle exec rails r SyncDocsJob.perform_later`
+14. `bundle exec rails r UpdateWebsiteCopyJob.perform_later`
+15. `bundle exec rails r SyncIssuesAndTasksJob.perform_later`
+16. `bundle exec rails r SyncTracksJob.perform_later`
+17. `bundle exec rails r FetchAndSyncAllPullRequestsReputationJob`
+18. `Iteration.find_each {|i|GenerateIterationSnippetJob.perform_later(i)}`
 
-Submission::File.upsert_all(files_to_upsert)
-```
+19. Sort teams
+
+- Import contributor teams (tracks/reviewers/tooling teams)
+- Import contributor team members (see https://github.com/exercism/ErikSchierboom/blob/main/fsharp-scripts/Scripts/AnalyzeMaintainers.fs)
+- Remove unneeded teams

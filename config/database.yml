@@ -17,7 +17,7 @@ default: &default
 development:
   primary:
     <<: *default
-    database: :website_etl
+    database: :website_etl2
 
 test:
   primary:

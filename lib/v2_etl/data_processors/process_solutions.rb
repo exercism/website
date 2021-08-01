@@ -22,13 +22,28 @@ module V2ETL
         # The important_files_has is already set by this point
         Solution.joins(:exercise).update_all(
           "solutions.git_slug = exercises.slug,
-           solutions.git_sha = exercises.git_sha")
+           solutions.git_sha = exercises.git_sha"
+        )
+
+        # Set last iteration to be published if the solution is published.
+        ActiveRecord::Base.connection.execute(<<-SQL)
+          UPDATE solutions
+          JOIN
+          (
+              SELECT MAX(id) as id, solution_id
+              FROM iterations
+              GROUP BY solution_id
+              ORDER BY id ASC
+          ) its
+          ON its.solution_id = solutions.id
+          SET solutions.published_iteration_id = its.id
+          WHERE solutions.published_at IS NOT NULL
+        SQL
 
         # TODO: Uncomment these
         # connection.remove_column :solutions, :approved_by_id
         # connection.remove_column :solutions, :mentoring_requested_at
 
-        # TODO: Set last iteration to be published if the solution is published.
       end
     end
   end

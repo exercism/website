@@ -8,8 +8,8 @@ module V2ETL
 
         # Cache reputation
         connection.execute(<<-SQL)
-        UPDATE users 
-        JOIN ( 
+        UPDATE users
+        JOIN (
           SELECT user_id, SUM(user_reputation_tokens.value) as val
           FROM user_reputation_tokens
           GROUP BY user_reputation_tokens.user_id
@@ -17,6 +17,9 @@ module V2ETL
         ON rt.user_id = users.id
         SET reputation = rt.val
         SQL
+
+        # TODO
+        # Set UpdateMentorStatsJob via SQL
       end
     end
   end

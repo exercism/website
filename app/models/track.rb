@@ -4,11 +4,10 @@ class Track < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
-  # TODO: Pre-launch: remove dependent: :destroy
+  # TODO: Pre-launch: For all three remove dependent: :destroy
   has_many :concepts, class_name: "::Concept", dependent: :destroy
-
-  # TODO: Pre-launch: remove dependent: :destroy
   has_many :exercises, dependent: :destroy
+  has_many :user_tracks, dependent: :destroy
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent

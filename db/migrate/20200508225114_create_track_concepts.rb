@@ -8,7 +8,6 @@ class CreateTrackConcepts < ActiveRecord::Migration[6.0]
 
       t.string :name, null: false
 
-      # TODO: Make null: false before launch (Check ETL won't break)
       t.string :blurb, null: true, limit: 350
       t.string :synced_to_git_sha, null: false
 

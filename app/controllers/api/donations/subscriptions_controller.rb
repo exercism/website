@@ -8,7 +8,7 @@ module API
         render json: {
           subscription: {
             links: {
-              index: Exercism::Routes.donations_settings_url
+              index: donations_settings_url
             }
           }
         }
@@ -21,7 +21,7 @@ module API
         render json: {
           subscription: {
             links: {
-              index: Exercism::Routes.donations_settings_url
+              index: donations_settings_url
             }
           }
         }

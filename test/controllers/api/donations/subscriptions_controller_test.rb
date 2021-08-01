@@ -18,7 +18,8 @@ module API
       patch cancel_api_donations_subscription_path(subscription.id), headers: @headers, as: :json
 
       assert_response 200
-      assert_equal({}.to_json, response.body)
+      expected = { subscription: { links: { index: donations_settings_url } } }
+      assert_equal(expected.to_json, response.body)
     end
 
     #################
@@ -34,9 +35,9 @@ module API
       setup_user(user)
       patch update_amount_api_donations_subscription_path(subscription.id, amount_in_dollars: amount_in_dollars), headers: @headers,
                                                                                                                   as: :json
-
       assert_response 200
-      assert_equal({}.to_json, response.body)
+      expected = { subscription: { links: { index: donations_settings_url } } }
+      assert_equal(expected.to_json, response.body)
     end
   end
 end

@@ -5,7 +5,7 @@ import { setupServer } from 'msw/node'
 import { render } from '../../../test-utils'
 import { screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { EmptyIterations } from '../../../../../app/javascript/components/student/iteration-page/EmptyIterations'
+import { EmptyIterations } from '../../../../../app/javascript/components/student/iterations-list/EmptyIterations'
 import { expectConsoleError } from '../../../support/silence-console'
 import { redirectTo } from '../../../../../app/javascript/utils/redirect-to'
 

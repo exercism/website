@@ -64,6 +64,7 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution
     it_1 = create :iteration, solution: solution
     it_2 = create :iteration, solution: solution
+    create :iteration, solution: solution, deleted_at: Time.current
 
     assert_empty solution.published_iterations
 
@@ -72,6 +73,15 @@ class SolutionTest < ActiveSupport::TestCase
 
     solution.update(published_iteration: it_2)
     assert_equal [it_2], solution.published_iterations
+  end
+
+  test "ignore deleted published_iterations" do
+    solution = create :concept_solution, :published
+    old = create :iteration, solution: solution
+    deleted = create :iteration, solution: solution, deleted_at: Time.current
+    solution.update(published_iteration: deleted)
+
+    assert_equal [old], solution.published_iterations
   end
 
   test "downloaded?" do
@@ -477,10 +487,11 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal :none, solution.mentoring_status
   end
 
-  test "latest iteration" do
+  test "latest iteration does not include deleted" do
     solution = create :concept_solution
     create :iteration, solution: solution
     iteration = create :iteration, solution: solution
+    create :iteration, solution: solution, deleted_at: Time.current
 
     assert_equal iteration, solution.latest_iteration
   end

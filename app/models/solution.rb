@@ -82,14 +82,14 @@ class Solution < ApplicationRecord
 
   def published_iterations
     return [] unless published?
-    return [published_iteration] if published_iteration
+    return [published_iteration] if published_iteration && !published_iteration.deleted?
 
-    iterations
+    iterations.not_deleted
   end
 
   memoize
   def latest_iteration
-    iterations.last
+    iterations.not_deleted.last
   end
 
   memoize

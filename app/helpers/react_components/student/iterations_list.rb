@@ -1,11 +1,11 @@
 module ReactComponents
   module Student
-    class IterationPage < ReactComponent
+    class IterationsList < ReactComponent
       initialize_with :solution
 
       def to_s
         super(
-          "student-iteration-page",
+          "student-iterations-list",
           {
             solution_uuid: solution.uuid,
             request: request,

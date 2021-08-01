@@ -2,7 +2,7 @@ import React, { useState, createContext } from 'react'
 import { AnalysisInformation } from './AnalysisInformation'
 import { TestsInformation } from './TestsInformation'
 import { Iteration } from '../../types'
-import { Exercise, Track, Links } from '../IterationPage'
+import { Exercise, Track, Links } from '../IterationsList'
 import { Tab, TabContext } from '../../common/Tab'
 import { GraphicalIcon } from '../../common'
 

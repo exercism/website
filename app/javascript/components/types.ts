@@ -316,6 +316,7 @@ export enum SubmissionTestsStatus {
 }
 
 export enum IterationStatus {
+  DELETED = 'deleted',
   UNTESTED = 'untested',
   TESTING = 'testing',
   TESTS_FAILED = 'tests_failed',

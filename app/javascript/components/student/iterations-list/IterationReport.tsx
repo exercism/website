@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { IterationSummary } from '../../track/IterationSummary'
-import { Iteration } from '../../types'
+import { Iteration, IterationStatus } from '../../types'
 import { FilePanel } from '../../mentoring/session/FilePanel'
 import { IterationFiles } from '../../mentoring/session/IterationFiles'
 import { Information } from './Information'
-import { Exercise, Track, Links } from '../IterationPage'
+import { Exercise, Track, Links } from '../IterationsList'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 export const IterationReport = ({
@@ -53,31 +53,35 @@ export const IterationReport = ({
           </div>
         </div>
       </summary>
-      <div className="content">
-        <div className="files">
-          {iteration.files ? (
-            <FilePanel
-              files={iteration.files}
-              language={track.highlightjsLanguage}
-              indentSize={track.indentSize}
+      {iteration.status == IterationStatus.DELETED ? (
+        <div className="deleted">This iteration has been deleted</div>
+      ) : (
+        <div className="content">
+          <div className="files">
+            {iteration.files ? (
+              <FilePanel
+                files={iteration.files}
+                language={track.highlightjsLanguage}
+                indentSize={track.indentSize}
+              />
+            ) : (
+              <IterationFiles
+                endpoint={iteration.links.files}
+                language={track.highlightjsLanguage}
+                indentSize={track.indentSize}
+              />
+            )}
+          </div>
+          <div className="information">
+            <Information
+              iteration={iteration}
+              exercise={exercise}
+              track={track}
+              links={links}
             />
-          ) : (
-            <IterationFiles
-              endpoint={iteration.links.files}
-              language={track.highlightjsLanguage}
-              indentSize={track.indentSize}
-            />
-          )}
+          </div>
         </div>
-        <div className="information">
-          <Information
-            iteration={iteration}
-            exercise={exercise}
-            track={track}
-            links={links}
-          />
-        </div>
-      </div>
+      )}
     </details>
   )
 }

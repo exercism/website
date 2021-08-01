@@ -64,6 +64,10 @@
                     }
                 }
             }
+            & .deleted {
+                @apply p-32;
+                @apply text-16 text-textColor6 text-center;
+            }
             & .content {
                 @apply flex-grow;
                 @apply flex items-stretch;

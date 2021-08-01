@@ -1,7 +1,7 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common'
 import { Iteration, IterationStatus } from '../../types'
-import { Exercise, Track, Links } from '../IterationPage'
+import { Exercise, Track, Links } from '../IterationsList'
 import { RepresenterFeedback } from './RepresenterFeedback'
 import { AnalyzerFeedback } from './AnalyzerFeedback'
 
@@ -17,6 +17,7 @@ export const AnalysisInformation = ({
   links: Links
 }): JSX.Element | null => {
   switch (iteration.status) {
+    case IterationStatus.DELETED:
     case IterationStatus.TESTING:
     case IterationStatus.ANALYZING:
       return (

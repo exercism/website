@@ -9,6 +9,8 @@ export const ProcessingStatusButton = ({
   iteration: Iteration
 }): JSX.Element => {
   switch (iteration.status) {
+    case IterationStatus.DELETED:
+      return <></>
     case IterationStatus.TESTS_FAILED:
     case IterationStatus.ESSENTIAL_AUTOMATED_FEEDBACK:
     case IterationStatus.ACTIONABLE_AUTOMATED_FEEDBACK:

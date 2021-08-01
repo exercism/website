@@ -93,6 +93,7 @@ export const SolutionSummary = ({
     }
 
     switch (latestIteration.status) {
+      case IterationStatus.DELETED:
       case IterationStatus.UNTESTED:
       case IterationStatus.TESTING:
       case IterationStatus.ANALYZING:

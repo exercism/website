@@ -8,6 +8,7 @@ class SerializeIteration
 
   def call
     return if iteration.blank?
+    return deleted_version if iteration.deleted?
 
     {
       uuid: iteration.uuid,
@@ -41,4 +42,26 @@ class SerializeIteration
 
   private
   attr_reader :iteration, :sideload
+
+  def deleted_version
+    {
+      uuid: iteration.uuid,
+      idx: iteration.idx,
+      status: 'deleted',
+      num_essential_automated_comments: 0,
+      num_actionable_automated_comments: 0,
+      num_non_actionable_automated_comments: 0,
+      submission_method: iteration.submission.submitted_via,
+      created_at: iteration.created_at.iso8601,
+      tests_status: 'not_queued',
+      representer_feedback: 'not_queued',
+      analyzer_feedback: 'not_queued',
+      is_published: false,
+      files: sideload.include?(:files) ? [] : nil,
+      links: {
+        self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx),
+        solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise)
+      }
+    }.compact
+  end
 end

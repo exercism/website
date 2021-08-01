@@ -31,6 +31,10 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to intro_profiles_path
   end
 
+  test "show doesn't include unpublished testimonials" do
+    skip # TODO: (optional)
+  end
+
   #########
   # Intro #
   #########
@@ -88,5 +92,12 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
     post profiles_url
     assert_redirected_to profile_path(user, first_time: true)
+  end
+
+  ################
+  # Testimonials #
+  ################
+  test "testimonials doesn't include unpublished testimonials" do
+    skip # TODO: (optional)
   end
 end

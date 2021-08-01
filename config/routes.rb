@@ -125,7 +125,7 @@ Rails.application.routes.draw do
       resources :profiles, only: [], param: :handle do
         get :summary, on: :member
 
-        resources :testimonials, only: [:index], controller: "profiles/testimonials", param: :uuid
+        resources :testimonials, only: %i[index destroy], controller: "profiles/testimonials", param: :uuid
         resources :solutions, only: [:index], controller: 'profiles/solutions'
         resources :contributions, only: [], controller: 'profiles/contributions' do
           collection do

@@ -13,7 +13,7 @@ class ProfilesController < ApplicationController
     @testimonials = @user.mentor_testimonials.published.first(3)
 
     @num_total_solutions = @user.solutions.published.count
-    @num_testimonials = @user.mentor_testimonials.count
+    @num_testimonials = @user.mentor_testimonials.published.count
   end
 
   def solutions
@@ -25,12 +25,13 @@ class ProfilesController < ApplicationController
 
   def contributions; end
 
+  # TODO: (Optional) Add tests for published scope
   def testimonials
     @num_solutions_mentored = @user.mentor_discussions.count
     @num_students_helped = @user.mentor_discussions.joins(:solution).distinct.count(:user_id)
-    @num_testimonials = @user.mentor_testimonials.count
+    @num_testimonials = @user.mentor_testimonials.published.count
 
-    @testimonials = @user.mentor_testimonials.sort_by { rand }
+    @testimonials = @user.mentor_testimonials.published.sort_by { rand }
   end
 
   def badges

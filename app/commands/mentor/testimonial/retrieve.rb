@@ -36,7 +36,7 @@ module Mentor
       attr_reader :mentor, :page, :criteria, :order, :track_slug, :include_unrevealed
 
       def setup!
-        @testimonials = mentor.mentor_testimonials
+        @testimonials = mentor.mentor_testimonials.not_deleted
       end
 
       def filter!

@@ -38,6 +38,7 @@ class SerializeIterationTest < ActiveSupport::TestCase
         }],
         links: {
           self: Exercism::Routes.track_exercise_iterations_url(track, exercise, idx: iteration.idx),
+          delete: Exercism::Routes.api_solution_iteration_url(iteration.solution.uuid, iteration.uuid),
           solution: Exercism::Routes.track_exercise_url(track, exercise),
           test_run: Exercism::Routes.api_solution_submission_test_run_url(iteration.solution.uuid,
             iteration.submission.uuid),

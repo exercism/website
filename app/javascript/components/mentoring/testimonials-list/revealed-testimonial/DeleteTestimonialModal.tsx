@@ -1,0 +1,85 @@
+import React, { useCallback } from 'react'
+import { QueryKey } from 'react-query'
+import { Modal, ModalProps } from '../../../modals/Modal'
+import { Testimonial } from '../../../types'
+import { useMutation, queryCache } from 'react-query'
+import { sendRequest } from '../../../../utils/send-request'
+import { FormButton } from '../../../common'
+import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
+import { PaginatedResult } from '../../TestimonialsList'
+
+const DEFAULT_ERROR = new Error('Unable to delete testimonial')
+
+export const DeleteTestimonialModal = ({
+  testimonial,
+  cacheKey,
+  onClose,
+  ...props
+}: Omit<ModalProps, 'className'> & {
+  testimonial: Testimonial
+  cacheKey: QueryKey
+}): JSX.Element => {
+  const [mutation, { status, error }] = useMutation(
+    () => {
+      const { fetch } = sendRequest({
+        endpoint: testimonial.links.delete,
+        method: 'DELETE',
+        body: null,
+      })
+
+      return fetch
+    },
+    {
+      onSuccess: () => {
+        queryCache.setQueryData<PaginatedResult | undefined>(
+          cacheKey,
+          (result) => {
+            if (!result) {
+              return
+            }
+
+            return {
+              ...result,
+              results: result.results.filter(
+                (t) => t.uuid !== testimonial.uuid
+              ),
+            }
+          }
+        )
+      },
+    }
+  )
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
+  const handleClose = useCallback(() => {
+    if (status === 'loading') {
+      return
+    }
+
+    onClose()
+  }, [onClose, status])
+
+  return (
+    <Modal className="m-delete-testimonial" onClose={handleClose} {...props}>
+      <form onSubmit={handleSubmit}>
+        <FormButton type="submit" status={status}>
+          Delete testimonial
+        </FormButton>
+        <FormButton type="button" status={status} onClick={handleClose}>
+          Cancel
+        </FormButton>
+      </form>
+      <ErrorBoundary resetKeys={[status]}>
+        <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+      </ErrorBoundary>
+    </Modal>
+  )
+}

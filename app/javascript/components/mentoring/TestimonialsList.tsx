@@ -138,6 +138,7 @@ export const TestimonialsList = ({
                         <RevealedTestimonial
                           key={testimonial.uuid}
                           testimonial={testimonial}
+                          cacheKey={cacheKey}
                           isRevealed={revealedTestimonials.includes(
                             testimonial.uuid
                           )}

@@ -16,6 +16,10 @@ module API
 
     def destroy
       @testimonial.soft_destroy!
+
+      render json: {
+        testimonial: SerializeMentorTestimonial.(@testimonial)
+      }
     end
 
     private

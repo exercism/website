@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
+import { QueryKey } from 'react-query'
 import { fromNow } from '../../../utils/time'
-import { Avatar, Icon, GraphicalIcon, TrackIcon } from '../../common'
+import { Avatar, GraphicalIcon, TrackIcon } from '../../common'
 import { TestimonialModal } from '../../modals/TestimonialModal'
 import { Testimonial } from '../../types'
+import { OptionsDropdown } from './revealed-testimonial/OptionsDropdown'
 
 export const RevealedTestimonial = ({
   testimonial,
+  cacheKey,
   isRevealed,
 }: {
   testimonial: Testimonial
+  cacheKey: QueryKey
   isRevealed: boolean
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
@@ -44,9 +48,7 @@ export const RevealedTestimonial = ({
           </time>
           <GraphicalIcon icon="modal" className="action-icon" />
         </a>
-        <button className="options-button">
-          <Icon icon="more-horizontal" alt="Options" />
-        </button>
+        <OptionsDropdown testimonial={testimonial} cacheKey={cacheKey} />
       </div>
       <TestimonialModal
         open={open}

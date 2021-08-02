@@ -2,26 +2,18 @@ import React, { useCallback } from 'react'
 
 export const CustomAmountInput = ({
   onChange,
-  defaultAmount,
   selected,
 }: {
   onChange: (amount: number) => void
-  defaultAmount: number
   selected: boolean
 }): JSX.Element => {
   const handleCustomAmountChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const amount = parseInt(e.target.value)
 
-      if (isNaN(amount)) {
-        onChange(defaultAmount)
-
-        return
-      }
-
       onChange(amount)
     },
-    [onChange, defaultAmount]
+    [onChange]
   )
 
   const classNames = ['c-faux-input', selected ? 'selected' : ''].filter(

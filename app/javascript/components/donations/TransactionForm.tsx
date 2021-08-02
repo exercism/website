@@ -1,26 +1,19 @@
-import React, { useState } from 'react'
-import { ExercismStripeElements } from './donation-form/ExercismStripeElements'
-import { StripeForm } from './StripeForm'
-import { PaymentIntentType } from './StripeForm'
+import React from 'react'
 import { AmountButton } from './donation-form/AmountButton'
 import { CustomAmountInput } from './donation-form/CustomAmountInput'
 
 type Props = {
-  defaultAmountInDollars: number
+  amountInDollars: number
   presetAmountsInDollars: number[]
-  transactionType: PaymentIntentType
-  onSuccess: (type: PaymentIntentType, amountInDollars: number) => void
+  onAmountChange: (value: number) => void
 }
 
 export const TransactionForm = ({
-  defaultAmountInDollars,
+  amountInDollars,
   presetAmountsInDollars,
-  transactionType,
-  onSuccess,
+  onAmountChange,
   children,
 }: React.PropsWithChildren<Props>): JSX.Element => {
-  const [amountInDollars, setAmountInDollars] = useState(defaultAmountInDollars)
-
   return (
     <React.Fragment>
       <div>
@@ -31,7 +24,7 @@ export const TransactionForm = ({
               <AmountButton
                 key={amount}
                 value={amount}
-                onClick={setAmountInDollars}
+                onClick={onAmountChange}
                 current={amountInDollars}
               />
             ))}
@@ -39,19 +32,11 @@ export const TransactionForm = ({
 
           <h3>Or specify a custom amount:</h3>
           <CustomAmountInput
-            onChange={setAmountInDollars}
-            defaultAmount={defaultAmountInDollars}
+            onChange={onAmountChange}
             selected={!presetAmountsInDollars.includes(amountInDollars)}
           />
         </div>
       </div>
-      <ExercismStripeElements>
-        <StripeForm
-          paymentIntentType={transactionType}
-          amountInDollars={amountInDollars}
-          onSuccess={onSuccess}
-        />
-      </ExercismStripeElements>
     </React.Fragment>
   )
 }

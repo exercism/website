@@ -74,7 +74,6 @@ class Solution < ApplicationRecord
   end
 
   delegate :instructions, :introduction, :tests, :source, :source_url, to: :git_exercise
-  delegate :solution_files, to: :exercise, prefix: 'exercise'
 
   def starred_by?(user)
     stars.exists?(user: user)
@@ -183,14 +182,27 @@ class Solution < ApplicationRecord
     git_important_files_hash != exercise.git_important_files_hash
   end
 
+  def exercise_solution_files
+    exercise.solution_files.transform_values do |content|
+      {
+        type: :exercise,
+        content: content
+      }
+    end
+  end
+
   def solution_files
     files = exercise_solution_files
 
     submission = submissions.last
-    if submission # rubocop:disable Style/SafeNavigation
-      submission.files.each do |file|
-        files[file.filename] = file.content
-      end
+    return files unless submission
+
+    submission.files.each do |file|
+      type = files.key?(file.filename) ? :solution : :legacy
+      files[file.filename] = {
+        type: type,
+        content: file.content
+      }
     end
 
     files

@@ -34,6 +34,24 @@ module API
       )
     end
 
+    test "returns an error if raised" do
+      error = "oh dear!!"
+      ::Donations::PaymentIntent::Create.expects(:call).raises(Stripe::InvalidRequestError.new(error, nil))
+
+      setup_user
+      post api_donations_payment_intents_path(
+        type: 'subscription', amount_in_dollars: 10
+      ), headers: @headers, as: :json
+
+      assert_response 200
+      assert_equal(
+        {
+          "error" => error
+        },
+        JSON.parse(response.body)
+      )
+    end
+
     #############
     # Succeeded #
     #############

@@ -14,6 +14,12 @@ module API
             client_secret: payment_intent.client_secret
           }
         }
+      rescue Stripe::InvalidRequestError => e
+        # React currently can't handle this being
+        # anything other than a 200
+        render json: {
+          error: e.message
+        }, status: :ok
       end
 
       def succeeded

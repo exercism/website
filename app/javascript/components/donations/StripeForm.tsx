@@ -102,7 +102,13 @@ export function StripeForm({
         type: paymentIntentType,
         amount_in_dollars: amountInDollars,
       }),
-    }).then((data: any) => data.paymentIntent)
+    }).then((data: any) => {
+      if (data.error) {
+        setError(`Payment failed with error: ${data.error}`)
+        return null
+      }
+      return data.paymentIntent
+    })
   }, [paymentIntentType, amountInDollars])
 
   const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -118,6 +124,12 @@ export function StripeForm({
     setProcessing(true)
 
     getPaymentRequest().then(async (paymentIntent: PaymentIntent) => {
+      // If we've failed to get a payment intent get out of here
+      if (paymentIntent === undefined || paymentIntent === null) {
+        setProcessing(false)
+        return
+      }
+
       // Get a reference to a mounted CardElement. Elements knows how
       // to find the CardElement because there can only ever be one of
       // each type of element. We could maybe use a ref here instead?
@@ -156,7 +168,7 @@ export function StripeForm({
           <button
             className="btn-primary btn-s"
             type="submit"
-            disabled={processing || !cardValid || succeeded}
+            /*disabled={processing || !cardValid || succeeded}*/
           >
             {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
             <span>

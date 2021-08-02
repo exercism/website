@@ -39,7 +39,7 @@ export const OptionsDropdown = ({
         />
       </button>
       {open ? (
-        <div {...panelAttributes}>
+        <div {...panelAttributes} className="c-dropdown-generic-menu">
           <ul {...listAttributes}>
             <li {...itemAttributes(0)}>
               <button onClick={handleDelete}>Delete iteration</button>

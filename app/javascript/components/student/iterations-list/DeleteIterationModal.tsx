@@ -49,12 +49,22 @@ export const DeleteIterationModal = ({
   }, [onClose, status])
 
   return (
-    <Modal className="m-delete-iteration" onClose={handleClose} {...props}>
-      <form onSubmit={handleSubmit}>
-        <FormButton type="submit" status={status}>
+    <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
+      <h3>Are you sure you want to delete Iteration {iteration.idx}?</h3>
+      <p>
+        Deleted iterations are also removed from published solutions and
+        mentoring discussions. <strong>This is irreversible.</strong>
+      </p>
+      <form onSubmit={handleSubmit} className="buttons">
+        <FormButton type="submit" status={status} className="btn-primary btn-s">
           Delete iteration
         </FormButton>
-        <FormButton type="button" status={status} onClick={handleClose}>
+        <FormButton
+          type="button"
+          status={status}
+          onClick={handleClose}
+          className="btn-enhanced btn-s"
+        >
           Cancel
         </FormButton>
       </form>

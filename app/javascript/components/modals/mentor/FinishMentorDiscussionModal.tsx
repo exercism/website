@@ -31,7 +31,7 @@ export const FinishMentorDiscussionModal = ({
     <Modal
       open={open}
       onClose={onCancel}
-      className="m-finish-mentor-discussion"
+      className="m-generic-confirmation"
       {...props}
     >
       <h3>Are you sure you want to end this discussion?</h3>

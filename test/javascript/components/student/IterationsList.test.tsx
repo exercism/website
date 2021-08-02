@@ -51,7 +51,7 @@ test('clicking cancel closes the delete modal', async () => {
     />
   )
 
-  userEvent.click(screen.getByAltText('Options'))
+  userEvent.click(screen.getByAltText('Options for iteration 1'))
   userEvent.click(
     await screen.findByRole('button', { name: 'Delete iteration' })
   )

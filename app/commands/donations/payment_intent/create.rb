@@ -1,4 +1,7 @@
 module Donations
+  class PaymentIntentError < RuntimeError
+  end
+
   module PaymentIntent
     class Create
       include Mandate

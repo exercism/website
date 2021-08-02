@@ -25,7 +25,7 @@ module Flows
           visit mentoring_testimonials_path
           find(".options-button").click
           click_on "Delete testimonial"
-          within(".m-delete-testimonial") { click_on("Delete testimonial") }
+          within(".m-generic-confirmation") { click_on("Delete testimonial") }
 
           assert_no_text "Great mentor!"
         end

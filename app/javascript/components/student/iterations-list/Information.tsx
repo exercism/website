@@ -4,8 +4,8 @@ import { TestsInformation } from './TestsInformation'
 import { Iteration } from '../../types'
 import { Exercise, Track, Links } from '../IterationsList'
 import { Tab, TabContext } from '../../common/Tab'
-import { GraphicalIcon } from '../../common'
 import { OptionsDropdown } from './OptionsDropdown'
+import { GraphicalIcon } from '../../common'
 
 type TabIndex = 'analysis' | 'tests'
 
@@ -45,7 +45,6 @@ export const Information = ({
           <GraphicalIcon icon="tests" />
           Tests
         </Tab>
-        {/* iHiD: The version you pushed didn't have this */}
         <OptionsDropdown iteration={iteration} onDelete={onDelete} />
       </div>
       <div className="panels">

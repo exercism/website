@@ -33,7 +33,10 @@ export const OptionsDropdown = ({
   return (
     <React.Fragment>
       <button className="options-button" {...buttonAttributes}>
-        <Icon icon="more-horizontal" alt="Options" />
+        <Icon
+          icon="more-horizontal"
+          alt={`Options for iteration ${iteration.idx}`}
+        />
       </button>
       {open ? (
         <div {...panelAttributes}>

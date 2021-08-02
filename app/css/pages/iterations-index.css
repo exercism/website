@@ -94,6 +94,11 @@
                         & .c-tab {
                             line-height: 38px;
                         }
+
+                        & .options-button {
+                            @apply py-6 px-12 ml-auto;
+                            @apply shadow-smZ1 rounded-8;
+                        }
                     }
                     & .panels {
                         @apply overflow-auto;

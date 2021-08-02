@@ -5,7 +5,7 @@ import { FilePanel } from '../../mentoring/session/FilePanel'
 import { IterationFiles } from '../../mentoring/session/IterationFiles'
 import { Information } from './Information'
 import { Exercise, Track, Links } from '../IterationsList'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { GraphicalIcon } from '../../common'
 
 export const IterationReport = ({
   iteration,

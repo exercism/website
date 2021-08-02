@@ -125,7 +125,7 @@ Rails.application.routes.draw do
       resources :profiles, only: [], param: :handle do
         get :summary, on: :member
 
-        resources :testimonials, only: [:index], controller: "profiles/testimonials", param: :uuid
+        resources :testimonials, only: %i[index], controller: "profiles/testimonials", param: :uuid
         resources :solutions, only: [:index], controller: 'profiles/solutions'
         resources :contributions, only: [], controller: 'profiles/contributions' do
           collection do
@@ -200,7 +200,7 @@ Rails.application.routes.draw do
           resources :posts, only: %i[index create update destroy], controller: "discussion_posts", param: :uuid
         end
 
-        resources :testimonials, only: [:index], param: :uuid do
+        resources :testimonials, only: %i[index destroy], param: :uuid do
           member do
             patch :reveal
           end

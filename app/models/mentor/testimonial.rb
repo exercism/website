@@ -10,12 +10,17 @@ class Mentor::Testimonial < ApplicationRecord
     self.uuid = SecureRandom.uuid unless self.uuid
   end
 
-  # TODO
-  scope :not_deleted, -> {}
+  scope :not_deleted, -> { where(deleted_at: nil) }
 
-  # TODO
-  scope :published, -> {}
+  # TODO: If we add publishing as a thing, then
+  # honour that here too.
+  scope :published, -> { revealed.not_deleted }
 
   scope :revealed, -> { where(revealed: true) }
   scope :unrevealed, -> { where(revealed: false) }
+
+  # TODO
+  def soft_destroy!(time: Time.current)
+    update!(deleted_at: time)
+  end
 end

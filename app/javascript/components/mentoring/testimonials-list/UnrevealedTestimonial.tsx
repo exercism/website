@@ -75,7 +75,7 @@ export const UnrevealedTestimonial = ({
         reveal()
         e.preventDefault()
       }}
-      className="testimonial unrevealed"
+      className="unrevealed-testimonial"
     >
       <TrackIcon {...testimonial.track} />
       <GraphicalIcon icon="avatar-placeholder" className="c-avatar" />

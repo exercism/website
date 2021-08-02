@@ -56,7 +56,7 @@ export const DeleteIterationModal = ({
         mentoring discussions. <strong>This is irreversible.</strong>
       </p>
       <form onSubmit={handleSubmit} className="buttons">
-        <FormButton type="submit" status={status} className="btn-primary btn-s">
+        <FormButton type="submit" status={status} className="btn-warning btn-s">
           Delete iteration
         </FormButton>
         <FormButton

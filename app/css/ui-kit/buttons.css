@@ -107,6 +107,7 @@
 }
 
 .btn-warning {
+    @apply btn-i-filled;
     @apply bg-warning text-white;
     @apply border-1 border-warningBtnBorder;
 

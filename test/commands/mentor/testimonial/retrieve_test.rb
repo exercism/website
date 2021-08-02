@@ -9,6 +9,14 @@ class Mentor::Testimonial::RetrieveTest < ActiveSupport::TestCase
     assert_equal [testimonial], Mentor::Testimonial::Retrieve.(mentor: mentor)
   end
 
+  test "only retrieves not_deleted testimonials" do
+    mentor = create :user
+    testimonial = create :mentor_testimonial, :revealed, mentor: mentor, deleted_at: nil
+    create :mentor_testimonial, :revealed, mentor: mentor, deleted_at: Time.current
+
+    assert_equal [testimonial], Mentor::Testimonial::Retrieve.(mentor: mentor)
+  end
+
   test "honours include_unrevealed" do
     mentor = create :user
     revealed = create :mentor_testimonial, :revealed, mentor: mentor

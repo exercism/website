@@ -17,7 +17,7 @@ module Flows
         sign_in!(mentor)
         visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
         click_on "End discussion"
-        within(".m-finish-mentor-discussion") { click_on "End discussion" }
+        within(".m-generic-confirmation") { click_on "End discussion" }
 
         assert_text "You've finished your discussion with student-123."
       end

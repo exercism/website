@@ -17,7 +17,8 @@ module ReactComponents
           num_solutions_mentored: num_solutions_mentored,
           num_students_helped: num_students_helped,
           num_testimonials_received: num_testimonials,
-          testimonials: SerializeMentorTestimonials.(user.mentor_testimonials.limit(3)),
+          # TODO: (Optional) Add test for published
+          testimonials: SerializeMentorTestimonials.(user.mentor_testimonials.published.limit(3)),
           links: {
             all: profile.testimonials_tab? ? "#" : nil
           }
@@ -29,7 +30,7 @@ module ReactComponents
 
       memoize
       def num_testimonials
-        user.mentor_testimonials.count
+        user.mentor_testimonials.published.count
       end
 
       def num_solutions_mentored

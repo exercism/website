@@ -41,11 +41,11 @@ class ViewComponents::Profile::HeaderTest < ActionView::TestCase
     user = create :user, roles: [:must_be_present]
     profile_id = create(:user_profile, user: user).id
 
-    3.times { create :mentor_testimonial, mentor: user }
+    3.times { create :mentor_testimonial, :revealed, mentor: user }
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     refute_includes html, "Testimonials"
 
-    create :mentor_testimonial, mentor: user
+    create :mentor_testimonial, :revealed, mentor: user
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     assert_includes html, "Testimonials"
   end

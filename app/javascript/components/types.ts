@@ -70,6 +70,7 @@ export type Testimonial = {
   isRevealed: boolean
   links: {
     reveal: string
+    delete: string
   }
 }
 

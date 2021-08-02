@@ -20,7 +20,7 @@ module Flows
         visit track_exercise_iterations_url(track, exercise)
         find(".options-button").click
         click_on "Delete iteration"
-        within(".m-delete-iteration") { click_on "Delete iteration" }
+        within(".m-generic-confirmation") { click_on "Delete iteration" }
 
         assert_text "This iteration has been deleted"
       end

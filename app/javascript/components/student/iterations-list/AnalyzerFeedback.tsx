@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon, TrackIcon } from '../../common'
 import { AnalyzerFeedback as Props, AnalyzerFeedbackComment } from '../../types'
-import { Track } from '../IterationPage'
+import { Track } from '../IterationsList'
 
 export const AnalyzerFeedback = ({
   summary,

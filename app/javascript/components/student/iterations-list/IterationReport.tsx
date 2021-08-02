@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { IterationSummary } from '../../track/IterationSummary'
-import { Iteration } from '../../types'
+import { Iteration, IterationStatus } from '../../types'
 import { FilePanel } from '../../mentoring/session/FilePanel'
 import { IterationFiles } from '../../mentoring/session/IterationFiles'
 import { Information } from './Information'
-import { Exercise, Track, Links } from '../IterationPage'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { Exercise, Track, Links } from '../IterationsList'
+import { GraphicalIcon } from '../../common'
 
 export const IterationReport = ({
   iteration,
@@ -15,6 +15,7 @@ export const IterationReport = ({
   isOpen,
   onExpanded,
   onCompressed,
+  onDelete,
 }: {
   iteration: Iteration
   exercise: Exercise
@@ -23,6 +24,7 @@ export const IterationReport = ({
   isOpen: boolean
   onExpanded: () => void
   onCompressed: () => void
+  onDelete: (iteration: Iteration) => void
 }): JSX.Element => {
   return (
     <details open={isOpen} className="iteration c-details">
@@ -53,31 +55,36 @@ export const IterationReport = ({
           </div>
         </div>
       </summary>
-      <div className="content">
-        <div className="files">
-          {iteration.files ? (
-            <FilePanel
-              files={iteration.files}
-              language={track.highlightjsLanguage}
-              indentSize={track.indentSize}
+      {iteration.status == IterationStatus.DELETED ? (
+        <div className="deleted">This iteration has been deleted</div>
+      ) : (
+        <div className="content">
+          <div className="files">
+            {iteration.files ? (
+              <FilePanel
+                files={iteration.files}
+                language={track.highlightjsLanguage}
+                indentSize={track.indentSize}
+              />
+            ) : (
+              <IterationFiles
+                endpoint={iteration.links.files}
+                language={track.highlightjsLanguage}
+                indentSize={track.indentSize}
+              />
+            )}
+          </div>
+          <div className="information">
+            <Information
+              iteration={iteration}
+              exercise={exercise}
+              track={track}
+              links={links}
+              onDelete={onDelete}
             />
-          ) : (
-            <IterationFiles
-              endpoint={iteration.links.files}
-              language={track.highlightjsLanguage}
-              indentSize={track.indentSize}
-            />
-          )}
+          </div>
         </div>
-        <div className="information">
-          <Information
-            iteration={iteration}
-            exercise={exercise}
-            track={track}
-            links={links}
-          />
-        </div>
-      </div>
+      )}
     </details>
   )
 }

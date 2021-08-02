@@ -1,5 +1,5 @@
 import React from 'react'
-import { Iteration } from '../../types'
+import { Iteration, IterationStatus } from '../../types'
 import { IterationsList } from './IterationsList'
 import { FilePanel } from './FilePanel'
 import { IterationHeader } from './IterationHeader'
@@ -32,6 +32,7 @@ export const IterationView = ({
   settings: Settings
   setSettings: (settings: Settings) => void
 }): JSX.Element => {
+  /* TODO: Don't do this if currentIteration.links.files is null */
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
     files: File[]
   }>(currentIteration.links.files, {
@@ -48,21 +49,26 @@ export const IterationView = ({
         }
         isOutOfDate={isOutOfDate}
       />
-      <ResultsZone isFetching={isFetching}>
-        <FetchingBoundary
-          error={error}
-          status={status}
-          defaultError={DEFAULT_ERROR}
-        >
-          {resolvedData ? (
-            <FilePanel
-              files={resolvedData.files}
-              language={language}
-              indentSize={indentSize}
-            />
-          ) : null}
-        </FetchingBoundary>
-      </ResultsZone>
+
+      {currentIteration.status == IterationStatus.DELETED ? (
+        <div className="deleted">This iteration has been deleted</div>
+      ) : (
+        <ResultsZone isFetching={isFetching}>
+          <FetchingBoundary
+            error={error}
+            status={status}
+            defaultError={DEFAULT_ERROR}
+          >
+            {resolvedData ? (
+              <FilePanel
+                files={resolvedData.files}
+                language={language}
+                indentSize={indentSize}
+              />
+            ) : null}
+          </FetchingBoundary>
+        </ResultsZone>
+      )}
       <footer className="c-iterations-footer">
         {iterations.length > 1 ? (
           <IterationsList

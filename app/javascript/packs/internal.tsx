@@ -28,7 +28,7 @@ import * as Maintaining from '../components/maintaining'
 import * as Mentoring from '../components/mentoring'
 import * as Student from '../components/student'
 import { Nudge as StudentNudge } from '../components/student/Nudge'
-import { IterationPage as StudentIterationPage } from '../components/student/IterationPage'
+import { IterationsList as StudentIterationsList } from '../components/student/IterationsList'
 import { SolutionSummary as StudentSolutionSummary } from '../components/student/SolutionSummary'
 import { Links as TryMentoringButtonLinks } from '../components/mentoring/TryMentoringButton'
 import { Links as MentoringQueueLinks } from '../components/mentoring/Queue'
@@ -58,11 +58,11 @@ import { TrackMenu as TrackMenuDropdown } from '../components/dropdowns/TrackMen
 import { Links as TrackMenuLinks } from '../components/dropdowns/TrackMenu'
 
 import {
-  Track as IterationPageTrack,
-  Exercise as IterationPageExercise,
-  Links as IterationPageLinks,
-  IterationPageRequest,
-} from '../components/student/IterationPage'
+  Track as IterationsListTrack,
+  Exercise as IterationsListExercise,
+  Links as IterationsListLinks,
+  IterationsListRequest,
+} from '../components/student/IterationsList'
 import { IterationSummaryWithWebsockets } from '../components/track/IterationSummary'
 import {
   SolutionSummaryLinks,
@@ -234,13 +234,13 @@ initReact({
       showFeedbackIndicator={!!data.show_feedback_indicator}
     />
   ),
-  'student-iteration-page': (data: any) => (
-    <StudentIterationPage
+  'student-iterations-list': (data: any) => (
+    <StudentIterationsList
       solutionUuid={data.solution_uuid}
-      request={camelizeKeysAs<IterationPageRequest>(data.request)}
-      exercise={camelizeKeysAs<IterationPageExercise>(data.exercise)}
-      track={camelizeKeysAs<IterationPageTrack>(data.track)}
-      links={camelizeKeysAs<IterationPageLinks>(data.links)}
+      request={camelizeKeysAs<IterationsListRequest>(data.request)}
+      exercise={camelizeKeysAs<IterationsListExercise>(data.exercise)}
+      track={camelizeKeysAs<IterationsListTrack>(data.track)}
+      links={camelizeKeysAs<IterationsListLinks>(data.links)}
     />
   ),
   'student-solution-summary': (data: any) => (

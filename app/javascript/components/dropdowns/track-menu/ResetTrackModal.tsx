@@ -57,7 +57,11 @@ export const ResetTrackModal = ({
   const { attempt, setAttempt, isAttemptPass } = useConfirmation(confirmation)
 
   return (
-    <Modal className="m-reset-track m-destructive" onClose={onClose} {...props}>
+    <Modal
+      className="m-reset-track m-generic-destructive"
+      onClose={onClose}
+      {...props}
+    >
       <form>
         <div className="info">
           <h2>You’re about to reset all your {track.title} progress.</h2>

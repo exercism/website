@@ -1,6 +1,16 @@
 require "test_helper"
 
 class IterationTest < ActiveSupport::TestCase
+  test "not_deleted" do
+    active = create :iteration, deleted_at: nil
+    deleted = create :iteration, deleted_at: Time.current
+
+    refute active.deleted?
+    assert deleted.deleted?
+
+    assert_equal [active], Iteration.not_deleted
+  end
+
   test "published?" do
     solution = create :concept_solution
     iteration = create :iteration, solution: solution

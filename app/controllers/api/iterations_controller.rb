@@ -22,6 +22,20 @@ module API
       }, status: :created
     end
 
+    def destroy
+      begin
+        iteration = @solution.iterations.find_by!(uuid: params[:uuid])
+      rescue ActiveRecord::RecordNotFound
+        return render_iteration_not_found
+      end
+
+      Iteration::Destroy.(iteration)
+
+      render json: {
+        iteration: SerializeIteration.(iteration)
+      }
+    end
+
     private
     def use_solution
       begin

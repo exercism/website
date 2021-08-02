@@ -2,8 +2,9 @@ import React, { useState, createContext } from 'react'
 import { AnalysisInformation } from './AnalysisInformation'
 import { TestsInformation } from './TestsInformation'
 import { Iteration } from '../../types'
-import { Exercise, Track, Links } from '../IterationPage'
+import { Exercise, Track, Links } from '../IterationsList'
 import { Tab, TabContext } from '../../common/Tab'
+import { OptionsDropdown } from './OptionsDropdown'
 import { GraphicalIcon } from '../../common'
 
 type TabIndex = 'analysis' | 'tests'
@@ -18,11 +19,13 @@ export const Information = ({
   exercise,
   track,
   links,
+  onDelete,
 }: {
   iteration: Iteration
   exercise: Exercise
   track: Track
   links: Links
+  onDelete: (iteration: Iteration) => void
 }): JSX.Element | null => {
   const [tab, setTab] = useState<TabIndex>('analysis')
 
@@ -42,6 +45,7 @@ export const Information = ({
           <GraphicalIcon icon="tests" />
           Tests
         </Tab>
+        <OptionsDropdown iteration={iteration} onDelete={onDelete} />
       </div>
       <div className="panels">
         <Tab.Panel

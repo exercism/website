@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Loading } from '../common'
 import { Iteration } from '../types'
-import { IterationReport } from './iteration-page/IterationReport'
-import { EmptyIterations } from './iteration-page/EmptyIterations'
+import { IterationReport } from './iterations-list/IterationReport'
+import { EmptyIterations } from './iterations-list/EmptyIterations'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { SolutionChannel } from '../../channels/solutionChannel'
 import { queryCache } from 'react-query'
@@ -26,7 +26,7 @@ export type Links = {
   solvingExercisesLocally: string
 }
 
-export type IterationPageRequest = {
+export type IterationsListRequest = {
   endpoint: string
   options: {
     initialData: {
@@ -35,7 +35,7 @@ export type IterationPageRequest = {
   }
 }
 
-export const IterationPage = ({
+export const IterationsList = ({
   solutionUuid,
   request,
   exercise,
@@ -43,7 +43,7 @@ export const IterationPage = ({
   links,
 }: {
   solutionUuid: string
-  request: IterationPageRequest
+  request: IterationsListRequest
   exercise: Exercise
   track: Track
   links: Links
@@ -53,6 +53,25 @@ export const IterationPage = ({
   const { resolvedData } = usePaginatedRequestQuery<{
     iterations: readonly Iteration[]
   }>(CACHE_KEY, request)
+
+  const handleDelete = (deletedIteration: Iteration) => {
+    queryCache.setQueryData<{ iterations: readonly Iteration[] }>(
+      CACHE_KEY,
+      (result) => {
+        if (!result) {
+          return { iterations: [] }
+        }
+
+        return {
+          ...result,
+          iterations: result.iterations.map((i) =>
+            i.uuid === deletedIteration.uuid ? deletedIteration : i
+          ),
+        }
+      }
+    ),
+      []
+  }
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
@@ -126,6 +145,7 @@ export const IterationPage = ({
                 onCompressed={() => {
                   setIsOpen(isOpen.map((o, i) => (index === i ? false : o)))
                 }}
+                onDelete={handleDelete}
               />
             )
           })}

@@ -8,6 +8,7 @@ class SerializeIteration
 
   def call
     return if iteration.blank?
+    return deleted_version if iteration.deleted?
 
     {
       uuid: iteration.uuid,
@@ -32,6 +33,7 @@ class SerializeIteration
       end : nil,
       links: {
         self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx),
+        delete: Exercism::Routes.api_solution_iteration_url(iteration.solution.uuid, iteration.uuid),
         solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise),
         test_run: Exercism::Routes.api_solution_submission_test_run_url(iteration.solution.uuid, iteration.submission.uuid),
         files: Exercism::Routes.api_solution_submission_files_url(iteration.solution.uuid, iteration.submission)
@@ -41,4 +43,26 @@ class SerializeIteration
 
   private
   attr_reader :iteration, :sideload
+
+  def deleted_version
+    {
+      uuid: iteration.uuid,
+      idx: iteration.idx,
+      status: 'deleted',
+      num_essential_automated_comments: 0,
+      num_actionable_automated_comments: 0,
+      num_non_actionable_automated_comments: 0,
+      submission_method: iteration.submission.submitted_via,
+      created_at: iteration.created_at.iso8601,
+      tests_status: 'not_queued',
+      representer_feedback: 'not_queued',
+      analyzer_feedback: 'not_queued',
+      is_published: false,
+      files: sideload.include?(:files) ? [] : nil,
+      links: {
+        self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx),
+        solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise)
+      }
+    }.compact
+  end
 end

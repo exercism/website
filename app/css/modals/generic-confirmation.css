@@ -1,6 +1,6 @@
 @import "../styles";
 
-.m-finish-mentor-discussion.c-modal {
+.m-generic-confirmation.c-modal:not(.--cover) {
     & .--modal-content {
         max-width: 490px;
         @apply p-24;
@@ -9,8 +9,11 @@
         @apply text-h5 mb-8;
     }
     & p {
-        @apply text-15 leading-code; /* leading-160 */
+        @apply text-15 leading-160;
         @apply mb-16;
+        & strong {
+            @apply font-medium text-textColor2;
+        }
     }
 
     & .buttons {

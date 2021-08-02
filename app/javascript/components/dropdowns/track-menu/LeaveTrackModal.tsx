@@ -30,7 +30,11 @@ export const LeaveTrackModal = ({
   const [tab, setTab] = useState<TabIndex>('leave')
 
   return (
-    <Modal className="m-leave-track m-destructive" onClose={onClose} {...props}>
+    <Modal
+      className="m-leave-track m-generic-destructive"
+      onClose={onClose}
+      {...props}
+    >
       <div className="info">
         <h2>You’re about to leave the {track.title} track.</h2>
         <p className="large">

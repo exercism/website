@@ -64,6 +64,10 @@
                     }
                 }
             }
+            & .deleted {
+                @apply p-32;
+                @apply text-16 text-textColor6 text-center;
+            }
             & .content {
                 @apply flex-grow;
                 @apply flex items-stretch;
@@ -89,6 +93,11 @@
                         @apply px-24 py-16;
                         & .c-tab {
                             line-height: 38px;
+                        }
+
+                        & .options-button {
+                            @apply py-6 px-12 ml-auto;
+                            @apply shadow-smZ1 rounded-8;
                         }
                     }
                     & .panels {

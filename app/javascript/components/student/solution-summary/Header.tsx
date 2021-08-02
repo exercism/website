@@ -34,6 +34,7 @@ export const Header = ({
   links: SolutionSummaryLinks
 }): JSX.Element => {
   switch (iteration.status) {
+    case IterationStatus.DELETED:
     case IterationStatus.UNTESTED:
       return <></>
     case IterationStatus.TESTING:

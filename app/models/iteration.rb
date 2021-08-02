@@ -8,6 +8,8 @@ class Iteration < ApplicationRecord
   has_one :track, through: :exercise
   has_one :test_run, through: :iteration
 
+  scope :not_deleted, -> { where(deleted_at: nil) }
+
   delegate :tests_status,
     :files,
     :automated_feedback_pending,
@@ -27,6 +29,7 @@ class Iteration < ApplicationRecord
 
   def status
     Status.new(lambda {
+      return :deleted if deleted?
       return :untested                          if submission.tests_not_queued?
       return :testing                           if submission.tests_queued?
       return :tests_failed                      unless submission.tests_passed?
@@ -37,6 +40,10 @@ class Iteration < ApplicationRecord
 
       :no_automated_feedback
     }.())
+  end
+
+  def deleted?
+    !!deleted_at
   end
 
   def published?

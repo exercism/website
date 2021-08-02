@@ -16,8 +16,8 @@
         @apply flex-grow-0;
         @apply flex items-center;
 
-        & .c-publish-settings {
-            @apply ml-auto;
+        & .publish-settings-button {
+            @apply ml-auto px-0 border-borderColor6;
             & .c-icon {
                 filter: var(--textColor6-filter);
             }

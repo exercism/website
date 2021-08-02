@@ -45,7 +45,10 @@ export function ProcessingStatusSummary({
 }: {
   iterationStatus: IterationStatus
 }): JSX.Element {
-  if (iterationStatus == IterationStatus.UNTESTED) {
+  if (
+    iterationStatus == IterationStatus.DELETED ||
+    iterationStatus == IterationStatus.UNTESTED
+  ) {
     return <></>
   }
   const status = transformStatus(iterationStatus)

@@ -82,7 +82,11 @@
                 }
             }
         }
+        & .deleted {
+            @apply py-32 text-16 text-textColor6 text-center;
+        }
         & .c-iterations-footer {
+            @apply mt-auto;
             & .settings-button {
                 @apply ml-auto;
 

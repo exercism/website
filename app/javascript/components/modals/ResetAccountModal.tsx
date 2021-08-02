@@ -52,7 +52,7 @@ export const ResetAccountModal = ({
   const { attempt, setAttempt, isAttemptPass } = useConfirmation(handle)
 
   return (
-    <Modal {...props} className="m-reset-account m-destructive">
+    <Modal {...props} className="m-reset-account m-generic-destructive">
       <form onSubmit={handleSubmit}>
         <div className="info">
           <h2>You&apos;re about to reset your Exercism account</h2>

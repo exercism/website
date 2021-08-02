@@ -466,7 +466,7 @@
                 & h3 {
                     @apply text-h4 mb-0;
                 }
-                & button.c-publish-settings {
+                & button.publish-settings-button {
                     @apply ml-auto;
                     @apply px-0 border-borderColor6;
                     & .c-icon {

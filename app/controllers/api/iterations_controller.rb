@@ -22,6 +22,17 @@ module API
       }, status: :created
     end
 
+    # TODO
+    def destroy
+      iteration = @solution.iterations.find_by(uuid: params[:uuid])
+
+      iteration.update!(deleted_at: Time.current)
+
+      render json: {
+        iteration: SerializeIteration.(iteration)
+      }
+    end
+
     private
     def use_solution
       begin

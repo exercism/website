@@ -279,6 +279,7 @@ export type Iteration = {
   posts?: DiscussionPostProps[]
   links: {
     self: string
+    delete: string
     solution: string
     files: string
     testRun: string

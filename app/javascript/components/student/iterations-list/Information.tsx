@@ -5,6 +5,7 @@ import { Iteration } from '../../types'
 import { Exercise, Track, Links } from '../IterationsList'
 import { Tab, TabContext } from '../../common/Tab'
 import { GraphicalIcon } from '../../common'
+import { OptionsDropdown } from './OptionsDropdown'
 
 type TabIndex = 'analysis' | 'tests'
 
@@ -18,11 +19,13 @@ export const Information = ({
   exercise,
   track,
   links,
+  onDelete,
 }: {
   iteration: Iteration
   exercise: Exercise
   track: Track
   links: Links
+  onDelete: (iteration: Iteration) => void
 }): JSX.Element | null => {
   const [tab, setTab] = useState<TabIndex>('analysis')
 
@@ -42,6 +45,8 @@ export const Information = ({
           <GraphicalIcon icon="tests" />
           Tests
         </Tab>
+        {/* iHiD: The version you pushed didn't have this */}
+        <OptionsDropdown iteration={iteration} onDelete={onDelete} />
       </div>
       <div className="panels">
         <Tab.Panel

@@ -24,6 +24,7 @@ export const Modal = ({
 
   return (
     <ReactModal
+      ariaHideApp={process.env.NODE_ENV !== 'test'}
       isOpen={open}
       onRequestClose={onClose}
       className={'--modal-content'}

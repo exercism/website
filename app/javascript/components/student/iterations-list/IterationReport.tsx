@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { IterationSummary } from '../../track/IterationSummary'
 import { Iteration, IterationStatus } from '../../types'
 import { FilePanel } from '../../mentoring/session/FilePanel'
@@ -15,6 +15,7 @@ export const IterationReport = ({
   isOpen,
   onExpanded,
   onCompressed,
+  onDelete,
 }: {
   iteration: Iteration
   exercise: Exercise
@@ -23,6 +24,7 @@ export const IterationReport = ({
   isOpen: boolean
   onExpanded: () => void
   onCompressed: () => void
+  onDelete: (iteration: Iteration) => void
 }): JSX.Element => {
   return (
     <details open={isOpen} className="iteration c-details">
@@ -78,6 +80,7 @@ export const IterationReport = ({
               exercise={exercise}
               track={track}
               links={links}
+              onDelete={onDelete}
             />
           </div>
         </div>

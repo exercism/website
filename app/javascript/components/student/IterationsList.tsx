@@ -54,6 +54,25 @@ export const IterationsList = ({
     iterations: readonly Iteration[]
   }>(CACHE_KEY, request)
 
+  const handleDelete = (deletedIteration: Iteration) => {
+    queryCache.setQueryData<{ iterations: readonly Iteration[] }>(
+      CACHE_KEY,
+      (result) => {
+        if (!result) {
+          return { iterations: [] }
+        }
+
+        return {
+          ...result,
+          iterations: result.iterations.map((i) =>
+            i.uuid === deletedIteration.uuid ? deletedIteration : i
+          ),
+        }
+      }
+    ),
+      []
+  }
+
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
       { uuid: solutionUuid },
@@ -126,6 +145,7 @@ export const IterationsList = ({
                 onCompressed={() => {
                   setIsOpen(isOpen.map((o, i) => (index === i ? false : o)))
                 }}
+                onDelete={handleDelete}
               />
             )
           })}

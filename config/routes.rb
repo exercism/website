@@ -158,7 +158,7 @@ Rails.application.routes.draw do
           resources :files, only: %i[index], controller: "solutions/submission_files"
         end
 
-        resources :iterations, only: %i[create], param: :uuid do
+        resources :iterations, only: %i[create destroy], param: :uuid do
           get :latest_status, on: :collection
         end
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"

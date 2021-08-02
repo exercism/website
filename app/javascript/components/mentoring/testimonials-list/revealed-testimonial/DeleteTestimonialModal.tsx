@@ -68,12 +68,22 @@ export const DeleteTestimonialModal = ({
   }, [onClose, status])
 
   return (
-    <Modal className="m-delete-testimonial" onClose={handleClose} {...props}>
-      <form onSubmit={handleSubmit}>
-        <FormButton type="submit" status={status}>
+    <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
+      <h3>Are you sure you want to delete this testimonial?</h3>
+      <p>
+        Deleting the testimonial will hide it from this list, your profile and
+        mentoring stats. <strong>This action is irreversible.</strong>
+      </p>
+      <form onSubmit={handleSubmit} className="buttons">
+        <FormButton type="submit" status={status} className="btn-warning btn-s">
           Delete testimonial
         </FormButton>
-        <FormButton type="button" status={status} onClick={handleClose}>
+        <FormButton
+          type="button"
+          status={status}
+          onClick={handleClose}
+          className="btn-enhanced btn-s"
+        >
           Cancel
         </FormButton>
       </form>

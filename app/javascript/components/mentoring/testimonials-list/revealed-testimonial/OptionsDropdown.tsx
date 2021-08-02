@@ -37,7 +37,7 @@ export const OptionsDropdown = ({
         <Icon icon="more-horizontal" alt="Options" />
       </button>
       {open ? (
-        <div {...panelAttributes}>
+        <div {...panelAttributes} className="c-dropdown-generic-menu">
           <ul {...listAttributes}>
             <li {...itemAttributes(0)}>
               <button onClick={handleDelete}>Delete testimonial</button>

@@ -70,7 +70,7 @@
                 @apply py-12 px-24;
                 @apply flex items-center;
             }
-            & button {
+            & .options-button {
                 @apply py-12 px-24;
                 @apply border-l-1 border-borderColor6;
             }

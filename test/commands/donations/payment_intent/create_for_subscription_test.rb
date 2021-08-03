@@ -3,7 +3,6 @@ require_relative '../test_base'
 class Donations::PaymentIntent::CreateForSubscriptionTest < Donations::TestBase
   test "creates correctly" do
     customer_id = SecureRandom.uuid
-    amount_in_dollars = "15" # Check works as a string
     amount_in_cents = 1500
 
     payment_intent = mock
@@ -25,7 +24,7 @@ class Donations::PaymentIntent::CreateForSubscriptionTest < Donations::TestBase
       expand: ['latest_invoice.payment_intent']
     ).returns(stripe_subscription)
 
-    actual = Donations::PaymentIntent::CreateForSubscription.(customer_id, amount_in_dollars)
+    actual = Donations::PaymentIntent::CreateForSubscription.(customer_id, amount_in_cents)
     assert_equal payment_intent, actual
   end
 end

@@ -16,7 +16,7 @@ module Flows
                  items: [
                    id: item_id,
                    price_data: {
-                     unit_amount: 1000,
+                     unit_amount: 500,
                      currency: "usd",
                      product: Exercism::STRIPE_RECURRING_PRODUCT_ID,
                      recurring: { interval: "month" }

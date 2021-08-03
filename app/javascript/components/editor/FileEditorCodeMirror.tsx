@@ -70,7 +70,7 @@ export function FileEditorCodeMirror({
           type: file.type,
         }
       })
-      .filter((f) => f !== undefined)
+      .filter((f): f is File => f !== undefined)
   }, [files])
 
   const openPalette = useCallback(() => null, [])

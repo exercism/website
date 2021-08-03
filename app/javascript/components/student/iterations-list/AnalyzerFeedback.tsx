@@ -2,6 +2,7 @@ import React from 'react'
 import { Icon, TrackIcon } from '../../common'
 import { AnalyzerFeedback as Props, AnalyzerFeedbackComment } from '../../types'
 import { Track } from '../IterationsList'
+import { useHighlighting } from '../../../utils/highlight'
 
 export const AnalyzerFeedback = ({
   summary,
@@ -38,8 +39,10 @@ export const AnalyzerFeedback = ({
 }
 
 const Comment = ({ type, html }: AnalyzerFeedbackComment) => {
+  const ref = useHighlighting<HTMLDivElement>()
+
   return (
-    <div className="comment">
+    <div className="comment" ref={ref}>
       <CommentTag type={type} />
       <div
         className="c-textual-content --small"

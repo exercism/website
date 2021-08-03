@@ -99,7 +99,7 @@ export const UpdatingOption = ({
               You&apos;ll start being charged{' '}
               <strong>{amount.format()} per month</strong>, on your next billing
               date.
-              {amount > currentAmount
+              {amount.value > currentAmount.value
                 ? ' Thank you for increasing your donation!'
                 : null}
             </p>

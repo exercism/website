@@ -117,6 +117,7 @@ import '../../css/components/cli-walkthrough-button'
 
 import '../../css/modals/generic-confirmation'
 import '../../css/modals/generic-destructive'
+import '../../css/modals/donation-confirmation'
 import '../../css/modals/badge'
 import '../../css/modals/update-exercise'
 import '../../css/modals/makers'

@@ -9,6 +9,7 @@ import { File } from '../types'
 import { CodeMirror, Handler } from '../misc/CodeMirror'
 import { Tab, TabContext } from '../common/Tab'
 import { EditorSettings } from '../editor/types'
+import { LegacyFileBanner } from './LegacyFileBanner'
 
 export type FileEditorHandle = {
   getFiles: () => File[]
@@ -38,24 +39,50 @@ export function FileEditorCodeMirror({
 }): JSX.Element {
   const [tab, setTab] = useState(files[0].filename)
   const containerRef = useRef<HTMLDivElement>(null)
-  const editorRefs = useRef<Handler[]>([])
+  const editorRefs = useRef<Record<string, Handler>>({})
 
   const setFiles = useCallback((files: File[]) => {
-    editorRefs.current?.forEach((editor, i) => {
-      editor.setValue(files[i].content)
+    const editors: Record<string, Handler> = {}
+
+    files.forEach((file) => {
+      const editor = editorRefs.current[file.filename]
+      editor.setValue(file.content)
+
+      editors[file.filename] = editor
     })
+
+    editorRefs.current = editors
   }, [])
 
   const getFiles = useCallback(() => {
-    return editorRefs.current?.map((editor, i) => {
-      return {
-        filename: files[i].filename,
-        content: editor.getValue() || '',
-      }
-    })
+    return Object.keys(editorRefs.current)
+      .map((filename) => {
+        const editor = editorRefs.current[filename]
+        const file = files.find((f) => f.filename === filename)
+
+        if (!file) {
+          return
+        }
+
+        return {
+          filename: file.filename,
+          content: editor.getValue() || '',
+          type: file.type,
+        }
+      })
+      .filter((f) => f !== undefined)
   }, [files])
 
   const openPalette = useCallback(() => null, [])
+
+  const handleDelete = useCallback(
+    (fileToDelete: File) => {
+      return () => {
+        setFiles(files.filter((f) => f.filename !== fileToDelete.filename))
+      }
+    },
+    [files, setFiles]
+  )
 
   useEffect(() => {
     editorDidMount({ getFiles, setFiles, openPalette })
@@ -82,13 +109,16 @@ export function FileEditorCodeMirror({
             key={file.filename}
             id={file.filename}
           >
+            {file.type === 'legacy' ? (
+              <LegacyFileBanner onDelete={handleDelete(file)} />
+            ) : null}
             <CodeMirror
               key={file.filename}
               value={file.content}
               editorDidMount={(editor) => {
-                const oldEditors = [...editorRefs.current]
+                const oldEditors = editorRefs.current
 
-                oldEditors[index] = editor
+                oldEditors[file.filename] = editor
 
                 editorRefs.current = oldEditors
               }}

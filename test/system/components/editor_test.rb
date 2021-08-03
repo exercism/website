@@ -422,6 +422,25 @@ module Components
       end
     end
 
+    test "user deletes legacy files" do
+      user = create :user
+      strings = create :concept_exercise
+      solution = create :concept_solution, user: user, exercise: strings
+      submission = create :submission, solution: solution
+      create :submission_file, submission: submission, filename: "log_line_parser.rb", content: "foobar1"
+      create :submission_file, submission: submission, filename: "something_else.rb", content: "foobar2"
+
+      use_capybara_host do
+        sign_in!(user)
+        visit test_components_editor_path(solution_id: solution.id)
+        click_on "something_else.rb"
+        click_on "Delete file"
+        within(".m-generic-confirmation") { click_on "Delete file" }
+
+        assert_no_text "something_else.rb"
+      end
+    end
+
     private
     def wait_for_submission
       assert_text "Running tests..."

@@ -191,7 +191,10 @@ export type File = {
   filename: string
   content: string
   digest?: string
+  type: FileType
 }
+
+type FileType = 'exercise' | 'solution' | 'legacy'
 
 export type APIError = {
   type: string

@@ -3,7 +3,7 @@ module Donations
     class CreateForPayment
       include Mandate
 
-      initialize_with :customer_id, :amount_in_dollars
+      initialize_with :customer_id, :amount_in_cents
 
       def call
         Stripe::PaymentIntent.create(
@@ -11,10 +11,6 @@ module Donations
           amount: amount_in_cents,
           currency: 'usd'
         )
-      end
-
-      def amount_in_cents
-        amount_in_dollars.to_i * 100
       end
     end
   end

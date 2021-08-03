@@ -1,13 +1,14 @@
 import React, { useCallback } from 'react'
+import currency from 'currency.js'
 
 export const AmountButton = ({
   value,
   onClick,
   current,
 }: {
-  value: number
-  onClick: (value: number) => void
-  current: number
+  value: currency
+  onClick: (value: currency) => void
+  current: currency
 }): JSX.Element => {
   const handleClick = useCallback(() => {
     onClick(value)
@@ -16,12 +17,12 @@ export const AmountButton = ({
   const classNames = [
     'btn-enhanced',
     'btn-l',
-    current === value ? 'selected' : '',
+    current.value === value.value ? 'selected' : '',
   ].filter((className) => className.length > 0)
 
   return (
     <button className={classNames.join(' ')} onClick={handleClick}>
-      ${value}
+      ${value.dollars()}
     </button>
   )
 }

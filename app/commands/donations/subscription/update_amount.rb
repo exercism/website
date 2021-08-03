@@ -5,7 +5,7 @@ module Donations
     class UpdateAmount
       include Mandate
 
-      initialize_with :subscription, :amount_in_dollars
+      initialize_with :subscription, :amount_in_cents
 
       def call
         stripe_data = Stripe::Subscription.retrieve(subscription.stripe_id)
@@ -31,10 +31,6 @@ module Donations
         # Update based on whether there is another different active subscription
         user = subscription.user
         user.update!(active_donation_subscription: user.donation_subscriptions.active.exists?)
-      end
-
-      def amount_in_cents
-        amount_in_dollars.to_i * 100
       end
     end
   end

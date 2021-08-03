@@ -248,6 +248,7 @@ import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
 }
+import currency from 'currency.js'
 
 const renderLoader = () => <p>Loading</p>
 
@@ -257,8 +258,12 @@ initReact({
   'donations-with-modal-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsFormWithModal
-        existingSubscriptionAmountinDollars={
-          data.existing_subscription_amount_in_dollars
+        existingSubscriptionAmount={
+          data.existing_subscription_amount_in_cents
+            ? currency(data.existing_subscription_amount_in_cents, {
+                fromCents: true,
+              })
+            : null
         }
         links={data.links}
       />
@@ -267,7 +272,7 @@ initReact({
   'donations-subscription-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
-        amountInDollars={data.amount_in_dollars}
+        amount={currency(data.amount_in_cents, { fromCents: true })}
         links={data.links}
       />
     </Suspense>

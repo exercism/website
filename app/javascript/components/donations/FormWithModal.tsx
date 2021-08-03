@@ -5,6 +5,7 @@ import { Modal } from '../modals/Modal'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 import { BadgeRarity } from '../types'
+import currency from 'currency.js'
 
 type Links = {
   donate: string
@@ -12,24 +13,22 @@ type Links = {
 }
 
 export default ({
-  existingSubscriptionAmountinDollars,
+  existingSubscriptionAmount,
   links,
 }: {
-  existingSubscriptionAmountinDollars: number | null
+  existingSubscriptionAmount: currency | null
   links: Links
 }) => {
   const [paymentMade, setPaymentMade] = useState(false)
   const [paymentType, setPaymentType] = useState<
     PaymentIntentType | undefined
   >()
-  const [paymentAmountInDollars, setPaymentAmountInDollars] = useState<
-    number | undefined
-  >()
+  const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
 
   const handleSuccess = useCallback(
-    (type: PaymentIntentType, amountInDollars: number) => {
+    (type: PaymentIntentType, amount: currency) => {
       setPaymentType(type)
-      setPaymentAmountInDollars(amountInDollars)
+      setPaymentAmount(amount)
       setPaymentMade(true)
     },
     []
@@ -42,9 +41,7 @@ export default ({
     <>
       <Form
         onSuccess={handleSuccess}
-        existingSubscriptionAmountinDollars={
-          existingSubscriptionAmountinDollars
-        }
+        existingSubscriptionAmount={existingSubscriptionAmount}
         links={links}
       />
       <Modal
@@ -54,7 +51,7 @@ export default ({
       >
         <GraphicalIcon icon="completed-check-circle" className="main-icon" />
         <h2 className="text-h3 mb-8">
-          You’ve donated ${paymentAmountInDollars} successfully - thank you 💙
+          You’ve donated {paymentAmount?.format()} successfully - thank you 💙
         </h2>
         <p className="text-p-large mb-24">
           We truly appreciate your support. Exercism would not be possible

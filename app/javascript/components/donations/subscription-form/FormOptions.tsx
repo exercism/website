@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { InitializedOption } from './form-options/InitializedOption'
 import { CancellingOption } from './form-options/CancellingOption'
 import { UpdatingOption } from './form-options/UpdatingOption'
+import currency from 'currency.js'
 
 type FormStatus = 'initialized' | 'cancelling' | 'updating'
 
@@ -11,10 +12,10 @@ type Links = {
 }
 
 export const FormOptions = ({
-  amountInDollars,
+  amount,
   links,
 }: {
-  amountInDollars: number
+  amount: currency
   links: Links
 }): JSX.Element => {
   const [status, setStatus] = useState<FormStatus>('initialized')
@@ -42,7 +43,7 @@ export const FormOptions = ({
     case 'updating':
       return (
         <UpdatingOption
-          amountInDollars={amountInDollars}
+          amount={amount}
           onClose={handleInitialized}
           links={links}
         />

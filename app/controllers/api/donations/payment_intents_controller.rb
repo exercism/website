@@ -5,7 +5,7 @@ module API
         payment_intent = ::Donations::PaymentIntent::Create.(
           current_user,
           params[:type],
-          params[:amount_in_dollars]
+          params[:amount_in_cents]
         )
 
         render json: {

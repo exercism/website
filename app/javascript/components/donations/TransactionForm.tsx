@@ -1,16 +1,17 @@
+import currency from 'currency.js'
 import React from 'react'
 import { AmountButton } from './donation-form/AmountButton'
 import { CustomAmountInput } from './donation-form/CustomAmountInput'
 
 type Props = {
-  amountInDollars: number
-  presetAmountsInDollars: number[]
-  onAmountChange: (value: number) => void
+  amount: currency
+  presetAmounts: currency[]
+  onAmountChange: (value: currency) => void
 }
 
 export const TransactionForm = ({
-  amountInDollars,
-  presetAmountsInDollars,
+  amount: currentAmount,
+  presetAmounts,
   onAmountChange,
   children,
 }: React.PropsWithChildren<Props>): JSX.Element => {
@@ -20,12 +21,12 @@ export const TransactionForm = ({
         {children}
         <div className="amounts">
           <div className="preset-amounts">
-            {presetAmountsInDollars.map((amount) => (
+            {presetAmounts.map((amount) => (
               <AmountButton
-                key={amount}
+                key={amount.value}
                 value={amount}
                 onClick={onAmountChange}
-                current={amountInDollars}
+                current={currentAmount}
               />
             ))}
           </div>
@@ -33,7 +34,9 @@ export const TransactionForm = ({
           <h3>Or specify a custom amount:</h3>
           <CustomAmountInput
             onChange={onAmountChange}
-            selected={!presetAmountsInDollars.includes(amountInDollars)}
+            selected={
+              !presetAmounts.map((a) => a.value).includes(currentAmount.value)
+            }
           />
         </div>
       </div>

@@ -20,24 +20,26 @@ type APIResponse = {
 const DEFAULT_ERROR = new Error('Unable to update subscription')
 
 export const UpdatingOption = ({
-  amountInDollars: currentAmountInDollars,
+  amount: currentAmount,
   links,
   onClose,
 }: {
-  amountInDollars: number
+  amount: currency
   links: Links
   onClose: () => void
 }): JSX.Element => {
-  const [amountInDollars, setAmountInDollars] = useState<number | ''>(
-    currentAmountInDollars
-  )
+  const [amount, setAmount] = useState<currency | ''>(currentAmount)
 
   const [mutation, { status, error }] = useMutation<APIResponse>(
     () => {
+      if (amount === '') {
+        throw 'cant change to empty amount'
+      }
+
       const { fetch } = sendRequest({
         endpoint: links.update,
         method: 'PATCH',
-        body: JSON.stringify({ amount_in_dollars: amountInDollars }),
+        body: JSON.stringify({ amount_in_cents: amount.intValue }),
       })
 
       return fetch.then((json) => typecheck<APIResponse>(json, 'subscription'))
@@ -59,18 +61,20 @@ export const UpdatingOption = ({
   )
 
   const handleChange = useCallback((e) => {
-    const amount = parseInt(e.target.value)
+    const parsedValue = parseInt(e.target.value)
 
-    if (isNaN(amount)) {
-      setAmountInDollars('')
-
+    if (isNaN(parsedValue)) {
+      setAmount('')
       return
     }
 
-    setAmountInDollars(amount)
-  }, [])
+    if (Math.sign(parsedValue) !== 1) {
+      setAmount('')
+      return
+    }
 
-  console.log(amountInDollars)
+    setAmount(currency(e.target.value))
+  }, [])
 
   return (
     <div className="expanded-option">
@@ -83,21 +87,19 @@ export const UpdatingOption = ({
           <input
             type="number"
             min="0"
-            step="1"
+            step="0.01"
             id="donation_amount"
-            value={amountInDollars}
+            value={amount === '' ? amount : amount.value}
             onChange={handleChange}
           />
         </label>
-        {amountInDollars !== '' ? (
+        {amount !== '' ? (
           <React.Fragment>
             <p className="footnote">
               You&apos;ll start being charged{' '}
-              <strong>
-                {currency(amountInDollars, { precision: 2 }).format()} per month
-              </strong>
-              , on your next billing date.
-              {amountInDollars > currentAmountInDollars
+              <strong>{amount.format()} per month</strong>, on your next billing
+              date.
+              {amount > currentAmount
                 ? ' Thank you for increasing your donation!'
                 : null}
             </p>
@@ -106,7 +108,7 @@ export const UpdatingOption = ({
         <div className="flex">
           <FormButton
             status={status}
-            disabled={amountInDollars === ''}
+            disabled={amount === ''}
             className="btn-xs btn-primary mr-12"
           >
             Change amount

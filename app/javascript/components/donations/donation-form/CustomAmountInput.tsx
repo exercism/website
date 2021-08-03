@@ -1,17 +1,28 @@
 import React, { useCallback } from 'react'
+import currency from 'currency.js'
 
 export const CustomAmountInput = ({
   onChange,
   selected,
 }: {
-  onChange: (amount: number) => void
+  onChange: (amount: currency) => void
   selected: boolean
 }): JSX.Element => {
   const handleCustomAmountChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const amount = parseInt(e.target.value)
+      const parsedValue = parseInt(e.target.value)
 
-      onChange(amount)
+      if (isNaN(parsedValue)) {
+        onChange(currency(NaN))
+        return
+      }
+
+      if (Math.sign(parsedValue) !== 1) {
+        onChange(currency(NaN))
+        return
+      }
+
+      onChange(currency(e.target.value))
     },
     [onChange]
   )
@@ -26,7 +37,7 @@ export const CustomAmountInput = ({
       <input
         type="number"
         min="0"
-        step="1"
+        step="0.01"
         placeholder="Specify donation"
         onChange={handleCustomAmountChange}
       />

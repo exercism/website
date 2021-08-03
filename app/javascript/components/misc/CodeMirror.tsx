@@ -14,6 +14,7 @@ const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
 const tabCaptureCompartment = new Compartment()
 const keymapCompartment = new Compartment()
+const readonlyCompartment = new Compartment()
 
 export type Handler = {
   setValue: (value: string) => void
@@ -29,6 +30,7 @@ export const CodeMirror = ({
   tabSize,
   isTabCaptured,
   editorDidMount,
+  readonly = false,
 }: {
   value: string
   language: string
@@ -39,6 +41,7 @@ export const CodeMirror = ({
   isTabCaptured: boolean
   tabSize: number
   editorDidMount: (handler: Handler) => void
+  readonly?: boolean
 }): JSX.Element => {
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
   const viewRef = useRef<EditorView | null>(null)
@@ -92,6 +95,7 @@ export const CodeMirror = ({
               ? [defaultHighlightStyle]
               : [oneDarkTheme, oneDarkHighlightStyle]
           ),
+          readonlyCompartment.of(EditorView.editable.of(!readonly)),
         ],
       }),
       parent: textarea,
@@ -155,6 +159,18 @@ export const CodeMirror = ({
       effects: keymapCompartment.reconfigure(keymap.of(commands)),
     })
   }, [commands])
+
+  useEffect(() => {
+    if (!viewRef.current) {
+      return
+    }
+
+    viewRef.current.dispatch({
+      effects: readonlyCompartment.reconfigure(
+        EditorView.editable.of(!readonly)
+      ),
+    })
+  }, [readonly])
 
   return <div className="editor" ref={setTextarea} />
 }

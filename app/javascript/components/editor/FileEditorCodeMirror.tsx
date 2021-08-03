@@ -128,6 +128,7 @@ export function FileEditorCodeMirror({
               wrap={settings.wrap !== 'off'}
               isTabCaptured={settings.tabBehavior === 'captured'}
               theme={settings.theme}
+              readonly={file.type === 'legacy'}
               commands={[
                 {
                   key: 'F2',

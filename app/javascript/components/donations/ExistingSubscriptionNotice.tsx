@@ -1,15 +1,16 @@
 import React from 'react'
+import currency from 'currency.js'
 
 type Links = {
   settings: string
 }
 
 export const ExistingSubscriptionNotice = ({
-  amountInDollars,
+  amount,
   onExtraDonation,
   links,
 }: {
-  amountInDollars: number
+  amount: currency
   onExtraDonation: () => void
   links: Links
 }): JSX.Element => {
@@ -17,8 +18,7 @@ export const ExistingSubscriptionNotice = ({
     <React.Fragment>
       <div className="existing-subscription">
         <strong>
-          You already donate ${amountInDollars} per month to Exercism. Thank
-          you!
+          You already donate {amount.format()} per month to Exercism. Thank you!
         </strong>
         <br />
         To change or manage this go to{' '}

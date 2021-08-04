@@ -3,7 +3,7 @@ module Donations
     class CreateForSubscription
       include Mandate
 
-      initialize_with :customer_id, :amount_in_dollars
+      initialize_with :customer_id, :amount_in_cents
 
       def call
         subscription = Stripe::Subscription.create(
@@ -23,10 +23,6 @@ module Donations
         )
 
         subscription.latest_invoice.payment_intent
-      end
-
-      def amount_in_cents
-        amount_in_dollars.to_i * 100
       end
     end
   end

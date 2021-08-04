@@ -1,14 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { Icon } from '../common'
-import { sendRequest } from '../../utils/send-request'
 import { loadStripe, StripeCardElementChangeEvent } from '@stripe/stripe-js'
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js'
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { fetchJSON } from '../../utils/fetch-json'
+import currency from 'currency.js'
 
 const cardOptions = {
   style: {
@@ -45,12 +40,12 @@ const stripePromise = loadStripe(
 
 export function StripeForm({
   paymentIntentType,
-  amountInDollars,
+  amount,
   onSuccess,
 }: {
   paymentIntentType: PaymentIntentType
-  onSuccess: (type: PaymentIntentType, amount: number) => void
-  amountInDollars: number
+  onSuccess: (type: PaymentIntentType, amount: currency) => void
+  amount: currency
 }) {
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState<string | undefined>()
@@ -100,7 +95,7 @@ export function StripeForm({
       method: 'POST',
       body: JSON.stringify({
         type: paymentIntentType,
-        amount_in_dollars: amountInDollars,
+        amount_in_cents: amount.intValue,
       }),
     }).then((data: any) => {
       if (data.error) {
@@ -109,7 +104,7 @@ export function StripeForm({
       }
       return data.paymentIntent
     })
-  }, [paymentIntentType, amountInDollars])
+  }, [paymentIntentType, amount])
 
   const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -154,7 +149,7 @@ export function StripeForm({
         setProcessing(false)
         setSucceeded(true)
         notifyServerOfSuccess(paymentIntent)
-        onSuccess(paymentIntentType, amountInDollars)
+        onSuccess(paymentIntentType, amount)
       }
     })
   }
@@ -173,8 +168,8 @@ export function StripeForm({
             {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
             <span>
               {paymentIntentType == 'payment'
-                ? `Donate $${amountInDollars} to Exercism`
-                : `Donate $${amountInDollars} to Exercism monthly`}
+                ? `Donate ${amount.format()} to Exercism`
+                : `Donate ${amount.format()} to Exercism monthly`}
             </span>
           </button>
         </div>
@@ -186,9 +181,9 @@ export function StripeForm({
       )}
       {paymentIntentType == 'subscription' ? (
         <div className="extra-info">
-          Thank you for your ongoing support! We will debit ${amountInDollars}{' '}
-          on around this day each month. You can change or cancel your donation
-          at any time.
+          Thank you for your ongoing support! We will debit {amount.format()} on
+          around this day each month. You can change or cancel your donation at
+          any time.
         </div>
       ) : null}
     </form>

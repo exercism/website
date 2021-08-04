@@ -7,7 +7,7 @@ module ReactComponents
         super(
           "donations-with-modal-form",
           {
-            existing_subscription_amount_in_dollars: current_user&.active_donation_subscription_amount_in_dollars,
+            existing_subscription_amount_in_cents: current_user&.active_donation_subscription_amount_in_cents,
             links: {
               settings: Exercism::Routes.donations_settings_url,
               donate: Exercism::Routes.donate_url

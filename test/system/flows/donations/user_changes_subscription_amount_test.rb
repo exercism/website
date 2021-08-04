@@ -16,7 +16,7 @@ module Flows
                  items: [
                    id: item_id,
                    price_data: {
-                     unit_amount: 1000,
+                     unit_amount: 1234,
                      currency: "usd",
                      product: Exercism::STRIPE_RECURRING_PRODUCT_ID,
                      recurring: { interval: "month" }
@@ -32,11 +32,11 @@ module Flows
           sign_in!(user)
           visit donations_settings_path
           click_on "Change amount"
-          fill_in "Change donation amount", with: 10
+          fill_in "Change donation amount", with: "12.34"
           assert_text "Thank you for increasing your donation!"
           click_on "Change"
 
-          assert_text "You're currently donating $10.00"
+          assert_text "You're currently donating $12.34"
         end
       end
     end

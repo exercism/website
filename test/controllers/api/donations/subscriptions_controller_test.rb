@@ -28,13 +28,13 @@ module API
     test "update_amount proxies correctly" do
       user = create :user
       subscription = create :donations_subscription, user: user
-      amount_in_dollars = '50'
+      amount_in_cents = '5000'
 
-      ::Donations::Subscription::UpdateAmount.expects(:call).with(subscription, amount_in_dollars)
+      ::Donations::Subscription::UpdateAmount.expects(:call).with(subscription, amount_in_cents)
 
       setup_user(user)
-      patch update_amount_api_donations_subscription_path(subscription.id, amount_in_dollars: amount_in_dollars), headers: @headers,
-                                                                                                                  as: :json
+      patch update_amount_api_donations_subscription_path(subscription.id, amount_in_cents: amount_in_cents), headers: @headers,
+                                                                                                              as: :json
       assert_response 200
       expected = { subscription: { links: { index: donations_settings_url } } }
       assert_equal(expected.to_json, response.body)

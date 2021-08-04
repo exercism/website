@@ -6,7 +6,6 @@ class Donations::Subscription::UpdateAmountTest < Donations::TestBase
     item_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
     subscription = create :donations_subscription, user: user, stripe_id: subscription_id, amount_in_cents: 500
-    new_amount_in_dollars = "12" # Check handles strings
     new_amount_in_cents = 1200
 
     subscription_data = mock_stripe_subscription(subscription_id, 500, item_id: item_id)
@@ -27,7 +26,7 @@ class Donations::Subscription::UpdateAmountTest < Donations::TestBase
       proration_behavior: 'none'
     )
 
-    Donations::Subscription::UpdateAmount.(subscription, new_amount_in_dollars)
+    Donations::Subscription::UpdateAmount.(subscription, new_amount_in_cents)
     assert_equal new_amount_in_cents, subscription.amount_in_cents
   end
 end

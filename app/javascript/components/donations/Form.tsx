@@ -5,6 +5,7 @@ import { TransactionForm } from './TransactionForm'
 import { ExistingSubscriptionNotice } from './ExistingSubscriptionNotice'
 import { ExercismStripeElements } from './donation-form/ExercismStripeElements'
 import { StripeForm } from './StripeForm'
+import currency from 'currency.js'
 
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
@@ -15,60 +16,62 @@ type Links = {
   settings: string
 }
 
-const PAYMENT_DEFAULT_AMOUNT_IN_DOLLARS = 32
-const SUBSCRIPTION_DEFAULT_AMOUNT_IN_DOLLARS = 32
+const PAYMENT_DEFAULT_AMOUNT = currency(32)
+const SUBSCRIPTION_DEFAULT_AMOUNT = currency(32)
 
 export const Form = ({
-  existingSubscriptionAmountinDollars,
+  existingSubscriptionAmount,
   onSuccess,
   links,
 }: {
-  existingSubscriptionAmountinDollars: number | null
-  onSuccess: (type: PaymentIntentType, amountInDollars: number) => void
+  existingSubscriptionAmount: currency | null
+  onSuccess: (type: PaymentIntentType, amount: currency) => void
   links: Links
 }): JSX.Element => {
-  const [amountInDollars, setAmountInDollars] = useState({
-    subscription: SUBSCRIPTION_DEFAULT_AMOUNT_IN_DOLLARS,
-    payment: PAYMENT_DEFAULT_AMOUNT_IN_DOLLARS,
+  const [amount, setAmount] = useState({
+    subscription: SUBSCRIPTION_DEFAULT_AMOUNT,
+    payment: PAYMENT_DEFAULT_AMOUNT,
   })
   const [transactionType, setTransactionType] = useState<PaymentIntentType>(
-    existingSubscriptionAmountinDollars ? 'payment' : 'subscription'
+    existingSubscriptionAmount ? 'payment' : 'subscription'
   )
 
   const handleAmountChange = useCallback(
     (transactionType: PaymentIntentType) => {
-      return (value: number) => {
+      return (newAmount: currency) => {
         switch (transactionType) {
           case 'subscription':
-            setAmountInDollars({
-              ...amountInDollars,
-              subscription: isNaN(value)
-                ? SUBSCRIPTION_DEFAULT_AMOUNT_IN_DOLLARS
-                : value,
+            setAmount({
+              ...amount,
+              subscription: isNaN(newAmount.value)
+                ? SUBSCRIPTION_DEFAULT_AMOUNT
+                : newAmount,
             })
 
             break
           case 'payment':
-            setAmountInDollars({
-              ...amountInDollars,
-              payment: isNaN(value) ? PAYMENT_DEFAULT_AMOUNT_IN_DOLLARS : value,
+            setAmount({
+              ...amount,
+              payment: isNaN(newAmount.value)
+                ? PAYMENT_DEFAULT_AMOUNT
+                : newAmount,
             })
 
             break
         }
       }
     },
-    [amountInDollars]
+    [amount]
   )
 
-  const currentAmountInDollars = useMemo(() => {
+  const currentAmount = useMemo(() => {
     switch (transactionType) {
       case 'payment':
-        return amountInDollars.payment
+        return amount.payment
       case 'subscription':
-        return amountInDollars.subscription
+        return amount.subscription
     }
-  }, [amountInDollars, transactionType])
+  }, [amount, transactionType])
 
   return (
     <TabsContext.Provider
@@ -89,13 +92,18 @@ export const Form = ({
         <div className="--content">
           <Tab.Panel id="subscription" context={TabsContext}>
             <TransactionForm
-              amountInDollars={amountInDollars.subscription}
+              amount={amount.subscription}
               onAmountChange={handleAmountChange('subscription')}
-              presetAmountsInDollars={[16, 32, 64, 128]}
+              presetAmounts={[
+                currency(16),
+                currency(32),
+                currency(64),
+                currency(128),
+              ]}
             >
-              {existingSubscriptionAmountinDollars != null ? (
+              {existingSubscriptionAmount != null ? (
                 <ExistingSubscriptionNotice
-                  amountInDollars={existingSubscriptionAmountinDollars}
+                  amount={existingSubscriptionAmount}
                   onExtraDonation={() => setTransactionType('payment')}
                   links={links}
                 />
@@ -104,15 +112,20 @@ export const Form = ({
           </Tab.Panel>
           <Tab.Panel id="payment" context={TabsContext}>
             <TransactionForm
-              amountInDollars={amountInDollars.payment}
+              amount={amount.payment}
               onAmountChange={handleAmountChange('payment')}
-              presetAmountsInDollars={[32, 128, 256, 512]}
+              presetAmounts={[
+                currency(32),
+                currency(128),
+                currency(256),
+                currency(512),
+              ]}
             />
           </Tab.Panel>
           <ExercismStripeElements>
             <StripeForm
               paymentIntentType={transactionType}
-              amountInDollars={currentAmountInDollars}
+              amount={currentAmount}
               onSuccess={onSuccess}
             />
           </ExercismStripeElements>

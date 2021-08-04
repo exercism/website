@@ -117,6 +117,7 @@ import '../../css/components/cli-walkthrough-button'
 
 import '../../css/modals/generic-confirmation'
 import '../../css/modals/generic-destructive'
+import '../../css/modals/donation-confirmation'
 import '../../css/modals/badge'
 import '../../css/modals/update-exercise'
 import '../../css/modals/makers'
@@ -248,6 +249,7 @@ import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
 }
+import currency from 'currency.js'
 
 const renderLoader = () => <p>Loading</p>
 
@@ -257,8 +259,12 @@ initReact({
   'donations-with-modal-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsFormWithModal
-        existingSubscriptionAmountinDollars={
-          data.existing_subscription_amount_in_dollars
+        existingSubscriptionAmount={
+          data.existing_subscription_amount_in_cents
+            ? currency(data.existing_subscription_amount_in_cents, {
+                fromCents: true,
+              })
+            : null
         }
         links={data.links}
       />
@@ -267,7 +273,7 @@ initReact({
   'donations-subscription-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
-        amountInDollars={data.amount_in_dollars}
+        amount={currency(data.amount_in_cents, { fromCents: true })}
         links={data.links}
       />
     </Suspense>

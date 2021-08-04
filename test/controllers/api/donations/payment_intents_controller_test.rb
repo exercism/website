@@ -9,17 +9,17 @@ module API
       user = create :user
 
       type = 'subscription'
-      amount_in_dollars = '12'
+      amount_in_cents = '1200'
       pi_id = SecureRandom.uuid
       pi_client_secret = SecureRandom.uuid
 
       ::Donations::PaymentIntent::Create.expects(:call).with(
-        user, type, amount_in_dollars
+        user, type, amount_in_cents
       ).returns(OpenStruct.new(id: pi_id, client_secret: pi_client_secret))
 
       setup_user(user)
       post api_donations_payment_intents_path(
-        type: type, amount_in_dollars: amount_in_dollars
+        type: type, amount_in_cents: amount_in_cents
       ), headers: @headers, as: :json
 
       assert_response 200
@@ -40,7 +40,7 @@ module API
 
       setup_user
       post api_donations_payment_intents_path(
-        type: 'subscription', amount_in_dollars: 10
+        type: 'subscription', amount_in_cents: 1000
       ), headers: @headers, as: :json
 
       assert_response 200

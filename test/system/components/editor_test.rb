@@ -438,6 +438,7 @@ module Components
         within(".m-generic-confirmation") { click_on "Delete file" }
 
         assert_no_text "something_else.rb"
+        assert_text "foobar1"
       end
     end
 

@@ -27,7 +27,7 @@ export function FileEditorCodeMirror({
   editorDidMount,
   onRunTests,
   onSubmit,
-  files,
+  files: defaultFiles,
   settings,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
@@ -37,22 +37,28 @@ export function FileEditorCodeMirror({
   settings: EditorSettings
   files: File[]
 }): JSX.Element {
+  const [files, setFiles] = useState(defaultFiles)
   const [tab, setTab] = useState(files[0].filename)
   const containerRef = useRef<HTMLDivElement>(null)
   const editorRefs = useRef<Record<string, Handler>>({})
 
-  const setFiles = useCallback((files: File[]) => {
+  useEffect(() => {
     const editors: Record<string, Handler> = {}
 
     files.forEach((file) => {
       const editor = editorRefs.current[file.filename]
+
+      if (!editor) {
+        return
+      }
+
       editor.setValue(file.content)
 
       editors[file.filename] = editor
     })
 
     editorRefs.current = editors
-  }, [])
+  }, [JSON.stringify(files)])
 
   const getFiles = useCallback(() => {
     return Object.keys(editorRefs.current)
@@ -78,6 +84,18 @@ export function FileEditorCodeMirror({
   const handleDelete = useCallback(
     (fileToDelete: File) => {
       return () => {
+        const index = files.findIndex((f) => f === fileToDelete)
+
+        if (index === -1) {
+          throw 'File not found!'
+        }
+
+        if (index === 0) {
+          setTab(files[1].filename)
+        } else {
+          setTab(files[index - 1].filename)
+        }
+
         setFiles(files.filter((f) => f.filename !== fileToDelete.filename))
       }
     },

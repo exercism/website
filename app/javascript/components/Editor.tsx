@@ -215,7 +215,7 @@ export function Editor({
 
   const handleRevertToLastIteration = useCallback(() => {
     if (!submission) {
-      return
+      return setFiles(defaultFiles)
     }
 
     dispatch({ status: EditorStatus.REVERTING })
@@ -257,7 +257,7 @@ export function Editor({
 
   const handleRevertToExerciseStart = useCallback(() => {
     if (!submission) {
-      return
+      return setFiles(defaultFiles)
     }
 
     dispatch({ status: EditorStatus.REVERTING })

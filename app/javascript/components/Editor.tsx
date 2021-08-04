@@ -34,6 +34,7 @@ import { SplitPane } from './common'
 
 import { useSaveFiles } from './editor/useSaveFiles'
 import { useEditorFiles } from './editor/useEditorFiles'
+import { useEditorFocus } from './editor/useEditorFocus'
 import { useSubmissionsList } from './editor/useSubmissionsList'
 import { useFileRevert } from './editor/useFileRevert'
 import { useIteration } from './editor/useIteration'
@@ -120,6 +121,8 @@ export function Editor({
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element {
   const editorRef = useRef<FileEditorHandle>()
+  const runTestsButtonRef = useRef<HTMLButtonElement>(null)
+  const submitButtonRef = useRef<HTMLButtonElement>(null)
 
   const [hasCancelled, setHasCancelled] = useSubmissionCancelling()
   const [tab, setTab] = useState<TabIndex>('instructions')
@@ -318,6 +321,8 @@ export function Editor({
     }
   }, [JSON.stringify(submission)])
 
+  useEditorFocus({ editor: editorRef.current, isProcessing })
+
   return (
     <FeaturesContext.Provider value={features}>
       <TabsContext.Provider
@@ -355,8 +360,15 @@ export function Editor({
                   files={files}
                   language={track.slug}
                   settings={settings}
-                  onRunTests={runTests}
-                  onSubmit={submit}
+                  onRunTests={() => {
+                    runTestsButtonRef.current?.focus()
+                    runTestsButtonRef.current?.click()
+                  }}
+                  onSubmit={() => {
+                    submitButtonRef.current?.focus()
+                    submitButtonRef.current?.click()
+                  }}
+                  readonly={isProcessing}
                 />
 
                 <footer className="lhs-footer">
@@ -365,8 +377,13 @@ export function Editor({
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}
                     isProcessing={isProcessing}
+                    ref={runTestsButtonRef}
                   />
-                  <SubmitButton onClick={submit} disabled={isSubmitDisabled} />
+                  <SubmitButton
+                    onClick={submit}
+                    disabled={isSubmitDisabled}
+                    ref={submitButtonRef}
+                  />
                 </footer>
               </>
             }

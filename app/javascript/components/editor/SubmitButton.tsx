@@ -1,29 +1,30 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { GenericTooltip } from '../misc/ExercismTippy'
 
-export const SubmitButton = ({
-  onClick,
-  disabled,
-}: {
-  onClick: () => void
-  disabled: boolean
-}) => (
-  <GenericTooltip
-    disabled={!disabled}
-    content={
-      'You need to get the tests passing before you can submit your solution'
-    }
-  >
-    <div className="submit-btn">
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={disabled}
-        className="btn-primary btn-s"
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement>
+
+export const SubmitButton = forwardRef<HTMLButtonElement, Props>(
+  ({ disabled, ...props }, ref) => {
+    return (
+      <GenericTooltip
+        disabled={!disabled}
+        content={
+          'You need to get the tests passing before you can submit your solution'
+        }
       >
-        <span>Submit</span>
-        <div className="kb-shortcut">F3</div>
-      </button>
-    </div>
-  </GenericTooltip>
+        <div className="submit-btn">
+          <button
+            type="button"
+            disabled={disabled}
+            className="btn-primary btn-s"
+            ref={ref}
+            {...props}
+          >
+            <span>Submit</span>
+            <div className="kb-shortcut">F3</div>
+          </button>
+        </div>
+      </GenericTooltip>
+    )
+  }
 )

@@ -1,12 +1,6 @@
-import React, {
-  useState,
-  createRef,
-  useRef,
-  useEffect,
-  useCallback,
-} from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
-import { EditorSettings } from '../../Editor'
+import { EditorSettings } from '../../Editor/types'
 import { File } from '../../types'
 
 export enum Keybindings {
@@ -18,7 +12,7 @@ export enum Keybindings {
 export type FileEditorHandle = {
   getFiles: () => File[]
   setFiles: (files: File[]) => void
-  openPalette: () => void
+  focus: () => void
 }
 
 export function FileEditorCodeMirror({
@@ -26,14 +20,15 @@ export function FileEditorCodeMirror({
   language,
   files: defaultFiles,
   settings,
+  readonly,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
   language: string
   settings: EditorSettings
   files: File[]
+  readonly: boolean
 }): JSX.Element {
   const [files, setFiles] = useState<File[]>(defaultFiles)
-  const [isPaletteOpen, setIsPaletteOpen] = useState(false)
   const getFiles = useCallback(() => {
     return files
   }, [files])
@@ -42,9 +37,7 @@ export function FileEditorCodeMirror({
     editorDidMount({
       getFiles,
       setFiles,
-      openPalette: () => {
-        setIsPaletteOpen(true)
-      },
+      focus: () => null,
     })
   }, [editorDidMount, getFiles, files, setFiles])
 
@@ -54,9 +47,9 @@ export function FileEditorCodeMirror({
       <p>Language: {language}</p>
       <p>Keybindings: {settings.keybindings}</p>
       <p>Wrap: {settings.wrap}</p>
-      <p>Palette open: {isPaletteOpen.toString()}</p>
       <p>Tab behavior: {settings.tabBehavior}</p>
-      {files.map((file, i) => (
+      <p>Readonly: {readonly.toString()}</p>
+      {files.map((file) => (
         <div key={file.filename}>
           <p>Value: {file.content}</p>
           <textarea

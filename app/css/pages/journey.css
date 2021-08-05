@@ -112,9 +112,11 @@
         }
     }
     & article {
-        /* Fill the bottom of the screen below 145px of tabs */
         min-height: calc(100vh - 145px);
-        @apply py-48;
+        @apply pt-48;
+
+        /* Make up for lack of footer margin */
+        padding-bottom: 200px;
     }
     & .c-search-bar {
         @apply pb-24 mb-40;

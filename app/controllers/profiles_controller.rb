@@ -35,7 +35,7 @@ class ProfilesController < ApplicationController
   end
 
   def badges
-    @badges = @user.badges
+    @badges = Badge.where(id: @user.acquired_badges.revealed.select(:badge_id))
   end
 
   def tooltip

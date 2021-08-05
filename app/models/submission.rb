@@ -86,6 +86,18 @@ class Submission < ApplicationRecord
     iteration&.published?
   end
 
+  def solution_files
+    files.each_with_object(solution.exercise_solution_files) do |file, files|
+      type = files.key?(file.filename) ? :solution : :legacy
+
+      files[file.filename] = {
+        type: type,
+        content: file.content,
+        digest: file.digest
+      }
+    end
+  end
+
   memoize
   def valid_filepaths
     exercise_repo = Git::Exercise.for_solution(solution)

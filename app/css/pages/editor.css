@@ -200,6 +200,17 @@
                 }
             }
 
+            & .legacy-file-banner {
+                @apply mt-16 mb-24 mx-16;
+                @apply py-12 px-24;
+                @apply shadow-smZ1 rounded-8 bg-backgroundColorA;
+                @apply flex items-center;
+
+                & .c-prominent-link {
+                    @apply text-14;
+                }
+            }
+
             & .c-iteration-pane {
                 overflow: hidden;
             }

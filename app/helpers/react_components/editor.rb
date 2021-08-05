@@ -72,9 +72,15 @@ module ReactComponents
 
     # TODO: (Required) remove this before launch
     def example_files
-      return solution.exercise.send(:git).exemplar_files if solution.exercise.concept_exercise?
+      if solution.exercise.concept_exercise?
+        return solution.exercise.send(:git).exemplar_files.transform_values do |content|
+          { content: content }
+        end
+      end
 
-      solution.exercise.send(:git).example_files
+      solution.exercise.send(:git).example_files.transform_values do |content|
+        { content: content }
+      end
     end
 
     memoize

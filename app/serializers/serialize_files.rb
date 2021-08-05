@@ -4,10 +4,11 @@ class SerializeFiles
   initialize_with :files
 
   def call
-    files.map do |filename, content|
+    files.map do |filename, data|
       {
         filename: filename,
-        content: content
+        type: data[:type],
+        content: data[:content]
       }
     end
   end

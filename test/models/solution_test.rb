@@ -154,9 +154,38 @@ class SolutionTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     solution = create :concept_solution, exercise: exercise
 
-    expected_files = ["log_line_parser.rb"]
-    assert_equal expected_files, solution.exercise_solution_files.keys
-    assert solution.exercise_solution_files["log_line_parser.rb"].start_with?("module LogLineParser")
+    expected_filenames = ["log_line_parser.rb"]
+    assert_equal expected_filenames, solution.exercise_solution_files.keys
+    file = solution.exercise_solution_files["log_line_parser.rb"]
+    assert file[:content].start_with?("module LogLineParser")
+    assert_equal :exercise, file[:type]
+  end
+
+  test "#solution_files returns solution files" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    expected_filenames = ["log_line_parser.rb"]
+    assert_equal expected_filenames, solution.solution_files.keys
+    file = solution.solution_files["log_line_parser.rb"]
+    assert file[:content].start_with?("module LogLineParser")
+    assert_equal :exercise, file[:type]
+
+    # Add a submission to override them
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission, filename: "log_line_parser.rb", content: "foobar1"
+    create :submission_file, submission: submission, filename: "something_else.rb", content: "foobar2"
+
+    expected_filenames = ["log_line_parser.rb", "something_else.rb"]
+    assert_equal expected_filenames, solution.solution_files.keys
+
+    file_1 = solution.solution_files["log_line_parser.rb"]
+    assert "foobar1", file_1[:content]
+    assert_equal :solution, file_1[:type]
+
+    file_2 = solution.solution_files["something_else.rb"]
+    assert "foobar2", file_2[:content]
+    assert_equal :legacy, file_2[:type]
   end
 
   test "read_file for concept exercise returns exercise file" do

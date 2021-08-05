@@ -142,6 +142,13 @@
                     }
                 }
             }
+            & .comment {
+                & .c-avatar {
+                    height: 48px;
+                    width: 48px;
+                    @apply mr-16;
+                }
+            }
         }
         & .rhs {
             @apply ml-48;

@@ -1,6 +1,6 @@
 @import "../styles";
 
-#page-track-show-unjoined {
+#page-track-about {
     & .track-header {
         & .container {
             @apply flex items-stretch;
@@ -307,7 +307,7 @@
     }
     & .upsell-section {
         @apply bg-backgroundColorA;
-        @apply py-64 mb-64;
+        @apply pt-64;
 
         & .container {
             @apply flex flex-col items-center;

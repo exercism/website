@@ -1,6 +1,6 @@
 @import "../styles";
 
-#page-track-show-joined {
+#page-track-show {
     & .track-header {
         & .container {
             @apply flex items-start py-32;

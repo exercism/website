@@ -304,6 +304,8 @@ Rails.application.routes.draw do
   end
 
   resources :tracks, only: %i[index show] do
+    get :about, on: :member
+
     resources :concepts, only: %i[index show], controller: "tracks/concepts" do
       get :tooltip, on: :member
     end

@@ -1,42 +1,43 @@
-#page-track-show-unjoined
+#page-track-about
   = render ViewComponents::Track::Header.new(@track, :overview)
 
-  %header.track-header.c-header-with-bg
-    .lg-container.container
-      .info
-        %h1.text-h1 Want to learn and master #{@track.title}?
-        %p.text-p-xlarge
-          Join Exercism’s #{@track.title} Track for access to
-          %em.c-underline
-            %strong #{@user_track.num_exercises} exercises
-
-          / TODO: Check numbers are active
-          - if @user_track.num_concepts.positive?
-            grouped into #{@user_track.num_concepts} #{@track.title} Concepts,
-          with automatic analysis
-          of your code and
-          = succeed(',') do
+  - if @user_track.external?
+    %header.track-header.c-header-with-bg
+      .lg-container.container
+        .info
+          %h1.text-h1 Want to learn and master #{@track.title}?
+          %p.text-p-xlarge
+            Join Exercism’s #{@track.title} Track for access to
             %em.c-underline
-              %strong personal mentoring
-          all
-          %em.c-underline
-            %strong 100% free.
-          /= @track.blurb
+              %strong #{@user_track.num_exercises} exercises
 
-        .btns.flex.flex-col.sm:flex-row
-          = button_to join_track_path(@track), method: :post, class: "btn-primary btn-l mb-24 sm:mb-0 sm:mr-24 w-100 sm:w-auto" do
-            = graphical_icon(:plus)
-            %span Join the #{@track.title} Track
+            / TODO: Check numbers are active
+            - if @user_track.num_concepts.positive?
+              grouped into #{@user_track.num_concepts} #{@track.title} Concepts,
+            with automatic analysis
+            of your code and
+            = succeed(',') do
+              %em.c-underline
+                %strong personal mentoring
+            all
+            %em.c-underline
+              %strong 100% free.
+            /= @track.blurb
 
-          - if @track.course?
-            = link_to track_concepts_path(@track), class: "btn-secondary btn-l" do
-              Explore concepts
-          - else
-            = link_to track_exercises_path(@track), class: "btn-secondary btn-l" do
-              Explore exercises
+          .btns.flex.flex-col.sm:flex-row
+            = button_to join_track_path(@track), method: :post, class: "btn-primary btn-l mb-24 sm:mb-0 sm:mr-24 w-100 sm:w-auto" do
+              = graphical_icon(:plus)
+              %span Join the #{@track.title} Track
 
-      .graphics.hidden.md:grid
-        = track_icon(@track)
+            - if @track.course?
+              = link_to track_concepts_path(@track), class: "btn-secondary btn-l" do
+                Explore concepts
+            - else
+              = link_to track_exercises_path(@track), class: "btn-secondary btn-l" do
+                Explore exercises
+
+        .graphics.hidden.md:grid
+          = track_icon(@track)
 
   %section.about-section.pb-48.md:pb-64
     .lg-container
@@ -74,6 +75,6 @@
 
         = image_pack_tag "screenshots/exercise-about.png", role: :presentation, class: 'hidden lg:block'
 
-  = render "tracks/show/unjoined/key_features", track: @track
-  = render "tracks/show/unjoined/concepts", track: @track
-  = render "tracks/show/unjoined/upsell", track: @track
+  = render "tracks/about/key_features", track: @track
+  = render "tracks/about/concepts", track: @track
+  = render "tracks/about/upsell", track: @track

@@ -8,7 +8,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     get track_concepts_url(track)
-    assert_redirect_to track_path(track)
+    assert_redirected_to track_path(track)
   end
 
   test "index: renders correctly for external" do

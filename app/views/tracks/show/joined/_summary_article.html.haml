@@ -66,7 +66,7 @@
       - if user_track.num_completed_exercises.positive?
         = render "tracks/show/joined/stats_box_completed_exercises", track: track, user_track: user_track
 
-      - if track.course?
+      - if track.course? && !user_track.practice_mode?
         - if user_track.num_concepts_learnt.positive?
           = render "tracks/show/joined/stats_box_learnt_concepts", track: track, user_track: user_track
         - else

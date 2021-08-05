@@ -23,12 +23,12 @@ module ViewComponents
 
       def tags
         ts = []
-        # if user_track&.practice_mode?
-        ts << tag.div(class: 'c-tag --practice-mode --compact') do
-          graphical_icon("practice-mode") +
-            tag.span("Practice Mode")
+        if user_track&.practice_mode?
+          ts << tag.div(class: 'c-tag --practice-mode --compact') do
+            graphical_icon("practice-mode") +
+              tag.span("Practice Mode")
+          end
         end
-        # end
 
         safe_join(ts)
       end
@@ -55,7 +55,7 @@ module ViewComponents
           class: tab_class(:exercises)
         )
 
-        tabs
+        safe_join(tabs)
       end
 
       def tab_class(tab)

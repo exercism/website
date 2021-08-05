@@ -2,6 +2,9 @@
 
 .c-track-header {
     @apply bg-backgroundColorA pt-16 shadow-base;
+    /* Needed for the box-shadow */
+    @apply relative;
+
     & > .container {
         @apply relative;
     }

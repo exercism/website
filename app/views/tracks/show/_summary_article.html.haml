@@ -2,7 +2,7 @@
   .lg-container.container
     .lhs
       - unless user_track.tutorial_exercise_completed?
-        = render "start_track_section", track: track
+        = render "tracks/show/start_track_section", track: track
 
       %section.progress-chart
         %h2

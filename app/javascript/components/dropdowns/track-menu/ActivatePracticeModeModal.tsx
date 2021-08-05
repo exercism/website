@@ -49,9 +49,9 @@ export const ActivatePracticeModeModal = ({
   return (
     <Modal className="m-activate-practice-mode" onClose={onClose} {...props}>
       <GraphicalIcon icon="practice-mode" category="graphics" />
-      <h2>Activate Practice Mode</h2>
+      <h2>Disable Learning Mode</h2>
       <p>
-        Activating Practice Mode will unlock all the Practice Exercises on this
+        Disabling Learning Mode will unlock all the Practice Exercises on this
         track, but will disable Concepts and Learning Exercises.
       </p>
       <div className="warning">
@@ -63,7 +63,7 @@ export const ActivatePracticeModeModal = ({
         status={status}
         className="btn-primary btn-m"
       >
-        Activate Practice Mode
+        Disable Learning Mode
       </FormButton>
       <ErrorBoundary>
         <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

@@ -1,9 +1,6 @@
 @import "../styles";
 
 .c-tracks-list {
-    /* TODO: Remove this once we're out of pre-launch */
-    min-height: 1000px;
-
     & .c-search-bar {
         @apply bg-backgroundColorA shadow-base;
         @apply py-12 mb-32;

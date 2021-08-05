@@ -1,0 +1,98 @@
+.lg-container
+  .nfp.mb-40.md:mb-80
+    = graphical_icon "exercism-face"
+    %h2 Exercism is a not-for-profit organisation that relies on community donations
+    %p.text-p-large
+      %strong It’s open source and 100% free.
+      Exercism aims to provide opportunity for people of all backgrounds by helping them develop their programming skills through code practice and mentorship.
+  %hr
+  .site-links.mt-24.md:mt-56
+    .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-3.xl:grid-cols-6.gap-x-40
+      .col
+        %h3 Editions
+        %hr.c-divider.--small
+        %ul
+          %li= link_to "Exercism", root_url
+          %li= link_to "Exercism for Teams", "#"
+          %li= link_to "Exercism Research", "#"
+
+      .col
+        %h3 About
+        %hr.c-divider.--small
+        %ul
+          %li= link_to "About Exercism", "#"
+          %li= link_to "Our values", "#"
+          %li= link_to "Our team", "#"
+          %li= link_to "Contributors", contributing_contributors_path
+
+      .col
+        %h3 Get involved
+        %hr.c-divider.--small
+        %ul
+          %li= link_to "Contribute", contributing_root_path
+          %li= link_to "Mentor", mentoring_path
+
+      .col
+        %h3 Legal &amp; policies
+        %hr.c-divider.--small
+        %ul
+          %li= link_to "Terms of usage", "#"
+          %li= link_to "Privacy policy", "#"
+          %li= link_to "Cookie policy", "#"
+          %li= link_to "Code of conduct", "#"
+          %li= link_to "Accessibility statement", "#"
+
+      .col
+        %h3 Keep in touch
+        %hr.c-divider.--small
+        %ul
+          %li= link_to "Exercism's blog", blog_posts_path
+          %li= link_to "Discuss on GitHub", "https://github.com/exercism/exercism"
+          %li= link_to "Contact us", "#"
+          %li= link_to "Report abuse", "#"
+
+      .col
+        %h3 Get help
+        %hr.c-divider.--small
+        %ul
+          %li= link_to "Exercism's Docs", docs_path
+          %li= link_to "Getting started", "#"
+          %li= link_to "FAQs", "#"
+          %li= link_to "Installing the CLI", "#"
+          %li= link_to "Interactive CLI Walkthrough", cli_walkthrough_path
+
+  .socials.mt-24.mb-40.md:mb-56
+    = link_to "https://twitter.com/exercism_io", class: 'icon twitter' do
+      = graphical_icon 'external-site-twitter'
+    = link_to "https://facebook.com/exercism.io", class: 'icon facebook' do
+      = graphical_icon 'external-site-facebook'
+    = link_to "https://github.com/exercism", class: 'icon github' do
+      = graphical_icon 'external-site-github'
+
+  %hr
+
+  .tracks.mt-32.md:mt-48.mb-32.md:mb-48.md:items-center
+    .hidden.md:block
+      %h2.text-h3 Our programming language tracks
+      %hr.c-divider.mt-28.mb-36
+
+    .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-3.xl:grid-cols-6.gap-x-32
+      - Track.active.order(title: :asc).pluck(:title, :slug).in_groups(5, false).each do |group|
+        .col
+          %ul
+            - group.each do |(title, slug)|
+              %li= link_to title, track_path(slug)
+
+      .col.hidden.md:block.mt-32.xl:mt-0
+        %h3.text-h6 Want to add a language track to Exercism?
+        %p.text-p-base
+          = link_to "Open an issue", "#"
+          and let's discuss it.
+  %hr
+  .legals.mt-24.md:mt-32.mb-32.md:mb-40.flex.md:items-center.flex-col.md:flex-row
+    .company.mb-16.md:mb-0.md:mr-32
+      Exercism is not-for-profit organisation registered in the UK with company number
+      #{link_to '11733062', 'https://find-and-update.company-information.service.gov.uk/company/11733062'}.
+      Its trustees are #{link_to 'Katrina Owen', 'https://www.kytrinyx.com/'} and #{link_to 'Jeremy Walker', 'https://ihid.info/'}.
+    .copyright.md:ml-auto
+      © #{Date.current.year} Exercism

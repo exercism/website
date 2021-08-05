@@ -46,7 +46,7 @@
 
         = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
 
-        %button.comments-button.btn-enhanced.btn-s
+        = link_to "#comments", "data-turbolinks": "false", class: 'comments-button btn-enhanced btn-s' do
           = icon "comment", "Number of comment"
           %span= @solution.num_comments
 
@@ -70,6 +70,40 @@
                 What is this?
 
             = render ViewComponents::Reputation.new("+5", size: :small, flashy: true)
+
+      / kntsoriano - Make this into a React component
+      %a{ name: "comments" }
+      %section.comments.mt-40
+        %header.flex.items-center.mb-12
+          %h2.text-h4 Write a comment
+          %button.btn-s.text-14.text-textColor6.ml-auto
+            = graphical_icon "settings"
+            %span Options
+
+        / kntsoriano: <MarkdownEditorForm>
+
+        %p.text-p-small.text-text-textColor6.mt-16.mb-32
+          Remember! Comments are for asking questions or applauding a solution.
+          %strong Do not use them
+          for mentoring or giving feedback.
+
+        %h2.text-h4.mb-24= pluralize @comments.size, "comment"
+        - if @comments.size.zero?
+          .flex.flex-col.items-center.center
+            %h3.text-h5.text-textColor6.mb-2 No one has commented on this solution.
+            %p.text-p-base.text-textColor6 Be the first to add your comment!
+
+        - @comments.each do |comment|
+          .comment
+            %header.flex.items-center.mb-16
+              = avatar(comment.author)
+              .flex.flex-col
+                .flex.items-center
+                  .text-h6.mr-8= comment.author.handle
+                  = render ViewComponents::Reputation.new(comment.author.formatted_reputation, size: 'small')
+                .text-textColor6.leading-160 #{time_ago_in_words(comment.created_at)} ago
+            .c-textual-content.--small= raw comment.content_html
+
 
     .rhs
       .about

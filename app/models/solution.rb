@@ -24,6 +24,7 @@ class Solution < ApplicationRecord
   has_many :iterations, dependent: :destroy
   has_many :user_activities, class_name: "User::Activity", dependent: :destroy
 
+  has_many :comments, dependent: :destroy
   has_many :stars, dependent: :destroy
 
   has_many :mentor_requests, class_name: "Mentor::Request", dependent: :destroy

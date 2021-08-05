@@ -367,6 +367,10 @@ Rails.application.routes.draw do
   get "my/solutions/:uuid" => "legacy#solution"
   get "mentor/solutions/:uuid" => "legacy#solution"
 
+  %i[installation learning resources tests].each do |doc|
+    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}") # rubocop:disable Style/FormatStringToken
+  end
+
   # ########################### #
   # Temporary and testing pages #
   # ########################### #

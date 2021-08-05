@@ -26,6 +26,7 @@ module.exports = {
       '2': '2px',
       '3': '3px',
       '4': '4px',
+      '8': '8px',
     },
     boxShadow: {
       none: 'none',
@@ -244,6 +245,7 @@ module.exports = {
       '36': '36px',
       '40': '40px',
       '48': '48px',
+      '52': '52px',
       '56': '56px',
       '60': '60px',
       '64': '64px',

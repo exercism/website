@@ -110,6 +110,12 @@
         brightness(98%) contrast(93%);
     --filter-CBC9D9: invert(93%) sepia(8%) saturate(833%) hue-rotate(199deg)
         brightness(90%) contrast(88%);
+    --filter-E2EBFF: invert(86%) sepia(12%) saturate(630%) hue-rotate(194deg)
+        brightness(103%) contrast(107%);
+    --filter-59D2AE: invert(74%) sepia(71%) saturate(309%) hue-rotate(106deg)
+        brightness(89%) contrast(88%);
+    --filter-FFFFFF: invert(99%) sepia(33%) saturate(62%) hue-rotate(352deg)
+        brightness(109%) contrast(100%);
 
     --container-padding-x: 16px;
     @screen md {
@@ -185,8 +191,7 @@
         hue-rotate(355deg) brightness(90%) contrast(96%);
     --link-blue-filter: invert(49%) sepia(99%) saturate(6416%)
         hue-rotate(225deg) brightness(94%) contrast(93%);
-    --white-filter: invert(99%) sepia(33%) saturate(62%) hue-rotate(352deg)
-        brightness(109%) contrast(100%);
+    --white-filter: var(--filter-FFFFFF);
     --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
         brightness(97%) contrast(80%);
 

@@ -1,0 +1,15 @@
+.external-section.pt-48.pb-0
+  .lg-container.flex
+    .lhs
+      = graphical_icon "exercism-with-logo-black"
+      %h2.text-h3 Code practice and mentorship for everyone
+      %p.text-p-large
+        Develop fluency in #{Track.active.count} programming languages
+        with our unique blend of learning, practice and mentoring.
+        Exercism is fun, effective and
+        100% free, forever.
+
+    .rhs.ml-auto.flex.items-center
+      = link_to "Sign up for free", new_user_registration_path, class: 'btn-l btn-primary mr-32'
+      = link_to "Explore languages", tracks_path, class: 'btn-l btn-enhanced'
+  .bottom

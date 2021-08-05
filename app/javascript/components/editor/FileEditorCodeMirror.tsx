@@ -14,7 +14,7 @@ import { LegacyFileBanner } from './LegacyFileBanner'
 export type FileEditorHandle = {
   getFiles: () => File[]
   setFiles: (files: File[]) => void
-  openPalette: () => void
+  focus: () => void
 }
 
 export const TabsContext = createContext<TabContext>({
@@ -29,6 +29,7 @@ export function FileEditorCodeMirror({
   onSubmit,
   files: defaultFiles,
   settings,
+  readonly,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
   language: string
@@ -36,6 +37,7 @@ export function FileEditorCodeMirror({
   onSubmit: () => void
   settings: EditorSettings
   files: File[]
+  readonly: boolean
 }): JSX.Element {
   const [files, setFiles] = useState(defaultFiles)
   const [tab, setTab] = useState(files[0].filename)
@@ -79,8 +81,6 @@ export function FileEditorCodeMirror({
       .filter((f): f is File => f !== undefined)
   }, [files])
 
-  const openPalette = useCallback(() => null, [])
-
   const handleDelete = useCallback(
     (fileToDelete: File) => {
       return () => {
@@ -102,9 +102,15 @@ export function FileEditorCodeMirror({
     [files, setFiles]
   )
 
+  const focus = useCallback(() => {
+    const editor = editorRefs.current[tab]
+
+    editor?.focus()
+  }, [tab])
+
   useEffect(() => {
-    editorDidMount({ getFiles, setFiles, openPalette })
-  }, [editorDidMount, getFiles, openPalette, setFiles])
+    editorDidMount({ getFiles, setFiles, focus })
+  }, [editorDidMount, getFiles, setFiles, focus])
 
   return (
     <TabsContext.Provider
@@ -121,7 +127,7 @@ export function FileEditorCodeMirror({
             </Tab>
           ))}
         </div>
-        {files.map((file, index) => (
+        {files.map((file) => (
           <Tab.Panel
             context={TabsContext}
             key={file.filename}
@@ -146,7 +152,7 @@ export function FileEditorCodeMirror({
               wrap={settings.wrap !== 'off'}
               isTabCaptured={settings.tabBehavior === 'captured'}
               theme={settings.theme}
-              readonly={file.type === 'legacy'}
+              readonly={readonly || file.type === 'legacy'}
               commands={[
                 {
                   key: 'F2',

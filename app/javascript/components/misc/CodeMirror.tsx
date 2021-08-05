@@ -19,6 +19,7 @@ const readonlyCompartment = new Compartment()
 export type Handler = {
   setValue: (value: string) => void
   getValue: () => string
+  focus: () => void
 }
 export const CodeMirror = ({
   value,
@@ -95,7 +96,7 @@ export const CodeMirror = ({
               ? [defaultHighlightStyle]
               : [oneDarkTheme, oneDarkHighlightStyle]
           ),
-          readonlyCompartment.of(EditorView.editable.of(!readonly)),
+          readonlyCompartment.of([EditorView.editable.of(!readonly)]),
         ],
       }),
       parent: textarea,
@@ -103,7 +104,7 @@ export const CodeMirror = ({
 
     viewRef.current = view
 
-    editorDidMount({ setValue, getValue })
+    editorDidMount({ setValue, getValue, focus: view.focus.bind(view) })
 
     // Lazy-load the language extension, which allows us to import just
     // the extension's code for the current language
@@ -166,9 +167,9 @@ export const CodeMirror = ({
     }
 
     viewRef.current.dispatch({
-      effects: readonlyCompartment.reconfigure(
-        EditorView.editable.of(!readonly)
-      ),
+      effects: readonlyCompartment.reconfigure([
+        EditorView.editable.of(!readonly),
+      ]),
     })
   }, [readonly])
 

@@ -23,38 +23,39 @@ module ViewComponents
 
       def tags
         ts = []
-        # if user_track&.practice_mode?
-        ts << tag.div(class: 'c-tag --practice-mode --compact') do
-          graphical_icon("practice-mode") +
-            tag.span("Practice Mode")
+        if user_track&.practice_mode?
+          ts << tag.div(class: 'c-tag --practice-mode --compact') do
+            graphical_icon("practice-mode") +
+              tag.span("Practice Mode")
+          end
         end
-        # end
 
         safe_join(ts)
       end
 
       def tabs
-        safe_join(
-          [
-            link_to(
-              graphical_icon(:overview) + tag.span("Overview"),
-              Exercism::Routes.track_path(track),
-              class: tab_class(:overview)
-            ),
-
-            link_to(
-              graphical_icon(:concepts) + tag.span("Syllabus"),
-              Exercism::Routes.track_concepts_path(track),
-              class: tab_class(:concepts)
-            ),
-
-            link_to(
-              graphical_icon(:exercises) + tag.span("Exercises"),
-              Exercism::Routes.track_exercises_path(track),
-              class: tab_class(:exercises)
-            )
-          ]
+        tabs = []
+        tabs << link_to(
+          graphical_icon(:overview) + tag.span("Overview"),
+          Exercism::Routes.track_path(track),
+          class: tab_class(:overview)
         )
+
+        unless user_track.practice_mode?
+          tabs << link_to(
+            graphical_icon(:concepts) + tag.span("Syllabus"),
+            Exercism::Routes.track_concepts_path(track),
+            class: tab_class(:concepts)
+          )
+        end
+
+        tabs << link_to(
+          graphical_icon(:exercises) + tag.span("Exercises"),
+          Exercism::Routes.track_exercises_path(track),
+          class: tab_class(:exercises)
+        )
+
+        safe_join(tabs)
       end
 
       def tab_class(tab)

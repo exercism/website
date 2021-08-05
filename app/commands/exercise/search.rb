@@ -10,6 +10,7 @@ class Exercise
     def call
       @exercises = user_track.exercises
       filter_criteria!
+      filter_type!
       sort!
       @exercises
     end
@@ -23,6 +24,12 @@ class Exercise
           "%#{crit}%"
         )
       end
+    end
+
+    def filter_type!
+      return unless user_track.practice_mode?
+
+      @exercises = @exercises.where(type: "PracticeExercise")
     end
 
     def sort!

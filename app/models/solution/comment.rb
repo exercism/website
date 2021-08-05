@@ -4,4 +4,12 @@ class Solution::Comment < ApplicationRecord
 
   validates :content_markdown, presence: true
   has_markdown_field :content, strip_h1: false, lower_heading_levels_by: 2
+
+  before_create do
+    self.uuid = SecureRandom.uuid
+  end
+
+  def to_param
+    uuid
+  end
 end

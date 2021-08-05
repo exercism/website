@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_05_114918) do
+ActiveRecord::Schema.define(version: 2021_08_05_134812) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -453,6 +453,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_114918) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", null: false
     t.index ["author_id"], name: "index_solution_comments_on_author_id"
     t.index ["solution_id"], name: "index_solution_comments_on_solution_id"
   end
@@ -491,6 +492,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_114918) do
     t.integer "num_loc", limit: 3, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "allow_comments", default: true, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true

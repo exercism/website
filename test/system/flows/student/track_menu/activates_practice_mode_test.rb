@@ -17,8 +17,8 @@ module Flows
             sign_in!(user)
             visit track_url(track)
             click_on "Track options"
-            click_on "Activate Practice Mode"
-            within(".m-activate-practice-mode") { click_on "Activate Practice Mode" }
+            click_on "Disable Learning Mode"
+            within(".m-activate-practice-mode") { click_on "Disable Learning Mode" }
 
             assert_text "Practice Mode"
           end

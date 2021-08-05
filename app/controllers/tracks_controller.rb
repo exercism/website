@@ -16,12 +16,14 @@ class TracksController < ApplicationController
     @track_icon_urls = Track.active.order('rand()').limit(8).map(&:icon_url)
   end
 
-  def show
-    @user_track = UserTrack.for(current_user, @track)
+  def about
+    @showcase_exercises = @user_track.exercises.order("RAND()").limit(3).to_a
+  end
 
+  def show
     if @user_track.external?
-      @showcase_exercises = @user_track.exercises.order("RAND()").limit(3).to_a
-      return render "tracks/show/unjoined"
+      about
+      return render "tracks/about"
     end
 
     # TODO: (Optional) Move this into a method somewhere else and add tests
@@ -33,8 +35,6 @@ class TracksController < ApplicationController
 
     @recent_solutions = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track)
     @updates = SiteUpdate.published.for_track(@track).sorted.limit(10)
-
-    render "tracks/show/joined"
   end
 
   def join
@@ -45,6 +45,7 @@ class TracksController < ApplicationController
   private
   def use_track
     @track = Track.find(params[:id])
+    @user_track = UserTrack.for(current_user, @track)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

@@ -1,7 +1,7 @@
 module ViewComponents
   module Track
     class Header < ViewComponent
-      TABS = %i[overview concepts exercises].freeze
+      TABS = %i[overview concepts exercises about].freeze
 
       initialize_with :track, :selected_tab
 
@@ -35,27 +35,45 @@ module ViewComponents
 
       def tabs
         tabs = []
-        tabs << link_to(
-          graphical_icon(:overview) + tag.span("Overview"),
-          Exercism::Routes.track_path(track),
-          class: tab_class(:overview)
-        )
-
-        unless user_track.practice_mode?
+        if user_track.external?
+          tabs << about_tab(:track_path)
+        else
           tabs << link_to(
-            graphical_icon(:concepts) + tag.span("Syllabus"),
-            Exercism::Routes.track_concepts_path(track),
-            class: tab_class(:concepts)
+            graphical_icon(:overview) + tag.span("Overview"),
+            Exercism::Routes.track_path(track),
+            class: tab_class(:overview)
           )
         end
 
-        tabs << link_to(
+        tabs << concepts_tab unless user_track.practice_mode?
+        tabs << exercises_tab
+        tabs << about_tab(:about_track_path) unless user_track.external?
+
+        safe_join(tabs)
+      end
+
+      def about_tab(url)
+        link_to(
+          graphical_icon('info-circle') + tag.span("About"),
+          Exercism::Routes.send(url, track),
+          class: tab_class(:about)
+        )
+      end
+
+      def concepts_tab
+        link_to(
+          graphical_icon(:concepts) + tag.span("Syllabus"),
+          Exercism::Routes.track_concepts_path(track),
+          class: tab_class(:concepts)
+        )
+      end
+
+      def exercises_tab
+        link_to(
           graphical_icon(:exercises) + tag.span("Exercises"),
           Exercism::Routes.track_exercises_path(track),
           class: tab_class(:exercises)
         )
-
-        safe_join(tabs)
       end
 
       def tab_class(tab)

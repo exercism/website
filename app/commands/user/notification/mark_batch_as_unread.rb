@@ -7,10 +7,12 @@ class User::Notification
     def call
       return if uuids.empty?
 
-      num_changed = user.notifications.read.where(uuid: uuids).
-        update_all(status: :unread, read_at: nil)
+      ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
+        num_changed = user.notifications.read.where(uuid: uuids).
+          update_all(status: :unread, read_at: nil)
 
-      NotificationsChannel.broadcast_changed!(user) if num_changed.positive?
+        NotificationsChannel.broadcast_changed!(user) if num_changed.positive?
+      end
     end
   end
 end

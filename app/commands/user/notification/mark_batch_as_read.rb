@@ -1,11 +1,13 @@
 class User::Notification
-  class MarkRelevantAsRead
+  class MarkBatchAsRead
     include Mandate
 
-    initialize_with :user, :path
+    initialize_with :user, :uuids
 
     def call
-      num_changed = user.notifications.pending_or_unread.where(path: path).
+      return if uuids.blank?
+
+      num_changed = user.notifications.pending_or_unread.where(uuid: uuids).
         update_all(status: :read, read_at: Time.current)
 
       NotificationsChannel.broadcast_changed!(user) if num_changed.positive?

@@ -20,5 +20,23 @@ module API
 
       render json: serialized
     end
+
+    def mark_batch_as_read
+      User::Notification::MarkBatchAsRead.(current_user, params[:uuids])
+
+      render json: {}
+    end
+
+    def mark_batch_as_unread
+      User::Notification::MarkBatchAsUnread.(current_user, params[:uuids])
+
+      render json: {}
+    end
+
+    def mark_all_as_read
+      User::Notification::MarkAllAsRead.(current_user)
+
+      render json: {}
+    end
   end
 end

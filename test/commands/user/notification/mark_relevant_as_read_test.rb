@@ -26,9 +26,23 @@ class User::Notifications::MarkRelevantAsReadTest < ActiveSupport::TestCase
 
   test "broadcasts message" do
     user = create :user
-    notification = create :notification, user: user
+    discussion = create(:mentor_discussion)
+    notification = create :mentor_started_discussion_notification, status: :pending, user: user,
+                                                                   params: { discussion: discussion }
+
     NotificationsChannel.expects(:broadcast_changed!).with(user)
 
-    User::Notification::Activate.(notification)
+    User::Notification::MarkRelevantAsRead.(user, notification.path)
+  end
+
+  test "does not broadcast if none were changed" do
+    user = create :user
+    discussion = create(:mentor_discussion)
+    notification = create :mentor_started_discussion_notification, status: :read, user: user,
+                                                                   params: { discussion: discussion }
+
+    NotificationsChannel.expects(:broadcast_changed!).never
+
+    User::Notification::MarkRelevantAsRead.(user, notification.path)
   end
 end

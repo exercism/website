@@ -373,6 +373,14 @@ Rails.application.routes.draw do
     get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}") # rubocop:disable Style/FormatStringToken
   end
 
+  get "terms-of-service", to: redirect("docs/using/legal/terms-of-service")
+  get "privacy-policy", to: redirect("docs/using/legal/privacy-policy")
+  get "cookie-policy", to: redirect("docs/using/legal/cookie-policy")
+  get "code-of-conduct", to: redirect("docs/using/legal/code-of-conduct")
+  get "accessibility", to: redirect("docs/using/legal/accessibility")
+  get "contact", to: redirect("docs/using/contact")
+  get "cli", to: redirect("docs/using/solving-exercises/working-locally")
+
   # ########################### #
   # Temporary and testing pages #
   # ########################### #

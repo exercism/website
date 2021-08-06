@@ -36,11 +36,11 @@
         %h3 Legal &amp; policies
         %hr.c-divider.--small
         %ul
-          %li= link_to "Terms of usage", "#"
-          %li= link_to "Privacy policy", "#"
-          %li= link_to "Cookie policy", "#"
-          %li= link_to "Code of conduct", "#"
-          %li= link_to "Accessibility statement", "#"
+          %li= link_to "Terms of usage", doc_path(:using, "legal/terms-of-service")
+          %li= link_to "Privacy policy", doc_path(:using, "legal/privacy-policy")
+          %li= link_to "Cookie policy", doc_path(:using, "legal/cookie-policy")
+          %li= link_to "Code of conduct", doc_path(:using, "legal/code-of-conduct")
+          %li= link_to "Accessibility statement", doc_path(:using, "legal/accessibility")
 
       .col
         %h3 Keep in touch
@@ -48,8 +48,8 @@
         %ul
           %li= link_to "Exercism's blog", blog_posts_path
           %li= link_to "Discuss on GitHub", "https://github.com/exercism/exercism"
-          %li= link_to "Contact us", "#"
-          %li= link_to "Report abuse", "#"
+          %li= link_to "Contact us", doc_path(:using, "contact")
+          %li= link_to "Report abuse", doc_path(:using, "report-abuse")
 
       .col
         %h3 Get help
@@ -58,7 +58,7 @@
           %li= link_to "Exercism's Docs", docs_path
           %li= link_to "Getting started", "#"
           %li= link_to "FAQs", "#"
-          %li= link_to "Installing the CLI", "#"
+          %li= link_to "Installing the CLI", doc_path(:using, "solving-exercises/working-locally")
           %li= link_to "Interactive CLI Walkthrough", cli_walkthrough_path
 
   .socials.mt-24.mb-40.md:mb-56

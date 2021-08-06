@@ -70,9 +70,9 @@ class API::ReputatationControllerTest < API::BaseTestCase
     )
   end
 
-  ################
-  # mark_as_seen #
-  ################
+  ###################
+  # Marking as seen #
+  ###################
 
   test "mark_as_seen should mark tokens as seen" do
     setup_user
@@ -91,5 +91,17 @@ class API::ReputatationControllerTest < API::BaseTestCase
     assert token_1.reload.seen?
     refute token_2.reload.seen?
     refute token_3.reload.seen?
+  end
+
+  test "mark_all_as_seen proxies" do
+    user = create :user
+    setup_user(user)
+
+    User::ReputationToken::MarkAllAsSeen.expects(:call).with(user)
+
+    patch mark_all_as_seen_api_reputation_index_path, headers: @headers, as: :json
+    assert_response 200
+
+    assert_empty JSON.parse(response.body)
   end
 end

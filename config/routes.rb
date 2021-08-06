@@ -111,9 +111,8 @@ Rails.application.routes.draw do
       resources :notifications, only: [:index]
 
       resources :reputation, only: %i[index], param: :uuid do
-        member do
-          patch :mark_as_seen
-        end
+        patch :mark_all_as_seen, on: :collection
+        patch :mark_as_seen, on: :member
       end
 
       resources :badges, only: %i[index], param: :uuid do

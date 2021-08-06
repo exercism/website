@@ -37,5 +37,11 @@ module API
 
       render json: { reputation: token.rendering_data }
     end
+
+    def mark_all_as_seen
+      User::ReputationToken::MarkAllAsSeen.(current_user)
+
+      render json: {}
+    end
   end
 end

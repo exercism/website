@@ -233,6 +233,7 @@ import {
   User,
   SiteUpdate,
   TrackContribution,
+  SolutionComment,
 } from '../components/types'
 
 import * as Tooltips from '../components/tooltips'
@@ -482,6 +483,11 @@ initReact({
       defaultNumStars={data.num_stars}
       defaultIsStarred={data.is_starred}
       links={data.links}
+    />
+  ),
+  'community-solutions-comments-list': (data: any) => (
+    <CommunitySolutions.CommentsList
+      comments={camelizeKeysAs<readonly SolutionComment[]>(data.comments)}
     />
   ),
   'profile-avatar-selector': (data: any) => (

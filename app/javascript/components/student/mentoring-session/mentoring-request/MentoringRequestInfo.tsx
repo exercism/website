@@ -7,8 +7,8 @@ import { MentorSessionTrack as Track } from '../../../types'
 import { IterationMarker } from '../../../mentoring/session/IterationMarker'
 import {
   DiscussionPost,
-  DiscussionPostAction,
   DiscussionPostProps,
+  DiscussionPostAction,
 } from '../../../mentoring/discussion/DiscussionPost'
 
 type Links = {

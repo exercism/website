@@ -12,7 +12,7 @@ module API
         compact.
         map { |post| SerializeMentorDiscussionPost.(post, current_user) }
 
-      render json: { posts: serialized_posts }
+      render json: { items: serialized_posts }
     end
 
     def create

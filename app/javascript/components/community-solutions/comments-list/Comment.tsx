@@ -1,31 +1,47 @@
-import React from 'react'
-import { fromNow } from '../../../utils/time'
-import { Avatar, Reputation } from '../../common'
-import { SolutionComment } from '../../types'
+import React, { forwardRef } from 'react'
+import { DiscussionPostView } from './discussion-post/DiscussionPostView'
+import { DiscussionPostEdit } from './discussion-post/DiscussionPostEdit'
+import { ListItem, ListItemAction } from '../../common/ListItem'
 
-export const Comment = ({
-  comment,
-}: {
-  comment: SolutionComment
-}): JSX.Element => {
-  return (
-    <div className="comment" key={comment.uuid}>
-      <header className="flex items-center mb-16">
-        <Avatar src={comment.author.avatarUrl} handle={comment.author.handle} />
-        <div className="flex flex-col">
-          <div className="flex items-center">
-            <div className="text-h6 mr-8">{comment.author.handle}</div>
-            <Reputation value={comment.author.reputation} size="small" />
-          </div>
-          <div className="text-tetColor6 leading-160">
-            {fromNow(comment.updatedAt)}
-          </div>
-        </div>
-      </header>
-      <div
-        className="c-textual-content --small"
-        dangerouslySetInnerHTML={{ __html: comment.contentHtml }}
-      />
-    </div>
-  )
+type DiscussionPostLinks = {
+  edit?: string
+  delete?: string
 }
+
+export type DiscussionPostProps = {
+  uuid: string
+  iterationIdx: number
+  links: DiscussionPostLinks
+  authorHandle: string
+  authorAvatarUrl: string
+  byStudent: boolean
+  contentMarkdown: string
+  contentHtml: string
+  updatedAt: string
+}
+
+export type DiscussionPostAction = ListItemAction
+
+type Props = {
+  post: DiscussionPostProps
+  action: DiscussionPostAction
+  onUpdate?: (post: DiscussionPostProps) => void
+  onDelete?: (post: DiscussionPostProps) => void
+  onEdit?: () => void
+  onEditCancel?: () => void
+  className?: string
+}
+
+export const DiscussionPost = forwardRef<HTMLDivElement, Props>(
+  ({ post, ...props }, ref) => {
+    return (
+      <ListItem<DiscussionPostProps>
+        itemRef={ref}
+        item={post}
+        ViewingComponent={DiscussionPostView}
+        EditingComponent={DiscussionPostEdit}
+        {...props}
+      />
+    )
+  }
+)

@@ -28,14 +28,14 @@ export const useDiscussionIterations = ({
   discussion?: MentorDiscussion
   iterations: readonly Iteration[]
 }): { iterations: readonly Iteration[]; status: QueryStatus } => {
-  const { data, status } = useRequestQuery<{ posts: DiscussionPostProps[] }>(
+  const { data, status } = useRequestQuery<{ items: DiscussionPostProps[] }>(
     `posts-discussion-${discussion?.uuid}`,
     { endpoint: discussion?.links.posts, options: { enabled: !!discussion } }
   )
 
   return {
     iterations: data
-      ? matchIterationsToPosts({ iterations: iterations, posts: data.posts })
+      ? matchIterationsToPosts({ iterations: iterations, posts: data.items })
       : iterations,
     status: status,
   }

@@ -1,19 +1,20 @@
 import React, { useContext, useCallback } from 'react'
 import { usePostHighlighting } from './usePostHighlighting'
 import { queryCache, QueryStatus } from 'react-query'
-import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
+import { DiscussionPostProps } from './DiscussionPost'
 import { Loading } from '../../common/Loading'
 import { Iteration } from '../../types'
 import { IterationMarker } from '../session/IterationMarker'
 import { PostsContext } from './PostsContext'
 import { usePosts } from './discussion-post-list/use-posts'
-import { usePostEditing } from './discussion-post-list/use-post-editing'
+import { useItemList } from '../../common/use-item-list'
 import {
   usePostScrolling,
   IterationWithRef,
 } from './discussion-post-list/use-post-scrolling'
 import { useListTrimming } from './discussion-post-list/use-list-trimming'
 import { useChannel } from './discussion-post-list/use-channel'
+import { DiscussionPost } from './DiscussionPost'
 
 export const DiscussionPostList = ({
   discussionUuid,
@@ -36,50 +37,19 @@ export const DiscussionPostList = ({
     posts,
     userHandle
   )
-  const { editingPost, handleEdit, handleEditCancel } = usePostEditing()
+  const {
+    getItemAction,
+    handleEdit,
+    handleEditCancel,
+    handleUpdate,
+    handleDelete,
+  } = useItemList<DiscussionPostProps>(cacheKey)
   const { iterationsWithRef } = usePostScrolling({
     iterations: iterations,
     onScroll: onIterationScroll,
   })
   const iterationsToShow = useListTrimming<IterationWithRef>(iterationsWithRef)
   useChannel(discussionUuid, () => queryCache.invalidateQueries(cacheKey))
-
-  const handleDelete = useCallback(
-    (deleted) => {
-      queryCache.setQueryData<{ posts: DiscussionPostProps[] }>(
-        [cacheKey],
-        (oldData) => {
-          if (!oldData) {
-            return { posts: [] }
-          }
-
-          return {
-            posts: oldData.posts.filter((post) => post.uuid !== deleted.uuid),
-          }
-        }
-      )
-    },
-    [cacheKey]
-  )
-  const handleUpdate = useCallback(
-    (updated) => {
-      queryCache.setQueryData<{ posts: DiscussionPostProps[] }>(
-        [cacheKey],
-        (oldData) => {
-          if (!oldData) {
-            return { posts: [updated] }
-          }
-
-          return {
-            posts: oldData.posts.map((post) => {
-              return post.uuid === updated.uuid ? updated : post
-            }),
-          }
-        }
-      )
-    },
-    [cacheKey]
-  )
 
   if (status === 'loading') {
     return (
@@ -102,10 +72,10 @@ export const DiscussionPostList = ({
             {iteration.posts?.map((post) => {
               return (
                 <DiscussionPost
-                  ref={highlightedPost === post ? highlightedPostRef : null}
                   key={post.uuid}
+                  ref={highlightedPost === post ? highlightedPostRef : null}
                   post={post}
-                  action={editingPost === post ? 'editing' : 'viewing'}
+                  action={getItemAction(post)}
                   onEdit={handleEdit(post)}
                   onEditCancel={handleEditCancel}
                   onUpdate={handleUpdate}

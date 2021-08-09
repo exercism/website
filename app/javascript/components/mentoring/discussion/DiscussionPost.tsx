@@ -1,6 +1,7 @@
-import React, { forwardRef, useCallback } from 'react'
+import React, { forwardRef } from 'react'
 import { DiscussionPostView } from './discussion-post/DiscussionPostView'
 import { DiscussionPostEdit } from './discussion-post/DiscussionPostEdit'
+import { ListItem, ListItemAction, ListItemProps } from '../../common/ListItem'
 
 type DiscussionPostLinks = {
   edit?: string
@@ -19,81 +20,23 @@ export type DiscussionPostProps = {
   updatedAt: string
 }
 
-export type DiscussionPostAction = 'viewing' | 'editing'
+export type DiscussionPostAction = ListItemAction
 
-type Props = {
-  post: DiscussionPostProps
-  action: DiscussionPostAction
-  onUpdate?: (post: DiscussionPostProps) => void
-  onDelete?: (post: DiscussionPostProps) => void
-  onEdit?: () => void
-  onEditCancel?: () => void
-  className?: string
-}
+type Props = { post: DiscussionPostProps } & Omit<
+  ListItemProps<DiscussionPostProps>,
+  'item' | 'ViewingComponent' | 'EditingComponent'
+>
 
 export const DiscussionPost = forwardRef<HTMLDivElement, Props>(
-  (
-    {
-      post,
-      action,
-      onUpdate,
-      onDelete,
-      onEdit = () => null,
-      onEditCancel = () => null,
-      className = '',
-    },
-    ref
-  ) => {
-    const handleEdit = useCallback(() => {
-      onEdit()
-    }, [onEdit])
-    const handleEditCancel = useCallback(() => {
-      onEditCancel()
-    }, [onEditCancel])
-
-    const handleUpdate = useCallback(
-      (post) => {
-        if (!onUpdate) {
-          return
-        }
-
-        onUpdate(post)
-        onEditCancel()
-      },
-      [onEditCancel, onUpdate]
+  ({ post, ...props }, ref) => {
+    return (
+      <ListItem<DiscussionPostProps>
+        itemRef={ref}
+        item={post}
+        ViewingComponent={DiscussionPostView}
+        EditingComponent={DiscussionPostEdit}
+        {...props}
+      />
     )
-
-    const handleDelete = useCallback(
-      (post) => {
-        if (!onDelete) {
-          return
-        }
-
-        onDelete(post)
-        onEditCancel()
-      },
-      [onDelete, onEditCancel]
-    )
-
-    switch (action) {
-      case 'viewing':
-        return (
-          <DiscussionPostView
-            post={post}
-            onEdit={handleEdit}
-            ref={ref}
-            className={className}
-          />
-        )
-      case 'editing':
-        return (
-          <DiscussionPostEdit
-            post={post}
-            onUpdate={onUpdate ? handleUpdate : undefined}
-            onDelete={onDelete ? handleDelete : undefined}
-            onCancel={handleEditCancel}
-          />
-        )
-    }
   }
 )

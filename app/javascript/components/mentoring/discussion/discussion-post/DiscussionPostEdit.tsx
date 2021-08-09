@@ -5,22 +5,18 @@ import { DiscussionPostProps } from '../DiscussionPost'
 import { typecheck } from '../../../../utils/typecheck'
 import { MarkdownEditorForm } from '../../../common/MarkdownEditorForm'
 import { Avatar } from '../../../common/Avatar'
+import { EditingComponentType } from '../../../common/ListItem'
 
 const DEFAULT_ERROR = new Error('Unable to edit post')
 
 type MutationAction = 'update' | 'delete'
 
 export const DiscussionPostEdit = ({
-  post,
+  item: post,
   onUpdate,
   onDelete,
   onCancel,
-}: {
-  post: DiscussionPostProps
-  onUpdate?: (post: DiscussionPostProps) => void
-  onDelete?: (post: DiscussionPostProps) => void
-  onCancel: () => void
-}): JSX.Element => {
+}: EditingComponentType<DiscussionPostProps>): JSX.Element => {
   const [value, setValue] = useState(post.contentMarkdown)
 
   const [mutation, { status: editStatus, error: editError }] = useMutation<

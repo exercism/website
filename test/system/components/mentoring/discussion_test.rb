@@ -251,7 +251,8 @@ module Components
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, solution: solution
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
 
         use_capybara_host do
           sign_in!(mentor)

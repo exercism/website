@@ -232,7 +232,6 @@ import {
   User,
   SiteUpdate,
   TrackContribution,
-  SolutionComment,
 } from '../components/types'
 
 import * as Tooltips from '../components/tooltips'
@@ -486,7 +485,8 @@ initReact({
   ),
   'community-solutions-comments-list': (data: any) => (
     <CommunitySolutions.CommentsList
-      comments={camelizeKeysAs<readonly SolutionComment[]>(data.comments)}
+      request={camelizeKeysAs<Request>(data.request)}
+      links={data.links}
     />
   ),
   'profile-avatar-selector': (data: any) => (

@@ -1,16 +1,29 @@
 import React from 'react'
-import { EmptyList } from './comments-list/EmptyList'
-import { List } from './comments-list/List'
-import { SolutionComment } from '../types'
+import { Header } from './comments-list/Header'
+import { NewCommentForm } from './comments-list/NewCommentForm'
+import { Reminder } from './comments-list/Reminder'
+import { ListContainer } from './comments-list/ListContainer'
+import { Request } from '../../hooks/request-query'
+
+type Links = {
+  create: string
+}
 
 export const CommentsList = ({
-  comments,
+  request,
+  links,
 }: {
-  comments: readonly SolutionComment[]
+  request: Request
+  links: Links
 }): JSX.Element => {
-  if (comments.length === 0) {
-    return <EmptyList />
-  }
+  const cacheKey = request.endpoint
 
-  return <List comments={comments} />
+  return (
+    <section className="comments mt-40">
+      <Header />
+      <NewCommentForm cacheKey={cacheKey} endpoint={links.create} />
+      <Reminder />
+      <ListContainer cacheKey={cacheKey} request={request} />
+    </section>
+  )
 }

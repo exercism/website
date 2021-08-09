@@ -5,7 +5,23 @@ module ReactComponents
 
       def to_s
         super("community-solutions-comments-list", {
-          comments: SerializeSolutionComments.(solution.comments, current_user)
+          request: {
+            endpoint: Exercism::Routes.api_track_exercise_community_solution_comments_url(
+              solution.track,
+              solution.exercise,
+              solution.user.handle
+            ),
+            options: {
+              initial_data: AssembleCommunitySolutionsCommentsList.(solution, current_user)
+            }
+          },
+          links: {
+            create: Exercism::Routes.api_track_exercise_community_solution_comments_url(
+              solution.track,
+              solution.exercise,
+              solution.user.handle
+            )
+          }
         })
       end
     end

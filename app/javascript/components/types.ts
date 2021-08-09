@@ -620,3 +620,14 @@ class BadgeRarityValue {
     this.rarity = rarity
   }
 }
+
+export type SolutionComment = {
+  uuid: string
+  author: {
+    avatarUrl: string
+    handle: string
+    reputation: string
+  }
+  updatedAt: string
+  contentHtml: string
+}

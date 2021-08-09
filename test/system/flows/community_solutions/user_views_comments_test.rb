@@ -29,6 +29,21 @@ module Flows
           end
         end
       end
+
+      test "user sees comments zero state" do
+        author = create :user, handle: "author"
+        exercise = create :concept_exercise
+        solution = create :concept_solution, :published, exercise: exercise, user: author
+        submission = create :submission, solution: solution
+        create :iteration, idx: 1, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!
+          visit track_exercise_solution_path(exercise.track, exercise, author.handle)
+
+          assert_text "No one has commented on this solution"
+        end
+      end
     end
   end
 end

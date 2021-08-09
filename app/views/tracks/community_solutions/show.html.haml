@@ -88,11 +88,6 @@
           for mentoring or giving feedback.
 
         %h2.text-h4.mb-24= pluralize @comments.size, "comment"
-        - if @comments.size.zero?
-          .flex.flex-col.items-center.center
-            %h3.text-h5.text-textColor6.mb-2 No one has commented on this solution.
-            %p.text-p-base.text-textColor6 Be the first to add your comment!
-
         = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
 
 

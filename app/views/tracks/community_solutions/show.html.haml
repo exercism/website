@@ -73,23 +73,7 @@
 
       / kntsoriano - Make this into a React component
       %a{ name: "comments" }
-      %section.comments.mt-40
-        %header.flex.items-center.mb-12
-          %h2.text-h4 Write a comment
-          %button.btn-s.text-14.text-textColor6.ml-auto
-            = graphical_icon "settings"
-            %span Options
-
-        / kntsoriano: <MarkdownEditorForm>
-
-        %p.text-p-small.text-text-textColor6.mt-16.mb-32
-          Remember! Comments are for asking questions or applauding a solution.
-          %strong Do not use them
-          for mentoring or giving feedback.
-
-        %h2.text-h4.mb-24= pluralize @comments.size, "comment"
-        = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
-
+      = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
 
     .rhs
       .about

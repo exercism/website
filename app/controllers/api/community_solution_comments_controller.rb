@@ -4,8 +4,7 @@ module API
     before_action :guard_accessible!, only: %i[index create]
 
     def index
-      comments = SerializeSolutionComments.(@solution.comments, current_user)
-      render json: { comments: comments }
+      render json: AssembleCommunitySolutionsCommentsList.(@solution, current_user)
     end
 
     def create

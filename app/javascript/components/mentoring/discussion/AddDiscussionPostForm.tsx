@@ -1,11 +1,9 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react'
-import { sendRequest } from '../../../utils/send-request'
-import { useMutation, queryCache } from 'react-query'
+import { queryCache } from 'react-query'
 import { PostsContext } from './PostsContext'
 import { DiscussionPostProps } from './DiscussionPost'
-import { typecheck } from '../../../utils/typecheck'
-import { MarkdownEditorForm } from '../../common/MarkdownEditorForm'
 import { MentorDiscussion } from '../../types'
+import { NewListItemForm } from '../../common/NewListItemForm'
 
 const DEFAULT_ERROR = new Error('Unable to save post')
 
@@ -17,67 +15,45 @@ export const AddDiscussionPostForm = ({
   onSuccess: () => void
 }): JSX.Element => {
   const contextId = useMemo(() => `${discussion.uuid}_new_post`, [discussion])
-  const [state, setState] = useState({
-    expanded: false,
-    value: localStorage.getItem(`smde_${contextId}`) || '',
-  })
+  const [expanded, setExpanded] = useState(false)
   const { cacheKey } = useContext(PostsContext)
-  const handleSuccess = useCallback(() => {
-    setState({ value: '', expanded: false })
-    onSuccess()
-  }, [onSuccess])
-  const [mutation, { status, error }] = useMutation<DiscussionPostProps>(
-    () => {
-      const { fetch } = sendRequest({
-        endpoint: discussion.links.posts,
-        method: 'POST',
-        body: JSON.stringify({ content: state.value }),
-      })
 
-      return fetch.then((json) => typecheck<DiscussionPostProps>(json, 'item'))
+  const handleSuccess = useCallback(
+    (post: DiscussionPostProps) => {
+      queryCache.setQueryData<{ items: DiscussionPostProps[] }>(
+        [cacheKey],
+        (oldData) => {
+          if (!oldData) {
+            return { items: [post] }
+          }
+
+          return { items: [...oldData.items, post] }
+        }
+      )
+
+      setExpanded(false)
+      onSuccess()
     },
-    {
-      onSettled: () => queryCache.invalidateQueries(cacheKey),
-      onSuccess: handleSuccess,
-    }
+    [cacheKey, onSuccess]
   )
 
-  const handleSubmit = useCallback(() => {
-    mutation()
-  }, [mutation])
+  const handleExpanded = useCallback(() => {
+    setExpanded(true)
+  }, [])
 
-  const handleClick = useCallback(() => {
-    if (state.expanded) {
-      return
-    }
-
-    setState({ ...state, expanded: true })
-  }, [state])
-
-  const handleCancel = useCallback(() => {
-    setState({ ...state, expanded: false })
-  }, [state])
-
-  const handleChange = useCallback(
-    (value: string) => {
-      setState({ ...state, value: value })
-    },
-    [state]
-  )
+  const handleCompressed = useCallback(() => {
+    setExpanded(false)
+  }, [])
 
   return (
-    <MarkdownEditorForm
-      onSubmit={handleSubmit}
-      onClick={handleClick}
-      onCancel={handleCancel}
-      onChange={handleChange}
+    <NewListItemForm<DiscussionPostProps>
+      endpoint={discussion.links.posts}
+      expanded={expanded}
       contextId={contextId}
-      value={state.value}
-      expanded={state.expanded}
-      status={status}
-      error={error}
+      onSuccess={handleSuccess}
+      onExpanded={handleExpanded}
+      onCompressed={handleCompressed}
       defaultError={DEFAULT_ERROR}
-      action="new"
     />
   )
 }

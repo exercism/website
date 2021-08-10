@@ -11,7 +11,7 @@ module API
       comment = Solution::Comment::Create.(
         current_user,
         @solution,
-        params[:content_markdown]
+        params[:content]
       )
 
       render json: { item: SerializeSolutionComment.(comment, current_user) }

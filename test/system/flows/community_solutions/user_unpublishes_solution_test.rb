@@ -3,10 +3,10 @@ require_relative "../../../support/capybara_helpers"
 
 module Flows
   module CommunitySolutions
-    class PublishSolutionTest < ApplicationSystemTestCase
+    class UserUnpublishesSolutionTest < ApplicationSystemTestCase
       include CapybaraHelpers
 
-      test "user changes a published iteration" do
+      test "user unpublishes a solution" do
         track = create :track
         exercise = create :concept_exercise, track: track
         author = create :user, handle: "author"
@@ -24,12 +24,10 @@ module Flows
           refute_button "1"
 
           click_on "Publish settings"
-          click_on "Change published iterations…"
-          find("label", text: "All iterations").click
-          click_on "Update published solution"
+          click_on "Unpublish solution…"
+          within(".m-unpublish-solution") { click_on "Unpublish solution" }
 
-          assert_button "1"
-          assert_button "2", disabled: true
+          assert_text "Publish your solution"
         end
       end
 
@@ -48,18 +46,17 @@ module Flows
         use_capybara_host do
           sign_in!(author)
           visit track_exercise_solution_url(track, exercise, "author")
+          refute_button "1"
 
           within(".comments") { click_on "Options" }
-          click_on "Change published iterations…"
-          find("label", text: "All iterations").click
-          click_on "Update published solution"
+          click_on "Unpublish solution…"
+          within(".m-unpublish-solution") { click_on "Unpublish solution" }
 
-          assert_button "1"
-          assert_button "2", disabled: true
+          assert_text "Publish your solution"
         end
       end
 
-      test "other user can not change the published iteration" do
+      test "other user can not unpublish the solution" do
         track = create :track
         exercise = create :concept_exercise, track: track
         author = create :user, handle: "author"
@@ -76,6 +73,7 @@ module Flows
           visit track_exercise_solution_url(track, exercise, "author")
 
           assert_no_button "Publish settings"
+          within(".comments") { assert_no_button "Options" }
         end
       end
     end

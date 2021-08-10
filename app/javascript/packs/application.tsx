@@ -243,6 +243,7 @@ import { Request as ContributingTasksRequest } from '../components/contributing/
 import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Links as SolutionViewLinks } from '../components/common/SolutionView'
+import { Links as CommentsListLinks } from '../components/community-solutions/CommentsList'
 
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
@@ -486,7 +487,9 @@ initReact({
   'community-solutions-comments-list': (data: any) => (
     <CommunitySolutions.CommentsList
       request={camelizeKeysAs<Request>(data.request)}
-      links={data.links}
+      links={camelizeKeysAs<CommentsListLinks>(data.links)}
+      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+      publishedIterationIdx={data.published_iteration_idx}
     />
   ),
   'profile-avatar-selector': (data: any) => (

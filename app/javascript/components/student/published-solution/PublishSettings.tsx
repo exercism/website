@@ -19,13 +19,16 @@ export const PublishSettings = ({
   redirectType,
   publishedIterationIdx,
   iterations,
+  className,
+  children,
   links,
-}: {
+}: React.PropsWithChildren<{
   redirectType: RedirectType
   publishedIterationIdx: number | null
   iterations: readonly Iteration[]
+  className: string
   links: Links
-}): JSX.Element => {
+}>): JSX.Element => {
   const [openedModal, setOpenedModal] = useState<ModalId | null>(null)
   const {
     buttonAttributes,
@@ -47,11 +50,8 @@ export const PublishSettings = ({
 
   return (
     <React.Fragment>
-      <button
-        {...buttonAttributes}
-        className="publish-settings-button btn-xs btn-enhanced"
-      >
-        <Icon icon="settings" alt="Publish settings" />
+      <button {...buttonAttributes} className={className}>
+        {children}
       </button>
       {open ? (
         <div {...panelAttributes} className="c-dropdown-generic-menu">

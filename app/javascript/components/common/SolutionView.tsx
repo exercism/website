@@ -7,6 +7,7 @@ import { FilePanel } from '../mentoring/session/FilePanel'
 import { IterationSummaryWithWebsockets } from '../track/IterationSummary'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { PublishSettings } from '../student/published-solution/PublishSettings'
+import { Icon } from '.'
 
 export type Links = {
   changeIteration?: string
@@ -82,7 +83,10 @@ export const SolutionView = ({
             publishedIterationIdx={publishedIterationIdx}
             iterations={iterations}
             redirectType="public"
-          />
+            className="publish-settings-button btn-xs btn-enhanced"
+          >
+            <Icon icon="settings" alt="Publish settings" />
+          </PublishSettings>
         ) : null}
       </footer>
     </div>

@@ -3,7 +3,7 @@ import {
   CommunitySolution as CommunitySolutionProps,
   Iteration,
 } from '../types'
-import { CommunitySolution } from '../common'
+import { CommunitySolution, Icon } from '../common'
 import { PublishSettings } from './published-solution/PublishSettings'
 
 export type Links = {
@@ -31,7 +31,10 @@ export const PublishedSolution = ({
           iterations={iterations}
           redirectType="private"
           links={links}
-        />
+          className="publish-settings-button btn-xs btn-enhanced"
+        >
+          <Icon icon="settings" alt="Publish settings" />
+        </PublishSettings>
       </div>
       <CommunitySolution solution={solution} context="exercise" />
     </div>

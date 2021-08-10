@@ -5,8 +5,8 @@ export type ListItemAction = 'viewing' | 'editing'
 export type ViewingComponentType<T> = {
   item: T
   onEdit: () => void
-  itemRef: Ref<HTMLDivElement>
-  className: string
+  itemRef?: Ref<HTMLDivElement>
+  className?: string
 }
 
 export type EditingComponentType<T> = {
@@ -26,7 +26,8 @@ export type ListItemProps<T> = {
   className?: string
   ViewingComponent: React.ComponentType<ViewingComponentType<T>>
   EditingComponent: React.ComponentType<EditingComponentType<T>>
-} & { itemRef: Ref<HTMLDivElement> }
+  itemRef?: Ref<HTMLDivElement>
+}
 
 export const ListItem = <T extends unknown>({
   item,

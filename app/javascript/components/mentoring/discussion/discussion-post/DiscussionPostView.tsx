@@ -9,15 +9,11 @@ import { ViewingComponentType } from '../../../common/ListItem'
 export const DiscussionPostView = ({
   onEdit,
   item: post,
-  className,
+  className = '',
   itemRef,
 }: ViewingComponentType<DiscussionPostProps>) => {
   const isEditable = post.links.edit
   const contentRef = useHighlighting<HTMLDivElement>()
-
-  const handleEdit = useCallback(() => {
-    onEdit()
-  }, [onEdit])
 
   const classNames = [
     'post',
@@ -39,7 +35,7 @@ export const DiscussionPostView = ({
           <time>{shortFromNow(post.updatedAt)}</time>
 
           {isEditable ? (
-            <button type="button" className="edit-button" onClick={handleEdit}>
+            <button type="button" className="edit-button" onClick={onEdit}>
               <Icon icon="edit" alt="Edit" />
             </button>
           ) : null}

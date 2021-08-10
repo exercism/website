@@ -55,6 +55,30 @@ module Flows
         end
       end
 
+      test "user edits a comment" do
+        author = create :user, handle: "author"
+        exercise = create :concept_exercise
+        solution = create :concept_solution, :published, exercise: exercise, user: author
+        submission = create :submission, solution: solution
+        create :iteration, idx: 1, solution: solution, submission: submission
+        create :solution_comment,
+          author: author,
+          content_markdown: "# Hello world",
+          solution: solution,
+          updated_at: 2.days.ago
+
+        use_capybara_host do
+          sign_in!(author)
+          visit track_exercise_solution_path(exercise.track, exercise, author.handle)
+          find_all(".comment").last.hover
+          click_on "Edit"
+          fill_in_editor "# Edited", within: ".comment"
+          click_on "Update"
+
+          within(".comment") { assert_css "h3", text: "Edited" }
+        end
+      end
+
       test "user sees comments zero state" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise

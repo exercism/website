@@ -4,6 +4,6 @@ class AssembleCommunitySolutionsCommentsList
   initialize_with :solution, :user
 
   def call
-    { comments: SerializeSolutionComments.(solution.comments, user) }
+    { items: SerializeSolutionComments.(solution.comments, user) }
   end
 end

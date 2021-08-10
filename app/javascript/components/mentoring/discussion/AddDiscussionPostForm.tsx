@@ -34,7 +34,7 @@ export const AddDiscussionPostForm = ({
         body: JSON.stringify({ content: state.value }),
       })
 
-      return fetch.then((json) => typecheck<DiscussionPostProps>(json, 'post'))
+      return fetch.then((json) => typecheck<DiscussionPostProps>(json, 'item'))
     },
     {
       onSettled: () => queryCache.invalidateQueries(cacheKey),

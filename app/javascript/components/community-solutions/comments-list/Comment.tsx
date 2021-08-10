@@ -1,47 +1,21 @@
-import React, { forwardRef } from 'react'
-import { DiscussionPostView } from './discussion-post/DiscussionPostView'
-import { DiscussionPostEdit } from './discussion-post/DiscussionPostEdit'
-import { ListItem, ListItemAction } from '../../common/ListItem'
+import React from 'react'
+import { CommentView } from './CommentView'
+import { CommentEdit } from './CommentEdit'
+import { ListItem, ListItemProps } from '../../common/ListItem'
+import { SolutionComment } from '../../types'
 
-type DiscussionPostLinks = {
-  edit?: string
-  delete?: string
+type Props = { comment: SolutionComment } & Omit<
+  ListItemProps<SolutionComment>,
+  'item' | 'ViewingComponent' | 'EditingComponent'
+>
+
+export const Comment = ({ comment, ...props }: Props): JSX.Element => {
+  return (
+    <ListItem<SolutionComment>
+      item={comment}
+      ViewingComponent={CommentView}
+      EditingComponent={CommentEdit}
+      {...props}
+    />
+  )
 }
-
-export type DiscussionPostProps = {
-  uuid: string
-  iterationIdx: number
-  links: DiscussionPostLinks
-  authorHandle: string
-  authorAvatarUrl: string
-  byStudent: boolean
-  contentMarkdown: string
-  contentHtml: string
-  updatedAt: string
-}
-
-export type DiscussionPostAction = ListItemAction
-
-type Props = {
-  post: DiscussionPostProps
-  action: DiscussionPostAction
-  onUpdate?: (post: DiscussionPostProps) => void
-  onDelete?: (post: DiscussionPostProps) => void
-  onEdit?: () => void
-  onEditCancel?: () => void
-  className?: string
-}
-
-export const DiscussionPost = forwardRef<HTMLDivElement, Props>(
-  ({ post, ...props }, ref) => {
-    return (
-      <ListItem<DiscussionPostProps>
-        itemRef={ref}
-        item={post}
-        ViewingComponent={DiscussionPostView}
-        EditingComponent={DiscussionPostEdit}
-        {...props}
-      />
-    )
-  }
-)

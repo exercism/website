@@ -25,23 +25,20 @@ module ReactComponents
               solution.exercise,
               solution.user.handle
             ),
-            change_iteration: change_iteration_link,
-            unpublish: unpublish_link
+            change_iteration: Exercism::Routes.published_iteration_api_solution_url(solution.uuid),
+            unpublish: Exercism::Routes.unpublish_api_solution_url(solution.uuid),
+            enable: Exercism::Routes.enable_api_track_exercise_community_solution_comments_url(
+              solution.track,
+              solution.exercise,
+              solution.user.handle
+            ),
+            disable: Exercism::Routes.disable_api_track_exercise_community_solution_comments_url(
+              solution.track,
+              solution.exercise,
+              solution.user.handle
+            )
           }
         })
-      end
-
-      private
-      def change_iteration_link
-        return unless solution.user == current_user
-
-        Exercism::Routes.published_iteration_api_solution_url(solution.uuid)
-      end
-
-      def unpublish_link
-        return unless solution.user == current_user
-
-        Exercism::Routes.unpublish_api_solution_url(solution.uuid)
       end
     end
   end

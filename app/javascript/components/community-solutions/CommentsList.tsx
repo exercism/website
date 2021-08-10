@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { Header } from './comments-list/Header'
 import { NewCommentForm } from './comments-list/NewCommentForm'
 import { Reminder } from './comments-list/Reminder'
@@ -11,29 +11,45 @@ export type Links = {
   create: string
   changeIteration: string
   unpublish: string
+  enable: string
+  disable: string
 }
 
 export const CommentsList = ({
-  allowComments,
+  defaultAllowComments,
   isAuthor,
   request,
   links,
   iterations,
   publishedIterationIdx,
 }: {
-  allowComments: boolean
+  defaultAllowComments: boolean
   isAuthor: boolean
   request: Request
   iterations: readonly Iteration[]
   publishedIterationIdx: number | null
   links: Links
 }): JSX.Element => {
+  const [allowComments, setAllowComments] = useState(defaultAllowComments)
+
+  const handleCommentsEnabled = useCallback(() => {
+    setAllowComments(true)
+  }, [])
+
+  const handleCommentsDisabled = useCallback(() => {
+    setAllowComments(false)
+  }, [])
+
   return (
     <section className="comments mt-40">
       <Header
         iterations={iterations}
         publishedIterationIdx={publishedIterationIdx}
         links={links}
+        isAuthor={isAuthor}
+        allowComments={allowComments}
+        onCommentsEnabled={handleCommentsEnabled}
+        onCommentsDisabled={handleCommentsDisabled}
       />
       <NewCommentForm cacheKey={request.endpoint} endpoint={links.create} />
       <Reminder />

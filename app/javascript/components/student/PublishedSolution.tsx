@@ -31,10 +31,7 @@ export const PublishedSolution = ({
           iterations={iterations}
           redirectType="private"
           links={links}
-          className="publish-settings-button btn-xs btn-enhanced"
-        >
-          <Icon icon="settings" alt="Publish settings" />
-        </PublishSettings>
+        />
       </div>
       <CommunitySolution solution={solution} context="exercise" />
     </div>

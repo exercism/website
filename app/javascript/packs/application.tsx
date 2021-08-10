@@ -486,6 +486,8 @@ initReact({
   ),
   'community-solutions-comments-list': (data: any) => (
     <CommunitySolutions.CommentsList
+      isAuthor={data.is_author}
+      allowComments={data.allow_comments}
       request={camelizeKeysAs<Request>(data.request)}
       links={camelizeKeysAs<CommentsListLinks>(data.links)}
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}

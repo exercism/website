@@ -5,6 +5,8 @@ module ReactComponents
 
       def to_s
         super("community-solutions-comments-list", {
+          allow_comments: solution.allow_comments,
+          is_author: current_user == solution.user,
           request: {
             endpoint: Exercism::Routes.api_track_exercise_community_solution_comments_url(
               solution.track,

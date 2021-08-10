@@ -629,5 +629,10 @@ export type SolutionComment = {
     reputation: string
   }
   updatedAt: string
+  contentMarkdown: string
   contentHtml: string
+  links: {
+    edit?: string
+    delete?: string
+  }
 }

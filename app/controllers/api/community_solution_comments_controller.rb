@@ -14,7 +14,7 @@ module API
         params[:content_markdown]
       )
 
-      render json: { comment: SerializeSolutionComment.(comment, current_user) }
+      render json: { item: SerializeSolutionComment.(comment, current_user) }
     end
 
     def update
@@ -23,10 +23,10 @@ module API
       return render_404(:solution_comment_not_found) if comment.blank?
       return render_403(:solution_comment_not_accessible) unless comment.author == current_user
 
-      if comment.update(content_markdown: params[:content_markdown])
+      if comment.update(content_markdown: params[:content])
         # TODO: Readd this
         # CommentListChannel.notify!(comment.solution)
-        render json: { comment: SerializeSolutionComment.(comment, current_user) }
+        render json: { item: SerializeSolutionComment.(comment, current_user) }
       else
         render_400(:failed_validations, errors: comment.errors)
       end
@@ -41,7 +41,7 @@ module API
       if comment.destroy
         # TODO: Readd this
         # CommentListChannel.notify!(comment.solution)
-        render json: { comment: SerializeSolutionComment.(comment, current_user) }
+        render json: { item: SerializeSolutionComment.(comment, current_user) }
       else
         render_400(:solution_comment_not_deleted)
       end

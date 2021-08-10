@@ -11,7 +11,7 @@ import { QueryKey } from 'react-query'
 const DEFAULT_ERROR = new Error('Unable to load comments')
 
 export type APIResponse = {
-  comments: readonly SolutionComment[]
+  items: readonly SolutionComment[]
 }
 
 export const ListContainer = ({
@@ -34,9 +34,9 @@ export const ListContainer = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <Count number={resolvedData.comments.length} />
-            {resolvedData.comments.length !== 0 ? (
-              <List comments={resolvedData.comments} />
+            <Count number={resolvedData.items.length} />
+            {resolvedData.items.length !== 0 ? (
+              <List cacheKey={cacheKey} comments={resolvedData.items} />
             ) : (
               <EmptyList />
             )}

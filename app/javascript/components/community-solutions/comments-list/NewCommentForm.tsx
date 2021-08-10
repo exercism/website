@@ -39,7 +39,7 @@ export const NewCommentForm = ({
 
         queryCache.setQueryData(cacheKey, {
           ...oldData,
-          comments: [comment, ...oldData.comments],
+          comments: [comment, ...oldData.items],
         })
         setContent('')
       },

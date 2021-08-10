@@ -23,7 +23,7 @@ module API
 
       DiscussionPostListChannel.notify!(@discussion)
 
-      render json: { post: SerializeMentorDiscussionPost.(post, current_user) }
+      render json: { item: SerializeMentorDiscussionPost.(post, current_user) }
     end
 
     def update
@@ -34,7 +34,7 @@ module API
 
       if post.update(content_markdown: params[:content])
         DiscussionPostListChannel.notify!(post.discussion)
-        render json: { post: SerializeMentorDiscussionPost.(post, current_user) }
+        render json: { item: SerializeMentorDiscussionPost.(post, current_user) }
       else
         render_400(:failed_validations, errors: post.errors)
       end
@@ -48,7 +48,7 @@ module API
 
       if post.destroy
         DiscussionPostListChannel.notify!(post.discussion)
-        render json: { post: SerializeMentorDiscussionPost.(post, current_user) }
+        render json: { item: SerializeMentorDiscussionPost.(post, current_user) }
       else
         render_400(:mentor_discussion_post_not_deleted)
       end

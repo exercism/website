@@ -101,7 +101,7 @@ export const MarkdownEditorForm = ({
 
       e.stopPropagation()
 
-      confirm('Are you sure you want to delete this post?') ? onDelete() : null
+      confirm('Are you sure you want to delete this?') ? onDelete() : null
     },
     [onDelete]
   )

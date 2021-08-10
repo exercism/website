@@ -47,6 +47,18 @@ module API
       end
     end
 
+    def enable
+      @solution.update!(allow_comments: true)
+
+      render json: {}
+    end
+
+    def disable
+      @solution.update!(allow_comments: false)
+
+      render json: {}
+    end
+
     private
     def use_solution
       @track = Track.find(params[:track_slug])

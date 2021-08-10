@@ -83,10 +83,7 @@ export const SolutionView = ({
             publishedIterationIdx={publishedIterationIdx}
             iterations={iterations}
             redirectType="public"
-            className="publish-settings-button btn-xs btn-enhanced"
-          >
-            <Icon icon="settings" alt="Publish settings" />
-          </PublishSettings>
+          />
         ) : null}
       </footer>
     </div>

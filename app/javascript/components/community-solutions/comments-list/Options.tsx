@@ -5,26 +5,40 @@ import {
   RedirectType,
 } from '../../modals/ChangePublishedIterationModal'
 import { UnpublishSolutionModal } from '../../modals/UnpublishSolutionModal'
+import { EnableSolutionCommentsModal } from '../../modals/EnableSolutionCommentsModal'
+import { DisableSolutionCommentsModal } from '../../modals/DisableSolutionCommentsModal'
 import { Iteration } from '../../types'
-import { Icon } from '../../common'
-
-type ModalId = 'changePublishedIteration' | 'unpublish'
+import { GraphicalIcon } from '../../common'
 
 type Links = {
   changeIteration: string
   unpublish: string
+  enable: string
+  disable: string
 }
 
-export const PublishSettings = ({
+type ModalId =
+  | 'changePublishedIteration'
+  | 'unpublish'
+  | 'enableComments'
+  | 'disableComments'
+
+export const Options = ({
+  allowComments,
   redirectType,
   publishedIterationIdx,
   iterations,
   links,
+  onCommentsEnabled,
+  onCommentsDisabled,
 }: {
+  allowComments: boolean
   redirectType: RedirectType
   publishedIterationIdx: number | null
   iterations: readonly Iteration[]
   links: Links
+  onCommentsEnabled: () => void
+  onCommentsDisabled: () => void
 }): JSX.Element => {
   const [openedModal, setOpenedModal] = useState<ModalId | null>(null)
   const {
@@ -33,7 +47,7 @@ export const PublishSettings = ({
     listAttributes,
     itemAttributes,
     open,
-  } = useDropdown(2, undefined, {
+  } = useDropdown(3, undefined, {
     placement: 'top-end',
     modifiers: [
       {
@@ -49,9 +63,10 @@ export const PublishSettings = ({
     <React.Fragment>
       <button
         {...buttonAttributes}
-        className="publish-settings-button btn-xs btn-enhanced"
+        className="btn-s text-14 text-textColor6 ml-auto"
       >
-        <Icon icon="settings" alt="Publish settings" />
+        <GraphicalIcon icon="settings" />
+        <span>Options</span>
       </button>
       {open ? (
         <div {...panelAttributes} className="c-dropdown-generic-menu">
@@ -68,6 +83,23 @@ export const PublishSettings = ({
               <button type="button" onClick={() => setOpenedModal('unpublish')}>
                 Unpublish solution…
               </button>
+            </li>
+            <li {...itemAttributes(1)}>
+              {allowComments ? (
+                <button
+                  type="button"
+                  onClick={() => setOpenedModal('disableComments')}
+                >
+                  Disable comments…
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setOpenedModal('enableComments')}
+                >
+                  Enable comments…
+                </button>
+              )}
             </li>
           </ul>
         </div>
@@ -86,6 +118,18 @@ export const PublishSettings = ({
         open={openedModal === 'unpublish'}
         onClose={() => setOpenedModal(null)}
         className="m-unpublish-solution"
+      />
+      <EnableSolutionCommentsModal
+        endpoint={links.enable}
+        open={openedModal === 'enableComments'}
+        onClose={() => setOpenedModal(null)}
+        onSuccess={onCommentsEnabled}
+      />
+      <DisableSolutionCommentsModal
+        endpoint={links.disable}
+        open={openedModal === 'disableComments'}
+        onClose={() => setOpenedModal(null)}
+        onSuccess={onCommentsDisabled}
       />
     </React.Fragment>
   )

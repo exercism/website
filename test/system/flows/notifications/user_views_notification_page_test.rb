@@ -36,6 +36,17 @@ module Flows
           assert_no_text "has started mentoring"
         end
       end
+
+      test "user views empty state" do
+        user = create :user
+
+        use_capybara_host do
+          sign_in!(user)
+          visit notifications_path
+
+          assert_text "You have no notifications"
+        end
+      end
     end
   end
 end

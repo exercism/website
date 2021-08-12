@@ -75,6 +75,8 @@ import {
 } from '../components/student/Nudge'
 import { Links as PublishedSolutionLinks } from '../components/student/PublishedSolution'
 
+import * as Notifications from '../components/notifications'
+
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
@@ -222,6 +224,11 @@ initReact({
     <TrackMenuDropdown
       track={data.track}
       links={camelizeKeysAs<TrackMenuLinks>(data.links)}
+    />
+  ),
+  'notifications-notifications-list': (data: any) => (
+    <Notifications.NotificationsList
+      request={camelizeKeysAs<Request>(data.request)}
     />
   ),
   'track-iteration-summary': (data: any) => (

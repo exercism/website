@@ -1,12 +1,12 @@
 import React from 'react'
-import { Notification } from './types'
+import { Notification as NotificationType } from '../../dropdowns/notifications/types'
 import { fromNow } from '../../../utils/time'
 import { GraphicalIcon } from '../../common'
 
 const NotificationImage = ({
   imageType,
   imageUrl,
-}: Pick<Notification, 'imageType' | 'imageUrl'>) => {
+}: Pick<NotificationType, 'imageType' | 'imageUrl'>) => {
   switch (imageType) {
     case 'avatar':
       return (
@@ -20,7 +20,7 @@ const NotificationImage = ({
   }
 }
 
-const NotificationStatus = ({ isRead }: Pick<Notification, 'isRead'>) => {
+const NotificationStatus = ({ isRead }: Pick<NotificationType, 'isRead'>) => {
   const className = isRead ? 'read' : 'unread'
 
   return <div className={className} />
@@ -29,7 +29,7 @@ const NotificationStatus = ({ isRead }: Pick<Notification, 'isRead'>) => {
 const NotificationContent = ({
   text,
   createdAt,
-}: Pick<Notification, 'text' | 'createdAt'>) => {
+}: Pick<NotificationType, 'text' | 'createdAt'>) => {
   return (
     <div className="content">
       <div className="text" dangerouslySetInnerHTML={{ __html: text }} />
@@ -38,14 +38,14 @@ const NotificationContent = ({
   )
 }
 
-export const NotificationMenuItem = ({
+export const Notification = ({
   url,
   imageType,
   imageUrl,
   text,
   createdAt,
   isRead,
-}: Notification): JSX.Element => {
+}: NotificationType): JSX.Element => {
   return (
     <a href={url} className="notification">
       <NotificationImage imageType={imageType} imageUrl={imageUrl} />

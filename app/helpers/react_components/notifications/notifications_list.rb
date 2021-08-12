@@ -11,7 +11,8 @@ module ReactComponents
               endpoint: Exercism::Routes.api_notifications_url,
               options: {
                 initial_data: AssembleNotificationsList.(current_user, params)
-              }
+              },
+              query: params.slice(*AssembleNotificationsList.keys)
             }
           }
         )

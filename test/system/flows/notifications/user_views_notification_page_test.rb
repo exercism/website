@@ -21,6 +21,21 @@ module Flows
           assert_text "mr-mentor has started mentoring your solution to Bob in Ruby"
         end
       end
+
+      test "user views paginated notifications" do
+        user = create :user
+        create :mentor_started_discussion_notification, user: user, status: :unread
+        create :student_replied_to_discussion_notification, user: user, status: :read
+
+        use_capybara_host do
+          sign_in!(user)
+          visit notifications_path(per_page: 1)
+          click_on "2", exact: true
+
+          assert_text "has added a new comment"
+          assert_no_text "has started mentoring"
+        end
+      end
     end
   end
 end

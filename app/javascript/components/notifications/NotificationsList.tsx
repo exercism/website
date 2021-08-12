@@ -4,18 +4,29 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import { PaginatedResult, Notification } from '../types'
 import { ResultsZone } from '../ResultsZone'
 import { List } from './notifications-list/List'
+import { useList } from '../../hooks/use-list'
+import { Pagination } from '../common'
 
 const DEFAULT_ERROR = new Error('Unable to load notifications')
 
 export const NotificationsList = ({
-  request,
+  request: initialRequest,
 }: {
   request: Request
 }): JSX.Element => {
-  const { status, resolvedData, error, isFetching } = usePaginatedRequestQuery<
+  const { request, setPage } = useList(initialRequest)
+  const cacheKey = ['notifications-list', request.query]
+
+  const {
+    status,
+    resolvedData,
+    latestData,
+    error,
+    isFetching,
+  } = usePaginatedRequestQuery<
     PaginatedResult<readonly Notification[]>,
     Error | Response
-  >('notifications-list', request)
+  >(cacheKey, request)
 
   return (
     <div>
@@ -25,7 +36,17 @@ export const NotificationsList = ({
           status={status}
           defaultError={DEFAULT_ERROR}
         >
-          {resolvedData ? <List notifications={resolvedData.results} /> : null}
+          {resolvedData ? (
+            <React.Fragment>
+              <List notifications={resolvedData.results} />
+              <Pagination
+                disabled={latestData === undefined}
+                current={request.query.page}
+                total={resolvedData.meta.totalPages}
+                setPage={setPage}
+              />
+            </React.Fragment>
+          ) : null}
         </FetchingBoundary>
       </ResultsZone>
     </div>

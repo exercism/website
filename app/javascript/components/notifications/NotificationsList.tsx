@@ -6,6 +6,7 @@ import { ResultsZone } from '../ResultsZone'
 import { List } from './notifications-list/List'
 import { useList } from '../../hooks/use-list'
 import { Pagination } from '../common'
+import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 const DEFAULT_ERROR = new Error('Unable to load notifications')
 
@@ -15,7 +16,7 @@ export const NotificationsList = ({
   request: Request
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
-  const cacheKey = ['notifications-list', request.query]
+  const cacheKey = ['notifications-list', removeEmpty(request.query)]
 
   const {
     status,
@@ -27,6 +28,8 @@ export const NotificationsList = ({
     PaginatedResult<readonly Notification[]>,
     Error | Response
   >(cacheKey, request)
+
+  useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <div>

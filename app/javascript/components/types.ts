@@ -622,6 +622,7 @@ class BadgeRarityValue {
 }
 
 export type Notification = {
+  uuid: string
   url: string
   imageType: NotificationImageType
   imageUrl: string

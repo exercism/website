@@ -75,6 +75,7 @@ import {
 } from '../components/student/Nudge'
 import { Links as PublishedSolutionLinks } from '../components/student/PublishedSolution'
 
+import { Links as NotificationsListLinks } from '../components/notifications/NotificationsList'
 import * as Notifications from '../components/notifications'
 
 import { Request } from '../hooks/request-query'
@@ -229,6 +230,7 @@ initReact({
   'notifications-notifications-list': (data: any) => (
     <Notifications.NotificationsList
       request={camelizeKeysAs<Request>(data.request)}
+      links={camelizeKeysAs<NotificationsListLinks>(data.links)}
     />
   ),
   'track-iteration-summary': (data: any) => (

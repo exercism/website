@@ -3,7 +3,12 @@ import { usePostHighlighting } from './usePostHighlighting'
 import { queryCache, QueryStatus } from 'react-query'
 import { DiscussionPost, DiscussionPostProps } from './DiscussionPost'
 import { Loading } from '../../common/Loading'
-import { Iteration } from '../../types'
+import {
+  Iteration,
+  MentorSessionExercise,
+  MentorSessionTrack,
+  Student,
+} from '../../types'
 import { IterationMarker } from '../session/IterationMarker'
 import { PostsContext } from './PostsContext'
 import { usePosts } from './discussion-post-list/use-posts'

@@ -158,6 +158,7 @@ Rails.application.routes.draw do
         end
 
         resources :iterations, only: %i[create destroy], param: :uuid do
+          resource :automated_feedback, only: %i[show], controller: "iterations/automated_feedback"
           get :latest_status, on: :collection
         end
         resources :initial_files, only: %i[index], controller: "solutions/initial_files"

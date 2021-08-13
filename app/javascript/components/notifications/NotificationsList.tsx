@@ -113,26 +113,22 @@ export const NotificationsList = ({
     <div>
       <ResultsZone isFetching={disabled}>
         <div className="actions">
-          {selected.length !== 0 ? (
-            <React.Fragment>
-              <MutationButton
-                mutation={markAsReadMutation}
-                onClick={handleMutation(markAsReadMutation)}
-                disabled={disabled}
-                defaultError={MARK_AS_READ_DEFAULT_ERROR}
-              >
-                Mark as read
-              </MutationButton>
-              <MutationButton
-                mutation={markAsUnreadMutation}
-                onClick={handleMutation(markAsUnreadMutation)}
-                disabled={disabled}
-                defaultError={MARK_AS_UNREAD_DEFAULT_ERROR}
-              >
-                Mark as unread
-              </MutationButton>
-            </React.Fragment>
-          ) : null}
+          <MutationButton
+            mutation={markAsReadMutation}
+            onClick={handleMutation(markAsReadMutation)}
+            disabled={selected.length === 0 || disabled}
+            defaultError={MARK_AS_READ_DEFAULT_ERROR}
+          >
+            Mark as read
+          </MutationButton>
+          <MutationButton
+            mutation={markAsUnreadMutation}
+            onClick={handleMutation(markAsUnreadMutation)}
+            disabled={selected.length === 0 || disabled}
+            defaultError={MARK_AS_UNREAD_DEFAULT_ERROR}
+          >
+            Mark as unread
+          </MutationButton>
           <button type="button" onClick={handleModalOpen} disabled={disabled}>
             Mark all as read
           </button>

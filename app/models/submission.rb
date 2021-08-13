@@ -87,7 +87,7 @@ class Submission < ApplicationRecord
   end
 
   def solution_files
-    # Merge the submission files into the exercise files. If we find a 
+    # Merge the submission files into the exercise files. If we find a
     # file we don't expect, that it as type: :legacy
     files.each_with_object(solution.exercise_solution_files) do |file, merged_files|
       type = merged_files.key?(file.filename) ? :solution : :legacy

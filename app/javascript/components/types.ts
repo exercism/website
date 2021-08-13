@@ -190,7 +190,7 @@ export type ExerciseDifficulty = 'easy' | 'medium' | 'hard'
 export type File = {
   filename: string
   content: string
-  digest?: string
+  digest: string | undefined
   type: FileType
 }
 

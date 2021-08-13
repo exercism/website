@@ -57,6 +57,22 @@ module Flows
         end
       end
 
+      test "marked notifications are persisted even when switching pages" do
+        user = create :user
+        create :mentor_started_discussion_notification, user: user, status: :read
+        create :student_replied_to_discussion_notification, user: user, status: :unread
+
+        use_capybara_host do
+          sign_in!(user)
+          visit notifications_path(per_page: 1)
+          find("label", text: "has added a new comment").click
+          click_on "Next"
+          click_on "Previous"
+
+          assert_checked_field "has added a new comment", visible: false
+        end
+      end
+
       test "user marks all notifications as read" do
         user = create :user
         create :mentor_started_discussion_notification, user: user, status: :unread

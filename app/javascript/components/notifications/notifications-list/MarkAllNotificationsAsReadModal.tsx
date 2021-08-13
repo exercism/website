@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Modal, ModalProps } from '../../modals/Modal'
-import { MutateFunction, QueryStatus } from 'react-query'
+import { QueryStatus } from 'react-query'
 import { FormButton } from '../../common'
 import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
 
@@ -9,23 +9,15 @@ const DEFAULT_ERROR = new Error('Unable to mark all notifications as read')
 export const MarkAllNotificationsAsReadModal = ({
   mutation,
   onClose,
+  onSubmit,
   ...props
 }: Omit<ModalProps, 'className'> & {
   mutation: {
-    mutation: MutateFunction<any, unknown, undefined, unknown>
     status: QueryStatus
     error: unknown
   }
+  onSubmit: () => void
 }): JSX.Element => {
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault()
-
-      mutation.mutation()
-    },
-    [mutation]
-  )
-
   const handleClose = useCallback(() => {
     if (mutation.status === 'loading') {
       return
@@ -33,6 +25,16 @@ export const MarkAllNotificationsAsReadModal = ({
 
     onClose()
   }, [mutation.status, onClose])
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      onSubmit()
+      handleClose()
+    },
+    [onSubmit, handleClose]
+  )
 
   return (
     <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>

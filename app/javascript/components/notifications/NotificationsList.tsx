@@ -80,6 +80,14 @@ export const NotificationsList = ({
     markAllAsReadMutation,
   ]
 
+  const [modalOpen, setModalOpen] = useState(false)
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true)
+  }, [])
+  const handleModalClose = useCallback(() => {
+    setModalOpen(false)
+  }, [])
+
   const handleMutation = useCallback(
     (mutation) => {
       return () => {
@@ -100,14 +108,6 @@ export const NotificationsList = ({
   const disabled = isFetching || mutations.some((m) => m.status === 'loading')
 
   useHistory({ pushOn: removeEmpty(request.query) })
-
-  const [modalOpen, setModalOpen] = useState(false)
-  const handleModalOpen = useCallback(() => {
-    setModalOpen(true)
-  }, [])
-  const handleModalClose = useCallback(() => {
-    setModalOpen(false)
-  }, [])
 
   return (
     <div>
@@ -159,6 +159,7 @@ export const NotificationsList = ({
       <MarkAllNotificationsAsReadModal
         open={modalOpen}
         onClose={handleModalClose}
+        onSubmit={handleMutation(markAllAsReadMutation)}
         mutation={markAllAsReadMutation}
       />
     </div>

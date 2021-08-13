@@ -26,7 +26,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
 
     expected = {
       results: [{
-        id: notification.uuid,
+        uuid: notification.uuid,
         url: notification.url,
         text: notification.text,
         is_read: false,

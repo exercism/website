@@ -21,8 +21,8 @@ class SerializeIteration
       submission_method: iteration.submission.submitted_via,
       created_at: iteration.created_at.iso8601,
       tests_status: iteration.submission.tests_status,
-      representer_feedback: iteration.representer_feedback,
-      analyzer_feedback: iteration.analyzer_feedback,
+      representer_feedback: sideload.include?(:automated_feedback) ? iteration.representer_feedback : nil,
+      analyzer_feedback: sideload.include?(:automated_feedback) ? iteration.analyzer_feedback : nil,
       is_published: iteration.published?,
       files: sideload.include?(:files) ? iteration.files.map do |file|
         {

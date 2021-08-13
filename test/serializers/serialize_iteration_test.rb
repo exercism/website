@@ -38,6 +38,7 @@ class SerializeIterationTest < ActiveSupport::TestCase
         }],
         links: {
           self: Exercism::Routes.track_exercise_iterations_url(track, exercise, idx: iteration.idx),
+          automated_feedback: Exercism::Routes.api_solution_iteration_automated_feedback_url(iteration.solution.uuid, iteration.uuid),
           delete: Exercism::Routes.api_solution_iteration_url(iteration.solution.uuid, iteration.uuid),
           solution: Exercism::Routes.track_exercise_url(track, exercise),
           test_run: Exercism::Routes.api_solution_submission_test_run_url(iteration.solution.uuid,
@@ -46,7 +47,7 @@ class SerializeIterationTest < ActiveSupport::TestCase
         }
       }
 
-      assert_equal expected, SerializeIteration.(iteration, sideload: [:files])
+      assert_equal expected, SerializeIteration.(iteration, sideload: %i[files automated_feedback])
     end
   end
 

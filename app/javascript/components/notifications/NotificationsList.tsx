@@ -10,6 +10,7 @@ import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { queryCache } from 'react-query'
 import { useNotificationMutation } from './notifications-list/useNotificationMutation'
 import { MutationButton } from './notifications-list/MutationButton'
+import { MarkAllNotificationsAsReadModal } from './notifications-list/MarkAllNotificationsAsReadModal'
 
 const DEFAULT_ERROR = new Error('Unable to load notifications')
 const MARK_AS_READ_DEFAULT_ERROR = new Error(
@@ -21,6 +22,7 @@ const MARK_AS_UNREAD_DEFAULT_ERROR = new Error(
 
 export type Links = {
   markAsRead: string
+  markAllAsRead: string
   markAsUnread: string
 }
 
@@ -62,13 +64,21 @@ export const NotificationsList = ({
 
   const markAsReadMutation = useNotificationMutation({
     endpoint: links.markAsRead,
-    uuids: selected,
+    body: { uuids: selected },
   })
   const markAsUnreadMutation = useNotificationMutation({
     endpoint: links.markAsUnread,
-    uuids: selected,
+    body: { uuids: selected },
   })
-  const mutations = [markAsReadMutation, markAsUnreadMutation]
+  const markAllAsReadMutation = useNotificationMutation({
+    endpoint: links.markAllAsRead,
+    body: null,
+  })
+  const mutations = [
+    markAsReadMutation,
+    markAsUnreadMutation,
+    markAllAsReadMutation,
+  ]
 
   const handleMutation = useCallback(
     (mutation) => {
@@ -91,29 +101,42 @@ export const NotificationsList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
+  const [modalOpen, setModalOpen] = useState(false)
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true)
+  }, [])
+  const handleModalClose = useCallback(() => {
+    setModalOpen(false)
+  }, [])
+
   return (
     <div>
       <ResultsZone isFetching={disabled}>
-        {selected.length !== 0 ? (
-          <div className="actions">
-            <MutationButton
-              mutation={markAsReadMutation}
-              onClick={handleMutation(markAsReadMutation)}
-              disabled={isFetching}
-              defaultError={MARK_AS_READ_DEFAULT_ERROR}
-            >
-              Mark as read
-            </MutationButton>
-            <MutationButton
-              mutation={markAsUnreadMutation}
-              onClick={handleMutation(markAsUnreadMutation)}
-              disabled={isFetching}
-              defaultError={MARK_AS_UNREAD_DEFAULT_ERROR}
-            >
-              Mark as unread
-            </MutationButton>
-          </div>
-        ) : null}
+        <div className="actions">
+          {selected.length !== 0 ? (
+            <React.Fragment>
+              <MutationButton
+                mutation={markAsReadMutation}
+                onClick={handleMutation(markAsReadMutation)}
+                disabled={disabled}
+                defaultError={MARK_AS_READ_DEFAULT_ERROR}
+              >
+                Mark as read
+              </MutationButton>
+              <MutationButton
+                mutation={markAsUnreadMutation}
+                onClick={handleMutation(markAsUnreadMutation)}
+                disabled={disabled}
+                defaultError={MARK_AS_UNREAD_DEFAULT_ERROR}
+              >
+                Mark as unread
+              </MutationButton>
+            </React.Fragment>
+          ) : null}
+          <button type="button" onClick={handleModalOpen} disabled={disabled}>
+            Mark all as read
+          </button>
+        </div>
         <FetchingBoundary
           error={error}
           status={status}
@@ -137,6 +160,11 @@ export const NotificationsList = ({
           ) : null}
         </FetchingBoundary>
       </ResultsZone>
+      <MarkAllNotificationsAsReadModal
+        open={modalOpen}
+        onClose={handleModalClose}
+        mutation={markAllAsReadMutation}
+      />
     </div>
   )
 }

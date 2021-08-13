@@ -57,6 +57,22 @@ module Flows
         end
       end
 
+      test "user marks all notifications as read" do
+        user = create :user
+        create :mentor_started_discussion_notification, user: user, status: :unread
+        create :student_replied_to_discussion_notification, user: user, status: :unread
+
+        use_capybara_host do
+          sign_in!(user)
+          visit notifications_path
+          click_on "Mark all as read"
+
+          within(".m-generic-confirmation") { click_on "Continue" }
+
+          assert_no_css ".unread"
+        end
+      end
+
       test "user marks notifications as unread" do
         user = create :user
         create :mentor_started_discussion_notification, user: user, status: :read

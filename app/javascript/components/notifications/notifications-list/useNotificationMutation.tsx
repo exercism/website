@@ -3,16 +3,16 @@ import { useMutation } from 'react-query'
 
 export const useNotificationMutation = ({
   endpoint,
-  uuids,
+  body,
 }: {
   endpoint: string
-  uuids: readonly string[]
+  body: { uuids: readonly string[] } | null
 }) => {
   const [mutation, { status, error }] = useMutation(() => {
     const { fetch } = sendRequest({
       endpoint: endpoint,
       method: 'PATCH',
-      body: JSON.stringify({ uuids: uuids }),
+      body: JSON.stringify(body),
     })
 
     return fetch

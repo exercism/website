@@ -1,38 +1,58 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { Contribution } from './Contribution'
-import { Contribution as ContributionProps } from '../types'
 import pluralize from 'pluralize'
 import { OrderSwitcher } from './contribution-results/OrderSwitcher'
+import { MarkAllAsSeenModal } from './contribution-results/MarkAllAsSeenModal'
+import { APIResult } from './ContributionsList'
 
 export type Order = 'newest_first' | 'oldest_first'
 
 const DEFAULT_ORDER = 'newest_first'
 
 export const ContributionResults = ({
-  results,
+  data,
   order,
   setOrder,
 }: {
-  results: ContributionProps[]
+  data: APIResult
   setOrder: (order: string) => void
   order: string
 }): JSX.Element => {
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true)
+  }, [])
+
+  const handleModalClose = useCallback(() => {
+    setModalOpen(false)
+  }, [])
+
   return (
     <div>
       <div className="results-title-bar">
         <h3>
-          Showing {results.length} {pluralize('contribution', results.length)}
+          Showing {data.results.length}{' '}
+          {pluralize('contribution', data.results.length)}
         </h3>
+        <button type="button" onClick={handleModalOpen}>
+          Mark all as seen
+        </button>
         <OrderSwitcher
           value={(order || DEFAULT_ORDER) as Order}
           setValue={setOrder}
         />
       </div>
       <div className="reputation-tokens">
-        {results.map((contribution) => {
+        {data.results.map((contribution) => {
           return <Contribution {...contribution} key={contribution.uuid} />
         })}
       </div>
+      <MarkAllAsSeenModal
+        endpoint={data.meta.links.markAllAsSeen}
+        open={modalOpen}
+        onClose={handleModalClose}
+      />
     </div>
   )
 }

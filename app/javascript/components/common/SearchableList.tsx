@@ -8,18 +8,18 @@ import { ResultsZone } from '../ResultsZone'
 import { QueryKey } from 'react-query'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 
-export type PaginatedResult = {
-  results: any[]
+export type PaginatedResult<T> = {
+  results: T[]
   meta: {
     currentPage: number
     totalPages: number
   }
 }
 
-type ResultsType = {
+type ResultsType<T> = {
   order: string
   setOrder: (order: string) => void
-  results: any[]
+  data: T
   cacheKey: QueryKey
 }
 
@@ -36,7 +36,10 @@ export type FilterValue = Record<string, string>
 
 const DEFAULT_ERROR = new Error('Unable to fetch list')
 
-export const SearchableList = ({
+export const SearchableList = <
+  T extends unknown,
+  U extends PaginatedResult<T>
+>({
   request: initialRequest,
   cacheKey: cacheKeyPrefix,
   placeholder,
@@ -48,7 +51,7 @@ export const SearchableList = ({
   cacheKey: string
   placeholder: string
   categories: FilterCategory[]
-  ResultsComponent: React.ComponentType<ResultsType>
+  ResultsComponent: React.ComponentType<ResultsType<U>>
   isEnabled?: boolean
 }): JSX.Element => {
   const {
@@ -70,7 +73,7 @@ export const SearchableList = ({
     latestData,
     isFetching,
     error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
+  } = usePaginatedRequestQuery<U, Error | Response>(cacheKey, {
     ...request,
     query: removeEmpty(request.query),
     options: { ...request.options, enabled: isEnabled },
@@ -123,7 +126,7 @@ export const SearchableList = ({
       {status === 'loading' ? <Loading /> : null}
       <ErrorBoundary>
         <ResultsZone isFetching={isFetching}>
-          <Results
+          <Results<T, U>
             cacheKey={cacheKey}
             query={request.query}
             error={error}
@@ -139,7 +142,7 @@ export const SearchableList = ({
   )
 }
 
-const Results = ({
+const Results = <T extends unknown, U extends PaginatedResult<T>>({
   query,
   cacheKey,
   setOrder,
@@ -153,10 +156,10 @@ const Results = ({
   query: Record<string, any>
   setOrder: (order: string) => void
   setPage: (page: number) => void
-  resolvedData: PaginatedResult | undefined
-  latestData: PaginatedResult | undefined
+  resolvedData: U | undefined
+  latestData: U | undefined
   error: Error | Response | null
-  ResultsComponent: React.ComponentType<ResultsType>
+  ResultsComponent: React.ComponentType<ResultsType<U>>
 }) => {
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
@@ -168,7 +171,7 @@ const Results = ({
     <React.Fragment>
       <ResultsComponent
         order={query.order}
-        results={resolvedData.results}
+        data={resolvedData}
         setOrder={setOrder}
         cacheKey={cacheKey}
       />

@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react'
 import { Badge as BadgeProps } from '../types'
-import { useIsMounted } from 'use-is-mounted'
 import { useMutation, queryCache, QueryKey } from 'react-query'
 import { FormButton } from '../common'
 import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
@@ -39,7 +38,9 @@ export const UnrevealedBadge = ({
   )
 
   const updateCache = useCallback(() => {
-    const oldData = queryCache.getQueryData<PaginatedResult>(cacheKey)
+    const oldData = queryCache.getQueryData<PaginatedResult<BadgeProps>>(
+      cacheKey
+    )
 
     if (!oldData || !revealedBadge) {
       return

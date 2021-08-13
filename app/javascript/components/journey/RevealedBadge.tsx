@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { GraphicalIcon } from '../common'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 import { Badge as BadgeProps } from '../types'
 import { BadgeModal } from '../modals/BadgeModal'

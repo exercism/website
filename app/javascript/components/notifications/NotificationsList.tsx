@@ -15,9 +15,13 @@ const DEFAULT_ERROR = new Error('Unable to load notifications')
 const MARK_AS_READ_DEFAULT_ERROR = new Error(
   'Unable to mark notifications as read'
 )
+const MARK_AS_UNREAD_DEFAULT_ERROR = new Error(
+  'Unable to mark notifications as unread'
+)
 
 export type Links = {
   markAsRead: string
+  markAsUnread: string
 }
 
 export const NotificationsList = ({
@@ -56,7 +60,15 @@ export const NotificationsList = ({
     [selected]
   )
 
-  const markAsReadMutation = useNotificationMutation(links.markAsRead)
+  const markAsReadMutation = useNotificationMutation({
+    endpoint: links.markAsRead,
+    uuids: selected,
+  })
+  const markAsUnreadMutation = useNotificationMutation({
+    endpoint: links.markAsUnread,
+    uuids: selected,
+  })
+  const mutations = [markAsReadMutation, markAsUnreadMutation]
 
   const handleMutation = useCallback(
     (mutation) => {
@@ -75,7 +87,7 @@ export const NotificationsList = ({
     [cacheKey, selected]
   )
 
-  const disabled = isFetching || markAsReadMutation.status === 'loading'
+  const disabled = isFetching || mutations.some((m) => m.status === 'loading')
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
@@ -89,7 +101,17 @@ export const NotificationsList = ({
               onClick={handleMutation(markAsReadMutation)}
               disabled={isFetching}
               defaultError={MARK_AS_READ_DEFAULT_ERROR}
-            />
+            >
+              Mark as read
+            </MutationButton>
+            <MutationButton
+              mutation={markAsUnreadMutation}
+              onClick={handleMutation(markAsUnreadMutation)}
+              disabled={isFetching}
+              defaultError={MARK_AS_UNREAD_DEFAULT_ERROR}
+            >
+              Mark as unread
+            </MutationButton>
           </div>
         ) : null}
         <FetchingBoundary

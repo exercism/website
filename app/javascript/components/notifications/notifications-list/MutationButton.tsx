@@ -8,12 +8,13 @@ export const MutationButton = ({
   disabled,
   mutation,
   defaultError,
-}: {
+  children,
+}: React.PropsWithChildren<{
   onClick: () => void
   disabled: boolean
   mutation: { status: QueryStatus; error: unknown }
   defaultError: Error
-}): JSX.Element => {
+}>): JSX.Element => {
   return (
     <React.Fragment>
       <FormButton
@@ -22,7 +23,7 @@ export const MutationButton = ({
         disabled={disabled}
         status={mutation.status}
       >
-        Mark as read
+        {children}
       </FormButton>
       <ErrorBoundary resetKeys={[mutation.status]}>
         <ErrorMessage error={mutation.error} defaultError={defaultError} />

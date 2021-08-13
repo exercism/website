@@ -15,7 +15,8 @@ module ReactComponents
               query: params.slice(*AssembleNotificationsList.keys)
             },
             links: {
-              mark_as_read: Exercism::Routes.mark_batch_as_read_api_notifications_url
+              mark_as_read: Exercism::Routes.mark_batch_as_read_api_notifications_url,
+              mark_as_unread: Exercism::Routes.mark_batch_as_unread_api_notifications_url
             }
           }
         )

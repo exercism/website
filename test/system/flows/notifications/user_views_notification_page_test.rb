@@ -57,6 +57,26 @@ module Flows
         end
       end
 
+      test "user marks notifications as unread" do
+        user = create :user
+        create :mentor_started_discussion_notification, user: user, status: :read
+        create :student_replied_to_discussion_notification, user: user, status: :read
+
+        use_capybara_host do
+          sign_in!(user)
+          visit notifications_path
+          find("label", text: "has added a new comment").click
+          find("label", text: "has started mentoring").click
+          click_on "Mark as unread"
+
+          assert_field "has added a new comment", disabled: false, visible: false
+          assert_no_css ".read"
+
+          assert_no_checked_field "has added a new comment", visible: false
+          assert_no_checked_field "has started mentoring", visible: false
+        end
+      end
+
       test "user views empty state" do
         user = create :user
 

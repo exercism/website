@@ -5,10 +5,11 @@ class SerializeFilesTest < ActiveSupport::TestCase
     files = {
       "bob.rb" => {
         type: :exercise,
-        content: "content"
+        content: "content",
+        digest: "123"
       }
     }
 
-    assert_equal [{ filename: "bob.rb", type: :exercise, content: "content" }], SerializeFiles.(files)
+    assert_equal [{ filename: "bob.rb", digest: "123", type: :exercise, content: "content" }], SerializeFiles.(files)
   end
 end

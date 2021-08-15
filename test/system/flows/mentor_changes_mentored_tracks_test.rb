@@ -25,7 +25,7 @@ module Flows
 
         assert_text "C#"
         assert_text "on Series"
-        assert_no_text "Ruby"
+        within(".current-track") { assert_no_text "Ruby" }
       end
     end
   end

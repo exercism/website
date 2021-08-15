@@ -1,9 +1,11 @@
 require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
+require_relative "../../support/redirect_helpers"
 
 module Flows
   class PublishSolutionTest < ApplicationSystemTestCase
     include CapybaraHelpers
+    include RedirectHelpers
 
     test "user publishes solution when completing it" do
       track = create :track
@@ -57,6 +59,7 @@ module Flows
         find("label", text: "Iteration 1").click
         click_on "Publish"
 
+        wait_for_redirect
         assert_text "Your published solution"
 
         # There is no way to determine from the screen which iteration was published. We can only check the solution record.

@@ -1,11 +1,13 @@
 require "application_system_test_case"
 require_relative "../../../../support/capybara_helpers"
+require_relative "../../../../support/redirect_helpers"
 
 module Flows
   module Student
     module FinishesMentorDiscussion
       class SatisfiedTest < ApplicationSystemTestCase
         include CapybaraHelpers
+        include RedirectHelpers
 
         test "student is satisfied with mentor discussion and doesn't requeue" do
           user = create :user
@@ -28,6 +30,7 @@ module Flows
             click_on "Acceptable"
             click_on "No thanks"
 
+            wait_for_redirect
             assert_text "Nice, it looks like you’re done here!"
           end
         end

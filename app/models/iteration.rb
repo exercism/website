@@ -12,6 +12,7 @@ class Iteration < ApplicationRecord
 
   delegate :tests_status,
     :files,
+    :solution_files,
     :automated_feedback_pending,
     :representer_feedback,
     :analyzer_feedback, to: :submission

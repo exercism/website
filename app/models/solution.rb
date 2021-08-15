@@ -197,15 +197,7 @@ class Solution < ApplicationRecord
     submission = submissions.last
     return files unless submission
 
-    submission.files.each do |file|
-      type = files.key?(file.filename) ? :solution : :legacy
-      files[file.filename] = {
-        type: type,
-        content: file.content
-      }
-    end
-
-    files
+    submission.solution_files
   end
 
   def broadcast!

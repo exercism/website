@@ -8,6 +8,7 @@ class SerializeFiles
       {
         filename: filename,
         type: data[:type],
+        digest: data[:digest],
         content: data[:content]
       }
     end

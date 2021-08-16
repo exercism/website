@@ -195,44 +195,6 @@
                         @apply border-t-2 border-borderColor6 pt-16 mt-24;
                         @apply mt-16 pt-16;
                     }
-
-                    & .representer-feedback,
-                    & .analyzer-feedback {
-                        & .feedback-header {
-                            @apply flex items-center;
-                            @apply mb-12;
-
-                            & > .c-avatar,
-                            & > .c-icon {
-                                height: 32px;
-                                width: 32px;
-                                @apply mr-16;
-                            }
-                            & .info {
-                                @apply text-15 leading-160 font-medium text-textColor6;
-                                & strong {
-                                    @apply text-textColor3 font-semibold;
-                                }
-                            }
-                        }
-                        & .c-textual-content {
-                            @apply text-15 text-textColor3 leading-paragraph;
-                            @apply mb-12;
-                        }
-                        & .byline {
-                            @apply flex items-center;
-                            @apply text-textColor6 font-medium;
-
-                            & .c-avatar {
-                                height: 32px;
-                                width: 32px;
-                                @apply mr-12;
-                            }
-                            & .c-reputation {
-                                @apply ml-12;
-                            }
-                        }
-                    }
                 }
             }
         }

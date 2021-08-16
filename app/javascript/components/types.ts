@@ -287,6 +287,7 @@ export type Iteration = {
     solution: string
     files: string
     testRun: string
+    automatedFeedback: string
   }
 }
 

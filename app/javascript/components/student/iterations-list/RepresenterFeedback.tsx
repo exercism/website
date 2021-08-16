@@ -4,7 +4,7 @@ import { RepresenterFeedback as Props } from '../../types'
 
 export const RepresenterFeedback = ({ html, author }: Props): JSX.Element => {
   return (
-    <div className="representer-feedback">
+    <div className="c-automated-feedback representer-feedback">
       <div className="feedback-header">
         <Avatar src={author.avatarUrl} handle={author.name} />
         <div className="info">

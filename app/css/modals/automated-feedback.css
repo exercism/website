@@ -1,0 +1,26 @@
+.m-automated-feedback.c-modal {
+    & .--modal-content {
+        @apply p-0;
+
+        & > header {
+            @apply py-12 px-32;
+            @apply border-b-1 border-borderColor6;
+            @apply flex items-center;
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+                @apply mr-24;
+            }
+        }
+        & > .feedback {
+            @apply flex items-start;
+            @apply pt-24 pb-32 px-32;
+        }
+    }
+    & .c-automated-feedback {
+        width: 450px;
+        & + .c-automated-feedback {
+            @apply ml-32;
+        }
+    }
+}

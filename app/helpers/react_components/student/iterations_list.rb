@@ -40,7 +40,7 @@ module ReactComponents
               iterations: solution.
                 iterations.
                 order(id: :desc).
-                map { |iteration| SerializeIteration.(iteration, sideload: [:files]) }
+                map { |iteration| SerializeIteration.(iteration, sideload: %i[files automated_feedback]) }
             }
           }
         }

@@ -32,39 +32,44 @@ module Components
       end
 
       test "shows representer feedback" do
-        skip # Readd when model is readded
         mentor = create :user
         student = create :user, handle: "student"
-        feedback_author = create :user, name: "Feedback Author", reputation: 50
+        create :user, name: "Feedback Author", reputation: 50
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
         discussion = create :mentor_discussion, solution: solution, mentor: mentor
         iteration = create :iteration, idx: 1, solution: solution
-        submission = create :submission, iteration: iteration, solution: solution,
-                                         analysis_status: :completed, representation_status: :generated
-        create :submission_representation, submission: submission, ast_digest: "ast"
+        submission = create :submission,
+          solution: solution,
+          iteration: iteration,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        author = create :user, name: "Feedback author"
         create :exercise_representation,
           exercise: running,
-          feedback_markdown: "Exercise feedback",
+          source_submission: submission,
+          feedback_author: author,
+          feedback_markdown: "Good job",
           feedback_type: :essential,
-          ast_digest: "ast",
-          feedback_author: feedback_author
+          ast_digest: "AST"
+        create :submission_representation,
+          submission: submission,
+          ast_digest: "AST"
+        create :submission_file, submission: submission
 
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-          find("div", text: "Student received automated feedback").click
+          click_on "Student received automated feedback"
         end
 
-        assert_text "Exercise feedback"
-        assert_text "by Feedback Author"
-        assert_css "img[src='#{feedback_author.avatar_url}']"
-        assert_text "50"
+        assert_text "Feedback author gave this feedback on a solution very similar to yours"
+        assert_text "Good job"
       end
 
       test "shows analyzer feedback" do
-        skip # Readd when model is readded
         mentor = create :user
         student = create :user, handle: "student"
         ruby = create :track, title: "Ruby"
@@ -72,16 +77,21 @@ module Components
         solution = create :concept_solution, exercise: running, user: student
         discussion = create :mentor_discussion, solution: solution, mentor: mentor
         iteration = create :iteration, idx: 1, solution: solution
-        submission = create :submission, iteration: iteration, analysis_status: :completed
-        create :submission_analysis, submission: submission, data: { comments: ["ruby.two-fer.incorrect_default_param"] }
+        submission = create :submission, solution: solution, iteration: iteration, analysis_status: :completed
+        create :submission_analysis, submission: submission, data: {
+          comments: [
+            { type: "essential", comment: "ruby.two-fer.splat_args" }
+          ]
+        }
 
         use_capybara_host do
           sign_in!(mentor)
           visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
-          find("div", text: "Student received automated feedback").click
+          click_on "Student received automated feedback"
         end
 
-        assert_text "What could the default value of the parameter be set to in order to avoid having to use a conditional?"
+        assert_text "Our Ruby Analyzer has some comments on your solution"
+        assert_text "Define an explicit"
       end
 
       test "shows student info" do

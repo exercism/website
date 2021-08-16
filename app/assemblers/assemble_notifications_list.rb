@@ -4,7 +4,7 @@ class AssembleNotificationsList
   initialize_with :user, :params
 
   def self.keys
-    %i[page per_page]
+    %i[page per_page order]
   end
 
   def call
@@ -25,7 +25,8 @@ class AssembleNotificationsList
     User::Notification::Retrieve.(
       user,
       page: params[:page],
-      per_page: params[:per_page]
+      per_page: params[:per_page],
+      order: params[:order]
     )
   end
 end

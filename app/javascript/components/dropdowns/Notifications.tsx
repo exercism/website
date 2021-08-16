@@ -90,7 +90,7 @@ export const Notifications = ({
     APIResponse
   >(CACHE_KEY, {
     endpoint: endpoint,
-    query: { per: MAX_NOTIFICATIONS },
+    query: { per_page: MAX_NOTIFICATIONS },
     options: {},
   })
   const {

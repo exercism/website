@@ -105,7 +105,7 @@ export const Reputation = ({
     APIResponse
   >(cacheKey, {
     endpoint: endpoint,
-    query: { per: MAX_TOKENS },
+    query: { per_page: MAX_TOKENS },
     options: {},
   })
   const {

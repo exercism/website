@@ -24,7 +24,7 @@ module API
 
     private
     def list_params
-      params.permit(AssembleNotificationsList.keys)
+      params.permit(*AssembleNotificationsList.keys)
     end
   end
 end

@@ -29,22 +29,25 @@ export const List = ({
   return (
     <div className="notifications">
       {notifications.map((notification) => (
-        <React.Fragment key={notification.uuid}>
-          <label className="c-checkbox-wrapper">
+        <div key={notification.uuid} className="notification-row">
+          <label
+            className={`c-checkbox-wrapper notification-cb-${notification.uuid}`}
+          >
             <input
               disabled={disabled}
               type="checkbox"
               checked={selected.includes(notification.uuid)}
               onChange={handleChange(notification)}
+              id={`notification-cb-${notification.uuid}`}
             />
             <div className="row">
               <div className="c-checkbox">
                 <GraphicalIcon icon="checkmark" />
               </div>
             </div>
-            <Notification {...notification} />
           </label>
-        </React.Fragment>
+          <Notification {...notification} />
+        </div>
       ))}
     </div>
   )

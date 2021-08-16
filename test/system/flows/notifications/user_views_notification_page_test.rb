@@ -30,30 +30,33 @@ module Flows
         use_capybara_host do
           sign_in!(user)
           visit notifications_path(per_page: 1)
-          click_on "2", exact: true
-
           assert_text "has added a new comment"
           assert_no_text "has started mentoring"
+
+          click_on "Next", exact: true
+
+          assert_no_text "has added a new comment"
+          assert_text "has started mentoring"
         end
       end
 
       test "user marks notifications as read" do
         user = create :user
-        create :mentor_started_discussion_notification, user: user, status: :unread
-        create :student_replied_to_discussion_notification, user: user, status: :unread
+        unread = create :student_replied_to_discussion_notification, user: user, status: :unread
+        read = create :mentor_started_discussion_notification, user: user, status: :unread
 
         use_capybara_host do
           sign_in!(user)
           visit notifications_path
-          find("label", text: "has added a new comment").click
-          find("label", text: "has started mentoring").click
+          find("label", class: "notification-cb-#{unread.uuid}").click
+          find("label", class: "notification-cb-#{read.uuid}").click
           click_on "Mark as read"
 
-          assert_field "has added a new comment", disabled: false, visible: false
+          assert_field "notification-cb-#{unread.uuid}", disabled: false, visible: false
           assert_no_css ".unread"
 
-          assert_no_checked_field "has added a new comment", visible: false
-          assert_no_checked_field "has started mentoring", visible: false
+          assert_no_checked_field "notification-cb-#{unread.uuid}", visible: false
+          assert_no_checked_field "notification-cb-#{read.uuid}", visible: false
         end
       end
 
@@ -65,11 +68,20 @@ module Flows
         use_capybara_host do
           sign_in!(user)
           visit notifications_path(per_page: 1)
-          find("label", text: "has added a new comment").click
+
+          # Click a label
+          refute_checked_field nil, visible: false
+          within('.notification-row') do
+            find("label").click
+          end
+          assert_checked_field nil, visible: false
+
+          # Change pages
           click_on "Next"
           click_on "Previous"
 
-          assert_checked_field "has added a new comment", visible: false
+          # Assert it's still checked
+          assert_checked_field nil, visible: false
         end
       end
 
@@ -91,21 +103,21 @@ module Flows
 
       test "user marks notifications as unread" do
         user = create :user
-        create :mentor_started_discussion_notification, user: user, status: :read
-        create :student_replied_to_discussion_notification, user: user, status: :read
+        comment = create :mentor_started_discussion_notification, user: user, status: :read
+        started = create :student_replied_to_discussion_notification, user: user, status: :read
 
         use_capybara_host do
           sign_in!(user)
           visit notifications_path
-          find("label", text: "has added a new comment").click
-          find("label", text: "has started mentoring").click
+          find("label", class: "notification-cb-#{comment.uuid}").click
+          find("label", class: "notification-cb-#{started.uuid}").click
           click_on "Mark as unread"
 
-          assert_field "has added a new comment", disabled: false, visible: false
+          assert_field "notification-cb-#{comment.uuid}", disabled: false, visible: false
           assert_no_css ".read"
 
-          assert_no_checked_field "has added a new comment", visible: false
-          assert_no_checked_field "has started mentoring", visible: false
+          assert_no_checked_field "notification-cb-#{comment.uuid}", visible: false
+          assert_no_checked_field "notification-cb-#{started.uuid}", visible: false
         end
       end
 

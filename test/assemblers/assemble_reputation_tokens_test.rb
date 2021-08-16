@@ -1,23 +1,20 @@
-class AssembleReputationsList
-  include Mandate
+require "test_helper"
 
-  initialize_with :user, :params
+class AssembleContributionsSummaryTest < ActiveSupport::TestCase
+  test "renders correctly with data" do
+    user = create :user
+    token = create :user_reputation_token, user: user
 
-  def self.keys
-    %w[criteria category order per_page page]
-  end
-
-  def call
-    data = tokens.map do |token|
+    data = [
       token.rendering_data.merge(
         links: {
           mark_as_seen: Exercism::Routes.mark_as_seen_api_reputation_url(token.uuid)
         }
       )
-    end
+    ]
 
-    SerializePaginatedCollection.(
-      tokens,
+    expected = SerializePaginatedCollection.(
+      user.reputation_tokens.page(1).per(20),
       data: data,
       meta: {
         links: {
@@ -28,17 +25,7 @@ class AssembleReputationsList
         is_all_seen: user.reputation_tokens.unseen.empty?
       }
     )
-  end
 
-  memoize
-  def tokens
-    User::ReputationToken::Search.(
-      user,
-      criteria: params[:criteria],
-      category: params[:category],
-      order: params[:order],
-      per: params[:per_page],
-      page: params[:page]
-    )
+    assert_equal expected, AssembleReputationTokens.(user, {})
   end
 end

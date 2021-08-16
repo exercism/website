@@ -55,7 +55,7 @@ module ReactComponents
       def reputation_category
         if default_category_id == "reputation"
           options = {
-            initial_data: AssembleReputationsList.(current_user, params)
+            initial_data: AssembleReputationTokens.(current_user, params)
           }
         else
           options = {}
@@ -66,7 +66,7 @@ module ReactComponents
           title: "Reputation",
           request: {
             endpoint: Exercism::Routes.api_reputation_index_url,
-            query: params.slice(*AssembleReputationsList.keys),
+            query: params.slice(*AssembleReputationTokens.keys),
             options: options
           },
           path: Exercism::Routes.reputation_journey_path,

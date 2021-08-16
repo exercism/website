@@ -35,37 +35,21 @@ class API::ReputatationControllerTest < API::BaseTestCase
     setup_user
     ruby = create :track, title: "Ruby"
     ruby_bob = create :concept_exercise, track: ruby, title: "Bob"
-    token = create :user_code_contribution_reputation_token,
+    create :user_code_contribution_reputation_token,
       user: @current_user,
       exercise: ruby_bob,
       track: ruby
 
-    get api_reputation_index_path(
+    params = {
       criteria: "ru",
       category: "building"
-    ), headers: @headers, as: :json
+    }
+
+    get api_reputation_index_path(params), headers: @headers, as: :json
 
     assert_response :success
     assert_equal(
-      {
-        results: [
-          token.rendering_data.merge(
-            links: {
-              mark_as_seen: Exercism::Routes.mark_as_seen_api_reputation_url(token.uuid)
-            }
-          )
-        ],
-        meta: {
-          current_page: 1,
-          total_count: 1,
-          total_pages: 1,
-          links: {
-            tokens: Exercism::Routes.reputation_journey_url
-          },
-          total_reputation: @current_user.reload.formatted_reputation,
-          is_all_seen: false
-        }
-      }.with_indifferent_access,
+      AssembleReputationTokens.(@current_user.reload, params).with_indifferent_access,
       JSON.parse(response.body).with_indifferent_access
     )
   end

@@ -1,7 +1,7 @@
 module API
   class ReputationController < BaseController
     def index
-      render json: AssembleReputationsList.(current_user, params)
+      render json: AssembleReputationTokens.(current_user, params)
     end
 
     def mark_as_seen
@@ -19,7 +19,7 @@ module API
 
     private
     def list_params
-      params.permit(AssembleReputationsList.keys)
+      params.permit(AssembleReputationTokens.keys)
     end
   end
 end

@@ -10,16 +10,12 @@ type Links = {
 }
 
 export const Header = ({
-  iterations,
-  publishedIterationIdx,
   links,
   isAuthor,
   allowComments,
   onCommentsEnabled,
   onCommentsDisabled,
 }: {
-  iterations: readonly Iteration[]
-  publishedIterationIdx: number | null
   links: Links
   isAuthor: boolean
   allowComments: boolean
@@ -33,9 +29,6 @@ export const Header = ({
         <Options
           allowComments={allowComments}
           links={links}
-          publishedIterationIdx={publishedIterationIdx}
-          iterations={iterations}
-          redirectType="public"
           onCommentsEnabled={onCommentsEnabled}
           onCommentsDisabled={onCommentsDisabled}
         />

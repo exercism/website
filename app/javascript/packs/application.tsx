@@ -490,8 +490,6 @@ initReact({
       defaultAllowComments={data.allow_comments}
       request={camelizeKeysAs<Request>(data.request)}
       links={camelizeKeysAs<CommentsListLinks>(data.links)}
-      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-      publishedIterationIdx={data.published_iteration_idx}
     />
   ),
   'profile-avatar-selector': (data: any) => (

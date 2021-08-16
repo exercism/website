@@ -20,14 +20,10 @@ export const CommentsList = ({
   isAuthor,
   request,
   links,
-  iterations,
-  publishedIterationIdx,
 }: {
   defaultAllowComments: boolean
   isAuthor: boolean
   request: Request
-  iterations: readonly Iteration[]
-  publishedIterationIdx: number | null
   links: Links
 }): JSX.Element => {
   const [allowComments, setAllowComments] = useState(defaultAllowComments)
@@ -43,8 +39,6 @@ export const CommentsList = ({
   return (
     <section className="comments mt-40">
       <Header
-        iterations={iterations}
-        publishedIterationIdx={publishedIterationIdx}
         links={links}
         isAuthor={isAuthor}
         allowComments={allowComments}

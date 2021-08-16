@@ -32,10 +32,6 @@
         }
     }
 
-    &.--expanded {
-        min-height: 320px;
-    }
-
     & > *:first-child {
         @apply flex flex-col flex-grow;
     }

@@ -142,11 +142,19 @@
                     }
                 }
             }
-            & .comment {
-                & .c-avatar {
-                    height: 48px;
-                    width: 48px;
-                    @apply mr-16;
+            & .comments {
+                & .c-markdown-editor {
+                    &.--expanded {
+                        min-height: 220px;
+                    }
+                }
+
+                & .comment {
+                    & .c-avatar {
+                        height: 48px;
+                        width: 48px;
+                        @apply mr-16;
+                    }
                 }
             }
         }

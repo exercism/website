@@ -17,16 +17,12 @@ module ReactComponents
               initial_data: AssembleCommunitySolutionsCommentsList.(solution, current_user)
             }
           },
-          iterations: solution.published_iterations.map { |iteration| SerializeIteration.(iteration) },
-          published_iteration_idx: solution.published_iteration.try(:idx),
           links: {
             create: Exercism::Routes.api_track_exercise_community_solution_comments_url(
               solution.track,
               solution.exercise,
               solution.user.handle
             ),
-            change_iteration: Exercism::Routes.published_iteration_api_solution_url(solution.uuid),
-            unpublish: Exercism::Routes.unpublish_api_solution_url(solution.uuid),
             enable: Exercism::Routes.enable_api_track_exercise_community_solution_comments_url(
               solution.track,
               solution.exercise,

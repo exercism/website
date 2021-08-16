@@ -2,6 +2,7 @@ import React from 'react'
 import { ContributionResults } from './ContributionResults'
 import { SearchableList } from '../common/SearchableList'
 import { Request } from '../../hooks/request-query'
+import { Contribution } from '../types'
 
 const CATEGORIES = [
   {
@@ -16,6 +17,17 @@ const CATEGORIES = [
   },
 ]
 
+export type APIResult = {
+  results: Contribution[]
+  meta: {
+    currentPage: number
+    totalPages: number
+    links: {
+      markAllAsSeen: string
+    }
+  }
+}
+
 export const ContributionsList = ({
   request,
   isEnabled,
@@ -25,7 +37,7 @@ export const ContributionsList = ({
 }): JSX.Element => {
   return (
     <article className="reputation-tab theme-dark">
-      <SearchableList
+      <SearchableList<Contribution, APIResult>
         cacheKey="journey-contributions-list"
         request={request}
         placeholder="Search for a contribution"

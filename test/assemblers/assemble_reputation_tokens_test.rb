@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AssembleContributionsSummaryTest < ActiveSupport::TestCase
+class AssembleReputationTokensTest < ActiveSupport::TestCase
   test "renders correctly with data" do
     user = create :user
     token = create :user_reputation_token, user: user

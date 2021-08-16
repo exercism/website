@@ -5,10 +5,12 @@ class User::Notification
     def initialize(user,
                    page: 1,
                    per_page: 5,
+                   order: nil,
                    sorted: true, paginated: true)
       @user = user
       @page = page
       @per_page = per_page
+      @order = order&.to_sym
 
       @sorted = sorted
       @paginated = paginated
@@ -35,7 +37,12 @@ class User::Notification
     end
 
     def sort!
-      @notifications = @notifications.order(status: :asc, id: :desc)
+      case order
+      when :unread_first
+        @notifications = @notifications.order(status: :asc, id: :desc)
+      else
+        @notifications = @notifications.order(id: :desc)
+      end
     end
 
     def paginate!

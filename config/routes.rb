@@ -108,7 +108,13 @@ Rails.application.routes.draw do
 
       resources :bug_reports, only: %i[create]
 
-      resources :notifications, only: [:index]
+      resources :notifications, only: [:index] do
+        collection do
+          patch :mark_all_as_read
+          patch :mark_batch_as_read
+          patch :mark_batch_as_unread
+        end
+      end
 
       resources :reputation, only: %i[index], param: :uuid do
         patch :mark_all_as_seen, on: :collection

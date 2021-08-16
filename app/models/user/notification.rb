@@ -34,7 +34,7 @@ class User::Notification < ApplicationRecord
 
   def cacheable_rendering_data
     {
-      id: uuid,
+      uuid: uuid,
       url: url,
       text: text,
       created_at: created_at.iso8601,

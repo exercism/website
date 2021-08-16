@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { expectConsoleError } from '../../../../support/silence-console'
+import { deferred } from '../../../../support/deferred'
 
 const server = setupServer()
 
@@ -19,16 +20,6 @@ afterEach(() => {
 afterAll(() => {
   server.close()
 })
-
-function deferred() {
-  let resolve: () => void
-
-  const promise = new Promise<void>((res) => {
-    resolve = res
-  })
-
-  return { promise }
-}
 
 test('disables buttons when submitting', async () => {
   const { promise } = deferred()

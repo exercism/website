@@ -1,24 +1,30 @@
 module API
   class NotificationsController < BaseController
     def index
-      notifications = User::Notification::Retrieve.(
-        current_user,
-        page: params[:page],
-        per_page: params[:per_page]
-      )
+      render json: AssembleNotificationsList.(current_user, list_params)
+    end
 
-      serialized = SerializePaginatedCollection.(
-        notifications,
-        data: notifications.map(&:rendering_data),
-        meta: {
-          links: {
-            all: Exercism::Routes.notifications_url
-          },
-          unread_count: current_user.notifications.unread.count
-        }
-      )
+    def mark_batch_as_read
+      User::Notification::MarkBatchAsRead.(current_user, params[:uuids])
 
-      render json: serialized
+      render json: {}
+    end
+
+    def mark_batch_as_unread
+      User::Notification::MarkBatchAsUnread.(current_user, params[:uuids])
+
+      render json: {}
+    end
+
+    def mark_all_as_read
+      User::Notification::MarkAllAsRead.(current_user)
+
+      render json: {}
+    end
+
+    private
+    def list_params
+      params.permit(*AssembleNotificationsList.keys)
     end
   end
 end

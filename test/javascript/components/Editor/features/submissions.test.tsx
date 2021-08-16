@@ -17,6 +17,7 @@ import { setupServer } from 'msw/node'
 import { Editor } from '../../../../../app/javascript/components/Editor'
 import { render } from '../../../test-utils'
 import { buildEditor } from './buildEditor'
+import { deferred } from '../../../support/deferred'
 
 const server = setupServer(
   rest.post('https://exercism.test/submissions', (req, res, ctx) => {
@@ -63,16 +64,6 @@ afterEach(() => {
 afterAll(() => {
   server.close()
 })
-
-function deferred() {
-  let resolve: () => void
-
-  const promise = new Promise<void>((res) => {
-    resolve = res
-  })
-
-  return { promise }
-}
 
 test('shows message when test times out', async () => {
   const props = buildEditor({ overrides: { timeout: 1000 } })

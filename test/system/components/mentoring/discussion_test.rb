@@ -57,7 +57,6 @@ module Components
         create :submission_representation,
           submission: submission,
           ast_digest: "AST"
-        create :iteration, solution: solution, submission: submission
         create :submission_file, submission: submission
 
         use_capybara_host do

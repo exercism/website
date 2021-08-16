@@ -22,12 +22,13 @@ export const CommentView = ({
           <div className="text-tetColor6 leading-160">
             {fromNow(comment.updatedAt)}
           </div>
-          {isEditable ? (
-            <button type="button" className="edit-button" onClick={onEdit}>
-              <Icon icon="edit" alt="Edit" />
-            </button>
-          ) : null}
         </div>
+        {isEditable ? (
+          <button type="button" className="edit-button" onClick={onEdit}>
+            <Icon icon="edit" alt="Edit" />
+            <span>Edit</span>
+          </button>
+        ) : null}
       </header>
       <div
         className="c-textual-content --small"

@@ -19,7 +19,7 @@ type Links = {
 const placeholder = {
   contentMarkdown: '',
   contentHtml:
-    "Please update this comment to tell a mentor what you'd like to learn in this exercise",
+    "<p>Please update this comment to tell a mentor what you'd like to learn in this exercise</p>",
 }
 
 export const MentoringRequestInfo = ({
@@ -49,7 +49,6 @@ export const MentoringRequestInfo = ({
     onEdit: () => setAction('editing'),
     onEditCancel: () => setAction('viewing'),
     onUpdate: (post: DiscussionPostProps) => setPost(post),
-    className: showPlaceholder ? 'placeholder' : '',
   }
 
   return (

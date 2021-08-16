@@ -47,10 +47,19 @@ export const MarkAllAsSeenModal = ({
   }, [onClose, status])
 
   return (
-    <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
-      <h3>Are you sure you want to mark all as seen?</h3>
+    <Modal
+      theme="dark"
+      className="m-generic-confirmation"
+      onClose={handleClose}
+      {...props}
+    >
+      <h3>Mark all as seen?</h3>
+      <p>
+        Are you sure you want to mark all as seen? All contributions across all
+        pages will be marked as seen.
+      </p>
       <form onSubmit={handleSubmit} className="buttons">
-        <FormButton type="submit" status={status} className="btn-warning btn-s">
+        <FormButton type="submit" status={status} className="btn-primary btn-s">
           Continue
         </FormButton>
         <FormButton

@@ -35,7 +35,11 @@ export const ContributionResults = ({
           Showing {data.results.length}{' '}
           {pluralize('contribution', data.results.length)}
         </h3>
-        <button type="button" onClick={handleModalOpen}>
+        <button
+          type="button"
+          onClick={handleModalOpen}
+          className="btn-m btn-default"
+        >
           Mark all as seen
         </button>
         <OrderSwitcher

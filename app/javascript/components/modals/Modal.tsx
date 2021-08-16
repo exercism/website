@@ -3,12 +3,14 @@ import { default as ReactModal, Props } from 'react-modal'
 import { Wrapper } from '../common/Wrapper'
 import { ActiveBackground, Confetti } from '@exercism/active-background'
 
+type Theme = 'light' | 'dark'
 export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   className: string
   open: boolean
   onClose: () => void
   cover?: boolean
   celebratory?: boolean
+  theme?: Theme
 }
 
 export const Modal = ({
@@ -17,10 +19,16 @@ export const Modal = ({
   className,
   cover = false,
   celebratory = false,
+  theme = 'light',
   children,
   ...props
 }: React.PropsWithChildren<ModalProps>): JSX.Element => {
-  const overlayClassNames = ['c-modal', className, cover ? '--cover' : '']
+  const overlayClassNames = [
+    'c-modal',
+    `theme-${theme}`,
+    className,
+    cover ? '--cover' : '',
+  ]
 
   return (
     <ReactModal

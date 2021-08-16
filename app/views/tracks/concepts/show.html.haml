@@ -47,7 +47,10 @@
         %section.about
           .c-textual-content.--large
             %h2 About #{@concept.name}
-            = raw Markdown::Parse.(@concept.about)
+            - if @user_track.external? || @user_track.concept_learnt?(@concept)
+              = raw Markdown::Parse.(@concept.about)
+            - else
+              = raw Markdown::Parse.(@concept.introduction)
 
           .links
             %h3 Learn More

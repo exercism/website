@@ -28,7 +28,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      posts: [
+      items: [
         {
           uuid: "request-comment",
           iteration_idx: 2,
@@ -78,7 +78,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      posts: [
+      items: [
         {
           uuid: "request-comment",
           author_handle: "student",
@@ -131,7 +131,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      posts: [
+      items: [
         {
           uuid: discussion_post.uuid,
           iteration_idx: 2,
@@ -216,7 +216,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal content, post.content_markdown
     assert_equal it_2, post.iteration
     expected = {
-      post: {
+      item: {
         uuid: post.uuid,
         author_handle: user.handle,
         author_avatar_url: user.avatar_url,
@@ -333,7 +333,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     discussion_post.reload
     expected = {
-      post: {
+      item: {
         uuid: discussion_post.uuid,
         author_handle: "student",
         author_avatar_url: student.avatar_url,
@@ -424,7 +424,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_response 200
 
     expected = {
-      post: {
+      item: {
         uuid: discussion_post.uuid,
         author_handle: "student",
         author_avatar_url: student.avatar_url,

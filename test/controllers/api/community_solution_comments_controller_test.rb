@@ -1,6 +1,6 @@
 require_relative './base_test_case'
 
-class API::CommunitySolutionsCommentsControllerTest < API::BaseTestCase
+class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_track_exercise_community_solution_comments_path, args: 3, method: :post
   guard_incorrect_token! :api_track_exercise_community_solution_comments_path, args: 3, method: :get
 
@@ -18,7 +18,7 @@ class API::CommunitySolutionsCommentsControllerTest < API::BaseTestCase
 
     assert_response 200
     expected = {
-      comments: [SerializeSolutionComment.(comment, @current_user)]
+      items: [SerializeSolutionComment.(comment, @current_user)]
     }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
@@ -109,7 +109,7 @@ class API::CommunitySolutionsCommentsControllerTest < API::BaseTestCase
     post api_track_exercise_community_solution_comments_path(
       solution.track, solution.exercise, solution.user.handle
     ),
-      params: { content_markdown: content_markdown },
+      params: { content: content_markdown },
       headers: @headers, as: :json
 
     assert_response :success
@@ -117,7 +117,7 @@ class API::CommunitySolutionsCommentsControllerTest < API::BaseTestCase
     assert_equal user, comment.author
     assert_equal content_markdown, comment.content_markdown
     expected = {
-      comment: SerializeSolutionComment.(comment, user)
+      item: SerializeSolutionComment.(comment, user)
     }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
@@ -169,7 +169,7 @@ class API::CommunitySolutionsCommentsControllerTest < API::BaseTestCase
     patch api_track_exercise_community_solution_comment_path(
       solution.track, solution.exercise, solution.user.handle, comment
     ),
-      params: { content_markdown: '' },
+      params: { content: '' },
       headers: @headers,
       as: :json
 
@@ -196,14 +196,14 @@ class API::CommunitySolutionsCommentsControllerTest < API::BaseTestCase
     patch api_track_exercise_community_solution_comment_path(
       solution.track, solution.exercise, solution.user.handle, comment
     ),
-      params: { content_markdown: "content" },
+      params: { content: "content" },
       headers: @headers,
       as: :json
 
     assert_response 200
 
     comment.reload
-    expected = { comment: SerializeSolutionComment.(comment, user) }
+    expected = { item: SerializeSolutionComment.(comment, user) }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
@@ -263,7 +263,7 @@ class API::CommunitySolutionsCommentsControllerTest < API::BaseTestCase
       as: :json
 
     assert_response 200
-    expected = { comment: SerializeSolutionComment.(comment, user) }
+    expected = { item: SerializeSolutionComment.(comment, user) }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
     refute Solution::Comment.exists?(comment.id)
   end

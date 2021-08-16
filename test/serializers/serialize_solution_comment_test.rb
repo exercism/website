@@ -6,8 +6,11 @@ class SerializeSolutionCommentTest < ActiveSupport::TestCase
     solution = comment.solution
     expected = {
       uuid: comment.uuid,
-      author_handle: comment.author.handle,
-      author_avatar_url: comment.author.avatar_url,
+      author: {
+        handle: comment.author.handle,
+        avatar_url: comment.author.avatar_url,
+        reputation: comment.author.formatted_reputation
+      },
       content_markdown: comment.content_markdown,
       content_html: comment.content_html,
       updated_at: comment.updated_at.iso8601,

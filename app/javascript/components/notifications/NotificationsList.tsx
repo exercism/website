@@ -5,7 +5,7 @@ import { PaginatedResult, Notification } from '../types'
 import { ResultsZone } from '../ResultsZone'
 import { List } from './notifications-list/List'
 import { useList } from '../../hooks/use-list'
-import { Pagination } from '../common'
+import { Pagination, GraphicalIcon } from '../common'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { queryCache } from 'react-query'
 import { useNotificationMutation } from './notifications-list/useNotificationMutation'
@@ -110,29 +110,38 @@ export const NotificationsList = ({
   useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
-    <div>
+    <>
       <ResultsZone isFetching={disabled}>
-        <div className="actions">
-          <MutationButton
-            mutation={markAsReadMutation}
-            onClick={handleMutation(markAsReadMutation)}
-            disabled={selected.length === 0 || disabled}
-            defaultError={MARK_AS_READ_DEFAULT_ERROR}
-          >
-            Mark as read
-          </MutationButton>
-          <MutationButton
-            mutation={markAsUnreadMutation}
-            onClick={handleMutation(markAsUnreadMutation)}
-            disabled={selected.length === 0 || disabled}
-            defaultError={MARK_AS_UNREAD_DEFAULT_ERROR}
-          >
-            Mark as unread
-          </MutationButton>
-          <button type="button" onClick={handleModalOpen} disabled={disabled}>
-            Mark all as read
-          </button>
-        </div>
+        <header className="notifications-header">
+          <h1 className="text-h1">Notifications</h1>
+          <div className="actions">
+            <MutationButton
+              mutation={markAsReadMutation}
+              onClick={handleMutation(markAsReadMutation)}
+              disabled={selected.length === 0 || disabled}
+              defaultError={MARK_AS_READ_DEFAULT_ERROR}
+            >
+              Mark as read
+            </MutationButton>
+            <MutationButton
+              mutation={markAsUnreadMutation}
+              onClick={handleMutation(markAsUnreadMutation)}
+              disabled={selected.length === 0 || disabled}
+              defaultError={MARK_AS_UNREAD_DEFAULT_ERROR}
+            >
+              Mark as unread
+            </MutationButton>
+            <button
+              type="button"
+              onClick={handleModalOpen}
+              disabled={disabled}
+              className="btn-s btn-enhanced"
+            >
+              <GraphicalIcon icon="double-checkmark" />
+              <span>Mark all as read</span>
+            </button>
+          </div>
+        </header>
         <FetchingBoundary
           error={error}
           status={status}
@@ -162,6 +171,6 @@ export const NotificationsList = ({
         onSubmit={handleMutation(markAllAsReadMutation)}
         mutation={markAllAsReadMutation}
       />
-    </div>
+    </>
   )
 }

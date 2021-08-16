@@ -6,7 +6,7 @@ label.c-checkbox-wrapper {
     @apply relative;
 
     & input {
-        @apply absolute;
+        @apply absolute cursor-pointer;
         opacity: 0;
         width: 1em;
         height: 1em;

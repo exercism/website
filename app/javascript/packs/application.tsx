@@ -148,6 +148,7 @@ import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
+import '../../css/pages/notifications'
 import '../../css/pages/blog'
 import '../../css/pages/blog-post'
 import '../../css/pages/donate'

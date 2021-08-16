@@ -47,7 +47,7 @@ export const Notification = ({
   isRead,
 }: NotificationType): JSX.Element => {
   return (
-    <a href={url} className="notification">
+    <a href={url} className={`notification ${isRead ? '--read' : '--unread'}`}>
       <NotificationImage imageType={imageType} imageUrl={imageUrl} />
       <NotificationContent text={text} createdAt={createdAt} />
       <NotificationStatus isRead={isRead} />

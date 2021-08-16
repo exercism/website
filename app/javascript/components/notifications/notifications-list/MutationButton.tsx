@@ -22,6 +22,7 @@ export const MutationButton = ({
         onClick={onClick}
         disabled={disabled}
         status={mutation.status}
+        className="btn-s btn-enhanced"
       >
         {children}
       </FormButton>

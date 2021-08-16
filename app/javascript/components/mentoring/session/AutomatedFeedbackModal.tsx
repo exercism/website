@@ -1,7 +1,7 @@
 import React from 'react'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { Modal, ModalProps } from '../../modals/Modal'
-import { Icon } from '../../common'
+import { Icon, GraphicalIcon } from '../../common'
 import { useRequestQuery } from '../../../hooks/request-query'
 import {
   AnalyzerFeedback as AnalyzerFeedbackProps,
@@ -42,8 +42,17 @@ export const AutomatedFeedbackModal = ({
         error={error}
         defaultError={DEFAULT_ERROR}
       >
+        <header>
+          <GraphicalIcon icon="automation" />
+          <div className="info">
+            <h2 className="text-h5">Automated Analysis</h2>
+            <div className="text-textColor6 text-15 leading-150">
+              for Iteration {iteration.idx}
+            </div>
+          </div>
+        </header>
         {data ? (
-          <div>
+          <div className="feedback">
             {data.automatedFeedback.analyzerFeedback ? (
               <AnalyzerFeedback
                 track={data.automatedFeedback.track}

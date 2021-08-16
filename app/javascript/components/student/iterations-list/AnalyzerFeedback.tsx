@@ -14,7 +14,7 @@ export const AnalyzerFeedback = ({
   automatedFeedbackInfoLink: string
 }): JSX.Element => {
   return (
-    <div className="analyzer-feedback">
+    <div className="c-automated-feedback analyzer-feedback">
       <div className="feedback-header">
         <TrackIcon iconUrl={track.iconUrl} title={track.title} />
         <div className="info">

@@ -52,7 +52,7 @@ class Concept < ApplicationRecord
     where.not(id: Exercise::TaughtConcept.select(:track_concept_id))
   }
 
-  delegate :about, :links, to: :git
+  delegate :about, :introduction, :links, to: :git
   memoize
   def git
     Git::Concept.new(slug, "HEAD", repo_url: track.repo_url)

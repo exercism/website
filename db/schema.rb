@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_01_161917) do
+ActiveRecord::Schema.define(version: 2021_08_05_134812) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -445,6 +445,19 @@ ActiveRecord::Schema.define(version: 2021_08_01_161917) do
     t.index ["track_id"], name: "index_site_updates_on_track_id"
   end
 
+  create_table "solution_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "solution_id", null: false
+    t.bigint "author_id", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid", null: false
+    t.index ["author_id"], name: "index_solution_comments_on_author_id"
+    t.index ["solution_id"], name: "index_solution_comments_on_solution_id"
+  end
+
   create_table "solution_stars", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "user_id", null: false
@@ -479,6 +492,7 @@ ActiveRecord::Schema.define(version: 2021_08_01_161917) do
     t.integer "num_loc", limit: 3, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "allow_comments", default: true, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
@@ -850,6 +864,8 @@ ActiveRecord::Schema.define(version: 2021_08_01_161917) do
   add_foreign_key "site_updates", "github_pull_requests", column: "pull_request_id"
   add_foreign_key "site_updates", "tracks"
   add_foreign_key "site_updates", "users", column: "author_id"
+  add_foreign_key "solution_comments", "solutions"
+  add_foreign_key "solution_comments", "users", column: "author_id"
   add_foreign_key "solution_stars", "solutions"
   add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"

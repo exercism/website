@@ -142,6 +142,45 @@
                     }
                 }
             }
+            & .comments {
+                & .c-markdown-editor {
+                    &.--expanded {
+                        min-height: 220px;
+                    }
+                }
+
+                & .comment {
+                    & + .comment {
+                        @apply mt-32;
+                    }
+                    & .c-avatar {
+                        height: 48px;
+                        width: 48px;
+                        @apply mr-16;
+                    }
+
+                    & .edit-button {
+                        @apply hidden ml-auto items-center;
+                        @apply shadow-xsZ1 rounded-100 bg-backgroundColorA;
+                        @apply py-8 px-12;
+
+                        & .c-icon {
+                            width: 50%;
+                            width: 16px;
+                            height: 16px;
+                            @apply mr-8;
+                        }
+                        & span {
+                            @apply text-textColor6 font-medium leading-150;
+                        }
+                    }
+                    &:hover {
+                        & .edit-button {
+                            display: flex;
+                        }
+                    }
+                }
+            }
         }
         & .rhs {
             @apply ml-48;

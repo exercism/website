@@ -1,6 +1,6 @@
 import React from 'react'
 import { SingleSelect } from '../../common/SingleSelect'
-import { Order } from '../SolutionResults'
+import { Order } from '../SolutionsList'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
   switch (order) {

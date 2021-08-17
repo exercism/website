@@ -15,7 +15,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(mentor)
-        visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        visit mentoring_discussion_path(discussion)
         click_on "End discussion"
         within(".m-generic-confirmation") { click_on "End discussion" }
 
@@ -35,7 +35,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(mentor)
-        visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        visit mentoring_discussion_path(discussion)
 
         within(".finished-wizard") do
           click_on "Change preferences"
@@ -58,7 +58,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(mentor)
-        visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        visit mentoring_discussion_path(discussion)
 
         within(".finished-wizard") do
           click_on "Change preferences"
@@ -80,7 +80,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(mentor)
-        visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        visit mentoring_discussion_path(discussion)
 
         within(".finished-wizard") do
           assert_text "Change preferences", wait: 2
@@ -107,7 +107,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(mentor)
-        visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        visit mentoring_discussion_path(discussion)
 
         within(".finished-wizard") do
           click_on "Change preferences"
@@ -132,7 +132,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(mentor)
-        visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+        visit mentoring_discussion_path(discussion)
         within(".finished-wizard") do
           click_on "Change preferences"
           assert_text "Do you want to mentor student-123 again?", wait: 2

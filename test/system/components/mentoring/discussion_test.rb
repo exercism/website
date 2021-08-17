@@ -21,7 +21,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
         end
 
         assert_css "img[src='#{solution.track.icon_url}'][alt='icon for Ruby track']"
@@ -61,7 +61,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           click_on "Student received automated feedback"
         end
 
@@ -86,7 +86,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           click_on "Student received automated feedback"
         end
 
@@ -105,7 +105,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
         end
 
         within(".student-info") do
@@ -140,7 +140,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
         end
 
         within(".discussion") { assert_text "Iteration 1" }
@@ -168,7 +168,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
         end
 
         assert_no_css ".post"
@@ -187,7 +187,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
         end
 
         assert_text "Iteration 1"
@@ -224,7 +224,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           assert_text "class Lasagna", wait: 2
 
           within('footer .iterations') { click_on "1" }
@@ -241,7 +241,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           create(:mentor_discussion_post,
             discussion: discussion,
             iteration: iteration,
@@ -265,7 +265,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           wait_for_websockets
           find("form").click
           fill_in_editor "# Hello", within: ".comment-section"
@@ -285,7 +285,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           wait_for_websockets
           click_on "still post."
           find("form").click
@@ -302,7 +302,8 @@ module Components
         mentor = create :user, handle: "author"
         solution = create :concept_solution
         discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, solution: solution
+        submission = create :submission, solution: solution
+        iteration = create :iteration, solution: solution, submission: submission
         create(:mentor_discussion_post,
           discussion: discussion,
           iteration: iteration,
@@ -312,7 +313,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           find_all(".post").last.hover
           click_on "Edit"
           fill_in_editor "# Edited"
@@ -338,7 +339,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           find_all(".post").last.hover
           click_on "Edit"
           fill_in_editor ""
@@ -362,7 +363,7 @@ module Components
 
         use_capybara_host do
           sign_in!(student)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion)
         end
 
         refute_text "Edit"
@@ -381,7 +382,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           click_on "Remove from Inbox"
         end
 
@@ -402,7 +403,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
         end
 
         assert_no_text "Remove from Inbox"
@@ -420,7 +421,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           click_on "Guidance"
         end
 
@@ -442,7 +443,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
           click_on "Guidance"
           click_on "How you solved the exercise"
 

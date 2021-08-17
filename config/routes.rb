@@ -443,10 +443,6 @@ Rails.application.routes.draw do
         namespace :maintaining do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
         end
-
-        namespace :mentoring do
-          resource :discussion, controller: "discussion", only: [:show]
-        end
         namespace :tooltips do
           resource :tooltip, controller: "tooltip", only: [:show] do
             get 'user_summary/:id', to: 'tooltip#user_summary', as: 'user_summary'

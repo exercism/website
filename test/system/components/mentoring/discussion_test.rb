@@ -101,7 +101,8 @@ module Components
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
         discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, idx: 1, solution: solution
+        submission = create :submission, solution: solution
+        create :iteration, idx: 1, solution: solution, submission: submission
 
         use_capybara_host do
           sign_in!(mentor)
@@ -117,6 +118,47 @@ module Components
           assert_css "img[src='#{student.avatar_url}']"\
             "[alt=\"Uploaded avatar of student\"]"
           assert_button "Add to favorites"
+        end
+      end
+
+      test "remove student from favorites" do
+        mentor = create :user
+        student = create :user
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
+        submission = create :submission, solution: solution
+        create :iteration, idx: 1, solution: solution, submission: submission
+        create :mentor_student_relationship, mentor: mentor, student: student, favorited: true
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+
+          find_button("Favorited").hover
+          click_on "Unfavorite?"
+
+          assert_button "Add to favorites"
+        end
+      end
+
+      test "add student to favorites" do
+        mentor = create :user
+        student = create :user
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
+        create :iteration, idx: 1, solution: solution
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+
+          click_on "Add to favorites"
+
+          assert_text "Favorited"
         end
       end
 

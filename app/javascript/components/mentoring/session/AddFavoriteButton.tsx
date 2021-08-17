@@ -41,7 +41,7 @@ const Component = ({
     }
   )
 
-  /* TODO: Style this */
+  /* TODO: (required) Style this */
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
   return (

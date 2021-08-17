@@ -60,7 +60,7 @@ const Component = ({
         // only gets set when someone is moving into the box afresh.
         'btn-small unfavorite-button ' + (isHovering ? 'hover' : '')
       }
-      // TODO: These do not work on tab (a11y).
+      // TODO: (required) These do not work on tab (a11y).
       // When tabbing this should be set to true.
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}

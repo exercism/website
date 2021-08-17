@@ -113,7 +113,7 @@ export const MentoringSession = ({
               onClick={handleIterationClick}
               language={track.highlightjsLanguage}
               indentSize={track.indentSize}
-              isOutOfDate={false} /* TODO: Set this correctly */
+              isOutOfDate={false} /* TODO: (required) Set this correctly */
               settings={settings}
               setSettings={setSettings}
             />

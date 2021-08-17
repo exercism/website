@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
-import { PaginatedResult, Notification } from '../types'
+import { Notification } from '../types'
 import { ResultsZone } from '../ResultsZone'
 import { List } from './notifications-list/List'
 import { useList } from '../../hooks/use-list'
@@ -26,6 +26,19 @@ export type Links = {
   markAsUnread: string
 }
 
+type APIResponse = {
+  results: readonly Notification[]
+  meta: {
+    currentPage: number
+    totalCount: number
+    totalPages: number
+    links: {
+      all: string
+    }
+    unreadCount: number
+  }
+}
+
 export const NotificationsList = ({
   request: initialRequest,
   links,
@@ -44,19 +57,16 @@ export const NotificationsList = ({
     latestData,
     error,
     isFetching,
-  } = usePaginatedRequestQuery<
-    PaginatedResult<readonly Notification[]>,
-    Error | Response
-  >(cacheKey, request)
+  } = usePaginatedRequestQuery<APIResponse, Error | Response>(cacheKey, request)
 
-  const [selected, setSelected] = useState<string[]>([])
+  const [selected, setSelected] = useState<Notification[]>([])
 
   const handleSelect = useCallback(
-    (uuid: string) => {
-      if (selected.includes(uuid)) {
-        setSelected(selected.filter((s) => s !== uuid))
+    (notification: Notification) => {
+      if (selected.includes(notification)) {
+        setSelected(selected.filter((s) => s !== notification))
       } else {
-        setSelected([...selected, uuid])
+        setSelected([...selected, notification])
       }
     },
     [selected]
@@ -64,11 +74,11 @@ export const NotificationsList = ({
 
   const markAsReadMutation = useNotificationMutation({
     endpoint: links.markAsRead,
-    body: { uuids: selected },
+    body: { uuids: selected.map((s) => s.uuid) },
   })
   const markAsUnreadMutation = useNotificationMutation({
     endpoint: links.markAsUnread,
-    body: { uuids: selected },
+    body: { uuids: selected.map((s) => s.uuid) },
   })
   const markAllAsReadMutation = useNotificationMutation({
     endpoint: links.markAllAsRead,
@@ -92,7 +102,7 @@ export const NotificationsList = ({
     (mutation) => {
       return () => {
         mutation.mutation(
-          { uuids: selected },
+          { uuids: selected.map((s) => s.uuid) },
           {
             onSuccess: () => {
               setSelected([])
@@ -118,7 +128,11 @@ export const NotificationsList = ({
             <MutationButton
               mutation={markAsReadMutation}
               onClick={handleMutation(markAsReadMutation)}
-              disabled={selected.length === 0 || disabled}
+              disabled={
+                selected.length === 0 ||
+                disabled ||
+                selected.every((s) => s.isRead)
+              }
               defaultError={MARK_AS_READ_DEFAULT_ERROR}
             >
               Mark as read
@@ -126,7 +140,11 @@ export const NotificationsList = ({
             <MutationButton
               mutation={markAsUnreadMutation}
               onClick={handleMutation(markAsUnreadMutation)}
-              disabled={selected.length === 0 || disabled}
+              disabled={
+                selected.length === 0 ||
+                disabled ||
+                selected.every((s) => !s.isRead)
+              }
               defaultError={MARK_AS_UNREAD_DEFAULT_ERROR}
             >
               Mark as unread
@@ -134,7 +152,7 @@ export const NotificationsList = ({
             <button
               type="button"
               onClick={handleModalOpen}
-              disabled={disabled}
+              disabled={disabled || resolvedData?.meta.unreadCount === 0}
               className="btn-s btn-enhanced"
             >
               <GraphicalIcon icon="double-checkmark" />

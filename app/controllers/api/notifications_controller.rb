@@ -19,7 +19,7 @@ module API
     def mark_all_as_read
       User::Notification::MarkAllAsRead.(current_user)
 
-      render json: {}
+      render json: AssembleNotificationsList.(current_user, list_params)
     end
 
     private

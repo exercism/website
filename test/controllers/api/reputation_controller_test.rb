@@ -86,6 +86,9 @@ class API::ReputatationControllerTest < API::BaseTestCase
     patch mark_all_as_seen_api_reputation_index_path, headers: @headers, as: :json
     assert_response 200
 
-    assert_empty JSON.parse(response.body)
+    assert_equal(
+      AssembleReputationTokens.(@current_user.reload, {}).with_indifferent_access,
+      JSON.parse(response.body).with_indifferent_access
+    )
   end
 end

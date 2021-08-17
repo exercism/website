@@ -47,7 +47,7 @@ export const CommunicationPreferencesForm = ({
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>Mentoring</h2>
 
       <label className="c-checkbox-wrapper">

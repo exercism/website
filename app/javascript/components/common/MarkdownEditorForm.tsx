@@ -115,6 +115,7 @@ export const MarkdownEditorForm = ({
         <ErrorMessage error={error} defaultError={defaultError} />
       </ErrorBoundary>
       <form
+        data-turbo="false"
         onSubmit={handleSubmit}
         onClick={handleClick}
         className={classNames.join(' ')}

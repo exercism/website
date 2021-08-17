@@ -53,7 +53,7 @@ export const ResetAccountModal = ({
 
   return (
     <Modal {...props} className="m-reset-account m-generic-destructive">
-      <form onSubmit={handleSubmit}>
+      <form data-turbo="false" onSubmit={handleSubmit}>
         <div className="info">
           <h2>You&apos;re about to reset your Exercism account</h2>
           <p>

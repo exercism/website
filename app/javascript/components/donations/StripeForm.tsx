@@ -155,7 +155,7 @@ export function StripeForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       <div className="card-container">
         <div className="title">Donate with Card</div>
         <div className="card-element">

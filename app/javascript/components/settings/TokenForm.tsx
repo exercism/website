@@ -42,7 +42,7 @@ export const TokenForm = ({
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>API / CLI Token</h2>
       <div className="label">Your authentication token is:</div>
       <CopyToClipboardButton textToCopy={token} />

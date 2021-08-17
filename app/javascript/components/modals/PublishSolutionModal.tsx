@@ -50,7 +50,7 @@ export const PublishSolutionModal = ({
 
   return (
     <Modal {...props} className="m-change-published-iteration">
-      <form onSubmit={handleSubmit}>
+      <form data-turbo="false" onSubmit={handleSubmit}>
         <h3>Publish your solution</h3>
         <p>
           We recommend publishing all iterations to help others learn from your

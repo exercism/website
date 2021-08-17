@@ -52,7 +52,7 @@ export const LeaveResetTrackForm = ({
   const { attempt, setAttempt, isAttemptPass } = useConfirmation(confirmation)
 
   return (
-    <form>
+    <form data-turbo="false">
       <div className="info">
         <p>
           <strong>By leaving and resetting this track, you will:</strong>

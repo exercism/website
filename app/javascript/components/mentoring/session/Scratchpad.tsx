@@ -137,7 +137,11 @@ export const Scratchpad = ({
         <strong>{track.title}</strong>
       </div>
 
-      <form onSubmit={handleSubmit} className="c-markdown-editor">
+      <form
+        data-turbo="false"
+        onSubmit={handleSubmit}
+        className="c-markdown-editor"
+      >
         <MarkdownEditor
           onChange={handleChange}
           contextId={`scratchpad-${scratchpad.links.self}`}

@@ -71,7 +71,7 @@ export const PublishSolutionForm = ({
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       <label className="c-radio-wrapper">
         <input
           type="radio"

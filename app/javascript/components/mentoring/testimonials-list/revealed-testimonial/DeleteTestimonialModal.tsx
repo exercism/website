@@ -74,7 +74,7 @@ export const DeleteTestimonialModal = ({
         Deleting the testimonial will hide it from this list, your profile and
         mentoring stats. <strong>This action is irreversible.</strong>
       </p>
-      <form onSubmit={handleSubmit} className="buttons">
+      <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton type="submit" status={status} className="btn-warning btn-s">
           Delete testimonial
         </FormButton>

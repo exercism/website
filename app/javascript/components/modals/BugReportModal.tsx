@@ -86,7 +86,7 @@ export const BugReportModal = ({
       {...props}
     >
       <Status status={status} />
-      <form onSubmit={handleSubmit}>
+      <form data-turbo="false" onSubmit={handleSubmit}>
         <label htmlFor="content_markdown">Report</label>
         <textarea id="content_markdown" ref={textareaRef}></textarea>
         <button type="submit" disabled={!url}>

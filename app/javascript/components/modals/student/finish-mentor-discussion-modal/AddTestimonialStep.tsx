@@ -63,7 +63,7 @@ export const AddTestimonialStep = ({
             way of thanking them, and encouraging them to continue helping
             others.
           </p>
-          <form onSubmit={handleSubmit}>
+          <form data-turbo="false" onSubmit={handleSubmit}>
             <label htmlFor="testimonial">
               Leave {discussion.mentor.handle} a testimonial (optional)
             </label>

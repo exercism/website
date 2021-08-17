@@ -45,7 +45,7 @@ export const EmailForm = ({
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>Change your email</h2>
       <hr className="c-divider --small" />
       <div className="field">

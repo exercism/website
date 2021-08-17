@@ -39,7 +39,7 @@ export const MarkAllNotificationsAsReadModal = ({
   return (
     <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
       <h3>Are you sure you want to mark all notifications as read?</h3>
-      <form onSubmit={handleSubmit} className="buttons">
+      <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton
           type="submit"
           status={mutation.status}

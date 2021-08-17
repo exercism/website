@@ -50,7 +50,7 @@ export const LeaveTrackForm = ({
   }, [onCancel])
 
   return (
-    <form>
+    <form data-turbo="false">
       <div className="info">
         <p>
           <strong>When you leave the track, you still keep:</strong>

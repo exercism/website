@@ -68,7 +68,7 @@ export const ChangePublishedIterationModal = ({
         journey, but you can also choose just your favourite iteration to
         showcase instead.
       </p>
-      <form onSubmit={handleSubmit}>
+      <form data-turbo="false" onSubmit={handleSubmit}>
         <IterationSelector
           iterationIdx={iterationIdx}
           setIterationIdx={setIterationIdx}

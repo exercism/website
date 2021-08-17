@@ -78,7 +78,7 @@ export const UpdatingOption = ({
 
   return (
     <div className="expanded-option">
-      <form onSubmit={handleSubmit}>
+      <form data-turbo="false" onSubmit={handleSubmit}>
         <label htmlFor="donation_amount" className="text-label">
           Change donation amount
         </label>

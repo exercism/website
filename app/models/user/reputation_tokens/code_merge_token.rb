@@ -6,7 +6,7 @@ class User::ReputationTokens::CodeMergeToken < User::ReputationToken
   values({ janitorial: 1, reviewal: 5 })
 
   before_validation on: :create do
-    self.earned_on = self.merged_at unless earned_on
+    self.earned_on = self.merged_at || Time.current unless earned_on
 
     unless track
       normalized_repo = repo.gsub(/-(test-runner|analyzer|representer)$/, '')

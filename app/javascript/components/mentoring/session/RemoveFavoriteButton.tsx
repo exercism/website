@@ -37,7 +37,7 @@ const Component = ({
         body: null,
       })
 
-      return fetch.then((json) => typecheck<Student>('student', json))
+      return fetch.then((json) => typecheck<Student>(json, 'student'))
     },
     {
       onSuccess: (student) => onSuccess(student),

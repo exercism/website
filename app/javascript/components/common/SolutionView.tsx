@@ -44,7 +44,7 @@ export const SolutionView = ({
     <div className="c-solution-iterations">
       <IterationSummaryWithWebsockets
         iteration={currentIteration}
-        isLatest={true} /* TODO: This should change per iteration */
+        isLatest={true} /* TODO: (required) This should change per iteration */
         isOutOfDate={outOfDate}
         showSubmissionMethod={true}
         showTestsStatusAsButton={true}

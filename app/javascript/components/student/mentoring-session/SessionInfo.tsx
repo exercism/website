@@ -27,7 +27,6 @@ export const SessionInfo = ({
             <div className="exercise-title">{exercise.title}</div>
           </React.Fragment>
         ) : (
-          /*TODO: What should the title show when there is no mentor yet? */
           <React.Fragment>
             Get mentoring on
             <div className="exercise-title">{exercise.title}</div>

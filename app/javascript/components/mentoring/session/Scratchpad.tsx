@@ -89,7 +89,7 @@ export const Scratchpad = ({
         })
       })
       .catch(() => {
-        // TODO: do something
+        // TODO: (required) do something
       })
   }, [scratchpad.links.self])
 

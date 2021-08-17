@@ -35,7 +35,7 @@ export const DiscussionList = ({
             <div className="--no-results">
               <GraphicalIcon icon="mentoring" category="graphics" />
               <h3>No mentoring discussions</h3>
-              {/* TODO: Drive this URL from the component */}
+              {/* TODO: (required) Drive this URL from the component */}
               <a href="/mentoring/queue" className="btn-simple">
                 Mentor a new solution
               </a>

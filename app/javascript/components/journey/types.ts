@@ -29,7 +29,7 @@ export class TrackProgress {
     return (100 * this.numCompletedExercises) / this.numExercises
   }
 
-  // TODO
+  // TODO: (required)
   get velocity(): number {
     return 9.05
   }
@@ -81,7 +81,7 @@ export class TrackProgressList {
     return (100 * this.numCompletedExercises) / this.numExercises
   }
 
-  // TODO
+  // TODO: (required)
   get velocity(): number {
     return 2.52
   }

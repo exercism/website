@@ -69,7 +69,6 @@ export function StripeForm({
     setError(event.error ? event.error.message : undefined)
   }
 
-  // TODO: Do I need to usecallback here, or just normal function?
   const cancelPaymentIntent = useCallback((paymentIntent: PaymentIntent) => {
     const endpoint = paymentIntentFailedEndpoint.replace(
       '$ID',

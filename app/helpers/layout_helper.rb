@@ -10,17 +10,21 @@ module LayoutHelper
     classes.join(" ")
   end
 
+  # TOOD (Required)
+  def page_title
+    "Exercism #{SecureRandom.uuid}"
+  end
+
   def js_packs
     [
       ('application' unless landing_page?),
       ('internal' if user_signed_in?),
-      ('editor' if render_editor_js_pack?),
       ('test' if render_test_js_pack?)
     ].compact
   end
 
   def deferred_js_packs
-    all = %w[application internal editor]
+    all = %w[application internal]
     all - js_packs
   end
 
@@ -31,13 +35,6 @@ module LayoutHelper
 
   def landing_page?
     namespace_name.nil? && controller_name == "pages" && action_name == "index"
-  end
-
-  def render_editor_js_pack?
-    return true if namespace_name == "tracks" && controller_name == "exercises" && action_name == "edit"
-    return true if namespace_name == "test" && controller_name == "editor" && action_name == "show"
-
-    false
   end
 
   def render_test_js_pack?

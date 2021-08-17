@@ -40,6 +40,25 @@ export const initReact = (mappings) => {
     const targetNode = document.getElementById('site-content')
     const observer = new MutationObserver(() => {
       console.log('Loading React from Turbo Frame')
+
+      // Update the URL
+      const url = targetNode.querySelector('meta[name="exercism-url"]').content
+      console.log(url)
+      if (url != null) {
+        Turbo.navigator.history.push(new URL(url))
+      }
+
+      // Update the Body class
+      const bodyClass = targetNode.querySelector(
+        'meta[name="exercism-body-class"]'
+      ).content
+      document.body.className = bodyClass
+
+      // Update the page title
+      const newTitle = targetNode.querySelector('meta[name="exercism-title"]')
+        .content
+      document.title = newTitle
+
       renderThings(targetNode)
     })
     observer.observe(targetNode, { childList: true })

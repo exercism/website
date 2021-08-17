@@ -119,6 +119,7 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
+import '../../css/modals/editor-hints'
 import '../../css/modals/automated-feedback'
 import '../../css/modals/generic-confirmation'
 import '../../css/modals/generic-destructive'
@@ -152,6 +153,7 @@ import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
+import '../../css/pages/editor'
 import '../../css/pages/notifications'
 import '../../css/pages/blog'
 import '../../css/pages/blog-post'
@@ -215,6 +217,10 @@ const DonationsFormWithModal = lazy(() =>
 const DonationsSubscriptionForm = lazy(() =>
   import('../components/donations/SubscriptionForm')
 )
+
+const Editor = lazy(() => import('../components/Editor'))
+
+import { Props as EditorProps } from '../components/editor/Props'
 
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
@@ -282,6 +288,11 @@ initReact({
         amount={currency(data.amount_in_cents, { fromCents: true })}
         links={data.links}
       />
+    </Suspense>
+  ),
+  editor: (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <Editor {...camelizeKeysAs<EditorProps>(data)} />,
     </Suspense>
   ),
 

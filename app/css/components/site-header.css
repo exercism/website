@@ -1,3 +1,16 @@
+body.namespace-tracks.controller-exercises.action-edit,
+body.namespace-mentoring.controller-discussions.action-show,
+body.namespace-mentoring.controller-requests.action-show,
+body.namespace-tracks.controller-mentor_requests.action-new,
+body.namespace-tracks.controller-mentor_requests.action-show,
+body.namespace-tracks.controller-mentor_discussions.action-show,
+body.devise-controller {
+    & #site-header,
+    & #site-footer {
+        display: none;
+    }
+}
+
 #site-header {
     @apply bg-backgroundColorA border-b-1 border-borderColor7;
 
@@ -29,14 +42,14 @@
         & li {
             @apply mr-16;
 
-            &.selected {
+            /*&.selected {
                 & a {
                     @apply text-textColor2;
                 }
                 & .c-icon.main-icon {
                     filter: var(--white-filter);
                 }
-            }
+            }*/
         }
         & a {
             @apply flex items-center relative;

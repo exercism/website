@@ -2,13 +2,10 @@ module ViewComponents
   class SiteHeader < ViewComponent
     extend Mandate::Memoize
 
-    delegate :render_site_header?,
-      :namespace_name, :controller_name,
+    delegate :namespace_name, :controller_name,
       to: :view_context
 
     def to_s
-      return unless render_site_header?
-
       tag.header(id: "site-header") do
         tag.div(class: "lg-container container") do
           logo + contextual_section

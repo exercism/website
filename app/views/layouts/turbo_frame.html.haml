@@ -1,3 +1,7 @@
 = turbo_frame_tag "site-content" do
+  %meta{ name: "exercism-url", content: request.original_url }
+  %meta{ name: "exercism-title", content: page_title }
+  %meta{ name: "exercism-body-class", content: body_class }
+
   = yield
 

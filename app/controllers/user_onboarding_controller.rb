@@ -15,7 +15,7 @@ class UserOnboardingController < ApplicationController
     if @onboarding.save
       redirect_to after_sign_in_path_for(current_user)
     else
-      render :show
+      render :show, status: :unprocessable_entity
     end
   end
 

@@ -24,7 +24,7 @@
 
 #maintaining-site-update-form
   %h2.text-h3 Edit Update
-  = form_for @update, url: maintaining_site_update_path(@update), as: :site_update do |f|
+  = form_for @update, url: maintaining_site_update_path(@update), as: :site_update, local: true do |f|
     .field
       = f.label :title, "Title"
       = f.text_field :title

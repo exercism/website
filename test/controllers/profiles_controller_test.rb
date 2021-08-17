@@ -80,7 +80,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     user = create :user
     sign_in!(user)
 
-    post profiles_url
+    post profiles_url, params: { user: { name: "User" } }
     assert user.reload.profile
     assert_redirected_to profile_path(user, first_time: true)
   end
@@ -90,7 +90,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     create :user_profile, user: user
     sign_in!(user)
 
-    post profiles_url
+    post profiles_url, params: { user: { name: "User" } }
     assert_redirected_to profile_path(user, first_time: true)
   end
 

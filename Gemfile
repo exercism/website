@@ -41,7 +41,7 @@ gem "sidekiq-scheduler"
 
 # View-level Dependencies
 gem 'webpacker', '~> 5.x'
-gem 'turbolinks', '~> 5'
+gem 'turbo-rails'
 gem 'hamlit'
 gem 'commonmarker'
 gem 'ansi-to-html'
@@ -54,9 +54,6 @@ gem 'omniauth-github'
 
 # Payments
 gem 'stripe'
-
-# Turbolinks form errors compatibility
-gem 'turbolinks_render'
 
 # Reporting
 gem 'skylight'

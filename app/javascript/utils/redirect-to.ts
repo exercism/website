@@ -1,5 +1,3 @@
-import Turbolinks from 'turbolinks'
-
 class LoadingOverlay {
   element: HTMLDivElement
 
@@ -28,12 +26,12 @@ class LoadingOverlay {
 
 declare global {
   interface Window {
-    Turbolinks: Turbolinks.TurbolinksStatic
+    Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
   }
 }
 
 export const redirectTo = (url: string): void => {
-  window.Turbolinks.visit(url)
+  window.Turbo.visit(url)
 
   new LoadingOverlay().show()
 }

@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@rails/ujs').start()
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('turbolinks').start()
+import '@hotwired/turbo-rails'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('@rails/activestorage').start()
 

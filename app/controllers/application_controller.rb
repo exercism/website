@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   extend Mandate::Memoize
+  include Turbo::Redirection
 
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!

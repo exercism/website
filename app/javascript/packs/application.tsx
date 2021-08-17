@@ -510,7 +510,7 @@ initReact({
 
 import { highlightAll } from '../utils/highlight'
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('turbo:load', () => {
   highlightAll()
 })
 

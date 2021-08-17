@@ -23,31 +23,35 @@ module Flows
     end
 
     test "user sees captcha errors" do
-      allow_captcha_request do
-        stub_request(:post, "https://hcaptcha.com/siteverify").
-          to_return(body: { success: false }.to_json)
+      expecting_errors do
+        allow_captcha_request do
+          stub_request(:post, "https://hcaptcha.com/siteverify").
+            to_return(body: { success: false }.to_json)
 
-        visit new_user_registration_path
-        fill_in "Email", with: "user@exercism.io"
-        fill_in "Username", with: "user22!"
-        fill_in "Password", with: "password"
-        fill_in "Password confirmation", with: "password"
-        click_on "Sign Up"
+          visit new_user_registration_path
+          fill_in "Email", with: "user@exercism.io"
+          fill_in "Username", with: "user22!"
+          fill_in "Password", with: "password"
+          fill_in "Password confirmation", with: "password"
+          click_on "Sign Up"
 
-        assert_text "Captcha verification failed. Please try again."
+          assert_text "Captcha verification failed. Please try again."
+        end
       end
     end
 
     test "user sees registration errors" do
-      allow_captcha_request do
-        visit new_user_registration_path
-        fill_in "Email", with: "user@exercism.io"
-        fill_in "Username", with: "user22!"
-        fill_in "Password", with: "password"
-        fill_in "Password confirmation", with: "password"
-        click_on "Sign Up"
+      expecting_errors do
+        allow_captcha_request do
+          visit new_user_registration_path
+          fill_in "Email", with: "user@exercism.io"
+          fill_in "Username", with: "user22!"
+          fill_in "Password", with: "password"
+          fill_in "Password confirmation", with: "password"
+          click_on "Sign Up"
 
-        assert_text "Handle must have only letters, numbers, or hyphens"
+          assert_text "Handle must have only letters, numbers, or hyphens"
+        end
       end
     end
 
@@ -89,15 +93,17 @@ module Flows
       )
 
       use_capybara_host do
-        visit track_path(track)
-        click_on "Join the Ruby Track"
-        visit new_user_registration_path
-        click_on "Sign Up with GitHub"
-        find('label', text: "I accept Exercism's Terms of Service").click
-        find('label', text: "I accept Exercism's Privacy Policy").click
-        click_on "Save & Get Started"
+        expecting_errors do
+          visit track_path(track)
+          click_on "Join the Ruby Track"
+          visit new_user_registration_path
+          click_on "Sign Up with GitHub"
+          find('label', text: "I accept Exercism's Terms of Service").click
+          find('label', text: "I accept Exercism's Privacy Policy").click
+          click_on "Save & Get Started"
 
-        assert_text "Join the Ruby Track"
+          assert_text "Join the Ruby Track", wait: 10
+        end
       end
     ensure
       OmniAuth.config.test_mode = false
@@ -114,11 +120,13 @@ module Flows
           nickname: "user22"
         }
       )
-      visit new_user_registration_path
-      click_on "Sign Up with GitHub"
 
-      assert_text "Sorry, we could not authenticate you from GitHub."
+      expecting_errors do
+        visit new_user_registration_path
+        click_on "Sign Up with GitHub"
 
+        assert_text "Sorry, we could not authenticate you from GitHub."
+      end
     ensure
       OmniAuth.config.test_mode = false
     end
@@ -131,10 +139,12 @@ module Flows
       # stop putting noise in the test logs.
       OmniAuth.config.logger.expects(:error).with("(github) Authentication failure! failed encountered.")
 
-      visit new_user_registration_path
-      click_on "Sign Up with GitHub"
+      expecting_errors do
+        visit new_user_registration_path
+        click_on "Sign Up with GitHub"
 
-      assert_text "Sorry, we could not authenticate you from GitHub."
+        assert_text "Sorry, we could not authenticate you from GitHub."
+      end
     ensure
       OmniAuth.config.test_mode = false
     end

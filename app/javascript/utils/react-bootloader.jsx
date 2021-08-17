@@ -28,12 +28,12 @@ export const initReact = (mappings) => {
     renderComponents(mappings)
     renderTooltips(mappings)
   }
-  // This adds rendering for all future turbolinks clicks
-  document.addEventListener('turbolinks:load', () => {
+  // This adds rendering for all future turbo clicks
+  document.addEventListener('turbo:load', () => {
     renderThings()
   })
 
-  // This renders if turbolinks has already finished at the
+  // This renders if turbo has already finished at the
   // point at which this calls. See packs/core.tsx
   if (window.DOMLoaded) {
     renderThings()
@@ -55,9 +55,9 @@ const render = (elem, component) => {
 
   const unloadOnce = () => {
     ReactDOM.unmountComponentAtNode(elem)
-    document.removeEventListener('turbolinks:before-render', unloadOnce)
+    document.removeEventListener('turbo:before-render', unloadOnce)
   }
-  document.addEventListener('turbolinks:before-render', unloadOnce)
+  document.addEventListener('turbo:before-render', unloadOnce)
 }
 
 const renderComponents = (mappings) => {

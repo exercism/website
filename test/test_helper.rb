@@ -17,6 +17,7 @@ require 'mocha/minitest'
 require 'minitest/pride'
 require 'webmock/minitest'
 require 'minitest/retry'
+require_relative './helpers/turbo_assertions_helper'
 
 # Handle flakey tests in CI
 Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
@@ -246,6 +247,7 @@ end
 
 class ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
+  include TurboAssertionsHelper
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)

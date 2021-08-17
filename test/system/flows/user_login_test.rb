@@ -71,7 +71,26 @@ module Flows
         fill_in "Password", with: "password"
         click_on "Log In"
 
-        assert_text "Join the Ruby Track"
+        assert_text "Join the Ruby Track", wait: 10
+      end
+    end
+
+    test "user sees errors" do
+      expecting_errors do
+        track = create :track, title: "Ruby"
+        create :concept_exercise, track: track
+        create(:user,
+          email: "user@exercism.io",
+          password: "password",
+          confirmed_at: Date.new(2016, 12, 25))
+
+        use_capybara_host do
+          visit new_user_session_path
+          fill_in "Email", with: "user@exercism.io"
+          click_on "Log In"
+
+          assert_text "Invalid Email or password."
+        end
       end
     end
 
@@ -94,7 +113,7 @@ module Flows
         find('label', text: "I accept Exercism's Privacy Policy").click
         click_on "Save & Get Started"
 
-        assert_text "Join the Ruby Track"
+        assert_text "Join the Ruby Track", wait: 10
       end
     end
   end

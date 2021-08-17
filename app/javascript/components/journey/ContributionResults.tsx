@@ -1,22 +1,15 @@
 import React, { useState, useCallback } from 'react'
 import { Contribution } from './Contribution'
 import pluralize from 'pluralize'
-import { OrderSwitcher } from './contribution-results/OrderSwitcher'
 import { MarkAllAsSeenModal } from './contribution-results/MarkAllAsSeenModal'
 import { APIResult } from './ContributionsList'
 
 export type Order = 'newest_first' | 'oldest_first'
 
-const DEFAULT_ORDER = 'newest_first'
-
 export const ContributionResults = ({
   data,
-  order,
-  setOrder,
 }: {
   data: APIResult
-  setOrder: (order: string) => void
-  order: string
 }): JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -42,10 +35,6 @@ export const ContributionResults = ({
         >
           Mark all as seen
         </button>
-        <OrderSwitcher
-          value={(order || DEFAULT_ORDER) as Order}
-          setValue={setOrder}
-        />
       </div>
       <div className="reputation-tokens">
         {data.results.map((contribution) => {

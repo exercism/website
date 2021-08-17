@@ -54,26 +54,6 @@ module Components
         end
       end
 
-      test "sorts contributions" do
-        User::ReputationToken::Search.stubs(:default_per).returns(1)
-        user = create :user
-        contribution_token = create :user_code_contribution_reputation_token,
-          user: user,
-          level: :large,
-          created_at: 2.days.ago
-        review_token = create :user_code_review_reputation_token, user: user, created_at: 1.day.ago
-
-        use_capybara_host do
-          sign_in!(user)
-          visit reputation_journey_path
-          click_on "Sort by Newest First"
-          find("label", text: "Sort by Oldest First").click
-
-          assert_text strip_tags(contribution_token.text)
-          assert_no_text strip_tags(review_token.text)
-        end
-      end
-
       test "searches contributions" do
         user = create :user
         track = create :track, title: "Ruby"
@@ -90,7 +70,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit reputation_journey_path
-          fill_in "Search for a contribution", with: "Ruby"
+          fill_in "Search by contribution name", with: "Ruby"
         end
 
         assert_text strip_tags(review_token.text)
@@ -105,9 +85,8 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit reputation_journey_path
-          click_on "Filter by"
-          choose "Contributing to Exercises"
-          click_on "Apply"
+          click_on "Category"
+          find("label", text: "Contributing to Exercises").click
 
           assert_no_text strip_tags(review_token.text)
           assert_text strip_tags(contribution_token.text)

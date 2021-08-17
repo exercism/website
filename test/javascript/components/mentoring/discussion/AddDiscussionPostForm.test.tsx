@@ -14,7 +14,7 @@ stubRange()
 
 const server = setupServer(
   rest.post('http://exercism.test/posts', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ post: {} }))
+    return res(ctx.status(200), ctx.json({ item: {} }))
   })
 )
 

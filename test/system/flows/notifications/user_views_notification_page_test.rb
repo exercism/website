@@ -98,6 +98,8 @@ module Flows
           within(".m-generic-confirmation") { click_on "Continue" }
 
           assert_no_css ".unread"
+
+          assert_button "Mark all as read", disabled: true
         end
       end
 
@@ -118,6 +120,40 @@ module Flows
 
           assert_no_checked_field "notification-cb-#{comment.uuid}", visible: false
           assert_no_checked_field "notification-cb-#{started.uuid}", visible: false
+        end
+      end
+
+      test "buttons are disabled based on status" do
+        user = create :user
+        comment = create :mentor_started_discussion_notification, user: user, status: :unread
+        started = create :student_replied_to_discussion_notification, user: user, status: :read
+
+        use_capybara_host do
+          sign_in!(user)
+          visit notifications_path
+
+          # Selecting only unread
+          find("label", class: "notification-cb-#{comment.uuid}").click
+
+          assert_button "Mark as read", disabled: false
+          assert_button "Mark as unread", disabled: true
+
+          find("label", class: "notification-cb-#{comment.uuid}").click
+
+          # Selecting only read
+          find("label", class: "notification-cb-#{started.uuid}").click
+
+          assert_button "Mark as read", disabled: true
+          assert_button "Mark as unread", disabled: false
+
+          find("label", class: "notification-cb-#{started.uuid}").click
+
+          # Selecting both unread and read
+          find("label", class: "notification-cb-#{started.uuid}").click
+          find("label", class: "notification-cb-#{comment.uuid}").click
+
+          assert_button "Mark as read", disabled: false
+          assert_button "Mark as unread", disabled: false
         end
       end
 

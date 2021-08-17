@@ -18,7 +18,7 @@ export const ModuleTag = ({ module }: { module?: TaskModule }): JSX.Element => {
       return (
         <Icon
           icon="concept-exercise"
-          alt="Concept Exercise"
+          alt="Learning Exercise"
           className="module"
         />
       )

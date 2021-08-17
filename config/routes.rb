@@ -436,7 +436,6 @@ Rails.application.routes.draw do
         resource :loading_overlay, only: [:show], controller: "loading_overlay"
       end
       namespace :components do
-        resource :editor, only: [:show], controller: "editor"
         namespace :student, param: :handle do
           resource :concept_map, only: [:show], controller: 'concept_map'
         end

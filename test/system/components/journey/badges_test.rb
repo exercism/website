@@ -68,7 +68,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit badges_journey_path
-          fill_in "Search for a badge", with: "Rook"
+          fill_in "Search by badge name or description", with: "Rook"
 
           assert_no_text "Member"
           assert_text "Rookie"

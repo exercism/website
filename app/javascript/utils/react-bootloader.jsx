@@ -24,18 +24,31 @@ Bugsnag.start({
 const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React)
 
 export const initReact = (mappings) => {
-  const renderThings = () => {
-    renderComponents(mappings)
-    renderTooltips(mappings)
+  const renderThings = (parentElement) => {
+    renderComponents(parentElement, mappings)
+    renderTooltips(parentElement, mappings)
   }
+
   // This adds rendering for all future turbo clicks
   document.addEventListener('turbo:load', () => {
+    console.log('Loading React from Turbo Load')
     renderThings()
+
+    // Once the turbo loads we need to monitor the turbo-frame
+    // There are no events for this, so we use a mutation observer
+    // instead.
+    const targetNode = document.getElementById('site-content')
+    const observer = new MutationObserver(() => {
+      console.log('Loading React from Turbo Frame')
+      renderThings(targetNode)
+    })
+    observer.observe(targetNode, { childList: true })
   })
 
   // This renders if turbo has already finished at the
   // point at which this calls. See packs/core.tsx
   if (window.DOMLoaded) {
+    console.log('Loading React from DOM Load')
     renderThings()
   }
 }
@@ -60,18 +73,26 @@ const render = (elem, component) => {
   document.addEventListener('turbo:before-render', unloadOnce)
 }
 
-const renderComponents = (mappings) => {
+const renderComponents = (parentElement, mappings) => {
+  if (!parentElement) {
+    parentElement = document.body
+  }
+
   for (const [name, generator] of Object.entries(mappings)) {
     const selector = '[data-react-' + name + ']'
-    document.querySelectorAll(selector).forEach((elem) => {
+    parentElement.querySelectorAll(selector).forEach((elem) => {
       const data = JSON.parse(elem.dataset.reactData)
       render(elem, generator(data, elem))
     })
   }
 }
 
-const renderTooltips = (mappings) => {
-  document
+const renderTooltips = (parentElement, mappings) => {
+  if (!parentElement) {
+    parentElement = document.body
+  }
+
+  parentElement
     .querySelectorAll('[data-tooltip-type][data-endpoint]')
     .forEach((elem) => {
       const name = elem.dataset['tooltipType'] + '-tooltip'

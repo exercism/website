@@ -6,7 +6,7 @@ module Turbo
       turbo = options.delete(:turbo)
 
       super.tap do
-        visit_location_with_turbo(location, turbo) if turbo != false && request.xhr? && !request.get?
+        visit_location_with_turbo(location, turbo) if turbo && request.xhr? && !request.get?
       end
     end
 

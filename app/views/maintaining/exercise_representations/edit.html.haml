@@ -29,7 +29,7 @@
       %pre{ style: "overflow:scroll" }
         = @representation.ast
 
-    = form_for @representation, url: maintaining_exercise_representation_path(@representation), local: true do |f|
+    = form_for @representation, url: maintaining_exercise_representation_path(@representation) do |f|
       %h3.text-h4.mb-8 Feedback
       = f.text_area :feedback_markdown, style: "width:400px;height:400px;"
 

@@ -6,7 +6,7 @@
       %hr.c-divider
 
     %section.form-section
-      = form_with url: profiles_path, method: :post, local: true, model: @profile do
+      = form_with url: profiles_path, method: :post, model: @profile do
         - @current_user.errors.full_messages.each do |message|
           %li= message
 

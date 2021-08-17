@@ -287,6 +287,7 @@ export type Iteration = {
     solution: string
     files: string
     testRun: string
+    automatedFeedback: string
   }
 }
 
@@ -636,3 +637,15 @@ export type SolutionComment = {
     delete?: string
   }
 }
+
+export type Notification = {
+  uuid: string
+  url: string
+  imageType: NotificationImageType
+  imageUrl: string
+  text: string
+  createdAt: string
+  isRead: boolean
+}
+
+type NotificationImageType = 'icon' | 'avatar'

@@ -1,10 +1,25 @@
 module API
   class IterationsController < BaseController
     before_action :use_solution
+    before_action :guard_solution!, except: [:automated_feedback]
+    before_action :use_iteration, only: %i[destroy automated_feedback]
 
     def latest_status
       render json: {
         status: @solution.latest_iteration.status.to_s
+      }
+    end
+
+    def automated_feedback
+      render json: {
+        automated_feedback: {
+          representer_feedback: @iteration.representer_feedback,
+          analyzer_feedback: @iteration.analyzer_feedback,
+          track: SerializeMentorSessionTrack.(@solution.track),
+          links: {
+            info: Exercism::Routes.doc_path('using', 'feedback/automated')
+          }
+        }
       }
     end
 
@@ -23,28 +38,28 @@ module API
     end
 
     def destroy
-      begin
-        iteration = @solution.iterations.find_by!(uuid: params[:uuid])
-      rescue ActiveRecord::RecordNotFound
-        return render_iteration_not_found
-      end
-
-      Iteration::Destroy.(iteration)
+      Iteration::Destroy.(@iteration)
 
       render json: {
-        iteration: SerializeIteration.(iteration)
+        iteration: SerializeIteration.(@iteration)
       }
     end
 
     private
     def use_solution
-      begin
-        @solution = Solution.find_by!(uuid: params[:solution_uuid])
-      rescue ActiveRecord::RecordNotFound
-        return render_solution_not_found
-      end
+      @solution = Solution.find_by!(uuid: params[:solution_uuid])
+    rescue ActiveRecord::RecordNotFound
+      render_solution_not_found
+    end
 
-      return render_solution_not_accessible unless @solution.user_id == current_user.id
+    def use_iteration
+      @iteration = @solution.iterations.find_by!(uuid: params[:uuid])
+    rescue ActiveRecord::RecordNotFound
+      render_iteration_not_found
+    end
+
+    def guard_solution!
+      render_solution_not_accessible unless @solution.user_id == current_user.id
     end
   end
 end

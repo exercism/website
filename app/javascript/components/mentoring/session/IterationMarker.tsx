@@ -25,11 +25,12 @@ export const IterationMarker = forwardRef<HTMLDivElement, Props>(
             </div>
             <time>{shortFromNow(iteration.createdAt)}</time>
           </div>
-          {iteration.analyzerFeedback || iteration.representerFeedback ? (
+          {iteration.numActionableAutomatedComments !== 0 ||
+          iteration.numEssentialAutomatedComments !== 0 ||
+          iteration.numNonActionableAutomatedComments !== 0 ? (
             <AutomatedFeedbackSummary
               userIsStudent={userIsStudent}
-              analyzerFeedback={iteration.analyzerFeedback}
-              representerFeedback={iteration.representerFeedback}
+              iteration={iteration}
             />
           ) : null}
         </div>

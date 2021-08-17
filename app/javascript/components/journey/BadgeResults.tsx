@@ -5,18 +5,19 @@ import pluralize from 'pluralize'
 import { Badge as BadgeProps } from '../types'
 import { QueryKey } from 'react-query'
 import { OrderSwitcher } from './badge-results/OrderSwitcher'
+import { PaginatedResult } from '../common/SearchableList'
 
 export type Order = 'unrevealed_first' | 'newest_first' | 'oldest_first'
 
 const DEFAULT_ORDER = 'unrevealed_first'
 
 export const BadgeResults = ({
-  results,
+  data,
   cacheKey,
   order,
   setOrder,
 }: {
-  results: BadgeProps[]
+  data: PaginatedResult<BadgeProps>
   cacheKey: QueryKey
   setOrder: (order: string) => void
   order: string
@@ -25,7 +26,8 @@ export const BadgeResults = ({
     <div>
       <div className="results-title-bar">
         <h3>
-          Showing {results.length} {pluralize('badge', results.length)}
+          Showing {data.results.length}{' '}
+          {pluralize('badge', data.results.length)}
         </h3>
         <OrderSwitcher
           value={(order || DEFAULT_ORDER) as Order}
@@ -33,7 +35,7 @@ export const BadgeResults = ({
         />
       </div>
       <div className="badges">
-        {results.map((badge) => {
+        {data.results.map((badge) => {
           return badge.isRevealed ? (
             <RevealedBadge badge={badge} key={badge.uuid} />
           ) : (

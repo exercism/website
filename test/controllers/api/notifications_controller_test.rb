@@ -2,7 +2,9 @@ require_relative './base_test_case'
 
 class API::NotificationsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_notifications_path
-  guard_incorrect_token! :api_solution_iterations_path, args: 1, method: :post
+  guard_incorrect_token! :mark_batch_as_read_api_notifications_path, method: :patch
+  guard_incorrect_token! :mark_batch_as_unread_api_notifications_path, method: :patch
+  guard_incorrect_token! :mark_all_as_read_api_notifications_path, method: :patch
 
   ###
   # Index
@@ -24,7 +26,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
 
     expected = {
       results: [{
-        id: notification.uuid,
+        uuid: notification.uuid,
         url: notification.url,
         text: notification.text,
         is_read: false,
@@ -44,5 +46,50 @@ class API::NotificationsControllerTest < API::BaseTestCase
     }.with_indifferent_access
 
     assert_equal expected, JSON.parse(response.body)
+  end
+
+  ###
+  # Marking as read/unread
+  ###
+  test "mark_batch_as_read proxies" do
+    user = create :user
+    setup_user(user)
+
+    uuid_1 = SecureRandom.uuid
+    uuid_2 = SecureRandom.uuid
+
+    User::Notification::MarkBatchAsRead.expects(:call).with(user, [uuid_1, uuid_2])
+
+    patch mark_batch_as_read_api_notifications_path(uuids: [uuid_1, uuid_2]), headers: @headers, as: :json
+    assert_response 200
+
+    assert_empty JSON.parse(response.body)
+  end
+
+  test "mark_batch_as_unread proxies" do
+    user = create :user
+    setup_user(user)
+
+    uuid_1 = SecureRandom.uuid
+    uuid_2 = SecureRandom.uuid
+
+    User::Notification::MarkBatchAsUnread.expects(:call).with(user, [uuid_1, uuid_2])
+
+    patch mark_batch_as_unread_api_notifications_path(uuids: [uuid_1, uuid_2]), headers: @headers, as: :json
+    assert_response 200
+
+    assert_empty JSON.parse(response.body)
+  end
+
+  test "mark_all_as_read proxies" do
+    user = create :user
+    setup_user(user)
+
+    User::Notification::MarkAllAsRead.expects(:call).with(user)
+
+    patch mark_all_as_read_api_notifications_path, headers: @headers, as: :json
+    assert_response 200
+
+    assert_empty JSON.parse(response.body)
   end
 end

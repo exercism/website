@@ -21,8 +21,8 @@ class SerializeIteration
       submission_method: iteration.submission.submitted_via,
       created_at: iteration.created_at.iso8601,
       tests_status: iteration.submission.tests_status,
-      representer_feedback: iteration.representer_feedback,
-      analyzer_feedback: iteration.analyzer_feedback,
+      representer_feedback: sideload.include?(:automated_feedback) ? iteration.representer_feedback : nil,
+      analyzer_feedback: sideload.include?(:automated_feedback) ? iteration.analyzer_feedback : nil,
       is_published: iteration.published?,
       files: sideload.include?(:files) ? iteration.files.map do |file|
         {
@@ -33,6 +33,7 @@ class SerializeIteration
       end : nil,
       links: {
         self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx),
+        automated_feedback: Exercism::Routes.automated_feedback_api_solution_iteration_url(iteration.solution.uuid, iteration.uuid),
         delete: Exercism::Routes.api_solution_iteration_url(iteration.solution.uuid, iteration.uuid),
         solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise),
         test_run: Exercism::Routes.api_solution_submission_test_run_url(iteration.solution.uuid, iteration.submission.uuid),

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class User::Notification::RetrieveTest < ActiveSupport::TestCase
-  test "retrieves unread notifications first" do
+  test "orders correctly" do
     user = create :user
     unread_1 = create :notification, status: :unread, user: user
     read_1 = create :notification, status: :read, user: user
@@ -14,17 +14,11 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
     # Someone else's
     create :notification, status: :unread
 
-    assert_equal [unread_2, unread_1, read_2, read_1], User::Notification::Retrieve.(user)
-  end
-
-  test "orders by recent first (id desc)" do
-    user = create :user
-
-    first = create :notification, user: user, status: :unread
-    second = create :notification, user: user, status: :unread
-    third = create :notification, user: user, status: :unread
-
-    assert_equal [third, second, first], User::Notification::Retrieve.(user)
+    assert_equal [unread_2, read_2, read_1, unread_1], User::Notification::Retrieve.(user)
+    assert_equal [unread_2, read_2, read_1, unread_1], User::Notification::Retrieve.(user, order: nil)
+    assert_equal [unread_2, read_2, read_1, unread_1], User::Notification::Retrieve.(user, order: 'foobar')
+    assert_equal [unread_2, unread_1, read_2, read_1], User::Notification::Retrieve.(user, order: 'unread_first')
+    assert_equal [unread_2, unread_1, read_2, read_1], User::Notification::Retrieve.(user, order: :unread_first)
   end
 
   test "pagination works" do

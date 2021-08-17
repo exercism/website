@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import consumer from '../../utils/action-cable-consumer'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { NotificationsIcon } from './notifications/NotificationsIcon'
-import { NotificationMenuItem } from './notifications/NotificationMenuItem'
-import { Notification } from './notifications/types'
+import { Notification } from '../notifications/notifications-list/Notification'
+import { Notification as NotificationType } from '../types'
 import { useNotificationDropdown } from './notifications/useNotificationDropdown'
 import { DropdownAttributes } from './useDropdown'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
@@ -12,7 +12,7 @@ import { Loading } from '../common/Loading'
 import { QueryStatus } from 'react-query'
 
 export type APIResponse = {
-  results: Notification[]
+  results: NotificationType[]
   meta: {
     total: number
     unreadCount: number
@@ -51,7 +51,7 @@ const DropdownContent = ({
         {data.results.map((notification, i) => {
           return (
             <li {...itemAttributes(i)} key={i}>
-              <NotificationMenuItem {...notification} />
+              <Notification {...notification} />
             </li>
           )
         })}
@@ -90,7 +90,7 @@ export const Notifications = ({
     APIResponse
   >(CACHE_KEY, {
     endpoint: endpoint,
-    query: { per: MAX_NOTIFICATIONS },
+    query: { per_page: MAX_NOTIFICATIONS },
     options: {},
   })
   const {

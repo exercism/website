@@ -123,4 +123,49 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to edit_solution_path(solution.uuid)
   end
+
+  test "show: shows about for logged out" do
+    concept = create :concept, :with_git_data
+
+    get track_concept_url(concept.track, concept)
+
+    assert_includes response.body, Markdown::Parse.(concept.about)
+    refute_includes response.body, Markdown::Parse.(concept.introduction)
+  end
+
+  test "show: shows about for external" do
+    concept = create :concept, :with_git_data
+
+    sign_in!
+    get track_concept_url(concept.track, concept)
+
+    assert_includes response.body, Markdown::Parse.(concept.about)
+    refute_includes response.body, Markdown::Parse.(concept.introduction)
+  end
+
+  test "show: shows intro for unlearnt" do
+    concept = create :concept, :with_git_data
+    user = create :user
+    create :user_track, user: user, track: concept.track
+
+    sign_in!(user)
+    get track_concept_url(concept.track, concept)
+
+    assert_includes response.body, Markdown::Parse.(concept.introduction)
+    refute_includes response.body, Markdown::Parse.(concept.about)
+  end
+
+  test "show: shows about for learnt" do
+    concept = create :concept, :with_git_data
+    user = create :user
+    create :user_track, user: user, track: concept.track
+
+    UserTrack.any_instance.stubs(concept_learnt?: true)
+
+    sign_in!(user)
+    get track_concept_url(concept.track, concept)
+
+    assert_includes response.body, Markdown::Parse.(concept.about)
+    refute_includes response.body, Markdown::Parse.(concept.introduction)
+  end
 end

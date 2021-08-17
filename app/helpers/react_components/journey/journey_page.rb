@@ -54,34 +54,8 @@ module ReactComponents
 
       def reputation_category
         if default_category_id == "reputation"
-          tokens = User::ReputationToken::Search.(
-            current_user,
-            criteria: params[:criteria],
-            category: params[:category],
-            page: params[:page],
-            order: params[:order]
-          )
-
-          data = tokens.map do |token|
-            token.rendering_data.merge(
-              links: {
-                mark_as_seen: Exercism::Routes.mark_as_seen_api_reputation_url(token.uuid)
-              }
-            )
-          end
-
           options = {
-            initial_data: SerializePaginatedCollection.(
-              tokens,
-              data: data,
-              meta: {
-                links: {
-                  tokens: Exercism::Routes.reputation_journey_url
-                },
-                total_reputation: current_user.formatted_reputation,
-                is_all_seen: current_user.reputation_tokens.unseen.empty?
-              }
-            )
+            initial_data: AssembleReputationTokens.(current_user, params)
           }
         else
           options = {}
@@ -92,12 +66,7 @@ module ReactComponents
           title: "Reputation",
           request: {
             endpoint: Exercism::Routes.api_reputation_index_url,
-            query: {
-              criteria: params[:criteria],
-              category: params[:category],
-              page: params[:page],
-              order: params[:order]
-            }.compact,
+            query: params.slice(*AssembleReputationTokens.keys),
             options: options
           },
           path: Exercism::Routes.reputation_journey_path,

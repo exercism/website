@@ -1,0 +1,80 @@
+#page-notifications {
+    & header.notifications-header {
+        @apply flex items-center;
+        @apply mt-32 mb-24;
+
+        & .actions {
+            @apply ml-auto flex items-center;
+
+            & button {
+                @apply ml-12;
+            }
+        }
+    }
+    & .notifications {
+        & .notification-row {
+            @apply flex items-center;
+            & .row {
+                @apply flex-grow-0;
+            }
+        }
+        & .notification {
+            @apply flex-grow flex items-center;
+            @apply py-8 px-16;
+            @apply rounded-8;
+
+            &.--unread {
+                @apply bg-backgroundColorE;
+            }
+
+            &:hover {
+                @apply bg-backgroundColorD;
+            }
+
+            & .c-avatar,
+            & .icon {
+                height: 32px;
+                width: 32px;
+                @apply mr-20;
+            }
+            & .c-avatar {
+            }
+            & .icon {
+                /* TODO: Really this color? */
+                color: #604fcd;
+            }
+            & .content {
+                @apply flex-grow mr-24;
+                & .text {
+                    @apply text-15 leading-150;
+                    & strong {
+                        @apply font-medium;
+                    }
+                }
+
+                & .created-at {
+                    @apply text-14 text-textColor6 leading-160;
+                }
+            }
+            & .read,
+            & .unread {
+                height: 8px;
+                width: 8px;
+                @apply flex-shrink-0 rounded-circle mr-24;
+            }
+            & .unread {
+                @apply bg-lightBlue;
+            }
+
+            & .action-icon {
+                height: 16px;
+                width: 16px;
+                @apply text-textColor6;
+            }
+        }
+        & .c-prominent-link {
+            @apply mt-12;
+            @apply px-16 py-8;
+        }
+    }
+}

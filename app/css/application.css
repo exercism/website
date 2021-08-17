@@ -168,6 +168,7 @@
     --box-shadow-sm: 0px 4px 16px 0px rgb(79, 114, 205, 0.1);
     --box-shadow-base: 0px 4px 24px 0px rgba(79, 114, 205, 0.15);
     --box-shadow-lg: 0px 4px 42px 0px rgba(79, 114, 205, 0.15);
+    --box-shadow-lgZ1: 0px 4px 42px 0px rgba(79, 114, 205, 0.3);
 
     --commonBadge-RGB: 240, 243, 249;
     --commonBadgeFill-RGB: 80, 83, 89;
@@ -260,9 +261,12 @@
     --paginationCurrentBorderColor: var(--c-6A6781);
     --paginationCurrentBackgroundColor: var(--c-403A66);
 
+    --modalBackgroundColor: rgba(40, 35, 57, 0.7);
+
     --box-shadow-sm: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
     --box-shadow-base: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
     --box-shadow-lg: 0px 4px 42px 0px rgba(0, 0, 0, 0.6);
+    --box-shadow-lgZ1: 0px 4px 42px 0px rgba(0, 0, 0, 0.9);
 
     /* This is yellow */
     --orange-filter: invert(100%) sepia(52%) saturate(2878%) hue-rotate(329deg)

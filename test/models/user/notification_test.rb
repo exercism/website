@@ -55,7 +55,7 @@ class NotificationTest < ActiveSupport::TestCase
       }
 
     expected = {
-      id: notification.uuid,
+      uuid: notification.uuid,
       url: notification.url,
       text: notification.text,
       is_read: false,

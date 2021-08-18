@@ -134,7 +134,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
 
           find_button("Favorited").hover
           click_on "Unfavorite?"
@@ -154,7 +154,7 @@ module Components
 
         use_capybara_host do
           sign_in!(mentor)
-          visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+          visit mentoring_discussion_path(discussion)
 
           click_on "Add to favorites"
 

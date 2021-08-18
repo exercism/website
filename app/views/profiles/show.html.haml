@@ -20,6 +20,6 @@
             = render ReactComponents::Common::CommunitySolution.new(solution, context: :profile)
 
         - if @profile.solutions_tab?
-          = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", "#")
+          = render ViewComponents::ProminentLink.new("See all of #{@user.name}'s solutions", solutions_profile_path(@profile))
 
     = render ReactComponents::Profile::TestimonialsSummary.new(@user, @profile)

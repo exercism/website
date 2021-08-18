@@ -81,7 +81,7 @@ const renderComponents = (parentElement, mappings) => {
   for (const [name, generator] of Object.entries(mappings)) {
     const selector = '[data-react-' + name + ']'
     parentElement.querySelectorAll(selector).forEach((elem) => {
-      console.log("Rendering " + selector)
+      console.log('Rendering ' + selector)
       const data = JSON.parse(elem.dataset.reactData)
       render(elem, generator(data, elem))
     })

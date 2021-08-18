@@ -1,7 +1,9 @@
 export const bindTurboFrameEvents = () => {
   document.addEventListener('turbo:load', () => {
     // Clear all the old observers
-    if(!window.turboFrameObservers) { window.turboFrameObservers = [] }
+    if (!window.turboFrameObservers) {
+      window.turboFrameObservers = []
+    }
     window.turboFrameObservers.forEach((o) => o.disconnect())
     window.turboFrameObservers = []
 
@@ -34,13 +36,15 @@ export const bindTurboFrameEvents = () => {
         .content
       document.title = newTitle
 
-      console.log("Firing frameload event")
-      var event = new CustomEvent("turbo:frameload", { });
-      document.dispatchEvent(event);
+      console.log('Firing frameload event')
+      var event = new CustomEvent('turbo:frameload', {})
+      document.dispatchEvent(event)
     })
     observer.observe(targetNode, { childList: true })
 
-    if(!window.turboFrameObservers) { window.turboFrameObservers = [] }
+    if (!window.turboFrameObservers) {
+      window.turboFrameObservers = []
+    }
     window.turboFrameObservers.push(observer)
   })
 }

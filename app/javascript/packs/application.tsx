@@ -533,7 +533,7 @@ import { highlightAll } from '../utils/highlight'
 document.addEventListener('turbo:load', () => {
   highlightAll()
 })
-import {bindTurboFrameEvents } from '../utils/turbo-frames'
+import { bindTurboFrameEvents } from '../utils/turbo-frames'
 bindTurboFrameEvents()
 
 const images = require.context('../images', true)
@@ -555,4 +555,3 @@ if (!Object.entries) {
     return resArray
   }
 }
-

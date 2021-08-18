@@ -8,7 +8,7 @@ module ViewComponents
     def to_s
       tag.header(id: "site-header") do
         tag.div(class: "lg-container container") do
-          logo + contextual_section
+          logo + docs_nav + contextual_section
         end
       end
     end
@@ -39,8 +39,6 @@ module ViewComponents
     end
 
     def signed_in_nav
-      return render_docs_nav if controller_name == "docs"
-
       if namespace_name == "mentoring"
         selected = :mentoring
       elsif namespace_name == "contributing"
@@ -88,11 +86,9 @@ module ViewComponents
       end
     end
 
-    def so_nav_li(title, url); end
-
-    def render_docs_nav
-      tag.div "", class: "docs-search" do
-        tag.div "", class: "c-search-bar" do
+    def docs_nav
+      tag.div class: "docs-search" do
+        tag.div class: "c-search-bar" do
           tag.input class: "--search", placeholder: "Search Exercism's docs..."
         end
       end

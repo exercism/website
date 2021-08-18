@@ -14,6 +14,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @solution = User.find_by!(handle: params[:id]).
       solutions.published.find_by!(exercise_id: @exercise.id)
     @author = @solution.user
+    @comments = @solution.comments
 
     # TODO: (Required) Real algorithm here
     @other_solutions = @exercise.solutions.published.limit(3)

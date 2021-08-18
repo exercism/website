@@ -32,7 +32,7 @@ export const CropFinishedStep = ({
       const formData = new FormData()
       formData.append('user[avatar]', state.croppedImage, 'avatar.jpg')
 
-      /* TODO: Use our standard sendRequest library */
+      /* TODO: (optional) Use our standard sendRequest library */
       return fetch(links.update, { body: formData, method: 'PATCH' })
         .then((response) => {
           return response.json().then((json) => camelizeKeys(json))

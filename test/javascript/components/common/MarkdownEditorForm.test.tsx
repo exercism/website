@@ -6,6 +6,7 @@ import { MarkdownEditorForm } from '../../../../app/javascript/components/common
 import { expectConsoleError } from '../../support/silence-console'
 import { stubRange } from '../../support/code-mirror-helpers'
 import { QueryStatus } from 'react-query'
+import userEvent from '@testing-library/user-event'
 
 stubRange()
 
@@ -51,7 +52,7 @@ test('shows error messages', async () => {
   })
 })
 
-test('focuses text editor when expanded', async () => {
+test('focuses text editor when clicked', async () => {
   render(
     <MarkdownEditorForm
       expanded
@@ -66,12 +67,11 @@ test('focuses text editor when expanded', async () => {
     />
   )
 
-  await waitFor(() => {
-    const editor = document.querySelector('.CodeMirror')
+  userEvent.click(await screen.findByTestId('markdown-editor'))
 
-    expect(editor).toHaveAttribute(
-      'class',
-      'CodeMirror cm-s-easymde CodeMirror-wrap CodeMirror-focused'
-    )
-  })
+  const editor = document.querySelector('.CodeMirror')
+  expect(editor).toHaveAttribute(
+    'class',
+    'CodeMirror cm-s-easymde CodeMirror-wrap CodeMirror-focused'
+  )
 })

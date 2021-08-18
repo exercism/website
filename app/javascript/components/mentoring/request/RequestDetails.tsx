@@ -14,7 +14,6 @@ export const RequestDetails = ({
     throw 'request comment expected'
   }
   return (
-    /* TODO: This wrapper is needed to make the styling correct. Maybe unscope the iteration marker? */
     <div className="discussion">
       <IterationMarker iteration={iteration} userIsStudent={false} />
       {request.comment.contentHtml.length > 0 ? (

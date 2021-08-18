@@ -37,7 +37,7 @@ const KnowledgeDetails = ({
           <h3>
             This task requires <strong>no</strong> existing Exercism knowledge.
           </h3>
-          {/* TODO: Change emoji to slightly-smiling */}
+          {/* TODO: (required) Change emoji to slightly-smiling */}
           <p>
             This task is perfect for people making their first contribution to
             Exercism. If you've been around a while, considering leaving this

@@ -6,7 +6,7 @@ class User::ReputationTokens::CodeReviewToken < User::ReputationToken
   values({ tiny: 1, small: 2, medium: 5, large: 10, massive: 20 })
 
   before_validation on: :create do
-    self.earned_on = self.merged_at || self.closed_at unless earned_on
+    self.earned_on = self.merged_at || self.closed_at || Time.current unless earned_on
 
     unless track
       normalized_repo = repo.gsub(/-(test-runner|analyzer|representer)$/, '')

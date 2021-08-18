@@ -41,6 +41,11 @@
 }
 .text-h5 {
     @apply text-18 leading-150 font-semibold text-textColor1;
+
+    /* Temporary things until we use JIT tailwind */
+    &.text-textColor6 {
+        @apply text-textColor6;
+    }
 }
 .text-h5-mono {
     @apply text-h5 font-mono font-bold;
@@ -57,6 +62,11 @@
     }
     & strong {
         @apply font-medium text-textColor2;
+    }
+
+    /* Temporary things until we use JIT tailwind */
+    &.text-textColor6 {
+        @apply text-textColor6;
     }
 }
 

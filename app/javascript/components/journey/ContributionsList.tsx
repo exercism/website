@@ -20,6 +20,7 @@ export type APIResult = {
     links: {
       markAllAsSeen: string
     }
+    unseenTotal: number
   }
 }
 
@@ -98,7 +99,7 @@ export const ContributionsList = ({
           >
             {resolvedData ? (
               <React.Fragment>
-                <ContributionResults data={resolvedData} />
+                <ContributionResults data={resolvedData} cacheKey={cacheKey} />
                 <Pagination
                   disabled={latestData === undefined}
                   current={request.query.page}

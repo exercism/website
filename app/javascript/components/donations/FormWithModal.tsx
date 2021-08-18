@@ -34,7 +34,7 @@ export default ({
     []
   )
 
-  /*TODO: Decide on correct icon */
+  /*TODO: (required) Decide on correct icon */
   const badge = { rarity: 'rare' as BadgeRarity, iconName: 'supporter' }
 
   return (

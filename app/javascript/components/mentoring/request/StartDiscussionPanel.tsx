@@ -84,9 +84,9 @@ export const StartDiscussionPanel = ({
         defaultError={DEFAULT_ERROR}
         action="new"
       />
-      {/* TODO: Extract into common component with the other identical notes in app/javascript/components/mentoring/discussion/AddDiscussionPost.tsx */}
+      {/* TODO: (optional) Extract into common component with the other identical notes in app/javascript/components/mentoring/discussion/AddDiscussionPost.tsx */}
       <div className="note">
-        Check out our {/* TODO */}
+        Check out our {/* TODO: (required) */}
         <a href="#">mentoring docs</a> and be the best mentor you can be.
       </div>
     </section>

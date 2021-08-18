@@ -18,7 +18,7 @@ export const RevealedTestimonial = ({
   const [open, setOpen] = useState(false)
 
   {
-    /* TODO: Set testimonial URL */
+    /* TODO: (required) Set testimonial URL */
   }
   return (
     <React.Fragment>

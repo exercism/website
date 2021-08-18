@@ -32,7 +32,7 @@ export const IterationView = ({
   settings: Settings
   setSettings: (settings: Settings) => void
 }): JSX.Element => {
-  /* TODO: Don't do this if currentIteration.links.files is null */
+  /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
     files: File[]
   }>(currentIteration.links.files, {

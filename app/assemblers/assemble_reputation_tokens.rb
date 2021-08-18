@@ -25,7 +25,7 @@ class AssembleReputationTokens
           mark_all_as_seen: Exercism::Routes.mark_all_as_seen_api_reputation_index_url
         },
         total_reputation: user.formatted_reputation,
-        is_all_seen: user.reputation_tokens.unseen.empty?
+        unseen_total: user.reputation_tokens.unseen.count
       }
     )
   end

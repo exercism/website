@@ -1,20 +1,19 @@
-import React, { useCallback, forwardRef } from 'react'
+import React, { useCallback } from 'react'
 import { DiscussionPostProps } from '../DiscussionPost'
 import { shortFromNow } from '../../../../utils/time'
 import { Avatar } from '../../../common/Avatar'
 import { Icon } from '../../../common/Icon'
 import { useHighlighting } from '../../../../utils/highlight'
+import { ViewingComponentType } from '../../../common/ListItem'
 
-export const DiscussionPostView = forwardRef<
-  HTMLDivElement,
-  { post: DiscussionPostProps; onEdit: () => void; className?: string }
->(({ onEdit, post, className = '' }, ref) => {
+export const DiscussionPostView = ({
+  onEdit,
+  item: post,
+  className = '',
+  itemRef,
+}: ViewingComponentType<DiscussionPostProps>) => {
   const isEditable = post.links.edit
   const contentRef = useHighlighting<HTMLDivElement>()
-
-  const handleEdit = useCallback(() => {
-    onEdit()
-  }, [onEdit])
 
   const classNames = [
     'post',
@@ -24,7 +23,7 @@ export const DiscussionPostView = forwardRef<
   ].filter((c) => c.length > 0)
 
   return (
-    <div ref={ref} className={classNames.join(' ')}>
+    <div ref={itemRef} className={classNames.join(' ')}>
       <Avatar
         handle={post.authorHandle}
         src={post.authorAvatarUrl}
@@ -36,7 +35,7 @@ export const DiscussionPostView = forwardRef<
           <time>{shortFromNow(post.updatedAt)}</time>
 
           {isEditable ? (
-            <button type="button" className="edit-button" onClick={handleEdit}>
+            <button type="button" className="edit-button" onClick={onEdit}>
               <Icon icon="edit" alt="Edit" />
             </button>
           ) : null}
@@ -49,4 +48,4 @@ export const DiscussionPostView = forwardRef<
       </div>
     </div>
   )
-})
+}

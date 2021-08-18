@@ -20,7 +20,7 @@ module API
     def update
       if @mentor_request.update(comment_markdown: params[:content])
         render json: {
-          post: SerializeMentorDiscussionPost.(@mentor_request.comment, current_user)
+          item: SerializeMentorDiscussionPost.(@mentor_request.comment, current_user)
         }
       else
         render_400(:failed_validations, errors: @mentor_request.errors)

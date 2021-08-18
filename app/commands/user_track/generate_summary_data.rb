@@ -31,7 +31,7 @@ class UserTrack
     memoize
     def exercises_hash
       exercises_data.transform_values do |exercise|
-        exercise.slice(:id, :slug, :status, :unlocked, :has_solution, :completed_at)
+        exercise.slice(:id, :slug, :type, :status, :unlocked, :has_solution, :completed_at)
       end
     end
 

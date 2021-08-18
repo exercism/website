@@ -11,7 +11,7 @@ export const TagOption = ({
   checked: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement>, value: string) => void
 }): JSX.Element => {
-  // TODO: ids shouldn't have : in them so parse it out
+  // TODO: (optional) ids shouldn't have : in them so parse it out
   const id = `tag-option-${value}`
   return (
     <div className="--option">

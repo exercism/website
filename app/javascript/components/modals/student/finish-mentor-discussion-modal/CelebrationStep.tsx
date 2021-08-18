@@ -5,7 +5,7 @@ type Links = {
   exercise: string
 }
 
-/* TODO: Use correct gif */
+/* TODO: (required) Use correct gif */
 export const CelebrationStep = ({
   mentorHandle,
   links,

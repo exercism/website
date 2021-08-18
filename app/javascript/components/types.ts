@@ -622,6 +622,22 @@ class BadgeRarityValue {
   }
 }
 
+export type SolutionComment = {
+  uuid: string
+  author: {
+    avatarUrl: string
+    handle: string
+    reputation: string
+  }
+  updatedAt: string
+  contentMarkdown: string
+  contentHtml: string
+  links: {
+    edit?: string
+    delete?: string
+  }
+}
+
 export type Notification = {
   uuid: string
   url: string

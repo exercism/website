@@ -14,7 +14,7 @@ module API
     def mark_all_as_seen
       User::ReputationToken::MarkAllAsSeen.(current_user)
 
-      render json: {}
+      render json: AssembleReputationTokens.(current_user, {})
     end
 
     private

@@ -10,8 +10,6 @@ export const TutorialCompletedModal = ({
   open: boolean
   track: Track
 }): JSX.Element => {
-  /* TODO: We need the Track as a variable here to use below. */
-  /* Replace "Elixir" and the number of concepts */
   return (
     <Modal
       open={open}

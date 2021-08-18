@@ -10,40 +10,25 @@ const OptionComponent = ({
 }): JSX.Element => {
   switch (status) {
     case 'none':
-      return (
-        <div className="info">
-          <div className="title">None</div>
-        </div>
-      )
+      return <>No mentoring</>
     case 'requested':
-      return (
-        <div className="info">
-          <div className="title">Requested</div>
-        </div>
-      )
+      return <>Mentoring Requested</>
     case 'in_progress':
-      return (
-        <div className="info">
-          <div className="title">In progress</div>
-        </div>
-      )
+      return <>Mentoring in progress</>
     case 'completed':
-      return (
-        <div className="info">
-          <div className="title">Completed</div>
-        </div>
-      )
+      return <>Mentoring Completed</>
     case undefined:
-      return (
-        <div className="info">
-          <div className="title">All</div>
-        </div>
-      )
+      return <>Any</>
   }
 }
 
-const SelectedComponent = () => {
-  return <>Mentoring status</>
+const SelectedComponent = ({ option }: { option: Status }) => {
+  switch (option) {
+    case undefined:
+      return <>Mentoring status</>
+    default:
+      return <OptionComponent option={option} />
+  }
 }
 
 export const MentoringStatusSelect = ({

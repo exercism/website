@@ -14,6 +14,7 @@
             @apply absolute;
             left: 0;
             right: 0;
+            bottom: 0;
 
             & .bottom {
                 @apply absolute;
@@ -71,6 +72,9 @@
 
         & .tracks {
             @apply flex items-center;
+
+            /* Set a min-height for if there are no tracks */
+            min-height: 64px;
             margin-bottom: 280px;
 
             & .c-track-icon {
@@ -90,6 +94,8 @@
             width: 64px;
             margin-bottom: 116px;
             @apply text-veryLightBlue;
+            position: sticky;
+            bottom: 20px;
         }
     }
     & .tabs {

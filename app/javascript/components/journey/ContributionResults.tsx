@@ -59,6 +59,7 @@ export const ContributionResults = ({
         open={modalOpen}
         onSuccess={handleSuccess}
         onClose={handleModalClose}
+        unseenTotal={data.meta.unseenTotal}
       />
     </div>
   )

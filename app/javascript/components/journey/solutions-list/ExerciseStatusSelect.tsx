@@ -15,40 +15,25 @@ const OptionComponent = ({
 }): JSX.Element => {
   switch (status) {
     case 'in_progress':
-      return (
-        <div className="info">
-          <div className="title">In progress</div>
-        </div>
-      )
+      return <>In progress</>
     case 'completed':
-      return (
-        <div className="info">
-          <div className="title">Completed</div>
-        </div>
-      )
+      return <>Completed</>
     case 'published':
-      return (
-        <div className="info">
-          <div className="title">Completed and published</div>
-        </div>
-      )
+      return <>Published</>
     case 'not_published':
-      return (
-        <div className="info">
-          <div className="title">Completed and not published</div>
-        </div>
-      )
+      return <>Not published (completed)</>
     case undefined:
-      return (
-        <div className="info">
-          <div className="title">All</div>
-        </div>
-      )
+      return <>All</>
   }
 }
 
-const SelectedComponent = () => {
-  return <>Exercise status</>
+const SelectedComponent = ({ option }: { option: Status }) => {
+  switch (option) {
+    case undefined:
+      return <>Exercise status</>
+    default:
+      return <OptionComponent option={option} />
+  }
 }
 
 export const ExerciseStatusSelect = ({

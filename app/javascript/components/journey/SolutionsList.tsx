@@ -5,7 +5,7 @@ import { useList } from '../../hooks/use-list'
 import { removeEmpty, useHistory } from '../../hooks/use-history'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
-import { Pagination } from '../common'
+import { Pagination, GraphicalIcon } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { PaginatedResult } from '../types'
 import { OrderSwitcher } from './solutions-list/OrderSwitcher'
@@ -123,8 +123,13 @@ export const SolutionsList = ({
                       Showing {resolvedData.results.length}{' '}
                       {pluralize('solution', resolvedData.results.length)}
                     </h3>
-                    <button type="button" onClick={handleReset}>
-                      Reset filters
+                    <button
+                      type="button"
+                      onClick={handleReset}
+                      className="btn-link"
+                    >
+                      <GraphicalIcon icon="reset" />
+                      <span>Reset filters</span>
                     </button>
                   </div>
                   <div className="solutions">

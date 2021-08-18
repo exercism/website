@@ -5,9 +5,9 @@ import { Order } from '../SolutionsList'
 const OptionComponent = ({ option: order }: { option: Order }) => {
   switch (order) {
     case 'oldest_first':
-      return <React.Fragment>Sort by Oldest First</React.Fragment>
+      return <>Oldest First</>
     case 'newest_first':
-      return <React.Fragment>Sort by Newest First</React.Fragment>
+      return <>Newest First</>
   }
 }
 

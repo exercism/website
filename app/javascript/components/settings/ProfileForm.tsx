@@ -40,7 +40,7 @@ export const ProfileForm = ({
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>Profile</h2>
       <div className="details">
         <div className="name field">

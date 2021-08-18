@@ -1,6 +1,7 @@
 en:
   api:
     errors:
+      not_onboarded: "You have not yet onboarded on the website"
       duplicate_submission: "No files you submitted have changed since your last submission"
       exercise_not_found: "The exercise you specified could not be found"
       invalid_auth_token: "The auth token provided is invalid"

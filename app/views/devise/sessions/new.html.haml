@@ -13,7 +13,7 @@
 
       = flash_messages
 
-      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = form_for(resource, as: resource_name, url: session_path(resource_name), html: { 'data-turbo': false }) do |f|
         .field
           = f.label :email
           = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Enter your email address"

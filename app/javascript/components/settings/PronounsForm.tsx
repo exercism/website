@@ -55,7 +55,7 @@ export const PronounsForm = ({
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>How would you like to be addressed? (optional)</h2>
       <hr className="c-divider --small" />
       <div className="instructions">

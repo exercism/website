@@ -1,11 +1,13 @@
 require "application_system_test_case"
 require_relative "../../../../support/capybara_helpers"
+require_relative "../../../../support/redirect_helpers"
 
 module Flows
   module Student
     module TrackMenu
       class ResetsTrackTest < ApplicationSystemTestCase
         include CapybaraHelpers
+        include RedirectHelpers
 
         test "student resets track" do
           create :user, :ghost
@@ -23,6 +25,7 @@ module Flows
             fill_in "To confirm", with: "reset ruby"
             within(".m-reset-track") { click_on "Reset track" }
 
+            wait_for_redirect
             assert_text "You’ve just started the Ruby track"
           end
         end

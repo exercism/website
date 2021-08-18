@@ -1,5 +1,5 @@
 import { build } from '@jackfranklin/test-data-bot'
-import { Props } from '../../../../../app/javascript/components/Editor'
+import { Props } from '../../../../../app/javascript/components/editor/Props'
 
 export const buildEditor = build<Props>({
   fields: {

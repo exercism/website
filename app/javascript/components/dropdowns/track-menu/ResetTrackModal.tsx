@@ -62,7 +62,7 @@ export const ResetTrackModal = ({
       onClose={onClose}
       {...props}
     >
-      <form>
+      <form data-turbo="false">
         <div className="info">
           <h2>You’re about to reset all your {track.title} progress.</h2>
           <p>

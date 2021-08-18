@@ -5,14 +5,9 @@ import React, {
   useEffect,
   createContext,
 } from 'react'
-import {
-  Submission,
-  TestRun,
-  TestRunStatus,
-  Assignment,
-  EditorSettings,
-} from './editor/types'
+import { Submission, TestRun, TestRunStatus } from './editor/types'
 import { File } from './types'
+import { Props, EditorFeatures } from './editor/Props'
 import { Header } from './editor/Header'
 import {
   FileEditorCodeMirror,
@@ -45,41 +40,6 @@ import { useSubmissionCancelling } from './editor/useSubmissionCancelling'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
-type Links = {
-  runTests: string
-  back: string
-}
-
-type EditorPanels = {
-  instructions: {
-    introduction: string
-    debuggingInstructions?: string
-    assignment: Assignment
-    exampleFiles: File[]
-  }
-  tests?: {
-    tests: string
-    highlightjsLanguage: string
-  }
-  results: {
-    averageTestDuration: number
-  }
-}
-
-type Track = {
-  title: string
-  slug: string
-}
-
-type Exercise = {
-  title: string
-}
-
-type AutosaveConfig = {
-  key: string
-  saveInterval: number
-}
-
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
   switchToTab: () => {},
@@ -90,25 +50,7 @@ export const FeaturesContext = createContext<EditorFeatures>({
   keybindings: false,
 })
 
-export type Props = {
-  timeout?: number
-  defaultSubmissions: Submission[]
-  defaultFiles: File[]
-  defaultSettings: Partial<EditorSettings>
-  autosave: AutosaveConfig
-  panels: EditorPanels
-  track: Track
-  exercise: Exercise
-  links: Links
-  features?: EditorFeatures
-}
-
-type EditorFeatures = {
-  theme: boolean
-  keybindings: boolean
-}
-
-export function Editor({
+export default ({
   timeout = 60000,
   defaultSubmissions,
   defaultFiles,
@@ -119,7 +61,7 @@ export function Editor({
   exercise,
   links,
   features = { theme: false, keybindings: false },
-}: Props): JSX.Element {
+}: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
   const runTestsButtonRef = useRef<HTMLButtonElement>(null)
   const submitButtonRef = useRef<HTMLButtonElement>(null)

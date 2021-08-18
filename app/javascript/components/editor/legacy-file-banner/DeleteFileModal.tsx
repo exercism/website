@@ -29,7 +29,7 @@ export const DeleteFileModal = ({
         If you change your mind before submitting, you can use the "Reset to
         last iteration" button (top-right) to undo this change.
       </p>
-      <form onSubmit={handleSubmit} className="buttons">
+      <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <button type="submit" className="btn-warning btn-s">
           Delete file
         </button>

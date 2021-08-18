@@ -82,7 +82,7 @@ export const ExerciseUpdateForm = ({
         By updating to the latest version, your solution may fail the tests and
         need to be updated.
       </div>
-      <form>
+      <form data-turbo="false">
         <FormButton
           type="button"
           onClick={() => mutation()}

@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { Editor } from '../../../../../app/javascript/components/Editor'
+import Editor from '../../../../../app/javascript/components/Editor'
 import { buildEditor } from './buildEditor'
 import { expectConsoleError } from '../../../support/silence-console'
 

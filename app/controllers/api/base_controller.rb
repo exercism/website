@@ -31,6 +31,13 @@ module API
       render_401 unless user_signed_in?
     end
 
+    def ensure_onboarded!
+      return unless user_signed_in?
+      return if current_user.onboarded?
+
+      render_403(:not_onboarded)
+    end
+
     def sideload?(item)
       return false unless params[:sideload]
 

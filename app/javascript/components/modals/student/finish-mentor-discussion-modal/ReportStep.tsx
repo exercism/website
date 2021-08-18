@@ -70,7 +70,7 @@ export const ReportStep = ({
             discussion, and would like to help ensure your next experience is a
             positive one.
           </p>
-          <form onSubmit={handleSubmit}>
+          <form data-turbo="false" onSubmit={handleSubmit}>
             <h3>How would you like to resolve the issue?</h3>
 
             <label className="c-checkbox-wrapper">

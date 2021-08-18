@@ -9,12 +9,14 @@ module Components
 
     test "user runs tests and tests pass with - v3 test runner" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
@@ -35,8 +37,10 @@ module Components
 
     test "user switches tabs" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
       submission = create :submission, solution: solution
       create :submission_file,
         submission: submission,
@@ -51,7 +55,7 @@ module Components
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         click_on "log_line_parser_test.rb"
 
         assert_text "class log_line_parser_test"
@@ -61,12 +65,14 @@ module Components
 
     test "user runs tests and tests pass - v2 test runner" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
@@ -87,12 +93,14 @@ module Components
 
     test "user runs tests and tests pass with - v1 test runner" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
@@ -112,12 +120,14 @@ module Components
 
     test "user gets tests results even if websockets broadcast fails" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
@@ -136,12 +146,14 @@ module Components
 
     test "user runs tests and tests fail - v3 test runner" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
@@ -162,12 +174,14 @@ module Components
 
     test "user runs tests and tests fail - v2 test runner" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
@@ -188,12 +202,14 @@ module Components
 
     test "user runs tests and tests fail - v1 test runner" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
@@ -216,12 +232,14 @@ module Components
 
     test "user runs tests and errors" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
@@ -245,12 +263,14 @@ module Components
     test "user runs tests and an ops error happens" do
       expecting_errors do
         user = create :user
-        strings = create :concept_exercise
-        solution = create :concept_solution, user: user, exercise: strings
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        create :user_track, track: track, user: user
+        create :concept_solution, user: user, exercise: exercise
 
         use_capybara_host do
           sign_in!(user)
-          visit test_components_editor_path(solution_id: solution.id)
+          visit edit_track_exercise_path(track, exercise)
           fill_in_editor "test"
           click_on "Run Tests"
           wait_for_submission
@@ -274,8 +294,10 @@ module Components
 
     test "user runs tests and cancels" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
       submission = create :submission, solution: solution
       test_run = create :submission_test_run,
         submission: submission,
@@ -288,7 +310,7 @@ module Components
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         fill_in_editor "test"
         click_on "Run Tests"
         wait_for_submission
@@ -314,8 +336,10 @@ module Components
 
     test "user sees previous test results - v3 test runner" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
       submission = create :submission, solution: solution
       create :submission_test_run,
         submission: submission,
@@ -328,7 +352,7 @@ module Components
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
 
         assert_text "1 test passed"
       end
@@ -336,8 +360,10 @@ module Components
 
     test "user sees previous test results - v2 test runner" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
       submission = create :submission, solution: solution
       create :submission_test_run,
         submission: submission,
@@ -350,7 +376,7 @@ module Components
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
 
         assert_text "1 test passed"
       end
@@ -358,8 +384,10 @@ module Components
 
     test "user reverts to last iteration" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
       submission = create :submission, solution: solution
       create :submission_file,
         submission: submission,
@@ -376,7 +404,7 @@ module Components
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         find(".more-btn").click
         click_on("Revert to last iteration")
 
@@ -386,8 +414,10 @@ module Components
 
     test "user reverts to original exercise solution" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
       submission = create :submission, solution: solution
       create :submission_file,
         submission: submission,
@@ -397,7 +427,7 @@ module Components
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         find(".more-btn").click
         click_on("Revert to exercise start")
 
@@ -407,12 +437,14 @@ module Components
 
     test "user reports a bug" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         find(".more-btn").click
         click_on("Report a bug")
         fill_in "Report", with: "I found a bug"
@@ -424,15 +456,17 @@ module Components
 
     test "user deletes legacy files" do
       user = create :user
-      strings = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: strings
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
       submission = create :submission, solution: solution
       create :submission_file, submission: submission, filename: "log_line_parser.rb", content: "foobar1"
       create :submission_file, submission: submission, filename: "something_else.rb", content: "foobar2"
 
       use_capybara_host do
         sign_in!(user)
-        visit test_components_editor_path(solution_id: solution.id)
+        visit edit_track_exercise_path(track, exercise)
         click_on "something_else.rb"
         click_on "Delete file"
         within(".m-generic-confirmation") { click_on "Delete file" }

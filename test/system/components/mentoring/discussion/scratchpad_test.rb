@@ -17,7 +17,7 @@ module Components
 
           use_capybara_host do
             sign_in!(mentor)
-            visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+            visit mentoring_discussion_path(discussion)
             click_on "Scratchpad"
             fill_in_editor "# Hello"
             assert_text "Unsaved"
@@ -38,7 +38,7 @@ module Components
 
           use_capybara_host do
             sign_in!(mentor)
-            visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+            visit mentoring_discussion_path(discussion)
             click_on "Scratchpad"
 
             within("#panel-scratchpad") do
@@ -62,7 +62,7 @@ module Components
 
           use_capybara_host do
             sign_in!(mentor)
-            visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+            visit mentoring_discussion_path(discussion)
             click_on "Scratchpad"
             fill_in_editor "# Hello"
             assert_text "Unsaved"
@@ -82,7 +82,7 @@ module Components
 
           use_capybara_host do
             sign_in!(mentor)
-            visit test_components_mentoring_discussion_path(discussion_id: discussion.id)
+            visit mentoring_discussion_path(discussion)
             click_on "Scratchpad"
             fill_in_editor "# Hello"
             click_on "Revert"

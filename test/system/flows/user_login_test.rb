@@ -12,13 +12,15 @@ module Flows
                                                                     info: { nickname: "user22" } })
       create :user, :not_onboarded, uid: "123", provider: "github", confirmed_at: Date.new(2016, 12, 25)
 
-      visit new_user_session_path
-      click_on "Log In with GitHub"
-      assert_page :onboarding
+      use_capybara_host do
+        visit new_user_session_path
+        click_on "Log In with GitHub"
+        assert_page :onboarding
 
-      expire_cookies
-      visit new_user_session_path
-      assert_page :onboarding
+        expire_cookies
+        visit new_user_session_path
+        assert_page :onboarding
+      end
 
       OmniAuth.config.test_mode = false
     end
@@ -30,15 +32,17 @@ module Flows
         password: "password",
         confirmed_at: Date.new(2016, 12, 25))
 
-      visit new_user_session_path
-      fill_in "Email", with: "user@exercism.io"
-      fill_in "Password", with: "password"
-      click_on "Log In"
-      assert_page :onboarding
+      use_capybara_host do
+        visit new_user_session_path
+        fill_in "Email", with: "user@exercism.io"
+        fill_in "Password", with: "password"
+        click_on "Log In"
+        assert_page :onboarding
 
-      expire_cookies
-      visit new_user_session_path
-      assert_page :onboarding
+        expire_cookies
+        visit new_user_session_path
+        assert_page :onboarding
+      end
     end
 
     test "user attempts to log in an account with a oauth password hash" do
@@ -48,12 +52,14 @@ module Flows
         provider: "github",
         confirmed_at: Date.new(2016, 12, 25))
 
-      visit new_user_session_path
-      fill_in "Email", with: "user@exercism.io"
-      fill_in "Password", with: "otherpassword"
-      click_on "Log In"
+      use_capybara_host do
+        visit new_user_session_path
+        fill_in "Email", with: "user@exercism.io"
+        fill_in "Password", with: "otherpassword"
+        click_on "Log In"
 
-      assert_text "Your account does not have a password. Please use OAuth."
+        assert_text "Your account does not have a password. Please use OAuth."
+      end
     end
 
     test "user logs in and is redirected to the correct page" do
@@ -71,7 +77,26 @@ module Flows
         fill_in "Password", with: "password"
         click_on "Log In"
 
-        assert_text "Join the Ruby Track"
+        assert_text "Join the Ruby Track", wait: 10
+      end
+    end
+
+    test "user sees errors" do
+      expecting_errors do
+        track = create :track, title: "Ruby"
+        create :concept_exercise, track: track
+        create(:user,
+          email: "user@exercism.io",
+          password: "password",
+          confirmed_at: Date.new(2016, 12, 25))
+
+        use_capybara_host do
+          visit new_user_session_path
+          fill_in "Email", with: "user@exercism.io"
+          click_on "Log In"
+
+          assert_text "Invalid Email or password."
+        end
       end
     end
 
@@ -94,7 +119,7 @@ module Flows
         find('label', text: "I accept Exercism's Privacy Policy").click
         click_on "Save & Get Started"
 
-        assert_text "Join the Ruby Track"
+        assert_text "Join the Ruby Track", wait: 10
       end
     end
   end

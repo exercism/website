@@ -26,6 +26,7 @@ module Website
 
     config.time_zone = "UTC"
     config.active_record.default_timezone = :utc
+    config.action_view.form_with_generates_remote_forms = false
 
     config.generators do |g|
       g.assets false

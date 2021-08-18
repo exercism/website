@@ -55,7 +55,7 @@ export const DeleteIterationModal = ({
         Deleted iterations are also removed from published solutions and
         mentoring discussions. <strong>This is irreversible.</strong>
       </p>
-      <form onSubmit={handleSubmit} className="buttons">
+      <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton type="submit" status={status} className="btn-warning btn-s">
           Delete iteration
         </FormButton>

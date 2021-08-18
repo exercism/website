@@ -11,7 +11,7 @@
 
       = flash_messages
 
-      = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+      = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { 'data-turbo': false, method: :post }) do |f|
         .field
           = f.label :email
           = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: "Enter your email address"

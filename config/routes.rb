@@ -440,16 +440,11 @@ Rails.application.routes.draw do
         resource :loading_overlay, only: [:show], controller: "loading_overlay"
       end
       namespace :components do
-        resource :editor, only: [:show], controller: "editor"
         namespace :student, param: :handle do
           resource :concept_map, only: [:show], controller: 'concept_map'
         end
         namespace :maintaining do
           get 'submissions_summary_table', to: 'submissions_summary_table#index', as: 'submissions_summary_table'
-        end
-
-        namespace :mentoring do
-          resource :discussion, controller: "discussion", only: [:show]
         end
         namespace :tooltips do
           resource :tooltip, controller: "tooltip", only: [:show] do

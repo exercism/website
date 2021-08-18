@@ -46,7 +46,7 @@ export const PasswordForm = ({ links }: { links: Links }): JSX.Element => {
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       <h2>Change your password</h2>
       <hr className="c-divider --small" />
       <div className="field">

@@ -75,7 +75,7 @@ export const MentoringRequestForm = ({
         </h3>
         <CopyToClipboardButton textToCopy={links.privateMentoring} />
       </div>
-      <form className="community" onSubmit={handleSubmit}>
+      <form data-turbo="false" className="community" onSubmit={handleSubmit}>
         <div className="heading">
           <div className="info">
             <h2>It’s time to deepen your knowledge.</h2>

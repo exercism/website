@@ -55,19 +55,19 @@ class ProfilesController < ApplicationController
   end
 
   def create
-    if params[:user]
-      current_user.update!(
-        params[:user].
-        permit(:name, :location, :bio)
-      )
-    end
+    return render :new, status: :unprocessable_entity if params[:user].blank?
 
-    begin
-      current_user.create_profile!
-    rescue ActiveRecord::RecordNotUnique
-      # Handle a double-click gracefully
+    if current_user.update(params[:user].permit(:name, :location, :bio))
+      begin
+        current_user.create_profile!
+      rescue ActiveRecord::RecordNotUnique
+        # Handle a double-click gracefully
+      end
+
+      redirect_to profile_path(current_user, first_time: true)
+    else
+      render :new, status: :unprocessable_entity
     end
-    redirect_to profile_path(current_user, first_time: true)
   end
 
   private

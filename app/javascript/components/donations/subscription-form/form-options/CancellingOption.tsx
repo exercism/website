@@ -56,7 +56,7 @@ export const CancellingOption = ({
       <p className="text-p-base">
         Are you sure you want to cancel your recurring donation?
       </p>
-      <form onSubmit={handleSubmit}>
+      <form data-turbo="false" onSubmit={handleSubmit}>
         <div className="flex">
           <FormButton status={status} className="btn-xs btn-primary mr-12">
             Yes - please cancel it.

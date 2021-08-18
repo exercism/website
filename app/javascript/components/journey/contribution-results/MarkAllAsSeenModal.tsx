@@ -64,7 +64,7 @@ export const MarkAllAsSeenModal = ({
         Are you sure you want to mark all as seen? All contributions across all
         pages will be marked as seen.
       </p>
-      <form onSubmit={handleSubmit} className="buttons">
+      <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton type="submit" status={status} className="btn-primary btn-s">
           Continue
         </FormButton>

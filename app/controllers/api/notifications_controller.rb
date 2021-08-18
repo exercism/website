@@ -1,5 +1,7 @@
 module API
   class NotificationsController < BaseController
+    skip_before_action :ensure_onboarded!, only: [:index]
+
     def index
       render json: AssembleNotificationsList.(current_user, list_params)
     end

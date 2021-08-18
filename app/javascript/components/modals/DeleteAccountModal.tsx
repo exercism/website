@@ -52,7 +52,7 @@ export const DeleteAccountModal = ({
 
   return (
     <Modal {...props} className="m-delete-account m-generic-destructive">
-      <form onSubmit={handleSubmit}>
+      <form data-turbo="false" onSubmit={handleSubmit}>
         <div className="info">
           <h2>You&apos;re about to delete your Exercism account</h2>
           <p>

@@ -9,7 +9,7 @@
           If you've forgotten your password, use the form below to request a link to change it.
           Many people who think they've forgotten their password originally signed in using GitHub so you may like to try that too.
 
-      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, 'data-turbo': false }) do |f|
         = render "devise/shared/error_messages", resource: resource
         .field
           = f.label :email

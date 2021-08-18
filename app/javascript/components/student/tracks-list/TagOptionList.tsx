@@ -44,7 +44,7 @@ export const TagOptionList = ({
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       <div className="--categories">
         {options.map((option) => {
           return (

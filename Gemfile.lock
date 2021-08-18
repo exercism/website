@@ -430,12 +430,8 @@ GEM
     thwait (0.2.0)
       e2mmap
     tilt (2.0.10)
-    turbolinks (5.2.1)
-      turbolinks-source (~> 5.2)
-    turbolinks-source (5.2.0)
-    turbolinks_render (0.9.20)
-      rails (>= 5.2.0)
-      turbolinks-source (~> 5.1)
+    turbo-rails (0.7.3)
+      rails (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2020.6)
@@ -527,8 +523,7 @@ DEPENDENCIES
   solargraph
   spring
   stripe
-  turbolinks (~> 5)
-  turbolinks_render
+  turbo-rails
   tzinfo-data
   web-console (>= 3.3.0)
   webdrivers

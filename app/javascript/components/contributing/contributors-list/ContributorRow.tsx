@@ -8,11 +8,7 @@ export const ContributorRow = ({
   contributor: Contributor
 }): JSX.Element => {
   return (
-    <a
-      key={contributor.handle}
-      href={contributor.links.profile}
-      className="contributor"
-    >
+    <RowWrapper profile={contributor.links.profile}>
       <div className="rank">#{contributor.rank}</div>
       <Avatar src={contributor.avatarUrl} handle={contributor.handle} />
       <div className="info">
@@ -20,7 +16,23 @@ export const ContributorRow = ({
         <p>{contributor.activity}</p>
       </div>
       <Reputation value={contributor.reputation} type="primary" />
+    </RowWrapper>
+  )
+}
+
+const RowWrapper = ({
+  profile,
+  children,
+}: React.PropsWithChildren<{ profile?: string }>) => {
+  return profile ? (
+    <a className="contributor" href={profile}>
+      {children}
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
+  ) : (
+    <div className="contributor">
+      {children}
+      <GraphicalIcon icon="transparent" className="action-icon" />
+    </div>
   )
 }

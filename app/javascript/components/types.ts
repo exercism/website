@@ -429,7 +429,7 @@ export type Contributor = {
   activity: string
   reputation: string
   links: {
-    profile: string
+    profile?: string
   }
 }
 

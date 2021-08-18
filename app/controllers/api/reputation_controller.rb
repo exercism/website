@@ -1,5 +1,7 @@
 module API
   class ReputationController < BaseController
+    skip_before_action :ensure_onboarded!, only: [:index]
+
     def index
       render json: AssembleReputationTokens.(current_user, params)
     end

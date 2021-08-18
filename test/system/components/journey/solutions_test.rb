@@ -158,8 +158,8 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
-          click_on "Sort by Newest First"
-          find("label", text: "Sort by Oldest First").click
+          click_on "Newest First"
+          find("label", text: "Oldest First").click
         end
 
         assert_no_text "Bob"

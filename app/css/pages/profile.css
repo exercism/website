@@ -51,6 +51,9 @@
             & .container {
                 @apply flex flex-col;
             }
+            & h2 {
+                @apply mr-12;
+            }
 
             & .solutions {
                 @apply flex justify-center mb-40;

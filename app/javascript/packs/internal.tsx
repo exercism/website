@@ -79,6 +79,7 @@ import { Links as NotificationsListLinks } from '../components/notifications/Not
 import * as Notifications from '../components/notifications'
 
 import { Request } from '../hooks/request-query'
+import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
   return (camelizeKeys(object) as unknown) as T
@@ -100,8 +101,10 @@ initReact({
   ),
   'mentoring-inbox': (data: any) => (
     <Mentoring.Inbox
-      discussionsRequest={data.discussions_request}
-      tracksRequest={data.tracks_request}
+      discussionsRequest={camelizeKeysAs<MentoringInboxRequest>(
+        data.discussions_request
+      )}
+      tracksRequest={camelizeKeysAs<MentoringInboxRequest>(data.tracks_request)}
       sortOptions={data.sort_options}
     />
   ),

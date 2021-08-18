@@ -26,7 +26,7 @@ module ReactComponents
         {
           endpoint: Exercism::Routes.api_solutions_url,
           query: {
-            track_id: track.slug,
+            track_slug: track.slug,
             status: %i[iterated completed published],
             mentoring_status: %i[none finished],
             per_page: 5

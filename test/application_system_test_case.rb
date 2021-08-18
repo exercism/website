@@ -1,8 +1,10 @@
 require "test_helper"
 require_relative "./support/websockets_helpers"
+require_relative "./support/capybara_helpers"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include WebsocketsHelpers
+  include CapybaraHelpers
   include Devise::Test::IntegrationHelpers
 
   Capybara.default_max_wait_time = 7

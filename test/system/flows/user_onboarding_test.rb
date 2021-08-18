@@ -20,6 +20,7 @@ module Flows
           click_on "Save & Get Started"
 
           assert_page :staging
+          assert_css "#site-header"
         end
       end
     end

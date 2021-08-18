@@ -6,6 +6,8 @@ module ViewComponents
       to: :view_context
 
     def to_s
+      return if user_signed_in? && !current_user.onboarded?
+
       tag.header(id: "site-header") do
         tag.div(class: "lg-container container") do
           logo + contextual_section

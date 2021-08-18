@@ -100,6 +100,10 @@ class UserTrack
       exercise(obj).type
     end
 
+    def exercise_position(obj)
+      exercise(obj).position
+    end
+
     ###############################
     # Exercises aggregate methods #
     ###############################
@@ -299,7 +303,7 @@ class UserTrack
     end
 
     ExerciseSummary = Struct.new(
-      :id, :slug, :type, :status,
+      :id, :slug, :type, :position, :status,
       :unlocked, :has_solution, :completed_at,
       keyword_init: true
     ) do

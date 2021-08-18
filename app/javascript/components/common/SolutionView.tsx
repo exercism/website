@@ -7,6 +7,7 @@ import { FilePanel } from '../mentoring/session/FilePanel'
 import { IterationSummaryWithWebsockets } from '../track/IterationSummary'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { PublishSettings } from '../student/published-solution/PublishSettings'
+import { Icon } from '.'
 
 export type Links = {
   changeIteration?: string
@@ -44,7 +45,7 @@ export const SolutionView = ({
     <div className="c-solution-iterations">
       <IterationSummaryWithWebsockets
         iteration={currentIteration}
-        isLatest={true} /* TODO: This should change per iteration */
+        isLatest={true} /* TODO: (required) This should change per iteration */
         isOutOfDate={outOfDate}
         showSubmissionMethod={true}
         showTestsStatusAsButton={true}

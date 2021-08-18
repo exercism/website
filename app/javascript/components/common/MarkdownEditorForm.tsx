@@ -39,7 +39,7 @@ export const MarkdownEditorForm = ({
   expanded: boolean
   onSubmit: () => void
   onClick?: () => void
-  onCancel: () => void
+  onCancel?: () => void
   onDelete?: () => void
   onChange: (value: string) => void
   contextId?: string
@@ -66,7 +66,8 @@ export const MarkdownEditorForm = ({
 
   const handleClick = useCallback(() => {
     onClick()
-  }, [onClick])
+    editor?.focus()
+  }, [onClick, editor])
 
   const handleEditorDidMount = useCallback((editor) => {
     setEditor(editor)
@@ -83,6 +84,10 @@ export const MarkdownEditorForm = ({
     (e) => {
       e.stopPropagation()
 
+      if (!onCancel) {
+        return
+      }
+
       onCancel()
     },
     [onCancel]
@@ -96,18 +101,10 @@ export const MarkdownEditorForm = ({
 
       e.stopPropagation()
 
-      confirm('Are you sure you want to delete this post?') ? onDelete() : null
+      confirm('Are you sure you want to delete this?') ? onDelete() : null
     },
     [onDelete]
   )
-
-  useEffect(() => {
-    if (!expanded || !editor) {
-      return
-    }
-
-    editor.focus()
-  }, [expanded, editor])
 
   return (
     <>
@@ -129,7 +126,7 @@ export const MarkdownEditorForm = ({
         />
         {expanded ? (
           <FormFooter
-            onCancel={handleCancel}
+            onCancel={onCancel ? handleCancel : undefined}
             onDelete={onDelete ? handleDelete : undefined}
             value={value}
             status={status}

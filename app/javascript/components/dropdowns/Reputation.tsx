@@ -33,7 +33,7 @@ export type APIResponse = {
       tokens: string
     }
     totalReputation: number
-    isAllSeen: boolean
+    unseenTotal: number
   }
 }
 
@@ -145,7 +145,7 @@ export const Reputation = ({
       return
     }
 
-    setIsSeen(resolvedData.meta.isAllSeen)
+    setIsSeen(resolvedData.meta.unseenTotal === 0)
   }, [resolvedData])
 
   useEffect(() => {

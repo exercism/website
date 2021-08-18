@@ -71,6 +71,42 @@ class User::ReputationTokens::CodeMergeTokenTest < ActiveSupport::TestCase
     assert_equal merged_at.to_date, rt.earned_on
   end
 
+  test "uses current time for earned date when merged_at is nil" do
+    freeze_time do
+      external_url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+      repo = 'exercism/haskell'
+      pr_node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+      pr_number = 1347
+      pr_title = "The cat sat on the mat"
+      user = create :user, handle: "User22", github_username: "user22"
+
+      User::ReputationToken::Create.(
+        user,
+        :code_merge,
+        level: :janitorial,
+        repo: repo,
+        pr_node_id: pr_node_id,
+        pr_number: pr_number,
+        pr_title: pr_title,
+        merged_at: nil,
+        external_url: external_url
+      )
+
+      assert_equal 1, user.reputation_tokens.size
+      rt = user.reputation_tokens.first
+
+      assert_equal User::ReputationTokens::CodeMergeToken, rt.class
+      assert_equal "You merged <strong>PR##{pr_number}</strong> on <strong>haskell</strong>: The cat sat on the mat", rt.text
+      assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
+      assert_equal "#{user.id}|code_merge|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
+      assert_equal :maintaining, rt.category
+      assert_equal :merged_code, rt.reason
+      assert_equal :janitorial, rt.level
+      assert_equal 1, rt.value
+      assert_equal Time.current.to_date, rt.earned_on
+    end
+  end
+
   repos = [
     ['exercism/ruby', 'track'],
     ['exercism/ruby-test-runner', 'test runner'],

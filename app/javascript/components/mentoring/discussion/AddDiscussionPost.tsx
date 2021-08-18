@@ -28,7 +28,7 @@ export const AddDiscussionPost = ({
         />
 
         <div className="note">
-          Check out our {/* TODO */}
+          Check out our {/* TODO: (required) */}
           <a href="#">mentoring docs</a> and be the best mentor you can be.
         </div>
       </>

@@ -23,7 +23,7 @@ const ModuleOption = ({
         <React.Fragment>
           <ModuleTag module={module} />
           <div className="info">
-            <div className="title">Concept Exercise</div>
+            <div className="title">Learning Exercise</div>
           </div>
         </React.Fragment>
       )
@@ -84,7 +84,7 @@ const SelectedComponent = ({ value: action }: { value: TaskModule[] }) => {
     case 'generator':
       return <>Generator</>
     case 'concept-exercise':
-      return <>Concept Exercise</>
+      return <>Learning Exercise</>
     case 'practice-exercise':
       return <>Practice Exercise</>
     case 'concept':

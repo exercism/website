@@ -11,13 +11,13 @@ export const List = ({
   disabled,
 }: {
   notifications: readonly NotificationType[]
-  selected: readonly string[]
-  onSelect: (uuid: string) => void
+  selected: readonly NotificationType[]
+  onSelect: (notification: NotificationType) => void
   disabled: boolean
 }): JSX.Element => {
   const handleChange = useCallback(
     (notification: NotificationType) => {
-      return () => onSelect(notification.uuid)
+      return () => onSelect(notification)
     },
     [onSelect]
   )
@@ -36,7 +36,7 @@ export const List = ({
             <input
               disabled={disabled}
               type="checkbox"
-              checked={selected.includes(notification.uuid)}
+              checked={selected.map((s) => s.uuid).includes(notification.uuid)}
               onChange={handleChange(notification)}
               id={`notification-cb-${notification.uuid}`}
             />

@@ -42,7 +42,7 @@ export const OpenEditorButton = (
     >
       <ComboButton.PrimarySegment>{primarySegment}</ComboButton.PrimarySegment>
       <ComboButton.DropdownSegment>
-        {/* TODO: Firm up this copy and inject the link */}
+        {/* TODO: (required) Firm up this copy and inject the link */}
         <div className="c-open-editor-button-dropdown">
           <h3>Download and work locally</h3>
           <p>

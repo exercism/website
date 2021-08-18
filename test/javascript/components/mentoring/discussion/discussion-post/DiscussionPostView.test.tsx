@@ -10,7 +10,7 @@ stubRange()
 test('does not display student tag if author is mentor', async () => {
   render(
     <DiscussionPostView
-      post={createDiscussionPost({ byStudent: false })}
+      item={createDiscussionPost({ byStudent: false })}
       onEdit={jest.fn()}
     />
   )
@@ -21,7 +21,7 @@ test('does not display student tag if author is mentor', async () => {
 test('highlights code blocks', async () => {
   render(
     <DiscussionPostView
-      post={createDiscussionPost({
+      item={createDiscussionPost({
         contentMarkdown: '# My code\n```ruby\nHello\n```',
         contentHtml:
           '<h1>My code</h1><pre><code class="language-ruby">class Hello</code></pre>',

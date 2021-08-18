@@ -25,6 +25,7 @@ export type APIResult = {
     links: {
       markAllAsSeen: string
     }
+    unseenTotal: number
   }
 }
 

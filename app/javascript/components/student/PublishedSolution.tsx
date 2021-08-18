@@ -3,7 +3,7 @@ import {
   CommunitySolution as CommunitySolutionProps,
   Iteration,
 } from '../types'
-import { CommunitySolution } from '../common'
+import { CommunitySolution, Icon } from '../common'
 import { PublishSettings } from './published-solution/PublishSettings'
 
 export type Links = {

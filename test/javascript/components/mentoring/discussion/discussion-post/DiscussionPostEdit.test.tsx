@@ -11,7 +11,7 @@ stubRange()
 test('prefills form with previous value', async () => {
   render(
     <DiscussionPostEdit
-      post={createDiscussionPost({ contentMarkdown: '# Hello' })}
+      item={createDiscussionPost({ contentMarkdown: '# Hello' })}
       onSuccess={jest.fn()}
       onCancel={jest.fn()}
     />

@@ -66,7 +66,7 @@ export const UnrevealedTestimonial = ({
   }, [cacheKey, revealedTestimonial])
 
   {
-    /* TODO: Set testimonial URL */
+    /* TODO: (required) Set testimonial URL */
   }
   return (
     <a

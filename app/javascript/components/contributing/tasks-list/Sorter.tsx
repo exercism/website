@@ -31,7 +31,7 @@ export const Sorter = ({
       setValue={setValue}
       SelectedComponent={OptionComponent}
       OptionComponent={OptionComponent}
-      // TODO: Change these class names
+      // TODO: (optional) Change these class names
       componentClassName=""
     />
   )

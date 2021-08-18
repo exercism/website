@@ -19,7 +19,7 @@ test('renders tag for module = concept-exercise', async () => {
   render(<ModuleTag module="concept-exercise" />)
 
   expect(
-    screen.getByRole('img', { name: 'Concept Exercise' })
+    screen.getByRole('img', { name: 'Learning Exercise' })
   ).toBeInTheDocument()
 })
 

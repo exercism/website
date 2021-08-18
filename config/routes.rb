@@ -96,6 +96,10 @@ Rails.application.routes.draw do
           resources :makers, only: [:index], controller: "exercises/makers"
           resources :community_solutions, only: [:index], controller: "community_solutions", param: :handle do
             resource :star, only: %i[create destroy], controller: "community_solution_stars"
+            resources :comments, only: %i[index create update destroy], controller: "community_solution_comments", param: :uuid do
+              patch :enable, on: :collection
+              patch :disable, on: :collection
+            end
           end
         end
         resources :concepts, only: [], param: :slug do

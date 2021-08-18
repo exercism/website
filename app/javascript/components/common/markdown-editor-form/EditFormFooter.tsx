@@ -10,19 +10,21 @@ export const EditFormFooter = ({
 }: {
   status: QueryStatus
   value: string
-  onCancel: (e: React.FormEvent) => void
+  onCancel?: (e: React.FormEvent) => void
   onDelete?: (e: React.FormEvent) => void
 }): JSX.Element => {
   return (
     <footer className="editor-footer">
-      <FormButton
-        type="button"
-        className="btn-default btn-xs"
-        onClick={onCancel}
-        status={status}
-      >
-        Cancel
-      </FormButton>
+      {onCancel ? (
+        <FormButton
+          type="button"
+          className="btn-default btn-xs"
+          onClick={onCancel}
+          status={status}
+        >
+          Cancel
+        </FormButton>
+      ) : null}
       {value.length === 0 ? (
         onDelete ? (
           <FormButton

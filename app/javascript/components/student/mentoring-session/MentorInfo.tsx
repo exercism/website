@@ -13,7 +13,7 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
         </div>
         <div className="handle">{mentor.handle}</div>
         <div className="bio">{mentor.bio}</div>
-        {/* TODO: View previous sessions as a student */}
+        {/* TODO: (required) View previous sessions as a student */}
       </div>
       <Avatar src={mentor.avatarUrl} handle={mentor.handle} />
     </div>

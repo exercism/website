@@ -90,6 +90,6 @@ class API::NotificationsControllerTest < API::BaseTestCase
     patch mark_all_as_read_api_notifications_path, headers: @headers, as: :json
     assert_response 200
 
-    assert_empty JSON.parse(response.body)
+    assert_equal AssembleNotificationsList.(user, {}).to_json, response.body
   end
 end

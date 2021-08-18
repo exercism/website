@@ -66,7 +66,7 @@ export const IterationsList = ({
         ))}
       </nav>
 
-      {/* TODO: Move this into a component that can take either an icon or a character as the contents of --kb */}
+      {/* TODO: (optional) Move this into a component that can take either an icon or a character as the contents of --kb */}
       {iterations.length > 1 ? (
         <NavigationButtons
           iterations={iterations}

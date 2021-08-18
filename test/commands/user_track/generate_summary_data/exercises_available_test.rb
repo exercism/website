@@ -1,6 +1,17 @@
 require "test_helper"
 
 class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::TestCase
+  test "exercise_type" do
+    track = create :track
+    user_track = create :user_track, track: track
+    concept_exercise = create :concept_exercise, :random_slug, track: track
+    practice_exercise = create :practice_exercise, :random_slug, track: track
+
+    summary = summary_for(user_track)
+    assert_equal :concept, summary.exercise_type(concept_exercise)
+    assert_equal :practice, summary.exercise_type(practice_exercise)
+  end
+
   test "exercise_unlocked? with tutorial pending" do
     track = create :track
     user_track = create :user_track, track: track

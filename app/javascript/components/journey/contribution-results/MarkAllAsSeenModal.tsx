@@ -4,17 +4,20 @@ import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { FormButton } from '../../common'
 import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
+import { APIResult } from '../ContributionsList'
 
 const DEFAULT_ERROR = new Error('Unable to mark all as seen')
 
 export const MarkAllAsSeenModal = ({
   endpoint,
   onClose,
+  onSuccess,
   ...props
 }: Omit<ModalProps, 'className'> & {
   endpoint: string
+  onSuccess: (response: APIResult) => void
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation(
+  const [mutation, { status, error }] = useMutation<APIResult>(
     () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
@@ -25,7 +28,10 @@ export const MarkAllAsSeenModal = ({
       return fetch
     },
     {
-      onSuccess: onClose,
+      onSuccess: (result) => {
+        onSuccess(result)
+        onClose()
+      },
     }
   )
 

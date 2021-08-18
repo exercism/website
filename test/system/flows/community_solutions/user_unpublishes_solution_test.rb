@@ -1,10 +1,12 @@
 require "application_system_test_case"
 require_relative "../../../support/capybara_helpers"
+require_relative "../../../support/redirect_helpers"
 
 module Flows
   module CommunitySolutions
     class UserUnpublishesSolutionTest < ApplicationSystemTestCase
       include CapybaraHelpers
+      include RedirectHelpers
 
       test "user unpublishes a solution" do
         track = create :track
@@ -27,6 +29,7 @@ module Flows
           click_on "Unpublish solution…"
           within(".m-unpublish-solution") { click_on "Unpublish solution" }
 
+          wait_for_redirect
           assert_text "Publish your solution"
         end
       end

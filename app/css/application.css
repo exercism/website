@@ -41,6 +41,7 @@
     --c-191525: #191525;
     --c-2F2943: #2f2943;
     --c-A7B7D6: #a7b7d6;
+    --c-7097FF: #7097ff;
 
     --darkThemeBackgroundColor: var(--c-282339);
     --track-color-c: 52, 19, 148;
@@ -116,6 +117,10 @@
         brightness(89%) contrast(88%);
     --filter-FFFFFF: invert(99%) sepia(33%) saturate(62%) hue-rotate(352deg)
         brightness(109%) contrast(100%);
+    --filter-2E57E8: invert(21%) sepia(78%) saturate(3537%) hue-rotate(227deg)
+        brightness(98%) contrast(85%);
+    --filter-7097FF: invert(57%) sepia(30%) saturate(2773%) hue-rotate(199deg)
+        brightness(101%) contrast(101%);
 
     --container-padding-x: 16px;
     @screen md {
@@ -220,6 +225,7 @@
     /* #A7B7D6 */
     --mid-gray-filter: invert(72%) sepia(16%) saturate(458%) hue-rotate(181deg)
         brightness(101%) contrast(84%);
+    --linkColor-filter: var(--filter-2E57E8);
 
     --exercise-header-gradient: linear-gradient(
         180deg,
@@ -250,9 +256,10 @@
     --textColor7: var(--c-6A6781); /* Confirmed */
     --textColor9: var(--c-000000);
 
-    --linkColor: var(--c-CBC9D9);
+    --linkColor: var(--c-7097FF);
     --buttonBorderColor1: var(--c-8480A0);
-    --inputBackgroundColor: var(--c-322C44);
+    --buttonBorderColor2: var(--c-6A6781);
+    --inputBackgroundColor: var(--c-282339);
     --inputBorderColorFocus: var(--c-8480A0);
     --tabBackgroundColorSelected: var(--c-604FCD);
     --successColor: var(--c-4FCDA7);
@@ -281,6 +288,7 @@
         hue-rotate(355deg) brightness(90%) contrast(96%);
     --light-gold-filter: invert(79%) sepia(31%) saturate(572%)
         hue-rotate(340deg) brightness(105%) contrast(101%);
+    --linkColor-filter: var(--filter-7097FF);
 
     @apply text-textColor5 bg-backgroundColorB;
 }

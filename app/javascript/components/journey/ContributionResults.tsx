@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { Contribution } from './Contribution'
 import pluralize from 'pluralize'
-import { OrderSwitcher } from './contribution-results/OrderSwitcher'
 import { MarkAllAsSeenModal } from './contribution-results/MarkAllAsSeenModal'
 import { MarkAllAsSeenButton } from './contribution-results/MarkAllAsSeenButton'
 import { APIResult } from './ContributionsList'
@@ -9,18 +8,12 @@ import { queryCache, QueryKey } from 'react-query'
 
 export type Order = 'newest_first' | 'oldest_first'
 
-const DEFAULT_ORDER = 'newest_first'
-
 export const ContributionResults = ({
   cacheKey,
   data,
-  order,
-  setOrder,
 }: {
   cacheKey: QueryKey
   data: APIResult
-  setOrder: (order: string) => void
-  order: string
 }): JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -55,10 +48,6 @@ export const ContributionResults = ({
           onClick={handleModalOpen}
           unseenTotal={data.meta.unseenTotal}
         />
-        <OrderSwitcher
-          value={(order || DEFAULT_ORDER) as Order}
-          setValue={setOrder}
-        />
       </div>
       <div className="reputation-tokens">
         {data.results.map((contribution) => {
@@ -70,6 +59,7 @@ export const ContributionResults = ({
         open={modalOpen}
         onSuccess={handleSuccess}
         onClose={handleModalClose}
+        unseenTotal={data.meta.unseenTotal}
       />
     </div>
   )

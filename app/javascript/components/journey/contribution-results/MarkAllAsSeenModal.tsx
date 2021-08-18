@@ -12,10 +12,12 @@ export const MarkAllAsSeenModal = ({
   endpoint,
   onClose,
   onSuccess,
+  unseenTotal,
   ...props
 }: Omit<ModalProps, 'className'> & {
   endpoint: string
   onSuccess: (response: APIResult) => void
+  unseenTotal: number
 }): JSX.Element => {
   const [mutation, { status, error }] = useMutation<APIResult>(
     () => {
@@ -61,8 +63,8 @@ export const MarkAllAsSeenModal = ({
     >
       <h3>Mark all as seen?</h3>
       <p>
-        Are you sure you want to mark all as seen? All contributions across all
-        pages will be marked as seen.
+        Are you sure you want to mark all {unseenTotal} contributions as seen?
+        Note that these contributions may span multiple pages.
       </p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton type="submit" status={status} className="btn-primary btn-s">

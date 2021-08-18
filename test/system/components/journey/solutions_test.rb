@@ -69,15 +69,38 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
-          fill_in "Search for an exercise", with: "Bob"
+          fill_in "Search by exercise name", with: "Bob"
         end
 
         assert_text "Bob"
         assert_no_text "Lasagna"
       end
 
-      test "filters solutions" do
-        skip # TODO: Fix this test when finialising journey
+      test "filters by exercise status" do
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        create :concept_solution, exercise: exercise, user: user, status: :published
+        create :concept_solution,
+          exercise: exercise_2,
+          user: user,
+          completed_at: Time.current,
+          published_at: Time.current,
+          mentoring_status: :requested,
+          status: :started
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          click_on "Exercise status"
+          find("label", text: "In progress").click
+        end
+
+        assert_text "Bob"
+        assert_no_text "Lasagna"
+      end
+
+      test "filters by mentoring status" do
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
@@ -92,14 +115,36 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
-          click_on "Filter by"
-          choose "Requested"
-          choose "Completed and published"
-          click_on "Apply"
+          click_on "Mentoring status"
+          find("label", text: "Requested").click
         end
 
         assert_text "Bob"
         assert_no_text "Lasagna"
+      end
+
+      test "user resets filters" do
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        create :concept_solution, exercise: exercise, user: user
+        create :concept_solution,
+          exercise: exercise_2,
+          user: user,
+          completed_at: Time.current,
+          published_at: Time.current,
+          mentoring_status: :requested
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          click_on "Mentoring status"
+          find("label", text: "Requested").click
+          click_on "Reset filters"
+        end
+
+        assert_text "Bob"
+        assert_text "Lasagna"
       end
 
       test "sorts solutions" do
@@ -113,8 +158,8 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
-          click_on "Sort by Newest First"
-          find("label", text: "Sort by Oldest First").click
+          click_on "Newest First"
+          find("label", text: "Oldest First").click
         end
 
         assert_no_text "Bob"

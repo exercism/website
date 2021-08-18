@@ -17,7 +17,7 @@ module Flow
         use_capybara_host do
           sign_in!(user)
           visit reputation_journey_path
-          click_on "Mark all 2 as seen"
+          click_on "Mark all as seen"
           within(".m-generic-confirmation") { click_on "Continue" }
 
           assert_no_css ".--notification.unseen"

@@ -30,6 +30,9 @@ const RowWrapper = ({
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
   ) : (
-    <div className="contributor">{children}</div>
+    <div className="contributor">
+      {children}
+      <GraphicalIcon icon="transparent" className="action-icon" />
+    </div>
   )
 }

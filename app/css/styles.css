@@ -1,3 +1,8 @@
+/* Override the tailwind default */
+img {
+    max-width: none;
+}
+
 .text-h0 {
     @apply text-32 font-bold text-textColor1;
     line-height: 1.25;

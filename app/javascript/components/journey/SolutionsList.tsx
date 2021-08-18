@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { SolutionResults } from './SolutionResults'
-import { SolutionProps } from './Solution'
+import { SolutionProps, Solution } from './Solution'
 import { Request } from '../../hooks/request-query'
 import { useList } from '../../hooks/use-list'
 import { removeEmpty, useHistory } from '../../hooks/use-history'
@@ -12,6 +11,7 @@ import { PaginatedResult } from '../types'
 import { OrderSwitcher } from './solutions-list/OrderSwitcher'
 import { ExerciseStatusSelect } from './solutions-list/ExerciseStatusSelect'
 import { MentoringStatusSelect } from './solutions-list/MentoringStatusSelect'
+import pluralize from 'pluralize'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -76,6 +76,14 @@ export const SolutionsList = ({
     [request.query, setQuery]
   )
 
+  const handleReset = useCallback(() => {
+    setQuery({
+      ...request.query,
+      status: undefined,
+      mentoringStatus: undefined,
+    })
+  }, [request.query, setQuery])
+
   return (
     <article className="solutions-tab theme-dark">
       <div className="md-container container">
@@ -109,7 +117,22 @@ export const SolutionsList = ({
           >
             {resolvedData ? (
               <React.Fragment>
-                <SolutionResults data={resolvedData} />
+                <div>
+                  <div className="results-title-bar">
+                    <h3>
+                      Showing {resolvedData.results.length}{' '}
+                      {pluralize('solution', resolvedData.results.length)}
+                    </h3>
+                    <button type="button" onClick={handleReset}>
+                      Reset filters
+                    </button>
+                  </div>
+                  <div className="solutions">
+                    {resolvedData.results.map((solution) => {
+                      return <Solution {...solution} key={solution.uuid} />
+                    })}
+                  </div>
+                </div>
                 <Pagination
                   disabled={latestData === undefined}
                   current={request.query.page}

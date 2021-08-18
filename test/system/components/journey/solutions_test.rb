@@ -123,6 +123,30 @@ module Components
         assert_no_text "Lasagna"
       end
 
+      test "user resets filters" do
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        create :concept_solution, exercise: exercise, user: user
+        create :concept_solution,
+          exercise: exercise_2,
+          user: user,
+          completed_at: Time.current,
+          published_at: Time.current,
+          mentoring_status: :requested
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          click_on "Mentoring status"
+          find("label", text: "Requested").click
+          click_on "Reset filters"
+        end
+
+        assert_text "Bob"
+        assert_text "Lasagna"
+      end
+
       test "sorts solutions" do
         Solution::SearchUserSolutions.stubs(:default_per).returns(1)
         user = create :user

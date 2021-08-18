@@ -33,6 +33,18 @@ body.devise {
         }
     }
 
+    & .docs-search {
+        @apply hidden;
+
+        @apply flex-grow;
+        & input {
+            @apply bg-backgroundColorA;
+            @apply border-1 border-buttonBorderColor2;
+            width: 100%;
+            max-width: 540px;
+        }
+    }
+
     & nav.signed-in {
         @apply flex-grow;
 
@@ -182,8 +194,10 @@ body.devise {
     }
 }
 
-body.controller-docs {
+body.controller-docs,
+body.namespace-docs {
     @apply bg-backgroundColorA;
+
     & #site-header {
         @apply bg-backgroundColorE;
         @apply border-0;
@@ -193,13 +207,11 @@ body.controller-docs {
         }
 
         & .docs-search {
-            @apply flex-grow;
-            & input {
-                @apply bg-backgroundColorA;
-                @apply border-1 border-buttonBorderColor2;
-                width: 100%;
-                max-width: 540px;
-            }
+            @apply block;
+        }
+        & .signed-in,
+        & .signed-out {
+            @apply hidden;
         }
     }
 }

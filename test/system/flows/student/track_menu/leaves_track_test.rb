@@ -1,11 +1,13 @@
 require "application_system_test_case"
 require_relative "../../../../support/capybara_helpers"
+require_relative "../../../../support/redirect_helpers"
 
 module Flows
   module Student
     module TrackMenu
       class LeavesTrackTest < ApplicationSystemTestCase
         include CapybaraHelpers
+        include RedirectHelpers
 
         test "student leaves track" do
           create :user, :ghost
@@ -24,6 +26,8 @@ module Flows
 
             click_on "Ruby"
             click_on "Join the Ruby track"
+
+            wait_for_redirect
             assert_text "You’re 100% through the Ruby track."
           end
         end
@@ -47,6 +51,8 @@ module Flows
 
             click_on "Ruby"
             click_on "Join the Ruby track"
+
+            wait_for_redirect
             assert_text "You’ve just started the Ruby track"
           end
         end

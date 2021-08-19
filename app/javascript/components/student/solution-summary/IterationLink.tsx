@@ -12,7 +12,6 @@ export const IterationLink = ({
     <a className="iteration" href={iteration.links.self}>
       <IterationSummary
         iteration={iteration}
-        isLatest={false}
         showSubmissionMethod={true}
         showTestsStatusAsButton={false}
         showFeedbackIndicator={true}

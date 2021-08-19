@@ -24,6 +24,7 @@ class SerializeIteration
       representer_feedback: sideload.include?(:automated_feedback) ? iteration.representer_feedback : nil,
       analyzer_feedback: sideload.include?(:automated_feedback) ? iteration.analyzer_feedback : nil,
       is_published: iteration.published?,
+      is_latest: iteration.latest?,
       files: sideload.include?(:files) ? iteration.files.map do |file|
         {
           filename: file.filename,

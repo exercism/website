@@ -4,11 +4,9 @@ import { IterationSummaryWithWebsockets } from '../../track/IterationSummary'
 
 export const IterationHeader = ({
   iteration,
-  isLatest,
   isOutOfDate,
 }: {
   iteration: Iteration
-  isLatest: boolean
   isOutOfDate: boolean
 }): JSX.Element => {
   return (
@@ -16,7 +14,6 @@ export const IterationHeader = ({
       <IterationSummaryWithWebsockets
         iteration={iteration}
         showSubmissionMethod={false}
-        isLatest={isLatest}
         isOutOfDate={isOutOfDate}
         showTestsStatusAsButton={true}
         showFeedbackIndicator={false}

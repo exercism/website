@@ -307,5 +307,25 @@ module Flows
         assert_text "1 test failed"
       end
     end
+
+    test "user sees latest iteration" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      exercise = create :concept_exercise, track: track
+      solution = create :concept_solution, exercise: exercise, user: user
+      submission = create :submission, solution: solution
+      create :iteration, solution: solution, submission: submission, idx: 1
+      submission = create :submission, solution: solution
+      create :iteration, solution: solution, submission: submission, idx: 2
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_iterations_url(track, exercise)
+
+        within(".iteration", text: "Iteration 2") { assert_text "Latest" }
+        within(".iteration", text: "Iteration 1") { refute_text "Latest" }
+      end
+    end
   end
 end

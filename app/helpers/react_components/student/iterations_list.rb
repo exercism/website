@@ -39,6 +39,7 @@ module ReactComponents
             initialData: {
               iterations: solution.
                 iterations.
+                includes(:track, :exercise, :files, :submission).
                 order(id: :desc).
                 map { |iteration| SerializeIteration.(iteration, sideload: %i[files automated_feedback]) }
             }

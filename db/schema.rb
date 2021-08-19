@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_05_134812) do
+ActiveRecord::Schema.define(version: 2021_08_19_124828) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -463,6 +463,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_134812) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["solution_id", "user_id"], name: "index_solution_stars_on_solution_id_and_user_id", unique: true
     t.index ["solution_id"], name: "index_solution_stars_on_solution_id"
     t.index ["user_id"], name: "index_solution_stars_on_user_id"
   end
@@ -659,6 +660,8 @@ ActiveRecord::Schema.define(version: 2021_08_05_134812) do
     t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "token", null: false
+    t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
 

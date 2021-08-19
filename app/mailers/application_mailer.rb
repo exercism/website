@@ -3,6 +3,7 @@ class ApplicationMailer < ActionMailer::Base
   default from: "The Exercism Team <hello@mail.exercism.io>", reply_to: "hello@exercism.io"
 
   layout "mailer"
+  helper :email
 
   def user_email_with_name(user)
     name = user.name.presence || user.handle

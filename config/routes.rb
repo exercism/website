@@ -349,6 +349,11 @@ Rails.application.routes.draw do
     end
   end
 
+  # ############ #
+  # Unsubscribe  #
+  # ############ #
+  resource :unsubscribe, only: %i[show update], controller: "unsubscribe"
+
   # #### #
   # Blog #
   # #### #

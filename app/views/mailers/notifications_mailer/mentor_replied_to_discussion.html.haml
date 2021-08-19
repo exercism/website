@@ -1,4 +1,3 @@
-.content
-  %p Hi #{@user.handle},
-  %p Your mentor (#{@discussion.mentor.handle}) has commented on your discussion about #{@exercise.title} on the #{@track.title} track.
-  %p= link_to "Go to the discussion", track_exercise_mentor_discussion_url(@track, @exercise, @discussion)
+%p Hi #{@user.handle},
+%p Your mentor (#{@discussion.mentor.handle}) has commented on your discussion about #{@exercise.title} on the #{@track.title} track.
+= email_button_to "Go to the discussion", track_exercise_mentor_discussion_url(@track, @exercise, @discussion)

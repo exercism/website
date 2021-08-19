@@ -6,6 +6,7 @@ class NotificationsMailer < ApplicationMailer
     @exercise = @discussion.exercise
     @track = @exercise.track
 
+    @title = "Your solution is being mentored"
     subject = "#{@discussion.mentor.handle} has started mentoring you on #{@track.title}/#{@exercise.title}"
     mail_to_user(@user, subject)
   end
@@ -17,6 +18,7 @@ class NotificationsMailer < ApplicationMailer
     @exercise = @discussion.exercise
     @track = @exercise.track
 
+    @title = "Your mentor has replied"
     subject = "#{@discussion.mentor.handle} has commented in your discussion on #{@track.title}/#{@exercise.title}"
     mail_to_user(@user, subject)
   end
@@ -28,6 +30,7 @@ class NotificationsMailer < ApplicationMailer
     @exercise = @discussion.exercise
     @track = @exercise.track
 
+    @title = "Your student has replied"
     subject = "[Mentoring] #{@discussion.student.handle} has commented in your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     mail_to_user(@user, subject)
   end

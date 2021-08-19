@@ -297,21 +297,9 @@
             @apply flex flex-col items-center;
             @apply mr-40;
 
-            & .amount {
-                @apply flex;
-                @apply font-semibold text-textColor2;
+            & .c-financial-amount {
                 @apply mb-8;
-                & .currency {
-                    @apply self-start mr-8;
-                }
-                & .dollars {
-                    @apply text-32;
-                    line-height: 0.9;
-                }
-                & .cents {
-                    @apply self-end;
-                    @apply text-16;
-                }
+                @apply font-semibold text-textColor2;
             }
             & .explanation {
                 @apply text-16 leading-140 text-textColor6 font-medium;

@@ -39,6 +39,8 @@
     & .--content {
         @apply bg-backgroundColorA;
         @apply relative;
+        border-radius: 0 0 8px 8px;
+
         & .existing-subscription {
             @apply bg-lightOrange;
             @apply border-2 border-orange rounded-8;

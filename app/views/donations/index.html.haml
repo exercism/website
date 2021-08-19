@@ -1,10 +1,42 @@
 #page-donate
-  .lg-container
-    %header
-      %h1.text-h1
-        %strong Goal:
-        Bring the joy of programming to everyone ✨
+  %header
+    .lg-container.flex.flex-col.items-center
+      %h1.text-h1.mb-16
+        %strong Our Goal:
+        Bring the joy of programming to everyone, everywhere ✨
+      .text-textColor2.text-16.leading-200.flex.items-center.font-semibold.self-end.mb-12
+        .mr-16 Next milestone
+        .c-financial-amount
+          .currency.text-16.leading-100.mr-4 $
+          .dollars.text-20.leading-130 5000
+          .cents.text-14.leading-100 .00
+        .text-14.text-textColor6.font-medium.ml-8 per month
 
-    .flex.items-start
-      = render ReactComponents::Donations::FormWithModal.new(current_user)
+      .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
+        .c-progress
+          .bar{ style: "width:50%" }
+          .target-icon
+            = graphical_icon "party-popper"
+          .goal.bg-lightGold.py-6.px-12.text-16.text-textColor1.leading-150.font-semibold.rounded-8
+            Hire a community manager
+      %ul.steps
+        %li.text-darkSuccessGreen
+          1. Build version 3
+          = icon "completed-check-circle", "Done"
+        %li.text-textColor2
+          2. Hire a community manager
+        %li.text-textColor7
+          3. Hire content manager
+
+  %article.pt-40
+    .lg-container
+      .flex.items-start
+        .lhs.flex-grow.mr-60
+          <div class="video mb-32 rounded-5 overflow-hidden" style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/121725838?title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+          %h2.text-h3.mb-12 Help Exercism reach more people and get even better.
+          %p.text-p-large.mb-12 Exercism is a not-for-profit organisation that relies on donations from people like you to help us stay substainable and grow.
+          %p.text-p-large Can you help empower us with the creative freedom and financial breathing room to develop Exercism into all it can be?
+          %hr.border-borderColor5.mt-48.mb-32
+
+        = render ReactComponents::Donations::FormWithModal.new(current_user)
 

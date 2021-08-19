@@ -12,6 +12,17 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     assert_equal :practice, summary.exercise_type(practice_exercise)
   end
 
+  test "exercise_position" do
+    track = create :track
+    user_track = create :user_track, track: track
+    five = create :concept_exercise, :random_slug, track: track, position: 5
+    seven = create :practice_exercise, :random_slug, track: track, position: 7
+
+    summary = summary_for(user_track)
+    assert_equal 5, summary.exercise_position(five)
+    assert_equal 7, summary.exercise_position(seven)
+  end
+
   test "exercise_unlocked? with tutorial pending" do
     track = create :track
     user_track = create :user_track, track: track

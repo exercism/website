@@ -29,4 +29,8 @@ module ImagesHelper
       image_tag(user.avatar_url, alt: "Uploaded avatar of #{user.handle}", class: "sr-only")
     end
   end
+
+  def key_feature_icon_url(feature)
+    "#{Exercism.config.website_icons_host}/key-features/#{feature}.svg"
+  end
 end

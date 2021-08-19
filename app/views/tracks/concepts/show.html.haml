@@ -59,7 +59,6 @@
                 - @concept.links.each do |link|
                   %li
                     = link_to link.url do
-                      = bg_img("https://c.s-microsoft.com/favicon.ico?v2", "Favicon of linked website")
                       %span= link.description
                       = icon('external-link', "(external link)")
         %section.extra-info

@@ -31,6 +31,7 @@ class SerializeIterationTest < ActiveSupport::TestCase
         representer_feedback: "foobar",
         analyzer_feedback: "barfoo",
         is_published: false,
+        is_latest: true,
         files: [{
           filename: file.filename,
           content: file.content,

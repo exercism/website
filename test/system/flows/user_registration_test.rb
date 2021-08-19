@@ -67,11 +67,13 @@ module Flows
         }
       )
 
-      visit new_user_registration_path
-      click_on "Sign Up with GitHub"
+      use_capybara_host do
+        visit new_user_registration_path
+        click_on "Sign Up with GitHub"
 
-      refute_text "Check your email"
-      assert_page :onboarding
+        refute_text "Check your email"
+        assert_page :onboarding
+      end
 
     ensure
       OmniAuth.config.test_mode = false

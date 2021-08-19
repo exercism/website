@@ -70,7 +70,7 @@ module Flows
       use_capybara_host do
         visit new_user_registration_path
         click_on "Sign Up with GitHub"
-        
+
         refute_text "Check your email"
         assert_page :onboarding
       end

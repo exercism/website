@@ -42,8 +42,9 @@ export const ShareSolutionButton = ({
       {open ? (
         <SharePanel
           title={title}
-          textToCopy={links.solution}
+          url={links.solution}
           className="c-share-solution-dropdown"
+          shareTitle="View my solution on Exercism"
           {...panelAttributes}
         />
       ) : null}

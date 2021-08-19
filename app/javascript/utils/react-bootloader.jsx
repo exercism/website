@@ -33,35 +33,6 @@ export const initReact = (mappings) => {
   document.addEventListener('turbo:load', () => {
     console.log('Loading React from Turbo Load')
     renderThings()
-
-    // Once the turbo loads we need to monitor the turbo-frame
-    // There are no events for this, so we use a mutation observer
-    // instead.
-    const targetNode = document.getElementById('site-content')
-    const observer = new MutationObserver(() => {
-      console.log('Loading React from Turbo Frame')
-
-      // Update the URL
-      const url = targetNode.querySelector('meta[name="exercism-url"]').content
-      console.log(url)
-      if (url != null) {
-        Turbo.navigator.history.push(new URL(url))
-      }
-
-      // Update the Body class
-      const bodyClass = targetNode.querySelector(
-        'meta[name="exercism-body-class"]'
-      ).content
-      document.body.className = bodyClass
-
-      // Update the page title
-      const newTitle = targetNode.querySelector('meta[name="exercism-title"]')
-        .content
-      document.title = newTitle
-
-      renderThings(targetNode)
-    })
-    observer.observe(targetNode, { childList: true })
   })
 
   // This renders if turbo has already finished at the

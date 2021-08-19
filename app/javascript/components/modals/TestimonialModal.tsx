@@ -36,7 +36,8 @@ export const TestimonialModal = ({
       </div>
       <SharePanel
         title="Share your testimonial with the world"
-        textToCopy="https://exercism.io/some-url-for-a-publicly-shareable-testimonial"
+        url="https://google.com"
+        shareTitle="View this testimonial on Exercism"
       />
     </Modal>
   )

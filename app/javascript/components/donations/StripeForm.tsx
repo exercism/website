@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { Icon } from '../common'
-import { loadStripe, StripeCardElementChangeEvent } from '@stripe/stripe-js'
+import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { fetchJSON } from '../../utils/fetch-json'
 import currency from 'currency.js'
@@ -32,19 +32,17 @@ type PaymentIntent = {
 }
 export type PaymentIntentType = 'payment' | 'subscription'
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(
-  'pk_test_51IDGMXEoOT0Jqx0UcoKlkvB7O0VDvFdCBvOCiWiKv6CkSnkZn7IG6cIHuCWg7cegGogYJSy8WsaKzwFHQqN75T7b00d56MtilB'
-)
-
 export function StripeForm({
   paymentIntentType,
   amount,
   onSuccess,
+  onProcessing = () => null,
+  onSettled = () => null,
 }: {
   paymentIntentType: PaymentIntentType
   onSuccess: (type: PaymentIntentType, amount: currency) => void
+  onProcessing?: () => void
+  onSettled?: () => void
   amount: currency
 }) {
   const [succeeded, setSucceeded] = useState(false)
@@ -153,6 +151,10 @@ export function StripeForm({
     })
   }
 
+  useEffect(() => {
+    processing ? onProcessing() : onSettled()
+  }, [onProcessing, onSettled, processing])
+
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       <div className="card-container">
@@ -162,7 +164,7 @@ export function StripeForm({
           <button
             className="btn-primary btn-s"
             type="submit"
-            /*disabled={processing || !cardValid || succeeded}*/
+            disabled={processing || !cardValid || succeeded}
           >
             {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
             <span>

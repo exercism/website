@@ -27,6 +27,7 @@ export const TransactionForm = ({
                 value={amount}
                 onClick={onAmountChange}
                 current={currentAmount}
+                className="btn-l btn-enhanced"
               />
             ))}
           </div>
@@ -37,6 +38,7 @@ export const TransactionForm = ({
             selected={
               !presetAmounts.map((a) => a.value).includes(currentAmount.value)
             }
+            placeholder="Specify amount"
           />
         </div>
       </div>

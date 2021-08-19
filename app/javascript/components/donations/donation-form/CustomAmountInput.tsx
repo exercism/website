@@ -4,9 +4,11 @@ import currency from 'currency.js'
 export const CustomAmountInput = ({
   onChange,
   selected,
+  placeholder,
 }: {
   onChange: (amount: currency) => void
   selected: boolean
+  placeholder: string
 }): JSX.Element => {
   const handleCustomAmountChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +40,7 @@ export const CustomAmountInput = ({
         type="number"
         min="0"
         step="0.01"
-        placeholder="Specify donation"
+        placeholder={placeholder}
         onChange={handleCustomAmountChange}
       />
     </label>

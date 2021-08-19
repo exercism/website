@@ -5,20 +5,21 @@ export const AmountButton = ({
   value,
   onClick,
   current,
+  className = '',
 }: {
   value: currency
   onClick: (value: currency) => void
   current: currency
+  className?: string
 }): JSX.Element => {
   const handleClick = useCallback(() => {
     onClick(value)
   }, [onClick, value])
 
   const classNames = [
-    'btn-enhanced',
-    'btn-l',
+    className,
     current.value === value.value ? 'selected' : '',
-  ].filter((className) => className.length > 0)
+  ].filter((n) => n.length > 0)
 
   return (
     <button className={classNames.join(' ')} onClick={handleClick}>

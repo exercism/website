@@ -3,7 +3,7 @@ import { PaymentIntentType } from './StripeForm'
 import { Tab, TabContext } from '../common/Tab'
 import { TransactionForm } from './TransactionForm'
 import { ExistingSubscriptionNotice } from './ExistingSubscriptionNotice'
-import { ExercismStripeElements } from './donation-form/ExercismStripeElements'
+import { ExercismStripeElements } from './ExercismStripeElements'
 import { StripeForm } from './StripeForm'
 import currency from 'currency.js'
 

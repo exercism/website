@@ -450,6 +450,9 @@ Rails.application.routes.draw do
         resource :loading_overlay, only: [:show], controller: "loading_overlay"
       end
       namespace :components do
+        namespace :donations do
+          resource :footer_form, only: [:show], controller: "footer_form"
+        end
         namespace :student, param: :handle do
           resource :concept_map, only: [:show], controller: 'concept_map'
         end

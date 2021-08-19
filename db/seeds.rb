@@ -157,11 +157,14 @@ ruby.practice_exercises.limit(10).each do |exercise|
   Iteration.create!(uuid: SecureRandom.uuid,  submission: submission, solution: solution, idx: 2)
 
   req = Mentor::Request.create!(solution: solution, comment_markdown: "Could you please look at my code?")
-  discussion = Mentor::Discussion.create!(
-    request: req, solution: solution, mentor: iHiD,
-    awaiting_mentor_since: Time.current
+  discussion = Mentor::Discussion::Create.(iHiD, req, 1, "Nice work!")
+  Mentor::Discussion::ReplyByStudent.(
+    discussion, solution.iterations.first, "Thanks!"
   )
-  req.update(status: :fulfilled)
+  Mentor::Discussion::ReplyByMentor.(
+    discussion, solution.iterations.first, "No probs!"
+  )
+
   p "Discussion: #{discussion.uuid}"
 
   Mentor::Testimonial.create!(

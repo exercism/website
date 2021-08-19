@@ -1,1 +1,13 @@
 = yield
+
+\---
+\
+You received this email because you've signed up to Exercism (https://exercism.io)
+\
+
+- if @user && @unsubscribe_key
+  Unsubscribe from this email: #{unsubscribe_url(token: @user.communication_preferences.token, key: @unsubscribe_key)}
+- if @user
+  Change your notification settings: #{unsubscribe_url(token: @user.communication_preferences.token)}
+  \
+Sent by Exercism: Unit G3; 81 Bournville Lane, United Kingdom

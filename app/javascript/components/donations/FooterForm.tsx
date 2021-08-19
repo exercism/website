@@ -3,6 +3,7 @@ import currency from 'currency.js'
 import { AmountButton } from './donation-form/AmountButton'
 import { CustomAmountInput } from './donation-form/CustomAmountInput'
 import { StripeFormModal } from './footer-form/StripeFormModal'
+import { GraphicalIcon } from '../common'
 
 const PRESET_AMOUNTS = [currency(10), currency(20), currency(50), currency(100)]
 const DEFAULT_AMOUNT = currency(10)
@@ -30,31 +31,37 @@ const FooterForm = (): JSX.Element => {
   }, [])
 
   return (
-    <React.Fragment>
-      <form onSubmit={handleSubmit}>
-        {PRESET_AMOUNTS.map((amount) => (
-          <AmountButton
-            key={amount.value}
-            value={amount}
-            onClick={handleAmountChange}
-            current={currentAmount}
+    <>
+      <form onSubmit={handleSubmit} className="donations-form">
+        <div className="amounts">
+          {PRESET_AMOUNTS.map((amount) => (
+            <AmountButton
+              key={amount.value}
+              value={amount}
+              onClick={handleAmountChange}
+              current={currentAmount}
+              className="btn-m"
+            />
+          ))}
+          <CustomAmountInput
+            onChange={handleAmountChange}
+            selected={
+              !PRESET_AMOUNTS.map((a) => a.value).includes(currentAmount.value)
+            }
+            placeholder="Custom amount"
           />
-        ))}
-        <CustomAmountInput
-          onChange={handleAmountChange}
-          selected={
-            !PRESET_AMOUNTS.map((a) => a.value).includes(currentAmount.value)
-          }
-          placeholder="Custom amount"
-        />
-        <button>Continue</button>
+        </div>
+        <button className="btn-m continue-btn ml-32">
+          <span>Continue</span>
+          <GraphicalIcon icon="arrow-right" />
+        </button>
       </form>
       <StripeFormModal
         open={modalOpen}
         onClose={handleModalClose}
         amount={currentAmount}
       />
-    </React.Fragment>
+    </>
   )
 }
 export default FooterForm

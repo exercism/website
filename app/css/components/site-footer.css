@@ -66,17 +66,17 @@ body.namespace-.controller-journey {
         @apply flex flex-col items-center text-center;
         @apply pt-52;
         & > .c-icon {
-            filter: var(--filter-E2EBFF);
-            width: 42px;
-            height: 52px;
-            @apply mb-28;
+            width: 64px;
+            height: 64px;
+            @apply mb-24;
         }
         & h2 {
             @apply text-lightPurple;
-            @apply text-28 leading-150 font-semibold;
 
-            max-width: 800px;
-            @apply mb-20;
+            max-width: 610px;
+        }
+        & h3 {
+            @apply text-white;
         }
         & p {
             @apply text-lightPurple;
@@ -86,6 +86,77 @@ body.namespace-.controller-journey {
             }
             max-width: 800px;
             @apply mb-32;
+        }
+        & .c-react-wrapper-donations-footer-form {
+            width: 100%;
+            max-width: 1024px;
+        }
+        & .donations-form {
+            @apply flex items-stretch;
+
+            & .amounts {
+                @apply flex-grow;
+                @apply grid gap-16;
+                grid-template:
+                    "a b c" auto
+                    "d e e" auto / 1fr 1fr 1fr;
+
+                & button {
+                    @apply text-unnamed15;
+                    @apply bg-gotToLoveAPurple border-1 border-purpleForever;
+                    @apply rounded-8;
+
+                    &.selected {
+                        @apply bg-purpleForever;
+                        @apply border-1 border-purpleForever;
+                    }
+                }
+
+                & h3 {
+                    @apply text-16 leading-150 font-semibold;
+                    @apply text-textColor6;
+                    @apply mb-8;
+                }
+
+                & .c-faux-input {
+                    grid-area: e;
+                    @apply py-4;
+                    @apply text-unnamed15;
+                    @apply bg-gotToLoveAPurple border-1 border-purpleForever;
+                    @apply rounded-8;
+
+                    & .icon {
+                        @apply text-darkPlaceholder;
+                    }
+                    & input {
+                        min-width: 0;
+                        @apply flex-grow;
+                        line-height: 30px;
+                        border-left-color: #9d94da !important;
+                        &::placeholder {
+                            @apply text-darkPlaceholder;
+                        }
+                    }
+                    &.selected {
+                        @apply bg-purpleForever;
+                        @apply border-1 border-purpleForever;
+                        box-shadow: 0px 0px 0px 1px #2e57e8,
+                            0px 0px 2px 2px var(--inputBoxShadowColorFocus);
+                        & input {
+                            @apply text-white font-semibold;
+                        }
+                    }
+                }
+            }
+            & .continue-btn {
+                height: auto;
+                width: 250px;
+
+                @apply bg-limeGreen text-white;
+                & .c-icon {
+                    filter: var(--white-filter);
+                }
+            }
         }
     }
 

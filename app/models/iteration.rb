@@ -1,6 +1,7 @@
 class Iteration < ApplicationRecord
   belongs_to :solution, counter_cache: :num_iterations
   belongs_to :submission
+  has_many :files, through: :submission
 
   has_many :mentor_discussion_posts, class_name: "Mentor::DiscussionPost", dependent: :destroy
 
@@ -11,7 +12,6 @@ class Iteration < ApplicationRecord
   scope :not_deleted, -> { where(deleted_at: nil) }
 
   delegate :tests_status,
-    :files,
     :solution_files,
     :automated_feedback_pending,
     :representer_feedback,

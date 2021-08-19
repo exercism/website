@@ -395,6 +395,8 @@ Rails.application.routes.draw do
   get "accessibility", to: redirect("docs/using/legal/accessibility")
   get "contact", to: redirect("docs/using/contact")
   get "cli", to: redirect("docs/using/solving-exercises/working-locally")
+  get "report-abuse", to: redirect("docs/using/report-abuse")
+  get "become-a-mentor", to: redirect("mentoring")
 
   # ########################### #
   # Temporary and testing pages #

@@ -10,7 +10,12 @@
         Not sure if you can mentor effectively?
         = link_to "Some of our best mentors worried too.", "#"
 
-      = ReactComponents::Mentoring::TryMentoringButton.new.to_s
+      - if user_signed_in?
+        = ReactComponents::Mentoring::TryMentoringButton.new.to_s
+      - else
+        .flex.items-center
+          = link_to "Sign up to try mentoring", new_user_registration_path, class: 'btn-m btn-primary'
+          = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary ml-24'
 
     %section.reasons-section
       %h2 Why become a mentor?

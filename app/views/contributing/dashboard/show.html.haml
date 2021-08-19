@@ -16,8 +16,8 @@
           automated feedback and a staff building out features and maintaining, running Exercism is expensive, and
           we need your help to take us forward.
         .cta
-          = link_to "Help fund Exercism", "#", class: "btn-primary btn-m"
-          - if current_user.total_donated_in_cents.positive?
+          = link_to "Help fund Exercism", donate_path, class: "btn-primary btn-m"
+          - if user_signed_in? && current_user.total_donated_in_cents.positive?
             .total
               You’ve contributed
               = link_to number_to_currency(current_user.total_donated_in_cents / 100.0), "#"

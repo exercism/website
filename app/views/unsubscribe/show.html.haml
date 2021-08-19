@@ -1,0 +1,14 @@
+#page-settings-unsubscribe.page-settings
+  .lg-container
+    %article
+      = flash_messages
+
+      %h1 Manage your communication preferences
+
+      %h2 Unsubscribe from this email
+
+      = form_tag unsubscribe_path, method: :patch do
+        = hidden_field_tag :token, @token
+        = hidden_field_tag "[communication_preferences][#{@email_key}]", false
+        = button_tag "Unsubscribe from '#{I18n.t("communication_preferences.#{@email_key}")}'", class: 'btn-m btn-primary'
+

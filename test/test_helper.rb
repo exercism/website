@@ -121,7 +121,7 @@ class ActionMailer::TestCase
     assert_equal [to], email.to
     assert_equal subject, email.subject
     read_fixture(fixture).each do |text|
-      assert_includes email.body.to_s, text.strip
+      assert_includes email.html_part.body.to_s, text.strip
     end
   end
 end

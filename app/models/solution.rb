@@ -219,9 +219,10 @@ class Solution < ApplicationRecord
   end
 
   def read_file(filepath)
-    return Solution::GenerateReadmeFile.(self) if filepath == 'README.md'
-    return Solution::GenerateHelpFile.(self) if filepath == 'HELP.md'
-    return Solution::GenerateHintsFile.(self) if filepath == 'HINTS.md'
+    return Solution::GenerateReadmeFile.(self) if filepath == Git::Exercise::SPECIAL_FILEPATHS[:readme]
+    return Solution::GenerateHelpFile.(self) if filepath == Git::Exercise::SPECIAL_FILEPATHS[:help]
+    return Solution::GenerateHintsFile.(self) if filepath == Git::Exercise::SPECIAL_FILEPATHS[:hints]
+    return git_exercise.read_file_blob(exercise.git.config_filepath) if filepath == Git::Exercise::SPECIAL_FILEPATHS[:config]
 
     git_exercise.read_file_blob(filepath)
   end

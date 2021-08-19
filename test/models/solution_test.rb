@@ -443,6 +443,45 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal expected, contents
   end
 
+  test "read_file for concept exercise returns correct .exercism/config.json file" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+
+    contents = JSON.parse(solution.read_file('.exercism/config.json'))
+    expected = JSON.parse({
+      blurb: "Like puppets on a...",
+      authors: ["pvcarrera"],
+      files: {
+        solution: ["log_line_parser.rb"],
+        test: ["log_line_parser_test.rb"],
+        exemplar: [".meta/exemplar.rb"]
+      }
+    }.to_json)
+    assert_equal expected, contents
+  end
+
+  test "read_file for practice exercise returns correct .exercism/config.json file" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+
+    contents = JSON.parse(solution.read_file('.exercism/config.json'))
+    expected = JSON.parse({
+      blurb: "Hey Bob!",
+      version: "15.8.12",
+      files: {
+        solution: ["bob.rb"],
+        test: ["bob_test.rb"],
+        example: [".meta/example.rb"]
+      },
+      authors: ["erikschierboom"],
+      contributors: ["ihid"],
+      source: "Inspired by the 'Deaf Grandma' exercise in Chris Pine's Learn to Program tutorial.",
+      source_url: "http://pine.fm/LearnToProgram/?Chapter=06"
+    }.
+    to_json)
+    assert_equal expected, contents
+  end
+
   test "in_progress_mentor_discussion" do
     solution = create :concept_solution
 

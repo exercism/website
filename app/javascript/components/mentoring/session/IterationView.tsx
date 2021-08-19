@@ -42,13 +42,7 @@ export const IterationView = ({
 
   return (
     <React.Fragment>
-      <IterationHeader
-        iteration={currentIteration}
-        isLatest={
-          iterations[iterations.length - 1].uuid === currentIteration.uuid
-        }
-        isOutOfDate={isOutOfDate}
-      />
+      <IterationHeader iteration={currentIteration} isOutOfDate={isOutOfDate} />
 
       {currentIteration.status == IterationStatus.DELETED ? (
         <div className="deleted">This iteration has been deleted</div>

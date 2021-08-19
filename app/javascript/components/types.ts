@@ -279,6 +279,7 @@ export type Iteration = {
   createdAt: string
   testsStatus: SubmissionTestsStatus
   isPublished: boolean
+  isLatest: boolean
   files?: File[]
   posts?: DiscussionPostProps[]
   links: {

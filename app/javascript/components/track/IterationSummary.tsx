@@ -15,7 +15,6 @@ const SUBMISSION_METHOD_LABELS = {
 type IterationSummaryProps = {
   iteration: Iteration
   className?: string
-  isLatest: boolean
   isOutOfDate?: boolean
   showSubmissionMethod: boolean
   showTestsStatusAsButton: boolean
@@ -54,7 +53,6 @@ export const IterationSummaryWithWebsockets = ({
 export function IterationSummary({
   iteration,
   className,
-  isLatest,
   isOutOfDate,
   showSubmissionMethod,
   showTestsStatusAsButton,
@@ -69,7 +67,7 @@ export function IterationSummary({
         <div className="--idx">
           <h3>Iteration {iteration.idx}</h3>
           <div className="--dot" role="presentation"></div>
-          {isLatest ? (
+          {iteration.isLatest ? (
             <div className="--latest" aria-label="Latest iteration">
               Latest
             </div>

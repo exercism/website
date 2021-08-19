@@ -43,6 +43,10 @@ class Iteration < ApplicationRecord
     }.())
   end
 
+  def latest?
+    solution.latest_iteration == self
+  end
+
   def deleted?
     !!deleted_at
   end

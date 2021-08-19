@@ -259,7 +259,7 @@
 
             @screen lg {
                 max-width: 1050px;
-                height: 620px;
+                height: 627px;
                 @apply mx-auto;
 
                 & .feature {

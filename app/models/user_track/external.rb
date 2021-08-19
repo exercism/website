@@ -87,6 +87,11 @@ class UserTrack
       track.exercises.select(:slug, :type).index_by(&:slug).transform_values(&:git_type)
     end
 
+    memoize
+    def exercise_positions
+      track.exercises.pluck(:slug, :position).index_by(&:first)
+    end
+
     ####################
     # Exercise methods #
     ####################
@@ -104,6 +109,10 @@ class UserTrack
 
     def exercise_has_notifications?(_)
       false
+    end
+
+    def exercise_position(slug)
+      exercise_positions[slug]
     end
 
     ###############################

@@ -1,0 +1,14 @@
+en:
+  communication_preferences:
+    receive_product_updates: "Email me about product updates"
+    email_on_new_discussion_post: "Email me when a mentor comments on my solution"
+    email_on_solution_approved: "Email me when a mentor approves my solution"
+    email_on_new_solution_comment_for_solution_user: "Email me when someone comments on my published solution"
+    email_on_new_solution_comment_for_other_commenter: "Email me when someone replies to a comment I've made on a published solution"
+    email_on_new_discussion_post_for_mentor: "Email me when a student comments on a solution I'm mentoring"
+    email_on_new_iteration_for_mentor: "Email me when a student posts a new iteration to a solution I'm mentoring"
+    email_on_remind_mentor: "Email me when I am about to be timed out of a solution"
+    email_on_mentor_heartbeat: "Email me with weekly mentor summaries"
+
+    email_on_mentor_started_discussion_notification: "Email when a mentor starts mentoring my solution"
+    email_on_mentor_replied_to_discussion_notification: "Email when a mentor replies to a discussion on my solution"

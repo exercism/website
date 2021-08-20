@@ -1,0 +1,24 @@
+#page-settings-unsubscribe.page-settings
+  .lg-container
+    %article
+      %h1 Manage your communication preferences
+
+      %section
+        %h2 Unsubscribe from this email
+        %p.text-p-large.mb-12
+          = I18n.t("communication_preferences.#{@email_key}")
+
+        .flex.items-center
+          = form_with url: unsubscribe_path, method: :patch do
+            = hidden_field_tag :token, @token
+            = hidden_field_tag :key, @email_key
+            = hidden_field_tag "[communication_preferences][#{@email_key}]", false
+            = button_tag "Unsubscribe from email", class: 'btn-m btn-primary'
+          .ml-16
+            = flash_messages
+
+      - if user_signed_in?
+        %section
+          %h2 Manage all your notifications
+          = render ReactComponents::Settings::CommunicationPreferencesForm.new
+

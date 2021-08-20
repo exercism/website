@@ -23,7 +23,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
         # TODO: Change to exercism.io
         file_download_base_url: "https://exercism.lol/api/v1/solutions/#{solution.uuid}/files/",
         files: Set.new([
-                         "README.md", "HELP.md", "HINTS.md", ".meta/config.json",
+                         ".exercism/config.json", "README.md", "HELP.md", "HINTS.md",
                          "log_line_parser.rb", "log_line_parser_test.rb"
                        ]),
         submission: nil

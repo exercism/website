@@ -1,7 +1,6 @@
 require "application_system_test_case"
 
 class UnsubscribeTest < ApplicationSystemTestCase
-
   test "redirects with missing token" do
     visit unsubscribe_path(token: nil)
     assert_selector "#page-auth"

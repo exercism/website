@@ -35,103 +35,40 @@
           %h3 Proofread and update
           .c-tag.beginner Beginner
           %p Never contributed to an open source project? Give this a go. We’ll teach you how to use Git and GitHub to submit your first pull request.
-
-          .issues
-            = graphical_icon 'info-circle'
-            13 issues need help
-          .track-icons
-            = track_icon(Track.first)
-            = track_icon(Track.second)
-            = track_icon(Track.third)
-
-          .tracks-list C++, Julia, Clojure, Erlang, OCaml + 32 repos need typo fixes
-          = render ViewComponents::ProminentLink.new("Explore 13 issues", "#")
-
-        .method
-          = graphical_icon "bugs", category: 'graphics'
-          %h3 Fix known bugs
-          .c-tag.beginner Beginner
-          %p Pellentesque dapibus erat eu sem porta, eu iaculis ex porta. Ut non consequat dolor. Fusce libero odio, consequat non eleifend eget, tempus sed sapien...
-
-          .issues
-            = graphical_icon 'info-circle'
-            13 issues need help
-          .track-icons
-            = track_icon(Track.first)
-            = track_icon(Track.second)
-            = track_icon(Track.third)
-
-          .tracks-list C++, Julia, Clojure, Erlang, OCaml + 32 repos need typo fixes
-          = render ViewComponents::ProminentLink.new("Explore 13 issues", "#")
-
+          = render "tasks_section", track_counts: @proofreading, filters: { actions: [:proofread] }, tracks: @tracks
 
         .method
           = graphical_icon "improve", category: 'graphics'
           %h3 Improve a concept or exercise
           .c-tag.intermediary Intermediary
-          %p Pellentesque dapibus erat eu sem porta, eu iaculis ex porta. Ut non consequat dolor. Fusce libero odio, consequat non eleifend eget, tempus sed sapien...
-
-          .issues
-            = graphical_icon 'info-circle'
-            13 issues need help
-          .track-icons
-            = track_icon(Track.first)
-            = track_icon(Track.second)
-            = track_icon(Track.third)
-
-          .tracks-list C++, Julia, Clojure, Erlang, OCaml + 32 repos need typo fixes
-          = render ViewComponents::ProminentLink.new("Explore 13 issues", "#")
+          %p Fix bugs and make improvements to concepts and exercise across Exercism. Help students have a smooth and error-free experience.
+          = render "tasks_section", track_counts: @improve_content, filters: { actions: [:improve], areas: ["concept-exercise", "practice-exercise", :concept] }, tracks: @tracks
 
         .method
           = graphical_icon "exercises", category: 'graphics'
-          %h3 Create an exercise from scratch
+          %h3 Create a new exercise or concept
           .c-tag.advanced Advanced
-          %p Pellentesque dapibus erat eu sem porta, eu iaculis ex porta. Ut non consequat dolor. Fusce libero odio, consequat non eleifend eget, tempus sed sapien...
+          %p Build out a new exercise or concept based on a track's roadmap. Have fun making interactive content that millions of people will use.
+          = render "tasks_section", track_counts: @create_exercises, filters: { actions: [:create], areas: ["concept-exercise", "practice-exercise", :concept] }, tracks: @tracks
 
-          .issues
-            = graphical_icon 'info-circle'
-            13 issues need help
-          .track-icons
-            = track_icon(Track.first)
-            = track_icon(Track.second)
-            = track_icon(Track.third)
-
-          .tracks-list C++, Julia, Clojure, Erlang, OCaml + 32 repos need typo fixes
-          = render ViewComponents::ProminentLink.new("Explore 13 issues", "#")
-
+        .method
+          = graphical_icon "bugs", category: 'graphics'
+          %h3 Develop a test runner
+          .c-tag.project Project
+          %p Test runners power our online editor. All tracks have basic test runners, but many need more advanced features and functionality adding.
+          = render "tasks_section", track_counts: @test_runner, filters: { areas: ["test-runner"] }, tracks: @tracks
 
         .method
           = graphical_icon "automation", category: 'graphics'
           %h3 Develop an analyzer
           .c-tag.project Project
-          %p Pellentesque dapibus erat eu sem porta, eu iaculis ex porta. Ut non consequat dolor. Fusce libero odio, consequat non eleifend eget, tempus sed sapien...
-
-          .issues
-            = graphical_icon 'info-circle'
-            13 issues need help
-          .track-icons
-            = track_icon(Track.first)
-            = track_icon(Track.second)
-            = track_icon(Track.third)
-
-          .tracks-list C++, Julia, Clojure, Erlang, OCaml + 32 repos need typo fixes
-          = render ViewComponents::ProminentLink.new("Explore 13 issues", "#")
+          %p Analyzers give automated feedback to students through ASTs analysis. These are complex and deeply interesting pieces of software to develop.
+          = render "tasks_section", track_counts: @analyzer, filters: { areas: [:analyzer] }, tracks: @tracks
 
         .method
           = graphical_icon "representer", category: 'graphics'
           %h3 Develop a representer
           .c-tag.project Project
-          %p Pellentesque dapibus erat eu sem porta, eu iaculis ex porta. Ut non consequat dolor. Fusce libero odio, consequat non eleifend eget, tempus sed sapien...
-
-          .issues
-            = graphical_icon 'info-circle'
-            13 issues need help
-          .track-icons
-            = track_icon(Track.first)
-            = track_icon(Track.second)
-            = track_icon(Track.third)
-
-          .tracks-list C++, Julia, Clojure, Erlang, OCaml + 32 repos need typo fixes
-          = render ViewComponents::ProminentLink.new("Explore 13 issues", "#")
-
+          %p Representers help us spot identical solutions so that we can reuse feedback. Simpler than analyzers but fun and interesting to reason about.
+          = render "tasks_section", track_counts: @representer, filters: { areas: [:representer] }, tracks: @tracks
 

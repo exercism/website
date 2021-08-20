@@ -19,8 +19,7 @@ export const ExistingSubscriptionNotice = ({
       <div className="existing-subscription">
         <strong>
           You already donate {amount.format()} per month to Exercism. Thank you!
-        </strong>
-        <br />
+        </strong>{' '}
         To change or manage this go to{' '}
         <a href={links.settings}>Donation Settings</a>.
       </div>

@@ -1,5 +1,7 @@
 class User::Notification < ApplicationRecord
   include IsParamaterisedSTI
+  extend Mandate::Memoize
+
   self.class_suffix = :notification
   self.i18n_category = :notifications
 
@@ -19,6 +21,16 @@ class User::Notification < ApplicationRecord
   before_validation on: :create do
     self.uuid = SecureRandom.compact_uuid
     self.path = "/#{url.split('/')[3..].join('/')}"
+  end
+
+  memoize
+  def email_type
+    type.gsub(/_notification$/, '')
+  end
+
+  memoize
+  def email_key
+    "email_on_#{type}"
   end
 
   def status
@@ -47,5 +59,11 @@ class User::Notification < ApplicationRecord
     {
       is_read: read?
     }
+  end
+
+  private
+  memoize
+  def type
+    self.class.name.underscore.split('/').last
   end
 end

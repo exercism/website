@@ -21,7 +21,7 @@ class User::Notification
         return unless notification_needs_sending?
 
         NotificationsMailer.with(notification: notification).
-          mentor_started_discussion.deliver_later
+          send(notification.email_type).deliver_later
 
         notification.email_sent!
       end
@@ -35,8 +35,7 @@ class User::Notification
     end
 
     def user_wants_email?
-      key = "email_on_#{notification.class.name.underscore.split('/').last}"
-      user.communication_preferences&.send(key)
+      user.communication_preferences&.send(notification.email_key)
     end
 
     memoize

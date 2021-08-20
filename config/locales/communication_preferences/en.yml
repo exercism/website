@@ -10,4 +10,5 @@ en:
     email_on_remind_mentor: "Email me when I am about to be timed out of a solution"
     email_on_mentor_heartbeat: "Email me with weekly mentor summaries"
 
-    email_on_mentor_started_discussion_notification: "Email me when a mentor starts mentoring my solution"
+    email_on_mentor_started_discussion_notification: "Email when a mentor starts mentoring my solution"
+    email_on_mentor_replied_to_discussion_notification: "Email when a mentor replies to a discussion on my solution"

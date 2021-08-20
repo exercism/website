@@ -15,6 +15,20 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
     end
   end
 
+  test "sends different type of email" do
+    user = create :user
+    notification = create :student_replied_to_discussion_notification, :unread, user: user
+
+    assert_enqueued_with(job: ActionMailer::MailDeliveryJob, args: [
+                           "NotificationsMailer",
+                           "student_replied_to_discussion",
+                           "deliver_now",
+                           { params: { notification: notification }, args: [] }
+                         ]) do
+      User::Notification::SendEmail.(notification)
+    end
+  end
+
   test "updates email status" do
     notification = create :notification, :unread
     refute notification.email_sent?

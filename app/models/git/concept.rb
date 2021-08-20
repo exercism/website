@@ -6,9 +6,9 @@ module Git
     delegate :head_sha, :head_commit, to: :repo
 
     git_filepaths about: "about.md",
-                  introduction: "introduction.md",
-                  links: "links.json",
-                  config: ".meta/config.json"
+      introduction: "introduction.md",
+      links: "links.json",
+      config: ".meta/config.json"
 
     def initialize(concept_slug, git_sha = "HEAD", repo_url: nil, repo: nil)
       @repo = repo || Repository.new(repo_url: repo_url)

@@ -7,11 +7,11 @@ module Git
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
 
     git_filepaths instructions: ".docs/instructions.md",
-                  instructions_append: ".docs/instructions.append.md",
-                  introduction: ".docs/introduction.md",
-                  introduction_append: ".docs/introduction.append.md",
-                  hints: ".docs/hints.md",
-                  config: ".meta/config.json"
+      instructions_append: ".docs/instructions.append.md",
+      introduction: ".docs/introduction.md",
+      introduction_append: ".docs/introduction.append.md",
+      hints: ".docs/hints.md",
+      config: ".meta/config.json"
 
     def self.for_solution(solution)
       new(

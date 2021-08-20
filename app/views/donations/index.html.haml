@@ -14,11 +14,13 @@
 
       .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
         .c-progress
-          .bar{ style: "width:50%" }
+          - progress = [1, Donations::Subscription.active_total_per_month_in_dollars / 5000.0].min * 100
+          .bar{ style: "width:#{progress}%" }
           .target-icon
             = graphical_icon "party-popper"
           .goal.bg-lightGold.py-6.px-12.text-16.text-textColor1.leading-150.font-semibold.rounded-8
             Hire a community manager
+
       %ul.steps
         %li.text-darkSuccessGreen
           1. Build version 3
@@ -27,6 +29,27 @@
           2. Hire a community manager
         %li.text-textColor7
           3. Hire content manager
+
+    .summary.lg-container.flex.items-center.py-32
+      .item
+        .value= Donations::Payment.total_supporters
+        .metric Supporters
+
+      .item
+        - parts = Donations::Subscription.active_total_per_month_in_dollars.to_s.split(".")
+        .value.c-financial-amount.py-10
+          .currency.text-16.leading-100.mr-4 $
+          .dollars.text-32.leading-130= parts[0]
+          .cents.text-20.leading-100 .#{parts[1].to_s.ljust(2, '0')}
+        .metric Total Monthly Pledges
+
+      .item
+        - parts = Donations::Payment.total_donated_in_dollars.to_s.split(".")
+        .value.c-financial-amount.py-10
+          .currency.text-16.leading-100.mr-4 $
+          .dollars.text-32.leading-130= parts[0]
+          .cents.text-20.leading-100 .#{parts[1].to_s.ljust(2, '0')}
+        .metric Total Raised (since Sept 2021)
 
   %article.pt-40
     .lg-container

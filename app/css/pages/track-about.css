@@ -303,6 +303,7 @@
 
         & img.screenshot {
             @apply mb-32;
+            max-width: 100%;
         }
     }
     & .upsell-section {

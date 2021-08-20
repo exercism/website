@@ -1,7 +1,6 @@
 #page-donate {
     & header {
-        @apply bg-backgroundColorA shadow-lg;
-        @apply border-b-1 border-borderColor6;
+        @apply bg-backgroundColorA shadow-lgZ1;
         @apply relative;
         &:before {
             @apply absolute;
@@ -26,8 +25,11 @@
             top: 15px;
         }
 
-        & .lg-container {
-            @apply pt-40 pb-32;
+        & .lg-container:first-child {
+            @apply pt-40;
+        }
+        & .lg-container:last-child {
+            @apply py-32;
         }
         & h1 {
             @apply text-center;
@@ -82,6 +84,7 @@
         }
         & .steps {
             @apply self-start flex items-center;
+            @apply pb-32;
             & li {
                 @apply text-16 leading-150 font-semibold;
                 @apply flex items-center;
@@ -95,9 +98,26 @@
                 @apply ml-8;
             }
         }
+        & .summary {
+            @apply border-t-1 border-borderColor6;
+            & .item {
+                @apply mr-48;
+            }
+            & .value {
+                @apply text-textColor2 font-semibold text-32 leading-150;
+                @apply mb-2;
+            }
+            & .metric {
+                @apply text-textColor5 font-medium text-16 leading-150;
+            }
+        }
     }
     & .video {
         background: #d5d8e4;
+    }
+    & .c-react-wrapper-donations-with-modal-form {
+        margin-top: -138px;
+        @apply z-1;
     }
     & .c-donations-form {
         @apply ml-auto;

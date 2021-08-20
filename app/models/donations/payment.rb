@@ -7,4 +7,12 @@ class Donations::Payment < ApplicationRecord
   def amount_in_dollars
     amount_in_cents / BigDecimal(100)
   end
+
+  def self.total_supporters
+    select(:user_id).distinct.count
+  end
+
+  def self.total_donated_in_dollars
+    sum(:amount_in_cents) / BigDecimal(100)
+  end
 end

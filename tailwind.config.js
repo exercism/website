@@ -33,7 +33,7 @@ module.exports = {
       buttonS: '0px 4px 8px rgba(79, 114, 205, 0.4)',
       xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
       sm: 'var(--box-shadow-sm)',
-      smZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.15)',
+      smZ1: '0px 4px 16px 0px rgba(79, 114, 205, 0.3)',
       base: 'var(--box-shadow-base)',
       baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
       lg: 'var(--box-shadow-lg)',

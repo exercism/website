@@ -23,10 +23,10 @@
           - dollars, cents = current_user.total_donated_in_dollars.to_s.split('.')
           .summary-box
             .total
-              .amount
-                .currency $
-                .dollars= dollars.to_s.rjust(1, '0')
-                .cents .#{cents.to_s.ljust(2, '0')}
+              .c-financial-amount
+                .currency.text-16 $
+                .dollars.text-32= dollars.to_s.rjust(1, '0')
+                .cents.text-16 .#{cents.to_s.ljust(2, '0')}
               .explanation total donated
             .breakdown
               .subs

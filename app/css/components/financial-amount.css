@@ -1,0 +1,12 @@
+.c-financial-amount {
+    @apply flex items-center;
+    & .currency {
+        @apply self-start;
+    }
+    & .dollars {
+        line-height: 0.9;
+    }
+    & .cents {
+        @apply self-end;
+    }
+}

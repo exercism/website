@@ -44,8 +44,9 @@ module Git
       return false if filepath.match?(%r{[^a-zA-Z0-9_./-]})
       return false if filepath.starts_with?(".meta")
       return false if filepath.starts_with?(".docs")
+      return false if filepath.starts_with?(".exercism")
 
-      # We don't want to let studetns override the test files. However, some languages
+      # We don't want to let students override the test files. However, some languages
       # have solutions and tests in the same file so we need the second guard for that.
       return false if test_filepaths.include?(filepath) && !solution_filepaths.include?(filepath)
 

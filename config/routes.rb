@@ -361,13 +361,6 @@ Rails.application.routes.draw do
 
   get "donate" => "donations#index", as: :donate
 
-  get "code-of-conduct" => "docs/code_of_conduct", as: :code_of_conduct
-  get "terms-of-services" => "docs/terms_of_services", as: :terms_of_service
-  get "privacy-policy" => "docs/privacy_policy", as: :privacy_policy
-  get "licences/cc-sa-4" => "licences/cc_sa_4_licence", as: :cc_sa_4_licence
-  get "licences/mit" => "licences/mit", as: :mit_licence
-  get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
-
   # TODO: (Required): Swap these over for launch
   get "landing" => "pages#index", as: :landing_page
   root to: "pages#beta"
@@ -397,6 +390,11 @@ Rails.application.routes.draw do
   get "cli", to: redirect("docs/using/solving-exercises/working-locally")
   get "report-abuse", to: redirect("docs/using/report-abuse")
   get "become-a-mentor", to: redirect("mentoring")
+
+  # TODO
+  # get "licences/cc-sa-4" => "licences/cc_sa_4_licence", as: :cc_sa_4_licence
+  # get "licences/mit" => "licences/mit", as: :mit_licence
+  get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
 
   # ########################### #
   # Temporary and testing pages #

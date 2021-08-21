@@ -395,7 +395,7 @@ Rails.application.routes.draw do
 
   # Licences
   get "licences/cc-sa-4" => "docs/using/licences/cc-by-nc-sa-4", as: :cc_sa_4_licence
-  get "licences/cc-by-nc-sa-4" => "docs/using/licences/cc-by-nc-sa-4", as: :cc_sa_4_licence
+  get "licences/cc-by-nc-sa-4" => "docs/using/licences/cc-by-nc-sa-4", as: :cc_by_nc_sa_4_licence
   get "licences/mit" => "docs/using/licences/mit", as: :mit_licence
 
   # ########################### #

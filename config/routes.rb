@@ -373,6 +373,8 @@ Rails.application.routes.draw do
   #################
   # Legacy routes #
   #################
+  get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
+
   get "solutions/:uuid" => "legacy#solution"
   get "my/solutions/:uuid" => "legacy#my_solution"
   get "mentor/solutions/:uuid" => "legacy#mentor_solution"
@@ -391,10 +393,10 @@ Rails.application.routes.draw do
   get "report-abuse", to: redirect("docs/using/report-abuse")
   get "become-a-mentor", to: redirect("mentoring")
 
-  # TODO
-  # get "licences/cc-sa-4" => "licences/cc_sa_4_licence", as: :cc_sa_4_licence
-  # get "licences/mit" => "licences/mit", as: :mit_licence
-  get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
+  # Licences
+  get "licences/cc-sa-4" => "docs/using/licences/cc-by-nc-sa-4", as: :cc_sa_4_licence
+  get "licences/cc-by-nc-sa-4" => "docs/using/licences/cc-by-nc-sa-4", as: :cc_sa_4_licence
+  get "licences/mit" => "docs/using/licences/mit", as: :mit_licence
 
   # ########################### #
   # Temporary and testing pages #

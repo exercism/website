@@ -216,9 +216,8 @@ button.text-a-subtle {
 }
 
 .border-gradient {
-    /* border-image: linear-gradient(#2200FF, #9E00FF) 2; */
-
-    border: solid transparent;
+    border-style: solid;
+    border-color: transparent;
     background-image: linear-gradient(white, white),
         linear-gradient(#2200ff, #9e00ff);
     background-origin: border-box;

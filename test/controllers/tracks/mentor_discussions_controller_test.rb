@@ -73,4 +73,14 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
     assert_includes @response.body, "Want to try another mentor?"
     assert_includes @response.body, "Ended 10 days ago"
   end
+
+  test "show: no solution" do
+    user = create :user
+    exercise = create :practice_exercise
+
+    sign_in!(user)
+    assert_raises ActiveRecord::RecordNotFound do
+      get track_exercise_mentor_discussion_url(exercise.track, exercise, "foobar")
+    end
+  end
 end

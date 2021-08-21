@@ -18,6 +18,8 @@ class Tracks::MentorDiscussionsController < ApplicationController
   end
 
   def use_discussion
+    raise ActiveRecord::RecordNotFound unless @solution
+
     @discussion = @solution.mentor_discussions.find_by!(uuid: params[:id])
   end
 end

@@ -13,6 +13,7 @@ class Iteration
       })
 
       Iteration.find(id).tap do |iteration|
+        iteration.handle_after_save!
         init_services
 
         solution.update_status!

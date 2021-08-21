@@ -22,11 +22,9 @@ class Iteration < ApplicationRecord
     delegate :"has_#{type}_automated_feedback?", to: :submission
   end
 
-  after_save_commit do
-    solution.update_status!
-    solution.update_iteration_status!
-    solution.update!(last_iterated_at: Time.current)
-  end
+  # This is like this because we also call it externally
+  # as we don't use ActiveRecord to create the iteration record
+  after_save_commit :handle_after_save!
 
   def status
     Status.new(lambda {
@@ -65,6 +63,12 @@ class Iteration < ApplicationRecord
   def broadcast!
     IterationChannel.broadcast!(self)
     solution.broadcast!
+  end
+
+  def handle_after_save!
+    solution.update_status!
+    solution.update_iteration_status!
+    solution.update!(last_iterated_at: Time.current)
   end
 
   class Status

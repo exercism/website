@@ -73,9 +73,11 @@ export const Solution = ({
             {numViews} {pluralize('view', numViews)}
           </div>
         </div>
-        <time dateTime={lastIteratedAt}>
-          Last submitted {fromNow(lastIteratedAt)}
-        </time>
+        {lastIteratedAt ? (
+          <time className="iterated-at" dateTime={lastIteratedAt}>
+            Last submitted {fromNow(lastIteratedAt)}
+          </time>
+        ) : null}
       </div>
       <div className="counts">
         <div className="count">

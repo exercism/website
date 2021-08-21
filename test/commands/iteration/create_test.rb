@@ -28,6 +28,14 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal first, second
   end
 
+  test "runs after_save hook" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+
+    Iteration.any_instance.expects(:handle_after_save!)
+    Iteration::Create.(solution, submission)
+  end
+
   test "creates activity" do
     user = create :user
     exercise = create :concept_exercise

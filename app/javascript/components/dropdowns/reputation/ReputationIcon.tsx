@@ -19,10 +19,8 @@ export const ReputationIcon = forwardRef<
       aria-label={`${reputation} reputation`}
       {...buttonProps}
     >
-      <div className="--inner">
-        <Icon icon="reputation" alt="Reputation" />
-        <span>{reputation}</span>
-      </div>
+      <Icon icon="reputation" alt="Reputation" />
+      <span>{reputation}</span>
       <div className={'--notification ' + (isSeen ? '' : 'unseen')} />
     </button>
   )

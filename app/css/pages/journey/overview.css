@@ -99,7 +99,7 @@
                     @apply text-24 leading-140 font-medium text-textColor2;
                     @apply mb-20;
                     & em {
-                        @apply not-italic text-anotherPurple font-semibold;
+                        @apply not-italic font-semibold;
                     }
                     & strong {
                         @apply font-semibold;

@@ -15,7 +15,7 @@
 
         /* Override the bottom border from the header */
         margin-top: -8px;
-        @apply mb-32;
+        @apply mb-24;
     }
     & .update-bar {
         @apply bg-lightOrange;

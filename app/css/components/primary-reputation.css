@@ -1,18 +1,18 @@
+@import "../styles";
+
 .c-primary-reputation {
     @apply rounded-100 shadow-sm bg-backgroundColorA;
     @apply relative flex px-8 items-center justify-center;
-    background: linear-gradient(180deg, #cc00ff 0%, #3300ff 100%);
-    padding: 3px;
+    @apply border-2 border-gradient;
 
-    & .--inner {
-        @apply flex items-center justify-center;
-        @apply text-16 leading-200 font-semibold;
-        @apply flex-grow px-16 rounded-100;
+    @apply flex items-center justify-center;
+    @apply text-16 leading-200 font-semibold;
+    @apply flex-grow px-16 rounded-100;
 
-        /* These shouldn't change for theme */
-        color: #fbfcfe;
-        background: #130b43;
-    }
+    /* These shouldn't change for theme */
+    color: #fbfcfe;
+    background-image: linear-gradient(#130b43, #130b43),
+        linear-gradient(#2200ff, #9e00ff);
 
     & .c-icon {
         height: 24px;

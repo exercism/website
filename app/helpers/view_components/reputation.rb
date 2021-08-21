@@ -13,9 +13,7 @@ module ViewComponents
       css_classes << (flashy ? "c-primary-reputation" : "c-reputation")
       css_classes << "--#{size}" if size
 
-      tag.div(class: css_classes.join(" "), 'aria-label': "#{reputation} reputation") do
-        flashy ? tag.div(inner, class: "--inner") : inner
-      end
+      tag.div(inner, class: css_classes.join(" "), 'aria-label': "#{reputation} reputation")
     end
 
     private

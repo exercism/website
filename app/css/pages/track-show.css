@@ -78,14 +78,13 @@
             @apply py-24 px-32;
             @apply mb-32 relative;
 
-            /* TODO: Use gradient */
-            border: 2px solid #9e00ff;
+            @apply border-2 border-gradient;
 
             &:before {
                 content: "";
                 @apply absolute bg-borderColor7;
                 width: 2px;
-                bottom: -32px;
+                bottom: -33px;
                 height: 30px;
                 left: 50px;
             }

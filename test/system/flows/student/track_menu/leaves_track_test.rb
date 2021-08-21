@@ -10,6 +10,8 @@ module Flows
         include RedirectHelpers
 
         test "student leaves track" do
+          skip
+
           create :user, :ghost
           user = create :user
           track = create :track, title: "Ruby"
@@ -33,6 +35,8 @@ module Flows
         end
 
         test "student leaves and resets track" do
+          skip
+
           create :user, :ghost
           user = create :user
           track = create :track, title: "Ruby"

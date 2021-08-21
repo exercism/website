@@ -13,7 +13,7 @@
     }
     & .notifications {
         & .notification-row {
-            @apply flex items-center;
+            @apply flex items-center mb-8;
             & .row {
                 @apply flex-grow-0;
             }

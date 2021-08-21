@@ -136,7 +136,7 @@
         --track-icon-color: var(--track-color-cfml);
     }
     &.--delphi {
-        --track-icon-color: var(--track-color-dephi);
+        --track-icon-color: var(--track-color-delphi);
     }
     &.--groovy {
         --track-icon-color: var(--track-color-groovy);

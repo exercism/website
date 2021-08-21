@@ -14,7 +14,11 @@ module Contributing
 
     private
     def build_tasks_list(filters)
-      Github::Task.where(filters).group(:track_id).count.sort_by { |_, v| -v.size }.to_h
+      Github::Task.where(filters).
+        group(:track_id).
+        count.
+        sort_by { rand }.
+        to_h
     end
   end
 end

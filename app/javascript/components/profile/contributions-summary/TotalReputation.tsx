@@ -12,11 +12,9 @@ export const TotalReputation = ({
 
   return (
     <div className="c-primary-reputation --large">
-      <div className="--inner">
-        {address}
-        <GraphicalIcon icon="reputation" />
-        {reputation.toLocaleString()} Reputation
-      </div>
+      {address}
+      <GraphicalIcon icon="reputation" />
+      {reputation.toLocaleString()} Reputation
     </div>
   )
 }

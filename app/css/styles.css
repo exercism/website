@@ -214,3 +214,20 @@ button.text-a-subtle {
     @apply block;
     @apply text-13 leading-150 text-textColor2 font-mono font-bold uppercase;
 }
+
+.border-gradient {
+    /* border-image: linear-gradient(#2200FF, #9E00FF) 2; */
+
+    border: solid transparent;
+    background-image: linear-gradient(white, white),
+        linear-gradient(#2200ff, #9e00ff);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+.text-gradient {
+    color: #9e00ff;
+    background: -webkit-linear-gradient(#2200ff, #9e00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

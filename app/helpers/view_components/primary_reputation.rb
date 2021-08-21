@@ -11,10 +11,8 @@ module ViewComponents
     def to_s
       link_to("#", class: "c-primary-reputation", 'aria-label': "#{@user.reputation} reputation") do
         tags = [
-          tag.div(class: "--inner") do
-            icon(:reputation, "Reputation") +
-              tag.span(user.formatted_reputation)
-          end
+          icon(:reputation, "Reputation"),
+          tag.span(user.formatted_reputation)
         ]
         tags << tag.div('', class: "--notification") if has_notification
 

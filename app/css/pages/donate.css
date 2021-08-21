@@ -36,10 +36,6 @@
             max-width: 790px;
             & strong {
                 @apply font-bold;
-                color: #9e00ff;
-                background: -webkit-linear-gradient(#2200ff, #9e00ff);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
             }
         }
         & .c-progress {

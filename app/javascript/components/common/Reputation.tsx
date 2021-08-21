@@ -15,28 +15,10 @@ export const Reputation = ({
     size ? `--${size}` : '',
   ].filter((className) => className.length > 0)
 
-  switch (type) {
-    case 'primary':
-      return (
-        <div
-          className={classNames.join(' ')}
-          aria-label={`${value} reputation`}
-        >
-          <div className="--inner">
-            <Icon icon="reputation" alt="Reputation" />
-            <span>{value}</span>
-          </div>
-        </div>
-      )
-    case 'common':
-      return (
-        <div
-          className={classNames.join(' ')}
-          aria-label={`${value} reputation`}
-        >
-          <Icon icon="reputation" alt="Reputation" />
-          <span>{value}</span>
-        </div>
-      )
-  }
+  return (
+    <div className={classNames.join(' ')} aria-label={`${value} reputation`}>
+      <Icon icon="reputation" alt="Reputation" />
+      <span>{value}</span>
+    </div>
+  )
 }

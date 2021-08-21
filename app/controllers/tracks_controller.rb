@@ -1,6 +1,6 @@
 class TracksController < ApplicationController
   before_action :use_track, except: :index
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show about]
 
   def index
     @tracks = Track::Search.(
@@ -17,12 +17,15 @@ class TracksController < ApplicationController
   end
 
   def about
-    @showcase_exercises = @user_track.exercises.order("RAND()").limit(3).to_a
+    return redirect_to action: :show if @user_track.external?
+
+    setup_about
   end
 
   def show
     if @user_track.external?
-      about
+      setup_about
+
       return render "tracks/about"
     end
 
@@ -48,5 +51,9 @@ class TracksController < ApplicationController
     @user_track = UserTrack.for(current_user, @track)
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def setup_about
+    @showcase_exercises = @user_track.exercises.order("RAND()").limit(3).to_a
   end
 end

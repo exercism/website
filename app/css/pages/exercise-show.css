@@ -134,7 +134,7 @@
     & section.mentoring-prompt-nudge,
     & section.mentoring-request-nudge,
     & section.mentoring-discussion-nudge {
-        @apply border-2 border-anotherPurple rounded-12;
+        @apply border-2 border-gradient rounded-12;
         @apply bg-backgroundColorF;
     }
     & section.mentoring-prompt-nudge {

@@ -39,7 +39,7 @@ class SerializeExercisesTest < ActiveSupport::TestCase
     create :hello_world_solution, :completed, track: track, user: user
 
     expected = [
-      SerializeExercise.(concept_exercise, user_track: user_track),
+      SerializeExercise.(concept_exercise, user_track: user_track, recommended: true),
       SerializeExercise.(practice_exercise, user_track: user_track)
     ]
 

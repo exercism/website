@@ -6,7 +6,7 @@ module API
 
     def latest_status
       render json: {
-        status: @solution.latest_iteration.status.to_s
+        status: @solution.iterations.last.status.to_s
       }
     end
 

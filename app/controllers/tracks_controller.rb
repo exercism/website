@@ -10,7 +10,7 @@ class TracksController < ApplicationController
       user: current_user
     )
 
-    @num_tracks = Track.count
+    @num_tracks = Track.active.count
 
     # TODO: (Optional) Change this to only select the fields needed for an icon
     @track_icon_urls = Track.active.order('rand()').limit(8).map(&:icon_url)

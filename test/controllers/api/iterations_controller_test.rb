@@ -28,6 +28,38 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "latest_status should be correct for normal iteration" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    it_1 = create :iteration, solution: solution
+    it_2 = create :iteration, solution: solution
+    it_1.submission.update(tests_status: :passed)
+
+    # Sanity
+    assert_equal 'no_automated_feedback', it_1.status.to_s
+    assert_equal 'untested', it_2.status.to_s
+
+    get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response 200
+
+    expected = { status: "untested" }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "latest_status works with deleted iteration" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create :iteration, solution: solution, deleted_at: Time.current
+
+    get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response 200
+
+    expected = { status: "deleted" }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
   ###
   # CREATE
   ###

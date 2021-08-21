@@ -1,6 +1,5 @@
 class Submission::File < ApplicationRecord
   belongs_to :submission
-  attr_writer :content
 
   URI_REGEX = %r{s3://(?<bucket>[a-z-]+)/(?<key>.*)}.freeze
 
@@ -37,8 +36,14 @@ class Submission::File < ApplicationRecord
     File.open(efs_path, 'w') { |f| f.write(content) }
   end
 
+  def content=(val)
+    @content = val.force_encoding('utf-8')
+  end
+
   def content
-    return @content if @content.present?
+    # Don't use `.presence?` here as the encoding might be incorrect
+    # and then the string check will raise an exception
+    return @content if @content && @content != ""
     return file_contents if uri.empty?
 
     Exercism.s3_client.get_object(

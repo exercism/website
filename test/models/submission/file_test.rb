@@ -23,4 +23,19 @@ class SubmissionFileTest < ActiveSupport::TestCase
     assert_equal content, reloaded_file.content
     assert_equal content, File.read(reloaded_file.efs_path)
   end
+
+  test "submit a file with weird encoding" do
+    submission = create :submission
+    file = submission.files.create!(
+      filename: "some filename",
+      digest: "some digest",
+      content: "\xC2"
+    )
+
+    # Get a new instance from the db so that we retrieve
+    # from s3, not from the local cached version
+    reloaded_file = Submission::File.find(file.id)
+    assert_equal "\xC2", reloaded_file.content
+    assert_equal "\xC2", File.read(reloaded_file.efs_path)
+  end
 end

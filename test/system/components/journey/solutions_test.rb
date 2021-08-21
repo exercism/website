@@ -36,6 +36,19 @@ module Components
         end
       end
 
+      test "hides last submitted for non-submitted solution" do
+        user = create :user
+        solution = create :concept_solution, user: user
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+
+          assert_text solution.exercise.title
+          refute_text "Last submitted"
+        end
+      end
+
       test "paginates solutions" do
         Solution::SearchUserSolutions.stubs(:default_per).returns(1)
         user = create :user

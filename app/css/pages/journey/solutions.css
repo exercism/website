@@ -68,7 +68,7 @@
                     }
                 }
                 & .stats {
-                    @apply flex border-b-1 border-borderColor7 pb-12 mb-16;
+                    @apply flex pb-12;
 
                     & .stat {
                         @apply flex items-center;
@@ -83,7 +83,8 @@
                         }
                     }
                 }
-                & .last-updated {
+                & .iterated-at {
+                    @apply block pt-16 border-t-1 border-borderColor5;
                 }
             }
             & .counts {

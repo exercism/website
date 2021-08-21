@@ -26,8 +26,7 @@
 }
 
 .c-introducer {
-    @apply bg-randomBlue border-2 rounded-12;
-    border-color: #9e00ff;
+    @apply bg-randomBlue border-2 border-gradient rounded-12;
     @apply shadow-baseZ1;
     @apply py-12 px-48;
     @apply flex items-center;

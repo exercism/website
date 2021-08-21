@@ -44,8 +44,7 @@
             @apply py-12 px-24;
             @apply flex items-center;
             @apply bg-backgroundColorF;
-            @apply border-b-1;
-            border-color: #9e00ff;
+            @apply border-b-1 border-gradient;
 
             /* Raise this above the normal rows */
             margin-bottom: -1px;

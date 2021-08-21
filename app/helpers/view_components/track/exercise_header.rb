@@ -50,11 +50,14 @@ module ViewComponents
       end
 
       def community_solutions_tab
-        link_to(
-          graphical_icon('community-solutions') +
-          tag.span("Community Solutions", "data-text": "Community Solutions"),
+        parts = [
+          graphical_icon('community-solutions'),
+          tag.span("Community Solutions", "data-text": "Community Solutions")
+        ]
+        lockable_tab(
+          safe_join(parts),
           Exercism::Routes.track_exercise_solutions_path(track, exercise),
-          class: tab_class(:community_solutions)
+          tab_class(:community_solutions, locked: tabs_locked?)
         )
       end
 
@@ -68,17 +71,18 @@ module ViewComponents
           parts << tag.span(count, class: "count") if count.positive?
         end
 
-        locked = !@solution&.iterated?
-        css_class = tab_class(:mentoring, locked: locked)
+        lockable_tab(
+          safe_join(parts),
+          Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
+          tab_class(:mentoring, locked: tabs_locked?)
+        )
+      end
 
-        if locked
-          tag.div(safe_join(parts), class: css_class)
+      def lockable_tab(html, href, css_class)
+        if tabs_locked?
+          tag.div(html, class: css_class)
         else
-          link_to(
-            safe_join(parts),
-            Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
-            class: css_class
-          )
+          link_to(html, href, class: css_class)
         end
       end
 
@@ -93,6 +97,11 @@ module ViewComponents
       memoize
       def track
         user_track.track
+      end
+
+      memoize
+      def tabs_locked?
+        !@solution&.iterated?
       end
     end
   end

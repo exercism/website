@@ -128,6 +128,20 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     assert PracticeSolution.find_by(user: user, exercise: exercise)
   end
 
+  test "edit: redirects if exercise is locked" do
+    user = create :user
+    track = create :track
+    exercise = create :practice_exercise, track: track, slug: "hello-world"
+    UserTrack.any_instance.expects(:exercise_unlocked?).with(exercise).returns(false)
+
+    create :user_track, user: user, track: track
+
+    sign_in!(user)
+
+    get edit_track_exercise_url(track, exercise)
+    assert_redirected_to action: :show
+  end
+
   test "edit: redirects if track not joined" do
     user = create :user
     track = create :track

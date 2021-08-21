@@ -46,6 +46,8 @@ class Tracks::ExercisesController < ApplicationController
     return redirect_to(action: :show) if @user_track.external?
 
     @solution ||= Solution::Create.(current_user, @exercise) # rubocop:disable Naming/MemoizedInstanceVariableName
+  rescue ExerciseLockedError
+    redirect_to action: :show
   end
 
   # TODO: (Required) Delete when this is working via the API

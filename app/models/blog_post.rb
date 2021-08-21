@@ -1,4 +1,7 @@
 class BlogPost < ApplicationRecord
+  include ActionView::Helpers::AssetUrlHelper
+  include Webpacker::Helper
+
   extend FriendlyId
   friendly_id :slug, use: [:history]
 
@@ -28,9 +31,11 @@ class BlogPost < ApplicationRecord
     slug
   end
 
-  # TODO: Guarantee all posts have image_urls instead
   def image_url
-    super.presence || "https://i9.ytimg.com/vi_webp/08yykgEH1p0/sddefault.webp?v=60de2fe7&sqp=CISAkIgG&rs=AOn4CLDnkwE1bvFAmPk3NPom0WF9AMx0FQ"
+    attributes['image_url'].presence || asset_pack_url(
+      "media/images/graphics/blog-placeholder-article.svg",
+      host: Rails.application.config.action_controller.asset_host
+    )
   end
 
   # TODO: Guarantee all posts have descriptions instead

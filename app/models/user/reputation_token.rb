@@ -1,6 +1,5 @@
 class User::ReputationToken < ApplicationRecord
   include IsParamaterisedSTI
-  include Webpacker::Helper
 
   self.class_suffix = :token
   self.i18n_category = :user_reputation_tokens

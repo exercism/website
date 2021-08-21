@@ -35,7 +35,7 @@
             Can you
             = link_to "contribute", contributing_root_path
             or
-            = link_to "donate", "#"
+            = link_to "donate", donate_url
             to help us grow?
       .decorations
 
@@ -61,7 +61,7 @@
           = link_to contributing_root_path, class: 'action e-hover-grow' do
             = graphical_icon "contributing-header", category: 'graphics'
             Contribute to building Exercism
-          = link_to "#", class: 'action e-hover-grow' do
+          = link_to donate_url, class: 'action e-hover-grow' do
             = graphical_icon "floating-cash", category: 'graphics'
             Donate to help us grow substainably
 

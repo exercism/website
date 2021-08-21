@@ -2,31 +2,9 @@
   = render ViewComponents::Contributing::Header.new(:dashboard)
 
   .lg-container.container
-    .funding
-      = graphical_icon "pointing-hand", category: "graphics"
-      .content
-        %h2
-          Exercism needs
-          %strong YOUR
-          help to fulfil its potential.
-        %p
-          We have big plans for Exercism!
-          With over
-          %strong 800,000 users, 2M+ solutions,
-          automated feedback and a staff building out features and maintaining, running Exercism is expensive, and
-          we need your help to take us forward.
-        .cta
-          = link_to "Help fund Exercism", donate_path, class: "btn-primary btn-m"
-          - if user_signed_in? && current_user.total_donated_in_cents.positive?
-            .total
-              You’ve contributed
-              = link_to number_to_currency(current_user.total_donated_in_cents / 100.0), "#"
-              to Exercism 💙
-
-
     .methods-section
       %header.header
-        %h2 Ways you can help build Exercism
+        %h2 How you can help us build Exercism
         %hr.c-divider
 
       .methods

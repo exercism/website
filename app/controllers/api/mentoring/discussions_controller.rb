@@ -77,6 +77,7 @@ module API
           id: discussion.uuid,
           is_finished: discussion.finished_for_mentor?,
           links: {
+            self: Exercism::Routes.mentoring_discussion_url(discussion),
             posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
             mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion),
             finish: Exercism::Routes.finish_api_mentoring_discussion_url(discussion)

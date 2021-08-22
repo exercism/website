@@ -9,7 +9,10 @@ import {
 } from '../common'
 import { Modal, ModalProps } from './Modal'
 import pluralize from 'pluralize'
-import { FavoriteButton } from '../mentoring/session/FavoriteButton'
+import {
+  FavoritableStudent,
+  FavoriteButton,
+} from '../mentoring/session/FavoriteButton'
 import { useList } from '../../hooks/use-list'
 import { PaginatedResult, MentorDiscussion, Student } from '../types'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
@@ -85,10 +88,12 @@ export const PreviousMentoringSessionsModal = ({
         with
         <Avatar src={student.avatarUrl} handle={student.handle} />
         <div className="student-name">{student.handle}</div>
-        <FavoriteButton
-          student={student}
-          onSuccess={(student) => setStudent(student)}
-        />
+        {student.links.favorite ? (
+          <FavoriteButton
+            student={student as FavoritableStudent}
+            onSuccess={(student) => setStudent(student)}
+          />
+        ) : null}
       </header>
       <div className="discussions">
         <ResultsZone isFetching={isFetching}>

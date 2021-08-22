@@ -2,11 +2,11 @@ import React, { useReducer, useEffect, useRef } from 'react'
 import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
 import { FavoriteStep } from './finished-wizard/FavoriteStep'
 import { FinishStep } from './finished-wizard/FinishStep'
-import { Student } from '../../types'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { FavoritableStudent } from '../session/FavoriteButton'
 
 type State = {
-  student: Student
+  student: FavoritableStudent
   step: ModalStep
 }
 
@@ -15,18 +15,18 @@ export type ModalStep = 'mentorAgain' | 'favorite' | 'finish'
 type Action =
   | {
       type: 'MENTOR_AGAIN'
-      payload: { student: Student }
+      payload: { student: FavoritableStudent }
     }
   | {
       type: 'WONT_MENTOR_AGAIN'
-      payload: { student: Student }
+      payload: { student: FavoritableStudent }
     }
-  | { type: 'FAVORITED'; payload: { student: Student } }
+  | { type: 'FAVORITED'; payload: { student: FavoritableStudent } }
   | { type: 'SKIP_FAVORITE' }
   | { type: 'RESET' }
 
 type Props = {
-  student: Student
+  student: FavoritableStudent
   defaultStep: ModalStep
 }
 

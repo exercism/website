@@ -6,6 +6,7 @@ import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
 import { Student } from '../../../types'
+import { FavoritableStudent } from '../../session/FavoriteButton'
 
 const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 
@@ -20,11 +21,11 @@ export const FavoriteStep = ({
   onFavorite,
   onSkip,
 }: {
-  student: Student
-  onFavorite: (student: Student) => void
+  student: FavoritableStudent
+  onFavorite: (student: FavoritableStudent) => void
   onSkip: () => void
 }): JSX.Element => {
-  const [handleFavorite, { status, error }] = useMutation<Student>(
+  const [handleFavorite, { status, error }] = useMutation<FavoritableStudent>(
     () => {
       const { fetch } = sendRequest({
         endpoint: student.links.favorite,
@@ -32,7 +33,9 @@ export const FavoriteStep = ({
         body: null,
       })
 
-      return fetch.then((json) => typecheck<Student>(json, 'student'))
+      return fetch.then((json) =>
+        typecheck<FavoritableStudent>(json, 'student')
+      )
     },
     {
       onSuccess: (student) => {

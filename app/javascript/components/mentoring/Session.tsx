@@ -30,6 +30,7 @@ import {
 
 import { useIterationScrolling } from './session/useIterationScrolling'
 import { SplitPane } from '../common'
+import { FavoritableStudent } from './session/FavoriteButton'
 
 export type Settings = {
   scroll: boolean
@@ -178,7 +179,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                       status={status}
                       discussion={discussion}
                       iterations={iterations}
-                      student={student}
+                      student={student as FavoritableStudent}
                       userHandle={userHandle}
                       onIterationScroll={handleIterationScroll}
                     />

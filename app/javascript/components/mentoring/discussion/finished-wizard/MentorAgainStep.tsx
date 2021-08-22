@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { Student } from '../../../types'
+import { FavoritableStudent } from '../../session/FavoriteButton'
 
-type SuccessFn = (student: Student) => void
+type SuccessFn = (student: FavoritableStudent) => void
 type Choice = 'yes' | 'no'
 
 const DEFAULT_ERROR = new Error('Unable to update student')
@@ -24,12 +23,12 @@ export const MentorAgainStep = ({
   onYes,
   onNo,
 }: {
-  student: Student
+  student: FavoritableStudent
   onYes: SuccessFn
   onNo: SuccessFn
 }): JSX.Element => {
   const [choice, setChoice] = useState<Choice | null>(null)
-  const [mutate, { status, error }] = useMutation<Student>(
+  const [mutate, { status, error }] = useMutation<FavoritableStudent>(
     () => {
       const method = choice === 'yes' ? 'DELETE' : 'POST'
 
@@ -39,7 +38,9 @@ export const MentorAgainStep = ({
         body: null,
       })
 
-      return fetch.then((json) => typecheck<Student>(json, 'student'))
+      return fetch.then((json) =>
+        typecheck<FavoritableStudent>(json, 'student')
+      )
     },
     {
       onSuccess: (student) => {

@@ -80,7 +80,7 @@ export const ExerciseCommunitySolutionsList = ({
         >
           {resolvedData ? (
             <React.Fragment>
-              <div className="solutions">
+              <div className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 {resolvedData.results.map((solution) => {
                   return (
                     <CommunitySolution

@@ -12,7 +12,7 @@
         }
     }
     & .solutions {
-        @apply grid grid-cols-3 gap-x-48 gap-y-32;
+        @apply grid gap-x-48 gap-y-32;
         @apply pb-80;
     }
 }

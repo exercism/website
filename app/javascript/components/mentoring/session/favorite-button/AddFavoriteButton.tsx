@@ -1,15 +1,15 @@
 import React from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
-import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { Student } from '../../types'
-import { FormButton } from '../../common'
-import { typecheck } from '../../../utils/typecheck'
+import { sendRequest } from '../../../../utils/send-request'
+import { GraphicalIcon } from '../../../common/GraphicalIcon'
+import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+import { FavoritableStudent } from '../FavoriteButton'
+import { FormButton } from '../../../common'
+import { typecheck } from '../../../../utils/typecheck'
 
 type ComponentProps = {
   endpoint: string
-  onSuccess: (student: Student) => void
+  onSuccess: (student: FavoritableStudent) => void
 }
 
 export const AddFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -26,7 +26,7 @@ const Component = ({
   endpoint,
   onSuccess,
 }: ComponentProps): JSX.Element | null => {
-  const [mutation, { status, error }] = useMutation<Student>(
+  const [mutation, { status, error }] = useMutation<FavoritableStudent>(
     () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
@@ -34,7 +34,9 @@ const Component = ({
         body: null,
       })
 
-      return fetch.then((json) => typecheck<Student>(json, 'student'))
+      return fetch.then((json) =>
+        typecheck<FavoritableStudent>(json, 'student')
+      )
     },
     {
       onSuccess: (student) => onSuccess(student),

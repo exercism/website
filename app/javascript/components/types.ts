@@ -104,7 +104,7 @@ export type Student = {
   numDiscussionsWithMentor: number
   links: {
     block: string
-    favorite: string
+    favorite?: string
     previousSessions: string
   }
 }

@@ -9,6 +9,7 @@ module API
       render json: {
         student: SerializeStudent.(
           @student,
+          current_user,
           user_track: user_track,
           relationship: relationship,
           anonymous_mode: false
@@ -61,6 +62,7 @@ module API
       render json: {
         student: SerializeStudent.(
           @student,
+          current_user,
           user_track: nil,
           relationship: relationship,
           anonymous_mode: false

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Student } from '../../types'
 import { Avatar, Reputation } from '../../common'
-import { FavoriteButton } from './FavoriteButton'
+import { FavoritableStudent, FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
 
 export const StudentInfo = ({
@@ -46,10 +46,12 @@ const StudentInfoActions = ({
 }) => {
   return (
     <div className="options">
-      <FavoriteButton
-        student={student}
-        onSuccess={(student) => setStudent(student)}
-      />
+      {student.links.favorite ? (
+        <FavoriteButton
+          student={student as FavoritableStudent}
+          onSuccess={(student) => setStudent(student)}
+        />
+      ) : null}
     </div>
   )
 }

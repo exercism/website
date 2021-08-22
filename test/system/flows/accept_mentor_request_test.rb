@@ -75,5 +75,18 @@ module Flows
         assert_text "Hello"
       end
     end
+
+    test "favorite button is hidden when there is no discussion yet" do
+      solution = create :concept_solution
+      request = create :mentor_request, solution: solution
+      create :iteration, idx: 1, solution: solution, created_at: 1.week.ago
+
+      use_capybara_host do
+        sign_in!
+        visit mentoring_request_path(request)
+
+        assert_no_button "Add to favorites"
+      end
+    end
   end
 end

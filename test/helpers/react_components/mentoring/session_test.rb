@@ -38,7 +38,7 @@ module Mentoring
             SerializeIteration.(iteration_2).merge(unread: false),
             SerializeIteration.(iteration_3).merge(unread: false)
           ],
-          student: SerializeStudent.(student, relationship: nil, anonymous_mode: false, user_track: user_track),
+          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
           notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
           out_of_date: false,
@@ -99,7 +99,7 @@ module Mentoring
             SerializeIteration.(iteration_2).merge(unread: false),
             SerializeIteration.(iteration_3).merge(unread: true)
           ],
-          student: SerializeStudent.(student, user_track: user_track, relationship: nil, anonymous_mode: false),
+          student: SerializeStudent.(student, mentor, user_track: user_track, relationship: nil, anonymous_mode: false),
           mentor_solution: nil,
           notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
           out_of_date: false,
@@ -157,7 +157,7 @@ module Mentoring
             SerializeIteration.(iteration_2).merge(unread: false),
             SerializeIteration.(iteration_3).merge(unread: false)
           ],
-          student: SerializeStudent.(student, relationship: nil, anonymous_mode: false, user_track: user_track),
+          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
           notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
           out_of_date: false,

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SerializeMentorDiscussionTest < ActiveSupport::TestCase
+class SerializeStudentTest < ActiveSupport::TestCase
   test "with relationship" do
     student = create :user
     relationship = create :mentor_student_relationship, student: student, num_discussions: 5, favorited: true

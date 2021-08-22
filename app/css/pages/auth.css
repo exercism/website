@@ -4,26 +4,41 @@
     --lhs-width: 550px;
     background: linear-gradient(360deg, #5141bd 0%, #3e2ea5 100%),
         linear-gradient(0deg, #2f2768, #2f2768);
-    @apply flex flex-grow relative;
+    @apply flex flex-col flex-grow relative;
+    @screen md {
+        @apply flex-row;
+    }
 
     & section.form-section {
         @apply py-48 px-48;
         @apply bg-backgroundColorA;
         margin: 0 auto;
-        max-width: 38%;
-        width: 100%;
+        @apply flex-grow w-100;
+
+        @screen md {
+            max-width: 520px;
+        }
+        @screen lg {
+            max-width: 38%;
+        }
 
         @apply flex flex-col items-center;
 
         & > .inner {
-            width: 100%;
-            max-width: var(--lhs-width);
+            @apply flex flex-col items-center;
+            @screen lg {
+                width: 100%;
+                max-width: var(--lhs-width);
+            }
         }
 
         & .logo {
-            @apply mb-12;
+            @apply block mb-12;
 
-            max-height: 32px;
+            & img {
+                height: 32px;
+                width: 177px;
+            }
         }
         & p.tagline {
             @apply text-16 leading-paragraph text-darkGray;
@@ -133,6 +148,11 @@
         position: sticky;
         top: 0;
 
+        @apply hidden;
+        @screen lg {
+            @apply flex;
+        }
+
         & .content {
             @apply mt-auto text-center;
             @apply flex flex-col items-center;
@@ -143,7 +163,7 @@
                 @apply text-p-large text-veryLightBlue;
                 max-width: 720px;
                 & strong {
-                    @apply font-semibold;
+                    @apply font-semibold text-white;
                 }
             }
             & .icons {

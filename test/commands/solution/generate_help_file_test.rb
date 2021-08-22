@@ -29,7 +29,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
       - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
       - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
-      - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
+      - The [Frequently Asked Questions](https://exercism.io/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
 
@@ -66,7 +66,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
       - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
       - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
-      - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
+      - The [Frequently Asked Questions](https://exercism.io/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
 
@@ -104,7 +104,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
       - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
       - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
-      - The [Frequently Asked Questions](https://exercism.io/docs/faq) TODO: (Required) use correct link
+      - The [Frequently Asked Questions](https://exercism.io/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
 

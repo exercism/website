@@ -394,9 +394,12 @@ Rails.application.routes.draw do
   get "become-a-mentor", to: redirect("mentoring")
 
   # Licences
-  get "licences/cc-sa-4" => "docs/using/licences/cc-by-nc-sa-4", as: :cc_sa_4_licence
-  get "licences/cc-by-nc-sa-4" => "docs/using/licences/cc-by-nc-sa-4", as: :cc_by_nc_sa_4_licence
-  get "licences/mit" => "docs/using/licences/mit", as: :mit_licence
+  %w[licences licenses].each do |spelling|
+    get "#{spelling}/cc-sa-4" => "docs/using/licenses/cc-by-nc-sa-4", as: :cc_sa_4_licence
+    get "#{spelling}/cc-by-nc-sa-4" => "docs/using/licenses/cc-by-nc-sa-4", as: :cc_by_nc_sa_4_licence
+    get "#{spelling}/mit" => "docs/using/licenses/mit", as: :mit_licence
+    get "#{spelling}/agpl" => "docs/using/licenses/agpl", as: :agpl_licence
+  end
 
   # ########################### #
   # Temporary and testing pages #

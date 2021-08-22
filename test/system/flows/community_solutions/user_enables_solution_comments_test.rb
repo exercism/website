@@ -21,6 +21,7 @@ module Flows
           within(".m-enable-solution-comments") { click_on "Enable comments" }
 
           assert_text "0 comments"
+          assert_css ".c-markdown-editor"
         end
       end
 
@@ -39,6 +40,7 @@ module Flows
           within(".m-enable-solution-comments") { click_on "Disable comments" }
 
           assert_text "You have comments disabled"
+          assert_no_css ".c-markdown-editor"
         end
       end
     end

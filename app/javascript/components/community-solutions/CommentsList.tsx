@@ -45,8 +45,12 @@ export const CommentsList = ({
         onCommentsEnabled={handleCommentsEnabled}
         onCommentsDisabled={handleCommentsDisabled}
       />
-      <NewCommentForm cacheKey={request.endpoint} endpoint={links.create} />
-      <Reminder />
+      {allowComments ? (
+        <React.Fragment>
+          <NewCommentForm cacheKey={request.endpoint} endpoint={links.create} />
+          <Reminder />
+        </React.Fragment>
+      ) : null}
       {allowComments ? (
         <ListContainer cacheKey={request.endpoint} request={request} />
       ) : (

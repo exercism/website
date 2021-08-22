@@ -18,6 +18,7 @@ module Flows
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)
 
           assert_text "You have comments disabled"
+          assert_no_css ".c-markdown-editor"
         end
       end
 
@@ -33,6 +34,7 @@ module Flows
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)
 
           assert_text "Comments have been disabled"
+          assert_no_css ".c-markdown-editor"
         end
       end
     end

@@ -394,11 +394,11 @@ Rails.application.routes.draw do
   get "become-a-mentor", to: redirect("mentoring")
 
   # Licences
-  %w[licences licenses].each do |spelling|
-    get "#{spelling}/cc-sa-4" => "docs/using/licenses/cc-by-nc-sa-4", as: :cc_sa_4_licence
-    get "#{spelling}/cc-by-nc-sa-4" => "docs/using/licenses/cc-by-nc-sa-4", as: :cc_by_nc_sa_4_licence
-    get "#{spelling}/mit" => "docs/using/licenses/mit", as: :mit_licence
-    get "#{spelling}/agpl" => "docs/using/licenses/agpl", as: :agpl_licence
+  %w[licence license].each do |spelling|
+    get "#{spelling}s/cc-sa-4" => "docs/using/licenses/cc-by-nc-sa-4", as: "cc_sa_4_#{spelling}"
+    get "#{spelling}s/cc-by-nc-sa-4" => "docs/using/licenses/cc-by-nc-sa-4", as: "cc_by_nc_sa_4_#{spelling}"
+    get "#{spelling}s/mit" => "docs/using/licenses/mit", as: "mit_#{spelling}"
+    get "#{spelling}s/agpl" => "docs/using/licenses/agpl", as: "agpl_#{spelling}"
   end
 
   # ########################### #

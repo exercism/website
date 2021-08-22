@@ -1,6 +1,6 @@
 import React from 'react'
 import { fromNow } from '../../../utils/time'
-import { GraphicalIcon, Reputation } from '../../common'
+import { imageErrorHandler, GraphicalIcon, Reputation } from '../../common'
 import { ReputationToken } from '../Reputation'
 
 export const ReputationMenuItem = ({
@@ -21,7 +21,13 @@ export const ReputationMenuItem = ({
 
   return (
     <a href={url} className="token">
-      <img alt="" role="presentation" src={iconUrl} className="reason-icon" />
+      <img
+        alt=""
+        role="presentation"
+        src={iconUrl}
+        className="reason-icon"
+        onError={imageErrorHandler}
+      />
       <div className="content">
         <div
           className="description"

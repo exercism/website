@@ -83,6 +83,7 @@ header.c-profile-header {
         }
         & .badges-and-tags {
             @apply flex flex-col items-end;
+            @apply whitespace-no-wrap;
 
             & .header {
                 @apply flex items-center;

@@ -10,12 +10,12 @@ test('closes reset button modal when clicking on cancel', async () => {
     <TrackMenu
       track={createTrack()}
       links={{
-        repo: '',
-        documentation: '',
-        activateLearningMode: '',
-        activatePracticeMode: '',
-        reset: '',
-        leave: '',
+        repo: 'something',
+        documentation: 'something',
+        activateLearningMode: 'something',
+        activatePracticeMode: 'something',
+        reset: 'something',
+        leave: 'something',
       }}
       ariaHideApp={false}
     />
@@ -40,12 +40,12 @@ test('closes leave modal when clicking on cancel', async () => {
     <TrackMenu
       track={createTrack()}
       links={{
-        repo: '',
-        documentation: '',
-        activateLearningMode: '',
-        activatePracticeMode: '',
-        reset: '',
-        leave: '',
+        repo: 'something',
+        documentation: 'something',
+        activateLearningMode: 'something',
+        activatePracticeMode: 'something',
+        reset: 'something',
+        leave: 'something',
       }}
       ariaHideApp={false}
     />
@@ -69,12 +69,12 @@ test('closes leave modal when clicking on cancel in the leave + reset form', asy
     <TrackMenu
       track={createTrack()}
       links={{
-        repo: '',
-        documentation: '',
-        activateLearningMode: '',
-        activatePracticeMode: '',
-        reset: '',
-        leave: '',
+        repo: 'something',
+        documentation: 'something',
+        activateLearningMode: 'something',
+        activatePracticeMode: 'something',
+        reset: 'something',
+        leave: 'something',
       }}
       ariaHideApp={false}
     />

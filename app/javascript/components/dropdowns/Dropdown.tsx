@@ -4,6 +4,7 @@ import { useDropdown } from './useDropdown'
 type MenuButton = {
   label: string
   className: string
+  extraClassNames?: string[]
   html: string
 }
 
@@ -40,7 +41,9 @@ export const Dropdown = ({
   return (
     <React.Fragment>
       <button
-        className={`${menuButton.className}`}
+        className={`${menuButton.className} ${
+          menuButton.extraClassNames ? menuButton.extraClassNames.join(' ') : ''
+        }`}
         dangerouslySetInnerHTML={{ __html: menuButton.html }}
         aria-label={menuButton.label}
         {...buttonAttributes}

@@ -136,7 +136,8 @@
             @apply py-10 px-24;
             @apply items-center;
             @apply border-b-1 border-borderColor7;
-            & .knowledge-tag {
+            & .knowledge-tag,
+            & .size-tag {
                 @apply ml-0;
                 @screen md {
                     @apply ml-48;
@@ -201,12 +202,13 @@
 
                 & > .knowledge-tag {
                     transform: scale(0.8);
+                    transform-origin: 0 50%;
                     @screen md {
                         transform: unset;
                     }
                 }
 
-                & > :not(.knowledge-tag) {
+                & > :not(.knowledge-tag):not(.size-tag) {
                     @apply ml-16;
                     @screen md {
                         @apply ml-48;

@@ -14,7 +14,7 @@ module ViewComponents
     end
 
     def logo
-      link_to Exercism::Routes.root_path, class: "exercism-link" do
+      link_to Exercism::Routes.root_path, class: "exercism-link lg:hidden xl:block" do
         icon "exercism-with-logo-black", "Exercism"
       end
     end
@@ -66,11 +66,33 @@ module ViewComponents
     end
 
     def signed_out_section
-      signed_out_nav +
-        tag.div(class: "auth-buttons") do
-          link_to("Sign up", Exercism::Routes.new_user_registration_path, class: "btn-primary btn-xs") +
-            link_to("Log in", Exercism::Routes.new_user_session_path, class: "btn-secondary btn-xs")
-        end
+      safe_join(
+        [
+          signed_out_nav,
+          tag.div(class: "auth-buttons") do
+            link_to("Sign up", Exercism::Routes.new_user_registration_path, class: "btn-primary btn-xs") +
+              link_to("Log in", Exercism::Routes.new_user_session_path, class: "btn-secondary btn-xs")
+          end,
+          explore_dropdown
+        ]
+      )
+    end
+
+    def explore_dropdown
+      button = {
+        label: "Button to open the navigation menu",
+        className: "explore-menu",
+        extraClassNames: %w[btn-xs btn-enhanced],
+        html: safe_join([graphical_icon("hamburger"), tag.span("Explore")])
+      }
+      items = [
+        { html: link_to("Dashboard", Exercism::Routes.dashboard_path), className: "opt site-link" },
+        { html: link_to("Tracks", Exercism::Routes.tracks_path), className: "opt site-link" },
+        { html: link_to("Mentoring", Exercism::Routes.mentoring_inbox_path), className: "opt site-link" },
+        { html: link_to("Contribute", Exercism::Routes.contributing_root_path), className: "opt site-link" },
+        { html: link_to("Donate 💜", Exercism::Routes.donate_path), className: "opt site-link donate" }
+      ]
+      render(ReactComponents::Dropdowns::Dropdown.new(menu_button: button, menu_items: items))
     end
 
     def signed_out_nav

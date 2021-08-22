@@ -6,12 +6,14 @@
             @apply mb-32;
             & input.--search {
                 width: 100%;
-                max-width: 440px;
+                @screen md {
+                    max-width: 440px;
+                }
             }
         }
         & .tabs {
-            @apply flex;
-            @apply mb-32;
+            @apply flex overflow-x-scroll;
+            @apply pb-12 mb-20;
 
             & .c-tab {
                 height: 40px;
@@ -31,7 +33,6 @@
         & .exercises {
             @apply grid gap-16;
             @apply pb-40;
-            grid-template-columns: repeat(2, 1fr);
         }
     }
 }

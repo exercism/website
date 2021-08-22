@@ -19,14 +19,18 @@ module ReactComponents
       end
 
       def links
-        {
+        hash = {
           repo: track.repo_url,
-          documentation: Exercism::Routes.track_docs_url(track),
+          documentation: Exercism::Routes.track_docs_url(track)
+        }
+        return hash if user_track.external?
+
+        hash.merge(
           activate_practice_mode: activate_practice_mode_url,
           activate_learning_mode: activate_learning_mode_url,
           reset: Exercism::Routes.reset_api_track_url(track),
           leave: Exercism::Routes.leave_api_track_url(track)
-        }
+        )
       end
 
       def activate_practice_mode_url

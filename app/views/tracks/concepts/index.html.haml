@@ -3,7 +3,7 @@
 
   %article.content
     - if @user_track.external?
-      .md-container.container
+      .md-container.container.hidden.lg:block
         %section.external-cta
           = track_icon(@track)
           .info
@@ -16,9 +16,9 @@
             Join The #{@track.title} Track
 
     %header.page-header
-      .lg-container.container
+      .lg-container.container.flex-col.sm:flex-row
         = graphical_icon "forest", css_class: 'graphic', category: 'graphics'
-        .info
+        .info.text-center.sm:text-left
           %h1 Your journey through #{@track.title}
           %p Learn and master concepts to achieve fluency in #{@track.title}.
 

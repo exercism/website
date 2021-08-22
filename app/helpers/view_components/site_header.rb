@@ -86,10 +86,10 @@ module ViewComponents
         html: safe_join([graphical_icon("hamburger"), tag.span("Explore")])
       }
       items = [
-        { html: link_to("Dashboard", Exercism::Routes.dashboard_path), className: "opt site-link" },
-        { html: link_to("Tracks", Exercism::Routes.tracks_path), className: "opt site-link" },
-        { html: link_to("Mentoring", Exercism::Routes.mentoring_inbox_path), className: "opt site-link" },
+        { html: link_to("Home", Exercism::Routes.landing_page_path), className: "opt site-link" },
+        { html: link_to("Language Tracks", Exercism::Routes.tracks_path), className: "opt site-link" },
         { html: link_to("Contribute", Exercism::Routes.contributing_root_path), className: "opt site-link" },
+        { html: link_to("Mentoring", Exercism::Routes.mentoring_path), className: "opt site-link" },
         { html: link_to("Donate 💜", Exercism::Routes.donate_path), className: "opt site-link donate" }
       ]
       render(ReactComponents::Dropdowns::Dropdown.new(menu_button: button, menu_items: items))

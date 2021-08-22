@@ -10,10 +10,10 @@ import { LeaveTrackModal } from './track-menu/LeaveTrackModal'
 export type Links = {
   repo: string
   documentation: string
-  activatePracticeMode: string
-  activateLearningMode: string
-  reset: string
-  leave: string
+  activatePracticeMode?: string
+  activateLearningMode?: string
+  reset?: string
+  leave?: string
 }
 
 type ModalType = 'learning' | 'practice' | 'reset' | 'leave'
@@ -74,55 +74,67 @@ export const TrackMenu = ({
                   Disable Learning Mode…
                 </button>
               </li>
-            ) : (
+            ) : links.activateLearningMode ? (
               <li {...itemAttributes(2)}>
                 <button type="button" onClick={() => setModal('learning')}>
                   <GraphicalIcon icon="concepts" />
                   Enable Learning Mode…
                 </button>
               </li>
-            )}
-            <li {...itemAttributes(3)}>
-              <button type="button" onClick={() => setModal('reset')}>
-                <GraphicalIcon icon="reset" />
-                Reset track…
-              </button>
-            </li>
-            <li {...itemAttributes(4)}>
-              <button type="button" onClick={() => setModal('leave')}>
-                <div className="emoji">👋</div>
-                Leave track…
-              </button>
-            </li>
+            ) : null}
+            {links.reset ? (
+              <li {...itemAttributes(3)}>
+                <button type="button" onClick={() => setModal('reset')}>
+                  <GraphicalIcon icon="reset" />
+                  Reset track…
+                </button>
+              </li>
+            ) : null}
+            {links.leave ? (
+              <li {...itemAttributes(4)}>
+                <button type="button" onClick={() => setModal('leave')}>
+                  <div className="emoji">👋</div>
+                  Leave track…
+                </button>
+              </li>
+            ) : null}
           </ul>
         </div>
       ) : null}
-      <ActivatePracticeModeModal
-        open={modal === 'practice'}
-        onClose={() => setModal(null)}
-        endpoint={links.activatePracticeMode}
-        ariaHideApp={ariaHideApp}
-      />
-      <ActivateLearningModeModal
-        open={modal === 'learning'}
-        onClose={() => setModal(null)}
-        endpoint={links.activateLearningMode}
-        ariaHideApp={ariaHideApp}
-      />
-      <ResetTrackModal
-        open={modal === 'reset'}
-        track={track}
-        onClose={() => setModal(null)}
-        endpoint={links.reset}
-        ariaHideApp={ariaHideApp}
-      />
-      <LeaveTrackModal
-        open={modal === 'leave'}
-        track={track}
-        onClose={() => setModal(null)}
-        endpoint={links.leave}
-        ariaHideApp={ariaHideApp}
-      />
+      {links.activatePracticeMode ? (
+        <ActivatePracticeModeModal
+          open={modal === 'practice'}
+          onClose={() => setModal(null)}
+          endpoint={links.activatePracticeMode}
+          ariaHideApp={ariaHideApp}
+        />
+      ) : null}
+      {links.activateLearningMode ? (
+        <ActivateLearningModeModal
+          open={modal === 'learning'}
+          onClose={() => setModal(null)}
+          endpoint={links.activateLearningMode}
+          ariaHideApp={ariaHideApp}
+        />
+      ) : null}
+      {links.reset ? (
+        <ResetTrackModal
+          open={modal === 'reset'}
+          track={track}
+          onClose={() => setModal(null)}
+          endpoint={links.reset}
+          ariaHideApp={ariaHideApp}
+        />
+      ) : null}
+      {links.leave ? (
+        <LeaveTrackModal
+          open={modal === 'leave'}
+          track={track}
+          onClose={() => setModal(null)}
+          endpoint={links.leave}
+          ariaHideApp={ariaHideApp}
+        />
+      ) : null}
     </div>
   )
 }

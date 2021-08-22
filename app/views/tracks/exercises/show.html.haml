@@ -2,7 +2,7 @@
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :overview)
 
   .lg-container.flex.flex-col-reverse.md:flex-row
-    .lg:w-arbitary.flex-grow
+    .flex-grow.lg:w-arbitary
       - if @solution&.completed?
         %section.completed-heading
           = graphical_icon 'completed-check-circle', css_class: "check-mark-icon"
@@ -28,7 +28,7 @@
       - else
         = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
 
-      %section.instructions.c-textual-content.--large
+      %section.instructions.c-textual-content.--large.px-20.lg:px-32.py-20.lg:py-24
         %h2 Instructions
         - instructions = @solution ? @solution.instructions : @exercise.instructions
         = raw Markdown::Parse.(instructions)

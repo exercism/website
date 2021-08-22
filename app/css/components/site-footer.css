@@ -7,7 +7,10 @@ body.namespace-.controller-journey {
 }
 
 #site-footer {
-    margin-top: 200px;
+    margin-top: 100px;
+    @screen lg {
+        margin-top: 200px;
+    }
 
     @apply bg-textColor2;
     @apply border-t-8 border-purple;

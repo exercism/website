@@ -75,12 +75,13 @@
     }
 
     & .rhs {
-        width: 520px;
-        @apply ml-48 flex-shrink-0;
+        @apply flex-shrink-0;
+        @screen lg {
+            width: 520px;
+        }
     }
     & section.about {
-        @apply mb-32 px-32 py-24 bg-backgroundColorA rounded-8 shadow-lg;
-        @apply mb-32;
+        @apply mb-32 bg-backgroundColorA rounded-8 shadow-lg;
         & .links {
             @apply mt-32;
             & h3 {
@@ -107,7 +108,7 @@
         }
     }
     & section.extra-info {
-        @apply flex items-center mb-40;
+        @apply flex items-center;
 
         & a {
             @apply text-15 text-textColor6 font-medium;

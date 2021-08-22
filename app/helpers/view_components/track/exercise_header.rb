@@ -32,8 +32,14 @@ module ViewComponents
                 (mentoring_tab unless exercise.tutorial?)
               ]
             )
-          end + (render ::ReactComponents::Student::OpenEditorButton.new(exercise))
+          end + editor_btn
         end
+      end
+
+      def editor_btn
+        return nil if user_track.external?
+
+        render ::ReactComponents::Student::OpenEditorButton.new(exercise)
       end
 
       def iterations_tab
@@ -57,7 +63,8 @@ module ViewComponents
         lockable_tab(
           safe_join(parts),
           Exercism::Routes.track_exercise_solutions_path(track, exercise),
-          tab_class(:community_solutions, locked: tabs_locked?)
+          :community_solutions,
+          solutions_tab_locked?
         )
       end
 
@@ -74,16 +81,16 @@ module ViewComponents
         lockable_tab(
           safe_join(parts),
           Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
-          tab_class(:mentoring, locked: tabs_locked?)
+          :mentoring,
+          mentoring_tab_locked?
         )
       end
 
-      def lockable_tab(html, href, css_class)
-        if tabs_locked?
-          tag.div(html, class: css_class)
-        else
+      def lockable_tab(html, href, class_name, locked)
+        css_class = tab_class(class_name, locked: locked)
+
+        locked ? tag.div(html, class: css_class) :
           link_to(html, href, class: css_class)
-        end
       end
 
       def tab_class(tab, locked: false)
@@ -100,7 +107,14 @@ module ViewComponents
       end
 
       memoize
-      def tabs_locked?
+      def solutions_tab_locked?
+        return false if user_track.external?
+
+        mentoring_tab_locked?
+      end
+
+      memoize
+      def mentoring_tab_locked?
         !@solution&.iterated?
       end
     end

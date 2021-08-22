@@ -1,5 +1,7 @@
 .c-track-breadcrumbs {
     @apply border-b-1 border-color22;
+    @apply overflow-x-auto;
+
     & .container {
         @apply flex items-center;
         @apply py-8;
@@ -10,6 +12,7 @@
         @apply text-lightBlue font-medium;
         @apply mr-16;
         @apply flex items-center;
+        @apply whitespace-no-wrap;
 
         & .c-icon,
         & .c-track-icon {
@@ -24,6 +27,10 @@
     }
     & .track-title {
         @apply mr-16;
+        @apply whitespace-no-wrap;
+    }
+    & .exercise-title {
+        @apply whitespace-no-wrap;
     }
     & .seperator {
         @apply mr-16;

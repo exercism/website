@@ -1,10 +1,11 @@
 .c-react-wrapper-track-exercise-makers-button {
-    min-width: 260px;
-    @apply flex justify-end;
+    @apply flex;
+    @screen lg {
+        min-width: 260px;
+    }
 }
 .c-makers-button {
     @apply flex items-center justify-end;
-    @apply py-8;
 
     & .stats {
         @apply ml-16;

@@ -1,7 +1,6 @@
 .c-faces {
     @apply relative flex;
     height: 32px;
-    padding-left: 16px;
 
     & .face {
         &:not(:first-child) {

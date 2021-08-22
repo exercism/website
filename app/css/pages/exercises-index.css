@@ -12,7 +12,7 @@
             }
         }
         & .tabs {
-            @apply flex overflow-x-scroll;
+            @apply flex overflow-x-auto;
             @apply pb-12 mb-20;
 
             & .c-tab {

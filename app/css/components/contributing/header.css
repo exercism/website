@@ -40,7 +40,7 @@
     }
     & > .nav-container {
         @apply flex;
-        @apply overflow-x-scroll;
+        @apply overflow-x-auto;
 
         & .tabs {
             @apply flex mr-24 flex-shrink-0;

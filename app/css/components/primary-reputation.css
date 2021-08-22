@@ -7,7 +7,7 @@
 
     @apply flex items-center justify-center;
     @apply text-16 leading-200 font-semibold;
-    @apply flex-grow px-16 rounded-100;
+    @apply px-16 rounded-100;
 
     /* These shouldn't change for theme */
     color: #fbfcfe;

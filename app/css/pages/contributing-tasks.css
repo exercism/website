@@ -1,5 +1,11 @@
 @import "../styles";
 
+.c-task-tooltip {
+    @apply hidden;
+    @screen md {
+        @apply block;
+    }
+}
 .c-task-tooltip,
 #contributing-tasks .task {
     & .size-tag {
@@ -61,13 +67,16 @@
     @apply mb-140;
 
     & .c-search-bar {
-        @apply mb-32;
+        @apply mb-16 hidden;
+        @screen lg {
+            @apply flex flex-wrap justify-end;
+        }
 
         & .c-track-select {
-            @apply mr-auto;
+            @apply mr-auto mb-16;
         }
         & .c-multi-select {
-            @apply ml-16;
+            @apply ml-16 mb-16;
 
             &.action-switcher {
                 min-width: 172px;
@@ -100,12 +109,13 @@
         @apply flex items-center mb-16;
 
         & h2 {
-            @apply flex items-center;
             @apply text-h4 text-textColor6;
             @apply mr-16;
             & strong {
-                @apply mr-12;
-                @apply text-h3;
+                @apply mr-12 text-h3;
+            }
+            @screen lg {
+                @apply flex items-center;
             }
         }
         & .reset-btn {
@@ -114,17 +124,27 @@
 
         & .c-single-select {
             @apply ml-auto;
+            @apply hidden;
+            @screen lg {
+                @apply flex;
+            }
         }
     }
     & .tasks {
         @apply shadow-lg rounded-8 bg-backgroundColorA;
         & .task {
             @apply py-10 px-24;
-            @apply flex items-center;
+            @apply items-center;
             @apply border-b-1 border-borderColor7;
+            & .knowledge-tag {
+                @apply ml-0;
+                @screen md {
+                    @apply ml-48;
+                }
+            }
 
             & .action-icon {
-                @apply mr-16;
+                @apply mr-16 flex-shrink-0;
             }
             & .info {
                 & .heading {
@@ -179,8 +199,18 @@
                 @apply flex items-center;
                 @apply ml-auto;
 
-                & > * {
-                    @apply ml-48;
+                & > .knowledge-tag {
+                    transform: scale(0.8);
+                    @screen md {
+                        transform: unset;
+                    }
+                }
+
+                & > :not(.knowledge-tag) {
+                    @apply ml-16;
+                    @screen md {
+                        @apply ml-48;
+                    }
                 }
             }
             & .external-link {

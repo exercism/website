@@ -28,8 +28,8 @@ module ViewComponents
                 )
               end
           end +
-            graphical_icon("contributing-header", category: "graphics") +
-            tag.div('', class: 'decorations')
+            graphical_icon("contributing-header", category: "graphics", css_class: "hidden md:block") +
+            tag.div('', class: 'decorations hidden lg:block')
         end
       end
 

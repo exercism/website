@@ -15,24 +15,29 @@ export const Task = ({ task }: { task: TaskProps }): JSX.Element => {
     <ExercismTippy content={<TaskTooltip task={task} />}>
       <a
         href={task.links.githubUrl}
-        className="task"
+        className="task block md:flex"
         target="_blank"
         rel="noreferrer"
       >
-        <ActionIcon action={task.tags.action} />
-        <div className="info">
-          <div className="heading">
-            <h3>{task.title}</h3>
-            {task.isNew ? <NewTag /> : null}
+        <div className="flex items-center mb-16 md:mb-0">
+          <ActionIcon action={task.tags.action} />
+          <div className="info">
+            <div className="heading">
+              <h3>{task.title}</h3>
+              {task.isNew ? <NewTag /> : null}
+            </div>
+            <TrackType track={task.track} type={task.tags.type} />
           </div>
-          <TrackType track={task.track} type={task.tags.type} />
         </div>
         <div className="tags">
           <KnowledgeTag knowledge={task.tags.knowledge} />
           <SizeTag size={task.tags.size} />
           <ModuleTag module={task.tags.module} />
         </div>
-        <GraphicalIcon icon="external-link" className="external-link" />
+        <GraphicalIcon
+          icon="external-link"
+          className="external-link hidden lg:block"
+        />
       </a>
     </ExercismTippy>
   )

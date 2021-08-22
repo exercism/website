@@ -101,16 +101,18 @@ export const ContributorsList = ({
             <span data-text="All time">All time</span>
           </PeriodButton>
         </div>
-        <TrackSelect
-          tracks={tracks}
-          value={track}
-          setValue={setTrack}
-          size="single"
-        />
-        <CategorySwitcher
-          value={request.query.category}
-          setValue={setCategory}
-        />
+        <div className="hidden lg:flex items-center ml-auto">
+          <TrackSelect
+            tracks={tracks}
+            value={track}
+            setValue={setTrack}
+            size="single"
+          />
+          <CategorySwitcher
+            value={request.query.category}
+            setValue={setCategory}
+          />
+        </div>
       </div>
 
       <ResultsZone isFetching={isFetching}>

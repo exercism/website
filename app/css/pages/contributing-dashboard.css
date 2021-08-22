@@ -75,7 +75,7 @@
                 }
             }
             & .methods {
-                @apply grid grid-cols-3 gap-x-64 gap-y-48;
+                @apply grid gap-x-64 gap-y-48;
 
                 & .method {
                     @apply flex flex-col items-start;

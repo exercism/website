@@ -168,11 +168,12 @@ export const TasksList = ({
             <React.Fragment>
               <header className="main-header c-search-bar">
                 <h2>
-                  <strong>
+                  <strong className="block md:inline">
                     Showing {resolvedData.meta.totalCount}{' '}
                     {pluralize('task', resolvedData.meta.totalCount)}
                   </strong>
-                  / out of {resolvedData.meta.unscopedTotal} possible{' '}
+                  <span className="hidden md:inline mr-8">/</span>
+                  out of {resolvedData.meta.unscopedTotal} possible{' '}
                   {pluralize('task', resolvedData.meta.unscopedTotal)}
                 </h2>
                 {isFiltering ? <ResetButton onClick={handleReset} /> : null}

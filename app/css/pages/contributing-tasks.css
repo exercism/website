@@ -133,7 +133,11 @@
     & .tasks {
         @apply shadow-lg rounded-8 bg-backgroundColorA;
         & .task {
-            @apply py-10 px-24;
+            @apply py-10 px-16;
+            @screen sm {
+                @apply px-24;
+            }
+
             @apply items-center;
             @apply border-b-1 border-borderColor7;
             & .knowledge-tag,
@@ -224,6 +228,9 @@
         }
     }
     & .c-pagination {
-        @apply px-24 py-16 mt-0;
+        @apply px-16 py-16 mt-0;
+        @screen sm {
+            @apply px-24;
+        }
     }
 }

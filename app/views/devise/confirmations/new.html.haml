@@ -1,7 +1,8 @@
 #page-auth
   %section.form-section
     .inner
-      = icon "exercism-with-logo-black", "Exercism's Logo", css_class: "logo"
+      = link_to root_path, class: 'logo' do
+        = icon "exercism-with-logo-black", "Exercism's Logo"
 
       .intro
         %h2 Resend confirmation instructions

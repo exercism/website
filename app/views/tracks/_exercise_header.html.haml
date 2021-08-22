@@ -17,7 +17,7 @@
     = render ReactComponents::Student::UpdateExerciseNotice.new(solution)
 
 .content.lg-container.container.flex.items-center
-  = exercise_icon exercise
+  = exercise_icon exercise, css_class: "self-start md:self-center"
   .flex-grow.flex.flex-col.md:flex-row
     .info
       %h1

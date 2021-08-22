@@ -27,9 +27,9 @@ module ViewComponents
                   class: tab_class(:overview)
                 ),
 
-                iterations_tab,
+                (iterations_tab unless user_track.external?),
                 (community_solutions_tab unless exercise.tutorial?),
-                (mentoring_tab unless exercise.tutorial?)
+                (mentoring_tab unless user_track.external? || exercise.tutorial?)
               ]
             )
           end + editor_btn

@@ -7,8 +7,7 @@
             @apply pt-40 pb-56;
         }
         & .info {
-            @apply flex-grow mr-64;
-            min-width: 500px;
+            @apply flex-grow;
             max-width: 600px;
             @screen lg {
                 max-width: 700px;

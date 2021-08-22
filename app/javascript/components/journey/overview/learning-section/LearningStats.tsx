@@ -17,7 +17,7 @@ export const LearningStats = ({
     <div className="stats">
       <h3>Did you know?</h3>
       <div className="stat">
-        You&apos; written{' '}
+        You&apos;ve written{' '}
         <strong>{tracks.numLines.toLocaleString()} lines</strong> of code across{' '}
         <a href={links.solutions}>{tracks.numSolutions} solutions</a>
       </div>

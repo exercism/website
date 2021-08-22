@@ -45,13 +45,13 @@ const StudentInfoActions = ({
   setStudent: (student: Student) => void
 }) => {
   return (
-    <div className="options">
+    <React.Fragment>
       {student.links.favorite ? (
         <FavoriteButton
           student={student as FavoritableStudent}
           onSuccess={(student) => setStudent(student)}
         />
       ) : null}
-    </div>
+    </React.Fragment>
   )
 }

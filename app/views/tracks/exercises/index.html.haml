@@ -3,7 +3,7 @@
 
   %article.content
     - if @user_track.external?
-      .md-container.container
+      .md-container.container.hidden.lg:block
         %section.external-cta
           = track_icon(@track)
           .info
@@ -17,10 +17,10 @@
             Join The #{@track.title} Track
 
     %header.page-header
-      .lg-container.container
-        = graphical_icon "laptop-man-1", css_class: 'graphic', category: 'graphics'
+      .lg-container.container.flex-col.sm:flex-row
+        = graphical_icon "laptop-man-1", css_class: 'graphic mb-16 md:mb-0', category: 'graphics'
 
-        .info
+        .info.text-center.sm:text-left
           %h1 Explore the #{@track.title} exercises on Exercism
           %p Unlock more exercises as you progress. They’re great practice and fun to do!
 

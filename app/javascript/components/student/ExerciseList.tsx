@@ -166,7 +166,7 @@ export default ({
           defaultError={DEFAULT_ERROR}
         >
           {results && results.length > 0 ? (
-            <div className="exercises">
+            <div className="exercises grid-cols-1 md:grid-cols-2">
               {statusFilter.apply(results).map((result) => {
                 return (
                   /* Medium */

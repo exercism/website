@@ -2,7 +2,7 @@
 
 .c-exercise-header {
     @apply border-t-1 border-color22;
-    @apply mb-24;
+    @apply mb-12;
 
     background: var(--exercise-header-gradient);
 
@@ -36,13 +36,18 @@
     }
 
     & .content {
-        @apply flex items-center;
         @apply mb-24;
 
         & .c-exercise-icon {
-            @apply mr-32;
-            width: 118px;
-            height: 118px;
+            width: 64px;
+            height: 64px;
+            @apply mr-12;
+
+            @screen md {
+                width: 118px;
+                height: 118px;
+                @apply mr-32;
+            }
         }
         & .info {
             @apply flex-grow;
@@ -69,9 +74,15 @@
             background-size: 155px;
             @apply mr-32;
         }
+        & .c-react-wrapper-track-exercise-makers-button {
+            @screen lg {
+                @apply ml-auto;
+            }
+        }
     }
     & .navbar {
         @apply flex items-center;
+        @apply overflow-x-auto pb-12;
 
         & .tabs {
             @apply flex items-center;

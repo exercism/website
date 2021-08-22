@@ -37,7 +37,7 @@ export const initReact = (mappings) => {
 
   // This renders if turbo has already finished at the
   // point at which this calls. See packs/core.tsx
-  if (window.DOMLoaded) {
+  if (window.turboLoaded) {
     console.log('Loading React from DOM Load')
     renderThings()
   }

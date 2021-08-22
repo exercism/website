@@ -87,6 +87,7 @@ function camelizeKeysAs<T>(object: any): T {
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
+
 initReact({
   'common-markdown-editor': (data: any) => (
     <MarkdownEditor contextId={data.context_id} />

@@ -133,7 +133,7 @@ header.c-profile-header {
                     &.founder,
                     &.staff {
                         @apply bg-backgroundColorF;
-                        border-color: #9e00ff;
+                        @apply border-gradient;
                     }
                     &.maintainer {
                         @apply border-textColor2;

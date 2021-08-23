@@ -1,7 +1,7 @@
 import React from 'react'
 import { SingleSelect } from '../../common'
 
-type Status = undefined | 'none' | 'requested' | 'in_progress' | 'completed'
+type Status = undefined | 'none' | 'requested' | 'in_progress' | 'finished'
 
 const OptionComponent = ({
   option: status,
@@ -15,7 +15,7 @@ const OptionComponent = ({
       return <>Mentoring Requested</>
     case 'in_progress':
       return <>Mentoring in progress</>
-    case 'completed':
+    case 'finished':
       return <>Mentoring Completed</>
     case undefined:
       return <>Any</>
@@ -40,7 +40,7 @@ export const MentoringStatusSelect = ({
 }): JSX.Element => {
   return (
     <SingleSelect<Status>
-      options={[undefined, 'none', 'requested', 'in_progress', 'completed']}
+      options={[undefined, 'none', 'requested', 'in_progress', 'finished']}
       value={value}
       setValue={setValue}
       SelectedComponent={SelectedComponent}

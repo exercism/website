@@ -10,7 +10,7 @@ module TimeHelper
       return t
     end
 
-    return "now" if t == "less than a minute"
+    return "1s" if t == "less than a minute"
 
     parts = t.split(' ')
     "#{parts[0]}#{parts[1][0]}"

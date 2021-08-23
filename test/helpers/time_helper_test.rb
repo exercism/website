@@ -12,8 +12,8 @@ class TimeHelperTest < ActionView::TestCase
   end
 
   test "time_ago_in_words short" do
-    assert_equal "now", time_ago_in_words(Time.current, short: true)
-    assert_equal "now", time_ago_in_words(Time.current - 1.second, short: true)
+    assert_equal "1s", time_ago_in_words(Time.current, short: true)
+    assert_equal "1s", time_ago_in_words(Time.current - 1.second, short: true)
     assert_equal "1m", time_ago_in_words(Time.current - 1.minute, short: true)
     assert_equal "30m", time_ago_in_words(Time.current - 30.minutes, short: true)
     assert_equal "1h", time_ago_in_words(Time.current - 1.hour, short: true)

@@ -14,13 +14,20 @@
                 }
             }
             & .graphic {
-                @apply ml-24 flex-grow;
+                @apply flex-grow;
                 @apply place-items-center;
                 max-width: 530px;
 
                 & > .c-icon {
-                    width: 448px;
-                    height: 360px;
+                    height: 80px;
+                    width: 100px;
+                }
+
+                @screen md {
+                    & > .c-icon {
+                        width: 448px;
+                        height: 360px;
+                    }
                 }
             }
             & .btn-primary,
@@ -32,9 +39,8 @@
             }
         }
         & .organisation {
-            /* TODO: Use gradient */
-            border: 2px solid #604fcd;
             max-width: 690px;
+            @apply border-2 border-gradient;
             @apply flex relative;
             @apply rounded-8 shadow-xsZ1 bg-lightPurple;
 

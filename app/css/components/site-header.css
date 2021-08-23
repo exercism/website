@@ -14,6 +14,10 @@ body.devise {
 
 #site-header {
     @apply bg-backgroundColorA border-b-1 border-borderColor7;
+    @apply sticky top-0;
+    @screen lg {
+        @apply static;
+    }
 
     /* This is needed to raise the menu above other components */
     @apply z-menu;
@@ -287,6 +291,39 @@ body.devise {
             & a {
                 @apply px-16 py-8;
             }
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        & .user-menu,
+        & .explore-menu {
+            /* This is the Popper dropdown, which doesn't have a class */
+            & + * {
+                position: fixed !important;
+                transform: none !important;
+                inset: 0px 0px 0px auto !important;
+                @apply flex;
+                & > ul {
+                    border-radius: 0px !important;
+                    @apply shadow-lgZ1 !important;
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 410px) {
+        & .user-menu,
+        & .explore-menu,
+        & .auth-buttons a {
+            @apply px-10 text-14;
+        }
+        & .user-menu,
+        & .explore-menu {
+            @apply ml-12;
+        }
+    }
+    @media screen and (max-width: 340px) {
+        & .exercism-link {
+            @apply hidden;
         }
     }
 }

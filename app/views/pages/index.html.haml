@@ -1,6 +1,6 @@
 #page-landing
   %header.pt-24.sm:pt-32.md:pt-40.pb-56.sm:pb-56.c-header-with-bg
-    .lg-container.flex.items-center
+    .lg-container.flex.items-start.md:items-center.flex-col-reverse.md:flex-row
       .lhs.md:items-center.lg:items-start.md:text-center.lg:text-left
         %h1.text-h0.mb-12
           Get
@@ -23,7 +23,7 @@
             %p.text-p-base.mb-8.sm:mb-0.text-left is an independent, community funded, not-for-profit organisation.
             = link_to "Learn more", "#", class: "c-prominent-link sm:ml-40 lg:ml-0 xl:ml-40"
 
-      .graphic.hidden.lg:grid
+      .graphic.grid.md:hidden.lg:grid.lg:ml-24.mb-16.lg:mb-0
         = graphical_icon "landing-page-top", category: :graphics
 
   %section.tracks-section.pt-40.md:pt-56.mb-40.md:mb-56

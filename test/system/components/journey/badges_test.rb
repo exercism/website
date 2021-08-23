@@ -74,6 +74,22 @@ module Components
           assert_text "Rookie"
         end
       end
+
+      test "works on refresh" do
+        user = create :user
+        rookie_badge = create :rookie_badge
+        create :user_acquired_badge, revealed: true, badge: rookie_badge, user: user, created_at: 1.day.ago
+        member_badge = create :member_badge
+        create :user_acquired_badge, revealed: true, badge: member_badge, user: user, created_at: 2.days.ago
+
+        use_capybara_host do
+          sign_in!(user)
+          visit badges_journey_path(order: "unrevealed_first", criteria: "Rook")
+
+          assert_no_text "Member"
+          assert_text "Rookie"
+        end
+      end
     end
   end
 end

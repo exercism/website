@@ -28,8 +28,17 @@ module ReactComponents
               serializer_args: [current_user]
             )
           }
+          query = {
+            criteria: params[:criteria],
+            track_slug: params[:track_id],
+            status: params[:status],
+            mentoring_status: params[:mentoring_status],
+            page: params[:page],
+            order: params[:order]
+          }.compact
         else
           options = {}
+          query = {}
         end
 
         {
@@ -37,14 +46,7 @@ module ReactComponents
           title: "Solutions",
           request: {
             endpoint: Exercism::Routes.api_solutions_url,
-            query: {
-              criteria: params[:criteria],
-              track_slug: params[:track_id],
-              status: params[:status],
-              mentoring_status: params[:mentoring_status],
-              page: params[:page],
-              order: params[:order]
-            }.compact,
+            query: query,
             options: options
           },
           path: Exercism::Routes.solutions_journey_path,
@@ -57,8 +59,10 @@ module ReactComponents
           options = {
             initial_data: AssembleReputationTokens.(current_user, params)
           }
+          query = params.slice(*AssembleReputationTokens.keys)
         else
           options = {}
+          query = {}
         end
 
         {
@@ -66,7 +70,7 @@ module ReactComponents
           title: "Reputation",
           request: {
             endpoint: Exercism::Routes.api_reputation_index_url,
-            query: params.slice(*AssembleReputationTokens.keys),
+            query: query,
             options: options
           },
           path: Exercism::Routes.reputation_journey_path,
@@ -75,15 +79,21 @@ module ReactComponents
       end
 
       def overview_category
+        if default_category_id == "overview"
+          options = {
+            initial_data: AssembleJourneyOverview.(current_user)
+          }
+        else
+          options = {}
+        end
+
         {
           id: "overview",
           title: "Overview",
           request: {
             endpoint: Exercism::Routes.api_journey_overview_url,
             query: {},
-            options: {
-              initial_data: AssembleJourneyOverview.(current_user)
-            }
+            options: options
           },
           path: Exercism::Routes.journey_path,
           icon: "overview"
@@ -102,8 +112,13 @@ module ReactComponents
               serializer: SerializeUserAcquiredBadges
             )
           }
+          query = {
+            order: params[:order],
+            criteria: params[:criteria]
+          }.compact
         else
           options = {}
+          query = {}
         end
 
         {
@@ -111,10 +126,7 @@ module ReactComponents
           title: "Badges",
           request: {
             endpoint: Exercism::Routes.api_badges_url,
-            query: {
-              order: params[:order],
-              criteria: params[:criteria]
-            }.compact,
+            query: query,
             options: options
           },
           path: Exercism::Routes.badges_journey_path,

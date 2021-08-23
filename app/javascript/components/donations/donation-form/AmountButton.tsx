@@ -22,7 +22,11 @@ export const AmountButton = ({
   ].filter((n) => n.length > 0)
 
   return (
-    <button className={classNames.join(' ')} onClick={handleClick}>
+    <button
+      className={classNames.join(' ')}
+      onClick={handleClick}
+      type="button"
+    >
       ${value.dollars()}
     </button>
   )

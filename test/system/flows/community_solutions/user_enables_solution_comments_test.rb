@@ -18,7 +18,7 @@ module Flows
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)
           within(".comments") { click_on "Options" }
           click_on "Enable comments"
-          within(".m-enable-solution-comments") { click_on "Enable comments" }
+          within(".m-generic-confirmation") { click_on "Enable comments" }
 
           assert_text "0 comments"
           assert_css ".c-markdown-editor"
@@ -37,9 +37,9 @@ module Flows
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)
           within(".comments") { click_on "Options" }
           click_on "Disable comments"
-          within(".m-enable-solution-comments") { click_on "Disable comments" }
+          within(".m-generic-confirmation") { click_on "Disable comments" }
 
-          assert_text "You have comments disabled"
+          assert_text "You have disabled comments on this solution"
           assert_no_css ".c-markdown-editor"
         end
       end

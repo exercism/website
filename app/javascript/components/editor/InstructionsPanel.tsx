@@ -126,12 +126,12 @@ const Task = ({
         />
         <button
           ref={buttonRef}
-          className="btn-enhanced btn-s hints-btn"
+          className="btn-default btn-s hints-btn"
           onClick={() => {
             setIsModalOpen(true)
           }}
         >
-          <span>Show Hints</span>
+          <span>Stuck? Reveal Hints</span>
           <Icon icon="modal" alt="Opens in a modal" />
         </button>
       </div>

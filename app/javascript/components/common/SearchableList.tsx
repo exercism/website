@@ -13,6 +13,7 @@ export type PaginatedResult<T> = {
   meta: {
     currentPage: number
     totalPages: number
+    totalCount: number
   }
 }
 

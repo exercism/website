@@ -44,6 +44,7 @@ module Components
           sign_in!(user)
           visit reputation_journey_path
 
+          assert_text "Showing 2 contributions"
           assert_text strip_tags(contribution_token.text)
           assert_no_text strip_tags(review_token.text)
 

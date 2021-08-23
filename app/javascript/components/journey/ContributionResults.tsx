@@ -41,8 +41,8 @@ export const ContributionResults = ({
     <div>
       <div className="results-title-bar">
         <h3>
-          Showing {data.results.length}{' '}
-          {pluralize('contribution', data.results.length)}
+          Showing {data.meta.totalCount}{' '}
+          {pluralize('contribution', data.meta.totalCount)}
         </h3>
         <MarkAllAsSeenButton
           onClick={handleModalOpen}

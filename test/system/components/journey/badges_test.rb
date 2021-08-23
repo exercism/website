@@ -30,6 +30,8 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit badges_journey_path
+
+          assert_text "Showing 2 badges"
           assert_no_text "Member"
           assert_text "Rookie"
 

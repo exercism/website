@@ -17,6 +17,7 @@ export type APIResult = {
   meta: {
     currentPage: number
     totalPages: number
+    totalCount: number
     links: {
       markAllAsSeen: string
     }

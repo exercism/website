@@ -454,6 +454,22 @@ module Components
       end
     end
 
+    test "user views hints" do
+      user = create :user
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+        click_on "Stuck? Reveal Hints"
+
+        within(".m-editor-hints") { assert_text "Get message from a log line" }
+      end
+    end
+
     test "user deletes legacy files" do
       user = create :user
       track = create :track

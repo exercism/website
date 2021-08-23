@@ -75,7 +75,6 @@ export function FileEditorCodeMirror({
         return {
           filename: file.filename,
           content: editor.getValue() || '',
-          digest: file.digest,
           type: file.type,
         }
       })

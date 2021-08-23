@@ -61,6 +61,7 @@ module Components
           sign_in!(user)
           visit solutions_journey_path
 
+          assert_text "Showing 2 solutions"
           assert_text "Lasagna"
           assert_no_text "Bob"
 

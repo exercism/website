@@ -120,8 +120,8 @@ export const SolutionsList = ({
                 <div>
                   <div className="results-title-bar">
                     <h3>
-                      Showing {resolvedData.results.length}{' '}
-                      {pluralize('solution', resolvedData.results.length)}
+                      Showing {resolvedData.meta.totalCount}{' '}
+                      {pluralize('solution', resolvedData.meta.totalCount)}
                     </h3>
                     <button
                       type="button"

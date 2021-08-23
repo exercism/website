@@ -19,8 +19,8 @@ export const BadgeResults = ({
     <div>
       <div className="results-title-bar">
         <h3>
-          Showing {data.results.length}{' '}
-          {pluralize('badge', data.results.length)}
+          Showing {data.meta.totalCount}{' '}
+          {pluralize('badge', data.meta.totalCount)}
         </h3>
       </div>
       <div className="badges">

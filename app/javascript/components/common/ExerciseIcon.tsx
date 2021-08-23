@@ -1,20 +1,10 @@
 import React from 'react'
+import { imageErrorHandler } from '../common'
 
 type ExerciseIconProps = {
   iconUrl: string
   title?: string
   className?: string
-}
-
-const errorIcon = require(`../../images/graphics/missing-exercise.svg`)
-
-function imageErrorHandler(e: React.SyntheticEvent<HTMLImageElement, Event>) {
-  const el = e.target as HTMLImageElement
-  if ((el.src = errorIcon)) {
-    return
-  }
-  el.onerror = null
-  el.src = errorIcon
 }
 
 export function ExerciseIcon({ iconUrl, title, className }: ExerciseIconProps) {

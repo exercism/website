@@ -1,6 +1,12 @@
 import React from 'react'
 import { Contribution as ContributionProps } from '../../types'
-import { TrackIcon, Reputation, GraphicalIcon, Pagination } from '../../common'
+import {
+  imageErrorHandler,
+  TrackIcon,
+  Reputation,
+  GraphicalIcon,
+  Pagination,
+} from '../../common'
 import { fromNow } from '../../../utils/date'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { ResultsZone } from '../../ResultsZone'
@@ -86,6 +92,7 @@ const Contribution = ({
         role="presentation"
         src={iconUrl}
         className="c-icon primary-icon"
+        onError={imageErrorHandler}
       />
       <div className="info">
         <div

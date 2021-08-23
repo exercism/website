@@ -1,6 +1,11 @@
 import React from 'react'
 import { fromNow } from '../../utils/date'
-import { GraphicalIcon, TrackIcon, Reputation } from '../common'
+import {
+  imageErrorHandler,
+  GraphicalIcon,
+  TrackIcon,
+  Reputation,
+} from '../common'
 import { Contribution as ContributionProps } from '../types'
 
 export const Contribution = ({
@@ -22,6 +27,7 @@ export const Contribution = ({
         role="presentation"
         src={iconUrl}
         className="c-icon primary-icon"
+        onError={imageErrorHandler}
       />
       <div className="info">
         <div className="title" dangerouslySetInnerHTML={{ __html: text }} />

@@ -35,10 +35,14 @@ export const EnableSolutionCommentsModal = ({
   )
 
   return (
-    <Modal {...props} className="m-enable-solution-comments">
-      <h3>Do you want to enable comments?</h3>
+    <Modal {...props} className="m-generic-confirmation">
+      <h3>Enable comments?</h3>
+      <p>
+        Enabling comments allows people to publically post questions and
+        thoughts on your solution. You can disable this at any time.
+      </p>
 
-      <div className="btns">
+      <div className="buttons">
         <FormButton
           type="button"
           onClick={() => mutation()}

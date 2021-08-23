@@ -35,10 +35,14 @@ export const DisableSolutionCommentsModal = ({
   )
 
   return (
-    <Modal {...props} className="m-enable-solution-comments">
+    <Modal {...props} className="m-generic-confirmation">
       <h3>Do you want to disable comments?</h3>
+      <p>
+        Disabling comments stops people from publically posting questions and
+        thoughts on your solution. You can reenable this at any time.
+      </p>
 
-      <div className="btns">
+      <div className="buttons">
         <FormButton
           type="button"
           onClick={() => mutation()}

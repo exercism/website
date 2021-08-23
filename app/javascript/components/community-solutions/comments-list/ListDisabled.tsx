@@ -6,7 +6,12 @@ export const ListDisabled = ({
   isAuthor: boolean
 }): JSX.Element => {
   if (isAuthor) {
-    return <p>You have comments disabled</p>
+    return (
+      <p className="text-16 leading-150 text-textColor6">
+        You have disabled comments on this solution. Use the "Options" cog above
+        to toggle this option.
+      </p>
+    )
   } else {
     return <p>Comments have been disabled</p>
   }

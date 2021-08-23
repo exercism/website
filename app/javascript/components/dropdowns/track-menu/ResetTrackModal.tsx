@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Modal, ModalProps } from '../../modals/Modal'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
@@ -56,13 +56,22 @@ export const ResetTrackModal = ({
 
   const { attempt, setAttempt, isAttemptPass } = useConfirmation(confirmation)
 
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
   return (
     <Modal
       className="m-reset-track m-generic-destructive"
       onClose={onClose}
       {...props}
     >
-      <form data-turbo="false">
+      <form onSubmit={handleSubmit}>
         <div className="info">
           <h2>You’re about to reset all your {track.title} progress.</h2>
           <p>
@@ -108,7 +117,6 @@ export const ResetTrackModal = ({
             Cancel
           </FormButton>
           <FormButton
-            onClick={() => mutation()}
             status={status}
             disabled={!isAttemptPass}
             className="btn-primary btn-m"

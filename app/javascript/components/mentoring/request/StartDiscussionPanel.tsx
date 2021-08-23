@@ -8,17 +8,16 @@ import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { useMutation } from 'react-query'
 import { MarkdownEditorForm } from '../../common/MarkdownEditorForm'
+import { redirectTo } from '../../../utils/redirect-to'
 
 const DEFAULT_ERROR = new Error('Unable to start discussion')
 
 export const StartDiscussionPanel = ({
   iterations,
   request,
-  setDiscussion,
 }: {
   iterations: readonly Iteration[]
   request: Request
-  setDiscussion: (discussion: Discussion) => void
 }): JSX.Element => {
   const contextId = `start-discussion-request-${request.uuid}`
   const [state, setState] = useState({
@@ -42,7 +41,7 @@ export const StartDiscussionPanel = ({
       return fetch.then((json) => typecheck<Discussion>(json, 'discussion'))
     },
     {
-      onSuccess: (discussion) => setDiscussion(discussion),
+      onSuccess: (discussion) => redirectTo(discussion.links.self),
     }
   )
 

@@ -1,8 +1,10 @@
 require 'test_helper'
 
-class SerializeMentorDiscussionTest < ActiveSupport::TestCase
+class SerializeStudentTest < ActiveSupport::TestCase
   test "with relationship" do
+    Mentor::StudentRelationship::ToggleFavorited.any_instance.stubs(:allowed?).returns(true)
     student = create :user
+    mentor = create :user
     relationship = create :mentor_student_relationship, student: student, num_discussions: 5, favorited: true
     3.times { create :mentor_discussion, solution: create(:practice_solution, user: student) }
     expected = {
@@ -26,6 +28,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     }
     assert_equal expected, SerializeStudent.(
       student,
+      mentor,
       user_track: nil,
       relationship: relationship,
       anonymous_mode: false
@@ -33,7 +36,9 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
   end
 
   test "without relationship" do
+    Mentor::StudentRelationship::ToggleFavorited.any_instance.stubs(:allowed?).returns(true)
     student = create :user
+    mentor = create :user
     expected = {
       handle: student.handle,
       name: student.name,
@@ -55,6 +60,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     }
     assert_equal expected, SerializeStudent.(
       student,
+      mentor,
       user_track: nil,
       relationship: nil,
       anonymous_mode: nil
@@ -63,6 +69,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
 
   test "anonymous_mode" do
     student = create :user
+    mentor = create :user
 
     expected = {
       name: "User in Anonymous mode",
@@ -72,6 +79,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     }
     assert_equal expected, SerializeStudent.(
       student,
+      mentor,
       user_track: nil,
       relationship: nil,
       anonymous_mode: true
@@ -82,9 +90,11 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     bio = "some bio"
     location = "some loc"
     student = create :user, bio: bio, location: location, reputation: 12_345
+    mentor = create :user
 
     result = SerializeStudent.(
       student,
+      mentor,
       user_track: nil,
       relationship: nil,
       anonymous_mode: false
@@ -100,6 +110,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     user_track = create :user_track, objectives: objectives
 
     result = SerializeStudent.(
+      create(:user),
       create(:user),
       user_track: user_track,
       relationship: nil,

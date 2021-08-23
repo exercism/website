@@ -1,8 +1,9 @@
 class SerializeStudent
   include Mandate
 
-  def initialize(student, user_track:, relationship:, anonymous_mode:)
+  def initialize(student, mentor, user_track:, relationship:, anonymous_mode:)
     @student = student
+    @mentor = mentor
     @user_track = user_track
     @relationship = relationship
     @anonymous_mode = anonymous_mode
@@ -24,16 +25,12 @@ class SerializeStudent
       track_objectives: user_track&.objectives.to_s,
       num_total_discussions: num_total_discussions,
       num_discussions_with_mentor: relationship&.num_discussions.to_i,
-      links: {
-        block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
-        favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),
-        previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all)
-      }
+      links: links
     }
   end
 
   private
-  attr_reader :student, :user_track, :relationship, :anonymous_mode
+  attr_reader :student, :mentor, :user_track, :relationship, :anonymous_mode
 
   def anonymous_details
     {
@@ -46,5 +43,15 @@ class SerializeStudent
 
   def num_total_discussions
     Mentor::Discussion.joins(:solution).where('solutions.user_id': student.id).count
+  end
+
+  def links
+    {
+      block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
+      favorite: if Mentor::StudentRelationship::ToggleFavorited.new(mentor, student, false).allowed?
+                  Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
+                end,
+      previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all)
+    }.compact
   end
 end

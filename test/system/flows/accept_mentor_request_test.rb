@@ -1,11 +1,13 @@
 require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
 require_relative "../../support/markdown_editor_helpers"
+require_relative "../../support/redirect_helpers"
 
 module Flows
   class AcceptMentorRequestTest < ApplicationSystemTestCase
     include CapybaraHelpers
     include MarkdownEditorHelpers
+    include RedirectHelpers
 
     test "shows latest iteration marker" do
       solution = create :concept_solution
@@ -70,9 +72,23 @@ module Flows
         fill_in_editor "# Hello", within: ".comment-section"
         click_on "Send"
 
+        wait_for_redirect
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_text "author"
         assert_text "Hello"
+      end
+    end
+
+    test "favorite button is hidden when there is no discussion yet" do
+      solution = create :concept_solution
+      request = create :mentor_request, solution: solution
+      create :iteration, idx: 1, solution: solution, created_at: 1.week.ago
+
+      use_capybara_host do
+        sign_in!
+        visit mentoring_request_path(request)
+
+        assert_no_button "Add to favorites"
       end
     end
   end

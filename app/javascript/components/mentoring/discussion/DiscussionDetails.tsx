@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Student, Iteration, MentorDiscussion } from '../../types'
+import { Iteration, MentorDiscussion } from '../../types'
 import { FinishedWizard, ModalStep } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
 import { QueryStatus } from 'react-query'
+import { FavoritableStudent } from '../session/FavoriteButton'
 
 export const DiscussionDetails = ({
   discussion,
@@ -14,7 +15,7 @@ export const DiscussionDetails = ({
 }: {
   discussion: MentorDiscussion
   iterations: readonly Iteration[]
-  student: Student
+  student: FavoritableStudent
   userHandle: string
   onIterationScroll: (iteration: Iteration) => void
   status: QueryStatus

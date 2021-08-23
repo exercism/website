@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { FormButton } from '../../common'
-import { GraphicalIcon } from '../../common/GraphicalIcon'
+import { FormButton } from '../../../common'
+import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { useMutation } from 'react-query'
-import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { sendRequest } from '../../../utils/send-request'
-import { Student } from '../../types'
-import { typecheck } from '../../../utils/typecheck'
+import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+import { sendRequest } from '../../../../utils/send-request'
+import { FavoritableStudent } from '../FavoriteButton'
+import { typecheck } from '../../../../utils/typecheck'
 
 type ComponentProps = {
   endpoint: string
-  onSuccess: (student: Student) => void
+  onSuccess: (student: FavoritableStudent) => void
 }
 
 export const RemoveFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -29,7 +29,7 @@ const Component = ({
 }: ComponentProps): JSX.Element | null => {
   const [isHovering, setIsHovering] = useState(false)
 
-  const [mutation, { status, error }] = useMutation<Student>(
+  const [mutation, { status, error }] = useMutation<FavoritableStudent>(
     () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
@@ -37,7 +37,9 @@ const Component = ({
         body: null,
       })
 
-      return fetch.then((json) => typecheck<Student>(json, 'student'))
+      return fetch.then((json) =>
+        typecheck<FavoritableStudent>(json, 'student')
+      )
     },
     {
       onSuccess: (student) => onSuccess(student),

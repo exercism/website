@@ -1,4 +1,5 @@
 import React from 'react'
+import pluralize from 'pluralize'
 import { Iteration } from '../../types'
 
 class IterationWithCount {
@@ -61,7 +62,12 @@ export const IterationButton = ({
   }
 
   if (iterationWithCount.numComments > 0) {
-    label.push(`${formatCommentCount(iterationWithCount.numComments)} comments`)
+    label.push(
+      `${formatCommentCount(iterationWithCount.numComments)} ${pluralize(
+        'comment',
+        iterationWithCount.numComments
+      )}`
+    )
   }
 
   return (

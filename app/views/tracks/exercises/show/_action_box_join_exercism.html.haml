@@ -10,8 +10,9 @@
     Sign up to Exercism to learn and master
     = link_to track.title, track_path(track)
     with
-    #{link_to "#{user_track.num_concepts} concepts", track_concepts_path(track)},
-    #{link_to "#{user_track.num_exercises} exercises", track_exercise_path(track)},
+    - if user_track.num_concepts.positive?
+      #{link_to "#{user_track.num_concepts} #{'concept'.pluralize(user_track.num_concepts)}", track_concepts_path(track)},
+    #{link_to "#{user_track.num_exercises} #{'exercise'.pluralize(user_track.num_exercises)}", track_exercise_path(track)},
     and real human mentoring,
     %strong all for free.
 

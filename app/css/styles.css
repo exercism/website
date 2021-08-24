@@ -225,7 +225,7 @@ button.text-a-subtle {
 }
 
 .text-gradient {
-    color: #9e00ff;
+    color: #6a01ff;
     background: -webkit-linear-gradient(#2200ff, #9e00ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

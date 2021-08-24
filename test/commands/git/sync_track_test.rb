@@ -438,4 +438,12 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
   end
+
+  test "does not sync research experiment track" do
+    track = create :track, slug: 'research_experiment_1', synced_to_git_sha: "old-sha"
+
+    Git::SyncTrack.(track)
+
+    assert_equal "old-sha", track.synced_to_git_sha
+  end
 end

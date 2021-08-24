@@ -21,6 +21,8 @@ module Git
     end
 
     def call
+      return if research_experiment?
+
       fetch_git_repo!
 
       # TODO: (Optional) validate track using configlet to prevent invalid track data
@@ -134,6 +136,10 @@ module Git
 
     def fetch_git_repo!
       git_repo.fetch!
+    end
+
+    def research_experiment?
+      track.slug == 'research_experiment_1'
     end
   end
 end

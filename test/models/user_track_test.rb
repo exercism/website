@@ -296,6 +296,62 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal 4, user_track.num_completed_exercises
   end
 
+  test "num_xxx_concepts" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+
+    c_1 = create :concept, track: track, slug: "strings"
+    c_2 = create :concept, track: track, slug: "numbers"
+    c_3 = create :concept, track: track, slug: "dates"
+    c_4 = create :concept, track: track, slug: "classes"
+    c_5 = create :concept, track: track, slug: "inheritance"
+
+    practice_exercises = Array.new(10) { create :practice_exercise, :random_slug, track: track }
+    concept_exercises = Array.new(5) { create :concept_exercise, :random_slug, track: track }
+
+    concept_exercises[0].taught_concepts << c_1
+    concept_exercises[1].taught_concepts << c_2
+    concept_exercises[2].taught_concepts << c_3
+    concept_exercises[3].taught_concepts << c_4
+
+    concept_exercises[1].prerequisites << c_1
+    concept_exercises[2].prerequisites << c_2
+    concept_exercises[4].prerequisites << c_3
+    concept_exercises[4].prerequisites << c_4
+
+    practice_exercises[1].prerequisites << c_1
+    practice_exercises[1].prerequisites << c_3
+    practice_exercises[2].prerequisites << c_2
+    practice_exercises[3].prerequisites << c_3
+    practice_exercises[4].prerequisites << c_5
+
+    assert_equal 5, user_track.num_concepts
+    assert_equal 4, user_track.num_concepts_taught
+    assert_equal 0, user_track.num_concepts_learnt
+    assert_equal 0, user_track.num_concepts_mastered
+
+    # Started
+    create :practice_solution, exercise: practice_exercises[0], user: user
+
+    # Iterated
+    ps = create :practice_solution, exercise: practice_exercises[1], user: user
+    create :iteration, solution: ps, submission: create(:submission, solution: ps)
+
+    # Completed
+    create :practice_solution, exercise: practice_exercises[2], completed_at: Time.current, user: user
+    create :concept_solution, exercise: concept_exercises[0], completed_at: Time.current, user: user
+    create :concept_solution, exercise: concept_exercises[3], completed_at: Time.current, user: user
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert_equal 5, user_track.num_concepts
+    assert_equal 4, user_track.num_concepts_taught
+    assert_equal 2, user_track.num_concepts_learnt
+    assert_equal 2, user_track.num_concepts_mastered
+  end
+
   test "has_notifications" do
     user = create :user
     track = create :track, :random_slug

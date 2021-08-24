@@ -235,6 +235,10 @@ class UserTrack
       mapped_concepts.size
     end
 
+    def num_concepts_taught
+      mapped_concepts.values.count(&:taught?)
+    end
+
     # TODO: Add test coverage
     memoize
     def num_concepts_learnt
@@ -287,6 +291,10 @@ class UserTrack
 
       def num_completed_exercises
         num_completed_concept_exercises + num_completed_practice_exercises
+      end
+
+      def taught?
+        num_concept_exercises.positive?
       end
 
       def unlocked?

@@ -42,11 +42,15 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
 
   test "num_concepts" do
     track = create :track
+    c_1 = create :concept, track: track
     create :concept, track: track
-    create :concept, track: track
+
+    ce_1 = create :concept_exercise, :random_slug, track: track
+    ce_1.taught_concepts << c_1
 
     ut = UserTrack::External.new(track)
     assert_equal 2, ut.num_concepts
+    assert_equal 1, ut.num_concepts_taught
   end
 
   test "num_exercises_for_concept" do

@@ -57,7 +57,7 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     ce_3.taught_concepts << concept_2
 
     ut = UserTrack::External.new(track.reload)
-    assert_equal 3, ut.num_concepts
+    assert_equal 2, ut.num_concepts
   end
 
   test "num_exercises_for_concept" do

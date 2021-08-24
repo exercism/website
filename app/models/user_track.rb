@@ -19,6 +19,8 @@ class UserTrack < ApplicationRecord
     primary_key: :user_id,
     inverse_of: :user_track
 
+  delegate :num_concepts, to: :track
+
   before_create do
     self.last_touched_at = Time.current unless self.last_touched_at
     self.summary_data = {}
@@ -77,9 +79,6 @@ class UserTrack < ApplicationRecord
   def enabled_exercises(exercises)
     exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
   end
-
-  memoize
-  delegate :num_concepts, to: :track
 
   def external?
     false

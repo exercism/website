@@ -11,13 +11,16 @@ class SerializeTrackTest < ActiveSupport::TestCase
     # Create num_concept_exercises, each with a concept
     # and then add one extra concept to the last exercise
     num_concept_exercises.times do
-      create(:concept, track: track)
-      create(:concept_exercise, track: track)
+      concept = create :concept, track: track
+      exercise = create :concept_exercise, track: track
+      create :exercise_taught_concept, exercise: exercise, concept: concept
     end
-    create(:concept, track: track)
+    ConceptExercise.last.taught_concepts << (create :concept, track: track)
 
     # Create num_practice_exercises practice exercises
     num_practice_exercises.times { create :practice_exercise, track: track }
+
+    track.reload
 
     expected = {
       slug: track.slug,

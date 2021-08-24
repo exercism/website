@@ -50,10 +50,10 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
+        ".exercism/config.json",
         "README.md",
         "HELP.md",
         "HINTS.md",
-        ".meta/config.json",
         "bob.rb",
         "bob_test.rb",
         "subdir/more_bob.rb"
@@ -66,9 +66,9 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
+        ".exercism/config.json",
         "README.md",
         "HELP.md",
-        ".meta/config.json",
         "anagram.rb",
         "anagram_test.rb"
       ]
@@ -80,10 +80,10 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
+        ".exercism/config.json",
         "README.md",
         "HELP.md",
         "HINTS.md",
-        ".meta/config.json",
         "assembly_line.rb",
         "assembly_line_test.rb"
       ]
@@ -95,9 +95,9 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
+        ".exercism/config.json",
         "README.md",
         "HELP.md",
-        ".meta/config.json",
         "leap.rb",
         "leap_test.rb"
       ]

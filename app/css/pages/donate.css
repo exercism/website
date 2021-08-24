@@ -11,7 +11,7 @@
             height: 107px;
             width: 103px;
             left: 32px;
-            top: 15px;
+            top: 35px;
         }
         &:after {
             @apply absolute;
@@ -22,7 +22,7 @@
             height: 107px;
             width: 103px;
             right: 32px;
-            top: 15px;
+            top: 35px;
         }
 
         & .lg-container:first-child {
@@ -30,6 +30,11 @@
         }
         & .lg-container:last-child {
             @apply py-32;
+        }
+        & .c-icon {
+            height: 128px;
+            width: 128px;
+            @apply mb-8;
         }
         & h1 {
             @apply text-center;

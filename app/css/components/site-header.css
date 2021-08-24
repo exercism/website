@@ -68,6 +68,26 @@ body.devise {
             @apply block mr-16;
         }
 
+        & ul {
+            @apply flex items-center;
+        }
+
+        & li {
+            &.selected {
+                & a {
+                    @apply text-textColor2;
+                }
+            }
+        }
+
+        & li:last-child a {
+            @apply text-purple;
+
+            & .c-icon {
+                filter: var(--purple-filter);
+            }
+        }
+
         & a {
             @apply flex items-center relative;
             @apply text-16 text-textColor6 font-semibold;
@@ -85,50 +105,19 @@ body.devise {
     & nav.signed-in {
         @apply flex-grow;
 
-        & ul {
-            @apply flex items-center;
-        }
-
         & li {
             @apply mr-16;
-
-            /*&.selected {
-                & a {
-                    @apply text-textColor2;
-                }
-                & .c-icon.main-icon {
-                    filter: var(--white-filter);
-                }
-            }*/
         }
         & a {
             @apply px-8 py-8;
-        }
-        & li:last-child a {
-            @apply text-purple;
-
-            & .c-icon {
-                filter: var(--purple-filter);
-            }
         }
     }
 
     & nav.signed-out {
         @apply mr-auto;
 
-        & ul {
-            @apply flex items-center;
-        }
-
         & li {
             @apply mr-32;
-        }
-        & a {
-            @apply flex items-center relative;
-            @apply text-16 leading-160 text-textColor6 font-semibold;
-        }
-        & li:last-child a {
-            @apply text-purple;
         }
     }
 

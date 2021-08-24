@@ -39,23 +39,13 @@ module ViewComponents
     end
 
     def signed_in_nav
-      if namespace_name == "mentoring"
-        selected = :mentoring
-      elsif namespace_name == "contributing"
-        selected = :contributing
-      elsif controller_name == "dashboard"
-        selected = :dashboard
-      elsif %w[tracks exercises concepts iterations community_solutions mentor_discussions].include?(controller_name)
-        selected = :tracks
-      end
-
       tag.nav(class: 'signed-in') do
         tag.ul do
-          si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected == :dashboard) +
-            si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected == :tracks) +
-            si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected == :mentoring) +
-            si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected == :contributing) +
-            si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected == :donate)
+          si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
+            si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
+            si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
+            si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing) +
+            si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected_tab == :donate)
         end
       end
     end
@@ -102,12 +92,13 @@ module ViewComponents
         tag.ul do
           safe_join(
             [
-              si_nav_li("Home", :home, Exercism::Routes.landing_page_path, false), # TODO: (Required) Change to root_path at launch
-              si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, false),
+              # TODO: (Required) Change to root_path at launch
+              si_nav_li("Home", :home, Exercism::Routes.landing_page_path, selected_tab == :dashboard),
+              si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
               # tag.li { "What is Exercism?", "#" ) , #TODO: (Required) Link to about page
-              si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, false),
-              si_nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_path, false),
-              si_nav_li("Donate 💜", :donate, Exercism::Routes.donate_path, false)
+              si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing),
+              si_nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_path, selected_tab == :mentoring),
+              si_nav_li("Donate 💜", :donate, Exercism::Routes.donate_path, selected_tab == :donate)
             ]
           )
         end
@@ -136,6 +127,19 @@ module ViewComponents
       return nil unless current_user.acquired_badges.unrevealed.exists?
 
       link_to('', Exercism::Routes.badges_journey_path(anchor: "journey-content"), class: 'new-badge')
+    end
+
+    memoize
+    def selected_tab
+      if namespace_name == "mentoring"
+        :mentoring
+      elsif namespace_name == "contributing"
+        :contributing
+      elsif controller_name == "dashboard"
+        :dashboard
+      elsif %w[tracks exercises concepts iterations community_solutions mentor_discussions].include?(controller_name)
+        :tracks
+      end
     end
   end
 end

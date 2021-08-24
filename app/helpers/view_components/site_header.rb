@@ -60,9 +60,11 @@ module ViewComponents
       end
     end
 
-    def si_nav_li(title, _icon_name, url, selected)
+    def si_nav_li(title, icon_name, url, selected)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
-      tag.li(link_to(title, url), attrs)
+      tag.li attrs do
+        link_to(graphical_icon(icon_name) + tag.span(title), url)
+      end
     end
 
     def signed_out_section
@@ -98,12 +100,16 @@ module ViewComponents
     def signed_out_nav
       tag.nav(class: 'signed-out') do
         tag.ul do
-          tag.li { link_to "Home", Exercism::Routes.landing_page_path } + # TODO: (Required) Change to root_path at launch
-            tag.li { link_to "Language Tracks", Exercism::Routes.tracks_path } +
-            # tag.li { link_to "What is Exercism?", "#" } + #TODO: (Required) Link to about page
-            tag.li { link_to "Contribute", Exercism::Routes.contributing_root_path } +
-            tag.li { link_to "Mentor", Exercism::Routes.mentoring_path } +
-            tag.li { link_to "Donate 💜", Exercism::Routes.donate_path }
+          safe_join(
+            [
+              si_nav_li("Home", :home, Exercism::Routes.landing_page_path, false), # TODO: (Required) Change to root_path at launch
+              si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, false),
+              # tag.li { "What is Exercism?", "#" ) , #TODO: (Required) Link to about page
+              si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, false),
+              si_nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_path, false),
+              si_nav_li("Donate 💜", :donate, Exercism::Routes.donate_path, false)
+            ]
+          )
         end
       end
     end

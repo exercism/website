@@ -29,7 +29,7 @@ body.devise {
     }
 
     & .exercism-link {
-        @apply mr-8;
+        @apply mr-8 flex-shrink-0;
         max-width: 45px;
         overflow: hidden;
 
@@ -67,6 +67,20 @@ body.devise {
         @screen lg {
             @apply block mr-16;
         }
+
+        & a {
+            @apply flex items-center relative;
+            @apply text-16 text-textColor6 font-semibold;
+            @apply whitespace-no-wrap;
+
+            & .c-icon {
+                @apply hidden;
+                height: 24px;
+                width: 24px;
+                @apply mr-12;
+                filter: var(--textColor6-filter);
+            }
+        }
     }
     & nav.signed-in {
         @apply flex-grow;
@@ -88,13 +102,14 @@ body.devise {
             }*/
         }
         & a {
-            @apply flex items-center relative;
-            @apply text-16 text-textColor6 font-semibold;
             @apply px-8 py-8;
-            @apply whitespace-no-wrap;
         }
         & li:last-child a {
             @apply text-purple;
+
+            & .c-icon {
+                filter: var(--purple-filter);
+            }
         }
     }
 

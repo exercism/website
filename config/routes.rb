@@ -363,6 +363,7 @@ Rails.application.routes.draw do
 
   # TODO: (Required): Swap these over for launch
   get "landing" => "pages#index", as: :landing_page
+
   root to: "pages#beta"
 
   ##############
@@ -370,11 +371,15 @@ Rails.application.routes.draw do
   ##############
   get "health-check", to: 'pages#health_check'
 
+  #########
+  # Pages #
+  #########
+  get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
+  get "about" => "pages#about", as: :about_page
+
   #################
   # Legacy routes #
   #################
-  get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
-
   get "solutions/:uuid" => "legacy#solution"
   get "my/solutions/:uuid" => "legacy#my_solution"
   get "mentor/solutions/:uuid" => "legacy#mentor_solution"
@@ -382,6 +387,8 @@ Rails.application.routes.draw do
   %i[installation learning resources tests].each do |doc|
     get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}") # rubocop:disable Style/FormatStringToken
   end
+
+  get "values", to: redirect("about")
 
   get "terms-of-service", to: redirect("docs/using/legal/terms-of-service")
   get "privacy-policy", to: redirect("docs/using/legal/privacy-policy")

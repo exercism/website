@@ -1,0 +1,156 @@
+@import "../styles";
+
+#page-about {
+    @apply bg-backgroundColorA;
+
+    & > header {
+        & .logo {
+            height: 80px;
+            width: 80px;
+        }
+        & p {
+            max-width: 1024px;
+        }
+        & .btn-primary .c-icon {
+            height: 16px;
+            width: 16px;
+        }
+    }
+    & .links {
+        & li {
+            @apply mb-20;
+            @screen md {
+                @apply mb-0 mr-40;
+            }
+        }
+        & a {
+            @apply flex items-center;
+            @apply text-18 leading-160 font-semibold text-textColor7;
+            & .c-icon {
+                filter: var(--textColor7-filter);
+            }
+            & .c-icon:first-child {
+                height: 30px;
+                width: 30px;
+                @apply mr-24;
+            }
+            & .c-icon:last-child {
+                height: 16px;
+                width: 16px;
+                @apply ml-auto;
+            }
+            & span {
+                @apply mr-20;
+            }
+        }
+    }
+    & .purpose {
+        @apply bg-evenLighterBlue border-purple;
+        & h2 {
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+                @apply mr-16;
+            }
+            @screen md {
+                & .c-icon {
+                    height: 48px;
+                    width: 48px;
+                    @apply mr-24;
+                }
+            }
+        }
+        & .graphic {
+            height: 240px;
+            width: 240px;
+        }
+    }
+    & .goals {
+        & .goal {
+            @apply py-32 px-32;
+            @apply flex flex-col items-center;
+            @apply border-1 border-color22 rounded-8;
+            @apply text-center;
+            & .number {
+                height: 40px;
+                width: 40px;
+                @apply grid place-items-center;
+                @apply mb-20;
+                @apply border-3 border-textColor2;
+                @apply text-textColor2;
+            }
+            & h3 {
+                @apply text-textColor2 font-bold font-mono text-18 leading-150;
+                @apply uppercase;
+                @apply mb-8;
+            }
+            & p {
+                @apply text-18 leading-150 text-textColor5;
+            }
+        }
+    }
+    & .principles {
+        &:after {
+            content: "";
+            background: url("data:image/svg+xml;base64, PHN2ZyB3aWR0aD0iMTE4NCIgaGVpZ2h0PSIyIiB2aWV3Qm94PSIwIDAgMTE4NCAyIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8bGluZSB5MT0iMSIgeDI9IjExODQiIHkyPSIxIiBzdHJva2U9IiNENUQ4RTQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iMjQgMjQiLz4KPC9zdmc+Cg==");
+            background-repeat: repeat;
+            height: 2px;
+            width: 100%;
+            @apply mt-96;
+        }
+
+        & .graphic {
+            height: 48px;
+            width: 48px;
+            @apply mb-16;
+        }
+
+        & li {
+            position: relative;
+            padding-left: 76px;
+            @apply mb-32;
+            max-width: 760px;
+            &:before {
+                content: "";
+                background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyLjUgMjBIMjcuNSIgc3Ryb2tlPSJ1cmwoI3BhaW50MF9saW5lYXIpIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNMjAuNSAyN0wyNy41IDIwTDIwLjUgMTMiIHN0cm9rZT0idXJsKCNwYWludDFfbGluZWFyKSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHJlY3QgeD0iMSIgeT0iMSIgd2lkdGg9IjM4IiBoZWlnaHQ9IjM4IiByeD0iMTkiIHN0cm9rZT0idXJsKCNwYWludDJfbGluZWFyKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXIiIHgxPSIyMCIgeTE9IjIwIiB4Mj0iMjAiIHkyPSIyMC42NjY3IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiMyMjAwRkYiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjOUUwMEZGIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQxX2xpbmVhciIgeDE9IjI0IiB5MT0iMTMiIHgyPSIyNCIgeTI9IjI3IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiMyMjAwRkYiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjOUUwMEZGIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQyX2xpbmVhciIgeDE9IjIwIiB5MT0iMCIgeDI9IjIwIiB5Mj0iNDAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzIyMDBGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM5RTAwRkYiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K");
+                background-size: contain;
+                background-repeat: no-repeat;
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                left: 0;
+                top: -1px;
+            }
+        }
+    }
+    & .leadership {
+        & .c-icon.graphic {
+            height: 240px;
+            width: 240px;
+            @apply mr-60;
+        }
+        & .c-icon.icon {
+            height: 64px;
+            width: 64px;
+            @apply mb-12;
+        }
+    }
+    & .donate-section {
+        @apply bg-evenLighterBlue;
+
+        & .c-icon.icon {
+            width: 48px;
+            height: 48px;
+            @apply mr-32;
+        }
+        & .c-icon.graphic {
+            width: 200px;
+            height: 200px;
+        }
+
+        & .btn-l .c-icon {
+            height: 16px;
+            width: 16px;
+        }
+    }
+}

@@ -95,7 +95,31 @@ img {
         @apply text-20;
     }
 }
+.text-p-2xlarge {
+    @apply text--p;
 
+    @apply text-20;
+
+    @screen sm {
+        @apply text-22;
+    }
+
+    @screen md {
+        @apply text-24;
+    }
+}
+.text-p-3xlarge {
+    @apply text--p;
+    @apply text-20;
+
+    @screen sm {
+        @apply text-24;
+    }
+
+    @screen md {
+        @apply text-28;
+    }
+}
 .text-prose {
     @apply text-18 leading-paragraph;
 }

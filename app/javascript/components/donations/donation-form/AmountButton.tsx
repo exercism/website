@@ -4,22 +4,21 @@ import currency from 'currency.js'
 export const AmountButton = ({
   value,
   onClick,
-  current,
   className = '',
+  selected = false,
 }: {
   value: currency
   onClick: (value: currency) => void
-  current: currency
   className?: string
+  selected?: boolean
 }): JSX.Element => {
   const handleClick = useCallback(() => {
     onClick(value)
   }, [onClick, value])
 
-  const classNames = [
-    className,
-    current.value === value.value ? 'selected' : '',
-  ].filter((n) => n.length > 0)
+  const classNames = [className, selected ? 'selected' : ''].filter(
+    (n) => n.length > 0
+  )
 
   return (
     <button

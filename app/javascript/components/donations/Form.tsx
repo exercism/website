@@ -6,6 +6,9 @@ import { ExistingSubscriptionNotice } from './ExistingSubscriptionNotice'
 import { ExercismStripeElements } from './ExercismStripeElements'
 import { StripeForm } from './StripeForm'
 import currency from 'currency.js'
+import { Request, useRequestQuery } from '../../hooks/request-query'
+import { FetchingBoundary } from '../FetchingBoundary'
+import { queryCache } from 'react-query'
 
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
@@ -16,24 +19,47 @@ type Links = {
   settings: string
 }
 
+type FormAmount = {
+  subscription: currency
+  payment: currency
+}
+
+type Subscription = {
+  amountInCents: number
+}
+
 const PAYMENT_DEFAULT_AMOUNT = currency(32)
 const SUBSCRIPTION_DEFAULT_AMOUNT = currency(32)
 
+const DEFAULT_ERROR = new Error('Unable to fetch subscription information')
+
 export const Form = ({
-  existingSubscriptionAmount,
+  request,
+  defaultAmount,
+  defaultTransactionType,
   onSuccess,
   links,
+  onProcessing = () => null,
+  onSettled = () => null,
 }: {
-  existingSubscriptionAmount: currency | null
+  request: Request
+  defaultAmount?: Partial<FormAmount>
+  defaultTransactionType?: PaymentIntentType
   onSuccess: (type: PaymentIntentType, amount: currency) => void
+  onProcessing?: () => void
+  onSettled?: () => void
   links: Links
 }): JSX.Element => {
+  const { data, status, error } = useRequestQuery<{
+    subscription: Subscription
+  }>('active-subscription', request)
   const [amount, setAmount] = useState({
     subscription: SUBSCRIPTION_DEFAULT_AMOUNT,
     payment: PAYMENT_DEFAULT_AMOUNT,
+    ...defaultAmount,
   })
   const [transactionType, setTransactionType] = useState<PaymentIntentType>(
-    existingSubscriptionAmount ? 'payment' : 'subscription'
+    defaultTransactionType || (data?.subscription ? 'payment' : 'subscription')
   )
 
   const handleAmountChange = useCallback(
@@ -73,6 +99,23 @@ export const Form = ({
     }
   }, [amount, transactionType])
 
+  const handleSuccess = useCallback(
+    (type, amount) => {
+      if (type === 'subscription') {
+        queryCache.setQueryData('active-subscription', () => {
+          return {
+            subscription: {
+              amountInCents: amount.intValue,
+            },
+          }
+        })
+      }
+
+      onSuccess(type, amount)
+    },
+    [onSuccess]
+  )
+
   return (
     <TabsContext.Provider
       value={{
@@ -91,24 +134,32 @@ export const Form = ({
         </div>
         <div className="--content">
           <Tab.Panel id="subscription" context={TabsContext}>
-            <TransactionForm
-              amount={amount.subscription}
-              onAmountChange={handleAmountChange('subscription')}
-              presetAmounts={[
-                currency(16),
-                currency(32),
-                currency(64),
-                currency(128),
-              ]}
+            <FetchingBoundary
+              status={status}
+              error={error}
+              defaultError={DEFAULT_ERROR}
             >
-              {existingSubscriptionAmount != null ? (
-                <ExistingSubscriptionNotice
-                  amount={existingSubscriptionAmount}
-                  onExtraDonation={() => setTransactionType('payment')}
-                  links={links}
-                />
-              ) : null}
-            </TransactionForm>
+              <TransactionForm
+                amount={amount.subscription}
+                onAmountChange={handleAmountChange('subscription')}
+                presetAmounts={[
+                  currency(16),
+                  currency(32),
+                  currency(64),
+                  currency(128),
+                ]}
+              >
+                {data?.subscription != null ? (
+                  <ExistingSubscriptionNotice
+                    amount={currency(data.subscription?.amountInCents, {
+                      fromCents: true,
+                    })}
+                    onExtraDonation={() => setTransactionType('payment')}
+                    links={links}
+                  />
+                ) : null}
+              </TransactionForm>
+            </FetchingBoundary>
           </Tab.Panel>
           <Tab.Panel id="payment" context={TabsContext}>
             <TransactionForm
@@ -126,7 +177,9 @@ export const Form = ({
             <StripeForm
               paymentIntentType={transactionType}
               amount={currentAmount}
-              onSuccess={onSuccess}
+              onSuccess={handleSuccess}
+              onProcessing={onProcessing}
+              onSettled={onSettled}
             />
           </ExercismStripeElements>
         </div>

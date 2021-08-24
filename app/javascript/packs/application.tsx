@@ -276,13 +276,7 @@ initReact({
   'donations-with-modal-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsFormWithModal
-        existingSubscriptionAmount={
-          data.existing_subscription_amount_in_cents
-            ? currency(data.existing_subscription_amount_in_cents, {
-                fromCents: true,
-              })
-            : null
-        }
+        request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
       />
     </Suspense>
@@ -302,7 +296,10 @@ initReact({
   ),
   'donations-footer-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
-      <DonationsFooterForm />
+      <DonationsFooterForm
+        request={camelizeKeysAs<Request>(data.request)}
+        links={data.links}
+      />
     </Suspense>
   ),
   'common-concept-widget': (data: any) => (

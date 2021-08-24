@@ -2,14 +2,26 @@ import React, { useCallback, useState } from 'react'
 import currency from 'currency.js'
 import { AmountButton } from './donation-form/AmountButton'
 import { CustomAmountInput } from './donation-form/CustomAmountInput'
-import { StripeFormModal } from './footer-form/StripeFormModal'
+import { FormModal } from './footer-form/FormModal'
 import { GraphicalIcon } from '../common'
+import { Request } from '../../hooks/request-query'
+
+type Links = {
+  settings: string
+}
 
 const PRESET_AMOUNTS = [currency(10), currency(20), currency(50), currency(100)]
 const DEFAULT_AMOUNT = currency(10)
 
-const FooterForm = (): JSX.Element => {
+const FooterForm = ({
+  request,
+  links,
+}: {
+  request: Request
+  links: Links
+}): JSX.Element => {
   const [currentAmount, setCurrentAmount] = useState(DEFAULT_AMOUNT)
+  const [customAmount, setCustomAmount] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleAmountChange = useCallback((amount) => {
@@ -17,6 +29,19 @@ const FooterForm = (): JSX.Element => {
       return setCurrentAmount(DEFAULT_AMOUNT)
     }
 
+    setCustomAmount('')
+    setCurrentAmount(amount)
+  }, [])
+
+  const handleCustomAmountChange = useCallback((amount) => {
+    if (isNaN(amount.value)) {
+      setCurrentAmount(DEFAULT_AMOUNT)
+      setCustomAmount('')
+
+      return
+    }
+
+    setCustomAmount(amount)
     setCurrentAmount(amount)
   }, [])
 
@@ -39,16 +64,17 @@ const FooterForm = (): JSX.Element => {
               key={amount.value}
               value={amount}
               onClick={handleAmountChange}
-              current={currentAmount}
+              selected={
+                customAmount === '' && amount.value === currentAmount.value
+              }
               className="btn-m"
             />
           ))}
           <CustomAmountInput
-            onChange={handleAmountChange}
-            selected={
-              !PRESET_AMOUNTS.map((a) => a.value).includes(currentAmount.value)
-            }
+            onChange={handleCustomAmountChange}
+            selected={customAmount !== ''}
             placeholder="Custom amount"
+            value={customAmount}
           />
         </div>
         <button className="btn-m continue-btn ml-32">
@@ -56,10 +82,12 @@ const FooterForm = (): JSX.Element => {
           <GraphicalIcon icon="arrow-right" />
         </button>
       </form>
-      <StripeFormModal
+      <FormModal
         open={modalOpen}
         onClose={handleModalClose}
         amount={currentAmount}
+        request={request}
+        links={links}
       />
     </>
   )

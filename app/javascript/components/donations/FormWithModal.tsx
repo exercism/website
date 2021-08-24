@@ -6,19 +6,14 @@ import { GraphicalIcon } from '../common/GraphicalIcon'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 import { BadgeRarity } from '../types'
 import currency from 'currency.js'
+import { Request } from '../../hooks/request-query'
 
 type Links = {
   donate: string
   settings: string
 }
 
-export default ({
-  existingSubscriptionAmount,
-  links,
-}: {
-  existingSubscriptionAmount: currency | null
-  links: Links
-}) => {
+export default ({ request, links }: { request: Request; links: Links }) => {
   const [paymentMade, setPaymentMade] = useState(false)
   const [paymentType, setPaymentType] = useState<
     PaymentIntentType | undefined
@@ -39,11 +34,7 @@ export default ({
 
   return (
     <>
-      <Form
-        onSuccess={handleSuccess}
-        existingSubscriptionAmount={existingSubscriptionAmount}
-        links={links}
-      />
+      <Form onSuccess={handleSuccess} request={request} links={links} />
       <Modal
         open={paymentMade}
         onClose={() => null}

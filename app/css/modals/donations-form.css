@@ -1,0 +1,7 @@
+.m-donations-form.c-modal {
+    & .--modal-content {
+        width: 550px;
+        max-width: 100%;
+        @apply p-0;
+    }
+}

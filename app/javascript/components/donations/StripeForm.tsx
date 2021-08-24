@@ -114,6 +114,7 @@ export function StripeForm({
 
     // Set as processing to disable the button
     setProcessing(true)
+    setError(undefined)
 
     getPaymentRequest().then(async (paymentIntent: PaymentIntent) => {
       // If we've failed to get a payment intent get out of here

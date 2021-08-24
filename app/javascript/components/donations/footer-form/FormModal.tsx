@@ -70,7 +70,7 @@ export const FormModal = ({
   }
 
   return (
-    <Modal className="m-stripe-form" onClose={handleClose} {...props}>
+    <Modal className="m-donations-form" onClose={handleClose} {...props}>
       {content}
     </Modal>
   )

@@ -116,6 +116,7 @@
         @apply z-1;
     }
     & .c-donations-form {
+        @apply shadow-baseZ1 rounded-8;
         @apply ml-auto;
         max-width: 570px;
         box-shadow: 0px 4px 32px 0px #4f72cd80;

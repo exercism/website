@@ -166,10 +166,10 @@ export const Form = ({
               amount={amount.payment}
               onAmountChange={handleAmountChange('payment')}
               presetAmounts={[
+                currency(16),
                 currency(32),
+                currency(64),
                 currency(128),
-                currency(256),
-                currency(512),
               ]}
             />
           </Tab.Panel>

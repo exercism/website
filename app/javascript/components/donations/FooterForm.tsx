@@ -10,8 +10,8 @@ type Links = {
   settings: string
 }
 
-const PRESET_AMOUNTS = [currency(10), currency(20), currency(50), currency(100)]
-const DEFAULT_AMOUNT = currency(10)
+const PRESET_AMOUNTS = [currency(16), currency(32), currency(64), currency(128)]
+const DEFAULT_AMOUNT = currency(16)
 
 const FooterForm = ({
   request,

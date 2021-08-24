@@ -1,3 +1,4 @@
+import pluralize from 'pluralize'
 import React from 'react'
 import { TrackProgressList } from '../../types'
 
@@ -11,7 +12,8 @@ export const LearningOverview = ({
       <h3>
         You&apos;re{' '}
         <em className="text-gradient">{tracks.completion.toFixed(2)}%</em>{' '}
-        through your enrolled Tracks. <strong>Keep it up! 🚀</strong>
+        through your enrolled {pluralize('Track', tracks.length)}.{' '}
+        <strong>Keep it up! 🚀</strong>
       </h3>
       <div className="c-progress --large">
         <div className="bar" style={{ width: `${tracks.completion}%` }} />

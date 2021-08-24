@@ -1,4 +1,5 @@
 import React from 'react'
+import pluralize from 'pluralize'
 import { TrackProgressList } from '../../types'
 
 type Links = {
@@ -18,8 +19,14 @@ export const LearningStats = ({
       <h3>Did you know?</h3>
       <div className="stat">
         You&apos;ve written{' '}
-        <strong>{tracks.numLines.toLocaleString()} lines</strong> of code across{' '}
-        <a href={links.solutions}>{tracks.numSolutions} solutions</a>
+        <strong>
+          {tracks.numLines.toLocaleString()}{' '}
+          {pluralize('line', tracks.numLines)}
+        </strong>{' '}
+        of code across{' '}
+        <a href={links.solutions}>
+          {tracks.numSolutions} {pluralize('solution', tracks.numSolutions)}
+        </a>
       </div>
       <div className="stat">
         That&apos;s approximately equivalent to the length of an{' '}

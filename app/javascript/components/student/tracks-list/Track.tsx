@@ -1,4 +1,5 @@
 import React from 'react'
+import pluralize from 'pluralize'
 import { TrackIcon } from '../../common/TrackIcon'
 import { Icon, GraphicalIcon } from '../../common'
 import { ProgressBar } from './ProgressBar'
@@ -45,14 +46,14 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
             {track.numCompletedExercises == undefined
               ? null
               : `${track.numCompletedExercises}/`}
-            {track.numExercises} exercises
+            {track.numExercises} {pluralize('exercise', track.numExercises)}
           </li>
           <li>
             <Icon icon="concepts" alt="Number of concepts" />
             {track.numCompletedConcepts == undefined
               ? null
               : `${track.numCompletedConcepts}/`}
-            {track.numConcepts} concepts
+            {track.numConcepts} {pluralize('concept', track.numConcepts)}
           </li>
         </ul>
 

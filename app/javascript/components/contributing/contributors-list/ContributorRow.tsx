@@ -9,14 +9,19 @@ export const ContributorRow = ({
 }): JSX.Element => {
   return (
     <RowWrapper profile={contributor.links.profile}>
-      <div className="rank mb-10 md:mb-0 text-16 md:text-14">
+      <div className="rank hidden md:block text-16 md:text-14">
         #{contributor.rank}
       </div>
       <div className="flex-grow flex md:items-center">
         <Avatar src={contributor.avatarUrl} handle={contributor.handle} />
         <div className="flex-grow flex flex-col md:flex-row items-start md:items-center">
-          <div className="info mb-10 md:mb-0">
-            <h3 className="mb-4 md:mb-0">{contributor.handle}</h3>
+          <div className="info mb-4 md:mb-0">
+            <h3 className="mb-4 md:mb-0">
+              {contributor.handle}
+              <span className="md:hidden text-textColor6 ml-8 text-14">
+                #{contributor.rank}
+              </span>
+            </h3>
             <p>{contributor.activity}</p>
           </div>
           <Reputation value={contributor.reputation} type="primary" />

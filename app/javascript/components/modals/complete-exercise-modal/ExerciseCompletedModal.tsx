@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Modal } from '../Modal'
 import { ExerciseIcon } from '../../common'
 import { ConceptProgression } from './exercise-completed-modal/ConceptProgression'
 import { Unlocks } from './exercise-completed-modal/Unlocks'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
+import { redirectTo } from '../../../utils/redirect-to'
 
 export const ExerciseCompletedModal = ({
   open,
@@ -20,6 +21,10 @@ export const ExerciseCompletedModal = ({
     unlockedExercises,
     unlockedConcepts,
   } = completion
+
+  const handleContinue = useCallback(() => {
+    redirectTo(exercise.links.self)
+  }, [exercise.links.self])
 
   return (
     <Modal
@@ -47,9 +52,9 @@ export const ExerciseCompletedModal = ({
           unlockedConcepts={unlockedConcepts}
         />
       ) : null}
-      <a href={exercise.links.self} className="btn-primary btn-m">
+      <button onClick={handleContinue} className="btn-primary btn-m">
         Continue
-      </a>
+      </button>
     </Modal>
   )
 }

@@ -11,6 +11,13 @@ module.exports = {
     './app/javascript/**/*',
   ],
   theme: {
+    extend: {
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        '2-auto': 'repeat(2, auto)',
+        '3-auto': 'repeat(2, auto)',
+      },
+    },
     borderRadius: {
       none: '0',
       '3': '3px',
@@ -26,6 +33,7 @@ module.exports = {
       '2': '2px',
       '3': '3px',
       '4': '4px',
+      '6': '6px',
       '8': '8px',
     },
     boxShadow: {
@@ -113,6 +121,7 @@ module.exports = {
       darkBlue: '#6A93FF',
       veryLightBlue: '#E1EBFF',
       veryLightBlue2: '#E2EBFF',
+      evenLighterBlue: '#ECF2FF',
 
       btnBorder: '#5C5589',
       primaryBtnBorder: '#130B43',

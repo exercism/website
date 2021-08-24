@@ -29,7 +29,7 @@ body.devise {
     }
 
     & .exercism-link {
-        @apply mr-8;
+        @apply mr-8 flex-shrink-0;
         max-width: 45px;
         overflow: hidden;
 
@@ -67,53 +67,57 @@ body.devise {
         @screen lg {
             @apply block mr-16;
         }
-    }
-    & nav.signed-in {
-        @apply flex-grow;
 
         & ul {
             @apply flex items-center;
         }
 
         & li {
-            @apply mr-16;
-
-            /*&.selected {
+            &.selected {
                 & a {
                     @apply text-textColor2;
                 }
-                & .c-icon.main-icon {
-                    filter: var(--white-filter);
-                }
-            }*/
+            }
         }
+
+        & li:last-child a {
+            @apply text-purple;
+
+            & .c-icon {
+                filter: var(--purple-filter);
+            }
+        }
+
         & a {
             @apply flex items-center relative;
             @apply text-16 text-textColor6 font-semibold;
-            @apply px-8 py-8;
             @apply whitespace-no-wrap;
+
+            & .c-icon {
+                @apply hidden;
+                height: 24px;
+                width: 24px;
+                @apply mr-12;
+                filter: var(--textColor6-filter);
+            }
         }
-        & li:last-child a {
-            @apply text-purple;
+    }
+    & nav.signed-in {
+        @apply flex-grow;
+
+        & li {
+            @apply mr-16;
+        }
+        & a {
+            @apply px-8 py-8;
         }
     }
 
     & nav.signed-out {
         @apply mr-auto;
 
-        & ul {
-            @apply flex items-center;
-        }
-
         & li {
             @apply mr-32;
-        }
-        & a {
-            @apply flex items-center relative;
-            @apply text-16 leading-160 text-textColor6 font-semibold;
-        }
-        & li:last-child a {
-            @apply text-purple;
         }
     }
 

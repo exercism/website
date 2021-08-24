@@ -6,12 +6,20 @@ module Git
 
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
 
-    git_filepaths instructions: ".docs/instructions.md",
-                  instructions_append: ".docs/instructions.append.md",
-                  introduction: ".docs/introduction.md",
-                  introduction_append: ".docs/introduction.append.md",
-                  hints: ".docs/hints.md",
-                  config: ".meta/config.json"
+    git_filepaths(
+      instructions: ".docs/instructions.md",
+      instructions_append: ".docs/instructions.append.md",
+      introduction: ".docs/introduction.md",
+      introduction_append: ".docs/introduction.append.md",
+      hints: ".docs/hints.md",
+      config: ".meta/config.json"
+    )
+    SPECIAL_FILEPATHS = {
+      config: '.exercism/config.json',
+      readme: 'README.md',
+      hints: 'HINTS.md',
+      help: 'HELP.md'
+    }.freeze
 
     def self.for_solution(solution)
       new(
@@ -37,8 +45,9 @@ module Git
       return false if filepath.match?(%r{[^a-zA-Z0-9_./-]})
       return false if filepath.starts_with?(".meta")
       return false if filepath.starts_with?(".docs")
+      return false if filepath.starts_with?(".exercism")
 
-      # We don't want to let studetns override the test files. However, some languages
+      # We don't want to let students override the test files. However, some languages
       # have solutions and tests in the same file so we need the second guard for that.
       return false if test_filepaths.include?(filepath) && !solution_filepaths.include?(filepath)
 
@@ -176,12 +185,12 @@ module Git
 
     memoize
     def cli_filepaths
-      special_filepaths = [SPECIAL_FILEPATHS[:readme], SPECIAL_FILEPATHS[:help]]
+      special_filepaths = SPECIAL_FILEPATHS.values_at(:config, :readme, :help)
       special_filepaths << SPECIAL_FILEPATHS[:hints] if filepaths.include?(hints_filepath)
 
-      filtered_filepaths = filepaths.select do |filepath| # rubocop:disable Style/InverseMethods
+      filtered_filepaths = filepaths.select do |filepath|
         next if filepath.start_with?('.docs/')
-        next if filepath.start_with?('.meta/') && filepath != config_filepath
+        next if filepath.start_with?('.meta/')
         next if example_filepaths.include?(filepath)
         next if exemplar_filepaths.include?(filepath)
 
@@ -235,11 +244,5 @@ module Git
     def track
       Track.new(repo: repo)
     end
-
-    SPECIAL_FILEPATHS = {
-      readme: 'README.md',
-      hints: 'HINTS.md',
-      help: 'HELP.md'
-    }.freeze
   end
 end

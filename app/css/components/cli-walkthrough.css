@@ -2,6 +2,10 @@
 @import "../ui-kit/buttons";
 
 .c-cli-walkthrough {
+    & img {
+        max-width: 100%;
+    }
+
     /* All of this can be removed once we make the 
      * content into textual content */
     & .passage {

@@ -1,9 +1,11 @@
 require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
+require_relative "../../support/redirect_helpers"
 
 module Flows
   class CompleteExerciseTest < ApplicationSystemTestCase
     include CapybaraHelpers
+    include RedirectHelpers
 
     test "completes succesfully" do
       track = create :track
@@ -53,6 +55,8 @@ module Flows
         refute_text "Strings"
 
         click_on "Continue"
+
+        wait_for_redirect
         assert_text "You've completed Boutique."
 
         within '.unlocked-exercises' do
@@ -96,6 +100,7 @@ module Flows
 
         click_on "Continue"
 
+        wait_for_redirect
         assert_text "You've completed Boutique."
         assert_no_css("section.completion-nudge")
       end

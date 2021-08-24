@@ -49,8 +49,17 @@ export const LeaveTrackForm = ({
     onCancel()
   }, [onCancel])
 
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
   return (
-    <form data-turbo="false">
+    <form onSubmit={handleSubmit}>
       <div className="info">
         <p>
           <strong>When you leave the track, you still keep:</strong>
@@ -79,11 +88,7 @@ export const LeaveTrackForm = ({
         >
           Cancel
         </FormButton>
-        <FormButton
-          onClick={() => mutation()}
-          status={status}
-          className="btn-primary btn-m"
-        >
+        <FormButton status={status} className="btn-primary btn-m">
           Leave track
         </FormButton>
       </div>

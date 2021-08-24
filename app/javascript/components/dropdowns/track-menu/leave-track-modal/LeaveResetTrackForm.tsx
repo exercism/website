@@ -51,8 +51,17 @@ export const LeaveResetTrackForm = ({
   }, [onCancel])
   const { attempt, setAttempt, isAttemptPass } = useConfirmation(confirmation)
 
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
   return (
-    <form data-turbo="false">
+    <form onSubmit={handleSubmit}>
       <div className="info">
         <p>
           <strong>By leaving and resetting this track, you will:</strong>
@@ -98,7 +107,6 @@ export const LeaveResetTrackForm = ({
           Cancel
         </FormButton>
         <FormButton
-          onClick={() => mutation()}
           status={status}
           disabled={!isAttemptPass}
           className="btn-primary btn-m"

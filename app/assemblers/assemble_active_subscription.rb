@@ -4,7 +4,7 @@ class AssembleActiveSubscription
   initialize_with :user
 
   def call
-    return { subscription: nil } if subscription.blank?
+    return { subscription: nil } if user.blank? || subscription.blank?
 
     {
       subscription: {

@@ -185,7 +185,7 @@ module Git
 
     memoize
     def cli_filepaths
-      special_filepaths = [SPECIAL_FILEPATHS[:config], SPECIAL_FILEPATHS[:readme], SPECIAL_FILEPATHS[:help]]
+      special_filepaths = SPECIAL_FILEPATHS.values_at(:config, :readme, :help)
       special_filepaths << SPECIAL_FILEPATHS[:hints] if filepaths.include?(hints_filepath)
 
       filtered_filepaths = filepaths.select do |filepath|

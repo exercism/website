@@ -327,7 +327,6 @@ class UserTrackTest < ActiveSupport::TestCase
     practice_exercises[4].prerequisites << c_5
 
     assert_equal 5, user_track.num_concepts
-    assert_equal 4, user_track.num_concepts_taught
     assert_equal 0, user_track.num_concepts_learnt
     assert_equal 0, user_track.num_concepts_mastered
 
@@ -347,7 +346,6 @@ class UserTrackTest < ActiveSupport::TestCase
     user_track.reset_summary!
 
     assert_equal 5, user_track.num_concepts
-    assert_equal 4, user_track.num_concepts_taught
     assert_equal 2, user_track.num_concepts_learnt
     assert_equal 2, user_track.num_concepts_mastered
   end

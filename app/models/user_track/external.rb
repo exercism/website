@@ -162,11 +162,6 @@ class UserTrack
       []
     end
 
-    memoize
-    def num_concepts_taught
-      concept_exercises.flat_map(&:taught_concepts).uniq.size
-    end
-
     def num_concepts_learnt
       0
     end

@@ -11,7 +11,7 @@ class SerializeTrack
     {
       slug: track.slug,
       title: track.title,
-      num_concepts: user_track.num_concepts_taught,
+      num_concepts: user_track.num_concepts,
       num_exercises: user_track.num_exercises,
       web_url: Exercism::Routes.track_url(track),
       icon_url: track.icon_url,

@@ -78,6 +78,9 @@ class UserTrack < ApplicationRecord
     exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 
+  memoize
+  delegate :num_concepts, to: :track
+
   def external?
     false
   end

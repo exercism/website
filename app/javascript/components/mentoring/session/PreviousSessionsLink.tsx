@@ -1,8 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Icon } from '../../common/Icon'
 import pluralize from 'pluralize'
 import { PreviousMentoringSessionsModal } from '../../modals/PreviousMentoringSessionsModal'
-import { Student } from '../../types'
+import { PaginatedResult, MentorDiscussion, Student } from '../../types'
+import { useList } from '../../../hooks/use-list'
+import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
+import { FetchingBoundary } from '../../FetchingBoundary'
+import { PaginatedQueryResult } from 'react-query'
+
+const DEFAULT_ERROR = new Error('Unable to load previous discussions')
 
 export const PreviousSessionsLink = ({
   student,
@@ -11,32 +17,83 @@ export const PreviousSessionsLink = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element | null => {
+  const { request, setPage } = useList({
+    endpoint: student.links.previousSessions,
+  })
+  const query = usePaginatedRequestQuery<
+    PaginatedResult<readonly MentorDiscussion[]>
+  >([request.endpoint, request.query], request)
+
+  return (
+    <React.Fragment>
+      <FetchingBoundary
+        status={query.status}
+        error={query.error}
+        defaultError={DEFAULT_ERROR}
+      >
+        {query.resolvedData ? (
+          <Component
+            student={student}
+            setStudent={setStudent}
+            query={query}
+            request={request}
+            setPage={setPage}
+          />
+        ) : null}
+      </FetchingBoundary>
+    </React.Fragment>
+  )
+}
+
+const Component = ({
+  student,
+  setStudent,
+  query,
+  request,
+  setPage,
+}: {
+  student: Student
+  setStudent: (student: Student) => void
+  query: PaginatedQueryResult<PaginatedResult<readonly MentorDiscussion[]>>
+  request: Request
+  setPage: (page: number) => void
+}): JSX.Element | null => {
   const [open, setOpen] = useState(false)
 
-  if (student.numDiscussionsWithMentor < 2) {
+  const handleModalOpen = useCallback(() => {
+    setOpen(true)
+  }, [])
+
+  if (query.resolvedData === undefined) {
     return null
   }
 
-  const numPrevious = student.numDiscussionsWithMentor - 1
+  const previousCount = query.resolvedData.meta.totalCount - 1
+
+  if (previousCount < 1) {
+    return null
+  }
 
   return (
     <React.Fragment>
       <button
         type="button"
         className="previous-sessions"
-        onClick={() => setOpen(true)}
+        onClick={handleModalOpen}
       >
-        See {numPrevious} previous {pluralize('session', numPrevious)}
+        See {previousCount} previous {pluralize('session', previousCount)}
         <Icon icon="modal" alt="Opens in modal" />
       </button>
-      {open ? (
-        <PreviousMentoringSessionsModal
-          open={open}
-          student={student}
-          setStudent={setStudent}
-          onClose={() => setOpen(false)}
-        />
-      ) : null}
+      <PreviousMentoringSessionsModal
+        open={open}
+        student={student}
+        setStudent={setStudent}
+        onClose={() => setOpen(false)}
+        query={query}
+        previousCount={previousCount}
+        page={request.query?.page || 1}
+        setPage={setPage}
+      />
     </React.Fragment>
   )
 }

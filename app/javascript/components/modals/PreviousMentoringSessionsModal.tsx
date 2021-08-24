@@ -13,11 +13,10 @@ import {
   FavoritableStudent,
   FavoriteButton,
 } from '../mentoring/session/FavoriteButton'
-import { useList } from '../../hooks/use-list'
-import { PaginatedResult, MentorDiscussion, Student } from '../types'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { MentorDiscussion, Student, PaginatedResult } from '../types'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
+import { PaginatedQueryResult } from 'react-query'
 
 const DEFAULT_ERROR = new Error('Unable to load discussions')
 
@@ -25,27 +24,19 @@ export const PreviousMentoringSessionsModal = ({
   onClose,
   student,
   setStudent,
+  query,
+  previousCount,
+  page,
+  setPage,
   ...props
 }: Omit<ModalProps, 'className'> & {
   student: Student
   setStudent: (student: Student) => void
+  query: PaginatedQueryResult<PaginatedResult<readonly MentorDiscussion[]>>
+  previousCount: number
+  page: number
+  setPage: (page: number) => void
 }): JSX.Element => {
-  const { request, setPage } = useList({
-    endpoint: student.links.previousSessions,
-  })
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<
-    PaginatedResult<readonly MentorDiscussion[]>,
-    Error | Response
-  >([request.endpoint, request.query], request)
-
-  const numPrevious = student.numDiscussionsWithMentor - 1
-
   const DiscussionLink = ({ discussion }: { discussion: MentorDiscussion }) => {
     return (
       <a
@@ -83,7 +74,8 @@ export const PreviousMentoringSessionsModal = ({
     <Modal {...props} onClose={onClose} className="m-mentoring-sessions">
       <header>
         <strong>
-          You have {numPrevious} previous {pluralize('discussion', numPrevious)}
+          You have {previousCount} previous{' '}
+          {pluralize('discussion', previousCount)}
         </strong>
         with
         <Avatar src={student.avatarUrl} handle={student.handle} />
@@ -96,24 +88,26 @@ export const PreviousMentoringSessionsModal = ({
         ) : null}
       </header>
       <div className="discussions">
-        <ResultsZone isFetching={isFetching}>
+        <ResultsZone isFetching={query.isFetching}>
           <FetchingBoundary
-            status={status}
-            error={error}
+            status={query.status}
+            error={query.error}
             defaultError={DEFAULT_ERROR}
           >
-            {resolvedData ? (
+            {query.resolvedData ? (
               <React.Fragment>
-                {resolvedData.results.map((discussion: MentorDiscussion) => (
-                  <DiscussionLink
-                    discussion={discussion}
-                    key={discussion.uuid}
-                  />
-                ))}
+                {query.resolvedData.results.map(
+                  (discussion: MentorDiscussion) => (
+                    <DiscussionLink
+                      discussion={discussion}
+                      key={discussion.uuid}
+                    />
+                  )
+                )}
                 <Pagination
-                  disabled={latestData === undefined}
-                  current={request.query.page}
-                  total={resolvedData.meta.totalPages}
+                  disabled={query.latestData === undefined}
+                  current={page}
+                  total={query.resolvedData.meta.totalPages}
                   setPage={setPage}
                 />
               </React.Fragment>

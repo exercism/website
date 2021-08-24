@@ -34,10 +34,52 @@ module Flows
       end
     end
 
+    test "mentor moves through previous session pages" do
+      Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student-123"
+
+      lasagna = create :concept_exercise, slug: "lasagna"
+      solution = create :concept_solution, exercise: lasagna, user: student
+      create :mentor_discussion, :finished, solution: solution, mentor: mentor
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission
+
+      walking = create :concept_exercise, slug: "walking"
+      solution = create :concept_solution, exercise: walking, user: student
+      walking_discussion = create :mentor_discussion, solution: solution, mentor: mentor
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission
+
+      running = create :concept_exercise, slug: "running"
+      solution = create :concept_solution, exercise: running, user: student
+      discussion = create :mentor_discussion, solution: solution, mentor: mentor
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission
+
+      create :mentor_student_relationship, mentor: mentor, student: student, num_discussions: 3
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_discussion_path(discussion)
+        click_on "See 2 previous sessions"
+        click_on "Next"
+
+        assert_link "Walking", href: Exercism::Routes.mentoring_discussion_url(walking_discussion)
+        assert_no_link "Lasagna"
+      end
+    end
+
     test "mentor favorites a student" do
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
       create :mentor_student_relationship, mentor: mentor, student: student, num_discussions: 2
+
+      lasagna = create :concept_exercise, slug: "lasagna"
+      solution = create :concept_solution, exercise: lasagna, user: student
+      create :mentor_discussion, :finished, solution: solution, mentor: mentor
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission
 
       running = create :concept_exercise, slug: "running"
       solution = create :concept_solution, exercise: running, user: student

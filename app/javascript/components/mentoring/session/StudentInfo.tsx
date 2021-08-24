@@ -4,12 +4,18 @@ import { Avatar, Reputation } from '../../common'
 import { FavoritableStudent, FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
 
+type Links = {
+  previousSessions: string
+}
+
 export const StudentInfo = ({
   student,
   setStudent,
+  links,
 }: {
   student: Student
   setStudent: (student: Student) => void
+  links: Links
 }): JSX.Element => {
   return (
     <div className="student-info">
@@ -29,7 +35,11 @@ export const StudentInfo = ({
           {student.links ? (
             <StudentInfoActions student={student} setStudent={setStudent} />
           ) : null}
-          <PreviousSessionsLink student={student} setStudent={setStudent} />
+          <PreviousSessionsLink
+            student={student}
+            setStudent={setStudent}
+            endpoint={links.previousSessions}
+          />
         </div>
       </div>
       <Avatar src={student.avatarUrl} handle={student.handle} />

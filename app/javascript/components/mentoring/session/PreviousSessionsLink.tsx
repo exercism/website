@@ -4,22 +4,24 @@ import pluralize from 'pluralize'
 import { PreviousMentoringSessionsModal } from '../../modals/PreviousMentoringSessionsModal'
 import { PaginatedResult, MentorDiscussion, Student } from '../../types'
 import { useList } from '../../../hooks/use-list'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
+import { Request } from '../../../hooks/request-query'
 import { FetchingBoundary } from '../../FetchingBoundary'
+import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { PaginatedQueryResult } from 'react-query'
 
 const DEFAULT_ERROR = new Error('Unable to load previous discussions')
 
 export const PreviousSessionsLink = ({
+  endpoint,
   student,
   setStudent,
 }: {
+  endpoint: string
   student: Student
   setStudent: (student: Student) => void
+  discussion?: MentorDiscussion
 }): JSX.Element | null => {
-  const { request, setPage } = useList({
-    endpoint: student.links.previousSessions,
-  })
+  const { request, setPage } = useList({ endpoint: endpoint })
   const query = usePaginatedRequestQuery<
     PaginatedResult<readonly MentorDiscussion[]>
   >([request.endpoint, request.query], request)
@@ -68,7 +70,7 @@ const Component = ({
     return null
   }
 
-  const previousCount = query.resolvedData.meta.totalCount - 1
+  const previousCount = query.resolvedData.meta.totalCount
 
   if (previousCount < 1) {
     return null
@@ -90,7 +92,6 @@ const Component = ({
         setStudent={setStudent}
         onClose={() => setOpen(false)}
         query={query}
-        previousCount={previousCount}
         page={request.query?.page || 1}
         setPage={setPage}
       />

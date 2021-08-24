@@ -16,6 +16,7 @@ module Mentor
                      student_handle: nil,
                      criteria: nil, order: nil,
                      track_slug: nil,
+                     excluded_uuids: [],
                      sorted: true, paginated: true)
 
         # This will be a code-level exception rather than a user-level
@@ -28,6 +29,7 @@ module Mentor
         @page = page || 1
         @student_handle = student_handle
         @track_slug = track_slug
+        @excluded_uuids = excluded_uuids
         @criteria = criteria
         @order = order
 
@@ -41,6 +43,7 @@ module Mentor
         filter_track!
         filter_student!
         search!
+        exclude!
         sort! if sorted?
         paginate! if paginated?
 
@@ -48,7 +51,7 @@ module Mentor
       end
 
       private
-      attr_reader :mentor, :status, :page, :student_handle, :track_slug, :criteria, :order
+      attr_reader :mentor, :status, :page, :student_handle, :track_slug, :criteria, :order, :excluded_uuids
 
       %i[sorted paginated].each do |attr|
         define_method("#{attr}?") { instance_variable_get("@#{attr}") }
@@ -93,6 +96,12 @@ module Mentor
 
         @discussions = @discussions.joins(solution: :user).
           where("exercises.title LIKE ? OR users.handle LIKE ?", "%#{criteria}%", "%#{criteria}%")
+      end
+
+      def exclude!
+        return if excluded_uuids.blank?
+
+        @discussions = @discussions.where.not(uuid: excluded_uuids)
       end
 
       def sort!

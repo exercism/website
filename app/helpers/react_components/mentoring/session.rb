@@ -56,6 +56,11 @@ module ReactComponents
       def links
         {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
+          previous_sessions: if discussion
+                               Exercism::Routes.api_mentoring_discussion_previous_sessions_path(discussion)
+                             else
+                               Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all)
+                             end,
           exercise: Exercism::Routes.track_exercise_path(track, exercise)
         }
       end

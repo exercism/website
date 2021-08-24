@@ -105,7 +105,6 @@ export type Student = {
   links: {
     block: string
     favorite?: string
-    previousSessions: string
   }
 }
 

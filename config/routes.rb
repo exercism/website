@@ -198,6 +198,8 @@ Rails.application.routes.draw do
         end
 
         resources :discussions, only: %i[index create], param: :uuid do
+          resources :previous_sessions, only: %i[index], controller: "discussions/previous_sessions"
+
           member do
             patch :mark_as_nothing_to_do
             patch :finish

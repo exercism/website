@@ -25,7 +25,6 @@ export const PreviousMentoringSessionsModal = ({
   student,
   setStudent,
   query,
-  previousCount,
   page,
   setPage,
   ...props
@@ -33,7 +32,6 @@ export const PreviousMentoringSessionsModal = ({
   student: Student
   setStudent: (student: Student) => void
   query: PaginatedQueryResult<PaginatedResult<readonly MentorDiscussion[]>>
-  previousCount: number
   page: number
   setPage: (page: number) => void
 }): JSX.Element => {
@@ -74,8 +72,8 @@ export const PreviousMentoringSessionsModal = ({
     <Modal {...props} onClose={onClose} className="m-mentoring-sessions">
       <header>
         <strong>
-          You have {previousCount} previous{' '}
-          {pluralize('discussion', previousCount)}
+          You have {query.resolvedData?.meta.totalCount} previous{' '}
+          {pluralize('discussion', query.resolvedData?.meta.totalCount)}
         </strong>
         with
         <Avatar src={student.avatarUrl} handle={student.handle} />

@@ -4,6 +4,9 @@
     @apply bg-backgroundColorA;
 
     & > header {
+        & .md-container {
+            @apply pt-48;
+        }
         & .logo {
             height: 80px;
             width: 80px;

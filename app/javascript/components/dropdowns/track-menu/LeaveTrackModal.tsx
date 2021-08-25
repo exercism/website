@@ -38,7 +38,7 @@ export const LeaveTrackModal = ({
       <div className="info">
         <h2>You’re about to leave the {track.title} track.</h2>
         <p className="large">
-          No longer interested in learning Elixir? No problem!
+          No longer interested in learning {track.title}? No problem!
         </p>
       </div>
 

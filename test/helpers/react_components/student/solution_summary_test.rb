@@ -36,7 +36,7 @@ module Student
             learn_more_about_mentoring_article: "#",
             mentoring_info: "#",
             complete_exercise: Exercism::Routes.complete_api_solution_url(solution.uuid),
-            share_mentoring: "https://some.link/we/need/to-decide-on",
+            share_mentoring: solution.external_mentoring_request_url,
             request_mentoring: Exercism::Routes.new_track_exercise_mentor_request_path(solution.track, solution.exercise),
             pending_mentor_request: Exercism::Routes.track_exercise_mentor_request_path(solution.track, solution.exercise)
           }

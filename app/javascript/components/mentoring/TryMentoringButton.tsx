@@ -10,10 +10,16 @@ export type Links = {
   congratulationsStep: CongratulationsStepLinks
 }
 
+export type Size = 'm' | 'l'
+
 export const TryMentoringButton = ({
   links,
+  text,
+  size,
 }: {
   links: Links
+  text: String
+  size: Size
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
 
@@ -21,10 +27,10 @@ export const TryMentoringButton = ({
     <div>
       <button
         type="button"
-        className="btn-primary btn-m"
+        className={`btn-primary btn-${size}`}
         onClick={() => setOpen(true)}
       >
-        Try mentoring now
+        {text}
       </button>
       <MentorRegistrationModal
         open={open}

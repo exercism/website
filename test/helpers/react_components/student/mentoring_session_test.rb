@@ -52,7 +52,7 @@ module ReactComponents::Student
             exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
             create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
             learn_more_about_private_mentoring: "#",
-            private_mentoring: "https://some.link/we/need/to-decide-on",
+            private_mentoring: solution.external_mentoring_request_url,
             mentoring_guide: "#"
           }
         }
@@ -106,8 +106,8 @@ module ReactComponents::Student
           links: {
             exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
             create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
-            learn_more_about_private_mentoring: "#",
-            private_mentoring: "https://some.link/we/need/to-decide-on",
+            learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/from-a-friend"),
+            private_mentoring: solution.external_mentoring_request_url,
             mentoring_guide: "#"
           }
         }

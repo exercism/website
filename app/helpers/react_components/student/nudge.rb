@@ -38,9 +38,9 @@ module ReactComponents
 
       def links
         {
-          mentoring_info: "#",
+          mentoring_info: Exercism::Routes.doc_path(:using, "feedback"),
           complete_exercise: Exercism::Routes.complete_api_solution_url(solution.uuid),
-          share_mentoring: "https://some.link/we/need/to-decide-on", # TODO: (Required)
+          share_mentoring: solution.external_mentoring_request_url,
           request_mentoring: Exercism::Routes.new_track_exercise_mentor_request_path(solution.track, solution.exercise),
           pending_mentor_request: Exercism::Routes.track_exercise_mentor_request_path(solution.track, solution.exercise)
         }.tap do |links|

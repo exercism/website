@@ -139,6 +139,8 @@ initReact({
   ),
   'mentoring-try-mentoring-button': (data: any) => (
     <Mentoring.TryMentoringButton
+      text={data.text}
+      size={data.size}
       links={camelizeKeysAs<TryMentoringButtonLinks>(data.links)}
     />
   ),

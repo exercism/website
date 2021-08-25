@@ -417,7 +417,7 @@
                     }
 
                     & .timeline-entry-header {
-                        @apply flex items-center mb-4;
+                        @apply flex items-center;
 
                         & .author {
                             @apply font-semibold text-16 leading-150 text-textColor3;

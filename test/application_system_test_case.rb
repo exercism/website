@@ -10,6 +10,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   Capybara.default_max_wait_time = 7
   Capybara.enable_aria_label = true
   Capybara.reuse_server = false
+  # Capybara.disable_animation = true
 
   class << self
     attr_accessor :override_should_flunk
@@ -43,6 +44,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       next if error.level == "WARNING"
       next if error.to_s.include?("403 (Forbidden)")
       next if error.to_s.include?("hcaptcha")
+      next if error.to_s.include?("js.stripe.com")
 
       should_flunk = true
 
@@ -57,11 +59,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     flunk("JS Errors") if should_flunk
   end
 
-  # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
-  driven_by :selenium, using: :headless_chrome do |driver_option|
-    # Without this argument, Chrome cannot be started in Docker
-    driver_option.add_argument('no-sandbox')
-  end
+  driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
+  # driven_by :selenium, using: :headless_chrome do |driver_option|
+  #   # Without this argument, Chrome cannot be started in Docker
+  #   driver_option.add_argument('no-sandbox')
+  # end
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)

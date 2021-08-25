@@ -20,7 +20,7 @@ module Git
         @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
       end
 
-      @branch_ref = branch_ref || ENV.fetch("GIT_CONTENT_BRANCH", MAIN_BRANCH_REF)
+      @branch_ref = branch_ref || ENV["GIT_CONTENT_BRANCH"].presence || MAIN_BRANCH_REF
 
       fetch! if keep_up_to_date?
     end

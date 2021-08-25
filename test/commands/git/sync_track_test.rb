@@ -446,4 +446,12 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     assert_equal "old-sha", track.synced_to_git_sha
   end
+
+  test "does not sync legacy javascript track" do
+    track = create :track, slug: 'javascript-legacy', synced_to_git_sha: "old-sha"
+
+    Git::SyncTrack.(track)
+
+    assert_equal "old-sha", track.synced_to_git_sha
+  end
 end

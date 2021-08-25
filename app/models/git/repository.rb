@@ -7,7 +7,7 @@ module Git
 
     MAIN_BRANCH_REF = "main".freeze
 
-    def initialize(repo_url: nil)
+    def initialize(repo_url: nil, branch_ref: nil)
       @repo_name = repo_url.split("/").last
 
       if Rails.env.development? && ENV["GIT_CONTENT_REPO"].present?
@@ -19,6 +19,8 @@ module Git
       else
         @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
       end
+
+      @branch_ref = branch_ref || ENV["GIT_CONTENT_BRANCH"].presence || MAIN_BRANCH_REF
 
       fetch! if keep_up_to_date?
     end
@@ -91,7 +93,7 @@ module Git
     end
 
     private
-    attr_reader :repo_name, :repo_url
+    attr_reader :repo_name, :repo_url, :branch_ref
 
     def active_branch
       rugged_repo.branches[branch_ref]
@@ -138,11 +140,6 @@ module Git
     memoize
     def keep_up_to_date?
       Rails.env.test? || !!ENV["GIT_ALWAYS_FETCH_ORIGIN"]
-    end
-
-    memoize
-    def branch_ref
-      ENV["GIT_CONTENT_BRANCH"].presence || MAIN_BRANCH_REF
     end
   end
 end

@@ -1,16 +1,23 @@
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import React from 'react'
+import Bugsnag from '@bugsnag/browser'
 
-const publishableKey = document.querySelector<HTMLMetaElement>(
-  'meta[name="stripe-publishable-key"]'
-)?.content
+const stripe = load()
 
-if (!publishableKey) {
-  throw 'Publishable key not found!'
+function load() {
+  const publishableKey = document.querySelector<HTMLMetaElement>(
+    'meta[name="stripe-publishable-key"]'
+  )?.content
+
+  if (!publishableKey) {
+    Bugsnag.notify('Publishable key not found!')
+
+    return
+  }
+
+  return loadStripe(publishableKey)
 }
-
-const stripe = loadStripe(publishableKey)
 
 const options = {
   fonts: [
@@ -25,7 +32,11 @@ export const ExercismStripeElements = ({
   children,
 }: {
   children?: React.ReactNode
-}): JSX.Element => {
+}): JSX.Element | null => {
+  if (stripe === undefined) {
+    return null
+  }
+
   return (
     <Elements stripe={stripe} options={options}>
       {children}

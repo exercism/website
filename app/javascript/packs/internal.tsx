@@ -107,6 +107,7 @@ initReact({
       )}
       tracksRequest={camelizeKeysAs<MentoringInboxRequest>(data.tracks_request)}
       sortOptions={data.sort_options}
+      links={data.links}
     />
   ),
   'mentoring-queue': (data: any) => (

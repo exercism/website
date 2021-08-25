@@ -21,7 +21,7 @@ module Git
     end
 
     def call
-      return if research_experiment?
+      return if skip?
 
       fetch_git_repo!
 
@@ -138,8 +138,8 @@ module Git
       git_repo.fetch!
     end
 
-    def research_experiment?
-      track.slug == 'research_experiment_1'
+    def skip?
+      %w[research_experiment_1 javascript-legacy].include?(track.slug)
     end
   end
 end

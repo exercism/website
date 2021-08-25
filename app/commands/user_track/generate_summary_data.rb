@@ -131,6 +131,7 @@ class UserTrack
 
     def exercise_is_unlocked?(exercise_data, tutorial_pending)
       return true if user_track.external?
+      return true if user_track.practice_mode?
       return true if solutions_data[exercise_data[:slug]]
       return exercise_data[:tutorial] if tutorial_pending
 

@@ -138,6 +138,18 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     assert summary.concept_unlocked?(strings)
   end
 
+  test "locked exercises honour practice mode" do
+    track = create :track
+    exercise = create :practice_exercise, :random_slug, track: track
+    exercise.prerequisites << create(:concept, track: track)
+
+    ut = create :user_track, track: track
+    assert_equal :locked, summary_for(ut).exercise_status(exercise)
+
+    ut.update(practice_mode: true)
+    assert_equal :available, summary_for(ut).exercise_status(exercise)
+  end
+
   test "unlocked exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track

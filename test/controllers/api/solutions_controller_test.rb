@@ -352,6 +352,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
       patch complete_api_solution_path(solution.uuid),
         headers: @headers, as: :json
 
+      user_track.reload
+
       assert_response 200
       expected = {
         track: SerializeTrack.(solution.track, user_track),

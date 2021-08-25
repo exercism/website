@@ -230,11 +230,6 @@ class UserTrack
       Concept.where(id: mastered_concept_ids.sample(size))
     end
 
-    memoize
-    def num_concepts
-      mapped_concepts.size
-    end
-
     # TODO: Add test coverage
     memoize
     def num_concepts_learnt

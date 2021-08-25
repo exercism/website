@@ -15,7 +15,6 @@ class Tracks::ConceptsController < ApplicationController
     @concept_map_data[:exercises_data] =
       UserTrack::GenerateExerciseStatusMapping.(@user_track)
 
-    @num_concepts = @track.concepts.count
     @user_track ? @num_completed = @user_track.num_concepts_learnt : @num_completed = 0
   end
 

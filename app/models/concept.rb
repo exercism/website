@@ -7,7 +7,7 @@ class Concept < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
-  belongs_to :track, counter_cache: :num_concepts
+  belongs_to :track
 
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",

@@ -3,6 +3,10 @@
 .c-textual-content {
     @apply font-body;
 
+    & img {
+        max-width: 100%;
+    }
+
     &.--large {
         & * {
             @apply text-16;

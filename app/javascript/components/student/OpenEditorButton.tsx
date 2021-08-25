@@ -2,6 +2,7 @@ import React from 'react'
 import { CopyToClipboardButton } from '../common'
 import { ComboButton } from '../common/ComboButton'
 import { StartExerciseButton } from './open-editor-button/StartExerciseButton'
+import { GenericTooltip } from '../misc/ExercismTippy'
 
 export const OpenEditorButton = (
   props:
@@ -37,9 +38,7 @@ export const OpenEditorButton = (
   }
 
   return (
-    <ComboButton
-      className={props.status === 'locked' ? '--disabled' : undefined}
-    >
+    <ComboButton enabled={props.status !== 'locked'}>
       <ComboButton.PrimarySegment>{primarySegment}</ComboButton.PrimarySegment>
       <ComboButton.DropdownSegment>
         {/* TODO: (required) Firm up this copy and inject the link */}

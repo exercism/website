@@ -7,16 +7,27 @@
 
     box-shadow: 0px 3px 6px rgba(79, 114, 205, 0.4);
 
-    &:not(:disabled):hover {
+    &.--disabled {
+        opacity: 0.8;
+        cursor: not-allowed;
+        & .--primary-segment,
+        & .--dropdown-segment {
+            cursor: not-allowed;
+        }
+    }
+
+    &:not(.--disabled):hover {
         @apply bg-purple;
+
+        & .--primary-segment,
+        & .--dropdown-segment {
+            @apply bg-purpleDarkened;
+        }
     }
 
     & .--primary-segment,
     & .--dropdown-segment {
         transition: background 0.1s ease-in;
-        &:not(:disabled):hover {
-            @apply bg-purpleDarkened;
-        }
     }
 
     & .--primary-segment {

@@ -10,7 +10,7 @@ test('disabled when status is locked', async () => {
 
   expect(container.firstChild).toHaveAttribute(
     'class',
-    'c-combo-button --disabled'
+    'c-combo-button --disabled '
   )
   expect(screen.getByText('Open in editor')).toBeInTheDocument()
 })

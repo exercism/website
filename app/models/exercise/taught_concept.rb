@@ -11,7 +11,7 @@ class Exercise::TaughtConcept < ApplicationRecord
           where(exercise: { track: exercise.track_id, status: %i[beta active] }).
           select("COUNT(DISTINCT(track_concept_id))").
           to_sql
-        )
+      )
       Track.where(id: exercise.track_id).update_all("num_concepts = (#{concepts_count_sql})")
     end
   end

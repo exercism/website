@@ -38,7 +38,7 @@ module ReactComponents
         {
           page: current_page,
           period: params[:period],
-          track: params[:track],
+          track_slug: params[:track_slug],
           category: params[:category]
         }.compact
       end

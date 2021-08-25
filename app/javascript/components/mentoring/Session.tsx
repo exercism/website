@@ -217,6 +217,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                     request={request}
                     session={session}
                     setSession={setSession}
+                    links={links}
                   />
                 )}
               </>

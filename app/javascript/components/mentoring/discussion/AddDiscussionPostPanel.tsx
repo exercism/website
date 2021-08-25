@@ -3,6 +3,7 @@ import { TabsContext } from '../Session'
 import { AddDiscussionPost } from './AddDiscussionPost'
 import { NewMessageAlert } from './NewMessageAlert'
 import { MentorDiscussion as Discussion } from '../../types'
+import { MentoringNote } from '../session/MentoringNote'
 
 type Links = {
   mentoringDocs: string
@@ -30,13 +31,7 @@ export const AddDiscussionPostPanel = ({
           switchToTab('discussion')
         }}
       >
-        <div className="note">
-          Check out our{' '}
-          <a href={links.mentoringDocs} target="_blank" rel="noreferrer">
-            mentoring docs
-          </a>{' '}
-          and be the best mentor you can be.
-        </div>
+        <MentoringNote links={links} />
       </AddDiscussionPost>
     </section>
   )

@@ -7,4 +7,5 @@
     %strong "Hello, World!"
     to unlock this exercise.
 
-  = render ReactComponents::Common::ExerciseWidget.new(track.tutorial_exercise, user_track)
+  - if track.tutorial_exercise
+    = render ReactComponents::Common::ExerciseWidget.new(track.tutorial_exercise, user_track)

@@ -42,9 +42,10 @@ module Flows
         visit solution.external_mentoring_request_url
 
         assert_text "Want to mentor #{solution.user.handle}?"
-
         click_on "Accept invitation"
-        assert_text "Iteration 1 was submitted"
+
+        sleep(1)
+        assert_text "Iteration 1was submitted"
         assert_text "Who you're mentoring"
       end
     end

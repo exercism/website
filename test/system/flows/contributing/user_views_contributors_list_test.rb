@@ -75,6 +75,7 @@ module Flows
           find("label", text: "Go").click
 
           assert_text "1 PR created"
+          within(".c-search-bar") { assert_text "Go" }
         end
       end
     end

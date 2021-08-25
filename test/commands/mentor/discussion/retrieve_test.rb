@@ -7,7 +7,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     valid = create :mentor_discussion, :awaiting_mentor, mentor: user
     create :mentor_discussion, :awaiting_mentor
 
-    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :awaiting_mentor, page: 1)
+    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :awaiting_mentor)
   end
 
   test "status: awaiting_mentor" do
@@ -16,7 +16,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     valid = create :mentor_discussion, :awaiting_mentor, mentor: user
     create :mentor_discussion, mentor: user
 
-    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :awaiting_mentor, page: 1)
+    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :awaiting_mentor)
   end
 
   test "status: awaiting_student" do
@@ -25,7 +25,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     valid = create :mentor_discussion, :awaiting_student, mentor: user
     create :mentor_discussion, :awaiting_mentor, mentor: user
 
-    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :awaiting_student, page: 1)
+    assert_equal [valid], Mentor::Discussion::Retrieve.(user, :awaiting_student)
   end
 
   test "status: finished" do
@@ -36,7 +36,17 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     create :mentor_discussion, :awaiting_mentor, mentor: user
     create :mentor_discussion, :awaiting_student, mentor: user
 
-    assert_equal [valid_1, valid_2], Mentor::Discussion::Retrieve.(user, :finished, page: 1)
+    assert_equal [valid_1, valid_2], Mentor::Discussion::Retrieve.(user, :finished)
+  end
+
+  test "excluded_uuids" do
+    user = create :user
+
+    included = create :mentor_discussion, mentor: user
+    excluded = create :mentor_discussion, mentor: user
+
+    assert_equal [included, excluded], Mentor::Discussion::Retrieve.(user, :all) # Sanity
+    assert_equal [included], Mentor::Discussion::Retrieve.(user, :all, excluded_uuids: [excluded.uuid])
   end
 
   test "only retrieves relevant tracks" do

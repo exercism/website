@@ -22,7 +22,7 @@ module Git
 
     memoize
     def repo
-      Git::Repository.new(repo_url: Document::REPO_URL)
+      Git::Repository.new(repo_url: Document::REPO_URL, branch_ref: ENV['GIT_DOCS_BRANCH'])
     end
   end
 end

@@ -45,6 +45,11 @@ class Track < ApplicationRecord
   end
 
   memoize
+  def tutorial_exercise
+    exercises.find_by(slug: "hello-world")
+  end
+
+  memoize
   def num_contributors
     User::ReputationPeriod.where(
       period: :forever,

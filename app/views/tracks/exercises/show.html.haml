@@ -61,8 +61,10 @@
       - elsif !@user_track.external?
         - if @user_track.exercise_unlocked?(@exercise)
           = render "tracks/exercises/show/action_box_start", track: @track, exercise: @exercise
-        - else
+        - elsif @user_track.tutorial_exercise_completed?
           = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
+        - else
+          = render "tracks/exercises/show/action_box_locked_by_hello_world", exercise: @exercise, user_track: @user_track, track: @track
       - elsif user_signed_in?
         = render "tracks/exercises/show/action_box_join_track", exercise: @exercise, user_track: @user_track
       - else

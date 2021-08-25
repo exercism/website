@@ -13,6 +13,10 @@ class UserTrack
     delegate :concepts, :num_concepts, :updated_at,
       to: :track
 
+    def tutorial_exercise_completed?
+      false
+    end
+
     memoize
     def exercises
       enabled_exercises(track.exercises)

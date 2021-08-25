@@ -44,12 +44,12 @@
     }
     & .blurb {
         @apply text-15 leading-160;
-        @apply mb-16;
     }
 
     & .info {
         @apply flex items-center;
         @apply leading-150;
+        @apply mt-16;
         & > .icon,
         & > .c-icon {
             height: 24px;
@@ -71,7 +71,7 @@
         & .icon {
             @apply bg-lockedColor;
             & .c-icon {
-                filter: var(--mid-gray-filter);
+                filter: var(--textColor3-gray-filter);
             }
         }
     }

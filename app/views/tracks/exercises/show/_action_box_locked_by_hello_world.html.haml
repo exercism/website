@@ -1,0 +1,11 @@
+.action-box
+  %h3
+    = icon :lock, "This exercise is locked"
+    Unlock #{exercise.title}
+  %p
+    This exercise is currently unavailable for you to start. Complete
+    %strong "Hello, World!"
+    to unlock this exercise.
+
+  - if track.tutorial_exercise
+    = render ReactComponents::Common::ExerciseWidget.new(track.tutorial_exercise, user_track)

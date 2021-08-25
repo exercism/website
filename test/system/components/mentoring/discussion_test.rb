@@ -397,7 +397,8 @@ module Components
         mentor = create :user, handle: "author"
         solution = create :concept_solution, user: student
         discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, solution: solution
+        submission = create :submission, solution: solution
+        iteration = create :iteration, solution: solution, submission: submission
         create(:mentor_request, solution: solution)
         create(:mentor_discussion_post,
           discussion: discussion,

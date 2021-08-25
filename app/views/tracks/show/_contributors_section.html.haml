@@ -16,7 +16,7 @@
       %li
         = avatar_link(contributor, "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle, "data-placement": "left")
 
-    %li= link_to "See all", contributing_contributors_path(track: track.slug), class: "all", "aria-label": "See all contributors for this track" # TODO
+    %li= link_to "See all", contributing_contributors_path(track_slug: track.slug), class: "all", "aria-label": "See all contributors for this track" # TODO
 
   .cta
     %h3
@@ -24,6 +24,6 @@
       %span{ 'aria-label': "love" } 💙
       our contributors
     %p Exercism relies on open-source contributors to build our language tracks and mentor students.
-    = link_to "Contribute to the #{track.title} track ->", contributing_tasks_path(track: track.slug)
+    = link_to "Contribute to the #{track.title} track ->", contributing_tasks_path(track_slug: track.slug)
 
 

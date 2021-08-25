@@ -98,7 +98,7 @@ module Components
 
       test "shows download command" do
         track = create :track
-        exercise = create :concept_exercise, track: track
+        exercise = create :hello_world_exercise, track: track
         user = create :user
         create :user_track, user: user, track: track
 

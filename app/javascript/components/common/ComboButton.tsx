@@ -11,7 +11,11 @@ const ComboButtonContext = React.createContext({
 export const ComboButton = ({
   className = '',
   children,
-}: React.PropsWithChildren<{ className?: string }>): JSX.Element => {
+  enabled = true,
+}: React.PropsWithChildren<{
+  className?: string
+  enabled?: boolean
+}>): JSX.Element => {
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'bottom-end',
     modifiers: [
@@ -24,7 +28,7 @@ export const ComboButton = ({
     ],
   })
 
-  const classNames = ['c-combo-button', className]
+  const classNames = ['c-combo-button', enabled ? '' : '--disabled', className]
 
   return (
     <ComboButtonContext.Provider
@@ -36,6 +40,7 @@ export const ComboButton = ({
           onClick={() => setOpen(!open)}
           {...buttonAttributes}
           className="--dropdown-segment"
+          disabled={!enabled}
         >
           <GraphicalIcon icon="chevron-down" />
         </button>

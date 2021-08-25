@@ -50,8 +50,7 @@ class SerializeStudent
       block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
       favorite: if Mentor::StudentRelationship::ToggleFavorited.new(mentor, student, false).allowed?
                   Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
-                end,
-      previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all)
+                end
     }.compact
   end
 end

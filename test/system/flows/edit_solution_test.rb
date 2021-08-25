@@ -1,12 +1,14 @@
 require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
 require_relative "../../support/ace_helpers"
+require_relative "../../support/redirect_helpers"
 
 module Components
   module Flows
     class EditSolutionTest < ApplicationSystemTestCase
       include CapybaraHelpers
       include CodeMirrorHelpers
+      include RedirectHelpers
 
       test "user submits code" do
         Submission::File.any_instance.stubs(:content)
@@ -33,7 +35,8 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           within(".lhs-footer") { click_on "Submit" }
 
-          assert_text "Iteration 1", wait: 10
+          wait_for_redirect
+          assert_text "Iteration 1"
         end
       end
 
@@ -62,7 +65,8 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           within(".success-box") { click_on "Submit" }
 
-          assert_text "Iteration 1", wait: 10
+          wait_for_redirect
+          assert_text "Iteration 1"
         end
       end
 

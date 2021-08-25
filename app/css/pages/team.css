@@ -1,0 +1,134 @@
+@import "../styles";
+
+#page-team {
+    @apply bg-backgroundColorA;
+
+    & > header {
+        @apply relative;
+
+        & .lg-container {
+            @apply pt-32;
+            @screen md {
+                @apply pt-48;
+            }
+        }
+
+        & .icon {
+            height: 48px;
+            width: 48px;
+            @apply mr-24;
+        }
+        & h1 {
+            @apply text-gradient;
+        }
+        & h2 {
+            @screen sm {
+                max-width: 70%;
+            }
+        }
+        & .stats {
+            @apply text-20 leading-150 font-semibold text-textColor6;
+            & .stat {
+            }
+            & .divider {
+                @apply mx-24;
+                @apply hidden;
+                @screen md {
+                    @apply block;
+                }
+            }
+        }
+    }
+    & .info-box {
+        & .c-icon {
+            height: 240px;
+            width: 240px;
+        }
+        & .info {
+            max-width: 750px;
+        }
+    }
+    & section {
+        & header {
+            max-width: 770px;
+            & .c-icon {
+                height: 48px;
+                width: 48px;
+                @apply mb-16;
+            }
+        }
+        & .person {
+            @apply border-1 border-borderColor6 rounded-8;
+            @apply p-16;
+
+            @apply flex flex-col items-start;
+            @screen md {
+                @apply flex-row;
+            }
+            @screen sm {
+                @apply p-24;
+            }
+            & .avatar {
+                height: 64px;
+                width: 64px;
+                @apply mb-12 rounded-100;
+
+                @screen md {
+                    @apply mb-0 mr-16;
+                }
+            }
+            & h3 {
+                @apply text-18 leading-150 text-textColor2;
+                @apply font-semibold;
+            }
+            & .handle {
+                @apply text-16 leading-150 text-textColor6;
+                @apply font-semibold;
+                @apply mb-8;
+            }
+            & p {
+                @apply text-16 leading-150;
+                & a {
+                    @apply underline;
+                }
+            }
+            & ul {
+                @apply mt-16;
+            }
+            & li {
+                & + li {
+                    @apply mt-8;
+                }
+                & a {
+                    @apply flex items-center;
+                    @apply text-16 leading-150;
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                    }
+                    & span {
+                        @apply mx-16;
+                        @apply underline;
+                    }
+                }
+            }
+        }
+
+        & .community-team {
+            & > .c-icon {
+                height: 48px;
+                width: 48px;
+                filter: var(--textColor6-filter);
+                @apply mb-16;
+            }
+            & h3 {
+                @apply text-18 leading-150 text-textColor2;
+                @apply font-semibold;
+                @apply mb-12;
+            }
+            & p {
+                @apply mb-16;
+            }
+        }
+    }
+}

@@ -215,6 +215,7 @@ module.exports = {
       '48': '48px',
       '54': '54px',
       '64': '64px',
+      '100': '100%',
     },
     height: {
       arbitary: '1px',

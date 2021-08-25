@@ -380,6 +380,7 @@ Rails.application.routes.draw do
   #########
   get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
   get "about" => "pages#about", as: :about_page
+  get "team" => "pages#team", as: :team_page
 
   #################
   # Legacy routes #
@@ -393,6 +394,12 @@ Rails.application.routes.draw do
   end
 
   get "values", to: redirect("about")
+  get "team/staff", to: redirect("team")
+  get "team/staff", to: redirect("contributors")
+
+  get "team/contributors", to: redirect("contributing/contributors")
+  get "team/mentors", to: redirect("contributing/contributors?category=mentoring")
+  get "team/maintainers", to: redirect("contributing/contributors?category=maintaining")
 
   get "terms-of-service", to: redirect("docs/using/legal/terms-of-service")
   get "privacy-policy", to: redirect("docs/using/legal/privacy-policy")

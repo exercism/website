@@ -194,6 +194,7 @@ Rails.application.routes.draw do
           end
           member do
             patch :lock
+            patch :cancel
           end
         end
 

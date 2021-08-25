@@ -31,5 +31,20 @@ module API
         request: SerializeMentorSessionRequest.(mentor_request, current_user)
       }
     end
+
+    # TODO: Temporary implementation
+    def cancel
+      mentor_request = current_user.solution_mentor_requests.find_by(uuid: params[:uuid])
+
+      return render_404(:mentor_request_not_found) unless mentor_request
+
+      Mentor::Request::Cancel.(mentor_request)
+
+      render json: {
+        links: {
+          home: Exercism::Routes.track_exercise_mentor_discussions_path(mentor_request.track, mentor_request.exercise)
+        }
+      }
+    end
   end
 end

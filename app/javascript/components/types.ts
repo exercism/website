@@ -215,6 +215,7 @@ export type MentorSessionRequest = {
   links: {
     lock: string
     discussion: string
+    cancel: string
   }
 }
 export type MentorSessionTrack = {

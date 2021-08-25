@@ -39,6 +39,7 @@ export type Settings = {
 
 export type Links = {
   mentorDashboard: string
+  mentoringDocs: string
 }
 
 export type Scratchpad = {
@@ -206,7 +207,10 @@ export const Session = (props: SessionProps): JSX.Element => {
                   />
                 </Tab.Panel>
                 {discussion ? (
-                  <AddDiscussionPostPanel discussion={discussion} />
+                  <AddDiscussionPostPanel
+                    discussion={discussion}
+                    links={links}
+                  />
                 ) : (
                   <MentoringRequestPanel
                     iterations={iterations}

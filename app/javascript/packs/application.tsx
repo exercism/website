@@ -120,6 +120,7 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
+import '../../css/modals/donations-form'
 import '../../css/modals/editor-hints'
 import '../../css/modals/automated-feedback'
 import '../../css/modals/generic-confirmation'
@@ -221,8 +222,11 @@ const DonationsSubscriptionForm = lazy(() =>
 )
 
 const Editor = lazy(() => import('../components/Editor'))
-
 import { Props as EditorProps } from '../components/editor/Props'
+
+const DonationsFooterForm = lazy(() =>
+  import('../components/donations/FooterForm')
+)
 
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
@@ -274,13 +278,7 @@ initReact({
   'donations-with-modal-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsFormWithModal
-        existingSubscriptionAmount={
-          data.existing_subscription_amount_in_cents
-            ? currency(data.existing_subscription_amount_in_cents, {
-                fromCents: true,
-              })
-            : null
-        }
+        request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
       />
     </Suspense>
@@ -295,10 +293,17 @@ initReact({
   ),
   editor: (data: any) => (
     <Suspense fallback={renderLoader()}>
-      <Editor {...camelizeKeysAs<EditorProps>(data)} />,
+      <Editor {...camelizeKeysAs<EditorProps>(data)} />
     </Suspense>
   ),
-
+  'donations-footer-form': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <DonationsFooterForm
+        request={camelizeKeysAs<Request>(data.request)}
+        links={data.links}
+      />
+    </Suspense>
+  ),
   'common-concept-widget': (data: any) => (
     <Common.ConceptWidget concept={data.concept} />
   ),

@@ -23,5 +23,5 @@
             = fu.text_area :bio, placeholder: "Tell everyone a bit more about who you are, and what you're in to. e.g. I'm a Rails dev who loves bouldering and coffee"
             .character-count 0/160 characters
 
-          = button_tag "Create profile", class: "btn-primary btn-m"
+          = button_tag "Create profile", class: "btn-primary btn-m", data: { disable_with: 'Creating profile...' }
       = render ReactComponents::Profile::AvatarSelector.new

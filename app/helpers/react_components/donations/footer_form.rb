@@ -1,21 +1,18 @@
 module ReactComponents
   module Donations
-    class FormWithModal < ReactComponent
-      initialize_with :user
-
+    class FooterForm < ReactComponent
       def to_s
         super(
-          "donations-with-modal-form",
+          "donations-footer-form",
           {
             request: {
               endpoint: Exercism::Routes.api_donations_active_subscription_url,
               options: {
-                initial_data: AssembleActiveSubscription.(user)
+                initial_data: AssembleActiveSubscription.(current_user)
               }
             },
             links: {
-              settings: Exercism::Routes.donations_settings_url,
-              donate: Exercism::Routes.donate_url
+              settings: Exercism::Routes.donations_settings_url
             }
           }
         )

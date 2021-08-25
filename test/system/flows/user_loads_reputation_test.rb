@@ -60,7 +60,6 @@ module Flows
       end
 
       assert_no_css ".indicator.unseen"
-      assert_css ".indicator.seen"
     end
 
     test "mark token as seen on focus" do
@@ -88,7 +87,6 @@ module Flows
       end
 
       assert_no_css ".indicator.unseen"
-      assert_css ".indicator.seen"
     end
 
     test "refetches on websocket notification" do

@@ -54,7 +54,7 @@ module Flows
         assert_text "Conditionals"
         refute_text "Strings"
 
-        click_on "Continue"
+        within(".m-completed-exercise") { click_on "Continue" }
 
         wait_for_redirect
         assert_text "You've completed Boutique."
@@ -98,7 +98,7 @@ module Flows
 
         assert_text "You've completed\nBoutique!"
 
-        click_on "Continue"
+        within(".m-completed-exercise") { click_on "Continue" }
 
         wait_for_redirect
         assert_text "You've completed Boutique."

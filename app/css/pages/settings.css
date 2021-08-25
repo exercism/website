@@ -53,6 +53,7 @@
                     @apply text-16 font-medium;
                     @apply flex items-center;
                     @apply border-2 rounded-8;
+
                     opacity: 0;
                     animation: fadeIn 0.3s ease-out forwards,
                         0.3s 3s fadeOut ease-in forwards;

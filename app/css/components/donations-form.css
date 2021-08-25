@@ -4,7 +4,6 @@
     @apply flex-shrink-0;
 }
 .c-donations-form {
-    @apply shadow-baseZ1 rounded-8;
     @apply flex flex-col;
 
     & .--tabs {
@@ -129,6 +128,9 @@
 
                 & button {
                     @apply mt-12 w-100;
+                    & .c-icon {
+                        animation: spin 3s linear infinite;
+                    }
                 }
             }
         }

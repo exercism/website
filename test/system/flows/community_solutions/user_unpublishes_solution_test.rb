@@ -23,7 +23,6 @@ module Flows
         use_capybara_host do
           sign_in!(author)
           visit track_exercise_solution_url(track, exercise, "author")
-          refute_button "1"
 
           click_on "Publish settings"
           click_on "Unpublish solution…"

@@ -14,6 +14,8 @@ module Flows
 
         click_on "Create profile"
 
+        assert_text "Creating profile..."
+        assert_no_text "Creating profile..."
         assert_text "You now have a public profile"
       end
     end

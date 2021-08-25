@@ -133,6 +133,8 @@ module.exports = {
       gotToLoveAPurple: '#271B72',
       biggerBolderAndMorePurpleThanEver: '#130B43',
       lightPurple: '#FAFAFF',
+      purpleForever: '#5042AD',
+      darkPlaceholder: '#9D94DA',
 
       gray: '#A9A6BD',
       darkGray: '#26282D',
@@ -143,6 +145,7 @@ module.exports = {
       lightGreen: '#ABDBCC',
       veryLightGreen: 'rgba(79,205,167,0.15)',
       veryLightGreen2: '#E7FDF6',
+      limeGreen: '#1FA378',
 
       tooManyGreens: '#59D2AE',
       literallySoManyGreens: '#4FCDA7',

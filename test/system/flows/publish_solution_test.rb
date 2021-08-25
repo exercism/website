@@ -29,7 +29,8 @@ module Flows
         find("label", text: "Iteration 1").click
         click_on "Confirm"
 
-        click_on "Continue"
+        within(".m-completed-exercise") { click_on "Continue" }
+        wait_for_redirect
         assert_text "Your published solution"
 
         # There is no way to determine from the screen which iteration was published. We can only check the solution record.

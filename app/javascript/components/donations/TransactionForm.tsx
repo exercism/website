@@ -1,5 +1,5 @@
+import React, { useState, useCallback } from 'react'
 import currency from 'currency.js'
-import React from 'react'
 import { AmountButton } from './donation-form/AmountButton'
 import { CustomAmountInput } from './donation-form/CustomAmountInput'
 
@@ -15,6 +15,35 @@ export const TransactionForm = ({
   onAmountChange,
   children,
 }: React.PropsWithChildren<Props>): JSX.Element => {
+  const [customAmount, setCustomAmount] = useState(
+    presetAmounts.map((a) => a.value).includes(currentAmount.value)
+      ? ''
+      : currentAmount
+  )
+
+  const handleAmountButtonChange = useCallback(
+    (amount) => {
+      setCustomAmount('')
+      onAmountChange(amount)
+    },
+    [onAmountChange]
+  )
+
+  const handleCustomAmountChange = useCallback(
+    (amount) => {
+      if (isNaN(amount.value)) {
+        setCustomAmount('')
+        onAmountChange(amount)
+
+        return
+      }
+
+      setCustomAmount(amount)
+      onAmountChange(amount)
+    },
+    [onAmountChange]
+  )
+
   return (
     <React.Fragment>
       <div>
@@ -25,18 +54,21 @@ export const TransactionForm = ({
               <AmountButton
                 key={amount.value}
                 value={amount}
-                onClick={onAmountChange}
-                current={currentAmount}
+                onClick={handleAmountButtonChange}
+                selected={
+                  customAmount === '' && amount.value === currentAmount.value
+                }
+                className="btn-l btn-enhanced"
               />
             ))}
           </div>
 
           <h3>Or specify a custom amount:</h3>
           <CustomAmountInput
-            onChange={onAmountChange}
-            selected={
-              !presetAmounts.map((a) => a.value).includes(currentAmount.value)
-            }
+            onChange={handleCustomAmountChange}
+            selected={customAmount !== ''}
+            placeholder="Specify amount"
+            value={customAmount}
           />
         </div>
       </div>

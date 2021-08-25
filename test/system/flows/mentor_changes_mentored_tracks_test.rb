@@ -21,7 +21,7 @@ module Flows
         click_on "Change the tracks you mentor"
         find("label.track", text: "Ruby").click
         find("label.track", text: "C#").click
-        click_on "Continue"
+        within(".m-change-mentor-tracks") { click_on "Continue" }
 
         assert_text "C#"
         assert_text "on Series"

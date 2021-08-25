@@ -118,6 +118,10 @@ class User < ApplicationRecord
     User::FormatReputation.(rep)
   end
 
+  def active_subscription
+    donation_subscriptions.active.last
+  end
+
   memoize
   def active_donation_subscription_amount_in_cents
     donation_subscriptions.active.last&.amount_in_cents

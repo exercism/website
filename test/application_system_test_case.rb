@@ -10,6 +10,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   Capybara.default_max_wait_time = 7
   Capybara.enable_aria_label = true
   Capybara.reuse_server = false
+  # Capybara.disable_animation = true
 
   class << self
     attr_accessor :override_should_flunk
@@ -43,6 +44,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       next if error.level == "WARNING"
       next if error.to_s.include?("403 (Forbidden)")
       next if error.to_s.include?("hcaptcha")
+      next if error.to_s.include?("js.stripe.com")
 
       should_flunk = true
 

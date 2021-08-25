@@ -1,8 +1,24 @@
 module ReactComponents
   module Mentoring
     class TryMentoringButton < ReactComponent
+      def initialize(
+        text: "Try mentoring now",
+        size: 'm',
+        redirect_link: Exercism::Routes.mentoring_queue_url
+      )
+        super()
+
+        @text = text
+        @size = size
+        @redirect_link = redirect_link
+      end
+
       def to_s
-        super("mentoring-try-mentoring-button", { links: links })
+        super("mentoring-try-mentoring-button", {
+          text: text,
+          size: size,
+          links: links
+        })
       end
 
       private
@@ -18,10 +34,12 @@ module ReactComponents
           },
           congratulations_step: {
             video: "https://player.vimeo.com/video/121725838?title=0&byline=0&portrait=0",
-            dashboard: Exercism::Routes.mentoring_queue_url
+            dashboard: redirect_link
           }
         }
       end
+
+      attr_reader :text, :size, :redirect_link
     end
   end
 end

@@ -631,4 +631,10 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal exceptioned, solution.latest_submission
     assert_equal errored, solution.latest_valid_submission
   end
+
+  test "external_mentoring_request_url" do
+    solution = create :practice_solution
+    expected = Exercism::Routes.mentoring_external_request_url(solution.public_uuid)
+    assert_equal expected, solution.external_mentoring_request_url
+  end
 end

@@ -29,7 +29,6 @@
           %p If you want mentoring by a friend, teacher, colleague, etc rather than experiencing community mentoring, send them the link below and they will be able to mentor you directly.
 
           %h3 Direct Mentoring Invite Link
-          / TODO
-          = ReactComponents::Common::CopyToClipboardButton.new("https://....")
+          = ReactComponents::Common::CopyToClipboardButton.new(@solution.external_mentoring_request_url)
 
         = render ViewComponents::ProminentLink.new("Learn more about direct mentoring", "#")

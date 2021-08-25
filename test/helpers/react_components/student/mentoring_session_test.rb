@@ -51,9 +51,9 @@ module ReactComponents::Student
           links: {
             exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
             create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
-            learn_more_about_private_mentoring: "#",
-            private_mentoring: "https://some.link/we/need/to-decide-on",
-            mentoring_guide: "#"
+            learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
+            private_mentoring: solution.external_mentoring_request_url,
+            mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored")
           }
         }
     end
@@ -106,9 +106,9 @@ module ReactComponents::Student
           links: {
             exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
             create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
-            learn_more_about_private_mentoring: "#",
-            private_mentoring: "https://some.link/we/need/to-decide-on",
-            mentoring_guide: "#"
+            learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
+            private_mentoring: solution.external_mentoring_request_url,
+            mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored")
           }
         }
     end

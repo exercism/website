@@ -106,19 +106,25 @@ export const CommitStep = ({
             <span>Not use Exercism to promote personal agendas</span>
           </Checkbox>
         </div>
-        {/*TODO: (required) Style this */}
-        <FormButton onClick={onBack} status={status}>
-          Back
-        </FormButton>
-        <FormButton
-          className="btn-primary btn-m"
-          onClick={handleSubmit}
-          status={status}
-          disabled={numChecked !== NUM_TO_CHECK}
-        >
-          <span>Continue</span>
-          <GraphicalIcon icon="arrow-right" />
-        </FormButton>
+
+        <div className="flex">
+          <FormButton
+            onClick={onBack}
+            status={status}
+            className="btn-default btn-m mr-16"
+          >
+            Back
+          </FormButton>
+          <FormButton
+            className="btn-primary btn-m"
+            onClick={handleSubmit}
+            status={status}
+            disabled={numChecked !== NUM_TO_CHECK}
+          >
+            <span>Continue</span>
+            <GraphicalIcon icon="arrow-right" />
+          </FormButton>
+        </div>
         <ErrorBoundary>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
         </ErrorBoundary>

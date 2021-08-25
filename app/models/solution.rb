@@ -44,6 +44,7 @@ class Solution < ApplicationRecord
     # to remove any spurious, accidental, and arbitrary
     # meaning.
     self.uuid = SecureRandom.compact_uuid unless self.uuid
+    self.public_uuid = SecureRandom.compact_uuid unless self.public_uuid
     self.unique_key = "#{user_id}:#{exercise_id}"
 
     self.git_slug = exercise.slug unless self.git_slug
@@ -190,6 +191,10 @@ class Solution < ApplicationRecord
         content: content
       }
     end
+  end
+
+  def external_mentoring_request_url
+    Exercism::Routes.mentoring_external_request_url(public_uuid)
   end
 
   def solution_files

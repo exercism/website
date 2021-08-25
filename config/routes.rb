@@ -290,6 +290,10 @@ Rails.application.routes.draw do
     get "/", to: "external#show"
     resource :inbox, only: [:show], controller: "inbox"
     resource :queue, only: [:show], controller: "queue"
+    resources :external_requests, only: [:show], param: :uuid do
+      patch :accept, on: :member
+    end
+
     resources :requests, only: [:show], param: :uuid do
       get :unavailable, on: :member
     end

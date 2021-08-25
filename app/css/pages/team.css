@@ -58,8 +58,8 @@
             }
         }
         & .person {
-            @apply border-b-1 border-borderColor6;
-            @apply pb-16;
+            @apply border-1 border-borderColor6 rounded-8;
+            @apply p-16;
 
             @apply flex flex-col items-start;
             @screen md {
@@ -67,7 +67,6 @@
             }
             @screen sm {
                 @apply p-24;
-                @apply border-1 border-borderColor6 rounded-8;
             }
             & .avatar {
                 height: 64px;

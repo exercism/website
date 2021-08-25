@@ -52,6 +52,7 @@ module Mentoring
           },
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
+            previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all),
             exercise: Exercism::Routes.track_exercise_path(track, exercise)
           }
         }
@@ -113,6 +114,7 @@ module Mentoring
           },
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
+            previous_sessions: Exercism::Routes.api_mentoring_discussion_previous_sessions_path(discussion),
             exercise: Exercism::Routes.track_exercise_path(track, exercise)
           }
         }
@@ -171,6 +173,7 @@ module Mentoring
           },
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
+            previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all),
             exercise: Exercism::Routes.track_exercise_path(track, exercise)
           }
         }

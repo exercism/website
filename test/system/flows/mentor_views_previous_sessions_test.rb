@@ -83,7 +83,7 @@ module Flows
     end
 
     test "mentor moves through previous session pages" do
-      Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
+      ::Mentor::Discussion::Retrieve.stubs(:requests_per_page).returns(1)
       mentor = create :user
       student = create :user
 

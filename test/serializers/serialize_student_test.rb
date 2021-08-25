@@ -22,8 +22,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
       num_discussions_with_mentor: 5,
       links: {
         block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
-        favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),
-        previous_sessions: Exercism::Routes.api_mentoring_discussions_path(status: :all, student: student.handle)
+        favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
       }
     }
     assert_equal expected, SerializeStudent.(
@@ -54,8 +53,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
       num_discussions_with_mentor: 0,
       links: {
         block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
-        favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),
-        previous_sessions: Exercism::Routes.api_mentoring_discussions_path(status: :all, student: student.handle)
+        favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
       }
     }
     assert_equal expected, SerializeStudent.(

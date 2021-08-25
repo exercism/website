@@ -8,6 +8,7 @@ module API
           discussions = ::Mentor::Discussion::Retrieve.(
             current_user,
             :all,
+            student_handle: discussion.student.handle,
             excluded_uuids: [discussion.uuid],
             page: params[:page]
           )

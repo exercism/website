@@ -4,8 +4,6 @@ module ReactComponents
       initialize_with :track
 
       def to_s
-        # return if user_track.blank? || user_track.external?
-
         super("dropdowns-track-menu", {
           track: SerializeTrack.(track, user_track),
           links: links
@@ -25,12 +23,15 @@ module ReactComponents
         }
         return hash if user_track.external?
 
-        hash.merge(
-          activate_practice_mode: activate_practice_mode_url,
-          activate_learning_mode: activate_learning_mode_url,
-          reset: Exercism::Routes.reset_api_track_url(track),
-          leave: Exercism::Routes.leave_api_track_url(track)
-        )
+        if track.course?
+          hash[:activate_practice_mode] = activate_practice_mode_url
+          hash[:activate_learning_mode] = activate_learning_mode_url
+        end
+
+        hash[:reset] = Exercism::Routes.reset_api_track_url(track)
+        hash[:leave] = Exercism::Routes.leave_api_track_url(track)
+
+        hash
       end
 
       def activate_practice_mode_url

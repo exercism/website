@@ -345,6 +345,25 @@ module Components
         assert_css "img[src='#{feedback_author.avatar_url}']"
         assert_text "50"
       end
+
+      test "shows solution is out of date" do
+        mentor = create :user
+        student = create :user
+        track = create :track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, user: student, exercise: exercise, git_important_files_hash: "outdated"
+        request = create :mentor_request, solution: solution
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(student)
+          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
+        end
+
+        assert_text "Outdated"
+      end
     end
   end
 end

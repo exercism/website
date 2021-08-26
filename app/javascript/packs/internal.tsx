@@ -164,6 +164,7 @@ initReact({
       videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
+      outOfDate={data.out_of_date}
     />
   ),
   'student-request-mentoring-button': (data: any) => (

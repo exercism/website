@@ -76,7 +76,8 @@ module Flows
       exercise = create :concept_exercise
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
-      create :iteration, solution: solution
+      submission = create :submission, solution: solution
+      create :iteration, solution: solution, submission: submission
 
       use_capybara_host do
         sign_in!(mentor)
@@ -93,6 +94,7 @@ module Flows
 
           assert_text "student-123 is one of your favorites"
         end
+        assert_text "Favorited"
       end
     end
 

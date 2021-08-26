@@ -180,6 +180,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                       discussion={discussion}
                       iterations={iterations}
                       student={student as FavoritableStudent}
+                      setStudent={setStudent}
                       userHandle={userHandle}
                       onIterationScroll={handleIterationScroll}
                     />

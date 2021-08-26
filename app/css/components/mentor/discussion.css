@@ -627,7 +627,7 @@
                         @apply font-medium text-textColor6 leading-150;
                     }
                 }
-                & a {
+                & button {
                     @apply text-lightBlue font-semibold;
                 }
             }

@@ -20,6 +20,7 @@ class SerializeMentorSessionRequestTest < ActiveSupport::TestCase
       },
       links: {
         lock: Exercism::Routes.lock_api_mentoring_request_path(request),
+        cancel: Exercism::Routes.cancel_api_mentoring_request_path(request),
         discussion: Exercism::Routes.api_mentoring_discussions_path
       }
     }

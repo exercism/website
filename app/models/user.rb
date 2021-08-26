@@ -24,6 +24,7 @@ class User < ApplicationRecord
   has_many :iterations, through: :solutions
 
   has_many :solution_mentor_discussions, through: :solutions, source: :mentor_discussions
+  has_many :solution_mentor_requests, through: :solutions, source: :mentor_requests
 
   has_many :activities, class_name: "User::Activity", dependent: :destroy
   has_many :notifications, dependent: :destroy

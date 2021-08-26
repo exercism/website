@@ -34,15 +34,16 @@ export const LearningSection = ({ tracks, links }: Props): JSX.Element => {
       </div>
       <LearningOverview tracks={tracks} />
       <div className="tracks">
-        {tracks.sort().items.map((track) => (
+        {tracks.sort().items.map((track, idx) => (
           <TrackSummary
             key={track.slug}
             track={track}
             avgVelocity={tracks.velocity}
+            expanded={idx == 0}
           />
         ))}
       </div>
-      <LearningStats tracks={tracks} links={links} />
+      {/*<LearningStats tracks={tracks} links={links} />*/}
     </section>
   )
 }

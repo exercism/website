@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { ExerciseIcon, GraphicalIcon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { MentoredTrackExercise } from '../../types'
@@ -117,6 +117,7 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
 
   const handleChange = useCallback(
     (e, optionValue) => {
+      setSearchQuery('')
       setValue(optionValue)
     },
     [setValue]
@@ -137,6 +138,12 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
   const handleSearchBarChange = useCallback((e) => {
     setSearchQuery(e.target.value)
   }, [])
+
+  useEffect(() => {
+    setSearchQuery('')
+    setIsShowingExercisesToMentor(true)
+    setIsShowingExercisesCompleted(false)
+  }, [JSON.stringify(exercises)])
 
   return (
     <>

@@ -102,17 +102,19 @@ export const Queue = ({
   const handleExerciseChange = useCallback(
     (exercise) => {
       setPage(1)
+      setCriteria('')
       setSelectedExercise(exercise)
     },
-    [setPage]
+    [setPage, setCriteria]
   )
 
   const handleTrackChange = useCallback(
     (track) => {
       setPage(1)
+      setCriteria('')
       setSelectedTrack(track)
     },
-    [setPage]
+    [setPage, setCriteria]
   )
 
   return (

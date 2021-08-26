@@ -27,6 +27,8 @@ const AccordionHeader = ({
   )
 }
 
+/* TODO: exercise.slug is undefined and exercise.id contains its value */
+/* TODO: Move the link to be passed from Rails */
 export const Guidance = ({
   notes,
   mentorSolution,
@@ -86,7 +88,10 @@ export const Guidance = ({
       <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
         <AccordionHeader isOpen={isOpen('notes')} title="Mentor notes" />
         <Accordion.Panel>
-          <MentorNotes notes={notes} />
+          <MentorNotes
+            notes={notes}
+            improveUrl={`https://github.com/exercism/website-copy/edit/main/tracks/${track.slug}/exercises/${exercise.slug}/mentoring.md`}
+          />
         </Accordion.Panel>
       </Accordion>
       {mentorSolution ? (

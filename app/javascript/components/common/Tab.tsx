@@ -59,8 +59,9 @@ const TabPanel = ({
       role="tabpanel"
       aria-labelledby={`tab-${id}`}
       tabIndex={0}
-      hidden={id !== current}
-      className={`--tab-panel ${className}`}
+      className={`--tab-panel ${className} ${
+        id !== current ? 'hidden' : 'flex'
+      }`}
     >
       {children}
     </div>

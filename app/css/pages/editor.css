@@ -201,9 +201,9 @@
             }
 
             & .legacy-file-banner {
-                @apply mt-16 mb-24 mx-16;
-                @apply py-12 px-24;
-                @apply shadow-smZ1 rounded-8 bg-backgroundColorA;
+                @apply px-16 py-12;
+                @apply bg-backgroundColorA;
+                @apply border-b-1 border-borderColor6;
                 @apply flex items-center;
 
                 & .c-prominent-link {
@@ -217,6 +217,7 @@
             & .--tab-panel {
                 @apply flex-grow;
                 @apply overflow-hidden;
+                @apply flex-col;
             }
             & .editor {
                 @apply flex-grow;
@@ -478,6 +479,7 @@
             }
         }
         & .cm-content {
+            @apply pt-0;
             & .cm-line {
                 @apply pl-8 pr-8;
             }

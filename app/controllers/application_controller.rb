@@ -115,8 +115,8 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
-    render file: Rails.root.join('public', '404.html'),
-           layout: false,
-           status: :not_found
+    render template: 'errors/not_found',
+      layout: true,
+      status: :not_found
   end
 end

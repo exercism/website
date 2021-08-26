@@ -42,6 +42,11 @@ export type Track = {
   medianWaitTime: string
 }
 
+export type Exercise = {
+  title: string
+  type: ExerciseType
+}
+
 const REFETCH_INTERVAL = 2000
 
 export const SolutionSummary = ({
@@ -49,14 +54,14 @@ export const SolutionSummary = ({
   track,
   discussions,
   request,
-  exerciseType,
+  exercise,
   links,
 }: {
   solution: SolutionForStudent
   track: Track
   discussions: readonly MentorDiscussion[]
   request: SolutionSummaryRequest
-  exerciseType: ExerciseType
+  exercise: Exercise
   links: SolutionSummaryLinks
 }): JSX.Element | null => {
   const CACHE_KEY = `solution-${solution.uuid}-summary`
@@ -119,7 +124,7 @@ export const SolutionSummary = ({
         <section className="latest-iteration">
           <Header
             iteration={latestIteration}
-            exerciseType={exerciseType}
+            exercise={exercise}
             links={links}
           />
           <IterationLink iteration={latestIteration} />
@@ -130,13 +135,13 @@ export const SolutionSummary = ({
           <div className="next-steps">
             <CommunitySolutions
               link={links.communitySolutions}
-              isTutorial={exerciseType === 'tutorial'}
+              isTutorial={exercise.type === 'tutorial'}
             />
             <Mentoring
               mentoringStatus={solution.mentoringStatus}
               discussions={discussions}
               links={links}
-              isTutorial={exerciseType === 'tutorial'}
+              isTutorial={exercise.type === 'tutorial'}
               trackTitle={track.title}
             />
           </div>

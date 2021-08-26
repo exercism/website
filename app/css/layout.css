@@ -41,6 +41,7 @@ body {
 
 .c-react-component {
     /* width: stretch; */
+    @apply relative;
 
     &.--fitted {
         width: fit-content;

@@ -9,6 +9,14 @@
     }
 }
 
+.c-react-wrapper-editor {
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+}
+
 #page-editor {
     @apply fixed flex flex-col;
     width: 100%;

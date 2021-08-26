@@ -47,6 +47,7 @@ module ReactComponents::Student
             num_discussions: 0
           },
           track_objectives: "",
+          out_of_date: false,
           videos: [],
           links: {
             exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
@@ -85,6 +86,7 @@ module ReactComponents::Student
           ],
           mentor: nil,
           track_objectives: "",
+          out_of_date: false,
           videos: [
             {
               url: "#",

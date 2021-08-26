@@ -190,10 +190,9 @@ const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
           key="all"
           onChange={(e) => handleChange(e, null)}
           checked={value === null}
-          count={exercisesToShow.reduce(
-            (sum, exercise) => sum + exercise.count,
-            0
-          )}
+          count={
+            exercises?.reduce((sum, exercise) => sum + exercise.count, 0) || 0
+          }
         />
         {exercisesToShow.map((exercise) => (
           <ExerciseFilter

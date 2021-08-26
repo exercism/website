@@ -3,10 +3,6 @@ import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
 import { CommunitySolution as CommunitySolutionProps } from '../../types'
 import { CommunitySolution, GraphicalIcon } from '../../common'
-import {
-  MentorSessionTrack as Track,
-  MentorSessionExercise as Exercise,
-} from '../../types'
 
 const AccordionHeader = ({
   isOpen,
@@ -30,13 +26,11 @@ const AccordionHeader = ({
 export const Guidance = ({
   notes,
   mentorSolution,
-  track,
-  exercise,
+  feedback = false,
 }: {
   notes: string
   mentorSolution?: CommunitySolutionProps
-  track: Track
-  exercise: Exercise
+  feedback?: any
 }): JSX.Element => {
   const [accordionState, setAccordionState] = useState([
     {
@@ -104,20 +98,21 @@ export const Guidance = ({
           </Accordion.Panel>
         </Accordion>
       ) : null}
-      {/*
-      <Accordion
-        id="feedback"
-        isOpen={isOpen('feedback')}
-        onClick={handleClick}
-      >
-        <AccordionHeader
+      {feedback ? (
+        <Accordion
+          id="feedback"
           isOpen={isOpen('feedback')}
-          title="Automated feedback"
-        />
-        <Accordion.Panel>
-          <p>Feedback here</p>
-        </Accordion.Panel>
-      </Accordion>*/}
+          onClick={handleClick}
+        >
+          <AccordionHeader
+            isOpen={isOpen('feedback')}
+            title="Automated feedback"
+          />
+          <Accordion.Panel>
+            <p>Feedback here</p>
+          </Accordion.Panel>
+        </Accordion>
+      ) : null}
     </>
   )
 }

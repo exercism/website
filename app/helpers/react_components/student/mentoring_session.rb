@@ -67,6 +67,7 @@ module ReactComponents
       def videos
         return [] if discussion
 
+        # TODO: (required)
         [
           {
             url: "#",

@@ -27,7 +27,7 @@
       - unless @user_track.external?
         .rhs.progress
           .progress-text{ class: @user_track.concept_mastered?(@concept) ? 'completed' : '' }
-            #{@user_track.num_completed_exercises_for_concept(@concept)} / #{@user_track.num_exercises_for_concept(@concept)}
+            #{@user_track.num_completed_exercises_for_concept(@concept)}/#{@user_track.num_exercises_for_concept(@concept)}
             = 'exercise'.pluralize(@user_track.num_exercises_for_concept(@concept))
             completed
           .progress-exercises

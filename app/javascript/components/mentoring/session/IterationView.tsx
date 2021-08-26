@@ -15,6 +15,8 @@ const DEFAULT_ERROR = new Error('Unable to load files')
 
 export const IterationView = ({
   iterations,
+  instructions,
+  tests,
   currentIteration,
   onClick,
   language,
@@ -24,6 +26,8 @@ export const IterationView = ({
   setSettings,
 }: {
   iterations: readonly Iteration[]
+  instructions?: string
+  tests?: string
   currentIteration: Iteration
   onClick: (iteration: Iteration) => void
   language: string
@@ -58,6 +62,8 @@ export const IterationView = ({
                 files={resolvedData.files}
                 language={language}
                 indentSize={indentSize}
+                instructions={instructions}
+                tests={tests}
               />
             ) : null}
           </FetchingBoundary>

@@ -12,10 +12,14 @@ export const FilePanel = ({
   files,
   language,
   indentSize,
+  instructions,
+  tests,
 }: {
   files: File[]
   language: string
   indentSize: number
+  instructions?: string
+  tests?: string
 }): JSX.Element | null => {
   const [tab, setTab] = useState<string>('')
 
@@ -45,6 +49,18 @@ export const FilePanel = ({
               {file.filename}
             </Tab>
           ))}
+
+          {instructions ? (
+            <Tab key="instructions" id="instructions" context={TabsContext}>
+              Instructions
+            </Tab>
+          ) : null}
+
+          {tests ? (
+            <Tab key="tests" id="tests" context={TabsContext}>
+              Tests
+            </Tab>
+          ) : null}
         </div>
         <div className="c-code-pane">
           {files.map((file) => (
@@ -60,6 +76,32 @@ export const FilePanel = ({
               />
             </Tab.Panel>
           ))}
+          {instructions ? (
+            <Tab.Panel
+              key="instructions"
+              id="instructions"
+              context={TabsContext}
+            >
+              <div
+                className="p-16 c-textual-content --small"
+                dangerouslySetInnerHTML={{ __html: instructions }}
+              />
+            </Tab.Panel>
+          ) : null}
+          {tests ? (
+            <Tab.Panel key="tests" id="tests" context={TabsContext}>
+              <FileViewer
+                file={{
+                  type: 'exercise',
+                  filename: 'Tests',
+                  digest: '',
+                  content: tests,
+                }}
+                language={language}
+                indentSize={indentSize}
+              />
+            </Tab.Panel>
+          ) : null}
         </div>
       </div>
     </TabsContext.Provider>

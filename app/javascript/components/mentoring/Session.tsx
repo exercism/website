@@ -57,6 +57,8 @@ export type SessionProps = {
   links: Links
   discussion: Discussion
   iterations: readonly Iteration[]
+  instructions: string
+  tests: string
   userHandle: string
   notes: string
   outOfDate: boolean
@@ -80,6 +82,8 @@ export const Session = (props: SessionProps): JSX.Element => {
     exercise,
     links,
     iterations: initialIterations,
+    instructions,
+    tests,
     discussion,
     notes,
     mentorSolution,
@@ -139,6 +143,8 @@ export const Session = (props: SessionProps): JSX.Element => {
             </header>
             <IterationView
               iterations={iterations}
+              instructions={instructions}
+              tests={tests}
               currentIteration={currentIteration}
               onClick={handleIterationClick}
               isOutOfDate={outOfDate}

@@ -31,3 +31,9 @@ test('shortFromNow for 2d', () => {
   time.setDate(time.getDate() - 2)
   expect(shortFromNow(time)).toEqual('2d ago')
 })
+
+test('shortFromNow for 2 months', () => {
+  var time = new Date()
+  time.setDate(time.getDate() - 60)
+  expect(shortFromNow(time)).toEqual('2mo ago')
+})

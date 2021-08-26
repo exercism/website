@@ -1,8 +1,6 @@
 require_relative '../base_test_case'
 
 class API::Profiles::SolutionsControllerTest < API::BaseTestCase
-  guard_incorrect_token! :api_profile_solutions_path, args: 1
-
   ###
   # Index
   ###

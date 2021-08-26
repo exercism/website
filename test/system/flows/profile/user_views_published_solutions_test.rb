@@ -1,5 +1,5 @@
 require "application_system_test_case"
-require_relative "../../support/capybara_helpers"
+require_relative "../../../support/capybara_helpers"
 
 module Flows
   class UserViewsPublishedSolutionsTest < ApplicationSystemTestCase
@@ -20,6 +20,28 @@ module Flows
       end
 
       assert_text "Strings"
+    end
+
+    test "shows published solutions for a logged out user" do
+      author = create :user, handle: "author"
+      create :user_profile, user: author
+      ruby = create :track, title: "Ruby"
+      exercise = create :concept_exercise, track: ruby, slug: "strings", title: "Strings"
+      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
+      submission = create :submission, solution: solution
+      create :iteration, solution: solution, submission: submission
+      exercise = create :concept_exercise, track: ruby, slug: "Running", title: "Running"
+      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
+      submission = create :submission, solution: solution
+      create :iteration, solution: solution, submission: submission
+
+      use_capybara_host do
+        visit solutions_profile_path(author.handle)
+        fill_in "Filter by exercise", with: "Strings"
+      end
+
+      assert_text "Strings"
+      assert_no_text "Running"
     end
 
     test "searches published solutions" do

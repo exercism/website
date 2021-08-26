@@ -1,6 +1,7 @@
 module API
   class Profiles::BaseController < API::BaseController
     before_action :use_user
+    skip_before_action :authenticate_user!
 
     private
     def use_user

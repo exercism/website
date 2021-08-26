@@ -1,11 +1,6 @@
 require_relative '../base_test_case'
 
 class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
-  guard_incorrect_token! :building_api_profile_contributions_path, args: 1
-  # guard_incorrect_token! :building_api_profile_contributions_path, args: 1
-  # guard_incorrect_token! :building_api_profile_contributions_path, args: 1
-  # guard_incorrect_token! :building_api_profile_contributions_path, args: 1
-
   ###
   # Guards
   ###

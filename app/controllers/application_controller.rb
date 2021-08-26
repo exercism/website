@@ -115,8 +115,10 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
-    render template: 'errors/not_found',
+    render(
+      template: 'errors/not_found',
       layout: true,
       status: :not_found
+    )
   end
 end

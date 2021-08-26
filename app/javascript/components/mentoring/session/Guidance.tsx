@@ -104,6 +104,7 @@ export const Guidance = ({
           </Accordion.Panel>
         </Accordion>
       ) : null}
+      {/*
       <Accordion
         id="feedback"
         isOpen={isOpen('feedback')}
@@ -116,7 +117,7 @@ export const Guidance = ({
         <Accordion.Panel>
           <p>Feedback here</p>
         </Accordion.Panel>
-      </Accordion>
+      </Accordion>*/}
     </>
   )
 }

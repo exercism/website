@@ -264,7 +264,7 @@ initReact({
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
       track={camelizeKeysAs<SolutionSummaryTrack>(data.track)}
-      exerciseType={data.exercise_type}
+      exercise={data.exercise}
     />
   ),
 

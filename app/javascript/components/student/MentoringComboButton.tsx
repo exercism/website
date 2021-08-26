@@ -1,7 +1,11 @@
 import React from 'react'
 import { MentoringDropdown } from './MentoringDropdown'
 import { MentorDiscussion, SolutionMentoringStatus } from '../types'
-import { ComboButton } from '../common/ComboButton'
+import {
+  ComboButton,
+  PrimarySegment,
+  DropdownSegment,
+} from '../common/ComboButton'
 
 type Links = {
   requestMentoring: string
@@ -23,7 +27,7 @@ export const MentoringComboButton = ({
 }): JSX.Element => {
   return (
     <ComboButton className={className}>
-      <ComboButton.PrimarySegment>
+      <PrimarySegment>
         {mentoringStatus === 'in_progress' && links.inProgressDiscussion ? (
           <a href={links.inProgressDiscussion}>Continue mentoring</a>
         ) : mentoringStatus === 'requested' ? (
@@ -31,14 +35,14 @@ export const MentoringComboButton = ({
         ) : (
           <a href={links.requestMentoring}>Request mentoring</a>
         )}
-      </ComboButton.PrimarySegment>
-      <ComboButton.DropdownSegment>
+      </PrimarySegment>
+      <DropdownSegment>
         <MentoringDropdown
           mentoringStatus={mentoringStatus}
           discussions={discussions}
           links={{ share: links.shareMentoring }}
         />
-      </ComboButton.DropdownSegment>
+      </DropdownSegment>
     </ComboButton>
   )
 }

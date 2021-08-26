@@ -36,7 +36,7 @@ module ViewComponents
       def nav
         tag.div(class: 'lg-container nav-container') do
           tag.div(safe_join(tabs), class: 'tabs') +
-            link_to(Exercism::Routes.docs_section_path(:mentoring), class: "c-tab-2 guides") do
+            link_to(Exercism::Routes.docs_section_path(:building), class: "c-tab-2 guides") do
               graphical_icon(:guides) + tag.span("Contributing Help")
             end
         end

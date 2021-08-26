@@ -57,8 +57,11 @@ const FooterForm = ({
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="donations-form">
-        <div className="amounts">
+      <form
+        onSubmit={handleSubmit}
+        className="donations-form flex flex-col md:flex-row items-stretch"
+      >
+        <div className="amounts mb-16 md:mb-0">
           {PRESET_AMOUNTS.map((amount) => (
             <AmountButton
               key={amount.value}
@@ -77,7 +80,7 @@ const FooterForm = ({
             value={customAmount}
           />
         </div>
-        <button className="btn-m continue-btn ml-32">
+        <button className="btn-m continue-btn w-100 md:w-auto md:h-auto md:ml-32">
           <span>Continue</span>
           <GraphicalIcon icon="arrow-right" />
         </button>

@@ -18,7 +18,7 @@ module Flows
         sign_in!(user)
         visit track_exercise_mentor_request_path(solution.track, solution.exercise, request)
         click_on "Cancel Request"
-        within(".m-generic-confirmation") { click_on "Cancel request" }
+        within(".m-generic-confirmation") { click_on "Cancel mentoring request" }
 
         wait_for_redirect
         assert_link "Request mentoring"

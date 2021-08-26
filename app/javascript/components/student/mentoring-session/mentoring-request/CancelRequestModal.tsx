@@ -64,11 +64,15 @@ export const CancelRequestModal = ({
       className="m-generic-confirmation"
       {...props}
     >
-      <h3>Cancel request?</h3>
-      <p>Are you sure you want to cancel this request?</p>
+      <h3>Cancel mentoring request?</h3>
+      <p>
+        Are you sure you want to cancel this mentoring request? Please note that
+        if someone has started giving feedback in the last few minutes, the
+        session may continue regardless of this cancellation.
+      </p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
-        <FormButton status={status} type="submit" className="btn-warning btn-s">
-          Cancel request
+        <FormButton status={status} type="submit" className="btn-primary btn-s">
+          Cancel mentoring request
         </FormButton>
         <FormButton
           status={status}
@@ -76,7 +80,7 @@ export const CancelRequestModal = ({
           className="btn-enhanced btn-s"
           onClick={handleClose}
         >
-          Cancel
+          Close
         </FormButton>
       </form>
       <ErrorBoundary resetKeys={[status]}>

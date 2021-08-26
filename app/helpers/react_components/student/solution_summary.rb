@@ -39,11 +39,10 @@ module ReactComponents
 
       def links
         {
-          # TODO: (required)
-          tests_pass_locally_article: "#",
+          tests_pass_locally_article: Exercism::Routes.doc_path(:using, "solving-exercises/tests-pass-locally"),
           all_iterations: Exercism::Routes.track_exercise_iterations_path(solution.track, solution.exercise),
           community_solutions: Exercism::Routes.track_exercise_solutions_path(solution.track, solution.exercise),
-          learn_more_about_mentoring_article: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
+          learn_more_about_mentoring_article: Exercism::Routes.doc_path(:using, "feedback"),
           mentoring_info: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
           complete_exercise: Exercism::Routes.complete_api_solution_url(solution.uuid),
           share_mentoring: solution.external_mentoring_request_url,

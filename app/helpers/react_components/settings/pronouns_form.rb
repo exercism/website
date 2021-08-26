@@ -7,7 +7,7 @@ module ReactComponents
           pronoun_parts: current_user.pronoun_parts,
           links: {
             update: Exercism::Routes.api_settings_url,
-            info: Exercism::Routes.doc_path(:community, "being-a-good-community-member/the-words-that-we-use")
+            info: Exercism::Routes.doc_path(:using, "settings/pronouns")
           }
         })
       end

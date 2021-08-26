@@ -12,7 +12,7 @@ class Iteration < ApplicationRecord
   scope :not_deleted, -> { where(deleted_at: nil) }
 
   delegate :tests_status,
-    :solution_files,
+    :files_for_editor,
     :automated_feedback_pending,
     :representer_feedback,
     :analyzer_feedback, to: :submission

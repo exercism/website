@@ -7,7 +7,7 @@ module ReactComponents
         "editor",
         {
           default_submissions: submissions,
-          default_files: SerializeEditorFiles.(solution.solution_files),
+          default_files: SerializeEditorFiles.(solution.files_for_editor),
           default_settings: {
             tab_size: track.indent_size,
             use_soft_tabs: track.indent_style == :space

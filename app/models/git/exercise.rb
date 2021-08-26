@@ -95,6 +95,11 @@ module Git
     end
 
     memoize
+    def editor_filepaths
+      config.dig(:files, :editor).to_a
+    end
+
+    memoize
     def exemplar_filepaths
       config.dig(:files, :exemplar).to_a
     end
@@ -129,10 +134,18 @@ module Git
     # Files that should be transported
     # to a user for use in the editor.
     memoize
-    def solution_files
-      solution_filepaths.index_with do |filepath|
-        read_file_blob(filepath)
+    def files_for_editor
+      files = {}
+
+      solution_filepaths.each do |filepath|
+        files[filepath] = { type: :exercise, content: read_file_blob(filepath) }
       end
+
+      editor_filepaths.each do |filepath|
+        files[filepath] = { type: :readonly, content: read_file_blob(filepath) }
+      end
+
+      files
     rescue StandardError
       {}
     end

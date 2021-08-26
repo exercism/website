@@ -194,7 +194,7 @@ export type File = {
   type: FileType
 }
 
-type FileType = 'exercise' | 'solution' | 'legacy'
+type FileType = 'exercise' | 'solution' | 'legacy' | 'readonly'
 
 export type APIError = {
   type: string

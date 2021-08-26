@@ -46,9 +46,10 @@
 
         = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
 
-        = link_to "#comments", "data-turbolinks": "false", class: 'comments-button btn-enhanced btn-s' do
-          = icon "comment", "Number of comment"
-          %span= @solution.num_comments
+        - if @solution.allow_comments?
+          = link_to "#comments", "data-turbolinks": "false", class: 'comments-button btn-enhanced btn-s' do
+            = icon "comment", "Number of comment"
+            %span= @solution.num_comments
 
   %article.lg-container.container
     .lhs
@@ -71,7 +72,6 @@
 
             = render ViewComponents::Reputation.new("+5", size: :small, flashy: true)
 
-      / kntsoriano - Make this into a React component
       %a{ name: "comments" }
       = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
 

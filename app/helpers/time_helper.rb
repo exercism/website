@@ -13,6 +13,13 @@ module TimeHelper
     return "1s" if t == "less than a minute"
 
     parts = t.split(' ')
-    "#{parts[0]}#{parts[1][0]}"
+    case parts[1]
+    when "month", "months"
+      unit = "mo"
+    else
+      unit = parts[1][0]
+    end
+
+    "#{parts[0]}#{unit}"
   end
 end

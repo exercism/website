@@ -125,9 +125,16 @@ export const Scratchpad = ({
         >
           <h2>Introducing your scratchpad</h2>
           <p>
-            A <a href={scratchpad.links.markdown}>Markdown-supported</a> place
-            for you to write notes and add code snippets you’d like to refer to
-            during mentoring.
+            A{' '}
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href={scratchpad.links.markdown}
+            >
+              Markdown-supported
+            </a>{' '}
+            place for you to write notes and add code snippets you’d like to
+            refer to during mentoring.
           </p>
         </Introducer>
       )}

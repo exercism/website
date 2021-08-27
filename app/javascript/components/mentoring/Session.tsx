@@ -200,12 +200,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                   />
                 </Tab.Panel>
                 <Tab.Panel id="guidance" context={TabsContext}>
-                  <Guidance
-                    notes={notes}
-                    mentorSolution={mentorSolution}
-                    track={track}
-                    exercise={exercise}
-                  />
+                  <Guidance notes={notes} mentorSolution={mentorSolution} />
                 </Tab.Panel>
                 {discussion ? (
                   <AddDiscussionPostPanel

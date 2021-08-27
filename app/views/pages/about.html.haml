@@ -1,6 +1,6 @@
 #page-about
-  %header.pt-48.pb-56.c-header-with-bg
-    .md-container.flex.flex-col.items-center
+  %header.pb-56.c-header-with-bg
+    .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1
       = graphical_icon "exercism-face", css_class: "logo mb-8"
       %h1.text-h0.mb-16 About Exercism
       %hr.c-divider.mb-16
@@ -8,7 +8,7 @@
         We want to help
         %strong anyone
         get really good at programming, regardless of their background, through a mixture of practical-learning, practice and mentorship.
-      .grid.grid-cols-2-auto.gap-24
+      .grid.grid-1.md:grid-cols-2-auto.gap-24
         = link_to donate_path, class: 'btn-l btn-primary' do
           Donate to Exercism
           = graphical_icon "arrow-right"
@@ -17,7 +17,7 @@
   .md-container
     %ul.links.flex.flex-col.md:flex-row.items-stretch.md:items-center.my-40.md:my-56.px-16.md:px-0
       %li
-        = link_to "#" do
+        = link_to team_page_path do
           = graphical_icon :team
           %span Team
           = graphical_icon 'arrow-right'

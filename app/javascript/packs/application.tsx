@@ -7,6 +7,7 @@ import '../../css/application'
 import '../../css/layout'
 
 import '../../css/ui-kit/inputs'
+import '../../css/ui-kit/shapes'
 import '../../css/ui-kit/buttons'
 import '../../css/ui-kit/tracks'
 import '../../css/ui-kit/animations'
@@ -59,6 +60,7 @@ import '../../css/components/docs-tracks-list'
 import '../../css/components/iterations-footer'
 import '../../css/components/solution-iterations'
 import '../../css/components/loading-overlay'
+import '../../css/components/loading-suspense'
 
 import '../../css/components/share-panel'
 import '../../css/components/split-pane'
@@ -156,6 +158,7 @@ import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
 import '../../css/pages/about'
+import '../../css/pages/team'
 import '../../css/pages/editor'
 import '../../css/pages/notifications'
 import '../../css/pages/blog'
@@ -271,7 +274,7 @@ function camelizeKeysAs<T>(object: any): T {
 }
 import currency from 'currency.js'
 
-const renderLoader = () => <p>Loading</p>
+const renderLoader = () => <div className="c-loading-suspense" />
 
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components

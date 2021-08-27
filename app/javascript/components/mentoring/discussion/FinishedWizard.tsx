@@ -27,6 +27,7 @@ type Action =
 
 type Props = {
   student: FavoritableStudent
+  setStudent: (student: FavoritableStudent) => void
   defaultStep: ModalStep
 }
 
@@ -54,7 +55,7 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export const FinishedWizard = ({ student, defaultStep }: Props) => {
+export const FinishedWizard = ({ student, setStudent, defaultStep }: Props) => {
   const finishedWizardRef = useRef<HTMLDivElement>(null)
   const [state, dispatch] = useReducer(reducer, {
     student: student,
@@ -102,6 +103,8 @@ export const FinishedWizard = ({ student, defaultStep }: Props) => {
                   type: 'FAVORITED',
                   payload: { student: student },
                 })
+
+                setStudent(student)
               }}
               onSkip={() => {
                 dispatch({ type: 'SKIP_FAVORITE' })

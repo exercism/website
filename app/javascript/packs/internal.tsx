@@ -165,6 +165,7 @@ initReact({
       videos={camelizeKeysAs<StudentMentoringSessionVideo[]>(data.videos)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
+      outOfDate={data.out_of_date}
     />
   ),
   'student-request-mentoring-button': (data: any) => (
@@ -265,7 +266,7 @@ initReact({
       request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
       links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
       track={camelizeKeysAs<SolutionSummaryTrack>(data.track)}
-      exerciseType={data.exercise_type}
+      exercise={data.exercise}
     />
   ),
 

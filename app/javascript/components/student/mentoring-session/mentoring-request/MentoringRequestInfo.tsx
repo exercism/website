@@ -10,6 +10,7 @@ import {
   DiscussionPostProps,
   DiscussionPostAction,
 } from '../../../mentoring/discussion/DiscussionPost'
+import { CancelRequestButton } from './CancelRequestButton'
 
 type Links = {
   privateMentoring: string
@@ -59,7 +60,7 @@ export const MentoringRequestInfo = ({
             <h3>Waiting on a mentor...</h3>
             <p>Recent median waiting time: ~{track.medianWaitTime}</p>
           </div>
-          <a href="#">Cancel Request</a>
+          <CancelRequestButton request={request} />
         </div>
         <div className="placeholder">
           <div className="info">

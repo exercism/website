@@ -54,6 +54,7 @@ export const MentoringSession = ({
   track,
   request: initialRequest,
   links,
+  outOfDate,
 }: {
   userHandle: string
   discussion?: MentorDiscussion
@@ -65,6 +66,7 @@ export const MentoringSession = ({
   track: Track
   request?: Request
   links: Links
+  outOfDate: boolean
 }): JSX.Element => {
   const [mentorRequest, setMentorRequest] = useState(initialRequest)
 
@@ -113,7 +115,7 @@ export const MentoringSession = ({
               onClick={handleIterationClick}
               language={track.highlightjsLanguage}
               indentSize={track.indentSize}
-              isOutOfDate={false} /* TODO: (required) Set this correctly */
+              isOutOfDate={outOfDate}
               settings={settings}
               setSettings={setSettings}
             />

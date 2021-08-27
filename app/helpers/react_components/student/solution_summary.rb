@@ -12,7 +12,10 @@ module ReactComponents
           },
           request: request,
           discussions: discussions,
-          exercise_type: exercise_type,
+          exercise: {
+            title: solution.exercise.title,
+            type: exercise_type
+          },
           links: links
         })
       end

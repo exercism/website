@@ -1,6 +1,7 @@
 import React from 'react'
 import { GraphicalIcon, Icon } from '../../common'
-import { Iteration, IterationStatus, ExerciseType } from '../../types'
+import { Iteration, IterationStatus } from '../../types'
+import { Exercise } from '../SolutionSummary'
 import pluralize from 'pluralize'
 import { toSentence } from '../../../utils/toSentence'
 
@@ -8,15 +9,14 @@ export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
 }
 
-const TutorialHeader = () => {
+const TutorialHeader = ({ exercise }: { exercise: Exercise }) => {
   return (
     <header>
       <div className="info">
         <h2>Your solution looks good!</h2>
         <p>
-          {/* TODO: (required) Use exercise.title anywhere where we have Hello, World */}
-          <strong>Good job.</strong> Your solution to &quot;Hello, World!&quot;
-          has passed all the tests 😊
+          <strong>Good job.</strong> Your solution to &quot;{exercise.title}
+          !&quot; has passed all the tests 😊
         </p>
       </div>
       <div className="status passed">Tests Passed</div>
@@ -26,11 +26,11 @@ const TutorialHeader = () => {
 
 export const Header = ({
   iteration,
-  exerciseType,
+  exercise,
   links,
 }: {
   iteration: Iteration
-  exerciseType: ExerciseType
+  exercise: Exercise
   links: SolutionSummaryLinks
 }): JSX.Element => {
   switch (iteration.status) {
@@ -75,8 +75,8 @@ export const Header = ({
         </header>
       )
     case IterationStatus.ESSENTIAL_AUTOMATED_FEEDBACK: {
-      if (exerciseType === 'tutorial') {
-        return <TutorialHeader />
+      if (exercise.type === 'tutorial') {
+        return <TutorialHeader exercise={exercise} />
       }
 
       const comments = [
@@ -114,8 +114,8 @@ export const Header = ({
       )
     }
     case IterationStatus.NO_AUTOMATED_FEEDBACK:
-      if (exerciseType === 'tutorial') {
-        return <TutorialHeader />
+      if (exercise.type === 'tutorial') {
+        return <TutorialHeader exercise={exercise} />
       }
 
       return (
@@ -125,7 +125,7 @@ export const Header = ({
             <p>
               Your solution passed the tests and we don&apos;t have any
               recommendations.
-              {exerciseType === 'practice'
+              {exercise.type === 'practice'
                 ? 'You might want to work with a mentor to make it even better.'
                 : null}{' '}
               <strong>Great Job! 🎉</strong>
@@ -135,8 +135,8 @@ export const Header = ({
         </header>
       )
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
-      if (exerciseType === 'tutorial') {
-        return <TutorialHeader />
+      if (exercise.type === 'tutorial') {
+        return <TutorialHeader exercise={exercise} />
       }
 
       return (
@@ -154,7 +154,7 @@ export const Header = ({
                 )}
               </span>{' '}
               that you might like to check.{' '}
-              {exerciseType === 'practice'
+              {exercise.type === 'practice'
                 ? 'Consider working with a mentor to make it even better. '
                 : ' '}
               <strong>Great Job! 🎉</strong>
@@ -164,8 +164,8 @@ export const Header = ({
         </header>
       )
     case IterationStatus.ACTIONABLE_AUTOMATED_FEEDBACK: {
-      if (exerciseType === 'tutorial') {
-        return <TutorialHeader />
+      if (exercise.type === 'tutorial') {
+        return <TutorialHeader exercise={exercise} />
       }
 
       const comments = [
@@ -183,7 +183,7 @@ export const Header = ({
           : '',
       ].filter((comment) => comment.length > 0)
 
-      switch (exerciseType) {
+      switch (exercise.type) {
         case 'concept':
           return (
             <header>

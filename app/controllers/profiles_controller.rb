@@ -36,6 +36,7 @@ class ProfilesController < ApplicationController
 
   def badges
     @badges = Badge.where(id: @user.acquired_badges.revealed.select(:badge_id))
+    @rarities = @badges.group(:rarity).count
   end
 
   def tooltip

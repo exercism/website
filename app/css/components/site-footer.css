@@ -24,7 +24,7 @@ body.namespace-.controller-journey {
                 #271b72 100%
             ),
             linear-gradient(0deg, #271b72, #271b72),
-            url("../../../app/javascript/images/bg-tracks-header@2x.png");
+            url("../../../app/javascript/images/bg-tracks-header@2x.jpg");
 
         background-size: 100%;
         background-position: -190px;
@@ -92,14 +92,19 @@ body.namespace-.controller-journey {
             max-width: 1024px;
         }
         & .donations-form {
-            @apply flex items-stretch;
-
             & .amounts {
                 @apply flex-grow;
                 @apply grid gap-16;
                 grid-template:
-                    "a b c" auto
-                    "d e e" auto / 1fr 1fr 1fr;
+                    "a b" auto
+                    "c d" auto
+                    "e e" auto / 1fr 1fr;
+
+                @screen sm {
+                    grid-template:
+                        "a b c" auto
+                        "d e e" auto / 1fr 1fr 1fr;
+                }
 
                 & button {
                     @apply text-unnamed15;
@@ -149,8 +154,10 @@ body.namespace-.controller-journey {
                 }
             }
             & .continue-btn {
-                height: auto;
-                width: 250px;
+                @screen md {
+                    width: 250px;
+                    height: auto;
+                }
 
                 @apply bg-limeGreen text-white;
                 & .c-icon {

@@ -9,6 +9,7 @@ export const DiscussionDetails = ({
   discussion,
   iterations,
   student,
+  setStudent,
   userHandle,
   onIterationScroll,
   status,
@@ -16,6 +17,7 @@ export const DiscussionDetails = ({
   discussion: MentorDiscussion
   iterations: readonly Iteration[]
   student: FavoritableStudent
+  setStudent: (student: FavoritableStudent) => void
   userHandle: string
   onIterationScroll: (iteration: Iteration) => void
   status: QueryStatus
@@ -35,7 +37,11 @@ export const DiscussionDetails = ({
         status={status}
       />
       {discussion.isFinished ? (
-        <FinishedWizard student={student} defaultStep={defaultWizardStep} />
+        <FinishedWizard
+          student={student}
+          defaultStep={defaultWizardStep}
+          setStudent={setStudent}
+        />
       ) : null}
     </div>
   )

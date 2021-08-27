@@ -66,7 +66,7 @@ module Components
           visit Exercism::Routes.private_solution_path(solution)
         end
 
-        assert_text 'Your solution to "Hello, World!" has passed all the tests'
+        assert_text 'Your solution to "Hello World!" has passed all the tests'
         assert_text "This is where we’d usually link you to other peoples’ solutions to the same exercise."
         assert_text "You also get the opportunity to be mentored by Ruby experts."
       end

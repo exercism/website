@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { usePanel } from '../../hooks/use-panel'
 import { GraphicalIcon } from './GraphicalIcon'
@@ -8,48 +8,49 @@ const ComboButtonContext = React.createContext({
   panelAttributes: {},
 })
 
-export const ComboButton = ({
-  className = '',
-  children,
-  enabled = true,
-}: React.PropsWithChildren<{
-  className?: string
-  enabled?: boolean
-}>): JSX.Element => {
-  const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
-    placement: 'bottom-end',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 14],
+type Props = React.PropsWithChildren<{ className?: string; enabled?: boolean }>
+
+export const ComboButton = forwardRef<HTMLDivElement, Props>(
+  ({ className = '', children, enabled = true }, ref) => {
+    const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
+      placement: 'bottom-end',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 14],
+          },
         },
-      },
-    ],
-  })
+      ],
+    })
 
-  const classNames = ['c-combo-button', enabled ? '' : '--disabled', className]
+    const classNames = [
+      'c-combo-button',
+      enabled ? '' : '--disabled',
+      className,
+    ]
 
-  return (
-    <ComboButtonContext.Provider
-      value={{ open: open, panelAttributes: panelAttributes }}
-    >
-      <div className={classNames.join(' ')}>
-        {children}
-        <button
-          onClick={() => setOpen(!open)}
-          {...buttonAttributes}
-          className="--dropdown-segment"
-          disabled={!enabled}
-        >
-          <GraphicalIcon icon="chevron-down" />
-        </button>
-      </div>
-    </ComboButtonContext.Provider>
-  )
-}
+    return (
+      <ComboButtonContext.Provider
+        value={{ open: open, panelAttributes: panelAttributes }}
+      >
+        <div className={classNames.join(' ')} ref={ref}>
+          {children}
+          <button
+            onClick={() => setOpen(!open)}
+            {...buttonAttributes}
+            className="--dropdown-segment"
+            disabled={!enabled}
+          >
+            <GraphicalIcon icon="chevron-down" />
+          </button>
+        </div>
+      </ComboButtonContext.Provider>
+    )
+  }
+)
 
-ComboButton.PrimarySegment = ({ children }: React.PropsWithChildren<{}>) => {
+export const PrimarySegment = ({ children }: React.PropsWithChildren<{}>) => {
   if (!children || !React.isValidElement(children)) {
     return null
   }
@@ -61,7 +62,7 @@ ComboButton.PrimarySegment = ({ children }: React.PropsWithChildren<{}>) => {
   )
 }
 
-ComboButton.DropdownSegment = ({ children }: React.PropsWithChildren<{}>) => {
+export const DropdownSegment = ({ children }: React.PropsWithChildren<{}>) => {
   const { open, panelAttributes } = useContext(ComboButtonContext)
   return (
     <React.Fragment>

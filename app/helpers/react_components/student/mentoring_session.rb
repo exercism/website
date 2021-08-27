@@ -15,6 +15,7 @@ module ReactComponents
             iterations: iterations,
             mentor: mentor_data,
             track_objectives: user_track&.objectives.to_s,
+            out_of_date: solution.out_of_date?,
             videos: videos,
             links: {
               exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),

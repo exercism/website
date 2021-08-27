@@ -87,12 +87,14 @@
         }
         & .c-iterations-footer {
             @apply mt-auto;
-            & .settings-button {
+            & .link-button {
                 @apply ml-auto;
+                @apply px-12 py-8;
+                @apply rounded-5 shadow-xsZ1;
 
                 & .c-icon {
-                    height: 16px;
-                    width: 16px;
+                    height: 21px;
+                    width: 21px;
                 }
             }
         }

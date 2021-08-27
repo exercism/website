@@ -79,15 +79,14 @@ export const MentoringSession = ({
     iterations: initialIterations,
   })
 
-  const [settings, setSettings] = useState({ scroll: false, click: false })
+  const [isLinked, setIsLinked] = useState(false)
   const {
     currentIteration,
     handleIterationClick,
     handleIterationScroll,
   } = useIterationScrolling({
     iterations: iterations,
-    isScrollOn: settings.scroll,
-    isClickOn: settings.click,
+    on: isLinked,
   })
 
   return (
@@ -116,8 +115,8 @@ export const MentoringSession = ({
               language={track.highlightjsLanguage}
               indentSize={track.indentSize}
               isOutOfDate={outOfDate}
-              settings={settings}
-              setSettings={setSettings}
+              isLinked={isLinked}
+              setIsLinked={setIsLinked}
             />
           </>
         }

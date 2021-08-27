@@ -32,11 +32,6 @@ import { useIterationScrolling } from './session/useIterationScrolling'
 import { SplitPane } from '../common'
 import { FavoritableStudent } from './session/FavoriteButton'
 
-export type Settings = {
-  scroll: boolean
-  click: boolean
-}
-
 export type Links = {
   mentorDashboard: string
   mentoringDocs: string
@@ -107,16 +102,12 @@ export const Session = (props: SessionProps): JSX.Element => {
     iterations: initialIterations,
   })
 
-  const [settings, setSettings] = useState({ scroll: false, click: false })
+  const [isLinked, setIsLinked] = useState(false)
   const {
     currentIteration,
     handleIterationClick,
     handleIterationScroll,
-  } = useIterationScrolling({
-    iterations: iterations,
-    isScrollOn: settings.scroll,
-    isClickOn: settings.click,
-  })
+  } = useIterationScrolling({ iterations: iterations, on: isLinked })
 
   return (
     <div className="c-mentor-discussion">
@@ -151,8 +142,8 @@ export const Session = (props: SessionProps): JSX.Element => {
               isOutOfDate={outOfDate}
               language={track.highlightjsLanguage}
               indentSize={track.indentSize}
-              settings={settings}
-              setSettings={setSettings}
+              isLinked={isLinked}
+              setIsLinked={setIsLinked}
             />
           </>
         }

@@ -3,13 +3,11 @@ import { Iteration, IterationStatus } from '../../types'
 import { IterationsList } from './IterationsList'
 import { FilePanel } from './FilePanel'
 import { IterationHeader } from './IterationHeader'
-import { useIsMounted } from 'use-is-mounted'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { File } from '../../types'
 import { ResultsZone } from '../../ResultsZone'
-import { SettingsButton } from './SettingsButton'
-import { Settings } from '../Session'
+import { LinkButton } from './LinkButton'
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
@@ -22,8 +20,8 @@ export const IterationView = ({
   language,
   indentSize,
   isOutOfDate,
-  settings,
-  setSettings,
+  isLinked,
+  setIsLinked,
 }: {
   iterations: readonly Iteration[]
   instructions?: string
@@ -33,8 +31,8 @@ export const IterationView = ({
   language: string
   indentSize: number
   isOutOfDate: boolean
-  settings: Settings
-  setSettings: (settings: Settings) => void
+  isLinked: boolean
+  setIsLinked: (linked: boolean) => void
 }): JSX.Element => {
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
@@ -77,7 +75,7 @@ export const IterationView = ({
             current={currentIteration}
           />
         ) : null}
-        <SettingsButton value={settings} setValue={setSettings} />
+        <LinkButton value={isLinked} setValue={setIsLinked} />
       </footer>
     </React.Fragment>
   )

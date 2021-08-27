@@ -15,6 +15,7 @@ import '../../css/ui-kit/effects'
 
 import '../../css/tooltips/generic'
 import '../../css/tooltips/base'
+import '../../css/tooltips/mentoring-link'
 import '../../css/tooltips/concept'
 import '../../css/tooltips/user'
 import '../../css/tooltips/exercise'

@@ -56,7 +56,8 @@ module ReactComponents
       def links
         {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
-          exercise: Exercism::Routes.track_exercise_path(track, exercise)
+          exercise: Exercism::Routes.track_exercise_path(track, exercise),
+          improve_notes: "https://github.com/exercism/website-copy/edit/main/tracks/#{track.slug}/exercises/#{exercise.slug}/mentoring.md"
         }
       end
 

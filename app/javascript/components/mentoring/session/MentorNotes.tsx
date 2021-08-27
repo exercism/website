@@ -18,16 +18,24 @@ export const MentorNotes = ({
         <h3 className="text-h5 mb-4">Improve these notes</h3>
         <p className="text-p-base">
           These notes are written by our community. Please help improve them by
-          sending a <a href={improveUrl}>Pull Request on GitHub</a>.
+          sending a{' '}
+          <a href={improveUrl} target="_blank" rel="noreferrer">
+            Pull Request on GitHub
+          </a>
+          .
         </p>
       </React.Fragment>
     )
   } else {
     return (
       <p className="text-p-base">
-        This exercise doesn't have any mentoring notes yet. Mentoring notes are
-        written by our community. Please help get them started for this exercise
-        by sending a <a href={improveUrl}>Pull Request on GitHub</a>.
+        This exercise doesn&apos;t have any mentoring notes yet. Mentoring notes
+        are written by our community. Please help get them started for this
+        exercise by sending a{' '}
+        <a href={improveUrl} target="_blank" rel="noreferrer">
+          Pull Request on GitHub
+        </a>
+        .
       </p>
     )
   }

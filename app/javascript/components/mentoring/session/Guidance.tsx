@@ -3,10 +3,6 @@ import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
 import { CommunitySolution as CommunitySolutionProps } from '../../types'
 import { CommunitySolution, GraphicalIcon } from '../../common'
-import {
-  MentorSessionTrack as Track,
-  MentorSessionExercise as Exercise,
-} from '../../types'
 
 const AccordionHeader = ({
   isOpen,
@@ -27,18 +23,18 @@ const AccordionHeader = ({
   )
 }
 
-/* TODO: exercise.slug is undefined and exercise.id contains its value */
-/* TODO: Move the link to be passed from Rails */
+type Links = {
+  improveNotes: string
+}
+
 export const Guidance = ({
   notes,
   mentorSolution,
-  track,
-  exercise,
+  links,
 }: {
   notes: string
   mentorSolution?: CommunitySolutionProps
-  track: Track
-  exercise: Exercise
+  links: Links
 }): JSX.Element => {
   const [accordionState, setAccordionState] = useState([
     {
@@ -88,10 +84,7 @@ export const Guidance = ({
       <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
         <AccordionHeader isOpen={isOpen('notes')} title="Mentor notes" />
         <Accordion.Panel>
-          <MentorNotes
-            notes={notes}
-            improveUrl={`https://github.com/exercism/website-copy/edit/main/tracks/${track.slug}/exercises/${exercise.slug}/mentoring.md`}
-          />
+          <MentorNotes notes={notes} improveUrl={links.improveNotes} />
         </Accordion.Panel>
       </Accordion>
       {mentorSolution ? (

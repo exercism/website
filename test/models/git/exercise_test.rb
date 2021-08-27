@@ -8,7 +8,7 @@ module Git
 
       expected_files = ["log_line_parser.rb"]
       assert_equal expected_files, exercise.files_for_editor.keys
-      assert exercise.files_for_editor["log_line_parser.rb"].start_with?("module LogLineParser")
+      assert exercise.files_for_editor["log_line_parser.rb"][:content].start_with?("module LogLineParser")
     end
 
     test "read_file_blob" do

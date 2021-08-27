@@ -1,0 +1,10 @@
+#page-error.pt-60.pt-40
+  .sm-container
+    .flex.items-center
+      .mr-40
+        .text-purple.leading-110{ style: "font-size: 128px" }= @status_code
+        %h1.text-h1.mb-16 An error occurred
+        %p.text-textColor6.text-24.leading-150.font-semibold.mb-24 An error has occurred - sorry!
+        %p.text-p-xlarge{ style: "max-width: 550px" } Please try refreshing, and if that doesn’t work, wait a few minutes and try again.
+      = graphical_icon "error-500", category: :graphics, css_class: 'ml-auto'
+

@@ -5,13 +5,15 @@ import { TrackProgress } from '../../types'
 
 export const TrackSummary = ({
   track,
+  expanded,
   avgVelocity,
 }: {
   track: TrackProgress
+  expanded: boolean
   avgVelocity: number
 }): JSX.Element => {
   return (
-    <details className="c-details track">
+    <details className="c-details track" open={expanded}>
       <summary className="--summary">
         <TrackSummaryHeader track={track} />
       </summary>

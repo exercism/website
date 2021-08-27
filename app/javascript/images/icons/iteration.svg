@@ -1,5 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-  <defs/>
-  <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7.66479v4.50201c0 1.1046.89543 2 2 2h6c1.1046 0 2-.8954 2-2v-.5M14 9.66475v-4.498c0-1.10457-.8954-2-2-2H6c-1.10457 0-2 .89543-2 2v.5"/>
-  <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.5 10.1648L4 7.66479 1.5 10.1648M11.5 7.16479l2.5 2.5 2.5-2.5"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.5 10.7469V17.4999C4.5 19.1568 5.84315 20.4999 7.5 20.4999H16.5C18.1569 20.4999 19.5 19.1568 19.5 17.4999V16.7499" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19.5 13.747V7C19.5 5.34315 18.1569 4 16.5 4H7.5C5.84315 4 4.5 5.34315 4.5 7V7.75" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.25 14.4969L4.5 10.7469L0.75 14.4969" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15.75 9.99695L19.5 13.7469L23.25 9.99695" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
+

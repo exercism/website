@@ -164,7 +164,6 @@
     --inputBorderColorFocus: var(--c-2E57E8);
     --inputBoxShadowColorFocus: rgba(46, 87, 232, 0.25);
     --tabBackgroundColorSelected: var(--c-E1EBFF);
-    --tabIconColorSelected: var(--c-604FCD);
     --tabBorderColorSelected: var(--c-A7B7D6);
     --modalBackgroundColor: rgba(251, 252, 254, 0.7);
     --lockedColor: var(--c-E8EDF7);

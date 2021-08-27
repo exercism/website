@@ -121,6 +121,8 @@
         brightness(98%) contrast(85%);
     --filter-7097FF: invert(57%) sepia(30%) saturate(2773%) hue-rotate(199deg)
         brightness(101%) contrast(101%);
+    --filter-E2CB2D: invert(73%) sepia(100%) saturate(350%) hue-rotate(3deg)
+        brightness(94%) contrast(94%);
 
     --container-padding-x: 16px;
     @screen md {

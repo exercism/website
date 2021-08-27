@@ -11,7 +11,7 @@ module API
         return render_403(:solution_not_accessible) unless current_user.may_view_solution?(solution)
         return render_400(:no_iterations_submitted_yet) if solution.latest_iteration.blank?
 
-        files = solution.latest_iteration.solution_files
+        files = solution.latest_iteration.files_for_editor
 
         render json: { files: SerializeFiles.(files) }
       end

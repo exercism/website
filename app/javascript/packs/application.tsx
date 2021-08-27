@@ -123,6 +123,7 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
+import '../../css/modals/bug-report'
 import '../../css/modals/donations-form'
 import '../../css/modals/editor-hints'
 import '../../css/modals/automated-feedback'

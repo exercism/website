@@ -9,14 +9,34 @@ export const LinkButton = ({
   value: boolean
   setValue: (settings: boolean) => void
 }): JSX.Element => {
-  const classNames = ['settings-button', value ? 'linked' : 'unlinked']
+  const classNames = ['link-button btn-enhanced', value ? 'linked' : 'unlinked']
 
-  const content = value ? 'Linked' : 'Unlinked'
+  const content = value ? (
+    <div className="c-mentoring-link-tooltip">
+      <h3>Your code and mentoring conversation are currently linked.</h3>
+      <p>
+        This means as you navigate to another iteration, the mentoring
+        conversation will follow and vice versa.
+        <strong>Click or tap on the icon to unlink.</strong>
+      </p>
+    </div>
+  ) : (
+    <div className="c-mentoring-link-tooltip">
+      <h3>Your code and mentoring conversation are currently unlinked.</h3>
+      <p>
+        This means the left and right panes operate independently.
+        <strong>Click or tap on the icon to link.</strong>
+      </p>
+    </div>
+  )
 
   return (
     <GenericTooltip content={content}>
       <button className={classNames.join(' ')} onClick={() => setValue(!value)}>
-        <Icon icon="settings" alt="Link conversation" />
+        <Icon
+          icon={value ? 'mentoring-linked' : 'mentoring-unlinked'}
+          alt="Link conversation"
+        />
       </button>
     </GenericTooltip>
   )

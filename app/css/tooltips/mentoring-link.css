@@ -1,0 +1,17 @@
+@import "../styles";
+
+/* This sits within a .c-generic-tooltip */
+.c-mentoring-link-tooltip {
+    max-width: 390px;
+
+    @apply leading-150 text-unnamed15;
+    @apply py-8 px-12;
+    & h3 {
+        @apply text-16  font-semibold mb-6;
+    }
+    & p {
+        & strong {
+            @apply block mt-6 font-semibold;
+        }
+    }
+}

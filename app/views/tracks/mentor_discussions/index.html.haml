@@ -31,4 +31,4 @@
           %h3 Direct Mentoring Invite Link
           = ReactComponents::Common::CopyToClipboardButton.new(@solution.external_mentoring_request_url)
 
-        = render ViewComponents::ProminentLink.new("Learn more about direct mentoring", "#")
+        = render ViewComponents::ProminentLink.new("Learn more about direct mentoring", doc_path(:using, "feedback/private"))

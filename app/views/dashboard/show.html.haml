@@ -70,13 +70,13 @@
           .posts
             - @blog_posts.each do |post|
               = render ViewComponents::BlogPost.new(post)
-          = render ViewComponents::ProminentLink.new("See all community posts", "#")
+          = render ViewComponents::ProminentLink.new("See all community posts", blog_path)
 
         %section.activity-section
           %h2 New on Exercism
           = render ReactComponents::Common::SiteUpdatesList.new(@updates, :track)
 
-          = render ViewComponents::ProminentLink.new("See all updates", "#")
+          -# = render ViewComponents::ProminentLink.new("See all updates", "#")
 
       .rhs
         - if @user_tracks.present?

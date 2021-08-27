@@ -60,6 +60,7 @@ const TabPanel = ({
       role="tabpanel"
       aria-labelledby={`tab-${id}`}
       tabIndex={0}
+      className={`--tab-panel ${className}`}
       style={style}
     >
       {children}

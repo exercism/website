@@ -254,3 +254,7 @@ button.text-a-subtle {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.uses-suspense {
+    @apply relative;
+}

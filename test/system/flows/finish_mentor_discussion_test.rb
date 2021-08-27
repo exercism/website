@@ -8,7 +8,7 @@ module Flows
     test "mentor finishes the session" do
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
-      exercise = create :concept_exercise, slug: SecureRandom.uuid
+      exercise = create :concept_exercise, slug: "lasagna"
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :mentor_discussion, solution: solution, mentor: mentor
       create :iteration, solution: solution
@@ -26,8 +26,8 @@ module Flows
     test "mentor chooses to mentor student again" do
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
-      track = create :track, slug: SecureRandom.uuid
-      exercise = create :concept_exercise, slug: SecureRandom.uuid, track: track
+      track = create :track
+      exercise = create :concept_exercise, slug: "lasagna", track: track
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
       create :iteration, solution: solution
@@ -50,7 +50,7 @@ module Flows
     test "mentor chooses not to mentor student again" do
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
-      exercise = create :concept_exercise
+      exercise = create :concept_exercise, slug: "lasagna"
       solution = create :concept_solution, exercise: exercise, user: student
       discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
       create :iteration, solution: solution

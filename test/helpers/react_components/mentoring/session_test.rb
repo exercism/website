@@ -9,7 +9,7 @@ module Mentoring
       student = create :user
       track = create :track, slug: "ruby"
       user_track = create :user_track, track: track, user: student
-      exercise = create :concept_exercise, track: track, slug: "clock"
+      exercise = create :concept_exercise, track: track, slug: "lasagna"
       solution = create :concept_solution, user: student, exercise: exercise
       mentor_request = create :mentor_request,
         solution: solution,
@@ -38,9 +38,11 @@ module Mentoring
             SerializeIteration.(iteration_2).merge(unread: false),
             SerializeIteration.(iteration_3).merge(unread: false)
           ],
+          instructions: Markdown::Parse.(solution.instructions),
+          tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
-          notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
+          notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
           scratchpad: {
             is_introducer_hidden: false,
@@ -66,7 +68,7 @@ module Mentoring
       student = create :user
       track = create :track, slug: "ruby"
       user_track = create :user_track, user: student, track: track
-      exercise = create :concept_exercise, track: track, slug: "clock"
+      exercise = create :concept_exercise, track: track, slug: "lasagna"
       solution = create :concept_solution, user: student, exercise: exercise
       mentor_request = create :mentor_request,
         solution: solution,
@@ -100,9 +102,11 @@ module Mentoring
             SerializeIteration.(iteration_2).merge(unread: false),
             SerializeIteration.(iteration_3).merge(unread: true)
           ],
-          student: SerializeStudent.(student, mentor, user_track: user_track, relationship: nil, anonymous_mode: false),
+          instructions: Markdown::Parse.(solution.instructions),
+          tests: solution.tests,
+          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
-          notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
+          notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
           scratchpad: {
             is_introducer_hidden: false,
@@ -128,7 +132,7 @@ module Mentoring
       student = create :user
       track = create :track, slug: "ruby"
       user_track = create :user_track, track: track, user: student
-      exercise = create :concept_exercise, track: track, slug: "clock"
+      exercise = create :concept_exercise, track: track, slug: "lasagna"
       solution = create :concept_solution, user: student, exercise: exercise
       mentor_request = create :mentor_request,
         solution: solution,
@@ -159,9 +163,11 @@ module Mentoring
             SerializeIteration.(iteration_2).merge(unread: false),
             SerializeIteration.(iteration_3).merge(unread: false)
           ],
+          instructions: Markdown::Parse.(solution.instructions),
+          tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
-          notes: %(<p>Clock introduces students to the concept of value objects and modular arithmetic.</p>\n<p>Note: This exercise changes a lot depending on which version the person has solved.</p>\n), # rubocop:disable Layout/LineLength
+          notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
           scratchpad: {
             is_introducer_hidden: true,

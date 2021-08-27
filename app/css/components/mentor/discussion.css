@@ -111,6 +111,9 @@
             @apply flex-grow h-arbitary;
             & .c-iteration-pane {
                 height: 100%;
+                & .c-code-pane pre {
+                    @apply w-100;
+                }
             }
         }
     }

@@ -34,6 +34,7 @@ module Components
           create :submission_file, submission: Submission.last
           Submission::TestRunsChannel.broadcast!(test_run)
           within(".lhs-footer") { click_on "Submit" }
+          # Place a byebug here to see EditorStatus.CREATING_ITERATION
 
           wait_for_redirect
           assert_text "Iteration 1"

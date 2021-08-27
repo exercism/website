@@ -407,6 +407,7 @@ module Components
         visit edit_track_exercise_path(track, exercise)
         find(".more-btn").click
         click_on("Revert to last iteration")
+        # Place a byebug here to see EditorStatus.REVERTING
 
         assert_text "old content"
       end

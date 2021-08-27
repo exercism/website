@@ -90,6 +90,7 @@ body.namespace-.controller-journey {
         & .c-react-wrapper-donations-footer-form {
             width: 100%;
             max-width: 1024px;
+            @apply uses-suspense;
         }
         & .donations-form {
             & .amounts {

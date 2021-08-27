@@ -1,7 +1,10 @@
+@import "../styles";
+
 .c-react-wrapper-donations-with-modal-form {
     width: 100%;
     max-width: 570px;
     @apply flex-shrink-0;
+    @apply uses-suspense;
 }
 .c-donations-form {
     @apply flex flex-col;

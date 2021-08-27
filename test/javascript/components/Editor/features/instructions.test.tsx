@@ -15,7 +15,7 @@ test('displays introduction', async () => {
       panels: {
         instructions: {
           introduction: 'Ruby is a nice and concise language',
-          assignment: { tasks: [] },
+          assignment: { overview: '', generalHints: [], tasks: [] },
         },
       },
     },
@@ -33,7 +33,7 @@ test('does not display introduction if not specified', async () => {
     overrides: {
       panels: {
         instructions: {
-          assignment: { tasks: [] },
+          assignment: { overview: '', generalHints: [], tasks: [] },
         },
       },
     },
@@ -53,6 +53,7 @@ test('displays introductions overview', async () => {
         instructions: {
           assignment: {
             overview: 'There are a couple of tasks to work on',
+            generalHints: [],
             tasks: [],
           },
         },
@@ -73,7 +74,7 @@ test('displays debugging information', async () => {
       panels: {
         instructions: {
           debuggingInstructions: 'There are a couple of tasks to work on',
-          assignment: { tasks: [] },
+          assignment: { overview: '', generalHints: [], tasks: [] },
         },
       },
     },

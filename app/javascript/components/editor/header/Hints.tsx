@@ -3,9 +3,17 @@ import { HintsModal } from '../../modals/HintsModal'
 import { Assignment } from '../types'
 import { Icon } from '../../common'
 
-export function Hints({ assignment }: { assignment: Assignment }) {
+export const Hints = ({
+  assignment,
+}: {
+  assignment: Assignment
+}): JSX.Element | null => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
+
+  if (assignment.generalHints.length === 0 && assignment.tasks.length === 0) {
+    return null
+  }
 
   return (
     <>

@@ -39,6 +39,7 @@ export type Settings = {
 
 export type Links = {
   mentorDashboard: string
+  improveNotes: string
 }
 
 export type Scratchpad = {
@@ -202,8 +203,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                   <Guidance
                     notes={notes}
                     mentorSolution={mentorSolution}
-                    track={track}
-                    exercise={exercise}
+                    links={links}
                   />
                 </Tab.Panel>
                 {discussion ? (

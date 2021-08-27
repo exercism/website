@@ -7,12 +7,10 @@ export const iterationId = (iteration: Iteration): string => {
 
 export const useIterationScrolling = ({
   iterations,
-  isScrollOn,
-  isClickOn,
+  on,
 }: {
   iterations: readonly Iteration[]
-  isScrollOn: boolean
-  isClickOn: boolean
+  on: boolean
 }) => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
@@ -20,26 +18,26 @@ export const useIterationScrolling = ({
 
   const handleIterationScroll = useCallback(
     (iteration) => {
-      if (!isScrollOn) {
+      if (!on) {
         return
       }
 
       setCurrentIteration(iteration)
     },
-    [isScrollOn]
+    [on]
   )
 
   const handleIterationClick = useCallback(
     (iteration) => {
       setCurrentIteration(iteration)
 
-      if (!isClickOn) {
+      if (!on) {
         return
       }
 
       window.location.href = `#${iterationId(iteration)}`
     },
-    [isClickOn]
+    [on]
   )
 
   return { currentIteration, handleIterationScroll, handleIterationClick }

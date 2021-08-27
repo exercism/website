@@ -1,7 +1,7 @@
 module ReactComponents
   module Student
     class OpenEditorButton < ReactComponent
-      initialize_with :exercise
+      initialize_with :exercise, :user_track
 
       def to_s
         return if user_track.external?
@@ -34,11 +34,6 @@ module ReactComponents
           exercise: Exercism::Routes.edit_track_exercise_path(exercise.track, exercise),
           local: Exercism::Routes.doc_path(:using, "solving-exercises/working-locally")
         }
-      end
-
-      memoize
-      def user_track
-        UserTrack.for(current_user, exercise.track)
       end
     end
   end

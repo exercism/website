@@ -23,12 +23,7 @@ module ViewComponents
       end
 
       def continue_button
-        tag.div(class: 'c-combo-button') do
-          link_to("Continue in Editor", editor_url, class: '--primary-segment') +
-            tag.div(class: '--dropdown-segment') do
-              graphical_icon "chevron-down"
-            end
-        end
+        render ::ReactComponents::Student::OpenEditorButton.new(exercise, user_track)
       end
 
       def status_tag

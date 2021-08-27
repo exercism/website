@@ -21,7 +21,9 @@
     }
 
     &:disabled {
-        opacity: 0.5;
+        /* This needs to be important to override
+         * any previous fade-in animations */
+        opacity: 0.5 !important;
         cursor: not-allowed;
     }
 }

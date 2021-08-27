@@ -16,6 +16,9 @@ test('disables button while locking mentoring request', async () => {
       discussion: 'https://exercism.test/discussion',
     },
   }
+  const links = {
+    mentoringDocs: 'https://exercism.test/docs/mentoring',
+  }
   const iterations = [{ idx: 1 }]
   const server = setupServer(
     rest.post('https://exercism.test/discussion', (req, res, ctx) => {
@@ -29,6 +32,7 @@ test('disables button while locking mentoring request', async () => {
       request={request}
       iterations={iterations}
       setDiscussion={jest.fn()}
+      links={links}
     />
   )
   await act(async () => userEvent.click(screen.getByTestId('markdown-editor')))
@@ -52,6 +56,9 @@ test('shows API errors', async () => {
       discussion: 'https://exercism.test/discussion',
     },
   }
+  const links = {
+    mentoringDocs: 'https://exercism.test/docs/mentoring',
+  }
   const iterations = [{ idx: 1 }]
   const server = setupServer(
     rest.post('https://exercism.test/discussion', (req, res, ctx) => {
@@ -67,7 +74,13 @@ test('shows API errors', async () => {
   )
   server.listen()
 
-  render(<StartDiscussionPanel request={request} iterations={iterations} />)
+  render(
+    <StartDiscussionPanel
+      request={request}
+      iterations={iterations}
+      links={links}
+    />
+  )
   await act(async () => userEvent.click(screen.getByTestId('markdown-editor')))
   const textarea = screen.getByRole('textbox')
   await act(async () => userEvent.type(textarea, 'Hello'))
@@ -89,9 +102,18 @@ test('shows generic errors', async () => {
       discussion: 'https://exercism.test/discussion',
     },
   }
+  const links = {
+    mentoringDocs: 'https://exercism.test/docs/mentoring',
+  }
   const iterations = [{ idx: 1 }]
 
-  render(<StartDiscussionPanel request={request} iterations={iterations} />)
+  render(
+    <StartDiscussionPanel
+      request={request}
+      iterations={iterations}
+      links={links}
+    />
+  )
   await act(async () => userEvent.click(screen.getByTestId('markdown-editor')))
   const textarea = screen.getByRole('textbox')
   await act(async () => userEvent.type(textarea, 'Hello'))

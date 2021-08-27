@@ -45,14 +45,15 @@ module Mentoring
           scratchpad: {
             is_introducer_hidden: false,
             links: {
-              markdown: "#",
+              markdown: Exercism::Routes.doc_url(:mentoring, "markdown"),
               hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
               self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
             }
           },
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
-            exercise: Exercism::Routes.track_exercise_path(track, exercise)
+            exercise: Exercism::Routes.track_exercise_path(track, exercise),
+            mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
           }
         }
       )
@@ -106,14 +107,15 @@ module Mentoring
           scratchpad: {
             is_introducer_hidden: false,
             links: {
-              markdown: "#",
+              markdown: Exercism::Routes.doc_url(:mentoring, "markdown"),
               hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
               self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
             }
           },
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
-            exercise: Exercism::Routes.track_exercise_path(track, exercise)
+            exercise: Exercism::Routes.track_exercise_path(track, exercise),
+            mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
           }
         }
       )
@@ -164,14 +166,15 @@ module Mentoring
           scratchpad: {
             is_introducer_hidden: true,
             links: {
-              markdown: "#",
+              markdown: Exercism::Routes.doc_url(:mentoring, "markdown"),
               hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
               self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
             }
           },
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
-            exercise: Exercism::Routes.track_exercise_path(track, exercise)
+            exercise: Exercism::Routes.track_exercise_path(track, exercise),
+            mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
           }
         }
       )

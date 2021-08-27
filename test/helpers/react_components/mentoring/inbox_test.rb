@@ -24,7 +24,10 @@ class MentoringInboxTest < ReactComponentTestCase
           { value: 'recent', label: 'Sort by recent first' },
           { value: 'exercise', label: 'Sort by exercise' },
           { value: 'student', label: 'Sort by student' }
-        ]
+        ],
+        links: {
+          queue: Exercism::Routes.mentoring_queue_path
+        }
       }
   end
 end

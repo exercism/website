@@ -31,7 +31,8 @@ module ReactComponents
       def links
         {
           start: Exercism::Routes.start_track_exercise_path(exercise.track, exercise),
-          exercise: Exercism::Routes.edit_track_exercise_path(exercise.track, exercise)
+          exercise: Exercism::Routes.edit_track_exercise_path(exercise.track, exercise),
+          local: Exercism::Routes.doc_path(:using, "solving-exercises/working-locally")
         }
       end
 

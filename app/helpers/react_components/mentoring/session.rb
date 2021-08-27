@@ -34,8 +34,7 @@ module ReactComponents
             scratchpad: {
               is_introducer_hidden: current_user&.introducer_dismissed?("scratchpad"),
               links: {
-                # TODO
-                markdown: "#",
+                markdown: Exercism::Routes.doc_url(:mentoring, "markdown"),
                 hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
                 self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
               }
@@ -56,7 +55,8 @@ module ReactComponents
       def links
         {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
-          exercise: Exercism::Routes.track_exercise_path(track, exercise)
+          exercise: Exercism::Routes.track_exercise_path(track, exercise),
+          mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
         }
       end
 

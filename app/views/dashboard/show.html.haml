@@ -80,7 +80,7 @@
 
       .rhs
         - if @user_tracks.present?
-          = render "tracks_section", user_tracks: @user_tracks
+          = render "tracks_section", user_tracks: @user_tracks, num_user_tracks: @num_user_tracks
         - else
           = render "tracks_zero_section"
 

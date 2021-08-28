@@ -27,7 +27,56 @@ module Pages
         sign_in!(user)
 
         visit dashboard_path
-        assert_text "Ruby"
+
+        within "#page-dashboard" do
+          assert_text "Ruby"
+          assert_text "Your Tracks\n1"
+          assert_link "Discover more tracks"
+        end
+      end
+    end
+
+    test "with three track" do
+      user = create :user
+
+      3.times do
+        create :user_track, user: user, track: create(:track, :random_slug)
+      end
+
+      use_capybara_host do
+        sign_in!(user)
+
+        visit dashboard_path
+
+        within "#page-dashboard" do
+          assert_text "Your Tracks\n3"
+          assert_link "Discover more tracks"
+        end
+      end
+    end
+
+    test "with four track" do
+      user = create :user
+
+      ut_1 = create :user_track, last_touched_at: Time.current - 1.day, user: user, track: create(:track, :random_slug)
+      ut_2 = create :user_track, last_touched_at: Time.current - 2.days, user: user, track: create(:track, :random_slug)
+      ut_3 = create :user_track, last_touched_at: Time.current, user: user, track: create(:track, :random_slug)
+      ut_4 = create :user_track, last_touched_at: Time.current + 1.day, user: user, track: create(:track, :random_slug)
+
+      use_capybara_host do
+        sign_in!(user)
+
+        visit dashboard_path
+
+        within "#page-dashboard" do
+          assert_text ut_4.track.title
+          assert_text ut_3.track.title
+          assert_text ut_1.track.title
+          refute_text ut_2.track.title
+
+          assert_text "Your Tracks\n4"
+          assert_link "View all your tracks"
+        end
       end
     end
 

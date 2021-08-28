@@ -11,6 +11,8 @@ module ReactComponents
           {
             status: status,
             command: command,
+            # TODO: change this
+            editor_enabled: false,
             links: links
           }
         )

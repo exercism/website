@@ -12,19 +12,21 @@ type Links = {
 export const Header = ({
   links,
   isAuthor,
+  isGuest,
   allowComments,
   onCommentsEnabled,
   onCommentsDisabled,
 }: {
   links: Links
   isAuthor: boolean
+  isGuest: boolean
   allowComments: boolean
   onCommentsEnabled: () => void
   onCommentsDisabled: () => void
 }): JSX.Element => {
   return (
     <header className="flex items-center mb-12">
-      <h2 className="text-h4">Write a comment</h2>
+      {!isGuest ? <h2 className="text-h4">Write a comment</h2> : null}
       {isAuthor ? (
         <Options
           allowComments={allowComments}

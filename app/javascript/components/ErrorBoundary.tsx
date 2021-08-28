@@ -77,6 +77,10 @@ export const useErrorHandler = (
     }
 
     if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        return
+      }
+
       if (process.env.NODE_ENV == 'production') {
         Bugsnag.notify(error)
       }

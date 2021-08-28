@@ -5,6 +5,7 @@ module ReactComponents
 
       def to_s
         super("community-solutions-comments-list", {
+          is_guest: current_user.blank?,
           allow_comments: solution.allow_comments,
           is_author: current_user == solution.user,
           request: {

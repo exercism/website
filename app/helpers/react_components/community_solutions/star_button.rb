@@ -7,6 +7,7 @@ module ReactComponents
         super("community-solutions-star-button", {
           num_stars: solution.num_stars,
           is_starred: solution.starred_by?(current_user),
+          is_guest: current_user.blank?,
           links: {
             star: Exercism::Routes.api_track_exercise_community_solution_star_url(
               solution.track,

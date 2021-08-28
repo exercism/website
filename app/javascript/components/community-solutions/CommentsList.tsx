@@ -5,7 +5,6 @@ import { Reminder } from './comments-list/Reminder'
 import { ListContainer } from './comments-list/ListContainer'
 import { ListDisabled } from './comments-list/ListDisabled'
 import { Request } from '../../hooks/request-query'
-import { Iteration } from '../types'
 
 export type Links = {
   create: string
@@ -18,11 +17,13 @@ export type Links = {
 export const CommentsList = ({
   defaultAllowComments,
   isAuthor,
+  isGuest,
   request,
   links,
 }: {
   defaultAllowComments: boolean
   isAuthor: boolean
+  isGuest: boolean
   request: Request
   links: Links
 }): JSX.Element => {
@@ -41,11 +42,12 @@ export const CommentsList = ({
       <Header
         links={links}
         isAuthor={isAuthor}
+        isGuest={isGuest}
         allowComments={allowComments}
         onCommentsEnabled={handleCommentsEnabled}
         onCommentsDisabled={handleCommentsDisabled}
       />
-      {allowComments ? (
+      {allowComments && !isGuest ? (
         <React.Fragment>
           <NewCommentForm cacheKey={request.endpoint} endpoint={links.create} />
           <Reminder />

@@ -1,6 +1,8 @@
 module API
   module Solutions
     class SubmissionFilesController < BaseController
+      skip_before_action :authenticate_user!
+
       def index
         submission = Submission.find_by(uuid: params[:submission_uuid])
 

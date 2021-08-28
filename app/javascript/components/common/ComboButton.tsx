@@ -1,7 +1,7 @@
 import React, { useContext, forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { usePanel } from '../../hooks/use-panel'
-import { GraphicalIcon } from './GraphicalIcon'
+import { Icon } from './Icon'
 
 const ComboButtonContext = React.createContext({
   open: false,
@@ -42,7 +42,7 @@ export const ComboButton = forwardRef<HTMLDivElement, Props>(
             className="--dropdown-segment"
             disabled={!enabled}
           >
-            <GraphicalIcon icon="chevron-down" />
+            <Icon icon="chevron-down" alt="Open dropdown" />
           </button>
         </div>
       </ComboButtonContext.Provider>

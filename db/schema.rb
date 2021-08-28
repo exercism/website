@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_25_151222) do
+ActiveRecord::Schema.define(version: 2021_08_28_132559) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
     t.string "icon_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "has_test_runner", default: false, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
@@ -610,6 +611,8 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
     t.integer "num_students", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "course", default: false, null: false
+    t.boolean "has_test_runner", default: false, null: false
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 

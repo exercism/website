@@ -85,6 +85,11 @@ module Git
     end
 
     memoize
+    def has_test_runner?
+      config.fetch(:test_runner, true)
+    end
+
+    memoize
     def solution_filepaths
       config.dig(:files, :solution).to_a
     end

@@ -77,7 +77,6 @@ export const Nudge = ({
   useEffect(() => {
     switch (iterationStatus) {
       case IterationStatus.DELETED:
-      case IterationStatus.UNTESTED:
       case IterationStatus.TESTING:
       case IterationStatus.ANALYZING:
         setQueryEnabled(true)

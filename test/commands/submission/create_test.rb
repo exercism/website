@@ -80,16 +80,7 @@ class Submission::CreateTest < ActiveSupport::TestCase
   test "starts test run" do
     solution = create :concept_solution
 
-    filename_1 = "subdir/foobar.rb"
-    content_1 = "'I think' = 'I am'"
-
-    filename_2 = "barfood.rb"
-    content_2 = "something = :else"
-
-    files = [
-      { filename: filename_1, content: content_1 },
-      { filename: filename_2, content: content_2 }
-    ]
+    files = [{ filename: "subdir/foobar.rb", content: "'I think' = 'I am'" }]
 
     test_run_id = SecureRandom.uuid
     SecureRandom.stubs(uuid: test_run_id)
@@ -99,5 +90,17 @@ class Submission::CreateTest < ActiveSupport::TestCase
     assert :queued, submission.tests_status
     assert :not_queued, submission.representation_status
     assert :not_queued, submission.analysis_status
+  end
+
+  test "does not start test run if there's no test runner" do
+    exercise = create :practice_exercise, has_test_runner: false
+    solution = create :concept_solution, exercise: exercise
+
+    files = [{ filename: "subdir/foobar.rb", content: "'I think' = 'I am'" }]
+
+    Submission::TestRun::Init.expects(:call).never
+    submission = Submission::Create.(solution, files, :cli)
+
+    assert :not_queued, submission.tests_status
   end
 end

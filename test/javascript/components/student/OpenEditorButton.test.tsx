@@ -2,12 +2,14 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { OpenEditorButton } from '../../../../app/javascript/components/student/OpenEditorButton'
+import userEvent from '@testing-library/user-event'
 
 test('disabled when status is locked', async () => {
   const { container } = render(
     <OpenEditorButton
       command="command"
       status="locked"
+      editorEnabled
       links={{ local: 'https://exercism.test/solving-locally ' }}
     />
   )
@@ -24,6 +26,7 @@ test('shows button to start exercise when available', async () => {
     <OpenEditorButton
       command="command"
       status="available"
+      editorEnabled
       links={{ start: '', local: 'https://exercism.test/solving-locally' }}
     />
   )
@@ -38,6 +41,7 @@ test('shows link to exercise when completed', async () => {
     <OpenEditorButton
       status="completed"
       command="command"
+      editorEnabled
       links={{
         exercise: 'https://exercism.test/exercise',
         local: 'https://exercism.test/solving-locally',
@@ -56,6 +60,7 @@ test('shows link to exercise when published', async () => {
     <OpenEditorButton
       status="published"
       command="command"
+      editorEnabled
       links={{
         exercise: 'https://exercism.test/exercise',
         local: 'https://exercism.test/solving-locally',
@@ -74,6 +79,7 @@ test('shows link to exercise when other status', async () => {
     <OpenEditorButton
       status="iterated"
       command="command"
+      editorEnabled
       links={{
         exercise: 'https://exercism.test/exercise',
         local: 'https://exercism.test/solving-locally',
@@ -84,4 +90,22 @@ test('shows link to exercise when other status', async () => {
   expect(
     screen.getByRole('link', { name: 'Continue in editor' })
   ).toHaveAttribute('href', 'https://exercism.test/exercise')
+})
+
+test('disables primary button when editor is disabled', async () => {
+  render(
+    <OpenEditorButton
+      status="iterated"
+      command="command"
+      editorEnabled={false}
+      links={{
+        exercise: 'https://exercism.test/exercise',
+        local: 'https://exercism.test/solving-locally',
+      }}
+    />
+  )
+
+  expect(
+    screen.getByRole('button', { name: 'Continue in editor' })
+  ).toBeDisabled()
 })

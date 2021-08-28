@@ -60,6 +60,8 @@ class Submission
     end
 
     def init_test_run!
+      return unless solution.exercise.has_test_runner?
+
       Submission::TestRun::Init.(submission)
     end
 

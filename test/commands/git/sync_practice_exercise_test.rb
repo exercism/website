@@ -308,4 +308,12 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     assert_equal 'satellite', exercise.slug
   end
+
+  test "syncs test runner" do
+    exercise = create :practice_exercise, has_test_runner: false, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a'
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert exercise.reload.has_test_runner?
+  end
 end

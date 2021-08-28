@@ -5,12 +5,14 @@ module Git
 
     delegate :head_sha, :fetch!, :lookup_commit, :head_commit, to: :repo
 
-    git_filepaths about: "docs/ABOUT.md",
-                  snippet: "docs/SNIPPET.txt",
-                  debugging_instructions: "exercises/shared/.docs/debug.md",
-                  help: "exercises/shared/.docs/help.md",
-                  tests: "exercises/shared/.docs/tests.md",
-                  config: "config.json"
+    git_filepaths(
+      about: "docs/ABOUT.md",
+      snippet: "docs/SNIPPET.txt",
+      debugging_instructions: "exercises/shared/.docs/debug.md",
+      help: "exercises/shared/.docs/help.md",
+      tests: "exercises/shared/.docs/tests.md",
+      config: "config.json"
+    )
 
     def initialize(git_sha = "HEAD", repo_url: nil, repo: nil)
       raise "One of :repo or :repo_url must be specified" unless [repo, repo_url].compact.size == 1
@@ -51,12 +53,12 @@ module Git
 
     memoize
     def has_concept_exercises?
-      config[:status][:concept_exercises]
+      !!config[:status][:concept_exercises]
     end
 
     memoize
     def has_test_runner?
-      config[:status][:test_runner]
+      !!config[:status][:test_runner]
     end
 
     memoize

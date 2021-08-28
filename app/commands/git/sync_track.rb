@@ -43,6 +43,8 @@ module Git
         active: head_git_track.active?,
         title: head_git_track.title,
         tags: head_git_track.tags,
+        course: head_git_track.has_concept_exercises?,
+        has_test_runner: head_git_track.has_test_runner?,
         concepts: concepts
       )
 

@@ -426,6 +426,7 @@ initReact({
   ),
   'student-open-editor-button': (data: any) => (
     <Student.OpenEditorButton
+      editorEnabled={data.editor_enabled}
       status={data.status}
       links={data.links}
       command={data.command}

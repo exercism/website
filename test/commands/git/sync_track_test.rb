@@ -454,4 +454,20 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     assert_equal "old-sha", track.synced_to_git_sha
   end
+
+  test "syncs has_test_runner" do
+    track = create :track, has_test_runner: false
+
+    Git::SyncTrack.(track)
+
+    assert track.has_test_runner?
+  end
+
+  test "syncs course" do
+    track = create :track, course: false
+
+    Git::SyncTrack.(track)
+
+    assert track.course?
+  end
 end

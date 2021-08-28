@@ -22,7 +22,8 @@ module Git
         git_sha: head_git_exercise.synced_git_sha,
         synced_to_git_sha: head_git_exercise.synced_git_sha,
         prerequisites: find_concepts(exercise_config[:prerequisites]),
-        practiced_concepts: find_concepts(exercise_config[:practices])
+        practiced_concepts: find_concepts(exercise_config[:practices]),
+        has_test_runner: head_git_exercise.has_test_runner?
       )
 
       SyncExerciseAuthors.(exercise)

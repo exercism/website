@@ -35,9 +35,3 @@ export const redirectTo = (url: string): void => {
 
   new LoadingOverlay().show()
 }
-
-export const bindRedirectEvents = (): void => {
-  document.addEventListener('turbolinks:load', () => {
-    new LoadingOverlay().hide()
-  })
-}

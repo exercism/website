@@ -550,10 +550,6 @@ document.addEventListener('turbo:load', () => {
 const images = require.context('../images', true)
 const imagePath = (name: any) => images(name)
 
-// Loading overlay events
-import { bindRedirectEvents } from '../utils/redirect-to'
-bindRedirectEvents()
-
 // object.entries polyfill
 if (!Object.entries) {
   Object.entries = function (obj: any) {

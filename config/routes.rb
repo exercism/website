@@ -391,6 +391,8 @@ Rails.application.routes.draw do
   get "about" => "pages#about", as: :about_page
   get "team" => "pages#team", as: :team_page
 
+  get "site.webmanifest" => "meta#site_webmanifest"
+
   #################
   # Legacy routes #
   #################

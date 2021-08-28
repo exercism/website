@@ -1,3 +1,6 @@
+- content_for :meta_title, "#{@user.handle}'s badges to Exercism"
+- content_for :meta_description, "Explore #{@user.handle}'s badges on Exercism, and see which ones you're missing yourself"
+
 #page-profile-badges
   = render ViewComponents::Profile::Header.new(@user, @profile, :badges)
 

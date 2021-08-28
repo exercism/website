@@ -15,7 +15,8 @@
         = link_to donate_path, class: 'btn-l btn-primary' do
           Donate to Exercism
           = graphical_icon "arrow-right"
-        = link_to "Support Exercism (for organisations)", "#", class: 'btn-l btn-enhanced'
+        - # TODO
+        = link_to "Support Exercism (for organsiations)", "#", class: 'btn-l btn-enhanced'
 
   .md-container
     %ul.links.flex.flex-col.md:flex-row.items-stretch.md:items-center.my-40.md:my-56.px-16.md:px-0
@@ -25,11 +26,13 @@
           %span Team
           = graphical_icon 'arrow-right'
       %li
+        - # TODO
         = link_to "#" do
           = graphical_icon :roadmap
           %span Roadmap
           = graphical_icon 'arrow-right'
       %li
+        - # TODO
         = link_to "#" do
           = graphical_icon :supporters
           %span Supporters
@@ -43,9 +46,12 @@
           Purpose
         %p.text-p-2xlarge
           Exercism exists to help as many people as possible
+          - # TODO
           = link_to "attain fluency", "#"
           in any programming language they want.
+          - # TODO
           Programming skills can be source of great #{link_to 'fun', '#'}
+          - # TODO
           and a route to #{link_to 'social mobility', '#'}, and we want to help people regardless of their backgrounds or their motivations.
       = graphical_icon "purpose", category: 'graphics', css_class: 'graphic mt-16 lg:mt-0 lg:ml-40 xl:ml-80'
 

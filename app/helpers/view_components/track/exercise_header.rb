@@ -39,7 +39,7 @@ module ViewComponents
       def editor_btn
         return nil if user_track.external?
 
-        render ::ReactComponents::Student::OpenEditorButton.new(exercise)
+        render ::ReactComponents::Student::OpenEditorButton.new(exercise, user_track)
       end
 
       def iterations_tab

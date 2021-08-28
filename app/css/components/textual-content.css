@@ -118,7 +118,7 @@
 }
 
 .c-textual-content {
-    /* This is necessary else the rules above override 
+    /* This is necessary else the rules above override
      * the ones below */
     &.--large,
     &.--base,
@@ -195,6 +195,30 @@
         & :not(pre) > code {
             @apply inline-flex items-center justify-center rounded-5;
             @apply bg-veryLightBlue px-6 text-gotToLoveAPurple leading-regular;
+        }
+
+        & table {
+            @apply shadow-base bg-backgroundColorA;
+            @apply rounded-5 overflow-hidden;
+
+            & td,
+            & th {
+                @apply px-24 py-12;
+                @apply text-left;
+            }
+            & th {
+                @apply font-mono font-bold leading-150 text-textColor2;
+                @apply border-b-2 border-borderColor6;
+                @apply text-14;
+            }
+            & td {
+                @apply border-b-1 border-borderColor6;
+            }
+            & tr:last-child {
+                & td {
+                    @apply border-b-0;
+                }
+            }
         }
     }
 }

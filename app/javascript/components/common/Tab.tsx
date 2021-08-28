@@ -52,6 +52,7 @@ const TabPanel = ({
   context: React.Context<TabContext>
 }) => {
   const { current } = useContext(context)
+  const style = id !== current ? { display: 'none' } : undefined
 
   return (
     <div
@@ -59,8 +60,8 @@ const TabPanel = ({
       role="tabpanel"
       aria-labelledby={`tab-${id}`}
       tabIndex={0}
-      hidden={id !== current}
       className={`--tab-panel ${className}`}
+      style={style}
     >
       {children}
     </div>

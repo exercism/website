@@ -15,6 +15,7 @@ import '../../css/ui-kit/effects'
 
 import '../../css/tooltips/generic'
 import '../../css/tooltips/base'
+import '../../css/tooltips/mentoring-link'
 import '../../css/tooltips/concept'
 import '../../css/tooltips/user'
 import '../../css/tooltips/exercise'
@@ -60,6 +61,7 @@ import '../../css/components/docs-tracks-list'
 import '../../css/components/iterations-footer'
 import '../../css/components/solution-iterations'
 import '../../css/components/loading-overlay'
+import '../../css/components/loading-suspense'
 
 import '../../css/components/share-panel'
 import '../../css/components/split-pane'
@@ -121,6 +123,7 @@ import '../../css/components/diff'
 import '../../css/components/cli-walkthrough'
 import '../../css/components/cli-walkthrough-button'
 
+import '../../css/modals/bug-report'
 import '../../css/modals/donations-form'
 import '../../css/modals/editor-hints'
 import '../../css/modals/automated-feedback'
@@ -273,7 +276,7 @@ function camelizeKeysAs<T>(object: any): T {
 }
 import currency from 'currency.js'
 
-const renderLoader = () => <p>Loading</p>
+const renderLoader = () => <div className="c-loading-suspense" />
 
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components
@@ -546,10 +549,6 @@ document.addEventListener('turbo:load', () => {
 
 const images = require.context('../images', true)
 const imagePath = (name: any) => images(name)
-
-// Loading overlay events
-import { bindRedirectEvents } from '../utils/redirect-to'
-bindRedirectEvents()
 
 // object.entries polyfill
 if (!Object.entries) {

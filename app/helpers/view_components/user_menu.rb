@@ -56,7 +56,7 @@ module ViewComponents
     end
 
     def reputation_item
-      render ViewComponents::PrimaryReputation.new(current_user)
+      render ViewComponents::Reputation.new(current_user.formatted_reputation, flashy: true)
     end
   end
 end

@@ -40,8 +40,6 @@ body {
 }
 
 .c-react-component {
-    /* width: stretch; */
-
     &.--fitted {
         width: fit-content;
         height: fit-content;

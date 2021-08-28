@@ -98,7 +98,8 @@
                 & .c-icon {
                     height: 48px;
                     width: 48px;
-                    @apply text-gold mr-32;
+                    @apply mr-32;
+                    filter: var(--filter-E2CB2D);
                 }
                 & h3 {
                     @apply text-h4 text-textColor9 mb-4;

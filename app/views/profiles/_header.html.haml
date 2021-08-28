@@ -80,13 +80,11 @@
 
       .external-links
         - if profile.github.present?
-          / TODO
-          = link_to "#" do
+          = link_to "https://github.com/#{profile.github}" do
             = graphical_icon "external-site-github"
 
         - if profile.linkedin.present?
-          / TODO
-          = link_to "#" do
+          = link_to profile.linkedin do
             = graphical_icon "external-site-linkedin"
 
         -# TODO: Need a medium icon
@@ -97,6 +95,5 @@
               = icon "external-link", "This is an external link", css_class: "action-icon"
 
         - if profile.twitter.present?
-          / TODO
-          = link_to "#" do
+          = link_to "https://twitter.com/#{profile.twitter}" do
             = graphical_icon "external-site-twitter"

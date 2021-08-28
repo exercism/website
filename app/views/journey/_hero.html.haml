@@ -20,7 +20,7 @@
         - user_tracks[0, 4].each do |user_track|
           = track_icon(user_track.track)
         - if user_tracks.size > 4
-          .more + #{user_tracks.size - 1} more
+          .more + #{user_tracks.size - 4} more
       = graphical_icon :'chevron-down', css_class: "continue-indicator"
 
 #journey-content

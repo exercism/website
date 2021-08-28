@@ -9,17 +9,6 @@ enum BugReportModalStatus {
   SUCCEEDED = 'succeeded',
 }
 
-const Status = ({ status }: { status: BugReportModalStatus }) => {
-  switch (status) {
-    case BugReportModalStatus.SUCCEEDED:
-      return <p>Thanks for submitting a bug report</p>
-    case BugReportModalStatus.SENDING:
-      return <p>Sending report...</p>
-    default:
-      return null
-  }
-}
-
 export const BugReportModal = ({
   open,
   onClose,
@@ -28,6 +17,10 @@ export const BugReportModal = ({
   open: boolean
   onClose: () => void
 }): JSX.Element => {
+  const handleClose = useCallback(() => {
+    onClose()
+  }, [onClose])
+
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [status, setStatus] = useState(BugReportModalStatus.INITIALIZED)
   const url = document.querySelector<HTMLMetaElement>(
@@ -79,20 +72,46 @@ export const BugReportModal = ({
   }, [open])
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      className="modal-bug-report"
-      {...props}
-    >
-      <Status status={status} />
-      <form data-turbo="false" onSubmit={handleSubmit}>
-        <label htmlFor="content_markdown">Report</label>
-        <textarea id="content_markdown" ref={textareaRef}></textarea>
-        <button type="submit" disabled={!url}>
-          Submit
-        </button>
-      </form>
+    <Modal open={open} onClose={onClose} className="m-bug-report" {...props}>
+      <h3>Report a bug</h3>
+
+      {status == BugReportModalStatus.SUCCEEDED ? (
+        <>
+          <p>Bug report submitted. Thank you!</p>
+          <div className="buttons">
+            <button
+              type="button"
+              className="btn-enhanced btn-s"
+              onClick={handleClose}
+            >
+              Close
+            </button>
+          </div>
+        </>
+      ) : (
+        <form data-turbo="false" onSubmit={handleSubmit}>
+          <label htmlFor="content_markdown">
+            Thanks for reporting. Please tell is what is wrong.
+          </label>
+          <textarea
+            id="content_markdown"
+            ref={textareaRef}
+            placeholder="Please provide as much detail as possible"
+          ></textarea>
+          <div className="buttons">
+            <button type="submit" disabled={!url} className="btn-primary btn-s">
+              Submit bug report
+            </button>
+            <button
+              type="button"
+              className="btn-enhanced btn-s"
+              onClick={handleClose}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      )}
     </Modal>
   )
 }

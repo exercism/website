@@ -9,7 +9,10 @@ module ReactComponents
           {
             discussions_request: discussions_request,
             tracks_request: tracks_request,
-            sort_options: SORT_OPTIONS
+            sort_options: SORT_OPTIONS,
+            links: {
+              queue: Exercism::Routes.mentoring_queue_path
+            }
           }
         )
       end

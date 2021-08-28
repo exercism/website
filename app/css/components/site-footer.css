@@ -90,16 +90,22 @@ body.namespace-.controller-journey {
         & .c-react-wrapper-donations-footer-form {
             width: 100%;
             max-width: 1024px;
+            @apply uses-suspense;
         }
         & .donations-form {
-            @apply flex items-stretch;
-
             & .amounts {
                 @apply flex-grow;
                 @apply grid gap-16;
                 grid-template:
-                    "a b c" auto
-                    "d e e" auto / 1fr 1fr 1fr;
+                    "a b" auto
+                    "c d" auto
+                    "e e" auto / 1fr 1fr;
+
+                @screen sm {
+                    grid-template:
+                        "a b c" auto
+                        "d e e" auto / 1fr 1fr 1fr;
+                }
 
                 & button {
                     @apply text-unnamed15;
@@ -149,8 +155,10 @@ body.namespace-.controller-journey {
                 }
             }
             & .continue-btn {
-                height: auto;
-                width: 250px;
+                @screen md {
+                    width: 250px;
+                    height: auto;
+                }
 
                 @apply bg-limeGreen text-white;
                 & .c-icon {

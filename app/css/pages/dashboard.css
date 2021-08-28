@@ -79,7 +79,7 @@
             }
 
             & .content {
-                @apply flex flex-col;
+                @apply flex flex-col items-start;
             }
 
             & h1 {

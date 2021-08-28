@@ -11,6 +11,8 @@ export const buildEditor = build<Props>({
     panels: {
       instructions: {
         assignment: {
+          overview: '',
+          generalHints: [],
           tasks: [],
         },
       },

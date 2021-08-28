@@ -32,14 +32,10 @@ import { useIterationScrolling } from './session/useIterationScrolling'
 import { SplitPane } from '../common'
 import { FavoritableStudent } from './session/FavoriteButton'
 
-export type Settings = {
-  scroll: boolean
-  click: boolean
-}
-
 export type Links = {
   mentorDashboard: string
   improveNotes: string
+  mentoringDocs: string
 }
 
 export type Scratchpad = {
@@ -58,6 +54,8 @@ export type SessionProps = {
   links: Links
   discussion: Discussion
   iterations: readonly Iteration[]
+  instructions: string
+  tests: string
   userHandle: string
   notes: string
   outOfDate: boolean
@@ -81,6 +79,8 @@ export const Session = (props: SessionProps): JSX.Element => {
     exercise,
     links,
     iterations: initialIterations,
+    instructions,
+    tests,
     discussion,
     notes,
     mentorSolution,
@@ -103,16 +103,12 @@ export const Session = (props: SessionProps): JSX.Element => {
     iterations: initialIterations,
   })
 
-  const [settings, setSettings] = useState({ scroll: false, click: false })
+  const [isLinked, setIsLinked] = useState(false)
   const {
     currentIteration,
     handleIterationClick,
     handleIterationScroll,
-  } = useIterationScrolling({
-    iterations: iterations,
-    isScrollOn: settings.scroll,
-    isClickOn: settings.click,
-  })
+  } = useIterationScrolling({ iterations: iterations, on: isLinked })
 
   return (
     <div className="c-mentor-discussion">
@@ -140,13 +136,15 @@ export const Session = (props: SessionProps): JSX.Element => {
             </header>
             <IterationView
               iterations={iterations}
+              instructions={instructions}
+              tests={tests}
               currentIteration={currentIteration}
               onClick={handleIterationClick}
               isOutOfDate={outOfDate}
               language={track.highlightjsLanguage}
               indentSize={track.indentSize}
-              settings={settings}
-              setSettings={setSettings}
+              isLinked={isLinked}
+              setIsLinked={setIsLinked}
             />
           </>
         }
@@ -207,13 +205,17 @@ export const Session = (props: SessionProps): JSX.Element => {
                   />
                 </Tab.Panel>
                 {discussion ? (
-                  <AddDiscussionPostPanel discussion={discussion} />
+                  <AddDiscussionPostPanel
+                    discussion={discussion}
+                    links={links}
+                  />
                 ) : (
                   <MentoringRequestPanel
                     iterations={iterations}
                     request={request}
                     session={session}
                     setSession={setSession}
+                    links={links}
                   />
                 )}
               </>

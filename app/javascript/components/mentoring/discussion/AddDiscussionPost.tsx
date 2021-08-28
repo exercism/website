@@ -4,11 +4,12 @@ import { AddDiscussionPostForm } from './AddDiscussionPostForm'
 
 export const AddDiscussionPost = ({
   discussion,
+  children,
   onSuccess = () => null,
-}: {
+}: React.PropsWithChildren<{
   discussion: MentorDiscussion
   onSuccess?: () => void
-}): JSX.Element => {
+}>): JSX.Element => {
   const [stillPosting, setStillPosting] = useState(!discussion.isFinished)
 
   const handleSuccess = useCallback(() => {
@@ -21,17 +22,13 @@ export const AddDiscussionPost = ({
 
   if (stillPosting) {
     return (
-      <>
+      <React.Fragment>
         <AddDiscussionPostForm
           discussion={discussion}
           onSuccess={handleSuccess}
         />
-
-        <div className="note">
-          Check out our {/* TODO: (required) */}
-          <a href="#">mentoring docs</a> and be the best mentor you can be.
-        </div>
-      </>
+        {children}
+      </React.Fragment>
     )
   } else {
     return (

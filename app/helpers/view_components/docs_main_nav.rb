@@ -38,6 +38,10 @@ module ViewComponents
     end
 
     def rhs
+      return nil
+
+      # TODO: (Optional): Implement this eventually
+      # rubocop:disable Lint/UnreachableCode
       tag.nav do
         tag.ul do
           safe_join(
@@ -48,6 +52,7 @@ module ViewComponents
           )
         end
       end
+      # rubocop:enable Lint/UnreachableCode
     end
 
     def li_link(title, section)

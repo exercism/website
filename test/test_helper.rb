@@ -267,7 +267,7 @@ class ActionDispatch::IntegrationTest
   def assert_rendered_404
     # TODO: (optional) Why doesn't this work?
     # assert_template file: "#{Rails.root}/public/404.html"
-    assert_includes response.body, "The page you were looking for doesn't exist"
+    assert_includes response.body, "Page not found"
   end
 end
 

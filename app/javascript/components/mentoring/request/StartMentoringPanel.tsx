@@ -58,8 +58,8 @@ export const StartMentoringPanel = ({
         Start mentoring
       </button>
       <div className="note">
-        You get 30 minutes to comment until the session returns to the queue for
-        others to mentor
+        You have 30 minutes until the session returns to the queue for others to
+        mentor.
       </div>
       {status === 'loading' ? <Loading /> : null}
       <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[status]}>

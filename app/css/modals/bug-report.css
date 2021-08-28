@@ -1,0 +1,29 @@
+@import "../styles";
+
+.m-bug-report.c-modal:not(.--cover) {
+    & .--modal-content {
+        width: 100%;
+        max-width: 600px;
+        @apply p-24;
+        @apply flex flex-col;
+    }
+    & h3 {
+        @apply text-h4 mb-8;
+    }
+    & label,
+    & p {
+        @apply block;
+        @apply text-16 leading-150 font-medium text-textColor2;
+        @apply mb-12;
+    }
+    & textarea {
+        @apply w-100 mb-16;
+        height: 132px;
+    }
+    & .buttons {
+        @apply flex items-center;
+        & button {
+            @apply mr-16;
+        }
+    }
+}

@@ -1,3 +1,6 @@
+- content_for :meta_title, "#{@solution.user.handle}'s solution for #{@exercise.title} in #{@track.title} on Exercism"
+- content_for :meta_description, "Learn from how #{@solution.user.handle} solved #{@exercise.title} in #{@track.title}, and learn how others have solved the exercise."
+
 #page-community-solution
   .c-exercise-header
     .c-track-breadcrumbs
@@ -46,9 +49,10 @@
 
         = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
 
-        = link_to "#comments", "data-turbolinks": "false", class: 'comments-button btn-enhanced btn-s' do
-          = icon "comment", "Number of comment"
-          %span= @solution.num_comments
+        - if @solution.allow_comments?
+          = link_to "#comments", "data-turbolinks": "false", class: 'comments-button btn-enhanced btn-s' do
+            = icon "comment", "Number of comment"
+            %span= @solution.num_comments
 
   %article.lg-container.container
     .lhs
@@ -71,7 +75,6 @@
 
             = render ViewComponents::Reputation.new("+5", size: :small, flashy: true)
 
-      / kntsoriano - Make this into a React component
       %a{ name: "comments" }
       = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
 

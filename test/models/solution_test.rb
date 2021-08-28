@@ -150,24 +150,24 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal instructions, solution.instructions
   end
 
-  test "#exercise_solution_files returns exercise files" do
+  test "#exercise_files_for_editor returns exercise files" do
     exercise = create :concept_exercise
     solution = create :concept_solution, exercise: exercise
 
     expected_filenames = ["log_line_parser.rb"]
-    assert_equal expected_filenames, solution.exercise_solution_files.keys
-    file = solution.exercise_solution_files["log_line_parser.rb"]
+    assert_equal expected_filenames, solution.exercise_files_for_editor.keys
+    file = solution.exercise_files_for_editor["log_line_parser.rb"]
     assert file[:content].start_with?("module LogLineParser")
     assert_equal :exercise, file[:type]
   end
 
-  test "#solution_files returns solution files" do
+  test "#files_for_editor returns solution files" do
     exercise = create :concept_exercise
     solution = create :concept_solution, exercise: exercise
 
     expected_filenames = ["log_line_parser.rb"]
-    assert_equal expected_filenames, solution.solution_files.keys
-    file = solution.solution_files["log_line_parser.rb"]
+    assert_equal expected_filenames, solution.files_for_editor.keys
+    file = solution.files_for_editor["log_line_parser.rb"]
     assert file[:content].start_with?("module LogLineParser")
     assert_equal :exercise, file[:type]
 
@@ -177,13 +177,13 @@ class SolutionTest < ActiveSupport::TestCase
     create :submission_file, submission: submission, filename: "something_else.rb", content: "foobar2"
 
     expected_filenames = ["log_line_parser.rb", "something_else.rb"]
-    assert_equal expected_filenames, solution.solution_files.keys
+    assert_equal expected_filenames, solution.files_for_editor.keys
 
-    file_1 = solution.solution_files["log_line_parser.rb"]
+    file_1 = solution.files_for_editor["log_line_parser.rb"]
     assert "foobar1", file_1[:content]
     assert_equal :solution, file_1[:type]
 
-    file_2 = solution.solution_files["something_else.rb"]
+    file_2 = solution.files_for_editor["something_else.rb"]
     assert "foobar2", file_2[:content]
     assert_equal :legacy, file_2[:type]
   end

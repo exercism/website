@@ -1,3 +1,6 @@
+- content_for :meta_title, "Exercism's Team"
+- content_for :meta_description, "Learn who runs Exercism, out trustees, leadership and full-time time."
+
 #page-team
   %header.pb-32.md:pb-64
     .lg-container.flex.flex-col.items-center.c-shapes.c-shapes-1
@@ -93,8 +96,12 @@
               %h3
                 = link_to "Erik Schierboom", "https://twitter.com/ErikSchierboom"
               .handle @erikschierboom
-              %p Erik works full-time for Exercism, building the software and infrastructure that powers the open-source elements of the platform. Before joining Exercism he was one of our top volunteers, and maintained the C# and F# tracks.
+              %p Erik works full-time for Exercism, building the software and infrastructure that powers the open-source elements of the platform, and ensuring each track a joy to work with. He was a top Exercism volunteer before joining full-time. He is a polyglot developer who loves to learn new languages.
               %ul.links
+                %li
+                  = link_to "https://www.erikschierboom.com" do
+                    = graphical_icon "link"
+                    %span Erik's personal site
                 %li
                   = link_to "https://github.com/erikschierboom" do
                     = graphical_icon "external-site-github"
@@ -110,8 +117,12 @@
               %h3
                 = link_to "Karlo Soriano", "https://twitter.com/kntsoriano"
               .handle @kntsoriano
-              %p Karlo works on the website part of Exercism. He has created most of the website's interactive frontend content in React, and contributed to much of the Rails backend platform. In his spare times he is a semi-professional drummer and music producer.
+              %p Karlo works on the website part of Exercism. He has created most of the website's interactive frontend content in React, and contributed to much of the Rails backend platform. In his spare times he is a semi-professional drummer and music producer. Karlo is also part of the team at #{link_to 'Kaido', 'https://kaido.org'}.
               %ul.links
+                %li
+                  = link_to "http://kntsoriano.me/" do
+                    = graphical_icon "link"
+                    %span Karlo's personal site
                 %li
                   = link_to "https://github.com/kntsoriano" do
                     = graphical_icon "external-site-github"
@@ -127,7 +138,7 @@
               %h3
                 = link_to "Taiyab Raja", "https://taiyab.co.uk/"
               .handle @taiyab
-              %p Taiyab is a seasoned UI/UX designer responsible for designing Exercism v3. If you think Exercism looks pretty, he's the man to thank. Taiyab enjoys all things startups, design and entrepreneurship.
+              %p Taiyab is a seasoned UI/UX designer responsible for designing Exercism v3. If you think Exercism looks and feels awesome, he’s the man to thank. Taiyab enjoys all things startups, design and entrepreneurship.
               %ul.links
                 %li
                   = link_to "https://taiyab.co.uk" do
@@ -142,10 +153,10 @@
                     = graphical_icon "external-site-github"
                     %span GitHub
 
-      %section.allumni-team.mb-64
+      %section.alumni-team.mb-64
         %header.mb-32
           = graphical_icon "staff-team"
-          %h2.text-h3.mb-12 Allumni
+          %h2.text-h3.mb-12 Alumni
           %p.text-p-large People who have previously worked full-time at Exercism and since moved onto new adventures. Their legacies are gratefully remembered!
 
         .grid.grid-cols-1.md:grid-cols-2.gap-16.md:gap-32

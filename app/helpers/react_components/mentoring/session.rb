@@ -21,6 +21,8 @@ module ReactComponents
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,
+            instructions: Markdown::Parse.(solution.instructions),
+            tests: solution.tests,
             student: SerializeStudent.(
               student,
               current_user,
@@ -34,8 +36,7 @@ module ReactComponents
             scratchpad: {
               is_introducer_hidden: current_user&.introducer_dismissed?("scratchpad"),
               links: {
-                # TODO
-                markdown: "#",
+                markdown: Exercism::Routes.doc_url(:mentoring, "markdown"),
                 hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
                 self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
               }
@@ -57,7 +58,8 @@ module ReactComponents
         {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
-          improve_notes: "https://github.com/exercism/website-copy/edit/main/tracks/#{track.slug}/exercises/#{exercise.slug}/mentoring.md"
+          improve_notes: "https://github.com/exercism/website-copy/edit/main/tracks/#{track.slug}/exercises/#{exercise.slug}/mentoring.md",
+          mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
         }
       end
 

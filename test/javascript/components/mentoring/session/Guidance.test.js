@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { Guidance } from '../../../../../app/javascript/components/mentoring/session/Guidance'
 
 test('how you solved the exercise is open by default', async () => {
-  render(<Guidance />)
+  render(<Guidance feedback={{}} />)
 
   expect(screen.getByRole('button', { name: 'Mentor notes' })).toHaveAttribute(
     'aria-expanded',
@@ -17,7 +17,7 @@ test('how you solved the exercise is open by default', async () => {
 })
 
 test('open and close same accordion', async () => {
-  render(<Guidance />)
+  render(<Guidance feedback={{}} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Mentor notes' }))
 
@@ -27,7 +27,7 @@ test('open and close same accordion', async () => {
 })
 
 test('only one accordion is open at a time', async () => {
-  render(<Guidance />)
+  render(<Guidance feedback={{}} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Automated feedback' }))
 

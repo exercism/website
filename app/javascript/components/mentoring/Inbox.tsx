@@ -37,14 +37,20 @@ export type Request = BaseRequest<{
   trackSlug?: string
 }>
 
+type Links = {
+  queue: string
+}
+
 export const Inbox = ({
   tracksRequest,
   sortOptions,
   discussionsRequest,
+  links,
 }: {
   tracksRequest: Request
   discussionsRequest: Request
   sortOptions: readonly SortOption[]
+  links: Links
 }): JSX.Element => {
   const [criteria, setCriteria] = useState(
     discussionsRequest.query?.criteria || ''
@@ -152,6 +158,7 @@ export const Inbox = ({
             status={status}
             refetch={refetch}
             setPage={setPage}
+            links={links}
           />
         </ResultsZone>
       </div>

@@ -31,10 +31,12 @@ export const Guidance = ({
   notes,
   mentorSolution,
   links,
+  feedback = false,
 }: {
   notes: string
   mentorSolution?: CommunitySolutionProps
   links: Links
+  feedback?: any
 }): JSX.Element => {
   const [accordionState, setAccordionState] = useState([
     {
@@ -102,19 +104,21 @@ export const Guidance = ({
           </Accordion.Panel>
         </Accordion>
       ) : null}
-      <Accordion
-        id="feedback"
-        isOpen={isOpen('feedback')}
-        onClick={handleClick}
-      >
-        <AccordionHeader
+      {feedback ? (
+        <Accordion
+          id="feedback"
           isOpen={isOpen('feedback')}
-          title="Automated feedback"
-        />
-        <Accordion.Panel>
-          <p>Feedback here</p>
-        </Accordion.Panel>
-      </Accordion>
+          onClick={handleClick}
+        >
+          <AccordionHeader
+            isOpen={isOpen('feedback')}
+            title="Automated feedback"
+          />
+          <Accordion.Panel>
+            <p>Feedback here</p>
+          </Accordion.Panel>
+        </Accordion>
+      ) : null}
     </>
   )
 }

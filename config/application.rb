@@ -28,6 +28,8 @@ module Website
     config.active_record.default_timezone = :utc
     config.action_view.form_with_generates_remote_forms = false
 
+    config.exceptions_app = self.routes
+
     config.generators do |g|
       g.assets false
       g.helper false

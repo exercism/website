@@ -54,7 +54,7 @@ class Exercise < ApplicationRecord
     joins(:track).find_by('tracks.slug': track_slug, slug: exercise_slug)
   end
 
-  delegate :solution_files, :introduction, :instructions, :source, :source_url, to: :git
+  delegate :files_for_editor, :introduction, :instructions, :source, :source_url, to: :git
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha

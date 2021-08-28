@@ -454,14 +454,17 @@ module Components
       end
 
       test "mentor sees mentor notes" do
+        TestHelpers.use_website_copy_test_repo!
+
         mentor = create :user, handle: "author"
-        exercise = create :concept_exercise, slug: "clock"
+        exercise = create :concept_exercise, slug: "lasagna"
         solution = create :concept_solution, exercise: exercise
         discussion = create :mentor_discussion,
           solution: solution,
           mentor: mentor,
           awaiting_mentor_since: 1.day.ago
-        create :iteration, solution: solution
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
 
         use_capybara_host do
           sign_in!(mentor)
@@ -469,7 +472,7 @@ module Components
           click_on "Guidance"
         end
 
-        assert_css "h3", text: "Talking points"
+        assert_text "These are notes for lasagna"
       end
 
       test "mentor sees own solution" do

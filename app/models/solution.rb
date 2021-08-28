@@ -37,6 +37,8 @@ class Solution < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :not_published, -> { where(published_at: nil) }
 
+  delegate :files_for_editor, to: :exercise, prefix: :exercise
+
   before_create do
     # Search engines derive meaning by using hyphens
     # as word-boundaries in URLs. Since we use the
@@ -184,26 +186,15 @@ class Solution < ApplicationRecord
     git_important_files_hash != exercise.git_important_files_hash
   end
 
-  def exercise_solution_files
-    exercise.solution_files.transform_values do |content|
-      {
-        type: :exercise,
-        content: content
-      }
-    end
-  end
-
   def external_mentoring_request_url
     Exercism::Routes.mentoring_external_request_url(public_uuid)
   end
 
-  def solution_files
-    files = exercise_solution_files
-
+  def files_for_editor
     submission = submissions.last
-    return files unless submission
+    return exercise.files_for_editor unless submission
 
-    submission.solution_files
+    submission.files_for_editor
   end
 
   def broadcast!

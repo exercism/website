@@ -6,17 +6,19 @@ module Flows
     include CapybaraHelpers
 
     test "mentor views previous session" do
+      TestHelpers.use_website_copy_test_repo!
+
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
 
-      lasagna = create :concept_exercise, slug: "lasagna"
-      solution = create :concept_solution, exercise: lasagna, user: student
-      lasagna_discussion = create :mentor_discussion, :finished, solution: solution, mentor: mentor
+      running = create :concept_exercise, slug: "running"
+      solution = create :concept_solution, exercise: running, user: student
+      running_discussion = create :mentor_discussion, :finished, solution: solution, mentor: mentor
       submission = create :submission, solution: solution
       create :iteration, submission: submission
 
-      running = create :concept_exercise, slug: "running"
-      solution = create :concept_solution, exercise: running, user: student
+      lasagna = create :concept_exercise, slug: "lasagna"
+      solution = create :concept_solution, exercise: lasagna, user: student
       discussion = create :mentor_discussion, solution: solution, mentor: mentor
       submission = create :submission, solution: solution
       create :iteration, submission: submission
@@ -30,17 +32,19 @@ module Flows
 
         assert_text "You have 1 previous discussion"
         assert_text "student-123"
-        assert_link "Lasagna", href: Exercism::Routes.mentoring_discussion_url(lasagna_discussion)
+        assert_link "Running", href: Exercism::Routes.mentoring_discussion_url(running_discussion)
       end
     end
 
     test "mentor favorites a student" do
+      TestHelpers.use_website_copy_test_repo!
+
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
       create :mentor_student_relationship, mentor: mentor, student: student, num_discussions: 2
 
-      running = create :concept_exercise, slug: "running"
-      solution = create :concept_solution, exercise: running, user: student
+      lasagna = create :concept_exercise, slug: "lasagna"
+      solution = create :concept_solution, exercise: lasagna, user: student
       discussion = create :mentor_discussion, solution: solution, mentor: mentor
       submission = create :submission, solution: solution
       create :iteration, submission: submission

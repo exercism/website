@@ -5,18 +5,24 @@ import { APIResponse } from '../Inbox'
 import { QueryStatus } from 'react-query'
 import { RefetchOptions } from 'react-query/types/core/query'
 
+type Links = {
+  queue: string
+}
+
 export const DiscussionList = ({
   resolvedData,
   latestData,
   refetch,
   status,
   setPage,
+  links,
 }: {
   resolvedData: APIResponse | undefined
   latestData: APIResponse | undefined
   status: QueryStatus
   setPage: (page: number) => void
   refetch: (options?: RefetchOptions) => Promise<APIResponse | undefined>
+  links: Links
 }): JSX.Element => {
   return (
     <div>
@@ -35,8 +41,7 @@ export const DiscussionList = ({
             <div className="--no-results">
               <GraphicalIcon icon="mentoring" category="graphics" />
               <h3>No mentoring discussions</h3>
-              {/* TODO: (required) Drive this URL from the component */}
-              <a href="/mentoring/queue" className="btn-simple">
+              <a href={links.queue} className="btn-simple">
                 Mentor a new solution
               </a>
             </div>

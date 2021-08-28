@@ -5,7 +5,11 @@ import { OpenEditorButton } from '../../../../app/javascript/components/student/
 
 test('disabled when status is locked', async () => {
   const { container } = render(
-    <OpenEditorButton command="command" status="locked" links={null} />
+    <OpenEditorButton
+      command="command"
+      status="locked"
+      links={{ local: 'https://exercism.test/solving-locally ' }}
+    />
   )
 
   expect(container.firstChild).toHaveAttribute(
@@ -20,7 +24,7 @@ test('shows button to start exercise when available', async () => {
     <OpenEditorButton
       command="command"
       status="available"
-      links={{ start: '' }}
+      links={{ start: '', local: 'https://exercism.test/solving-locally' }}
     />
   )
 
@@ -34,7 +38,10 @@ test('shows link to exercise when completed', async () => {
     <OpenEditorButton
       status="completed"
       command="command"
-      links={{ exercise: 'https://exercism.test/exercise' }}
+      links={{
+        exercise: 'https://exercism.test/exercise',
+        local: 'https://exercism.test/solving-locally',
+      }}
     />
   )
 
@@ -49,7 +56,10 @@ test('shows link to exercise when published', async () => {
     <OpenEditorButton
       status="published"
       command="command"
-      links={{ exercise: 'https://exercism.test/exercise' }}
+      links={{
+        exercise: 'https://exercism.test/exercise',
+        local: 'https://exercism.test/solving-locally',
+      }}
     />
   )
 
@@ -64,7 +74,10 @@ test('shows link to exercise when other status', async () => {
     <OpenEditorButton
       status="iterated"
       command="command"
-      links={{ exercise: 'https://exercism.test/exercise' }}
+      links={{
+        exercise: 'https://exercism.test/exercise',
+        local: 'https://exercism.test/solving-locally',
+      }}
     />
   )
 

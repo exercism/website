@@ -9,15 +9,22 @@ import { typecheck } from '../../../utils/typecheck'
 import { useMutation } from 'react-query'
 import { MarkdownEditorForm } from '../../common/MarkdownEditorForm'
 import { redirectTo } from '../../../utils/redirect-to'
+import { MentoringNote } from '../session/MentoringNote'
 
 const DEFAULT_ERROR = new Error('Unable to start discussion')
+
+type Links = {
+  mentoringDocs: string
+}
 
 export const StartDiscussionPanel = ({
   iterations,
   request,
+  links,
 }: {
   iterations: readonly Iteration[]
   request: Request
+  links: Links
 }): JSX.Element => {
   const contextId = `start-discussion-request-${request.uuid}`
   const [state, setState] = useState({
@@ -83,11 +90,7 @@ export const StartDiscussionPanel = ({
         defaultError={DEFAULT_ERROR}
         action="new"
       />
-      {/* TODO: (optional) Extract into common component with the other identical notes in app/javascript/components/mentoring/discussion/AddDiscussionPost.tsx */}
-      <div className="note">
-        Check out our {/* TODO: (required) */}
-        <a href="#">mentoring docs</a> and be the best mentor you can be.
-      </div>
+      <MentoringNote links={links} />
     </section>
   )
 }

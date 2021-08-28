@@ -6,7 +6,7 @@ module ReactComponents
           token: current_user.auth_token,
           links: {
             reset: Exercism::Routes.reset_api_settings_auth_token_url,
-            info: "#"
+            info: Exercism::Routes.doc_url(:using, "solving-exercises/working-locally")
           }
         })
       end

@@ -376,12 +376,22 @@ Rails.application.routes.draw do
   ##############
   get "health-check", to: 'pages#health_check'
 
+  ##########
+  # Errors #
+  ##########
+  get "/404", to: "errors#not_found"
+  get "/422", to: "errors#unacceptable"
+  get "/500", to: "errors#internal_error"
+  get "/503", to: "errors#internal_error"
+
   #########
   # Pages #
   #########
   get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
   get "about" => "pages#about", as: :about_page
   get "team" => "pages#team", as: :team_page
+
+  get "site.webmanifest" => "meta#site_webmanifest"
 
   #################
   # Legacy routes #
@@ -405,7 +415,7 @@ Rails.application.routes.draw do
   get "terms-of-service", to: redirect("docs/using/legal/terms-of-service")
   get "privacy-policy", to: redirect("docs/using/legal/privacy-policy")
   get "cookie-policy", to: redirect("docs/using/legal/cookie-policy")
-  get "code-of-conduct", to: redirect("docs/using/legal/code-of-conduct")
+  get "code-of-conduct", to: redirect("docs/using/legal/code-of-conduct"), as: :code_of_conduct
   get "accessibility", to: redirect("docs/using/legal/accessibility")
   get "contact", to: redirect("docs/using/contact")
   get "cli", to: redirect("docs/using/solving-exercises/working-locally")

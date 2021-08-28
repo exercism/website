@@ -63,6 +63,21 @@ module Components
       end
     end
 
+    test "hides hints button if there are no hints" do
+      user = create :user
+      track = create :track
+      exercise = create :practice_exercise, track: track, slug: "allergies"
+      create :user_track, track: track, user: user
+      create :practice_solution, user: user, exercise: exercise
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+      end
+
+      assert_no_css ".hints-btn"
+    end
+
     test "user runs tests and tests pass - v2 test runner" do
       user = create :user
       track = create :track
@@ -447,10 +462,10 @@ module Components
         visit edit_track_exercise_path(track, exercise)
         find(".more-btn").click
         click_on("Report a bug")
-        fill_in "Report", with: "I found a bug"
-        click_on "Submit"
+        fill_in "Please provide as much detail as possible", with: "I found a bug"
+        click_on "Submit bug report"
 
-        assert_text "Thanks for submitting a bug report"
+        assert_text "Bug report submitted. Thank you!"
       end
     end
 

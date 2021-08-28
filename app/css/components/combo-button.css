@@ -16,11 +16,13 @@
         }
     }
 
-    &:not(.--disabled):hover {
-        @apply bg-purple;
+    &:not(.--disabled) {
+        &:hover {
+            @apply bg-purple !important;
+        }
 
-        & .--primary-segment,
-        & .--dropdown-segment {
+        & .--primary-segment:hover,
+        & .--dropdown-segment:hover {
             @apply bg-purpleDarkened;
         }
     }

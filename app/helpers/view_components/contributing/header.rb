@@ -22,7 +22,7 @@ module ViewComponents
                 safe_join(
                   [
                     "Exercism is an ",
-                    link_to("open source, not-for-profit project", "#"),
+                    link_to("open source, not-for-profit project", Exercism::Routes.about_page_path),
                     " built by people from all backgrounds. With over one hundred dedicated maintainers and thousands of contributors, our goal is to create the best, free, code learning platform on the web." # rubocop:disable Layout/LineLength
                   ]
                 )
@@ -36,7 +36,7 @@ module ViewComponents
       def nav
         tag.div(class: 'lg-container nav-container') do
           tag.div(safe_join(tabs), class: 'tabs') +
-            link_to(Exercism::Routes.docs_section_path(:mentoring), class: "c-tab-2 guides") do
+            link_to(Exercism::Routes.docs_section_path(:building), class: "c-tab-2 guides") do
               graphical_icon(:guides) + tag.span("Contributing Help")
             end
         end

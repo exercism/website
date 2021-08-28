@@ -10,11 +10,6 @@ module LayoutHelper
     classes.join(" ")
   end
 
-  # TOOD (Required)
-  def page_title
-    "Exercism #{SecureRandom.uuid}"
-  end
-
   def js_packs
     [
       ('application' unless landing_page?),

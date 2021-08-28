@@ -462,10 +462,10 @@ module Components
         visit edit_track_exercise_path(track, exercise)
         find(".more-btn").click
         click_on("Report a bug")
-        fill_in "Report", with: "I found a bug"
-        click_on "Submit"
+        fill_in "Please provide as much detail as possible", with: "I found a bug"
+        click_on "Submit bug report"
 
-        assert_text "Thanks for submitting a bug report"
+        assert_text "Bug report submitted. Thank you!"
       end
     end
 

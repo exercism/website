@@ -14,6 +14,10 @@
     width: 100%;
     height: 100%;
 
+    & .editor-status {
+        @apply px-20;
+    }
+
     & .header {
         @apply bg-backgroundColorA;
         @apply border-b-1 border-borderColor6;

@@ -55,6 +55,7 @@ module Mentoring
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
+            improve_notes: exercise.edit_mentoring_notes_url,
             mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
           }
         }
@@ -119,6 +120,7 @@ module Mentoring
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
+            improve_notes: exercise.edit_mentoring_notes_url,
             mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
           }
         }
@@ -180,6 +182,7 @@ module Mentoring
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
+            improve_notes: exercise.edit_mentoring_notes_url,
             mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
           }
         }

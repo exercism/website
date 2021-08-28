@@ -5,7 +5,7 @@ class SerializeMentorSessionExerciseTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
 
     expected = {
-      id: exercise.slug,
+      slug: exercise.slug,
       title: exercise.title,
       icon_url: exercise.icon_url,
       links: {

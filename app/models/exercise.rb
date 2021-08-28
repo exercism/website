@@ -108,6 +108,10 @@ class Exercise < ApplicationRecord
     "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
   end
 
+  def edit_mentoring_notes_url
+    "https://github.com/exercism/website-copy/edit/main/tracks/#{track.slug}/exercises/#{slug}/mentoring.md"
+  end
+
   def prerequisite_exercises
     ConceptExercise.that_teach(prerequisites).distinct
   end

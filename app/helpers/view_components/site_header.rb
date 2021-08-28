@@ -95,7 +95,7 @@ module ViewComponents
               # TODO: (Required) Change to root_path at launch
               si_nav_li("Home", :home, Exercism::Routes.landing_page_path, selected_tab == :dashboard),
               si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
-              # tag.li { "What is Exercism?", "#" ) , #TODO: (Required) Link to about page
+              # tag.li { "What is Exercism?", about_page_path )
               si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing),
               si_nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_path, selected_tab == :mentoring),
               si_nav_li("Donate 💜", :donate, Exercism::Routes.donate_path, selected_tab == :donate)

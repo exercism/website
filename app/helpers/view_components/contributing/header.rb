@@ -22,7 +22,7 @@ module ViewComponents
                 safe_join(
                   [
                     "Exercism is an ",
-                    link_to("open source, not-for-profit project", "#"),
+                    link_to("open source, not-for-profit project", Exercism::Routes.about_page_path),
                     " built by people from all backgrounds. With over one hundred dedicated maintainers and thousands of contributors, our goal is to create the best, free, code learning platform on the web." # rubocop:disable Layout/LineLength
                   ]
                 )

@@ -9,7 +9,7 @@
         %h3 Get mentored the #{track.title} way
         / TODO: Use correct counts
         %p Every language has its own way of doing things. #{track.title} is no different. Lorem ipsum in erat congue cursus. Donec dignissim accumsan elit, quis tristique massa scelerisque sed. Quisque tellus augue, laoreet in sem non, feugiat dictum leo. Morbi ac enim ut nulla vulputate pulvinar congue non velit.
-        = render ViewComponents::ProminentLink.new("Learn more about mentoring", "#")
+        = render ViewComponents::ProminentLink.new("Learn more about mentoring", mentoring_path)
       .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:ml-64
         = graphical_icon 'mentoring', category: :graphics, css_class: 'graphic '
 

@@ -1,5 +1,4 @@
-/ TODO
-= link_to "#", class: "stats-box" do
+= link_to track_exercises_path(track, status: :available), class: "stats-box" do
   .info
     .count= user_track.num_available_exercises
     %h3

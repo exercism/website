@@ -30,6 +30,7 @@ export const LegacyFileBanner = ({
           <GraphicalIcon icon="trash" />
           <span>Delete file...</span>
         </button>
+        {/* TODO */}
         <ProminentLink link="#" text="Learn More" external={true} />
       </div>
       <DeleteFileModal

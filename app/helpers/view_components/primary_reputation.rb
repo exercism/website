@@ -9,6 +9,7 @@ module ViewComponents
 
     # TODO: (Optional) Move this to React and add Websockets
     def to_s
+      # TODO
       link_to("#", class: "c-primary-reputation", 'aria-label': "#{@user.reputation} reputation") do
         tags = [
           icon(:reputation, "Reputation"),

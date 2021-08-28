@@ -21,12 +21,7 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
           )}
           </a>
 
-          <div class="c-combo-button">
-            <a class="--primary-segment" href="/tracks/ruby/exercises/bob/edit">Continue in Editor</a>
-            <div class="--dropdown-segment">
-              #{graphical_icon('chevron-down')}
-            </div>
-          </div>
+          #{render ReactComponents::Student::OpenEditorButton.new(exercise, user_track)}
         </header>
       </div>
     HTML

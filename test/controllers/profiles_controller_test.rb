@@ -100,4 +100,37 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   test "testimonials doesn't include unpublished testimonials" do
     skip # TODO: (optional)
   end
+
+  test "testimonials redirects to profile page if user does not have contributions" do
+    user = create :user
+    create :user_profile, user: user
+
+    get testimonials_profile_url(user)
+
+    assert_redirected_to profile_path(user)
+  end
+
+  #################
+  # Contributions #
+  #################
+  test "contributions redirects to profile page if user does not have contributions" do
+    user = create :user
+    create :user_profile, user: user
+
+    get contributions_profile_url(user)
+
+    assert_redirected_to profile_path(user)
+  end
+
+  #############
+  # Solutions #
+  #############
+  test "solutions redirects to profile page if user does not have solutions" do
+    user = create :user
+    create :user_profile, user: user
+
+    get solutions_profile_url(user)
+
+    assert_redirected_to profile_path(user)
+  end
 end

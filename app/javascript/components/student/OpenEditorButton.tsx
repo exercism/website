@@ -57,7 +57,7 @@ export const OpenEditorButton = (
             <h3>Download and work locally</h3>
             <p>
               Prefer to use the tools you&apos;re familiar with, than our online
-              editor? No problem! You can download this exericse and work on it
+              editor? No problem! You can download this exercise and work on it
               locally, then submit it when you&apos;re happy.
             </p>
             <CopyToClipboardButton textToCopy={props.command} />

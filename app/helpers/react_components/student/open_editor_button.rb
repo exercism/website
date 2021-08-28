@@ -11,8 +11,7 @@ module ReactComponents
           {
             status: status,
             command: command,
-            # TODO: change this
-            editor_enabled: false,
+            editor_enabled: exercise.has_test_runner?,
             links: links
           }
         )

@@ -16,6 +16,11 @@
         }
     }
 
+    & .--primary-segment:disabled {
+        opacity: 0.8;
+        cursor: not-allowed;
+    }
+
     &:not(.--disabled) {
         &:hover {
             @apply bg-purple !important;
@@ -23,7 +28,9 @@
 
         & .--primary-segment:hover,
         & .--dropdown-segment:hover {
-            @apply bg-purpleDarkened;
+            &:not(.--disabled):not(:disabled) {
+                @apply bg-purpleDarkened;
+            }
         }
     }
 

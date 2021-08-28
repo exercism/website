@@ -85,6 +85,10 @@ class Exercise < ApplicationRecord
     slug == "hello-world"
   end
 
+  def has_test_runner?
+    super && track.has_test_runner?
+  end
+
   def to_param
     slug
   end

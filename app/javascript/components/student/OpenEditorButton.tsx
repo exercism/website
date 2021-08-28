@@ -140,11 +140,16 @@ const ButtonTooltip = ({
     | undefined
 }): JSX.Element | null => {
   if (!editorEnabled) {
-    return (
-      <GenericTooltip content="The editor is not available for this exercise">
-        {children}
-      </GenericTooltip>
+    const content = (
+      <>
+        <p>
+          The online editor is not available for this exercise. Solve this
+          exercise locally and submit it via the CLI.
+        </p>
+        <p>Click the arrow to the right for more information.</p>
+      </>
     )
+    return <GenericTooltip content={content}>{children}</GenericTooltip>
   }
 
   if (status === 'locked') {

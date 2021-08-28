@@ -5,6 +5,7 @@ FactoryBot.define do
     blurb { 'Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.' } # rubocop:disable Layout/LineLength
     repo_url { TestHelpers.git_repo_url("track-with-exercises") }
     synced_to_git_sha { "HEAD" }
+    has_test_runner { true }
 
     trait :random_slug do
       slug { SecureRandom.hex }

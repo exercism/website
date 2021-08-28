@@ -8,6 +8,7 @@
       - if current_user.unconfirmed_email.present?
         .unconfirmed-email
           %span We've sent a confirmation email to #{current_user.unconfirmed_email}
+          - # TODO
           = render ViewComponents::ProminentLink.new("Resend email", "#")
 
       %section

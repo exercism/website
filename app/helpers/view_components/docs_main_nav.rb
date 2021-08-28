@@ -42,7 +42,9 @@ module ViewComponents
         tag.ul do
           safe_join(
             [
+              # TODO
               tag.li(class: 'api') { link_to "🎉  Exercism API", "#" },
+              # TODO
               tag.li { link_to "Support", "#" }
             ]
           )

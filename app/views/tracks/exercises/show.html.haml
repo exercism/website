@@ -48,6 +48,7 @@
       %section.extra-info
         .updated-at Last updated #{@exercise.updated_at.strftime('%e %B %Y')}
 
+        - # TODO
         = link_to "#", target: "_blank", rel: 'noopener' do
           = graphical_icon "external-site-github", css_class: "github-icon"
           %span Edit via GitHub

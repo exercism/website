@@ -9,6 +9,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
           tracks: [],
           links: {
             solutions: Exercism::Routes.solutions_journey_url,
+            # TODO
             fable: "#"
           }
         },

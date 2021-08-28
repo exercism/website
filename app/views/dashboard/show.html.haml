@@ -70,12 +70,14 @@
           .posts
             - @blog_posts.each do |post|
               = render ViewComponents::BlogPost.new(post)
+          - # TODO
           = render ViewComponents::ProminentLink.new("See all community posts", "#")
 
         %section.activity-section
           %h2 New on Exercism
           = render ReactComponents::Common::SiteUpdatesList.new(@updates, :track)
 
+          - # TODO
           = render ViewComponents::ProminentLink.new("See all updates", "#")
 
       .rhs

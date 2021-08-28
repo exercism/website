@@ -20,6 +20,7 @@ module ReactComponents
           # TODO: (Optional) Add test for published
           testimonials: SerializeMentorTestimonials.(user.mentor_testimonials.published.limit(3)),
           links: {
+            # TODO
             all: profile.testimonials_tab? ? "#" : nil
           }
         })

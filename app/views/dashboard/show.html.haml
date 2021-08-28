@@ -70,7 +70,7 @@
           .posts
             - @blog_posts.each do |post|
               = render ViewComponents::BlogPost.new(post)
-          = render ViewComponents::ProminentLink.new("See all community posts", blog_path)
+          = render ViewComponents::ProminentLink.new("See all community posts", blog_posts_path)
 
         %section.activity-section
           %h2 New on Exercism

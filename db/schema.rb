@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_114918) do
     t.string "type", null: false
     t.string "slug", null: false
     t.string "title", null: false
-    t.string "blurb", limit: 350
+    t.string "blurb", limit: 350, null: false
     t.integer "difficulty", limit: 1, default: 1, null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.string "git_sha", null: false
@@ -195,6 +195,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_114918) do
     t.string "git_important_files_hash", null: false
     t.integer "position", null: false
     t.string "icon_name", null: false
+    t.integer "median_wait_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
@@ -591,7 +592,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_114918) do
     t.string "slug", null: false
     t.string "uuid", null: false
     t.string "name", null: false
-    t.string "blurb", limit: 350
+    t.string "blurb", limit: 350, null: false
     t.string "synced_to_git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -610,6 +611,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_114918) do
     t.json "tags"
     t.boolean "active", default: true, null: false
     t.integer "num_students", default: 0, null: false
+    t.integer "median_wait_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
@@ -802,6 +804,8 @@ ActiveRecord::Schema.define(version: 2021_08_05_114918) do
     t.datetime "accepted_privacy_policy_at"
     t.datetime "accepted_terms_at"
     t.datetime "became_mentor_at"
+    t.datetime "deleted_at"
+    t.datetime "joined_research_at"
     t.string "github_username"
     t.integer "reputation", default: 0, null: false
     t.json "roles"
@@ -902,6 +906,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_114918) do
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"
   add_foreign_key "user_profiles", "users"
+  add_foreign_key "user_reputation_periods", "users"
   add_foreign_key "user_reputation_tokens", "exercises"
   add_foreign_key "user_reputation_tokens", "tracks"
   add_foreign_key "user_reputation_tokens", "users"

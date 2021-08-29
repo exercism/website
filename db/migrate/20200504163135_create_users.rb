@@ -17,6 +17,8 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.datetime :accepted_privacy_policy_at
       t.datetime :accepted_terms_at
       t.datetime :became_mentor_at
+      t.datetime :deleted_at
+      t.datetime :joined_research_at
 
       t.string :github_username, null: true
       t.integer :reputation, null: false, default: 0

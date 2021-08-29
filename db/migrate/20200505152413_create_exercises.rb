@@ -8,8 +8,7 @@ class CreateExercises < ActiveRecord::Migration[6.0]
 
       t.string :slug, null: false
       t.string :title, null: false
-      # TODO: Make null: false before launch (Check ETL won't break)
-      t.string :blurb, null: true, limit: 350
+      t.string :blurb, null: false, limit: 350
       t.column :difficulty, :tinyint, null: false, default: 1
       t.column :status, :tinyint, null: false, default: 0
 
@@ -19,6 +18,8 @@ class CreateExercises < ActiveRecord::Migration[6.0]
 
       t.integer :position, null: false
       t.string :icon_name, null: false
+
+      t.integer :median_wait_time
 
       t.timestamps
 

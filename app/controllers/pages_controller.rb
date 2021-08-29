@@ -30,10 +30,6 @@ class PagesController < ApplicationController
     ]
   end
 
-  def self.readme_url
-    "https://raw.githubusercontent.com/exercism/v3-beta/main/README.md?q=#{Time.current.min}"
-  end
-
   def health_check
     render json: { ruok: true }
   end

@@ -24,8 +24,7 @@
     .c-loading-overlay
 
     - if Rails.env.production?
-      / TODO: Change domain
-      %script{ defer: true, src: "/usage/js/script.js", data: { domain: "exercism.lol", api: "/usage/api/event" } }
+      %script{ defer: true, src: "/usage/js/script.js", data: { domain: "exercism.org", api: "/usage/api/event" } }
 
     = render ViewComponents::SiteFooter.new
 

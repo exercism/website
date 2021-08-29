@@ -82,15 +82,21 @@ module Flows
 
       test "shows authorship contributions for a user" do
         user = create :user, handle: "author"
+        exercise = create :concept_exercise
         create :user_profile, user: user
-        create :exercise_authorship, author: user
+        create :user_exercise_author_reputation_token,
+          user: user,
+          params: {
+            authorship: create(:exercise_authorship, author: user, exercise: exercise)
+          }
 
         use_capybara_host do
           sign_in!(user)
           visit contributions_profile_url(user.handle)
+          click_on "Authoring"
         end
 
-        assert_text "Strings"
+        assert_link "Strings", href: track_exercise_path(exercise.track, exercise.slug)
       end
     end
   end

@@ -107,5 +107,5 @@ test('disables primary button when editor is disabled', async () => {
 
   expect(
     screen.getByRole('button', { name: 'Continue in editor' })
-  ).toBeDisabled()
+  ).toHaveClass('--disabled')
 })

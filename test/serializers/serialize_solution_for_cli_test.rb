@@ -7,20 +7,20 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     expected = {
       solution: {
         id: solution.uuid,
-        url: "https://test.exercism.io/tracks/ruby/exercises/strings",
+        url: "https://test.exercism.org/tracks/ruby/exercises/strings",
         user: {
           handle: solution.user.handle,
           is_requester: true
         },
         exercise: {
           id: solution.exercise.slug,
-          instructions_url: "https://test.exercism.io/tracks/ruby/exercises/strings",
+          instructions_url: "https://test.exercism.org/tracks/ruby/exercises/strings",
           track: {
             id: solution.track.slug,
             language: solution.track.title
           }
         },
-        # TODO: Change to exercism.io
+        # TODO: Change to exercism.org
         file_download_base_url: "https://exercism.lol/api/v1/solutions/#{solution.uuid}/files/",
         files: Set.new([
                          ".exercism/config.json", "README.md", "HELP.md", "HINTS.md",

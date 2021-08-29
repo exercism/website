@@ -34,7 +34,7 @@ class Markdown::RenderHTML
       uri = Addressable::URI.parse(url)
       return false if uri.scheme.nil?
       return true unless %w[https http].include?(uri.scheme)
-      return false if %w[exercism.io exercism.lol local.exercism.io].include?(uri.host)
+      return false if %w[exercism.io exercism.lol local.exercism.io exercism.org local.exercism.org].include?(uri.host)
 
       true
     rescue StandardError

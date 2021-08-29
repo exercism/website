@@ -27,9 +27,9 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
       If you'd like help solving the exercise, check the following pages:
 
-      - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
+      - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
       - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
-      - The [Frequently Asked Questions](https://exercism.io/docs/using/faqs)
+      - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
 
@@ -64,9 +64,9 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
       If you'd like help solving the exercise, check the following pages:
 
-      - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
+      - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
       - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
-      - The [Frequently Asked Questions](https://exercism.io/docs/using/faqs)
+      - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
 
@@ -102,9 +102,9 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
       If you'd like help solving the exercise, check the following pages:
 
-      - The [Ruby track's documentation](https://exercism.io/docs/tracks/ruby)
+      - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
       - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
-      - The [Frequently Asked Questions](https://exercism.io/docs/using/faqs)
+      - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
 

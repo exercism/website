@@ -1,7 +1,7 @@
 # Create system user
 User.find_by_id(1) || User.create!(
   handle: 'exercism-bot',
-  email: "#{SecureRandom.uuid}@exercism.io",
+  email: "#{SecureRandom.uuid}@exercism.org",
   name: 'Exercism Bot',
   github_username: 'exercism-bot',
   password: SecureRandom.uuid,
@@ -9,7 +9,7 @@ User.find_by_id(1) || User.create!(
 )
 User.find_by_id(2) || User.create!(
   handle: 'exercism-ghost',
-  email: "#{SecureRandom.uuid}@exercism.io",
+  email: "#{SecureRandom.uuid}@exercism.org",
   name: 'Exercism Ghost',
   github_username: 'exercism-ghost',
   password: SecureRandom.uuid,
@@ -20,7 +20,7 @@ User.find_by_id(2) || User.create!(
 puts "Creating User iHiD"
 iHiD = User.find_by(handle: 'iHiD') || User.create!(
   handle: 'iHiD',
-  email: 'ihid@exercism.io',
+  email: 'ihid@exercism.org',
   name: 'Jeremy Walker',
   password: 'password',
   github_username: 'iHiD',
@@ -45,7 +45,7 @@ User::AcquiredBadge.create!(user: iHiD, badge: Badge.find_by_slug!(:member)) #ru
 puts "Creating User erikSchierboom"
 erik = User.find_by(handle: 'erikSchierboom') || User.create!(
   handle: 'erikSchierboom',
-  email: 'erik@exercism.io',
+  email: 'erik@exercism.org',
   name: 'Erik Schierboom',
   github_username: 'ErikSchierboom',
   password: 'password',
@@ -58,7 +58,7 @@ erik.auth_tokens.create!
 puts "Creating User kntsoriano"
 karlo = User.find_by(handle: 'kntsoriano') || User.create!(
   handle: 'kntsoriano',
-  email: 'karlo@exercism.io',
+  email: 'karlo@exercism.org',
   name: 'Karlo Soriano',
   password: 'password',
   github_username: 'kntsoriano',
@@ -108,7 +108,7 @@ end
 
 puts ""
 puts "To use the CLI locally, run: "
-puts "exercism configure -a http://local.exercism.io:3020/api/v1 -t #{auth_token.token}"
+puts "exercism configure -a http://local.exercism.org:3020/api/v1 -t #{auth_token.token}"
 puts ""
 
 ruby = Track.find_by_slug(:ruby)

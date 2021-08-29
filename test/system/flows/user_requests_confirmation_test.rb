@@ -8,11 +8,11 @@ module Flows
     test "user requests confirmation" do
       stub_request(:get, "https://raw.githubusercontent.com/exercism/v3-beta/main/README.md?q=#{Time.current.min}").
         to_return(status: 200, body: "# Hello world", headers: {})
-      create :user, email: "user@exercism.io"
+      create :user, email: "user@exercism.org"
 
       use_capybara_host do
         visit new_user_confirmation_path
-        fill_in "Email", with: "user@exercism.io"
+        fill_in "Email", with: "user@exercism.org"
 
         click_on "Resend confirmation instructions"
       end
@@ -22,7 +22,7 @@ module Flows
 
     test "user sees confirmation errors" do
       expecting_errors do
-        create :user, email: "user@exercism.io"
+        create :user, email: "user@exercism.org"
 
         use_capybara_host do
           visit new_user_confirmation_path

@@ -30,7 +30,7 @@ let server = setupServer(
               title: 'Lasagna',
             },
             student: {
-              avatarUrl: 'http://exercism.io/avatar',
+              avatarUrl: 'http://exercism.org/avatar',
             },
             isStarred: false,
             isNewSubmission: false,

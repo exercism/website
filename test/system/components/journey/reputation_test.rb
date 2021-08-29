@@ -18,14 +18,14 @@ module Components
           exercise: exercise,
           created_at: 1.day.ago,
           earned_on: 1.day.ago,
-          external_url: "https://test.exercism.io/token"
+          external_url: "https://test.exercism.org/token"
 
         use_capybara_host do
           sign_in!(user)
           visit reputation_journey_path
 
           assert_text "Showing 1 contribution"
-          assert_link strip_tags(token.text), href: "https://test.exercism.io/token"
+          assert_link strip_tags(token.text), href: "https://test.exercism.org/token"
           assert_text "Ruby"
           assert_text "yesterday"
           assert_text "+ 30"

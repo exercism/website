@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :user do
-    email { "#{SecureRandom.hex(4)}@exercism.io" }
+    email { "#{SecureRandom.hex(4)}@exercism.org" }
     name { "User" }
     password { "password" }
     handle { "handle-#{SecureRandom.hex(4)}" }

@@ -28,13 +28,13 @@ module Flows
     test "user logs in and is remembered" do
       create(:user,
         :not_onboarded,
-        email: "user@exercism.io",
+        email: "user@exercism.org",
         password: "password",
         confirmed_at: Date.new(2016, 12, 25))
 
       use_capybara_host do
         visit new_user_session_path
-        fill_in "Email", with: "user@exercism.io"
+        fill_in "Email", with: "user@exercism.org"
         fill_in "Password", with: "password"
         click_on "Log In"
         assert_page :onboarding
@@ -47,14 +47,14 @@ module Flows
 
     test "user attempts to log in an account with a oauth password hash" do
       create(:user,
-        email: "user@exercism.io",
+        email: "user@exercism.org",
         encrypted_password: "wrong",
         provider: "github",
         confirmed_at: Date.new(2016, 12, 25))
 
       use_capybara_host do
         visit new_user_session_path
-        fill_in "Email", with: "user@exercism.io"
+        fill_in "Email", with: "user@exercism.org"
         fill_in "Password", with: "otherpassword"
         click_on "Log In"
 
@@ -66,14 +66,14 @@ module Flows
       track = create :track, title: "Ruby"
       create :concept_exercise, track: track
       create(:user,
-        email: "user@exercism.io",
+        email: "user@exercism.org",
         password: "password",
         confirmed_at: Date.new(2016, 12, 25))
 
       use_capybara_host do
         visit track_path(track)
         click_on "Join the Ruby Track"
-        fill_in "Email", with: "user@exercism.io"
+        fill_in "Email", with: "user@exercism.org"
         fill_in "Password", with: "password"
         click_on "Log In"
 
@@ -86,13 +86,13 @@ module Flows
         track = create :track, title: "Ruby"
         create :concept_exercise, track: track
         create(:user,
-          email: "user@exercism.io",
+          email: "user@exercism.org",
           password: "password",
           confirmed_at: Date.new(2016, 12, 25))
 
         use_capybara_host do
           visit new_user_session_path
-          fill_in "Email", with: "user@exercism.io"
+          fill_in "Email", with: "user@exercism.org"
           click_on "Log In"
 
           assert_text "Invalid Email or password."
@@ -105,14 +105,14 @@ module Flows
       create :concept_exercise, track: track
       create(:user,
         :not_onboarded,
-        email: "user@exercism.io",
+        email: "user@exercism.org",
         password: "password",
         confirmed_at: Date.new(2016, 12, 25))
 
       use_capybara_host do
         visit track_path(track)
         click_on "Join the Ruby Track"
-        fill_in "Email", with: "user@exercism.io"
+        fill_in "Email", with: "user@exercism.org"
         fill_in "Password", with: "password"
         click_on "Log In"
         find('label', text: "I accept Exercism's Terms of Service").click

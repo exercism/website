@@ -6,11 +6,11 @@ module Flows
     include CapybaraHelpers
 
     test "user retrieves password" do
-      create :user, email: "user@exercism.io"
+      create :user, email: "user@exercism.org"
 
       use_capybara_host do
         visit new_user_password_path
-        fill_in "Email", with: "user@exercism.io"
+        fill_in "Email", with: "user@exercism.org"
 
         click_on "Send instructions"
       end
@@ -20,7 +20,7 @@ module Flows
 
     test "user sees errors" do
       expecting_errors do
-        create :user, email: "user@exercism.io"
+        create :user, email: "user@exercism.org"
 
         use_capybara_host do
           visit new_user_password_path

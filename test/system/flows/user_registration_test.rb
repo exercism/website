@@ -12,7 +12,7 @@ module Flows
     test "user registers successfully" do
       allow_captcha_request do
         visit new_user_registration_path
-        fill_in "Email", with: "user@exercism.io"
+        fill_in "Email", with: "user@exercism.org"
         fill_in "Username", with: "user22"
         fill_in "Password", with: "password"
         fill_in "Password confirmation", with: "password"
@@ -29,7 +29,7 @@ module Flows
             to_return(body: { success: false }.to_json)
 
           visit new_user_registration_path
-          fill_in "Email", with: "user@exercism.io"
+          fill_in "Email", with: "user@exercism.org"
           fill_in "Username", with: "user22!"
           fill_in "Password", with: "password"
           fill_in "Password confirmation", with: "password"
@@ -44,7 +44,7 @@ module Flows
       expecting_errors do
         allow_captcha_request do
           visit new_user_registration_path
-          fill_in "Email", with: "user@exercism.io"
+          fill_in "Email", with: "user@exercism.org"
           fill_in "Username", with: "user22!"
           fill_in "Password", with: "password"
           fill_in "Password confirmation", with: "password"
@@ -61,7 +61,7 @@ module Flows
         provider: "github",
         uid: "111",
         info: {
-          email: "user@exercism.io",
+          email: "user@exercism.org",
           name: "Name",
           nickname: "user22"
         }
@@ -87,7 +87,7 @@ module Flows
         provider: "github",
         uid: "111",
         info: {
-          email: "user@exercism.io",
+          email: "user@exercism.org",
           name: "Name",
           nickname: "user22"
         }

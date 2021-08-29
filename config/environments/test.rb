@@ -48,5 +48,5 @@ Rails.application.configure do
 end
 
 Rails.application.routes.default_url_options = {
-  host: "https://test.exercism.io"
+  host: "https://test.exercism.org"
 }

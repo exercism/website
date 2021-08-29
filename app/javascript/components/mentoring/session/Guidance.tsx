@@ -23,13 +23,19 @@ const AccordionHeader = ({
   )
 }
 
+type Links = {
+  improveNotes: string
+}
+
 export const Guidance = ({
   notes,
   mentorSolution,
+  links,
   feedback = false,
 }: {
   notes: string
   mentorSolution?: CommunitySolutionProps
+  links: Links
   feedback?: any
 }): JSX.Element => {
   const [accordionState, setAccordionState] = useState([
@@ -80,7 +86,7 @@ export const Guidance = ({
       <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
         <AccordionHeader isOpen={isOpen('notes')} title="Mentor notes" />
         <Accordion.Panel>
-          <MentorNotes notes={notes} />
+          <MentorNotes notes={notes} improveUrl={links.improveNotes} />
         </Accordion.Panel>
       </Accordion>
       {mentorSolution ? (

@@ -15,15 +15,15 @@ export const StudentInfo = ({
     <div className="student-info">
       <div className="info">
         <div className="subtitle">Who you&apos;re mentoring</div>
-        <div className="name-block">
-          <div className="name">{student.name}</div>
+        <div className="handle-block">
+          <div className="handle">{student.handle}</div>
           <Reputation
             value={student.reputation.toString()}
             type="primary"
             size="small"
           />
         </div>
-        <div className="handle">{student.handle}</div>
+        <div className="name">{student.name}</div>
         <div className="bio">{student.bio}</div>
         <div className="options">
           {student.links ? (

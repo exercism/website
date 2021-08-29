@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.string "type", null: false
     t.string "slug", null: false
     t.string "title", null: false
-    t.string "blurb", limit: 350
+    t.string "blurb", limit: 350, null: false
     t.integer "difficulty", limit: 1, default: 1, null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.string "git_sha", null: false
@@ -195,6 +195,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.string "git_important_files_hash", null: false
     t.integer "position", null: false
     t.string "icon_name", null: false
+    t.integer "median_wait_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "has_test_runner", default: false, null: false
@@ -293,9 +294,9 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.string "uuid", null: false
     t.integer "idx", limit: 1, null: false
     t.string "snippet", limit: 1500
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
@@ -320,13 +321,14 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.string "uuid", null: false
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
-    t.bigint "request_id"
+    t.bigint "request_id", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "rating", limit: 1
     t.integer "num_posts", limit: 3, default: 0, null: false
     t.boolean "anonymous_mode", default: false, null: false
     t.datetime "awaiting_student_since"
     t.datetime "awaiting_mentor_since"
+    t.datetime "mentor_reminder_sent_at"
     t.datetime "finished_at"
     t.integer "finished_by", limit: 1
     t.datetime "created_at", precision: 6, null: false
@@ -447,6 +449,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
   end
 
   create_table "solution_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
     t.bigint "solution_id", null: false
     t.bigint "author_id", null: false
     t.text "content_markdown", null: false
@@ -454,9 +457,9 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "uuid", null: false
     t.index ["author_id"], name: "index_solution_comments_on_author_id"
     t.index ["solution_id"], name: "index_solution_comments_on_solution_id"
+    t.index ["uuid"], name: "index_solution_comments_on_uuid", unique: true
   end
 
   create_table "solution_stars", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -476,11 +479,13 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.bigint "exercise_id", null: false
     t.bigint "published_iteration_id"
     t.string "uuid", null: false
+    t.string "public_uuid", null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
     t.string "git_important_files_hash", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.string "iteration_status"
+    t.boolean "allow_comments", default: true, null: false
     t.datetime "last_iterated_at"
     t.integer "num_iterations", limit: 1, default: 0, null: false
     t.string "snippet", limit: 1500
@@ -494,9 +499,8 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.integer "num_loc", limit: 3, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "allow_comments", default: true, null: false
-    t.string "public_uuid", null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
+    t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
@@ -590,7 +594,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.string "slug", null: false
     t.string "uuid", null: false
     t.string "name", null: false
-    t.string "blurb", limit: 350
+    t.string "blurb", limit: 350, null: false
     t.string "synced_to_git_sha", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -609,6 +613,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.json "tags"
     t.boolean "active", default: true, null: false
     t.integer "num_students", default: 0, null: false
+    t.integer "median_wait_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "course", default: false, null: false
@@ -661,12 +666,12 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
 
   create_table "user_communication_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "token", null: false
+    t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_replied_to_discussion_notification", default: true, null: false
     t.boolean "email_on_student_replied_to_discussion_notification", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
@@ -803,6 +808,8 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.datetime "accepted_privacy_policy_at"
     t.datetime "accepted_terms_at"
     t.datetime "became_mentor_at"
+    t.datetime "deleted_at"
+    t.datetime "joined_research_at"
     t.string "github_username"
     t.integer "reputation", default: 0, null: false
     t.json "roles"
@@ -812,11 +819,11 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.string "pronouns"
     t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
     t.integer "mentor_satisfaction_percentage", limit: 1
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "stripe_customer_id"
     t.integer "total_donated_in_cents", default: 0
     t.boolean "active_donation_subscription", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
@@ -903,6 +910,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"
   add_foreign_key "user_profiles", "users"
+  add_foreign_key "user_reputation_periods", "users"
   add_foreign_key "user_reputation_tokens", "exercises"
   add_foreign_key "user_reputation_tokens", "tracks"
   add_foreign_key "user_reputation_tokens", "users"

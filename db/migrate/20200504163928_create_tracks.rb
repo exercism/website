@@ -17,6 +17,7 @@ class CreateTracks < ActiveRecord::Migration[6.0]
       t.boolean :active, default: true, null: false
 
       t.integer :num_students, null: false, default: 0
+      t.integer :median_wait_time
 
       t.timestamps
     end

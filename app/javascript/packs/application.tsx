@@ -510,6 +510,7 @@ initReact({
   ),
   'community-solutions-star-button': (data: any) => (
     <CommunitySolutions.StarButton
+      userSignedIn={data.user_signed_in}
       defaultNumStars={data.num_stars}
       defaultIsStarred={data.is_starred}
       links={data.links}
@@ -518,6 +519,7 @@ initReact({
   'community-solutions-comments-list': (data: any) => (
     <CommunitySolutions.CommentsList
       isAuthor={data.is_author}
+      userSignedIn={data.user_signed_in}
       defaultAllowComments={data.allow_comments}
       request={camelizeKeysAs<Request>(data.request)}
       links={camelizeKeysAs<CommentsListLinks>(data.links)}

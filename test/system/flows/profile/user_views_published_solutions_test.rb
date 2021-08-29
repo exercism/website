@@ -6,6 +6,8 @@ module Flows
     include CapybaraHelpers
 
     test "shows published solutions" do
+      # TODO: Change this stub
+      User::Profile.any_instance.expects(solutions_tab?: true).at_least_once
       author = create :user, handle: "author"
       create :user_profile, user: author
       ruby = create :track, title: "Ruby"
@@ -23,6 +25,8 @@ module Flows
     end
 
     test "shows published solutions for a logged out user" do
+      # TODO: Change this stub
+      User::Profile.any_instance.expects(solutions_tab?: true).at_least_once
       author = create :user, handle: "author"
       create :user_profile, user: author
       ruby = create :track, title: "Ruby"
@@ -45,6 +49,8 @@ module Flows
     end
 
     test "searches published solutions" do
+      # TODO: Change this stub
+      User::Profile.any_instance.expects(solutions_tab?: true).at_least_once
       author = create :user, handle: "author"
       create :user_profile, user: author
       ruby = create :track, title: "Ruby"
@@ -68,6 +74,8 @@ module Flows
     end
 
     test "sorts published solutions" do
+      # TODO: Change this stub
+      User::Profile.any_instance.expects(solutions_tab?: true).at_least_once
       Solution::SearchUserSolutions.stubs(:default_per).returns(1)
       author = create :user, handle: "author"
       create :user_profile, user: author
@@ -93,6 +101,8 @@ module Flows
     end
 
     test "filters published solutions by track" do
+      # TODO: Change this stub
+      User::Profile.any_instance.expects(solutions_tab?: true).at_least_once
       author = create :user, handle: "author"
       create :user_profile, user: author
       ruby = create :track, title: "Ruby", slug: "ruby"

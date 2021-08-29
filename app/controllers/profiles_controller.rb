@@ -17,16 +17,22 @@ class ProfilesController < ApplicationController
   end
 
   def solutions
+    redirect_to profile_path(@user) unless @profile.solutions_tab?
+
     @solutions = Solution::SearchUserSolutions.(
       @user,
       status: :published
     )
   end
 
-  def contributions; end
+  def contributions
+    redirect_to profile_path(@user) unless @profile.contributions_tab?
+  end
 
   # TODO: (Optional) Add tests for published scope
   def testimonials
+    redirect_to profile_path(@user) unless @profile.testimonials_tab?
+
     @num_solutions_mentored = @user.mentor_discussions.count
     @num_students_helped = @user.mentor_discussions.joins(:solution).distinct.count(:user_id)
     @num_testimonials = @user.mentor_testimonials.published.count

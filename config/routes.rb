@@ -390,6 +390,7 @@ Rails.application.routes.draw do
   get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
   get "about" => "pages#about", as: :about_page
   get "team" => "pages#team", as: :team_page
+  get "announcement" => "pages#announcement", as: :announcement_page
 
   get "site.webmanifest" => "meta#site_webmanifest"
 

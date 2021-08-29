@@ -313,6 +313,9 @@ initReact({
   'common-concept-widget': (data: any) => (
     <Common.ConceptWidget concept={data.concept} />
   ),
+  'common-announcement-bar': (data: any) => (
+    <Common.AnnouncementBar endpoint={data.endpoint} />
+  ),
   'common-modal': (data: any) => <Common.Modal html={data.html} />,
   'common-solution-view': (data: any) => (
     <Common.SolutionView

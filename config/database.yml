@@ -17,12 +17,12 @@ default: &default
 development:
   primary:
     <<: *default
-    database: exercism_v3_development
+    database: exercism_development
 
 test:
   primary:
     <<: *default
-    database: exercism_v3_test
+    database: exercism_test
 
 production:
   primary:

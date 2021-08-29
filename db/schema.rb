@@ -666,10 +666,16 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
 
   create_table "user_communication_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "token", null: false
+    t.string "token"
     t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_replied_to_discussion_notification", default: true, null: false
     t.boolean "email_on_student_replied_to_discussion_notification", default: true, null: false
+    t.boolean "email_on_student_added_iteration_notification", default: true, null: false
+    t.boolean "email_on_new_solution_comment_for_solution_user_notification", default: true, null: false
+    t.boolean "email_on_new_solution_comment_for_other_commenter_notification", default: true, null: false
+    t.boolean "receive_product_updates", default: true, null: false
+    t.boolean "email_on_remind_mentor", default: true, null: false
+    t.boolean "email_on_mentor_heartbeat", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true

@@ -93,44 +93,6 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
-  test "index returns just discussion post" do
-    student = create :user, handle: "student"
-    mentor = create :user, handle: "author"
-    setup_user(mentor)
-    solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: nil
-    iteration = create :iteration, idx: 2, solution: solution
-    discussion_post = create(:mentor_discussion_post,
-      discussion: discussion,
-      iteration: iteration,
-      author: mentor,
-      content_markdown: "Hello",
-      updated_at: Time.utc(2016, 12, 25))
-
-    get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
-
-    assert_response 200
-    expected = {
-      items: [
-        {
-          uuid: discussion_post.uuid,
-          author_handle: "author",
-          author_avatar_url: mentor.avatar_url,
-          by_student: false,
-          content_markdown: "Hello",
-          content_html: "<p>Hello</p>\n",
-          updated_at: Time.utc(2016, 12, 25).iso8601,
-          iteration_idx: 2,
-          links: {
-            edit: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post),
-            delete: Exercism::Routes.api_mentoring_discussion_post_url(discussion, discussion_post)
-          }
-        }
-      ]
-    }
-    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
-  end
-
   test "index should return 403 when discussion can not be accessed" do
     setup_user
     discussion = create :mentor_discussion

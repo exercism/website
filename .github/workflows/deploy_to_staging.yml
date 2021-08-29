@@ -20,12 +20,15 @@ env:
   dockerfile_anycable_go: "docker/anycable-go.Dockerfile"
 
   # TODO: (Required) Move this to be a secret
-  s3_bucket: "exercism-v3-assets"
+  s3_bucket: "exercism-assets-staging"
 
-on:
-  push:
-    branches:
-      - main
+# Disable this from automatically running
+# on:
+#   push:
+#     branches:
+#       - main
+#   schedule:
+#     - cron: 50 4 * * *
 
 jobs:
   deploy:
@@ -46,8 +49,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_DEPLOY_ACCESS_KEY_ID_PRODUCTION }}
-          aws-secret-access-key: ${{ secrets.AWS_DEPLOY_SECRET_ACCESS_KEY_PRODUCTION }}
+          aws-access-key-id: ${{ secrets.AWS_DEPLOY_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_DEPLOY_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.aws_region }}
 
       - name: Login to Amazon ECR

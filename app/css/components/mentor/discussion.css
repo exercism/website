@@ -511,9 +511,6 @@
         }
         & #panel-guidance {
             @apply py-16 px-24;
-
-            & .notes-cta {
-            }
         }
 
         & .mentoring-request-section {

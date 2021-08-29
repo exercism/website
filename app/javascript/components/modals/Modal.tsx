@@ -1,6 +1,6 @@
 import React from 'react'
 import { default as ReactModal, Props } from 'react-modal'
-import { Icon } from '../common'
+import { Icon } from '../common/Icon'
 import { Wrapper } from '../common/Wrapper'
 import { ActiveBackground, Confetti } from '@exercism/active-background'
 
@@ -33,43 +33,41 @@ export const Modal = ({
     cover ? '--cover' : '',
   ]
 
-  const overlayElement = (props: any, contentElement: any) => (
-    <div {...props}>
-      <Wrapper
-        condition={celebratory}
-        wrapper={(children) => (
-          <ActiveBackground
-            Pattern={Confetti}
-            patternOptions={{
-              colorPairs: [
-                ['#df0049', '#660671'],
-                ['#00e857', '#005291'],
-                ['#2bebbc', '#05798a'],
-                ['#ffd200', '#b06c00'],
-              ],
-              confettiPaperCount: 100,
-              confettiRibbonCount: 40,
-              speed: 30,
-            }}
-          >
-            {children}
-          </ActiveBackground>
-        )}
-      >
-        {contentElement}
-      </Wrapper>
-    </div>
-  )
-
   return (
     <ReactModal
       ariaHideApp={process.env.NODE_ENV !== 'test'}
       isOpen={open}
       onRequestClose={onClose}
+      className={'--modal-container'}
       overlayClassName={overlayClassNames.join(' ')}
-      className="--modal-container"
       appElement={document.querySelector('body') as HTMLElement}
-      overlayElement={overlayElement}
+      overlayElement={(props, contentElement) => (
+        <div {...props}>
+          <Wrapper
+            condition={celebratory}
+            wrapper={(children) => (
+              <ActiveBackground
+                Pattern={Confetti}
+                patternOptions={{
+                  colorPairs: [
+                    ['#df0049', '#660671'],
+                    ['#00e857', '#005291'],
+                    ['#2bebbc', '#05798a'],
+                    ['#ffd200', '#b06c00'],
+                  ],
+                  confettiPaperCount: 100,
+                  confettiRibbonCount: 40,
+                  speed: 30,
+                }}
+              >
+                {children}
+              </ActiveBackground>
+            )}
+          >
+            {contentElement}
+          </Wrapper>
+        </div>
+      )}
       {...props}
     >
       {closeButton ? (

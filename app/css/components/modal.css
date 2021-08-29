@@ -1,15 +1,17 @@
 .c-modal {
-    /* @apply fixed flex items-stretch justify-stretch z-modal; */
+    @apply fixed z-modal;
 
-    /* top: 0; */
-    /* left: 0; */
-    /* right: 0; */
-    /* bottom: 0; */
-    /* background: var(--modalBackgroundColor); */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--modalBackgroundColor);
 
     &.--cover {
+        @apply bg-backgroundColorB;
+
         & .--modal-container {
-            @apply bg-backgroundColorB items-start;
+            @apply items-start;
             overflow-y: auto;
 
             & .--modal-content {
@@ -28,11 +30,10 @@
         right: 0;
         bottom: 0;
 
-        background: var(--modalBackgroundColor);
-
         & .--close-button {
             @apply fixed rounded-circle shadow-smZ1 bg-purpleDarker3;
             @apply grid place-items-center;
+            cursor: pointer;
             top: 48px;
             right: 48px;
             height: 64px;

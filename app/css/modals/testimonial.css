@@ -1,16 +1,18 @@
 @import "../styles";
 
 .c-modal.m-testimonial {
-    @apply pt-80 pb-48 px-48;
-    & .--modal-content {
-        width: 100%;
-        max-width: 780px;
-        min-height: auto;
-        @apply p-0;
-        @apply relative;
-        @apply overflow-visible;
-        @apply bg-backgroundColorA;
-        @apply shadow-lgZ1 rounded-8;
+    & .--modal-container {
+        @apply pt-80 pb-48 px-48;
+        & .--modal-content {
+            width: 100%;
+            max-width: 780px;
+            min-height: auto;
+            @apply p-0;
+            @apply relative;
+            @apply overflow-visible;
+            @apply bg-backgroundColorA;
+            @apply shadow-lgZ1 rounded-8;
+        }
     }
     & .c-avatar {
         width: 80px;

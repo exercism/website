@@ -7,11 +7,15 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
     <div className="mentor-info">
       <div className="info">
         <div className="subtitle">Meet your mentor</div>
-        <div className="name-block">
-          <div className="name">{mentor.name}</div>
-          <Reputation value={mentor.reputation.toString()} type="primary" />
+        <div className="handle-block">
+          <div className="handle">{mentor.handle}</div>
+          <Reputation
+            value={mentor.reputation.toString()}
+            type="primary"
+            size="small"
+          />
         </div>
-        <div className="handle">{mentor.handle}</div>
+        <div className="name">{mentor.name}</div>
         <div className="bio">{mentor.bio}</div>
         {/* TODO: (required) View previous sessions as a student */}
       </div>

@@ -55,7 +55,7 @@ const Button = (props: Props & { className?: string }) => {
       return props.editorEnabled ? (
         <div className={props.className}>Open in editor</div>
       ) : (
-        <button disabled className={props.className}>
+        <button className={`${props.className} --disabled`}>
           Open in editor
         </button>
       )
@@ -66,7 +66,7 @@ const Button = (props: Props & { className?: string }) => {
           className={props.className}
         />
       ) : (
-        <button className={props.className} disabled>
+        <button className={`${props.className} --disabled`}>
           Start in editor
         </button>
       )
@@ -77,7 +77,7 @@ const Button = (props: Props & { className?: string }) => {
           Open in editor
         </a>
       ) : (
-        <button disabled className={props.className}>
+        <button className={`${props.className} --disabled`}>
           Open in editor
         </button>
       )
@@ -87,7 +87,7 @@ const Button = (props: Props & { className?: string }) => {
           Continue in editor
         </a>
       ) : (
-        <button disabled className={props.className}>
+        <button className={`${props.className} --disabled`}>
           Continue in editor
         </button>
       )

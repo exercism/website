@@ -16,7 +16,7 @@
         }
     }
 
-    & .--primary-segment:disabled {
+    & .--primary-segment.--disabled {
         opacity: 0.8;
         cursor: not-allowed;
     }

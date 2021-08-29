@@ -11,10 +11,12 @@ const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
 export const AddTestimonialStep = ({
   onSubmit,
+  onSkip,
   onBack,
   discussion,
 }: {
   onSubmit: () => void
+  onSkip: () => void
   onBack: () => void
   discussion: MentorDiscussion
 }): JSX.Element => {
@@ -33,12 +35,15 @@ export const AddTestimonialStep = ({
       return fetch
     },
     {
-      onSuccess: onSubmit,
+      onSuccess: () => {
+        value.length === 0 ? onSkip() : onSubmit()
+      },
     }
   )
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()
+
       mutation()
     },
     [mutation]

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Iteration } from '../../types'
 import { Options } from './Options'
 
 type Links = {

@@ -17,10 +17,12 @@ type APIResponse = {
 const DEFAULT_ERROR = new Error('Unable to update stars')
 
 export const StarButton = ({
+  userSignedIn,
   defaultNumStars,
   defaultIsStarred,
   links,
 }: {
+  userSignedIn: boolean
   defaultNumStars: number
   defaultIsStarred: boolean
   links: Links
@@ -45,6 +47,15 @@ export const StarButton = ({
       },
     }
   )
+
+  if (!userSignedIn) {
+    return (
+      <div className="btn-enhanced btn-s star-button --unstarred">
+        <Icon icon="star" alt="Number of stars" />
+        <span>{state.numStars}</span>
+      </div>
+    )
+  }
 
   return (
     <React.Fragment>

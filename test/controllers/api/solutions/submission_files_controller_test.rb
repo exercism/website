@@ -1,8 +1,6 @@
 require_relative '../base_test_case'
 
 class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
-  guard_incorrect_token! :api_solution_submission_files_path, args: 2
-
   ###
   # INDEX
   ###
@@ -49,6 +47,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
     submission = create :submission, solution: solution, iteration: iteration
     file = create :submission_file, filename: "bob.rb", content: "class Bob", submission: submission
 
+    sign_in(mentor)
     get api_solution_submission_files_path(solution.uuid, submission),
       headers: @headers,
       as: :json

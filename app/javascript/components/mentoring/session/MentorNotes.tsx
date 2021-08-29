@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHighlighting } from '../../../utils/highlight'
 
 export const MentorNotes = ({
   notes,
@@ -7,11 +8,14 @@ export const MentorNotes = ({
   notes?: string
   improveUrl: string
 }): JSX.Element => {
+  const ref = useHighlighting<HTMLDivElement>()
+
   if (notes) {
     return (
       <React.Fragment>
         <div
           className="c-textual-content --small"
+          ref={ref}
           dangerouslySetInnerHTML={{ __html: notes }}
         />
         <hr className="c-divider --small my-16" />

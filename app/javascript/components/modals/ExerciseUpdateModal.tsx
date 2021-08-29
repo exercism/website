@@ -18,7 +18,9 @@ export type ExerciseDiff = {
   }
 }
 
-const DEFAULT_ERROR = new Error('Unable to load exercise diff')
+const DEFAULT_ERROR = new Error(
+  "Sorry - it seems that we can't work out what needs updating for this exercise. We've been alerted and will have a look."
+)
 
 export const ExerciseUpdateModal = ({
   endpoint,

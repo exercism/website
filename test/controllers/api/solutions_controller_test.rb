@@ -163,6 +163,16 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "Diff raises error if diff does not contain files" do
+    user = create :user
+    setup_user(user)
+    solution = create :concept_solution, user: user
+
+    assert_raises "Unable to produce diff for #{solution.uuid}" do
+      get diff_api_solution_path(solution.uuid), headers: @headers, as: :json
+    end
+  end
+
   ########
   # Sync #
   ########

@@ -87,4 +87,18 @@ class ExerciseTest < ActiveSupport::TestCase
     exercise.update!(git_sha: '9aba0406b02303efe9542e48ab6f4eee0b00e6f1')
     assert_equal '8fadc126ecd6ef6b7075a36517292beec521e39a', exercise.git_important_files_hash
   end
+
+  test "has_test_runner?" do
+    track = create :track, has_test_runner: true
+    exercise = create :practice_exercise, track: track, has_test_runner: true
+
+    assert exercise.has_test_runner?
+
+    exercise.update(has_test_runner: false)
+    refute exercise.has_test_runner?
+
+    exercise.update(has_test_runner: true)
+    track.update(has_test_runner: false)
+    refute exercise.has_test_runner?
+  end
 end

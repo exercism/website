@@ -40,10 +40,6 @@ class Track < ApplicationRecord
     Git::Track.new(synced_to_git_sha, repo_url: repo_url)
   end
 
-  def course?
-    git.has_concept_exercises?
-  end
-
   memoize
   def tutorial_exercise
     exercises.find_by(slug: "hello-world")

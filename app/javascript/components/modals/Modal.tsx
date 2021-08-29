@@ -6,6 +6,7 @@ import { ActiveBackground, Confetti } from '@exercism/active-background'
 type Theme = 'light' | 'dark'
 export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   className: string
+  closeButton?: boolean
   open: boolean
   onClose: () => void
   cover?: boolean
@@ -17,6 +18,7 @@ export const Modal = ({
   open,
   onClose,
   className,
+  closeButton = false,
   cover = false,
   celebratory = false,
   theme = 'light',
@@ -67,6 +69,11 @@ export const Modal = ({
       )}
       {...props}
     >
+      {closeButton ? (
+        <button type="button" onClick={onClose}>
+          Close
+        </button>
+      ) : null}
       {children}
     </ReactModal>
   )

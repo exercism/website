@@ -80,7 +80,12 @@ export const PreviousMentoringSessionsModal = ({
   }
 
   return (
-    <Modal {...props} onClose={onClose} className="m-mentoring-sessions">
+    <Modal
+      {...props}
+      closeButton
+      onClose={onClose}
+      className="m-mentoring-sessions"
+    >
       <header>
         <strong>
           You have {numPrevious} previous {pluralize('discussion', numPrevious)}

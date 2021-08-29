@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { Guidance } from '../../../../../app/javascript/components/mentoring/session/Guidance'
 
 test('how you solved the exercise is open by default', async () => {
-  render(<Guidance feedback={{}} />)
+  render(<Guidance feedback={{}} links={{}} />)
 
   expect(screen.getByRole('button', { name: 'Mentor notes' })).toHaveAttribute(
     'aria-expanded',
@@ -17,7 +17,7 @@ test('how you solved the exercise is open by default', async () => {
 })
 
 test('open and close same accordion', async () => {
-  render(<Guidance feedback={{}} />)
+  render(<Guidance feedback={{}} links={{}} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Mentor notes' }))
 
@@ -27,7 +27,7 @@ test('open and close same accordion', async () => {
 })
 
 test('only one accordion is open at a time', async () => {
-  render(<Guidance feedback={{}} />)
+  render(<Guidance feedback={{}} links={{}} />)
 
   userEvent.click(screen.getByRole('button', { name: 'Automated feedback' }))
 
@@ -42,14 +42,14 @@ test('only one accordion is open at a time', async () => {
 
 test('displays notes', async () => {
   const notes = '<h2>Notes</h2>'
-  render(<Guidance notes={notes} />)
+  render(<Guidance notes={notes} links={{}} />)
 
   expect(screen.getByRole('heading', { name: 'Notes' })).toBeInTheDocument()
 })
 
 test('hides how you solved the solution if mentor solution is null', async () => {
   const notes = '<h2>Notes</h2>'
-  render(<Guidance notes={notes} />)
+  render(<Guidance notes={notes} links={{}} />)
 
   expect(
     screen.queryByRole('button', { name: 'How you solved the exercise' })

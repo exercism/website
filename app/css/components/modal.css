@@ -1,20 +1,47 @@
 .c-modal {
-    @apply fixed flex items-center justify-center z-modal;
+    /* @apply fixed flex items-stretch justify-stretch z-modal; */
 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--modalBackgroundColor);
+    /* top: 0; */
+    /* left: 0; */
+    /* right: 0; */
+    /* bottom: 0; */
+    /* background: var(--modalBackgroundColor); */
 
     &.--cover {
-        @apply bg-backgroundColorB items-start;
-        overflow-y: auto;
+        & .--modal-container {
+            @apply bg-backgroundColorB items-start;
+            overflow-y: auto;
 
-        & .--modal-content {
-            @apply py-48;
-            width: 100%;
-            min-height: 100%;
+            & .--modal-content {
+                @apply py-48;
+                width: 100%;
+                min-height: 100%;
+            }
+        }
+    }
+
+    & .--modal-container {
+        @apply fixed flex items-center justify-center z-modal;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        background: var(--modalBackgroundColor);
+
+        & .--close-button {
+            @apply fixed rounded-circle shadow-smZ1 bg-purpleDarker3;
+            @apply grid place-items-center;
+            top: 48px;
+            right: 48px;
+            height: 64px;
+            width: 64px;
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+                filter: var(--filter-FFFFFF);
+            }
         }
     }
 

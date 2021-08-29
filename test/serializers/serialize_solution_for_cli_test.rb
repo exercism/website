@@ -21,7 +21,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
           }
         },
         # TODO: Change to exercism.org
-        file_download_base_url: "https://exercism.lol/api/v1/solutions/#{solution.uuid}/files/",
+        file_download_base_url: "https://exercism.org/api/v1/solutions/#{solution.uuid}/files/",
         files: Set.new([
                          ".exercism/config.json", "README.md", "HELP.md", "HINTS.md",
                          "log_line_parser.rb", "log_line_parser_test.rb"

@@ -1,6 +1,5 @@
 if Rails.env.development?
-  Exercism.config.api_host =
-    "http://local.exercism.org:3020/api".freeze
+  Exercism.config.api_host = "http://local.exercism.org:3020/api".freeze
 else
   # TODO: Change to exercism.org
   # Exercism.config.api_host = "https://api.exercism.org".freeze

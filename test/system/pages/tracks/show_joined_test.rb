@@ -7,8 +7,6 @@ module Pages
       include CapybaraHelpers
 
       test "show joined on course-track in different states" do
-        Git::Track.any_instance.stubs(has_concept_exercises?: true)
-
         track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
         hello_world = create :hello_world_exercise, track: track
         ce_1 = create :concept_exercise, track: track, slug: 'movie'
@@ -47,8 +45,6 @@ module Pages
       end
 
       test "show joined on non-course-track in different states" do
-        Git::Track.any_instance.stubs(has_concept_exercises?: false)
-
         track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
         hello_world = create :hello_world_exercise, track: track
         pe_1 = create :practice_exercise, track: track, slug: 'bob'

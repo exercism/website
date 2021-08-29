@@ -327,6 +327,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_114918) do
     t.boolean "anonymous_mode", default: false, null: false
     t.datetime "awaiting_student_since"
     t.datetime "awaiting_mentor_since"
+    t.datetime "mentor_reminder_sent_at"
     t.datetime "finished_at"
     t.integer "finished_by", limit: 1
     t.datetime "created_at", precision: 6, null: false

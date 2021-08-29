@@ -14,6 +14,7 @@ class CreateMentorDiscussions < ActiveRecord::Migration[6.0]
 
       t.datetime :awaiting_student_since, null: true
       t.datetime :awaiting_mentor_since, null: true
+      t.datetime :mentor_reminder_sent_at, null: true
 
       t.datetime :finished_at, null: true
       t.column :finished_by, :tinyint, null: true

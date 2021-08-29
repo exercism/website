@@ -5,7 +5,6 @@ import { Reminder } from './comments-list/Reminder'
 import { ListContainer } from './comments-list/ListContainer'
 import { ListDisabled } from './comments-list/ListDisabled'
 import { Request } from '../../hooks/request-query'
-import { Iteration } from '../types'
 
 export type Links = {
   create: string
@@ -18,11 +17,13 @@ export type Links = {
 export const CommentsList = ({
   defaultAllowComments,
   isAuthor,
+  userSignedIn,
   request,
   links,
 }: {
   defaultAllowComments: boolean
   isAuthor: boolean
+  userSignedIn: boolean
   request: Request
   links: Links
 }): JSX.Element => {
@@ -38,17 +39,24 @@ export const CommentsList = ({
 
   return (
     <section className="comments mt-40">
-      <Header
-        links={links}
-        isAuthor={isAuthor}
-        allowComments={allowComments}
-        onCommentsEnabled={handleCommentsEnabled}
-        onCommentsDisabled={handleCommentsDisabled}
-      />
-      {allowComments ? (
+      {userSignedIn ? (
         <React.Fragment>
-          <NewCommentForm cacheKey={request.endpoint} endpoint={links.create} />
-          <Reminder />
+          <Header
+            links={links}
+            isAuthor={isAuthor}
+            allowComments={allowComments}
+            onCommentsEnabled={handleCommentsEnabled}
+            onCommentsDisabled={handleCommentsDisabled}
+          />
+          {allowComments ? (
+            <React.Fragment>
+              <NewCommentForm
+                cacheKey={request.endpoint}
+                endpoint={links.create}
+              />
+              <Reminder />
+            </React.Fragment>
+          ) : null}
         </React.Fragment>
       ) : null}
       {allowComments ? (

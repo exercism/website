@@ -20,8 +20,7 @@ module ReactComponents
             instructions: {
               introduction: introduction,
               assignment: SerializeExerciseAssignment.(solution),
-              debugging_instructions: debugging_instructions,
-              example_files: SerializeFiles.(example_files)
+              debugging_instructions: debugging_instructions
             },
             tests: solution.exercise.practice_exercise? ? {
               tests: solution.tests,
@@ -68,19 +67,6 @@ module ReactComponents
       return if track.debugging_instructions.blank?
 
       Markdown::Parse.(track.debugging_instructions)
-    end
-
-    # TODO: (Required) remove this before launch
-    def example_files
-      if solution.exercise.concept_exercise?
-        return solution.exercise.send(:git).exemplar_files.transform_values do |content|
-          { content: content }
-        end
-      end
-
-      solution.exercise.send(:git).example_files.transform_values do |content|
-        { content: content }
-      end
     end
 
     memoize

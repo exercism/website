@@ -1,8 +1,5 @@
 .c-react-wrapper-track-exercise-makers-button {
     @apply flex;
-    @screen lg {
-        min-width: 260px;
-    }
 }
 .c-makers-button {
     @apply flex items-center justify-end;

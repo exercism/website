@@ -149,7 +149,8 @@ module API
 
       files = Git::GenerateDiffBetweenExerciseVersions.(solution.exercise, solution.git_slug, solution.git_sha)
 
-      raise "Unable to produce diff for solution: #{solution.uuid}" if files.empty?
+      # TODO: (Optional): Change this to always be a 200 and handle the empty files in React
+      status = files.present? ? 200 : 400
 
       render json: {
         diff: {
@@ -162,7 +163,7 @@ module API
             update: Exercism::Routes.sync_api_solution_url(solution.uuid)
           }
         }
-      }
+      }, status: status
     end
 
     def sync

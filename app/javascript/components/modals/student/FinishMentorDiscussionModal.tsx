@@ -74,6 +74,7 @@ const Inner = ({
       return (
         <AddTestimonialStep
           onSubmit={() => send('SUBMIT')}
+          onSkip={() => redirectTo(links.exercise)}
           onBack={() => send('BACK')}
           discussion={discussion}
         />

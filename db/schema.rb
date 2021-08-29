@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_25_151222) do
+ActiveRecord::Schema.define(version: 2021_08_05_114918) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -292,9 +292,9 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
     t.string "uuid", null: false
     t.integer "idx", limit: 1, null: false
     t.string "snippet", limit: 1500
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
@@ -319,7 +319,7 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
     t.string "uuid", null: false
     t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
-    t.bigint "request_id"
+    t.bigint "request_id", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "rating", limit: 1
     t.integer "num_posts", limit: 3, default: 0, null: false
@@ -446,6 +446,7 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
   end
 
   create_table "solution_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
     t.bigint "solution_id", null: false
     t.bigint "author_id", null: false
     t.text "content_markdown", null: false
@@ -453,9 +454,9 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "uuid", null: false
     t.index ["author_id"], name: "index_solution_comments_on_author_id"
     t.index ["solution_id"], name: "index_solution_comments_on_solution_id"
+    t.index ["uuid"], name: "index_solution_comments_on_uuid", unique: true
   end
 
   create_table "solution_stars", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -475,11 +476,13 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
     t.bigint "exercise_id", null: false
     t.bigint "published_iteration_id"
     t.string "uuid", null: false
+    t.string "public_uuid", null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
     t.string "git_important_files_hash", null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.string "iteration_status"
+    t.boolean "allow_comments", default: true, null: false
     t.datetime "last_iterated_at"
     t.integer "num_iterations", limit: 1, default: 0, null: false
     t.string "snippet", limit: 1500
@@ -493,9 +496,8 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
     t.integer "num_loc", limit: 3, default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "allow_comments", default: true, null: false
-    t.string "public_uuid", null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
+    t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
     t.index ["user_id"], name: "index_solutions_on_user_id"
@@ -658,12 +660,12 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
 
   create_table "user_communication_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "token", null: false
+    t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_replied_to_discussion_notification", default: true, null: false
     t.boolean "email_on_student_replied_to_discussion_notification", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
@@ -809,11 +811,11 @@ ActiveRecord::Schema.define(version: 2021_08_25_151222) do
     t.string "pronouns"
     t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
     t.integer "mentor_satisfaction_percentage", limit: 1
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "stripe_customer_id"
     t.integer "total_donated_in_cents", default: 0
     t.boolean "active_donation_subscription", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

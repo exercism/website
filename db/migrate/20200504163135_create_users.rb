@@ -31,6 +31,10 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.integer :num_solutions_mentored, limit: 3, null: false, default: 0
       t.integer :mentor_satisfaction_percentage, limit: 1, null: true
 
+      t.string :stripe_customer_id, null: true, index: {unique: true}
+      t.integer :total_donated_in_cents, null: true, default: 0
+      t.boolean :active_donation_subscription, null: true, default: false
+
       t.timestamps null: false
 
       t.index [:provider, :uid], unique: true

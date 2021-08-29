@@ -5,7 +5,7 @@ class CreateMentorDiscussions < ActiveRecord::Migration[6.0]
 
       t.belongs_to :solution, foreign_key: true, null: false
       t.belongs_to :mentor, foreign_key: { to_table: :users }, null: false
-      t.belongs_to :request, foreign_key: { to_table: :mentor_requests }, null: true
+      t.belongs_to :request, foreign_key: { to_table: :mentor_requests }, null: false
 
       t.column :status, :tinyint, null: false, default: 0
       t.column :rating, :tinyint, null: true

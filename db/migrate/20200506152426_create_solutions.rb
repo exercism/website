@@ -9,6 +9,7 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
       t.belongs_to :published_iteration, null: true
 
       t.string :uuid, null: false, index: {unique: true}
+      t.string :public_uuid, null: false, index: {unique: true}
 
       t.string :git_slug, null: false
       t.string :git_sha, null: false
@@ -16,6 +17,8 @@ class CreateSolutions < ActiveRecord::Migration[6.0]
 
       t.column :status, :tinyint, default: 0, null: false
       t.string :iteration_status, null: true
+
+      t.boolean :allow_comments, default: true, null: false
 
       t.datetime :last_iterated_at, null: true
       t.column :num_iterations, :tinyint, default: 0, null: false

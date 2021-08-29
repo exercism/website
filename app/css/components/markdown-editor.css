@@ -42,16 +42,12 @@
 
     & .EasyMDEContainer {
         @apply flex-grow h-arbitary;
-        @apply grid;
-        grid-template-rows: [editor] auto [footer] 48px;
+        @apply flex flex-col-reverse;
 
         & .editor-toolbar {
             border-width: 0; /* Override default */
             @apply border-t-1 border-borderColor5 rounded-none;
             @apply flex items-center;
-
-            grid-row-start: footer;
-            grid-row-end: span 1;
 
             & button {
                 @apply mr-4;
@@ -68,9 +64,7 @@
         }
 
         & .CodeMirror {
-            grid-row-start: editor;
-            grid-row-end: span 1;
-            /* @apply flex-grow h-arbitary; */
+            @apply flex-grow;
 
             border: none;
             @apply font-mono;

@@ -9,7 +9,7 @@
           .tracks
             - top_three_tracks.each do |track|
               = track_icon track
-        .handle= user.name
+        .name= user.name
         .details
           - if user.location.present?
             .location

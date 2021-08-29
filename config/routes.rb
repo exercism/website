@@ -366,10 +366,7 @@ Rails.application.routes.draw do
 
   get "donate" => "donations#index", as: :donate
 
-  # TODO: (Required): Swap these over for launch
-  get "landing" => "pages#index", as: :landing_page
-
-  root to: "pages#beta"
+  root to: "pages#index"
 
   ##############
   # ELB routes #
@@ -434,46 +431,46 @@ Rails.application.routes.draw do
   # Temporary and testing pages #
   # ########################### #
 
-  # TODO: Remove these before launching
-  namespace :temp do
-    resources :tracks, only: [:create]
-    resource :user_deletion, only: [:show]
-    resource :user_reset, only: [:show]
+  unless Rails.env.production?
+    # TODO: Remove these before launching
+    namespace :temp do
+      resources :tracks, only: [:create]
+      resource :user_deletion, only: [:show]
+      resource :user_reset, only: [:show]
 
-    resources :user_tracks, only: [] do
-      get :practice_mode, on: :member
-      get :reset, on: :member
-      get :leave, on: :member
-    end
-    resources :modals, only: [] do
-      collection do
-        get :mentoring_sessions
-        get :publish_exercise
-        get :completed_exercise
-        get :completed_mentoring_1
-        get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
-        get :reputation
-        get :mentoring_dropdown
-        get :exercise_tooltip
-        get :select_exercise_for_mentoring
-        get :badge
-        get :donation_confirmation
+      resources :user_tracks, only: [] do
+        get :practice_mode, on: :member
+        get :reset, on: :member
+        get :leave, on: :member
       end
-    end
-    resource :mentoring, only: [], controller: "mentoring" do
-      get :student_request
-    end
-    resource :mentored_tracks, only: %i[show update]
-    resources :tracks, only: [] do
-      resources :exercises, only: [], controller: "tracks/exercises" do
-        member do
-          patch :start
+      resources :modals, only: [] do
+        collection do
+          get :mentoring_sessions
+          get :publish_exercise
+          get :completed_exercise
+          get :completed_mentoring_1
+          get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
+          get :reputation
+          get :mentoring_dropdown
+          get :exercise_tooltip
+          get :select_exercise_for_mentoring
+          get :badge
+          get :donation_confirmation
+        end
+      end
+      resource :mentoring, only: [], controller: "mentoring" do
+        get :student_request
+      end
+      resource :mentored_tracks, only: %i[show update]
+      resources :tracks, only: [] do
+        resources :exercises, only: [], controller: "tracks/exercises" do
+          member do
+            patch :start
+          end
         end
       end
     end
-  end
 
-  unless Rails.env.production?
     namespace :test do
       namespace :misc do
         resource :loading_overlay, only: [:show], controller: "loading_overlay"

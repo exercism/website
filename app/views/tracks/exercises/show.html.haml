@@ -56,10 +56,14 @@
           = icon "external-link", "The link opens in a new window or tab", css_class: "action-icon"
 
     .flex-shrink-0.lg:w-1-3.lg:ml-32.mb-32.lg:mb-0
-      - if @solution&.completed?
+      - if @solution&.status == :completed
         = render "tracks/exercises/show/action_box_completed", track: @track, exercise: @exercise, solution: @solution
-      - elsif @solution&.iterated?
+      - elsif @solution&.status == :iterated
         = render "tracks/exercises/show/action_box_continue", track: @track, exercise: @exercise, solution: @solution
+      - elsif @solution&.status == :started
+        = render "tracks/exercises/show/action_box_in_progress", track: @track, exercise: @exercise, solution: @solution
+      - elsif @solution&.status == :locked
+        = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
       - elsif !@user_track.external?
         - if @user_track.exercise_unlocked?(@exercise)
           = render "tracks/exercises/show/action_box_start", track: @track, exercise: @exercise

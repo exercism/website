@@ -31,4 +31,13 @@ class Mentor::UpdateSatisfactionRatingTest < ActiveSupport::TestCase
 
     assert_equal 34, mentor.reload.mentor_satisfaction_percentage
   end
+
+  test "copes with zero" do
+    mentor = create :user
+    assert_nil mentor.mentor_satisfaction_percentage # Sanity check
+
+    Mentor::UpdateSatisfactionRating.(mentor)
+
+    assert_nil mentor.reload.mentor_satisfaction_percentage
+  end
 end

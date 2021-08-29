@@ -14,7 +14,9 @@ module Mentor
 
     private
     def mentor_satisfaction_percentage_sql
-      "CEIL((#{rated_acceptable_or_better_count_sql}) / (#{rated_count_sql}) * 100)"
+      # Dividing by zero explodes, but dividing by null returns null, so we guard
+      # using nullif, which is fine for our purposes here.
+      "CEIL((#{rated_acceptable_or_better_count_sql}) / NULLIF((#{rated_count_sql}),0) * 100)"
     end
 
     def rated_acceptable_or_better_count_sql

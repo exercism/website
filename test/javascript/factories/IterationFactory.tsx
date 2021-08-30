@@ -19,10 +19,10 @@ export const createIteration = (props: Partial<Iteration>): Iteration => ({
   isPublished: false,
   posts: undefined,
   links: {
-    self: 'https://test.exercism.io/iterations/1',
-    solution: 'https://test.exercism.io/iterations/1/solution',
-    files: 'https://test.exercism.io/iterations/1/files',
-    testRun: 'https://test.exercism.io/iterations/1/test_run',
+    self: 'https://test.exercism.org/iterations/1',
+    solution: 'https://test.exercism.org/iterations/1/solution',
+    files: 'https://test.exercism.org/iterations/1/files',
+    testRun: 'https://test.exercism.org/iterations/1/test_run',
   },
   ...props,
 })

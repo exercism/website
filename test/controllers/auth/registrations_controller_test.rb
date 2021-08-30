@@ -15,7 +15,7 @@ module Auth
         user: {
           name: "User",
           handle: "user22",
-          email: "user@exercism.io",
+          email: "user@exercism.org",
           password: "password",
           password_confirmation: "password"
         }

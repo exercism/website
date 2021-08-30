@@ -1,5 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
   prepend_view_path "app/views/mailers"
+  # TODO: Change to exercism.org when moving to AWS SES
   default from: "The Exercism Team <hello@mail.exercism.io>", reply_to: "hello@exercism.io"
 
   layout "mailer"

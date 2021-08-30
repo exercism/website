@@ -15,12 +15,12 @@ module Flows
           visit settings_path
           form = find("h2", text: "Change your email").ancestor("form")
           within(form) do
-            fill_in "Your email", with: "newemail@exercism.io"
+            fill_in "Your email", with: "newemail@exercism.org"
             fill_in "Confirm your password", with: "password"
             click_on "Change email"
           end
 
-          assert_text "We've sent a confirmation email to newemail@exercism.io"
+          assert_text "We've sent a confirmation email to newemail@exercism.org"
         end
       end
 
@@ -34,7 +34,7 @@ module Flows
             visit settings_path
             form = find("h2", text: "Change your email").ancestor("form")
             within(form) do
-              fill_in "Your email", with: "newemail@exercism.io"
+              fill_in "Your email", with: "newemail@exercism.org"
               fill_in "Confirm your password", with: "wrongpassword"
               click_on "Change email"
             end

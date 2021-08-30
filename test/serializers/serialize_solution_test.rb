@@ -9,8 +9,8 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     user_track = create :user_track, user: solution.user, track: solution.track
     expected = {
       uuid: solution.uuid,
-      private_url: "https://test.exercism.io/tracks/ruby/exercises/bob",
-      public_url: "https://test.exercism.io/tracks/ruby/exercises/bob/solutions/#{solution.user.handle}",
+      private_url: "https://test.exercism.org/tracks/ruby/exercises/bob",
+      public_url: "https://test.exercism.org/tracks/ruby/exercises/bob/solutions/#{solution.user.handle}",
       status: :published,
       mentoring_status: :none,
       has_notifications: false,

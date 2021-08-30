@@ -6,7 +6,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       provider: "github",
       uid: "111",
       info: stub(
-        email: "user@exercism.io",
+        email: "user@exercism.org",
         name: "Name",
         nickname: "user22",
         image: "http://some.image/avatar.jpg"
@@ -24,7 +24,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       provider: "github",
       uid: "111",
       info: stub(
-        email: "user@exercism.io",
+        email: "user@exercism.org",
         name: "Name",
         nickname: "user22",
         image: "http://some.image/avatar.jpg"
@@ -36,7 +36,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     user = User.find_by(uid: "111")
     assert_equal "github", user.provider
     assert_equal "111", user.uid
-    assert_equal "user@exercism.io", user.email
+    assert_equal "user@exercism.org", user.email
     assert_equal "Name", user.name
     assert_equal "user22", user.github_username
     assert_equal "http://some.image/avatar.jpg", user.avatar_url
@@ -44,12 +44,12 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
 
   test "updates email and github_username if from users.noreply.github.com" do
     user = create :user, provider: "github", uid: "111", email: "user@users.noreply.github.com"
-    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
     User::AuthenticateFromOmniauth.(auth)
 
     user.reload
-    assert_equal "user@exercism.io", user.email
+    assert_equal "user@exercism.org", user.email
     assert_equal "user22", user.github_username
   end
 
@@ -72,8 +72,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "sets provider, uid and github_username for email matches" do
-    user = create :user, email: "user@exercism.io"
-    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+    user = create :user, email: "user@exercism.org"
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
     User::AuthenticateFromOmniauth.(auth)
 
@@ -85,8 +85,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
 
   test "confirms user and changes password if email matches" do
     SecureRandom.stubs(:uuid).returns("12345678")
-    user = create :user, email: "user@exercism.io", confirmed_at: nil
-    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+    user = create :user, email: "user@exercism.org", confirmed_at: nil
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
     User::AuthenticateFromOmniauth.(auth)
 
@@ -96,8 +96,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "does not change password if user confirmed" do
-    user = create :user, email: "user@exercism.io", github_username: "user22", confirmed_at: Date.new(2016, 12, 25)
-    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+    user = create :user, email: "user@exercism.org", github_username: "user22", confirmed_at: Date.new(2016, 12, 25)
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
     User::AuthenticateFromOmniauth.(auth)
 
@@ -111,7 +111,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       provider: "github",
       uid: "111",
       info: stub(
-        email: "user@exercism.io",
+        email: "user@exercism.org",
         name: "Name",
         nickname: "user22",
         image: "http://some.image/avatar.jpg"
@@ -143,8 +143,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "recalculate pull request reputation for email matches that change the github_username" do
-    user = create :user, email: "user@exercism.io", github_username: nil
-    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+    user = create :user, email: "user@exercism.org", github_username: nil
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
     assert_enqueued_with(job: AwardReputationToUserForPullRequestsJob, args: [user], queue: 'reputation') do
       User::AuthenticateFromOmniauth.(auth)
@@ -152,8 +152,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "don't recalculate pull request reputation for email matches that don't change the github_username" do
-    create :user, email: "user@exercism.io", github_username: "user22"
-    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.io", nickname: "user22"))
+    create :user, email: "user@exercism.org", github_username: "user22"
+    auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
     User::AuthenticateFromOmniauth.(auth)
 
@@ -165,7 +165,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       provider: "github",
       uid: "111",
       info: stub(
-        email: "user@exercism.io",
+        email: "user@exercism.org",
         name: "Name",
         nickname: "user22",
         image: "http://some.image/avatar.jpg"

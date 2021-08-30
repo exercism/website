@@ -31,8 +31,8 @@ class Track
             {
               slug: 'basics',
               name: 'Basics',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/basics/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/basics',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/basics/tooltip'
             }
           ],
           levels: [['basics']],
@@ -62,14 +62,14 @@ class Track
             {
               slug: 'basics',
               name: 'Basics',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/basics/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/basics',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/basics/tooltip'
             },
             {
               slug: 'booleans',
               name: 'Booleans',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/booleans',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/booleans/tooltip'
             }
           ],
           levels: [['basics'], ['booleans']],
@@ -104,20 +104,20 @@ class Track
             {
               slug: 'atoms',
               name: 'Atoms',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/atoms',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/atoms/tooltip'
             },
             {
               slug: 'basics',
               name: 'Basics',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/basics/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/basics',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/basics/tooltip'
             },
             {
               slug: 'booleans',
               name: 'Booleans',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/booleans',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/booleans/tooltip'
             }
           ],
           levels: [['basics'], ['booleans'], ['atoms']],
@@ -153,20 +153,20 @@ class Track
             {
               slug: 'atoms',
               name: 'Atoms',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/atoms',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/atoms/tooltip'
             },
             {
               slug: 'basics',
               name: 'Basics',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/basics/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/basics',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/basics/tooltip'
             },
             {
               slug: 'booleans',
               name: 'Booleans',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/booleans',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/booleans/tooltip'
             }
           ],
           levels: [['basics'], ['booleans'], ['atoms']],
@@ -204,26 +204,26 @@ class Track
             {
               slug: 'atoms',
               name: 'Atoms',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/atoms/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/atoms',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/atoms/tooltip'
             },
             {
               slug: 'basics',
               name: 'Basics',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/basics',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/basics/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/basics',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/basics/tooltip'
             },
             {
               slug: 'booleans',
               name: 'Booleans',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/booleans/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/booleans',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/booleans/tooltip'
             },
             {
               slug: 'cond',
               name: 'Cond',
-              web_url: 'https://test.exercism.io/tracks/ruby/concepts/cond',
-              tooltip_url: 'https://test.exercism.io/tracks/ruby/concepts/cond/tooltip'
+              web_url: 'https://test.exercism.org/tracks/ruby/concepts/cond',
+              tooltip_url: 'https://test.exercism.org/tracks/ruby/concepts/cond/tooltip'
             }
           ],
           levels: [%w[basics], %w[booleans atoms], %w[cond]],

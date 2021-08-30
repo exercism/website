@@ -1,13 +1,10 @@
 module API
   class SettingsController < BaseController
     def update
-      command = User::Update.new(current_user, params)
+      cmd = User::Update.(current_user, params)
 
-      if command.()
-        render json: {}, status: :ok
-      else
-        render_400(:failed_validations, errors: command.errors)
-      end
+      cmd.on_success { render json: {} }
+      cmd.on_failure { |ers| render_400(:failed_validations, errors: ers) }
     end
 
     def sudo_update

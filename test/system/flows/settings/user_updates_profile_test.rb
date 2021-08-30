@@ -13,7 +13,9 @@ module Flows
           sign_in!(user)
 
           visit settings_path
-          fill_in "Name", with: "Name"
+
+          # https://github.com/redux-form/redux-form/issues/686#issuecomment-437096243
+          fill_in "Name", with: "Name", fill_options: { clear: :backspace }
           click_on "Save profile data"
 
           assert_field "Name", with: "Name"

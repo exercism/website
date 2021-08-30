@@ -1,9 +1,9 @@
 class User
   class Update
-    def initialize(user, params)
-      @user = user
-      @params = params
-    end
+    include Mandate
+    include Mandate::Callbacks
+
+    initialize_with :user, :params
 
     def call
       ApplicationRecord.transaction do
@@ -11,9 +11,10 @@ class User
         @user.profile.update(profile_params) if has_profile?
       end
 
-      errors.blank?
+      abort!(errors) if errors.present?
     end
 
+    memoize
     def errors
       [
         @user.errors.as_json,
@@ -22,21 +23,28 @@ class User
     end
 
     private
-    attr_reader :user, :params
-
     def has_profile?
-      @user.profile.present?
+      @user.profile
     end
 
     def user_params
-      params.require(:user).permit(
+      sanitized_params.require(:user).permit(
         :name, :location, :bio,
         pronoun_parts: []
       )
     end
 
     def profile_params
-      params.require(:profile).permit(:github, :linkedin, :twitter)
+      sanitized_params.require(:profile).permit(
+        :github, :linkedin, :twitter
+      )
+    end
+
+    memoize
+    def sanitized_params
+      return params if params.is_a?(ActionController::Parameters)
+
+      ActionController::Parameters.new(params)
     end
   end
 end

@@ -1,4 +1,6 @@
 class BlogPostsController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def index
     @posts = BlogPost.published.ordered_by_recency.limit(13)
   end

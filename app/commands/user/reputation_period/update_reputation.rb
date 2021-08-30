@@ -5,14 +5,38 @@ class User::ReputationPeriod
     initialize_with :period
 
     def call
-      @tokens = User::ReputationToken.where(user_id: period.user_id)
-      filter_track!
-      filter_period!
-      filter_category!
+      if should_delete?
+        period.destroy
+        return
+      end
+
+      recalculate!
+    end
+
+    private
+    # If the category is all, then we need to guard against
+    # the only tokens left being publishing, in which case someone
+    # shouldn't appear on the leaderboard any more
+    def should_delete?
+      return false unless period.any_category?
+
+      tokens = User::ReputationToken.where(user_id: period.user_id)
+      tokens = filter_track!(tokens)
+      tokens = filter_period!(tokens)
+      tokens = tokens.where.not(category: :publishing)
+      !tokens.exists? # Don't use empty? here - it's slower.
+    end
+
+    def recalculate!
+      # TODO: Guard as to whether this is still valid
+      tokens = User::ReputationToken.where(user_id: period.user_id)
+      tokens = filter_track!(tokens)
+      tokens = filter_period!(tokens)
+      tokens = filter_category!(tokens)
 
       # Update the period row. We do this all in one SQL command
       # to avoid any race conditions caused by a new token being added.
-      update_sql = @tokens.select("SUM(value)").to_sql
+      update_sql = tokens.select("SUM(value)").to_sql
 
       # Use a read_committed transaction to free non-matching rows
       # and avoid deadlocks
@@ -27,29 +51,31 @@ class User::ReputationPeriod
       User::ReputationPeriod.where(id: period.id, reputation: 0, dirty: false).delete_all
     end
 
-    def filter_track!
-      return unless period.about_track?
+    def filter_track!(tokens)
+      return tokens unless period.about_track?
 
-      @tokens = @tokens.where(track_id: period.track_id)
+      tokens.where(track_id: period.track_id)
     end
 
-    def filter_period!
-      return if period.forever?
+    def filter_period!(tokens)
+      return tokens if period.forever?
 
       if period.year?
         # If today is 29th May 2022, have >= 30th May 2020
-        @tokens = @tokens.where("earned_on >= ?", Date.current - 364.days)
+        tokens.where("earned_on >= ?", Date.current - 364.days)
       elsif period.month?
-        @tokens = @tokens.where("earned_on >= ?", Date.current - 29.days)
+        tokens.where("earned_on >= ?", Date.current - 29.days)
       elsif period.week?
-        @tokens = @tokens.where("earned_on >= ?", Date.current - 6.days)
+        tokens.where("earned_on >= ?", Date.current - 6.days)
+      else
+        tokens
       end
     end
 
-    def filter_category!
-      return if period.any_category?
+    def filter_category!(tokens)
+      return tokens if period.any_category?
 
-      @tokens = @tokens.where(category: period.category)
+      tokens.where(category: period.category)
     end
   end
 end

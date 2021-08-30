@@ -19,14 +19,15 @@ class User::ReputationPeriod
     end
 
     def call
-      @rows = User::ReputationPeriod
+      @rows = User::ReputationPeriod.where.not(reputation: 0)
 
       filter_period!
       filter_category!
       filter_about!
       filter_user_handle!
 
-      results = @rows.order(reputation: :desc).
+      results = @rows.
+        order(reputation: :desc).
         select(:user_id).
         page(page).
         per(self.class.requests_per_page).

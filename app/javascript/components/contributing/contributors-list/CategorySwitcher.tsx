@@ -40,14 +40,6 @@ const OptionComponent = ({
           </div>
         </React.Fragment>
       )
-    case 'publishing':
-      return (
-        <React.Fragment>
-          <div className="info">
-            <div className="title">Publishing</div>
-          </div>
-        </React.Fragment>
-      )
     case undefined:
       return (
         <React.Fragment>
@@ -69,8 +61,6 @@ const SelectedComponent = ({ option: category }: { option: Category }) => {
       return <>Mentoring</>
     case 'maintaining':
       return <>Maintaining</>
-    case 'publishing':
-      return <>Publishing</>
     case undefined:
       return <>All categories</>
   }
@@ -84,14 +74,7 @@ export const CategorySwitcher = ({
 }): JSX.Element => {
   return (
     <SingleSelect<Category>
-      options={[
-        undefined,
-        'building',
-        'authoring',
-        'maintaining',
-        'mentoring',
-        'publishing',
-      ]}
+      options={[undefined, 'building', 'authoring', 'maintaining', 'mentoring']}
       value={value}
       setValue={setValue}
       SelectedComponent={SelectedComponent}

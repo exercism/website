@@ -10,12 +10,10 @@ import { useHighlighting } from '../../utils/highlight'
 export const InstructionsPanel = ({
   introduction,
   assignment,
-  exampleFiles,
   debuggingInstructions,
 }: {
   introduction: string
   assignment: Assignment
-  exampleFiles: File[]
   debuggingInstructions?: string
 }) => {
   const ref = useHighlighting<HTMLDivElement>()
@@ -27,30 +25,9 @@ export const InstructionsPanel = ({
           <Introduction introduction={introduction} />
           <Instructions assignment={assignment} />
           <Debug debuggingInstructions={debuggingInstructions} />
-          <ExampleFiles files={exampleFiles} />
         </div>
       </section>
     </Tab.Panel>
-  )
-}
-
-const ExampleFiles = ({ files }: { files: File[] }) => {
-  if (files === null || files === undefined || files.length === 0) {
-    return null
-  }
-
-  return (
-    <>
-      <h3 className="text-h3 mt-20">Example files</h3>
-      {files.map((file, i) => (
-        <React.Fragment key={i}>
-          <h4>{file.filename}</h4>
-          <pre>
-            <code dangerouslySetInnerHTML={{ __html: file.content }} />
-          </pre>
-        </React.Fragment>
-      ))}
-    </>
   )
 }
 
@@ -153,9 +130,9 @@ const Debug = ({
   }
 
   return (
-    <>
+    <div className="debug-info">
       <h2>How to debug</h2>
       <div dangerouslySetInnerHTML={{ __html: debuggingInstructions }} />
-    </>
+    </div>
   )
 }

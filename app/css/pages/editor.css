@@ -318,6 +318,10 @@
                     @apply pt-16;
                     @apply border-t-1 border-borderColor6;
                 }
+                & .debug-info {
+                    @apply border-t-2 border-borderColor6;
+                    @apply mt-24 pt-24;
+                }
                 & .c-details.task {
                     @apply border-t-2 border-lightGray;
                     @apply mt-24 pt-16;

@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     # TODO: This is just a stub
     resources :users, only: [:update]
 
-    resource :profile, only: [:destroy]
+    resource :profile, only: [:create:, :destroy]
 
     resource :journey_overview, only: [:show], controller: "journey_overview"
 

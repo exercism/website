@@ -69,7 +69,7 @@
               .mentors
                 Mentored by
                 %strong= @mentor_discussions.map { |d| d.mentor.handle }.to_sentence
-              .more
+              = link_to doc_path(:using, 'feedback'), class: 'more' do
                 = graphical_icon "info-circle"
                 What is this?
 

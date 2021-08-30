@@ -88,20 +88,20 @@ The main dependencies can be installed via homebrew
 Running these commands inside a mysql console will get a working database setup:
 
 ```bash
-CREATE USER 'exercism_v3'@'localhost' IDENTIFIED BY 'exercism_v3';
-CREATE DATABASE exercism_v3_development;
-ALTER DATABASE exercism_v3_development CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON exercism_v3_development.* TO 'exercism_v3'@'localhost';
+CREATE USER 'exercism'@'localhost' IDENTIFIED BY 'exercism';
+CREATE DATABASE exercism_development;
+ALTER DATABASE exercism_development CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON exercism_development.* TO 'exercism'@'localhost';
 
-CREATE DATABASE `exercism_v3_test`;
-ALTER DATABASE `exercism_v3_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-GRANT ALL PRIVILEGES ON `exercism_v3_test`.* TO 'exercism_v3'@'localhost';
+CREATE DATABASE `exercism_test`;
+ALTER DATABASE `exercism_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+GRANT ALL PRIVILEGES ON `exercism_test`.* TO 'exercism'@'localhost';
 ```
 
 Tests are parallelized so you need a db per processor, so you need to do this for `n` processors.
 
 ```bash
-GRANT ALL PRIVILEGES ON `exercism_v3_test-0`.* TO 'exercism_v3'@'localhost';
+GRANT ALL PRIVILEGES ON `exercism_test-0`.* TO 'exercism'@'localhost';
 ```
 
 #### Run the setup script

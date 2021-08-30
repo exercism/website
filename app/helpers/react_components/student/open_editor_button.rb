@@ -11,6 +11,7 @@ module ReactComponents
           {
             status: status,
             command: command,
+            editor_enabled: exercise.has_test_runner?,
             links: links
           }
         )

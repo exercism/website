@@ -3,8 +3,8 @@ default: &default
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
   pool: 50
-  username: exercism_v3
-  password: exercism_v3
+  username: exercism
+  password: exercism
   socket: <%= Exercism.config.mysql_socket %>
   timeout: 5000
 
@@ -17,14 +17,14 @@ default: &default
 development:
   primary:
     <<: *default
-    database: exercism_v3_development
+    database: exercism_development
 
 test:
   primary:
     <<: *default
-    database: exercism_v3_test
+    database: exercism_test
 
 production:
   primary:
     <<: *default
-    database: exercism_v3_etl
+    database: exercism

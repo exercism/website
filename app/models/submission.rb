@@ -76,10 +76,10 @@ class Submission < ApplicationRecord
     return false unless iteration
 
     # Current mentors can see submissions
-    return true if solution.mentors.include?(user)
+    return true if user && solution.mentors.include?(user)
 
     # All mentors can see files on pending requests
-    return true if solution.mentor_requests.pending.any? && user.mentor?
+    return true if user && solution.mentor_requests.pending.any? && user.mentor?
 
     # Non-iteration submissions can never be seen
     # Everyone can see published iterations

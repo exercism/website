@@ -218,42 +218,49 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
+    refute submission.viewable_by?(nil)
 
     create :mentor_discussion, mentor: mentor_1, solution: solution
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
+    refute submission.viewable_by?(nil)
 
     create :mentor_request, solution: solution, status: :fulfilled
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
+    refute submission.viewable_by?(nil)
 
     create :mentor_request, solution: solution, status: :pending
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
+    refute submission.viewable_by?(nil)
 
     solution.update(published_at: Time.current)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
     assert submission.viewable_by?(user)
+    assert submission.viewable_by?(nil)
 
     solution.update(published_iteration: other_iteration)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
     refute submission.viewable_by?(user)
+    refute submission.viewable_by?(nil)
 
     solution.update(published_iteration: iteration)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
     assert submission.viewable_by?(user)
+    assert submission.viewable_by?(nil)
   end
 
   test "non-iteration submissions are never viewable" do
@@ -305,7 +312,7 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal ["log_line_parser.rb", "subdir/new_file.rb"], submission.valid_filepaths
   end
 
-  # d has both source and tests in the same file.
+  # The "d" track has both source and tests in the same file.
   # The config tells us this by having solution and test be the same
   test "valid_filepaths when test is same as solution file" do
     exercise = create :practice_exercise, slug: "d-like"

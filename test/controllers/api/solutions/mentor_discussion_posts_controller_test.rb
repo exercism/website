@@ -114,43 +114,6 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "index copes with no request" do
-    student = create :user, handle: "student"
-    setup_user(student)
-    solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution, request: nil
-    iteration = create :iteration, idx: 2, solution: solution
-    discussion_post = create(:mentor_discussion_post,
-      discussion: discussion,
-      iteration: iteration,
-      author: student,
-      content_markdown: "Hello",
-      updated_at: Time.utc(2016, 12, 25))
-
-    get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
-
-    assert_response 200
-    expected = {
-      items: [
-        {
-          uuid: discussion_post.uuid,
-          iteration_idx: 2,
-          author_handle: "student",
-          author_avatar_url: student.avatar_url,
-          by_student: true,
-          content_markdown: "Hello",
-          content_html: "<p>Hello</p>\n",
-          updated_at: Time.utc(2016, 12, 25).iso8601,
-          links: {
-            edit: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post),
-            delete: Exercism::Routes.api_solution_discussion_post_url(solution.uuid, discussion, discussion_post)
-          }
-        }
-      ]
-    }
-    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
-  end
-
   ###
   # Create
   ###

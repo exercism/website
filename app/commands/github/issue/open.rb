@@ -11,6 +11,8 @@ module Github
         elsif closed?
           reopen_issue
         end
+      rescue StandardError => e
+        Bugsnag.notify(e)
       end
 
       private

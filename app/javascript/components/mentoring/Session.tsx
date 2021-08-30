@@ -34,6 +34,7 @@ import { FavoritableStudent } from './session/FavoriteButton'
 
 export type Links = {
   mentorDashboard: string
+  improveNotes: string
   mentoringDocs: string
 }
 
@@ -197,7 +198,11 @@ export const Session = (props: SessionProps): JSX.Element => {
                   />
                 </Tab.Panel>
                 <Tab.Panel id="guidance" context={TabsContext}>
-                  <Guidance notes={notes} mentorSolution={mentorSolution} />
+                  <Guidance
+                    notes={notes}
+                    mentorSolution={mentorSolution}
+                    links={links}
+                  />
                 </Tab.Panel>
                 {discussion ? (
                   <AddDiscussionPostPanel

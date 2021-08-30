@@ -21,24 +21,24 @@ header.c-profile-header {
 
             & .heading {
                 @apply flex items-center;
-                @apply mb-12;
+                @apply mb-8;
                 & h1 {
                     @apply text-h2 mr-20;
                 }
                 & .c-primary-reputation {
-                    @apply mr-28;
+                    @apply mr-24;
                 }
                 & .tracks {
                     @apply flex;
 
                     & .c-track-icon {
-                        height: 54px;
-                        width: 54px;
+                        height: 40px;
+                        width: 40px;
                         @apply mr-12;
                     }
                 }
             }
-            & .handle {
+            & .name {
                 @apply text-h4 text-textColor6 leading-140;
                 @apply mb-12;
             }

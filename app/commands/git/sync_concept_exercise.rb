@@ -21,7 +21,8 @@ module Git
         title: exercise_config[:name].presence,
         blurb: head_git_exercise.blurb,
         taught_concepts: find_concepts(exercise_config[:concepts]),
-        prerequisites: find_concepts(exercise_config[:prerequisites])
+        prerequisites: find_concepts(exercise_config[:prerequisites]),
+        has_test_runner: head_git_exercise.has_test_runner?
       )
 
       SyncExerciseAuthors.(exercise)

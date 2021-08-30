@@ -20,7 +20,7 @@ class UnsubscribeController < ApplicationController
   private
   def guard_token!
     @token = params[:token]
-    return redirect_to communication_preferences_settings_path unless @token
+    return redirect_to communication_preferences_settings_path if @token.blank?
 
     begin
       @communication_preferences = User::CommunicationPreferences.find_by!(token: @token)

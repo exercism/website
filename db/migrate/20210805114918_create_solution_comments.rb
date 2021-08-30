@@ -1,6 +1,8 @@
 class CreateSolutionComments < ActiveRecord::Migration[6.1]
   def change
     create_table :solution_comments do |t|
+      t.string :uuid, null: false, index: {unique: true}
+
       t.belongs_to :solution, null: false, foreign_key: true
       t.belongs_to :author, null: false, foreign_key: {to_table: "users"}
       t.text :content_markdown, null: false

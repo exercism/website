@@ -36,4 +36,5 @@
 %link{ rel: "apple-touch-icon", sizes: "180x180", href: "#{Exercism.config.website_icons_host}/meta/apple-touch-icon.png" }
 %link{ rel: "icon", type: "image/png", sizes: "32x32", href: "#{Exercism.config.website_icons_host}/meta/favicon-32x32.png" }
 %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "#{Exercism.config.website_icons_host}/meta/favicon-16x16.png" }
-%link{ rel: "manifest", href: "/site.webmanifest" }
+- if Rails.env.production?
+  %link{ rel: "manifest", href: "/site.webmanifest" }

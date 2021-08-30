@@ -23,20 +23,17 @@
         filter: var(--primary-reputation-filter);
     }
     &.--small {
+        height: 30px;
+        @apply text-13 leading-100;
+        @apply px-8;
+
         & .c-icon {
             height: 16px;
             width: 16px;
         }
-        & .--inner {
-            height: 23px;
-            @apply text-13 leading-100;
-            @apply px-12;
-        }
     }
     &.--large {
-        & .--inner {
-            @apply leading-180 py-4;
-        }
+        @apply leading-180 py-4;
     }
 
     & .--notification {

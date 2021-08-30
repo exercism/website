@@ -85,6 +85,10 @@ class Exercise < ApplicationRecord
     slug == "hello-world"
   end
 
+  def has_test_runner?
+    super && track.has_test_runner?
+  end
+
   def to_param
     slug
   end
@@ -106,6 +110,10 @@ class Exercise < ApplicationRecord
 
   def icon_url
     "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
+  end
+
+  def edit_mentoring_notes_url
+    "https://github.com/exercism/website-copy/edit/main/tracks/#{track.slug}/exercises/#{slug}/mentoring.md"
   end
 
   def prerequisite_exercises

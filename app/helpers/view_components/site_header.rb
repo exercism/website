@@ -78,7 +78,7 @@ module ViewComponents
         html: safe_join([graphical_icon("hamburger"), tag.span("Explore")])
       }
       items = [
-        { html: link_to("Home", Exercism::Routes.landing_page_path), className: "opt site-link" },
+        { html: link_to("Home", Exercism::Routes.root_path), className: "opt site-link" },
         { html: link_to("Language Tracks", Exercism::Routes.tracks_path), className: "opt site-link" },
         { html: link_to("Contribute", Exercism::Routes.contributing_root_path), className: "opt site-link" },
         { html: link_to("Mentoring", Exercism::Routes.mentoring_path), className: "opt site-link" },
@@ -92,8 +92,7 @@ module ViewComponents
         tag.ul do
           safe_join(
             [
-              # TODO: (Required) Change to root_path at launch
-              si_nav_li("Home", :home, Exercism::Routes.landing_page_path, selected_tab == :dashboard),
+              si_nav_li("Home", :home, Exercism::Routes.root_path, selected_tab == :dashboard),
               si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
               # tag.li { "What is Exercism?", about_page_path )
               si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing),

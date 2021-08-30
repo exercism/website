@@ -184,7 +184,6 @@ import '../../css/pages/profile-badges'
 import '../../css/pages/profile-solutions'
 import '../../css/pages/profile-contributions'
 import '../../css/pages/profile-testimonials'
-import '../../css/pages/staging' // TODO: Remove for launch
 import '../../css/pages/track-shared-index'
 import '../../css/pages/concepts-index'
 import '../../css/pages/concept-show'
@@ -429,6 +428,7 @@ initReact({
   ),
   'student-open-editor-button': (data: any) => (
     <Student.OpenEditorButton
+      editorEnabled={data.editor_enabled}
       status={data.status}
       links={data.links}
       command={data.command}

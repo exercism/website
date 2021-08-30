@@ -19,7 +19,7 @@ module Flows
           find('label', text: "I accept Exercism's Privacy Policy").click
           click_on "Save & Get Started"
 
-          assert_page :staging
+          assert_page :landing
           assert_css "#site-header"
         end
       end

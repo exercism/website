@@ -30,9 +30,10 @@ export const Testimonial = ({
             iconUrl={testimonial.track.iconUrl}
             title={testimonial.track.title}
           />
+          <div className="track-title">{testimonial.track.title}</div>
         </div>
         <time dateTime={testimonial.createdAt}>
-          {fromNow(testimonial.createdAt)} ago
+          {fromNow(testimonial.createdAt)}
         </time>
       </button>
       <TestimonialModal

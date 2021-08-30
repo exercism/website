@@ -25,7 +25,7 @@
         @apply px-48 py-32;
 
         & .content {
-            @apply text-31 leading-150 text-textColor2;
+            @apply text-31 leading-150 text-textColor2 font-medium;
             @apply mt-32 mb-16;
         }
         & .student {

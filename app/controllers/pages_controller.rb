@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!
+  skip_before_action :ensure_onboarded!, only: [:announcement]
 
   def index
     @tracks = Track.active.order(num_students: :desc).limit(12).to_a

@@ -147,18 +147,23 @@ module API
       end
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
+      files = Git::GenerateDiffBetweenExerciseVersions.(solution.exercise, solution.git_slug, solution.git_sha)
+
+      # TODO: (Optional): Change this to always be a 200 and handle the empty files in React
+      status = files.present? ? 200 : 400
+
       render json: {
         diff: {
           exercise: {
             title: solution.exercise.title,
             icon_url: solution.exercise.icon_url
           },
-          files: Git::GenerateDiffBetweenExerciseVersions.(solution.exercise, solution.git_slug, solution.git_sha),
+          files: files,
           links: {
             update: Exercism::Routes.sync_api_solution_url(solution.uuid)
           }
         }
-      }
+      }, status: status
     end
 
     def sync

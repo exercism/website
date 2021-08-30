@@ -163,6 +163,15 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "Diff returns 400 if diff does not contain files" do
+    user = create :user
+    setup_user(user)
+    solution = create :concept_solution, user: user
+    get diff_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response 400
+  end
+
   ########
   # Sync #
   ########

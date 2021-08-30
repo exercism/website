@@ -17,6 +17,18 @@ class User::ReputationPeriod::UpdateReputationTest < ActiveSupport::TestCase
     assert_equal value, period.reload.reputation
   end
 
+  test "deletes rows if the only token is publishing" do
+    user = create :user
+    create :user_published_solution_reputation_token, user: user
+    period = create :user_reputation_period, :dirty, user: user
+
+    User::ReputationPeriod::UpdateReputation.(period)
+
+    assert_raises ActiveRecord::RecordNotFound do
+      period.reload
+    end
+  end
+
   test "deletes rows if reputation ends at zero" do
     period = create :user_reputation_period, :dirty
 
@@ -78,7 +90,6 @@ class User::ReputationPeriod::UpdateReputationTest < ActiveSupport::TestCase
     maintaining_period = create :user_reputation_period, :dirty, user: user, category: :maintaining
     authoring_period = create :user_reputation_period, :dirty, user: user, category: :authoring
     mentoring_period = create :user_reputation_period, :dirty, user: user, category: :mentoring
-    publishing_period = create :user_reputation_period, :dirty, user: user, category: :publishing
 
     # Process them all
     User::ReputationPeriod::Sweep.()
@@ -88,6 +99,5 @@ class User::ReputationPeriod::UpdateReputationTest < ActiveSupport::TestCase
     assert_equal 1, maintaining_period.reload.reputation
     assert_equal 20, authoring_period.reload.reputation
     assert_equal 5, mentoring_period.reload.reputation
-    assert_equal 2, publishing_period.reload.reputation
   end
 end

@@ -131,13 +131,13 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
 
   test "handles missing categories correctly" do
     mentoring_contributor = create :user, handle: 'mentoring'
-    publishing_contributor = create :user, handle: 'publishing'
+    building_contributor = create :user, handle: 'building'
     any_contributor = create :user, handle: 'any'
 
     # This data is contrived to test that only "forever" periods are returned if
     # the value is missing or incorrect
     create :user_reputation_period, user: mentoring_contributor, category: :mentoring
-    create :user_reputation_period, user: publishing_contributor, category: :publishing
+    create :user_reputation_period, user: building_contributor, category: :building
     create :user_reputation_period, user: any_contributor, category: :any
 
     assert_search [mentoring_contributor], User::ReputationPeriod::Search.(category: :mentoring) # Sanity
@@ -145,6 +145,16 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     assert_search [any_contributor], User::ReputationPeriod::Search.(category: '')
     assert_search [any_contributor], User::ReputationPeriod::Search.(category: nil)
     assert_search [any_contributor], User::ReputationPeriod::Search.(category: 'foobar')
+  end
+
+  test "does not consider rows categories with zero reputation" do
+    zero_contributor = create :user, handle: 'zero'
+    ten_contributor = create :user, handle: 'ten'
+
+    create :user_reputation_period, user: zero_contributor, reputation: 0
+    create :user_reputation_period, user: ten_contributor, reputation: 10
+
+    assert_search [ten_contributor], User::ReputationPeriod::Search.()
   end
 
   private

@@ -19,7 +19,6 @@ export type Category =
   | 'maintaining'
   | 'authoring'
   | 'mentoring'
-  | 'publishing'
   | undefined
 
 export const ContributorsList = ({

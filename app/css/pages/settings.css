@@ -38,6 +38,12 @@
             @apply shadow-lg rounded-8;
             @apply py-24 px-32 mb-24;
 
+            &.danger {
+                & h2 {
+                    @apply text-h5 mb-8;
+                }
+            }
+
             & .form-footer {
                 margin-left: -32px;
                 margin-right: -32px;

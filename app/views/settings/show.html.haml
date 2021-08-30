@@ -26,7 +26,7 @@
         = render ReactComponents::Settings::PasswordForm.new
 
       - if current_user.profile.present?
-        %section
+        %section.danger
           = render ReactComponents::Settings::DeleteProfileForm.new
 
       .danger-section

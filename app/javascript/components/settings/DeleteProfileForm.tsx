@@ -18,20 +18,19 @@ export const DeleteProfileForm = ({ links }: { links: Links }): JSX.Element => {
 
   return (
     <React.Fragment>
-      <div>
-        <h2>Delete your public profile</h2>
-        <p>
-          This will delete your public profile from the website. You can always
-          bring it back later.
-        </p>
-        <button
-          type="button"
-          className="btn-alert btn-m"
-          onClick={handleModalOpen}
-        >
-          Delete your profile
-        </button>
-      </div>
+      <h2>Delete your public profile</h2>
+      <p className="mb-16 text-p-base">
+        This will delete your public profile from the website. You can recreate
+        your profile at any time, and the only data that will be deleted is
+        links to your social profiles.
+      </p>
+      <button
+        type="button"
+        className="btn-warning btn-m"
+        onClick={handleModalOpen}
+      >
+        Delete your profile
+      </button>
       <DeleteProfileModal
         open={modalOpen}
         onClose={handleModalClose}

@@ -22,15 +22,4 @@
           .number= number_with_delimiter @num_testimonials
           .metric Testimonials received
 
-      .testimonials
-        - @testimonials.each do |testimonial|
-          .testimonial
-            = avatar(testimonial.student)
-            .content= testimonial.content
-            .student-name= testimonial.student.handle
-            .exercise
-              = testimonial.exercise.title
-              on
-              = track_icon(testimonial.track)
-              .track-title= testimonial.track.title
-            %time #{time_ago_in_words(testimonial.created_at)} ago
+      = render ReactComponents::Profile::TestimonialsList.new(@user, params)

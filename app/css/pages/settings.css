@@ -131,7 +131,7 @@
         }
     }
     & .field + .field {
-        @apply mt-12;
+        @apply mt-16;
     }
     & .bio {
         & textarea {

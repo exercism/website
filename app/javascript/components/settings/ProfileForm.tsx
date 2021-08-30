@@ -100,12 +100,12 @@ export const ProfileForm = ({
           <h2>Your social accounts</h2>
           <div className="field">
             <label htmlFor="profile_github" className="label">
-              Github
+              Github (Handle)
             </label>
             <input
               type="text"
               id="profile_github"
-              placeholder="Your GitHub profile url"
+              placeholder="Your GitHub handle"
               value={profile.github || ''}
               onChange={(e) =>
                 setProfile({ ...profile, github: e.target.value })
@@ -114,12 +114,12 @@ export const ProfileForm = ({
           </div>
           <div className="field">
             <label htmlFor="profile_twitter" className="label">
-              Twitter
+              Twitter (Handle)
             </label>
             <input
               type="text"
               id="profile_twitter"
-              placeholder="Your Twitter profile url"
+              placeholder="Your Twitter handle"
               value={profile.twitter || ''}
               onChange={(e) =>
                 setProfile({ ...profile, twitter: e.target.value })
@@ -128,7 +128,7 @@ export const ProfileForm = ({
           </div>
           <div className="field">
             <label htmlFor="profile_linkedin" className="label">
-              LinkedIn
+              LinkedIn (Full URL)
             </label>
             <input
               type="text"

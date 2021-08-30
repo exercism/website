@@ -16,11 +16,7 @@
           %h3.text-h5.mb-2 Find the post interesting or useful?
           %p.text-p-base Share it around and have others benefit too!
 
-        / TODO: Unify this with app/javascript/components/common/ShareSolutionButton.tsx
-        %button.c-share-button.ml-auto
-          .inner
-            = graphical_icon "share-with-gradient"
-            Share
+        = render ReactComponents::Common::ShareButton.new(title: "Share this blog post", share_title: @post.title, share_link: Exercism::Routes.blog_post_url(@post))
 
       .p-16.md:py-32.md:px-40.flex.flex-col
         - if @post.video?

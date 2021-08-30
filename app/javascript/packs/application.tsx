@@ -383,6 +383,13 @@ initReact({
   'common-share-solution-button': (data: any) => (
     <Common.ShareSolutionButton title={data.title} links={data.links} />
   ),
+  'common-share-button': (data: any) => (
+    <Common.ShareButton
+      title={data.title}
+      shareTitle={data.share_title}
+      shareLink={data.share_link}
+    />
+  ),
   'common-site-updates-list': (data: any) => (
     <Common.SiteUpdatesList
       updates={camelizeKeysAs<readonly SiteUpdate[]>(data.updates)}

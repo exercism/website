@@ -35,7 +35,7 @@
             @apply mb-24;
         }
         & section {
-            @apply shadow-lg rounded-8;
+            @apply shadow-lg rounded-8 bg-backgroundColorA;
             @apply py-24 px-32 mb-24;
 
             & .form-footer {

@@ -96,8 +96,8 @@ export const ProfileForm = ({
         </div>
       </div>
       {profile ? (
-        <React.Fragment>
-          <h2>Profile</h2>
+        <div className="pt-20 mt-24 border-t-1 border-borderColor6">
+          <h2>Your social accounts</h2>
           <div className="field">
             <label htmlFor="profile_github" className="label">
               Github
@@ -140,7 +140,7 @@ export const ProfileForm = ({
               }
             />
           </div>
-        </React.Fragment>
+        </div>
       ) : null}
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">

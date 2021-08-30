@@ -72,7 +72,12 @@ class User < ApplicationRecord
   # TODO: validate presence of name
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
+  # TODO: Inline this here and use variant(:thumb) everywhere in Rails Edge
+  AVATAR_THUMB_VARIANT = { thumbnail: "200x200^", extent: "200x200", gravity: :center }.freeze
   has_one_attached :avatar
+  # has_one_attached :avatar do |attachable|
+  #   attachable.variant :thumb, THUMB_VARIANT
+  # end
 
   before_create do
     self.name = self.handle if self.name.blank?
@@ -187,15 +192,10 @@ class User < ApplicationRecord
       accepted_terms_at.present?
   end
 
-  # TODO
   def avatar_url
-    return super if super.present?
-    return Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
+    return Rails.application.routes.url_helpers.url_for(avatar.variant(AVATAR_THUMB_VARIANT)) if avatar.attached?
 
-    # TODO: Read correct s3 bucket
-    # TODO: Add this image to the repo etc
-    super || "https://100k-faces.glitch.me/random-image?r=#{SecureRandom.hex(3)}"
-    # super || "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg"
+    super.presence || "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
   end
 
   # TODO

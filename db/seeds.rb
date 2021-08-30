@@ -143,7 +143,7 @@ Iteration.create!(uuid: SecureRandom.uuid, submission: submission, solution: sol
 Mentor::Request.create!(solution: solution, comment_markdown: "I would like to improve the performance of my code")
 
 ## Create mentoring solutions
-UserTrack.create!(user: karlo, track: ruby)
+UserTrack.create!(user: karlo, track: ruby, practice_mode: true)
 Solution::Create.( karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 
 ruby.practice_exercises.limit(10).each do |exercise|

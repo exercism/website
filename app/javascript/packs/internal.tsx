@@ -192,6 +192,9 @@ initReact({
       links={data.links}
     />
   ),
+  'settings-delete-profile-form': (data: any) => (
+    <Settings.DeleteProfileForm links={data.links} />
+  ),
   'settings-pronouns-form': (data: any) => (
     <Settings.PronounsForm
       handle={data.handle}

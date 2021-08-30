@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     # TODO: This is just a stub
     resources :users, only: [:update]
 
+    resource :profile, only: [:destroy]
+
     resource :journey_overview, only: [:show], controller: "journey_overview"
 
     scope :v2 do # rubocop:disable Naming/VariableNumber

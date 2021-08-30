@@ -165,8 +165,8 @@ module.exports = {
       brown: '#47300C',
       lightBrown: '#955D09',
 
-      warning: '#F69605',
-      warningBtnBorder: '#704D19',
+      warning: '#E48900',
+      warningBtnBorder: '#573C13',
 
       alert: '#D85050',
       alertBtnBorder: '#873333',

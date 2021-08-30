@@ -345,7 +345,8 @@ body.namespace-docs {
         }
 
         & .docs-search {
-            @apply block;
+            /* TODO: Readd once implemented */
+            /* @apply block; */
         }
         & .signed-in,
         & .signed-out {

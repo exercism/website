@@ -1,16 +1,10 @@
 module API
   class SettingsController < BaseController
     def update
-      permitted = params.require(:user).permit(
-        :name, :location, :bio,
-        pronoun_parts: []
-      )
+      cmd = User::Update.(current_user, params)
 
-      if current_user.update(permitted)
-        render json: {}, status: :ok
-      else
-        render_400(:failed_validations, errors: current_user.errors)
-      end
+      cmd.on_success { render json: {} }
+      cmd.on_failure { |ers| render_400(:failed_validations, errors: ers) }
     end
 
     def sudo_update

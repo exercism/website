@@ -186,7 +186,11 @@ initReact({
     />
   ),
   'settings-profile-form': (data: any) => (
-    <Settings.ProfileForm defaultUser={data.user} links={data.links} />
+    <Settings.ProfileForm
+      defaultUser={data.user}
+      defaultProfile={data.profile}
+      links={data.links}
+    />
   ),
   'settings-pronouns-form': (data: any) => (
     <Settings.PronounsForm

@@ -8,10 +8,22 @@ module ReactComponents
             location: current_user.location,
             bio: current_user.bio
           },
+          profile: profile,
           links: {
             update: Exercism::Routes.api_settings_url
           }
         })
+      end
+
+      private
+      def profile
+        return if current_user.profile.blank?
+
+        {
+          twitter: current_user.profile.twitter,
+          github: current_user.profile.github,
+          linkedin: current_user.profile.linkedin
+        }
       end
     end
   end

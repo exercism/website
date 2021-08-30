@@ -9,6 +9,12 @@ type User = {
   bio: string
 }
 
+type Profile = {
+  twitter: string
+  github: string
+  linkedin: string
+}
+
 type Links = {
   update: string
 }
@@ -17,17 +23,23 @@ const DEFAULT_ERROR = new Error('Unable to save profile')
 
 export const ProfileForm = ({
   defaultUser,
+  defaultProfile,
   links,
 }: {
   defaultUser: User
+  defaultProfile: Profile | null
   links: Links
 }): JSX.Element => {
   const [user, setUser] = useState<User>(defaultUser)
+  const [profile, setProfile] = useState<Profile | null>(defaultProfile)
 
-  const { mutation, status, error } = useSettingsMutation<{ user: User }>({
+  const { mutation, status, error } = useSettingsMutation<{
+    user: User
+    profile: Profile | null
+  }>({
     endpoint: links.update,
     method: 'PATCH',
-    body: { user: user },
+    body: { user: user, profile: profile },
   })
 
   const handleSubmit = useCallback(
@@ -83,6 +95,53 @@ export const ProfileForm = ({
           Tell the world about you 🌎. Emojis encouraged!
         </div>
       </div>
+      {profile ? (
+        <React.Fragment>
+          <h2>Profile</h2>
+          <div className="field">
+            <label htmlFor="profile_github" className="label">
+              Github
+            </label>
+            <input
+              type="text"
+              id="profile_github"
+              placeholder="Your GitHub profile url"
+              value={profile.github || ''}
+              onChange={(e) =>
+                setProfile({ ...profile, github: e.target.value })
+              }
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="profile_twitter" className="label">
+              Twitter
+            </label>
+            <input
+              type="text"
+              id="profile_twitter"
+              placeholder="Your Twitter profile url"
+              value={profile.twitter || ''}
+              onChange={(e) =>
+                setProfile({ ...profile, twitter: e.target.value })
+              }
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="profile_linkedin" className="label">
+              LinkedIn
+            </label>
+            <input
+              type="text"
+              id="profile_linkedin"
+              placeholder="Your LinkedIn profile url"
+              value={profile.linkedin || ''}
+              onChange={(e) =>
+                setProfile({ ...profile, linkedin: e.target.value })
+              }
+            />
+          </div>
+        </React.Fragment>
+      ) : null}
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
           Save profile data

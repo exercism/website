@@ -1,15 +1,12 @@
 module API
   class SettingsController < BaseController
     def update
-      permitted = params.require(:user).permit(
-        :name, :location, :bio,
-        pronoun_parts: []
-      )
+      command = User::Update.new(current_user, params)
 
-      if current_user.update(permitted)
+      if command.()
         render json: {}, status: :ok
       else
-        render_400(:failed_validations, errors: current_user.errors)
+        render_400(:failed_validations, errors: command.errors)
       end
     end
 

@@ -1,9 +1,11 @@
 require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
+require_relative "../../support/redirect_helpers"
 
 module Flows
   class UserCreatesAProfileTest < ApplicationSystemTestCase
     include CapybaraHelpers
+    include RedirectHelpers
 
     test "user creates a profile" do
       user = create :user
@@ -14,8 +16,7 @@ module Flows
 
         click_on "Create profile"
 
-        assert_text "Creating profile..."
-        assert_no_text "Creating profile..."
+        wait_for_redirect
         assert_text "You now have a public profile"
       end
     end

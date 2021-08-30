@@ -73,27 +73,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to profile_path(user)
   end
 
-  ##########
-  # Create #
-  ##########
-  test "create: creates profile" do
-    user = create :user
-    sign_in!(user)
-
-    post profiles_url, params: { user: { name: "User" } }
-    assert user.reload.profile
-    assert_redirected_to profile_path(user, first_time: true)
-  end
-
-  test "create: redirects to existing profile" do
-    user = create :user
-    create :user_profile, user: user
-    sign_in!(user)
-
-    post profiles_url, params: { user: { name: "User" } }
-    assert_redirected_to profile_path(user, first_time: true)
-  end
-
   ################
   # Testimonials #
   ################

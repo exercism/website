@@ -11,6 +11,8 @@ module Donations
       end
 
       def call
+        return unless user
+
         subscription = Donations::Subscription::Create.(user, subscription_data) if subscription_data
         Donations::Payment::Create.(user, payment_intent, subscription: subscription)
       end
@@ -22,7 +24,7 @@ module Donations
       def user
         raise "No customer in the payment intent" unless payment_intent.customer
 
-        User.find_by!(stripe_customer_id: payment_intent.customer)
+        User.find_by(stripe_customer_id: payment_intent.customer)
       end
 
       memoize

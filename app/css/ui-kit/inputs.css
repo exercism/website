@@ -1,7 +1,7 @@
 input:not([type="submit"]),
 .c-faux-input,
 textarea {
-    @apply shadow-smZ1;
+    @apply shadow-sm;
     @apply rounded-8 border-1 border-buttonBorderColor2;
     @apply py-12 px-16;
     @apply text-16 leading-160 text-textColor2;

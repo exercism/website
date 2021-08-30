@@ -2,7 +2,7 @@
 # the id in our database.
 module Donations
   module Customer
-    class Create
+    class CreateForUser
       include Mandate
 
       initialize_with :user

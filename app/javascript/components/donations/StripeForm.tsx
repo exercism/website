@@ -167,8 +167,8 @@ export function StripeForm({
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       {!userSignedIn ? (
-        <div>
-          <label htmlFor="email">Email</label>
+        <div className="email-container">
+          <label htmlFor="email">Your email address (for receipts):</label>
           <input
             type="email"
             id="email"

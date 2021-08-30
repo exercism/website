@@ -25,6 +25,10 @@
       %section
         = render ReactComponents::Settings::PasswordForm.new
 
+      - if current_user.profile.present?
+        %section
+          = render ReactComponents::Settings::DeleteProfileForm.new
+
       .danger-section
         .reset.box
           %h2 Reset account

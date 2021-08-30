@@ -59,22 +59,6 @@ class ProfilesController < ApplicationController
     @profile = User::Profile.new
   end
 
-  def create
-    return render :new, status: :unprocessable_entity if params[:user].blank?
-
-    if current_user.update(params[:user].permit(:name, :location, :bio))
-      begin
-        current_user.create_profile!
-      rescue ActiveRecord::RecordNotUnique
-        # Handle a double-click gracefully
-      end
-
-      redirect_to profile_path(current_user, first_time: true)
-    else
-      render :new, status: :unprocessable_entity
-    end
-  end
-
   private
   def use_user
     @user = User.find_by(handle: params[:id])

@@ -6,8 +6,8 @@
 
         & .concept {
             @apply flex items-center;
-            @apply shadow-base rounded-8;
-            @apply mb-8 py-8 px-16;
+            @apply shadow-baseZ1 rounded-8;
+            @apply mb-8 py-16 px-24;
 
             & .c-concept-icon {
                 @apply mr-16;
@@ -35,7 +35,7 @@
             flex: 1 1 0px;
             & h3 {
                 @apply flex items-center;
-                @apply text-h5;
+                @apply text-h6;
                 @apply mb-12;
                 & .c-icon {
                     height: 24px;
@@ -54,15 +54,17 @@
                 @apply mr-12 mb-12 py-8 px-16;
                 @apply shadow-base rounded-5;
                 transition: box-shadow 0.2s ease-out;
-                &a:hover:not(.--locked) {
-                    @apply shadow-baseZ1;
-                }
+
                 & .c-concept-icon {
                     @apply mr-12;
                 }
                 & .name {
-                    @apply text-16 leading-150 font-medium;
+                    @apply text-16 leading-150 font-medium text-textColor2;
                 }
+            }
+
+            & a.unlocked-concept:hover:not(.--locked) {
+                @apply shadow-baseZ1;
             }
         }
     }

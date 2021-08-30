@@ -12,6 +12,7 @@ export const TutorialCompletedModal = ({
 }): JSX.Element => {
   return (
     <Modal
+      cover={true}
       open={open}
       className="m-completed-tutorial-exercise"
       onClose={() => {}}
@@ -22,13 +23,12 @@ export const TutorialCompletedModal = ({
       <p>
         You’re now ready to get stuck into some{' '}
         <a href={track.links.exercises}>real exercises</a>.
+        {/* TODO: Change to track.course */}
         {track.numConcepts > 0 ? (
           <>
-            <br /> We’ve also revealed{' '}
-            <a href={track.links.concepts}>
-              {track.title}’s {track.numConcepts} concepts
-            </a>{' '}
-            for you to take a look at.
+            <br />
+            We’ve also revealed {track.title}’s {track.numConcepts} concepts for
+            you to take a look at.
           </>
         ) : (
           ''
@@ -40,9 +40,17 @@ export const TutorialCompletedModal = ({
         out.
       </div>
       <div className="btns">
-        <a href={track.links.exercises} className="btn-primary btn-m">
-          Show me more exercises
-        </a>
+        {/* TODO: Change to track.course */}
+        {track.numConcepts > 0 ? (
+          <a href={track.links.concepts} className="btn-primary btn-m">
+            <span>Show me the Concepts</span>
+            <GraphicalIcon icon="arrow-right" />
+          </a>
+        ) : (
+          <a href={track.links.exercises} className="btn-primary btn-m">
+            Show me more exercises
+          </a>
+        )}
         <button className="btn">Return to “Hello, World!”</button>
       </div>
     </Modal>

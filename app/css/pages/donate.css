@@ -1,6 +1,6 @@
 #page-donate {
     & header {
-        @apply bg-backgroundColorA shadow-lgZ1;
+        @apply bg-backgroundColorA;
         @apply relative;
         & .lg-container {
             &:before {
@@ -11,12 +11,6 @@
             }
         }
 
-        & .lg-container:first-child {
-            @apply pt-40;
-        }
-        & .lg-container:last-child {
-            @apply py-32;
-        }
         & .c-icon {
             height: 128px;
             width: 128px;
@@ -29,88 +23,117 @@
                 @apply font-bold;
             }
         }
-        & .c-progress {
-            @apply relative;
-            & .target-icon {
-                @apply absolute;
-                right: 0px;
-                height: 48px;
-                width: 48px;
-                background: linear-gradient(
-                        180deg,
-                        rgba(255, 255, 255, 0.5) 0%,
-                        rgba(255, 255, 255, 0) 100%
-                    ),
-                    linear-gradient(0deg, #fff4e3, #fff4e3);
-                box-shadow: 0px 4px 24px 0px #9c822666;
+    }
+    & article {
+        @apply flex flex-col;
 
-                @apply grid place-items-center rounded-circle;
+        @screen lg {
+            @apply grid;
+            grid-template:
+                "video form" auto
+                "info form" auto / auto auto;
 
-                & .c-icon {
-                    height: 40px;
-                    width: 40px;
-                    padding-left: 7px;
-                }
+            & section.video-section {
+                grid-area: video;
             }
-            & .goal {
+            & section.info-section {
+                grid-area: info;
+            }
+            & section.form-section {
+                grid-area: form;
+                @apply pl-48;
+            }
+        }
+    }
+    & .c-progress {
+        @apply relative;
+        & .target-icon {
+            @apply absolute;
+            right: 0px;
+            height: 48px;
+            width: 48px;
+            background: linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.5) 0%,
+                    rgba(255, 255, 255, 0) 100%
+                ),
+                linear-gradient(0deg, #fff4e3, #fff4e3);
+            box-shadow: 0px 4px 24px 0px #9c822666;
+
+            @apply grid place-items-center rounded-circle;
+
+            & .c-icon {
+                height: 40px;
+                width: 40px;
+                padding-left: 7px;
+            }
+        }
+        & .goal {
+            position: absolute;
+            right: -15px;
+            bottom: -65px;
+            &:before {
+                content: "";
+                background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDIyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMS4zMzY5IDBMMjEuOTAwNCA3LjVIMC43NzMzNDdMMTEuMzM2OSAwWiIgZmlsbD0iI0ZGRDM4RiIvPgo8L3N2Zz4K");
+                background-repeat: no-repeat;
+                background-size: contain;
                 position: absolute;
-                right: -15px;
-                bottom: -65px;
-                &:before {
-                    content: "";
-                    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDIyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMS4zMzY5IDBMMjEuOTAwNCA3LjVIMC43NzMzNDdMMTEuMzM2OSAwWiIgZmlsbD0iI0ZGRDM4RiIvPgo8L3N2Zz4K");
-                    background-repeat: no-repeat;
-                    background-size: contain;
-                    position: absolute;
-                    top: -8px;
-                    right: 30px;
-                    height: 10px;
-                    width: 25px;
-                }
+                top: -8px;
+                right: 30px;
+                height: 10px;
+                width: 25px;
             }
         }
-        & .steps {
-            @apply self-start flex items-center;
-            @apply pb-32;
-            & li {
-                @apply text-16 leading-150 font-semibold;
-                @apply flex items-center;
-                & + li {
-                    @apply ml-40;
-                }
-            }
-            & img {
-                height: 16px;
-                width: 16px;
-                @apply ml-8;
+    }
+    & .steps {
+        @apply self-start flex items-center;
+        @apply pb-32;
+        & li {
+            @apply text-16 leading-150 font-semibold;
+            @apply flex items-center;
+            & + li {
+                @apply ml-40;
             }
         }
-        & .summary {
-            @apply border-t-1 border-borderColor6;
-            & .item {
-                @apply mr-48;
-            }
-            & .value {
-                @apply text-textColor2 font-semibold text-32 leading-150;
-                @apply mb-2;
-            }
-            & .metric {
-                @apply text-textColor5 font-medium text-16 leading-150;
-            }
+        & img {
+            height: 16px;
+            width: 16px;
+            @apply ml-8;
+        }
+    }
+    & .summary {
+        @apply border-t-1 border-borderColor6;
+        @apply py-32;
+        & .item {
+            @apply mr-48;
+        }
+        & .value {
+            @apply text-textColor2 font-semibold text-32 leading-150;
+            @apply mb-2;
+        }
+        & .metric {
+            @apply text-textColor5 font-medium text-16 leading-150;
         }
     }
     & .video {
         background: #d5d8e4;
     }
     & .c-react-wrapper-donations-with-modal-form {
-        margin-top: -138px;
         @apply z-1;
+        max-width: none;
+        @screen lg {
+            max-width: 570px;
+            margin-top: -138px;
+        }
     }
     & .c-donations-form {
-        @apply shadow-baseZ1 rounded-8;
-        @apply ml-auto;
-        max-width: 570px;
+        @apply rounded-8;
         box-shadow: 0px 4px 32px 0px #4f72cd80;
-        @apply rounded-5;
+        max-width: none;
+
+        @screen lg {
+            @apply ml-auto;
+            max-width: 570px;
+        }
     }
 }

@@ -17,9 +17,6 @@ export const RevealedTestimonial = ({
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
 
-  {
-    /* TODO: (required) Set testimonial URL */
-  }
   return (
     <React.Fragment>
       <div className="testimonial">

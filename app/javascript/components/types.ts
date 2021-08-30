@@ -71,6 +71,7 @@ export type Testimonial = {
   links: {
     reveal: string
     delete: string
+    self: string
   }
 }
 

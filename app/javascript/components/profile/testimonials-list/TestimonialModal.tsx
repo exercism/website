@@ -1,9 +1,8 @@
 import React from 'react'
-import { Testimonial } from '../types'
-import { Modal, ModalProps } from './Modal'
-import { Avatar, TrackIcon } from '../common'
-import { fromNow } from '../../utils/time'
-import { SharePanel } from '../common/SharePanel'
+import { Testimonial } from '../../types'
+import { Modal, ModalProps } from '../../modals/Modal'
+import { Avatar, TrackIcon } from '../../common'
+import { fromNow } from '../../../utils/time'
 
 export const TestimonialModal = ({
   testimonial,
@@ -12,13 +11,7 @@ export const TestimonialModal = ({
   testimonial: Testimonial
 }): JSX.Element => {
   return (
-    <Modal
-      closeButton={true}
-      cover={true}
-      celebratory
-      className="m-testimonial"
-      {...props}
-    >
+    <Modal cover={true} celebratory className="m-testimonial" {...props}>
       <Avatar
         src={testimonial.student.avatarUrl}
         handle={testimonial.student.handle}
@@ -40,11 +33,6 @@ export const TestimonialModal = ({
           {fromNow(testimonial.createdAt)}
         </time>
       </div>
-      <SharePanel
-        title="Share your testimonial with the world"
-        url={testimonial.links.self}
-        shareTitle="View this testimonial on Exercism"
-      />
     </Modal>
   )
 }

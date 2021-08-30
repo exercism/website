@@ -12,7 +12,7 @@ class User::Profile < ApplicationRecord
 
   memoize
   def testimonials_tab?
-    user.mentor_testimonials.published.count > 3
+    user.mentor_testimonials.published.count.positive?
   end
 
   memoize

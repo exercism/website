@@ -21,6 +21,19 @@ module Flows
           assert_text "Best mentor!"
         end
       end
+
+      test "shows testimonial for a user" do
+        User::Profile.any_instance.expects(testimonials_tab?: true).at_least_once
+        user = create :user, handle: "author"
+        create :user_profile, user: user
+        testimonial = create :mentor_testimonial, mentor: user, revealed: true, content: "Best mentor!"
+
+        use_capybara_host do
+          visit testimonials_profile_url(user.handle, uuid: testimonial.uuid)
+
+          within(".m-testimonial") { assert_text "Best mentor!" }
+        end
+      end
     end
   end
 end

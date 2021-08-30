@@ -65,9 +65,6 @@ export const UnrevealedTestimonial = ({
     })
   }, [cacheKey, revealedTestimonial])
 
-  {
-    /* TODO: (required) Set testimonial URL */
-  }
   return (
     <a
       href="#"

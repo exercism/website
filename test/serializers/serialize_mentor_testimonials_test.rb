@@ -28,6 +28,7 @@ class SerializeMentorTestimonialsTest < ActiveSupport::TestCase
         is_revealed: false,
         created_at: testimonial.created_at.iso8601,
         links: {
+          self: Exercism::Routes.testimonials_profile_url(testimonial.mentor.handle, uuid: testimonial.uuid),
           reveal: Exercism::Routes.reveal_api_mentoring_testimonial_url(testimonial.uuid),
           delete: Exercism::Routes.api_mentoring_testimonial_url(testimonial.uuid)
         }

@@ -490,6 +490,12 @@ initReact({
       )}
     />
   ),
+  'profile-testimonials-list': (data: any) => (
+    <Profile.TestimonialsList
+      request={camelizeKeysAs<Request>(data.request)}
+      defaultSelected={data.default_selected || null}
+    />
+  ),
   'profile-contributions-list': (data: any) => (
     <Profile.ContributionsList
       categories={camelizeKeysAs<readonly ProfileContributionsListCategory[]>(

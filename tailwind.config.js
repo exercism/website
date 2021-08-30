@@ -127,6 +127,7 @@ module.exports = {
       primaryBtnBorder: '#130B43',
       purple: '#604FCD',
       purpleDarkened: '#3B2A93',
+      purpleDarker3: '#453A8F',
       anotherPurple: '#604FCD' /* Remove this */,
       lightPurple: '#B0A8E3',
       lightPurpleDarkened: '#f2f0fc',

@@ -130,7 +130,7 @@ module Flows
           click_on "Click / tap to reveal"
 
           within(".m-testimonial") { assert_text "Great mentor!" }
-          find("body").click
+          click_on "Close modal"
 
           assert_text "NEW"
         end

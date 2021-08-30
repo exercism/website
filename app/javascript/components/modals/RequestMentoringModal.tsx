@@ -47,8 +47,12 @@ export const RequestMentoringModal = ({
   )
 
   return (
-    <Modal className="m-select-exercise-for-mentoring" {...props}>
-      <h2>Selecct an exercise to request mentoring on</h2>
+    <Modal
+      closeButton={true}
+      className="m-select-exercise-for-mentoring"
+      {...props}
+    >
+      <h2>Select an exercise to request mentoring on</h2>
       <div className="c-search-bar">
         <input
           value={request.query.criteria || ''}

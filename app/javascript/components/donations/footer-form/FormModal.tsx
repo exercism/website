@@ -55,7 +55,12 @@ export const FormModal = ({
     case 'donating':
     case 'processingDonation':
       return (
-        <Modal className="m-donations-form" onClose={handleClose} {...props}>
+        <Modal
+          closeButton={true}
+          className="m-donations-form"
+          onClose={handleClose}
+          {...props}
+        >
           <Form
             request={request}
             defaultAmount={{ payment: amount, subscription: amount }}

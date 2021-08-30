@@ -16,7 +16,12 @@ export const BadgeModal = ({
   const classNames = ['m-badge', `--${badge.rarity}`, 'theme-dark']
 
   return (
-    <Modal {...props} className={classNames.join(' ')} cover={true}>
+    <Modal
+      {...props}
+      closeButton={true}
+      className={classNames.join(' ')}
+      cover={true}
+    >
       <BadgeMedallion badge={badge} />
       {wasUnrevealed ? <h2>New Badge Earned</h2> : null}
       <div className="name">{badge.name}</div>

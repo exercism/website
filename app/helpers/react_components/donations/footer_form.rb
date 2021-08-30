@@ -11,6 +11,7 @@ module ReactComponents
                 initial_data: AssembleActiveSubscription.(current_user)
               }
             },
+            user_signed_in: user_signed_in?,
             links: {
               settings: Exercism::Routes.donations_settings_url
             }

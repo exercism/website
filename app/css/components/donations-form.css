@@ -117,6 +117,20 @@
         & form {
             @apply py-24 px-24;
         }
+        & .email-container {
+            margin-top: -8px;
+            @apply pb-16 mb-24;
+            @apply border-b-1 border-borderColor6;
+            & label {
+                @apply block;
+                @apply text-16 leading-150 font-semibold;
+                @apply text-textColor6;
+                @apply mb-8;
+            }
+            & input {
+                @apply w-100;
+            }
+        }
         & .card-container {
             @apply rounded-8;
             @apply bg-backgroundColorC;

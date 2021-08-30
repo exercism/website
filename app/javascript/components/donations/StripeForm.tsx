@@ -37,18 +37,21 @@ export function StripeForm({
   amount,
   onSuccess,
   onProcessing = () => null,
+  userSignedIn,
   onSettled = () => null,
 }: {
   paymentIntentType: PaymentIntentType
   onSuccess: (type: PaymentIntentType, amount: currency) => void
   onProcessing?: () => void
   onSettled?: () => void
+  userSignedIn: boolean
   amount: currency
 }) {
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState<string | undefined>()
   const [processing, setProcessing] = useState(false)
   const [cardValid, setCardValid] = useState(false)
+  const [email, setEmail] = useState('')
 
   const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
   const paymentIntentFailedEndpoint =
@@ -93,6 +96,7 @@ export function StripeForm({
       body: JSON.stringify({
         type: paymentIntentType,
         amount_in_cents: amount.intValue,
+        email: email,
       }),
     }).then((data: any) => {
       if (data.error) {
@@ -101,7 +105,7 @@ export function StripeForm({
       }
       return data.paymentIntent
     })
-  }, [paymentIntentType, amount])
+  }, [paymentIntentType, amount.intValue, email])
 
   const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -156,8 +160,23 @@ export function StripeForm({
     processing ? onProcessing() : onSettled()
   }, [onProcessing, onSettled, processing])
 
+  const handleEmailChange = useCallback((e) => {
+    setEmail(e.target.value)
+  }, [])
+
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
+      {!userSignedIn ? (
+        <div className="email-container">
+          <label htmlFor="email">Your email address (for receipts):</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={handleEmailChange}
+          />
+        </div>
+      ) : null}
       <div className="card-container">
         <div className="title">Donate with Card</div>
         <div className="card-element">
@@ -165,7 +184,12 @@ export function StripeForm({
           <button
             className="btn-primary btn-s"
             type="submit"
-            disabled={processing || !cardValid || succeeded}
+            disabled={
+              processing ||
+              !cardValid ||
+              succeeded ||
+              (!userSignedIn && email.length === 0)
+            }
           >
             {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
             <span>

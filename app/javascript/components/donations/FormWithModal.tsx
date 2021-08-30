@@ -10,7 +10,15 @@ type Links = {
   settings: string
 }
 
-export default ({ request, links }: { request: Request; links: Links }) => {
+export default ({
+  request,
+  userSignedIn,
+  links,
+}: {
+  request: Request
+  userSignedIn: boolean
+  links: Links
+}) => {
   const [paymentMade, setPaymentMade] = useState(false)
   const [paymentType, setPaymentType] = useState<
     PaymentIntentType | undefined
@@ -28,7 +36,12 @@ export default ({ request, links }: { request: Request; links: Links }) => {
 
   return (
     <>
-      <Form onSuccess={handleSuccess} request={request} links={links} />
+      <Form
+        userSignedIn={userSignedIn}
+        onSuccess={handleSuccess}
+        request={request}
+        links={links}
+      />
       <SuccessModal
         open={paymentMade}
         amount={paymentAmount}

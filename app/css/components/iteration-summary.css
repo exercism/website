@@ -63,6 +63,11 @@
                 @apply border-1 border-borderLight rounded-5 px-8;
                 font-size: 12px;
                 line-height: 20px;
+
+                @apply hidden;
+                @screen md {
+                    @apply block;
+                }
             }
             & > .--latest + .--published {
                 @apply ml-8;

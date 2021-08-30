@@ -2,7 +2,7 @@ import React from 'react'
 
 export const EmptyList = (): JSX.Element => {
   return (
-    <div className="flex flex-col items-center center">
+    <div className="flex flex-col lg:items-center lg:center">
       <h3 className="text-h5 text-textColor6 mb-2">
         No one has commented on this solution.
       </h3>

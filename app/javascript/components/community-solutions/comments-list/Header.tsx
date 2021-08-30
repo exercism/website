@@ -22,7 +22,7 @@ export const Header = ({
   onCommentsDisabled: () => void
 }): JSX.Element => {
   return (
-    <header className="flex items-center mb-12">
+    <header className="flex lg:items-center mb-12">
       <h2 className="text-h4">Write a comment</h2>
       {isAuthor ? (
         <Options

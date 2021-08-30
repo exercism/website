@@ -7,33 +7,38 @@
         @apply mb-40;
 
         & .content {
-            @apply flex items-center;
-
             & .c-track-icon {
                 height: 48px;
                 width: 48px;
                 @apply mr-32;
+                @apply hidden;
+                @screen lg {
+                    @apply block;
+                }
             }
 
             & .avatar {
-                @apply mr-32;
-
                 & a {
                     @apply block;
                 }
 
                 & .c-avatar {
-                    height: 80px;
-                    width: 80px;
+                    height: 48px;
+                    width: 48px;
+                    @screen sm {
+                        height: 80px;
+                        width: 80px;
+                        @apply block;
+                    }
                 }
             }
 
             & h1 {
-                @apply text-h2 leading-120;
+                @apply text-h2 leading-140 mb-0;
                 @apply flex flex-col items-start;
                 & .name {
                     @apply mb-8;
-                    @apply flex items-center;
+                    @apply flex flex-wrap items-center;
 
                     & a {
                         @apply mr-10;
@@ -42,6 +47,10 @@
                     }
                     & .c-primary-reputation {
                         @apply ml-16;
+                        @apply hidden;
+                        @screen sm {
+                            @apply flex;
+                        }
                     }
                 }
                 & .to {
@@ -58,7 +67,19 @@
             }
             & .buttons {
                 @apply flex items-center;
-                @apply ml-96;
+
+                & .c-react-wrapper-common-share-solution-button {
+                    @apply flex-grow;
+                    @screen sm {
+                        @apply flex-grow-0;
+                    }
+                    & .c-share-button {
+                        @apply w-100;
+                        & .inner {
+                            @apply w-100 flex items-center justify-center;
+                        }
+                    }
+                }
 
                 & .star-button,
                 & .comments-button {
@@ -86,9 +107,8 @@
         }
     }
     & article {
-        @apply flex;
         & .lhs {
-            @apply flex-grow w-arbitary;
+            @apply flex-grow;
 
             & .iteration-section {
                 @apply bg-white shadow-base rounded-8;
@@ -183,8 +203,9 @@
             }
         }
         & .rhs {
-            @apply ml-48;
-            width: 440px;
+            @screen lg {
+                width: 440px;
+            }
 
             & .about,
             & .other-solutions {

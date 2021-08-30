@@ -17,9 +17,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     assert_empty user.roles
     assert_nil user.bio
 
-    # TODO: Switch
-    # assert_equal "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg", user.avatar_url
-    assert_includes user.avatar_url, "https://100k-faces.glitch.me/random-image"
+    assert_equal "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg", user.avatar_url
 
     assert_nil user.location
     assert_nil user.pronouns

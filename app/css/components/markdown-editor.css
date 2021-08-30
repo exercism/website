@@ -1,7 +1,10 @@
 @import "../styles";
 
 .c-markdown-editor {
-    min-width: 520px;
+    @screen md {
+        min-width: 520px;
+    }
+
     @apply flex flex-col relative;
     @apply border-1 border-buttonBorderColor2 rounded-8;
     @apply overflow-hidden;
@@ -45,9 +48,14 @@
         @apply flex flex-col-reverse;
 
         & .editor-toolbar {
+            @apply hidden;
+            @screen md {
+                @apply flex;
+            }
+
             border-width: 0; /* Override default */
             @apply border-t-1 border-borderColor5 rounded-none;
-            @apply flex items-center;
+            @apply items-center;
 
             & button {
                 @apply mr-4;

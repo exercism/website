@@ -5,8 +5,12 @@ import { ExerciseCompletedModal } from '../../../../../app/javascript/components
 
 test('shows information', async () => {
   const completion = {
+    track: {
+      title: 'Ruby',
+    },
     exercise: {
       title: 'Lasagna',
+      type: 'concept',
       links: { self: 'https://exercism.test/exercise' },
     },
     conceptProgressions: [

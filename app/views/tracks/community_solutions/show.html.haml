@@ -21,30 +21,31 @@
         .seperator /
         .exercise-title #{@author.handle}'s solution
 
-    .content.lg-container.container
+    .content.lg-container.flex.flex-col.lg:flex-row.lg:items-center
       = track_icon @track
-      .avatar
-        - if @author.profile
-          = link_to avatar(@author), profile_path(@author)
-        - else
-          = avatar(@author)
-
-      %h1
-        .name
+      .flex.items-start.sm:items-center
+        .avatar.mr-16.sm:mr-32
           - if @author.profile
-            = link_to "#{@author.handle}'s", profile_path(@author)
+            = link_to avatar(@author), profile_path(@author)
           - else
-            #{@author.handle}'s
-          solution
-          = render ViewComponents::Reputation.new(@author.formatted_reputation, size: :small, flashy: true)
-        .to
-          to
-          = link_to @exercise.title, track_exercise_path(@track, @exercise)
-          in
-          = link_to @track.title, @track
+            = avatar(@author)
 
-      .decorations
-      .buttons
+        %h1
+          .name
+            - if @author.profile
+              = link_to "#{@author.handle}'s", profile_path(@author)
+            - else
+              #{@author.handle}'s
+            solution
+            = render ViewComponents::Reputation.new(@author.formatted_reputation, size: :small, flashy: true)
+          .to
+            to
+            = link_to @exercise.title, track_exercise_path(@track, @exercise)
+            in
+            = link_to @track.title, @track
+
+      .decorations.hidden.lg:block
+      .buttons.lg:ml-96.mt-24.lg:mt-0
         = render ReactComponents::Common::ShareSolutionButton.new(@solution)
 
         = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
@@ -54,8 +55,8 @@
             = icon "comment", "Number of comment"
             %span= @solution.num_comments
 
-  %article.lg-container.container
-    .lhs
+  %article.lg-container.container.flex.flex-col.lg:flex-row.items-stretch
+    .lhs.mb-40.lg:mb-0
       .iteration-section
         = render ReactComponents::Common::SolutionView.new(@solution)
 
@@ -78,7 +79,7 @@
       %a{ name: "comments" }
       = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
 
-    .rhs
+    .rhs.lg:ml-48
       .about
         %h2
           About the

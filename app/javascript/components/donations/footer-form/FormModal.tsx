@@ -16,11 +16,13 @@ export const FormModal = ({
   onClose,
   request,
   links,
+  userSignedIn,
   ...props
 }: Omit<ModalProps, 'className'> & {
   amount: currency
   request: Request
   links: Links
+  userSignedIn: boolean
 }): JSX.Element => {
   const [step, setStep] = useState<ModalStep>('donating')
   const [paidAmount, setPaidAmount] = useState<currency | null>(null)
@@ -50,7 +52,6 @@ export const FormModal = ({
     setStep('donating')
   }, [])
 
-  let content
   switch (step) {
     case 'donating':
     case 'processingDonation':
@@ -64,6 +65,7 @@ export const FormModal = ({
             links={links}
             onProcessing={handleDonationProcessing}
             onSettled={handleDonationSettled}
+            userSignedIn={userSignedIn}
           />
         </Modal>
       )

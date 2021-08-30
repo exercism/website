@@ -285,6 +285,7 @@ initReact({
       <DonationsFormWithModal
         request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
+        userSignedIn={data.user_signed_in}
       />
     </Suspense>
   ),
@@ -306,6 +307,7 @@ initReact({
       <DonationsFooterForm
         request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
+        userSignedIn={data.user_signed_in}
       />
     </Suspense>
   ),

@@ -16,9 +16,11 @@ const DEFAULT_AMOUNT = currency(16)
 const FooterForm = ({
   request,
   links,
+  userSignedIn,
 }: {
   request: Request
   links: Links
+  userSignedIn: boolean
 }): JSX.Element => {
   const [currentAmount, setCurrentAmount] = useState(DEFAULT_AMOUNT)
   const [customAmount, setCustomAmount] = useState('')
@@ -90,6 +92,7 @@ const FooterForm = ({
         onClose={handleModalClose}
         amount={currentAmount}
         request={request}
+        userSignedIn={userSignedIn}
         links={links}
       />
     </>

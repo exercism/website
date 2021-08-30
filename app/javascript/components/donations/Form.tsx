@@ -39,6 +39,7 @@ export const Form = ({
   defaultTransactionType,
   onSuccess,
   links,
+  userSignedIn,
   onProcessing = () => null,
   onSettled = () => null,
 }: {
@@ -46,6 +47,7 @@ export const Form = ({
   defaultAmount?: Partial<FormAmount>
   defaultTransactionType?: PaymentIntentType
   onSuccess: (type: PaymentIntentType, amount: currency) => void
+  userSignedIn: boolean
   onProcessing?: () => void
   onSettled?: () => void
   links: Links
@@ -176,6 +178,7 @@ export const Form = ({
           <ExercismStripeElements>
             <StripeForm
               paymentIntentType={transactionType}
+              userSignedIn={userSignedIn}
               amount={currentAmount}
               onSuccess={handleSuccess}
               onProcessing={onProcessing}

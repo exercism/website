@@ -244,8 +244,7 @@ Done')
   end
 
   test "render internal link with exercise containing special characters" do
-    skip # TODO: enable one exercise tooltips are enabled
-    expected = %(<p><a href="https://exercism.org/tracks/ruby/exercises/bank-%F0%9F%8E%B8" data-tooltip-type="concept" data-endpoint="/tracks/ruby/exercises/bank-%F0%9F%8E%B8/tooltip">bank</a></p>\n) # rubocop:disable Layout/LineLength
+    expected = %(<p><a href="https://exercism.org/tracks/ruby/exercises/bank-%F0%9F%92%B0" data-tooltip-type="exercise" data-endpoint="/tracks/ruby/exercises/bank-%F0%9F%92%B0/tooltip">bank</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[bank](https://exercism.org/tracks/ruby/exercises/bank-💰)")
   end
 
@@ -255,32 +254,33 @@ Done')
   end
 
   test "render concept widget link without link" do
-    skip # TODO: enable once we know how to handle widgets
-    expected = %(<p><span data-react-widget="julia/concepts/if-statements\" class=\"data-react-concept-widget\"></span></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render concept widget instead of link
+    expected = %(<p><a href="https://exercism.org/tracks/julia/concepts/if-statements" data-tooltip-type="concept" data-endpoint="/tracks/julia/concepts/if-statements/tooltip">if-statements</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[concept:julia/if-statements]()")
   end
 
   test "render concept widget link with link" do
-    skip # TODO: enable once we know how to handle widgets
-    expected = %(<p><span data-react-widget="julia/concepts/if-statements\" class=\"data-react-concept-widget\"></span></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render concept widget instead of link
+    expected = %(<p><a href="https://exercism.org/tracks/julia/concepts/if-statements" data-tooltip-type="concept" data-endpoint="/tracks/julia/concepts/if-statements/tooltip">if-statements</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected,
       Markdown::Parse.("[concept:julia/if-statements](https://exercism.org/tracks/julia/concepts/if-statements)")
   end
 
   test "render exercise widget link without link" do
-    skip # TODO: enable once we know how to handle widgets
-    expected = %(<p><span data-react-widget="julia/exercises/two-fer\" class=\"data-react-exercise-widget\"></span></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render exercise widget instead of link
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer" data-tooltip-type="exercise" data-endpoint="/tracks/julia/exercises/two-fer/tooltip">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer]()")
   end
 
   test "render exercise widget link with link" do
-    skip # TODO: enable once we know how to handle widgets
-    expected = %(<p><span data-react-widget="julia/exercises/two-fer\" class=\"data-react-exercise-widget\"></span></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render exercise widget instead of link
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer" data-tooltip-type="exercise" data-endpoint="/tracks/julia/exercises/two-fer/tooltip">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](https://exercism.org/tracks/julia/exercises/two-fer)")
   end
 
   test "copes with a bad link uri scheme" do
-    expected = %(<p><a href=\"+https://exercism.org/tracks/julia/exercises/two-fer\" target=\"_blank\" rel=\"noopener\">exercise:julia/two-fer</a></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render exercise widget instead of link
+    expected = %(<p><a href=\"https://exercism.org/tracks/julia/exercises/two-fer\" data-tooltip-type=\"exercise\" data-endpoint=\"/tracks/julia/exercises/two-fer/tooltip\">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](+https://exercism.org/tracks/julia/exercises/two-fer)")
   end
 end

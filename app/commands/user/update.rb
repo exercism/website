@@ -28,23 +28,16 @@ class User
     end
 
     def user_params
-      sanitized_params.require(:user).permit(
-        :name, :location, :bio,
-        pronoun_parts: []
-      )
+      sanitized_params.fetch(:user, {}).slice(:name, :location, :bio, :pronoun_parts)
     end
 
     def profile_params
-      sanitized_params.require(:profile).permit(
-        :github, :linkedin, :twitter
-      )
+      sanitized_params.fetch(:profile, {}).slice(:github, :linkedin, :twitter)
     end
 
     memoize
     def sanitized_params
-      return params if params.is_a?(ActionController::Parameters)
-
-      ActionController::Parameters.new(params)
+      params.is_a?(ActionController::Parameters) ? params.permit! : params
     end
   end
 end

@@ -285,9 +285,23 @@ Done')
   end
 
   test "render note code block" do
-    expected = %(<div class="c-textblock-note">This is a note\n</div>\n)
-    assert_equal expected, Markdown::Parse.("```exercism/note\nThis is a note\n```")
-    assert_equal expected, Markdown::Parse.("`````exercism/note\nThis is a note\n`````")
-    assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nThis is a note\n~~~~~")
+    expected = %(<div class="c-textblock-note">Note this\n</div>\n)
+    assert_equal expected, Markdown::Parse.("```exercism/note\nNote this\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/note\nNote this\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nNote this\n~~~~~")
+  end
+
+  test "render caution code block" do
+    expected = %(<div class="c-textblock-caution">Here be dragons\n</div>\n)
+    assert_equal expected, Markdown::Parse.("```exercism/caution\nHere be dragons\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/caution\nHere be dragons\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/caution\nHere be dragons\n~~~~~")
+  end
+
+  test "render advanced code block" do
+    expected = %(<div class="c-textblock-advanced">Pointer arithmetic\n</div>\n)
+    assert_equal expected, Markdown::Parse.("```exercism/advanced\nPointer arithmetic\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/advanced\nPointer arithmetic\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/advanced\nPointer arithmetic\n~~~~~")
   end
 end

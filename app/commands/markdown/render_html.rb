@@ -50,7 +50,7 @@ class Markdown::RenderHTML
     end
 
     def code_block(node)
-      return note_block(node) if node.fence_info == "exercism/note"
+      return note_block(node) if NOTE_BLOCK_FENCES.include?(node.fence_info)
 
       block do
         out("<pre#{sourcepos(node)}><code")
@@ -66,10 +66,12 @@ class Markdown::RenderHTML
 
     def note_block(node)
       block do
-        out('<div class="c-textblock-note">')
+        out("<div class=\"c-textblock-#{node.fence_info.split('/')[1]}\">")
         out(escape_html(node.string_content))
         out('</div>')
       end
     end
+
+    NOTE_BLOCK_FENCES = %w[exercism/note exercism/caution exercism/advanced].freeze
   end
 end

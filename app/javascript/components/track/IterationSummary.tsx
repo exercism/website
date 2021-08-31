@@ -66,7 +66,6 @@ export function IterationSummary({
       <div className="--info">
         <div className="--idx">
           <h3>Iteration {iteration.idx}</h3>
-          <div className="--dot" role="presentation"></div>
           {iteration.isLatest ? (
             <div className="--latest" aria-label="Latest iteration">
               Latest

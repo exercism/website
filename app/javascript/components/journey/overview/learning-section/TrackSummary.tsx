@@ -10,7 +10,7 @@ export const TrackSummary = ({
 }: {
   track: TrackProgress
   expanded: boolean
-  avgVelocity: number
+  avgVelocity: number | null
 }): JSX.Element => {
   return (
     <details className="c-details track" open={expanded}>
@@ -32,16 +32,20 @@ export const TrackSummary = ({
             </p>
           </div>
         </div>
-        <div className="velocity-area">
-          <GraphicalIcon icon="velocity" />
-          <div className="journey-h3">{track.velocity}</div>
-          <h4>Progression Velocity</h4>
-          <div className="note">Avg. on Exercism = {avgVelocity}</div>
-          <div className="info">
-            This is a measure of how quickly you’ve progressed through the track
-            in the last 6 months
+        {track.velocity ? (
+          <div className="velocity-area">
+            <GraphicalIcon icon="velocity" />
+            <div className="journey-h3">{track.velocity}</div>
+            <h4>Progression Velocity</h4>
+            {avgVelocity ? (
+              <div className="note">Avg. on Exercism = {avgVelocity}</div>
+            ) : null}
+            <div className="info">
+              This is a measure of how quickly you’ve progressed through the
+              track in the last 6 months
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </details>
   )

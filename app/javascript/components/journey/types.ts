@@ -30,8 +30,8 @@ export class TrackProgress {
   }
 
   // TODO: (required)
-  get velocity(): number {
-    return 9.05
+  get velocity(): number | null {
+    return null
   }
 
   constructor({
@@ -79,11 +79,6 @@ export class TrackProgressList {
 
   get completion(): number {
     return (100 * this.numCompletedExercises) / this.numExercises
-  }
-
-  // TODO: (required)
-  get velocity(): number {
-    return 2.52
   }
 
   get numCompletedExercises(): number {

@@ -2,7 +2,7 @@ module ImagesHelper
   def bg_img(src, alt, css_class: 'c-bg-img', extra_css_class: nil)
     tag.div(
       class: [css_class, extra_css_class].compact.join(" "),
-      style: "background-image:url(#{src})"
+      style: "background-image:url(\"#{src}\")"
     ) do
       image_tag(src, alt: alt.to_s, class: "sr-only")
     end
@@ -22,7 +22,7 @@ module ImagesHelper
       profile_path(user),
       kwargs.merge(
         class: ['c-avatar', css_class].compact.join(" "),
-        style: "background-image:url(#{user.avatar_url})",
+        style: "background-image:url(\"#{user.avatar_url}\")",
         "aria-title": "Link to #{user.handle}'s profile"
       )
     ) do

@@ -1,0 +1,16 @@
+class ProcessIterationForDiscussionsJob < ApplicationJob
+  # TODO: Where should this be queued?
+  queue_as :default
+
+  def perform(iteration)
+    iteration.solution.mentor_discussions.awaiting_student.each do |discussion|
+      discussion.awaiting_mentor!
+
+      User::Notification::Create.(
+        discussion.mentor,
+        :student_added_iteration,
+        { discussion: discussion, iteration: iteration }
+      )
+    end
+  end
+end

@@ -37,4 +37,18 @@ class NotificationsMailer < ApplicationMailer
     subject = "[Mentoring] #{@discussion.student.handle} has commented in your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     mail_to_user(@user, subject)
   end
+
+  def student_added_iteration
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @iteration = notification.iteration
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_student_added_iteration
+    @title = "Your student has submitted a new iteration"
+    subject = "[Mentoring] #{@discussion.student.handle} has submitted a new iteration on the solution you are mentoring for #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
+    mail_to_user(@user, subject)
+  end
 end

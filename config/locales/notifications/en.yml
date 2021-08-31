@@ -13,3 +13,6 @@ en:
     acquired_badge:
       1: >
         You have been awarded the %{badge_name} badge.
+    student_added_iteration:
+      1: >
+        %{student_name} has submitted iteration %{iteration_idx} on the solution you are mentoring for %{track_title}:%{exercise_title}

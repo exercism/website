@@ -22,6 +22,7 @@ class Iteration
 
         GenerateIterationSnippetJob.perform_later(iteration)
         AwardBadgeJob.perform_later(user, :anybody_there)
+        ProcessIterationForDiscussionsJob.perform_later(iteration)
         record_activity!(iteration)
       end
     rescue ActiveRecord::RecordNotUnique

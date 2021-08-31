@@ -50,7 +50,7 @@ class Markdown::RenderHTML
     end
 
     def code_block(node)
-      return note_block(node) if node.fence_info == "note"
+      return note_block(node) if node.fence_info == "exercism/note"
 
       block do
         out("<pre#{sourcepos(node)}><code")

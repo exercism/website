@@ -286,6 +286,8 @@ Done')
 
   test "render note code block" do
     expected = %(<div class="c-textblock-note">This is a note\n</div>\n)
-    assert_equal expected, Markdown::Parse.("```note\nThis is a note\n```")
+    assert_equal expected, Markdown::Parse.("```exercism/note\nThis is a note\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/note\nThis is a note\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nThis is a note\n~~~~~")
   end
 end

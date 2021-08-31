@@ -16,7 +16,7 @@ const server = setupServer(
     return res(
       ctx.delay(10),
       ctx.status(200),
-      ctx.json({ links: { edit: '' } })
+      ctx.json({ links: { exercise: '' } })
     )
   })
 )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Iteration, IterationStatus } from '../../types'
+import { Iteration, IterationStatus, MentorDiscussion } from '../../types'
 import { IterationsList } from './IterationsList'
 import { FilePanel } from './FilePanel'
 import { IterationHeader } from './IterationHeader'
@@ -22,6 +22,7 @@ export const IterationView = ({
   isOutOfDate,
   isLinked,
   setIsLinked,
+  discussion,
 }: {
   iterations: readonly Iteration[]
   instructions?: string
@@ -33,6 +34,7 @@ export const IterationView = ({
   isOutOfDate: boolean
   isLinked: boolean
   setIsLinked: (linked: boolean) => void
+  discussion?: MentorDiscussion
 }): JSX.Element => {
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
@@ -67,16 +69,18 @@ export const IterationView = ({
           </FetchingBoundary>
         </ResultsZone>
       )}
-      <footer className="c-iterations-footer">
-        {iterations.length > 1 ? (
+      {iterations.length > 1 ? (
+        <footer className="c-iterations-footer">
           <IterationsList
             iterations={iterations}
             onClick={onClick}
             current={currentIteration}
           />
-        ) : null}
-        <LinkButton value={isLinked} setValue={setIsLinked} />
-      </footer>
+          {discussion ? (
+            <LinkButton value={isLinked} setValue={setIsLinked} />
+          ) : null}
+        </footer>
+      ) : null}
     </React.Fragment>
   )
 }

@@ -117,6 +117,7 @@ export const MentoringSession = ({
               isOutOfDate={outOfDate}
               isLinked={isLinked}
               setIsLinked={setIsLinked}
+              discussion={discussion}
             />
           </>
         }

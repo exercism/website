@@ -215,7 +215,7 @@ module Flows
         sign_in!(user)
         visit track_exercise_iterations_url(track, exercise)
 
-        assert_text "No auto suggestions? Try human mentoring."
+        assert_text "Get your tests passing in order to get analysis on your code."
       end
     end
 

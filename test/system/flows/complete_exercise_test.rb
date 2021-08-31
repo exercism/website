@@ -45,8 +45,9 @@ module Flows
         click_on "Mark as complete"
         click_on "Confirm"
 
-        assert_text "You've completed\nBoutique!"
-        assert_text "You've unlocked\n2 exercises"
+        assert_text "You've completed Boutique!"
+        assert_text "1 concept"
+        assert_text "2 exercises"
         assert_text "Bob"
         assert_text "Cars Assemble"
         refute_text "Leap"
@@ -54,7 +55,7 @@ module Flows
         assert_text "Conditionals"
         refute_text "Strings"
 
-        within(".m-completed-exercise") { click_on "Continue" }
+        within(".m-completed-exercise") { click_on "Return to the exercise" }
 
         wait_for_redirect
         assert_text "You've completed Boutique."
@@ -96,9 +97,9 @@ module Flows
         within("section.completion-nudge") { click_on "Mark as complete" }
         click_on "Confirm"
 
-        assert_text "You've completed\nBoutique!"
+        assert_text "You've completed Boutique!"
 
-        within(".m-completed-exercise") { click_on "Continue" }
+        within(".m-completed-exercise") { click_on "Return to the exercise" }
 
         wait_for_redirect
         assert_text "You've completed Boutique."

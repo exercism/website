@@ -5,6 +5,7 @@ import { ConceptProgression } from './exercise-completed-modal/ConceptProgressio
 import { Unlocks } from './exercise-completed-modal/Unlocks'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
 import { redirectTo } from '../../../utils/redirect-to'
+import pluralize from 'pluralize'
 
 export const ExerciseCompletedModal = ({
   open,
@@ -32,13 +33,22 @@ export const ExerciseCompletedModal = ({
         <h3>
           Awesome work. You’re one step closer to learning {track.title} 🚀
         </h3>
-        <div className="info">
-          You’ve learnt <strong>{conceptProgressions.length} concepts</strong>
-          {unlockedExercises.length > 0
-            ? ` and unlocked ${unlockedExercises.length} exercises`
-            : null}{' '}
-          by completing this exercise.
-        </div>
+        {conceptProgressions.length > 0 ? (
+          <div className="info">
+            You’ve learnt{' '}
+            <strong>
+              {conceptProgressions.length}{' '}
+              {pluralize('concept', conceptProgressions.length)}
+            </strong>
+            {unlockedExercises.length > 0
+              ? ` and unlocked ${unlockedExercises.length} ${pluralize(
+                  'exercise',
+                  unlockedExercises.length
+                )}`
+              : null}{' '}
+            by completing this exercise.
+          </div>
+        ) : null}
         <div className="progressed-concepts">
           {conceptProgressions.map((progression) => (
             <ConceptProgression key={progression.name} {...progression} />
@@ -69,8 +79,11 @@ export const ExerciseCompletedModal = ({
           <>
             <div className="info">
               You’ve progressed with{' '}
-              <strong>${conceptProgressions.length} concepts</strong> by
-              completing this exercise.
+              <strong>
+                {conceptProgressions.length}{' '}
+                {pluralize('concept', conceptProgressions.length)}
+              </strong>{' '}
+              by completing this exercise.
             </div>
             <div className="progressed-concepts">
               {conceptProgressions.map((progression) => (
@@ -105,7 +118,7 @@ export const ExerciseCompletedModal = ({
     >
       <>
         <ExerciseIcon iconUrl={exercise.iconUrl} />
-        <h2> You&apos;ve completed {exercise.title}! </h2>
+        <h2>You&apos;ve completed {exercise.title}!</h2>
         {content}
       </>
     </Modal>

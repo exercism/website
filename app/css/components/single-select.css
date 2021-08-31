@@ -46,6 +46,9 @@
         }
     }
     & > .--options {
+        max-height: 300px;
+        overflow: auto;
+
         & label.c-radio-wrapper {
             --row-selected-background-color: var(--backgroundColorD);
 

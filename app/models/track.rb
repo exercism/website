@@ -45,10 +45,6 @@ class Track < ApplicationRecord
     exercises.find_by(slug: "hello-world")
   end
 
-  def course?
-    git.has_concept_exercises?
-  end
-
   memoize
   def num_contributors
     User::ReputationPeriod.where(

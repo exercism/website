@@ -145,6 +145,7 @@ export const Session = (props: SessionProps): JSX.Element => {
               indentSize={track.indentSize}
               isLinked={isLinked}
               setIsLinked={setIsLinked}
+              discussion={discussion}
             />
           </>
         }

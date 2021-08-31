@@ -15,7 +15,7 @@ export const ShareSolutionButton = ({
   return (
     <ShareButton
       title={title}
-      shareTitle="View my solution on Exercism"
+      shareTitle="View this solution on Exercism"
       shareLink={links.solution}
     />
   )

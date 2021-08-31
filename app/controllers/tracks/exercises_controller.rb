@@ -31,14 +31,14 @@ class Tracks::ExercisesController < ApplicationController
     Solution::Create.(current_user, @exercise)
 
     respond_to do |format|
-      format.html { redirect_to action: :edit }
       format.json do
         render json: {
           links: {
-            edit: Exercism::Routes.edit_track_exercise_url(@track, @exercise)
+            exercise: Exercism::Routes.edit_track_exercise_url(@track, @exercise)
           }
         }
       end
+      format.html { redirect_to action: :edit }
     end
   end
 
@@ -47,12 +47,6 @@ class Tracks::ExercisesController < ApplicationController
 
     @solution ||= Solution::Create.(current_user, @exercise) # rubocop:disable Naming/MemoizedInstanceVariableName
   rescue ExerciseLockedError
-    redirect_to action: :show
-  end
-
-  # TODO: (Required) Delete when this is working via the API
-  def complete
-    Solution::Complete.(@solution, @user_track)
     redirect_to action: :show
   end
 

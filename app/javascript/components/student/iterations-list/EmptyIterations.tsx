@@ -48,7 +48,7 @@ export const EmptyIterations = ({
           return
         }
 
-        redirectTo(solution.links.edit)
+        redirectTo(solution.links.exercise)
       },
     }
   )

@@ -17,7 +17,7 @@ module Flows
           fill_in "To confirm, write your handle handle in the box below:", with: "handle"
           within(".m-reset-account") { click_on "Reset account" }
 
-          assert_page :landing
+          assert_page :dashboard
         end
       end
     end

@@ -175,7 +175,7 @@ body.devise {
     & .user-menu-dropdown,
     & .explore-menu-dropdown {
         @apply bg-backgroundColorA shadow-lg rounded-8;
-        @apply px-16 pb-20;
+        @apply px-16 pb-16;
 
         & li.site-link {
             @screen lg {
@@ -187,17 +187,44 @@ body.devise {
                 @apply flex;
                 @apply text-textColor6 font-medium;
                 @apply text-16 leading-huge;
-                @apply bg-backgroundColorA;
+                @apply bg-backgroundColorA rounded-5;
 
                 &:hover {
                     @apply bg-backgroundColorD;
-                    @apply text-textColor5;
+                    @apply text-textColor2;
+                }
+            }
+            &.inline {
+                @apply font-semibold;
+                & a {
+                    @apply text-14;
+                    @apply inline-flex items-center;
+                    @apply py-6 px-12 mx-0;
+                    & .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mr-12;
+                    }
                 }
             }
         }
+
+        & li.section-end {
+            @apply relative;
+            &:after {
+                content: "";
+                @apply border-b-1 border-borderColor6;
+                height: 1px;
+                bottom: -8px;
+                left: 0;
+                right: 0;
+                @apply absolute;
+            }
+            @apply mb-16;
+        }
     }
     & .user-menu-dropdown {
-        min-width: 350px;
+        width: 300px;
 
         & li.profile {
             & a {
@@ -234,24 +261,14 @@ body.devise {
                 @apply px-12 py-4;
 
                 @screen lg {
-                    @apply px-16 py-8;
+                    @apply px-16 py-6;
+
+                    margin-left: -8px;
+                    margin-right: -8px;
                 }
             }
         }
 
-        & li.site-link.donate {
-            @apply relative;
-            &:after {
-                content: "";
-                @apply border-b-1 border-borderColor7;
-                height: 1px;
-                bottom: -8px;
-                left: 0;
-                right: 0;
-                @apply absolute;
-            }
-            @apply mb-16;
-        }
         & li.reputation {
             @apply mb-20;
             @screen lg {
@@ -289,6 +306,7 @@ body.devise {
         }
     }
     & .explore-menu-dropdown {
+        width: 300px;
         @apply py-8;
 
         & li.opt {

@@ -82,7 +82,15 @@ module ViewComponents
         { html: link_to("Language Tracks", Exercism::Routes.tracks_path), className: "opt site-link" },
         { html: link_to("Contribute", Exercism::Routes.contributing_root_path), className: "opt site-link" },
         { html: link_to("Mentoring", Exercism::Routes.mentoring_path), className: "opt site-link" },
-        { html: link_to("Donate 💜", Exercism::Routes.donate_path), className: "opt site-link donate" }
+        { html: link_to("Donate 💜", Exercism::Routes.donate_path), className: "opt site-link section-end" },
+
+        { html: link_to(graphical_icon("blog") + tag.span("Community Blog"), Exercism::Routes.blog_posts_path),
+          className: "opt inline" },
+        { html: link_to(graphical_icon("docs") + tag.span("Docs"), Exercism::Routes.docs_path), className: "opt inline" },
+        { html: link_to(graphical_icon("external-site-github") + tag.span("GitHub"), "https://github.com/exercism"),
+          className: "opt inline" },
+        { html: link_to(graphical_icon("exercism-face") + tag.span("About exercism"), Exercism::Routes.about_page_path),
+          className: "opt inline" }
       ]
       render(ReactComponents::Dropdowns::Dropdown.new(menu_button: button, menu_items: items))
     end

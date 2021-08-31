@@ -32,11 +32,18 @@ module ViewComponents
         { html: link_to("Tracks", Exercism::Routes.tracks_path), className: "opt site-link" },
         { html: link_to("Mentoring", Exercism::Routes.mentoring_inbox_path), className: "opt site-link" },
         { html: link_to("Contribute", Exercism::Routes.contributing_root_path), className: "opt site-link" },
-        { html: link_to("Donate 💜", Exercism::Routes.donate_path), className: "opt site-link donate" },
-        { html: link_to("Public Profile", profile_path), className: "opt" },
+        { html: link_to("Donate 💜", Exercism::Routes.donate_path), className: "opt site-link section-end" },
         { html: link_to("Your Journey", Exercism::Routes.journey_path), className: "opt" },
+        { html: link_to("Public Profile", profile_path), className: "opt" },
         { html: link_to("Settings", Exercism::Routes.settings_path), className: "opt" },
-        { html: link_to("Sign out", Exercism::Routes.destroy_user_session_path, method: :delete), className: "opt" }
+        { html: link_to("Sign out", Exercism::Routes.destroy_user_session_path, method: :delete), className: "opt section-end" },
+        { html: link_to(graphical_icon("blog") + tag.span("Community Blog"), Exercism::Routes.blog_posts_path),
+          className: "opt inline" },
+        { html: link_to(graphical_icon("docs") + tag.span("Docs"), Exercism::Routes.docs_path), className: "opt inline" },
+        { html: link_to(graphical_icon("external-site-github") + tag.span("GitHub"), "https://github.com/exercism"),
+          className: "opt inline" },
+        { html: link_to(graphical_icon("exercism-face") + tag.span("About exercism"), Exercism::Routes.about_page_path),
+          className: "opt inline" }
       ]
     end
 

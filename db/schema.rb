@@ -69,26 +69,6 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.index ["author_id"], name: "index_blog_posts_on_author_id"
     t.index ["uuid"], name: "index_blog_posts_on_uuid", unique: true
   end
-  
-  create_table "concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_concept_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["track_concept_id", "user_id"], name: "index_concept_authorships_on_track_concept_id_and_user_id", unique: true
-    t.index ["track_concept_id"], name: "index_concept_authorships_on_track_concept_id"
-    t.index ["user_id"], name: "index_concept_authorships_on_user_id"
-  end
-
-  create_table "concept_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_concept_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["track_concept_id", "user_id"], name: "index_concept_contributorships_on_track_concept_id_and_user_id", unique: true
-    t.index ["track_concept_id"], name: "index_concept_contributorships_on_track_concept_id"
-    t.index ["user_id"], name: "index_concept_contributorships_on_user_id"
-  end
 
   create_table "contributor_team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "contributor_team_id", null: false
@@ -883,10 +863,6 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
-  add_foreign_key "concept_authorships", "track_concepts"
-  add_foreign_key "concept_authorships", "users"
-  add_foreign_key "concept_contributorships", "track_concepts"
-  add_foreign_key "concept_contributorships", "users"
   add_foreign_key "contributor_team_memberships", "contributor_teams"
   add_foreign_key "contributor_team_memberships", "users"
   add_foreign_key "contributor_teams", "tracks"

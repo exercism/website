@@ -14,7 +14,7 @@
   .practice
     %h3
       = graphical_icon(:exercises)
-      Unlocks #{practice_exercises.count} more exercises to practice #{concept.name}
+      Unlock #{practice_exercises.count} more #{'exercise'.pluralize(practice_exercises.count)} to practice #{concept.name}
 
     .exercises
       - practice_exercises.each do |practice_exercise|

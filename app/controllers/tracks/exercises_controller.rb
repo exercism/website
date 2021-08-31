@@ -35,7 +35,7 @@ class Tracks::ExercisesController < ApplicationController
       format.json do
         render json: {
           links: {
-            exercise: Exercism::Routes.edit_track_exercise_path(@exercise.track, @exercise)
+            edit: Exercism::Routes.edit_track_exercise_url(@track, @exercise)
           }
         }
       end

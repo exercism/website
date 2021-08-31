@@ -17,7 +17,7 @@ class Donations::Subscription::UpdateAmountTest < Donations::TestBase
         price_data: {
           unit_amount: new_amount_in_cents,
           currency: 'usd',
-          product: Exercism::STRIPE_RECURRING_PRODUCT_ID,
+          product: Exercism.secrets.stripe_recurring_product_id,
           recurring: {
             interval: 'month'
           }

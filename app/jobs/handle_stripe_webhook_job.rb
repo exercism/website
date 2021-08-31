@@ -3,7 +3,7 @@ class HandleStripeWebhookJob < ApplicationJob
 
   def perform(signature, payload_body)
     event = Stripe::Webhook.construct_event(
-      payload_body, signature, Exercism::STRIPE_ENDPOINT_SECRET
+      payload_body, signature, Exercism.secrets.stripe_endpoint_secret
     )
 
     case event.type

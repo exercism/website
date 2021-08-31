@@ -160,6 +160,7 @@ import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
 import '../../css/pages/about'
+import '../../css/pages/supporters'
 import '../../css/pages/team'
 import '../../css/pages/editor'
 import '../../css/pages/notifications'

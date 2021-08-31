@@ -13,6 +13,12 @@ test('shows information', async () => {
       type: 'concept',
       links: { self: 'https://exercism.test/exercise' },
     },
+    track: {
+      title: 'Ruby',
+      links: {
+        exercises: 'https://exercism.test/tracks/ruby/exercises',
+      },
+    },
     conceptProgressions: [
       {
         name: 'Arrays',
@@ -42,9 +48,7 @@ test('shows information', async () => {
     />
   )
 
-  expect(screen.getByRole('banner')).toHaveTextContent(
-    "You've completedLasagna!"
-  )
+  expect(screen.getByText("You've completed Lasagna!")).toBeInTheDocument()
   expect(screen.getByText('Ar')).toBeInTheDocument()
   expect(screen.getByText('Arrays')).toBeInTheDocument()
   expect(
@@ -62,7 +66,14 @@ test('hides unlocks section when there are no unlocked exercises and concepts', 
   const completion = {
     exercise: {
       title: 'Lasagna',
+      type: 'concept',
       links: { self: 'https://exercism.test/exercise' },
+    },
+    track: {
+      title: 'Ruby',
+      links: {
+        exercises: 'https://exercism.test/tracks/ruby/exercises',
+      },
     },
     conceptProgressions: [
       {
@@ -91,7 +102,14 @@ test('hides unlocked exercises section when there are no unlocked exercises', as
   const completion = {
     exercise: {
       title: 'Lasagna',
+      type: 'concept',
       links: { self: 'https://exercism.test/exercise' },
+    },
+    track: {
+      title: 'Ruby',
+      links: {
+        exercises: 'https://exercism.test/tracks/ruby/exercises',
+      },
     },
     conceptProgressions: [
       {
@@ -126,7 +144,14 @@ test('hides unlocked concepts section when there are no unlocked concepts', asyn
   const completion = {
     exercise: {
       title: 'Lasagna',
+      type: 'concept',
       links: { self: 'https://exercism.test/exercise' },
+    },
+    track: {
+      title: 'Ruby',
+      links: {
+        exercises: 'https://exercism.test/tracks/ruby/exercises',
+      },
     },
     conceptProgressions: [
       {

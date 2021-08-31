@@ -24,7 +24,7 @@
 
         & > .--info {
             & > .--title {
-                @apply text-16 mb-0;
+                @apply text-16 mb-0 font-medium text-textColor2;
             }
         }
         & > .c-icon.--action-icon {

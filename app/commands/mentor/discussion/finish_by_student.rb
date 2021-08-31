@@ -31,6 +31,7 @@ module Mentor
         create_testimonial!
         award_reputation!
         award_badge!
+        notify!
         log_metric!
       end
 
@@ -94,6 +95,14 @@ module Mentor
 
       delegate :track, to: :discussion
       delegate :student, to: :discussion
+
+      def notify!
+        User::Notification::Create.(
+          discussion.mentor,
+          :student_finished_discussion,
+          { discussion: discussion }
+        )
+      end
 
       private
       attr_reader :discussion, :rating,

@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   test "finishes" do
     freeze_time do
       discussion = create :mentor_discussion

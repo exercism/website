@@ -146,42 +146,6 @@
                             @apply mb-24;
                         }
                     }
-                    & .analyzer-feedback {
-                        & .summary {
-                            @apply bg-lightOrange rounded-8;
-                            @apply text-brown text-15 leading-160 font-medium;
-                            @apply py-8 px-16 mb-16;
-                        }
-                        & .comment {
-                            & + .comment {
-                                @apply border-t-1 border-lightGray mt-16 pt-16;
-                            }
-
-                            @apply flex flex-col items-start;
-
-                            & .tag {
-                                @apply text-13 leading-170 font-mono font-bold;
-                                @apply px-8 mb-8;
-                                &.essential {
-                                    @apply bg-red text-white;
-                                }
-                            }
-                        }
-                        & .explanation {
-                            @apply border-t-2 border-borderColor6 pt-16 mt-16;
-                            @apply text-15 leading-160;
-                            & a {
-                                @apply inline-flex items-center;
-                                @apply text-lightBlue font-semibold;
-                                @apply mr-8;
-                                & .c-icon {
-                                    height: 12px;
-                                    width: 12px;
-                                    @apply ml-6;
-                                }
-                            }
-                        }
-                    }
                     & .representer-feedback + .analyzer-feedback {
                         @apply border-t-2 border-borderColor6 pt-16 mt-24;
                         @apply mt-16 pt-16;

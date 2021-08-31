@@ -5,7 +5,7 @@ module Webhooks
       signature = request.headers['HTTP_STRIPE_SIGNATURE']
 
       Stripe::Webhook::Signature.verify_header(
-        payload_body, signature, Exercism.secrets.stripe_endpont_secret
+        payload_body, signature, Exercism.secrets.stripe_endpoint_secret
       )
 
       HandleStripeWebhookJob.perform_later(signature, payload_body)

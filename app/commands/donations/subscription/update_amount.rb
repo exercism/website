@@ -17,7 +17,7 @@ module Donations
             price_data: {
               unit_amount: amount_in_cents,
               currency: 'usd',
-              product: Exercism.secrets.recurring_product_id,
+              product: Exercism.secrets.stripe_recurring_product_id,
               recurring: {
                 interval: 'month'
               }

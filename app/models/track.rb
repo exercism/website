@@ -44,10 +44,6 @@ class Track < ApplicationRecord
   def tutorial_exercise
     exercises.find_by(slug: "hello-world")
   end
-  
-  def repo_name
-    slug
-  end
 
   def course?
     git.has_concept_exercises?

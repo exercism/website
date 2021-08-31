@@ -67,16 +67,16 @@ export const IterationView = ({
           </FetchingBoundary>
         </ResultsZone>
       )}
-      <footer className="c-iterations-footer">
-        {iterations.length > 1 ? (
+      {iterations.length > 1 ? (
+        <footer className="c-iterations-footer">
           <IterationsList
             iterations={iterations}
             onClick={onClick}
             current={currentIteration}
           />
-        ) : null}
-        <LinkButton value={isLinked} setValue={setIsLinked} />
-      </footer>
+          <LinkButton value={isLinked} setValue={setIsLinked} />
+        </footer>
+      ) : null}
     </React.Fragment>
   )
 }

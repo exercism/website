@@ -14,7 +14,7 @@ class Donations::PaymentIntent::CreateForSubscriptionTest < Donations::TestBase
         price_data: {
           unit_amount: amount_in_cents,
           currency: 'usd',
-          product: Exercism::STRIPE_RECURRING_PRODUCT_ID,
+          product: Exercism.secrets.recurring_product_id,
           recurring: {
             interval: 'month'
           }

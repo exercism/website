@@ -13,17 +13,17 @@ module Flows
           to_return(status: 200, body: { items: { data: [{ id: item_id }] } }.to_json)
         stub_request(:post, "https://api.stripe.com/v1/subscriptions/#{subscription_id}").
           with(body: {
-                 items: [
-                   id: item_id,
-                   price_data: {
-                     unit_amount: 1234,
-                     currency: "usd",
-                     product: Exercism::STRIPE_RECURRING_PRODUCT_ID,
-                     recurring: { interval: "month" }
-                   }
-                 ],
-                 proration_behavior: "none"
-               }).
+            items: [
+              id: item_id,
+              price_data: {
+                unit_amount: 1234,
+                currency: "usd",
+                product: Exercism.secrets.recurring_product_id,
+                recurring: { interval: "month" }
+              }
+            ],
+            proration_behavior: "none"
+          }).
           to_return(status: 200, body: {}.to_json)
         user = create :user, active_donation_subscription: true
         create :donations_subscription, stripe_id: subscription_id, user: user, active: true, amount_in_cents: 500

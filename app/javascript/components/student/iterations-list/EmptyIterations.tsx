@@ -18,7 +18,7 @@ type Links = {
 
 type Solution = {
   links: {
-    edit: string
+    exercise: string
   }
 }
 

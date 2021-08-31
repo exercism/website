@@ -50,6 +50,8 @@ class Markdown::RenderHTML
     end
 
     def code_block(node)
+      return note_block(node) if node.fence_info == "note"
+
       block do
         out("<pre#{sourcepos(node)}><code")
         if node.fence_info.present?
@@ -59,6 +61,14 @@ class Markdown::RenderHTML
         end
         out(escape_html(node.string_content))
         out('</code></pre>')
+      end
+    end
+
+    def note_block(node)
+      block do
+        out('<div class="c-textblock-note">')
+        out(escape_html(node.string_content))
+        out('</div>')
       end
     end
   end

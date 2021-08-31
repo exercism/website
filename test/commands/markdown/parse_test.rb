@@ -283,4 +283,9 @@ Done')
     expected = %(<p><a href=\"+https://exercism.org/tracks/julia/exercises/two-fer\" target=\"_blank\" rel=\"noopener\">exercise:julia/two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](+https://exercism.org/tracks/julia/exercises/two-fer)")
   end
+
+  test "render note code block" do
+    expected = %(<div class="c-textblock-note">This is a note\n</div>\n)
+    assert_equal expected, Markdown::Parse.("```note\nThis is a note\n```")
+  end
 end

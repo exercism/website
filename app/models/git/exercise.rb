@@ -13,6 +13,13 @@ module Git
       hints: ".docs/hints.md",
       config: ".meta/config.json"
 
+    SPECIAL_FILEPATHS = {
+      config: '.exercism/config.json',
+      readme: 'README.md',
+      hints: 'HINTS.md',
+      help: 'HELP.md'
+    }.freeze
+
     def self.for_solution(solution)
       new(
         solution.git_slug,

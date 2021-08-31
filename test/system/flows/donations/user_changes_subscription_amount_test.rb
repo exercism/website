@@ -13,15 +13,15 @@ module Flows
           to_return(status: 200, body: { items: { data: [{ id: item_id }] } }.to_json)
         stub_request(:post, "https://api.stripe.com/v1/subscriptions/#{subscription_id}").
           with(body: {
-            items: [
+            items: [{
               id: item_id,
               price_data: {
                 unit_amount: 1234,
                 currency: "usd",
-                product: Exercism::STRIPE_RECURRING_PRODUCT_ID,
+                product: Exercism.secrets.stripe_recurring_product_id,
                 recurring: { interval: "month" }
               }
-            ],
+            }],
             proration_behavior: "none"
           }).
           to_return(status: 200, body: {}.to_json)

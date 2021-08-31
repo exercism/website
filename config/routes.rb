@@ -330,8 +330,7 @@ Rails.application.routes.draw do
     resources :exercises, only: %i[index show edit], controller: "tracks/exercises" do
       member do
         get :tooltip
-        patch :start
-        patch :complete # TODO: Remove once via the API.
+        patch :start # TODO: Remove once via the API.
       end
 
       resources :iterations, only: [:index], controller: "tracks/iterations"

@@ -18,7 +18,7 @@ type Links = {
 
 type Solution = {
   links: {
-    edit: string
+    exercise: string
   }
 }
 
@@ -48,7 +48,7 @@ export const EmptyIterations = ({
           return
         }
 
-        redirectTo(solution.links.edit)
+        redirectTo(solution.links.exercise)
       },
     }
   )

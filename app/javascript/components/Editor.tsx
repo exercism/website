@@ -106,18 +106,31 @@ export default ({
         dispatch({ status: EditorStatus.INITIALIZED })
         setSubmissionFiles(files)
       },
-      onError: (error) => {
+      onError: async (error) => {
         let editorError = null
 
-        if (error instanceof Response) {
-          error.json().then((res) => {
-            editorError = res.error
+        if (error instanceof Error) {
+          editorError = Promise.resolve(() => {
+            return {
+              type: 'unknown',
+              message: 'Unable to submit file. PLease try again.',
+            }
           })
+        } else if (error instanceof Response) {
+          editorError = error
+            .json()
+            .then((json) => json.error)
+            .catch(() => {
+              return {
+                type: 'unknown',
+                message: 'Unable to submit file. PLease try again.',
+              }
+            })
         }
 
         dispatch({
           status: EditorStatus.CREATE_SUBMISSION_FAILED,
-          error: editorError,
+          error: await editorError,
         })
       },
     })

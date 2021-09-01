@@ -8,8 +8,9 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    # TODO: (Required) Order all these by most prominent first
-    @solutions = @user.solutions.published.first(3)
+    @solutions = @user.solutions.published.order(num_stars: :desc, updated_at: :desc).first(3)
+
+    # TODO: (Required) Order by most prominent first (what is the most prominent testimonial?)
     @testimonials = @user.mentor_testimonials.published.first(3)
 
     @num_total_solutions = @user.solutions.published.count

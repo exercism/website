@@ -419,6 +419,8 @@ Rails.application.routes.draw do
   get "cli", to: redirect("docs/using/solving-exercises/working-locally")
   get "report-abuse", to: redirect("docs/using/report-abuse")
   get "become-a-mentor", to: redirect("mentoring")
+  get "my/settings", to: redirect("settings")
+  get "my/tracks", to: redirect("tracks")
 
   # Licences
   %w[licence license].each do |spelling|

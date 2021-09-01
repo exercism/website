@@ -40,7 +40,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
   test "with learning tracks" do
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    user_track = create :user_track, user: user, track: track
     UserTrack.any_instance.expects(num_exercises: 10)
     UserTrack.any_instance.expects(num_completed_exercises: 5)
     UserTrack.any_instance.expects(num_concepts_learnt: 2)
@@ -55,6 +55,10 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
       icon_url: track.icon_url,
       num_lines: 250,
       num_solutions: 7,
+      started_at: user_track.created_at,
+      num_completed_mentoring_discussions: 0,
+      num_in_progress_mentoring_discussions: 0,
+      num_queued_mentoring_requests: 0,
       progress_chart: {
         period: "Last 14 days",
         data: Array.new(14) { 0 }
@@ -168,5 +172,21 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     }
 
     assert_equal expected, AssembleJourneyOverview.(mentor)[:overview][:mentoring]
+  end
+
+  test "mentoring" do
+    track = create :track
+    user = create :user
+    create :user_track, user: user, track: track
+    create :mentor_discussion, :awaiting_student, solution: create(:practice_solution, user: user, track: track)
+    create :mentor_discussion, :awaiting_mentor, solution: create(:practice_solution, user: user, track: track)
+    create :mentor_discussion, :mentor_finished, solution: create(:practice_solution, user: user, track: track)
+    create :mentor_discussion, :student_finished, solution: create(:practice_solution, user: user, track: track)
+    5.times { create :mentor_request, solution: create(:practice_solution, user: user, track: track) }
+
+    data = AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0]
+    assert_equal 1, data[:num_completed_mentoring_discussions]
+    assert_equal 3, data[:num_in_progress_mentoring_discussions]
+    assert_equal 5, data[:num_queued_mentoring_requests]
   end
 end

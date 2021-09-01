@@ -34,7 +34,7 @@ export const TrackSummary = ({
         </div>
         <div className="date-area">
           <GraphicalIcon icon="entry" />
-          {/* TODO user_track.created_at */}
+          {/* TODO use started_at */}
           <h4 className="journey-h3">5th June 2021</h4>
           <p className="text-h6">When you joined the {track.title} Track</p>
           <p>
@@ -49,7 +49,7 @@ export const TrackSummary = ({
           <p className="text-h6">Mentoring sessions completed</p>
 
           {/* TODO: num_in_progress_mentoring_discussions */}
-          {/* TODO: num_mentoring_requests */}
+          {/* TODO: num_queued_mentoring_requests */}
           {/* TODO: If zero say "none" (e.g. You have none in progress and none in the queue)*/}
           <p>
             You have <strong>9 discussions</strong> in progress and{' '}

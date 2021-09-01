@@ -15,7 +15,8 @@
         = link_to donate_path, class: 'btn-l btn-primary' do
           Donate to Exercism
           = graphical_icon "arrow-right"
-        = link_to "Support Exercism (for organisations)", supporters_page_path, class: 'btn-l btn-enhanced'
+        -# TODO
+          = link_to "Support Exercism (for organisations)", supporters_page_path, class: 'btn-l btn-enhanced'
 
   .md-container
     %ul.links.flex.flex-col.md:flex-row.items-stretch.md:items-center.my-40.md:my-56.px-16.md:px-0
@@ -24,17 +25,17 @@
           = graphical_icon :team
           %span Team
           = graphical_icon 'arrow-right'
-      %li
-        -# TODO
-        = link_to "#" do
-          = graphical_icon :roadmap
-          %span Roadmap
-          = graphical_icon 'arrow-right'
-      %li
-        = link_to supporters_page_path do
-          = graphical_icon :supporters
-          %span Supporters
-          = graphical_icon 'arrow-right'
+      -# TODO
+        %li
+          = link_to "#" do
+            = graphical_icon :roadmap
+            %span Roadmap
+            = graphical_icon 'arrow-right'
+        %li
+          = link_to supporters_page_path do
+            = graphical_icon :supporters
+            %span Supporters
+            = graphical_icon 'arrow-right'
 
   .md-container
     .purpose.border-t-4.md:border-t-0.md:border-l-6.py-28.md:py-40.px-32.md:px-64.flex.items-start.lg:items-center.flex-col.lg:flex-row.mb-64

@@ -46,7 +46,7 @@
         }
     }
     & > .--options {
-        max-height: 300px;
+        max-height: 50vh;
         overflow: auto;
 
         & label.c-radio-wrapper {

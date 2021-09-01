@@ -249,6 +249,10 @@ const MentoringNudge = ({
     (className) => className.length > 0
   )
 
+  if (mentoringStatus === 'finished') {
+    return null
+  }
+
   return (
     <section className={classNames.join(' ')}>
       <GraphicalIcon icon="mentoring-screen" category="graphics" />

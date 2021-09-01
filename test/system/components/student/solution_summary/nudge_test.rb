@@ -23,6 +23,28 @@ module Components
           end
         end
 
+        test "hides nudge when mentorship is finished" do
+          user = create :user
+          mentor = create :user, handle: "Mentor"
+          solution = create :practice_solution, user: user, mentoring_status: :finished
+          submission = create :submission, solution: solution, tests_status: :passed
+          create :iteration, idx: 1, solution: solution, submission: submission
+          request = create :mentor_request, solution: solution, status: :fulfilled
+          create :mentor_discussion,
+            solution: solution,
+            mentor: mentor,
+            request: request,
+            status: :finished
+          solution.update_mentoring_status!
+
+          use_capybara_host do
+            sign_in!(user)
+            visit Exercism::Routes.private_solution_path(solution)
+
+            assert_no_text "Improve your solution with mentoring"
+          end
+        end
+
         test "shows nudge when mentorship requested" do
           user = create :user
           solution = create :practice_solution, user: user

@@ -49,7 +49,6 @@ export const FinishMentorDiscussionModal = ({
           status={status}
         >
           Cancel
-          <div className="kb-shortcut">F2</div>
         </FormButton>
         <FormButton
           type="button"
@@ -58,7 +57,6 @@ export const FinishMentorDiscussionModal = ({
           status={status}
         >
           End discussion
-          <div className="kb-shortcut">F3</div>
         </FormButton>
       </div>
 

@@ -22,27 +22,6 @@ export const FinishButton = ({
 }>): JSX.Element => {
   const [status, setStatus] = useState<Status>('initialized')
 
-  useEffect(() => {
-    Mousetrap.bind('f3', () => {
-      switch (status) {
-        case 'initialized':
-          setStatus('confirming')
-          break
-        case 'confirming':
-          setStatus('finishing')
-          break
-      }
-    })
-    Mousetrap.bind('f2', () => {
-      setStatus('initialized')
-    })
-
-    return () => {
-      Mousetrap.unbind('f2')
-      Mousetrap.unbind('f3')
-    }
-  }, [status])
-
   return (
     <React.Fragment>
       <button

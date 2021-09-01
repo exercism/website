@@ -155,22 +155,7 @@ export function FileEditorCodeMirror({
               readonly={
                 readonly || file.type === 'legacy' || file.type === 'readonly'
               }
-              commands={[
-                {
-                  key: 'F2',
-                  run: () => {
-                    onRunTests()
-                    return true
-                  },
-                },
-                {
-                  key: 'F3',
-                  run: () => {
-                    onSubmit()
-                    return true
-                  },
-                },
-              ]}
+              commands={[]}
             />
           </Tab.Panel>
         ))}

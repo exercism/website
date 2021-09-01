@@ -53,7 +53,6 @@ export const ResultsPanel = ({
               onClick={onRunTests}
             >
               <span>Run tests </span>
-              <span className="--kb">F2</span>
             </button>{' '}
             to check your code
           </h2>

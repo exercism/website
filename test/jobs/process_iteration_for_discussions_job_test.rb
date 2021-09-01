@@ -3,7 +3,7 @@ require "test_helper"
 class ProcessIterationForDiscussionsJobTest < ActiveJob::TestCase
   test "sends notifications" do
     solution = create :concept_solution
-    discussion = create :mentor_discussion, solution: solution, status: :finished
+    discussion = create :mentor_discussion, :awaiting_student, solution: solution
     submission = create :submission, solution: solution
     iteration = create :iteration, solution: solution, submission: submission
 
@@ -16,9 +16,9 @@ class ProcessIterationForDiscussionsJobTest < ActiveJob::TestCase
     ProcessIterationForDiscussionsJob.perform_now(iteration)
   end
 
-  test "does not send notifications to finished discussions" do
+  test "does not send notifications when action is already awaiting mentor" do
     solution = create :concept_solution
-    create :mentor_discussion, solution: solution, status: :finished
+    create :mentor_discussion, :awaiting_mentor, solution: solution
     submission = create :submission, solution: solution
     iteration = create :iteration, solution: solution, submission: submission
 

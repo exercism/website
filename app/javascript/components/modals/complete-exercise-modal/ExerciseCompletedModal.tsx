@@ -110,7 +110,6 @@ export const ExerciseCompletedModal = ({
     )
   return (
     <Modal
-      cover={true}
       open={open}
       className="m-completed-exercise c-completed-exercise-progress"
       onClose={() => {}}

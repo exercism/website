@@ -12,7 +12,6 @@ export const TutorialCompletedModal = ({
 }): JSX.Element => {
   return (
     <Modal
-      cover={true}
       open={open}
       className="m-completed-tutorial-exercise"
       onClose={() => {}}

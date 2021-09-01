@@ -1,6 +1,6 @@
 @import "../styles";
 
-.m-publish-exercise.c-modal.--cover {
+.m-publish-exercise.c-modal {
     background: var(--modalBackgroundColor);
     padding: 50px 0;
 

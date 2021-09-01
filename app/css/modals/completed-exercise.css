@@ -1,7 +1,7 @@
 @import "../styles";
 
-.m-completed-exercise.c-modal.--cover,
-.c-modal.m-completed-tutorial-exercise.c-modal.--cover {
+.m-completed-exercise.c-modal,
+.c-modal.m-completed-tutorial-exercise.c-modal {
     background: var(--modalBackgroundColor);
     padding: 150px 0 50px 0;
 
@@ -58,7 +58,7 @@
         }
     }
 }
-.m-completed-exercise.c-modal.--cover {
+.m-completed-exercise.c-modal {
     & .progressed-concepts {
         @apply mt-24;
         @apply w-100;

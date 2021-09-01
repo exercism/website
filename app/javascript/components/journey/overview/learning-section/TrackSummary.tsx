@@ -2,6 +2,8 @@ import React from 'react'
 import { TrackSummaryHeader } from './track-summary/TrackSummaryHeader'
 import { GraphicalIcon, ProgressGraph } from '../../../common'
 import { TrackProgress } from '../../types'
+import { timeFormat, fromNow } from '../../../../utils/time'
+import pluralize from 'pluralize'
 
 export const TrackSummary = ({
   track,
@@ -34,26 +36,46 @@ export const TrackSummary = ({
         </div>
         <div className="date-area">
           <GraphicalIcon icon="entry" />
-          {/* TODO use started_at */}
-          <h4 className="journey-h3">5th June 2021</h4>
+          <h4 className="journey-h3">
+            {timeFormat(track.startedAt, 'DD MMM YYYY')}
+          </h4>
           <p className="text-h6">When you joined the {track.title} Track</p>
           <p>
-            You've been working through this the {track.title} Track for{' '}
-            <strong>9 months</strong>.
+            You started working through the {track.title} Track{' '}
+            <strong>{fromNow(track.startedAt)}</strong>.
           </p>
         </div>
         <div className="mentor-history-area">
           <GraphicalIcon icon="mentoring" />
-          {/* TODO num_completed_mentoring_discussions */}
-          <h4 className="journey-h3">42</h4>
-          <p className="text-h6">Mentoring sessions completed</p>
+          <h4 className="journey-h3">
+            {track.numCompletedMentoringDiscussions}
+          </h4>
+          <p className="text-h6">
+            Mentoring{' '}
+            {pluralize('session', track.numCompletedMentoringDiscussions)}{' '}
+            completed
+          </p>
 
-          {/* TODO: num_in_progress_mentoring_discussions */}
-          {/* TODO: num_queued_mentoring_requests */}
-          {/* TODO: If zero say "none" (e.g. You have none in progress and none in the queue)*/}
           <p>
-            You have <strong>9 discussions</strong> in progress and{' '}
-            <strong>3 solutions</strong> in the queue.
+            You have{' '}
+            <strong>
+              {track.numInProgressMentoringDiscussions === 0
+                ? 'none'
+                : `${track.numInProgressMentoringDiscussions} ${pluralize(
+                    'discussion',
+                    track.numInProgressMentoringDiscussions
+                  )}`}
+            </strong>{' '}
+            in progress and{' '}
+            <strong>
+              {track.numInProgressMentoringDiscussions === 0
+                ? 'none'
+                : `${track.numQueuedMentoringRequests} ${pluralize(
+                    'solution',
+                    track.numQueuedMentoringRequests
+                  )}`}
+            </strong>{' '}
+            in the queue.
           </p>
         </div>
         {track.velocity ? (

@@ -19,10 +19,14 @@ export class TrackProgress {
   slug: string
   numExercises: number
   numCompletedExercises: number
+  numCompletedMentoringDiscussions: number
+  numInProgressMentoringDiscussions: number
+  numQueuedMentoringRequests: number
   numSolutions: number
   numLines: number
   numConceptsLearnt: number
   iconUrl: string
+  startedAt: string
   progressChart: TrackProgressChart
 
   get completion(): number {
@@ -39,30 +43,42 @@ export class TrackProgress {
     slug,
     numExercises,
     numCompletedExercises,
+    numCompletedMentoringDiscussions,
+    numInProgressMentoringDiscussions,
+    numQueuedMentoringRequests,
     numConceptsLearnt,
     numSolutions,
     numLines,
     iconUrl,
+    startedAt,
     progressChart,
   }: {
     title: string
     slug: string
     numExercises: number
+    numCompletedMentoringDiscussions: number
+    numInProgressMentoringDiscussions: number
+    numQueuedMentoringRequests: number
     numCompletedExercises: number
     numSolutions: number
     numLines: number
     numConceptsLearnt: number
     iconUrl: string
+    startedAt: string
     progressChart: TrackProgressChart
   }) {
     this.title = title
     this.slug = slug
     this.numExercises = numExercises
     this.numCompletedExercises = numCompletedExercises
+    this.numCompletedMentoringDiscussions = numCompletedMentoringDiscussions
+    this.numInProgressMentoringDiscussions = numInProgressMentoringDiscussions
+    this.numQueuedMentoringRequests = numQueuedMentoringRequests
     this.numConceptsLearnt = numConceptsLearnt
     this.numSolutions = numSolutions
     this.numLines = numLines
     this.iconUrl = iconUrl
+    this.startedAt = startedAt
     this.progressChart = progressChart
   }
 }

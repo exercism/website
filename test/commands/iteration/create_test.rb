@@ -146,4 +146,13 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal :analyzing, solution.iteration_status
     assert_equal 1, solution.num_iterations
   end
+
+  test "schedules notifications" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+
+    assert_enqueued_with(job: ProcessIterationForDiscussionsJob) do
+      Iteration::Create.(solution, submission)
+    end
+  end
 end

@@ -24,8 +24,8 @@ export const CongratulationsStep = ({
         <header className="video-header">
           <Icon icon="video" alt="This is a video" />
           <div className="info">
-            <h3>Getting started with Mentoring on Exercism</h3>
-            <p>Video · 2:30</p>
+            <h3>Welcome to the Mentor Team!</h3>
+            <p>Video · 0:24</p>
           </div>
         </header>
         <div

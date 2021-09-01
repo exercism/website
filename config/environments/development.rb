@@ -63,6 +63,7 @@ Rails.application.configure do
   config.session_store :cookie_store, key: "_exercism", domain: :all
 
   config.hosts << "local.exercism.org"
+  config.hosts << "local.exercism.io"
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
   config.hosts << /.*.ngrok.io/
 end

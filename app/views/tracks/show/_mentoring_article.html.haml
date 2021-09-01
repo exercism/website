@@ -26,8 +26,7 @@
             .unlock-icon
               = icon "unlock", "Unlocked"
         .info
-          - # TODO
-          = link_to "#", class: "explanation" do
+          = link_to doc_path(:building, "product/reputation"), class: "explanation" do
             = graphical_icon :'info-circle'
             How does this work?
           - unless user_track.repo_for_next_mentoring_slot.nil?

@@ -18,6 +18,12 @@
         }
     }
     & .highlighted-post {
+        &:hover {
+            & h2 {
+                @apply underline;
+            }
+        }
+
         & .main-image-link {
             max-width: 40%;
         }

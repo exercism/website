@@ -158,18 +158,20 @@ export const TestimonialsList = ({
                       )
                     })}
                   </div>
-                  <Pagination
-                    disabled={latestData === undefined}
-                    current={request.query.page}
-                    total={resolvedData.meta.totalPages}
-                    setPage={setPage}
-                  />
                 </React.Fragment>
               )
             ) : null}
           </FetchingBoundary>
         </ResultsZone>
       </article>
+      {resolvedData ? (
+        <Pagination
+          disabled={latestData === undefined}
+          current={request.query.page}
+          total={resolvedData.meta.totalPages}
+          setPage={setPage}
+        />
+      ) : null}
     </div>
   )
 }

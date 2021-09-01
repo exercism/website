@@ -88,7 +88,7 @@ module Flows
         sign_in!(user)
         visit new_track_exercise_mentor_request_url(track, hello_world)
 
-        assert_text "100% through the Ruby track"
+        assert_text "You've completed Hello World"
       end
     end
 

@@ -3,7 +3,7 @@ class Tracks::MentorRequestsController < ApplicationController
   before_action :use_solution
 
   def new
-    return redirect_to track_path(@track) if @exercise.tutorial?
+    return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
 
     @first_time_on_track = true
     @first_time_mentoring = true

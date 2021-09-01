@@ -31,6 +31,7 @@ export const Modal = ({
     `theme-${theme}`,
     className,
     cover ? '--cover' : '',
+    '--modal-container',
   ]
 
   return (
@@ -38,7 +39,7 @@ export const Modal = ({
       ariaHideApp={process.env.NODE_ENV !== 'test'}
       isOpen={open}
       onRequestClose={onClose}
-      className={'--modal-container'}
+      className={'--modal-content'}
       overlayClassName={overlayClassNames.join(' ')}
       appElement={document.querySelector('body') as HTMLElement}
       overlayElement={(props, contentElement) => (
@@ -64,18 +65,24 @@ export const Modal = ({
               </ActiveBackground>
             )}
           >
-            {contentElement}
+            <div className="--modal-container">
+              {closeButton ? (
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="--close-button"
+                >
+                  <Icon icon="cross" alt="Close modal" />
+                </button>
+              ) : null}
+              {contentElement}
+            </div>
           </Wrapper>
         </div>
       )}
       {...props}
     >
-      {closeButton ? (
-        <button type="button" onClick={onClose} className="--close-button">
-          <Icon icon="cross" alt="Close modal" />
-        </button>
-      ) : null}
-      <div className="--modal-content">{children}</div>
+      {children}
     </ReactModal>
   )
 }

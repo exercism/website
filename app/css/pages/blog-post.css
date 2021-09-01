@@ -37,6 +37,9 @@
             margin-top: -96px;
         }
 
+        & .c-react-wrapper-common-share-button {
+            @apply ml-auto;
+        }
         & .share-bar {
             & .main-graphic {
                 height: 64px;

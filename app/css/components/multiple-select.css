@@ -25,6 +25,9 @@
         }
     }
     & > .--options {
+        max-height: 50vh;
+        overflow-y: auto;
+
         & li + li {
             margin-top: 4px;
         }

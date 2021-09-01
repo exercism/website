@@ -46,6 +46,9 @@
         }
     }
     & > .--options {
+        max-height: 50vh;
+        overflow-y: auto;
+
         & label.c-radio-wrapper {
             --row-selected-background-color: var(--backgroundColorD);
 

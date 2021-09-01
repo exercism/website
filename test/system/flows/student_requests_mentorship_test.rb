@@ -61,7 +61,7 @@ module Flows
         sign_in!(user)
         visit new_track_exercise_mentor_request_url(track, exercise_3)
 
-        assert_text "Sorry - you've used up all your mentoring slots"
+        assert_text "You have no more mentoring slots available."
       end
     end
 

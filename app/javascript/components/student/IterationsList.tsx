@@ -24,6 +24,7 @@ export type Links = {
   automatedFeedbackInfo: string
   startExercise: string
   solvingExercisesLocally: string
+  toolingHelp: string
 }
 
 export type IterationsListRequest = {

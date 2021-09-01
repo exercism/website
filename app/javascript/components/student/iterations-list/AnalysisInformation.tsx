@@ -29,7 +29,6 @@ export const AnalysisInformation = ({
       )
     case IterationStatus.UNTESTED:
     case IterationStatus.NO_AUTOMATED_FEEDBACK:
-    case IterationStatus.TESTS_FAILED:
       return (
         <div className="automated-feedback-absent">
           <GraphicalIcon icon="mentoring" category="graphics" />
@@ -41,6 +40,21 @@ export const AnalysisInformation = ({
           <a href={links.getMentoring} className="btn-secondary btn-m">
             Get mentoring
           </a>
+        </div>
+      )
+    case IterationStatus.TESTS_FAILED:
+      return (
+        <div className="automated-feedback-absent">
+          <GraphicalIcon icon="tests-failed" category="graphics" />
+          <h3>Beep boop bob a hop, could not compute…</h3>
+          <p>
+            In order for our systems to analyze your code, the tests must be
+            passing.
+          </p>
+          <div className="upsell">
+            Interested in improving Exercism&apos;s automated tooling?{' '}
+            <a href={links.toolingHelp}>We need your help</a>.
+          </div>
         </div>
       )
     default: {

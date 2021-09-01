@@ -20,8 +20,8 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
             ratio: 0
           },
           ranks: {
-            discussions: 1,
-            students: 3
+            discussions: nil,
+            students: nil
           }
         },
         contributing: AssembleContributionsSummary.(user, for_self: true),
@@ -166,8 +166,8 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
         ratio: 2
       },
       ranks: {
-        discussions: 1,
-        students: 3
+        discussions: nil,
+        students: nil
       }
     }
 

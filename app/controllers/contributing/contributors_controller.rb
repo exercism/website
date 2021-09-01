@@ -6,8 +6,8 @@ module Contributing
       response.set_header('Link', '<https://exercism.org/profiles>; rel="canonical"')
 
       # TODO: (Required) Set these correctly
-      @featured_contributor = User.first
-      @latest_contributor = User.second
+      # @featured_contributor = User.first
+      # @latest_contributor = User.second
     end
   end
 end

@@ -10,7 +10,8 @@ class AssembleJourneyOverview
           tracks: learning_tracks_data,
           links: {
             solutions: Exercism::Routes.solutions_journey_url,
-            fable: "#" # TODO: (Required)
+            # TODO: (optional)
+            fable: "#"
           }
         },
         mentoring: mentoring_data,
@@ -128,8 +129,8 @@ class AssembleJourneyOverview
         ratio: num_total_students.zero? ? 0 : num_total_discussions.to_f / num_total_students
       },
       ranks: {
-        discussions: 1, # TODO: (Required)
-        students: 3 # TODO: (Required)
+        discussions: nil,
+        students: nil
       }
     }
   end

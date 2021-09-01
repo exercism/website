@@ -14,8 +14,8 @@
         %hr.c-divider.--small
         %ul
           %li= link_to "Exercism", root_url
-          %li= link_to "Exercism for Teams", "#"
-          %li= link_to "Exercism Research", "#"
+          %li= link_to "Exercism for Teams", doc_path(:using, 'editions/teams')
+          %li= link_to "Exercism Research", doc_path(:using, 'editions/research')
 
       .col
         %h3 About
@@ -56,8 +56,8 @@
         %hr.c-divider.--small
         %ul
           %li= link_to "Exercism's Docs", docs_path
-          %li= link_to "Getting started", "#"
-          %li= link_to "FAQs", "#"
+          %li= link_to "Getting started", doc_path(:using, "getting-started")
+          %li= link_to "FAQs", doc_path(:using, "faqs")
           %li= link_to "Installing the CLI", doc_path(:using, "solving-exercises/working-locally")
           %li= link_to "Interactive CLI Walkthrough", cli_walkthrough_path
 
@@ -86,7 +86,7 @@
       .col.hidden.md:block.mt-32.xl:mt-0
         %h3.text-h6 Want to add a language track to Exercism?
         %p.text-p-base
-          = link_to "Open an issue", "#"
+          = link_to "Open an issue", "https://github.com/exercism/exercism/issues/new?title=Create%20new%20track%20for%20[LANGUAGE]"
           and let's discuss it.
   %hr
   .legals.mt-24.md:mt-32.mb-32.md:mb-40.flex.md:items-center.flex-col.md:flex-row

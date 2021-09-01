@@ -341,10 +341,7 @@ const MentoringRequestedNudge = ({
     <section className={classNames.join(' ')}>
       <div className="info">
         <h3>You&apos;ve requested mentoring</h3>
-        <p>
-          Waiting on a mentor...
-          <em>(Median wait time {track.medianWaitTime})</em>
-        </p>
+        <p>Waiting on a mentor...</p>
       </div>
       <a href={links.pendingMentorRequest} className="btn-primary btn-s">
         Open request

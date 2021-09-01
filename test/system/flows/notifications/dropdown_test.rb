@@ -13,6 +13,7 @@ module Flows
         mentor = create :user, handle: "mr-mentor"
         discussion = create :mentor_discussion, mentor: mentor
         create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }, status: :unread
+        create :user_dismissed_introducer, slug: "v3-modal", user: user
 
         use_capybara_host do
           sign_in!(user)
@@ -29,6 +30,7 @@ module Flows
         user = create :user
         mentor = create :user, handle: "mrs-mentor"
         discussion = create :mentor_discussion, mentor: mentor
+        create :user_dismissed_introducer, slug: "v3-modal", user: user
 
         use_capybara_host do
           sign_in!(user)
@@ -49,6 +51,7 @@ module Flows
         user = create :user
         mentor = create :user, handle: "mrs-mentor"
         discussion = create :mentor_discussion, mentor: mentor
+        create :user_dismissed_introducer, slug: "v3-modal", user: user
 
         use_capybara_host do
           sign_in!(user)

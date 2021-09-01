@@ -1,5 +1,5 @@
 class Tracks::MentorRequestsController < ApplicationController
-  before_action :disable_site_header!
+  before_action :disable_site_header!, except: [:no_slots_remaining]
   before_action :use_solution
 
   def new
@@ -12,7 +12,10 @@ class Tracks::MentorRequestsController < ApplicationController
     #
     return redirect_to action: :show if @solution.mentor_requests.pending.exists?
     return redirect_to action: :show if @solution.mentor_discussions.in_progress_for_student.exists?
+    return redirect_to action: :no_slots_remaining if @user_track.num_available_mentoring_slots.zero?
   end
+
+  def no_slots_remaining; end
 
   def show
     @mentor_request = @solution.mentor_requests.last

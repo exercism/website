@@ -329,6 +329,9 @@
                 height: 188px;
             }
         }
+        & .main-graphic {
+            width: 100%;
+        }
         & .section-header {
             max-width: 680px;
         }

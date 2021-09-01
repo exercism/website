@@ -10,7 +10,8 @@ class AssembleJourneyOverview
           tracks: learning_tracks_data,
           links: {
             solutions: Exercism::Routes.solutions_journey_url,
-            fable: "#" # TODO: (Required)
+            # TODO: (optional)
+            fable: "#"
           }
         },
         mentoring: mentoring_data,

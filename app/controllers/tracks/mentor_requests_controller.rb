@@ -3,9 +3,7 @@ class Tracks::MentorRequestsController < ApplicationController
   before_action :use_solution
 
   def new
-    unless Track::SearchSolutionsForMentoring.(current_user, @track, paginated: false).include?(@solution)
-      redirect_to track_path(@track)
-    end
+    return redirect_to track_path(@track) if @exercise.tutorial?
 
     @first_time_on_track = true
     @first_time_mentoring = true

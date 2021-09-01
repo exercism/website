@@ -70,10 +70,10 @@
             @apply text-h5 mb-16;
         }
         & ul:last-child {
-            @apply flex items-center;
+            @apply flex items-center flex-wrap;
             @apply m-0;
             & li {
-                @apply m-0 mr-24 list-none;
+                @apply m-0 mr-24 mb-24 list-none;
             }
         }
         /* Only enhance buttons in the final p/ul */

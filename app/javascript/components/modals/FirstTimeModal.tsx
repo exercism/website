@@ -48,6 +48,7 @@ export const FirstTimeModal = ({
 
   return (
     <Modal
+      cover={true}
       open={open}
       {...props}
       onClose={handleClose}
@@ -148,20 +149,14 @@ export const FirstTimeModal = ({
       </div>
       <div className="rhs">
         <div
-          className="video"
+          className="video relative rounded-8 overflow-hidden mb-32"
           style={{ padding: '56.25% 0 0 0', position: 'relative' }}
         >
           <iframe
-            src="https://player.vimeo.com/video/121725838?title=0&byline=0&portrait=0"
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-            }}
+            src="https://www.youtube-nocookie.com/embed/VJ5XkzbG-BI"
+            title="YouTube video player"
             frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
         </div>

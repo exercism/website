@@ -49,6 +49,34 @@ module Flows
           assert_text "You have none in progress and none in the queue"
         end
       end
+
+      test "user sees zero state for mentoring" do
+        user = create :user
+        track = create :track
+        create :user_track, user: user, track: track
+
+        use_capybara_host do
+          sign_in!(user)
+          visit journey_url
+
+          assert_text "You haven't mentored anyone yet"
+          assert_link "Try mentoring", href: mentoring_path
+        end
+      end
+
+      test "user sees zero state for contributing" do
+        user = create :user
+        track = create :track
+        create :user_track, user: user, track: track
+
+        use_capybara_host do
+          sign_in!(user)
+          visit journey_url
+
+          assert_text "You haven't contributed to Exercism yet"
+          assert_link "See how you can contribute", href: contributing_root_path
+        end
+      end
     end
   end
 end

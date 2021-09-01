@@ -113,6 +113,7 @@ module.exports = {
       randomBlue: '#F9F8FF',
       lightGold: '#FFD38F',
 
+      veryDarkGray: '#221E31',
       bgGray: '#FBFCFE',
       lightGray: '#EAECF3',
       borderLight: '#CBC9D9',

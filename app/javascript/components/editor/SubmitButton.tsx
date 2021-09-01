@@ -21,7 +21,6 @@ export const SubmitButton = forwardRef<HTMLButtonElement, Props>(
             {...props}
           >
             <span>Submit</span>
-            <div className="kb-shortcut">F3</div>
           </button>
         </div>
       </GenericTooltip>

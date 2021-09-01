@@ -40,18 +40,6 @@ export const FinishButton = ({
     setOpen(false)
   }, [status])
 
-  useEffect(() => {
-    Mousetrap.bind('f3', () => {
-      open ? mutation() : setOpen(true)
-    })
-
-    Mousetrap.bind('f2', handleClose)
-
-    return () => {
-      Mousetrap.unbind('f3')
-    }
-  }, [handleClose, mutation, open])
-
   return (
     <React.Fragment>
       <button
@@ -62,7 +50,6 @@ export const FinishButton = ({
         }}
       >
         <div className="--hint">End discussion</div>
-        <div className="--kb">F3</div>
       </button>
       <FinishMentorDiscussionModal
         endpoint={endpoint}

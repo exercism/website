@@ -113,7 +113,7 @@ export default ({
           editorError = Promise.resolve(() => {
             return {
               type: 'unknown',
-              message: 'Unable to submit file. PLease try again.',
+              message: 'Unable to submit file. Please try again.',
             }
           })
         } else if (error instanceof Response) {
@@ -123,7 +123,7 @@ export default ({
             .catch(() => {
               return {
                 type: 'unknown',
-                message: 'Unable to submit file. PLease try again.',
+                message: 'Unable to submit file. Please try again.',
               }
             })
         }

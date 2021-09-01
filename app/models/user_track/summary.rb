@@ -85,23 +85,23 @@ class UserTrack
     # Exercise methods #
     ####################
     def exercise_unlocked?(obj)
-      exercise(obj).unlocked
+      exercise(obj)&.unlocked || false
     end
 
     def exercise_completed?(obj)
-      exercise(obj).completed
+      exercise(obj)&.completed || false
     end
 
     def exercise_status(obj)
-      exercise(obj).status
+      exercise(obj)&.status || :locked
     end
 
     def exercise_type(obj)
-      exercise(obj).type
+      exercise(obj)&.type || :practice
     end
 
     def exercise_position(obj)
-      exercise(obj).position
+      exercise(obj)&.position || 999_999
     end
 
     ###############################

@@ -32,6 +32,30 @@ export const TrackSummary = ({
             </p>
           </div>
         </div>
+        <div className="date-area">
+          <GraphicalIcon icon="entry" />
+          {/* TODO user_track.created_at */}
+          <h4 className="journey-h3">5th June 2021</h4>
+          <p className="text-h6">When you joined the {track.title} Track</p>
+          <p>
+            You've been working through this the {track.title} Track for{' '}
+            <strong>9 months</strong>.
+          </p>
+        </div>
+        <div className="mentor-history-area">
+          <GraphicalIcon icon="mentoring" />
+          {/* TODO num_completed_mentoring_discussions */}
+          <h4 className="journey-h3">42</h4>
+          <p className="text-h6">Mentoring sessions completed</p>
+
+          {/* TODO: num_in_progress_mentoring_discussions */}
+          {/* TODO: num_mentoring_requests */}
+          {/* TODO: If zero say "none" (e.g. You have none in progress and none in the queue)*/}
+          <p>
+            You have <strong>9 discussions</strong> in progress and{' '}
+            <strong>3 solutions</strong> in the queue.
+          </p>
+        </div>
         {track.velocity ? (
           <div className="velocity-area">
             <GraphicalIcon icon="velocity" />

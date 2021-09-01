@@ -120,7 +120,7 @@ class Submission < ApplicationRecord
         name: author.name,
         reputation: author.reputation,
         avatar_url: author.avatar_url,
-        profile_url: "#" # TODO
+        profile_url: author.profile ? Exercism::Routes.profile_url(author) : nil
       }
     }
   end

@@ -30,8 +30,12 @@ export const LegacyFileBanner = ({
           <GraphicalIcon icon="trash" />
           <span>Delete file...</span>
         </button>
-        {/* TODO */}
-        <ProminentLink link="#" text="Learn More" external={true} />
+        {/* TODO: Power from Rails */}
+        <ProminentLink
+          link="/docs/using/solving-exercises/legacy-files"
+          text="Learn More"
+          external={true}
+        />
       </div>
       <DeleteFileModal
         open={isOpen}

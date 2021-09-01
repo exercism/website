@@ -128,8 +128,8 @@ class AssembleJourneyOverview
         ratio: num_total_students.zero? ? 0 : num_total_discussions.to_f / num_total_students
       },
       ranks: {
-        discussions: 1, # TODO: (Required)
-        students: 3 # TODO: (Required)
+        discussions: nil,
+        students: nil
       }
     }
   end

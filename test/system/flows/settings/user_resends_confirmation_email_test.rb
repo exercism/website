@@ -7,6 +7,7 @@ module Flows
       include CapybaraHelpers
 
       test "user resends confirmation email" do
+        ActionMailer::Base.deliveries.clear
         user = create :user
         create :user_profile, user: user
 

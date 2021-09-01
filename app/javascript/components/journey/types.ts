@@ -196,6 +196,10 @@ export class MentoredTrackProgressList {
     })
   }
 
+  get length(): number {
+    return this.items.length
+  }
+
   get sessionRatio(): number {
     return this.totals.discussions / this.totals.students
   }

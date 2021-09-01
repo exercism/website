@@ -14,6 +14,16 @@ export type Props = {
 }
 
 export const MentoringSection = ({ tracks, ranks }: Props): JSX.Element => {
+  if (tracks.length === 0) {
+    return (
+      <section className="mentoring-section">
+        You haven&apos;t mentored anyone yet
+        {/* TODO get link from rails */}
+        <a href="/mentoring">Try mentoring</a>
+      </section>
+    )
+  }
+
   return (
     <section className="mentoring-section">
       <header className="section-header">

@@ -19,6 +19,21 @@ export const ContributingSection = ({
   handle,
   links,
 }: Props): JSX.Element => {
+  const allTrack = tracks.find((track) => track.slug === null)
+
+  if (!allTrack) {
+    throw new Error('No data found for all track')
+  }
+
+  if (allTrack.totalReputation === 0) {
+    return (
+      <section className="contributing-section">
+        You haven&apos;t contributed to Exercism yet
+        {/* TODO get link from rails */}
+        <a href="/contributing">See how you can contribute</a>
+      </section>
+    )
+  }
   return (
     <section className="contributing-section">
       <header className="section-header">

@@ -57,15 +57,17 @@
   .lg-container
     %article.pt-40
       %section.video-section
-        <div class="video mb-32 rounded-5 overflow-hidden" style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/121725838?title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+        <div class="video mb-32 rounded-8 overflow-hidden border-3 border-purple" style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595936549?title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
       %section.form-section
         = render ReactComponents::Donations::FormWithModal.new
 
       %section.info-section.pt-48.lg:pt-0
         %h2.text-h3.mb-12 Help Exercism reach more people and get even better.
-        %p.text-p-large.mb-12 Exercism is a not-for-profit organisation that relies on donations from people like you to help us stay substainable and grow.
-        %p.text-p-large Can you help empower us with the creative freedom and financial breathing room to develop Exercism into all it can be?
+        %p.text-p-large.mb-12
+          Exercism is a not-for-profit organisation that relies on donations from people like you to help us stay substainable and grow.
+          Through generous donations we were able to make Exercism version 3 (see the video above!), but that's the beginning of what we plan to achieve.
+        %p.text-p-large Can you help empower us with the creative freedom and financial breathing room to develop Exercism into all it can be, and to help as many people embrace the joy of programming as possible?
         %hr.border-borderColor5.mt-48.mb-32
 
 

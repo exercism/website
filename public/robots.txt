@@ -1,2 +1,1 @@
-# TODO: Remove before launch
-User-agent: * Disallow: /
+User-agent: * Allow: /

@@ -15,4 +15,4 @@ en:
         You have been awarded the %{badge_name} badge.
     student_added_iteration:
       1: >
-        %{student_name} has submitted iteration %{iteration_idx} on the solution you are mentoring for %{track_title}:%{exercise_title}
+        Your student, %{student_name}, has submitted a new iteration (#%{iteration_idx}) on their solution to %{track_title}:%{exercise_title}

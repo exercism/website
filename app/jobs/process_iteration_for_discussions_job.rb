@@ -1,5 +1,4 @@
 class ProcessIterationForDiscussionsJob < ApplicationJob
-  # TODO: Where should this be queued?
   queue_as :default
 
   def perform(iteration)

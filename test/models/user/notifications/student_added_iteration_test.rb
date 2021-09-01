@@ -20,7 +20,8 @@ class User::Notifications::StudentAddedIteration < ActiveSupport::TestCase
     )
     assert_equal "#{mentor.id}|student_added_iteration|Discussion##{discussion.id}|Iteration##{iteration.id}",
       notification.uniqueness_key
-    assert_equal "student has submitted iteration 2 on the solution you are mentoring for Ruby:Strings", notification.text  # rubocop:disable Layout/LineLength
+    assert_equal "Your student, student, has submitted a new iteration (#2) on their solution to Ruby:Strings", notification.text  # rubocop:disable Layout/LineLength
+
     assert_equal :avatar, notification.image_type
     assert_equal student.avatar_url, notification.image_url
     assert_equal discussion.mentor_url, notification.url

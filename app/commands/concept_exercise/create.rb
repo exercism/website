@@ -10,10 +10,12 @@ class ConceptExercise
         track: track,
         **attributes
       ).tap do |exercise|
-        SiteUpdates::NewExerciseUpdate.create!(
-          exercise: exercise,
-          track: track
-        )
+        unless exercise.wip?
+          SiteUpdates::NewExerciseUpdate.create!(
+            exercise: exercise,
+            track: track
+          )
+        end
       end
     rescue ActiveRecord::RecordNotUnique
       ConceptExercise.find_by!(uuid: uuid, track: track)

@@ -72,4 +72,14 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
     assert_equal exercise, update.exercise
     assert_equal track, update.track
   end
+
+  test "does not create site_update for wip exercise" do
+    PracticeExercise::Create.(
+      SecureRandom.uuid,
+      create(:track),
+      build(:practice_exercise).attributes.symbolize_keys.merge(status: :wip)
+    )
+
+    assert_equal 0, SiteUpdate.count
+  end
 end

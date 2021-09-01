@@ -91,5 +91,19 @@ module Flows
         assert_no_button "Add to favorites"
       end
     end
+
+    test "mentor sees unavailable request" do
+      expecting_errors do
+        solution = create :concept_solution
+        request = create :mentor_request, solution: solution, status: :cancelled
+
+        use_capybara_host do
+          sign_in!
+          visit mentoring_request_path(request)
+
+          assert_link "Back to list", href: mentoring_queue_path
+        end
+      end
+    end
   end
 end

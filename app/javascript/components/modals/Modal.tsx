@@ -34,8 +34,6 @@ export const Modal = ({
     '--modal-container',
   ]
 
-  console.log(onClose)
-
   return (
     <ReactModal
       ariaHideApp={process.env.NODE_ENV !== 'test'}

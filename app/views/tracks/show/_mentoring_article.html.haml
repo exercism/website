@@ -60,8 +60,6 @@
           = exercise_icon request.exercise
           .exercise-title= request.exercise.title
           %h4 Waiting on a mentor...
-          / TODO
-          .estimate Median wait time: ~2 hours
 
       - user_track.num_available_mentoring_slots.times do
         = render ReactComponents::Student::RequestMentoringButton.new(track)

@@ -1,6 +1,12 @@
 @import "../styles";
 
-.m-welcome-to-v3 {
+.m-welcome-to-v3.c-modal.--cover {
+    background: var(--modalBackgroundColor);
+
+    & .--modal-container {
+        padding: 50px 0;
+    }
+
     & .wrapper {
         overflow-y: scroll;
         max-height: 100%;
@@ -13,6 +19,7 @@
 
         @apply mt-20 mb-40;
         @apply py-40 px-48 bg-backgroundColorA;
+        @apply shadow-lg;
         @apply flex items-start;
         width: 100%;
         max-width: 1180px;
@@ -71,6 +78,20 @@
 
         & .video {
             @apply mb-40;
+            @apply relative rounded-8 overflow-hidden;
+            padding-bottom: 56.25%;
+            padding-top: 30px;
+            height: 0;
+
+            & iframe,
+            & object,
+            & embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
         }
         & .thank-you {
             @apply bg-backgroundColorD;

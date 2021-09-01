@@ -1,7 +1,9 @@
 @import "../styles";
 
-.m-finish-student-mentor-discussion.c-modal {
-    @apply pt-80 pb-48 px-48;
+.m-finish-student-mentor-discussion.c-modal.--cover {
+    & .--modal-container {
+        @apply pt-80 pb-48 px-48;
+    }
 
     & .--modal-content {
         max-width: 1120px;

@@ -97,7 +97,7 @@
 
                         & .options-button {
                             @apply py-6 px-12 ml-auto;
-                            @apply shadow-smZ1 rounded-8;
+                            @apply shadow-xsZ1 rounded-8;
                         }
                     }
                     & .panels {
@@ -125,6 +125,17 @@
                         }
                         & p {
                             @apply text-16 leading-huge text-center;
+                            max-width: 360px;
+                        }
+                        & .upsell {
+                            @apply border-1 border-borderColor6;
+                            @apply rounded-8;
+                            @apply py-8 px-16;
+                            @apply text-textColor6 leading-150;
+                            @apply text-center;
+                            & a {
+                                @apply underline;
+                            }
                         }
                     }
                     & .automated-feedback-pending {

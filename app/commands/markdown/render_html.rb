@@ -50,6 +50,8 @@ class Markdown::RenderHTML
     end
 
     def code_block(node)
+      return note_block(node) if NOTE_BLOCK_FENCES.include?(node.fence_info)
+
       block do
         out("<pre#{sourcepos(node)}><code")
         if node.fence_info.present?
@@ -61,5 +63,19 @@ class Markdown::RenderHTML
         out('</code></pre>')
       end
     end
+
+    def note_block(node)
+      type = node.fence_info.split('/')[1]
+      block do
+        out(%(<div class="c-textblock-#{type}">))
+        out(%(<div class="c-textblock-header">#{type.titleize}</div>))
+        out('<div class="c-textblock-content">')
+        out(escape_html(node.string_content))
+        out('</div>')
+        out('</div>')
+      end
+    end
+
+    NOTE_BLOCK_FENCES = %w[exercism/note exercism/caution exercism/advanced].freeze
   end
 end

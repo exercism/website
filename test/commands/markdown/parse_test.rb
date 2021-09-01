@@ -283,4 +283,25 @@ Done')
     expected = %(<p><a href=\"https://exercism.org/tracks/julia/exercises/two-fer\" data-tooltip-type=\"exercise\" data-endpoint=\"/tracks/julia/exercises/two-fer/tooltip\">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](+https://exercism.org/tracks/julia/exercises/two-fer)")
   end
+
+  test "render note code block" do
+    expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">Note this\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("```exercism/note\nNote this\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/note\nNote this\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nNote this\n~~~~~")
+  end
+
+  test "render caution code block" do
+    expected = %(<div class="c-textblock-caution">\n<div class="c-textblock-header">Caution</div>\n<div class="c-textblock-content">Here be dragons\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("```exercism/caution\nHere be dragons\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/caution\nHere be dragons\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/caution\nHere be dragons\n~~~~~")
+  end
+
+  test "render advanced code block" do
+    expected = %(<div class="c-textblock-advanced">\n<div class="c-textblock-header">Advanced</div>\n<div class="c-textblock-content">Pointer arithmetic\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("```exercism/advanced\nPointer arithmetic\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/advanced\nPointer arithmetic\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/advanced\nPointer arithmetic\n~~~~~")
+  end
 end

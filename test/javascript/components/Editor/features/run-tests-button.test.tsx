@@ -12,9 +12,7 @@ import { buildEditor } from './buildEditor'
 test('run tests is enabled if initial submission is null', async () => {
   render(<Editor {...buildEditor()} />)
 
-  expect(
-    screen.getByRole('button', { name: 'Run Tests F2' })
-  ).not.toBeDisabled()
+  expect(screen.getByRole('button', { name: 'Run Tests' })).not.toBeDisabled()
 
   localStorage.clear()
 })

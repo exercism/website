@@ -7,8 +7,8 @@ import '@testing-library/jest-dom/extend-expect'
 test('clicking cancel hides modal', async () => {
   render(<FinishButton modalProps={{ ariaHideApp: false }} />)
 
-  userEvent.click(screen.getByRole('button', { name: 'End discussion F3' }))
-  userEvent.click(await screen.findByRole('button', { name: 'Cancel F2' }))
+  userEvent.click(screen.getByRole('button', { name: 'End discussion' }))
+  userEvent.click(await screen.findByRole('button', { name: 'Cancel' }))
 
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 })

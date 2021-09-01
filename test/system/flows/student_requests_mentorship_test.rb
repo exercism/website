@@ -12,22 +12,25 @@ module Flows
       track = create :track
       create :user_track, user: user, track: track
       hello_world = create :concept_exercise, track: track, slug: "hello-world"
+
+      # completed hello world
       create :concept_solution,
         exercise: hello_world,
         user: user,
         completed_at: 2.days.ago,
         status: :completed
+
+      # completed lasagna
       exercise = create :concept_exercise, track: track, title: "Lasagna"
-      solution = create :concept_solution, exercise: exercise, user: user, published_at: 1.day.ago, status: :published
+      solution = create :concept_solution, exercise: exercise, user: user, status: :completed, completed_at: 2.days.ago
       submission = create :submission, solution: solution
       create :iteration, submission: submission, solution: solution
-      create :submission_file, submission: submission, content: "class Bob\nend", filename: "bob.rb"
 
       use_capybara_host do
         sign_in!(user)
         visit track_url(track)
         first("button", text: "Select an exercise").click
-        click_on "Lasagna"
+        within(".m-select-exercise-for-mentoring") { click_on "Lasagna" }
 
         fill_in "What are you hoping to learn from this track?", with: "I want to learn OOP."
         fill_in "How can a mentor help you with this solution?", with: "I don't know."
@@ -36,6 +39,71 @@ module Flows
 
       assert_text "Waiting on a mentor..."
       assert_text "I don't know."
+    end
+
+    test "student can not request mentorship for hello-world" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      hello_world = create :concept_exercise, track: track, slug: "hello-world"
+
+      # completed hello world
+      create :concept_solution,
+        exercise: hello_world,
+        user: user,
+        completed_at: 2.days.ago,
+        status: :completed
+
+      # completed hello world
+      exercise = create :concept_exercise, track: track, slug: "lasagna"
+      create :concept_solution,
+        exercise: exercise,
+        user: user,
+        completed_at: 2.days.ago,
+        status: :completed
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_url(track)
+        first("button", text: "Select an exercise").click
+
+        within(".m-select-exercise-for-mentoring") { assert_no_text "Hello World" }
+      end
+    end
+
+    test "student can not request mentorship for hello world" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+      hello_world = create :concept_exercise, track: track, slug: "hello-world"
+
+      # completed hello world
+      create :concept_solution,
+        exercise: hello_world,
+        user: user,
+        completed_at: 2.days.ago,
+        status: :completed
+
+      use_capybara_host do
+        sign_in!(user)
+        visit new_track_exercise_mentor_request_url(track, hello_world)
+
+        assert_text "You've completed Hello World"
+      end
+    end
+
+    test "student sees required number of completed exercises to request mentorship" do
+      user = create :user
+      track = create :track, title: "Ruby"
+      create :user_track, user: user, track: track
+      create :concept_exercise, track: track, slug: "hello-world"
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_url(track)
+
+        assert_text 'Unlock mentoring for Ruby by completing ”Hello, World!”'
+      end
     end
 
     test "student requests mentorship when slots are full" do
@@ -69,8 +137,19 @@ module Flows
       user = create :user
       track = create :track
       create :user_track, user: user, track: track
+
+      hello_world = create :concept_exercise, track: track, slug: "hello-world"
+
+      # completed hello world
+      create :concept_solution,
+        exercise: hello_world,
+        user: user,
+        completed_at: 2.days.ago,
+        status: :completed
+
+      # completed lasagna
       exercise = create :concept_exercise, track: track, title: "Lasagna"
-      solution = create :concept_solution, exercise: exercise, user: user
+      solution = create :concept_solution, exercise: exercise, user: user, status: :completed, completed_at: 2.days.ago
       create :mentor_request, :v2, solution: solution, comment_markdown: ""
       submission = create :submission, solution: solution
       create :iteration, submission: submission, solution: solution

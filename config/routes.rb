@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       end
 
       resources :tracks, only: [], controller: "user_tracks", param: :slug do
+        resources :solutions_for_mentoring, only: %i[index], controller: "tracks/solutions_for_mentoring"
         member do
           patch :activate_practice_mode
           patch :activate_learning_mode

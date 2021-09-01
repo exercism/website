@@ -3,10 +3,13 @@ class Tracks::MentorRequestsController < ApplicationController
   before_action :use_solution
 
   def new
+    return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
+
     @first_time_on_track = true
     @first_time_mentoring = true
 
     # TODO: (Optional) Change to "if %i[requested in_progress].include(@solution.mentoring_status)
+    #
     return redirect_to action: :show if @solution.mentor_requests.pending.exists?
     return redirect_to action: :show if @solution.mentor_discussions.in_progress_for_student.exists?
     return redirect_to action: :no_slots_remaining if @user_track.num_available_mentoring_slots.zero?

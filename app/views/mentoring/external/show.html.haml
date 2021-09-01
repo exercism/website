@@ -5,11 +5,10 @@
       %h1 Share your knowledge with others
       %p
         Mentoring is a fun and rewarding way to reinforce your own learning, while helping others learn and discover things they don’t know.
-        - # TODO
-        = link_to "Mentoring also earns reputation.", "#"
+        = link_to "Mentoring also earns reputation.", doc_path(:building, "product/reputation")
       %p.unsure
         Not sure if you can mentor effectively?
-        - # TODO
+        -# TODO
         = link_to "Some of our best mentors worried too.", "#"
 
       - if user_signed_in?

@@ -16,10 +16,15 @@ export type Props = {
 export const MentoringSection = ({ tracks, ranks }: Props): JSX.Element => {
   if (tracks.length === 0) {
     return (
-      <section className="mentoring-section">
-        You haven&apos;t mentored anyone yet
+      <section className="empty-section">
+        <GraphicalIcon icon="mentoring" hex />
+        <h3 className="journey-h3 mb-24">
+          You haven&apos;t mentored anyone yet
+        </h3>
         {/* TODO get link from rails */}
-        <a href="/mentoring">Try mentoring</a>
+        <a href="/mentoring" className="btn-l btn-primary">
+          Try mentoring
+        </a>
       </section>
     )
   }

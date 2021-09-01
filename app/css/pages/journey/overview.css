@@ -81,6 +81,16 @@
             @apply mb-140;
         }
 
+        & section.empty-section {
+            @apply bg-veryDarkGray;
+            @apply flex flex-col items-center;
+            @apply p-64 rounded-8;
+            & .c-icon {
+                height: 80px;
+                width: 80px;
+                @apply mb-16;
+            }
+        }
         & section.learning-section {
             & header.section-header {
                 @apply mb-48;

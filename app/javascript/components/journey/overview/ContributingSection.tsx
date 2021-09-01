@@ -27,10 +27,15 @@ export const ContributingSection = ({
 
   if (allTrack.totalReputation === 0) {
     return (
-      <section className="contributing-section">
-        You haven&apos;t contributed to Exercism yet
+      <section className="empty-section">
+        <GraphicalIcon icon="mentoring" hex />
+        <h3 className="journey-h3 mb-24">
+          You haven&apos;t contributed to Exercism yet
+        </h3>
         {/* TODO get link from rails */}
-        <a href="/contributing">See how you can contribute</a>
+        <a href="/contributing" className="btn-l btn-primary">
+          See how you can contribute
+        </a>
       </section>
     )
   }

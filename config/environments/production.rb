@@ -105,6 +105,7 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   config.action_controller.asset_host = Exercism.config.website_assets_host
+  config.asset_host = Exercism.config.website_assets_host
 
   # SMTP setup
   config.action_mailer.delivery_method = :smtp

@@ -38,6 +38,33 @@ module Flows
       assert_text "I don't know."
     end
 
+    test "student requests mentorship when slots are full" do
+      user = create :user
+      track = create :track
+      create :user_track, user: user, track: track
+
+      # slot 1
+      exercise_1 = create :concept_exercise, track: track, slug: "strings"
+      solution_1 = create :concept_solution, user: user, exercise: exercise_1
+      create :mentor_discussion, solution: solution_1
+
+      # slot 2
+      exercise_2 = create :concept_exercise, track: track, slug: "walking"
+      solution_2 = create :concept_solution, user: user, exercise: exercise_2
+      create :mentor_discussion, solution: solution_2
+
+      # slot 3
+      exercise_3 = create :concept_exercise, slug: "running"
+      create :concept_solution, user: user, exercise: exercise_3
+
+      use_capybara_host do
+        sign_in!(user)
+        visit new_track_exercise_mentor_request_url(track, exercise_3)
+
+        assert_text "Sorry - you've used up all your mentoring slots"
+      end
+    end
+
     test "student edits empty comment" do
       user = create :user
       track = create :track

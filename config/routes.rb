@@ -335,7 +335,9 @@ Rails.application.routes.draw do
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
 
-      resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests"
+      resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests" do
+        get :no_slots_remaining
+      end
       resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions"
 
       resources :solutions, only: %i[index show], controller: "tracks/community_solutions"

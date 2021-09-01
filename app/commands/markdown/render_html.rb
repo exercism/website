@@ -65,9 +65,13 @@ class Markdown::RenderHTML
     end
 
     def note_block(node)
+      type = node.fence_info.split('/')[1]
       block do
-        out("<div class=\"c-textblock-#{node.fence_info.split('/')[1]}\">")
+        out(%(<div class="c-textblock-#{type}">))
+        out(%(<div class="c-textblock-header">#{type.titleize}</div>))
+        out('<div class="c-textblock-content">')
         out(escape_html(node.string_content))
+        out('</div>')
         out('</div>')
       end
     end

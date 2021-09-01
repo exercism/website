@@ -31,7 +31,6 @@ export const Modal = ({
     `theme-${theme}`,
     className,
     cover ? '--cover' : '',
-    '--modal-container',
   ]
 
   return (

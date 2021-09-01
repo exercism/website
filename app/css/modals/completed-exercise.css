@@ -3,7 +3,10 @@
 .m-completed-exercise.c-modal.--cover,
 .c-modal.m-completed-tutorial-exercise.c-modal.--cover {
     background: var(--modalBackgroundColor);
-    padding: 150px 0 50px 0;
+
+    & .--modal-container {
+        padding: 150px 0 50px 0;
+    }
 
     & .--modal-content {
         width: 100%;

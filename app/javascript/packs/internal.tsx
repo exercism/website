@@ -21,6 +21,7 @@ import {
   // User,
   // SiteUpdate,
   CommunicationPreferences,
+  User,
   // TrackContribution,
 } from '../components/types'
 
@@ -78,6 +79,8 @@ import { Links as PublishedSolutionLinks } from '../components/student/Published
 import { Links as NotificationsListLinks } from '../components/notifications/NotificationsList'
 import * as Notifications from '../components/notifications'
 
+import * as Modals from '../components/modals'
+
 import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
@@ -91,6 +94,13 @@ function camelizeKeysAs<T>(object: any): T {
 initReact({
   'common-markdown-editor': (data: any) => (
     <MarkdownEditor contextId={data.context_id} />
+  ),
+
+  'modals-first-time-modal': (data: any) => (
+    <Modals.FirstTimeModal
+      endpoint={data.endpoint}
+      contributors={camelizeKeysAs<readonly User[]>(data.contributors)}
+    />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (

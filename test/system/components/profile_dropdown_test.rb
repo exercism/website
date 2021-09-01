@@ -6,9 +6,11 @@ module Components
     include CapybaraHelpers
 
     test "clicking on dropdown button shows links" do
-      sign_in!
+      user = create :user
+      create :user_dismissed_introducer, slug: "v3-modal", user: user
 
       use_capybara_host do
+        sign_in!(user)
         visit dashboard_path
         find(".user-menu").click
 

@@ -22,6 +22,7 @@ module Flows
           pr_title: "I did something",
           merged_at: Time.current - 7.months
         }
+      create :user_dismissed_introducer, slug: "v3-modal", user: user
 
       use_capybara_host do
         sign_in!(user)
@@ -51,6 +52,7 @@ module Flows
           pr_title: "Something else",
           merged_at: 3.days.ago
         }
+      create :user_dismissed_introducer, slug: "v3-modal", user: user
 
       use_capybara_host do
         sign_in!(user)
@@ -77,6 +79,7 @@ module Flows
           pr_title: "Something else",
           merged_at: 3.days.ago
         }
+      create :user_dismissed_introducer, slug: "v3-modal", user: user
 
       use_capybara_host do
         sign_in!(user)
@@ -91,6 +94,7 @@ module Flows
 
     test "refetches on websocket notification" do
       user = create :user
+      create :user_dismissed_introducer, slug: "v3-modal", user: user
 
       use_capybara_host do
         sign_in!(user)

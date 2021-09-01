@@ -284,6 +284,16 @@ Done')
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](+https://exercism.org/tracks/julia/exercises/two-fer)")
   end
 
+  test "render vimeo video without link" do
+    expected = %(<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885125?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="X Exercism_ Tutorial Your first mentoring session 1.m4v"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:vimeo/595885125]()")
+  end
+
+  test "render vimeo video with link" do
+    expected = %(<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885125?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="X Exercism_ Tutorial Your first mentoring session 1.m4v"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:vimeo/595885125](https://player.vimeo.com/video/595885125)")
+  end
+
   test "render note code block" do
     expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">Note this\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("```exercism/note\nNote this\n```")

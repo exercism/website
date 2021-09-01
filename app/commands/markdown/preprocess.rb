@@ -46,6 +46,10 @@ class Markdown::Preprocess
         node.url = "https://exercism.org/tracks/#{m[2]}/#{m[1]}s/#{m[3]}"
         node.each.first.string_content = m[3]
       end
+
+      link_text.match(%r{^video:vimeo/(\d+)$}) do |m|
+        node.url = "https://player.vimeo.com/video/#{m[1]}"
+      end
     end
   end
 

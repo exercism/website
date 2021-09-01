@@ -30,7 +30,13 @@ class Markdown::Parse
       node.remove if node.name == "comment"
     end
 
-    Loofah.fragment(raw_html).scrub!(remove_comments).scrub!(:escape).to_s
+    Loofah.fragment(raw_html).
+      scrub!(remove_comments).
+      scrub!(:escape).
+      to_s.
+      gsub(%r{<p><a href="https://player\.vimeo\.com/video/(595884893|595885125|595884449)"[^>]*?>[^<]+</a></p>}) do |_m|
+        %(<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/#{$LAST_MATCH_INFO[1]}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="X Exercism_ Tutorial Your first mentoring session 1.m4v"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>) # rubocop:disable Layout/LineLength
+      end
   end
 
   memoize

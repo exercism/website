@@ -215,7 +215,7 @@ module Flows
         sign_in!(user)
         visit track_exercise_iterations_url(track, exercise)
 
-        assert_text "Get your tests passing in order to get analysis on your code."
+        assert_text "In order for our systems to analyze your code, the tests must be passing."
       end
     end
 

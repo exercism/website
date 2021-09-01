@@ -3,10 +3,15 @@ class Tracks::MentorRequestsController < ApplicationController
   before_action :use_solution
 
   def new
+    unless Track::SearchSolutionsForMentoring.(current_user, @track, paginated: false).include?(@solution)
+      redirect_to track_path(@track)
+    end
+
     @first_time_on_track = true
     @first_time_mentoring = true
 
     # TODO: (Optional) Change to "if %i[requested in_progress].include(@solution.mentoring_status)
+    #
     return redirect_to action: :show if @solution.mentor_requests.pending.exists?
     return redirect_to action: :show if @solution.mentor_discussions.in_progress_for_student.exists?
   end

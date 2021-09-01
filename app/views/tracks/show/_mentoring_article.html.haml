@@ -1,10 +1,10 @@
 / TODO: This can be cached against track.updated_at and track.num_contributors
 %article.mentoring-article
-  - unless user_track.tutorial_exercise_completed?
+  - unless user_track.mentoring_unlocked?
     .mentoring-locked-overlay
       .content
         = icon "lock-circle", "Mentoring is locked"
-        %h3 Unlock mentoring for #{track.title} by completing ”Hello, World!”
+        %h3 Unlock mentoring for #{track.title} by completing ”Hello, World!” and starting a new exercise
 
   .lg-container
     %header.mentoring-header

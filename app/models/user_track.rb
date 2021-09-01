@@ -96,6 +96,10 @@ class UserTrack < ApplicationRecord
     c.denominator == 1 ? c.round : c.round(1)
   end
 
+  def mentoring_unlocked?
+    user.solutions.joins(:exercise).where.not("exercises.slug": "hello-world").where.not(type: :started).exists?
+  end
+
   memoize
   def active_mentoring_discussions
     Mentor::Discussion.where(solution: solutions).in_progress_for_student

@@ -38,7 +38,7 @@ export const LearningSection = ({ tracks, links }: Props): JSX.Element => {
           <TrackSummary
             key={track.slug}
             track={track}
-            avgVelocity={tracks.velocity}
+            avgVelocity={null}
             expanded={idx == 0}
           />
         ))}

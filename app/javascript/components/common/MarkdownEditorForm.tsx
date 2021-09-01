@@ -66,8 +66,12 @@ export const MarkdownEditorForm = ({
 
   const handleClick = useCallback(() => {
     onClick()
+    if (expanded) {
+      return
+    }
+
     editor?.focus()
-  }, [onClick, editor])
+  }, [onClick, expanded, editor])
 
   const handleEditorDidMount = useCallback((editor) => {
     setEditor(editor)

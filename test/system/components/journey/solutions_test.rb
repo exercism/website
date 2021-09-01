@@ -107,7 +107,7 @@ module Components
           sign_in!(user)
           visit solutions_journey_path
           click_on "Exercise status"
-          find("label", text: "In progress").click
+          find("label", text: "Started").click
         end
 
         assert_text "Bob"

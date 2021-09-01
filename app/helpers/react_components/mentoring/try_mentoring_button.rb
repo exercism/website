@@ -33,7 +33,7 @@ module ReactComponents
             registration: Exercism::Routes.api_mentoring_registration_url
           },
           congratulations_step: {
-            video: "https://player.vimeo.com/video/121725838?title=0&byline=0&portrait=0",
+            video: "https://player.vimeo.com/video/595885414?title=0&byline=0&portrait=0",
             dashboard: redirect_link
           }
         }

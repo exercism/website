@@ -45,4 +45,12 @@ class Tracks::CommunitySolutionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response 200
   end
+
+  test "show: 200s for published solution with uuid" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, :published, exercise: exercise
+    get track_exercise_solution_url(exercise.track, exercise, solution.uuid)
+
+    assert_response 200
+  end
 end

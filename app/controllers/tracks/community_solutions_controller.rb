@@ -12,8 +12,14 @@ class Tracks::CommunitySolutionsController < ApplicationController
   end
 
   def show
-    @solution = User.find_by!(handle: params[:id]).
-      solutions.published.find_by!(exercise_id: @exercise.id)
+    begin
+      @solution = User.find_by!(handle: params[:id]).
+        solutions.published.find_by!(exercise_id: @exercise.id)
+    rescue StandardError
+      # Legacy solutions used uuids here
+      @solution = Solution.published.find_by!(uuid: params[:id])
+    end
+
     @author = @solution.user
     @comments = @solution.comments
 

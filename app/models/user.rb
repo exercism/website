@@ -53,6 +53,7 @@ class User < ApplicationRecord
   has_many :contributed_exercises, through: :contributorships, source: :exercise
   has_many :scratchpad_pages, dependent: :destroy
 
+  has_many :solution_comments, dependent: :destroy, class_name: "Solution::Comment", inverse_of: :author
   has_many :solution_stars, dependent: :destroy, class_name: "Solution::Star"
 
   has_many :track_mentorships, dependent: :destroy

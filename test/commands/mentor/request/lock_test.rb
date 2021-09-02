@@ -55,16 +55,14 @@ class Mentor::Request::LockTest < ActiveSupport::TestCase
     end
   end
 
-  test "raises if mentor has two open locks" do
+  test "raises if mentor has open open locks" do
     mentor = create :user
 
     # Sanity check: can lock when mentor has no existing locks
     Mentor::Request::Lock.(create(:mentor_request), mentor)
 
     # Sanity check: can lock when mentor has less than four existing locks
-    Mentor::Request::Lock.(create(:mentor_request), mentor)
-    3.times { Mentor::Request::Lock.(create(:mentor_request), mentor) }
-    Mentor::Request::Lock.(create(:mentor_request), mentor)
+    3.times { Mentor::Request::Lock.(create(:mentor_request), mentor.reload) }
 
     assert_raises MentorSolutionLockLimitReachedError do
       Mentor::Request::Lock.(create(:mentor_request), mentor.reload)

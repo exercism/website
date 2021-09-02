@@ -55,7 +55,7 @@ class Mentor::Request::LockTest < ActiveSupport::TestCase
     end
   end
 
-  test "raises if mentor has open open locks" do
+  test "raises if mentor has four open locks" do
     mentor = create :user
 
     # Sanity check: can lock when mentor has no existing locks

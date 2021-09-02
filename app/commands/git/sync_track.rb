@@ -99,7 +99,8 @@ module Git
           title: exercise_config[:name].presence,
           blurb: git_exercise.blurb,
           taught_concepts: exercise_concepts(exercise_config[:concepts]),
-          prerequisites: exercise_concepts(exercise_config[:prerequisites])
+          prerequisites: exercise_concepts(exercise_config[:prerequisites]),
+          has_test_runner: git_exercise.has_test_runner?
         )
         Git::SyncConceptExercise.(exercise, force_sync: force_sync)
       end
@@ -122,7 +123,8 @@ module Git
           blurb: git_exercise.blurb,
           difficulty: exercise_config[:difficulty],
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
-          practiced_concepts: exercise_concepts(exercise_config[:practices])
+          practiced_concepts: exercise_concepts(exercise_config[:practices]),
+          has_test_runner: git_exercise.has_test_runner?
         )
         Git::SyncPracticeExercise.(exercise, force_sync: force_sync)
       end

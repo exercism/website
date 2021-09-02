@@ -63,7 +63,7 @@ class Mentor::Request::LockTest < ActiveSupport::TestCase
 
     # Sanity check: can lock when mentor has less than four existing locks
     Mentor::Request::Lock.(create(:mentor_request), mentor)
-    Mentor::Request::Lock.(create(:mentor_request), mentor)
+    3.times { Mentor::Request::Lock.(create(:mentor_request), mentor) }
     Mentor::Request::Lock.(create(:mentor_request), mentor)
 
     assert_raises MentorSolutionLockLimitReachedError do

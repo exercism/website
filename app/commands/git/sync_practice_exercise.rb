@@ -55,7 +55,8 @@ module Git
       head_git_exercise.blurb != exercise.blurb ||
         head_git_exercise.icon_name != exercise.icon_name ||
         head_git_exercise.authors.to_a.sort != exercise.authors.map(&:github_username).sort ||
-        head_git_exercise.contributors.to_a.sort != exercise.contributors.map(&:github_username).sort
+        head_git_exercise.contributors.to_a.sort != exercise.contributors.map(&:github_username).sort ||
+        head_git_exercise.has_test_runner? != exercise.has_test_runner?
     end
 
     def exercise_files_modified?

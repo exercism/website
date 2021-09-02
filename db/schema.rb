@@ -451,14 +451,14 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
   create_table "solution_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "solution_id", null: false
-    t.bigint "author_id", null: false
+    t.bigint "user_id", null: false
     t.text "content_markdown", null: false
     t.text "content_html", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["author_id"], name: "index_solution_comments_on_author_id"
     t.index ["solution_id"], name: "index_solution_comments_on_solution_id"
+    t.index ["user_id"], name: "index_solution_comments_on_user_id"
     t.index ["uuid"], name: "index_solution_comments_on_uuid", unique: true
   end
 
@@ -887,7 +887,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
   add_foreign_key "site_updates", "tracks"
   add_foreign_key "site_updates", "users", column: "author_id"
   add_foreign_key "solution_comments", "solutions"
-  add_foreign_key "solution_comments", "users", column: "author_id"
+  add_foreign_key "solution_comments", "users"
   add_foreign_key "solution_stars", "solutions"
   add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"

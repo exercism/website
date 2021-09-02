@@ -15,7 +15,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
     begin
       @solution = User.find_by!(handle: params[:id]).
         solutions.published.find_by!(exercise_id: @exercise.id)
-    rescue StandardError
+    rescue ActiveRecord::RecordNotFound
       # Legacy solutions used uuids here
       @solution = Solution.published.find_by!(uuid: params[:id])
     end

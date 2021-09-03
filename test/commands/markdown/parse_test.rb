@@ -122,7 +122,7 @@ Done')
   end
 
   schemes = %w[https http]
-  domains = %w[exercism.io exercism.lol local.exercism.io exercism.org local.exercism.org]
+  domains = %w[exercism.io exercism.lol local.exercism.io exercism.org local.exercism.io]
 
   schemes.product(domains).each do |scheme, domain|
     test "does not add target=\"blank\" to internal link on #{scheme}://#{domain}" do
@@ -208,9 +208,9 @@ Done')
     assert_equal expected, Markdown::Parse.("[basics](https://exercism.lol/tracks/ruby/concepts/basics)")
   end
 
-  test "render internal link using local.exercism.org domain" do
-    expected = %(<p><a href="http://local.exercism.org/tracks/ruby/concepts/basics" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
-    assert_equal expected, Markdown::Parse.("[basics](http://local.exercism.org/tracks/ruby/concepts/basics)")
+  test "render internal link using local.exercism.io domain" do
+    expected = %(<p><a href="http://local.exercism.io/tracks/ruby/concepts/basics" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](http://local.exercism.io/tracks/ruby/concepts/basics)")
   end
 
   test "render internal link with trailing slash" do

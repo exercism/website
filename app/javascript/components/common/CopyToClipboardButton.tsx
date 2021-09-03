@@ -78,6 +78,7 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
       <div className="text">{textToCopy}</div>
       <Icon icon="clipboard" alt="Copy to clipboard" />
       {justCopied ? <span className="message">Copied</span> : null}
+      <span data-test-clipboard data-content={textToCopy} />
     </button>
   )
 }

@@ -86,6 +86,15 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, submission)
   end
 
+  test "do not run tests if there's no test runner" do
+    exercise = create :concept_exercise, has_test_runner: false
+    solution = create :concept_solution, exercise: exercise
+    submission = create :submission, solution: solution
+
+    Submission::TestRun::Init.expects(:call).never
+    Iteration::Create.(solution, submission)
+  end
+
   test "starts analysis and representation" do
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"

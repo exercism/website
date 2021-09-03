@@ -122,7 +122,7 @@ Done')
   end
 
   schemes = %w[https http]
-  domains = %w[exercism.io exercism.lol local.exercism.io exercism.org local.exercism.io]
+  domains = %w[exercism.io exercism.lol local.exercism.io exercism.org]
 
   schemes.product(domains).each do |scheme, domain|
     test "does not add target=\"blank\" to internal link on #{scheme}://#{domain}" do

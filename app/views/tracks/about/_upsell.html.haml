@@ -7,7 +7,6 @@
       .info
         = graphical_icon :logo, css_class: "small-icon"
         %h3 Get mentored the #{track.title} way
-        / TODO: Use correct counts
         %p
           Every language has its own way of doing things.
           #{track.title} is no different.
@@ -21,8 +20,7 @@
       .info
         = graphical_icon :mentoring, css_class: "small-icon"
         %h3 Community-sourced #{track.title} exercises
-        / TODO: Use correct counts
-        %p The #{track.title} track on Exercism has 120 concepts and 100 exercises to help you write better code. Discover new exercises as you progress and get engrossed in learning new concepts and improving the way you currently write.
+        %p The #{track.title} track on Exercism has #{"#{track.num_concepts} concepts and " if track.num_concepts > 0}#{track.num_exercises} exercises to help you write better code. Discover new exercises as you progress and get engrossed in learning new concepts and improving the way you currently write.
         = render ViewComponents::ProminentLink.new("See all #{track.title} exercises", track_exercises_path(track))
       .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:mr-64
         = graphical_icon 'community-solutions', category: :graphics, css_class: 'graphic'

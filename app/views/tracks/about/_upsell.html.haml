@@ -2,7 +2,6 @@
 
 %section.upsell-section
   .md-container
-
     .feature.flex-col.md:flex-row
       .info
         = graphical_icon :logo, css_class: "small-icon"
@@ -20,7 +19,14 @@
       .info
         = graphical_icon :mentoring, css_class: "small-icon"
         %h3 Community-sourced #{track.title} exercises
-        %p The #{track.title} track on Exercism has #{"#{track.num_concepts} concepts and " if track.num_concepts > 0}#{track.num_exercises} exercises to help you write better code. Discover new exercises as you progress and get engrossed in learning new concepts and improving the way you currently write.
+        %p
+          The #{track.title} track on Exercism has
+          - if track.num_concepts.positive?
+            #{track.num_concepts} concepts and
+
+          #{track.num_exercises} exercises to help you write better code.
+          Discover new exercises as you progress and get engrossed in learning new concepts and improving the way you currently write.
+
         = render ViewComponents::ProminentLink.new("See all #{track.title} exercises", track_exercises_path(track))
       .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:mr-64
         = graphical_icon 'community-solutions', category: :graphics, css_class: 'graphic'

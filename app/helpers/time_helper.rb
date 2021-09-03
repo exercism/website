@@ -16,8 +16,11 @@ module TimeHelper
 
     # If the time is more than 5 years ago, the value is literally "over 5 years" as opposed
     # to "3 years" or "2 months"
-    is_over = parts[0] == "over"
-    parts.shift if is_over
+    if parts[0] == "over"
+      prefix = "over " unless short
+      suffix = "+" if short
+      parts.shift
+    end
 
     case parts[1]
     when "month", "months"
@@ -26,6 +29,6 @@ module TimeHelper
       unit = parts[1][0]
     end
 
-    "#{"over " if is_over}#{parts[0]}#{unit}"
+    "#{prefix}#{parts[0]}#{unit}#{suffix}"
   end
 end

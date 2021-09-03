@@ -27,6 +27,6 @@ class TimeHelperTest < ActionView::TestCase
     assert_equal "3mo", time_ago_in_words(Time.current - 3.months, short: true)
     assert_equal "1y", time_ago_in_words(Time.current - 1.year, short: true)
     assert_equal "5y", time_ago_in_words(Time.current - 5.years, short: true)
-    assert_equal "over 5y", time_ago_in_words(Time.current - 5.years - 3.months, short: true)
+    assert_equal "5y+", time_ago_in_words(Time.current - 5.years - 3.months, short: true)
   end
 end

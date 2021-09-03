@@ -79,7 +79,7 @@ class Solution < ApplicationRecord
 
   delegate :instructions, :introduction, :tests, :source, :source_url, to: :git_exercise
 
-  def external_download_cmd
+  def mentor_download_cmd
     "exercism download --uuid=#{uuid}"
   end
 

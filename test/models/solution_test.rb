@@ -637,4 +637,9 @@ class SolutionTest < ActiveSupport::TestCase
     expected = Exercism::Routes.mentoring_external_request_url(solution.public_uuid)
     assert_equal expected, solution.external_mentoring_request_url
   end
+
+  test "mentor_download_cmd" do
+    solution = create :practice_solution
+    assert_equal "exercism download --uuid=#{solution.uuid}", solution.mentor_download_cmd
+  end
 end

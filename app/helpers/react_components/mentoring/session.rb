@@ -33,7 +33,7 @@ module ReactComponents
             mentor_solution: mentor_solution,
             notes: notes,
             out_of_date: solution.out_of_date?,
-            download_command: solution.external_download_cmd,
+            download_command: solution.mentor_download_cmd,
             scratchpad: {
               is_introducer_hidden: current_user&.introducer_dismissed?("scratchpad"),
               links: {

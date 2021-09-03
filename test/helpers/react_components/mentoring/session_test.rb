@@ -44,7 +44,7 @@ module Mentoring
           mentor_solution: nil,
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
-          download_command: solution.external_download_cmd,
+          download_command: solution.mentor_download_cmd,
           scratchpad: {
             is_introducer_hidden: false,
             links: {
@@ -110,7 +110,7 @@ module Mentoring
           mentor_solution: nil,
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
-          download_command: solution.external_download_cmd,
+          download_command: solution.mentor_download_cmd,
           scratchpad: {
             is_introducer_hidden: false,
             links: {
@@ -173,7 +173,7 @@ module Mentoring
           mentor_solution: nil,
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
-          download_command: solution.external_download_cmd,
+          download_command: solution.mentor_download_cmd,
           scratchpad: {
             is_introducer_hidden: true,
             links: {

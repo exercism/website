@@ -21,6 +21,7 @@ module Flows
           click_on "Download solution"
           click_on "exercism download"
 
+          assert_text "Copied"
           assert_clipboard_text "exercism download --uuid=#{solution.uuid}"
         end
       end

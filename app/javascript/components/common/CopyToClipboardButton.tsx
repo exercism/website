@@ -72,11 +72,12 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
       onClick={onClick}
       onFocus={onFocus}
       onBlur={onBlur}
-      className={`c-copy-text-to-clipboard ${justCopied ? '--copied' : ''}`}
+      className="c-copy-text-to-clipboard"
       aria-label={`Copy "${textToCopy}" to the cliboard`}
     >
       <div className="text">{textToCopy}</div>
       <Icon icon="clipboard" alt="Copy to clipboard" />
+      {justCopied ? <span className="message">Copied</span> : null}
     </button>
   )
 }

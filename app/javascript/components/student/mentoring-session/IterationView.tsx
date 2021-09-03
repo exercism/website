@@ -1,13 +1,13 @@
 import React from 'react'
 import { Iteration, IterationStatus, MentorDiscussion } from '../../types'
-import { IterationsList } from './IterationsList'
-import { FilePanel } from './FilePanel'
+import { IterationsList } from '../../mentoring/session/IterationsList'
+import { FilePanel } from '../../mentoring/session/FilePanel'
 import { IterationHeader } from './iteration-view/IterationHeader'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { File } from '../../types'
 import { ResultsZone } from '../../ResultsZone'
-import { LinkButton } from './LinkButton'
+import { LinkButton } from '../../mentoring/session/LinkButton'
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 

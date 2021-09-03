@@ -17,18 +17,16 @@ export const DownloadButton = ({
     setIsPanelOpen(false)
   }, [])
 
-  {
-    /*TODO: Style button */
-  }
   return (
     <LazyTippy
       content={<DownloadPanel command={command} />}
       interactive={true}
       visible={isPanelOpen}
+      maxWidth="none"
       onClickOutside={handlePanelClose}
     >
       <button
-        className="btn-enhanced"
+        className="btn-s btn-default download-btn"
         type="button"
         onClick={handlePanelToggle}
       >
@@ -43,7 +41,12 @@ export const DownloadButton = ({
 }
 const DownloadPanel = ({ command }: { command: string }): JSX.Element => {
   return (
-    <div>
+    <div className="z-tooltip bg-backgroundColorA shadow-lgZ1 py-24 px-24 rounded-8">
+      <h3 className="text-h5 mb-8">Download this solution via the CLI</h3>
+      <p className="text-p-base mb-8">
+        This solution will be downloaded into a subdirectory specifically for
+        this student.
+      </p>
       <CopyToClipboardButton textToCopy={command} />
     </div>
   )

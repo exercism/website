@@ -152,4 +152,40 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     get edit_track_exercise_url(track, exercise)
     assert_redirected_to action: :show
   end
+
+  test "edit: redirects if there is no test runner" do
+    user = create :user
+    track = create :track
+    create :user_track, user: user, track: track
+    exercise = create :practice_exercise, has_test_runner: false
+
+    sign_in!(user)
+
+    get edit_track_exercise_url(track, exercise)
+    assert_redirected_to action: :no_test_runner
+  end
+
+  test "no_test_runner renders if there is no test runner" do
+    user = create :user
+    track = create :track
+    create :user_track, user: user, track: track
+    exercise = create :practice_exercise, has_test_runner: false
+
+    sign_in!(user)
+
+    get no_test_runner_track_exercise_url(track, exercise)
+    assert_response 200
+  end
+
+  test "no_test_runner redirects if there is a test runner" do
+    user = create :user
+    track = create :track
+    create :user_track, user: user, track: track
+    exercise = create :practice_exercise, has_test_runner: true
+
+    sign_in!(user)
+
+    get no_test_runner_track_exercise_url(track, exercise)
+    assert_redirected_to action: :edit
+  end
 end

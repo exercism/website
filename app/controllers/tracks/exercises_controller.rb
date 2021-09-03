@@ -1,6 +1,6 @@
 class Tracks::ExercisesController < ApplicationController
   before_action :use_track
-  before_action :use_exercise, only: %i[show start edit complete tooltip]
+  before_action :use_exercise, only: %i[show start edit complete tooltip no_test_runner]
   before_action :use_solution, only: %i[show edit complete tooltip]
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
@@ -26,28 +26,17 @@ class Tracks::ExercisesController < ApplicationController
     }
   end
 
-  # TODO: (Required) This should be an API method, not a HTML one.
-  def start
-    Solution::Create.(current_user, @exercise)
-
-    respond_to do |format|
-      format.json do
-        render json: {
-          links: {
-            exercise: Exercism::Routes.edit_track_exercise_url(@track, @exercise)
-          }
-        }
-      end
-      format.html { redirect_to action: :edit }
-    end
-  end
-
   def edit
     return redirect_to(action: :show) if @user_track.external?
+    return redirect_to(action: :no_test_runner) unless @exercise.has_test_runner?
 
     @solution ||= Solution::Create.(current_user, @exercise) # rubocop:disable Naming/MemoizedInstanceVariableName
   rescue ExerciseLockedError
     redirect_to action: :show
+  end
+
+  def no_test_runner
+    return redirect_to(action: :edit) if @exercise.has_test_runner?
   end
 
   private

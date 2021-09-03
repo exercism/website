@@ -23,7 +23,7 @@ module ReactComponents
               get_mentoring: Exercism::Routes.new_track_exercise_mentor_request_url(track, exercise),
               tooling_help: Exercism::Routes.doc_path('building', 'tooling'),
               automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
-              start_exercise: Exercism::Routes.start_track_exercise_url(track, exercise),
+              start_exercise: Exercism::Routes.start_api_track_exercise_url(track, exercise),
               solving_exercises_locally: Exercism::Routes.solving_exercises_locally_path
             }
           }

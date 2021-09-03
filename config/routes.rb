@@ -96,6 +96,10 @@ Rails.application.routes.draw do
         patch 'deactivate_practice_mode' => "user_tracks#deactivate_practice_mode"
 
         resources :exercises, only: %i[index], controller: "exercises", param: :slug do
+          member do
+            patch :start
+          end
+
           resources :makers, only: [:index], controller: "exercises/makers"
           resources :community_solutions, only: [:index], controller: "community_solutions", param: :handle do
             resource :star, only: %i[create destroy], controller: "community_solution_stars"
@@ -331,7 +335,7 @@ Rails.application.routes.draw do
     resources :exercises, only: %i[index show edit], controller: "tracks/exercises" do
       member do
         get :tooltip
-        patch :start # TODO: Remove once via the API.
+        get :no_test_runner
       end
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
@@ -468,13 +472,6 @@ Rails.application.routes.draw do
         get :student_request
       end
       resource :mentored_tracks, only: %i[show update]
-      resources :tracks, only: [] do
-        resources :exercises, only: [], controller: "tracks/exercises" do
-          member do
-            patch :start
-          end
-        end
-      end
     end
 
     namespace :test do

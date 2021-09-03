@@ -85,15 +85,16 @@ class TrackTest < ActiveSupport::TestCase
 
     create :user_reputation_period, category: :building, about: :track, track_id: track.id, user: user_1, reputation: 10
     create :user_reputation_period, category: :building, about: :track, track_id: track.id, user: user_2, reputation: 20
+    create :user_reputation_period, category: :maintaining, about: :track, track_id: track.id, user: user_3, reputation: 30
 
     # Other inconsequential rows
+    create :user_reputation_period, category: :maintaining, about: :track, track_id: track.id, user: user_2, reputation: 30 # Duplicate user # rubocop:disable Layout/LineLength
     create :user_reputation_period, category: :any, about: :track, track_id: track.id, user: user_3, reputation: 30
-    create :user_reputation_period, category: :maintaining, about: :track, track_id: track.id, user: user_3, reputation: 30
     create :user_reputation_period, about: :track, period: :year, track_id: track.id, user: user_3, reputation: 20
     create :user_reputation_period, about: :everything, user: user_3, reputation: 20
     create :user_reputation_period, about: :track, track_id: track.id + 1, user: user_3, reputation: 20
 
-    assert_equal 2, track.num_code_contributors
+    assert_equal 3, track.num_code_contributors
   end
 
   test "num_mentors" do

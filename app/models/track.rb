@@ -67,7 +67,7 @@ class Track < ApplicationRecord
       category: %i[building maintaining authoring],
       about: :track,
       track_id: id
-    ).count
+    ).select(:user_id).distinct.count
   end
 
   memoize

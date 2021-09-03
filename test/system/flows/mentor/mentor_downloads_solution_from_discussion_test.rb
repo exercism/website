@@ -1,10 +1,12 @@
 require "application_system_test_case"
 require_relative "../../../support/capybara_helpers"
+require_relative "../../../support/clipboard_helpers"
 
 module Flows
   module Mentor
     class MentorDownloadsSolutionFromDiscussionTest < ApplicationSystemTestCase
       include CapybaraHelpers
+      include ClipboardHelpers
 
       test "mentor copies download command to clipboard" do
         mentor = create :user
@@ -21,22 +23,6 @@ module Flows
 
           assert_clipboard_text "exercism download --uuid=#{solution.uuid}"
         end
-      end
-
-      private
-      def assert_clipboard_text(expected)
-        page.driver.browser.execute_cdp(
-          "Browser.setPermission",
-          {
-            origin: page.server_url,
-            permission: { name: "clipboard-read" },
-            setting: "granted"
-          }
-        )
-
-        actual = page.evaluate_async_script("navigator.clipboard.readText().then(arguments[0])")
-
-        assert_equal expected, actual
       end
     end
   end

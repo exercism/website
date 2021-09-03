@@ -1,5 +1,8 @@
 module ClipboardHelpers
   def assert_clipboard_text(expected)
-    assert find(%([data-test-clipboard][data-content="#{expected}"]), visible: false)
+    elements = all("[data-test-clipboard]", visible: false)
+    assert elements.any? do |elem|
+      elem["data-content"] == expected
+    end
   end
 end

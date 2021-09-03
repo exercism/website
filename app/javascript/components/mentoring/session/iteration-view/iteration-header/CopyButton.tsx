@@ -20,7 +20,7 @@ export const CopyButton = ({
   const [justCopied, setJustCopied] = useState(false)
   const textToCopy = formatForClipboard(files)
   const classNames = [
-    'c-copy-solution-button',
+    'c-copy-text-to-clipboard',
     justCopied ? '--copied' : '',
   ].filter((c) => c.length > 0)
 
@@ -39,17 +39,8 @@ export const CopyButton = ({
     return () => clearTimeout(timer)
   }, [justCopied, setJustCopied])
 
-  {
-    /* rODO: Style button */
-  }
-
   return (
-    <button
-      type="button"
-      className={classNames.join(' ')}
-      onClick={handleCopy}
-      style={{ width: 16, height: 16 }}
-    >
+    <button type="button" className={classNames.join(' ')} onClick={handleCopy}>
       <Icon icon="clipboard" alt="Copy solution" />
       {justCopied ? <span className="message">Copied</span> : null}
       <span data-test-clipboard data-content={textToCopy} />

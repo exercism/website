@@ -15,7 +15,7 @@ export const FilePanel = ({
   instructions,
   tests,
 }: {
-  files: File[]
+  files: readonly File[]
   language: string
   indentSize: number
   instructions?: string

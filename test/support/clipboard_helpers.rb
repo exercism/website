@@ -1,5 +1,7 @@
 module ClipboardHelpers
   def assert_clipboard_text(expected)
-    assert_css "[data-test-clipboard][data-content='#{expected}']", visible: false
+    clipboard = find("[data-test-clipboard]", visible: false)
+
+    assert_equal expected, clipboard["data-content"]
   end
 end

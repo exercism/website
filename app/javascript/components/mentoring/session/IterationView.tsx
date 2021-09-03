@@ -40,7 +40,7 @@ export const IterationView = ({
 }): JSX.Element => {
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
-    files: File[]
+    files: readonly File[]
   }>(currentIteration.links.files, {
     endpoint: currentIteration.links.files,
     options: {},
@@ -52,6 +52,7 @@ export const IterationView = ({
         iteration={currentIteration}
         isOutOfDate={isOutOfDate}
         downloadCommand={downloadCommand}
+        files={resolvedData?.files}
       />
       {currentIteration.status == IterationStatus.DELETED ? (
         <div className="deleted">This iteration has been deleted</div>

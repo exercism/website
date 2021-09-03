@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Iteration } from '../../../types'
+import { Iteration, File } from '../../../types'
 import { IterationChannel } from '../../../../channels/iterationChannel'
 import { fromNow } from '../../../../utils/time'
 import { GraphicalIcon } from '../../../common'
 import { ProcessingStatusButton } from '../../../track/iteration-summary/ProcessingStatusButton'
 import { DownloadButton } from './iteration-header/DownloadButton'
+import { CopyButton } from './iteration-header/CopyButton'
 
 export const IterationHeader = ({
   iteration: initialIteration,
   isOutOfDate,
   downloadCommand,
+  files,
 }: {
   iteration: Iteration
   isOutOfDate: boolean
   downloadCommand: string
+  files: readonly File[] | undefined
 }): JSX.Element => {
   const [iteration, setIteration] = useState(initialIteration)
   const channel = useRef<IterationChannel | undefined>()
@@ -75,6 +78,7 @@ export const IterationHeader = ({
 
         <ProcessingStatusButton iteration={iteration} />
         <DownloadButton command={downloadCommand} />
+        {files ? <CopyButton files={files} /> : null}
       </div>
     </header>
   )

@@ -64,7 +64,7 @@ class Track < ApplicationRecord
   def num_code_contributors
     User::ReputationPeriod.where(
       period: :forever,
-      category: :building,
+      category: %i[building maintaining authoring],
       about: :track,
       track_id: id
     ).count

@@ -424,6 +424,7 @@ Rails.application.routes.draw do
   get "become-a-mentor", to: redirect("mentoring")
   get "my/settings", to: redirect("settings")
   get "my/tracks", to: redirect("tracks")
+  get "getting-started", to: redirect("docs/using/getting-started")
 
   # Licences
   %w[licence license].each do |spelling|

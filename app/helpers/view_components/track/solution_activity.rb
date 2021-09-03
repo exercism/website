@@ -107,6 +107,8 @@ module ViewComponents
       memoize
       def activities_data
         solution.user_activities.order(id: :desc).limit(5).map(&:rendering_data)
+      rescue StandardError
+        []
       end
 
       memoize

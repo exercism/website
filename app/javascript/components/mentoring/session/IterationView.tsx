@@ -23,6 +23,7 @@ export const IterationView = ({
   isLinked,
   setIsLinked,
   discussion,
+  downloadCommand,
 }: {
   iterations: readonly Iteration[]
   instructions?: string
@@ -35,6 +36,7 @@ export const IterationView = ({
   isLinked: boolean
   setIsLinked: (linked: boolean) => void
   discussion?: MentorDiscussion
+  downloadCommand: string
 }): JSX.Element => {
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
@@ -46,8 +48,11 @@ export const IterationView = ({
 
   return (
     <React.Fragment>
-      <IterationHeader iteration={currentIteration} isOutOfDate={isOutOfDate} />
-
+      <IterationHeader
+        iteration={currentIteration}
+        isOutOfDate={isOutOfDate}
+        downloadCommand={downloadCommand}
+      />
       {currentIteration.status == IterationStatus.DELETED ? (
         <div className="deleted">This iteration has been deleted</div>
       ) : (

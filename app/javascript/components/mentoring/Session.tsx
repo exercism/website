@@ -62,6 +62,7 @@ export type SessionProps = {
   mentorSolution: CommunitySolution
   request: Request
   scratchpad: Scratchpad
+  downloadCommand: string
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
@@ -88,6 +89,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     request,
     scratchpad,
     userHandle,
+    downloadCommand,
   } = session
   const [tab, setTab] = useState<TabIndex>('discussion')
 
@@ -146,6 +148,7 @@ export const Session = (props: SessionProps): JSX.Element => {
               isLinked={isLinked}
               setIsLinked={setIsLinked}
               discussion={discussion}
+              downloadCommand={downloadCommand}
             />
           </>
         }

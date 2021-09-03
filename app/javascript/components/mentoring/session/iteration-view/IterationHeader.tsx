@@ -4,13 +4,16 @@ import { IterationChannel } from '../../../../channels/iterationChannel'
 import { fromNow } from '../../../../utils/time'
 import { GraphicalIcon } from '../../../common'
 import { ProcessingStatusButton } from '../../../track/iteration-summary/ProcessingStatusButton'
+import { DownloadButton } from './iteration-header/DownloadButton'
 
 export const IterationHeader = ({
   iteration: initialIteration,
   isOutOfDate,
+  downloadCommand,
 }: {
   iteration: Iteration
   isOutOfDate: boolean
+  downloadCommand: string
 }): JSX.Element => {
   const [iteration, setIteration] = useState(initialIteration)
   const channel = useRef<IterationChannel | undefined>()
@@ -71,6 +74,7 @@ export const IterationHeader = ({
         ) : null}
 
         <ProcessingStatusButton iteration={iteration} />
+        <DownloadButton command={downloadCommand} />
       </div>
     </header>
   )

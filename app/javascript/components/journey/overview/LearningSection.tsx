@@ -20,6 +20,21 @@ type Links = {
 }
 
 export const LearningSection = ({ tracks, links }: Props): JSX.Element => {
+  if (tracks.length === 0) {
+    return (
+      <section className="empty-section">
+        <GraphicalIcon icon="exercises" hex />
+        <h3 className="journey-h3 mb-24">
+          You haven&apos;t joined any tracks yet
+        </h3>
+        {/* TODO get link from rails */}
+        <a href="/tracks" className="btn-l btn-primary">
+          Choose a track to get started.
+        </a>
+      </section>
+    )
+  }
+
   return (
     <section className="learning-section">
       <header className="section-header">

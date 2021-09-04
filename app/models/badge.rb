@@ -42,6 +42,10 @@ class Badge < ApplicationRecord
     raise NotImplementedError
   end
 
+  def awarded_to!(_user)
+    # Stub to be overriden
+  end
+
   def rarity
     super.to_sym
   end

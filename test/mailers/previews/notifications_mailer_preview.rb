@@ -17,4 +17,10 @@ class NotificationsMailerPreview < ActionMailer::Preview
       notification: User::Notifications::StudentRepliedToDiscussionNotification.first
     ).student_replied_to_discussion
   end
+
+  def added_to_contributors_page
+    NotificationsMailer.with(
+      notification: User::Notifications::AddedToContributorsPageNotification.first
+    ).added_to_contributors_page
+  end
 end

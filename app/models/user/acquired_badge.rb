@@ -9,4 +9,8 @@ class User::AcquiredBadge < ApplicationRecord
   before_create do
     self.uuid = SecureRandom.compact_uuid
   end
+
+  after_create do
+    badge.awarded_to!(user)
+  end
 end

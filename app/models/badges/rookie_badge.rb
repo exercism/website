@@ -8,5 +8,9 @@ module Badges
     def award_to?(user)
       user.submissions.exists?
     end
+
+    def send_email_on_acquisition?
+      false
+    end
   end
 end

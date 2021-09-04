@@ -16,6 +16,7 @@ class User
         ).tap do |token|
           token.save!
 
+          AwardBadgeJob.perform_later(user, :contributor)
           User::ReputationPeriod::MarkForNewToken.(token)
         rescue ActiveRecord::RecordNotUnique
           return klass.find_by!(user: user, uniqueness_key: token.uniqueness_key)

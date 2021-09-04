@@ -38,8 +38,16 @@ class Badge < ApplicationRecord
     self.description = seed_data[:description]
   end
 
-  def award_to?(user)
-    raise NotImplementedError
+  def send_email_on_acquisition?
+    raise "Implement this method in the child class"
+  end
+
+  # Stub that children can override to generate
+  # notifications when they are created
+  def notification_key; end
+
+  def award_to?(_user)
+    raise "Implement this method in the child class"
   end
 
   def rarity

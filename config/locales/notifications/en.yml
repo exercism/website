@@ -10,9 +10,12 @@ en:
     student_replied_to_discussion:
       1: >
         %{student_name} has added a new comment on the solution you are mentoring for %{track_title}:%{exercise_title}
-    acquired_badge:
-      1: >
-        You have been awarded the %{badge_name} badge.
     student_added_iteration:
       1: >
         Your student, %{student_name}, has submitted a new iteration (#%{iteration_idx}) on their solution to %{track_title}:%{exercise_title}
+    added_to_contributors_page:
+      1: >
+        You now appear on our Contributors page. Thank you for contributing to Exercism!
+    acquired_badge:
+      1: >
+        You have unlocked a new badge. Visit your journey page to reveal what it is.

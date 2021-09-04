@@ -51,4 +51,24 @@ class NotificationsMailer < ApplicationMailer
     subject = "[Mentoring] #{@discussion.student.handle} has submitted a new iteration on the solution you are mentoring for #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     mail_to_user(@user, subject)
   end
+
+  def added_to_contributors_page
+    notification = params[:notification]
+    @user = notification.user
+
+    @unsubscribe_key = :email_on_general_update_notification
+    @title = "You're officially an Exercism contributor!"
+    subject = "You have been added to Exercism's contributors page"
+    mail_to_user(@user, subject)
+  end
+
+  def acquired_badge
+    notification = params[:notification]
+    @user = notification.user
+
+    @unsubscribe_key = :email_on_awarded_badge
+    @title = "There's a new badge waiting for you to reveal!"
+    subject = "You've unlocked a new badge"
+    mail_to_user(@user, subject)
+  end
 end

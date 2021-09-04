@@ -7,6 +7,7 @@ class Badge::SupporterBadgeTest < ActiveSupport::TestCase
     assert_equal :rare, badge.rarity
     assert_equal :supporter, badge.icon
     assert_equal "Donated to Exercism, helping fund free education for everyone", badge.description
+    refute badge.send_email_on_acquisition?
   end
 
   test "award_to?" do

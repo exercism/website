@@ -1,4 +1,3 @@
-# Preview all emails at http://localhost:3000/rails/mailers/notifications_mailer
 class NotificationsMailerPreview < ActionMailer::Preview
   def mentor_started_discussion
     NotificationsMailer.with(
@@ -16,5 +15,17 @@ class NotificationsMailerPreview < ActionMailer::Preview
     NotificationsMailer.with(
       notification: User::Notifications::StudentRepliedToDiscussionNotification.first
     ).student_replied_to_discussion
+  end
+
+  def added_to_contributors_page
+    NotificationsMailer.with(
+      notification: User::Notifications::AddedToContributorsPageNotification.first
+    ).added_to_contributors_page
+  end
+
+  def acquired_badge
+    NotificationsMailer.with(
+      notification: User::Notifications::AcquiredBadgeNotification.first
+    ).acquired_badge
   end
 end

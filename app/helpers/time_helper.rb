@@ -13,6 +13,15 @@ module TimeHelper
     return "1s" if t == "less than a minute"
 
     parts = t.split(' ')
+
+    # If the time is more than 5 years ago, the value is literally "over 5 years" as opposed
+    # to "3 years" or "2 months"
+    if parts[0] == "over"
+      prefix = "over " unless short
+      suffix = "+" if short
+      parts.shift
+    end
+
     case parts[1]
     when "month", "months"
       unit = "mo"
@@ -20,6 +29,6 @@ module TimeHelper
       unit = parts[1][0]
     end
 
-    "#{parts[0]}#{unit}"
+    "#{prefix}#{parts[0]}#{unit}#{suffix}"
   end
 end

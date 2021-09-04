@@ -21,12 +21,4 @@ class User::AcquiredBadgeTest < ActiveSupport::TestCase
 
     assert_equal [unrevealed], User::AcquiredBadge.unrevealed
   end
-
-  test "calls to awarded_to!" do
-    user = create :user
-    badge = create :member_badge
-
-    badge.expects(:awarded_to!).with(user)
-    User::AcquiredBadge.create!(user: user, badge: badge)
-  end
 end

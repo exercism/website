@@ -23,9 +23,9 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).added_to_contributors_page
   end
 
-  def badge_acquired
-    BadgesMailer.with(
-      acquired_badge: User::AcquiredBadge.first
-    ).awarded
+  def acquired_badge
+    NotificationsMailer.with(
+      notification: User::Notifications::AcquiredBadgeNotification.first
+    ).acquired_badge
   end
 end

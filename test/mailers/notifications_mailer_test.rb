@@ -45,12 +45,14 @@ class NotificationsMailerTest < ActionMailer::TestCase
     assert_email(email, mentor.email, subject, "student_replied_to_discussion")
   end
 
-  test "badge_acquired" do
-    user = create :user
+  test "acquired_badge" do
+    user = create :user, handle: "someone-cool"
     acquired_badge = create :user_acquired_badge, user: user
+    notification = create :acquired_badge_notification,
+      status: :email_only, user: user, params: { user_acquired_badge: acquired_badge }
 
-    email = BadgesMailer.with(acquired_badge: acquired_badge).awarded
+    email = NotificationsMailer.with(notification: notification).acquired_badge
     subject = "You've unlocked a new badge"
-    assert_email(email, user.email, subject, "awrded_badge")
+    assert_email(email, user.email, subject, "acquired_badge")
   end
 end

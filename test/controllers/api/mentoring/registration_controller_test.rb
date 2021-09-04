@@ -7,6 +7,8 @@ class API::Mentoring::RegistrationControllerTest < API::BaseTestCase
   # Create
   ###
   test "create makes someone a mentor" do
+    stub_request(:post, "https://dev.null.exercism.io/")
+
     user = create :user, :not_mentor
     refute user.mentor? # Sanity check
     setup_user(user)

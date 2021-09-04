@@ -28,7 +28,7 @@ class User::Notification
     end
 
     def notification_needs_sending?
-      return false unless notification.unread?
+      return false unless notification.unread? || notification.email_only?
       return false unless notification.email_pending?
 
       true

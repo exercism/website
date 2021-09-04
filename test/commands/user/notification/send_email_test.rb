@@ -50,7 +50,7 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
     end
   end
 
-  test "only sends if unread" do
+  test "only sends if unread or email only" do
     assert_no_enqueued_jobs do
       User::Notification::SendEmail.(create(:notification, :pending))
     end
@@ -61,6 +61,10 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
 
     assert_enqueued_with(job: ActionMailer::MailDeliveryJob) do
       User::Notification::SendEmail.(create(:notification, :unread))
+    end
+
+    assert_enqueued_with(job: ActionMailer::MailDeliveryJob) do
+      User::Notification::SendEmail.(create(:notification, :email_only))
     end
   end
 

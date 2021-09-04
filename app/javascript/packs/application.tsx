@@ -93,7 +93,6 @@ import '../../css/components/notification-dot'
 import '../../css/components/mentor/header'
 import '../../css/components/mentor/solution-row'
 import '../../css/components/mentor/discussion'
-import '../../css/components/mentor/copy-solution-button'
 
 import '../../css/components/track/header'
 import '../../css/components/track/concept-nav'

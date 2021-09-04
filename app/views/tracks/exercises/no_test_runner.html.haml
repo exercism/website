@@ -1,0 +1,15 @@
+.sm-container.flex.flex-col.items-center
+  %h1.text-64.font-bold.leading-130.text-textColor2.mt-64.mb-12 Editor unavailable.
+  - if @track.has_test_runner?
+    %h2.text-h2.mb-20 This track cannot be solved using the Exercism ditor
+    %p.text-p-xlarge.mb-32.text-center
+      This track does not yet have a working test runner, so the editor is disabled.
+      We are working on resolving this.
+      If you would like to help, please see the Issues on the #{link_to 'the GitHub repository', "https://github.com/exercism/#{@track.slug}-test-runner"}.
+  - else
+    %h2.text-h2.mb-20 Sorry, this exercise cannot be solved in the editor.
+    %p.text-p-xlarge.mb-32.text-center
+      This is probably because it takes too long to run the tests for this exercise.
+      Please use your local editor to solve it and upload it via our CLI.
+
+  = render ViewComponents::ProminentLink.new("Back to the exercise", track_exercise_path(@track, @exercise))

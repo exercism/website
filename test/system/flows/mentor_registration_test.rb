@@ -6,6 +6,8 @@ module Flows
     include CapybaraHelpers
 
     test "registers to be a mentor" do
+      stub_request(:post, "https://dev.null.exercism.io/")
+
       user = create :user, :not_mentor
       create :track, title: "Ruby"
 

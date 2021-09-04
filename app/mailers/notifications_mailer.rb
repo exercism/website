@@ -61,4 +61,14 @@ class NotificationsMailer < ApplicationMailer
     subject = "You have been added to Exercism's contributors page"
     mail_to_user(@user, subject)
   end
+
+  def acquired_badge
+    notification = params[:notification]
+    @user = notification.user
+
+    @unsubscribe_key = :email_on_awarded_badge
+    @title = "There's a new badge waiting for you to reveal!"
+    subject = "You've unlocked a new badge"
+    mail_to_user(@user, subject)
+  end
 end

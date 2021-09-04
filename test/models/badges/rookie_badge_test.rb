@@ -7,6 +7,7 @@ class Badge::RookieBadgeTest < ActiveSupport::TestCase
     assert_equal :common, badge.rarity
     assert_equal :editor, badge.icon
     assert_equal "Awarded for submitting an exercise", badge.description
+    refute badge.send_email_on_acquisition?
   end
 
   test "award_to?" do

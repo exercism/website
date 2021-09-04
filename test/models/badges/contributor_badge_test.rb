@@ -1,12 +1,14 @@
 require "test_helper"
 
-class Badge::AnybodyThereBadgeTest < ActiveSupport::TestCase
+class Badge::ContributorBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :contributor_badge
     assert_equal "Contributor", badge.name
-    assert_equal :legendary, badge.rarity
+    assert_equal :ultimate, badge.rarity
     assert_equal :contributors, badge.icon
     assert_equal 'Awarded for contributing to Exercism', badge.description
+    refute badge.send_email_on_acquisition?
+    assert_equal :added_to_contributors_page, badge.notification_key
   end
 
   test "award_to for publishing doesn't count" do
@@ -47,16 +49,5 @@ class Badge::AnybodyThereBadgeTest < ActiveSupport::TestCase
     badge = create :contributor_badge
 
     assert badge.award_to?(user)
-  end
-
-  test "creates notification when created" do
-    user = create :user
-    badge = create :contributor_badge
-
-    User::Notification::Create.expects(:call).with(
-      user, :added_to_contributors_page, {}
-    )
-
-    User::AcquiredBadge.create!(user: user, badge: badge)
   end
 end

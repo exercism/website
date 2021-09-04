@@ -12,6 +12,7 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
     notification = User::Notification::Create.(user, type, params)
 
     assert_equal 1, User::Notification.count
+    assert notification.pending?
     assert_equal user, notification.user
     assert_equal User::Notifications::MentorStartedDiscussionNotification, notification.class
     assert_equal 1, notification.version

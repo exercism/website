@@ -10,5 +10,9 @@ module Badges
         where('solutions.last_iterated_at > mentor_discussions.created_at').
         exists?
     end
+
+    def send_email_on_acquisition?
+      true
+    end
   end
 end

@@ -16,3 +16,6 @@ en:
     added_to_contributors_page:
       1: >
         You now appear on our Contributors page. Thank you for contributing to Exercism!
+    acquired_badge:
+      1: >
+        You have unlocked a new badge. Visit your journey page to reveal what it is.

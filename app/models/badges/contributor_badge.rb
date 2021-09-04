@@ -1,7 +1,7 @@
 module Badges
   class ContributorBadge < Badge
     seed "Contributor",
-      :legendary,
+      :ultimate,
       :contributors,
       'Awarded for contributing to Exercism'
 
@@ -12,8 +12,12 @@ module Badges
       ).exists?
     end
 
-    def awarded_to!(user)
-      User::Notification::Create.(user, :added_to_contributors_page, {})
+    def send_email_on_acquisition?
+      false
+    end
+
+    def notification_key
+      :added_to_contributors_page
     end
   end
 end

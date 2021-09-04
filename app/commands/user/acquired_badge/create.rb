@@ -20,7 +20,11 @@ class User
           User::AcquiredBadge.create!(
             user: user,
             badge: badge
-          )
+          ).tap do |uab|
+            User::Notification::CreateEmailOnly.(user, :acquired_badge, user_acquired_badge: uab) if badge.send_email_on_acquisition?
+
+            User::Notification::Create.(user, badge.notification_key, {}) if badge.notification_key.present?
+          end
 
         # Guard against the race condition
         # and return the badge if it's been created

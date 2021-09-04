@@ -13,7 +13,7 @@ class User::Notification < ApplicationRecord
   belongs_to :track, optional: true
   belongs_to :exercise, optional: true
 
-  enum status: { pending: 0, unread: 1, read: 2 }
+  enum status: { pending: 0, unread: 1, read: 2, email_only: 3 }
   enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }, _prefix: :email
 
   scope :pending_or_unread, -> { where(status: %i[pending unread]) }

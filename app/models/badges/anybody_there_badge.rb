@@ -10,5 +10,9 @@ module Badges
         where('exercises.slug': "hello-world").
         count >= 5
     end
+
+    def send_email_on_acquisition?
+      true
+    end
   end
 end

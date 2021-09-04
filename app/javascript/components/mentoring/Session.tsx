@@ -60,6 +60,7 @@ export type SessionProps = {
   notes: string
   outOfDate: boolean
   mentorSolution: CommunitySolution
+  exemplarSolution: string
   request: Request
   scratchpad: Scratchpad
   downloadCommand: string
@@ -85,6 +86,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     discussion,
     notes,
     mentorSolution,
+    exemplarSolution,
     outOfDate,
     request,
     scratchpad,
@@ -205,6 +207,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                   <Guidance
                     notes={notes}
                     mentorSolution={mentorSolution}
+                    exemplarSolution={exemplarSolution}
                     links={links}
                   />
                 </Tab.Panel>

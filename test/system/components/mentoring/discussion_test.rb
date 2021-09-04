@@ -470,9 +470,31 @@ module Components
           sign_in!(mentor)
           visit mentoring_discussion_path(discussion)
           click_on "Guidance"
+          click_on "Mentor notes"
+          assert_text "These are notes for lasagna"
         end
+      end
 
-        assert_text "These are notes for lasagna"
+      test "mentor notes show by default on practice exercise" do
+        TestHelpers.use_website_copy_test_repo!
+
+        mentor = create :user, handle: "author"
+        exercise = create :practice_exercise
+        solution = create :practice_solution, exercise: exercise
+        discussion = create :mentor_discussion,
+          solution: solution,
+          mentor: mentor,
+          awaiting_mentor_since: 1.day.ago
+        submission = create :submission, solution: solution
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentoring_discussion_path(discussion)
+          click_on "Guidance"
+
+          assert_text "Do bob shizzle"
+        end
       end
 
       test "mentor sees own solution" do
@@ -496,6 +518,25 @@ module Components
 
           assert_link "Your Solution", href: Exercism::Routes.private_solution_url(mentor_solution)
           assert_text "to Strings in Ruby"
+        end
+      end
+
+      test "mentor sees guidance" do
+        mentor = create :user, handle: "mentor"
+        exercise = create :concept_exercise
+        solution = create :concept_solution, exercise: exercise
+        discussion = create :mentor_discussion,
+          solution: solution,
+          mentor: mentor,
+          awaiting_mentor_since: 1.day.ago
+        create :iteration, solution: solution
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentoring_discussion_path(discussion)
+          click_on "Guidance"
+
+          assert_text exercise.exemplar_files.values.first
         end
       end
     end

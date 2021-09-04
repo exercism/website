@@ -148,6 +148,7 @@ initReact({
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
       notes={data.notes}
       outOfDate={data.out_of_date}
+      downloadCommand={data.download_command}
     />
   ),
   'mentoring-try-mentoring-button': (data: any) => (

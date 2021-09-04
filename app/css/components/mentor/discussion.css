@@ -102,9 +102,23 @@
         & .iteration-header {
             @apply py-8 px-24;
             @apply border-b-1 border-borderColor6;
+            @apply flex items-center;
 
             & .--idx .--dot {
                 @apply hidden;
+            }
+
+            & > .download-btn,
+            & > .c-copy-text-to-clipboard {
+                @apply border-borderColor6 shadow-xsZ1 ml-16;
+                @apply w-auto;
+                @apply py-0 px-12;
+                height: 40px;
+                & .c-icon {
+                    @apply m-0;
+                    height: 16px;
+                    width: 16px;
+                }
             }
         }
         & .c-results-zone {

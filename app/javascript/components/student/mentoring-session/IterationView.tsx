@@ -1,13 +1,13 @@
 import React from 'react'
 import { Iteration, IterationStatus, MentorDiscussion } from '../../types'
-import { IterationsList } from './IterationsList'
-import { FilePanel } from './FilePanel'
+import { IterationsList } from '../../mentoring/session/IterationsList'
+import { FilePanel } from '../../mentoring/session/FilePanel'
 import { IterationHeader } from './iteration-view/IterationHeader'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { File } from '../../types'
 import { ResultsZone } from '../../ResultsZone'
-import { LinkButton } from './LinkButton'
+import { LinkButton } from '../../mentoring/session/LinkButton'
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
@@ -23,7 +23,6 @@ export const IterationView = ({
   isLinked,
   setIsLinked,
   discussion,
-  downloadCommand,
 }: {
   iterations: readonly Iteration[]
   instructions?: string
@@ -36,11 +35,10 @@ export const IterationView = ({
   isLinked: boolean
   setIsLinked: (linked: boolean) => void
   discussion?: MentorDiscussion
-  downloadCommand: string
 }): JSX.Element => {
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
-    files: readonly File[]
+    files: File[]
   }>(currentIteration.links.files, {
     endpoint: currentIteration.links.files,
     options: {},
@@ -48,12 +46,8 @@ export const IterationView = ({
 
   return (
     <React.Fragment>
-      <IterationHeader
-        iteration={currentIteration}
-        isOutOfDate={isOutOfDate}
-        downloadCommand={downloadCommand}
-        files={resolvedData?.files}
-      />
+      <IterationHeader iteration={currentIteration} isOutOfDate={isOutOfDate} />
+
       {currentIteration.status == IterationStatus.DELETED ? (
         <div className="deleted">This iteration has been deleted</div>
       ) : (

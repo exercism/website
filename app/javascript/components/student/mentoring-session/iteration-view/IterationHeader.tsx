@@ -1,6 +1,6 @@
 import React from 'react'
-import { Iteration } from '../../types'
-import { IterationSummaryWithWebsockets } from '../../track/IterationSummary'
+import { Iteration } from '../../../types'
+import { IterationSummaryWithWebsockets } from '../../../track/IterationSummary'
 
 export const IterationHeader = ({
   iteration,

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
 import { CloseButton } from '../mentoring/session/CloseButton'
-import { IterationView } from '../mentoring/session/IterationView'
+import { IterationView } from './mentoring-session/IterationView'
 import { useIterationScrolling } from '../mentoring/session/useIterationScrolling'
 import { SessionInfo } from './mentoring-session/SessionInfo'
 import { DiscussionInfo } from './mentoring-session/DiscussionInfo'

@@ -79,6 +79,10 @@ class Solution < ApplicationRecord
 
   delegate :instructions, :introduction, :tests, :source, :source_url, to: :git_exercise
 
+  def mentor_download_cmd
+    "exercism download --uuid=#{uuid}"
+  end
+
   def starred_by?(user)
     stars.exists?(user: user)
   end

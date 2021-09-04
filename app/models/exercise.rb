@@ -13,11 +13,9 @@ class Exercise < ApplicationRecord
 
   belongs_to :track, counter_cache: :num_exercises
 
-  # TODO: Pre-launch: Remove this dependent: :destroy  - exercises should never be destroyed
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions
 
-  # TODO: Pre-launch: Remove this dependent: :destroy - exercises should never be destroyed
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",
     inverse_of: :exercise,
@@ -26,7 +24,6 @@ class Exercise < ApplicationRecord
     through: :exercise_prerequisites,
     source: :concept
 
-  # TODO: Pre-launch: Remove this dependent: :destroy - exercises should never be destroyed
   has_many :authorships,
     class_name: "Exercise::Authorship",
     inverse_of: :exercise,
@@ -35,7 +32,6 @@ class Exercise < ApplicationRecord
     through: :authorships,
     source: :author
 
-  # TODO: Pre-launch: Remove this dependent: :destroy - exercises should never be destroyed
   has_many :contributorships,
     class_name: "Exercise::Contributorship",
     inverse_of: :exercise,
@@ -54,7 +50,7 @@ class Exercise < ApplicationRecord
     joins(:track).find_by('tracks.slug': track_slug, slug: exercise_slug)
   end
 
-  delegate :files_for_editor, :introduction, :instructions, :source, :source_url, to: :git
+  delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url, to: :git
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha

@@ -30,21 +30,28 @@ type Links = {
 export const Guidance = ({
   notes,
   mentorSolution,
+  exemplarSolution,
   links,
   feedback = false,
 }: {
   notes: string
   mentorSolution?: CommunitySolutionProps
+  exemplarSolution: string
   links: Links
   feedback?: any
 }): JSX.Element => {
+  console.log(exemplarSolution)
   const [accordionState, setAccordionState] = useState([
     {
-      id: 'notes',
-      isOpen: true,
+      id: 'exemplar-solution',
+      isOpen: exemplarSolution != null,
     },
     {
-      id: 'solution',
+      id: 'notes',
+      isOpen: exemplarSolution == null,
+    },
+    {
+      id: 'mentor-solution',
       isOpen: false,
     },
     {
@@ -83,6 +90,31 @@ export const Guidance = ({
 
   return (
     <>
+      {exemplarSolution ? (
+        <Accordion
+          id="exemplar-solution"
+          isOpen={isOpen('exemplar-solution')}
+          onClick={handleClick}
+        >
+          <AccordionHeader
+            isOpen={isOpen('exemplar-solution')}
+            title="The exemplar solution"
+          />
+          <Accordion.Panel>
+            <div className="c-textual-content --small">
+              <p>
+                Try and guide the student towards this solution. It is the best
+                place for them to reach at this point during the Track.
+              </p>
+              <pre className="overflow-auto">
+                <code
+                  dangerouslySetInnerHTML={{ __html: exemplarSolution }}
+                ></code>
+              </pre>
+            </div>
+          </Accordion.Panel>
+        </Accordion>
+      ) : null}
       <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
         <AccordionHeader isOpen={isOpen('notes')} title="Mentor notes" />
         <Accordion.Panel>
@@ -91,12 +123,12 @@ export const Guidance = ({
       </Accordion>
       {mentorSolution ? (
         <Accordion
-          id="solution"
-          isOpen={isOpen('solution')}
+          id="mentor-solution"
+          isOpen={isOpen('mentor-solution')}
           onClick={handleClick}
         >
           <AccordionHeader
-            isOpen={isOpen('solution')}
+            isOpen={isOpen('mentor-solution')}
             title="How you solved the exercise"
           />
           <Accordion.Panel>

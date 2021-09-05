@@ -10149,10 +10149,10 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-nim-codemirror-mode@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/nim-codemirror-mode/-/nim-codemirror-mode-0.2.0.tgz#42219e4dfe4025cff468645b85e4616465cc9844"
-  integrity sha512-+JSmXFz1EK8IVRLxQ7BrBTidTcerZJ/wQSZUeSsnu6oZAJzp8JFNvwmv/rec7RE8DU4CQnv7Ejy/LKkwD88lQg==
+nim-codemirror-mode@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/nim-codemirror-mode/-/nim-codemirror-mode-0.3.0.tgz#6aa8bc27ee86bc5e9dd0afe06700290df7966992"
+  integrity sha512-I023hB2XIX58MrO6WsQGZrXbWb5MURJT0jeSqdhQgtO95YzzRAtNQiudugkFiWu+E3xHBLosw4BxIoMs7wyD7g==
 
 node-emoji@^1.8.1:
   version "1.10.0"

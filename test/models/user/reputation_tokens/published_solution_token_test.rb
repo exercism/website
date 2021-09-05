@@ -24,5 +24,6 @@ class User::ReputationTokens::PublishedSolutionTokenTest < ActiveSupport::TestCa
     assert_equal :published_solution, rt.reason
     assert_equal 2, rt.value
     assert_equal solution.published_at.to_date, rt.earned_on
+    assert_equal Exercism::Routes.published_solution_url(solution), rt.internal_url
   end
 end

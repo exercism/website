@@ -8,7 +8,7 @@ module Badges
     def award_to?(user)
       User::ReputationToken.where(
         category: %i[building maintaining mentoring authoring],
-        user: user.id
+        user_id: user.id
       ).exists?
     end
 

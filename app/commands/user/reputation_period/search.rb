@@ -27,7 +27,7 @@ class User::ReputationPeriod
       filter_user_handle!
 
       results = @rows.
-        order(reputation: :desc).
+        order(reputation: :desc, id: :asc).
         select(:user_id).
         page(page).
         per(self.class.requests_per_page).

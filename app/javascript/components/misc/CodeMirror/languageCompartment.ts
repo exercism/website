@@ -108,9 +108,6 @@ export const loadLanguageCompartment = async (
     case 'lua':
       const { lua } = await import('@codemirror/legacy-modes/mode/lua')
       return compartment.of(StreamLanguage.define(lua))
-    case 'nim':
-      const { nim } = await import('nim-codemirror-mode')
-      return compartment.of(StreamLanguage.define(nim))
     case 'objective-c':
       const { objectiveC } = await import('@codemirror/legacy-modes/mode/clike')
       return compartment.of(StreamLanguage.define(objectiveC))
@@ -166,6 +163,9 @@ export const loadLanguageCompartment = async (
     case 'elixir':
       const { elixir } = await import('codemirror-lang-elixir')
       return compartment.of(StreamLanguage.define(elixir))
+    case 'nim':
+      const { nim } = await require('nim-codemirror-mode')
+      return compartment.of(StreamLanguage.define(nim({}, {})))
     default:
       return []
   }

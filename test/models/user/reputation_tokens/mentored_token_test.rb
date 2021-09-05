@@ -24,5 +24,6 @@ class User::ReputationTokens::MentoredTokenTest < ActiveSupport::TestCase
     assert_equal :mentored, rt.reason
     assert_equal 5, rt.value
     assert_equal discussion.finished_at.to_date, rt.earned_on
+    assert_equal Exercism::Routes.mentoring_discussion_url(discussion), rt.internal_url
   end
 end

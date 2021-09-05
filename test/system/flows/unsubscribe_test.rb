@@ -16,7 +16,7 @@ class UnsubscribeTest < ApplicationSystemTestCase
     assert preferences.email_on_mentor_started_discussion_notification
 
     visit unsubscribe_path(token: preferences.token, key: 'email_on_mentor_started_discussion_notification')
-    assert_text "Email when a mentor starts mentoring my solution"
+    assert_text I18n.t('communication_preferences.email_on_mentor_started_discussion_notification')
     click_on "Unsubscribe from email"
     assert_text "You have been unsubscribed successfully"
 
@@ -31,7 +31,7 @@ class UnsubscribeTest < ApplicationSystemTestCase
     use_capybara_host do
       sign_in!(user)
       visit unsubscribe_path(token: preferences.token, key: 'email_on_mentor_started_discussion_notification')
-      find('label', text: "Email me when a mentor starts a discussion").click
+      find('label', text: I18n.t('communication_preferences.email_on_mentor_started_discussion_notification')).click
       click_on "Change preferences"
       assert_text "Your preferences have been updated"
     end

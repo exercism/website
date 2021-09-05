@@ -33,7 +33,7 @@ export const TrackCheckbox = ({
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
         <div className="info">
-          Avg. wait time ~ {avgWaitTime}
+          {avgWaitTime ? `Avg. wait time ~ ${avgWaitTime}` : null}
           <br />
           {numSolutionsQueued} {pluralize('solution', numSolutionsQueued)}{' '}
           queued

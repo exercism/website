@@ -18,7 +18,7 @@ class SerializeTracksForMentoring
       title: track.title,
       icon_url: track.icon_url,
       num_solutions_queued: request_counts[track.id].to_i,
-      avg_wait_time: "2 days", # TODO
+      avg_wait_time: track.avg_wait_time,
       links: {
         exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: track.slug)
       }

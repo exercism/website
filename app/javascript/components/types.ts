@@ -524,7 +524,9 @@ export type PullRequest = {
 }
 
 export type CommunicationPreferences = {
-  emailOnMentorStartedDiscussionNotification: boolean
+  key: string
+  label: string
+  value: boolean
 }
 
 export type ContributionCategoryId =

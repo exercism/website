@@ -228,7 +228,7 @@ initReact({
   ),
   'settings-communication-preferences-form': (data: any) => (
     <Settings.CommunicationPreferencesForm
-      defaultPreferences={camelizeKeysAs<CommunicationPreferences>(
+      defaultPreferences={camelizeKeysAs<readonly CommunicationPreferences[]>(
         data.preferences
       )}
       links={data.links}

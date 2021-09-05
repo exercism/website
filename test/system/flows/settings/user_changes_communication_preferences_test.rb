@@ -14,7 +14,7 @@ module Flows
           sign_in!(user)
 
           visit communication_preferences_settings_path
-          find('label', text: "Email me when a mentor starts a discussion").click
+          find('label', text: "Email when a mentor starts mentoring my solution").click
           click_on "Change preferences"
 
           assert_text "Your preferences have been updated"

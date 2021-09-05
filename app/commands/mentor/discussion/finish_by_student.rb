@@ -29,6 +29,7 @@ module Mentor
         report!
         block!
         create_testimonial!
+        award_reputation!
       end
 
       def requeue!
@@ -68,6 +69,16 @@ module Mentor
           student: discussion.student,
           discussion: discussion,
           content: testimonial
+        )
+      end
+
+      def award_reputation!
+        return if rating < 3
+
+        User::ReputationToken::Create.(
+          discussion.mentor,
+          :mentored,
+          discussion: discussion
         )
       end
 

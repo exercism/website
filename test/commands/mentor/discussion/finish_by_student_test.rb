@@ -120,4 +120,23 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     )
     assert_equal 2, Mentor::StudentRelationship.count
   end
+
+  [3, 4, 5].each do |rating|
+    test "reputation awarded for #{rating}" do
+      discussion = create(:mentor_discussion)
+
+      User::ReputationToken::Create.expects(:call).with(
+        discussion.mentor,
+        :mentored,
+        discussion: discussion
+      )
+
+      Mentor::Discussion::FinishByStudent.(discussion, rating)
+    end
+  end
+
+  test "reputation not awarded for 1" do
+    User::ReputationToken::Create.expects(:call).never
+    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 1)
+  end
 end

@@ -97,6 +97,11 @@ class Track < ApplicationRecord
     "6 hrs"
   end
 
+  # TODO: Set this properly
+  def avg_wait_time
+    nil
+  end
+
   CATGEORIES = {
     paradigm: "Paradigm",
     typing: "Typing",

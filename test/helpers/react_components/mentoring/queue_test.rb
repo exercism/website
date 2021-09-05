@@ -61,7 +61,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "C#",
                   icon_url: csharp.icon_url,
                   num_solutions_queued: 6,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
                   }
@@ -71,7 +71,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "F#",
                   icon_url: fsharp.icon_url,
                   num_solutions_queued: 0,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: fsharp.slug)
                   }
@@ -81,7 +81,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "Ruby",
                   icon_url: ruby.icon_url,
                   num_solutions_queued: 3,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: ruby.slug)
                   }
@@ -96,7 +96,7 @@ class MentoringQueueTest < ReactComponentTestCase
           title: "C#",
           icon_url: csharp.icon_url,
           num_solutions_queued: 6,
-          avg_wait_time: "2 days",
+          avg_wait_time: nil,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
           },
@@ -192,7 +192,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "C#",
                   icon_url: csharp.icon_url,
                   num_solutions_queued: 6,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
                   }
@@ -202,7 +202,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "Ruby",
                   icon_url: ruby.icon_url,
                   num_solutions_queued: 3,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: ruby.slug)
                   }
@@ -217,7 +217,7 @@ class MentoringQueueTest < ReactComponentTestCase
           title: "C#",
           icon_url: csharp.icon_url,
           num_solutions_queued: 6,
-          avg_wait_time: "2 days",
+          avg_wait_time: nil,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
           },

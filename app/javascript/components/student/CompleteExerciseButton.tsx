@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { GraphicalIcon } from '../common'
 import { CompleteExerciseModal } from '../modals/CompleteExerciseModal'
 import { Iteration } from '../types'
@@ -11,6 +11,10 @@ export const CompleteExerciseButton = ({
   iterations: readonly Iteration[]
 }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleModalClose = useCallback(() => {
+    setIsModalOpen(false)
+  }, [])
 
   return (
     <React.Fragment>
@@ -25,6 +29,7 @@ export const CompleteExerciseButton = ({
         endpoint={endpoint}
         iterations={iterations}
         open={isModalOpen}
+        onClose={handleModalClose}
       />
     </React.Fragment>
   )

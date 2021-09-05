@@ -18,12 +18,11 @@ class User::ReputationTokens::PublishedSolutionTokenTest < ActiveSupport::TestCa
 
     assert_equal User::ReputationTokens::PublishedSolutionToken, rt.class
     assert_equal "You published your solution to <strong>#{exercise.title}</strong> in <strong>#{exercise.track.title}</strong>", rt.text # rubocop:disable Layout/LineLength
-    assert_equal Exercism::Routes.published_solution_url(solution), rt.internal_url
     assert_equal "#{student.id}|published_solution|Solution##{solution.id}", rt.uniqueness_key
     assert_equal :publishing, rt.category
     assert_equal :published_solution, rt.reason
     assert_equal 2, rt.value
     assert_equal solution.published_at.to_date, rt.earned_on
-    assert_equal Exercism::Routes.published_solution_url(solution), rt.internal_url
+    assert_equal Exercism::Routes.published_solution_url(solution), rt.rendering_data[:internal_url]
   end
 end

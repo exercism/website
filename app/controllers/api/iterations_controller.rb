@@ -4,6 +4,8 @@ module API
     before_action :guard_solution!, except: [:automated_feedback]
     before_action :use_iteration, only: %i[destroy automated_feedback]
 
+    # TOOD: Would it be better to have a status for no iteration status
+    # than returning nil?
     def latest_status
       iteration = @solution.iterations.last
       render json: {

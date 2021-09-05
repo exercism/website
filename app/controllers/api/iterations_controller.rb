@@ -5,8 +5,9 @@ module API
     before_action :use_iteration, only: %i[destroy automated_feedback]
 
     def latest_status
+      iteration = @solution.iterations.last
       render json: {
-        status: @solution.iterations.last.status.to_s
+        status: iteration ? iteration.status.to_s : nil
       }
     end
 

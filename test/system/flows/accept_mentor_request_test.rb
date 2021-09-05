@@ -68,7 +68,6 @@ module Flows
         visit mentoring_request_path(request)
 
         click_on "Start mentoring"
-        find("form").click
         fill_in_editor "# Hello", within: ".comment-section"
         click_on "Send"
 

@@ -20,15 +20,17 @@ type Links = {
 export const StartDiscussionPanel = ({
   iterations,
   request,
+  defaultExpanded,
   links,
 }: {
   iterations: readonly Iteration[]
   request: Request
+  defaultExpanded: boolean
   links: Links
 }): JSX.Element => {
   const contextId = `start-discussion-request-${request.uuid}`
   const [state, setState] = useState({
-    expanded: false,
+    expanded: defaultExpanded,
     value: localStorage.getItem(`smde_${contextId}`) || '',
   })
   const lastIteration = iterations[iterations.length - 1]

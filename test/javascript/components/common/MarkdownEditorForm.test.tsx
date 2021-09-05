@@ -52,10 +52,10 @@ test('shows error messages', async () => {
   })
 })
 
-test('focuses text editor when clicked', async () => {
+test('focuses text editor when expanded', async () => {
   render(
     <MarkdownEditorForm
-      expanded={false}
+      expanded
       onSubmit={jest.fn()}
       onCancel={jest.fn()}
       onChange={jest.fn()}
@@ -67,7 +67,7 @@ test('focuses text editor when clicked', async () => {
     />
   )
 
-  userEvent.click(await screen.findByTestId('markdown-editor'))
+  await screen.findByTestId('markdown-editor')
 
   const editor = document.querySelector('.CodeMirror')
   expect(editor).toHaveAttribute(
@@ -76,10 +76,10 @@ test('focuses text editor when clicked', async () => {
   )
 })
 
-test('does not focus text editor when clicked and expanded', async () => {
+test('does not focus text editor compressed', async () => {
   render(
     <MarkdownEditorForm
-      expanded
+      expanded={false}
       onSubmit={jest.fn()}
       onCancel={jest.fn()}
       onChange={jest.fn()}

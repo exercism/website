@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { SessionProps } from '../Session'
 import { MentorSessionRequest as Request, Iteration } from '../../types'
 import { StartMentoringPanel } from './StartMentoringPanel'
@@ -21,8 +21,11 @@ export const MentoringRequestPanel = ({
   setSession: (session: SessionProps) => void
   links: Links
 }): JSX.Element => {
-  const setRequest = useCallback(
+  const [justLocked, setJustLocked] = useState(false)
+
+  const handleRequestLock = useCallback(
     (request: Request) => {
+      setJustLocked(true)
       setSession({ ...session, request: request })
     },
     [session, setSession]
@@ -34,9 +37,10 @@ export const MentoringRequestPanel = ({
         iterations={iterations}
         request={request}
         links={links}
+        defaultExpanded={justLocked}
       />
     )
   } else {
-    return <StartMentoringPanel request={request} setRequest={setRequest} />
+    return <StartMentoringPanel request={request} onLock={handleRequestLock} />
   }
 }

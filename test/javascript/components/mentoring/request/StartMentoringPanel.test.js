@@ -21,7 +21,7 @@ beforeEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 test('shows loading message while locking mentoring request', async () => {
-  const handleSet = jest.fn()
+  const handleLock = jest.fn()
   const request = {
     student: { handle: 'someone' },
     track: { title: 'Ruby' },
@@ -30,18 +30,18 @@ test('shows loading message while locking mentoring request', async () => {
     },
   }
 
-  render(<StartMentoringPanel request={request} setRequest={handleSet} />)
+  render(<StartMentoringPanel request={request} onLock={handleLock} />)
   userEvent.click(
     await screen.findByRole('button', { name: 'Start mentoring' })
   )
 
   expect(await screen.findByText('Loading')).toBeInTheDocument()
 
-  await waitFor(() => expect(handleSet).toHaveBeenCalled())
+  await waitFor(() => expect(handleLock).toHaveBeenCalled())
 })
 
 test('disables button while locking mentoring request', async () => {
-  const handleSet = jest.fn()
+  const handleLock = jest.fn()
   const request = {
     student: { handle: 'someone' },
     track: { title: 'Ruby' },
@@ -50,7 +50,7 @@ test('disables button while locking mentoring request', async () => {
     },
   }
 
-  render(<StartMentoringPanel request={request} setRequest={handleSet} />)
+  render(<StartMentoringPanel request={request} onLock={handleLock} />)
 
   const button = await screen.findByRole('button', { name: 'Start mentoring' })
   userEvent.click(button)
@@ -59,7 +59,7 @@ test('disables button while locking mentoring request', async () => {
     expect(button).toBeDisabled()
   })
 
-  await waitFor(() => expect(handleSet).toHaveBeenCalled())
+  await waitFor(() => expect(handleLock).toHaveBeenCalled())
 })
 
 test('shows API errors', async () => {

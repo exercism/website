@@ -27,6 +27,7 @@
         @apply flex-grow;
         @apply truncate;
         @apply leading-130;
+        user-select: text;
     }
     & .c-icon {
         height: 24px;

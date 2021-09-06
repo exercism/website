@@ -5,7 +5,7 @@ import { Modal } from '../modals/Modal'
 import { InitializedStep } from './avatar-selector/InitializedStep'
 import { CroppingStep } from './avatar-selector/CroppingStep'
 import { CropFinishedStep } from './avatar-selector/CropFinishedStep'
-import { reducer, State, Action } from './avatar-selector/reducer'
+import { reducer } from './avatar-selector/reducer'
 
 export type Status = 'initialized' | 'cropping' | 'cropFinished'
 

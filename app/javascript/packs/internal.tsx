@@ -204,6 +204,12 @@ initReact({
       links={data.links}
     />
   ),
+  'settings-photo-form': (data: any) => (
+    <Settings.PhotoForm
+      user={camelizeKeysAs<User>(data.user)}
+      links={data.links}
+    />
+  ),
   'settings-delete-profile-form': (data: any) => (
     <Settings.DeleteProfileForm links={data.links} />
   ),

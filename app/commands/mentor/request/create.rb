@@ -37,7 +37,7 @@ module Mentor
       end
 
       def guard!
-        raise NoMentoringSlotsAvailable if @user_track.num_available_mentoring_slots.zero?
+        raise NoMentoringSlotsAvailableError if solution.user_track.num_available_mentoring_slots.zero?
       end
 
       class AlreadyRequestedError < RuntimeError

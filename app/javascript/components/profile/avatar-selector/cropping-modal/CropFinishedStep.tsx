@@ -23,7 +23,7 @@ export const CropFinishedStep = ({
   state: State
   dispatch: React.Dispatch<Action>
   links: Links
-  onUpload: (avatar: string) => void
+  onUpload: (user: User) => void
 }): JSX.Element => {
   const [submit, { status, error }] = useMutation(
     () => {
@@ -50,7 +50,7 @@ export const CropFinishedStep = ({
           payload: { avatarUrl: user.avatarUrl },
         })
 
-        onUpload(user.avatarUrl)
+        onUpload(user)
       },
     }
   )

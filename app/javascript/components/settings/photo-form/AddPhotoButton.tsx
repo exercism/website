@@ -7,7 +7,7 @@ type Links = {
   upload: string
 }
 
-export const ChangePhotoButton = ({
+export const AddPhotoButton = ({
   onUpload,
   links,
 }: {

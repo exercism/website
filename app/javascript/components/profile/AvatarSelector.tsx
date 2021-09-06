@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { User } from '../types'
 import { Photo } from './avatar-selector/Photo'
 import { CroppingModal } from './avatar-selector/CroppingModal'
@@ -18,9 +18,9 @@ export const AvatarSelector = ({
   const [user, setUser] = useState(defaultUser)
   const { handleAttach, ...modalProps } = useImageCrop()
 
-  const handleUpload = (avatarUrl: string) => {
-    setUser({ ...user, avatarUrl: avatarUrl })
-  }
+  const handleUpload = useCallback((user: User) => {
+    setUser(user)
+  }, [])
 
   return (
     <React.Fragment>

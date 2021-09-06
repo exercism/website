@@ -41,6 +41,10 @@ Rails.application.routes.draw do
     # TODO: This is just a stub
     resources :users, only: [:update]
 
+    resource :user, only: [] do
+      resource :profile_photo, only: %i[destroy], controller: "users/profile_photos"
+    end
+
     resource :profile, only: %i[create destroy]
 
     resource :journey_overview, only: [:show], controller: "journey_overview"

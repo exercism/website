@@ -5,6 +5,7 @@ module ReactComponents
         super("profile-new-profile-form", {
           user: {
             avatar_url: current_user.avatar_url,
+            is_avatar_attached: current_user.avatar.attached?,
             handle: current_user.handle
           },
           fields: {

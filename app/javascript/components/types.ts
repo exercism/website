@@ -81,6 +81,7 @@ type UserLinks = {
 export type User = {
   avatarUrl: string
   handle: string
+  isAvatarAttached: boolean
   reputation?: string
   links?: UserLinks
 }

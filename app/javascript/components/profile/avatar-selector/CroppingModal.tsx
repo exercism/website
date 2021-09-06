@@ -4,6 +4,7 @@ import { Modal } from '../../modals/Modal'
 import { CroppingStep } from './cropping-modal/CroppingStep'
 import { CropFinishedStep } from './cropping-modal/CropFinishedStep'
 import 'react-image-crop/dist/ReactCrop.css'
+import { User } from '../../types'
 
 type Links = {
   upload: string
@@ -17,7 +18,7 @@ export const CroppingModal = ({
 }: {
   state: State
   dispatch: React.Dispatch<Action>
-  onUpload: (avatar: string) => void
+  onUpload: (user: User) => void
   links: Links
 }): JSX.Element => {
   const handleClose = useCallback(() => null, [])

@@ -270,8 +270,6 @@ import { Category as ProfileContributionsListCategory } from '../components/prof
 import { Links as SolutionViewLinks } from '../components/common/SolutionView'
 import { Links as CommentsListLinks } from '../components/community-solutions/CommentsList'
 
-import { User as ProfileNewProfileFormUser } from '../components/profile/NewProfileForm'
-
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
@@ -551,7 +549,7 @@ initReact({
   ),
   'profile-new-profile-form': (data: any) => (
     <Profile.NewProfileForm
-      user={camelizeKeysAs<ProfileNewProfileFormUser>(data.user)}
+      user={camelizeKeysAs<User>(data.user)}
       defaultFields={data.fields}
       links={data.links}
     />

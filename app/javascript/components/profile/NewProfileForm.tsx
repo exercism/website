@@ -5,15 +5,11 @@ import { redirectTo } from '../../utils/redirect-to'
 import { FormButton } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 import { AvatarSelector } from './AvatarSelector'
+import { User } from '../types'
 
 type Links = {
   create: string
   update: string
-}
-
-export type User = {
-  handle: string
-  avatarUrl: string
 }
 
 type APIResponse = {

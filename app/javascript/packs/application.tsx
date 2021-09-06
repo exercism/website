@@ -23,6 +23,7 @@ import '../../css/tooltips/student'
 import '../../css/tooltips/task'
 
 import '../../css/components/textblock'
+import '../../css/components/settings-photo-form'
 import '../../css/components/financial-amount'
 import '../../css/components/automated-feedback'
 import '../../css/components/share-button'

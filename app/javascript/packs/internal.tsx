@@ -206,7 +206,7 @@ initReact({
   ),
   'settings-photo-form': (data: any) => (
     <Settings.PhotoForm
-      user={camelizeKeysAs<User>(data.user)}
+      defaultUser={camelizeKeysAs<User>(data.user)}
       links={data.links}
     />
   ),

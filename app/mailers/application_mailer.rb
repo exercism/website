@@ -6,6 +6,8 @@ class ApplicationMailer < ActionMailer::Base
   layout "mailer"
   helper :email
 
+  rescue_from(Mail::Field::IncompleteParseError) {}
+
   def user_email_with_name(user)
     name = user.name.presence || user.handle
     email_address_with_name(user.email, name)

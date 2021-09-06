@@ -18,6 +18,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     comment_markdown = "Pls help me thanks"
 
     solution = create :concept_solution
+    create :user_track, user: solution.user, track: solution.track
     original_request = create :mentor_request, solution: solution, comment_markdown: comment_markdown
     original_request.fulfilled!
 

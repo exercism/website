@@ -2,10 +2,12 @@ require 'test_helper'
 
 class MentorActionRequiredTest < ActiveSupport::TestCase
   test 'works as expected' do
+    track = create :track
     student = create :user
     mentor = create :user
+    create :user_track, user: student, track: track
 
-    solution = create :practice_solution, user: student
+    solution = create :practice_solution, user: student, track: track
     iteration = create :iteration, solution: solution
 
     request = Mentor::Request::Create.(solution, "Please help")

@@ -29,6 +29,7 @@ export type Links = {
 
 export type Video = {
   url: string
+  thumb: string
   title: string
   date: string
 }

@@ -740,7 +740,9 @@
                             width: 85px;
                             @apply rounded-8;
                             @apply mr-20;
-                            background: lightgray; /* TODO: REMOVE */
+                            background-color: lightgray;
+                            background-size: cover;
+                            background-position: center;
                         }
                         & .info {
                             @apply flex-grow overflow-hidden;

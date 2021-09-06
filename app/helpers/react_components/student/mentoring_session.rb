@@ -9,14 +9,14 @@ module ReactComponents
           {
             user_handle: student.handle,
             request: SerializeMentorSessionRequest.(request, student),
-            discussion: discussion ? SerializeMentorDiscussion.(discussion, student) : nil,
+            discussion: discussion ? SerializeMentorDiscussionForStudent.(discussion) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
-            iterations: iterations,
+            iterations:,
             mentor: mentor_data,
             track_objectives: user_track&.objectives.to_s,
             out_of_date: solution.out_of_date?,
-            videos: videos,
+            videos:,
             links: {
               exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
               create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
@@ -52,16 +52,18 @@ module ReactComponents
         {
           name: mentor.name,
           handle: mentor.handle,
+          flair: mentor.flair,
           bio: mentor.bio,
           languages_spoken: mentor.languages_spoken,
           avatar_url: mentor.avatar_url,
-          reputation: mentor.formatted_reputation,
-          num_discussions: num_discussions_with_mentor
+          formatted_reputation: mentor.formatted_reputation,
+          num_discussions: num_discussions_with_mentor,
+          pronouns: mentor.pronouns.present? ? mentor.pronoun_parts : nil
         }
       end
 
       def num_discussions_with_mentor
-        mentor_relationship = Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
+        mentor_relationship = Mentor::StudentRelationship.find_by(mentor:, student:)
         mentor_relationship&.num_discussions.to_i
       end
 
@@ -83,14 +85,11 @@ module ReactComponents
           comment_counts = discussion.posts.
             group(:iteration_id, :seen_by_student).
             count
+        else
+          comment_counts = {}
         end
 
-        solution.iterations.map do |iteration|
-          counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
-          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : false
-
-          SerializeIteration.(iteration).merge(unread: unread)
-        end
+        SerializeIterations.(solution.iterations, comment_counts:)
       end
     end
   end

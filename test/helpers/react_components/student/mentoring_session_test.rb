@@ -8,11 +8,11 @@ module ReactComponents::Student
       track = create :track
       exercise = create :concept_exercise, track: track
       solution = create :concept_solution, user: student, track: track
-      discussion = create :mentor_discussion, solution: solution, mentor: mentor
       mentor_request = create :mentor_request,
         solution: solution,
         comment_markdown: "Hello",
         updated_at: Time.utc(2016, 12, 25)
+      discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
 
       iteration_1 = create :iteration, solution: solution
       iteration_2 = create :iteration, solution: solution
@@ -22,7 +22,11 @@ module ReactComponents::Student
       create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_student: true
       create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_student: false
 
-      component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, discussion)
+      component = ReactComponents::Student::MentoringSession.new(
+        solution,
+        mentor_request,
+        discussion
+      )
 
       assert_component component,
         "student-mentoring-session",
@@ -37,15 +41,7 @@ module ReactComponents::Student
             SerializeIteration.(iteration_2).merge(unread: false),
             SerializeIteration.(iteration_3).merge(unread: true)
           ],
-          mentor: {
-            name: mentor.name,
-            handle: mentor.handle,
-            bio: mentor.bio,
-            languages_spoken: mentor.languages_spoken,
-            avatar_url: mentor.avatar_url,
-            reputation: mentor.formatted_reputation,
-            num_discussions: 0
-          },
+          mentor: MentoringSession::SerializeMentor.(mentor, nil),
           track_objectives: "",
           out_of_date: false,
           videos: [],
@@ -71,7 +67,11 @@ module ReactComponents::Student
 
       iteration = create :iteration, solution: solution
 
-      component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, nil)
+      component = ReactComponents::Student::MentoringSession.new(
+        solution,
+        mentor_request,
+        nil
+      )
 
       assert_component component,
         "student-mentoring-session",
@@ -103,6 +103,47 @@ module ReactComponents::Student
             mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored")
           }
         }
+    end
+
+    test "serialize mentor renders json" do
+      num_discussions = 5
+      mentor = create :user
+      relationship = create :mentor_student_relationship, mentor: mentor
+      relationship.stubs(num_discussions: num_discussions)
+
+      assert_equal(
+        { name: mentor.name,
+          handle: mentor.handle,
+          bio: mentor.bio,
+          languages_spoken: mentor.languages_spoken,
+          avatar_url: mentor.avatar_url,
+          formatted_reputation: mentor.formatted_reputation,
+          pronouns: nil,
+          num_discussions: num_discussions },
+        MentoringSession::SerializeMentor.(mentor, relationship)
+      )
+    end
+
+    test "serialize mentor renders nil if mentor is nil" do
+      assert_nil ReactComponents::Student::MentoringSession::SerializeMentor.(nil, nil)
+    end
+
+    test "serialize mentor renders 0 num discussions if relationship is nil" do
+      mentor = create :user
+      relationship = create :mentor_student_relationship, mentor: mentor
+      data = MentoringSession::SerializeMentor.(mentor, relationship)
+
+      assert_equal 0, data[:num_discussions]
+    end
+
+    test "pronouns" do
+      mentor = create :user, pronouns: "he/him/his"
+      data = MentoringSession::SerializeMentor.(mentor, nil)
+      assert_equal %w[he him his], data[:pronouns]
+
+      mentor = create :user, pronouns: nil
+      data = MentoringSession::SerializeMentor.(mentor, nil)
+      assert_nil data[:pronouns]
     end
   end
 end

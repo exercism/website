@@ -1,7 +1,7 @@
 @import "../../styles";
 
 .c-mentor-discussion {
-    --header-height: 68px;
+    --header-height: 64px;
     --footer-height: 80px;
 
     @apply flex fixed;
@@ -23,11 +23,15 @@
 
             & .close-btn {
                 @apply flex;
-                @apply p-16;
+                @apply p-12;
                 @apply mr-8;
+                @apply rounded-circle;
                 & .c-icon {
                     height: 24px;
                     width: 24px;
+                }
+                &:hover {
+                    @apply bg-backgroundColorD;
                 }
             }
             & .c-track-icon {
@@ -100,7 +104,7 @@
         }
 
         & .iteration-header {
-            @apply py-8 px-24;
+            @apply py-8 px-16;
             @apply border-b-1 border-borderColor6;
             @apply flex items-center;
 
@@ -222,23 +226,30 @@
         }
 
         & .tabs {
-            @apply flex relative;
+            @apply flex relative flex-shrink-0 items-center;
             top: 0;
             left: 0;
             right: 0;
             height: var(--header-height);
 
             @apply bg-backgroundColorA;
-            @apply shadow-sm;
-            @apply px-24 pt-20 pb-12;
+            @apply px-24 py-16;
+            @apply border-b-1 border-borderColor7;
 
             & .c-tab {
                 height: 36px;
-                @apply mr-24;
+                @apply mr-8;
 
                 & .c-icon {
                     height: 16px;
                     width: 16px;
+                }
+
+                &:hover {
+                    @apply bg-backgroundColorD text-textColor5;
+                    & .c-icon {
+                        filter: var(--textColor5-filter);
+                    }
                 }
             }
         }
@@ -263,6 +274,28 @@
 
                 @apply py-16 px-24;
 
+                & .track-objectives {
+                    @apply border-t-1 border-borderColor6;
+                    @apply mt-20 pt-12;
+                    &:open {
+                        & .--summary-inner {
+                            @apply text-textColor2;
+                        }
+                    }
+                    & p {
+                        @apply mt-4 text-14 leading-150;
+                    }
+                    & .--summary-inner {
+                        @apply flex items-center;
+                        @apply font-semibold text-textColor6 leading-150;
+                        & .c-icon {
+                            height: 14px;
+                            width: 14px;
+                            @apply ml-12;
+                        }
+                    }
+                }
+
                 & .info {
                     @apply flex-grow;
                 }
@@ -270,7 +303,7 @@
                     @apply text-textColor6 leading-paragraph mb-4;
                 }
                 & .handle-block {
-                    @apply flex items-center;
+                    @apply flex items-center mb-4;
                     & .handle {
                         @apply text-h5 mr-12;
                     }
@@ -286,7 +319,7 @@
                     }
                 }
                 & .options {
-                    @apply flex items-center mt-20;
+                    @apply flex items-center mt-12;
 
                     & .button-wrapper {
                         @apply flex;
@@ -527,6 +560,11 @@
         }
         & #panel-guidance {
             @apply py-16 px-24;
+            & .c-accordion-section {
+                &:first-child {
+                    @apply border-t-0 pt-0;
+                }
+            }
         }
 
         & .mentoring-request-section {

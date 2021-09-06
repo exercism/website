@@ -1,0 +1,12 @@
+.c-pronouns-tooltip {
+    @apply text-16 leading-150;
+    & .c-generic-tooltip {
+        max-width: 620px;
+    }
+    & blockquote {
+        @apply block;
+        @apply border-l-3 border-borderColor6;
+        @apply mt-8 pl-8;
+        @apply italic;
+    }
+}

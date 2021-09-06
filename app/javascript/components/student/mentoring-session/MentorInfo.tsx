@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Reputation } from '../../common'
+import { Avatar, Reputation, Pronouns } from '../../common'
 import { Mentor } from '../MentoringSession'
 
 export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
@@ -10,13 +10,14 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
         <div className="handle-block">
           <div className="handle">{mentor.handle}</div>
           <Reputation
-            value={mentor.reputation.toString()}
+            value={mentor.formattedReputation.toString()}
             type="primary"
             size="small"
           />
         </div>
         <div className="name">{mentor.name}</div>
-        <div className="bio">{mentor.bio}</div>
+        <Pronouns handle={mentor.handle} pronouns={mentor.pronouns} />
+        {/*<div className="bio">{mentor.bio}</div>*/}
         {/* TODO: (required) View previous sessions as a student */}
       </div>
       <Avatar src={mentor.avatarUrl} handle={mentor.handle} />

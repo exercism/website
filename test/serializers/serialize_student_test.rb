@@ -15,6 +15,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
       languages_spoken: %w[english spanish],
       avatar_url: student.avatar_url,
       reputation: student.formatted_reputation,
+      pronouns: nil,
       is_favorited: true,
       is_blocked: false,
       track_objectives: "",
@@ -52,6 +53,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
       track_objectives: "",
       num_total_discussions: 0,
       num_discussions_with_mentor: 0,
+      pronouns: student.pronouns,
       links: {
         block: Exercism::Routes.block_api_mentoring_student_path(student.handle),
         favorite: Exercism::Routes.favorite_api_mentoring_student_path(student.handle),
@@ -118,5 +120,20 @@ class SerializeStudentTest < ActiveSupport::TestCase
     )
 
     assert_equal objectives, result[:track_objectives]
+  end
+
+  test "pronouns" do
+    user = create :user, pronouns: "he/him/his"
+    user_track = create :user_track, user: user
+
+    result = SerializeStudent.(
+      user,
+      create(:user),
+      user_track: user_track,
+      relationship: nil,
+      anonymous_mode: false
+    )
+
+    assert_equal %w[he him his], result[:pronouns]
   end
 end

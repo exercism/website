@@ -269,7 +269,11 @@ module Components
 
       test "shows mentor info" do
         student = create :user
-        mentor = create :user, name: "Mentor", handle: "mentor", reputation: 1500, bio: "I love to do a mentoring"
+        mentor = create :user,
+          name: "Mentor",
+          handle: "mentor",
+          reputation: 1500,
+          pronouns: "They/them/Their"
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
@@ -285,8 +289,8 @@ module Components
         within(".mentor-info") do
           assert_text mentor.name
           assert_text mentor.handle.to_s
-          assert_text mentor.bio
           assert_text mentor.formatted_reputation
+          assert_text mentor.pronouns
           assert_css "img[src='#{mentor.avatar_url}']"\
             "[alt=\"Uploaded avatar of mentor\"]"
         end

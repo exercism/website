@@ -52,7 +52,7 @@ const Component = ({
         mutation()
       }}
       type="button"
-      className="btn-small"
+      className="btn-xs btn-enhanced"
       status={status}
     >
       <GraphicalIcon icon="plus" />

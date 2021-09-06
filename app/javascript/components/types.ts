@@ -104,6 +104,7 @@ export type Student = {
   trackObjectives: string
   numTotalDiscussions: number
   numDiscussionsWithMentor: number
+  pronouns?: string[]
   links: {
     block: string
     favorite?: string

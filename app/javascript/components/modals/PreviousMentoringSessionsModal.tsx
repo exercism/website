@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { fromNow } from '../../utils/time'
 import {
   Avatar,
@@ -79,6 +79,13 @@ export const PreviousMentoringSessionsModal = ({
     )
   }
 
+  const handleFavorited = useCallback(
+    (newStudent) => {
+      setStudent({ ...student, isFavorited: newStudent.isFavorited })
+    },
+    [setStudent, student]
+  )
+
   return (
     <Modal
       {...props}
@@ -96,7 +103,7 @@ export const PreviousMentoringSessionsModal = ({
         {student.links.favorite ? (
           <FavoriteButton
             student={student as FavoritableStudent}
-            onSuccess={(student) => setStudent(student)}
+            onSuccess={handleFavorited}
           />
         ) : null}
       </header>

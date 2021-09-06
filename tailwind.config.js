@@ -38,7 +38,7 @@ module.exports = {
     },
     boxShadow: {
       none: 'none',
-      buttonS: '0px 4px 8px rgba(79, 114, 205, 0.4)',
+      buttonS: '0px 2px 4px rgba(79, 114, 205, 0.4)',
       xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
       sm: 'var(--box-shadow-sm)',
       smZ1: '0px 4px 16px 0px rgba(79, 114, 205, 0.3)',

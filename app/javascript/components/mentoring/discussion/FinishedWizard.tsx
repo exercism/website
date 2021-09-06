@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useRef } from 'react'
+import React, { useReducer, useEffect, useRef, useCallback } from 'react'
 import { MentorAgainStep } from './finished-wizard/MentorAgainStep'
 import { FavoriteStep } from './finished-wizard/FavoriteStep'
 import { FinishStep } from './finished-wizard/FinishStep'
@@ -61,6 +61,12 @@ export const FinishedWizard = ({ student, setStudent, defaultStep }: Props) => {
     student: student,
     step: defaultStep,
   })
+  const handleFavorited = useCallback(
+    (newStudent) => {
+      setStudent({ ...student, isFavorited: newStudent.isFavorited })
+    },
+    [setStudent, student]
+  )
 
   useEffect(() => {
     if (!finishedWizardRef.current) {
@@ -104,7 +110,7 @@ export const FinishedWizard = ({ student, setStudent, defaultStep }: Props) => {
                   payload: { student: student },
                 })
 
-                setStudent(student)
+                handleFavorited(student)
               }}
               onSkip={() => {
                 dispatch({ type: 'SKIP_FAVORITE' })

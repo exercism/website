@@ -1,4 +1,4 @@
-import { CropProps } from '../../profile/AvatarSelector'
+import { CropProps } from '../use-image-crop'
 
 export function cropImage(
   image: HTMLImageElement,

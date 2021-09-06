@@ -1,15 +1,15 @@
 import React, { useCallback } from 'react'
-import { State, Action } from './reducer'
+import { State, Action } from '../use-image-crop'
 import { useMutation } from 'react-query'
-import { typecheck } from '../../../utils/typecheck'
-import { FormButton, GraphicalIcon } from '../../common'
-import { ResultsZone } from '../../ResultsZone'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
-import { User } from '../../types'
+import { typecheck } from '../../../../utils/typecheck'
+import { FormButton, GraphicalIcon } from '../../../common'
+import { ResultsZone } from '../../../ResultsZone'
+import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
+import { User } from '../../../types'
 import { camelizeKeys } from 'humps'
 
 type Links = {
-  update: string
+  upload: string
 }
 
 const DEFAULT_ERROR = new Error('Unable to upload profile photo')
@@ -18,10 +18,12 @@ export const CropFinishedStep = ({
   state,
   dispatch,
   links,
+  onUpload,
 }: {
   state: State
   dispatch: React.Dispatch<Action>
   links: Links
+  onUpload: (avatar: string) => void
 }): JSX.Element => {
   const [submit, { status, error }] = useMutation(
     () => {
@@ -33,7 +35,7 @@ export const CropFinishedStep = ({
       formData.append('user[avatar]', state.croppedImage, 'avatar.jpg')
 
       /* TODO: (optional) Use our standard sendRequest library */
-      return fetch(links.update, { body: formData, method: 'PATCH' })
+      return fetch(links.upload, { body: formData, method: 'PATCH' })
         .then((response) => {
           return response.json().then((json) => camelizeKeys(json))
         })
@@ -47,6 +49,8 @@ export const CropFinishedStep = ({
           type: 'avatar.uploaded',
           payload: { avatarUrl: user.avatarUrl },
         })
+
+        onUpload(user.avatarUrl)
       },
     }
   )

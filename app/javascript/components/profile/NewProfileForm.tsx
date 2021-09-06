@@ -115,7 +115,7 @@ export const NewProfileForm = ({
             <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
           </ErrorBoundary>
         </form>
-        <AvatarSelector user={user} links={links} />
+        <AvatarSelector defaultUser={user} links={links} />
       </section>
     </React.Fragment>
   )

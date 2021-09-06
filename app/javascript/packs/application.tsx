@@ -544,7 +544,7 @@ initReact({
   ),
   'profile-avatar-selector': (data: any) => (
     <Profile.AvatarSelector
-      user={camelizeKeysAs<User>(data.user)}
+      defaultUser={camelizeKeysAs<User>(data.user)}
       links={data.links}
     />
   ),

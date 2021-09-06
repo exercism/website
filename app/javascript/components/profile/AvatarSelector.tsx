@@ -1,64 +1,35 @@
-import React, { useReducer } from 'react'
-import 'react-image-crop/dist/ReactCrop.css'
+import React, { useState } from 'react'
 import { User } from '../types'
-import { Modal } from '../modals/Modal'
-import { InitializedStep } from './avatar-selector/InitializedStep'
-import { CroppingStep } from './avatar-selector/CroppingStep'
-import { CropFinishedStep } from './avatar-selector/CropFinishedStep'
-import { reducer } from './avatar-selector/reducer'
-
-export type Status = 'initialized' | 'cropping' | 'cropFinished'
+import { Photo } from './avatar-selector/Photo'
+import { CroppingModal } from './avatar-selector/CroppingModal'
+import { useImageCrop } from './avatar-selector/use-image-crop'
 
 type Links = {
   update: string
 }
 
-type Unit = 'px' | '%'
-export type CropProps = {
-  aspect?: number
-  width?: number
-  height?: number
-  x?: number
-  y?: number
-  unit?: Unit
-}
-export const CROP_DEFAULTS = {
-  aspect: 1,
-  height: 50,
-  x: 25,
-  y: 10,
-  unit: '%',
-} as const
-
 export const AvatarSelector = ({
-  user,
+  defaultUser,
   links,
 }: {
-  user: User
+  defaultUser: User
   links: Links
 }): JSX.Element => {
-  const [state, dispatch] = useReducer(reducer, {
-    avatarUrl: user.avatarUrl,
-    status: 'initialized',
-    cropSettings: CROP_DEFAULTS,
-    imageToCrop: null,
-    croppedImage: null,
-  })
+  const [user, setUser] = useState(defaultUser)
+  const { handleAttach, ...modalProps } = useImageCrop()
 
-  const modalOpen = state.status == 'cropping' || state.status == 'cropFinished'
+  const handleUpload = (avatarUrl: string) => {
+    setUser({ ...user, avatarUrl: avatarUrl })
+  }
 
   return (
-    <div className="c-avatar-selector">
-      <InitializedStep user={user} state={state} dispatch={dispatch} />
-      {modalOpen ? (
-        <Modal open={true} className="m-crop-avatar" onClose={() => {}}>
-          {state.status == 'cropping' ? (
-            <CroppingStep state={state} dispatch={dispatch} />
-          ) : (
-            <CropFinishedStep state={state} dispatch={dispatch} links={links} />
-          )}
-        </Modal>
-      ) : null}
-    </div>
+    <React.Fragment>
+      <Photo user={user} onAttach={handleAttach} />
+      <CroppingModal
+        links={{ upload: links.update }}
+        onUpload={handleUpload}
+        {...modalProps}
+      />
+    </React.Fragment>
   )
 }

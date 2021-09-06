@@ -112,10 +112,17 @@ export const MentoringRequestInfo = ({
   )
 }
 
-const Video = ({ title, date, url }: VideoProps) => {
+const Video = ({ title, date, thumb, url }: VideoProps) => {
   return (
-    <a href={url} className="video">
-      <div className="img" />
+    <a href={url} target="_blank" rel="noreferrer" className="video">
+      <div
+        className="img"
+        style={{
+          backgroundImage: `url('${thumb}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+        }}
+      />
       <div className="info">
         <div className="title">{title}</div>
         <time dateTime={date} className="date">

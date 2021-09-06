@@ -68,22 +68,13 @@ module ReactComponents
       def videos
         return [] if discussion
 
-        # TODO: (required)
         [
           {
-            url: "#",
-            title: "Start mentoring on Exercism..",
-            date: Date.new(2020, 1, 24).iso8601
-          },
-          {
-            url: "#",
-            title: "Best practices writing feedback trrrrrruuuuunnnncaaatteeee",
-            date: Date.new(2020, 1, 24).iso8601
-          },
-          {
-            url: "#",
-            title: "Beginners’ Guide to Mentoring",
-            date: Date.new(2020, 1, 24).iso8601
+            url: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
+            # TODO: Change this
+            thumb: "https://i.vimeocdn.com/video/1230063662?mw=800&mh=450",
+            title: "Make the most of being mentored",
+            date: Date.new(2021, 9, 1).iso8601
           }
         ]
       end

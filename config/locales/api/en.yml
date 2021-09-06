@@ -41,3 +41,4 @@ en:
       incorrect_password: "Incorrect password"
       passwords_dont_match: "Passwords don't match"
       no_iterations_submitted_yet: "You haven't submitted an iteration yet."
+      no_mentoring_slots_available: "You have no mentoring slots available"

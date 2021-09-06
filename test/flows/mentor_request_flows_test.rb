@@ -2,12 +2,15 @@ require "test_helper"
 
 class MentorRequestFlowsTest < ActiveSupport::TestCase
   test "request and get a mentor" do
+    track = create :track
     user = create :user
-    mentor = create :user
+    create :user_track, user: user, track: track
 
-    solution = create :practice_solution, user: user
+    solution = create :practice_solution, user: user, track: track
     submission = create :submission, solution: solution
     iteration = create :iteration, submission: submission
+
+    mentor = create :user
 
     assert :none, solution.mentoring_status
     request = Mentor::Request::Create.(solution, "Some text")

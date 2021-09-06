@@ -15,6 +15,8 @@ module API
       render json: {
         mentor_request: SerializeMentorSessionRequest.(mentor_request, current_user)
       }
+    rescue NoMentoringSlotsAvailableError
+      render_400(:no_mentoring_slots_available)
     end
 
     def update

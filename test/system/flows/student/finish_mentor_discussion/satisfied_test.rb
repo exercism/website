@@ -38,6 +38,7 @@ module Flows
         test "student is satisfied with mentor discussion and chooses to requeue" do
           user = create :user
           track = create :track
+          create :user_track, user: user, track: track
           exercise = create :practice_exercise, track: track
           solution = create :practice_solution, exercise: exercise, user: user
           submission = create :submission, solution: solution,

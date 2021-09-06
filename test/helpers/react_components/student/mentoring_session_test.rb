@@ -89,21 +89,11 @@ module ReactComponents::Student
           out_of_date: false,
           videos: [
             {
-              url: "#",
-              title: "Start mentoring on Exercism..",
-              date: Date.new(2020, 1, 24).iso8601
-            },
-            {
-              url: "#",
-              title: "Best practices writing feedback trrrrrruuuuunnnncaaatteeee",
-              date: Date.new(2020, 1, 24).iso8601
-            },
-            {
-              url: "#",
-              title: "Beginners’ Guide to Mentoring",
-              date: Date.new(2020, 1, 24).iso8601
+              url: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
+              thumb: "https://exercism-static.s3.eu-west-1.amazonaws.com/blog/tutorial-making-the-most-of-being-mentored.png",
+              title: "Making the most of being mentored",
+              date: Date.new(2021, 9, 1).iso8601
             }
-
           ],
           links: {
             exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),

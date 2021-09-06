@@ -71,9 +71,8 @@ module ReactComponents
         [
           {
             url: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
-            # TODO: Change this
-            thumb: "https://i.vimeocdn.com/video/1230063662?mw=800&mh=450",
-            title: "Make the most of being mentored",
+            thumb: "https://exercism-static.s3.eu-west-1.amazonaws.com/blog/tutorial-making-the-most-of-being-mentored.png",
+            title: "Making the most of being mentored",
             date: Date.new(2021, 9, 1).iso8601
           }
         ]

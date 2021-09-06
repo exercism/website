@@ -119,8 +119,6 @@ const Video = ({ title, date, thumb, url }: VideoProps) => {
         className="img"
         style={{
           backgroundImage: `url('${thumb}')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center center',
         }}
       />
       <div className="info">

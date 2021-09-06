@@ -6,6 +6,8 @@ module Mentor
       initialize_with :solution, :comment_markdown
 
       def call
+        guard!
+
         create_request
       rescue AlreadyRequestedError => e
         e.request
@@ -32,6 +34,10 @@ module Mentor
         end
 
         request
+      end
+
+      def guard!
+        raise NoMentoringSlotsAvailable if @user_track.num_available_mentoring_slots.zero?
       end
 
       class AlreadyRequestedError < RuntimeError

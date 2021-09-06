@@ -42,3 +42,5 @@ class ReputationTokenLevelUndefined < RuntimeError; end
 class ReputationTokenReasonInvalid < RuntimeError; end
 
 class ReputationTokenCategoryInvalid < RuntimeError; end
+
+class NoMentoringSlotsAvailable < RuntimeError; end

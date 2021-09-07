@@ -14,7 +14,15 @@ class Submission::TestRunTest < ActiveSupport::TestCase
   end
 
   test "override ops error if no status" do
-    assert create(:submission_test_run, raw_results: {}).ops_errored?
+    test_run = create(:submission_test_run, raw_results: {})
+    assert_equal 400, test_run.ops_status
+    assert test_run.ops_errored?
+  end
+
+  test "don't overide ops error for empty 512" do
+    test_run = create(:submission_test_run, ops_status: 512, raw_results: {})
+    assert_equal 512, test_run.ops_status
+    assert test_run.ops_errored?
   end
 
   test "explodes raw_results" do

@@ -3,14 +3,18 @@ module API
     class SolutionsController < BaseController
       def show
         begin
-          solution = current_user.solutions.find_by!(uuid: params[:id])
+          solution = Solution.find_by!(uuid: params[:id])
         rescue ActiveRecord::RecordNotFound
           return render_solution_not_found
         end
 
         return render_solution_not_accessible unless current_user.may_view_solution?(solution)
 
-        respond_with_authored_solution(solution)
+        if solution.user == current_user
+          respond_with_authored_solution(solution)
+        else
+          respond_with_solution(solution)
+        end
       end
 
       def latest
@@ -74,10 +78,14 @@ module API
       def respond_with_authored_solution(solution)
         solution.sync_git! unless solution.downloaded?
 
-        render json: SerializeSolutionForCLI.(solution, current_user)
+        respond_with_solution(solution)
 
         # Only set this if we've not 500'd
         solution.update(downloaded_at: Time.current)
+      end
+
+      def respond_with_solution(solution)
+        render json: SerializeSolutionForCLI.(solution, current_user)
       end
     end
   end

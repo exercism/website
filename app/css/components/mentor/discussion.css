@@ -488,8 +488,7 @@
                 }
             }
             & .finished-wizard.timeline-entry {
-                & > .--step {
-                    /* Leading-160 */
+                & .--step {
                     & .buttons {
                         @apply flex items-center;
                         & button {

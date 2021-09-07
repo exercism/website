@@ -102,7 +102,7 @@ module Git
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
           has_test_runner: git_exercise.has_test_runner?
         )
-        Git::SyncConceptExercise.(exercise, force_sync: force_sync)
+        Git::SyncConceptExercise.(exercise, force_sync: force_sync || exercise.id_changed?)
       end
     end
 

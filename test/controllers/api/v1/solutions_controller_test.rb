@@ -156,20 +156,30 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   ###
 
   ### Errors: User is not the author
-  test "show should return 404 if user is not author" do
+  test "show should return 403 if user is not allowed" do
     setup_user
     solution = create :concept_solution
-    create :user_track, user: @current_user, track: solution.track
+    User.any_instance.expects(:may_view_solution?).with(solution).returns(false)
 
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response 403
     expected = { error: {
-      type: "solution_not_found",
-      message: I18n.t('api.errors.solution_not_found')
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
+  end
+
+  test "show should return 200 if user is allowed" do
+    setup_user
+    solution = create :concept_solution
+    User.any_instance.expects(:may_view_solution?).with(solution).returns(true)
+
+    get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response 200
   end
 
   test "show should use solution serializer" do
@@ -184,27 +194,35 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     assert_equal serializer.to_json, response.body
   end
 
-  test "show should set downloaded_at" do
+  test "show should set downloaded_at for solution user" do
     freeze_time do
       setup_user
-      exercise = create :concept_exercise
-      track = exercise.track
-      solution = create :concept_solution, user: @current_user, exercise: exercise
-      create :user_track, user: solution.user, track: track
+      solution = create :concept_solution, user: @current_user
+      create :user_track, user: solution.user, track: solution.track
 
       get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
       assert_response :success
 
-      solution.reload
-      assert_equal solution.downloaded_at.to_i, DateTime.now.to_i
+      assert_equal solution.reload.downloaded_at.to_i, DateTime.now.to_i
+    end
+  end
+
+  test "show should not set downloaded_at for other user" do
+    freeze_time do
+      setup_user
+      solution = create :concept_solution
+      User.any_instance.expects(:may_view_solution?).with(solution).returns(true)
+
+      get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
+      assert_response :success
+
+      assert_nil solution.reload.downloaded_at
     end
   end
 
   test "show updates git sha if exercise was not previously downloaded" do
     setup_user
-    solution = create :concept_solution,
-      user: @current_user,
-      downloaded_at: nil
+    solution = create :concept_solution, user: @current_user
 
     create :user_track, user: @current_user, track: solution.track
 
@@ -214,9 +232,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
   test "show does not update git sha if exercise was downloaded" do
     setup_user
-    solution = create :concept_solution,
-      user: @current_user,
-      downloaded_at: Time.current
+    solution = create :concept_solution, user: @current_user, downloaded_at: Time.current
 
     create :user_track, user: @current_user, track: solution.track
 

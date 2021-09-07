@@ -16,7 +16,7 @@ class Submission::TestRun < ApplicationRecord
     self.status = raw_results.fetch(:status, :error) unless self.status
     self.uuid = SecureRandom.uuid unless self.uuid
 
-    self.ops_status = 400 unless raw_results[:status]
+    self.ops_status = 400 if ops_success? && !raw_results[:status]
   end
 
   def status

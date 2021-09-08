@@ -1,13 +1,22 @@
 import React from 'react'
 import { Avatar } from '../../common'
+import { DeletePhotoButton } from './photo/DeletePhotoButton'
 import { User } from '../../types'
+
+type Links = {
+  delete: string
+}
 
 export const Photo = ({
   user,
   onAttach,
+  onDelete,
+  links,
 }: {
   user: User
   onAttach: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onDelete: (user: User) => void
+  links: Links
 }): JSX.Element => {
   return (
     <div className="c-avatar-selector">
@@ -23,6 +32,11 @@ export const Photo = ({
       <div className="cropping">
         You’ll get to crop the image after uploading
       </div>
+      {user.hasAvatar ? (
+        <span>
+          You can also <DeletePhotoButton links={links} onDelete={onDelete} />.
+        </span>
+      ) : null}
     </div>
   )
 }

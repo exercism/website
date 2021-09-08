@@ -10,7 +10,7 @@ module API
         user: {
           handle: current_user.handle,
           avatar_url: current_user.avatar_url,
-          is_avatar_attached: current_user.avatar.attached?
+          has_avatar: current_user.has_avatar?
         }
       }
     end

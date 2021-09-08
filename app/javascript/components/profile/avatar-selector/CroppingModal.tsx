@@ -7,7 +7,7 @@ import 'react-image-crop/dist/ReactCrop.css'
 import { User } from '../../types'
 
 type Links = {
-  upload: string
+  update: string
 }
 
 export const CroppingModal = ({

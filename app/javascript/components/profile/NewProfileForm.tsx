@@ -10,6 +10,7 @@ import { User } from '../types'
 type Links = {
   create: string
   update: string
+  delete: string
 }
 
 type APIResponse = {

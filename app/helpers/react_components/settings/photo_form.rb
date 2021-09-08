@@ -5,12 +5,12 @@ module ReactComponents
         super("settings-photo-form", {
           user: {
             avatar_url: current_user.avatar_url,
-            is_avatar_attached: current_user.avatar.attached?,
+            has_avatar: current_user.has_avatar?,
             handle: current_user.handle
           },
           links: {
-            destroy: Exercism::Routes.api_user_profile_photo_url,
-            update: Exercism::Routes.api_user_url(current_user)
+            update: Exercism::Routes.api_user_url(current_user),
+            delete: Exercism::Routes.api_user_profile_photo_url
           }
         })
       end

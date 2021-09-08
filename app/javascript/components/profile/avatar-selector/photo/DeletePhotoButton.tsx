@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react'
-import { User } from '../../types'
-import { RemovePhotoModal } from './remove-photo-button/RemovePhotoModal'
+import { DeletePhotoModal } from './delete-photo-button/DeletePhotoModal'
+import { User } from '../../../types'
 
 type Links = {
-  remove: string
+  delete: string
 }
 
-export const RemovePhotoButton = ({
+export const DeletePhotoButton = ({
   onDelete,
   links,
 }: {
@@ -26,10 +26,10 @@ export const RemovePhotoButton = ({
   return (
     <React.Fragment>
       <button type="button" onClick={handleModalOpen}>
-        Remove photo
+        delete your photo
       </button>
-      <RemovePhotoModal
-        endpoint={links.remove}
+      <DeletePhotoModal
+        endpoint={links.delete}
         open={modalOpen}
         onClose={handleModalClose}
         onSuccess={onDelete}

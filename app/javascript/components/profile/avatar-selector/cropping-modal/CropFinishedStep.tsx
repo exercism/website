@@ -9,7 +9,7 @@ import { User } from '../../../types'
 import { camelizeKeys } from 'humps'
 
 type Links = {
-  upload: string
+  update: string
 }
 
 const DEFAULT_ERROR = new Error('Unable to upload profile photo')
@@ -35,7 +35,7 @@ export const CropFinishedStep = ({
       formData.append('user[avatar]', state.croppedImage, 'avatar.jpg')
 
       /* TODO: (optional) Use our standard sendRequest library */
-      return fetch(links.upload, { body: formData, method: 'PATCH' })
+      return fetch(links.update, { body: formData, method: 'PATCH' })
         .then((response) => {
           return response.json().then((json) => camelizeKeys(json))
         })

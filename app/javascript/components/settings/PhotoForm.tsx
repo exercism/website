@@ -1,13 +1,10 @@
-import React, { useState, useCallback } from 'react'
-import { Avatar } from '../common'
+import React from 'react'
 import { User } from '../types'
-import { ChangePhotoButton } from './photo-form/ChangePhotoButton'
-import { AddPhotoButton } from './photo-form/AddPhotoButton'
-import { RemovePhotoButton } from './photo-form/RemovePhotoButton'
+import { AvatarSelector } from '../profile'
 
 type Links = {
   update: string
-  destroy: string
+  delete: string
 }
 
 export const PhotoForm = ({
@@ -17,34 +14,11 @@ export const PhotoForm = ({
   defaultUser: User
   links: Links
 }): JSX.Element => {
-  const [user, setUser] = useState(defaultUser)
-
-  const handleUpdate = useCallback((user: User) => {
-    setUser(user)
-  }, [])
-
   return (
     <div className="c-settings-photo-form">
       <h2>Change your photo</h2>
       <hr className="c-divider --small" />
-      <Avatar handle={user.handle} src={user.avatarUrl} />
-      {user.isAvatarAttached ? (
-        <ChangePhotoButton
-          links={{ upload: links.update }}
-          onUpload={handleUpdate}
-        />
-      ) : (
-        <AddPhotoButton
-          links={{ upload: links.update }}
-          onUpload={handleUpdate}
-        />
-      )}
-      {user.isAvatarAttached ? (
-        <RemovePhotoButton
-          links={{ remove: links.destroy }}
-          onDelete={handleUpdate}
-        />
-      ) : null}
+      <AvatarSelector defaultUser={defaultUser} links={links} />
     </div>
   )
 }

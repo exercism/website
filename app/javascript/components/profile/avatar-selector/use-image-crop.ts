@@ -1,7 +1,15 @@
-import { Status, CROP_DEFAULTS, CropProps } from '../AvatarSelector'
+import { useCallback, useReducer } from 'react'
+
+export type CropProps = {
+  aspect?: number
+  width?: number
+  height?: number
+  x?: number
+  y?: number
+  unit?: Unit
+}
 
 export type State = {
-  avatarUrl: string
   imageToCrop: string | null
   croppedImage: Blob | null
   status: Status
@@ -16,11 +24,22 @@ export type Action =
   | { type: 'crop.cancelled' }
   | { type: 'avatar.uploaded'; payload: { avatarUrl: string } }
 
-export function reducer(state: State, action: Action): State {
+type Status = 'initialized' | 'cropping' | 'cropFinished'
+
+type Unit = 'px' | '%'
+
+const CROP_DEFAULTS = {
+  aspect: 1,
+  height: 50,
+  x: 25,
+  y: 10,
+  unit: '%',
+} as const
+
+function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'avatar.uploaded':
       return {
-        avatarUrl: action.payload.avatarUrl,
         imageToCrop: null,
         croppedImage: null,
         status: 'initialized',
@@ -56,4 +75,30 @@ export function reducer(state: State, action: Action): State {
         imageToCrop: null,
       }
   }
+}
+
+export const useImageCrop = () => {
+  const [state, dispatch] = useReducer(reducer, {
+    status: 'initialized',
+    cropSettings: CROP_DEFAULTS,
+    imageToCrop: null,
+    croppedImage: null,
+  })
+
+  const handleAttach = useCallback((e) => {
+    const fileReader = new FileReader()
+
+    fileReader.onloadend = () => {
+      dispatch({
+        type: 'crop.start',
+        payload: {
+          imageToCrop: fileReader.result as string,
+        },
+      })
+    }
+
+    fileReader.readAsDataURL(e.target.files[0])
+  }, [])
+
+  return { state, dispatch, handleAttach }
 }

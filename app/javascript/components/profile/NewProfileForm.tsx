@@ -5,15 +5,12 @@ import { redirectTo } from '../../utils/redirect-to'
 import { FormButton } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 import { AvatarSelector } from './AvatarSelector'
+import { User } from '../types'
 
 type Links = {
   create: string
   update: string
-}
-
-export type User = {
-  handle: string
-  avatarUrl: string
+  delete: string
 }
 
 type APIResponse = {
@@ -115,7 +112,7 @@ export const NewProfileForm = ({
             <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
           </ErrorBoundary>
         </form>
-        <AvatarSelector user={user} links={links} />
+        <AvatarSelector defaultUser={user} links={links} />
       </section>
     </React.Fragment>
   )

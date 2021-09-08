@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import { State, Action } from './reducer'
+import { State, Action } from '../use-image-crop'
 import { useMutation } from 'react-query'
-import { typecheck } from '../../../utils/typecheck'
-import { FormButton, GraphicalIcon } from '../../common'
-import { ResultsZone } from '../../ResultsZone'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
-import { User } from '../../types'
+import { typecheck } from '../../../../utils/typecheck'
+import { FormButton, GraphicalIcon } from '../../../common'
+import { ResultsZone } from '../../../ResultsZone'
+import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
+import { User } from '../../../types'
 import { camelizeKeys } from 'humps'
 
 type Links = {
@@ -18,10 +18,12 @@ export const CropFinishedStep = ({
   state,
   dispatch,
   links,
+  onUpload,
 }: {
   state: State
   dispatch: React.Dispatch<Action>
   links: Links
+  onUpload: (user: User) => void
 }): JSX.Element => {
   const [submit, { status, error }] = useMutation(
     () => {
@@ -47,6 +49,8 @@ export const CropFinishedStep = ({
           type: 'avatar.uploaded',
           payload: { avatarUrl: user.avatarUrl },
         })
+
+        onUpload(user)
       },
     }
   )

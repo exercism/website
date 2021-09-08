@@ -23,6 +23,7 @@ import '../../css/tooltips/student'
 import '../../css/tooltips/task'
 
 import '../../css/components/textblock'
+import '../../css/components/settings-photo-form'
 import '../../css/components/financial-amount'
 import '../../css/components/automated-feedback'
 import '../../css/components/share-button'
@@ -268,8 +269,6 @@ import { TrackData as ProfileCommunitySolutionsListTrackData } from '../componen
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Links as SolutionViewLinks } from '../components/common/SolutionView'
 import { Links as CommentsListLinks } from '../components/community-solutions/CommentsList'
-
-import { User as ProfileNewProfileFormUser } from '../components/profile/NewProfileForm'
 
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
@@ -544,13 +543,13 @@ initReact({
   ),
   'profile-avatar-selector': (data: any) => (
     <Profile.AvatarSelector
-      user={camelizeKeysAs<User>(data.user)}
+      defaultUser={camelizeKeysAs<User>(data.user)}
       links={data.links}
     />
   ),
   'profile-new-profile-form': (data: any) => (
     <Profile.NewProfileForm
-      user={camelizeKeysAs<ProfileNewProfileFormUser>(data.user)}
+      user={camelizeKeysAs<User>(data.user)}
       defaultFields={data.fields}
       links={data.links}
     />

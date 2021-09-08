@@ -3,12 +3,16 @@
 .c-avatar-selector {
     @apply ml-auto;
     @apply flex flex-col items-center;
+    & .--details {
+        @apply flex flex-col items-center;
+    }
 
     & .c-avatar {
         height: 128px;
         width: 128px;
         @apply mb-24;
         cursor: pointer;
+        @apply shadow-xsZ1;
     }
     & h2 {
         @apply text-h5 mb-12;
@@ -25,9 +29,11 @@
             opacity: 0;
             cursor: pointer;
             position: relative;
+            width: 100%;
+            z-index: 3;
         }
         & .btn {
-            z-index: -2;
+            z-index: 1;
             height: var(--height);
             position: absolute;
             top: 0;
@@ -35,7 +41,7 @@
             right: 0;
         }
         & .hover-bg {
-            z-index: -1;
+            z-index: 2;
             position: absolute;
             top: 0;
             left: 0;
@@ -48,7 +54,14 @@
         }
     }
     & .cropping {
-        @apply text-textColor6 leading-160 mb-8;
+        @apply text-textColor6 leading-160;
         @apply text-center;
+    }
+    & .deleting {
+        @apply text-textColor6 leading-160;
+        @apply text-center;
+        & button {
+            @apply text-lightBlue font-medium;
+        }
     }
 }

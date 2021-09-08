@@ -1,8 +1,7 @@
 import React, { useCallback, useRef } from 'react'
 import ReactCrop from 'react-image-crop'
-import { State, Action } from './reducer'
+import { State, Action } from '../use-image-crop'
 import { cropImage } from './cropImage'
-import { CropProps } from '../AvatarSelector'
 
 export const CroppingStep = ({
   state,

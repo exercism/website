@@ -209,6 +209,10 @@ class User < ApplicationRecord
     super.presence || "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
   end
 
+  def has_avatar?
+    avatar.attached? || self[:avatar_url].present?
+  end
+
   # TODO
   def languages_spoken
     %w[english spanish]

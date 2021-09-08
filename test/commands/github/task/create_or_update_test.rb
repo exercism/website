@@ -152,6 +152,41 @@ class Github::Task::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal track, task.track
   end
 
+  test "updates track link on update" do
+    task = Github::Task::CreateOrUpdate.(
+      'https://github.com/exercism/ruby/issues/999',
+      title: 'Sync anagram',
+      repo: 'exercism/ruby',
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte",
+      action: :sync,
+      knowledge: :elementary,
+      area: :generator,
+      size: :small,
+      type: :content
+    )
+
+    # Sanity check
+    assert_nil task.track
+
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+
+    task = Github::Task::CreateOrUpdate.(
+      'https://github.com/exercism/ruby/issues/999',
+      title: 'Sync anagram',
+      repo: 'exercism/ruby',
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte",
+      action: :sync,
+      knowledge: :elementary,
+      area: :generator,
+      size: :small,
+      type: :content
+    )
+
+    assert_equal track, task.track
+  end
+
   test "not linked to track if issue repo is not track repo" do
     task = Github::Task::CreateOrUpdate.(
       'https://github.com/exercism/ruby/issues/999',

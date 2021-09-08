@@ -44,7 +44,7 @@ class Github::Task < ApplicationRecord
     docs: 4
   }, _suffix: true
 
-  before_validation on: :create do
+  before_validation do
     unless track
       repo_url = issue_url.
         gsub(%r{/issues/\d+}, '').

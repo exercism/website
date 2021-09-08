@@ -3,6 +3,7 @@ import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
 import { CommunitySolution as CommunitySolutionProps } from '../../types'
 import { CommunitySolution, GraphicalIcon } from '../../common'
+import { useHighlighting } from '../../../utils/highlight'
 
 const AccordionHeader = ({
   isOpen,
@@ -32,15 +33,17 @@ export const Guidance = ({
   mentorSolution,
   exemplarSolution,
   links,
+  language,
   feedback = false,
 }: {
   notes: string
   mentorSolution?: CommunitySolutionProps
   exemplarSolution: string
   links: Links
+  language: string
   feedback?: any
 }): JSX.Element => {
-  console.log(exemplarSolution)
+  const ref = useHighlighting<HTMLDivElement>()
   const [accordionState, setAccordionState] = useState([
     {
       id: 'exemplar-solution',
@@ -89,7 +92,7 @@ export const Guidance = ({
   )
 
   return (
-    <>
+    <div ref={ref}>
       {exemplarSolution ? (
         <Accordion
           id="exemplar-solution"
@@ -108,8 +111,9 @@ export const Guidance = ({
               </p>
               <pre className="overflow-auto">
                 <code
+                  className={language}
                   dangerouslySetInnerHTML={{ __html: exemplarSolution }}
-                ></code>
+                />
               </pre>
             </div>
           </Accordion.Panel>
@@ -151,6 +155,6 @@ export const Guidance = ({
           </Accordion.Panel>
         </Accordion>
       ) : null}
-    </>
+    </div>
   )
 }

@@ -208,6 +208,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                     notes={notes}
                     mentorSolution={mentorSolution}
                     exemplarSolution={exemplarSolution}
+                    language={track.highlightjsLanguage}
                     links={links}
                   />
                 </Tab.Panel>

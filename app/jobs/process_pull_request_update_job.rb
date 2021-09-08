@@ -8,6 +8,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
     Github::PullRequest::CreateOrUpdate.(
       pr_data[:node_id],
       number: pr_data[:number],
+      title: pr_data[:title],
       author_username: pr_data[:author_username],
       merged_by_username: pr_data[:merged_by_username],
       repo: pr_data[:repo],

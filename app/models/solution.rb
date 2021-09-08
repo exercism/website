@@ -83,6 +83,23 @@ class Solution < ApplicationRecord
     "exercism download --uuid=#{uuid}"
   end
 
+  def viewable_by?(viewer)
+    # A user can always see their own stuff
+    return true if self.user_id == viewer&.id
+
+    # Current mentors can see submissions
+    return true if viewer && self.mentors.include?(viewer)
+
+    # All mentors can see files on pending requests
+    return true if viewer && self.mentor_requests.pending.any? && viewer.mentor?
+
+    # Non-iteration submissions can never be seen
+    # Everyone can see published iterations - We need to not
+    # rely on this in the CLI - but rely on iteration instead.
+    # iteration&.published?
+    false
+  end
+
   def starred_by?(user)
     stars.exists?(user: user)
   end

@@ -8,7 +8,7 @@ module API
           return render_solution_not_found
         end
 
-        return render_solution_not_accessible unless current_user.may_view_solution?(solution)
+        return render_solution_not_accessible unless solution.viewable_by?(current_user)
 
         if solution.user == current_user
           respond_with_authored_solution(solution)

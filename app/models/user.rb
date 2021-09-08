@@ -183,14 +183,24 @@ class User < ApplicationRecord
     solutions.where('downloaded_at >= ?', Time.current - 30.days).exists?
   end
 
-  # TODO: This needs fleshing out for mentors
+  # TODO: Remove this if there have not been any bugsnags
   def may_view_solution?(solution)
-    id == solution.user_id
+    begin
+      raise "User#may_view_solution? is deprecated"
+    rescue StandardError => e
+      Bugsnag.notify(e)
+    end
+
+    solution.viewable_by?(self)
   end
 
   def onboarded?
     accepted_privacy_policy_at.present? &&
       accepted_terms_at.present?
+  end
+
+  def has_avatar_url?
+    super.presence? || avatar.attached?
   end
 
   def avatar_url

@@ -470,4 +470,58 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     assert track.course?
   end
+
+  test "new concept syncs with force_sync even when track is not force synced" do
+    track = create :track, synced_to_git_sha: "HEAD"
+
+    Git::SyncConcept.expects(:call).with(anything, force_sync: true).at_least_once
+
+    Git::SyncTrack.(track)
+  end
+
+  test "new concept exercise syncs with force_sync even when track is not force synced" do
+    track = create :track, synced_to_git_sha: "HEAD"
+
+    Git::SyncConceptExercise.expects(:call).with(anything, force_sync: true).at_least_once
+
+    Git::SyncTrack.(track)
+  end
+
+  test "new practice exercise syncs with force_sync even when track is not force synced" do
+    track = create :track, synced_to_git_sha: "HEAD"
+
+    Git::SyncPracticeExercise.expects(:call).with(anything, force_sync: true).at_least_once
+
+    Git::SyncTrack.(track)
+  end
+
+  test "existing concept does not sync with force_sync" do
+    track = create :track, synced_to_git_sha: "HEAD"
+    Git::SyncTrack.(track)
+
+    Git::SyncConcept.expects(:call).with(anything, force_sync: true).never
+    Git::SyncConcept.expects(:call).with(anything, force_sync: false).at_least_once
+
+    Git::SyncTrack.(track)
+  end
+
+  test "existing concept exercise does not sync with force_sync" do
+    track = create :track, synced_to_git_sha: "HEAD"
+    Git::SyncTrack.(track)
+
+    Git::SyncConceptExercise.expects(:call).with(anything, force_sync: true).never
+    Git::SyncConceptExercise.expects(:call).with(anything, force_sync: false).at_least_once
+
+    Git::SyncTrack.(track)
+  end
+
+  test "existing practice exercise does not sync with force_sync" do
+    track = create :track, synced_to_git_sha: "HEAD"
+    Git::SyncTrack.(track)
+
+    Git::SyncPracticeExercise.expects(:call).with(anything, force_sync: true).never
+    Git::SyncPracticeExercise.expects(:call).with(anything, force_sync: false).at_least_once
+
+    Git::SyncTrack.(track)
+  end
 end

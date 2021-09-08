@@ -5,7 +5,7 @@ import React, {
   useEffect,
   createContext,
 } from 'react'
-import { Submission, TestRun, TestRunStatus } from './editor/types'
+import { TestRun, TestRunStatus } from './editor/types'
 import { File } from './types'
 import { Props, EditorFeatures } from './editor/Props'
 import { Header } from './editor/Header'
@@ -22,7 +22,6 @@ import { ResultsTab } from './editor/ResultsTab'
 import { EditorStatusSummary } from './editor/EditorStatusSummary'
 import { RunTestsButton } from './editor/RunTestsButton'
 import { SubmitButton } from './editor/SubmitButton'
-import { isEqual } from 'lodash'
 import { redirectTo } from '../utils/redirect-to'
 import { TabContext } from './common/Tab'
 import { SplitPane } from './common'
@@ -39,6 +38,16 @@ import { useEditorTestRunStatus } from './editor/useEditorTestRunStatus'
 import { useSubmissionCancelling } from './editor/useSubmissionCancelling'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
+
+const filesEqual = (files: File[], other: File[]) => {
+  if (files.length !== other.length) {
+    return false
+  }
+
+  return files.every((f, i) => {
+    return f.content === other[i].content
+  })
+}
 
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
@@ -86,14 +95,14 @@ export default ({
   const [files] = useSaveFiles({ getFiles, ...autosave })
   const testRunStatus = useEditorTestRunStatus(submission)
   const isSubmitDisabled =
-    testRunStatus !== TestRunStatus.PASS || !isEqual(submissionFiles, files)
+    testRunStatus !== TestRunStatus.PASS || !filesEqual(submissionFiles, files)
   const isProcessing =
     status === EditorStatus.CREATING_SUBMISSION ||
     status === EditorStatus.CREATING_ITERATION ||
     testRunStatus === TestRunStatus.QUEUED
   const haveFilesChanged =
     submission === null ||
-    !isEqual(submissionFiles, files) ||
+    !filesEqual(submissionFiles, files) ||
     testRunStatus === TestRunStatus.OPS_ERROR ||
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED

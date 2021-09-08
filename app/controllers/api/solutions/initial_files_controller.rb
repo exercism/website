@@ -8,7 +8,7 @@ module API
           return render_solution_not_found
         end
 
-        return render_403(:solution_not_accessible) unless current_user == solution.user_id
+        return render_403(:solution_not_accessible) unless current_user.id == solution.user_id
 
         files = SerializeFiles.(solution.exercise_files_for_editor)
 

@@ -7,6 +7,7 @@ class User
     def call
       user.auth_tokens.create!
       AwardBadgeJob.perform_later(user, :member)
+      User::Notification::CreateEmailOnly.(user, :joined_exercism, {})
     end
   end
 end

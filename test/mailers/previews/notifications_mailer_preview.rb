@@ -28,4 +28,10 @@ class NotificationsMailerPreview < ActionMailer::Preview
       notification: User::Notifications::AcquiredBadgeNotification.first
     ).acquired_badge
   end
+
+  def joined_exercism
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).joined_exercism
+  end
 end

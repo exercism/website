@@ -78,7 +78,7 @@ module Git
           blurb: git_concept.blurb,
           synced_to_git_sha: head_git_track.commit.oid
         ).tap do |concept|
-          Git::SyncConcept.(concept, force_sync: force_sync)
+          Git::SyncConcept.(concept, force_sync: force_sync || concept.id_previously_changed?)
         end
       end
     end
@@ -102,7 +102,7 @@ module Git
           prerequisites: exercise_concepts(exercise_config[:prerequisites]),
           has_test_runner: git_exercise.has_test_runner?
         )
-        Git::SyncConceptExercise.(exercise, force_sync: force_sync || exercise.id_changed?)
+        Git::SyncConceptExercise.(exercise, force_sync: force_sync || exercise.id_previously_changed?)
       end
     end
 
@@ -126,7 +126,7 @@ module Git
           practiced_concepts: exercise_concepts(exercise_config[:practices]),
           has_test_runner: git_exercise.has_test_runner?
         )
-        Git::SyncPracticeExercise.(exercise, force_sync: force_sync)
+        Git::SyncPracticeExercise.(exercise, force_sync: force_sync || exercise.id_previously_changed?)
       end
     end
 

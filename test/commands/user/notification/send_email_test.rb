@@ -36,36 +36,61 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
     assert notification.email_sent?
   end
 
+  test "does not send if user's email is github placeholder" do
+    user = create :user, email: "foo@users.noreply.github.com"
+    notification = create(:notification, :unread, user: user)
+
+    assert_no_enqueued_jobs do
+      User::Notification::SendEmail.(notification)
+    end
+
+    assert notification.email_skipped?
+  end
+
   test "does not send if preference set to false" do
     user = create :user
     user.communication_preferences.update(email_on_mentor_started_discussion_notification: false)
+    notification = create(:notification, :unread, user: user)
 
     assert_no_enqueued_jobs do
-      User::Notification::SendEmail.(create(:notification, :read))
+      User::Notification::SendEmail.(notification)
     end
 
+    assert notification.email_skipped?
+
+    # Reset things
+    notification.email_pending!
+    notification.unread!
     user.communication_preferences.update(email_on_mentor_started_discussion_notification: true)
     assert_enqueued_with(job: ActionMailer::MailDeliveryJob) do
-      User::Notification::SendEmail.(create(:notification, :unread))
+      User::Notification::SendEmail.(notification)
     end
   end
 
   test "only sends if unread or email only" do
+    notification = create(:notification, :pending)
     assert_no_enqueued_jobs do
-      User::Notification::SendEmail.(create(:notification, :pending))
+      User::Notification::SendEmail.(notification)
     end
+    assert notification.email_skipped?
 
+    notification = create(:notification, :read)
     assert_no_enqueued_jobs do
-      User::Notification::SendEmail.(create(:notification, :read))
+      User::Notification::SendEmail.(notification)
     end
+    assert notification.email_skipped?
 
+    notification = create(:notification, :unread)
     assert_enqueued_with(job: ActionMailer::MailDeliveryJob) do
-      User::Notification::SendEmail.(create(:notification, :unread))
+      User::Notification::SendEmail.(notification)
     end
+    assert notification.email_sent?
 
+    notification = create(:notification, :email_only)
     assert_enqueued_with(job: ActionMailer::MailDeliveryJob) do
-      User::Notification::SendEmail.(create(:notification, :email_only))
+      User::Notification::SendEmail.(notification)
     end
+    assert notification.email_sent?
   end
 
   test "only sends for email pending" do

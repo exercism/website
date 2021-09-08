@@ -71,15 +71,6 @@ class UserTest < ActiveSupport::TestCase
     assert user.reload.has_badge?(:rookie)
   end
 
-  test "may_view_solution?" do
-    user = create :user
-    solution = create :concept_solution, user: user
-    assert user.may_view_solution?(solution)
-
-    solution = create :concept_solution
-    refute user.may_view_solution?(solution)
-  end
-
   test "joined_track?" do
     user = create :user
     user_track = create :user_track, user: user

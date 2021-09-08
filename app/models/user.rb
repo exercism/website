@@ -185,12 +185,18 @@ class User < ApplicationRecord
 
   # TODO: This needs fleshing out for mentors
   def may_view_solution?(solution)
-    id == solution.user_id
+    Bugsnag.notify("User#may_view_solution? is deprecated")
+
+    solution.viewable_by?(self)
   end
 
   def onboarded?
     accepted_privacy_policy_at.present? &&
       accepted_terms_at.present?
+  end
+
+  def has_avatar_url?
+    super.presence? || avatar.attached?
   end
 
   def avatar_url

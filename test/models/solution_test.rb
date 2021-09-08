@@ -642,4 +642,40 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :practice_solution
     assert_equal "exercism download --uuid=#{solution.uuid}", solution.mentor_download_cmd
   end
+
+  test "viewable_by pivots correctly" do
+    student = create :user
+    mentor_1 = create :user
+    mentor_2 = create :user
+    user = create :user, :not_mentor
+
+    solution = create :concept_solution, user: student
+
+    assert solution.viewable_by?(student)
+    refute solution.viewable_by?(mentor_1)
+    refute solution.viewable_by?(mentor_2)
+    refute solution.viewable_by?(user)
+    refute solution.viewable_by?(nil)
+
+    create :mentor_discussion, mentor: mentor_1, solution: solution
+    assert solution.viewable_by?(student)
+    assert solution.viewable_by?(mentor_1)
+    refute solution.viewable_by?(mentor_2)
+    refute solution.viewable_by?(user)
+    refute solution.viewable_by?(nil)
+
+    create :mentor_request, solution: solution, status: :fulfilled
+    assert solution.viewable_by?(student)
+    assert solution.viewable_by?(mentor_1)
+    refute solution.viewable_by?(mentor_2)
+    refute solution.viewable_by?(user)
+    refute solution.viewable_by?(nil)
+
+    create :mentor_request, solution: solution, status: :pending
+    assert solution.viewable_by?(student)
+    assert solution.viewable_by?(mentor_1)
+    assert solution.viewable_by?(mentor_2)
+    refute solution.viewable_by?(user)
+    refute solution.viewable_by?(nil)
+  end
 end

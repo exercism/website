@@ -157,10 +157,11 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
   ### Errors: User is not the author
   test "show should return 403 if user is not allowed" do
-    setup_user
+    user = create :user
     solution = create :concept_solution
-    User.any_instance.expects(:may_view_solution?).with(solution).returns(false)
+    ConceptSolution.any_instance.expects(:viewable_by?).with(user).returns(false)
 
+    setup_user(user)
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
 
     assert_response 403
@@ -173,10 +174,11 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "show should return 200 if user is allowed" do
-    setup_user
+    user = create :user
     solution = create :concept_solution
-    User.any_instance.expects(:may_view_solution?).with(solution).returns(true)
+    ConceptSolution.any_instance.expects(:viewable_by?).with(user).returns(true)
 
+    setup_user(user)
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
 
     assert_response 200
@@ -209,10 +211,11 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
   test "show should not set downloaded_at for other user" do
     freeze_time do
-      setup_user
+      user = create :user
       solution = create :concept_solution
-      User.any_instance.expects(:may_view_solution?).with(solution).returns(true)
+      ConceptSolution.any_instance.expects(:viewable_by?).with(user).returns(true)
 
+      setup_user(user)
       get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
       assert_response :success
 

@@ -204,6 +204,18 @@
             }
         }
     }
+    & section.picture-section {
+        & .c-avatar-selector {
+            @apply flex-row items-center;
+            & h2 {
+                @apply hidden;
+            }
+            & .--details {
+                @apply items-start;
+                @apply ml-24;
+            }
+        }
+    }
     & .danger-section {
         @apply grid grid-cols-2 gap-24;
         & .box {

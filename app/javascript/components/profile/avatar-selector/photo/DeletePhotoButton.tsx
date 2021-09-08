@@ -26,7 +26,7 @@ export const DeletePhotoButton = ({
   return (
     <React.Fragment>
       <button type="button" onClick={handleModalOpen}>
-        delete your photo
+        delete your picture
       </button>
       <DeletePhotoModal
         endpoint={links.delete}

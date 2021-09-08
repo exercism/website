@@ -55,11 +55,14 @@ export const DeletePhotoModal = ({
 
   return (
     <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
-      <h3>Are you sure you want to delete your photo?</h3>
-      <p>Text here...</p>
+      <h3>Delete your profile picture?</h3>
+      <p>
+        Are you sure you want to delete your photo? Other users will see a
+        placeholder picture instead. You can upload a new picture at any time.
+      </p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
-        <FormButton status={status} type="submit" className="btn-warning btn-s">
-          Delete photo
+        <FormButton status={status} type="submit" className="btn-primary btn-s">
+          Delete picture
         </FormButton>
         <FormButton
           status={status}

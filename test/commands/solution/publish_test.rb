@@ -46,17 +46,23 @@ class Solution::PublishTest < ActiveSupport::TestCase
     Solution::Publish.(solution, solution.user_track, nil)
   end
 
-  test "does not award for concept exercises" do
-    practice_solution = create :practice_solution
+  test "awards level correctly" do
+    easy_solution = create :practice_solution, exercise: create(:practice_exercise, :random_slug, difficulty: 1)
+    medium_solution = create :practice_solution, exercise: create(:practice_exercise, :random_slug, difficulty: 5)
+    hard_solution = create :practice_solution, exercise: create(:practice_exercise, :random_slug, difficulty: 9)
     concept_solution = create :concept_solution
-    create :iteration, solution: practice_solution
-    create :iteration, solution: concept_solution
 
-    AwardReputationTokenJob.expects(:perform_later).once
-    Solution::Publish.(practice_solution, practice_solution.user_track, nil)
+    {
+      easy_solution => :easy,
+      medium_solution => :medium,
+      hard_solution => :hard,
+      concept_solution => :easy
+    }.each do |solution, level|
+      create :iteration, solution: solution
 
-    AwardReputationTokenJob.expects(:perform_later).never
-    Solution::Publish.(concept_solution, practice_solution.user_track, nil)
+      AwardReputationTokenJob.expects(:perform_later).once.with(solution.user, :published_solution, solution: solution, level: level)
+      Solution::Publish.(solution, solution.user_track, nil)
+    end
   end
 
   test "creates activity" do

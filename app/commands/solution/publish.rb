@@ -23,13 +23,12 @@ class Solution
     end
 
     def award_reputation!
-      return unless solution.exercise.practice_exercise?
-
+      level = solution.exercise.concept_exercise? ? :concept : solution.exercise.difficulty_category
       AwardReputationTokenJob.perform_later(
         solution.user,
         :published_solution,
         solution: solution,
-        level: solution.exercise.difficulty_category
+        level: level
       )
     end
 

@@ -25,4 +25,22 @@ class User::ReputationTokens::PublishedSolutionTokenTest < ActiveSupport::TestCa
     assert_equal solution.published_at.to_date, rt.earned_on
     assert_equal Exercism::Routes.published_solution_url(solution), rt.rendering_data[:internal_url]
   end
+
+  test "correct levels" do
+    token = User::ReputationToken::Create.(create(:user), :published_solution, solution: create(:practice_solution, :published),
+level: :medium)
+    assert_equal 2, token.value
+
+    token = User::ReputationToken::Create.(create(:user), :published_solution, solution: create(:practice_solution, :published),
+level: :easy)
+    assert_equal 1, token.value
+
+    token = User::ReputationToken::Create.(create(:user), :published_solution, solution: create(:practice_solution, :published),
+level: :hard)
+    assert_equal 3, token.value
+
+    token = User::ReputationToken::Create.(create(:user), :published_solution, solution: create(:concept_solution, :published),
+level: :concept)
+    assert_equal 1, token.value
+  end
 end

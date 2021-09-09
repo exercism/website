@@ -3,7 +3,7 @@ class User::ReputationTokens::PublishedSolutionToken < User::ReputationToken
   category :publishing
   reason :published_solution
   levels %i[easy medium hard]
-  values({ easy: 1, medium: 2, hard: 3 })
+  values({ concept: 1, easy: 1, medium: 2, hard: 3 })
 
   before_validation on: :create do
     self.earned_on = self.solution.published_at unless earned_on

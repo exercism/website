@@ -56,7 +56,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
       easy_solution => :easy,
       medium_solution => :medium,
       hard_solution => :hard,
-      concept_solution => :easy
+      concept_solution => :concept
     }.each do |solution, level|
       create :iteration, solution: solution
 

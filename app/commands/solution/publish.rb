@@ -23,7 +23,7 @@ class Solution
     end
 
     def award_reputation!
-      level = solution.exercise.concept_exercise? ? :easy : solution.exercise.difficulty_category
+      level = solution.exercise.concept_exercise? ? :concept : solution.exercise.difficulty_category
       AwardReputationTokenJob.perform_later(
         solution.user,
         :published_solution,

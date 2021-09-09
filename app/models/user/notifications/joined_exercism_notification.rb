@@ -13,7 +13,7 @@ class User
         "" # Users should only have this badge once
       end
 
-      def email_key
+      def email_communication_preferences_key
         nil # No email key for this - it must be sent.
       end
     end

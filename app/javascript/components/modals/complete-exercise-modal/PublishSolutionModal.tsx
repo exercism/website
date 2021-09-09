@@ -18,7 +18,13 @@ export const PublishSolutionModal = ({
   onSuccess: (data: ExerciseCompletion) => void
 }): JSX.Element => {
   return (
-    <Modal cover={true} open={open} className="m-publish-exercise" {...props}>
+    <Modal
+      cover={true}
+      open={open}
+      className="m-publish-exercise"
+      closeButton
+      {...props}
+    >
       <div className="content">
         <GraphicalIcon icon="publish" className="publish-icon" />
         <div className="title">Publish your code and share your knowledge</div>

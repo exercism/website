@@ -64,14 +64,14 @@ export const SolutionsList = ({
 
   const setStatus = useCallback(
     (status) => {
-      setQuery({ ...request.query, status: status })
+      setQuery({ ...request.query, status: status, page: undefined })
     },
     [request.query, setQuery]
   )
 
   const setMentoringStatus = useCallback(
     (status) => {
-      setQuery({ ...request.query, mentoringStatus: status })
+      setQuery({ ...request.query, mentoringStatus: status, page: undefined })
     },
     [request.query, setQuery]
   )
@@ -79,6 +79,7 @@ export const SolutionsList = ({
   const handleReset = useCallback(() => {
     setQuery({
       ...request.query,
+      page: undefined,
       status: undefined,
       mentoringStatus: undefined,
     })

@@ -58,7 +58,7 @@ export const ContributionsList = ({
 
   const setCategory = useCallback(
     (category) => {
-      setQuery({ ...request.query, category: category })
+      setQuery({ ...request.query, category: category, page: undefined })
     },
     [JSON.stringify(request.query), setQuery]
   )

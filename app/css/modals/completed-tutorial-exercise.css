@@ -2,6 +2,6 @@
 
 .c-modal.m-completed-tutorial-exercise.c-modal.--cover {
     & .btns {
-        @apply mb-40;
+        @apply mt-40;
     }
 }

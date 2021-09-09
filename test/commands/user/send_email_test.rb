@@ -64,7 +64,7 @@ class User::SendEmailTest < ActiveSupport::TestCase
     refute_email_sent(notification)
 
     notification = create(:notification, :unread, email_status: :failed)
-    assert_email_sent(notification)
+    refute_email_sent(notification)
 
     notification = create(:notification, :unread, email_status: :pending)
     assert_email_sent(notification)

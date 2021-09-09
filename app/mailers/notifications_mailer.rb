@@ -1,3 +1,5 @@
+# TODO: We should be able to use notification.email_key
+# rather than setting unsubscribe keys manually
 class NotificationsMailer < ApplicationMailer
   def mentor_started_discussion
     notification = params[:notification]
@@ -6,9 +8,9 @@ class NotificationsMailer < ApplicationMailer
     @exercise = @discussion.exercise
     @track = @exercise.track
 
+    subject = "#{@discussion.mentor.handle} has started mentoring you on #{@track.title}/#{@exercise.title}"
     @unsubscribe_key = :email_on_mentor_started_discussion_notification
     @title = "Your solution is being mentored"
-    subject = "#{@discussion.mentor.handle} has started mentoring you on #{@track.title}/#{@exercise.title}"
     mail_to_user(@user, subject)
   end
 
@@ -19,9 +21,9 @@ class NotificationsMailer < ApplicationMailer
     @exercise = @discussion.exercise
     @track = @exercise.track
 
+    subject = "#{@discussion.mentor.handle} has commented in your discussion on #{@track.title}/#{@exercise.title}"
     @unsubscribe_key = :email_on_mentor_replied_to_discussion_notification
     @title = "Your mentor has replied"
-    subject = "#{@discussion.mentor.handle} has commented in your discussion on #{@track.title}/#{@exercise.title}"
     mail_to_user(@user, subject)
   end
 
@@ -32,9 +34,9 @@ class NotificationsMailer < ApplicationMailer
     @exercise = @discussion.exercise
     @track = @exercise.track
 
+    subject = "[Mentoring] #{@discussion.student.handle} has commented in your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     @unsubscribe_key = :email_on_student_replied_to_discussion_notification
     @title = "Your student has replied"
-    subject = "[Mentoring] #{@discussion.student.handle} has commented in your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     mail_to_user(@user, subject)
   end
 
@@ -46,9 +48,9 @@ class NotificationsMailer < ApplicationMailer
     @exercise = @discussion.exercise
     @track = @exercise.track
 
+    subject = "[Mentoring] #{@discussion.student.handle} has submitted a new iteration on the solution you are mentoring for #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     @unsubscribe_key = :email_on_student_added_iteration_notification
     @title = "Your student has submitted a new iteration"
-    subject = "[Mentoring] #{@discussion.student.handle} has submitted a new iteration on the solution you are mentoring for #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     mail_to_user(@user, subject)
   end
 
@@ -56,9 +58,9 @@ class NotificationsMailer < ApplicationMailer
     notification = params[:notification]
     @user = notification.user
 
+    subject = "You have been added to Exercism's contributors page"
     @unsubscribe_key = :email_on_general_update_notification
     @title = "You're officially an Exercism contributor!"
-    subject = "You have been added to Exercism's contributors page"
     mail_to_user(@user, subject)
   end
 
@@ -66,9 +68,18 @@ class NotificationsMailer < ApplicationMailer
     notification = params[:notification]
     @user = notification.user
 
+    subject = "You've unlocked a new badge"
     @unsubscribe_key = :email_on_awarded_badge
     @title = "There's a new badge waiting for you to reveal!"
-    subject = "You've unlocked a new badge"
+    mail_to_user(@user, subject)
+  end
+
+  def joined_exercism
+    notification = params[:notification]
+    @user = notification.user
+
+    subject = "Welcome to Exercism"
+    @title = "Welcome to Exercism!"
     mail_to_user(@user, subject)
   end
 end

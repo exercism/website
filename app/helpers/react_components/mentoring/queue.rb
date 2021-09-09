@@ -43,7 +43,8 @@ module ReactComponents
             initial_data: {
               tracks: tracks_data
             },
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         }
       end
@@ -74,7 +75,8 @@ module ReactComponents
           query: query,
           options: {
             initial_data: AssembleMentorRequests.(mentor, query),
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         }
       end

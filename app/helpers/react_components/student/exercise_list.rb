@@ -20,7 +20,8 @@ module ReactComponents
         {
           endpoint: Exercism::Routes.api_track_exercises_path(track),
           options: {
-            initial_data: AssembleExerciseList.(current_user, track, query)
+            initial_data: AssembleExerciseList.(current_user, track, query),
+            stale_time: 0
           },
           query: query
         }

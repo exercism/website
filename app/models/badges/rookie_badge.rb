@@ -6,7 +6,7 @@ module Badges
       "Awarded for submitting an exercise"
 
     def award_to?(user)
-      user.submissions.exists?
+      user.iterations.exists?
     end
 
     def send_email_on_acquisition?

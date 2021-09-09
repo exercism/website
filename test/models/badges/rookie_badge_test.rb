@@ -21,8 +21,12 @@ class Badge::RookieBadgeTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user
     refute badge.award_to?(user.reload)
 
-    # Iteartions
+    # Iterations
     create :submission, solution: solution
+    refute badge.award_to?(user.reload)
+
+    # Iterations
+    create :iteration, solution: solution
     assert badge.award_to?(user.reload)
   end
 end

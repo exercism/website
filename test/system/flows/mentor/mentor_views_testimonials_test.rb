@@ -69,8 +69,8 @@ module Flows
       test "mentor orders testimonials" do
         ::Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
         mentor = create :user
-        create :mentor_testimonial, :revealed, id: 1, content: "Great mentor!", mentor: mentor
-        create :mentor_testimonial, :revealed, id: 2, content: "Too good!", mentor: mentor
+        create :mentor_testimonial, :revealed, created_at: 1.day.ago, content: "Great mentor!", mentor: mentor
+        create :mentor_testimonial, :revealed, created_at: 1.hour.ago, content: "Too good!", mentor: mentor
 
         use_capybara_host do
           sign_in!(mentor)

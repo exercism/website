@@ -1,5 +1,6 @@
 class User::Notification < ApplicationRecord
   include IsParamaterisedSTI
+  include Emailable
   extend Mandate::Memoize
 
   self.class_suffix = :notification
@@ -14,7 +15,6 @@ class User::Notification < ApplicationRecord
   belongs_to :exercise, optional: true
 
   enum status: { pending: 0, unread: 1, read: 2, email_only: 3 }
-  enum email_status: { pending: 0, skipped: 1, sent: 2, failed: 3 }, _prefix: :email
 
   scope :pending_or_unread, -> { where(status: %i[pending unread]) }
 
@@ -29,8 +29,12 @@ class User::Notification < ApplicationRecord
   end
 
   memoize
-  def email_key
+  def email_communication_preferences_key
     "email_on_#{type}"
+  end
+
+  def email_should_send?
+    unread? || email_only?
   end
 
   def status

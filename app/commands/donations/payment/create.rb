@@ -28,9 +28,10 @@ module Donations
           stripe_receipt_url: charge.receipt_url,
           subscription: subscription,
           amount_in_cents: stripe_data.amount
-        ).tap do
+        ).tap do |payment|
           user.update(total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))
           AwardBadgeJob.perform_later(user, :supporter)
+          SendDonationPaymentEmailJob.perform_later(payment)
         end
       rescue ActiveRecord::RecordNotUnique
         Donations::Payment.find_by!(stripe_id: stripe_data.id)

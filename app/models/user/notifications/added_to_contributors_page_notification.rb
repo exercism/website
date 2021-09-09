@@ -24,7 +24,7 @@ class User
         "" # Users should only have this badge once
       end
 
-      def email_key
+      def email_communication_preferences_key
         "email_on_general_update_notification"
       end
     end

@@ -21,10 +21,18 @@ class Donations::Payment::CreateTest < Donations::TestBase
     assert_equal amount, user.total_donated_in_cents
   end
 
-  test "enqueues a job" do
+  test "enqueues badge job" do
     user = create :user
 
     assert_enqueued_with(job: AwardBadgeJob, args: [user, :supporter]) do
+      Donations::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
+    end
+  end
+
+  test "enqueues email job" do
+    user = create :user
+
+    assert_enqueued_with(job: SendDonationPaymentEmailJob) do
       Donations::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
     end
   end

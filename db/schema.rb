@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_08_203439) do
+ActiveRecord::Schema.define(version: 2021_09_09_203814) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -547,7 +547,7 @@ ActiveRecord::Schema.define(version: 2021_09_08_203439) do
     t.string "status", null: false
     t.text "message"
     t.integer "ops_status", limit: 2, null: false
-    t.text "raw_results", null: false
+    t.text "raw_results", size: :medium, null: false
     t.integer "version", limit: 1, default: 0, null: false
     t.text "output"
     t.datetime "created_at", precision: 6, null: false

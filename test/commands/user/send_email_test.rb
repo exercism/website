@@ -64,21 +64,21 @@ class User::SendEmailTest < ActiveSupport::TestCase
     refute_email_sent(notification)
 
     notification = create(:notification, :unread, email_status: :failed)
-    refute_email_sent(notification)
+    assert_email_sent(notification)
 
     notification = create(:notification, :unread, email_status: :pending)
     assert_email_sent(notification)
   end
 
   def assert_email_sent(emailable)
-    sending_block = proc {}
-    sending_block.expects(:call)
+    called = false
+    sending_block = proc { called = true }
     User::SendEmail.(emailable, &sending_block)
+    assert called
   end
 
   def refute_email_sent(emailable)
-    sending_block = proc {}
-    sending_block.expects(:call).never
+    sending_block = proc { flunk }
     User::SendEmail.(emailable, &sending_block)
   end
 end

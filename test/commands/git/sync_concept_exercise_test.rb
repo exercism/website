@@ -21,6 +21,14 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
   end
 
+  test "updates num_concepts count" do
+    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a", synced_to_git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a" # rubocop:disable Layout/LineLength
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal 1, exercise.track.reload.num_concepts
+  end
+
   test "git SHA does not change when there are no changes" do
     updated_at = Time.current - 1.week
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))

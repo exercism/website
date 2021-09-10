@@ -170,7 +170,7 @@ export type CommunitySolution = {
 
   links: {
     publicUrl: string
-    privateUrl: string
+    privateIterationsUrl: string
   }
 }
 

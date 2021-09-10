@@ -14,7 +14,7 @@ export const TestRunOutput = ({
     />
   ) : (
     <pre className="v1-message">
-      <code dangerouslySetInnerHTML={{ __html: testRun.messageHtml }} />
+      <code>{testRun.messageHtml}</code>
     </pre>
   )
 }

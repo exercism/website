@@ -37,7 +37,7 @@ export const CompleteExerciseModal = ({
 
   if (completion) {
     return completion.exercise.type == 'tutorial' ? (
-      <TutorialCompletedModal track={completion.track} open={open} />
+      <TutorialCompletedModal completion={completion} open={open} />
     ) : (
       <ExerciseCompletedModal completion={completion} open={open} />
     )

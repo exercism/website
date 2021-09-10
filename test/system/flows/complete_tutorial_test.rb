@@ -23,6 +23,9 @@ module Flows
         find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
         assert_text "You’ve completed “Hello, World!”"
+
+        click_on "Return to “Hello, World!”"
+        assert_text "You've completed Hello World."
       end
     end
   end

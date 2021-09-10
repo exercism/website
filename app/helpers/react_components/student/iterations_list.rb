@@ -11,7 +11,8 @@ module ReactComponents
             request: request,
             exercise: {
               title: exercise.title,
-              download_cmd: exercise.download_cmd
+              download_cmd: exercise.download_cmd,
+              has_test_runner: exercise.has_test_runner?
             },
             track: {
               title: track.title,

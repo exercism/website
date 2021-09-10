@@ -1,7 +1,6 @@
 import React from 'react'
 import { Modal } from '../Modal'
 import { GraphicalIcon } from '../../common'
-import { Track } from '../../types'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
 
 export const TutorialCompletedModal = ({
@@ -19,7 +18,7 @@ export const TutorialCompletedModal = ({
       onClose={() => {}}
     >
       <GraphicalIcon icon="hello-world" category="graphics" />
-      <h2>You’ve completed “Hello, World!”</h2>
+      <h2>You’ve completed “{completion.exercise.title}”</h2>
       <h3>
         This is just start of your journey on the {completion.track.title} track
         🚀
@@ -61,7 +60,7 @@ export const TutorialCompletedModal = ({
           </a>
         )}
         <a href={completion.exercise.links.self} className="btn">
-          Return to “Hello, World!”
+          Return to “{completion.exercise.title}”
         </a>
       </div>
     </Modal>

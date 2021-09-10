@@ -13,6 +13,8 @@ class Ansi::RenderHTML
   def sanitized_text
     # The ansi-to-html library does not support unicode escape sequence
     # See https://github.com/rburns/ansi-to-html/issues/48
-    text.gsub("\e\[K", '')
+    stripped = text.gsub("\e\[K", '')
+
+    CGI.escape_html(stripped)
   end
 end

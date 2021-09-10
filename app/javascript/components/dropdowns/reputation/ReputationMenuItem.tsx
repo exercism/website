@@ -1,6 +1,6 @@
 import React from 'react'
 import { fromNow } from '../../../utils/time'
-import { imageErrorHandler, GraphicalIcon, Reputation } from '../../common'
+import { imageErrorHandler, Icon, Reputation } from '../../common'
 import { ReputationToken } from '../Reputation'
 
 export const ReputationMenuItem = ({
@@ -13,11 +13,14 @@ export const ReputationMenuItem = ({
   isSeen,
 }: ReputationToken): JSX.Element => {
   const url = internalUrl ? internalUrl : externalUrl
-  const icon = internalUrl ? (
-    <GraphicalIcon icon="chevron-right" className="action-icon" />
-  ) : (
-    <GraphicalIcon icon="external-link" className="action-icon" />
-  )
+
+  let icon
+
+  if (internalUrl) {
+    icon = <Icon icon="chevron-right" className="action-icon" alt="Open link" />
+  } else if (externalUrl) {
+    icon = <Icon icon="external-link" className="action-icon" alt="Open link" />
+  }
 
   return (
     <a href={url} className="token">

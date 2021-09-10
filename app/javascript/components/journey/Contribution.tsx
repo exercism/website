@@ -1,11 +1,6 @@
 import React from 'react'
 import { fromNow } from '../../utils/date'
-import {
-  imageErrorHandler,
-  GraphicalIcon,
-  TrackIcon,
-  Reputation,
-} from '../common'
+import { imageErrorHandler, Icon, TrackIcon, Reputation } from '../common'
 import { Contribution as ContributionProps } from '../types'
 
 export const Contribution = ({
@@ -18,7 +13,20 @@ export const Contribution = ({
   track,
 }: ContributionProps): JSX.Element => {
   const url = internalUrl || externalUrl
-  const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
+
+  let linkIcon
+
+  if (internalUrl) {
+    linkIcon = (
+      <Icon icon="chevron-right" className="action-button" alt="Open link" />
+    )
+  } else if (externalUrl) {
+    linkIcon = (
+      <Icon icon="external-link" className="action-button" alt="Open link" />
+    )
+  } else {
+    linkIcon = <span className="action-button" />
+  }
 
   return (
     <a href={url} className="reputation-token">
@@ -49,7 +57,7 @@ export const Contribution = ({
         </div>
       </div>
       <Reputation value={`+ ${value}`} type="primary" />
-      <GraphicalIcon icon={linkIcon} className="action-button" />
+      {linkIcon}
     </a>
   )
 }

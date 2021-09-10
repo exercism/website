@@ -20,3 +20,15 @@ test('renders external link if no internal link', async () => {
 
   expect(screen.getByRole('link')).toHaveAttribute('href', 'link')
 })
+
+test('renders no link if external and internal link are not present', async () => {
+  render(<Contribution />)
+
+  expect(screen.queryByRole('link')).not.toBeInTheDocument()
+})
+
+test('hides icon if external and internal link are not present', async () => {
+  render(<Contribution />)
+
+  expect(screen.queryByAltText('Open link')).not.toBeInTheDocument()
+})

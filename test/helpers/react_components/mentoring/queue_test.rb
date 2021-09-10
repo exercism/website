@@ -48,7 +48,8 @@ class MentoringQueueTest < ReactComponentTestCase
           },
           options: {
             initial_data: AssembleMentorRequests.(user, params),
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         },
         tracks_request: {
@@ -88,7 +89,8 @@ class MentoringQueueTest < ReactComponentTestCase
                 }
               ]
             },
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         },
         default_track: {
@@ -179,7 +181,8 @@ class MentoringQueueTest < ReactComponentTestCase
           query: { track_slug: "csharp" },
           options: {
             initial_data: AssembleMentorRequests.(user, { track_slug: "csharp" }),
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         },
         tracks_request: {
@@ -209,7 +212,8 @@ class MentoringQueueTest < ReactComponentTestCase
                 }
               ]
             },
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         },
         default_track: {

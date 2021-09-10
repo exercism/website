@@ -7,11 +7,11 @@ export type SolutionProps = {
   uuid: string
   privateUrl: string
   status: string
-  numViews: number
+  numViews?: number
   numStars: number
   numComments: number
   numIterations: number
-  numLoc: string
+  numLoc?: string
   lastIteratedAt: string
   exercise: {
     title: string
@@ -64,14 +64,18 @@ export const Solution = ({
             <GraphicalIcon icon="iteration" />
             {numIterations} {pluralize('iteration', numIterations)}
           </div>
-          <div className="stat">
-            <GraphicalIcon icon="loc" />
-            {numLoc} lines
-          </div>
-          <div className="stat">
-            <GraphicalIcon icon="views" />
-            {numViews} {pluralize('view', numViews)}
-          </div>
+          {numLoc ? (
+            <div className="stat">
+              <GraphicalIcon icon="loc" />
+              {numLoc} lines
+            </div>
+          ) : null}
+          {numViews ? (
+            <div className="stat">
+              <GraphicalIcon icon="views" />
+              {numViews} {pluralize('view', numViews)}
+            </div>
+          ) : null}
         </div>
         {lastIteratedAt ? (
           <time className="iterated-at" dateTime={lastIteratedAt}>

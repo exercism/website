@@ -10,6 +10,7 @@ import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { redirectTo } from '../../../utils/redirect-to'
+import { Exercise } from '../IterationsList'
 
 type Links = {
   startExercise: string
@@ -25,10 +26,10 @@ type Solution = {
 const DEFAULT_ERROR = new Error('Unable to start exercise')
 
 export const EmptyIterations = ({
-  downloadCmd,
+  exercise,
   links,
 }: {
-  downloadCmd: string
+  exercise: Exercise
   links: Links
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
@@ -62,27 +63,28 @@ export const EmptyIterations = ({
           feedback once you submit a solution.
         </p>
         <div className="box">
-          <div className="editor">
-            <h4>Via Exercism Editor</h4>
-            <FormButton
-              status={status}
-              onClick={() => mutation()}
-              type="button"
-              className="editor-btn btn-primary btn-m"
-            >
-              <GraphicalIcon icon="editor" />
-              <span>Start in Editor</span>
-            </FormButton>
-            <FetchingBoundary
-              status={status}
-              error={error}
-              defaultError={DEFAULT_ERROR}
-            />
-          </div>
-
+          {exercise.hasTestRunner ? (
+            <div className="editor">
+              <h4>Via Exercism Editor</h4>
+              <FormButton
+                status={status}
+                onClick={() => mutation()}
+                type="button"
+                className="editor-btn btn-primary btn-m"
+              >
+                <GraphicalIcon icon="editor" />
+                <span>Start in Editor</span>
+              </FormButton>
+              <FetchingBoundary
+                status={status}
+                error={error}
+                defaultError={DEFAULT_ERROR}
+              />
+            </div>
+          ) : null}
           <div className="cli">
             <h4>Work locally (via CLI)</h4>
-            <CopyToClipboardButton textToCopy={downloadCmd} />
+            <CopyToClipboardButton textToCopy={exercise.downloadCmd} />
           </div>
         </div>
         <ProminentLink

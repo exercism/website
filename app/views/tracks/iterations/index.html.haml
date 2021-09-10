@@ -12,11 +12,12 @@
           You’ll get to see all your iterations with test results and automated
           feedback once you submit a solution.
         .box
-          .editor
-            %h4 Via Exercism Editor
-            = link_to edit_track_exercise_path(@track, @exercise), class: 'editor-btn btn-primary btn-m' do
-              = graphical_icon "editor"
-              %span Start in Editor
+          - if @exercise.has_test_runner?
+            .editor
+              %h4 Via Exercism Editor
+              = link_to edit_track_exercise_path(@track, @exercise), class: 'editor-btn btn-primary btn-m' do
+                = graphical_icon "editor"
+                %span Start in Editor
 
           .cli
             %h4 Work locally (via CLI)

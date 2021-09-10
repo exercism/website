@@ -21,4 +21,8 @@ class Ansi::RenderHTMLTest < ActiveSupport::TestCase
   test "ignores unicode escape sequences" do
     assert_equal "1 passed, 2 failed", Ansi::RenderHTML.("\e\[K1 passed, 2 failed")
   end
+
+  test "escapes HTML" do
+    assert_equal "I &lt;am/&gt; foo", Ansi::RenderHTML.("I <am/> foo")
+  end
 end

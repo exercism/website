@@ -45,6 +45,6 @@ class BlogPost < ApplicationRecord
 
   def content_html
     markdown = Git::Blog.content_for(slug)
-    Markdown::Parse.(markdown.to_s)
+    Markdown::Parse.(markdown.to_s, lower_heading_levels_by: 0)
   end
 end

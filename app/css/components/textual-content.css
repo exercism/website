@@ -41,6 +41,9 @@
         & h5 {
             @apply text-h6 mb-8;
         }
+        & h6 {
+            @apply text-h6 mb-8;
+        }
         & * + h3 {
             @apply mt-32;
         }

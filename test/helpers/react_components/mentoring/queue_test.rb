@@ -293,4 +293,15 @@ class MentoringQueueTest < ReactComponentTestCase
     component = ReactComponents::Mentoring::Queue.new(user.reload, {})
     assert_includes component.to_s, 'zipper'
   end
+
+  test "mentoring queue defaults to first track if there are none" do
+    user = create :user
+
+    create :track, slug: "fsharp", title: "F#"
+    create :track, slug: "csharp", title: "C#"
+    create :track, slug: "ruby", title: "Ruby"
+
+    component = ReactComponents::Mentoring::Queue.new(user.reload, {})
+    assert_includes component.to_s, "fsharp"
+  end
 end

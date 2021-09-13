@@ -1,7 +1,10 @@
 import React, { useState, useCallback } from 'react'
 import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
-import { CommunitySolution as CommunitySolutionProps } from '../../types'
+import {
+  CommunitySolution as CommunitySolutionProps,
+  GitFile,
+} from '../../types'
 import { CommunitySolution, GraphicalIcon } from '../../common'
 import { useHighlighting } from '../../../utils/highlight'
 
@@ -31,14 +34,14 @@ type Links = {
 export const Guidance = ({
   notes,
   mentorSolution,
-  exemplarSolution,
+  exemplarFiles,
   links,
   language,
   feedback = false,
 }: {
   notes: string
   mentorSolution?: CommunitySolutionProps
-  exemplarSolution: string
+  exemplarFiles: readonly GitFile[]
   links: Links
   language: string
   feedback?: any
@@ -46,12 +49,12 @@ export const Guidance = ({
   const ref = useHighlighting<HTMLDivElement>()
   const [accordionState, setAccordionState] = useState([
     {
-      id: 'exemplar-solution',
-      isOpen: exemplarSolution != null,
+      id: 'exemplar-files',
+      isOpen: exemplarFiles.length !== 0,
     },
     {
       id: 'notes',
-      isOpen: exemplarSolution == null,
+      isOpen: exemplarFiles.length === 0,
     },
     {
       id: 'mentor-solution',
@@ -93,14 +96,14 @@ export const Guidance = ({
 
   return (
     <div ref={ref}>
-      {exemplarSolution ? (
+      {exemplarFiles.length !== 0 ? (
         <Accordion
-          id="exemplar-solution"
-          isOpen={isOpen('exemplar-solution')}
+          id="exemplar-files"
+          isOpen={isOpen('exemplar-files')}
           onClick={handleClick}
         >
           <AccordionHeader
-            isOpen={isOpen('exemplar-solution')}
+            isOpen={isOpen('exemplar-files')}
             title="The exemplar solution"
           />
           <Accordion.Panel>
@@ -109,12 +112,16 @@ export const Guidance = ({
                 Try and guide the student towards this solution. It is the best
                 place for them to reach at this point during the Track.
               </p>
-              <pre className="overflow-auto">
-                <code
-                  className={language}
-                  dangerouslySetInnerHTML={{ __html: exemplarSolution }}
-                />
-              </pre>
+              {exemplarFiles.map((file) => {
+                return (
+                  <div key={file.filename}>
+                    <p>{file.filename}</p>
+                    <pre className="overflow-auto">
+                      <code className={language}>{file.content}</code>
+                    </pre>
+                  </div>
+                )
+              })}
             </div>
           </Accordion.Panel>
         </Accordion>

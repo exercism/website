@@ -655,3 +655,8 @@ export type Notification = {
 }
 
 type NotificationImageType = 'icon' | 'avatar'
+
+export type GitFile = {
+  filename: string
+  content: string
+}

@@ -31,7 +31,7 @@ module ReactComponents
               anonymous_mode: discussion&.anonymous_mode?
             ),
             mentor_solution: mentor_solution,
-            exemplar_solution: exercise.exemplar_files.values.first,
+            exemplar_files: SerializeGitFiles.(exercise.exemplar_files),
             notes: notes,
             out_of_date: solution.out_of_date?,
             download_command: solution.mentor_download_cmd,

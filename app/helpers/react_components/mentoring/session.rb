@@ -32,7 +32,7 @@ module ReactComponents
             ),
             mentor_solution: mentor_solution,
             exemplar_solution: exercise.exemplar_files.values.first,
-            notes: notes,
+            notes: exercise.mentoring_notes.to_s,
             out_of_date: solution.out_of_date?,
             download_command: solution.mentor_download_cmd,
             scratchpad: {
@@ -83,12 +83,6 @@ module ReactComponents
       def mentor_solution
         ms = ::Solution.for(current_user, exercise)
         ms ? SerializeCommunitySolution.(ms) : nil
-      end
-
-      # TODO
-      def notes
-        markdown = Git::WebsiteCopy.new.mentor_notes_for(track.slug, exercise.slug).strip
-        Markdown::Parse.(markdown)
       end
 
       memoize

@@ -109,7 +109,11 @@ class Exercise < ApplicationRecord
   end
 
   def edit_mentoring_notes_url
-    "https://github.com/exercism/website-copy/edit/main/tracks/#{track.slug}/exercises/#{slug}/mentoring.md"
+    mentoring_notes.edit_url
+  end
+
+  def mentoring_notes
+    Exercise::MentorNotes.new(self)
   end
 
   def prerequisite_exercises

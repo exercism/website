@@ -38,7 +38,9 @@ class Tracks::ConceptsController < ApplicationController
     @mastered = @user_track.concept_mastered?(@concept)
     @prerequisite_names = Concept.joins(:unlocked_exercises).
       where('exercise_prerequisites.exercise_id': @user_track.concept_exercises_for_concept(@concept)).
-      pluck(:name)
+      pluck(:slug, :name).
+      reject { |slug, _name| @user_track.concept_learnt?(slug) }.
+      map(&:second)
 
     render_template_as_json
   end

@@ -23,6 +23,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
       completed_at: solution.completed_at.iso8601,
       updated_at: solution.updated_at.iso8601,
       last_iterated_at: iteration.created_at.iso8601,
+      is_out_of_date: solution.out_of_date?,
       exercise: {
         slug: solution.exercise.slug,
         title: solution.exercise.title,

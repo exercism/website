@@ -7,6 +7,7 @@ import { SolutionStatusTag } from './SolutionStatusTag'
 import { ExerciseStatusTag } from './ExerciseStatusTag'
 import { ExerciseTypeTag } from './ExerciseTypeTag'
 import { Difficulty } from './Difficulty'
+import { Outdated } from './info/Outdated'
 
 export const Info = ({
   exercise,
@@ -77,6 +78,8 @@ export const Info = ({
               {pluralize('iteration', solution.numIterations)}
             </div>
           ) : null}
+
+          {solution && solution.isOutOfDate ? <Outdated /> : null}
         </div>
       )}
       {renderBlurb && !isSkinny ? (

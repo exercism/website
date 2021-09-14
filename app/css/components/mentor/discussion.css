@@ -527,6 +527,20 @@
         }
         & #panel-guidance {
             @apply py-16 px-24;
+
+            & .exemplar-files {
+                & .filename {
+                    @apply border-1 border-borderColor5;
+                    @apply bg-backgroundColorE;
+                    @apply text-15 font-mono font-semibold;
+                    @apply py-4 px-20;
+                    border-radius: 5px 5px 0 0;
+                }
+                & .filename + pre {
+                    @apply border-t-0;
+                    border-radius: 0 0 5px 5px;
+                }
+            }
         }
 
         & .mentoring-request-section {

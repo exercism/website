@@ -114,8 +114,10 @@ export const Guidance = ({
               </p>
               {exemplarFiles.map((file) => {
                 return (
-                  <div key={file.filename}>
-                    <p>{file.filename}</p>
+                  <div key={file.filename} className="exemplar-files">
+                    {exemplarFiles.length > 1 ? (
+                      <div className="filename">{file.filename}</div>
+                    ) : null}
                     <pre className="overflow-auto">
                       <code className={language}>{file.content}</code>
                     </pre>

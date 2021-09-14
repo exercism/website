@@ -42,7 +42,12 @@ module Mentoring
           tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
-          exemplar_solution: exercise.exemplar_files.values.first,
+          exemplar_files: [
+            {
+              filename: "exemplar.rb",
+              content: exercise.exemplar_files.values.first
+            }
+          ],
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
           download_command: solution.mentor_download_cmd,
@@ -109,7 +114,12 @@ module Mentoring
           tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
-          exemplar_solution: exercise.exemplar_files.values.first,
+          exemplar_files: [
+            {
+              filename: "exemplar.rb",
+              content: exercise.exemplar_files.values.first
+            }
+          ],
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
           download_command: solution.mentor_download_cmd,
@@ -173,7 +183,12 @@ module Mentoring
           tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
-          exemplar_solution: exercise.exemplar_files.values.first,
+          exemplar_files: [
+            {
+              filename: "exemplar.rb",
+              content: exercise.exemplar_files.values.first
+            }
+          ],
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
           download_command: solution.mentor_download_cmd,

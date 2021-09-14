@@ -91,7 +91,7 @@ class Submission
 
       memoize
       def results
-        res = JSON.parse(tooling_job.execution_output['results.json'])
+        res = JSON.parse(tooling_job.execution_output['results.json'], allow_invalid_unicode: true)
         res.is_a?(Hash) ? res.symbolize_keys : {}
       rescue StandardError
         {}

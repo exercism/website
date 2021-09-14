@@ -68,7 +68,9 @@ test('renders a solution when passed in', async () => {
   expect(screen.getByAltText('Mentoring requested')).toBeInTheDocument()
   expect(screen.getByText('3 iterations')).toBeInTheDocument()
   expect(screen.getByText('Tasty exercise')).toBeInTheDocument()
-  expect(screen.getByText(/outdated/i)).toBeInTheDocument()
+  expect(
+    screen.getByAltText(/solution has not been solved against/i)
+  ).toBeInTheDocument()
 })
 
 test('renders an available exercise', async () => {

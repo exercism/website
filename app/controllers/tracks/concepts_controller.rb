@@ -36,6 +36,8 @@ class Tracks::ConceptsController < ApplicationController
     @locked = !@user_track.concept_unlocked?(@concept)
     @learnt = @user_track.concept_learnt?(@concept)
     @mastered = @user_track.concept_mastered?(@concept)
+
+    # TODO: This needs a test (this whole thing does!)
     @prerequisite_names = Concept.joins(:unlocked_exercises).
       where('exercise_prerequisites.exercise_id': @user_track.concept_exercises_for_concept(@concept)).
       pluck(:slug, :name).

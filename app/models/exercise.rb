@@ -108,12 +108,9 @@ class Exercise < ApplicationRecord
     "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
   end
 
-  def edit_mentoring_notes_url
-    mentoring_notes.edit_url
-  end
-
+  memoize
   def mentoring_notes
-    Exercise::MentorNotes.new(self)
+    Git::Exercise::MentorNotes.new(track.slug, slug)
   end
 
   def prerequisite_exercises

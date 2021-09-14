@@ -1,11 +1,12 @@
 import React from 'react'
-import { GraphicalIcon } from '../..'
+import { Icon } from '../..'
 
 export const Outdated = (): JSX.Element => {
   return (
-    <div className="--out-of-date">
-      <GraphicalIcon icon="warning" />
-      <div className="--status">Outdated</div>
-    </div>
+    <Icon
+      className="--out-of-date"
+      icon="warning"
+      alt="The solution has not been solved against the latest version of the exercise"
+    />
   )
 }

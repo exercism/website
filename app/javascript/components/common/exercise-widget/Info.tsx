@@ -37,6 +37,8 @@ export const Info = ({
             <span className="sr-only">has notifications</span>
           </div>
         ) : null}
+
+        {solution && solution.isOutOfDate ? <Outdated /> : null}
       </div>
       {isSkinny ? null : (
         <div className="--data">
@@ -78,8 +80,6 @@ export const Info = ({
               {pluralize('iteration', solution.numIterations)}
             </div>
           ) : null}
-
-          {solution && solution.isOutOfDate ? <Outdated /> : null}
         </div>
       )}
       {renderBlurb && !isSkinny ? (

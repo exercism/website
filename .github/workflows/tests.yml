@@ -124,6 +124,11 @@ jobs:
           bundler-cache: true
 
       ###
+      # Update package lists
+      - name: Update package lists
+        run: sudo apt-get update
+
+      ###
       # Install graphicsmagick
       - name: Install graphicsmagick
         run: sudo apt-get install graphicsmagick
@@ -249,11 +254,12 @@ jobs:
       - name: Precompile JS
         env:
           RAILS_ENV: test
+          NODE_ENV: development
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
-          ./bin/webpack
+          bundle exec rails assets:precompile
 
       ###
       # Run the tests

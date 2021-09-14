@@ -516,7 +516,7 @@ module Components
           click_on "Guidance"
           click_on "How you solved the exercise"
 
-          assert_link "Your Solution", href: Exercism::Routes.private_solution_url(mentor_solution)
+          assert_link "Your Solution", href: Exercism::Routes.track_exercise_iterations_url(exercise.track, exercise)
           assert_text "to Strings in Ruby"
         end
       end

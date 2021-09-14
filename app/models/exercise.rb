@@ -51,6 +51,7 @@ class Exercise < ApplicationRecord
   end
 
   delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url, to: :git
+  delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
@@ -108,8 +109,9 @@ class Exercise < ApplicationRecord
     "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
   end
 
-  def edit_mentoring_notes_url
-    "https://github.com/exercism/website-copy/edit/main/tracks/#{track.slug}/exercises/#{slug}/mentoring.md"
+  memoize
+  def mentoring_notes
+    Git::Exercise::MentorNotes.new(track.slug, slug)
   end
 
   def prerequisite_exercises

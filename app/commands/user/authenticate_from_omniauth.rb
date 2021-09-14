@@ -90,7 +90,7 @@ class User
     end
 
     def set_github_username!(user, auth)
-      return if user.github_username != auth.info.nickname
+      return if user.github_username == auth.info.nickname
 
       begin
         user.update_column(:github_username, auth.info.nickname)

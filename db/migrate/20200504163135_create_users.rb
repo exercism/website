@@ -40,6 +40,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.timestamps null: false
 
       t.index [:provider, :uid], unique: true
+      t.index :github_username, unique: true
     end
   end
 end

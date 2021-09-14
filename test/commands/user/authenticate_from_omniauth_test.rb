@@ -42,6 +42,24 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     assert_equal "http://some.image/avatar.jpg", user.avatar_url
   end
 
+  test "copes with duplicate gh username but unauthed" do
+    nickname = "user22"
+    create :user, github_username: nickname
+    auth = stub(
+      provider: "github",
+      uid: "111",
+      info: stub(
+        email: "user@exercism.org",
+        name: "Name",
+        nickname: nickname,
+        image: "http://some.image/avatar.jpg"
+      )
+    )
+
+    user = User::AuthenticateFromOmniauth.(auth)
+    assert_nil user.reload.github_username
+  end
+
   test "updates email and github_username if from users.noreply.github.com" do
     user = create :user, provider: "github", uid: "111", email: "user@users.noreply.github.com"
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))

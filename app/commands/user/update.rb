@@ -28,11 +28,11 @@ class User
     end
 
     def user_params
-      sanitized_params.fetch(:user, {}).slice(:name, :location, :bio, :pronoun_parts)
+      (sanitized_params[:user] || {}).slice(:name, :location, :bio, :pronoun_parts)
     end
 
     def profile_params
-      sanitized_params.fetch(:profile, {}).slice(:github, :linkedin, :twitter)
+      (sanitized_params[:profile] || {}).slice(:github, :linkedin, :twitter)
     end
 
     memoize

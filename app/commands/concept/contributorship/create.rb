@@ -12,7 +12,7 @@ class Concept
           return nil
         end
 
-        User::ReputationToken::Create.(
+        AwardReputationTokenJob.perform_later(
           contributor,
           :concept_contribution,
           contributorship: contributorship

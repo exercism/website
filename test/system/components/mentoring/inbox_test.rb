@@ -136,7 +136,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_inbox_url
-          click_on "Sort by oldest first"
+          click_on "Sort by recent first"
           find("label", text: "Sort by exercise").click
 
           assert_text "on Series"

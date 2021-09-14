@@ -32,7 +32,7 @@ module ReactComponents
             ),
             mentor_solution: mentor_solution,
             exemplar_solution: exercise.exemplar_files.values.first,
-            notes: exercise.mentoring_notes.content,
+            notes: exercise.mentoring_notes_content,
             out_of_date: solution.out_of_date?,
             download_command: solution.mentor_download_cmd,
             scratchpad: {
@@ -60,7 +60,7 @@ module ReactComponents
         {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
-          improve_notes: exercise.mentoring_notes.edit_url,
+          improve_notes: exercise.mentoring_notes_edit_url,
           mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
         }
       end

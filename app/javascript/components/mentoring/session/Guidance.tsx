@@ -110,10 +110,7 @@ export const Guidance = ({
                 place for them to reach at this point during the Track.
               </p>
               <pre className="overflow-auto">
-                <code
-                  className={language}
-                  dangerouslySetInnerHTML={{ __html: exemplarSolution }}
-                />
+                <code className={language}>{exemplarSolution}</code>
               </pre>
             </div>
           </Accordion.Panel>

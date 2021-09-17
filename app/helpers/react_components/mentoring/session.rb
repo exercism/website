@@ -31,7 +31,7 @@ module ReactComponents
               anonymous_mode: discussion&.anonymous_mode?
             ),
             mentor_solution: mentor_solution,
-            exemplar_files: exemplar_files,
+            exemplar_files: ExemplarFileList.new(exercise.exemplar_files),
             notes: exercise.mentoring_notes_content,
             out_of_date: solution.out_of_date?,
             download_command: solution.mentor_download_cmd,
@@ -50,15 +50,6 @@ module ReactComponents
 
       private
       attr_reader :solution, :request, :discussion
-
-      def exemplar_files
-        exercise.exemplar_files.map do |filename, content|
-          {
-            filename: filename.gsub(%r{^\.meta/}, ''),
-            content: content
-          }
-        end
-      end
 
       memoize
       def mentor_student_relationship

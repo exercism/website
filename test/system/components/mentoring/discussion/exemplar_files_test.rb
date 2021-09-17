@@ -21,7 +21,7 @@ module Components
             click_on "Guidance"
 
             exercise.exemplar_files.each do |filename, content|
-              assert_text filename
+              assert_text filename.gsub(%r{^\.meta/}, '')
               assert_text content
             end
           end

@@ -7,6 +7,7 @@ import {
 } from '../../types'
 import { CommunitySolution, GraphicalIcon } from '../../common'
 import { useHighlighting } from '../../../utils/highlight'
+import { ExemplarFilesList } from './guidance/ExemplarFilesList'
 
 const AccordionHeader = ({
   isOpen,
@@ -112,18 +113,7 @@ export const Guidance = ({
                 Try and guide the student towards this solution. It is the best
                 place for them to reach at this point during the Track.
               </p>
-              {exemplarFiles.map((file) => {
-                return (
-                  <div key={file.filename} className="exemplar-files">
-                    {exemplarFiles.length > 1 ? (
-                      <div className="filename">{file.filename}</div>
-                    ) : null}
-                    <pre className="overflow-auto">
-                      <code className={language}>{file.content}</code>
-                    </pre>
-                  </div>
-                )
-              })}
+              <ExemplarFilesList files={exemplarFiles} language={language} />
             </div>
           </Accordion.Panel>
         </Accordion>

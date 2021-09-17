@@ -14,7 +14,7 @@ export const Contribution = ({
   iconUrl,
   internalUrl,
   externalUrl,
-  earnedOn,
+  createdAt,
   track,
 }: ContributionProps): JSX.Element => {
   const url = internalUrl || externalUrl
@@ -45,7 +45,7 @@ export const Contribution = ({
           ) : (
             <div className="generic">Generic</div>
           )}
-          <time dateTime={earnedOn}>{fromNow(earnedOn)}</time>
+          <time dateTime={createdAt}>{fromNow(createdAt)}</time>
         </div>
       </div>
       <Reputation value={`+ ${value}`} type="primary" />

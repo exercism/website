@@ -71,6 +71,7 @@ test('highlights currently selected iteration', async () => {
         student={student}
         iterations={iterations}
         discussion={discussion}
+        exemplarFiles={[]}
         links={{}}
       />
     )
@@ -134,6 +135,7 @@ test('shows back button', async () => {
       iterations={iterations}
       discussion={discussion}
       scratchpad={scratchpad}
+      exemplarFiles={[]}
     />
   )
   queryCache.cancelQueries()
@@ -200,6 +202,7 @@ test('hides latest label if on old iteration', async () => {
       iterations={iterations}
       discussion={discussion}
       scratchpad={scratchpad}
+      exemplarFiles={[]}
     />
   )
   await awaitPopper()
@@ -268,6 +271,7 @@ test('switches to posts tab when comment success', async () => {
       iterations={iterations}
       discussion={discussion}
       scratchpad={scratchpad}
+      exemplarFiles={[]}
     />
   )
 
@@ -346,6 +350,7 @@ test('switches tabs', async () => {
       iterations={iterations}
       discussion={discussion}
       scratchpad={scratchpad}
+      exemplarFiles={[]}
     />
   )
   userEvent.click(screen.getByRole('tab', { name: 'Scratchpad' }))
@@ -420,6 +425,7 @@ test('go to previous iteration', async () => {
         iterations={iterations}
         discussion={discussion}
         scratchpad={scratchpad}
+        exemplarFiles={[]}
       />
     )
   })
@@ -490,6 +496,7 @@ test('go to next iteration', async () => {
       iterations={iterations}
       discussion={discussion}
       scratchpad={scratchpad}
+      exemplarFiles={[]}
     />
   )
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))

@@ -3,7 +3,7 @@ import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
 import {
   CommunitySolution as CommunitySolutionProps,
-  GitFile,
+  MentoringSessionExemplarFile,
 } from '../../types'
 import { CommunitySolution, GraphicalIcon } from '../../common'
 import { useHighlighting } from '../../../utils/highlight'
@@ -32,6 +32,15 @@ type Links = {
   improveNotes: string
 }
 
+export type Props = {
+  notes: string
+  mentorSolution?: CommunitySolutionProps
+  exemplarFiles: readonly MentoringSessionExemplarFile[]
+  links: Links
+  language: string
+  feedback?: any
+}
+
 export const Guidance = ({
   notes,
   mentorSolution,
@@ -39,14 +48,7 @@ export const Guidance = ({
   links,
   language,
   feedback = false,
-}: {
-  notes: string
-  mentorSolution?: CommunitySolutionProps
-  exemplarFiles: readonly GitFile[]
-  links: Links
-  language: string
-  feedback?: any
-}): JSX.Element => {
+}: Props): JSX.Element => {
   const ref = useHighlighting<HTMLDivElement>()
   const [accordionState, setAccordionState] = useState([
     {

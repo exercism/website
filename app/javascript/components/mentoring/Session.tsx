@@ -26,7 +26,7 @@ import {
   MentorDiscussion as Discussion,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
-  GitFile,
+  MentoringSessionExemplarFile,
 } from '../types'
 
 import { useIterationScrolling } from './session/useIterationScrolling'
@@ -61,7 +61,7 @@ export type SessionProps = {
   notes: string
   outOfDate: boolean
   mentorSolution: CommunitySolution
-  exemplarFiles: readonly GitFile[]
+  exemplarFiles: readonly MentoringSessionExemplarFile[]
   request: Request
   scratchpad: Scratchpad
   downloadCommand: string

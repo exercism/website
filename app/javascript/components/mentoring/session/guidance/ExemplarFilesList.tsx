@@ -1,8 +1,8 @@
 import React from 'react'
-import { GitFile } from '../../../types'
+import { MentoringSessionExemplarFile } from '../../../types'
 
 export type Props = {
-  files: readonly GitFile[]
+  files: readonly MentoringSessionExemplarFile[]
   language: string
 }
 

@@ -26,6 +26,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
   test "comments doesn't raise" do
     TestHelpers.use_website_copy_test_repo!
+    Github::Issue::Open.expects(:call)
 
     comments = ["ruby.two-fer.incorrect_default_param"]
     analysis = create :submission_analysis, data: { comments: comments }
@@ -182,6 +183,21 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
     assert_equal 1, analysis.num_actionable_comments
     assert analysis.has_actionable_comments?
+  end
+
+  test "comments with bad types don't break" do
+    Github::Issue::Open.expects(:call).with(
+      'ruby-analyzer',
+      "Invalid analysis type: this-is-very-bad",
+      "A comment was made with the type `this-is-very-bad`. This is invalid."
+    )
+
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "this-is-very-bad"
+    }] }
+
+    refute analysis.has_informative_comments?
   end
 
   # TODO: - Add a test for if the data is empty

@@ -53,4 +53,10 @@ class User::UpdateTest < ActiveSupport::TestCase
     User::Update.(user, ActionController::Parameters.new(profile: { twitter: "iHiD2" }))
     assert_equal 'iHiD2', profile.twitter
   end
+
+  test "copes with nil params" do
+    assert_nothing_raised do
+      User::Update.(create(:user), ActionController::Parameters.new(user: nil, profile: nil))
+    end
+  end
 end

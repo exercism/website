@@ -47,7 +47,7 @@ export const CommunitySolution = ({
 
   const url =
     context === 'mentoring'
-      ? solution.links.privateUrl
+      ? solution.links.privateIterationsUrl
       : solution.links.publicUrl
 
   return (

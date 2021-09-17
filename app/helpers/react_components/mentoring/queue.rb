@@ -87,7 +87,11 @@ module ReactComponents
 
       memoize
       def tracks_data
-        SerializeTracksForMentoring.(mentor.mentored_tracks, mentor: mentor)
+        # Cope with the mentor not having any tracks they mentor
+        # TODO: It might be better to redirect to a different onboarding
+        # page in this situation
+        tracks = mentor.mentored_tracks.presence || ::Track.where(id: ::Track.active.pick(:id))
+        SerializeTracksForMentoring.(tracks, mentor: mentor)
       end
     end
   end

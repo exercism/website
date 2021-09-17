@@ -208,7 +208,9 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'allergies', git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a', synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a' # rubocop:disable Layout/LineLength
     new_author = create :user, github_username: 'ErikSchierboom'
 
-    Git::SyncPracticeExercise.(exercise)
+    perform_enqueued_jobs do
+      Git::SyncPracticeExercise.(exercise)
+    end
 
     new_authorship = exercise.authorships.find_by(author: new_author)
     new_author_rep_token = new_author.reputation_tokens.last
@@ -225,7 +227,9 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     existing_author_authorship = create :exercise_authorship, exercise: exercise, author: existing_author
     create :user_exercise_author_reputation_token, user: existing_author, params: { authorship: existing_author_authorship }
 
-    Git::SyncPracticeExercise.(exercise)
+    perform_enqueued_jobs do
+      Git::SyncPracticeExercise.(exercise)
+    end
 
     assert_equal 1, existing_author.reputation_tokens.where(category: "authoring").count
   end
@@ -254,7 +258,9 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     new_contributor = create :user, github_username: 'iHiD'
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: '0ec511318983b7d27d6a27410509071ee7683e52', synced_to_git_sha: '0ec511318983b7d27d6a27410509071ee7683e52' # rubocop:disable Layout/LineLength
 
-    Git::SyncPracticeExercise.(exercise)
+    perform_enqueued_jobs do
+      Git::SyncPracticeExercise.(exercise)
+    end
 
     new_contributorship = exercise.contributorships.find_by(contributor: new_contributor)
     new_contributor_rep_token = new_contributor.reputation_tokens.last
@@ -272,7 +278,9 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     create :user_exercise_contribution_reputation_token, user: existing_contributor,
                                                          params: { contributorship: existing_contributorship }
 
-    Git::SyncPracticeExercise.(exercise)
+    perform_enqueued_jobs do
+      Git::SyncPracticeExercise.(exercise)
+    end
 
     assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
   end

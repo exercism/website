@@ -472,6 +472,7 @@ module Components
           click_on "Guidance"
           click_on "Mentor notes"
           assert_text "These are notes for lasagna"
+          assert_link "Pull Request on GitHub", href: exercise.mentoring_notes_edit_url
         end
       end
 
@@ -516,7 +517,7 @@ module Components
           click_on "Guidance"
           click_on "How you solved the exercise"
 
-          assert_link "Your Solution", href: Exercism::Routes.private_solution_url(mentor_solution)
+          assert_link "Your Solution", href: Exercism::Routes.track_exercise_iterations_url(exercise.track, exercise)
           assert_text "to Strings in Ruby"
         end
       end

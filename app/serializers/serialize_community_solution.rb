@@ -31,7 +31,7 @@ class SerializeCommunitySolution
       },
       links: {
         public_url: Exercism::Routes.published_solution_url(solution),
-        private_url: Exercism::Routes.private_solution_url(solution)
+        private_iterations_url: Exercism::Routes.track_exercise_iterations_url(track, solution.exercise)
       }
     }
   end

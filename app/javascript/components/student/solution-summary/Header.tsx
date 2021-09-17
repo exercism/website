@@ -124,7 +124,7 @@ export const Header = ({
             <h2>Your solution looks great!</h2>
             <p>
               Your solution passed the tests and we don&apos;t have any
-              recommendations.
+              recommendations.{' '}
               {exercise.type === 'practice'
                 ? 'You might want to work with a mentor to make it even better.'
                 : null}{' '}

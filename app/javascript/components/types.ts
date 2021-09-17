@@ -119,6 +119,7 @@ export type SolutionForStudent = {
   mentoringStatus: SolutionMentoringStatus
   hasNotifications: boolean
   numIterations: number
+  isOutOfDate: boolean
   updatedAt: string
   exercise: {
     slug: string
@@ -170,7 +171,7 @@ export type CommunitySolution = {
 
   links: {
     publicUrl: string
-    privateUrl: string
+    privateIterationsUrl: string
   }
 }
 

@@ -18,8 +18,8 @@ module ReactComponents
       end
 
       SORT_OPTIONS = [
-        { value: '', label: 'Sort by oldest first' },
         { value: 'recent', label: 'Sort by recent first' },
+        { value: '', label: 'Sort by oldest first' },
         { value: 'exercise', label: 'Sort by exercise' },
         { value: 'student', label: 'Sort by student' }
       ].freeze

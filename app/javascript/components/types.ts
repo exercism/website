@@ -44,7 +44,7 @@ export type Contribution = {
   iconUrl: string
   internalUrl?: string
   externalUrl?: string
-  earnedOn: string
+  createdAt: string
   track?: {
     title: string
     iconUrl: string

@@ -8,7 +8,7 @@ export const ReputationMenuItem = ({
   externalUrl,
   iconUrl,
   text,
-  earnedOn,
+  createdAt,
   value,
   isSeen,
 }: ReputationToken): JSX.Element => {
@@ -33,7 +33,7 @@ export const ReputationMenuItem = ({
           className="description"
           dangerouslySetInnerHTML={{ __html: text }}
         />
-        <div className="earned-on">{fromNow(earnedOn)}</div>
+        <div className="earned-on">{fromNow(createdAt)}</div>
       </div>
       <Reputation value={`+${value}`} />
       <div className={'indicator ' + (isSeen ? 'seen' : 'unseen')} />

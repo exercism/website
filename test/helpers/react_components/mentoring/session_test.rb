@@ -209,5 +209,21 @@ module Mentoring
         }
       )
     end
+
+    test "#as_json serializes files" do
+      files = {
+        ".meta/exemplar1.rb" => "class Ruby\nend"
+      }
+
+      assert_equal(
+        [
+          {
+            filename: "exemplar1.rb",
+            content: "class Ruby\nend"
+          }
+        ],
+        ReactComponents::Mentoring::Session::ExemplarFileList.new(files).as_json
+      )
+    end
   end
 end

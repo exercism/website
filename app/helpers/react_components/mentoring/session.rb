@@ -96,6 +96,21 @@ module ReactComponents
       def scratchpad
         ScratchpadPage.new(about: exercise)
       end
+
+      class ExemplarFileList
+        extend Mandate::InitializerInjector
+
+        initialize_with :files
+
+        def as_json
+          files.map do |filename, content|
+            {
+              filename: filename.gsub(%r{^\.meta/}, ''),
+              content: content
+            }
+          end
+        end
+      end
     end
   end
 end

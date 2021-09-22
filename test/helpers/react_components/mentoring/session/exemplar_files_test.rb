@@ -1,4 +1,4 @@
-require_relative "../../../../../app/helpers/react_components/mentoring/session/exemplar_file_list"
+require 'test_helper'
 
 module ReactComponents
   module Mentoring

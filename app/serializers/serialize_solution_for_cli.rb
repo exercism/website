@@ -71,18 +71,22 @@ class SerializeSolutionForCLI
     { submitted_at: submission.created_at }
   end
 
+  memoize
   def submission
-    @submission ||= solution.submissions.last
+    solution.submissions.last
   end
 
+  memoize
   def track
-    @track ||= solution.exercise.track
+    solution.exercise.track
   end
 
+  memoize
   def discussion
-    @discussion = Mentor::Discussion.find_by(mentor: requester, solution: solution)
+    Mentor::Discussion.find_by(mentor: requester, solution: solution)
   end
 
+  memoize
   def mentor_request_pending?
     Mentor::Request.where(solution: solution, status: :pending).exists?
   end

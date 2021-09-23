@@ -93,11 +93,8 @@ class Solution < ApplicationRecord
     # All mentors can see files on pending requests
     return true if viewer && self.mentor_requests.pending.any? && viewer.mentor?
 
-    # Non-iteration submissions can never be seen
-    # Everyone can see published iterations - We need to not
-    # rely on this in the CLI - but rely on iteration instead.
-    # iteration&.published?
-    false
+    # Everyone can see published iterations
+    published?
   end
 
   def starred_by?(user)

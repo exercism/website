@@ -150,11 +150,11 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user_track.user, track: user_track.track
     create :iteration, solution: solution
     mentor = create :user, became_mentor_at: Time.current
-    Mentor::Request::Create.(solution, "Please help")
+    request = Mentor::Request::Create.(solution, "Please help")
 
     output = SerializeSolutionForCLI.(solution, mentor)
 
-    assert_equal "https://test.exercism.org/tracks/ruby/exercises/bob/solutions/anne", output[:solution][:url]
+    assert_equal "https://test.exercism.org/mentoring/requests/#{request.uuid}", output[:solution][:url]
   end
 
   test "solution_url for unpublished solution with pending mentor request and requester is not mentor" do

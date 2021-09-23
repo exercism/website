@@ -42,6 +42,8 @@ class SerializeSolutionForCLI
     # TODO: Don't let someone download a personal_uuid and
     # end up with the mentor_uuid here. Actively guard this.
 
+    return unless solution.viewable_by?(requester)
+
     return Exercism::Routes.private_solution_url(solution) if solution.user == requester
     return Exercism::Routes.mentoring_discussion_url(discussion) if requester.mentor? && discussion
     return Exercism::Routes.published_solution_url(solution) if solution.published?

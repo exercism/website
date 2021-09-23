@@ -40,6 +40,11 @@ class User < ApplicationRecord
                                  dependent: :destroy,
                                  class_name: "Mentor::Testimonial"
 
+  has_many :student_relationships, class_name: "Mentor::StudentRelationship",
+                                   foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy
+  has_many :mentor_relationships, class_name: "Mentor::StudentRelationship",
+                                  foreign_key: :student_id, inverse_of: :student, dependent: :destroy
+
   has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
   has_many :reputation_periods, class_name: "User::ReputationPeriod", dependent: :destroy
 

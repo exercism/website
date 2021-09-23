@@ -41,12 +41,11 @@ class SerializeSolutionForCLI
   def solution_url
     # TODO: Don't let someone download a personal_uuid and
     # end up with the mentor_uuid here. Actively guard this.
-    #
-    # TODO: How is this actually used within the CLI and could
-    # we just have it as nil if the user isn't the requestor?
-    return nil unless solution.user == requester
 
-    Exercism::Routes.private_solution_url(solution)
+    return Exercism::Routes.private_solution_url(solution) if solution.user == requester
+    return Exercism::Routes.mentoring_discussion_url(discussion) if requester.mentor? && discussion
+    return Exercism::Routes.published_solution_url(solution) if solution.published?
+    return Exercism::Routes.published_solution_url(solution) if requester.mentor? && mentor_request_pending?
   end
 
   def instructions_url
@@ -78,5 +77,13 @@ class SerializeSolutionForCLI
 
   def track
     @track ||= solution.exercise.track
+  end
+
+  def discussion
+    @discussion = Mentor::Discussion.find_by(mentor: requester, solution: solution)
+  end
+
+  def mentor_request_pending?
+    Mentor::Request.where(solution: solution, status: :pending).exists?
   end
 end

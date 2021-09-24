@@ -21,7 +21,7 @@ class MentoringInboxTest < ReactComponentTestCase
         },
         sort_options: [
           { value: 'recent', label: 'Sort by recent first' },
-          { value: '', label: 'Sort by oldest first' },
+          { value: 'oldest', label: 'Sort by oldest first' },
           { value: 'exercise', label: 'Sort by exercise' },
           { value: 'student', label: 'Sort by student' }
         ],

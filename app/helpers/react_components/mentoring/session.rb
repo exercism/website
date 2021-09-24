@@ -31,7 +31,7 @@ module ReactComponents
               anonymous_mode: discussion&.anonymous_mode?
             ),
             mentor_solution: mentor_solution,
-            exemplar_solution: exercise.exemplar_files.values.first,
+            exemplar_files: ExemplarFileList.new(exercise.exemplar_files),
             notes: exercise.mentoring_notes_content,
             out_of_date: solution.out_of_date?,
             download_command: solution.mentor_download_cmd,
@@ -95,6 +95,21 @@ module ReactComponents
       memoize
       def scratchpad
         ScratchpadPage.new(about: exercise)
+      end
+
+      class ExemplarFileList
+        extend Mandate::InitializerInjector
+
+        initialize_with :files
+
+        def as_json
+          files.map do |filename, content|
+            {
+              filename: filename.gsub(%r{^\.meta/}, ''),
+              content: content
+            }
+          end
+        end
       end
     end
   end

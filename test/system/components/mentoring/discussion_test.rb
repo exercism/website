@@ -521,25 +521,6 @@ module Components
           assert_text "to Strings in Ruby"
         end
       end
-
-      test "mentor sees guidance" do
-        mentor = create :user, handle: "mentor"
-        exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise
-        discussion = create :mentor_discussion,
-          solution: solution,
-          mentor: mentor,
-          awaiting_mentor_since: 1.day.ago
-        create :iteration, solution: solution
-
-        use_capybara_host do
-          sign_in!(mentor)
-          visit mentoring_discussion_path(discussion)
-          click_on "Guidance"
-
-          assert_text exercise.exemplar_files.values.first
-        end
-      end
     end
   end
 end

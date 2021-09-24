@@ -22,6 +22,7 @@ import {
   // SiteUpdate,
   CommunicationPreferences,
   User,
+  MentoringSessionExemplarFile,
   // TrackContribution,
 } from '../components/types'
 
@@ -137,7 +138,9 @@ initReact({
       userHandle={data.user_handle}
       discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
-      exemplarSolution={data.exemplar_solution}
+      exemplarFiles={camelizeKeysAs<readonly MentoringSessionExemplarFile[]>(
+        data.exemplar_files
+      )}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}

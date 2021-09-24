@@ -656,3 +656,8 @@ export type Notification = {
 }
 
 type NotificationImageType = 'icon' | 'avatar'
+
+export type MentoringSessionExemplarFile = {
+  filename: string
+  content: string
+}

@@ -26,6 +26,7 @@ import {
   MentorDiscussion as Discussion,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
+  MentoringSessionExemplarFile,
 } from '../types'
 
 import { useIterationScrolling } from './session/useIterationScrolling'
@@ -60,7 +61,7 @@ export type SessionProps = {
   notes: string
   outOfDate: boolean
   mentorSolution: CommunitySolution
-  exemplarSolution: string
+  exemplarFiles: readonly MentoringSessionExemplarFile[]
   request: Request
   scratchpad: Scratchpad
   downloadCommand: string
@@ -86,7 +87,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     discussion,
     notes,
     mentorSolution,
-    exemplarSolution,
+    exemplarFiles,
     outOfDate,
     request,
     scratchpad,
@@ -207,7 +208,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                   <Guidance
                     notes={notes}
                     mentorSolution={mentorSolution}
-                    exemplarSolution={exemplarSolution}
+                    exemplarFiles={exemplarFiles}
                     language={track.highlightjsLanguage}
                     links={links}
                   />

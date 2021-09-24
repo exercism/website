@@ -1,9 +1,13 @@
 import React, { useState, useCallback } from 'react'
 import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
-import { CommunitySolution as CommunitySolutionProps } from '../../types'
+import {
+  CommunitySolution as CommunitySolutionProps,
+  MentoringSessionExemplarFile,
+} from '../../types'
 import { CommunitySolution, GraphicalIcon } from '../../common'
 import { useHighlighting } from '../../../utils/highlight'
+import { ExemplarFilesList } from './guidance/ExemplarFilesList'
 
 const AccordionHeader = ({
   isOpen,
@@ -28,30 +32,32 @@ type Links = {
   improveNotes: string
 }
 
-export const Guidance = ({
-  notes,
-  mentorSolution,
-  exemplarSolution,
-  links,
-  language,
-  feedback = false,
-}: {
+export type Props = {
   notes: string
   mentorSolution?: CommunitySolutionProps
-  exemplarSolution: string
+  exemplarFiles: readonly MentoringSessionExemplarFile[]
   links: Links
   language: string
   feedback?: any
-}): JSX.Element => {
+}
+
+export const Guidance = ({
+  notes,
+  mentorSolution,
+  exemplarFiles,
+  links,
+  language,
+  feedback = false,
+}: Props): JSX.Element => {
   const ref = useHighlighting<HTMLDivElement>()
   const [accordionState, setAccordionState] = useState([
     {
-      id: 'exemplar-solution',
-      isOpen: exemplarSolution != null,
+      id: 'exemplar-files',
+      isOpen: exemplarFiles.length !== 0,
     },
     {
       id: 'notes',
-      isOpen: exemplarSolution == null,
+      isOpen: exemplarFiles.length === 0,
     },
     {
       id: 'mentor-solution',
@@ -93,14 +99,14 @@ export const Guidance = ({
 
   return (
     <div ref={ref}>
-      {exemplarSolution ? (
+      {exemplarFiles.length !== 0 ? (
         <Accordion
-          id="exemplar-solution"
-          isOpen={isOpen('exemplar-solution')}
+          id="exemplar-files"
+          isOpen={isOpen('exemplar-files')}
           onClick={handleClick}
         >
           <AccordionHeader
-            isOpen={isOpen('exemplar-solution')}
+            isOpen={isOpen('exemplar-files')}
             title="The exemplar solution"
           />
           <Accordion.Panel>
@@ -109,9 +115,7 @@ export const Guidance = ({
                 Try and guide the student towards this solution. It is the best
                 place for them to reach at this point during the Track.
               </p>
-              <pre className="overflow-auto">
-                <code className={language}>{exemplarSolution}</code>
-              </pre>
+              <ExemplarFilesList files={exemplarFiles} language={language} />
             </div>
           </Accordion.Panel>
         </Accordion>

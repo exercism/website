@@ -174,11 +174,9 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "show should return 200 if user is allowed" do
-    user = create :user
     solution = create :concept_solution
-    ConceptSolution.any_instance.expects(:viewable_by?).with(user).returns(true)
 
-    setup_user(user)
+    setup_user(solution.user)
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
 
     assert_response 200
@@ -212,8 +210,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "show should not set downloaded_at for other user" do
     freeze_time do
       user = create :user
-      solution = create :concept_solution
-      ConceptSolution.any_instance.expects(:viewable_by?).with(user).returns(true)
+      solution = create :concept_solution, published_at: Time.current
 
       setup_user(user)
       get api_v1_solution_path(solution.uuid), headers: @headers, as: :json

@@ -35,7 +35,8 @@ module ReactComponents
             slug: track.slug
           },
           exercise: {
-            title: solution.exercise.title
+            title: solution.exercise.title,
+            slug: solution.exercise.slug
           },
           links: {
             run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),

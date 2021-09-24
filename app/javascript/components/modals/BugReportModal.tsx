@@ -12,10 +12,14 @@ enum BugReportModalStatus {
 export const BugReportModal = ({
   open,
   onClose,
+  trackSlug,
+  exerciseSlug,
   ...props
 }: {
   open: boolean
   onClose: () => void
+  trackSlug?: string
+  exerciseSlug?: string
 }): JSX.Element => {
   const handleClose = useCallback(() => {
     onClose()
@@ -38,6 +42,8 @@ export const BugReportModal = ({
         body: JSON.stringify({
           bug_report: {
             content_markdown: textareaRef.current?.value,
+            track_slug: trackSlug,
+            exercise_slug: exerciseSlug,
           },
         }),
       })

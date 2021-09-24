@@ -18,6 +18,7 @@ type Track = {
 
 type Exercise = {
   title: string
+  slug: string
 }
 
 type AutosaveConfig = {

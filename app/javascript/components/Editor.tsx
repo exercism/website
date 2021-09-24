@@ -311,6 +311,8 @@ export default ({
               <Header.ActionMore
                 onRevertToExerciseStart={handleRevertToExerciseStart}
                 onRevertToLastIteration={handleRevertToLastIteration}
+                trackSlug={track.slug}
+                exerciseSlug={exercise.slug}
               />
             </div>
           </div>

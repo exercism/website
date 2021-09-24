@@ -677,5 +677,12 @@ class SolutionTest < ActiveSupport::TestCase
     assert solution.viewable_by?(mentor_2)
     refute solution.viewable_by?(user)
     refute solution.viewable_by?(nil)
+
+    solution.update!(published_at: Time.current)
+    assert solution.viewable_by?(student)
+    assert solution.viewable_by?(mentor_1)
+    assert solution.viewable_by?(mentor_2)
+    assert solution.viewable_by?(user)
+    assert solution.viewable_by?(nil)
   end
 end

@@ -93,6 +93,15 @@ class User < ApplicationRecord
     create_communication_preferences
   end
 
+  def after_confirmation
+    User::Notification::CreateEmailOnly.(self, :joined_exercism, {})
+  end
+
+  def skip_confirmation!
+    super
+    after_confirmation
+  end
+
   def self.for!(param)
     return param if param.is_a?(User)
     return find_by!(id: param) if param.is_a?(Numeric)

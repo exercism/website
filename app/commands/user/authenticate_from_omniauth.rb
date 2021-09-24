@@ -73,11 +73,13 @@ class User
 
       user.skip_confirmation!
 
-      User::Bootstrap.(user) if user.save
+      if user.save
+        # Ensure this is done after the normal save as this failing
+        # shouldn't cause the whole model's save to fail
+        set_github_username!(user, auth)
 
-      # Ensure this is done after the normal save as this failing
-      # shouldn't cause the whole model's save to fail
-      set_github_username!(user, auth)
+        User::Bootstrap.(user)
+      end
 
       user
     end

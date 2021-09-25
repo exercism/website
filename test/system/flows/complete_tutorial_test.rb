@@ -20,10 +20,11 @@ module Flows
         click_on "Mark as complete"
         find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
-        sleep(2)
+        sleep(1)
         assert_text "You’ve completed “Hello, World!”"
 
         click_on "Return to “Hello, World!”"
+        sleep(1)
         assert_text "You've completed Hello, World!"
       end
     end

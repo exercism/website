@@ -10,6 +10,8 @@ module Flows
     end
 
     test "user registers successfully" do
+      User::Notification::CreateEmailOnly.expects(:call).never
+
       allow_captcha_request do
         visit new_user_registration_path
         fill_in "Email", with: "user@exercism.org"
@@ -56,6 +58,8 @@ module Flows
     end
 
     test "user registers via Github" do
+      User::Notification::CreateEmailOnly.expects(:call)
+
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
         provider: "github",

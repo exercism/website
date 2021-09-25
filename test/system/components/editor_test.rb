@@ -229,7 +229,7 @@ module Components
         click_on "Run Tests"
         wait_for_submission
         2.times { wait_for_websockets }
-        message = "Oh dear Foobar - here's some stuff"
+        message = "Oh dear Foobar - here is some stuff"
         test_run = create :submission_test_run,
           submission: Submission.last,
           ops_status: 200,

@@ -467,6 +467,11 @@ module Components
 
         assert_text "Bug report submitted. Thank you!"
       end
+
+      report = ProblemReport.last
+      assert_equal exercise, report.about
+      assert_equal user, report.user
+      assert_equal "I found a bug", report.content_markdown
     end
 
     test "user views hints" do

@@ -49,4 +49,15 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
 
     User::Notification::Create.(user, type, params)
   end
+
+  test "copes with duplicates" do
+    user = create :user
+    type = :mentor_started_discussion
+    discussion = create(:mentor_discussion)
+    params = { discussion: discussion }
+
+    n_1 = User::Notification::Create.(user, type, params)
+    n_2 = User::Notification::Create.(user, type, params)
+    assert_equal n_1, n_2
+  end
 end

@@ -9,19 +9,25 @@ class User::Notification
       track = params.delete(:track) || exercise&.track
 
       klass = "user/notifications/#{type}_notification".camelize.constantize
-      klass.create!(
+      notification = klass.new(
         user: user,
         status: :email_only,
         track: track,
         exercise: exercise,
         params: params
-      ).tap do |notification|
-        User::Notification::SendEmail.(notification)
+      )
+
+      begin
+        notification.save!
+        notification.tap do
+          User::Notification::SendEmail.(notification)
+        end
+      rescue ActiveRecord::RecordNotUnique
+        # If the notification is already created, then don't
+        # blow up. This could happen for multiple reasons and
+        # it's not necessarily an error.
+        user.notifications.find_by(uniqueness_key: notification.uniqueness_key)
       end
-    rescue ActiveRecord::RecordNotUnique
-      # If the notification is already created, then don't
-      # blow up. This could happen for multiple reasons and
-      # it's not necessarily an error.
     end
   end
 end

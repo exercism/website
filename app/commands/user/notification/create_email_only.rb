@@ -18,6 +18,10 @@ class User::Notification
       ).tap do |notification|
         User::Notification::SendEmail.(notification)
       end
+    rescue ActiveRecord::RecordNotUnique
+      # If the notification is already created, then don't
+      # blow up. This could happen for multiple reasons and
+      # it's not necessarily an error.
     end
   end
 end

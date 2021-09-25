@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_080731) do
+ActiveRecord::Schema.define(version: 2021_09_25_111900) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -317,6 +317,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_080731) do
     t.index ["discussion_id"], name: "index_mentor_discussion_posts_on_discussion_id"
     t.index ["iteration_id"], name: "index_mentor_discussion_posts_on_iteration_id"
     t.index ["user_id"], name: "index_mentor_discussion_posts_on_user_id"
+    t.index ["uuid"], name: "index_mentor_discussion_posts_on_uuid", unique: true
   end
 
   create_table "mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -837,6 +838,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_080731) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

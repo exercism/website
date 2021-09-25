@@ -25,4 +25,15 @@ class User::Notifications::CreateEmailOnlyTest < ActiveSupport::TestCase
       notification.send(:params)
     )
   end
+
+  test "copes with duplicates" do
+    user = create :user
+    type = :mentor_started_discussion
+    discussion = create(:mentor_discussion)
+    params = { discussion: discussion }
+
+    n_1 = User::Notification::CreateEmailOnly.(user, type, params)
+    n_2 = User::Notification::CreateEmailOnly.(user, type, params)
+    assert_equal n_1, n_2
+  end
 end

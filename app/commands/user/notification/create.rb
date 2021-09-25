@@ -9,16 +9,24 @@ class User::Notification
       track = params.delete(:track) || exercise&.track
 
       klass = "user/notifications/#{type}_notification".camelize.constantize
-      klass.create!(
+      notification = klass.new(
         user: user,
         track: track,
         exercise: exercise,
         params: params
-      ).tap do |notification|
-        ActivateUserNotificationJob.set(wait: 5.seconds).
-          perform_later(notification)
+      )
+      begin
+        notification.save!
+        notification.tap do
+          ActivateUserNotificationJob.set(wait: 5.seconds).perform_later(notification)
 
-        NotificationsChannel.broadcast_pending!(user, notification)
+          NotificationsChannel.broadcast_pending!(user, notification)
+        end
+      rescue ActiveRecord::RecordNotUnique
+        # If the notification is already created, then don't
+        # blow up. This could happen for multiple reasons and
+        # it's not necessarily an error.
+        user.notifications.find_by(uniqueness_key: notification.uniqueness_key)
       end
     end
   end

@@ -202,7 +202,12 @@ class UserTest < ActiveSupport::TestCase
     assert user.introducer_dismissed?('scratchpad')
   end
 
-  test "email is sent after confirmation" do
+  test "welcome email is not sent for normal user creation" do
+    User::Notification::CreateEmailOnly.expects(:call).never
+    create :user
+  end
+
+  test "welcome email is sent after confirmation" do
     user = create :user
 
     User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism, {})
@@ -210,11 +215,12 @@ class UserTest < ActiveSupport::TestCase
     user.confirm
   end
 
-  test "email is sent if confirmation is skipped" do
-    user = create :user
+  test "welcome email is sent when a confirmed user is created" do
+    user = build :user
+    user.skip_confirmation!
 
     User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism, {})
 
-    user.skip_confirmation!
+    user.save!
   end
 end

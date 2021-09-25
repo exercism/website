@@ -91,15 +91,12 @@ class User < ApplicationRecord
 
   after_create_commit do
     create_communication_preferences
+
+    after_confirmation if confirmed?
   end
 
   def after_confirmation
     User::Notification::CreateEmailOnly.(self, :joined_exercism, {})
-  end
-
-  def skip_confirmation!
-    super
-    after_confirmation
   end
 
   def self.for!(param)

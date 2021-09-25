@@ -18,10 +18,9 @@ class User
         user.save!
       end
 
-      if user.github_username != auth.info.nickname
-        user.update_column(:github_username, auth.info.nickname)
-        AwardReputationToUserForPullRequestsJob.perform_later(user)
-      end
+      # Ensure this is done after the normal save as this failing
+      # shouldn't cause the whole model's save to fail
+      set_github_username!(user, auth)
 
       user.update_column(:avatar_url, auth.info.image) if user.attributes['avatar_url'].blank?
 
@@ -34,9 +33,6 @@ class User
 
       user.provider = auth.provider
       user.uid = auth.uid
-      user.github_username = auth.info.nickname
-
-      AwardReputationToUserForPullRequestsJob.perform_later(user) if user.github_username_changed?
 
       # If the user was not previously confirmed then
       # we need to confirm them so they don't get blocked
@@ -56,6 +52,11 @@ class User
       # Make this a bang-save because if it's not we can get errors
       # on a dirty object further down the chain.
       user.save!
+
+      # Ensure this is done after the normal save as this failing
+      # shouldn't cause the whole model's save to fail
+      set_github_username!(user, auth)
+
       user
     end
 
@@ -67,15 +68,17 @@ class User
         password: Devise.friendly_token[0, 20],
         name: auth.info.name,
         avatar_url: auth.info.image,
-        handle: handle,
-        github_username: auth.info.nickname
+        handle: handle
       )
 
       user.skip_confirmation!
 
       if user.save
+        # Ensure this is done after the normal save as this failing
+        # shouldn't cause the whole model's save to fail
+        set_github_username!(user, auth)
+
         User::Bootstrap.(user)
-        AwardReputationToUserForPullRequestsJob.perform_later(user)
       end
 
       user
@@ -86,6 +89,17 @@ class User
       attempt = auth.info.nickname
       attempt = "#{auth.info.nickname}-#{SecureRandom.random_number(10_000)}" while User.where(handle: attempt).exists?
       attempt
+    end
+
+    def set_github_username!(user, auth)
+      return if user.github_username == auth.info.nickname
+
+      begin
+        user.update_column(:github_username, auth.info.nickname)
+        AwardReputationToUserForPullRequestsJob.perform_later(user)
+      rescue ActiveRecord::RecordNotUnique
+        # Sometimes users change github usernames which can cause this to violate
+      end
     end
   end
 end

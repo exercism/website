@@ -136,7 +136,7 @@ const TestRunSummaryContent = ({
         <div className="error-message">
           <h3>We received the following error when we ran your code:</h3>
           <pre>
-            <code dangerouslySetInnerHTML={{ __html: testRun.messageHtml }} />
+            <code>{testRun.messageHtml}</code>
           </pre>
         </div>
       )

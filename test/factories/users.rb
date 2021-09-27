@@ -35,6 +35,7 @@ FactoryBot.define do
     trait :ghost do
       id { User::GHOST_USER_ID }
       github_username { 'exercism-ghost' }
+      name { "Ghost" }
     end
   end
 end

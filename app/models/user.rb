@@ -39,6 +39,10 @@ class User < ApplicationRecord
                                  inverse_of: :mentor,
                                  dependent: :destroy,
                                  class_name: "Mentor::Testimonial"
+  has_many :provided_testimonials, foreign_key: :student_id,
+                                   inverse_of: :student,
+                                   dependent: :destroy,
+                                   class_name: "Mentor::Testimonial"
 
   has_many :student_relationships, class_name: "Mentor::StudentRelationship",
                                    foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy

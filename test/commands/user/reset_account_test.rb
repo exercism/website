@@ -56,12 +56,14 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion, mentor: user
     discussion_post = create :mentor_discussion_post, author: user
     testimonial = create :mentor_testimonial, mentor: user
+    provided_testimonial = create :mentor_testimonial, student: user
 
     User::ResetAccount.(user)
 
     assert_equal ghost_user, discussion.reload.mentor
-    assert_equal ghost_user, testimonial.reload.mentor
     assert_equal ghost_user, discussion_post.reload.author
+    assert_equal ghost_user, testimonial.reload.mentor
+    assert_equal ghost_user, provided_testimonial.reload.student
   end
 
   test "cleans up profile" do

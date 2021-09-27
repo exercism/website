@@ -450,30 +450,6 @@ module Components
       end
     end
 
-    test "user reports a bug" do
-      user = create :user
-      track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
-
-      use_capybara_host do
-        sign_in!(user)
-        visit edit_track_exercise_path(track, exercise)
-        find(".more-btn").click
-        click_on("Report a bug")
-        fill_in "Please provide as much detail as possible", with: "I found a bug"
-        click_on "Submit bug report"
-
-        assert_text "Bug report submitted. Thank you!"
-      end
-
-      report = ProblemReport.last
-      assert_equal exercise, report.about
-      assert_equal user, report.user
-      assert_equal "I found a bug", report.content_markdown
-    end
-
     test "user views hints" do
       user = create :user
       track = create :track

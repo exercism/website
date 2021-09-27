@@ -1,6 +1,6 @@
 require_relative "../react_component_test_case"
 
-module Mentoring
+module ReactComponents::Mentoring
   class SessionTest < ReactComponentTestCase
     test "mentoring request renders correctly" do
       TestHelpers.use_website_copy_test_repo!
@@ -42,12 +42,7 @@ module Mentoring
           tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
-          exemplar_files: [
-            {
-              filename: "exemplar.rb",
-              content: exercise.exemplar_files.values.first
-            }
-          ],
+          exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
           download_command: solution.mentor_download_cmd,
@@ -183,12 +178,7 @@ module Mentoring
           tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
-          exemplar_files: [
-            {
-              filename: "exemplar.rb",
-              content: exercise.exemplar_files.values.first
-            }
-          ],
+          exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
           download_command: solution.mentor_download_cmd,
@@ -210,7 +200,7 @@ module Mentoring
       )
     end
 
-    test "#as_json serializes files" do
+    test "exemplar files are serialized correctly" do
       files = {
         ".meta/exemplar1.rb" => "class Ruby\nend"
       }
@@ -222,7 +212,7 @@ module Mentoring
             content: "class Ruby\nend"
           }
         ],
-        ReactComponents::Mentoring::Session::ExemplarFileList.new(files).as_json
+        Session::SerializeExemplarFiles.(files)
       )
     end
   end

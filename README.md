@@ -1,7 +1,3 @@
-**This is the WIP website for Exercism v3. We are not currently accepting Pull Requests to this repository. The live website is now locked.**
-
---
-
 # Exercism
 
 ![Tests](https://github.com/exercism/website/workflows/Tests/badge.svg)

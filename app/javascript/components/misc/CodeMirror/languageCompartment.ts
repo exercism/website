@@ -13,6 +13,9 @@ export const loadLanguageCompartment = async (
     case 'java':
       const { java } = await import('@codemirror/lang-java')
       return compartment.of(java())
+    case 'cfml':
+      const { javascript: cfml } = await import('@codemirror/lang-javascript')
+      return compartment.of(cfml())
     case 'javascript':
     case 'typescript':
       const { javascript } = await import('@codemirror/lang-javascript')

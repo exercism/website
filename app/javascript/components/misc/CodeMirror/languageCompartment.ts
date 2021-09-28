@@ -158,6 +158,9 @@ export const loadLanguageCompartment = async (
     case 'vbnet':
       const { vb } = await import('@codemirror/legacy-modes/mode/vb')
       return compartment.of(StreamLanguage.define(vb))
+    case 'x86-64-assembly':
+      const { gas } = await import('@codemirror/legacy-modes/mode/gas')
+      return compartment.of(StreamLanguage.define(gas))
 
     // Custom
     case 'elixir':

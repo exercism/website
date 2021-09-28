@@ -73,7 +73,7 @@ class Markdown::RenderHTML
         out(%(<div class="c-textblock-#{type}">))
         out(%(<div class="c-textblock-header">#{type.titleize}</div>))
         out('<div class="c-textblock-content">')
-        out(escape_html(node.string_content))
+        render(Markdown::Render.(node.string_content, :doc))
         out('</div>')
         out('</div>')
       end

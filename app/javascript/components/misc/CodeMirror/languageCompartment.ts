@@ -68,6 +68,9 @@ export const loadLanguageCompartment = async (
     case 'd':
       const { d } = await import('@codemirror/legacy-modes/mode/d')
       return compartment.of(StreamLanguage.define(d))
+    case 'dart':
+      const { dart } = await import('@codemirror/legacy-modes/mode/clike')
+      return compartment.of(StreamLanguage.define(dart))
     case 'delphi':
       const { pascal } = await import('@codemirror/legacy-modes/mode/pascal')
       return compartment.of(StreamLanguage.define(pascal))

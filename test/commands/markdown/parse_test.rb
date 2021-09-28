@@ -295,23 +295,30 @@ Done')
   end
 
   test "render note code block" do
-    expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">Note this\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">\n<p>Note this</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("```exercism/note\nNote this\n```")
     assert_equal expected, Markdown::Parse.("`````exercism/note\nNote this\n`````")
     assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nNote this\n~~~~~")
   end
 
   test "render caution code block" do
-    expected = %(<div class="c-textblock-caution">\n<div class="c-textblock-header">Caution</div>\n<div class="c-textblock-content">Here be dragons\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    expected = %(<div class="c-textblock-caution">\n<div class="c-textblock-header">Caution</div>\n<div class="c-textblock-content">\n<p>Here be dragons</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("```exercism/caution\nHere be dragons\n```")
     assert_equal expected, Markdown::Parse.("`````exercism/caution\nHere be dragons\n`````")
     assert_equal expected, Markdown::Parse.("~~~~~exercism/caution\nHere be dragons\n~~~~~")
   end
 
   test "render advanced code block" do
-    expected = %(<div class="c-textblock-advanced">\n<div class="c-textblock-header">Advanced</div>\n<div class="c-textblock-content">Pointer arithmetic\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    expected = %(<div class="c-textblock-advanced">\n<div class="c-textblock-header">Advanced</div>\n<div class="c-textblock-content">\n<p>Pointer arithmetic</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("```exercism/advanced\nPointer arithmetic\n```")
     assert_equal expected, Markdown::Parse.("`````exercism/advanced\nPointer arithmetic\n`````")
     assert_equal expected, Markdown::Parse.("~~~~~exercism/advanced\nPointer arithmetic\n~~~~~")
+  end
+
+  test "render note block with markdown note" do
+    expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">\n<p>There is <strong>markdown</strong> within <em>these</em> notes.</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("```exercism/note\nThere is **markdown** within _these_ notes.\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/note\nThere is **markdown** within _these_ notes.\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nThere is **markdown** within _these_ notes.\n~~~~~")
   end
 end

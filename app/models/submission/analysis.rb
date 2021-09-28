@@ -1,5 +1,6 @@
 class Submission::Analysis < ApplicationRecord
   extend Mandate::Memoize
+  include HasToolingJob
 
   serialize :data, JSON
 

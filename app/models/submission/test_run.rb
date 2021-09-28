@@ -1,5 +1,6 @@
 class Submission::TestRun < ApplicationRecord
   extend Mandate::Memoize
+  include HasToolingJob
 
   serialize :raw_results, JSON
 

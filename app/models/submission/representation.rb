@@ -1,5 +1,6 @@
 class Submission::Representation < ApplicationRecord
   extend Mandate::Memoize
+  include HasToolingJob
 
   def self.digest_ast(ast)
     return nil if ast.blank?

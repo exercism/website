@@ -3,7 +3,7 @@ require_relative "../../../../support/capybara_helpers"
 
 module Components
   module Student
-    module MentoringSessionTest
+    module MentoringSession
       class OutdatedSolutionTest < ApplicationSystemTestCase
         include CapybaraHelpers
 

@@ -1,26 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import { Iteration, File } from '../../../types'
 import { DownloadButton } from './iteration-header/DownloadButton'
 import { CopyButton } from './iteration-header/CopyButton'
-import { IterationSummaryWithWebsockets } from '../../../track/IterationSummary'
+import {
+  IterationSummaryWithWebsockets,
+  IterationSummary,
+} from '../../../track/IterationSummary'
+
+export type Props = {
+  iteration: Iteration
+  isOutOfDate: boolean
+  downloadCommand: string
+  files: readonly File[] | undefined
+}
 
 export const IterationHeader = ({
   iteration,
   isOutOfDate,
   downloadCommand,
   files,
-}: {
-  iteration: Iteration
-  isOutOfDate: boolean
-  downloadCommand: string
-  files: readonly File[] | undefined
-}): JSX.Element => {
+}: Props): JSX.Element => {
   return (
     <header className="iteration-header">
       <IterationSummaryWithWebsockets
         iteration={iteration}
         showSubmissionMethod={false}
-        isOutOfDate={isOutOfDate}
+        OutOfDateNotice={
+          isOutOfDate ? <IterationSummary.OutOfDateNotice /> : null
+        }
         showTestsStatusAsButton={true}
         showFeedbackIndicator={false}
       />

@@ -1,20 +1,27 @@
 import React from 'react'
 import { Iteration } from '../../../types'
-import { IterationSummaryWithWebsockets } from '../../../track/IterationSummary'
+import {
+  IterationSummaryWithWebsockets,
+  IterationSummary,
+} from '../../../track/IterationSummary'
+
+export type Props = {
+  iteration: Iteration
+  isOutOfDate: boolean
+}
 
 export const IterationHeader = ({
   iteration,
   isOutOfDate,
-}: {
-  iteration: Iteration
-  isOutOfDate: boolean
-}): JSX.Element => {
+}: Props): JSX.Element => {
   return (
     <header className="iteration-header">
       <IterationSummaryWithWebsockets
         iteration={iteration}
         showSubmissionMethod={false}
-        isOutOfDate={isOutOfDate}
+        OutOfDateNotice={
+          isOutOfDate ? <IterationSummary.OutOfDateNotice /> : null
+        }
         showTestsStatusAsButton={true}
         showFeedbackIndicator={false}
       />

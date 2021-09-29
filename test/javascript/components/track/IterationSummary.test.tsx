@@ -86,3 +86,20 @@ test('hides published tag when not published', async () => {
 
   expect(screen.queryByText('Published')).not.toBeInTheDocument()
 })
+
+test('renders out of date notice', async () => {
+  const iteration = createIteration({ isPublished: false })
+  const Notice = () => <span>Outdated</span>
+
+  render(
+    <IterationSummary
+      iteration={iteration}
+      showSubmissionMethod={false}
+      showFeedbackIndicator={true}
+      showTestsStatusAsButton={false}
+      OutOfDateNotice={<Notice />}
+    />
+  )
+
+  expect(screen.getByText('Outdated')).toBeInTheDocument()
+})

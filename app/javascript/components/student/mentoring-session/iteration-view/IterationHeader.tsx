@@ -4,6 +4,7 @@ import {
   IterationSummaryWithWebsockets,
   IterationSummary,
 } from '../../../track/IterationSummary'
+import { GenericTooltip } from '../../../misc/ExercismTippy'
 
 export type Props = {
   iteration: Iteration
@@ -19,12 +20,24 @@ export const IterationHeader = ({
       <IterationSummaryWithWebsockets
         iteration={iteration}
         showSubmissionMethod={false}
-        OutOfDateNotice={
-          isOutOfDate ? <IterationSummary.OutOfDateNotice /> : null
-        }
+        OutOfDateNotice={isOutOfDate ? <OutOfDateNotice /> : null}
         showTestsStatusAsButton={true}
         showFeedbackIndicator={false}
       />
     </header>
+  )
+}
+
+const OutOfDateNotice = () => {
+  return (
+    <GenericTooltip
+      content={`
+        This exercise has been updated since this iteration was submitted.
+        You can update to the latest version by clicking on the yellow bar at the top of the main exercise page.`}
+    >
+      <div>
+        <IterationSummary.OutOfDateNotice />
+      </div>
+    </GenericTooltip>
   )
 }

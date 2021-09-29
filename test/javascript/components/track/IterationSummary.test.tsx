@@ -2,19 +2,27 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { IterationSummary } from '../../../../app/javascript/components/track/IterationSummary'
+import { createIteration } from '../../factories/IterationFactory'
+import {
+  SubmissionMethod,
+  SubmissionTestsStatus,
+} from '../../../../app/javascript/components/types'
 
 test('shows details', async () => {
+  const iteration = createIteration({
+    idx: 2,
+    submissionMethod: SubmissionMethod.CLI,
+    createdAt: new Date().toISOString(),
+    testsStatus: SubmissionTestsStatus.QUEUED,
+    numEssentialAutomatedComments: 2,
+  })
+
   render(
     <IterationSummary
-      iteration={{
-        idx: 2,
-        submissionMethod: 'cli',
-        createdAt: Date.now() - 1,
-        testsStatus: 'queued',
-        numEssentialAutomatedComments: 2,
-      }}
+      iteration={iteration}
       showSubmissionMethod={true}
       showFeedbackIndicator={true}
+      showTestsStatusAsButton={false}
     />
   )
 
@@ -32,36 +40,32 @@ test('shows details', async () => {
 })
 
 test('honours showSubmissionMethod', async () => {
+  const iteration = createIteration({
+    idx: 2,
+    submissionMethod: SubmissionMethod.CLI,
+  })
+
   render(
     <IterationSummary
-      iteration={{
-        idx: 2,
-        submissionMethod: 'cli',
-        createdAt: Date.now() - 1,
-        testsStatus: 'queued',
-        numEssentialAutomatedComments: 2,
-      }}
+      iteration={iteration}
       showSubmissionMethod={false}
+      showFeedbackIndicator={true}
+      showTestsStatusAsButton={false}
     />
   )
 
-  expect(screen.getByText('Iteration 2')).toBeInTheDocument()
-  expect(screen.getByTestId('details')).toHaveTextContent(
-    'Submitted a few seconds ago'
-  )
+  expect(screen.queryByAltText('Submitted via CLI')).not.toBeInTheDocument()
 })
 
 test('shows published tag when published', async () => {
+  const iteration = createIteration({ isPublished: true })
+
   render(
     <IterationSummary
-      iteration={{
-        idx: 2,
-        submissionMethod: 'cli',
-        createdAt: Date.now() - 1,
-        testsStatus: 'queued',
-        numEssentialAutomatedComments: 2,
-        isPublished: true,
-      }}
+      iteration={iteration}
+      showSubmissionMethod={false}
+      showFeedbackIndicator={true}
+      showTestsStatusAsButton={false}
     />
   )
 
@@ -69,16 +73,14 @@ test('shows published tag when published', async () => {
 })
 
 test('hides published tag when not published', async () => {
+  const iteration = createIteration({ isPublished: false })
+
   render(
     <IterationSummary
-      iteration={{
-        idx: 2,
-        submissionMethod: 'cli',
-        createdAt: Date.now() - 1,
-        testsStatus: 'queued',
-        numEssentialAutomatedComments: 2,
-        isPublished: false,
-      }}
+      iteration={iteration}
+      showSubmissionMethod={false}
+      showFeedbackIndicator={true}
+      showTestsStatusAsButton={false}
     />
   )
 

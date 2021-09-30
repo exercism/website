@@ -19,6 +19,7 @@
     & .c-textual-content {
         @apply text-15 text-textColor3 leading-paragraph;
         @apply mb-12;
+        max-width: 100%;
     }
     & .byline {
         @apply flex items-center;

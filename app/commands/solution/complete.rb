@@ -13,6 +13,10 @@ class Solution
         solution.update!(completed_at: Time.current)
       end
 
+      # TODO: Think about how we can add a guard here for hello-world so
+      # we only go through the checks in the job if the exercise is hello-world.
+      # But at the job level, not at this level. So passing some args etc?
+      AwardBadgeJob.perform_later(user, :anybody_there)
       record_activity!
     end
 

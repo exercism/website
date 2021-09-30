@@ -21,7 +21,6 @@ class Iteration
         Solution.reset_counters(solution.id, :iterations)
 
         GenerateIterationSnippetJob.perform_later(iteration)
-        AwardBadgeJob.perform_later(user, :anybody_there)
         ProcessIterationForDiscussionsJob.perform_later(iteration)
         record_activity!(iteration)
       end

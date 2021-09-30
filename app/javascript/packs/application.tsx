@@ -384,9 +384,6 @@ initReact({
       isSkinny={data.skinny}
     />
   ),
-  'common-share-solution-button': (data: any) => (
-    <Common.ShareSolutionButton title={data.title} links={data.links} />
-  ),
   'common-share-button': (data: any) => (
     <Common.ShareButton
       title={data.title}

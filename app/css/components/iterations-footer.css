@@ -1,6 +1,7 @@
 .c-iterations-footer {
     @apply flex items-center px-24 py-16;
     z-index: 1;
+    overflow-x: auto;
 
     background: linear-gradient(
         180deg,

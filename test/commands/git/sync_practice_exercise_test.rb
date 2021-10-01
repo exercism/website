@@ -333,4 +333,11 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     assert exercise.reload.has_test_runner?
   end
+
+  test "updates site_update" do
+    exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a'
+    SiteUpdates::ProcessNewExerciseUpdate.expects(:call).with(exercise)
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+  end
 end

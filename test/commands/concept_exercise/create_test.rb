@@ -66,15 +66,12 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
   end
 
   test "creates site_update" do
-    track = create :track
-    exercise = ConceptExercise::Create.(
+    SiteUpdates::ProcessNewExerciseUpdate.expects(:call)
+
+    ConceptExercise::Create.(
       SecureRandom.uuid,
-      track,
+      create(:track),
       build(:concept_exercise).attributes.symbolize_keys
     )
-
-    update = SiteUpdate.first
-    assert_equal exercise, update.exercise
-    assert_equal track, update.track
   end
 end

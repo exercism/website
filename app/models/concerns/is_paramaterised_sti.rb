@@ -108,6 +108,10 @@ module IsParamaterisedSTI
     end
   end
 
+  def regenerate_rendering_data!
+    update!(rendering_data_cache: {})
+  end
+
   def rendering_data
     data = rendering_data_cache
     if data.blank?

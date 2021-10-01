@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_25_111900) do
+ActiveRecord::Schema.define(version: 2021_10_01_151540) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -449,6 +449,7 @@ ActiveRecord::Schema.define(version: 2021_09_25_111900) do
     t.index ["exercise_id"], name: "index_site_updates_on_exercise_id"
     t.index ["pull_request_id"], name: "index_site_updates_on_pull_request_id"
     t.index ["track_id"], name: "index_site_updates_on_track_id"
+    t.index ["uniqueness_key"], name: "index_site_updates_on_uniqueness_key", unique: true
   end
 
   create_table "solution_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

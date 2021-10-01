@@ -5,7 +5,7 @@ import {
 } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
-import { Testimonial } from '../types'
+import { SharePlatform, Testimonial } from '../types'
 import { RevealedTestimonial } from './testimonials-list/RevealedTestimonial'
 import { UnrevealedTestimonial } from './testimonials-list/UnrevealedTestimonial'
 import { useList } from '../../hooks/use-list'
@@ -44,9 +44,11 @@ const DEFAULT_ORDER = 'unrevealed'
 export const TestimonialsList = ({
   request: initialRequest,
   tracks,
+  platforms,
 }: {
   request: Request
   tracks: readonly Track[]
+  platforms: readonly SharePlatform[]
 }): JSX.Element => {
   const {
     request,
@@ -142,6 +144,7 @@ export const TestimonialsList = ({
                           isRevealed={revealedTestimonials.includes(
                             testimonial.uuid
                           )}
+                          platforms={platforms}
                         />
                       ) : (
                         <UnrevealedTestimonial
@@ -154,6 +157,7 @@ export const TestimonialsList = ({
                               testimonial.uuid,
                             ])
                           }
+                          platforms={platforms}
                         />
                       )
                     })}

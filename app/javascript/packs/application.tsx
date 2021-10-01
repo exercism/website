@@ -155,7 +155,7 @@ import '../../css/modals/unpublish-solution'
 import '../../css/modals/cli-walkthrough'
 
 import '../../css/dropdowns/generic-menu'
-import '../../css/dropdowns/share-solution'
+import '../../css/dropdowns/share'
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
@@ -257,8 +257,10 @@ import {
   User,
   SiteUpdate,
   TrackContribution,
+  SharePlatform,
 } from '../components/types'
 
+import * as Blog from '../components/blog'
 import * as Tooltips from '../components/tooltips'
 import { Dropdown } from '../components/dropdowns/Dropdown'
 import * as Profile from '../components/profile'
@@ -282,6 +284,14 @@ const renderLoader = () => <div className="c-loading-suspense" />
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components
 initReact({
+  'blog-share-post-link': (data: any) => (
+    <Blog.SharePostLink
+      title={data.title}
+      shareTitle={data.share_title}
+      shareLink={data.share_link}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
+    />
+  ),
   'donations-with-modal-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsFormWithModal
@@ -384,14 +394,12 @@ initReact({
       isSkinny={data.skinny}
     />
   ),
-  'common-share-solution-button': (data: any) => (
-    <Common.ShareSolutionButton title={data.title} links={data.links} />
-  ),
   'common-share-button': (data: any) => (
     <Common.ShareButton
       title={data.title}
       shareTitle={data.share_title}
       shareLink={data.share_link}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
   'common-site-updates-list': (data: any) => (

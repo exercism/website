@@ -23,6 +23,7 @@ import {
   CommunicationPreferences,
   User,
   MentoringSessionExemplarFile,
+  SharePlatform,
   // TrackContribution,
 } from '../components/types'
 
@@ -168,6 +169,7 @@ initReact({
       tracks={camelizeKeysAs<readonly MentoringTestimonialsListTrack[]>(
         data.tracks
       )}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
   'student-mentoring-session': (data: any) => (

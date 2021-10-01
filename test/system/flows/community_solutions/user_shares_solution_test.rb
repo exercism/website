@@ -1,12 +1,15 @@
 require "application_system_test_case"
 require_relative "../../../support/capybara_helpers"
+require_relative "../../../support/uri_encode_helpers"
 
 module Flows
   module CommunitySolutions
     class UserSharesSolutionTest < ApplicationSystemTestCase
       include CapybaraHelpers
+      include UriEncodeHelpers
 
       test "user sees share panel upon clicking share button" do
+        ReactComponents::Common::ShareButton.stubs(:platforms).returns([:twitter])
         author = create :user, handle: "author"
         exercise = create :concept_exercise
         solution = create :concept_solution, :published, exercise: exercise, user: author
@@ -18,14 +21,12 @@ module Flows
           click_on "Share"
 
           share_url = track_exercise_solution_url(exercise.track, exercise, author.handle)
-          # rubocop:disable Lint/UriEscapeUnescape
           assert_link(
             "Twitter",
-            href: URI.encode(
+            href: uri_encode(
               "https://twitter.com/intent/tweet?url=#{share_url}&title=View this solution on Exercism"
             )
           )
-          # rubocop:enable Lint/UriEscapeUnescape
           assert_button share_url
         end
       end

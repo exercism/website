@@ -257,6 +257,7 @@ import {
   User,
   SiteUpdate,
   TrackContribution,
+  SharePlatform,
 } from '../components/types'
 
 import * as Tooltips from '../components/tooltips'
@@ -389,6 +390,7 @@ initReact({
       title={data.title}
       shareTitle={data.share_title}
       shareLink={data.share_link}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
   'common-site-updates-list': (data: any) => (

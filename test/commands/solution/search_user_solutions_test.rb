@@ -25,11 +25,11 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     ruby_bob_solution = create :concept_solution, user: user, exercise: ruby_bob
 
     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user)
-    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution],
-      Solution::SearchUserSolutions.(user, criteria: " ")
+    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: " ") # rubocop:disable Layout:LineLength
     assert_equal [ruby_bob_solution, ruby_food_solution], Solution::SearchUserSolutions.(user, criteria: "ru")
     assert_equal [ruby_bob_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: "bo")
-    assert_equal [ruby_bob_solution], Solution::SearchUserSolutions.(user, criteria: "r bo")
+    assert_equal [ruby_bob_solution].map(&:track), Solution::SearchUserSolutions.(user, criteria: "ru bo").map(&:track)
+    assert_equal [ruby_food_solution], Solution::SearchUserSolutions.(user, criteria: "r ch fo")
   end
 
   test "track_slug" do

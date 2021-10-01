@@ -9,7 +9,7 @@ module Flows
       include UriEncodeHelpers
 
       test "user sees share panel upon clicking share button" do
-        ViewComponents::Blog::SharePostButton.stubs(:platforms).returns([:twitter])
+        Exercism.stubs(:share_platforms).returns([:twitter])
         post = create :blog_post
 
         use_capybara_host do
@@ -25,7 +25,7 @@ module Flows
       end
 
       test "user sees share panel upon clicking share link" do
-        ViewComponents::Blog::SharePostLink.stubs(:platforms).returns([:twitter])
+        Exercism.stubs(:share_platforms).returns([:twitter])
         post = create :blog_post
 
         use_capybara_host do

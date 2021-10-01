@@ -4,7 +4,12 @@ module ReactComponents
       initialize_with :params
 
       def to_s
-        super("blog-share-post-link", params)
+        super("blog-share-post-link", {
+          title: params[:title],
+          share_title: params[:share_title],
+          share_link: params[:share_link],
+          platforms: Exercism.share_platforms
+        })
       end
     end
   end

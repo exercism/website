@@ -4,16 +4,7 @@ module ReactComponents
       include Webpacker::Helper
       include ActionView::Helpers::AssetUrlHelper
 
-      def self.platforms
-        %i[facebook twitter reddit linkedin devto]
-      end
-
-      def initialize(params, platforms = self.class.platforms)
-        @params = params
-        @platforms = platforms
-
-        super()
-      end
+      initialize_with :params
 
       def to_s
         super(
@@ -27,14 +18,12 @@ module ReactComponents
               }
             },
             tracks: tracks,
-            platforms: platforms
+            platforms: Exercism.share_platforms
           }
         )
       end
 
       private
-      attr_reader :params, :platforms
-
       def data
         AssembleTestimonialsList.(current_user, params)
       end

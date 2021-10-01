@@ -69,7 +69,7 @@ class NotificationsMailer < ApplicationMailer
     @user = notification.user
 
     subject = "You've unlocked a new badge"
-    @unsubscribe_key = :email_on_awarded_badge
+    @unsubscribe_key = :email_on_acquired_badge_notification
     @title = "There's a new badge waiting for you to reveal!"
     mail_to_user(@user, subject)
   end

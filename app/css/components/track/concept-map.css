@@ -89,6 +89,10 @@
                     &:hover {
                         @apply shadow-lgZ1;
                     }
+
+                    & .display:hover {
+                        @apply bg-backgroundColorE;
+                    }
                 }
 
                 &.active {
@@ -113,10 +117,6 @@
                         @apply ml-12;
                         width: 16px;
                         height: 16px;
-                    }
-
-                    &:hover {
-                        @apply bg-backgroundColorE;
                     }
                 }
                 &.mastered .display:hover {

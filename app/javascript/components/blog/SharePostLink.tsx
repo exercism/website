@@ -1,10 +1,9 @@
 import React from 'react'
-import { GraphicalIcon } from './GraphicalIcon'
 import { usePanel } from '../../hooks/use-panel'
-import { SharePanel } from './SharePanel'
+import { SharePanel } from '../common/SharePanel'
 import { SharePlatform } from '../types'
 
-export const ShareButton = ({
+export const SharePostLink = ({
   title,
   shareTitle,
   shareLink,
@@ -30,23 +29,20 @@ export const ShareButton = ({
   return (
     <React.Fragment>
       <button
-        className="c-share-button"
+        className="text-textColor2 font-medium border-b-1 border-borderColor6"
         type="button"
         {...buttonAttributes}
         onClick={() => setOpen(!open)}
       >
-        <div className="inner">
-          <GraphicalIcon icon="share-with-gradient" />
-          Share
-        </div>
+        Share it.
       </button>
       {open ? (
         <SharePanel
           title={title}
           url={shareLink}
-          className="c-share-dropdown"
           shareTitle={shareTitle}
           platforms={platforms}
+          className="c-share-dropdown"
           {...panelAttributes}
         />
       ) : null}

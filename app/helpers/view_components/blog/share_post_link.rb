@@ -1,6 +1,6 @@
 module ViewComponents
   module Blog
-    class SharePostButton < ViewComponent
+    class SharePostLink < ViewComponent
       def self.platforms
         ReactComponents::Common::ShareButton.platforms
       end
@@ -13,7 +13,7 @@ module ViewComponents
       end
 
       def to_s
-        ReactComponents::Common::ShareButton.new(AssembleBlogPostSharePanel.(post, platforms)).to_s
+        ReactComponents::Blog::SharePostLink.new(AssembleBlogPostSharePanel.(post, platforms)).to_s
       end
 
       private

@@ -25,7 +25,7 @@ module Flows
       end
 
       test "user sees share panel upon clicking share link" do
-        ReactComponents::Common::ShareButton.stubs(:platforms).returns([:twitter])
+        ViewComponents::Blog::SharePostLink.stubs(:platforms).returns([:twitter])
         post = create :blog_post
 
         use_capybara_host do

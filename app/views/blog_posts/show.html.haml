@@ -30,7 +30,7 @@
           = format_date(@post.published_at)
           &middot;
           Found it useful?
-          -# = render ReactComponents::Blog::SharePostLink.new(@post)
+          = render ViewComponents::Blog::SharePostLink.new(@post)
 
         .byline.shadow-sm.rounded-8.py-16.px-24.flex.flex-col.md:flex-row.md:items-center.border-1.border-borderColor6
           .flex.items-center

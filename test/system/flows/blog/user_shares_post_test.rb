@@ -9,12 +9,28 @@ module Flows
       include UriEncodeHelpers
 
       test "user sees share panel upon clicking share button" do
-        ReactComponents::Common::ShareButton.stubs(:platforms).returns([:twitter])
+        ViewComponents::Blog::SharePostButton.stubs(:platforms).returns([:twitter])
         post = create :blog_post
 
         use_capybara_host do
           visit blog_post_path(post)
           click_on "Share"
+
+          assert_link(
+            "Twitter",
+            href: uri_encode("https://twitter.com/intent/tweet?url=#{blog_post_url(post)}&title=#{post.title}")
+          )
+          assert_button blog_post_url(post)
+        end
+      end
+
+      test "user sees share panel upon clicking share link" do
+        ReactComponents::Common::ShareButton.stubs(:platforms).returns([:twitter])
+        post = create :blog_post
+
+        use_capybara_host do
+          visit blog_post_path(post)
+          click_on "Share it."
 
           assert_link(
             "Twitter",

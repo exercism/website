@@ -16,7 +16,7 @@
           %h3.text-h5.mb-2 Find the post interesting or useful?
           %p.text-p-base Share it around and have others benefit too!
 
-        = render ReactComponents::Common::ShareButton.new(title: "Share this blog post", share_title: @post.title, share_link: Exercism::Routes.blog_post_url(@post))
+        = render ViewComponents::Blog::SharePostButton.new(@post)
 
       .p-16.md:py-32.md:px-40.flex.flex-col
         - if @post.video?
@@ -30,7 +30,7 @@
           = format_date(@post.published_at)
           &middot;
           Found it useful?
-          %button.text-textColor2.font-medium.border-b-1.border-borderColor6 Share it.
+          -# = render ReactComponents::Blog::SharePostLink.new(@post)
 
         .byline.shadow-sm.rounded-8.py-16.px-24.flex.flex-col.md:flex-row.md:items-center.border-1.border-borderColor6
           .flex.items-center

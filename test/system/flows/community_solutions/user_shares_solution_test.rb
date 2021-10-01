@@ -9,7 +9,7 @@ module Flows
       include UriEncodeHelpers
 
       test "user sees share panel upon clicking share button" do
-        ReactComponents::Common::ShareButton.stubs(:platforms).returns([:twitter])
+        ViewComponents::CommunitySolutions::ShareSolutionButton.stubs(:platforms).returns([:twitter])
         author = create :user, handle: "author"
         exercise = create :concept_exercise
         solution = create :concept_solution, :published, exercise: exercise, user: author

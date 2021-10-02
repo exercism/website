@@ -51,7 +51,7 @@ export const FirstTimeModal = ({
       cover={true}
       open={open}
       {...props}
-      onClose={handleClose}
+      onClose={() => {}}
       className="m-welcome-to-v3"
     >
       <div className="lhs">

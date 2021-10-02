@@ -400,6 +400,13 @@ Rails.application.routes.draw do
   get "about" => "pages#about", as: :about_page
   get "team" => "pages#team", as: :team_page
 
+  ############
+  # Partners #
+  ############
+  get "partners/go_developer_network" => "partners#go_developer_network", as: :go_developer_network
+  get "partners/gobridge", to: redirect("partners/go_developer_network")
+  get "partners/gdn", to: redirect("partners/go_developer_network")
+
   get "site.webmanifest" => "meta#site_webmanifest"
 
   #################

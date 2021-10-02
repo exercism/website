@@ -14,7 +14,7 @@
         -# = link_to "Contribute to the Track", contributing_tasks_path(track_slug: "go"), class: 'btn-secondary btn-m'
 
   %article
-    %section.mentoring-section.pt-56
+    %section.mentoring-section.pt-56.pb-48
       .lg-container.flex
         .content.flex.flex-col
           %h2.text-h4.mb-16.flex.items-center
@@ -37,10 +37,7 @@
 
       = graphical_icon "mentoring", category: "screenshots", css_class: "screenshots"
 
-    .lg-container.mt-40.mb-80
-      .border-b-3.border-borderColor7
-
-    %section.learning-section
+    %section.learning-section.c-shapes.c-shapes-1.pt-48.mb-96
       .lg-container.flex.flex-col.items-center
         %h2.text-h4.mb-16.flex.items-center
           = graphical_icon "concepts"
@@ -56,6 +53,42 @@
           %em #{@num_exercises} coding exercises
           for you to complete. It’s a great way to pick up Go specific concepts and ways of working.
 
-        %p.text-p-xlarge.mb-16.text-center
+        %p.text-p-xlarge.mb-32.text-center
           %strong
             And better still, get mentoring from senior Go developers to discover your knowledge gaps and build a deep understanding of the language.
+
+        = link_to track_path('go'), class: 'btn-primary btn-m mb-48' do
+          Explore the Go track
+          = graphical_icon "arrow-right"
+
+        = link_to track_concepts_path('go'), class: "concepts-map" do
+          = image_pack_tag "screenshots/go-concepts.png"
+
+    %section.contributing-section
+      .lg-container.flex.flex-col.items-center
+        %h2.text-h4.mb-16.flex.items-center
+          = graphical_icon "concepts"
+          .text-gradient.ml-24 Giving back
+
+        %h3.text-h1 Contribute to Go on Exercism
+
+        %hr.c-divider.my-24
+
+        .grid.grid-cols-3.gap-32
+          = link_to mentoring_path, class: 'box' do
+            = graphical_icon "mentoring", category: 'graphics'
+            .tag Mentor.
+            .text-h3 Start mentoring Go students
+            = graphical_icon "arrow-right"
+
+          = link_to contributing_tasks_path(track_slug: "go"), class: 'box' do
+            = graphical_icon "tasks", category: 'graphics'
+            .tag Build.
+            .text-h3 Golang has #{@num_tasks} tasks available to work on
+            = graphical_icon "arrow-right"
+
+          = link_to donate_path, class: 'box' do
+            = graphical_icon "floating-cash", category: 'graphics'
+            .tag Donate.
+            .text-h3 Donate to help us improve the Go track
+            = graphical_icon "arrow-right"

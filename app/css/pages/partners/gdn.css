@@ -54,5 +54,48 @@
                 @apply border-b-1 border-borderColor3;
             }
         }
+
+        & a.concepts-map {
+            @apply block;
+            img {
+                width: 100%;
+                max-width: 1024px;
+            }
+        }
+    }
+    & .contributing-section {
+        & h2 {
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+                filter: var(--purple-filter);
+            }
+        }
+        & .box {
+            @apply flex flex-col items-center;
+            @apply shadow-lgZ1;
+            @apply bg-white;
+            @apply p-40;
+
+            & img:first-child {
+                width: 160px;
+                height: 160px;
+                @apply mb-24;
+            }
+            & .tag {
+                @apply font-mono text-16 leading-150 mb-12;
+                @apply text-purple font-bold;
+            }
+            & .text-h3 {
+                @apply text-center;
+                @apply mb-32;
+                max-width: 300px;
+            }
+            & img:last-child {
+                height: 32px;
+                width: 32px;
+                filter: var(--textColor6-filter);
+            }
+        }
     }
 }

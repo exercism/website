@@ -1,0 +1,61 @@
+#gdn-partner-page
+  %header.pt-48.pb-64
+    .lg-container.flex.flex-col.items-center.c-shapes.c-shapes-1
+      .icons.flex.items-center.mb-36
+        = graphical_icon "exercism-face"
+        %span 💙
+        = graphical_icon "go-gopher", category: "graphics"
+
+      %h1.text-h0.mb-16 The official Go mentoring platform
+      %p.text-p-2xlarge.mb-48 Exercism is the official mentoring platform for GoBridge and the Go Developer Network.
+      .btns.flex.items-center
+        = link_to "Mentor students in Go", mentoring_path, class: 'btn-primary btn-m'
+        = link_to "Learn and get mentored in Go", track_path('go'), class: 'btn-secondary btn-m'
+        -# = link_to "Contribute to the Track", contributing_tasks_path(track_slug: "go"), class: 'btn-secondary btn-m'
+
+  %article
+    %section.mentoring-section.pt-56
+      .lg-container.flex
+        .content.flex.flex-col
+          %h2.text-h4.mb-16.flex.items-center
+            = graphical_icon "mentoring-gradient"
+            .text-gradient.ml-24 Mentoring Go on Exercism
+          %h3.text-h1 Support other programmers making the switch to Go
+          %hr.c-divider.my-24
+          %p.text-p-xlarge.mb-16
+            Exercism is the platform for learning, practicing and mentoring over 55 programming languages. It's not-for-profit and 100% free.
+          %p.text-p-xlarge.mb-16
+            As students complete coding exercises, our volunteer mentors provide feedback on their code, helping them discover their gaps in their knowledge and develop their understanding.
+          %p.text-p-xlarge.mb-32
+            %strong Mentoring is a great way to expand your own your knowledge while helping others discover the power and joy of Go.
+          = link_to mentoring_path, class: 'btn-primary btn-m self-start' do
+            Become a Go mentor
+            = graphical_icon "arrow-right"
+
+        %section.video-section.flex-shrink-0
+          <div class="video rounded-5 overflow-hidden" style="padding:50% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885591?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;h=3d84913229" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Become an Exercism mentor"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+      = graphical_icon "mentoring", category: "screenshots", css_class: "screenshots"
+
+    .lg-container.mt-40.mb-80
+      .border-b-3.border-borderColor7
+
+    %section.learning-section
+      .lg-container.flex.flex-col.items-center
+        %h2.text-h4.mb-16.flex.items-center
+          = graphical_icon "concepts"
+          .text-gradient.ml-24 Gain fluency in Go
+
+        %h3.text-h1 Learn and get mentored on Go-specific idioms
+
+        %hr.c-divider.my-24
+        %p.text-p-xlarge.mb-16.text-center
+          The Go track on Exercism has
+          %em #{@num_concepts} concepts
+          to learn, along with
+          %em #{@num_exercises} coding exercises
+          for you to complete. It’s a great way to pick up Go specific concepts and ways of working.
+
+        %p.text-p-xlarge.mb-16.text-center
+          %strong
+            And better still, get mentoring from senior Go developers to discover your knowledge gaps and build a deep understanding of the language.

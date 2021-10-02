@@ -1,0 +1,58 @@
+#gdn-partner-page {
+    & header {
+        @apply bg-white shadow-lg;
+        & .icons {
+            & span {
+                @apply text-64 mx-32;
+            }
+            & .c-icon {
+                height: 96px;
+            }
+        }
+        & .btns {
+            & a {
+                @apply mx-16;
+            }
+        }
+        & p {
+            max-width: 760px;
+            @apply text-center;
+        }
+    }
+    & .mentoring-section {
+        & h2 {
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+                filter: var(--purple-filter);
+            }
+        }
+        & .video-section {
+            width: 100%;
+            @screen lg {
+                @apply ml-64;
+                max-width: 640px;
+            }
+        }
+        & .screenshots {
+            max-width: 1280px;
+            @apply mx-auto;
+        }
+    }
+    & .learning-section {
+        & h2 {
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+                filter: var(--purple-filter);
+            }
+        }
+        & p {
+            max-width: 800px;
+            & em {
+                @apply not-italic;
+                @apply border-b-1 border-borderColor3;
+            }
+        }
+    }
+}

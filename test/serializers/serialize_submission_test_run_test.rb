@@ -63,6 +63,16 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     assert_equal :error, output[:status]
   end
 
+  test "status: returns timeout if timed out" do
+    test_run = create :submission_test_run,
+      ops_status: 408,
+      status: 'foobar'
+
+    output = SerializeSubmissionTestRun.(test_run)
+
+    assert_equal 'timeout', output[:status]
+  end
+
   test "status: returns error if unexpected" do
     test_run = create :submission_test_run,
       ops_status: 200,

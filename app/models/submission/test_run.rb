@@ -28,6 +28,10 @@ class Submission::TestRun < ApplicationRecord
     ops_status == 200
   end
 
+  def timed_out?
+    ops_status == 408
+  end
+
   def ops_errored?
     !ops_success?
   end

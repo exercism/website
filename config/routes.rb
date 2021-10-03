@@ -403,9 +403,9 @@ Rails.application.routes.draw do
   ############
   # Partners #
   ############
-  get "partners/go_developer_network" => "partners#go_developer_network", as: :gdn_partner_page
-  get "partners/gobridge", to: redirect("partners/go_developer_network")
-  get "partners/gdn", to: redirect("partners/go_developer_network")
+  get "partners/gobridge" => "partners#gobridge", as: :gobridge_partner_page
+  get "partners/go-developer-network", to: redirect("partners/gobridge")
+  get "partners/gdn", to: redirect("partners/gobridge")
 
   get "site.webmanifest" => "meta#site_webmanifest"
 

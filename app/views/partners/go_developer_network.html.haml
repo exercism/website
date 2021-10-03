@@ -1,26 +1,28 @@
 #gdn-partner-page
-  %header.pt-48.pb-64
-    .lg-container.flex.flex-col.items-center.c-shapes.c-shapes-1
-      .icons.flex.items-center.mb-36
+  %header.pt-32.md:pt-48.pb-48.md:pb-64
+    .lg-container.flex.flex-col.md:items-center.c-shapes.c-shapes-1
+      .icons.flex.items-center.mb-24.md:mb-36.self-center
         = graphical_icon "exercism-face"
         %span 💙
         = graphical_icon "go-gopher", category: "graphics"
 
-      %h1.text-h0.mb-16 The official Go mentoring platform
-      %p.text-p-2xlarge.mb-48 Exercism is the official mentoring platform for GoBridge and the Go Developer Network.
-      .btns.flex.items-center
-        = link_to "Mentor students in Go", mentoring_path, class: 'btn-primary btn-m'
-        = link_to "Learn and get mentored in Go", track_path('go'), class: 'btn-secondary btn-m'
+      %h1.text-h0.text-center.mb-12.md:mb-16 The official Go mentoring platform
+      %p.text-p-2xlarge.mb-32.md:mb-48 Exercism is the official mentoring platform for GoBridge and the Go Developer Network.
+      .btns.flex.flex-col.md:flex-row.md:items-center
+        = link_to "Mentor students in Go", mentoring_path, class: 'btn-primary btn-m mb-16 md:mb-0 md:mr-16'
+        = link_to "Learn and get mentored in Go", track_path('go'), class: 'btn-secondary btn-m md:ml-16'
         -# = link_to "Contribute to the Track", contributing_tasks_path(track_slug: "go"), class: 'btn-secondary btn-m'
 
   %article
-    %section.mentoring-section.pt-56.pb-48
-      .lg-container.flex
+    %section.mentoring-section.pt-40.md:pt-56.mb-16.md:mb-48
+      .lg-container.flex.flex-col-reverse.lg:flex-row.mb-48
         .content.flex.flex-col
           %h2.text-h4.mb-16.flex.items-center
             = graphical_icon "mentoring-gradient"
             .text-gradient.ml-24 Mentoring Go on Exercism
-          %h3.text-h1 Support other programmers making the switch to Go
+          %h3.text-h1
+            %span.sm Support others making the switch to Go
+            %span.md Support other programmers making the switch to Go
           %hr.c-divider.my-24
           %p.text-p-xlarge.mb-16
             Exercism is the platform for learning, practicing and mentoring over 55 programming languages. It's not-for-profit and 100% free.
@@ -32,8 +34,8 @@
             Become a Go mentor
             = graphical_icon "arrow-right"
 
-        %section.video-section.flex-shrink-0
-          <div class="video rounded-5 overflow-hidden" style="padding:50% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885591?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;h=3d84913229" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Become an Exercism mentor"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+        %section.video-section.flex-shrink-0.mb-32.lg:mb-0
+          <div class="video rounded-5 overflow-hidden" style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885591?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;h=3d84913229" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Become an Exercism mentor"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
       = graphical_icon "mentoring", category: "screenshots", css_class: "screenshots"
 
@@ -43,7 +45,7 @@
           = graphical_icon "concepts"
           .text-gradient.ml-24 Gain fluency in Go
 
-        %h3.text-h1 Learn and get mentored on Go-specific idioms
+        %h3.text-h1 Learn and get mentored on Go-specific concepts and idioms
 
         %hr.c-divider.my-24
         %p.text-p-xlarge.mb-16.text-center
@@ -62,7 +64,7 @@
           = graphical_icon "arrow-right"
 
         = link_to track_concepts_path('go'), class: "concepts-map" do
-          = image_pack_tag "screenshots/go-concepts.png"
+          = image_pack_tag "screenshots/go-concepts.jpg"
 
     %section.contributing-section
       .lg-container.flex.flex-col.items-center
@@ -70,24 +72,24 @@
           = graphical_icon "concepts"
           .text-gradient.ml-24 Giving back
 
-        %h3.text-h1 Contribute to Go on Exercism
+        %h3.text-h1.text-center Contribute to Go on Exercism
 
         %hr.c-divider.my-24
 
-        .grid.grid-cols-3.gap-32
-          = link_to mentoring_path, class: 'box' do
+        .grid.grid-cols-1.md:grid-cols-3.gap-32
+          = link_to mentoring_path, class: 'box e-hover-grow' do
             = graphical_icon "mentoring", category: 'graphics'
             .tag Mentor.
             .text-h3 Start mentoring Go students
             = graphical_icon "arrow-right"
 
-          = link_to contributing_tasks_path(track_slug: "go"), class: 'box' do
+          = link_to contributing_tasks_path(track_slug: "go"), class: 'box e-hover-grow' do
             = graphical_icon "tasks", category: 'graphics'
             .tag Build.
             .text-h3 Golang has #{@num_tasks} tasks available to work on
             = graphical_icon "arrow-right"
 
-          = link_to donate_path, class: 'box' do
+          = link_to donate_path, class: 'box e-hover-grow' do
             = graphical_icon "floating-cash", category: 'graphics'
             .tag Donate.
             .text-h3 Donate to help us improve the Go track

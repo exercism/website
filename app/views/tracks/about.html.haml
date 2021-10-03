@@ -6,7 +6,7 @@
   - if @user_track.external?
     %header.track-header.c-header-with-bg
       .lg-container.container
-        .info.md:mr-64
+        .info.md:mr-64.flex.flex-col
           %h1.text-h1 Want to learn and master #{@track.title}?
           %p.text-p-xlarge
             Join Exercism’s #{@track.title} Track for access to
@@ -37,6 +37,14 @@
             - else
               = link_to track_exercises_path(@track), class: "btn-secondary btn-l" do
                 Explore exercises
+
+          - if @track.slug == "go"
+            .mt-40.border-2.border-gradient.rounded-8.overflow-hidden.self-start
+              .bg-veryLightBlue.flex.px-24.py-12
+                .font-semibold.text-16.leading-150
+                  ⭐
+                  %span.text-gradient Exercism is the official GoBridge &amp; GDN mentoring platform.
+                  = link_to "Learn more.", blog_post_path('exercism-is-the-official-go-mentoring-platform'), class: "text-gradient border-b-1"
 
         .graphics.hidden.md:grid
           = track_icon(@track)

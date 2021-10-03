@@ -403,7 +403,7 @@ Rails.application.routes.draw do
   ############
   # Partners #
   ############
-  get "partners/go_developer_network" => "partners#go_developer_network", as: :go_developer_network
+  get "partners/go_developer_network" => "partners#go_developer_network", as: :gdn_partner_page
   get "partners/gobridge", to: redirect("partners/go_developer_network")
   get "partners/gdn", to: redirect("partners/go_developer_network")
 

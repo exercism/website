@@ -1,12 +1,18 @@
-#gdn-partner-page {
+#gobridge-partner-page {
     & header {
         @apply bg-white shadow-lg;
         & .icons {
             & span {
-                @apply text-64 mx-32;
+                @apply text-40 mx-24;
+                @screen md {
+                    @apply text-64 mx-32;
+                }
             }
             & .c-icon {
-                height: 96px;
+                height: 80px;
+                @screen md {
+                    height: 96px;
+                }
             }
         }
         & .btns {
@@ -27,6 +33,22 @@
                 filter: var(--purple-filter);
             }
         }
+        & h3 {
+            & .sm {
+                @apply inline;
+            }
+            & .md {
+                @apply hidden;
+            }
+            @screen md {
+                & .sm {
+                    @apply hidden;
+                }
+                & .md {
+                    @apply inline;
+                }
+            }
+        }
         & .video-section {
             width: 100%;
             @screen lg {
@@ -35,8 +57,10 @@
             }
         }
         & .screenshots {
-            max-width: 1280px;
+            @apply block;
             @apply mx-auto;
+            width: 100%;
+            max-width: 1280px;
         }
     }
     & .learning-section {
@@ -47,6 +71,10 @@
                 filter: var(--purple-filter);
             }
         }
+        & h3 {
+            @apply text-center;
+            max-width: 790px;
+        }
         & p {
             max-width: 800px;
             & em {
@@ -56,10 +84,27 @@
         }
 
         & a.concepts-map {
-            @apply block;
-            img {
+            @apply flex flex-col items-center overflow-hidden;
+            max-width: 100%;
+            position: relative;
+
+            & img {
                 width: 100%;
+                min-width: 550px;
                 max-width: 1024px;
+            }
+            &:after {
+                content: "";
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute;
+                box-shadow: 0 -20px 20px 20px var(--backgroundColorB) inset;
+                background: transparent;
+                @screen lg {
+                    @apply hidden;
+                }
             }
         }
     }
@@ -88,13 +133,20 @@
             }
             & .text-h3 {
                 @apply text-center;
-                @apply mb-32;
                 max-width: 300px;
+                @apply mb-24;
+                @screen md {
+                    @apply mb-32;
+                }
             }
             & img:last-child {
-                height: 32px;
-                width: 32px;
+                height: 24px;
+                width: 24px;
                 filter: var(--textColor6-filter);
+                @screen md {
+                    height: 32px;
+                    width: 32px;
+                }
             }
         }
     }

@@ -5,11 +5,12 @@ module Webhooks
     initialize_with :action, :user_name, :team_name, :organization_name
 
     def call
-      return unless %(added removed).include?(action)
-      return unless organization_name == organization.name
+      nil # TODO: enable this once we are confident that org member syncing works
+      # return unless %(added removed).include?(action)
+      # return unless organization_name == organization.name
 
-      ContributorTeam::UpdateReviewersTeamPermissions.(team) if team
-      Github::OrganizationMember::RemoveWhenNoTeamMemberships.(user.github_username) if user
+      # ContributorTeam::UpdateReviewersTeamPermissions.(team) if team
+      # Github::OrganizationMember::RemoveWhenNoTeamMemberships.(user.github_username) if user
     end
 
     private

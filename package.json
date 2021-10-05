@@ -34,6 +34,7 @@
     "actioncable": "^5.2.4-3",
     "chart.js": "^3.1.0",
     "codemirror-lang-elixir": "^1.0.2",
+    "copy-to-clipboard": "^3.3.1",
     "core-js": "^3.6.5",
     "currency.js": "^2.0.4",
     "dayjs": "^1.8.35",

@@ -6,7 +6,7 @@ class Markdown::ParseDoc
   def call
     CommonMarker.render_doc(
       text,
-      :DEFAULT,
+      %i[DEFAULT FOOTNOTES],
       %i[table tagfilter strikethrough]
     )
   end

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ConceptExercise::CreateTest < ActiveSupport::TestCase
+class SiteUpdates::ProcessNewExerciseUpdateTest < ActiveSupport::TestCase
   %i[active beta].each do |status|
     test "creates if #{status}" do
       exercise = create :concept_exercise, status: status

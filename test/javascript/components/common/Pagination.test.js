@@ -223,3 +223,11 @@ test('hides right gap indicator when above the window', () => {
 
   expect(screen.queryByText('…')).not.toBeInTheDocument()
 })
+
+test('shows nothing if current is above total', () => {
+  render(<Pagination current={4} total={3} around={1} />)
+
+  expect(
+    screen.queryByRole('button', { name: 'Go to first page' })
+  ).not.toBeInTheDocument()
+})

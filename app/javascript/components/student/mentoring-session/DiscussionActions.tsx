@@ -26,7 +26,6 @@ export const DiscussionActions = ({
       className="btn-keyboard-shortcut finish-button"
     >
       <div className="--hint">End discussion</div>
-      <div className="--kb">F3</div>
     </FinishButton>
   )
 }

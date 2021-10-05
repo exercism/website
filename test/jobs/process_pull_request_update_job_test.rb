@@ -136,6 +136,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     }
     assert_equal node_id, pr.node_id
     assert_equal number, pr.number
+    assert_equal title, pr.title
     assert_equal repo, pr.repo
     assert_equal author, pr.author_username
     assert_equal merged_by, pr.merged_by_username

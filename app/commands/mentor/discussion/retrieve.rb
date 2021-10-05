@@ -29,7 +29,7 @@ module Mentor
         @student_handle = student_handle
         @track_slug = track_slug
         @criteria = criteria
-        @order = order
+        @order = order&.to_sym
 
         @sorted = sorted
         @paginated = paginated
@@ -97,14 +97,15 @@ module Mentor
 
       def sort!
         case order
-        when "exercise"
+        when :exercise
           @discussions = @discussions.order("exercises.title": :asc, id: :asc)
-        when "student"
+        when :student
           @discussions = @discussions.joins(solution: :user).order("users.handle": :asc, id: :asc)
-        when 'recent'
-          @discussions = @discussions.order(updated_at: :desc, id: :desc)
-        else
+        when :oldest
           @discussions = @discussions.order(updated_at: :asc, id: :asc)
+        else
+          # when :recent
+          @discussions = @discussions.order(updated_at: :desc, id: :desc)
         end
       end
 

@@ -88,7 +88,9 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
     concept = create :concept, uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
     new_author = create :user, github_username: 'ErikSchierboom'
 
-    Git::SyncConcept.(concept)
+    perform_enqueued_jobs do
+      Git::SyncConcept.(concept)
+    end
 
     new_authorship = concept.authorships.find_by(author: new_author)
     new_author_rep_token = new_author.reputation_tokens.last
@@ -105,7 +107,9 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
     existing_concept_authorship = create :concept_authorship, concept: concept, author: existing_author
     create :user_concept_author_reputation_token, user: existing_author, params: { authorship: existing_concept_authorship }
 
-    Git::SyncConcept.(concept)
+    perform_enqueued_jobs do
+      Git::SyncConcept.(concept)
+    end
 
     assert_equal 1, existing_author.reputation_tokens.where(category: "authoring").count
   end
@@ -134,7 +138,9 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
     new_contributor = create :user, github_username: 'iHiD'
     concept = create :concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
 
-    Git::SyncConcept.(concept)
+    perform_enqueued_jobs do
+      Git::SyncConcept.(concept)
+    end
 
     new_contributorship = concept.contributorships.find_by(contributor: new_contributor)
     new_contributor_rep_token = new_contributor.reputation_tokens.last
@@ -152,7 +158,9 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
     create :user_concept_contribution_reputation_token, user: existing_contributor,
                                                         params: { contributorship: existing_contributorship }
 
-    Git::SyncConcept.(concept)
+    perform_enqueued_jobs do
+      Git::SyncConcept.(concept)
+    end
 
     assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
   end

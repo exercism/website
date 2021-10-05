@@ -63,11 +63,15 @@ module Flows
       use_capybara_host do
         sign_in!(user)
         visit track_exercise_solutions_path(exercise.track, exercise)
-        click_on "2"
-      end
 
-      assert_text "author2's solution"
-      assert_no_text "author1's solution"
+        assert_text "author2's solution"
+        assert_no_text "author1's solution"
+
+        click_on "2"
+
+        assert_text "author1's solution"
+        assert_no_text "author2's solution"
+      end
     end
 
     test "views iterations per community solution" do

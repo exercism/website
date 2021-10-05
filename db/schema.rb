@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_28_132559) do
+ActiveRecord::Schema.define(version: 2021_09_25_111900) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["stripe_id"], name: "index_donations_payments_on_stripe_id", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
     t.index ["user_id"], name: "index_donations_payments_on_user_id"
@@ -129,6 +130,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["stripe_id"], name: "index_donations_subscriptions_on_stripe_id", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
@@ -337,6 +339,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.index ["discussion_id"], name: "index_mentor_discussion_posts_on_discussion_id"
     t.index ["iteration_id"], name: "index_mentor_discussion_posts_on_iteration_id"
     t.index ["user_id"], name: "index_mentor_discussion_posts_on_user_id"
+    t.index ["uuid"], name: "index_mentor_discussion_posts_on_uuid", unique: true
   end
 
   create_table "mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -473,14 +476,14 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
   create_table "solution_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "solution_id", null: false
-    t.bigint "author_id", null: false
+    t.bigint "user_id", null: false
     t.text "content_markdown", null: false
     t.text "content_html", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["author_id"], name: "index_solution_comments_on_author_id"
     t.index ["solution_id"], name: "index_solution_comments_on_solution_id"
+    t.index ["user_id"], name: "index_solution_comments_on_user_id"
     t.index ["uuid"], name: "index_solution_comments_on_uuid", unique: true
   end
 
@@ -522,6 +525,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
+    t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
@@ -567,7 +571,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.string "status", null: false
     t.text "message"
     t.integer "ops_status", limit: 2, null: false
-    t.text "raw_results", null: false
+    t.text "raw_results", size: :medium, null: false
     t.integer "version", limit: 1, default: 0, null: false
     t.text "output"
     t.datetime "created_at", precision: 6, null: false
@@ -700,6 +704,8 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.boolean "email_on_mentor_heartbeat", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "email_on_general_update_notification", default: true, null: false
+    t.boolean "email_on_acquired_badge_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
@@ -854,6 +860,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -912,7 +919,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_132559) do
   add_foreign_key "site_updates", "tracks"
   add_foreign_key "site_updates", "users", column: "author_id"
   add_foreign_key "solution_comments", "solutions"
-  add_foreign_key "solution_comments", "users", column: "author_id"
+  add_foreign_key "solution_comments", "users"
   add_foreign_key "solution_stars", "solutions"
   add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"

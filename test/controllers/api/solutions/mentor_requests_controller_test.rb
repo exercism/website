@@ -16,6 +16,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
   test "create should 404 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
+    create :user_track, user: @current_user, track: solution.track
     post api_solution_mentor_requests_path(solution.uuid), headers: @headers, as: :json
     assert_response 403
     expected = { error: {
@@ -26,10 +27,27 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "create should 400 if there are no slots" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create :user_track, user: @current_user, track: solution.track
+    Mentor::Request::Create.expects(:call).raises(NoMentoringSlotsAvailableError)
+
+    post api_solution_mentor_requests_path(solution.uuid), headers: @headers, as: :json
+    assert_response 400
+    expected = { error: {
+      type: "no_mentoring_slots_available",
+      message: I18n.t('api.errors.no_mentoring_slots_available')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
   test "create should create correctly" do
     user = create :user
     setup_user(user)
     solution = create :concept_solution, user: user
+    create :user_track, user: @current_user, track: solution.track
     create :iteration, solution: solution
 
     comment = "foo to the baaar"

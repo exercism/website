@@ -26,6 +26,7 @@ import {
   MentorDiscussion as Discussion,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
+  MentoringSessionExemplarFile,
 } from '../types'
 
 import { useIterationScrolling } from './session/useIterationScrolling'
@@ -60,8 +61,10 @@ export type SessionProps = {
   notes: string
   outOfDate: boolean
   mentorSolution: CommunitySolution
+  exemplarFiles: readonly MentoringSessionExemplarFile[]
   request: Request
   scratchpad: Scratchpad
+  downloadCommand: string
 }
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
@@ -84,10 +87,12 @@ export const Session = (props: SessionProps): JSX.Element => {
     discussion,
     notes,
     mentorSolution,
+    exemplarFiles,
     outOfDate,
     request,
     scratchpad,
     userHandle,
+    downloadCommand,
   } = session
   const [tab, setTab] = useState<TabIndex>('discussion')
 
@@ -145,6 +150,8 @@ export const Session = (props: SessionProps): JSX.Element => {
               indentSize={track.indentSize}
               isLinked={isLinked}
               setIsLinked={setIsLinked}
+              discussion={discussion}
+              downloadCommand={downloadCommand}
             />
           </>
         }
@@ -201,6 +208,8 @@ export const Session = (props: SessionProps): JSX.Element => {
                   <Guidance
                     notes={notes}
                     mentorSolution={mentorSolution}
+                    exemplarFiles={exemplarFiles}
+                    language={track.highlightjsLanguage}
                     links={links}
                   />
                 </Tab.Panel>

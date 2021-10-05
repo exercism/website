@@ -29,7 +29,6 @@ export const ConfirmFinishMentorDiscussionModal = ({
           onClick={() => onCancel()}
         >
           Cancel
-          <div className="kb-shortcut">F2</div>
         </button>
         <button
           type="button"
@@ -37,7 +36,6 @@ export const ConfirmFinishMentorDiscussionModal = ({
           onClick={() => onConfirm()}
         >
           Review and end discussion...
-          <div className="kb-shortcut">F3</div>
         </button>
       </div>
     </Modal>

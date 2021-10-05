@@ -160,8 +160,8 @@ const TestRunSummaryContent = ({
         <div className="ops-error">
           <p>
             Your tests timed out. This might mean that there was an issue in our
-            infrastructure, or it might mean that you have some infinite loop in
-            your code.
+            infrastructure, but more likely it suggests that your code is
+            running slowly. Is there an infinite loop or something similar?
           </p>
           <p>
             Please check your code, and if nothing seems to be wrong, try

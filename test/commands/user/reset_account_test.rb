@@ -17,9 +17,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     assert_empty user.roles
     assert_nil user.bio
 
-    # TODO: Switch
-    # assert_equal "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg", user.avatar_url
-    assert_includes user.avatar_url, "https://100k-faces.glitch.me/random-image"
+    assert_equal "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg", user.avatar_url
 
     assert_nil user.location
     assert_nil user.pronouns
@@ -58,12 +56,14 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion, mentor: user
     discussion_post = create :mentor_discussion_post, author: user
     testimonial = create :mentor_testimonial, mentor: user
+    provided_testimonial = create :mentor_testimonial, student: user
 
     User::ResetAccount.(user)
 
     assert_equal ghost_user, discussion.reload.mentor
-    assert_equal ghost_user, testimonial.reload.mentor
     assert_equal ghost_user, discussion_post.reload.author
+    assert_equal ghost_user, testimonial.reload.mentor
+    assert_equal ghost_user, provided_testimonial.reload.student
   end
 
   test "cleans up profile" do

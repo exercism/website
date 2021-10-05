@@ -85,4 +85,14 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
     get "/mentor/solutions/#{solution.uuid}"
     assert_response 404
   end
+
+  test "my/settings" do
+    get "/my/settings"
+    assert_redirected_to settings_path
+  end
+
+  test "my/tracks" do
+    get "/my/tracks"
+    assert_redirected_to tracks_path
+  end
 end

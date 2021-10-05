@@ -39,7 +39,7 @@ module API
 
       assert_response :success
       expected = SerializePaginatedCollection.(
-        exercise.solutions.page(1),
+        exercise.solutions.order(id: :desc).page(1),
         serializer: SerializeCommunitySolutions,
         meta: {
           unscoped_total: 2

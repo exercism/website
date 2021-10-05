@@ -25,6 +25,7 @@ class SerializeSubmissionTestRun
 
   private
   def status
+    return TIMEOUT_STATUS if test_run.timed_out?
     return OPS_ERROR_STATUS unless test_run.ops_success?
     return :error unless VALID_STATUSES.include?(test_run.status)
 
@@ -39,7 +40,8 @@ class SerializeSubmissionTestRun
   end
 
   OPS_ERROR_STATUS = "ops_error".freeze
-  private_constant :OPS_ERROR_STATUS
+  TIMEOUT_STATUS = "timeout".freeze
+  private_constant :OPS_ERROR_STATUS, :TIMEOUT_STATUS
 
   VALID_STATUSES = %i[pass fail error].freeze
   private_constant :VALID_STATUSES

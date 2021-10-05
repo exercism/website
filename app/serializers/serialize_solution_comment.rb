@@ -20,7 +20,7 @@ class SerializeSolutionComment
 
   def links
     return {} if for_user.blank?
-    return {} unless for_user.id == comment.author_id
+    return {} unless for_user.id == comment.user_id
 
     solution = comment.solution
     {

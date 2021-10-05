@@ -16,7 +16,7 @@ const server = setupServer(
     return res(
       ctx.delay(10),
       ctx.status(200),
-      ctx.json({ links: { edit: '' } })
+      ctx.json({ links: { exercise: '' } })
     )
   })
 )
@@ -27,7 +27,10 @@ afterAll(() => server.close())
 
 test('disables buttons when loading', async () => {
   render(
-    <EmptyIterations links={{ startExercise: 'https://exercism.test/start' }} />
+    <EmptyIterations
+      exercise={{ hasTestRunner: true }}
+      links={{ startExercise: 'https://exercism.test/start' }}
+    />
   )
 
   const startBtn = await screen.findByRole('button', {
@@ -43,7 +46,10 @@ test('disables buttons when loading', async () => {
 
 test('shows loading message when loading', async () => {
   render(
-    <EmptyIterations links={{ startExercise: 'https://exercism.test/start' }} />
+    <EmptyIterations
+      exercise={{ hasTestRunner: true }}
+      links={{ startExercise: 'https://exercism.test/start' }}
+    />
   )
 
   userEvent.click(
@@ -57,7 +63,12 @@ test('shows loading message when loading', async () => {
 
 test('shows generic errors', async () => {
   await expectConsoleError(async () => {
-    render(<EmptyIterations links={{ startExercise: 'weirdendpoint' }} />)
+    render(
+      <EmptyIterations
+        exercise={{ hasTestRunner: true }}
+        links={{ startExercise: 'weirdendpoint' }}
+      />
+    )
 
     userEvent.click(
       await screen.findByRole('button', { name: 'Start in Editor' })
@@ -83,6 +94,7 @@ test('shows API errors', async () => {
 
     render(
       <EmptyIterations
+        exercise={{ hasTestRunner: true }}
         links={{ startExercise: 'https://exercism.test/start' }}
       />
     )

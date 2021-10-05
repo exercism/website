@@ -1,6 +1,6 @@
 class Solution::Comment < ApplicationRecord
   belongs_to :solution
-  belongs_to :author, class_name: "User"
+  belongs_to :author, class_name: "User", foreign_key: :user_id, inverse_of: :solution_comments
 
   validates :content_markdown, presence: true
   has_markdown_field :content, strip_h1: false, lower_heading_levels_by: 2

@@ -1,22 +1,27 @@
 require "test_helper"
 
 class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
-  test "no options returns all users that have contributed, ordered by rep" do
+  test "no options returns all users that have contributed, ordered by rep, then id" do
     create :user # Never contributed
     big_contributor = create :user, handle: 'big'
-    small_contributor = create :user, handle: 'small'
+    small_3_contributor = create :user, handle: 'small-3'
+    small_1_contributor = create :user, handle: 'small-1'
+    small_2_contributor = create :user, handle: 'small-2'
     medium_contributor = create :user, handle: 'medium'
 
     # Add other contribution rows to ensure they are not counted
-    create :user_reputation_period, user: small_contributor, period: :year, reputation: 1000
-    create :user_reputation_period, user: small_contributor, about: :track, reputation: 1000
-    create :user_reputation_period, user: small_contributor, category: :building, reputation: 1000
+    create :user_reputation_period, user: small_1_contributor, period: :year, reputation: 1000
+    create :user_reputation_period, user: small_1_contributor, about: :track, reputation: 1000
+    create :user_reputation_period, user: small_1_contributor, category: :building, reputation: 1000
 
     create :user_reputation_period, user: big_contributor, period: :forever, reputation: 50
-    create :user_reputation_period, user: small_contributor, period: :forever, reputation: 30
+    create :user_reputation_period, user: small_1_contributor, period: :forever, reputation: 30
+    create :user_reputation_period, user: small_2_contributor, period: :forever, reputation: 30
+    create :user_reputation_period, user: small_3_contributor, period: :forever, reputation: 30
     create :user_reputation_period, user: medium_contributor, period: :forever, reputation: 40
 
-    assert_search [big_contributor, medium_contributor, small_contributor], User::ReputationPeriod::Search.()
+    assert_search [big_contributor, medium_contributor, small_1_contributor, small_2_contributor, small_3_contributor],
+      User::ReputationPeriod::Search.()
   end
 
   test "handles empty inputs" do

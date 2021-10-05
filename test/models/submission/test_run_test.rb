@@ -14,7 +14,15 @@ class Submission::TestRunTest < ActiveSupport::TestCase
   end
 
   test "override ops error if no status" do
-    assert create(:submission_test_run, raw_results: {}).ops_errored?
+    test_run = create(:submission_test_run, raw_results: {})
+    assert_equal 400, test_run.ops_status
+    assert test_run.ops_errored?
+  end
+
+  test "don't overide ops error for empty 512" do
+    test_run = create(:submission_test_run, ops_status: 512, raw_results: {})
+    assert_equal 512, test_run.ops_status
+    assert test_run.ops_errored?
   end
 
   test "explodes raw_results" do
@@ -91,6 +99,21 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert_equal test_as_hash, result.to_h
     assert_equal test_as_hash.to_json, result.to_json
     assert_equal test_as_hash, result.as_json(1, 2, 3) # Test with arbitary args
+  end
+
+  test "tooling_job" do
+    submission = create :submission
+    job = create_test_runner_job!(submission)
+    Submission::TestRun::Process.(job)
+    test_run = submission.test_run
+
+    Exercism::ToolingJob.expects(:new).with(test_run.tooling_job_id, {}).returns(job)
+    job.expects(:stdout)
+    job.expects(:stderr)
+    job.expects(:metadata)
+    test_run.stdout
+    test_run.stderr
+    test_run.metadata
   end
 
   # TODO: - Add a test for if the raw_results is empty

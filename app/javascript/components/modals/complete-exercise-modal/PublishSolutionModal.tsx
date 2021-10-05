@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal } from '../Modal'
+import { Modal, ModalProps } from '../Modal'
 import { GraphicalIcon } from '../../common'
 import { PublishSolutionForm } from './PublishSolutionForm'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
@@ -11,7 +11,7 @@ export const PublishSolutionModal = ({
   endpoint,
   onSuccess,
   ...props
-}: {
+}: Omit<ModalProps, 'className'> & {
   open: boolean
   iterations: readonly Iteration[]
   endpoint: string
@@ -22,7 +22,7 @@ export const PublishSolutionModal = ({
       cover={true}
       open={open}
       className="m-publish-exercise"
-      onClose={() => {}}
+      closeButton
       {...props}
     >
       <div className="content">

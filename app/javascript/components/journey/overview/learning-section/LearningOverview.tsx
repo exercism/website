@@ -13,7 +13,7 @@ export const LearningOverview = ({
         You&apos;re{' '}
         <em className="text-gradient">{tracks.completion.toFixed(2)}%</em>{' '}
         through your enrolled {pluralize('Track', tracks.length)}.{' '}
-        <strong>Keep it up! 🚀</strong>
+        {tracks.completion > 1 ? <strong>Keep it up! 🚀</strong> : null}
       </h3>
       <div className="c-progress --large">
         <div className="bar" style={{ width: `${tracks.completion}%` }} />

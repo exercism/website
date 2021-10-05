@@ -21,6 +21,9 @@ import {
   // User,
   // SiteUpdate,
   CommunicationPreferences,
+  User,
+  MentoringSessionExemplarFile,
+  SharePlatform,
   // TrackContribution,
 } from '../components/types'
 
@@ -78,6 +81,8 @@ import { Links as PublishedSolutionLinks } from '../components/student/Published
 import { Links as NotificationsListLinks } from '../components/notifications/NotificationsList'
 import * as Notifications from '../components/notifications'
 
+import * as Modals from '../components/modals'
+
 import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
@@ -91,6 +96,13 @@ function camelizeKeysAs<T>(object: any): T {
 initReact({
   'common-markdown-editor': (data: any) => (
     <MarkdownEditor contextId={data.context_id} />
+  ),
+
+  'modals-first-time-modal': (data: any) => (
+    <Modals.FirstTimeModal
+      endpoint={data.endpoint}
+      contributors={camelizeKeysAs<readonly User[]>(data.contributors)}
+    />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (
@@ -127,6 +139,9 @@ initReact({
       userHandle={data.user_handle}
       discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
+      exemplarFiles={camelizeKeysAs<readonly MentoringSessionExemplarFile[]>(
+        data.exemplar_files
+      )}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
@@ -138,6 +153,7 @@ initReact({
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
       notes={data.notes}
       outOfDate={data.out_of_date}
+      downloadCommand={data.download_command}
     />
   ),
   'mentoring-try-mentoring-button': (data: any) => (
@@ -153,6 +169,7 @@ initReact({
       tracks={camelizeKeysAs<readonly MentoringTestimonialsListTrack[]>(
         data.tracks
       )}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
   'student-mentoring-session': (data: any) => (
@@ -192,6 +209,12 @@ initReact({
       links={data.links}
     />
   ),
+  'settings-photo-form': (data: any) => (
+    <Settings.PhotoForm
+      defaultUser={camelizeKeysAs<User>(data.user)}
+      links={data.links}
+    />
+  ),
   'settings-delete-profile-form': (data: any) => (
     <Settings.DeleteProfileForm links={data.links} />
   ),
@@ -216,7 +239,7 @@ initReact({
   ),
   'settings-communication-preferences-form': (data: any) => (
     <Settings.CommunicationPreferencesForm
-      defaultPreferences={camelizeKeysAs<CommunicationPreferences>(
+      defaultPreferences={camelizeKeysAs<readonly CommunicationPreferences[]>(
         data.preferences
       )}
       links={data.links}

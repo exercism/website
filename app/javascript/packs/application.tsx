@@ -22,6 +22,8 @@ import '../../css/tooltips/exercise'
 import '../../css/tooltips/student'
 import '../../css/tooltips/task'
 
+import '../../css/components/textblock'
+import '../../css/components/settings-photo-form'
 import '../../css/components/financial-amount'
 import '../../css/components/automated-feedback'
 import '../../css/components/share-button'
@@ -153,12 +155,13 @@ import '../../css/modals/unpublish-solution'
 import '../../css/modals/cli-walkthrough'
 
 import '../../css/dropdowns/generic-menu'
-import '../../css/dropdowns/share-solution'
+import '../../css/dropdowns/share'
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
+import '../../css/pages/partners/gdn'
 import '../../css/pages/about'
 import '../../css/pages/team'
 import '../../css/pages/editor'
@@ -255,8 +258,10 @@ import {
   User,
   SiteUpdate,
   TrackContribution,
+  SharePlatform,
 } from '../components/types'
 
+import * as Blog from '../components/blog'
 import * as Tooltips from '../components/tooltips'
 import { Dropdown } from '../components/dropdowns/Dropdown'
 import * as Profile from '../components/profile'
@@ -267,8 +272,6 @@ import { TrackData as ProfileCommunitySolutionsListTrackData } from '../componen
 import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
 import { Links as SolutionViewLinks } from '../components/common/SolutionView'
 import { Links as CommentsListLinks } from '../components/community-solutions/CommentsList'
-
-import { User as ProfileNewProfileFormUser } from '../components/profile/NewProfileForm'
 
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
@@ -282,6 +285,14 @@ const renderLoader = () => <div className="c-loading-suspense" />
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components
 initReact({
+  'blog-share-post-link': (data: any) => (
+    <Blog.SharePostLink
+      title={data.title}
+      shareTitle={data.share_title}
+      shareLink={data.share_link}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
+    />
+  ),
   'donations-with-modal-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsFormWithModal
@@ -384,14 +395,12 @@ initReact({
       isSkinny={data.skinny}
     />
   ),
-  'common-share-solution-button': (data: any) => (
-    <Common.ShareSolutionButton title={data.title} links={data.links} />
-  ),
   'common-share-button': (data: any) => (
     <Common.ShareButton
       title={data.title}
       shareTitle={data.share_title}
       shareLink={data.share_link}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
   'common-site-updates-list': (data: any) => (
@@ -543,13 +552,13 @@ initReact({
   ),
   'profile-avatar-selector': (data: any) => (
     <Profile.AvatarSelector
-      user={camelizeKeysAs<User>(data.user)}
+      defaultUser={camelizeKeysAs<User>(data.user)}
       links={data.links}
     />
   ),
   'profile-new-profile-form': (data: any) => (
     <Profile.NewProfileForm
-      user={camelizeKeysAs<ProfileNewProfileFormUser>(data.user)}
+      user={camelizeKeysAs<User>(data.user)}
       defaultFields={data.fields}
       links={data.links}
     />

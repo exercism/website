@@ -3,7 +3,7 @@ class User < ApplicationRecord
   extend Mandate::Memoize
 
   SYSTEM_USER_ID = 1
-  GHOST_USER_ID = 2
+  GHOST_USER_ID = 720_036
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
@@ -39,6 +39,15 @@ class User < ApplicationRecord
                                  inverse_of: :mentor,
                                  dependent: :destroy,
                                  class_name: "Mentor::Testimonial"
+  has_many :provided_testimonials, foreign_key: :student_id,
+                                   inverse_of: :student,
+                                   dependent: :destroy,
+                                   class_name: "Mentor::Testimonial"
+
+  has_many :student_relationships, class_name: "Mentor::StudentRelationship",
+                                   foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy
+  has_many :mentor_relationships, class_name: "Mentor::StudentRelationship",
+                                  foreign_key: :student_id, inverse_of: :student, dependent: :destroy
 
   has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
   has_many :reputation_periods, class_name: "User::ReputationPeriod", dependent: :destroy
@@ -53,6 +62,7 @@ class User < ApplicationRecord
   has_many :contributed_exercises, through: :contributorships, source: :exercise
   has_many :scratchpad_pages, dependent: :destroy
 
+  has_many :solution_comments, dependent: :destroy, class_name: "Solution::Comment", inverse_of: :author
   has_many :solution_stars, dependent: :destroy, class_name: "Solution::Star"
 
   has_many :track_mentorships, dependent: :destroy
@@ -76,7 +86,12 @@ class User < ApplicationRecord
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
+  # TODO: Inline this here and use variant(:thumb) everywhere in Rails Edge
+  AVATAR_THUMB_VARIANT = { thumbnail: "200x200^", extent: "200x200", gravity: :center }.freeze
   has_one_attached :avatar
+  # has_one_attached :avatar do |attachable|
+  #   attachable.variant :thumb, THUMB_VARIANT
+  # end
 
   before_create do
     self.name = self.handle if self.name.blank?
@@ -84,6 +99,12 @@ class User < ApplicationRecord
 
   after_create_commit do
     create_communication_preferences
+
+    after_confirmation if confirmed?
+  end
+
+  def after_confirmation
+    User::Notification::CreateEmailOnly.(self, :joined_exercism, {})
   end
 
   def self.for!(param)
@@ -181,9 +202,15 @@ class User < ApplicationRecord
     solutions.where('downloaded_at >= ?', Time.current - 30.days).exists?
   end
 
-  # TODO: This needs fleshing out for mentors
+  # TODO: Remove this if there have not been any bugsnags
   def may_view_solution?(solution)
-    id == solution.user_id
+    begin
+      raise "User#may_view_solution? is deprecated"
+    rescue StandardError => e
+      Bugsnag.notify(e)
+    end
+
+    solution.viewable_by?(self)
   end
 
   def onboarded?
@@ -191,15 +218,18 @@ class User < ApplicationRecord
       accepted_terms_at.present?
   end
 
-  # TODO
-  def avatar_url
-    return super if super.present?
-    return Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
+  def has_avatar_url?
+    super.presence? || avatar.attached?
+  end
 
-    # TODO: Read correct s3 bucket
-    # TODO: Add this image to the repo etc
-    super || "https://100k-faces.glitch.me/random-image?r=#{SecureRandom.hex(3)}"
-    # super || "https://exercism-icons-staging.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg"
+  def avatar_url
+    return Rails.application.routes.url_helpers.url_for(avatar.variant(AVATAR_THUMB_VARIANT)) if avatar.attached?
+
+    super.presence || "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
+  end
+
+  def has_avatar?
+    avatar.attached? || self[:avatar_url].present?
   end
 
   # TODO

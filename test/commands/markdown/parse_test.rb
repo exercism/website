@@ -122,7 +122,7 @@ Done')
   end
 
   schemes = %w[https http]
-  domains = %w[exercism.io exercism.lol local.exercism.io exercism.org local.exercism.org]
+  domains = %w[exercism.io exercism.lol local.exercism.io exercism.org]
 
   schemes.product(domains).each do |scheme, domain|
     test "does not add target=\"blank\" to internal link on #{scheme}://#{domain}" do
@@ -208,9 +208,9 @@ Done')
     assert_equal expected, Markdown::Parse.("[basics](https://exercism.lol/tracks/ruby/concepts/basics)")
   end
 
-  test "render internal link using local.exercism.org domain" do
-    expected = %(<p><a href="http://local.exercism.org/tracks/ruby/concepts/basics" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
-    assert_equal expected, Markdown::Parse.("[basics](http://local.exercism.org/tracks/ruby/concepts/basics)")
+  test "render internal link using local.exercism.io domain" do
+    expected = %(<p><a href="http://local.exercism.io/tracks/ruby/concepts/basics" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[basics](http://local.exercism.io/tracks/ruby/concepts/basics)")
   end
 
   test "render internal link with trailing slash" do
@@ -244,8 +244,7 @@ Done')
   end
 
   test "render internal link with exercise containing special characters" do
-    skip # TODO: enable one exercise tooltips are enabled
-    expected = %(<p><a href="https://exercism.org/tracks/ruby/exercises/bank-%F0%9F%8E%B8" data-tooltip-type="concept" data-endpoint="/tracks/ruby/exercises/bank-%F0%9F%8E%B8/tooltip">bank</a></p>\n) # rubocop:disable Layout/LineLength
+    expected = %(<p><a href="https://exercism.org/tracks/ruby/exercises/bank-%F0%9F%92%B0" data-tooltip-type="exercise" data-endpoint="/tracks/ruby/exercises/bank-%F0%9F%92%B0/tooltip">bank</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[bank](https://exercism.org/tracks/ruby/exercises/bank-💰)")
   end
 
@@ -255,32 +254,71 @@ Done')
   end
 
   test "render concept widget link without link" do
-    skip # TODO: enable once we know how to handle widgets
-    expected = %(<p><span data-react-widget="julia/concepts/if-statements\" class=\"data-react-concept-widget\"></span></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render concept widget instead of link
+    expected = %(<p><a href="https://exercism.org/tracks/julia/concepts/if-statements" data-tooltip-type="concept" data-endpoint="/tracks/julia/concepts/if-statements/tooltip">if-statements</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[concept:julia/if-statements]()")
   end
 
   test "render concept widget link with link" do
-    skip # TODO: enable once we know how to handle widgets
-    expected = %(<p><span data-react-widget="julia/concepts/if-statements\" class=\"data-react-concept-widget\"></span></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render concept widget instead of link
+    expected = %(<p><a href="https://exercism.org/tracks/julia/concepts/if-statements" data-tooltip-type="concept" data-endpoint="/tracks/julia/concepts/if-statements/tooltip">if-statements</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected,
       Markdown::Parse.("[concept:julia/if-statements](https://exercism.org/tracks/julia/concepts/if-statements)")
   end
 
   test "render exercise widget link without link" do
-    skip # TODO: enable once we know how to handle widgets
-    expected = %(<p><span data-react-widget="julia/exercises/two-fer\" class=\"data-react-exercise-widget\"></span></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render exercise widget instead of link
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer" data-tooltip-type="exercise" data-endpoint="/tracks/julia/exercises/two-fer/tooltip">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer]()")
   end
 
   test "render exercise widget link with link" do
-    skip # TODO: enable once we know how to handle widgets
-    expected = %(<p><span data-react-widget="julia/exercises/two-fer\" class=\"data-react-exercise-widget\"></span></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render exercise widget instead of link
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer" data-tooltip-type="exercise" data-endpoint="/tracks/julia/exercises/two-fer/tooltip">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](https://exercism.org/tracks/julia/exercises/two-fer)")
   end
 
   test "copes with a bad link uri scheme" do
-    expected = %(<p><a href=\"+https://exercism.org/tracks/julia/exercises/two-fer\" target=\"_blank\" rel=\"noopener\">exercise:julia/two-fer</a></p>\n) # rubocop:disable Layout/LineLength
+    # TODO: render exercise widget instead of link
+    expected = %(<p><a href=\"https://exercism.org/tracks/julia/exercises/two-fer\" data-tooltip-type=\"exercise\" data-endpoint=\"/tracks/julia/exercises/two-fer/tooltip\">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](+https://exercism.org/tracks/julia/exercises/two-fer)")
+  end
+
+  test "render vimeo video without link" do
+    expected = %(<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885125?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="X Exercism_ Tutorial Your first mentoring session 1.m4v"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:vimeo/595885125]()")
+  end
+
+  test "render vimeo video with link" do
+    expected = %(<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885125?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="X Exercism_ Tutorial Your first mentoring session 1.m4v"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:vimeo/595885125](https://player.vimeo.com/video/595885125)")
+  end
+
+  test "render note code block" do
+    expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">\n<p>Note this</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("```exercism/note\nNote this\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/note\nNote this\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nNote this\n~~~~~")
+  end
+
+  test "render caution code block" do
+    expected = %(<div class="c-textblock-caution">\n<div class="c-textblock-header">Caution</div>\n<div class="c-textblock-content">\n<p>Here be dragons</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("```exercism/caution\nHere be dragons\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/caution\nHere be dragons\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/caution\nHere be dragons\n~~~~~")
+  end
+
+  test "render advanced code block" do
+    expected = %(<div class="c-textblock-advanced">\n<div class="c-textblock-header">Advanced</div>\n<div class="c-textblock-content">\n<p>Pointer arithmetic</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("```exercism/advanced\nPointer arithmetic\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/advanced\nPointer arithmetic\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/advanced\nPointer arithmetic\n~~~~~")
+  end
+
+  test "render note block with markdown note" do
+    expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">\n<p>There is <strong>markdown</strong> within <em>these</em> notes.</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("```exercism/note\nThere is **markdown** within _these_ notes.\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/note\nThere is **markdown** within _these_ notes.\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nThere is **markdown** within _these_ notes.\n~~~~~")
   end
 end

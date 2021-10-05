@@ -26,7 +26,6 @@ export const RunTestsButton = forwardRef<HTMLButtonElement, Props>(
           >
             <GraphicalIcon icon="run-tests" />
             <span>Run Tests</span>
-            <div className="kb-shortcut">F2</div>
           </button>
         </div>
       </GenericTooltip>

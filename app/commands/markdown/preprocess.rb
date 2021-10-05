@@ -10,6 +10,7 @@ class Markdown::Preprocess
   end
 
   def call
+    convert_inline_links!
     strip_h1_headings! if strip_h1
     lower_heading_levels! if lower_heading_levels_by.positive?
     apply_mutations! if mutations.present?
@@ -33,6 +34,22 @@ class Markdown::Preprocess
       next unless node.type == :header && (node.header_level > 1 || !strip_h1)
 
       mutations << { type: :lower_header_level, node: node }
+    end
+  end
+
+  def convert_inline_links!
+    doc.walk do |node|
+      next unless node.type == :link
+
+      link_text = node.each.map(&:to_commonmark).join.strip
+      link_text.match(%r{^(concept|exercise):([\w-]+)/([\w-]+)$}) do |m|
+        node.url = "https://exercism.org/tracks/#{m[2]}/#{m[1]}s/#{m[3]}"
+        node.each.first.string_content = m[3]
+      end
+
+      link_text.match(%r{^video:vimeo/(\d+)$}) do |m|
+        node.url = "https://player.vimeo.com/video/#{m[1]}"
+      end
     end
   end
 

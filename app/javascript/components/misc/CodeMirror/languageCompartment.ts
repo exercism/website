@@ -13,6 +13,9 @@ export const loadLanguageCompartment = async (
     case 'java':
       const { java } = await import('@codemirror/lang-java')
       return compartment.of(java())
+    case 'cfml':
+      const { javascript: cfml } = await import('@codemirror/lang-javascript')
+      return compartment.of(cfml())
     case 'javascript':
     case 'typescript':
       const { javascript } = await import('@codemirror/lang-javascript')
@@ -23,6 +26,9 @@ export const loadLanguageCompartment = async (
     case 'rust':
       const { rust } = await import('@codemirror/lang-rust')
       return compartment.of(rust())
+    case 'reasonml':
+      const { rust: reasonml } = await import('@codemirror/lang-rust')
+      return compartment.of(reasonml())
     case 'wren':
       const { wren } = await import('@exercism/codemirror-lang-wren')
       return compartment.of(wren())
@@ -62,6 +68,9 @@ export const loadLanguageCompartment = async (
     case 'd':
       const { d } = await import('@codemirror/legacy-modes/mode/d')
       return compartment.of(StreamLanguage.define(d))
+    case 'dart':
+      const { dart } = await import('@codemirror/legacy-modes/mode/clike')
+      return compartment.of(StreamLanguage.define(dart))
     case 'delphi':
       const { pascal } = await import('@codemirror/legacy-modes/mode/pascal')
       return compartment.of(StreamLanguage.define(pascal))
@@ -108,9 +117,6 @@ export const loadLanguageCompartment = async (
     case 'lua':
       const { lua } = await import('@codemirror/legacy-modes/mode/lua')
       return compartment.of(StreamLanguage.define(lua))
-    case 'nim':
-      const { nim } = await import('nim-codemirror-mode')
-      return compartment.of(StreamLanguage.define(nim))
     case 'objective-c':
       const { objectiveC } = await import('@codemirror/legacy-modes/mode/clike')
       return compartment.of(StreamLanguage.define(objectiveC))
@@ -161,11 +167,17 @@ export const loadLanguageCompartment = async (
     case 'vbnet':
       const { vb } = await import('@codemirror/legacy-modes/mode/vb')
       return compartment.of(StreamLanguage.define(vb))
+    case 'x86-64-assembly':
+      const { gas } = await import('@codemirror/legacy-modes/mode/gas')
+      return compartment.of(StreamLanguage.define(gas))
 
     // Custom
     case 'elixir':
       const { elixir } = await import('codemirror-lang-elixir')
       return compartment.of(StreamLanguage.define(elixir))
+    case 'nim':
+      const { nim } = await require('nim-codemirror-mode')
+      return compartment.of(StreamLanguage.define(nim({}, {})))
     default:
       return []
   }

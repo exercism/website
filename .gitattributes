@@ -2,6 +2,7 @@
 # to be used when mapped in a UNIX docker container
 * text eol=lf
 *.png binary
+*.jpg binary
 
 # The bare repositories used for testing purposes
 # should be treated as binary files

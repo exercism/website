@@ -58,6 +58,5 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
 
     redis = Exercism.redis_tooling_client
     assert_nil redis.lindex(Exercism::ToolingJob.key_for_executed, 0)
-    assert_equal job.id, redis.lindex(Exercism::ToolingJob.key_for_processed, 0)
   end
 end

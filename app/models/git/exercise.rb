@@ -6,14 +6,13 @@ module Git
 
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
 
-    git_filepaths(
-      instructions: ".docs/instructions.md",
+    git_filepaths instructions: ".docs/instructions.md",
       instructions_append: ".docs/instructions.append.md",
       introduction: ".docs/introduction.md",
       introduction_append: ".docs/introduction.append.md",
       hints: ".docs/hints.md",
       config: ".meta/config.json"
-    )
+
     SPECIAL_FILEPATHS = {
       config: '.exercism/config.json',
       readme: 'README.md',

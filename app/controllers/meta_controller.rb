@@ -1,4 +1,6 @@
 class MetaController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def site_webmanifest
     render json: {
       "name": "Exercism",

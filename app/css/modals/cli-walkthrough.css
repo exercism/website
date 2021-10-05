@@ -1,7 +1,9 @@
 @import "../styles";
 
-.m-cli-walkthrough.c-modal {
-    @apply pt-96 pb-48 px-48;
+.m-cli-walkthrough.c-modal.--cover {
+    & .--modal-container {
+        @apply pt-96 pb-48 px-48;
+    }
 
     & .--modal-content {
         max-width: 1020px;

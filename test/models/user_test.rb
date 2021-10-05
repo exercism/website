@@ -71,15 +71,6 @@ class UserTest < ActiveSupport::TestCase
     assert user.reload.has_badge?(:rookie)
   end
 
-  test "may_view_solution?" do
-    user = create :user
-    solution = create :concept_solution, user: user
-    assert user.may_view_solution?(solution)
-
-    solution = create :concept_solution
-    refute user.may_view_solution?(solution)
-  end
-
   test "joined_track?" do
     user = create :user
     user_track = create :user_track, user: user
@@ -219,5 +210,27 @@ class UserTest < ActiveSupport::TestCase
     create :contributor_team_membership, team: team_2, user: user
 
     assert_equal [team_1, team_2], user.teams
+  end
+
+  test "welcome email is not sent for normal user creation" do
+    User::Notification::CreateEmailOnly.expects(:call).never
+    create :user
+  end
+
+  test "welcome email is sent after confirmation" do
+    user = create :user
+
+    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism, {})
+
+    user.confirm
+  end
+
+  test "welcome email is sent when a confirmed user is created" do
+    user = build :user
+    user.skip_confirmation!
+
+    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism, {})
+
+    user.save!
   end
 end

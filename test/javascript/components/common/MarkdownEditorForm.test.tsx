@@ -52,10 +52,34 @@ test('shows error messages', async () => {
   })
 })
 
-test('focuses text editor when clicked', async () => {
+test('focuses text editor when expanded', async () => {
   render(
     <MarkdownEditorForm
       expanded
+      onSubmit={jest.fn()}
+      onCancel={jest.fn()}
+      onChange={jest.fn()}
+      value=""
+      error={null}
+      status={'success' as QueryStatus}
+      defaultError={new Error()}
+      action="new"
+    />
+  )
+
+  await screen.findByTestId('markdown-editor')
+
+  const editor = document.querySelector('.CodeMirror')
+  expect(editor).toHaveAttribute(
+    'class',
+    'CodeMirror cm-s-easymde CodeMirror-wrap CodeMirror-focused'
+  )
+})
+
+test('does not focus text editor compressed', async () => {
+  render(
+    <MarkdownEditorForm
+      expanded={false}
       onSubmit={jest.fn()}
       onCancel={jest.fn()}
       onChange={jest.fn()}
@@ -72,6 +96,6 @@ test('focuses text editor when clicked', async () => {
   const editor = document.querySelector('.CodeMirror')
   expect(editor).toHaveAttribute(
     'class',
-    'CodeMirror cm-s-easymde CodeMirror-wrap CodeMirror-focused'
+    'CodeMirror cm-s-easymde CodeMirror-wrap'
   )
 })

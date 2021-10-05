@@ -20,10 +20,10 @@ const ErrorFallback = ({ error }: { error: Error }) => {
 
 export const StartMentoringPanel = ({
   request,
-  setRequest,
+  onLock,
 }: {
   request: Request
-  setRequest: (request: Request) => void
+  onLock: (request: Request) => void
 }): JSX.Element => {
   const [lock, { status, error }] = useMutation<Request>(
     () => {
@@ -36,7 +36,7 @@ export const StartMentoringPanel = ({
       return fetch.then((json) => typecheck<Request>(json, 'request'))
     },
     {
-      onSuccess: (request) => setRequest(request),
+      onSuccess: (request) => onLock(request),
     }
   )
 

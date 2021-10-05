@@ -234,7 +234,7 @@
             & .--tab-panel {
                 @apply flex-grow;
                 @apply overflow-hidden;
-                @apply flex-col;
+                @apply flex flex-col;
             }
             & .editor {
                 @apply flex-grow;

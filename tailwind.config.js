@@ -113,6 +113,7 @@ module.exports = {
       randomBlue: '#F9F8FF',
       lightGold: '#FFD38F',
 
+      veryDarkGray: '#221E31',
       bgGray: '#FBFCFE',
       lightGray: '#EAECF3',
       borderLight: '#CBC9D9',
@@ -156,6 +157,7 @@ module.exports = {
 
       orange: '#F69605',
       lightOrange: '#FFF3E1',
+      superLightOrange: '#FFFDFA',
       darkRed: '#D03B3B',
       red: '#EB5757',
       lightRed: '#FDEAEA',

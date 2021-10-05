@@ -3,9 +3,10 @@ import { shortFromNow, fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
 import { ProcessingStatusButton } from './iteration-summary/ProcessingStatusButton'
-import { GraphicalIcon, ProcessingStatusSummary } from '../common'
+import { ProcessingStatusSummary } from '../common'
 import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
+import { OutOfDateNotice } from './iteration-summary/OutOfDateNotice'
 
 const SUBMISSION_METHOD_LABELS = {
   cli: 'CLI',
@@ -15,10 +16,10 @@ const SUBMISSION_METHOD_LABELS = {
 type IterationSummaryProps = {
   iteration: Iteration
   className?: string
-  isOutOfDate?: boolean
   showSubmissionMethod: boolean
   showTestsStatusAsButton: boolean
   showFeedbackIndicator: boolean
+  OutOfDateNotice?: React.ReactNode
 }
 
 export const IterationSummaryWithWebsockets = ({
@@ -53,10 +54,10 @@ export const IterationSummaryWithWebsockets = ({
 export function IterationSummary({
   iteration,
   className,
-  isOutOfDate,
   showSubmissionMethod,
   showTestsStatusAsButton,
   showFeedbackIndicator,
+  OutOfDateNotice,
 }: IterationSummaryProps): JSX.Element {
   return (
     <div className={`c-iteration-summary ${className}`}>
@@ -66,7 +67,6 @@ export function IterationSummary({
       <div className="--info">
         <div className="--idx">
           <h3>Iteration {iteration.idx}</h3>
-          <div className="--dot" role="presentation"></div>
           {iteration.isLatest ? (
             <div className="--latest" aria-label="Latest iteration">
               Latest
@@ -95,12 +95,7 @@ export function IterationSummary({
           </time>
         </div>
       </div>
-      {isOutOfDate ? (
-        <div className="--out-of-date">
-          <GraphicalIcon icon="warning" />
-          <div className="--status">Outdated</div>
-        </div>
-      ) : null}
+      {OutOfDateNotice}
 
       {showTestsStatusAsButton ? (
         <ProcessingStatusButton iteration={iteration} />
@@ -130,3 +125,5 @@ export function IterationSummary({
     </div>
   )
 }
+
+IterationSummary.OutOfDateNotice = OutOfDateNotice

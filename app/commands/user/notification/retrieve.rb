@@ -33,7 +33,7 @@ class User::Notification
     end
 
     def setup!
-      @notifications = user.notifications.not_pending
+      @notifications = user.notifications.visible
     end
 
     def sort!

@@ -36,7 +36,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     create :mentor_discussion, :awaiting_mentor, mentor: user
     create :mentor_discussion, :awaiting_student, mentor: user
 
-    assert_equal [valid_1, valid_2], Mentor::Discussion::Retrieve.(user, :finished, page: 1)
+    assert_equal [valid_2, valid_1], Mentor::Discussion::Retrieve.(user, :finished, page: 1)
   end
 
   test "only retrieves relevant tracks" do
@@ -49,8 +49,8 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     create :mentor_discussion, :awaiting_mentor, track: elixir, mentor: user
     create :mentor_discussion, :awaiting_mentor, track: js
 
-    assert_equal [ruby, elixir], Mentor::Discussion::Retrieve.(user, :awaiting_mentor).map(&:track)
-    assert_equal [ruby, elixir], Mentor::Discussion::Retrieve.(user, :awaiting_mentor, track_slug: '').map(&:track)
+    assert_equal [elixir, ruby], Mentor::Discussion::Retrieve.(user, :awaiting_mentor).map(&:track)
+    assert_equal [elixir, ruby], Mentor::Discussion::Retrieve.(user, :awaiting_mentor, track_slug: '').map(&:track)
     assert_equal [ruby], Mentor::Discussion::Retrieve.(user, :awaiting_mentor, track_slug: 'ruby').map(&:track)
   end
 
@@ -73,11 +73,9 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     erik_bob = create :mentor_discussion, solution: erik_bob_sol, updated_at: Time.current - 1.minute, mentor: user
     karlo_leap = create :mentor_discussion, solution: karlo_leap_sol, updated_at: Time.current - 2.minutes, mentor: user
 
-    # Check unsorted
-    assert_equal [erik_leap, karlo_bob, erik_bob, karlo_leap], Mentor::Discussion::Retrieve.(user, :all, sorted: false)
+    # Unsorted defaults to recent first
+    assert_equal [erik_bob, karlo_leap, erik_leap, karlo_bob], Mentor::Discussion::Retrieve.(user, :all)
 
-    # Updated_at is default
-    assert_equal [karlo_bob, erik_leap, karlo_leap, erik_bob], Mentor::Discussion::Retrieve.(user, :all)
     assert_equal [karlo_bob, erik_leap, karlo_leap, erik_bob], Mentor::Discussion::Retrieve.(user, :all, order: 'oldest')
     assert_equal [erik_bob, karlo_leap, erik_leap, karlo_bob], Mentor::Discussion::Retrieve.(user, :all, order: 'recent')
     assert_equal [erik_leap, erik_bob, karlo_bob, karlo_leap], Mentor::Discussion::Retrieve.(user, :all, order: 'student')
@@ -123,7 +121,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     discussion_2 = create :mentor_discussion, :awaiting_mentor, solution: solution_2, mentor: mentor
     discussion_3 = create :mentor_discussion, :awaiting_mentor, solution: solution_3, mentor: mentor
 
-    assert_equal [discussion_1, discussion_2, discussion_3], Mentor::Discussion::Retrieve.(mentor, :all) # Saniry
+    assert_equal [discussion_3, discussion_2, discussion_1], Mentor::Discussion::Retrieve.(mentor, :all) # Saniry
     assert_equal [discussion_1], Mentor::Discussion::Retrieve.(mentor, :all, student_handle: "bob")
   end
 
@@ -156,9 +154,9 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     assert_equal 9, Mentor::Discussion::Retrieve.(mentor, :all).size
     assert_equal [
       bob_leap, bob_bowling, bob_food_chain, bobby_leap, bobby_bowling, bobby_food_chain, margaret_bowling
-    ], Mentor::Discussion::Retrieve.(mentor, :all, criteria: "bo").map(&:solution)
+    ], Mentor::Discussion::Retrieve.(mentor, :all, criteria: "bo").map(&:solution).sort
     assert_equal [
       margaret_leap, margaret_bowling, margaret_food_chain
-    ], Mentor::Discussion::Retrieve.(mentor, :all, criteria: "mar").map(&:solution)
+    ], Mentor::Discussion::Retrieve.(mentor, :all, criteria: "mar").map(&:solution).sort
   end
 end

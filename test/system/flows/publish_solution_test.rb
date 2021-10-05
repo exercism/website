@@ -29,7 +29,8 @@ module Flows
         find("label", text: "Iteration 1").click
         click_on "Confirm"
 
-        within(".m-completed-exercise") { click_on "Continue" }
+        assert_text "You've completed Strings!"
+        within(".m-completed-exercise") { click_on "Return to the exercise" }
         wait_for_redirect
         assert_text "Your published solution"
 

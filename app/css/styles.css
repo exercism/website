@@ -35,8 +35,11 @@ img {
     }
 }
 .text-h3 {
-    @apply text-24 text-textColor1 font-semibold;
-    line-height: 1.48;
+    @apply text-20 text-textColor1 font-semibold leading-150;
+
+    @screen md {
+        @apply text-24;
+    }
 }
 .text-h3-mono {
     @apply text-h3 font-mono font-bold;

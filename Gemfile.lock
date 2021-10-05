@@ -138,7 +138,7 @@ GEM
     erubi (1.10.0)
     et-orbi (1.2.4)
       tzinfo
-    exercism-config (0.70.0)
+    exercism-config (0.76.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -260,7 +260,7 @@ GEM
     octokit (4.20.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
-    oj (3.11.3)
+    oj (3.13.7)
     omniauth (1.9.1)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
@@ -339,16 +339,16 @@ GEM
     reverse_markdown (2.0.0)
       nokogiri
     rexml (3.2.5)
-    rubocop (1.18.4)
+    rubocop (1.20.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.8.0, < 2.0)
+      rubocop-ast (>= 1.9.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.8.0)
+    rubocop-ast (1.10.0)
       parser (>= 3.0.1.1)
     rubocop-minitest (0.11.0)
       rubocop (>= 0.90, < 2.0)
@@ -484,7 +484,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   commonmarker
   devise (~> 4.7.1)
-  exercism-config (>= 0.70.0)
+  exercism-config (>= 0.76.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   haml_lint

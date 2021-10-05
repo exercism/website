@@ -24,7 +24,7 @@
 
         & > .--info {
             & > .--title {
-                @apply text-16 mb-0;
+                @apply text-16 mb-0 font-medium text-textColor2;
             }
         }
         & > .c-icon.--action-icon {
@@ -54,6 +54,12 @@
 
             & .c-notification-dot {
                 @apply ml-16;
+            }
+            & .--out-of-date {
+                @apply ml-16;
+                height: 16px;
+                width: 16px;
+                filter: var(--orange-filter);
             }
 
             & .--track {
@@ -92,6 +98,7 @@
                     @apply mr-6;
                 }
             }
+
             & .--mentoring-status {
                 @apply mr-16;
 

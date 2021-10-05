@@ -1,49 +1,67 @@
 import React from 'react'
 import { Modal } from '../Modal'
 import { GraphicalIcon } from '../../common'
-import { Track } from '../../types'
+import { ExerciseCompletion } from '../CompleteExerciseModal'
 
 export const TutorialCompletedModal = ({
   open,
-  track,
+  completion,
 }: {
   open: boolean
-  track: Track
+  completion: ExerciseCompletion
 }): JSX.Element => {
   return (
     <Modal
+      cover={true}
       open={open}
       className="m-completed-tutorial-exercise"
       onClose={() => {}}
     >
       <GraphicalIcon icon="hello-world" category="graphics" />
-      <h2>You’ve completed “Hello, World!”</h2>
-      <h3>This is just start of your journey on the {track.title} track 🚀</h3>
+      <h2>You’ve completed “{completion.exercise.title}”</h2>
+      <h3>
+        This is just start of your journey on the {completion.track.title} track
+        🚀
+      </h3>
       <p>
         You’re now ready to get stuck into some{' '}
-        <a href={track.links.exercises}>real exercises</a>.
-        {track.numConcepts > 0 ? (
+        <a href={completion.track.links.exercises}>real exercises</a>.
+        {/* TODO: Change to track.course */}
+        {completion.track.numConcepts > 0 ? (
           <>
-            <br /> We’ve also revealed{' '}
-            <a href={track.links.concepts}>
-              {track.title}’s {track.numConcepts} concepts
-            </a>{' '}
-            for you to take a look at.
+            <br />
+            We’ve also revealed {completion.track.title}’s{' '}
+            {completion.track.numConcepts} concepts for you to take a look at.
           </>
         ) : (
           ''
         )}
       </p>
       <div className="info">
-        You’ll now have access to the mentoring section on your track too. Go to
-        the <a href={track.links.self}>{track.title} track page</a> to check it
-        out.
+        Once you start your next exercise, you’ll have access to the mentoring
+        section on your track too.
       </div>
       <div className="btns">
-        <a href={track.links.exercises} className="btn-primary btn-m">
-          Show me more exercises
+        {/* TODO: Change to track.course */}
+        {completion.track.numConcepts > 0 ? (
+          <a
+            href={completion.track.links.concepts}
+            className="btn-primary btn-m"
+          >
+            <span>Show me the Concepts</span>
+            <GraphicalIcon icon="arrow-right" />
+          </a>
+        ) : (
+          <a
+            href={completion.track.links.exercises}
+            className="btn-primary btn-m"
+          >
+            Show me more exercises
+          </a>
+        )}
+        <a href={completion.exercise.links.self} className="btn">
+          Return to “{completion.exercise.title}”
         </a>
-        <button className="btn">Return to “Hello, World!”</button>
       </div>
     </Modal>
   )

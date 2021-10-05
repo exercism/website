@@ -44,7 +44,7 @@ export type Contribution = {
   iconUrl: string
   internalUrl?: string
   externalUrl?: string
-  earnedOn: string
+  createdAt: string
   track?: {
     title: string
     iconUrl: string
@@ -81,6 +81,7 @@ type UserLinks = {
 export type User = {
   avatarUrl: string
   handle: string
+  hasAvatar: boolean
   reputation?: string
   links?: UserLinks
 }
@@ -118,6 +119,7 @@ export type SolutionForStudent = {
   mentoringStatus: SolutionMentoringStatus
   hasNotifications: boolean
   numIterations: number
+  isOutOfDate: boolean
   updatedAt: string
   exercise: {
     slug: string
@@ -169,7 +171,7 @@ export type CommunitySolution = {
 
   links: {
     publicUrl: string
-    privateUrl: string
+    privateIterationsUrl: string
   }
 }
 
@@ -524,7 +526,9 @@ export type PullRequest = {
 }
 
 export type CommunicationPreferences = {
-  emailOnMentorStartedDiscussionNotification: boolean
+  key: string
+  label: string
+  value: boolean
 }
 
 export type ContributionCategoryId =
@@ -652,3 +656,15 @@ export type Notification = {
 }
 
 type NotificationImageType = 'icon' | 'avatar'
+
+export type MentoringSessionExemplarFile = {
+  filename: string
+  content: string
+}
+
+export type SharePlatform =
+  | 'facebook'
+  | 'twitter'
+  | 'reddit'
+  | 'linkedin'
+  | 'devto'

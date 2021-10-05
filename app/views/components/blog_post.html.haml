@@ -1,5 +1,5 @@
 = link_to post, class: "c-blog-post e-hover-grow" do
-  .img{ style: "background-image:url(#{post.image_url})" }
+  .img{ style: "background-image:url(\"#{post.image_url}\")" }
   - if post.new?
     .new new
   .title.text-h6= post.title

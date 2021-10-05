@@ -2,6 +2,8 @@ require "test_helper"
 
 class User::BecomeMentorTest < ActiveSupport::TestCase
   test "creates correctly" do
+    stub_request(:post, "https://dev.null.exercism.io/")
+
     user = create :user, :not_mentor
     create :track, slug: :ruby
     csharp = create :track, slug: :csharp
@@ -39,5 +41,19 @@ class User::BecomeMentorTest < ActiveSupport::TestCase
     assert_raises MissingTracksError do
       User::BecomeMentor.(user, [])
     end
+  end
+
+  test "invites to Slack" do
+    user = create :user, :not_mentor
+
+    RestClient.expects(:post).with(
+      "https://dev.null.exercism.io",
+      {
+        email: user.email,
+        token: Exercism.secrets.slack_api_token,
+        set_active: 'true'
+      }
+    )
+    User::BecomeMentor.(user, [create(:track).slug])
   end
 end

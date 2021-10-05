@@ -10,6 +10,7 @@ import { queryCache } from 'react-query'
 export type Exercise = {
   title: string
   downloadCmd: string
+  hasTestRunner: boolean
 }
 
 export type Track = {
@@ -24,6 +25,7 @@ export type Links = {
   automatedFeedbackInfo: string
   startExercise: string
   solvingExercisesLocally: string
+  toolingHelp: string
 }
 
 export type IterationsListRequest = {
@@ -119,7 +121,7 @@ export const IterationsList = ({
   }
 
   if (resolvedData.iterations.length === 0) {
-    return <EmptyIterations links={links} downloadCmd={exercise.downloadCmd} />
+    return <EmptyIterations links={links} exercise={exercise} />
   }
 
   return (

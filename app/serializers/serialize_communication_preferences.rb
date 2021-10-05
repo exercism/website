@@ -4,8 +4,12 @@ class SerializeCommunicationPreferences
   initialize_with :preferences
 
   def call
-    {
-      email_on_mentor_started_discussion_notification: preferences.email_on_mentor_started_discussion_notification
-    }
+    User::CommunicationPreferences.keys.map do |key|
+      {
+        key: key,
+        value: preferences.send(key),
+        label: I18n.t("communication_preferences.#{key}")
+      }
+    end
   end
 end

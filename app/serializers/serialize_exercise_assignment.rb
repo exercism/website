@@ -66,7 +66,7 @@ class SerializeExerciseAssignment
       chunk_while { |_, nxt| nxt.type != :header }.
       map do |nodes|
         task_title = parse_title(nodes.first)
-        task_text = Markdown::Parse.(nodes[1..].each.map(&:to_commonmark).join)
+        task_text = Markdown::Parse.(nodes[1..].each.map(&:to_commonmark).join("\n"))
         task_hints = hints[task_title.downcase].to_a
 
         { title: task_title, text: task_text, hints: task_hints }

@@ -60,16 +60,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     end
   end
 
-  test "enqueues anybody_there badge job" do
-    user = create :user
-    solution = create :concept_solution, user: user
-    submission = create :submission, solution: solution
-
-    assert_enqueued_with job: AwardBadgeJob, args: [user, :anybody_there] do
-      Iteration::Create.(solution, submission)
-    end
-  end
-
   test "starts test run if untested" do
     solution = create :concept_solution
     submission = create :submission, solution: solution
@@ -81,6 +71,15 @@ class Iteration::CreateTest < ActiveSupport::TestCase
   test "does not start test run if already running" do
     solution = create :concept_solution
     submission = create :submission, solution: solution, tests_status: :queued
+
+    Submission::TestRun::Init.expects(:call).never
+    Iteration::Create.(solution, submission)
+  end
+
+  test "do not run tests if there's no test runner" do
+    exercise = create :concept_exercise, has_test_runner: false
+    solution = create :concept_solution, exercise: exercise
+    submission = create :submission, solution: solution
 
     Submission::TestRun::Init.expects(:call).never
     Iteration::Create.(solution, submission)
@@ -145,5 +144,14 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal :iterated, solution.status
     assert_equal :analyzing, solution.iteration_status
     assert_equal 1, solution.num_iterations
+  end
+
+  test "schedules notifications" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+
+    assert_enqueued_with(job: ProcessIterationForDiscussionsJob) do
+      Iteration::Create.(solution, submission)
+    end
   end
 end

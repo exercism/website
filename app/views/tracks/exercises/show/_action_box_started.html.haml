@@ -4,10 +4,11 @@
     %strong You can continue working on this exercise.
     Solve it via Exercism's in-browser editor or locally in your own environment, using our CLI to download and submit.
 
-  %h4 Via Exercism Editor
-  = link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn-primary btn-m" do
-    = graphical_icon :editor
-    Continue in editor
+  - if exercise.has_test_runner?
+    %h4 Via Exercism Editor
+    = link_to edit_track_exercise_path(track, exercise), class: "editor-btn btn-primary btn-m" do
+      = graphical_icon :editor
+      Continue in editor
 
   %h4 Work locally (via CLI)
   - unless current_user.recently_used_cli?

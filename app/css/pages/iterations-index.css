@@ -97,7 +97,7 @@
 
                         & .options-button {
                             @apply py-6 px-12 ml-auto;
-                            @apply shadow-smZ1 rounded-8;
+                            @apply shadow-xsZ1 rounded-8;
                         }
                     }
                     & .panels {
@@ -125,6 +125,17 @@
                         }
                         & p {
                             @apply text-16 leading-huge text-center;
+                            max-width: 360px;
+                        }
+                        & .upsell {
+                            @apply border-1 border-borderColor6;
+                            @apply rounded-8;
+                            @apply py-8 px-16;
+                            @apply text-textColor6 leading-150;
+                            @apply text-center;
+                            & a {
+                                @apply underline;
+                            }
                         }
                     }
                     & .automated-feedback-pending {
@@ -144,42 +155,6 @@
                         }
                         & p {
                             @apply mb-24;
-                        }
-                    }
-                    & .analyzer-feedback {
-                        & .summary {
-                            @apply bg-lightOrange rounded-8;
-                            @apply text-brown text-15 leading-160 font-medium;
-                            @apply py-8 px-16 mb-16;
-                        }
-                        & .comment {
-                            & + .comment {
-                                @apply border-t-1 border-lightGray mt-16 pt-16;
-                            }
-
-                            @apply flex flex-col items-start;
-
-                            & .tag {
-                                @apply text-13 leading-170 font-mono font-bold;
-                                @apply px-8 mb-8;
-                                &.essential {
-                                    @apply bg-red text-white;
-                                }
-                            }
-                        }
-                        & .explanation {
-                            @apply border-t-2 border-borderColor6 pt-16 mt-16;
-                            @apply text-15 leading-160;
-                            & a {
-                                @apply inline-flex items-center;
-                                @apply text-lightBlue font-semibold;
-                                @apply mr-8;
-                                & .c-icon {
-                                    height: 12px;
-                                    width: 12px;
-                                    @apply ml-6;
-                                }
-                            }
                         }
                     }
                     & .representer-feedback + .analyzer-feedback {

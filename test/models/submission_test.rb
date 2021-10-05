@@ -170,7 +170,7 @@ class SubmissionTest < ActiveSupport::TestCase
         name: author.name,
         reputation: 50,
         avatar_url: author.avatar_url,
-        profile_url: "#"
+        profile_url: nil
       }
     }
     assert_equal expected, submission.representer_feedback

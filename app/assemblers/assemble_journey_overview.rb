@@ -10,7 +10,8 @@ class AssembleJourneyOverview
           tracks: learning_tracks_data,
           links: {
             solutions: Exercism::Routes.solutions_journey_url,
-            fable: "#" # TODO: (Required)
+            # TODO: (optional)
+            fable: "#"
           }
         },
         mentoring: mentoring_data,
@@ -51,12 +52,40 @@ class AssembleJourneyOverview
         num_concepts_learnt: user_track.num_concepts_learnt,
         num_lines: 250, # TODO: (Required)
         num_solutions: user_track.num_started_exercises,
+        started_at: user_track.created_at,
+        num_completed_mentoring_discussions: num_completed_mentoring_discussions(track.id),
+        num_in_progress_mentoring_discussions: num_in_progress_mentoring_discussions(track.id),
+        num_queued_mentoring_requests: mentoring_request_counts[track.id].to_i,
         progress_chart: {
           period: progress_period,
           data: progress_data
         }
       }
     end
+  end
+
+  memoize
+  def mentoring_discussion_counts
+    Mentor::Discussion.joins(:request).where('mentor_requests.student_id': user.id).group(:track_id, :status).count
+  end
+
+  memoize
+  def mentoring_request_counts
+    Mentor::Request.pending.where(student_id: user.id).group(:track_id).count
+  end
+
+  def num_completed_mentoring_discussions(track_id)
+    track_data = mentoring_discussion_counts.select { |group, _| group[0] == track_id }
+    return 0 if track_data.blank?
+
+    track_data.sum { |group, val| group[1] == 'finished' ? val : 0 }
+  end
+
+  def num_in_progress_mentoring_discussions(track_id)
+    track_data = mentoring_discussion_counts.select { |group, _| group[0] == track_id }
+    return 0 if track_data.blank?
+
+    track_data.values.sum - num_completed_mentoring_discussions(track_id)
   end
 
   def track_chart_values(user_track, since, group_by, max, range)
@@ -100,8 +129,8 @@ class AssembleJourneyOverview
         ratio: num_total_students.zero? ? 0 : num_total_discussions.to_f / num_total_students
       },
       ranks: {
-        discussions: 1, # TODO: (Required)
-        students: 3 # TODO: (Required)
+        discussions: nil,
+        students: nil
       }
     }
   end

@@ -102,9 +102,23 @@
         & .iteration-header {
             @apply py-8 px-24;
             @apply border-b-1 border-borderColor6;
+            @apply flex items-center;
 
             & .--idx .--dot {
                 @apply hidden;
+            }
+
+            & > .download-btn,
+            & > .c-copy-text-to-clipboard {
+                @apply border-borderColor6 shadow-xsZ1 ml-16;
+                @apply w-auto;
+                @apply py-0 px-12;
+                height: 40px;
+                & .c-icon {
+                    @apply m-0;
+                    height: 16px;
+                    width: 16px;
+                }
             }
         }
         & .c-results-zone {
@@ -474,8 +488,7 @@
                 }
             }
             & .finished-wizard.timeline-entry {
-                & > .--step {
-                    /* Leading-160 */
+                & .--step {
                     & .buttons {
                         @apply flex items-center;
                         & button {
@@ -514,6 +527,20 @@
         }
         & #panel-guidance {
             @apply py-16 px-24;
+
+            & .exemplar-files {
+                & .filename {
+                    @apply border-1 border-borderColor5;
+                    @apply bg-backgroundColorE;
+                    @apply text-15 font-mono font-semibold;
+                    @apply py-4 px-20;
+                    border-radius: 5px 5px 0 0;
+                }
+                & .filename + pre {
+                    @apply border-t-0;
+                    border-radius: 0 0 5px 5px;
+                }
+            }
         }
 
         & .mentoring-request-section {
@@ -726,7 +753,9 @@
                             width: 85px;
                             @apply rounded-8;
                             @apply mr-20;
-                            background: lightgray; /* TODO: REMOVE */
+                            background-color: lightgray;
+                            background-size: cover;
+                            background-position: center;
                         }
                         & .info {
                             @apply flex-grow overflow-hidden;

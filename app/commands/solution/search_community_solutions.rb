@@ -19,10 +19,20 @@ class Solution
     def call
       @solutions = exercise.solutions.published
 
-      # TODO: (Optional) Implement this properly.
-      @solutions = solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%") if @criteria.present?
+      filter_criteria!
+      sort!
 
       @solutions.page(page).per(per)
+    end
+
+    def filter_criteria!
+      return if @criteria.blank?
+
+      @solutions = @solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%")
+    end
+
+    def sort!
+      @solutions = @solutions.order(num_stars: :desc, id: :desc)
     end
 
     private

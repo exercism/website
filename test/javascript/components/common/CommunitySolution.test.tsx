@@ -29,7 +29,7 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -65,7 +65,7 @@ test('links to private url if context is mentoring', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -102,7 +102,7 @@ test('links to public url if context is profile', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -139,7 +139,7 @@ test('links to public url if context is exercise', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -176,7 +176,7 @@ test('shows author avatar if context is exercise', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -212,7 +212,7 @@ test('shows author avatar if context is mentoring', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -251,7 +251,7 @@ test('shows exercise icon if context is profile', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -290,7 +290,7 @@ test('shows correct title if context is mentoring', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -325,7 +325,7 @@ test('shows correct title if context is profile', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -360,7 +360,7 @@ test('shows correct title if context is exercise', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -395,7 +395,7 @@ test('renders processing status', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -429,7 +429,7 @@ test('renders warning icon when solution is out of date', async () => {
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 
@@ -468,7 +468,7 @@ test('does not render warning icon when solution is not out of date', async () =
     },
     links: {
       publicUrl: 'https://exercism.test/public',
-      privateUrl: 'https://exercism.test/private',
+      privateIterationsUrl: 'https://exercism.test/private',
     },
   }
 

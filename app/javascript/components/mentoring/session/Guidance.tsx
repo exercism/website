@@ -1,8 +1,13 @@
 import React, { useState, useCallback } from 'react'
 import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
-import { CommunitySolution as CommunitySolutionProps } from '../../types'
+import {
+  CommunitySolution as CommunitySolutionProps,
+  MentoringSessionExemplarFile,
+} from '../../types'
 import { CommunitySolution, GraphicalIcon } from '../../common'
+import { useHighlighting } from '../../../utils/highlight'
+import { ExemplarFilesList } from './guidance/ExemplarFilesList'
 
 const AccordionHeader = ({
   isOpen,
@@ -27,24 +32,35 @@ type Links = {
   improveNotes: string
 }
 
+export type Props = {
+  notes: string
+  mentorSolution?: CommunitySolutionProps
+  exemplarFiles: readonly MentoringSessionExemplarFile[]
+  links: Links
+  language: string
+  feedback?: any
+}
+
 export const Guidance = ({
   notes,
   mentorSolution,
+  exemplarFiles,
   links,
+  language,
   feedback = false,
-}: {
-  notes: string
-  mentorSolution?: CommunitySolutionProps
-  links: Links
-  feedback?: any
-}): JSX.Element => {
+}: Props): JSX.Element => {
+  const ref = useHighlighting<HTMLDivElement>()
   const [accordionState, setAccordionState] = useState([
     {
-      id: 'notes',
-      isOpen: true,
+      id: 'exemplar-files',
+      isOpen: exemplarFiles.length !== 0,
     },
     {
-      id: 'solution',
+      id: 'notes',
+      isOpen: exemplarFiles.length === 0,
+    },
+    {
+      id: 'mentor-solution',
       isOpen: false,
     },
     {
@@ -82,7 +98,28 @@ export const Guidance = ({
   )
 
   return (
-    <>
+    <div ref={ref}>
+      {exemplarFiles.length !== 0 ? (
+        <Accordion
+          id="exemplar-files"
+          isOpen={isOpen('exemplar-files')}
+          onClick={handleClick}
+        >
+          <AccordionHeader
+            isOpen={isOpen('exemplar-files')}
+            title="The exemplar solution"
+          />
+          <Accordion.Panel>
+            <div className="c-textual-content --small">
+              <p>
+                Try and guide the student towards this solution. It is the best
+                place for them to reach at this point during the Track.
+              </p>
+              <ExemplarFilesList files={exemplarFiles} language={language} />
+            </div>
+          </Accordion.Panel>
+        </Accordion>
+      ) : null}
       <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
         <AccordionHeader isOpen={isOpen('notes')} title="Mentor notes" />
         <Accordion.Panel>
@@ -91,12 +128,12 @@ export const Guidance = ({
       </Accordion>
       {mentorSolution ? (
         <Accordion
-          id="solution"
-          isOpen={isOpen('solution')}
+          id="mentor-solution"
+          isOpen={isOpen('mentor-solution')}
           onClick={handleClick}
         >
           <AccordionHeader
-            isOpen={isOpen('solution')}
+            isOpen={isOpen('mentor-solution')}
             title="How you solved the exercise"
           />
           <Accordion.Panel>
@@ -119,6 +156,6 @@ export const Guidance = ({
           </Accordion.Panel>
         </Accordion>
       ) : null}
-    </>
+    </div>
   )
 }

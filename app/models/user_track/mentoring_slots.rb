@@ -3,6 +3,10 @@ module UserTrack::MentoringSlots
 
   MENTORING_SLOT_THRESHOLDS = [0, 0, 100, 500].freeze
 
+  def has_available_mentoring_slot?
+    num_available_mentoring_slots.positive?
+  end
+
   memoize
   def num_locked_mentoring_slots
     MENTORING_SLOT_THRESHOLDS.count { |threshold| user.reputation < threshold }
@@ -10,7 +14,8 @@ module UserTrack::MentoringSlots
 
   memoize
   def num_available_mentoring_slots
-    MENTORING_SLOT_THRESHOLDS.size - num_used_mentoring_slots - num_locked_mentoring_slots
+    num = MENTORING_SLOT_THRESHOLDS.size - num_used_mentoring_slots - num_locked_mentoring_slots
+    num.positive? ? num : 0
   end
 
   memoize

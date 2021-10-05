@@ -48,7 +48,8 @@ class MentoringQueueTest < ReactComponentTestCase
           },
           options: {
             initial_data: AssembleMentorRequests.(user, params),
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         },
         tracks_request: {
@@ -61,7 +62,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "C#",
                   icon_url: csharp.icon_url,
                   num_solutions_queued: 6,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
                   }
@@ -71,7 +72,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "F#",
                   icon_url: fsharp.icon_url,
                   num_solutions_queued: 0,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: fsharp.slug)
                   }
@@ -81,14 +82,15 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "Ruby",
                   icon_url: ruby.icon_url,
                   num_solutions_queued: 3,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: ruby.slug)
                   }
                 }
               ]
             },
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         },
         default_track: {
@@ -96,7 +98,7 @@ class MentoringQueueTest < ReactComponentTestCase
           title: "C#",
           icon_url: csharp.icon_url,
           num_solutions_queued: 6,
-          avg_wait_time: "2 days",
+          avg_wait_time: nil,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
           },
@@ -179,7 +181,8 @@ class MentoringQueueTest < ReactComponentTestCase
           query: { track_slug: "csharp" },
           options: {
             initial_data: AssembleMentorRequests.(user, { track_slug: "csharp" }),
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         },
         tracks_request: {
@@ -192,7 +195,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "C#",
                   icon_url: csharp.icon_url,
                   num_solutions_queued: 6,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
                   }
@@ -202,14 +205,15 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "Ruby",
                   icon_url: ruby.icon_url,
                   num_solutions_queued: 3,
-                  avg_wait_time: "2 days",
+                  avg_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: ruby.slug)
                   }
                 }
               ]
             },
-            stale_time: 0
+            stale_time: 0,
+            cache_time: 0
           }
         },
         default_track: {
@@ -217,7 +221,7 @@ class MentoringQueueTest < ReactComponentTestCase
           title: "C#",
           icon_url: csharp.icon_url,
           num_solutions_queued: 6,
-          avg_wait_time: "2 days",
+          avg_wait_time: nil,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
           },
@@ -288,5 +292,16 @@ class MentoringQueueTest < ReactComponentTestCase
 
     component = ReactComponents::Mentoring::Queue.new(user.reload, {})
     assert_includes component.to_s, 'zipper'
+  end
+
+  test "mentoring queue defaults to first track if there are none" do
+    user = create :user
+
+    create :track, slug: "fsharp", title: "F#"
+    create :track, slug: "csharp", title: "C#"
+    create :track, slug: "ruby", title: "Ruby"
+
+    component = ReactComponents::Mentoring::Queue.new(user.reload, {})
+    assert_includes component.to_s, "fsharp"
   end
 end

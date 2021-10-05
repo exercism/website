@@ -7,7 +7,8 @@ module ReactComponents
         super("common-share-button", {
           title: params[:title],
           share_title: params[:share_title],
-          share_link: params[:share_link]
+          share_link: params[:share_link],
+          platforms: Exercism.share_platforms
         })
       end
     end

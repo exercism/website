@@ -64,10 +64,10 @@ class Track < ApplicationRecord
   def num_code_contributors
     User::ReputationPeriod.where(
       period: :forever,
-      category: :building,
+      category: %i[building maintaining authoring],
       about: :track,
       track_id: id
-    ).count
+    ).select(:user_id).distinct.count
   end
 
   memoize
@@ -95,6 +95,11 @@ class Track < ApplicationRecord
   # TODO: Set this properly
   def median_wait_time
     "6 hrs"
+  end
+
+  # TODO: Set this properly
+  def avg_wait_time
+    nil
   end
 
   CATGEORIES = {

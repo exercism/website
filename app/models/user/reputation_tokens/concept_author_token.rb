@@ -19,4 +19,8 @@ class User::ReputationTokens::ConceptAuthorToken < User::ReputationToken
   def guard_params
     "Concept##{concept.id}"
   end
+
+  def internal_url
+    Exercism::Routes.track_concept_path(track, concept)
+  end
 end

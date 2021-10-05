@@ -4,13 +4,25 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { IterationsList } from '../mentoring/session/IterationsList'
 import { FilePanel } from '../mentoring/session/FilePanel'
-import { IterationSummaryWithWebsockets } from '../track/IterationSummary'
+import {
+  IterationSummary,
+  IterationSummaryWithWebsockets,
+} from '../track/IterationSummary'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { PublishSettings } from '../student/published-solution/PublishSettings'
 
 export type Links = {
   changeIteration?: string
   unpublish?: string
+}
+
+export type Props = {
+  iterations: readonly Iteration[]
+  publishedIterationIdx: number | null
+  language: string
+  indentSize: number
+  outOfDate: boolean
+  links: Links
 }
 
 const DEFAULT_ERROR = new Error('Unable to load files')
@@ -22,14 +34,7 @@ export const SolutionView = ({
   indentSize,
   outOfDate,
   links,
-}: {
-  iterations: readonly Iteration[]
-  publishedIterationIdx: number | null
-  language: string
-  indentSize: number
-  outOfDate: boolean
-  links: Links
-}): JSX.Element => {
+}: Props): JSX.Element => {
   const [currentIteration, setCurrentIteration] = useState(
     iterations[iterations.length - 1]
   )
@@ -44,7 +49,9 @@ export const SolutionView = ({
     <div className="c-solution-iterations">
       <IterationSummaryWithWebsockets
         iteration={currentIteration}
-        isOutOfDate={outOfDate}
+        OutOfDateNotice={
+          outOfDate ? <IterationSummary.OutOfDateNotice /> : null
+        }
         showSubmissionMethod={true}
         showTestsStatusAsButton={true}
         showFeedbackIndicator={false}

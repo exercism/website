@@ -43,8 +43,8 @@ class Solution
       criteria.strip.split(" ").each do |crit|
         @solutions = @solutions.where(
           "exercises.title LIKE ? OR tracks.title LIKE ?",
-          "#{crit}%",
-          "#{crit}%"
+          "%#{crit}%",
+          "%#{crit}%"
         )
       end
     end

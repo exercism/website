@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react'
+import { copyToClipboard } from '../../utils/copyToClipboard'
 import { Icon } from './Icon'
 
 const KEY_NAMES = Object.freeze({
@@ -14,13 +15,7 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
   const [justCopied, setJustCopied] = useState(false)
 
   const copyTextToClipboard = async () => {
-    try {
-      await window.navigator.clipboard.writeText(textToCopy)
-    } catch (error) {
-      if (process.env.NODE_ENV == 'production') {
-        throw error
-      }
-    }
+    await copyToClipboard(textToCopy)
     setJustCopied(true)
   }
 
@@ -77,11 +72,13 @@ export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
       onClick={onClick}
       onFocus={onFocus}
       onBlur={onBlur}
-      className={`c-copy-text-to-clipboard ${justCopied ? '--copied' : ''}`}
+      className="c-copy-text-to-clipboard"
       aria-label={`Copy "${textToCopy}" to the cliboard`}
     >
       <div className="text">{textToCopy}</div>
       <Icon icon="clipboard" alt="Copy to clipboard" />
+      {justCopied ? <span className="message">Copied</span> : null}
+      <span data-test-clipboard data-content={textToCopy} />
     </button>
   )
 }

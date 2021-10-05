@@ -3,6 +3,7 @@ import { PublishSolutionModal } from './complete-exercise-modal/PublishSolutionM
 import { ExerciseCompletedModal } from './complete-exercise-modal/ExerciseCompletedModal'
 import { TutorialCompletedModal } from './complete-exercise-modal/TutorialCompletedModal'
 import { Track, Exercise, Iteration } from '../types'
+import { ModalProps } from './Modal'
 
 export type ExerciseCompletion = {
   track: Track
@@ -24,19 +25,19 @@ export type Concept = {
 }
 
 export const CompleteExerciseModal = ({
+  open,
+  onClose,
   endpoint,
   iterations,
-  open,
-}: {
+}: Omit<ModalProps, 'className'> & {
   endpoint: string
   iterations: readonly Iteration[]
-  open: boolean
 }): JSX.Element => {
   const [completion, setCompletion] = useState<ExerciseCompletion | null>(null)
 
   if (completion) {
     return completion.exercise.type == 'tutorial' ? (
-      <TutorialCompletedModal track={completion.track} open={open} />
+      <TutorialCompletedModal completion={completion} open={open} />
     ) : (
       <ExerciseCompletedModal completion={completion} open={open} />
     )
@@ -44,6 +45,7 @@ export const CompleteExerciseModal = ({
     return (
       <PublishSolutionModal
         open={open}
+        onClose={onClose}
         endpoint={endpoint}
         iterations={iterations}
         onSuccess={(completion) => {

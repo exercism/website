@@ -2,7 +2,10 @@
 
 .m-publish-exercise.c-modal.--cover {
     background: var(--modalBackgroundColor);
-    padding: 50px 0;
+
+    & .--modal-container {
+        padding: 50px 0;
+    }
 
     & .--modal-content {
         width: 100%;

@@ -16,10 +16,10 @@ class Github::Task::SearchTest < ActiveSupport::TestCase
     expected = [task_2, task_1]
     assert_equal expected,
       Github::Task::Search.(actions: nil, knowledge: nil, areas: nil, sizes: nil, types: nil, repo_url: nil, order: nil,
-                            track_id: nil, page: nil)
+        track_id: nil, page: nil)
     assert_equal expected,
       Github::Task::Search.(actions: '', knowledge: '', areas: '', sizes: '', types: '', repo_url: '', order: '',
-                            track_id: nil, page: '')
+        track_id: nil, page: '')
   end
 
   test "paginates" do

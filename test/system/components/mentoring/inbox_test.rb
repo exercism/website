@@ -53,13 +53,13 @@ module Components
           sign_in!(mentor)
           visit mentoring_inbox_url
 
-          assert_text "on Series"
-          assert_no_text "on Tournament"
+          assert_text "on Tournament"
+          assert_no_text "on Series"
 
           click_on "2"
 
-          assert_text "on Tournament"
-          assert_no_text "on Series"
+          assert_text "on Series"
+          assert_no_text "on Tournament"
         end
       end
 
@@ -136,7 +136,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_inbox_url
-          click_on "Sort by oldest first"
+          click_on "Sort by recent first"
           find("label", text: "Sort by exercise").click
 
           assert_text "on Series"

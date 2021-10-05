@@ -12,16 +12,16 @@ module Flows
       external_url = "https://github.com/exercism/ruby/pulls/120"
       create :user_code_review_reputation_token,
         user: user,
-        created_at: 2.days.ago,
         seen: false,
         params: {
           external_url: external_url,
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,
-          pr_title: "I did something",
-          merged_at: Time.current - 7.months
-        }
+          pr_title: "I did something"
+        },
+        created_at: Time.current - 7.months
+      create :user_dismissed_introducer, slug: "v3-modal", user: user
 
       use_capybara_host do
         sign_in!(user)
@@ -51,6 +51,7 @@ module Flows
           pr_title: "Something else",
           merged_at: 3.days.ago
         }
+      create :user_dismissed_introducer, slug: "v3-modal", user: user
 
       use_capybara_host do
         sign_in!(user)
@@ -77,6 +78,7 @@ module Flows
           pr_title: "Something else",
           merged_at: 3.days.ago
         }
+      create :user_dismissed_introducer, slug: "v3-modal", user: user
 
       use_capybara_host do
         sign_in!(user)
@@ -91,6 +93,7 @@ module Flows
 
     test "refetches on websocket notification" do
       user = create :user
+      create :user_dismissed_introducer, slug: "v3-modal", user: user
 
       use_capybara_host do
         sign_in!(user)

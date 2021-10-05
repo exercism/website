@@ -1,5 +1,6 @@
 class Submission::TestRun < ApplicationRecord
   extend Mandate::Memoize
+  include HasToolingJob
 
   serialize :raw_results, JSON
 
@@ -16,7 +17,7 @@ class Submission::TestRun < ApplicationRecord
     self.status = raw_results.fetch(:status, :error) unless self.status
     self.uuid = SecureRandom.uuid unless self.uuid
 
-    self.ops_status = 400 unless raw_results[:status]
+    self.ops_status = 400 if ops_success? && !raw_results[:status]
   end
 
   def status
@@ -25,6 +26,10 @@ class Submission::TestRun < ApplicationRecord
 
   def ops_success?
     ops_status == 200
+  end
+
+  def timed_out?
+    ops_status == 408
   end
 
   def ops_errored?

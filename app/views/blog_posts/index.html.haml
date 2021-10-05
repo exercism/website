@@ -21,17 +21,19 @@
 
   .lg-container
     - main_post = @posts.first
-    .highlighted-post.p-24.md:p-32.shadow-base.flex.flex-stretch.mb-48
+    = link_to main_post, class: "highlighted-post p-24 md:p-32 shadow-base flex flex-stretch mb-48" do
       .mr-auto
-        .text-h0.mb-12= main_post.title
+        %h2.text-h0.mb-12= main_post.title
         = render "info_bar", post: main_post
 
         %p.text-p-large.mb-16.md:mb-20= main_post.description
         - link_text = main_post.video? ? "View More" : "Read more"
-        = render ViewComponents::ProminentLink.new(link_text, main_post)
+        .c-prominent-link
+          %span= link_text
+          = graphical_icon 'arrow-right'
 
-      = link_to main_post, class: 'hidden lg:block lg:ml-48 self-start main-image-link' do
-        = image_tag main_post.image_url, alt: "", role: "presentation", class: 'rounded-8'
+      .hidden.lg:block.lg:ml-48.self-start.main-image-link
+        = image_tag main_post.image_url, alt: "", role: "presentation", class: 'rounded-8 w-100'
 
     %h2.text-h3.mb-24.md:mb-40 More posts from the community
     .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-4

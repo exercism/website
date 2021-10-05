@@ -1,6 +1,6 @@
 require_relative "../react_component_test_case"
 
-module Mentoring
+module ReactComponents::Mentoring
   class SessionTest < ReactComponentTestCase
     test "mentoring request renders correctly" do
       TestHelpers.use_website_copy_test_repo!
@@ -42,8 +42,10 @@ module Mentoring
           tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
+          exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
+          download_command: solution.mentor_download_cmd,
           scratchpad: {
             is_introducer_hidden: false,
             links: {
@@ -55,7 +57,7 @@ module Mentoring
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
-            improve_notes: exercise.edit_mentoring_notes_url,
+            improve_notes: exercise.mentoring_notes_edit_url,
             mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
           }
         }
@@ -107,8 +109,15 @@ module Mentoring
           tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
+          exemplar_files: [
+            {
+              filename: "exemplar.rb",
+              content: exercise.exemplar_files.values.first
+            }
+          ],
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
+          download_command: solution.mentor_download_cmd,
           scratchpad: {
             is_introducer_hidden: false,
             links: {
@@ -120,7 +129,7 @@ module Mentoring
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
-            improve_notes: exercise.edit_mentoring_notes_url,
+            improve_notes: exercise.mentoring_notes_edit_url,
             mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
           }
         }
@@ -169,8 +178,10 @@ module Mentoring
           tests: solution.tests,
           student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
           mentor_solution: nil,
+          exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
           notes: "<p>These are notes for lasagna.</p>\n",
           out_of_date: false,
+          download_command: solution.mentor_download_cmd,
           scratchpad: {
             is_introducer_hidden: true,
             links: {
@@ -182,10 +193,26 @@ module Mentoring
           links: {
             mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
             exercise: Exercism::Routes.track_exercise_path(track, exercise),
-            improve_notes: exercise.edit_mentoring_notes_url,
+            improve_notes: exercise.mentoring_notes_edit_url,
             mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
           }
         }
+      )
+    end
+
+    test "exemplar files are serialized correctly" do
+      files = {
+        ".meta/exemplar1.rb" => "class Ruby\nend"
+      }
+
+      assert_equal(
+        [
+          {
+            filename: "exemplar1.rb",
+            content: "class Ruby\nend"
+          }
+        ],
+        Session::SerializeExemplarFiles.(files)
       )
     end
   end

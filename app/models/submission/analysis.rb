@@ -1,5 +1,6 @@
 class Submission::Analysis < ApplicationRecord
   extend Mandate::Memoize
+  include HasToolingJob
 
   serialize :data, JSON
 
@@ -17,9 +18,22 @@ class Submission::Analysis < ApplicationRecord
     TYPES.index_with { |_t| 0 }.tap do |vals|
       comment_blocks.count do |block|
         type = block.try(:fetch, 'type', DEFAULT_TYPE).try(:to_sym) || DEFAULT_TYPE
-        vals[type] += 1
+        if vals[type]
+          vals[type] += 1
+        else
+          Github::Issue::Open.(
+            analyzer_repo,
+            "Invalid analysis type: #{type}",
+            "A comment was made with the type `#{type}`. This is invalid."
+          )
+        end
       end
     end
+  rescue StandardError => e
+    Github::Issue::Open.(analyzer_repo, e.message, e.backtrace)
+    Bugsnag.notify(e)
+
+    {}
   end
 
   %i[essential actionable informative celebratory].each do |type|
@@ -56,8 +70,9 @@ class Submission::Analysis < ApplicationRecord
         html: Markdown::Parse.(markdown)
       }
     rescue StandardError => e
-      # TODO: Open this issue on the relevant track's analyzer repo
+      Github::Issue::Open.(analyzer_repo, e.message, e.backtrace)
       Bugsnag.notify(e)
+
       nil
     end
 
@@ -80,6 +95,10 @@ class Submission::Analysis < ApplicationRecord
   memoize
   def data
     HashWithIndifferentAccess.new(super)
+  end
+
+  def analyzer_repo
+    "#{submission.track.slug}-analyzer"
   end
 
   TYPES = %i[essential actionable informative celebratory].freeze

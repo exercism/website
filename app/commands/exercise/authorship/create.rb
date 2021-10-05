@@ -12,7 +12,7 @@ class Exercise
           return nil
         end
 
-        User::ReputationToken::Create.(
+        AwardReputationTokenJob.perform_later(
           author,
           :exercise_author,
           authorship: authorship

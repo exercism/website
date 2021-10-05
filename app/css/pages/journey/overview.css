@@ -81,6 +81,16 @@
             @apply mb-140;
         }
 
+        & section.empty-section {
+            @apply bg-veryDarkGray;
+            @apply flex flex-col items-center;
+            @apply p-64 rounded-8;
+            & .c-icon {
+                height: 80px;
+                width: 80px;
+                @apply mb-16;
+            }
+        }
         & section.learning-section {
             & header.section-header {
                 @apply mb-48;
@@ -196,6 +206,50 @@
                                 }
                                 & p {
                                     @apply leading-150;
+                                }
+                            }
+                        }
+                        & .date-area {
+                            @apply flex flex-col items-center justify-center text-center;
+                            & .c-icon {
+                                height: 32px;
+                                width: 32px;
+                                @apply mb-16;
+                                filter: var(--textColor6-filter);
+                            }
+                            & .journey-h3 {
+                                @apply mb-8;
+                            }
+                            & p.text-h6 {
+                                @apply text-textColor5;
+                                @apply mb-6;
+                            }
+                            & p {
+                                @apply font-medium text-textColor6 leading-150;
+                                & strong {
+                                    @apply text-textColor1 font-semibold;
+                                }
+                            }
+                        }
+                        & .mentor-history-area {
+                            @apply flex flex-col items-center justify-center text-center;
+                            & .c-icon {
+                                height: 32px;
+                                width: 32px;
+                                @apply mb-16;
+                                filter: var(--textColor6-filter);
+                            }
+                            & .journey-h3 {
+                                @apply mb-8;
+                            }
+                            & p.text-h6 {
+                                @apply text-textColor5;
+                                @apply mb-6;
+                            }
+                            & p {
+                                @apply font-medium text-textColor6 leading-150;
+                                & strong {
+                                    @apply text-textColor1 font-semibold;
                                 }
                             }
                         }

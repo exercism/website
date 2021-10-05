@@ -7,8 +7,8 @@
           %strong.leading-none.font-bold really
           good at programming.
         %p.text-p-xlarge.mb-24
-          Develop fluency in over
-          %em.not-italic.font-medium.text-textColor2 55 programming languages
+          Develop fluency in
+          %em.not-italic.font-medium.text-textColor2 #{@num_tracks} programming languages
           with our unique blend of learning, practice and mentoring.
           Exercism is fun, effective and
           %strong.text-textColor2 100% free, forever.
@@ -105,9 +105,9 @@
           %hr.c-divider
 
           %p.text-p-xlarge
-            Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of particular programming language.
+            Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of a particular programming language.
 
-      = graphical_icon "landing-page-mentoring", category: :graphics, css_class: "main-graphic mb-60 shadow-lgZ1"
+      = image_pack_tag "screenshots/mentoring.jpg", role: :presentation, class: "main-graphic mb-60 shadow-lgZ1"
 
       .flex.flex-col.items-center
         %h3.text-h2 Why mentoring?
@@ -117,17 +117,17 @@
         .feature
           = graphical_icon "features-do-not-know"
           %h3.text-h4 You don’t know what you don’t know
-          %p.text-p-base Cras vel dolor vel neque mattis hendrerit. Duis sed leo eget velit imperdiet ultrices. Phasellus dictum justo lacus.
+          %p.text-p-base When learning a new language, the hardest part is not being aware of the gaps in your knowledge. Our mentors can look at your code and immediately see the ideas you're not familiar with and give you a level-up by unlocking new knowledge.
 
         .feature
           = graphical_icon "features-fluency"
           %h3.text-h4 Learn language-specific conventions
-          %p.text-p-base Cras vel dolor vel neque mattis hendrerit. Duis sed leo eget velit imperdiet ultrices. Phasellus dictum justo lacus.
+          %p.text-p-base Becoming fluent in a language is more than being able to write code in it - it's about being able to think in that language. Our mentors will help guide you to how to reshape your thinking to write idiomatic code.
 
         .feature
           = graphical_icon "features-feedback"
-          %h3.text-h4 Integer viverra eget massa at auctor
-          %p.text-p-base Cras vel dolor vel neque mattis hendrerit. Duis sed leo eget velit imperdiet ultrices. Phasellus dictum justo lacus.
+          %h3.text-h4 Learning with others is fun
+          %p.text-p-base Getting feedback from real people is an amazingly exciting way to learn. And becoming a mentor and giving feedback yourself is an even bigger step forward. So complete the circle - be mentored and mentor 🎉
 
 
 <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>

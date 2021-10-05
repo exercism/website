@@ -57,6 +57,7 @@ export const MarkdownEditor = ({
         'heading',
         'bold',
         'italic',
+        'quote',
         'code',
         'link',
         'unordered-list',

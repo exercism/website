@@ -7,6 +7,7 @@ class Badge::RookieBadgeTest < ActiveSupport::TestCase
     assert_equal :common, badge.rarity
     assert_equal :editor, badge.icon
     assert_equal "Awarded for submitting an exercise", badge.description
+    refute badge.send_email_on_acquisition?
   end
 
   test "award_to?" do
@@ -20,8 +21,12 @@ class Badge::RookieBadgeTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user
     refute badge.award_to?(user.reload)
 
-    # Iteartions
+    # Iterations
     create :submission, solution: solution
+    refute badge.award_to?(user.reload)
+
+    # Iterations
+    create :iteration, solution: solution
     assert badge.award_to?(user.reload)
   end
 end

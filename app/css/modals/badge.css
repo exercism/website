@@ -1,6 +1,6 @@
 @import "../styles";
 
-.m-badge.c-modal {
+.m-badge.c-modal.--cover {
     &.--common {
         --rgb: var(--commonBadge-RGB);
         --rgb-fill: var(--commonBadgeFill-RGB);
@@ -21,8 +21,11 @@
         --rgb-fill: var(--legendaryBadgeFill-RGB);
         --rgb-shadow: var(--legendaryBadgeShadow-RGB);
     }
-    @apply pt-96 pb-48 px-48;
+
     background: rgba(34, 30, 49, 0.8);
+    & .--modal-container {
+        @apply pt-96 pb-48 px-48;
+    }
 
     & .--modal-content {
         max-width: 740px;

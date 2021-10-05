@@ -20,6 +20,7 @@ class SerializeSolution
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
       num_loc: solution.num_loc,
+      is_out_of_date: solution.out_of_date?,
 
       published_at: solution.published_at&.iso8601,
       completed_at: solution.completed_at&.iso8601,

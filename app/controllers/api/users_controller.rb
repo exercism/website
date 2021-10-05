@@ -8,7 +8,9 @@ module API
 
       render json: {
         user: {
-          avatar_url: current_user.avatar_url
+          handle: current_user.handle,
+          avatar_url: current_user.avatar_url,
+          has_avatar: current_user.has_avatar?
         }
       }
     end

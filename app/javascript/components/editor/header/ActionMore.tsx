@@ -6,9 +6,13 @@ import { useDropdown } from '../../dropdowns/useDropdown'
 export const ActionMore = ({
   onRevertToLastIteration,
   onRevertToExerciseStart,
+  trackSlug,
+  exerciseSlug,
 }: {
   onRevertToLastIteration: () => void
   onRevertToExerciseStart: () => void
+  trackSlug: string
+  exerciseSlug: string
 }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const {
@@ -52,6 +56,8 @@ export const ActionMore = ({
       <BugReportModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        trackSlug={trackSlug}
+        exerciseSlug={exerciseSlug}
       />
       <button {...buttonAttributes} className="more-btn">
         <Icon icon="more-horizontal" alt="Open more options" />

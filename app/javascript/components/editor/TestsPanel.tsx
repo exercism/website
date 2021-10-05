@@ -19,8 +19,9 @@ export const TestsPanel = ({
           className={highlightjsLanguage}
           data-highlight-line-numbers={true}
           data-highlight-line-number-start={1}
-          dangerouslySetInnerHTML={{ __html: tests }}
-        />
+        >
+          {tests}
+        </code>
       </pre>
     </Tab.Panel>
   )

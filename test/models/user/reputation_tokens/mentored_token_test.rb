@@ -18,11 +18,11 @@ class User::ReputationTokens::MentoredTokenTest < ActiveSupport::TestCase
 
     assert_equal User::ReputationTokens::MentoredToken, rt.class
     assert_equal "You mentored <strong>#{student.handle}</strong> on <strong>#{exercise.title}</strong> in <strong>#{exercise.track.title}</strong>", rt.text # rubocop:disable Layout/LineLength
-    assert_equal Exercism::Routes.mentoring_discussion_url(discussion), rt.internal_url
     assert_equal "#{mentor.id}|mentored|Discussion##{discussion.id}", rt.uniqueness_key
     assert_equal :mentoring, rt.category
     assert_equal :mentored, rt.reason
     assert_equal 5, rt.value
     assert_equal discussion.finished_at.to_date, rt.earned_on
+    assert_equal Exercism::Routes.mentoring_discussion_url(discussion), rt.rendering_data[:internal_url]
   end
 end

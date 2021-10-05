@@ -7,7 +7,7 @@ module API
         return render_solution_not_found
       end
 
-      return render_403(:solution_not_accessible) unless current_user.may_view_solution?(solution)
+      return render_403(:solution_not_accessible) unless solution.viewable_by?(current_user)
 
       if solution.submissions.last
         file = solution.submissions.last.files.where(filename: params[:filepath]).first

@@ -41,6 +41,10 @@ Rails.application.routes.draw do
     # TODO: This is just a stub
     resources :users, only: [:update]
 
+    resource :user, only: [] do
+      resource :profile_photo, only: %i[destroy], controller: "users/profile_photos"
+    end
+
     resource :profile, only: %i[create destroy]
 
     resource :journey_overview, only: [:show], controller: "journey_overview"
@@ -82,6 +86,7 @@ Rails.application.routes.draw do
       end
 
       resources :tracks, only: [], controller: "user_tracks", param: :slug do
+        resources :solutions_for_mentoring, only: %i[index], controller: "tracks/solutions_for_mentoring"
         member do
           patch :activate_practice_mode
           patch :activate_learning_mode
@@ -95,6 +100,10 @@ Rails.application.routes.draw do
         patch 'deactivate_practice_mode' => "user_tracks#deactivate_practice_mode"
 
         resources :exercises, only: %i[index], controller: "exercises", param: :slug do
+          member do
+            patch :start
+          end
+
           resources :makers, only: [:index], controller: "exercises/makers"
           resources :community_solutions, only: [:index], controller: "community_solutions", param: :handle do
             resource :star, only: %i[create destroy], controller: "community_solution_stars"
@@ -334,13 +343,14 @@ Rails.application.routes.draw do
     resources :exercises, only: %i[index show edit], controller: "tracks/exercises" do
       member do
         get :tooltip
-        patch :start
-        patch :complete # TODO: Remove once via the API.
+        get :no_test_runner
       end
 
       resources :iterations, only: [:index], controller: "tracks/iterations"
 
-      resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests"
+      resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests" do
+        get :no_slots_remaining
+      end
       resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions"
 
       resources :solutions, only: %i[index show], controller: "tracks/community_solutions"
@@ -394,6 +404,13 @@ Rails.application.routes.draw do
   get "about" => "pages#about", as: :about_page
   get "team" => "pages#team", as: :team_page
 
+  ############
+  # Partners #
+  ############
+  get "partners/gobridge" => "partners#gobridge", as: :gobridge_partner_page
+  get "partners/go-developer-network", to: redirect("partners/gobridge")
+  get "partners/gdn", to: redirect("partners/gobridge")
+
   get "site.webmanifest" => "meta#site_webmanifest"
 
   #################
@@ -424,6 +441,10 @@ Rails.application.routes.draw do
   get "cli", to: redirect("docs/using/solving-exercises/working-locally")
   get "report-abuse", to: redirect("docs/using/report-abuse")
   get "become-a-mentor", to: redirect("mentoring")
+  get "my/settings", to: redirect("settings")
+  get "my/tracks", to: redirect("tracks")
+  get "getting-started", to: redirect("docs/using/getting-started")
+  get '/languages/:slug', to: redirect('/tracks/%{slug}') # rubocop:disable Style/FormatStringToken
 
   # Licences
   %w[licence license].each do |spelling|
@@ -468,13 +489,6 @@ Rails.application.routes.draw do
         get :student_request
       end
       resource :mentored_tracks, only: %i[show update]
-      resources :tracks, only: [] do
-        resources :exercises, only: [], controller: "tracks/exercises" do
-          member do
-            patch :start
-          end
-        end
-      end
     end
 
     namespace :test do

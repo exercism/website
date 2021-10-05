@@ -8,6 +8,18 @@ test('fromNow', () => {
   expect(fromNow(time)).toEqual('2 days ago')
 })
 
+test('shortFromNow for now future', () => {
+  var time = new Date()
+  time.setTime(time.getTime() + 1)
+  expect(shortFromNow(time)).toEqual('now')
+})
+
+test('shortFromNow for minute future', () => {
+  var time = new Date()
+  time.setTime(time.getTime() + 1 * 60 * 1000)
+  expect(shortFromNow(time)).toEqual('in 1m')
+})
+
 test('shortFromNow for now', () => {
   var time = new Date()
   time.setDate(time.getDate())

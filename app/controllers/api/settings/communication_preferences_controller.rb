@@ -9,7 +9,7 @@ module API
       def communication_preferences_params
         params.
           require(:communication_preferences).
-          permit(:email_on_mentor_started_discussion_notification)
+          permit(*User::CommunicationPreferences.keys)
       end
     end
   end

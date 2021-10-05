@@ -1,6 +1,6 @@
 en:
   communication_preferences:
-    receive_product_updates: "Email me about product updates"
+    receive_product_updates: "Email me about big updates to Exercism (frequency: 4 - 12 per year)"
     email_on_new_discussion_post: "Email me when a mentor comments on my solution"
     email_on_solution_approved: "Email me when a mentor approves my solution"
     email_on_new_solution_comment_for_solution_user: "Email me when someone comments on my published solution"
@@ -10,5 +10,11 @@ en:
     email_on_remind_mentor: "Email me when I am about to be timed out of a solution"
     email_on_mentor_heartbeat: "Email me with weekly mentor summaries"
 
-    email_on_mentor_started_discussion_notification: "Email when a mentor starts mentoring my solution"
-    email_on_mentor_replied_to_discussion_notification: "Email when a mentor replies to a discussion on my solution"
+    email_on_mentor_started_discussion_notification: "Email me when a mentor starts mentoring my solution"
+    email_on_mentor_replied_to_discussion_notification: "Email me when a mentor replies to a discussion on my solution"
+
+    email_on_student_replied_to_discussion_notification: "Email me when a student replies to a discussion I am mentoring"
+    email_on_student_added_iteration_notification: "Email me when a student adds an iteration to a solution I am mentoring"
+
+    email_on_general_update_notification: "Email me about other non-essential updates to my account"
+    email_on_acquired_badge_notification: "Email me when I receive a unlock a new badge"

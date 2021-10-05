@@ -18,10 +18,11 @@
     - else
       or try a different exercise.
 
-  %h4 Via Exercism Editor
-  = link_to start_track_exercise_path(track, exercise), method: :patch, class: "editor-btn btn-default btn-m" do
-    = graphical_icon :editor
-    Open in editor
+  - if exercise.has_test_runner?
+    %h4 Via Exercism Editor
+    = link_to edit_track_exercise_path(track, exercise), class: "editor-btn btn-default btn-m" do
+      = graphical_icon :editor
+      Open in editor
 
   %h4 Work locally (via CLI)
   = ReactComponents::Common::CopyToClipboardButton.new(exercise.download_cmd)

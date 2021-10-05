@@ -142,4 +142,33 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     refute_includes serialized[:overview], 'that keeps track of how'
     assert_includes serialized[:overview], 'that tracks how'
   end
+
+  test "serialize task with multiple lines of text" do
+    solution = create :concept_solution
+
+    instructions = <<~INSTRUCTIONS.strip
+      # Instructions
+
+      ## 1. Document filling out fields with blank values
+
+      Add documentation and a typespec to the `Form.blanks/1` function. The documentation should read:
+
+      ```
+      Generates a string of a given length.
+
+      This string can be used to fill out a form field that is supposed to have no value.
+      Such fields cannot be left empty because a malicious third party could fill them out with false data.
+      ```
+
+      The typespec should explain that the function accepts a single argument, a non-negative integer, and returns a string.
+    INSTRUCTIONS
+
+    solution.git_exercise.stubs(:instructions).returns(instructions)
+
+    serialized = SerializeExerciseAssignment.(solution)
+
+    task = serialized[:tasks].first
+    assert_equal "Document filling out fields with blank values", task[:title]
+    assert_equal "<p>Add documentation and a typespec to the <code>Form.blanks/1</code> function. The documentation should read:</p>\n<pre><code class=\"language-plain\">Generates a string of a given length.\n\nThis string can be used to fill out a form field that is supposed to have no value.\nSuch fields cannot be left empty because a malicious third party could fill them out with false data.\n</code></pre>\n<p>The typespec should explain that the function accepts a single argument, a non-negative integer, and returns a string.</p>\n", task[:text] # rubocop:disable Layout/LineLength
+  end
 end

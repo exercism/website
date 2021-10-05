@@ -7,7 +7,7 @@
 %meta{ name: "parse-markdown-url", content: Exercism::Routes.api_parse_markdown_url }
 %meta{ name: "user-id", content: current_user ? current_user.id : nil }
 - unless Rails.env.test?
-  %meta{ name: "stripe-publishable-key", content: Exercism::STRIPE_PUBLISHABLE_KEY }
+  %meta{ name: "stripe-publishable-key", content: Exercism.secrets.stripe_publishable_key }
 
 %title= meta_title
 %meta{ name: "description", content: meta_description }

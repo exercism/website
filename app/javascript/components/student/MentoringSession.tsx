@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
 import { CloseButton } from '../mentoring/session/CloseButton'
-import { IterationView } from '../mentoring/session/IterationView'
+import { IterationView } from './mentoring-session/IterationView'
 import { useIterationScrolling } from '../mentoring/session/useIterationScrolling'
 import { SessionInfo } from './mentoring-session/SessionInfo'
 import { DiscussionInfo } from './mentoring-session/DiscussionInfo'
@@ -29,6 +29,7 @@ export type Links = {
 
 export type Video = {
   url: string
+  thumb: string
   title: string
   date: string
 }
@@ -117,6 +118,7 @@ export const MentoringSession = ({
               isOutOfDate={outOfDate}
               isLinked={isLinked}
               setIsLinked={setIsLinked}
+              discussion={discussion}
             />
           </>
         }

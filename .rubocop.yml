@@ -42,6 +42,10 @@ Layout/LineLength:
     - "test/models/notifications/*"
     - "test/helpers/react_components/maintaining/submissions_summary_table_test.rb"
 
+Layout/RescueEnsureAlignment:
+  Exclude:
+    - app/controllers/api/solutions_controller.rb # TODO: remove once Rubocop fixes https://github.com/rubocop/rubocop/pull/10017
+
 Lint/SuppressedException:
   Exclude:
     - "test/**/*"

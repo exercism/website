@@ -17,6 +17,10 @@ class UserTrack
       false
     end
 
+    def anonymous_during_mentoring?
+      true
+    end
+
     memoize
     def exercises
       enabled_exercises(track.exercises)

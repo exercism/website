@@ -60,6 +60,18 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "latest_status should be correct for no iteration" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response 200
+
+    expected = { status: nil }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
   ###
   # CREATE
   ###

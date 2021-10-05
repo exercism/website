@@ -12,7 +12,7 @@
     with
     - if user_track.num_concepts.positive?
       #{link_to "#{user_track.num_concepts} #{'concept'.pluralize(user_track.num_concepts)}", track_concepts_path(track)},
-    #{link_to "#{user_track.num_exercises} #{'exercise'.pluralize(user_track.num_exercises)}", track_exercise_path(track)},
+    #{link_to "#{user_track.num_exercises} #{'exercise'.pluralize(user_track.num_exercises)}", track_exercises_path(track)},
     and real human mentoring,
     %strong all for free.
 

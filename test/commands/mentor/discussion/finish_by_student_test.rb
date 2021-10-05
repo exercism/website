@@ -18,6 +18,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     comment_markdown = "Pls help me thanks"
 
     solution = create :concept_solution
+    create :user_track, user: solution.user, track: solution.track
     original_request = create :mentor_request, solution: solution, comment_markdown: comment_markdown
     original_request.fulfilled!
 
@@ -119,5 +120,24 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
       create(:mentor_discussion), 5, block: true
     )
     assert_equal 2, Mentor::StudentRelationship.count
+  end
+
+  [3, 4, 5].each do |rating|
+    test "reputation awarded for #{rating}" do
+      discussion = create(:mentor_discussion)
+
+      AwardReputationTokenJob.expects(:perform_later).with(
+        discussion.mentor,
+        :mentored,
+        discussion: discussion
+      )
+
+      Mentor::Discussion::FinishByStudent.(discussion, rating)
+    end
+  end
+
+  test "reputation not awarded for 1" do
+    AwardReputationTokenJob.expects(:perform_later).never
+    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 1)
   end
 end

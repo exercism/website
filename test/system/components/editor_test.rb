@@ -229,7 +229,7 @@ module Components
         click_on "Run Tests"
         wait_for_submission
         2.times { wait_for_websockets }
-        message = "Oh dear Foobar - here's some stuff"
+        message = "Oh dear Foobar - here is some stuff"
         test_run = create :submission_test_run,
           submission: Submission.last,
           ops_status: 200,
@@ -447,25 +447,6 @@ module Components
         click_on("Revert to exercise start")
 
         assert_text "Please implement the LogLineParser.message method"
-      end
-    end
-
-    test "user reports a bug" do
-      user = create :user
-      track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
-
-      use_capybara_host do
-        sign_in!(user)
-        visit edit_track_exercise_path(track, exercise)
-        find(".more-btn").click
-        click_on("Report a bug")
-        fill_in "Please provide as much detail as possible", with: "I found a bug"
-        click_on "Submit bug report"
-
-        assert_text "Bug report submitted. Thank you!"
       end
     end
 

@@ -44,14 +44,8 @@ class Github::Task < ApplicationRecord
     docs: 4
   }, _suffix: true
 
-  before_validation on: :create do
-    unless track
-      repo_url = issue_url.
-        gsub(%r{/issues/\d+}, '').
-        gsub(/-(test-runner|analyzer|representer)$/, '')
-
-      self.track_id = Track.where(repo_url: repo_url).pick(:id)
-    end
+  before_validation do
+    set_track_from_repo_url unless track
   end
 
   %i[action knowledge area size type].each do |type|
@@ -62,5 +56,16 @@ class Github::Task < ApplicationRecord
 
   before_create do
     self.uuid = SecureRandom.compact_uuid if self.uuid.blank?
+  end
+
+  private
+  def set_track_from_repo_url
+    self.track_id = Track.where(repo_url: repo_url).pick(:id)
+  end
+
+  def repo_url
+    issue_url.
+      gsub(%r{/issues/\d+}, '').
+      gsub(/-(test-runner|analyzer|representer)$/, '')
   end
 end

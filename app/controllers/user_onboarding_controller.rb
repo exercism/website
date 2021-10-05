@@ -4,6 +4,8 @@ class UserOnboardingController < ApplicationController
   disable_site_header!
 
   def show
+    return redirect_to dashboard_path if user_signed_in? && current_user.onboarded?
+
     @onboarding = UserOnboardingForm.new
   end
 

@@ -1,7 +1,7 @@
 class Submission::File < ApplicationRecord
   belongs_to :submission
 
-  URI_REGEX = %r{s3://(?<bucket>[a-z-]+)/(?<key>.*)}.freeze
+  URI_REGEX = %r{s3://(?<bucket>[a-z0-9-]+)/(?<key>.*)}.freeze
 
   before_create do
     self.uri = "s3://#{Exercism.config.aws_submissions_bucket}/#{Rails.env}/storage/#{SecureRandom.compact_uuid}"

@@ -26,11 +26,12 @@ module ReactComponents
       end
 
       def request
+        last_iteration = solution.iterations.last
         {
           endpoint: Exercism::Routes.latest_status_api_solution_iterations_url(solution.uuid),
           options: {
             initialData: {
-              status: solution.latest_iteration ? solution.latest_iteration.status.to_s : nil
+              status: last_iteration ? last_iteration.status.to_s : nil
             }
           }.compact
         }

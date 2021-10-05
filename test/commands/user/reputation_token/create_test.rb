@@ -5,7 +5,8 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     user = create :user, handle: "User22", github_username: "user22"
     contributorship = create :exercise_contributorship, contributor: user
 
-    User::ReputationPeriod::MarkForNewToken.expects(:call).once
+    User::ReputationPeriod::MarkForNewToken.expects(:call)
+    AwardBadgeJob.expects(:perform_later).with(user, :contributor)
 
     2.times do
       User::ReputationToken::Create.(

@@ -5,7 +5,7 @@ module SiteUpdates
     initialize_with :exercise
 
     def call
-      if exercise.wip?
+      if exercise.wip? || exercise.deprecated?
         destroy!
       else
         begin

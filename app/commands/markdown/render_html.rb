@@ -4,7 +4,7 @@ class Markdown::RenderHTML
   initialize_with :doc, :nofollow_links
 
   def call
-    renderer = Renderer.new(options: [:UNSAFE], nofollow_links: nofollow_links)
+    renderer = Renderer.new(options: %i[UNSAFE FOOTNOTES], nofollow_links: nofollow_links)
     renderer.render(doc)
   end
 

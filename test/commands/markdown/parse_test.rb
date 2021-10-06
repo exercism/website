@@ -321,4 +321,10 @@ Done')
     assert_equal expected, Markdown::Parse.("`````exercism/note\nThere is **markdown** within _these_ notes.\n`````")
     assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nThere is **markdown** within _these_ notes.\n~~~~~")
   end
+
+  test "render footnote" do
+    expected = %(<p>Hello<sup class=\"footnote-ref\"><a href=\"#fn1\" id=\"fnref1\">1</a></sup>.</p>\n<section class=\"footnotes\">\n<ol>\n<li id=\"fn1\">\n<p>Hey! <a href=\"#fnref1\" class=\"footnote-backref\">↩</a></p>\n</li>\n</ol>\n</section>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected,
+      Markdown::Parse.("Hello[^hi].\n\n[^hi]: Hey!\n")
+  end
 end

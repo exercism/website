@@ -61,15 +61,12 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
   end
 
   test "creates site_update" do
-    track = create :track
-    exercise = PracticeExercise::Create.(
+    SiteUpdates::ProcessNewExerciseUpdate.expects(:call)
+
+    PracticeExercise::Create.(
       SecureRandom.uuid,
-      track,
+      create(:track),
       build(:practice_exercise).attributes.symbolize_keys
     )
-
-    update = SiteUpdate.first
-    assert_equal exercise, update.exercise
-    assert_equal track, update.track
   end
 end

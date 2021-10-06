@@ -27,6 +27,7 @@ module Git
 
       SyncExerciseAuthors.(exercise)
       SyncExerciseContributors.(exercise)
+      SiteUpdates::ProcessNewExerciseUpdate.(exercise)
     end
 
     private

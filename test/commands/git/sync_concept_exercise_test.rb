@@ -352,4 +352,11 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     assert_equal 'log-levels', exercise.slug
   end
+
+  test "updates site_update" do
+    exercise = create :concept_exercise, uuid: 'f4f7de13-a9ee-4251-8796-006ed85b3f70', slug: 'logs', git_sha: "c75486b75db8012646b0e1c667cb1db47ff5a9d5", synced_to_git_sha: "c75486b75db8012646b0e1c667cb1db47ff5a9d5" # rubocop:disable Layout/LineLength
+    SiteUpdates::ProcessNewExerciseUpdate.expects(:call).with(exercise)
+
+    Git::SyncConceptExercise.(exercise, force_sync: true)
+  end
 end

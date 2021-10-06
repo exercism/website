@@ -7,7 +7,7 @@ class Iteration
     def call
       iteration.update!(deleted_at: Time.current)
       solution.update!(published_iteration_id: nil, published_at: nil) if solution.published_iteration_id == iteration.id
-      solution.update!(completed_at: nil) if solution.iterations.not_deleted.empty?
+      solution.update!(completed_at: nil) unless solution.iterations.not_deleted.exists?
     end
 
     private

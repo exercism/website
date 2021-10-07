@@ -124,7 +124,6 @@ module Git
         ".docs/instructions.append.md",
         ".docs/introduction.md",
         ".docs/introduction.append.md",
-        ".docs/hints.md",
         "bob_test.rb"
       ]
       assert_equal expected_filepaths, exercise.important_filepaths

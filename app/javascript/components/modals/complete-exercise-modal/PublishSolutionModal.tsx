@@ -30,8 +30,8 @@ export const PublishSolutionModal = ({
         <div className="title">Publish your code and share your knowledge</div>
         <p>
           By publishing your code, you'll help others learn from your work. You
-          can choose which iterations you publish, add more iterations once its
-          publish, and unpublish it at any time.
+          can choose which iterations you publish, add more iterations once it's
+          published, and unpublish it at any time.
         </p>
         <PublishSolutionForm
           endpoint={endpoint}

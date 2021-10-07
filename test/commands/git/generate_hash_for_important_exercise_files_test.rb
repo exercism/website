@@ -6,7 +6,7 @@ class Git::GenerateHashForImportantExerciseFilesTest < ActiveSupport::TestCase
 
     hash = Git::GenerateHashForImportantExerciseFiles.(exercise)
 
-    assert_equal 'b72b0958a135cddd775bf116c128e6e859bf11e4', hash
+    assert_equal '4e37519a146701ebdf6041fbac5fb4cc8ab6447d', hash
   end
 
   test "hash is same if important files have not changed between commits" do

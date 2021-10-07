@@ -58,8 +58,8 @@ class Exercise < ApplicationRecord
     self.git_important_files_hash = Git::GenerateHashForImportantExerciseFiles.(self) if self.git_important_files_hash.blank?
   end
 
-  before_update do
-    self.git_important_files_hash = Git::GenerateHashForImportantExerciseFiles.(self) if git_sha_changed?
+  after_update do
+    Exercise::UpdateHashForImportantExerciseFiles.(self)
   end
 
   after_update do

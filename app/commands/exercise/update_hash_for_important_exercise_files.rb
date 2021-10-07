@@ -9,7 +9,7 @@ class Exercise
 
       ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
         exercise.update!(git_important_files_hash: new_git_important_files_hash)
-        exercise.solutions.where(git_important_files_hash: old_git_important_files_hash).
+        Solution.where(exercise: exercise, git_important_files_hash: old_git_important_files_hash).
           update_all(git_important_files_hash: new_git_important_files_hash)
       end
     end

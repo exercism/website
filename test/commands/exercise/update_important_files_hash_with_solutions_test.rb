@@ -1,11 +1,11 @@
 require "test_helper"
 
-class Exercise::UpdateHashForImportantExerciseFilesTest < ActiveSupport::TestCase
+class Exercise::UpdateImportantFilesHashWithSolutionsTest < ActiveSupport::TestCase
   test "updates exercise git_important_files_hash if recalculated hash is different" do
     exercise = create :practice_exercise
     Git::GenerateHashForImportantExerciseFiles.stubs(:call).returns("new-hash")
 
-    Exercise::UpdateHashForImportantExerciseFiles.(exercise)
+    Exercise::UpdateImportantFilesHashWithSolutions.(exercise)
 
     assert_equal "new-hash", exercise.git_important_files_hash
   end
@@ -29,7 +29,7 @@ git_important_files_hash: exercise.git_important_files_hash
 
     Git::GenerateHashForImportantExerciseFiles.stubs(:call).returns("new-hash")
 
-    Exercise::UpdateHashForImportantExerciseFiles.(exercise)
+    Exercise::UpdateImportantFilesHashWithSolutions.(exercise)
 
     assert_equal "new-hash", solution_same_hash_1.reload.git_important_files_hash
     assert_equal "new-hash", solution_same_hash_2.reload.git_important_files_hash
@@ -43,7 +43,7 @@ git_important_files_hash: exercise.git_important_files_hash
     before_updated_at = exercise.updated_at
     Git::GenerateHashForImportantExerciseFiles.stubs(:call).returns(exercise.git_important_files_hash)
 
-    Exercise::UpdateHashForImportantExerciseFiles.(exercise)
+    Exercise::UpdateImportantFilesHashWithSolutions.(exercise)
 
     assert_equal before_updated_at, exercise.updated_at
   end

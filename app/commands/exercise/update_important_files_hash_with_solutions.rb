@@ -1,5 +1,5 @@
 class Exercise
-  class UpdateHashForImportantExerciseFiles
+  class UpdateImportantFilesHashWithSolutions
     include Mandate
 
     initialize_with :exercise

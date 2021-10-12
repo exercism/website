@@ -12,7 +12,7 @@ gem 'aws-sdk-ecr'
 gem 'anycable-rails', '~> 1.0.4'
 
 # Serving requests
-gem 'puma', '~> 4.1'
+gem 'puma', '~> 4.3'
 
 # Helper gems for Rails
 gem 'bootsnap', '>= 1.4.2', require: false

@@ -93,11 +93,6 @@ class Track < ApplicationRecord
   end
 
   # TODO: Set this properly
-  def median_wait_time
-    "6 hrs"
-  end
-
-  # TODO: Set this properly
   def avg_wait_time
     nil
   end

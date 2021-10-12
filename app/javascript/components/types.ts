@@ -227,7 +227,7 @@ export type MentorSessionTrack = {
   iconUrl: string
   highlightjsLanguage: string
   indentSize: number
-  medianWaitTime: string
+  medianWaitTime?: number
 }
 
 export type MentorSessionExercise = {

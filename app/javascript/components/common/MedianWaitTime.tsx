@@ -1,0 +1,29 @@
+import React from 'react'
+import {
+  durationFromSeconds,
+  durationTimeElementFromSeconds,
+} from '../../utils/time'
+
+type MedianWaitTimeProps = {
+  seconds?: number
+}
+
+export function MedianWaitTime({ seconds }: MedianWaitTimeProps) {
+  if (seconds === undefined || seconds === null) {
+    return null
+  }
+
+  const medianWaitTime = durationFromSeconds(seconds)
+
+  return (
+    <div>
+      Recent median waiting time: ~
+      <time
+        dateTime={durationTimeElementFromSeconds(seconds)}
+        title={medianWaitTime}
+      >
+        {medianWaitTime}
+      </time>
+    </div>
+  )
+}

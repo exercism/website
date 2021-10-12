@@ -39,7 +39,7 @@ export type SolutionSummaryRequest = {
 
 export type Track = {
   title: string
-  medianWaitTime: string
+  medianWaitTime?: number
 }
 
 export type Exercise = {

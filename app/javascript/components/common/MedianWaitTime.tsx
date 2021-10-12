@@ -20,7 +20,7 @@ export function MedianWaitTime({ seconds }: MedianWaitTimeProps) {
       Recent median waiting time: ~
       <time
         dateTime={durationTimeElementFromSeconds(seconds)}
-        title={medianWaitTime}
+        title={`Median wait time: ${medianWaitTime}`}
       >
         {medianWaitTime}
       </time>

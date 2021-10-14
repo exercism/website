@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { render, waitFor, fireEvent, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { CopyToClipboardButton } from '../../../../app/javascript/components/common/CopyToClipboardButton'
 
@@ -41,16 +41,18 @@ test('copies text to clipboard when pressing Ctrl+C', async () => {
   )
 })
 
-// TODO: re-enable one there is a visual indication that text was just copied
-// test('changes text to copied temporarily', async () => {
-//   const { getByText, queryByText } = render(
-//     <CopyToClipboardButton textToCopy="exercism download --track=ruby --exercise=bob" />
-//   )
+test('changes text to copied temporarily', async () => {
+  const { queryByRole } = render(
+    <CopyToClipboardButton textToCopy="exercism download --track=javascript --exercise=bob" />
+  )
 
-//   fireEvent.click(getByText('Copy'))
+  const copyButton = queryByRole('button')
+  copyButton.focus()
 
-//   await waitFor(() => expect(queryByText('Copied')).toBeInTheDocument())
-//   await waitFor(() => expect(queryByText('Copy')).toBeInTheDocument(), {
-//     timeout: 2500,
-//   })
-// })
+  fireEvent.keyDown(copyButton, { code: 'KeyC', ctrlKey: true })
+
+  await waitFor(() => expect(screen.queryByText('Copied')).toBeInTheDocument())
+  await waitFor(() =>
+    expect(screen.queryByText('Copied')).not.toBeInTheDocument()
+  )
+})

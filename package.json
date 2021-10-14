@@ -74,6 +74,7 @@
     "react": "^16.13.1",
     "reconnecting-websocket": "3.2.2",
     "regenerator-runtime": "^0.13.7",
+    "rough-notation": "^0.5.1",
     "tailwindcss": "^3.0.7",
     "use-is-mounted": "^1.0.0",
     "use-memory-value": "^1.2.0",

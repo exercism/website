@@ -2,9 +2,10 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { StepIndicator } from '../../../../../app/javascript/components/modals/mentor-registration-modal/StepIndicator'
+import { StepProps } from '../../../../../app/javascript/components/modals/MentorRegistrationModal'
 
 test('shows steps', async () => {
-  const steps = [
+  const steps: StepProps[] = [
     {
       id: 'CHOOSE_TRACK',
       label: 'Select the tracks you want to mentor',
@@ -14,7 +15,7 @@ test('shows steps', async () => {
       label: 'Commit to being a good mentor',
     },
   ]
-  render(<StepIndicator steps={steps} />)
+  render(<StepIndicator steps={steps} currentStep="CHOOSE_TRACK" />)
 
   expect(
     screen.getByText('Step 1: Select the tracks you want to mentor')
@@ -25,7 +26,7 @@ test('shows steps', async () => {
 })
 
 test('shows current step', async () => {
-  const steps = [
+  const steps: StepProps[] = [
     {
       id: 'CHOOSE_TRACK',
       label: 'Select the tracks you want to mentor',

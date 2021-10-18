@@ -8,7 +8,7 @@ class AssembleTracksForSelect
   def call
     [
       SerializeTrackForSelect::ALL_TRACK,
-      *tracks.map { |track| SerializeTrackForSelect.(track) }
+      *tracks.order(title: :asc).map { |track| SerializeTrackForSelect.(track) }
     ]
   end
 

@@ -12,6 +12,7 @@ module LayoutHelper
 
   def js_packs
     [
+      ('landing' if landing_page?),
       ('application' unless landing_page?),
       ('internal' if user_signed_in?),
       ('test' if render_test_js_pack?)
@@ -19,7 +20,7 @@ module LayoutHelper
   end
 
   def deferred_js_packs
-    all = %w[application internal]
+    all = %w[application internal landing]
     all - js_packs
   end
 

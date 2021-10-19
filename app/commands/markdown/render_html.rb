@@ -1,21 +1,38 @@
 class Markdown::RenderHTML
   include Mandate
 
-  initialize_with :doc, :nofollow_links
+  def initialize(doc, nofollow_links: false, heading_ids: false)
+    @doc = doc
+    @nofollow_links = nofollow_links
+    @heading_ids = heading_ids
+  end
 
   def call
-    renderer = Renderer.new(options: %i[UNSAFE FOOTNOTES], nofollow_links: nofollow_links)
+    renderer = Renderer.new(options: %i[UNSAFE FOOTNOTES], nofollow_links: nofollow_links, heading_ids: heading_ids)
     renderer.render(doc)
   end
 
+  private
+  attr_reader :doc, :nofollow_links, :heading_ids
+
   class Renderer < CommonMarker::HtmlRenderer
-    def initialize(options:, nofollow_links: false)
+    def initialize(options:, nofollow_links: false, heading_ids: false)
       super(options: options)
       @nofollow_links = nofollow_links
+      @heading_ids = heading_ids
     end
 
     private
-    attr_reader :nofollow_links
+    attr_reader :nofollow_links, :heading_ids
+
+    def header(node)
+      return super(node) unless heading_ids
+
+      block do
+        header_id = node.each.map(&:string_content).join('-').parameterize
+        out("<h", node.header_level, " id=\"", header_id, "\">", :children, "</h", node.header_level, ">")
+      end
+    end
 
     def link(node)
       # TODO: re-enable once we figure out how to do custom scrubbing

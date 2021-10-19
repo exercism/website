@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { forwardRef, useContext } from 'react'
 
 export type TabContext = {
   current: string
@@ -40,33 +40,34 @@ export const Tab = ({
   )
 }
 
-const TabPanel = ({
-  id,
-  className,
-  children,
-  context,
-}: {
+type PanelProps = {
   id: string
   className?: string
   children: React.ReactNode
   context: React.Context<TabContext>
-}) => {
-  const { current } = useContext(context)
-  const style = id !== current ? { display: 'none' } : undefined
-
-  return (
-    <div
-      id={`panel-${id}`}
-      role="tabpanel"
-      aria-labelledby={`tab-${id}`}
-      tabIndex={0}
-      className={`--tab-panel ${className}`}
-      style={style}
-    >
-      {children}
-    </div>
-  )
 }
+
+const TabPanel = forwardRef<HTMLDivElement, PanelProps>(
+  ({ id, className, children, context }, ref) => {
+    const { current } = useContext(context)
+    const style = id !== current ? { display: 'none' } : undefined
+
+    return (
+      <div
+        id={`panel-${id}`}
+        role="tabpanel"
+        aria-labelledby={`tab-${id}`}
+        tabIndex={0}
+        className={`--tab-panel ${className}`}
+        style={style}
+        ref={ref}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
 TabPanel.displayName = 'TabPanel'
 Tab.Panel = TabPanel
 

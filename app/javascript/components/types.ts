@@ -835,3 +835,8 @@ export type CommunityVideoType = {
 export type CommunityVideosProps = {
   videos: CommunityVideoType[]
 }
+
+export type TestFile = {
+  filename: string
+  content: string
+}

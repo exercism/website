@@ -149,7 +149,7 @@ initReact({
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       instructions={data.instructions}
-      tests={data.tests}
+      testFiles={data.test_files}
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}

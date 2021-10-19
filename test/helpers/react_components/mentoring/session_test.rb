@@ -38,7 +38,7 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
           SerializeIteration.(iteration_3).merge(unread: false)
         ],
         instructions: Markdown::Parse.(solution.instructions),
-        tests: solution.tests,
+        test_files: SerializeTestFiles.(solution.test_files),
         student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
         mentor_solution: nil,
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
@@ -111,7 +111,7 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
           SerializeIteration.(iteration_3).merge(unread: true)
         ],
         instructions: Markdown::Parse.(solution.instructions),
-        tests: solution.tests,
+        test_files: SerializeTestFiles.(solution.test_files),
         student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:, discussion:),
         mentor_solution: nil,
         exemplar_files: [
@@ -186,7 +186,7 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
           SerializeIteration.(iteration_3).merge(unread: false)
         ],
         instructions: Markdown::Parse.(solution.instructions),
-        tests: solution.tests,
+        test_files: SerializeTestFiles.(solution.test_files),
         student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
         mentor_solution: nil,
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),

@@ -108,9 +108,6 @@ export const loadLanguageCompartment = async (
     case 'haxe':
       const { haxe } = await import('@codemirror/legacy-modes/mode/haxe')
       return compartment.of(StreamLanguage.define(haxe))
-    case 'julia':
-      const { julia } = await import('@codemirror/legacy-modes/mode/julia')
-      return compartment.of(StreamLanguage.define(julia))
     case 'kotlin':
       const { kotlin } = await import('@codemirror/legacy-modes/mode/clike')
       return compartment.of(StreamLanguage.define(kotlin))
@@ -178,6 +175,9 @@ export const loadLanguageCompartment = async (
     case 'nim':
       const { nim } = await require('nim-codemirror-mode')
       return compartment.of(StreamLanguage.define(nim({}, {})))
+    case 'julia':
+      const { julia } = await import('lang-julia')
+      return compartment.of(julia())
     default:
       return []
   }

@@ -20,18 +20,25 @@ class Markdown::RenderHTML
       super(options: options)
       @nofollow_links = nofollow_links
       @heading_ids = heading_ids
+      @heading_id_counts = Hash.new(0)
     end
 
     private
-    attr_reader :nofollow_links, :heading_ids
+    attr_reader :nofollow_links, :heading_ids, :heading_id_counts
 
     def header(node)
       return super(node) unless heading_ids
 
       block do
-        header_id = node.each.map(&:string_content).join('-').parameterize
-        out("<h", node.header_level, " id=\"", header_id, "\">", :children, "</h", node.header_level, ">")
+        out("<h", node.header_level, " id=\"", header_id(node), "\">", :children, "</h", node.header_level, ">")
       end
+    end
+
+    def header_id(node)
+      title = node.each.map(&:string_content).join('-').parameterize
+      unique_title = heading_id_counts[title].zero? ? title : "#{title}-#{heading_id_counts[title]}"
+      heading_id_counts[title] = heading_id_counts[title] + 1
+      unique_title
     end
 
     def link(node)

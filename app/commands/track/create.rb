@@ -5,9 +5,11 @@ class Track
     initialize_with :slug, :attributes
 
     def call
-      Track.create_or_find_by!(slug: slug) do |t|
-        t.attributes = attributes
+      Track.create!(slug: slug, **attributes).tap do |track|
+        ContributorTeam::Create.(track.slug, type: :track_maintainers, track: track)
       end
+    rescue ActiveRecord::RecordNotUnique
+      Track.find_by!(slug: slug)
     end
   end
 end

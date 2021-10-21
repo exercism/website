@@ -13,5 +13,12 @@ environment.plugins.prepend(
   )
 )
 
+environment.loaders.get('babel').use = [
+  { loader: 'esbuild-loader', options: { loader: 'tsx', target: 'es2015' } },
+]
+environment.loaders.get('nodeModules').use = [
+  { loader: 'esbuild-loader', options: { loader: 'jsx', target: 'es2015' } },
+]
+
 environment.splitChunks()
 module.exports = environment

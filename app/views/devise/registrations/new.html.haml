@@ -5,7 +5,9 @@
         = icon "exercism-with-logo-black", "Exercism's Logo"
       %p.tagline Code practice and mentorship for everyone
 
-      = link_to omniauth_authorize_path(:user, :github), class: "btn-enhanced btn-l github-btn" do
+      = link_to omniauth_authorize_path(:user, :github),
+        class: "btn-enhanced btn-l github-btn",
+        data: { turbo: false } do
         = graphical_icon 'external-site-github'
         Sign Up with GitHub
 

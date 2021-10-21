@@ -50,7 +50,7 @@ class Webhooks::OrganizationUpdatesControllerTest < Webhooks::BaseTestCase
         login: 'exercism'
       }
     }
-    Webhooks::ProcessMembershipUpdate.expects(:call).with('member_added', 'member12', 'exercism')
+    Webhooks::ProcessOrganizationMemberUpdate.expects(:call).with('member_added', 'member12', 'exercism')
 
     post webhooks_organization_updates_path, headers: headers(payload), as: :json, params: payload
   end
@@ -67,7 +67,7 @@ class Webhooks::OrganizationUpdatesControllerTest < Webhooks::BaseTestCase
         login: 'exercism'
       }
     }
-    Webhooks::ProcessMembershipUpdate.expects(:call).with('member_removed', 'member12', 'exercism')
+    Webhooks::ProcessOrganizationMemberUpdate.expects(:call).with('member_removed', 'member12', 'exercism')
 
     post webhooks_organization_updates_path, headers: headers(payload), as: :json, params: payload
   end
@@ -79,7 +79,7 @@ class Webhooks::OrganizationUpdatesControllerTest < Webhooks::BaseTestCase
         login: 'exercism'
       }
     }
-    Webhooks::ProcessMembershipUpdate.expects(:call).never
+    Webhooks::ProcessOrganizationMemberUpdate.expects(:call).never
 
     post webhooks_organization_updates_path, headers: headers(payload), as: :json, params: payload
   end

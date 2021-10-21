@@ -35,7 +35,7 @@ class Markdown::RenderHTML
     end
 
     def header_id(node)
-      title = node.each.map(&:string_content).join('-').parameterize
+      title = "h-#{node.each.map(&:string_content).join('-').parameterize}"
       unique_title = heading_id_counts[title].zero? ? title : "#{title}-#{heading_id_counts[title]}"
       heading_id_counts[title] = heading_id_counts[title] + 1
       unique_title

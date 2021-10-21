@@ -3,6 +3,7 @@ import {
   CopyToClipboardButton,
   FormButton,
   GraphicalIcon,
+  MedianWaitTime,
 } from '../../../common'
 import {
   MentorSessionTrack as Track,
@@ -128,8 +129,8 @@ export const MentoringRequestForm = ({
         ></FetchingBoundary>
         <p className="flow-explanation">
           Once you submit, your request will be open for a mentor to join and
-          start providing feedback. The recent median wait time is ~
-          {track.medianWaitTime}
+          start providing feedback.
+          <MedianWaitTime seconds={track.medianWaitTime} />
         </p>
       </form>
     </div>

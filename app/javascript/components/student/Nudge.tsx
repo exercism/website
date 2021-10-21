@@ -20,7 +20,7 @@ import { queryCache } from 'react-query'
 
 export type Track = {
   title: string
-  medianWaitTime: string
+  medianWaitTime?: number
 }
 
 export type Links = {

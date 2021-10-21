@@ -7,29 +7,28 @@
       - if @team.track.present?
         %div Track: #{@team.track.title}
 
-    %h2
-      Members
-      %table
-        %thead
+    %h2 Members
+    %table
+      %thead
+        %tr
+          %th Name
+          %th Visible
+          %th Seniority
+          %th
+      %tbody
+        - @team.memberships.each do |membership|
           %tr
-            %th Name
-            %th Visible
-            %th Seniority
-            %th
-        %tbody
-          - @team.memberships.each do |membership|
-            %tr
-              %td= membership.user.handle
-              %td= membership.visible
-              %td= membership.seniority.to_s.humanize
-              %td
-                - if current_user.admin?
-                  = link_to "Edit", edit_maintaining_contributor_team_membership_path(@team, membership)
-                  = link_to "Remove", maintaining_contributor_team_membership_path(@team, membership),
-                      method: :delete,
-                      data: { confirm: "Are you sure?" }
+            %td= membership.user.handle
+            %td= membership.visible
+            %td= membership.seniority.to_s.humanize
+            %td
+              - if current_user.admin?
+                = link_to "Edit", edit_maintaining_contributor_team_membership_path(@team, membership)
+                = link_to "Remove", maintaining_contributor_team_membership_path(@team, membership),
+                    method: :delete,
+                    data: { confirm: "Are you sure?" }
 
-      = link_to "Add member", new_maintaining_contributor_team_membership_path(@team), class: 'btn-primary btn-m'
+    = link_to "Add member", new_maintaining_contributor_team_membership_path(@team), class: 'btn-primary btn-m'
 
     - if @members_diff[:only_in_db].any?
       %h3 Members only in DB (not on GitHub)

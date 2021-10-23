@@ -9,12 +9,14 @@ import { useQueryCache } from 'react-query'
 
 export type Exercise = {
   title: string
+  slug: string
   downloadCmd: string
   hasTestRunner: boolean
 }
 
 export type Track = {
   title: string
+  slug: string
   iconUrl: string
   highlightjsLanguage: string
   indentSize: number
@@ -37,6 +39,13 @@ export type IterationsListRequest = {
   }
 }
 
+export const getCacheKey = (
+  trackSlug: string,
+  exerciseSlug: string
+): string => {
+  return `iterations-${trackSlug}-${exerciseSlug}`
+}
+
 export const IterationsList = ({
   solutionUuid,
   request,
@@ -52,7 +61,7 @@ export const IterationsList = ({
 }): JSX.Element => {
   const queryCache = useQueryCache()
   const [isOpen, setIsOpen] = useState<boolean[]>([])
-  const CACHE_KEY = `iterations-${track.title}-${exercise.title}`
+  const CACHE_KEY = getCacheKey(track.slug, exercise.slug)
   const { resolvedData } = usePaginatedRequestQuery<{
     iterations: readonly Iteration[]
   }>(CACHE_KEY, request)

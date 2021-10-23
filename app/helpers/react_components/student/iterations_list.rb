@@ -11,11 +11,13 @@ module ReactComponents
             request: request,
             exercise: {
               title: exercise.title,
+              slug: exercise.slug,
               download_cmd: exercise.download_cmd,
               has_test_runner: exercise.has_test_runner?
             },
             track: {
               title: track.title,
+              slug: track.slug,
               icon_url: track.icon_url,
               highlightjs_language: track.highlightjs_language,
               indent_size: track.indent_size
@@ -44,7 +46,8 @@ module ReactComponents
                 includes(:track, :exercise, :files, :submission).
                 order(id: :desc).
                 map { |iteration| SerializeIteration.(iteration, sideload: %i[files automated_feedback]) }
-            }
+            },
+            initialDataUpdatedAt: Time.current.to_i
           }
         }
       end

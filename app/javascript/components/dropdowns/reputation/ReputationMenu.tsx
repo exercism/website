@@ -3,7 +3,7 @@ import { ReputationMenuItem } from './ReputationMenuItem'
 import { GraphicalIcon } from '../../common'
 import { ReputationToken, APIResponse } from '../Reputation'
 import { DropdownAttributes } from '../useDropdown'
-import { useMutation, queryCache } from 'react-query'
+import { useMutation, useQueryCache } from 'react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 
@@ -21,6 +21,7 @@ export const ReputationMenu = ({
   DropdownAttributes,
   'listAttributes' | 'itemAttributes'
 >): JSX.Element => {
+  const queryCache = useQueryCache()
   const [markAsSeen] = useMutation<ReputationToken, unknown, ReputationToken>(
     (token) => {
       if (token.isSeen) {

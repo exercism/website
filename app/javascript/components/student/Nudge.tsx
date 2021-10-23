@@ -16,7 +16,7 @@ import {
 import { LatestIterationStatusChannel } from '../../channels/latestIterationStatusChannel'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import pluralize from 'pluralize'
-import { queryCache } from 'react-query'
+import { useQueryCache } from 'react-query'
 
 export type Track = {
   title: string
@@ -60,6 +60,7 @@ export const Nudge = ({
   iterations,
   track,
 }: Props): JSX.Element | null => {
+  const queryCache = useQueryCache()
   const CACHE_KEY = `nudge-${solution.uuid}`
   const [queryEnabled, setQueryEnabled] = useState(true)
   const { resolvedData } = usePaginatedRequestQuery<{

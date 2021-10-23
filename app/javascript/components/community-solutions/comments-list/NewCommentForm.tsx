@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { queryCache, QueryKey } from 'react-query'
+import { QueryKey, useQueryCache } from 'react-query'
 import { SolutionComment } from '../../types'
 import { APIResponse } from './ListContainer'
 import { NewListItemForm } from '../../common/NewListItemForm'
@@ -13,6 +13,7 @@ export const NewCommentForm = ({
   endpoint: string
   cacheKey: QueryKey
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const handleSuccess = useCallback(
     (comment) => {
       const oldData = queryCache.getQueryData<APIResponse>(cacheKey)
@@ -26,7 +27,7 @@ export const NewCommentForm = ({
         items: [comment, ...oldData.items],
       })
     },
-    [cacheKey]
+    [cacheKey, queryCache]
   )
 
   return (

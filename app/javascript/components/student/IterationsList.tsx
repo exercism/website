@@ -5,7 +5,7 @@ import { IterationReport } from './iterations-list/IterationReport'
 import { EmptyIterations } from './iterations-list/EmptyIterations'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { SolutionChannel } from '../../channels/solutionChannel'
-import { queryCache } from 'react-query'
+import { useQueryCache } from 'react-query'
 
 export type Exercise = {
   title: string
@@ -50,6 +50,7 @@ export const IterationsList = ({
   track: Track
   links: Links
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const [isOpen, setIsOpen] = useState<boolean[]>([])
   const CACHE_KEY = `iterations-${track.title}-${exercise.title}`
   const { resolvedData } = usePaginatedRequestQuery<{

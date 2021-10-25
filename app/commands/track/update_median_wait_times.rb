@@ -15,7 +15,9 @@ class Track
         joins(:exercise).
         where('exercise.track_id': track.id).
         select('TIMESTAMPDIFF(SECOND, mentor_requests.created_at, mentor_discussions.created_at) AS wait_time').
-        map(&:wait_time)
+        where('mentor_discussions.created_at > ?', Time.current - 4.weeks).
+        map(&:wait_time).
+        reject(&:zero?)
 
       calculate_median(wait_times)
     end

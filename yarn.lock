@@ -7874,6 +7874,11 @@ highlight.js@^11:
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.2.0.tgz#a7e3b8c1fdc4f0538b93b2dc2ddd53a40c6ab0f0"
   integrity sha512-JOySjtOEcyG8s4MLR2MNbLUyaXqUunmSnL2kdV/KuGJOmHZuAR5xC54Ko7goAXBWNhf09Vy3B+U7vR62UZ/0iw==
 
+highlightjs-sap-abap@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/highlightjs-sap-abap/-/highlightjs-sap-abap-0.1.0.tgz#26a3c049a4388569c1ca8540e8d0ab511eb2c3b7"
+  integrity sha512-mGXYyQa/gSWQMJo7EaZYQKQGHI4rCBgfVKZAxkrzKV7p4H2KVBmiR9aJ7E0Ej8OuCoRkGSE+OAlAaWhME4aBZg==
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz"

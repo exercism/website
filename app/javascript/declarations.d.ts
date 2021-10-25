@@ -52,3 +52,10 @@ declare module '@exercism/twine2-story-format/src/story' {
     start: (params: any) => any
   }
 }
+
+declare module 'highlightjs-sap-abap' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}

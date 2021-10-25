@@ -1,6 +1,10 @@
 import * as highlighter from 'highlight.js'
 import React, { useEffect, useRef } from 'react'
 
+highlighter.default.configure({
+  throwUnescapedHTML: true,
+})
+
 function duplicateMultilineNodes(element: HTMLElement) {
   element.childNodes.forEach((child) => {
     if (child.textContent === null) {

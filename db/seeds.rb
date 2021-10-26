@@ -97,8 +97,7 @@ track_slugs.each do |track_slug|
       blurb: git_track.blurb,
       tags: git_track.tags,
       repo_url: repo_url,
-      synced_to_git_sha: first_commit.oid,
-      active: false
+      synced_to_git_sha: first_commit.oid
     )
     Git::SyncTrack.(track)
   rescue StandardError => e

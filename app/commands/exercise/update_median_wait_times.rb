@@ -14,7 +14,9 @@ class Exercise
         joins(:request).
         select('TIMESTAMPDIFF(SECOND, request.created_at, mentor_discussions.created_at) AS wait_time').
         where('request.exercise_id': exercise.id).
-        map(&:wait_time)
+        where('mentor_discussions.created_at > ?', Time.current - 4.weeks).
+        map(&:wait_time).
+        reject { |seconds| seconds < 5 }
 
       calculate_median(wait_times)
     end

@@ -40,14 +40,14 @@ module ReactComponents
         {
           endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
           options: {
-            initialData: {
+            initial_data: {
               iterations: solution.
                 iterations.
                 includes(:track, :exercise, :files, :submission).
                 order(id: :desc).
                 map { |iteration| SerializeIteration.(iteration, sideload: %i[files automated_feedback]) }
             },
-            initialDataUpdatedAt: Time.current.to_i
+            initial_data_updated_at: Time.current.to_i
           }
         }
       end

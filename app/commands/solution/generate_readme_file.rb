@@ -36,7 +36,7 @@ class Solution
       <<~TEXT.strip
         ## Introduction
 
-        #{Markdown::Render.(solution.introduction, :text)}
+        #{Markdown::Render.(solution.introduction, :text).strip}
       TEXT
     end
 
@@ -44,7 +44,7 @@ class Solution
       <<~TEXT.strip
         ## Instructions
 
-        #{Markdown::Render.(solution.instructions, :text)}
+        #{Markdown::Render.(solution.instructions, :text).strip}
       TEXT
     end
 

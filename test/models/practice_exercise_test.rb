@@ -35,25 +35,25 @@ class PracticeExerciseTest < ActiveSupport::TestCase
 
   test "introduction is correct for exercise without append" do
     exercise = create :practice_exercise, slug: 'space-age'
-    expected = "# Introduction\n\nIntroduction for space-age\n\n"
+    expected = "# Introduction\n\nIntroduction for space-age"
     assert_equal expected, exercise.introduction
   end
 
   test "introduction is correct for exercise with append" do
     exercise = create :practice_exercise, slug: 'bob'
-    expected = "# Introduction\n\nIntroduction for bob\n\n# Introduction append\n\nExtra introduction for bob\n"
+    expected = "# Introduction\n\nIntroduction for bob\n# Introduction append\n\nExtra introduction for bob"
     assert_equal expected, exercise.introduction
   end
 
   test "instructions are correct for exercise without append" do
     exercise = create :practice_exercise, slug: 'isogram'
-    expected = "# Instructions\n\nInstructions for isogram\n\n"
+    expected = "# Instructions\n\nInstructions for isogram"
     assert_equal expected, exercise.instructions
   end
 
   test "instructions are correct for exercise with append" do
     exercise = create :practice_exercise, slug: 'bob'
-    expected = "# Instructions\n\nInstructions for bob\n\n# Instructions append\n\nExtra instructions for bob\n"
+    expected = "# Instructions\n\nInstructions for bob\n# Instructions append\n\nExtra instructions for bob"
     assert_equal expected, exercise.instructions
   end
 end

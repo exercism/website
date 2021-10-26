@@ -27,13 +27,13 @@ module Git
 
     test "retrieves_about" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.\nIt has an elegant syntax that is natural to read and easy to write.\n" # rubocop:disable Layout/LineLength
+      expected = "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.\nIt has an elegant syntax that is natural to read and easy to write." # rubocop:disable Layout/LineLength
       assert_equal(expected, track.about)
     end
 
     test "retrieves_snippet" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "class HelloWorld\n  def self.hello(name = 'World')\n    \"Hello, \#{name}!\"\n  end\nend\n"
+      expected = "class HelloWorld\n  def self.hello(name = 'World')\n    \"Hello, \#{name}!\"\n  end\nend"
       assert_equal(expected, track.snippet)
     end
 
@@ -45,19 +45,19 @@ module Git
 
     test "retrieves_debugging_instructions" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Debug\n\nYou can debug by printing to the console.\n"
+      expected = "# Debug\n\nYou can debug by printing to the console."
       assert_equal expected, track.debugging_instructions
     end
 
     test "retrieves_help" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Help\n\nStuck? Try the Ruby gitter channel.\n"
+      expected = "# Help\n\nStuck? Try the Ruby gitter channel."
       assert_equal expected, track.help
     end
 
     test "retrieves_tests" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Tests\n\nRun the tests using `ruby test`.\n"
+      expected = "# Tests\n\nRun the tests using `ruby test`."
       assert_equal expected, track.tests
     end
 

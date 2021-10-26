@@ -4,7 +4,7 @@ class MailshotsMailer < ApplicationMailer
   def v3_launch
     @user = params[:user]
 
-    subject = "Explore a brand new Exercism"
+    subject = "Check out our brand new learning platform 🎉"
     mail_to_user(@user, subject)
   end
 end

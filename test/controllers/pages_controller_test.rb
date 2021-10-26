@@ -11,4 +11,19 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     get "/"
     assert_redirected_to "http://www.example.com/dashboard"
   end
+
+  test "health_check works" do
+    user = create :user, :system
+
+    get "/health-check"
+
+    assert_response 200
+    expected = {
+      ruok: true,
+      sanity_data: {
+        user: user.handle
+      }
+    }
+    assert_equal expected.to_json, response.body
+  end
 end

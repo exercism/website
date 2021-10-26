@@ -62,9 +62,11 @@ export const ExerciseCompletedModal = ({
         ) : null}
 
         <div className="btns">
-          <a href={track.links.concepts} className="btn-primary btn-m">
-            Show me more concepts
-          </a>
+          {track.numConcepts > 0 ? (
+            <a href={track.links.concepts} className="btn-primary btn-m">
+              Show me more concepts
+            </a>
+          ) : null}
           <button onClick={handleContinue} className="btn">
             Return to the exercise
           </button>

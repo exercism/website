@@ -131,31 +131,31 @@ module Git
     end
 
     test "retrieves instructions" do
-      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Instructions\n\nInstructions for bob\n"
+      expected = "# Instructions\n\nInstructions for isogram\n\n"
       assert_equal(expected, exercise.instructions)
     end
 
-    test "retrieves instructions_append" do
+    test "retrieves instructions with append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Instructions append\n\nExtra instructions for bob\n"
-      assert_equal(expected, exercise.instructions_append)
+      expected = "# Instructions\n\nInstructions for bob\n\n# Instructions append\n\nExtra instructions for bob\n"
+      assert_equal(expected, exercise.instructions)
     end
 
     test "retrieves introduction" do
-      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+      exercise = Git::Exercise.new("space-age", "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Introduction\n\nIntroduction for bob\n"
+      expected = "# Introduction\n\nIntroduction for space-age\n\n"
       assert_equal(expected, exercise.introduction)
     end
 
-    test "retrieves introduction_append" do
+    test "retrieves introduction with append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Introduction append\n\nExtra introduction for bob\n"
-      assert_equal(expected, exercise.introduction_append)
+      expected = "# Introduction\n\nIntroduction for bob\n\n# Introduction append\n\nExtra introduction for bob\n"
+      assert_equal(expected, exercise.introduction)
     end
 
     test "retrieves hints" do

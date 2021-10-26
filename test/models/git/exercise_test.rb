@@ -133,35 +133,35 @@ module Git
     test "retrieves instructions" do
       exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Instructions\n\nInstructions for isogram\n\n"
+      expected = "# Instructions\n\nInstructions for isogram"
       assert_equal(expected, exercise.instructions)
     end
 
     test "retrieves instructions with append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Instructions\n\nInstructions for bob\n\n# Instructions append\n\nExtra instructions for bob\n"
+      expected = "# Instructions\n\nInstructions for bob\n# Instructions append\n\nExtra instructions for bob"
       assert_equal(expected, exercise.instructions)
     end
 
     test "retrieves introduction" do
       exercise = Git::Exercise.new("space-age", "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Introduction\n\nIntroduction for space-age\n\n"
+      expected = "# Introduction\n\nIntroduction for space-age"
       assert_equal(expected, exercise.introduction)
     end
 
     test "retrieves introduction with append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Introduction\n\nIntroduction for bob\n\n# Introduction append\n\nExtra introduction for bob\n"
+      expected = "# Introduction\n\nIntroduction for bob\n# Introduction append\n\nExtra introduction for bob"
       assert_equal(expected, exercise.introduction)
     end
 
     test "retrieves hints" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in\n"
+      expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in"
       assert_equal(expected, exercise.hints)
     end
 

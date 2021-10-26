@@ -5,7 +5,8 @@ module Git
     # - A method named "absolute_filepath" that takes a relative path
     #   to a git file and returns its absolute path
     def git_filepath(field, file:, append_file: nil)
-      file.end_with?('.json') ? read_method = "read_json_blob" : read_method = "read_text_blob"
+      json_file = file.end_with?('.json')
+      json_file ? read_method = "read_json_blob" : read_method = "read_text_blob"
 
       # Define a <field> method that stored a memoized version of the contents
       # of the file with the specified filepath as retrieved from Git
@@ -14,12 +15,8 @@ module Git
         return instance_variable_get(iv) if instance_variable_defined?(iv)
 
         file_content = repo.send(read_method, commit, absolute_filepath(file))
-
-        if append_file
-          file_content.rstrip!
-          file_content << "\n\n"
-          file_content << repo.send(read_method, commit, absolute_filepath(append_file))
-        end
+        file_content << repo.send(read_method, commit, absolute_filepath(append_file)) if append_file
+        file_content.strip! unless json_file
 
         instance_variable_set(iv, file_content)
       end

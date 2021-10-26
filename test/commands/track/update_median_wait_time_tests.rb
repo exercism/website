@@ -2,9 +2,9 @@ require "test_helper"
 
 class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
   test "update median time" do
-    skip
     freeze_time do
-      exercise = create :practice_exercise
+      track = create :track
+      exercise = create :practice_exercise, track: track
 
       # Time between start request and discussion: 2 minutes
       solution_1 = create :practice_solution, exercise: exercise
@@ -13,7 +13,7 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
 
       Track::UpdateMedianWaitTimes.()
 
-      assert_equal 120, exercise.reload.median_wait_time
+      assert_equal 120, track.reload.median_wait_time
 
       # Time between start request and discussion: 30 seconds
       solution_2 = create :practice_solution, exercise: exercise
@@ -22,7 +22,7 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
 
       Track::UpdateMedianWaitTimes.()
 
-      assert_equal 75, exercise.reload.median_wait_time
+      assert_equal 75, track.reload.median_wait_time
 
       # Time between start request and discussion: 3 hours
       solution_3 = create :practice_solution, exercise: exercise
@@ -31,7 +31,62 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
 
       Track::UpdateMedianWaitTimes.()
 
-      assert_equal 120, exercise.reload.median_wait_time
+      assert_equal 120, track.reload.median_wait_time
+    end
+  end
+
+  test "discounts old discussions" do
+    freeze_time do
+      track = create :track
+      exercise = create :practice_exercise, track: track
+
+      # Time between start request and discussion: 4 weeks and 2 hours
+      solution_1 = create :practice_solution, exercise: exercise
+      request_1 = create :mentor_request, solution: solution_1, created_at: Time.current - 4.weeks - 2.hours
+      create :mentor_discussion, request: request_1, created_at: Time.current - 4.weeks
+
+      Track::UpdateMedianWaitTimes.()
+
+      assert_nil track.reload.median_wait_time
+
+      # Time between start request and discussion: 3 hours
+      solution_3 = create :practice_solution, exercise: exercise
+      request_3 = create :mentor_request, solution: solution_3, created_at: Time.current - 3.minutes
+      create :mentor_discussion, request: request_3, created_at: Time.current
+
+      Track::UpdateMedianWaitTimes.()
+
+      assert_equal 180, track.reload.median_wait_time
+    end
+  end
+
+  test "discounts discussions started directly after request" do
+    freeze_time do
+      track = create :track
+      exercise = create :practice_exercise, track: track
+
+      # Sanity check
+      Track::UpdateMedianWaitTimes.()
+
+      assert_nil track.reload.median_wait_time
+
+      # Time between start request and discussion: less than 5 seconds
+      solution_2 = create :practice_solution, exercise: exercise
+      request_2 = create :mentor_request, solution: solution_2, created_at: Time.current - 2.seconds
+      create :mentor_discussion, request: request_2, created_at: Time.current - 4.seconds
+
+      Track::UpdateMedianWaitTimes.()
+
+      assert_nil track.reload.median_wait_time
+
+      # Time between start request and discussion: 3 minutes
+      solution_3 = create :practice_solution, exercise: exercise
+      request_3 = create :mentor_request, solution: solution_3, created_at: Time.current - 3.minutes
+      create :mentor_discussion, request: request_3, created_at: Time.current
+
+      Track::UpdateMedianWaitTimes.()
+
+      assert_equal 180, track.reload.median_wait_time
     end
   end
 
@@ -79,8 +134,8 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
     assert_nil track.median_wait_time
 
     # Sanity check: exercises with mentor request but no discussion
-    request_1 = create :mentor_request, solution: solution_1
-    request_2 = create :mentor_request, solution: solution_2
+    request_1 = create :mentor_request, solution: solution_1, created_at: Time.current - 30.minutes
+    request_2 = create :mentor_request, solution: solution_2, created_at: Time.current - 22.minutes
 
     Track::UpdateMedianWaitTimes.()
 

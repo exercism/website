@@ -34,6 +34,59 @@ class Exercise::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
     end
   end
 
+  test "discounts old discussions" do
+    freeze_time do
+      exercise = create :practice_exercise
+
+      # Time between start request and discussion: 4 weeks and 2 hours
+      solution_1 = create :practice_solution, exercise: exercise
+      request_1 = create :mentor_request, solution: solution_1, created_at: Time.current - 4.weeks - 2.hours
+      create :mentor_discussion, request: request_1, created_at: Time.current - 4.weeks
+
+      Exercise::UpdateMedianWaitTimes.()
+
+      assert_nil exercise.reload.median_wait_time
+
+      # Time between start request and discussion: 2 minutes
+      solution_1 = create :practice_solution, exercise: exercise
+      request_1 = create :mentor_request, solution: solution_1, created_at: Time.current - 2.minutes
+      create :mentor_discussion, request: request_1, created_at: Time.current
+
+      Exercise::UpdateMedianWaitTimes.()
+
+      assert_equal 120, exercise.reload.median_wait_time
+    end
+  end
+
+  test "discounts discussions started directly after request" do
+    freeze_time do
+      exercise = create :practice_exercise
+
+      # Sanity check
+      Exercise::UpdateMedianWaitTimes.()
+
+      assert_nil exercise.reload.median_wait_time
+
+      # Time between start request and discussion less than 5 seconds
+      solution_1 = create :practice_solution, exercise: exercise
+      request_1 = create :mentor_request, solution: solution_1, created_at: Time.current - 2.seconds
+      create :mentor_discussion, request: request_1, created_at: Time.current
+
+      Exercise::UpdateMedianWaitTimes.()
+
+      assert_nil exercise.reload.median_wait_time
+
+      # Time between start request and discussion: 2 minutes
+      solution_1 = create :practice_solution, exercise: exercise
+      request_1 = create :mentor_request, solution: solution_1, created_at: Time.current - 2.minutes
+      create :mentor_discussion, request: request_1, created_at: Time.current
+
+      Exercise::UpdateMedianWaitTimes.()
+
+      assert_equal 120, exercise.reload.median_wait_time
+    end
+  end
+
   test "set to nil when no solutions" do
     exercise = create :practice_exercise
 
@@ -77,8 +130,8 @@ class Exercise::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
     assert_nil exercise_3.median_wait_time
 
     # Sanity check: exercises with mentor request but no discussion
-    request_1 = create :mentor_request, solution: solution_1
-    request_2 = create :mentor_request, solution: solution_2
+    request_1 = create :mentor_request, solution: solution_1, created_at: Time.current - 21.minutes
+    request_2 = create :mentor_request, solution: solution_2, created_at: Time.current - 33.minutes
 
     Exercise::UpdateMedianWaitTimes.()
 

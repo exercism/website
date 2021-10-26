@@ -282,6 +282,16 @@ import currency from 'currency.js'
 
 const renderLoader = () => <div className="c-loading-suspense" />
 
+declare global {
+  interface Window {
+    Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
+    queryCache: QueryCache
+  }
+}
+
+import { QueryCache } from 'react-query'
+window.queryCache = new QueryCache()
+
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components
 initReact({

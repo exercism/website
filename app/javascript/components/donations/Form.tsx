@@ -8,7 +8,7 @@ import { StripeForm } from './StripeForm'
 import currency from 'currency.js'
 import { Request, useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
-import { queryCache } from 'react-query'
+import { useQueryCache } from 'react-query'
 
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
@@ -52,6 +52,7 @@ export const Form = ({
   onSettled?: () => void
   links: Links
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const { data, status, error } = useRequestQuery<{
     subscription: Subscription
   }>('active-subscription', request)
@@ -115,7 +116,7 @@ export const Form = ({
 
       onSuccess(type, amount)
     },
-    [onSuccess]
+    [onSuccess, queryCache]
   )
 
   return (

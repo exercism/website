@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import Bugsnag from '@bugsnag/js'
 import BugsnagPluginReact from '@bugsnag/plugin-react'
 import { ExercismTippy } from '../components/misc/ExercismTippy'
+import { ReactQueryCacheProvider } from 'react-query'
 
 Bugsnag.start({
   apiKey: process.env.BUGSNAG_API_KEY,
@@ -46,7 +47,9 @@ export const initReact = (mappings) => {
 const render = (elem, component) => {
   ReactDOM.render(
     <React.StrictMode>
-      <ErrorBoundary>{component}</ErrorBoundary>
+      <ReactQueryCacheProvider queryCache={window.queryCache}>
+        <ErrorBoundary>{component}</ErrorBoundary>
+      </ReactQueryCacheProvider>
     </React.StrictMode>,
     elem,
     () => {

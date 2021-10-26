@@ -7,10 +7,10 @@ import { List } from './notifications-list/List'
 import { useList } from '../../hooks/use-list'
 import { Pagination, GraphicalIcon } from '../common'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
-import { queryCache } from 'react-query'
 import { useNotificationMutation } from './notifications-list/useNotificationMutation'
 import { MutationButton } from './notifications-list/MutationButton'
 import { MarkAllNotificationsAsReadModal } from './notifications-list/MarkAllNotificationsAsReadModal'
+import { useQueryCache } from 'react-query'
 
 const DEFAULT_ERROR = new Error('Unable to load notifications')
 const MARK_AS_READ_DEFAULT_ERROR = new Error(
@@ -46,6 +46,7 @@ export const NotificationsList = ({
   request: Request
   links: Links
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const { request, setPage } = useList(initialRequest)
   const cacheKey = useMemo(
     () => ['notifications-list', removeEmpty(request.query)],
@@ -112,7 +113,7 @@ export const NotificationsList = ({
         )
       }
     },
-    [cacheKey, selected]
+    [cacheKey, selected, queryCache]
   )
 
   const disabled = isFetching || mutations.some((m) => m.status === 'loading')

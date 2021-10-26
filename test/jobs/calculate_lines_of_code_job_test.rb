@@ -16,7 +16,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
           submission_files: iteration.submission.valid_filepaths
         }.to_json
       ).
-      to_return(status: 200, body: "{\"code\":#{num_loc},\"blanks\":9,\"comments\":0,\"files\":[\"Anagram.fs\"]}", headers: {})
+      to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
     CalculateLinesOfCodeJob.perform_now(iteration)
 

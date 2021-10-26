@@ -25,6 +25,6 @@ class CalculateLinesOfCodeJob < ApplicationJob
       { content_type: :json, accept: :json }
     ).body
     response = JSON.parse(body)
-    iteration.solution.update_column(:num_loc, response["code"])
+    iteration.solution.update_column(:num_loc, response["counts"]["code"])
   end
 end

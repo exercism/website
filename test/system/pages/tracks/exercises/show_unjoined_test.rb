@@ -66,6 +66,21 @@ module Pages
             assert_text "3 concepts"
           end
         end
+
+        test "exercise page for exercise with append instructions" do
+          track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+          pe = create :practice_exercise, track: track, slug: 'bob', status: :active
+
+          user = create :user
+
+          use_capybara_host do
+            sign_in!(user)
+
+            visit track_exercise_path(track, pe)
+            assert_text "Instructions for bob"
+            assert_text "Extra instructions for bob"
+          end
+        end
       end
     end
   end

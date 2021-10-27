@@ -57,6 +57,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
     CalculateLinesOfCodeJob.perform_now(iteration)
 
+    assert_equal num_loc, iteration.reload.num_loc
     assert_equal num_loc, iteration.solution.reload.num_loc
   end
 
@@ -68,6 +69,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
     CalculateLinesOfCodeJob.perform_now(iteration)
 
+    assert_equal 0, iteration.reload.num_loc
     assert_equal 0, iteration.solution.reload.num_loc
   end
 
@@ -93,6 +95,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
     CalculateLinesOfCodeJob.perform_now(iteration)
 
+    assert_equal num_loc, iteration.reload.num_loc
     assert_equal num_loc, iteration.solution.reload.num_loc
   end
 
@@ -106,6 +109,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
     CalculateLinesOfCodeJob.perform_now(iteration)
 
+    assert_equal 0, iteration.reload.num_loc
     assert_equal 0, iteration.solution.reload.num_loc
   end
 end

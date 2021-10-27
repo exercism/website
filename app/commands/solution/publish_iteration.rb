@@ -5,9 +5,7 @@ class Solution
     initialize_with :solution, :iteration_idx
 
     def call
-      solution.update!(published_iteration: iteration)
-
-      CalculateLinesOfCodeJob.perform_later(iteration)
+      solution.update!(published_iteration: iteration, num_loc: iteration.num_loc)
     end
 
     private

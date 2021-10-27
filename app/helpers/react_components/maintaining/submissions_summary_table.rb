@@ -60,7 +60,7 @@ module ReactComponents
         def analyzer_data
           data = submission.analysis_status
           if submission.analysis_exceptioned?
-            job = Exercism::ToolingJob.find(submission.analysis.tooling_job_id)
+            job = Exercism::ToolingJob.new(submission.analysis.tooling_job_id, {})
             data = append_exception_data(data, job)
           elsif submission.analysis
             data += "\n\n#{submission.analysis.send(:data)}"
@@ -69,9 +69,11 @@ module ReactComponents
         end
 
         def append_exception_data(data, job)
-          data += "\n\nSTDOUT:\n------\n#{job.stdout}" if job.stdout.present?
-          data += "\n\nSTDERR:\n------\n#{job.stderr}" if job.stderr.present?
-          data += "\n\nException Details:\n------\n#{job.execution_exception}" if job.execution_exception.present?
+          stdout = job.stdout
+          stderr = job.stderr
+          data += "\n\nMetadata:\n------\n#{job.metadata}"
+          data += "\n\nSTDOUT:\n------\n#{stdout}" if stdout.present?
+          data += "\n\nSTDERR:\n------\n#{stderr}" if stderr.present?
           data
         end
       end

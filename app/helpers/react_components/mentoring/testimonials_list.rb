@@ -17,7 +17,8 @@ module ReactComponents
                 initial_data: data
               }
             },
-            tracks: tracks
+            tracks: tracks,
+            platforms: Exercism.share_platforms
           }
         )
       end

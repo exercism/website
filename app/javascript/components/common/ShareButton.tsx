@@ -2,15 +2,18 @@ import React from 'react'
 import { GraphicalIcon } from './GraphicalIcon'
 import { usePanel } from '../../hooks/use-panel'
 import { SharePanel } from './SharePanel'
+import { SharePlatform } from '../types'
 
 export const ShareButton = ({
   title,
   shareTitle,
   shareLink,
+  platforms,
 }: {
   title: string
   shareTitle: string
   shareLink: string
+  platforms: readonly SharePlatform[]
 }): JSX.Element => {
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'bottom-end',
@@ -41,8 +44,9 @@ export const ShareButton = ({
         <SharePanel
           title={title}
           url={shareLink}
-          className="c-share-solution-dropdown"
+          className="c-share-dropdown"
           shareTitle={shareTitle}
+          platforms={platforms}
           {...panelAttributes}
         />
       ) : null}

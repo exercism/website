@@ -91,4 +91,14 @@ class Solution::PublishTest < ActiveSupport::TestCase
       assert_equal Time.current, solution.reload.completed_at
     end
   end
+
+  test "enqueues anybody_there badge job" do
+    user = create :user
+    solution = create :practice_solution, completed_at: nil, user: user
+    create :iteration, solution: solution, idx: 1
+
+    assert_enqueued_with job: AwardBadgeJob, args: [user, :anybody_there] do
+      Solution::Publish.(solution, solution.user_track, 1)
+    end
+  end
 end

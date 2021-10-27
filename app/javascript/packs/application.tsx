@@ -155,12 +155,13 @@ import '../../css/modals/unpublish-solution'
 import '../../css/modals/cli-walkthrough'
 
 import '../../css/dropdowns/generic-menu'
-import '../../css/dropdowns/share-solution'
+import '../../css/dropdowns/share'
 import '../../css/dropdowns/notifications'
 import '../../css/dropdowns/reputation'
 import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
+import '../../css/pages/partners/gdn'
 import '../../css/pages/about'
 import '../../css/pages/team'
 import '../../css/pages/editor'
@@ -257,8 +258,10 @@ import {
   User,
   SiteUpdate,
   TrackContribution,
+  SharePlatform,
 } from '../components/types'
 
+import * as Blog from '../components/blog'
 import * as Tooltips from '../components/tooltips'
 import { Dropdown } from '../components/dropdowns/Dropdown'
 import * as Profile from '../components/profile'
@@ -279,9 +282,27 @@ import currency from 'currency.js'
 
 const renderLoader = () => <div className="c-loading-suspense" />
 
+declare global {
+  interface Window {
+    Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
+    queryCache: QueryCache
+  }
+}
+
+import { QueryCache } from 'react-query'
+window.queryCache = new QueryCache()
+
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components
 initReact({
+  'blog-share-post-link': (data: any) => (
+    <Blog.SharePostLink
+      title={data.title}
+      shareTitle={data.share_title}
+      shareLink={data.share_link}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
+    />
+  ),
   'donations-with-modal-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsFormWithModal
@@ -384,14 +405,12 @@ initReact({
       isSkinny={data.skinny}
     />
   ),
-  'common-share-solution-button': (data: any) => (
-    <Common.ShareSolutionButton title={data.title} links={data.links} />
-  ),
   'common-share-button': (data: any) => (
     <Common.ShareButton
       title={data.title}
       shareTitle={data.share_title}
       shareLink={data.share_link}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
   'common-site-updates-list': (data: any) => (

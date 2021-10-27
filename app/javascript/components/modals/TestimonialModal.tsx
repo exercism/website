@@ -1,5 +1,5 @@
 import React from 'react'
-import { Testimonial } from '../types'
+import { SharePlatform, Testimonial } from '../types'
 import { Modal, ModalProps } from './Modal'
 import { Avatar, TrackIcon } from '../common'
 import { fromNow } from '../../utils/time'
@@ -7,9 +7,11 @@ import { SharePanel } from '../common/SharePanel'
 
 export const TestimonialModal = ({
   testimonial,
+  platforms,
   ...props
 }: Omit<ModalProps, 'className'> & {
   testimonial: Testimonial
+  platforms: readonly SharePlatform[]
 }): JSX.Element => {
   return (
     <Modal
@@ -44,6 +46,7 @@ export const TestimonialModal = ({
         title="Share your testimonial with the world"
         url={testimonial.links.self}
         shareTitle="View this testimonial on Exercism"
+        platforms={platforms}
       />
     </Modal>
   )

@@ -15,7 +15,7 @@ export function Pagination({
   setPage,
   around = 2,
 }: PaginationProps) {
-  if (total <= 1) {
+  if (total <= 1 || current > total) {
     return null
   }
 

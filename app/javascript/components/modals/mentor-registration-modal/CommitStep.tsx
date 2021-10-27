@@ -69,7 +69,7 @@ export const CommitStep = ({
         <p>
           Mentoring on Exercism can be an incredible experience for students and
           mentors alike. To ensure it remains a positive place for everyone, we
-          ask all mentors to affirm Exercism&apos;s values before then mentor
+          ask all mentors to affirm Exercism&apos;s values before they mentor
           their first solution.
         </p>
         <ReputationInfo />

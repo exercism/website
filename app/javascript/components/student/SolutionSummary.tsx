@@ -6,7 +6,7 @@ import { Mentoring } from './solution-summary/Mentoring'
 import { Loading, ProminentLink } from '../common'
 import { SolutionChannel } from '../../channels/solutionChannel'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { queryCache } from 'react-query'
+import { useQueryCache } from 'react-query'
 import {
   Iteration,
   MentorDiscussion,
@@ -39,7 +39,7 @@ export type SolutionSummaryRequest = {
 
 export type Track = {
   title: string
-  medianWaitTime: string
+  medianWaitTime?: number
 }
 
 export type Exercise = {
@@ -64,6 +64,7 @@ export const SolutionSummary = ({
   exercise: Exercise
   links: SolutionSummaryLinks
 }): JSX.Element | null => {
+  const queryCache = useQueryCache()
   const CACHE_KEY = `solution-${solution.uuid}-summary`
   const [queryEnabled, setQueryEnabled] = useState(true)
   const { resolvedData } = usePaginatedRequestQuery<{
@@ -87,7 +88,7 @@ export const SolutionSummary = ({
     return () => {
       solutionChannel.disconnect()
     }
-  }, [CACHE_KEY, solution])
+  }, [CACHE_KEY, solution, queryCache])
 
   const latestIteration =
     resolvedData?.iterations[resolvedData?.iterations.length - 1]

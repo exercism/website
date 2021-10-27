@@ -46,7 +46,7 @@
 
       .decorations.hidden.lg:block
       .buttons.lg:ml-96.mt-24.lg:mt-0
-        = render ReactComponents::Common::ShareSolutionButton.new(@solution)
+        = render ViewComponents::CommunitySolutions::ShareSolutionButton.new(@solution)
 
         = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
 

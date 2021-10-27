@@ -36,6 +36,8 @@ import { useDefaultSettings } from './editor/useDefaultSettings'
 import { useEditorStatus, EditorStatus } from './editor/useEditorStatus'
 import { useEditorTestRunStatus } from './editor/useEditorTestRunStatus'
 import { useSubmissionCancelling } from './editor/useSubmissionCancelling'
+import { getCacheKey } from '../components/student/IterationsList'
+import { useQueryCache } from 'react-query'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
@@ -106,6 +108,7 @@ export default ({
     testRunStatus === TestRunStatus.OPS_ERROR ||
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
+  const cache = useQueryCache()
 
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
@@ -157,7 +160,8 @@ export default ({
     dispatch({ status: EditorStatus.CREATING_ITERATION })
 
     createIteration(submission, {
-      onSuccess: (iteration) => {
+      onSuccess: async (iteration) => {
+        await cache.invalidateQueries([getCacheKey(track.slug, exercise.slug)])
         redirectTo(iteration.links.solution)
       },
     })

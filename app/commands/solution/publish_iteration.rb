@@ -5,11 +5,14 @@ class Solution
     initialize_with :solution, :iteration_idx
 
     def call
-      solution.update!(published_iteration: published_iteration)
+      solution.update!(published_iteration: iteration)
+
+      CalculateLinesOfCodeJob.perform_later(iteration)
     end
 
     private
-    def published_iteration
+    memoize
+    def iteration
       solution.iterations.find_by(idx: iteration_idx)
     end
   end

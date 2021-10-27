@@ -5,8 +5,8 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     submission = create :submission
     create :submission_file, submission: submission, content: "Some source code"
     iteration = create :iteration, submission: submission
-    num_loc = 24
 
+    num_loc = 24
     stub_request(:post, "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
       with(
         body: {
@@ -19,6 +19,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
     CalculateLinesOfCodeJob.perform_now(iteration)
 
+    assert_equal num_loc, iteration.reload.num_loc
     assert_equal num_loc, iteration.solution.reload.num_loc
   end
 
@@ -34,6 +35,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
     CalculateLinesOfCodeJob.perform_now(iteration)
 
+    assert_equal 0, iteration.reload.num_loc
     assert_equal 0, iteration.solution.reload.num_loc
   end
 
@@ -44,7 +46,6 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     iteration = create :iteration, submission: submission
 
     num_loc = 24
-
     stub_request(:post, "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
       with(
         body: {
@@ -67,9 +68,20 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     iteration = create :iteration, submission: submission
     create :iteration, solution: submission.solution
 
+    num_loc = 24
+    stub_request(:post, "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
+      with(
+        body: {
+          track_slug: iteration.track.slug,
+          submission_uuid: iteration.uuid,
+          submission_files: iteration.submission.valid_filepaths
+        }.to_json
+      ).
+      to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+
     CalculateLinesOfCodeJob.perform_now(iteration)
 
-    assert_equal 0, iteration.reload.num_loc
+    assert_equal num_loc, iteration.reload.num_loc
     assert_equal 0, iteration.solution.reload.num_loc
   end
 
@@ -82,7 +94,6 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     submission.solution.update(published_iteration: iteration)
 
     num_loc = 24
-
     stub_request(:post, "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
       with(
         body: {
@@ -107,9 +118,20 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     create :iteration, solution: submission.solution
     submission.solution.update(published_iteration: older_iteration)
 
+    num_loc = 24
+    stub_request(:post, "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
+      with(
+        body: {
+          track_slug: iteration.track.slug,
+          submission_uuid: iteration.uuid,
+          submission_files: iteration.submission.valid_filepaths
+        }.to_json
+      ).
+      to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+
     CalculateLinesOfCodeJob.perform_now(iteration)
 
-    assert_equal 0, iteration.reload.num_loc
+    assert_equal num_loc, iteration.reload.num_loc
     assert_equal 0, iteration.solution.reload.num_loc
   end
 end

@@ -13,8 +13,6 @@ class CalculateLinesOfCodeJob < ApplicationJob
 
     return unless iteration.submission.valid_filepaths.any?
 
-    return unless should_update_solution?(iteration)
-
     # TODO: (Required) Set this through Exercism config
     url = "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code"
     body = RestClient.post(
@@ -31,7 +29,7 @@ class CalculateLinesOfCodeJob < ApplicationJob
     num_loc = response["counts"]["code"]
 
     iteration.update_column(:num_loc, num_loc)
-    iteration.solution.update_column(:num_loc, num_loc)
+    iteration.solution.update_column(:num_loc, num_loc) if should_update_solution?(iteration)
   end
 
   private

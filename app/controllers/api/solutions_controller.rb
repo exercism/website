@@ -113,7 +113,7 @@ module API
       user_track = UserTrack.for(current_user, solution.track)
       return render_404(:track_not_joined) if user_track.external?
 
-      solution.update!(published_iteration: solution.iterations.find_by(idx: params[:published_iteration_idx]))
+      Solution::PublishIteration.(solution, params[:published_iteration_idx])
 
       render json: {
         solution: SerializeSolution.(solution)

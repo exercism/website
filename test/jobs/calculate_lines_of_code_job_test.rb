@@ -11,7 +11,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
       with(
         body: {
           track_slug: iteration.track.slug,
-          submission_uuid: iteration.uuid,
+          submission_uuid: iteration.submission.uuid,
           submission_files: iteration.submission.valid_filepaths
         }.to_json
       ).
@@ -50,7 +50,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
       with(
         body: {
           track_slug: iteration.track.slug,
-          submission_uuid: iteration.uuid,
+          submission_uuid: iteration.submission.uuid,
           submission_files: iteration.submission.valid_filepaths
         }.to_json
       ).
@@ -73,7 +73,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
       with(
         body: {
           track_slug: iteration.track.slug,
-          submission_uuid: iteration.uuid,
+          submission_uuid: iteration.submission.uuid,
           submission_files: iteration.submission.valid_filepaths
         }.to_json
       ).
@@ -98,7 +98,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
       with(
         body: {
           track_slug: iteration.track.slug,
-          submission_uuid: iteration.uuid,
+          submission_uuid: iteration.submission.uuid,
           submission_files: iteration.submission.valid_filepaths
         }.to_json
       ).
@@ -123,7 +123,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
       with(
         body: {
           track_slug: iteration.track.slug,
-          submission_uuid: iteration.uuid,
+          submission_uuid: iteration.submission.uuid,
           submission_files: iteration.submission.valid_filepaths
         }.to_json
       ).

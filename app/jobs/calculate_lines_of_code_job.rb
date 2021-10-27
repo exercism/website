@@ -19,7 +19,7 @@ class CalculateLinesOfCodeJob < ApplicationJob
       url,
       {
         track_slug: iteration.track.slug,
-        submission_uuid: iteration.uuid,
+        submission_uuid: iteration.submission.uuid,
         submission_files: iteration.submission.valid_filepaths
       }.to_json,
       { content_type: :json, accept: :json }

@@ -12,7 +12,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
         body: {
           track_slug: iteration.track.slug,
           submission_uuid: iteration.submission.uuid,
-          submission_files: iteration.submission.valid_filepaths
+          submission_filepaths: iteration.submission.valid_filepaths
         }.to_json
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
@@ -51,7 +51,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
         body: {
           track_slug: iteration.track.slug,
           submission_uuid: iteration.submission.uuid,
-          submission_files: iteration.submission.valid_filepaths
+          submission_filepaths: iteration.submission.valid_filepaths
         }.to_json
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
@@ -74,7 +74,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
         body: {
           track_slug: iteration.track.slug,
           submission_uuid: iteration.submission.uuid,
-          submission_files: iteration.submission.valid_filepaths
+          submission_filepaths: iteration.submission.valid_filepaths
         }.to_json
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
@@ -99,7 +99,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
         body: {
           track_slug: iteration.track.slug,
           submission_uuid: iteration.submission.uuid,
-          submission_files: iteration.submission.valid_filepaths
+          submission_filepaths: iteration.submission.valid_filepaths
         }.to_json
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
@@ -124,7 +124,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
         body: {
           track_slug: iteration.track.slug,
           submission_uuid: iteration.submission.uuid,
-          submission_files: iteration.submission.valid_filepaths
+          submission_filepaths: iteration.submission.valid_filepaths
         }.to_json
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength

@@ -200,6 +200,7 @@ jobs:
     needs: system-test-files
     strategy:
       fail-fast: false
+      max-parallel: 15
       matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
     runs-on: ubuntu-latest

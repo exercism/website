@@ -188,8 +188,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - id: test-files
+        env:
+          FILES_PER_BATCH: 40
         run: |
-          tests=$(find test/system -name *_test.rb | xargs -n 40 | xargs -I {} echo '"{}"' | tr '\n' ',')
+          tests=$(find test/system -name *_test.rb | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
           echo "::set-output name=matrix::{\"tests\":[${tests}]}"
 
   system-tests:
@@ -289,7 +291,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-        run: bundle exec rails ${{ matrix.tests }}
+        run: bundle exec rails test ${{ matrix.tests }}
 
   ######################
   ##### ASSET TESTS ####

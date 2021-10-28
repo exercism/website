@@ -189,7 +189,7 @@ jobs:
 
       - id: test-files
         env:
-          FILES_PER_BATCH: 40
+          FILES_PER_BATCH: 12
         run: |
           tests=$(find test/system -name *_test.rb | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
           echo "::set-output name=matrix::{\"tests\":[${tests}]}"

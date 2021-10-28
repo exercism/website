@@ -180,6 +180,16 @@ jobs:
   system-tests:
     if: github.repository == 'exercism/website'
 
+    strategy:
+      fail-fast: false
+      matrix:
+        tests:
+          [
+            "test/system/components/common/icons_test.rb",
+            "test/system/components/common/introducer_test.rb",
+            "test/system/components/common/modal_test.rb",
+          ]
+
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -269,7 +279,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-        run: bundle exec rails test:system
+        run: bundle exec rails ${{ matrix.tests }}
 
   ######################
   ##### ASSET TESTS ####

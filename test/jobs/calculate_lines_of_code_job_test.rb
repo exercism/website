@@ -35,8 +35,8 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
     CalculateLinesOfCodeJob.perform_now(iteration)
 
-    assert_equal 0, iteration.reload.num_loc
-    assert_equal 0, iteration.solution.reload.num_loc
+    assert_nil iteration.reload.num_loc
+    assert_nil iteration.solution.reload.num_loc
   end
 
   test "solution is updated if iteration is latest" do
@@ -83,7 +83,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     CalculateLinesOfCodeJob.perform_now(iteration)
 
     assert_equal num_loc, iteration.reload.num_loc
-    assert_equal 0, iteration.solution.reload.num_loc
+    assert_nil iteration.solution.reload.num_loc
   end
 
   test "solution is updated if iteration is published" do
@@ -133,6 +133,6 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     CalculateLinesOfCodeJob.perform_now(iteration)
 
     assert_equal num_loc, iteration.reload.num_loc
-    assert_equal 0, iteration.solution.reload.num_loc
+    assert_nil iteration.solution.reload.num_loc
   end
 end

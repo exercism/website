@@ -15,7 +15,7 @@ class GenerateIterationSnippetJob < ApplicationJob
     return unless file
 
     # TODO: (Required) Set this through Exercism config
-    url = "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/extract_snippet"
+    url = "https://internal.exercism.org/extract_snippet"
     snippet = RestClient.post(
       url,
       {

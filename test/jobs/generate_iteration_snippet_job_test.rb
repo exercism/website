@@ -24,17 +24,18 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     assert_equal @snippet, iteration.solution.reload.snippet
   end
 
-  test "solution is updated if iteration is last" do
+  test "solution is updated if iteration is latest" do
     create :iteration, solution: @submission.solution
-    iteration = create :iteration, submission: @submission
+    latest_iteration = create :iteration, submission: @submission
+    create :iteration, solution: @submission.solution, deleted_at: Time.current # Last iteration
 
-    GenerateIterationSnippetJob.perform_now(iteration)
+    GenerateIterationSnippetJob.perform_now(latest_iteration)
 
-    assert_equal @snippet, iteration.reload.snippet
-    assert_equal @snippet, iteration.solution.reload.snippet
+    assert_equal @snippet, latest_iteration.reload.snippet
+    assert_equal @snippet, latest_iteration.solution.reload.snippet
   end
 
-  test "solution is not updated if iteration is not last" do
+  test "solution is not updated if iteration is not latest" do
     iteration = create :iteration, submission: @submission
     create :iteration, solution: @submission.solution
 

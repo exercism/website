@@ -15,9 +15,7 @@ class Solution
     end
 
     def num_loc
-      return solution.iterations.last.num_loc if iteration_idx.nil?
-
-      iteration.num_loc
+      iteration ? iteration.num_loc : solution.latest_iteration&.num_loc
     end
   end
 end

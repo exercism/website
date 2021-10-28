@@ -37,6 +37,6 @@ class CalculateLinesOfCodeJob < ApplicationJob
     solution = iteration.solution
     return true if solution.published_iteration_id == iteration.id
 
-    solution.published_iteration_id.nil? && solution.iterations.last == iteration
+    solution.published_iteration_id.nil? && solution.latest_iteration == iteration
   end
 end

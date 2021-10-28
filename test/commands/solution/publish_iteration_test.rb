@@ -17,23 +17,24 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
 
   test "set solution loc to published iteration loc" do
     solution = create :practice_solution, num_loc: 14
-    iteration = create :iteration, solution: solution, idx: 1, num_loc: 5
-    other_iteration = create :iteration, solution: solution, idx: 2, num_loc: 14
-    solution.update(published_iteration: other_iteration, published_at: Time.current)
+    new_published_iteration = create :iteration, solution: solution, idx: 1, num_loc: 5
+    old_published_iteration = create :iteration, solution: solution, idx: 2, num_loc: 14
+    solution.update(published_iteration: old_published_iteration, published_at: Time.current)
 
     Solution::PublishIteration.(solution, 1)
 
-    assert_equal iteration.num_loc, solution.num_loc
+    assert_equal new_published_iteration.num_loc, solution.num_loc
   end
 
-  test "set solution loc to last iteration loc if publishing all iterations" do
+  test "set solution loc to latest iteration loc if publishing all iterations" do
     solution = create :practice_solution, num_loc: 2
     iteration = create :iteration, solution: solution, idx: 1, num_loc: 5
-    other_iteration = create :iteration, solution: solution, idx: 2, num_loc: 14
+    latest_iteration = create :iteration, solution: solution, idx: 2, num_loc: 14
+    create :iteration, solution: solution, idx: 3, deleted_at: Time.current, num_loc: 7 # Last iteration
     solution.update(published_iteration: iteration, published_at: Time.current)
 
     Solution::PublishIteration.(solution, nil)
 
-    assert_equal other_iteration.num_loc, solution.num_loc
+    assert_equal latest_iteration.num_loc, solution.num_loc
   end
 end

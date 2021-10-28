@@ -10,7 +10,7 @@ class Solution
         introduction,
         instructions,
         source
-      ].compact_blank.join("\n\n")
+      ].compact_blank.join("\n\n").gsub(/\n{3,}/, "\n\n")
     end
 
     private
@@ -36,7 +36,7 @@ class Solution
       <<~TEXT.strip
         ## Introduction
 
-        #{Markdown::Render.(solution.introduction, :text).strip}
+        #{Markdown::Render.(solution.introduction, :text)}
       TEXT
     end
 
@@ -44,7 +44,7 @@ class Solution
       <<~TEXT.strip
         ## Instructions
 
-        #{Markdown::Render.(solution.instructions, :text).strip}
+        #{Markdown::Render.(solution.instructions, :text)}
       TEXT
     end
 

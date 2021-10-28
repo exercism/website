@@ -41,7 +41,7 @@ class PracticeExerciseTest < ActiveSupport::TestCase
 
   test "introduction is correct for exercise with append" do
     exercise = create :practice_exercise, slug: 'bob'
-    expected = "# Introduction\n\nIntroduction for bob\n# Introduction append\n\nExtra introduction for bob"
+    expected = "# Introduction\n\nIntroduction for bob\n\n# Introduction append\n\nExtra introduction for bob"
     assert_equal expected, exercise.introduction
   end
 
@@ -53,7 +53,7 @@ class PracticeExerciseTest < ActiveSupport::TestCase
 
   test "instructions are correct for exercise with append" do
     exercise = create :practice_exercise, slug: 'bob'
-    expected = "# Instructions\n\nInstructions for bob\n# Instructions append\n\nExtra instructions for bob"
+    expected = "# Instructions\n\nInstructions for bob\n\n# Instructions append\n\nExtra instructions for bob"
     assert_equal expected, exercise.instructions
   end
 end

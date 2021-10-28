@@ -140,7 +140,7 @@ module Git
     test "retrieves instructions with append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Instructions\n\nInstructions for bob\n# Instructions append\n\nExtra instructions for bob"
+      expected = "# Instructions\n\nInstructions for bob\n\n# Instructions append\n\nExtra instructions for bob"
       assert_equal(expected, exercise.instructions)
     end
 
@@ -154,7 +154,7 @@ module Git
     test "retrieves introduction with append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Introduction\n\nIntroduction for bob\n# Introduction append\n\nExtra introduction for bob"
+      expected = "# Introduction\n\nIntroduction for bob\n\n# Introduction append\n\nExtra introduction for bob"
       assert_equal(expected, exercise.introduction)
     end
 

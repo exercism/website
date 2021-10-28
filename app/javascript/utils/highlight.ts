@@ -1,5 +1,12 @@
 import * as highlighter from 'highlight.js'
 import React, { useEffect, useRef } from 'react'
+import setupABAP from 'highlightjs-sap-abap'
+
+highlighter.default.registerLanguage('abap', setupABAP)
+
+highlighter.default.configure({
+  throwUnescapedHTML: true,
+})
 
 function duplicateMultilineNodes(element: HTMLElement) {
   element.childNodes.forEach((child) => {

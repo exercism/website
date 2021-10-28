@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useMutation, queryCache, QueryKey } from 'react-query'
+import { useMutation, QueryKey, useQueryCache } from 'react-query'
 import { fromNow } from '../../../utils/time'
 import { GraphicalIcon, TrackIcon } from '../../common'
 import { SharePlatform, Testimonial } from '../../types'
@@ -23,6 +23,7 @@ export const UnrevealedTestimonial = ({
   cacheKey: QueryKey
   platforms: readonly SharePlatform[]
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const isMountedRef = useIsMounted()
   const [open, setOpen] = useState(false)
   const [
@@ -65,7 +66,7 @@ export const UnrevealedTestimonial = ({
           : oldTestimonial
       }),
     })
-  }, [cacheKey, revealedTestimonial])
+  }, [cacheKey, revealedTestimonial, queryCache])
 
   return (
     <a

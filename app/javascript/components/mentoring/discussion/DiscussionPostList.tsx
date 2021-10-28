@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from 'react'
 import { usePostHighlighting } from './usePostHighlighting'
-import { queryCache, QueryStatus } from 'react-query'
+import { QueryStatus, useQueryCache } from 'react-query'
 import { DiscussionPostProps } from './DiscussionPost'
 import { Loading } from '../../common/Loading'
 import {
@@ -36,6 +36,7 @@ export const DiscussionPostList = ({
   onIterationScroll: (iteration: Iteration) => void
   status: QueryStatus
 }): JSX.Element | null => {
+  const queryCache = useQueryCache()
   const { cacheKey } = useContext(PostsContext)
   const posts = usePosts(iterations)
   const { highlightedPost, highlightedPostRef } = usePostHighlighting(

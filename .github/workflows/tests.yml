@@ -188,7 +188,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - id: test-files
-        run: echo "::set-output name=matrix::{\"tests\":[\"test/system/components/common/icons_test.rb\",\"test/system/components/common/introducer_test.rb\",\"test/system/components/common/modal_test.rb\"]}"
+        run: |
+          tests=$(find test/system -name *_test.rb | xargs -n 40 | xargs -I {} echo '"{}"' | tr '\n' ',')
+          echo "::set-output name=matrix::{\"tests\":[${tests}]}"
 
   system-tests:
     if: github.repository == 'exercism/website'

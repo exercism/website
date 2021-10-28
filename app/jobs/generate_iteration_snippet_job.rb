@@ -15,7 +15,7 @@ class GenerateIterationSnippetJob < ApplicationJob
     return unless file
 
     # TODO: (Required) Set this through Exercism config
-    url = "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/extract_snippet"
+    url = "https://internal.exercism.org/extract_snippet"
     snippet = RestClient.post(
       url,
       {
@@ -41,6 +41,6 @@ class GenerateIterationSnippetJob < ApplicationJob
     solution = iteration.solution
     return true if solution.published_iteration_id == iteration.id
 
-    solution.published_iteration_id.nil? && solution.iterations.last == iteration
+    solution.published_iteration_id.nil? && solution.latest_iteration == iteration
   end
 end

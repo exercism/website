@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_25_193805) do
+ActiveRecord::Schema.define(version: 2021_10_28_110123) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -321,6 +321,7 @@ ActiveRecord::Schema.define(version: 2021_10_25_193805) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "num_loc"
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
@@ -522,7 +523,7 @@ ActiveRecord::Schema.define(version: 2021_10_25_193805) do
     t.integer "num_views", limit: 3, default: 0, null: false
     t.integer "num_stars", limit: 3, default: 0, null: false
     t.integer "num_comments", limit: 3, default: 0, null: false
-    t.integer "num_loc", limit: 3, default: 0, null: false
+    t.integer "num_loc"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"

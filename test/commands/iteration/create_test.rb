@@ -60,6 +60,15 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     end
   end
 
+  test "enqueues lines of code counter job" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+
+    assert_enqueued_with job: CalculateLinesOfCodeJob do
+      Iteration::Create.(solution, submission)
+    end
+  end
+
   test "starts test run if untested" do
     solution = create :concept_solution
     submission = create :submission, solution: solution

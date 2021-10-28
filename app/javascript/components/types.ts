@@ -148,7 +148,7 @@ export type DiscussionStatus =
 export type CommunitySolution = {
   uuid: string
   snippet: string
-  numLoc: string
+  numLoc?: string
   numStars: string
   numComments: string
   publishedAt: string

@@ -7,7 +7,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     iteration = create :iteration, submission: submission
 
     num_loc = 24
-    stub_request(:post, "https://xmhj46lgwc.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
+    stub_request(:post, "https://internal.exercism.org/count_lines_of_code").
       with(
         body: {
           track_slug: iteration.track.slug,
@@ -46,7 +46,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     iteration = create :iteration, submission: submission
 
     num_loc = 24
-    stub_request(:post, "https://xmhj46lgwc.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
+    stub_request(:post, "https://internal.exercism.org/count_lines_of_code").
       with(
         body: {
           track_slug: iteration.track.slug,
@@ -69,7 +69,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     create :iteration, solution: submission.solution
 
     num_loc = 24
-    stub_request(:post, "https://xmhj46lgwc.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
+    stub_request(:post, "https://internal.exercism.org/count_lines_of_code").
       with(
         body: {
           track_slug: iteration.track.slug,
@@ -94,7 +94,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     submission.solution.update(published_iteration: iteration)
 
     num_loc = 24
-    stub_request(:post, "https://xmhj46lgwc.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
+    stub_request(:post, "https://internal.exercism.org/count_lines_of_code").
       with(
         body: {
           track_slug: iteration.track.slug,
@@ -119,7 +119,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
     submission.solution.update(published_iteration: older_iteration)
 
     num_loc = 24
-    stub_request(:post, "https://xmhj46lgwc.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code").
+    stub_request(:post, "https://internal.exercism.org/count_lines_of_code").
       with(
         body: {
           track_slug: iteration.track.slug,

@@ -14,7 +14,7 @@ class CalculateLinesOfCodeJob < ApplicationJob
     return unless iteration.submission.valid_filepaths.any?
 
     # TODO: (Required) Set this through Exercism config
-    url = "https://xmhj46lgwc.execute-api.eu-west-2.amazonaws.com/production/count_lines_of_code"
+    url = "https://internal.exercism.org/count_lines_of_code"
     body = RestClient.post(
       url,
       {

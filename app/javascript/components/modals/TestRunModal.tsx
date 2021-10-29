@@ -3,11 +3,12 @@ import { TestRunSummary } from '../editor/TestRunSummary'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Modal, ModalProps } from './Modal'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { TestRun } from '../editor/types'
+import { TestRun, TestRunner } from '../editor/types'
 import { ResultsZone } from '../ResultsZone'
 
 type APIResponse = {
   testRun: TestRun
+  testRunner: TestRunner
 }
 
 const DEFAULT_ERROR = new Error('Unable to fetch test run')
@@ -34,6 +35,7 @@ export const TestRunModal = ({
           {resolvedData ? (
             <TestRunSummary
               testRun={resolvedData.testRun}
+              testRunner={resolvedData.testRunner}
               showSuccessBox={false}
             />
           ) : null}

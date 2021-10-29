@@ -15,6 +15,11 @@ type SubmissionLinks = {
   lastIterationFiles: string
 }
 
+export type TestRunner = {
+  track: boolean
+  exercise: boolean
+}
+
 export type TestRun = {
   uuid: number | null
   submissionUuid: string

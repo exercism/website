@@ -111,7 +111,8 @@
                     }
 
                     & .automated-feedback-pending,
-                    & .automated-feedback-absent {
+                    & .automated-feedback-absent,
+                    & .test-runner-disabled {
                         @apply flex flex-col items-center;
                         @apply py-24;
 

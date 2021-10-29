@@ -1,5 +1,5 @@
 import React from 'react'
-import { TestRun, TestRunStatus, TestStatus } from './types'
+import { TestRun, TestRunner, TestRunStatus, TestStatus } from './types'
 import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
 import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
@@ -7,6 +7,7 @@ import { GraphicalIcon } from '../common'
 
 export const TestRunSummary = ({
   testRun,
+  testRunner,
   onSubmit,
   isSubmitDisabled,
   onCancel,
@@ -14,31 +15,55 @@ export const TestRunSummary = ({
   showSuccessBox,
 }: {
   testRun: TestRun
+  testRunner?: TestRunner
   onSubmit?: () => void
   isSubmitDisabled?: boolean
   onCancel?: () => void
   averageTestDuration?: number
   showSuccessBox: boolean
-}): JSX.Element =>
-  testRun ? (
-    <div className="c-test-run">
-      <TestRunSummaryHeader testRun={testRun} />
-      <TestRunSummaryContent
-        testRun={testRun}
-        onSubmit={onSubmit}
-        isSubmitDisabled={isSubmitDisabled}
-        onCancel={onCancel}
-        averageTestDuration={averageTestDuration}
-        showSuccessBox={showSuccessBox}
-      />
-    </div>
-  ) : (
+}): JSX.Element => {
+  if (testRun) {
+    return (
+      <div className="c-test-run">
+        <TestRunSummaryHeader testRun={testRun} />
+        <TestRunSummaryContent
+          testRun={testRun}
+          onSubmit={onSubmit}
+          isSubmitDisabled={isSubmitDisabled}
+          onCancel={onCancel}
+          averageTestDuration={averageTestDuration}
+          showSuccessBox={showSuccessBox}
+        />
+      </div>
+    )
+  }
+
+  if (testRunner && !testRunner.track) {
+    return (
+      <div className="test-runner-disabled">
+        <h3>No test results</h3>
+        <p>This track does not support automatically running exercise tests.</p>
+      </div>
+    )
+  }
+
+  if (testRunner && !testRunner.exercise) {
+    return (
+      <div className="test-runner-disabled">
+        <h3>No test results</h3>
+        <p>This exercise does not support automatically running its tests.</p>
+      </div>
+    )
+  }
+
+  return (
     <div className="automated-feedback-pending">
       <GraphicalIcon icon="spinner" />
       <h3>We&apos;re testing your code to check it works</h3>
       <p>This usually takes 5-20 seconds.</p>
     </div>
   )
+}
 
 const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
   switch (testRun.status) {

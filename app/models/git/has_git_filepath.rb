@@ -15,10 +15,13 @@ module Git
         return instance_variable_get(iv) if instance_variable_defined?(iv)
 
         file_content = repo.send(read_method, commit, absolute_filepath(file))
-        file_content.strip! unless json_file
-        file_content << "\n\n" if append_file
-        file_content << repo.send(read_method, commit, absolute_filepath(append_file)) if append_file
-        file_content.strip! unless json_file
+
+        unless json_file
+          file_content.strip!
+          file_content << "\n\n" if append_file
+          file_content << repo.send(read_method, commit, absolute_filepath(append_file)) if append_file
+          file_content.strip!
+        end
 
         instance_variable_set(iv, file_content)
       end

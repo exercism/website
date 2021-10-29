@@ -15,7 +15,7 @@ type SubmissionLinks = {
   lastIterationFiles: string
 }
 
-export type TestRunner = {
+export type TestRunnerStatus = {
   track: boolean
   exercise: boolean
 }

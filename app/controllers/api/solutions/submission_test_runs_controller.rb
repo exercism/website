@@ -10,7 +10,7 @@ module API
 
         render json: {
           test_run: test_run,
-          test_runner: {
+          test_runner_status: {
             exercise: submission.exercise.has_test_runner,
             track: submission.track.has_test_runner
           }

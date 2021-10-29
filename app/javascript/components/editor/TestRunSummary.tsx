@@ -1,5 +1,5 @@
 import React from 'react'
-import { TestRun, TestRunner, TestRunStatus, TestStatus } from './types'
+import { TestRun, TestRunnerStatus, TestRunStatus, TestStatus } from './types'
 import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
 import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
@@ -7,7 +7,7 @@ import { GraphicalIcon } from '../common'
 
 export const TestRunSummary = ({
   testRun,
-  testRunner,
+  testRunnerStatus,
   onSubmit,
   isSubmitDisabled,
   onCancel,
@@ -15,7 +15,7 @@ export const TestRunSummary = ({
   showSuccessBox,
 }: {
   testRun: TestRun
-  testRunner?: TestRunner
+  testRunnerStatus?: TestRunnerStatus
   onSubmit?: () => void
   isSubmitDisabled?: boolean
   onCancel?: () => void
@@ -38,7 +38,7 @@ export const TestRunSummary = ({
     )
   }
 
-  if (testRunner && !testRunner.track) {
+  if (testRunnerStatus && !testRunnerStatus.track) {
     return (
       <div className="test-runner-disabled">
         <h3>No test results</h3>
@@ -47,7 +47,7 @@ export const TestRunSummary = ({
     )
   }
 
-  if (testRunner && !testRunner.exercise) {
+  if (testRunnerStatus && !testRunnerStatus.exercise) {
     return (
       <div className="test-runner-disabled">
         <h3>No test results</h3>

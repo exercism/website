@@ -6,7 +6,7 @@ module Git
     #   to a git file and returns its absolute path
     def git_filepath(field, file:, append_file: nil)
       json_file = file.end_with?('.json')
-      json_file ? read_method = "read_json_blob" : read_method = "read_text_blob"
+      read_method = json_file ? "read_json_blob" : "read_text_blob"
 
       # Define a <field> method that stored a memoized version of the contents
       # of the file with the specified filepath as retrieved from Git

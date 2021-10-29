@@ -19,7 +19,7 @@ class SerializeSolution
       num_stars: solution.num_stars,
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
-      num_loc: solution.num_loc,
+      num_loc: solution.num_loc.presence, # Currently this column is not-null in production
       is_out_of_date: solution.out_of_date?,
 
       published_at: solution.published_at&.iso8601,

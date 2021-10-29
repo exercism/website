@@ -10,7 +10,7 @@ class Solution
         introduction,
         instructions,
         source
-      ].compact_blank.join("\n\n").gsub(/\n{3,}/, "\n\n")
+      ].compact_blank.join("\n\n")
     end
 
     private

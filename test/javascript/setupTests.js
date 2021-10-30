@@ -14,6 +14,7 @@ afterEach(async () => {
   // waitFor is important here. If there are queries that are being fetched at
   // the end of the test and we continue on to the next test before waiting for
   // them to finalize, the tests can impact each other in strange ways.
+  // eslint-disable-next-line jest/no-standalone-expect
   await waitFor(() => expect(queryCache.isFetching).toBe(0))
 
   await flushPromises()

@@ -257,10 +257,7 @@ class User < ApplicationRecord
     dismissed_introducers.where(slug: slug).exists?
   end
 
-  # TODO: Remove if not used by launch
-  # def favorited_by?(mentor)
-  #   relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
-
-  #   relationship ? relationship.favorited? : false
-  # end
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
 end

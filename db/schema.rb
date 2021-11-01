@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_28_110123) do
+ActiveRecord::Schema.define(version: 2021_11_01_120614) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -391,6 +391,7 @@ ActiveRecord::Schema.define(version: 2021_10_28_110123) do
     t.index ["student_id"], name: "index_mentor_requests_on_student_id"
     t.index ["track_id", "status"], name: "index_mentor_requests_on_track_id_and_status"
     t.index ["track_id"], name: "index_mentor_requests_on_track_id"
+    t.index ["uuid"], name: "index_mentor_requests_on_uuid", unique: true
   end
 
   create_table "mentor_student_relationships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -523,7 +524,7 @@ ActiveRecord::Schema.define(version: 2021_10_28_110123) do
     t.integer "num_views", limit: 3, default: 0, null: false
     t.integer "num_stars", limit: 3, default: 0, null: false
     t.integer "num_comments", limit: 3, default: 0, null: false
-    t.integer "num_loc"
+    t.integer "num_loc", limit: 3, default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
@@ -807,6 +808,10 @@ ActiveRecord::Schema.define(version: 2021_10_28_110123) do
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
+    t.index ["user_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_3"
+    t.index ["user_id", "track_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_4"
+    t.index ["user_id", "track_id", "type"], name: "index_user_reputation_tokens_query_2"
+    t.index ["user_id", "type"], name: "index_user_reputation_tokens_query_1"
     t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
     t.index ["uuid"], name: "index_user_reputation_tokens_on_uuid", unique: true
   end
@@ -878,6 +883,7 @@ ActiveRecord::Schema.define(version: 2021_10_28_110123) do
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+    t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

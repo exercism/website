@@ -9,6 +9,6 @@ class AddExtraIndexes < ActiveRecord::Migration[6.1]
 
     add_index :mentor_requests, :uuid, name: 'index_mentor_requests_on_uuid', unique: true, if_not_exists: true
 
-    add_foreign_key :solution_comments, :solutions
+    add_foreign_key :solution_comments, :solutions unless foreign_key_exists?(:solution_comments, :solutions)
   end
 end

@@ -2,16 +2,16 @@ module Git
   class Exercise
     extend Mandate::Memoize
     extend Mandate::InitializerInjector
-    extend Git::HasGitFilepaths
+    extend Git::HasGitFilepath
 
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
 
-    git_filepaths instructions: ".docs/instructions.md",
-      instructions_append: ".docs/instructions.append.md",
-      introduction: ".docs/introduction.md",
-      introduction_append: ".docs/introduction.append.md",
-      hints: ".docs/hints.md",
-      config: ".meta/config.json"
+    git_filepath :instructions, file: ".docs/instructions.md", append_file: ".docs/instructions.append.md"
+    git_filepath :introduction, file: ".docs/introduction.md", append_file: ".docs/introduction.append.md"
+    git_filepath :instructions_append, file: ".docs/instructions.append.md"
+    git_filepath :introduction_append, file: ".docs/introduction.append.md"
+    git_filepath :hints, file: ".docs/hints.md"
+    git_filepath :config, file: ".meta/config.json"
 
     SPECIAL_FILEPATHS = {
       config: '.exercism/config.json',

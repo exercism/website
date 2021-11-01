@@ -1,16 +1,16 @@
 module Git
   class Track
     extend Mandate::Memoize
-    extend Git::HasGitFilepaths
+    extend Git::HasGitFilepath
 
     delegate :head_sha, :fetch!, :lookup_commit, :head_commit, to: :repo
 
-    git_filepaths about: "docs/ABOUT.md",
-      snippet: "docs/SNIPPET.txt",
-      debugging_instructions: "exercises/shared/.docs/debug.md",
-      help: "exercises/shared/.docs/help.md",
-      tests: "exercises/shared/.docs/tests.md",
-      config: "config.json"
+    git_filepath :about, file: "docs/ABOUT.md"
+    git_filepath :snippet, file: "docs/SNIPPET.txt"
+    git_filepath :debugging_instructions, file: "exercises/shared/.docs/debug.md"
+    git_filepath :help, file: "exercises/shared/.docs/help.md"
+    git_filepath :tests, file: "exercises/shared/.docs/tests.md"
+    git_filepath :config, file: "config.json"
 
     def initialize(git_sha = "HEAD", repo_url: nil, repo: nil)
       raise "One of :repo or :repo_url must be specified" unless [repo, repo_url].compact.size == 1

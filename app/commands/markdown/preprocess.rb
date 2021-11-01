@@ -61,7 +61,9 @@ class Markdown::Preprocess
     mutations_in_reverse_line_order.each do |mutation|
       case mutation[:type]
       when :delete_header
-        lines.delete_at(mutation[:node].sourcepos[:start_line] - 1)
+        line_idx = mutation[:node].sourcepos[:start_line] - 1
+        lines.delete_at(line_idx)
+        lines.delete_at(line_idx) if line_idx < lines.length && lines[line_idx].blank?
         mutation[:node].delete
       when :lower_header_level
         lines[mutation[:node].sourcepos[:start_line] - 1].insert(mutation[:node].sourcepos[:start_column] - 1, '#')

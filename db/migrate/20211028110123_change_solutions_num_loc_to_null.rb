@@ -1,5 +1,5 @@
 class ChangeSolutionsNumLocToNull < ActiveRecord::Migration[6.1]
   def change
-    add_column :solutions, :num_loc, :integer, null: true
+    change_column_null :solutions, :num_loc, true
   end
 end

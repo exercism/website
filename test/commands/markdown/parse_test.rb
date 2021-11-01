@@ -327,4 +327,51 @@ Done')
     assert_equal expected,
       Markdown::Parse.("Hello[^hi].\n\n[^hi]: Hey!\n")
   end
+
+  test "heading id for lowercase letters title" do
+    expected = %(<h2 id="h-lowerletters">lowerletters</h2>\n)
+    assert_equal expected, Markdown::Parse.("## lowerletters", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for uppercase letters title is converted to lowercase" do
+    expected = %(<h2 id="h-upperletters">UPPERLETTERS</h2>\n)
+    assert_equal expected, Markdown::Parse.("## UPPERLETTERS", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for mixed-case letters title is converted to lowercase" do
+    expected = %(<h2 id="h-pascalcase">PascalCase</h2>\n)
+    assert_equal expected, Markdown::Parse.("## PascalCase", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for diacritic letters title are converted to regular letters or dashes" do
+    expected = %(<h2 id="h-o-a-eeee">Òǒốáȧëèéê</h2>\n)
+    assert_equal expected, Markdown::Parse.("## Òǒốáȧëèéê", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for numbers title" do
+    expected = %(<h2 id="h-123456">123456</h2>\n)
+    assert_equal expected, Markdown::Parse.("## 123456", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id with non-letter/digit characters title are replaced with dashes" do
+    expected = %(<h2 id="h-this-is-m">this is m*</h2>\n)
+    assert_equal expected, Markdown::Parse.("## this is m*", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id with consecutive non-letter/digit characters title are replaced with dashes" do
+    expected = %(<h2 id="h-this-is-m">this % is @@ m</h2>\n)
+    assert_equal expected, Markdown::Parse.("## this % is @@ m", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading ids support all heading levels" do
+    expected = %(<h1 id="h-one">one</h1>\n<h2 id="h-two">two</h2>\n<h3 id="h-three">three</h3>\n<h4 id="h-four">four</h4>\n<h5 id="h-five">five</h5>\n<h6 id="h-six">six</h6>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected,
+      Markdown::Parse.("# one\n\n## two\n\n### three\n\n#### four\n\n##### five\n\n###### six", heading_ids: true,
+lower_heading_levels_by: 0, strip_h1: false)
+  end
+
+  test "heading id for same titles uses sequential numbering" do
+    expected = %(<h2 id="h-my-title">my title</h2>\n<h2 id="h-my-title-1">my title</h2>\n<h2 id="h-my-title-2">my title</h2>\n)
+    assert_equal expected, Markdown::Parse.("## my title\n\n## my title\n\n## my title", heading_ids: true, lower_heading_levels_by: 0)
+  end
 end

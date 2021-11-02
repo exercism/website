@@ -29,6 +29,7 @@ module.exports = {
       version: 'detect',
     },
   },
+  ignorePatterns: ['**/*.config.js', '**/config/webpack/*.js', '.eslintrc.js'],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],

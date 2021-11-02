@@ -15,7 +15,7 @@ export type Track = {
   slug: string
   title: string
   iconUrl: string
-  avgWaitTime: string | null
+  medianWaitTime: number
   numSolutionsQueued: number
 }
 

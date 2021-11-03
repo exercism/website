@@ -134,6 +134,14 @@ GEM
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     e2mmap (0.1.0)
+    elasticsearch (6.8.3)
+      elasticsearch-api (= 6.8.3)
+      elasticsearch-transport (= 6.8.3)
+    elasticsearch-api (6.8.3)
+      multi_json
+    elasticsearch-transport (6.8.3)
+      faraday (~> 1)
+      multi_json
     erubi (1.10.0)
     et-orbi (1.2.4)
       tzinfo
@@ -481,6 +489,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   commonmarker
   devise (~> 4.7.1)
+  elasticsearch (= 6.8.3)
   exercism-config (>= 0.76.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)

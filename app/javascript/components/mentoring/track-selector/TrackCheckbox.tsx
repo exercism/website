@@ -34,7 +34,6 @@ export const TrackCheckbox = ({
         <div className="title">{title}</div>
         <div className="info">
           <MedianWaitTime seconds={medianWaitTime} />
-          <br />
           {numSolutionsQueued} {pluralize('solution', numSolutionsQueued)}{' '}
           queued
         </div>

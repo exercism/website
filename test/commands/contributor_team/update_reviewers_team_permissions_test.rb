@@ -2,7 +2,6 @@ require "test_helper"
 
 class ContributorTeam::UpdateReviewersTeamPermissionsTest < ActiveSupport::TestCase
   test "adds reviewer team to team if no maintainers in team" do
-    skip # TODO: enable this once we are confident that org member syncing works
     Github::Organization.any_instance.stubs(:name).returns('exercism')
 
     team = create :contributor_team, github_name: 'csharp'
@@ -29,7 +28,6 @@ class ContributorTeam::UpdateReviewersTeamPermissionsTest < ActiveSupport::TestC
   end
 
   test "adds reviewer team to team if one maintainer in team" do
-    skip # TODO: enable this once we are confident that org member syncing works
     Github::Organization.any_instance.stubs(:name).returns('exercism')
 
     team = create :contributor_team, github_name: 'csharp'
@@ -57,7 +55,6 @@ class ContributorTeam::UpdateReviewersTeamPermissionsTest < ActiveSupport::TestC
   end
 
   test "removes reviewer team from team if two or more maintainers" do
-    skip # TODO: enable this once we are confident that org member syncing works
     Github::Organization.any_instance.stubs(:name).returns('exercism')
 
     team = create :contributor_team, github_name: 'csharp'
@@ -83,9 +80,7 @@ class ContributorTeam::UpdateReviewersTeamPermissionsTest < ActiveSupport::TestC
     ContributorTeam::UpdateReviewersTeamPermissions.(team)
   end
 
-  test "does not do
-    skip # TODO: enable this once we are confident that org member syncing works anything if team is reviewer team" do
-    skip # TODO: enable this once we are confident that org member syncing works
+  test "does not do anything if team is reviewer team" do
     team = create :contributor_team, github_name: 'reviewers'
 
     ContributorTeam::UpdateReviewersTeamPermissions.(team)

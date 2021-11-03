@@ -19,8 +19,8 @@ module Flows
         visit mentoring_queue_path
         within(".mentor-queue-filtering") { click_on "Ruby" }
         click_on "Change the tracks you mentor"
-        find("label.track", text: "Ruby\nRecent median waiting time: ~16 minutes").click
-        find("label.track", text: "C#\nRecent median waiting time: ~33 minutes").click
+        find("label.track", text: "Ruby\nAvg. wait time: ~16 minutes").click
+        find("label.track", text: "C#\nAvg. wait time: ~33 minutes").click
         within(".m-change-mentor-tracks") { click_on "Continue" }
 
         assert_text "C#"

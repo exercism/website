@@ -10,9 +10,9 @@ class Search::Solutions
   private
   memoize
   def client
-    Elasticsearch::Client.new url: 'https://localhost:9200',
-      user: 'admin',
-      password: 'admin',
+    Elasticsearch::Client.new url: ENV.fetch('OPENSEARCH_HOST', 'https://localhost:9200'),
+      user: ENV.fetch('OPENSEARCH_USER', 'admin'),
+      password: ENV.fetch('OPENSEARCH_PASSWORD', 'admin'),
       log: true,
       transport_options: {
         ssl: { verify: false }

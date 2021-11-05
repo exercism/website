@@ -68,6 +68,7 @@ class Solution
 
     memoize
     def client
+      # TODO: use Exercism.opensearch_client once the config gem has been updated
       Elasticsearch::Client.new(
         url: ENV['OPENSEARCH_HOST'],
         user: ENV['OPENSEARCH_USER'],

@@ -3,8 +3,8 @@ require "test_helper"
 class Solution::IndexTest < ActiveSupport::TestCase
   test "indexes solution" do
     user = create :user, id: 7, handle: 'jane'
-    track = create :track, id: 11, slug: 'fsharp'
-    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
+    track = create :track, id: 11, slug: 'fsharp', title: 'F#'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', title: 'Bob', track: track
     solution = create :practice_solution,
       id: 17,
       num_stars: 3,
@@ -26,12 +26,9 @@ class Solution::IndexTest < ActiveSupport::TestCase
       with(
         body: {
           id: 17,
-          exercise_id: 13,
-          exercise_slug: 'bob',
-          track_id: 11,
-          track_slug: 'fsharp',
-          author_id: 7,
-          author_handle: 'jane',
+          exercise: { id: 13, slug: 'bob', title: 'Bob' },
+          track: { id: 11, slug: 'fsharp', title: 'F#' },
+          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,
@@ -58,8 +55,8 @@ class Solution::IndexTest < ActiveSupport::TestCase
 
   test "indexes out-of-date solution" do
     user = create :user, id: 7, handle: 'jane'
-    track = create :track, id: 11, slug: 'fsharp'
-    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
+    track = create :track, id: 11, slug: 'fsharp', title: 'F#'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', title: 'Bob', track: track
     solution = create :practice_solution,
       id: 17,
       num_stars: 3,
@@ -82,12 +79,9 @@ class Solution::IndexTest < ActiveSupport::TestCase
       with(
         body: {
           id: 17,
-          exercise_id: 13,
-          exercise_slug: 'bob',
-          track_id: 11,
-          track_slug: 'fsharp',
-          author_id: 7,
-          author_handle: 'jane',
+          exercise: { id: 13, slug: 'bob', title: 'Bob' },
+          track: { id: 11, slug: 'fsharp', title: 'F#' },
+          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,
@@ -114,8 +108,8 @@ class Solution::IndexTest < ActiveSupport::TestCase
 
   test "indexes solution with tests passing" do
     user = create :user, id: 7, handle: 'jane'
-    track = create :track, id: 11, slug: 'fsharp'
-    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
+    track = create :track, id: 11, slug: 'fsharp', title: 'F#'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', title: 'Bob', track: track
     solution = create :practice_solution,
       id: 17,
       num_stars: 3,
@@ -137,12 +131,9 @@ class Solution::IndexTest < ActiveSupport::TestCase
       with(
         body: {
           id: 17,
-          exercise_id: 13,
-          exercise_slug: 'bob',
-          track_id: 11,
-          track_slug: 'fsharp',
-          author_id: 7,
-          author_handle: 'jane',
+          exercise: { id: 13, slug: 'bob', title: 'Bob' },
+          track: { id: 11, slug: 'fsharp', title: 'F#' },
+          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,
@@ -169,8 +160,8 @@ class Solution::IndexTest < ActiveSupport::TestCase
 
   test "indexes solution with published and latest iteration" do
     user = create :user, id: 7, handle: 'jane'
-    track = create :track, id: 11, slug: 'fsharp'
-    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
+    track = create :track, id: 11, slug: 'fsharp', title: 'F#'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', title: 'Bob', track: track
     solution = create :practice_solution,
       id: 17,
       num_stars: 3,
@@ -198,12 +189,9 @@ class Solution::IndexTest < ActiveSupport::TestCase
       with(
         body: {
           id: 17,
-          exercise_id: 13,
-          exercise_slug: 'bob',
-          track_id: 11,
-          track_slug: 'fsharp',
-          author_id: 7,
-          author_handle: 'jane',
+          exercise: { id: 13, slug: 'bob', title: 'Bob' },
+          track: { id: 11, slug: 'fsharp', title: 'F#' },
+          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,
@@ -230,8 +218,8 @@ class Solution::IndexTest < ActiveSupport::TestCase
 
   test "indexes solution with latest iteration but no published iteration" do
     user = create :user, id: 7, handle: 'jane'
-    track = create :track, id: 11, slug: 'fsharp'
-    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
+    track = create :track, id: 11, slug: 'fsharp', title: 'F#'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', title: 'Bob', track: track
     solution = create :practice_solution,
       id: 17,
       num_stars: 3,
@@ -259,12 +247,9 @@ class Solution::IndexTest < ActiveSupport::TestCase
       with(
         body: {
           id: 17,
-          exercise_id: 13,
-          exercise_slug: 'bob',
-          track_id: 11,
-          track_slug: 'fsharp',
-          author_id: 7,
-          author_handle: 'jane',
+          exercise: { id: 13, slug: 'bob', title: 'Bob' },
+          track: { id: 11, slug: 'fsharp', title: 'F#' },
+          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: nil,
           num_stars: 3,
@@ -288,8 +273,8 @@ class Solution::IndexTest < ActiveSupport::TestCase
 
   test "indexes solution with no latest iteration nor published iteration" do
     user = create :user, id: 7, handle: 'jane'
-    track = create :track, id: 11, slug: 'fsharp'
-    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
+    track = create :track, id: 11, slug: 'fsharp', title: 'F#'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', title: 'Bob', track: track
     solution = create :practice_solution,
       id: 17,
       num_stars: 3,
@@ -313,12 +298,9 @@ class Solution::IndexTest < ActiveSupport::TestCase
       with(
         body: {
           id: 17,
-          exercise_id: 13,
-          exercise_slug: 'bob',
-          track_id: 11,
-          track_slug: 'fsharp',
-          author_id: 7,
-          author_handle: 'jane',
+          exercise: { id: 13, slug: 'bob', title: 'Bob' },
+          track: { id: 11, slug: 'fsharp', title: 'F#' },
+          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: nil,
           num_stars: 3,
@@ -339,8 +321,8 @@ class Solution::IndexTest < ActiveSupport::TestCase
 
   test "indexes solution with multiple submission files" do
     user = create :user, id: 7, handle: 'jane'
-    track = create :track, id: 11, slug: 'fsharp'
-    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
+    track = create :track, id: 11, slug: 'fsharp', title: 'F#'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', title: 'Bob', track: track
     solution = create :practice_solution,
       id: 17,
       num_stars: 3,
@@ -364,12 +346,9 @@ class Solution::IndexTest < ActiveSupport::TestCase
       with(
         body: {
           id: 17,
-          exercise_id: 13,
-          exercise_slug: 'bob',
-          track_id: 11,
-          track_slug: 'fsharp',
-          author_id: 7,
-          author_handle: 'jane',
+          exercise: { id: 13, slug: 'bob', title: 'Bob' },
+          track: { id: 11, slug: 'fsharp', title: 'F#' },
+          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,

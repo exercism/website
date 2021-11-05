@@ -17,39 +17,45 @@ class Solution
     end
 
     def call
-      @solutions = exercise.solutions.published
+      results = client.search(index: 'solutions', body: search_body)
 
-      filter_criteria!
-      sort!
+      solution_ids = results["hits"]["hits"].map { |hit| hit["_id"] }
+      solutions = Solution.where(id: solution_ids).
+        order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
+        to_a
 
-      @solutions.page(page).per(per)
-    end
-
-    def filter_criteria!
-      return if @criteria.blank?
-
-      @solutions = @solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%")
-    end
-
-    def sort!
-      @solutions = @solutions.order(num_stars: :desc, id: :desc)
+      total_count = results["hits"]["total"]["value"].to_i
+      Kaminari.paginate_array(solutions, total_count: total_count).
+        page(page).per(per)
     end
 
     private
     attr_reader :exercise, :per, :page, :solutions, :criteria
 
-    # def call
-    #   client.search(index: 'solutions', q: query, field: 'name')
-    # end
+    def search_body
+      {
+        query: {
+          exists: { field: :published_at },
+          wildcard: @criteria.blank? ? nil : { author_handle: "*#{criteria}*" }
+        },
+        sort: [
+          { 'num_stars': { order: 'desc' } },
+          { 'id': { order: 'desc' } }
+        ],
+        stored_fields: [], # We're not interested in the document itself
+        from: page * per,
+        size: per
+      }
+    end
 
-    # private
-    # memoize
-    # def client
-    # Elasticsearch::Client.new
-    # url: ENV['OPENSEARCH_HOST'],
-    # user: ENV['OPENSEARCH_USER'],
-    # password: ENV['OPENSEARCH_PASSWORD'],
-    # transport_options: { ssl: { verify: ENV['OPENSEARCH_VERIFY_SSL'] != 'false' } }
-    # end
+    memoize
+    def client
+      Elasticsearch::Client.new(
+        url: ENV['OPENSEARCH_HOST'],
+        user: ENV['OPENSEARCH_USER'],
+        password: ENV['OPENSEARCH_PASSWORD'],
+        transport_options: { ssl: { verify: ENV['OPENSEARCH_VERIFY_SSL'] != 'false' } }
+      )
+    end
   end
 end

@@ -528,7 +528,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_120614) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
-    t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
+    t.index ["num_stars", "id"], name: "solutions_popular_new"
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true

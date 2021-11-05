@@ -58,6 +58,10 @@ class Solution < ApplicationRecord
     self.status = determine_status
   end
 
+  after_save do
+    IndexSolutionJob.perform_later(self)
+  end
+
   def self.for!(*args)
     solution = self.for(*args)
     solution || raise(ActiveRecord::RecordNotFound)

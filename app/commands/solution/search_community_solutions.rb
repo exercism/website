@@ -37,5 +37,19 @@ class Solution
 
     private
     attr_reader :exercise, :per, :page, :solutions, :criteria
+
+    # def call
+    #   client.search(index: 'solutions', q: query, field: 'name')
+    # end
+
+    # private
+    # memoize
+    # def client
+    # Elasticsearch::Client.new
+    # url: ENV['OPENSEARCH_HOST'],
+    # user: ENV['OPENSEARCH_USER'],
+    # password: ENV['OPENSEARCH_PASSWORD'],
+    # transport_options: { ssl: { verify: ENV['OPENSEARCH_VERIFY_SSL'] != 'false' } }
+    # end
   end
 end

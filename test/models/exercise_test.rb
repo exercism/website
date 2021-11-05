@@ -101,4 +101,20 @@ class ExerciseTest < ActiveSupport::TestCase
     track.update(has_test_runner: false)
     refute exercise.has_test_runner?
   end
+
+  test "enqueues job to mark solutions as out-of-date in index when git_important_files_hash changes" do
+    exercise = create :practice_exercise
+
+    assert_enqueued_with(job: MarkSolutionsAsOutOfDateInIndexJob, args: [exercise]) do
+      exercise.update!(git_important_files_hash: 'new-hash')
+    end
+  end
+
+  test "does not enqueue job to mark solutions as out-of-date in index when git_important_files_hash does not change" do
+    exercise = create :practice_exercise
+
+    assert_enqueued_jobs 0, only: MarkSolutionsAsOutOfDateInIndexJob do
+      exercise.update!(position: 2)
+    end
+  end
 end

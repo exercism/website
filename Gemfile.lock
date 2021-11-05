@@ -139,7 +139,6 @@ GEM
       elasticsearch-transport (= 6.8.3)
     elasticsearch-api (6.8.3)
       multi_json
-    elasticsearch-dsl (0.1.10)
     elasticsearch-transport (6.8.3)
       faraday (~> 1)
       multi_json
@@ -491,7 +490,6 @@ DEPENDENCIES
   commonmarker
   devise (~> 4.7.1)
   elasticsearch (= 6.8.3)
-  elasticsearch-dsl (~> 0.1.10)
   exercism-config (>= 0.76.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)

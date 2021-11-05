@@ -78,7 +78,7 @@ const a11yTabBindingState = StateField.define<string>({
 // to be an assertive ariaLive area. It is assertive as it only
 // changes in direct response to a user pressing the tab key.
 function createA11yTabBindingPanel(view: EditorView): Panel {
-  let dom = document.createElement('div')
+  const dom = document.createElement('div')
   dom.textContent = ''
   dom.className = 'cm-a11y-panel'
 

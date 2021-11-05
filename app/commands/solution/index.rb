@@ -6,12 +6,6 @@ class Solution::Index
   def call
     body = {
       id: solution.id,
-      exercise_id: solution.exercise.id,
-      exercise_slug: solution.exercise.slug,
-      track_id: solution.track.id,
-      track_slug: solution.track.slug,
-      author_id: solution.user.id,
-      author_handle: solution.user.handle,
       last_iterated_at: solution.last_iterated_at,
       published_at: solution.published_at,
       num_stars: solution.num_stars,
@@ -21,6 +15,20 @@ class Solution::Index
       out_of_date: solution.out_of_date?,
       status: solution.status,
       mentoring_status: solution.mentoring_status,
+      exercise: {
+        id: solution.exercise.id,
+        slug: solution.exercise.slug,
+        title: solution.exercise.title
+      },
+      track: {
+        id: solution.track.id,
+        slug: solution.track.slug,
+        title: solution.track.title
+      },
+      user: {
+        id: solution.user.id,
+        handle: solution.user.handle
+      },
       published_iteration: published_iteration ? {
         tests_passed: published_iteration.submission.tests_passed?,
         code: published_iteration.submission.files.map(&:content) || []

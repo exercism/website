@@ -19,8 +19,9 @@ class Solution
     def call
       results = client.search(index: 'solutions', body: search_body)
 
-      solution_ids = results["hits"]["hits"].map { |hit| hit["_id"] }
+      solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
       solutions = Solution.where(id: solution_ids).
+        includes(:exercise, :track).
         order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
         to_a
 
@@ -34,18 +35,35 @@ class Solution
 
     def search_body
       {
-        query: {
-          exists: { field: :published_at },
-          wildcard: @criteria.blank? ? nil : { author_handle: "*#{criteria}*" }
-        },
-        sort: [
-          { 'num_stars': { order: 'desc' } },
-          { 'id': { order: 'desc' } }
-        ],
-        stored_fields: [], # We're not interested in the document itself
-        from: page * per,
+        query: search_query,
+        sort: search_sort,
+
+        # Only return the solution IDs, not the entire document, to improve performance
+        _source: [:id],
+
+        # Paging information
+        from: (page - 1) * per,
         size: per
       }
+    end
+
+    def search_query
+      {
+        bool: {
+          must: [
+            { term: { 'exercise.id': exercise.id } },
+            { exists: { field: :published_at } },
+            @criteria.blank? ? nil : { wildcard: { 'user.handle': "*#{criteria}*" } }
+          ].compact
+        }
+      }
+    end
+
+    def search_sort
+      [
+        { num_stars: { order: :desc } },
+        { id: { order: :desc } }
+      ]
     end
 
     memoize

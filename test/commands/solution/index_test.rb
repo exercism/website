@@ -13,13 +13,14 @@ class Solution::IndexTest < ActiveSupport::TestCase
       num_comments: 2,
       user: user,
       exercise: exercise
-    submission = create :submission, solution: solution    
-    submission_file = create :submission_file, submission: submission, content: "module LogLineParser"
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission, content: "module LogLineParser"
     iteration = create :iteration, submission: submission
     solution.update!(
       published_iteration: iteration,
       published_at: Time.parse("2020-10-17T02:39:37.000Z").utc,
-      last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc)
+      last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
+    )
 
     stub_request(:post, "https://opensearch:9200/solutions/solution").
       with(
@@ -68,13 +69,14 @@ class Solution::IndexTest < ActiveSupport::TestCase
       user: user,
       exercise: exercise,
       git_important_files_hash: 'different-hash' # Makes the solution out-of-date
-    submission = create :submission, solution: solution    
-    submission_file = create :submission_file, submission: submission, content: "module LogLineParser"
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission, content: "module LogLineParser"
     iteration = create :iteration, submission: submission
     solution.update!(
       published_iteration: iteration,
       published_at: Time.parse("2020-10-17T02:39:37.000Z").utc,
-      last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc)
+      last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
+    )
 
     stub_request(:post, "https://opensearch:9200/solutions/solution").
       with(
@@ -122,13 +124,14 @@ class Solution::IndexTest < ActiveSupport::TestCase
       num_comments: 2,
       user: user,
       exercise: exercise
-    submission = create :submission, solution: solution, tests_status: :passed   
-    submission_file = create :submission_file, submission: submission, content: "module LogLineParser"
+    submission = create :submission, solution: solution, tests_status: :passed
+    create :submission_file, submission: submission, content: "module LogLineParser"
     iteration = create :iteration, submission: submission
     solution.update!(
       published_iteration: iteration,
       published_at: Time.parse("2020-10-17T02:39:37.000Z").utc,
-      last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc)
+      last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
+    )
 
     stub_request(:post, "https://opensearch:9200/solutions/solution").
       with(
@@ -164,81 +167,230 @@ class Solution::IndexTest < ActiveSupport::TestCase
     Solution::Index.(solution)
   end
 
-  test "indexes published iteration" do
-    user = create :user, handle: 'jane'
-    track = create :track, slug: 'fsharp'
-    exercise = create :practice_exercise, slug: 'bob', track: track
+  test "indexes solution with published and latest iteration" do
+    user = create :user, id: 7, handle: 'jane'
+    track = create :track, id: 11, slug: 'fsharp'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
     solution = create :practice_solution,
-      id: 6,
+      id: 17,
       num_stars: 3,
       num_loc: 55,
-      created_at: Time.parse("2020-09-29T23:12:22.000Z").utc,
-      published_at: Time.parse("2020-10-17T02:39:37.000Z").utc,
+      num_views: 20,
+      num_comments: 2,
       user: user,
       exercise: exercise
-    submission_1 = create :submission, solution: solution, tests_status: :passed
+
+    submission_1 = create :submission, solution: solution, tests_status: :failed
+    create :submission_file, submission: submission_1, content: "module LogLineParser"
     iteration_1 = create :iteration, submission: submission_1
 
-    submission_2 = create :submission, solution: solution, tests_status: :failed
+    submission_2 = create :submission, solution: solution, tests_status: :passed
+    create :submission_file, submission: submission_2, content: "module LogLineParser\n\nlet parse str = 2"
     create :iteration, submission: submission_2
 
-    solution.update(published_iteration: iteration_1)
+    solution.update!(
+      published_iteration: iteration_1,
+      published_at: Time.parse("2020-10-17T02:39:37.000Z").utc,
+      last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
+    )
 
-    stub_request(:post, "https://local.exercism.io:9200/solutions/solution").
+    stub_request(:post, "https://opensearch:9200/solutions/solution").
       with(
         body: {
-          id: 6,
+          id: 17,
+          exercise_id: 13,
           exercise_slug: 'bob',
+          track_id: 11,
           track_slug: 'fsharp',
+          author_id: 7,
           author_handle: 'jane',
-          created_at: "2020-09-29T23:12:22.000Z",
+          last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,
           num_loc: 55,
+          num_comments: 2,
+          num_views: 20,
           out_of_date: false,
-          tests_passed: true
+          status: 'published',
+          mentoring_status: 'none',
+          published_iteration: {
+            tests_passed: false,
+            code: ["module LogLineParser"]
+          },
+          latest_iteration: {
+            tests_passed: true,
+            code: ["module LogLineParser\n\nlet parse str = 2"]
+          }
         }.to_json
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::Index.(solution.reload)
+    Solution::Index.(solution)
   end
 
-  test "indexes latest iteration" do
-    user = create :user, handle: 'jane'
-    track = create :track, slug: 'fsharp'
-    exercise = create :practice_exercise, slug: 'bob', track: track
+  test "indexes solution with latest iteration but no published iteration" do
+    user = create :user, id: 7, handle: 'jane'
+    track = create :track, id: 11, slug: 'fsharp'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
     solution = create :practice_solution,
-      id: 6,
+      id: 17,
       num_stars: 3,
       num_loc: 55,
-      created_at: Time.parse("2020-09-29T23:12:22.000Z").utc,
-      published_at: Time.parse("2020-10-17T02:39:37.000Z").utc,
+      num_views: 20,
+      num_comments: 2,
       user: user,
       exercise: exercise
-    submission_1 = create :submission, solution: solution, tests_status: :passed
+
+    submission_1 = create :submission, solution: solution, tests_status: :failed
+    create :submission_file, submission: submission_1, content: "module LogLineParser"
     create :iteration, submission: submission_1
 
-    submission_2 = create :submission, solution: solution, tests_status: :failed
+    submission_2 = create :submission, solution: solution, tests_status: :passed
+    create :submission_file, submission: submission_2, content: "module LogLineParser\n\nlet parse str = 2"
     create :iteration, submission: submission_2
 
-    stub_request(:post, "https://local.exercism.io:9200/solutions/solution").
+    submission_3 = create :submission, solution: solution, tests_status: :failed
+    create :submission_file, submission: submission_3, content: "let parse str = 3"
+    create :iteration, submission: submission_3, deleted_at: Time.current
+
+    solution.update!(last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc)
+
+    stub_request(:post, "https://opensearch:9200/solutions/solution").
       with(
         body: {
-          id: 6,
+          id: 17,
+          exercise_id: 13,
           exercise_slug: 'bob',
+          track_id: 11,
           track_slug: 'fsharp',
+          author_id: 7,
           author_handle: 'jane',
-          created_at: "2020-09-29T23:12:22.000Z",
-          published_at: "2020-10-17T02:39:37.000Z",
+          last_iterated_at: "2021-02-22T11:22:33.000Z",
+          published_at: nil,
           num_stars: 3,
           num_loc: 55,
+          num_comments: 2,
+          num_views: 20,
           out_of_date: false,
-          tests_passed: false
+          status: 'iterated',
+          mentoring_status: 'none',
+          published_iteration: nil,
+          latest_iteration: {
+            tests_passed: true,
+            code: ["module LogLineParser\n\nlet parse str = 2"]
+          }
         }.to_json
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::Index.(solution.reload)
+    Solution::Index.(solution)
+  end
+
+  test "indexes solution with no latest iteration nor published iteration" do
+    user = create :user, id: 7, handle: 'jane'
+    track = create :track, id: 11, slug: 'fsharp'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
+    solution = create :practice_solution,
+      id: 17,
+      num_stars: 3,
+      num_loc: 55,
+      num_views: 20,
+      num_comments: 2,
+      user: user,
+      exercise: exercise
+
+    submission_1 = create :submission, solution: solution, tests_status: :failed
+    create :submission_file, submission: submission_1, content: "module LogLineParser"
+    create :iteration, submission: submission_1, deleted_at: Time.current
+
+    submission_2 = create :submission, solution: solution, tests_status: :passed
+    create :submission_file, submission: submission_2, content: "module LogLineParser\n\nlet parse str = 2"
+    create :iteration, submission: submission_2, deleted_at: Time.current
+
+    solution.update!(last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc)
+
+    stub_request(:post, "https://opensearch:9200/solutions/solution").
+      with(
+        body: {
+          id: 17,
+          exercise_id: 13,
+          exercise_slug: 'bob',
+          track_id: 11,
+          track_slug: 'fsharp',
+          author_id: 7,
+          author_handle: 'jane',
+          last_iterated_at: "2021-02-22T11:22:33.000Z",
+          published_at: nil,
+          num_stars: 3,
+          num_loc: 55,
+          num_comments: 2,
+          num_views: 20,
+          out_of_date: false,
+          status: 'iterated',
+          mentoring_status: 'none',
+          published_iteration: nil,
+          latest_iteration: nil
+        }.to_json
+      ).
+      to_return(status: 200, body: "", headers: {})
+
+    Solution::Index.(solution)
+  end
+
+  test "indexes solution with multiple submission files" do
+    user = create :user, id: 7, handle: 'jane'
+    track = create :track, id: 11, slug: 'fsharp'
+    exercise = create :practice_exercise, id: 13, slug: 'bob', track: track
+    solution = create :practice_solution,
+      id: 17,
+      num_stars: 3,
+      num_loc: 55,
+      num_views: 20,
+      num_comments: 2,
+      user: user,
+      exercise: exercise
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission, content: "module LogLineParser"
+    create :submission_file, submission: submission, content: "module Helper"
+
+    iteration = create :iteration, submission: submission
+    solution.update!(
+      published_iteration: iteration,
+      published_at: Time.parse("2020-10-17T02:39:37.000Z").utc,
+      last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
+    )
+
+    stub_request(:post, "https://opensearch:9200/solutions/solution").
+      with(
+        body: {
+          id: 17,
+          exercise_id: 13,
+          exercise_slug: 'bob',
+          track_id: 11,
+          track_slug: 'fsharp',
+          author_id: 7,
+          author_handle: 'jane',
+          last_iterated_at: "2021-02-22T11:22:33.000Z",
+          published_at: "2020-10-17T02:39:37.000Z",
+          num_stars: 3,
+          num_loc: 55,
+          num_comments: 2,
+          num_views: 20,
+          out_of_date: false,
+          status: 'published',
+          mentoring_status: 'none',
+          published_iteration: {
+            tests_passed: false,
+            code: ["module LogLineParser", "module Helper"]
+          },
+          latest_iteration: {
+            tests_passed: false,
+            code: ["module LogLineParser", "module Helper"]
+          }
+        }.to_json
+      ).
+      to_return(status: 200, body: "", headers: {})
+
+    Solution::Index.(solution)
   end
 end

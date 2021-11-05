@@ -41,7 +41,7 @@ export const useMentoringQueue = ({
   track: MentoredTrack | null
   exercise: MentoredTrackExercise | null
 }): {
-  criteria: string
+  criteria?: string
   setCriteria: (criteria: string) => void
   order: string
   setOrder: (order: string) => void

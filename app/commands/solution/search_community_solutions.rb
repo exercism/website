@@ -25,9 +25,10 @@ class Solution
         order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
         to_a
 
-      total_count = results["hits"]["total"]["value"].to_i
-      Kaminari.paginate_array(solutions, total_count: total_count).
-        page(page).per(per)
+      Kaminari.paginate_array(
+        solutions, 
+        total_count: results["hits"]["total"]["value"].to_i
+      ).page(page).per(per)
     end
 
     private

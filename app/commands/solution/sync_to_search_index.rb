@@ -1,4 +1,4 @@
-class Solution::Index
+class Solution::SyncToSearchIndex
   include Mandate
 
   initialize_with :solution

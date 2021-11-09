@@ -59,7 +59,7 @@ class Solution < ApplicationRecord
   end
 
   after_save do
-    IndexSolutionJob.perform_later(self)
+    SyncSolutionToSearchIndexJob.perform_later(self)
   end
 
   def self.for!(*args)

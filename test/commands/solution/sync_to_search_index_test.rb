@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Solution::IndexTest < ActiveSupport::TestCase
+class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
   test "indexes solution" do
     user = create :user, id: 7, handle: 'jane'
     track = create :track, id: 11, slug: 'fsharp', title: 'F#'
@@ -50,7 +50,7 @@ class Solution::IndexTest < ActiveSupport::TestCase
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::Index.(solution)
+    Solution::SyncToSearchIndex.(solution)
   end
 
   test "indexes out-of-date solution" do
@@ -103,7 +103,7 @@ class Solution::IndexTest < ActiveSupport::TestCase
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::Index.(solution)
+    Solution::SyncToSearchIndex.(solution)
   end
 
   test "indexes solution with tests passing" do
@@ -155,7 +155,7 @@ class Solution::IndexTest < ActiveSupport::TestCase
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::Index.(solution)
+    Solution::SyncToSearchIndex.(solution)
   end
 
   test "indexes solution with published and latest iteration" do
@@ -213,7 +213,7 @@ class Solution::IndexTest < ActiveSupport::TestCase
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::Index.(solution)
+    Solution::SyncToSearchIndex.(solution)
   end
 
   test "indexes solution with latest iteration but no published iteration" do
@@ -268,7 +268,7 @@ class Solution::IndexTest < ActiveSupport::TestCase
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::Index.(solution)
+    Solution::SyncToSearchIndex.(solution)
   end
 
   test "indexes solution with no latest iteration nor published iteration" do
@@ -316,7 +316,7 @@ class Solution::IndexTest < ActiveSupport::TestCase
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::Index.(solution)
+    Solution::SyncToSearchIndex.(solution)
   end
 
   test "indexes solution with multiple submission files" do
@@ -370,6 +370,6 @@ class Solution::IndexTest < ActiveSupport::TestCase
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::Index.(solution)
+    Solution::SyncToSearchIndex.(solution)
   end
 end

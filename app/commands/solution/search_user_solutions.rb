@@ -24,10 +24,11 @@ class Solution
       results = client.search(index: 'solutions', body: search_body)
 
       solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
-      solutions = Solution.where(id: solution_ids).
-        includes(:exercise, :track).
-        order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
-        to_a
+      solutions = solution_ids.present? ?
+        Solution.where(id: solution_ids).
+          includes(:exercise, :track).
+          order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
+          to_a : []
 
       total_count = results["hits"]["total"]["value"].to_i
       Kaminari.paginate_array(solutions, total_count: total_count).
@@ -61,16 +62,14 @@ class Solution
             track_slug.blank? ? nil : { term: { 'track.slug': track_slug } },
             status.blank? ? nil : { term: { status: status } },
             mentoring_status.blank? ? nil : { term: { mentoring_status: mentoring_status } },
-            criteria.blank? ? nil : { multi_match: { query: "*#{criteria}*", fields: ['exercise.title', 'track.title'] } }
+            criteria.blank? ? nil : { query_string: { query: "*#{criteria}*", fields: ['exercise.title', 'track.title'] } }
           ].compact
         }
       }
     end
 
     def search_sort
-      return '_score' if criteria.present?
-
-      [{ last_iterated_at: { order: order&.to_sym == :oldest_first ? :asc : :desc } }]
+      [{ last_iterated_at: { order: order&.to_sym == :oldest_first ? :desc : :asc } }]
     end
 
     memoize

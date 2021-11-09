@@ -20,10 +20,11 @@ class Solution
       results = client.search(index: 'solutions', body: search_body)
 
       solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
-      solutions = Solution.where(id: solution_ids).
-        includes(:exercise, :track).
-        order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
-        to_a
+      solutions = solution_ids.present? ?
+        Solution.where(id: solution_ids).
+          includes(:exercise, :track).
+          order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
+          to_a : []
 
       Kaminari.paginate_array(
         solutions,

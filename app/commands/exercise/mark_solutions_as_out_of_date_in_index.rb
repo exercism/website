@@ -1,4 +1,4 @@
-class Solution::MarkAsOutOfDateInIndex
+class Exercise::MarkSolutionsAsOutOfDateInIndex
   include Mandate
 
   initialize_with :exercise

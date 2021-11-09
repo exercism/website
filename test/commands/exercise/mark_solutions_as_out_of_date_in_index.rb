@@ -1,7 +1,7 @@
 require "test_helper"
 
-class Solution::MarkAsOutOfDateInIndexTest < ActiveSupport::TestCase
-  test "mark all solutions of exercise as out of date in index" do
+class Exercise::MarkSolutionsAsOutOfDateInIndexTest < ActiveSupport::TestCase
+  test "mark all solutions of an exercise as out of date in index" do
     track = create :track, slug: 'fsharp'
     exercise = create :practice_exercise, id: 7, track: track
 
@@ -9,13 +9,13 @@ class Solution::MarkAsOutOfDateInIndexTest < ActiveSupport::TestCase
       with(
         body: {
           script: {
-            source: 'ctx._source.out_of_date = false'
+            source: 'ctx._source.out_of_date = true'
           },
           query: {
             bool: {
               must: [
                 { term: { 'exercise_id': 7 } },
-                { term: { 'out_of_date': true } }
+                { term: { 'out_of_date': false } }
               ]
             }
           }
@@ -23,6 +23,6 @@ class Solution::MarkAsOutOfDateInIndexTest < ActiveSupport::TestCase
       ).
       to_return(status: 200, body: "", headers: {})
 
-    Solution::MarkAsOutOfDateInIndex.(exercise)
+    Exercise::MarkSolutionsAsOutOfDateInIndex.(exercise)
   end
 end

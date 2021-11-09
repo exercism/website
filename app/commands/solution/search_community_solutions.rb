@@ -26,10 +26,11 @@ class Solution
           order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
           to_a : []
 
-      Kaminari.paginate_array(
-        solutions,
-        total_count: results["hits"]["total"]["value"].to_i
-      ).page(page).per(per)
+      total_count = results["hits"]["total"]["value"].to_i
+      Kaminari.paginate_array(solutions, total_count: total_count).
+        page(page).per(per)
+    rescue StandardError
+      Fallback.(exercise, page, per, criteria)
     end
 
     private
@@ -77,6 +78,18 @@ class Solution
         password: ENV['OPENSEARCH_PASSWORD'],
         transport_options: { ssl: { verify: ENV['OPENSEARCH_VERIFY_SSL'] != 'false' } }
       )
+    end
+
+    class Fallback
+      include Mandate
+
+      initialize_with :exercise, :page, :per, :criteria
+
+      def call
+        solutions = exercise.solutions.published.order(num_stars: :desc, id: :desc)
+        solutions = solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%") if @criteria.present?
+        solutions.page(page).per(per)
+      end
     end
   end
 end

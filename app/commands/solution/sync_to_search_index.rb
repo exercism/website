@@ -39,7 +39,7 @@ class Solution::SyncToSearchIndex
       } : nil
     }
 
-    client.index(index: 'solutions', type: 'solution', body: body)
+    client.index(index: 'solutions', type: 'solution', id: solution.id, body: body)
   end
 
   private

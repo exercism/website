@@ -22,13 +22,10 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:post, "https://opensearch:9200/solutions/solution").
+    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
       with(
         body: {
           id: 17,
-          exercise: { id: 13, slug: 'bob', title: 'Bob' },
-          track: { id: 11, slug: 'fsharp', title: 'F#' },
-          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,
@@ -36,17 +33,18 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
           num_comments: 2,
           num_views: 20,
           out_of_date: false,
-          status: 'published',
-          mentoring_status: 'none',
-          published_iteration: {
-            tests_passed: false,
-            code: ["module LogLineParser"]
+          status: "published",
+          mentoring_status: "none",
+          exercise: {
+            id: 13,
+            slug: "bob",
+            title: "Bob"
           },
-          latest_iteration: {
-            tests_passed: false,
-            code: ["module LogLineParser"]
-          }
-        }.to_json
+          track: { id: 11, slug: "fsharp", title: "F#" },
+          user: { id: 7, handle: "jane" },
+          published_iteration: { tests_passed: false, code: ["module LogLineParser"] },
+          latest_iteration: { tests_passed: false, code: ["module LogLineParser"] }
+        }
       ).
       to_return(status: 200, body: "", headers: {})
 
@@ -75,13 +73,10 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:post, "https://opensearch:9200/solutions/solution").
+    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
       with(
         body: {
           id: 17,
-          exercise: { id: 13, slug: 'bob', title: 'Bob' },
-          track: { id: 11, slug: 'fsharp', title: 'F#' },
-          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,
@@ -89,17 +84,18 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
           num_comments: 2,
           num_views: 20,
           out_of_date: true,
-          status: 'published',
-          mentoring_status: 'none',
-          published_iteration: {
-            tests_passed: false,
-            code: ["module LogLineParser"]
+          status: "published",
+          mentoring_status: "none",
+          exercise: {
+            id: 13,
+            slug: "bob",
+            title: "Bob"
           },
-          latest_iteration: {
-            tests_passed: false,
-            code: ["module LogLineParser"]
-          }
-        }.to_json
+          track: { id: 11, slug: "fsharp", title: "F#" },
+          user: { id: 7, handle: "jane" },
+          published_iteration: { tests_passed: false, code: ["module LogLineParser"] },
+          latest_iteration: { tests_passed: false, code: ["module LogLineParser"] }
+        }
       ).
       to_return(status: 200, body: "", headers: {})
 
@@ -127,13 +123,10 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:post, "https://opensearch:9200/solutions/solution").
+    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
       with(
         body: {
           id: 17,
-          exercise: { id: 13, slug: 'bob', title: 'Bob' },
-          track: { id: 11, slug: 'fsharp', title: 'F#' },
-          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,
@@ -141,17 +134,18 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
           num_comments: 2,
           num_views: 20,
           out_of_date: false,
-          status: 'published',
-          mentoring_status: 'none',
-          published_iteration: {
-            tests_passed: true,
-            code: ["module LogLineParser"]
+          status: "published",
+          mentoring_status: "none",
+          exercise: {
+            id: 13,
+            slug: "bob",
+            title: "Bob"
           },
-          latest_iteration: {
-            tests_passed: true,
-            code: ["module LogLineParser"]
-          }
-        }.to_json
+          track: { id: 11, slug: "fsharp", title: "F#" },
+          user: { id: 7, handle: "jane" },
+          published_iteration: { tests_passed: true, code: ["module LogLineParser"] },
+          latest_iteration: { tests_passed: true, code: ["module LogLineParser"] }
+        }
       ).
       to_return(status: 200, body: "", headers: {})
 
@@ -185,7 +179,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:post, "https://opensearch:9200/solutions/solution").
+    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
       with(
         body: {
           id: 17,
@@ -209,7 +203,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
             tests_passed: true,
             code: ["module LogLineParser\n\nlet parse str = 2"]
           }
-        }.to_json
+        }
       ).
       to_return(status: 200, body: "", headers: {})
 
@@ -243,13 +237,10 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     solution.update!(last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc)
 
-    stub_request(:post, "https://opensearch:9200/solutions/solution").
+    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
       with(
         body: {
           id: 17,
-          exercise: { id: 13, slug: 'bob', title: 'Bob' },
-          track: { id: 11, slug: 'fsharp', title: 'F#' },
-          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: nil,
           num_stars: 3,
@@ -257,14 +248,18 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
           num_comments: 2,
           num_views: 20,
           out_of_date: false,
-          status: 'iterated',
-          mentoring_status: 'none',
+          status: "iterated",
+          mentoring_status: "none",
+          exercise: {
+            id: 13,
+            slug: "bob",
+            title: "Bob"
+          },
+          track: { id: 11, slug: "fsharp", title: "F#" },
+          user: { id: 7, handle: "jane" },
           published_iteration: nil,
-          latest_iteration: {
-            tests_passed: true,
-            code: ["module LogLineParser\n\nlet parse str = 2"]
-          }
-        }.to_json
+          latest_iteration: { tests_passed: true, code: ["module LogLineParser\n\nlet parse str = 2"] }
+        }
       ).
       to_return(status: 200, body: "", headers: {})
 
@@ -294,13 +289,10 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     solution.update!(last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc)
 
-    stub_request(:post, "https://opensearch:9200/solutions/solution").
+    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
       with(
         body: {
           id: 17,
-          exercise: { id: 13, slug: 'bob', title: 'Bob' },
-          track: { id: 11, slug: 'fsharp', title: 'F#' },
-          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: nil,
           num_stars: 3,
@@ -308,11 +300,18 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
           num_comments: 2,
           num_views: 20,
           out_of_date: false,
-          status: 'iterated',
-          mentoring_status: 'none',
+          status: "iterated",
+          mentoring_status: "none",
+          exercise: {
+            id: 13,
+            slug: "bob",
+            title: "Bob"
+          },
+          track: { id: 11, slug: "fsharp", title: "F#" },
+          user: { id: 7, handle: "jane" },
           published_iteration: nil,
           latest_iteration: nil
-        }.to_json
+        }
       ).
       to_return(status: 200, body: "", headers: {})
 
@@ -342,13 +341,10 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:post, "https://opensearch:9200/solutions/solution").
+    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
       with(
         body: {
           id: 17,
-          exercise: { id: 13, slug: 'bob', title: 'Bob' },
-          track: { id: 11, slug: 'fsharp', title: 'F#' },
-          user: { id: 7, handle: 'jane' },
           last_iterated_at: "2021-02-22T11:22:33.000Z",
           published_at: "2020-10-17T02:39:37.000Z",
           num_stars: 3,
@@ -356,17 +352,18 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
           num_comments: 2,
           num_views: 20,
           out_of_date: false,
-          status: 'published',
-          mentoring_status: 'none',
-          published_iteration: {
-            tests_passed: false,
-            code: ["module LogLineParser", "module Helper"]
+          status: "published",
+          mentoring_status: "none",
+          exercise: {
+            id: 13,
+            slug: "bob",
+            title: "Bob"
           },
-          latest_iteration: {
-            tests_passed: false,
-            code: ["module LogLineParser", "module Helper"]
-          }
-        }.to_json
+          track: { id: 11, slug: "fsharp", title: "F#" },
+          user: { id: 7, handle: "jane" },
+          published_iteration: { tests_passed: false, code: ["module LogLineParser", "module Helper"] },
+          latest_iteration: { tests_passed: false, code: ["module LogLineParser", "module Helper"] }
+        }
       ).
       to_return(status: 200, body: "", headers: {})
 

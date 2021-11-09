@@ -6,13 +6,13 @@ class Solution::MarkAsOutOfDateInIndex
   def call
     client.update_by_query(index: 'solutions', body: {
       script: {
-        source: 'ctx._source.out_of_date = false'
+        source: 'ctx._source.out_of_date = true'
       },
       query: {
         bool: {
           must: [
             { term: { 'exercise_id': exercise.id } },
-            { term: { 'out_of_date': true } }
+            { term: { 'out_of_date': false } }
           ]
         }
       }

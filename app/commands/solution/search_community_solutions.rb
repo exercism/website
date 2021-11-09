@@ -26,7 +26,7 @@ class Solution
         to_a
 
       Kaminari.paginate_array(
-        solutions, 
+        solutions,
         total_count: results["hits"]["total"]["value"].to_i
       ).page(page).per(per)
     end
@@ -53,7 +53,7 @@ class Solution
         bool: {
           must: [
             { term: { 'exercise.id': exercise.id } },
-            { exists: { field: :published_at } },
+            { term: { status: 'published' } },
             @criteria.blank? ? nil : { wildcard: { 'user.handle': "*#{criteria}*" } }
           ].compact
         }

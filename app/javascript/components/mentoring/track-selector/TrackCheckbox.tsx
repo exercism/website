@@ -1,13 +1,13 @@
 import React from 'react'
 import pluralize from 'pluralize'
 import { Track } from '../TrackSelector'
-import { Icon, TrackIcon } from '../../common'
+import { Icon, MedianWaitTime, TrackIcon } from '../../common'
 
 export const TrackCheckbox = ({
   slug,
   title,
   iconUrl,
-  avgWaitTime,
+  medianWaitTime,
   numSolutionsQueued,
   checked,
   onChange,
@@ -33,8 +33,7 @@ export const TrackCheckbox = ({
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
         <div className="info">
-          {avgWaitTime ? `Avg. wait time ~ ${avgWaitTime}` : null}
-          <br />
+          <MedianWaitTime seconds={medianWaitTime} />
           {numSolutionsQueued} {pluralize('solution', numSolutionsQueued)}{' '}
           queued
         </div>

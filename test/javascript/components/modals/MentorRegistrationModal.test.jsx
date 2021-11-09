@@ -25,7 +25,7 @@ test('preserves chosen tracks when moving through steps', async () => {
               slug: 'ruby',
               title: 'Ruby',
               icon_url: 'https://exercism.test/tracks/ruby.png',
-              avg_wait_time: '2 days',
+              median_wait_time: 1000,
               num_solutions_queued: 550,
             },
           ],

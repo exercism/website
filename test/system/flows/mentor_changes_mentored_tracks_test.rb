@@ -7,8 +7,8 @@ module Flows
     include CapybaraHelpers
 
     test "user changes mentored tracks" do
-      ruby = create :track, title: "Ruby", slug: "ruby"
-      csharp = create :track, title: "C#", slug: "csharp"
+      ruby = create :track, title: "Ruby", slug: "ruby", median_wait_time: 1000
+      csharp = create :track, title: "C#", slug: "csharp", median_wait_time: 2000
       series = create :concept_exercise, title: "Series", track: csharp
       mentor = create :user
       create :user_track_mentorship, track: ruby, user: mentor
@@ -19,8 +19,8 @@ module Flows
         visit mentoring_queue_path
         within(".mentor-queue-filtering") { click_on "Ruby" }
         click_on "Change the tracks you mentor"
-        find("label.track", text: "Ruby").click
-        find("label.track", text: "C#").click
+        find("label.track", text: "Ruby\nAvg. wait time: ~16 minutes").click
+        find("label.track", text: "C#\nAvg. wait time: ~33 minutes").click
         within(".m-change-mentor-tracks") { click_on "Continue" }
 
         assert_text "C#"

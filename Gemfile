@@ -29,7 +29,7 @@ gem 'kaminari'
 gem 'oj'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.76.0'
+gem 'exercism-config', '>= 0.77.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies

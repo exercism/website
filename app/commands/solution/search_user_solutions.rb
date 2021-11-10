@@ -21,7 +21,7 @@ class Solution
     end
 
     def call
-      results = client.search(index: 'solutions', body: search_body)
+      results = Exercism.opensearch_client.search(index: 'solutions', body: search_body)
 
       solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
       solutions = solution_ids.present? ?
@@ -73,17 +73,6 @@ criteria: criteria, order: order)
 
     def search_sort
       [{ last_iterated_at: { order: order&.to_sym == :oldest_first ? :desc : :asc } }]
-    end
-
-    memoize
-    def client
-      # TODO: use Exercism.opensearch_client once the config gem has been updated
-      Elasticsearch::Client.new(
-        url: ENV['OPENSEARCH_HOST'],
-        user: ENV['OPENSEARCH_USER'],
-        password: ENV['OPENSEARCH_PASSWORD'],
-        transport_options: { ssl: { verify: ENV['OPENSEARCH_VERIFY_SSL'] != 'false' } }
-      )
     end
 
     class Fallback

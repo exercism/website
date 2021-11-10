@@ -39,7 +39,7 @@ class Solution::SyncToSearchIndex
       } : nil
     }
 
-    client.index(index: 'solutions', type: 'solution', id: solution.id, body: body)
+    Exercism.opensearch_client.index(index: 'solutions', type: 'solution', id: solution.id, body: body)
   end
 
   private
@@ -51,15 +51,5 @@ class Solution::SyncToSearchIndex
   memoize
   def latest_iteration
     solution.latest_iteration
-  end
-
-  def client
-    # TODO: use Exercism.opensearch_client once the config gem has been updated
-    Elasticsearch::Client.new(
-      url: ENV['OPENSEARCH_HOST'],
-      user: ENV['OPENSEARCH_USER'],
-      password: ENV['OPENSEARCH_PASSWORD'],
-      transport_options: { ssl: { verify: ENV['OPENSEARCH_VERIFY_SSL'] != 'false' } }
-    )
   end
 end

@@ -4,7 +4,7 @@ class Exercise::MarkSolutionsAsOutOfDateInIndex
   initialize_with :exercise
 
   def call
-    client.update_by_query(index: 'solutions', body: {
+    Exercism.opensearch_client.update_by_query(index: 'solutions', body: {
       script: {
         source: 'ctx._source.out_of_date = true'
       },
@@ -17,16 +17,5 @@ class Exercise::MarkSolutionsAsOutOfDateInIndex
         }
       }
     })
-  end
-
-  private
-  def client
-    # TODO: use Exercism.opensearch_client once the config gem has been updated
-    Elasticsearch::Client.new(
-      url: ENV['OPENSEARCH_HOST'],
-      user: ENV['OPENSEARCH_USER'],
-      password: ENV['OPENSEARCH_PASSWORD'],
-      transport_options: { ssl: { verify: ENV['OPENSEARCH_VERIFY_SSL'] != 'false' } }
-    )
   end
 end

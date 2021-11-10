@@ -4,7 +4,8 @@ class Exercise::MarkSolutionsAsOutOfDateInIndex
   initialize_with :exercise
 
   def call
-    Exercism.opensearch_client.update_by_query(index: 'solutions', body: {
+    # Clear out opensearch
+    Exercism.opensearch_client.update_by_query(index: "#{Exercism.env}-solutions", body: {
       script: {
         source: 'ctx._source.out_of_date = true'
       },

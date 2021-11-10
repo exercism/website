@@ -39,7 +39,7 @@ class Solution::SyncToSearchIndex
       } : nil
     }
 
-    Exercism.opensearch_client.index(index: 'solutions', type: 'solution', id: solution.id, body: body)
+    Exercism.opensearch_client.index(index: "#{Exercism.env}-solutions", type: 'solution', id: solution.id, body: body)
   end
 
   private

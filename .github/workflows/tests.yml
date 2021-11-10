@@ -110,6 +110,25 @@ jobs:
         ports:
           - 4566
 
+      opensearch:
+        image: opensearchproject/opensearch:1.1.0
+        environment:
+          - node.name=opensearch
+          - cluster.name=opensearch-cluster
+          - discovery.type=single-node
+          - bootstrap.memory_lock=true
+          - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+          memlock:
+            soft: -1
+            hard: -1
+          nofile:
+            soft: 65536
+            hard: 65536
+        ports:
+          - 9200:9200
+          - 9600:9600
+
     steps:
       ###
       # Checkout using GitHub's checkout action

@@ -95,7 +95,8 @@ if ENV["EXERCISM_CI"]
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "127.0.0.1:#{ENV['AWS_PORT']}"
+      "127.0.0.1:#{ENV['AWS_PORT']}",
+      "127.0.0.1:#{ENV['OPENSEARCH_PORT']}"
     ]
   )
 else
@@ -105,7 +106,7 @@ else
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "localhost:3040", "aws"
+      "localhost:3040", "aws", "opensearch"
     ]
   )
 end

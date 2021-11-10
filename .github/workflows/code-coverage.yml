@@ -36,6 +36,24 @@ jobs:
         ports:
           - 4566
 
+      opensearch:
+        image: opensearchproject/opensearch:1.1.0
+        environment:
+          - node.name=opensearch
+          - cluster.name=opensearch-cluster
+          - discovery.type=single-node
+          - bootstrap.memory_lock=true
+          - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+          memlock:
+            soft: -1
+            hard: -1
+          nofile:
+            soft: 65536
+            hard: 65536
+        ports:
+          - 9200
+
     steps:
       ###
       # Checkout using GitHub's checkout action
@@ -74,6 +92,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
         run: |
           yarn install
           bundle exec setup_exercism_config
@@ -103,6 +122,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
           CAPTURE_CODE_COVERAGE: true
         run: |
           bundle exec rails test:zeitwerk

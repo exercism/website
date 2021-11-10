@@ -1,6 +1,14 @@
 require "test_helper"
 
 class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
+  SOLUTIONS_INDEX = 'test-solutions'.freeze
+
+  setup do
+    @opensearch = Exercism.opensearch_client
+    @opensearch.indices.delete(index: SOLUTIONS_INDEX) if @opensearch.indices.exists(index: SOLUTIONS_INDEX)
+    @opensearch.indices.create(index: SOLUTIONS_INDEX)
+  end
+
   test "indexes solution" do
     user = create :user, id: 7, handle: 'jane'
     track = create :track, id: 11, slug: 'fsharp', title: 'F#'
@@ -16,39 +24,44 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     submission = create :submission, solution: solution
     create :submission_file, submission: submission, content: "module LogLineParser"
     iteration = create :iteration, submission: submission
+
     solution.update!(
       published_iteration: iteration,
       published_at: Time.parse("2020-10-17T02:39:37.000Z").utc,
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
-      with(
-        body: {
-          id: 17,
-          last_iterated_at: "2021-02-22T11:22:33.000Z",
-          published_at: "2020-10-17T02:39:37.000Z",
-          num_stars: 3,
-          num_loc: 55,
-          num_comments: 2,
-          num_views: 20,
-          out_of_date: false,
-          status: "published",
-          mentoring_status: "none",
-          exercise: {
-            id: 13,
-            slug: "bob",
-            title: "Bob"
-          },
-          track: { id: 11, slug: "fsharp", title: "F#" },
-          user: { id: 7, handle: "jane" },
-          published_iteration: { tests_passed: false, code: ["module LogLineParser"] },
-          latest_iteration: { tests_passed: false, code: ["module LogLineParser"] }
-        }
-      ).
-      to_return(status: 200, body: "", headers: {})
-
     Solution::SyncToSearchIndex.(solution)
+
+    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    expected = {
+      "_index" => "test-solutions",
+      "_type" => "solution",
+      "_id" => "17",
+      "found" => true,
+      "_source" => {
+        "id" => 17,
+        "last_iterated_at" => "2021-02-22T11:22:33.000Z",
+        "published_at" => "2020-10-17T02:39:37.000Z",
+        "num_stars" => 3,
+        "num_loc" => 55,
+        "num_comments" => 2,
+        "num_views" => 20,
+        "out_of_date" => false,
+        "status" => "published",
+        "mentoring_status" => "none",
+        "exercise" => {
+          "id" => 13,
+          "slug" => "bob",
+          "title" => "Bob"
+        },
+        "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
+        "user" => { "id" => 7, "handle" => "jane" },
+        "published_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser"] },
+        "latest_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser"] }
+      }
+    }
+    assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
   end
 
   test "indexes out-of-date solution" do
@@ -73,33 +86,37 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
-      with(
-        body: {
-          id: 17,
-          last_iterated_at: "2021-02-22T11:22:33.000Z",
-          published_at: "2020-10-17T02:39:37.000Z",
-          num_stars: 3,
-          num_loc: 55,
-          num_comments: 2,
-          num_views: 20,
-          out_of_date: true,
-          status: "published",
-          mentoring_status: "none",
-          exercise: {
-            id: 13,
-            slug: "bob",
-            title: "Bob"
-          },
-          track: { id: 11, slug: "fsharp", title: "F#" },
-          user: { id: 7, handle: "jane" },
-          published_iteration: { tests_passed: false, code: ["module LogLineParser"] },
-          latest_iteration: { tests_passed: false, code: ["module LogLineParser"] }
-        }
-      ).
-      to_return(status: 200, body: "", headers: {})
-
     Solution::SyncToSearchIndex.(solution)
+
+    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    expected = {
+      "_index" => "test-solutions",
+      "_type" => "solution",
+      "_id" => "17",
+      "found" => true,
+      "_source" => {
+        "id" => 17,
+        "last_iterated_at" => "2021-02-22T11:22:33.000Z",
+        "published_at" => "2020-10-17T02:39:37.000Z",
+        "num_stars" => 3,
+        "num_loc" => 55,
+        "num_comments" => 2,
+        "num_views" => 20,
+        "out_of_date" => true,
+        "status" => "published",
+        "mentoring_status" => "none",
+        "exercise" => {
+          "id" => 13,
+          "slug" => "bob",
+          "title" => "Bob"
+        },
+        "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
+        "user" => { "id" => 7, "handle" => "jane" },
+        "published_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser"] },
+        "latest_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser"] }
+      }
+    }
+    assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
   end
 
   test "indexes solution with tests passing" do
@@ -123,33 +140,37 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
-      with(
-        body: {
-          id: 17,
-          last_iterated_at: "2021-02-22T11:22:33.000Z",
-          published_at: "2020-10-17T02:39:37.000Z",
-          num_stars: 3,
-          num_loc: 55,
-          num_comments: 2,
-          num_views: 20,
-          out_of_date: false,
-          status: "published",
-          mentoring_status: "none",
-          exercise: {
-            id: 13,
-            slug: "bob",
-            title: "Bob"
-          },
-          track: { id: 11, slug: "fsharp", title: "F#" },
-          user: { id: 7, handle: "jane" },
-          published_iteration: { tests_passed: true, code: ["module LogLineParser"] },
-          latest_iteration: { tests_passed: true, code: ["module LogLineParser"] }
-        }
-      ).
-      to_return(status: 200, body: "", headers: {})
-
     Solution::SyncToSearchIndex.(solution)
+
+    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    expected = {
+      "_index" => "test-solutions",
+      "_type" => "solution",
+      "_id" => "17",
+      "found" => true,
+      "_source" => {
+        "id" => 17,
+        "last_iterated_at" => "2021-02-22T11:22:33.000Z",
+        "published_at" => "2020-10-17T02:39:37.000Z",
+        "num_stars" => 3,
+        "num_loc" => 55,
+        "num_comments" => 2,
+        "num_views" => 20,
+        "out_of_date" => false,
+        "status" => "published",
+        "mentoring_status" => "none",
+        "exercise" => {
+          "id" => 13,
+          "slug" => "bob",
+          "title" => "Bob"
+        },
+        "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
+        "user" => { "id" => 7, "handle" => "jane" },
+        "published_iteration" => { "tests_passed" => true, "code" => ["module LogLineParser"] },
+        "latest_iteration" => { "tests_passed" => true, "code" => ["module LogLineParser"] }
+      }
+    }
+    assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
   end
 
   test "indexes solution with published and latest iteration" do
@@ -179,35 +200,37 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
-      with(
-        body: {
-          id: 17,
-          exercise: { id: 13, slug: 'bob', title: 'Bob' },
-          track: { id: 11, slug: 'fsharp', title: 'F#' },
-          user: { id: 7, handle: 'jane' },
-          last_iterated_at: "2021-02-22T11:22:33.000Z",
-          published_at: "2020-10-17T02:39:37.000Z",
-          num_stars: 3,
-          num_loc: 55,
-          num_comments: 2,
-          num_views: 20,
-          out_of_date: false,
-          status: 'published',
-          mentoring_status: 'none',
-          published_iteration: {
-            tests_passed: false,
-            code: ["module LogLineParser"]
-          },
-          latest_iteration: {
-            tests_passed: true,
-            code: ["module LogLineParser\n\nlet parse str = 2"]
-          }
-        }
-      ).
-      to_return(status: 200, body: "", headers: {})
-
     Solution::SyncToSearchIndex.(solution)
+
+    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    expected = {
+      "_index" => "test-solutions",
+      "_type" => "solution",
+      "_id" => "17",
+      "found" => true,
+      "_source" => {
+        "id" => 17,
+        "last_iterated_at" => "2021-02-22T11:22:33.000Z",
+        "published_at" => "2020-10-17T02:39:37.000Z",
+        "num_stars" => 3,
+        "num_loc" => 55,
+        "num_comments" => 2,
+        "num_views" => 20,
+        "out_of_date" => false,
+        "status" => "published",
+        "mentoring_status" => "none",
+        "exercise" => {
+          "id" => 13,
+          "slug" => "bob",
+          "title" => "Bob"
+        },
+        "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
+        "user" => { "id" => 7, "handle" => "jane" },
+        "published_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser"] },
+        "latest_iteration" => { "tests_passed" => true, "code" => ["module LogLineParser\n\nlet parse str = 2"] }
+      }
+    }
+    assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
   end
 
   test "indexes solution with latest iteration but no published iteration" do
@@ -237,33 +260,37 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     solution.update!(last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc)
 
-    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
-      with(
-        body: {
-          id: 17,
-          last_iterated_at: "2021-02-22T11:22:33.000Z",
-          published_at: nil,
-          num_stars: 3,
-          num_loc: 55,
-          num_comments: 2,
-          num_views: 20,
-          out_of_date: false,
-          status: "iterated",
-          mentoring_status: "none",
-          exercise: {
-            id: 13,
-            slug: "bob",
-            title: "Bob"
-          },
-          track: { id: 11, slug: "fsharp", title: "F#" },
-          user: { id: 7, handle: "jane" },
-          published_iteration: nil,
-          latest_iteration: { tests_passed: true, code: ["module LogLineParser\n\nlet parse str = 2"] }
-        }
-      ).
-      to_return(status: 200, body: "", headers: {})
-
     Solution::SyncToSearchIndex.(solution)
+
+    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    expected = {
+      "_index" => "test-solutions",
+      "_type" => "solution",
+      "_id" => "17",
+      "found" => true,
+      "_source" => {
+        "id" => 17,
+        "last_iterated_at" => "2021-02-22T11:22:33.000Z",
+        "published_at" => nil,
+        "num_stars" => 3,
+        "num_loc" => 55,
+        "num_comments" => 2,
+        "num_views" => 20,
+        "out_of_date" => false,
+        "status" => "iterated",
+        "mentoring_status" => "none",
+        "exercise" => {
+          "id" => 13,
+          "slug" => "bob",
+          "title" => "Bob"
+        },
+        "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
+        "user" => { "id" => 7, "handle" => "jane" },
+        "published_iteration" => nil,
+        "latest_iteration" => { "tests_passed" => true, "code" => ["module LogLineParser\n\nlet parse str = 2"] }
+      }
+    }
+    assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
   end
 
   test "indexes solution with no latest iteration nor published iteration" do
@@ -289,33 +316,37 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     solution.update!(last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc)
 
-    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
-      with(
-        body: {
-          id: 17,
-          last_iterated_at: "2021-02-22T11:22:33.000Z",
-          published_at: nil,
-          num_stars: 3,
-          num_loc: 55,
-          num_comments: 2,
-          num_views: 20,
-          out_of_date: false,
-          status: "iterated",
-          mentoring_status: "none",
-          exercise: {
-            id: 13,
-            slug: "bob",
-            title: "Bob"
-          },
-          track: { id: 11, slug: "fsharp", title: "F#" },
-          user: { id: 7, handle: "jane" },
-          published_iteration: nil,
-          latest_iteration: nil
-        }
-      ).
-      to_return(status: 200, body: "", headers: {})
-
     Solution::SyncToSearchIndex.(solution)
+
+    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    expected = {
+      "_index" => "test-solutions",
+      "_type" => "solution",
+      "_id" => "17",
+      "found" => true,
+      "_source" => {
+        "id" => 17,
+        "last_iterated_at" => "2021-02-22T11:22:33.000Z",
+        "published_at" => nil,
+        "num_stars" => 3,
+        "num_loc" => 55,
+        "num_comments" => 2,
+        "num_views" => 20,
+        "out_of_date" => false,
+        "status" => "iterated",
+        "mentoring_status" => "none",
+        "exercise" => {
+          "id" => 13,
+          "slug" => "bob",
+          "title" => "Bob"
+        },
+        "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
+        "user" => { "id" => 7, "handle" => "jane" },
+        "published_iteration" => nil,
+        "latest_iteration" => nil
+      }
+    }
+    assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
   end
 
   test "indexes solution with multiple submission files" do
@@ -341,32 +372,36 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
     )
 
-    stub_request(:put, "https://opensearch:9200/solutions/solution/17").
-      with(
-        body: {
-          id: 17,
-          last_iterated_at: "2021-02-22T11:22:33.000Z",
-          published_at: "2020-10-17T02:39:37.000Z",
-          num_stars: 3,
-          num_loc: 55,
-          num_comments: 2,
-          num_views: 20,
-          out_of_date: false,
-          status: "published",
-          mentoring_status: "none",
-          exercise: {
-            id: 13,
-            slug: "bob",
-            title: "Bob"
-          },
-          track: { id: 11, slug: "fsharp", title: "F#" },
-          user: { id: 7, handle: "jane" },
-          published_iteration: { tests_passed: false, code: ["module LogLineParser", "module Helper"] },
-          latest_iteration: { tests_passed: false, code: ["module LogLineParser", "module Helper"] }
-        }
-      ).
-      to_return(status: 200, body: "", headers: {})
-
     Solution::SyncToSearchIndex.(solution)
+
+    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    expected = {
+      "_index" => "test-solutions",
+      "_type" => "solution",
+      "_id" => "17",
+      "found" => true,
+      "_source" => {
+        "id" => 17,
+        "last_iterated_at" => "2021-02-22T11:22:33.000Z",
+        "published_at" => "2020-10-17T02:39:37.000Z",
+        "num_stars" => 3,
+        "num_loc" => 55,
+        "num_comments" => 2,
+        "num_views" => 20,
+        "out_of_date" => false,
+        "status" => "published",
+        "mentoring_status" => "none",
+        "exercise" => {
+          "id" => 13,
+          "slug" => "bob",
+          "title" => "Bob"
+        },
+        "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
+        "user" => { "id" => 7, "handle" => "jane" },
+        "published_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser", "module Helper"] },
+        "latest_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser", "module Helper"] }
+      }
+    }
+    assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
   end
 end

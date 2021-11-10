@@ -126,8 +126,7 @@ jobs:
             soft: 65536
             hard: 65536
         ports:
-          - 9200:9200
-          - 9600:9600
+          - 9200
 
     steps:
       ###
@@ -176,6 +175,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
         run: |
           yarn install
           bundle exec setup_exercism_config
@@ -189,6 +189,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
         run: |
           bundle exec rails test:zeitwerk
           bundle exec rails test
@@ -286,6 +287,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
         run: |
           yarn install
           bundle exec setup_exercism_config
@@ -300,6 +302,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
         run: |
           bundle exec rails assets:precompile
 
@@ -311,6 +314,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
         run: bundle exec rails test ${{ matrix.tests }}
 
   system-tests-completed:
@@ -364,6 +368,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
         run: |
           yarn install
 

@@ -20,8 +20,7 @@ git_important_files_hash: exercise_1.git_important_files_hash
 git_important_files_hash: exercise_2.git_important_files_hash
     solution_4 = create :practice_solution, exercise: exercise_2, user: user_2
 
-    # Solutions are automatically indexed via a job in the background
-    perform_enqueued_jobs
+    wait_for_opensearch_to_be_synced
 
     # Sanity check
     assert out_of_date_in_index?(solution_1)
@@ -29,8 +28,7 @@ git_important_files_hash: exercise_2.git_important_files_hash
     refute out_of_date_in_index?(solution_3)
     refute out_of_date_in_index?(solution_4)
 
-    # Force an index refresh to ensure there are no concurrent actions in the background
-    Exercism.opensearch_client.indices.refresh(index: SOLUTIONS_INDEX)
+    wait_for_opensearch_to_be_synced
 
     Exercise::MarkSolutionsAsOutOfDateInIndex.(exercise_1)
 

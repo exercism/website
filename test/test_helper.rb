@@ -246,6 +246,14 @@ class ActiveSupport::TestCase
   def get_opensearch_doc(index, id)
     Exercism.opensearch_client.get(index: index, id: id)
   end
+
+  def wait_for_opensearch_to_be_synced
+    # Solutions are automatically indexed via a job in the background
+    perform_enqueued_jobs
+
+    # Force an index refresh to ensure there are no concurrent actions in the background
+    Exercism.opensearch_client.indices.refresh(index: 'test-solutions')
+  end
 end
 
 class ActionView::TestCase

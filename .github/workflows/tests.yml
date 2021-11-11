@@ -113,11 +113,7 @@ jobs:
       opensearch:
         image: opensearchproject/opensearch:1.1.0
         env:
-          node.name: opensearch
-          cluster.name: opensearch-cluster
           discovery.type: single-node
-          bootstrap.memory_lock: true
-          OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
         ports:
           - 9200
 
@@ -247,11 +243,7 @@ jobs:
       opensearch:
         image: opensearchproject/opensearch:1.1.0
         env:
-          node.name: opensearch
-          cluster.name: opensearch-cluster
           discovery.type: single-node
-          bootstrap.memory_lock: true
-          OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
         ports:
           - 9200
 

@@ -1,8 +1,6 @@
 require "test_helper"
 
 class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
-  SOLUTIONS_INDEX = 'test-solutions'.freeze
-
   setup do
     reset_opensearch!
   end

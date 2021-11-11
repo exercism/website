@@ -1,8 +1,6 @@
 require "test_helper"
 
 class Exercise::MarkSolutionsAsOutOfDateInIndexTest < ActiveSupport::TestCase
-  SOLUTIONS_INDEX = 'test-solutions'.freeze
-
   setup do
     reset_opensearch!
   end
@@ -40,7 +38,7 @@ git_important_files_hash: exercise_2.git_important_files_hash
 
   private
   def out_of_date_in_index?(solution)
-    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
+    doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     doc["_source"]["out_of_date"]
   end
 end

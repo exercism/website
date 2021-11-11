@@ -166,7 +166,7 @@
                             }
 
                             /* It would be nice to DRY this up with application.css
-                             * but its tricky with the adjecent element. */
+                             * but it's tricky with the adjacent element. */
                             &:focus {
                                 & + .label {
                                     outline: 5px auto -webkit-focus-ring-color;

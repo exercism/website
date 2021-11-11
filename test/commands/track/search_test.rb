@@ -42,7 +42,7 @@ class Track::SearchTest < ActiveSupport::TestCase
     end
   end
 
-  test "status: raises unless its valid" do
+  test "status: raises unless it's valid" do
     assert_raises TrackSearchInvalidStatusError do
       Track::Search.(status: :foobar, user: create(:user))
     end

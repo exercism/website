@@ -65,8 +65,8 @@ class Solution
 
     def search_sort
       [
-        { num_stars: { order: :desc } },
-        { id: { order: :desc } }
+        { num_stars: { order: :desc, unmapped_type: "integer" } },
+        { id: { order: :desc, unmapped_type: "integer" } }
       ]
     end
 

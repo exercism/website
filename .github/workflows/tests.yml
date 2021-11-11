@@ -110,6 +110,13 @@ jobs:
         ports:
           - 4566
 
+      opensearch:
+        image: opensearchproject/opensearch:1.1.0
+        env:
+          discovery.type: single-node
+        ports:
+          - 9200
+
     steps:
       ###
       # Checkout using GitHub's checkout action
@@ -170,6 +177,9 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
+          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+          OPENSEARCH_VERIFY_SSL: false
         run: |
           bundle exec rails test:zeitwerk
           bundle exec rails test
@@ -229,6 +239,13 @@ jobs:
         image: "localstack/localstack:0.12.3"
         ports:
           - 4566
+
+      opensearch:
+        image: opensearchproject/opensearch:1.1.0
+        env:
+          discovery.type: single-node
+        ports:
+          - 9200
 
     steps:
       ###
@@ -292,6 +309,9 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
+          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+          OPENSEARCH_VERIFY_SSL: false
         run: bundle exec rails test ${{ matrix.tests }}
 
   system-tests-completed:
@@ -345,6 +365,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
         run: |
           yarn install
 

@@ -68,10 +68,11 @@ You need the following installed:
 - [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
 - [S3Mock](https://github.com/adobe/s3mock)
 
-Run localstack for a local AWS:
+Run localstack for a local AWS, and elasticsearch seperately:
 
 ```bash
 docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
+docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:1.1.0
 ```
 
 #### Mac-Specific

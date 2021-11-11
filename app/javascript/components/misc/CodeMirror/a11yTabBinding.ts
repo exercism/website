@@ -135,7 +135,7 @@ export function a11yTabBindingPanel() {
     showPanel.of(createA11yTabBindingPanel),
     a11yTabBindingPanelTheme,
 
-    // We'll ideally add this here too, but currently its needed
+    // We'll ideally add this here too, but currently it's needed
     // for when the editor gets reconfigured downstream of this.
     // tabCaptureCompartment.of( keymap.of(isTabCaptured ? [a11yTabBinding] : [])),
   ]

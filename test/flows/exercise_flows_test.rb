@@ -14,7 +14,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     create :hello_world_solution, :completed, track: track, user: user
 
     # User joins the track
-    # Check its retrieved correctly.
+    # Check it's retrieved correctly.
     ut = UserTrack::Create.(user, track)
     assert_equal ut, UserTrack.for!(user, track)
 

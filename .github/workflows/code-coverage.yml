@@ -36,6 +36,13 @@ jobs:
         ports:
           - 4566
 
+      opensearch:
+        image: opensearchproject/opensearch:1.1.0
+        env:
+          discovery.type: single-node
+        ports:
+          - 9200
+
     steps:
       ###
       # Checkout using GitHub's checkout action
@@ -103,6 +110,9 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
+          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+          OPENSEARCH_VERIFY_SSL: false
           CAPTURE_CODE_COVERAGE: true
         run: |
           bundle exec rails test:zeitwerk

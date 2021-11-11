@@ -42,6 +42,10 @@ class API::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "index should search and return solutions" do
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
+
+    reset_opensearch!
+
     setup_user
     ruby = create :track, title: "Ruby"
     ruby_bob = create :concept_exercise, track: ruby, title: "Bob"
@@ -50,6 +54,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
       exercise: ruby_bob,
       status: :published,
       mentoring_status: "finished"
+
+    wait_for_opensearch_to_be_synced
 
     get api_solutions_path(
       criteria: "ru",

@@ -95,7 +95,8 @@ if ENV["EXERCISM_CI"]
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "127.0.0.1:#{ENV['AWS_PORT']}"
+      "127.0.0.1:#{ENV['AWS_PORT']}",
+      "127.0.0.1:#{ENV['OPENSEARCH_PORT']}"
     ]
   )
 else
@@ -105,7 +106,8 @@ else
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "localhost:3040", "aws"
+      "localhost:3040", "localhost:9200",
+      "aws", "opensearch"
     ]
   )
 end
@@ -231,6 +233,27 @@ class ActiveSupport::TestCase
       bucket: bucket,
       key: key
     ).body.read
+  end
+
+  ######################
+  # OpenSearch Helpers #
+  ######################
+  def reset_opensearch!
+    opensearch = Exercism.opensearch_client
+    opensearch.indices.delete(index: Solution::OPENSEARCH_INDEX) if opensearch.indices.exists(index: Solution::OPENSEARCH_INDEX)
+    opensearch.indices.create(index: Solution::OPENSEARCH_INDEX)
+  end
+
+  def get_opensearch_doc(index, id)
+    Exercism.opensearch_client.get(index: index, id: id)
+  end
+
+  def wait_for_opensearch_to_be_synced
+    # Wait for enqueued jobs to finish as opensearch is always updated from within jobs
+    perform_enqueued_jobs
+
+    # Force an index refresh to ensure there are no concurrent actions in the background
+    Exercism.opensearch_client.indices.refresh(index: Solution::OPENSEARCH_INDEX)
   end
 end
 

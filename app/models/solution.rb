@@ -1,6 +1,8 @@
 class Solution < ApplicationRecord
   extend Mandate::Memoize
 
+  OPENSEARCH_INDEX = "#{Rails.env}-solutions".freeze
+
   enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: 'mentoring'
   enum status: { started: 0, iterated: 1, completed: 2, published: 3 }, _prefix: true
 
@@ -23,6 +25,8 @@ class Solution < ApplicationRecord
   has_many :submissions, dependent: :destroy
   has_many :iterations, dependent: :destroy
   has_many :user_activities, class_name: "User::Activity", dependent: :destroy
+
+  has_one :latest_iteration, -> { where(deleted_at: nil).order('id DESC') }, class_name: "Iteration" # rubocop:disable Rails/InverseOf
 
   has_many :comments, dependent: :destroy
   has_many :stars, dependent: :destroy
@@ -56,6 +60,10 @@ class Solution < ApplicationRecord
 
   before_update do
     self.status = determine_status
+  end
+
+  after_save do
+    SyncSolutionToSearchIndexJob.perform_later(self)
   end
 
   def self.for!(*args)
@@ -106,11 +114,6 @@ class Solution < ApplicationRecord
     return [published_iteration] if published_iteration && !published_iteration.deleted?
 
     iterations.not_deleted
-  end
-
-  memoize
-  def latest_iteration
-    iterations.not_deleted.last
   end
 
   memoize

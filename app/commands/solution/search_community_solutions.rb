@@ -17,25 +17,69 @@ class Solution
     end
 
     def call
-      @solutions = exercise.solutions.published
+      results = Exercism.opensearch_client.search(index: Solution::OPENSEARCH_INDEX, body: search_body)
 
-      filter_criteria!
-      sort!
+      solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
+      solutions = solution_ids.present? ?
+        Solution.where(id: solution_ids).
+          includes(:exercise, :track).
+          order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
+          to_a : []
 
-      @solutions.page(page).per(per)
-    end
-
-    def filter_criteria!
-      return if @criteria.blank?
-
-      @solutions = @solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%")
-    end
-
-    def sort!
-      @solutions = @solutions.order(num_stars: :desc, id: :desc)
+      total_count = results["hits"]["total"]["value"].to_i
+      Kaminari.paginate_array(solutions, total_count: total_count).
+        page(page).per(per)
+    rescue StandardError => e
+      Bugsnag.notify(e)
+      Fallback.(exercise, page, per, criteria)
     end
 
     private
     attr_reader :exercise, :per, :page, :solutions, :criteria
+
+    def search_body
+      {
+        query: search_query,
+        sort: search_sort,
+
+        # Only return the solution IDs, not the entire document, to improve performance
+        _source: [:id],
+
+        # Paging information
+        from: (page - 1) * per,
+        size: per
+      }
+    end
+
+    def search_query
+      {
+        bool: {
+          must: [
+            { term: { 'exercise.id': exercise.id } },
+            { term: { status: 'published' } },
+            @criteria.blank? ? nil : { wildcard: { 'user.handle': "*#{criteria}*" } }
+          ].compact
+        }
+      }
+    end
+
+    def search_sort
+      [
+        { num_stars: { order: :desc, unmapped_type: "integer" } },
+        { id: { order: :desc, unmapped_type: "integer" } }
+      ]
+    end
+
+    class Fallback
+      include Mandate
+
+      initialize_with :exercise, :page, :per, :criteria
+
+      def call
+        solutions = exercise.solutions.published.order(num_stars: :desc, id: :desc)
+        solutions = solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%") if @criteria.present?
+        solutions.page(page).per(per)
+      end
+    end
   end
 end

@@ -26,6 +26,8 @@ class Solution < ApplicationRecord
   has_many :iterations, dependent: :destroy
   has_many :user_activities, class_name: "User::Activity", dependent: :destroy
 
+  has_one :latest_iteration, -> { where(deleted_at: nil).order('id DESC') }, class_name: "Iteration" # rubocop:disable Rails/InverseOf
+
   has_many :comments, dependent: :destroy
   has_many :stars, dependent: :destroy
 
@@ -112,11 +114,6 @@ class Solution < ApplicationRecord
     return [published_iteration] if published_iteration && !published_iteration.deleted?
 
     iterations.not_deleted
-  end
-
-  memoize
-  def latest_iteration
-    iterations.not_deleted.last
   end
 
   memoize

@@ -184,6 +184,7 @@ jobs:
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+          OPENSEARCH_VERIFY_SSL: false
         run: |
           bundle exec rails test:zeitwerk
           bundle exec rails test

@@ -686,16 +686,16 @@ class SolutionTest < ActiveSupport::TestCase
     assert solution.viewable_by?(nil)
   end
 
-  test "enqueues index solution job when creating" do
-    assert_enqueued_with(job: IndexSolutionJob) do
+  test "creating solution enqueues job to sync solution to search index" do
+    assert_enqueued_with(job: SyncSolutionToSearchIndexJob) do
       create :practice_solution
     end
   end
 
-  test "enqueues index solution job when updating" do
+  test "updating solution enqueues job to sync solution to search index" do
     solution = create :practice_solution
 
-    assert_enqueued_with(job: IndexSolutionJob, args: [solution]) do
+    assert_enqueued_with(job: SyncSolutionToSearchIndexJob, args: [solution]) do
       solution.update!(published_at: Time.current)
     end
   end

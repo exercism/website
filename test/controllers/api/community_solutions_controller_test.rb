@@ -25,6 +25,8 @@ module API
     end
 
     test "index should search and return solutions" do
+      reset_opensearch!
+
       track = create :track
       exercise = create :concept_exercise, :random_slug, track: track
       solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current
@@ -32,6 +34,8 @@ module API
       solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current
       create :iteration, solution: solution_2
       create :concept_solution, published_at: Time.current
+
+      wait_for_opensearch_to_be_synced
 
       get api_track_exercise_community_solutions_path(
         track, exercise

@@ -58,12 +58,18 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "index retrieves solutions" do
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
+
+    reset_opensearch!
+
     setup_user
 
     profile_user = create(:user_profile).user
     5.times { create :practice_solution, :published, user: profile_user }
 
     Solution.find_each { |solution| create :iteration, submission: create(:submission, solution: solution) }
+
+    wait_for_opensearch_to_be_synced
 
     get api_profile_solutions_path(profile_user), headers: @headers, as: :json
     assert_response 200

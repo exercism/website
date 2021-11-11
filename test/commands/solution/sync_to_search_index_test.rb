@@ -4,9 +4,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
   SOLUTIONS_INDEX = 'test-solutions'.freeze
 
   setup do
-    @opensearch = Exercism.opensearch_client
-    @opensearch.indices.delete(index: SOLUTIONS_INDEX) if @opensearch.indices.exists(index: SOLUTIONS_INDEX)
-    @opensearch.indices.create(index: SOLUTIONS_INDEX)
+    reset_opensearch!
   end
 
   test "indexes solution" do
@@ -33,7 +31,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -88,7 +86,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -142,7 +140,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -202,7 +200,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -262,7 +260,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -318,7 +316,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -374,7 +372,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = @opensearch.get(index: SOLUTIONS_INDEX, id: solution.id)
+    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",

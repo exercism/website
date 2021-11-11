@@ -233,6 +233,19 @@ class ActiveSupport::TestCase
       key: key
     ).body.read
   end
+
+  ###################
+  # OpenSearch Helpers #
+  ###################
+  def reset_opensearch!
+    opensearch = Exercism.opensearch_client
+    opensearch.indices.delete(index: 'test-solutions') if opensearch.indices.exists(index: 'test-solutions')
+    opensearch.indices.create(index: 'test-solutions')
+  end
+
+  def get_opensearch_doc(index, id)
+    Exercism.opensearch_client.get(index: index, id: id)
+  end
 end
 
 class ActionView::TestCase

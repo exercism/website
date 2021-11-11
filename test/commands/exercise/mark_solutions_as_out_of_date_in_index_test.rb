@@ -3,12 +3,11 @@ require "test_helper"
 class Exercise::MarkSolutionsAsOutOfDateInIndexTest < ActiveSupport::TestCase
   SOLUTIONS_INDEX = 'test-solutions'.freeze
 
-  test "mark all solutions of an exercise as out of date in index" do
-    # Start by removing any existing solutions
-    Exercism.opensearch_client.delete_by_query(index: SOLUTIONS_INDEX, body: {
-      query: { match_all: {} }
-    })
+  setup do
+    reset_opensearch!
+  end
 
+  test "mark all solutions of an exercise as out of date in index" do
     track = create :track, slug: 'fsharp'
     user_1 = create :user
     user_2 = create :user
@@ -43,7 +42,7 @@ git_important_files_hash: exercise_2.git_important_files_hash
 
   private
   def out_of_date_in_index?(solution)
-    doc = Exercism.opensearch_client.get(index: SOLUTIONS_INDEX, id: solution.id)
+    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
     doc["_source"]["out_of_date"]
   end
 end

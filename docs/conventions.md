@@ -24,7 +24,7 @@ Final decisions are made by @iHiD but should be revisited periodically to test t
 
 ## Tests
 
-Tests are cricial, first-class citizens in this codebase.
+Tests are crucial, first-class citizens in this codebase.
 Where possible we adhere to Test Driven Development as our development methodology.
 
 Our first priority is to avoid bugs and regressions.
@@ -36,7 +36,7 @@ The easiest way to achieve this is to use serializers in the tests, e.g. [this P
 
 The third priority is speed.
 Slow test-suites hurt.
-Where possible avoid creating unnecessary DB records, or adding sleeps to fix sproadic system tests.
+Where possible avoid creating unnecessary DB records, or adding sleeps to fix sporadic system tests.
 But do not make changes that speed things up, but reduce test-coverage or robustness.
 
 For complex objects (e.g. serializers, view components), create one test for the "happy" path, and then subsequent tests for variables that may change.
@@ -59,13 +59,13 @@ All other "normal" routes redirect or render HTML.
 
 Controllers should be "thin".
 Each action should either do something or retrieve something then render/redirect.
-To achieve this, controllers call out to Commands, which contain more complex functionality encapsualted in stand-alone procedures. This is known as the Command Pattern or the Interactor Pattern.
+To achieve this, controllers call out to Commands, which contain more complex functionality encapsulated in stand-alone procedures. This is known as the Command Pattern or the Interactor Pattern.
 Even if an action doesn't need any instance variables, add an empty controller action for it. This allows us to have visibility on what actions have been implemented on that controller.
 
 ### Authentication
 
 By default, all controllers expect a user to be authenticated, and return a user to the log in page if they are not.
-This can be overriden using the `skip_before_action authenticate_user!` method.
+This can be overridden using the `skip_before_action authenticate_user!` method.
 
 ## Serializers
 
@@ -85,8 +85,8 @@ We treat models as highly-predictable, meaning that creating and updating models
 We therefore use `before_xxx` and `after_xxx` blocks sparingly.
 The only time that changing a model should change other data is if the model does not make sense without that other data.
 For example, users should **always** have authentication tokens.
-So `User.create` can resonably call `AuthToken.create` in its `after_create` block.
-In contrast, although submitting submissions should create notifications, because it is not essential for the existance of the submission to make sense, `Submission.create` would **not** be responsible for calling `Notification.create`.
+So `User.create` can reasonably call `AuthToken.create` in its `after_create` block.
+In contrast, although submitting submissions should create notifications, because it is not essential for the existence of the submission to make sense, `Submission.create` would **not** be responsible for calling `Notification.create`.
 
 Some other conventions:
 
@@ -102,7 +102,7 @@ In practice that means that Commands are responsible for completing some sort of
 For example, creating an submission (`Submission::Create.(...)`), creates multiple db records, writes to DynamoDB and S3, generates notifications and more.
 
 Each Command should have responsibility for doing one domain action (e.g. creating or updating something).
-It should then proxy other parts of that to other Commands (e.g. `Interation::Create` calls `Notification::Create`) or create records specifically under its ownership (e.g. `Submission::Create.()` calling `Submission.create()`.
+It should then proxy other parts of that to other Commands (e.g. `Interaction::Create` calls `Notification::Create`) or create records specifically under its ownership (e.g. `Submission::Create.()` calling `Submission.create()`.
 
 The `call` method of a command should be focussed on clarity.
 It should be extremely clear from reading that method what the Command does.

@@ -62,17 +62,21 @@ class Solution
         bool: {
           must: [
             { term: { 'user.id': user.id } },
-            track_slug.blank? ? nil : { term: { 'track.slug': track_slug } },
-            status.blank? ? nil : { term: { status: status } },
-            mentoring_status.blank? ? nil : { term: { mentoring_status: mentoring_status } },
-            criteria.blank? ? nil : { query_string: { query: "*#{criteria}*", fields: ['exercise.title', 'track.title'] } }
+            track_slug.blank? ? nil : { terms: { 'track.slug': [track_slug].flatten } },
+            status.blank? ? nil : { terms: { status: [status].flatten } },
+            mentoring_status.blank? ? nil : { terms: { mentoring_status: [mentoring_status].flatten } },
+            criteria.blank? ? nil : { query_string: { query: criteria.split(' ').map do |c|
+                                                               "*#{c}*"
+                                                             end.join(' AND '), fields: ['exercise.title', 'track.title'] } }
           ].compact
         }
       }
     end
 
     def search_sort
-      [{ last_iterated_at: { order: order&.to_sym == :oldest_first ? :asc : :desc } }]
+      [
+        { id: { order: order&.to_sym == :oldest_first ? :asc : :desc, unmapped_type: "integer" } }
+      ]
     end
 
     class Fallback

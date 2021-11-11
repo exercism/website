@@ -42,7 +42,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: " ") # rubocop:disable Layout:LineLength
     assert_equal [ruby_bob_solution, ruby_food_solution], Solution::SearchUserSolutions.(user, criteria: "ru")
     assert_equal [ruby_bob_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: "bo")
-    assert_equal [ruby_bob_solution].map(&:track), Solution::SearchUserSolutions.(user, criteria: "ru bo").map(&:track)
+    assert_equal [ruby_bob_solution], Solution::SearchUserSolutions.(user, criteria: "ru bo")
     assert_equal [ruby_food_solution], Solution::SearchUserSolutions.(user, criteria: "r ch fo")
   end
 

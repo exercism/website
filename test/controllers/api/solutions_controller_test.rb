@@ -53,8 +53,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       user: @current_user,
       exercise: ruby_bob,
       status: :published,
-      mentoring_status: "finished",
-      last_iterated_at: Time.current
+      mentoring_status: "finished"
 
     wait_for_opensearch_to_be_synced
 

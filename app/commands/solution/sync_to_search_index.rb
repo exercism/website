@@ -4,7 +4,12 @@ class Solution::SyncToSearchIndex
   initialize_with :solution
 
   def call
-    body = {
+    Exercism.opensearch_client.index(index: Solution::OPENSEARCH_INDEX, type: 'solution', id: solution.id, body: body)
+  end
+
+  private
+  def body
+    {
       id: solution.id,
       last_iterated_at: solution.last_iterated_at,
       published_at: solution.published_at,
@@ -38,11 +43,8 @@ class Solution::SyncToSearchIndex
         code: latest_iteration.submission.files.map(&:content) || []
       } : nil
     }
-
-    Exercism.opensearch_client.index(index: Solution::OPENSEARCH_INDEX, type: 'solution', id: solution.id, body: body)
   end
 
-  private
   memoize
   def published_iteration
     solution.published_iterations.last

@@ -106,7 +106,8 @@ else
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "localhost:3040", "aws", "opensearch"
+      "localhost:3040", "localhost:9200",
+      "aws", "opensearch"
     ]
   )
 end

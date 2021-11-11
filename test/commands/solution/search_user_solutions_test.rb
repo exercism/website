@@ -14,7 +14,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     create :concept_solution
 
     # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
@@ -34,7 +34,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     ruby_bob_solution = create :concept_solution, user: user, exercise: ruby_bob
 
     # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
@@ -60,7 +60,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     elixir_solution = create :practice_solution, user: user, exercise: elixir_exercise
 
     # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
@@ -76,7 +76,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     iterated = create :concept_solution, user: user, status: :iterated
 
     # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
@@ -97,7 +97,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     none = create :concept_solution, user: user, mentoring_status: :none
 
     # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
@@ -124,7 +124,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     solution_2 = create :concept_solution, user: user
 
     # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
@@ -140,7 +140,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     solution_2 = create :concept_solution, user: user
 
     # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
@@ -154,7 +154,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     new_solution = create :concept_solution, user: user
 
     # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
@@ -167,7 +167,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     new_solution = create :concept_solution, user: user
 
     # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 

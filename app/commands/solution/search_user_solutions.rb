@@ -72,7 +72,7 @@ class Solution
     end
 
     def search_sort
-      [{ last_iterated_at: { order: order&.to_sym == :oldest_first ? :desc : :asc } }]
+      [{ last_iterated_at: { order: order&.to_sym == :oldest_first ? :asc : :desc } }]
     end
 
     class Fallback

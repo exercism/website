@@ -33,7 +33,8 @@ class Solution
       total_count = results["hits"]["total"]["value"].to_i
       Kaminari.paginate_array(solutions, total_count: total_count).
         page(page).per(per)
-    rescue StandardError
+    rescue StandardError => e
+      Bugsnag.notify(e)
       Fallback.(user, page: page, per: per, track_slug: track_slug, status: status, mentoring_status: mentoring_status,
 criteria: criteria, order: order)
     end

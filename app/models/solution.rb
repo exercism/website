@@ -1,6 +1,8 @@
 class Solution < ApplicationRecord
   extend Mandate::Memoize
 
+  OPENSEARCH_INDEX = "#{Rails.env}-solutions".freeze
+
   enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: 'mentoring'
   enum status: { started: 0, iterated: 1, completed: 2, published: 3 }, _prefix: true
 

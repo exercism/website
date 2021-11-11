@@ -239,8 +239,8 @@ class ActiveSupport::TestCase
   ###################
   def reset_opensearch!
     opensearch = Exercism.opensearch_client
-    opensearch.indices.delete(index: 'test-solutions') if opensearch.indices.exists(index: 'test-solutions')
-    opensearch.indices.create(index: 'test-solutions')
+    opensearch.indices.delete(index: Solution::OPENSEARCH_INDEX) if opensearch.indices.exists(index: Solution::OPENSEARCH_INDEX)
+    opensearch.indices.create(index: Solution::OPENSEARCH_INDEX)
   end
 
   def get_opensearch_doc(index, id)
@@ -248,11 +248,11 @@ class ActiveSupport::TestCase
   end
 
   def wait_for_opensearch_to_be_synced
-    # Solutions are automatically indexed via a job in the background
+    # Wait for enqueued jobs to finish as opensearch is always updated from within jobs
     perform_enqueued_jobs
 
     # Force an index refresh to ensure there are no concurrent actions in the background
-    Exercism.opensearch_client.indices.refresh(index: 'test-solutions')
+    Exercism.opensearch_client.indices.refresh(index: Solution::OPENSEARCH_INDEX)
   end
 end
 

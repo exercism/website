@@ -29,7 +29,8 @@ class Solution
       total_count = results["hits"]["total"]["value"].to_i
       Kaminari.paginate_array(solutions, total_count: total_count).
         page(page).per(per)
-    rescue StandardError
+    rescue StandardError => e
+      Bugsnag.notify(e)
       Fallback.(exercise, page, per, criteria)
     end
 

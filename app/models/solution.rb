@@ -117,11 +117,6 @@ class Solution < ApplicationRecord
   end
 
   memoize
-  def latest_iteration
-    iterations.not_deleted.last
-  end
-
-  memoize
   # Submissions that have the tests cancelled should never be
   # show to a user. This is the submission we show in the editor by default.
   def latest_submission

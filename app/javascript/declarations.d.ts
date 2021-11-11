@@ -37,6 +37,10 @@ interface Document {
   fonts: Fonts
 }
 
+interface Window {
+  turboLoaded: boolean
+}
+
 declare module 'nim-codemirror-mode' {
   import { StreamParser } from '@codemirror/stream-parser'
   export const nim: StreamParser<unknown>
@@ -47,4 +51,11 @@ declare module '@exercism/twine2-story-format/src/story' {
     constructor(params: any)
     start: (params: any) => any
   }
+}
+
+declare module 'highlightjs-sap-abap' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
 }

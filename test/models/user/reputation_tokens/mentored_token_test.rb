@@ -24,5 +24,7 @@ class User::ReputationTokens::MentoredTokenTest < ActiveSupport::TestCase
     assert_equal 5, rt.value
     assert_equal discussion.finished_at.to_date, rt.earned_on
     assert_equal Exercism::Routes.mentoring_discussion_url(discussion), rt.rendering_data[:internal_url]
+    assert_equal discussion.track, rt.track
+    assert_equal discussion.exercise, rt.exercise
   end
 end

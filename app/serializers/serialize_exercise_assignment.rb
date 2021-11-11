@@ -74,10 +74,7 @@ class SerializeExerciseAssignment
   end
 
   def instructions
-    [
-      Markdown::Render.(solution.git_exercise.instructions, :text).strip,
-      Markdown::Render.(solution.git_exercise.instructions_append, :text).strip
-    ].join("\n\n").strip
+    Markdown::Render.(solution.instructions, :text)
   end
 
   memoize

@@ -24,7 +24,7 @@ class Document < ApplicationRecord
   def content_html
     repo = Git::Repository.new(repo_url: git_repo, branch_ref: ENV['GIT_DOCS_BRANCH'])
     markdown = repo.read_text_blob(repo.head_commit, git_path)
-    Markdown::Parse.(markdown, strip_h1: true, lower_heading_levels_by: 0)
+    Markdown::Parse.(markdown, strip_h1: true, lower_heading_levels_by: 0, heading_ids: true)
   end
 
   REPO_NAME = "exercism/docs".freeze

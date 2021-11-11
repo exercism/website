@@ -7,7 +7,7 @@ type TrackIconProps = {
 }
 
 export function TrackIcon({ iconUrl, title, className }: TrackIconProps) {
-  let classNames = ['c-icon c-track-icon']
+  const classNames = ['c-icon c-track-icon']
   if (className !== undefined) {
     classNames.push(className)
   }

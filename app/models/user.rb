@@ -79,7 +79,11 @@ class User < ApplicationRecord
   has_many :donation_subscriptions, class_name: "Donations::Subscription", dependent: :nullify
   has_many :donation_payments, class_name: "Donations::Payment", dependent: :nullify
 
-  # TODO: validate presence of name
+  has_many :team_memberships, class_name: "ContributorTeam::Membership", dependent: :destroy
+  has_many :teams, through: :team_memberships, source: :team
+
+  # TODO: Validate presence of name
+
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
   # TODO: Inline this here and use variant(:thumb) everywhere in Rails Edge
@@ -253,10 +257,7 @@ class User < ApplicationRecord
     dismissed_introducers.where(slug: slug).exists?
   end
 
-  # TODO: Remove if not used by launch
-  # def favorited_by?(mentor)
-  #   relationship = Mentor::StudentRelationship.find_by(student: self, mentor: mentor)
-
-  #   relationship ? relationship.favorited? : false
-  # end
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
 end

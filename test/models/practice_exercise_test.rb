@@ -33,9 +33,27 @@ class PracticeExerciseTest < ActiveSupport::TestCase
     assert_equal [ce], PracticeExercise.that_practice(ruby_numbers)
   end
 
-  test "instructions is correct" do
-    exercise = create :practice_exercise
-    expected = "# Instructions\n\nInstructions for bob\n"
+  test "introduction is correct for exercise without append" do
+    exercise = create :practice_exercise, slug: 'space-age'
+    expected = "# Introduction\n\nIntroduction for space-age"
+    assert_equal expected, exercise.introduction
+  end
+
+  test "introduction is correct for exercise with append" do
+    exercise = create :practice_exercise, slug: 'bob'
+    expected = "# Introduction\n\nIntroduction for bob\n\n# Introduction append\n\nExtra introduction for bob"
+    assert_equal expected, exercise.introduction
+  end
+
+  test "instructions are correct for exercise without append" do
+    exercise = create :practice_exercise, slug: 'isogram'
+    expected = "# Instructions\n\nInstructions for isogram"
+    assert_equal expected, exercise.instructions
+  end
+
+  test "instructions are correct for exercise with append" do
+    exercise = create :practice_exercise, slug: 'bob'
+    expected = "# Instructions\n\nInstructions for bob\n\n# Instructions append\n\nExtra instructions for bob"
     assert_equal expected, exercise.instructions
   end
 end

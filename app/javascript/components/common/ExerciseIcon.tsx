@@ -8,7 +8,7 @@ type ExerciseIconProps = {
 }
 
 export function ExerciseIcon({ iconUrl, title, className }: ExerciseIconProps) {
-  let classNames = ['c-icon c-exercise-icon']
+  const classNames = ['c-icon c-exercise-icon']
   if (className !== undefined) {
     classNames.push(className)
   }

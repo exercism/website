@@ -6,7 +6,12 @@ class Iteration
 
     def call
       iteration.update!(deleted_at: Time.current)
-      solution.update!(published_iteration_id: nil) if solution.published_iteration_id == iteration.id
+
+      # Unpublish the solution if this was the published iteration
+      solution.update!(published_iteration_id: nil, published_at: nil) if solution.published_iteration_id == iteration.id
+
+      # Uncomplete the solution if there are now no iterations
+      solution.update!(completed_at: nil) unless solution.iterations.not_deleted.exists?
     end
 
     private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_01_151540) do
+ActiveRecord::Schema.define(version: 2021_11_01_120614) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -68,6 +68,28 @@ ActiveRecord::Schema.define(version: 2021_10_01_151540) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["author_id"], name: "index_blog_posts_on_author_id"
     t.index ["uuid"], name: "index_blog_posts_on_uuid", unique: true
+  end
+
+  create_table "contributor_team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "contributor_team_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "visible", default: true, null: false
+    t.integer "seniority", limit: 1, default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contributor_team_id", "user_id"], name: "index_contributor_team_memberships_on_team_id_and_user_id", unique: true
+    t.index ["contributor_team_id"], name: "index_contributor_team_memberships_on_contributor_team_id"
+    t.index ["user_id"], name: "index_contributor_team_memberships_on_user_id"
+  end
+
+  create_table "contributor_teams", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "track_id"
+    t.string "github_name", null: false
+    t.integer "type", limit: 1, default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_name"], name: "index_contributor_teams_on_github_name", unique: true
+    t.index ["track_id"], name: "index_contributor_teams_on_track_id"
   end
 
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -299,6 +321,7 @@ ActiveRecord::Schema.define(version: 2021_10_01_151540) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "num_loc"
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
@@ -368,6 +391,7 @@ ActiveRecord::Schema.define(version: 2021_10_01_151540) do
     t.index ["student_id"], name: "index_mentor_requests_on_student_id"
     t.index ["track_id", "status"], name: "index_mentor_requests_on_track_id_and_status"
     t.index ["track_id"], name: "index_mentor_requests_on_track_id"
+    t.index ["uuid"], name: "index_mentor_requests_on_uuid", unique: true
   end
 
   create_table "mentor_student_relationships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -500,7 +524,7 @@ ActiveRecord::Schema.define(version: 2021_10_01_151540) do
     t.integer "num_views", limit: 3, default: 0, null: false
     t.integer "num_stars", limit: 3, default: 0, null: false
     t.integer "num_comments", limit: 3, default: 0, null: false
-    t.integer "num_loc", limit: 3, default: 0, null: false
+    t.integer "num_loc", limit: 3
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
@@ -698,6 +722,17 @@ ActiveRecord::Schema.define(version: 2021_10_01_151540) do
     t.index ["user_id"], name: "index_user_dismissed_introducers_on_user_id"
   end
 
+  create_table "user_mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "mailshot_id", null: false
+    t.integer "email_status", limit: 1, default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email_status"], name: "index_user_mailshots_on_email_status"
+    t.index ["user_id", "mailshot_id"], name: "index_user_mailshots_on_user_id_and_mailshot_id", unique: true
+    t.index ["user_id"], name: "index_user_mailshots_on_user_id"
+  end
+
   create_table "user_notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "user_id", null: false
@@ -773,6 +808,10 @@ ActiveRecord::Schema.define(version: 2021_10_01_151540) do
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
+    t.index ["user_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_3"
+    t.index ["user_id", "track_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_4"
+    t.index ["user_id", "track_id", "type"], name: "index_user_reputation_tokens_query_2"
+    t.index ["user_id", "type"], name: "index_user_reputation_tokens_query_1"
     t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
     t.index ["uuid"], name: "index_user_reputation_tokens_on_uuid", unique: true
   end
@@ -844,11 +883,15 @@ ActiveRecord::Schema.define(version: 2021_10_01_151540) do
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+    t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
+  add_foreign_key "contributor_team_memberships", "contributor_teams"
+  add_foreign_key "contributor_team_memberships", "users"
+  add_foreign_key "contributor_teams", "tracks"
   add_foreign_key "documents", "tracks"
   add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
   add_foreign_key "donations_payments", "users"

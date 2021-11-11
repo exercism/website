@@ -27,6 +27,13 @@ class PagesController < ApplicationController
   end
 
   def health_check
-    render json: { ruok: true }
+    user = User.find(User::SYSTEM_USER_ID)
+
+    render json: {
+      ruok: true,
+      sanity_data: {
+        user: user.handle
+      }
+    }
   end
 end

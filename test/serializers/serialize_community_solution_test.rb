@@ -12,7 +12,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
       num_stars: solution.num_stars,
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
-      num_loc: solution.num_loc,
+      num_loc: nil,
       iteration_status: iteration.status.to_s.to_sym,
       published_at: solution.published_at,
       is_out_of_date: solution.out_of_date?,
@@ -37,5 +37,11 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
     }
 
     assert_equal expected, SerializeCommunitySolution.(solution)
+  end
+
+  test "num_loc works" do
+    solution = create :practice_solution, num_loc: 10
+    output = SerializeCommunitySolution.(solution)
+    assert_equal 10, output[:num_loc]
   end
 end

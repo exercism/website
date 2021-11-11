@@ -12,12 +12,17 @@ module Flows
         create :user_profile, user: user
 
         use_capybara_host do
-          sign_in!(user)
+          perform_enqueued_jobs do
+            sign_in!(user)
 
-          visit settings_path
-          change_email
-          visit settings_path
-          click_on "Resend email"
+            visit settings_path
+            change_email
+            visit settings_path
+
+            click_on "Resend email"
+
+            sleep(0.1)
+          end
 
           assert_text "We've sent a confirmation email to newemail@exercism.org"
           assert_equal 3, ActionMailer::Base.deliveries.count

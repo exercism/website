@@ -92,16 +92,6 @@ class Track < ApplicationRecord
     git.average_test_duration + INFRASTRUCTURE_DURATION_S
   end
 
-  # TODO: Set this properly
-  def median_wait_time
-    "6 hrs"
-  end
-
-  # TODO: Set this properly
-  def avg_wait_time
-    nil
-  end
-
   CATGEORIES = {
     paradigm: "Paradigm",
     typing: "Typing",

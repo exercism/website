@@ -16,10 +16,12 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
         solution.publishedAt
       )}`}</time>
       <div className="--counts">
-        <div className="--count">
-          <GraphicalIcon icon="loc" />
-          <div className="--num">{solution.numLoc}</div>
-        </div>
+        {solution.numLoc ? (
+          <div className="--count">
+            <GraphicalIcon icon="loc" />
+            <div className="--num">{solution.numLoc}</div>
+          </div>
+        ) : null}
         <div className="--count">
           <Icon icon="star" alt="Number of times solution has been stared" />
           <div className="--num">{solution.numStars}</div>

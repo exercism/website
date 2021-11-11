@@ -14,7 +14,7 @@ class ConceptTest < ActiveSupport::TestCase
   test "about" do
     concept = create :concept, :with_git_data
 
-    expected = "A String object holds and manipulates an arbitrary sequence of bytes, typically representing characters. String objects may be created using ::new or as literals.\n" # rubocop:disable Layout/LineLength
+    expected = "A String object holds and manipulates an arbitrary sequence of bytes, typically representing characters. String objects may be created using ::new or as literals." # rubocop:disable Layout/LineLength
     assert_equal expected, concept.about
   end
 

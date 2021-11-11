@@ -177,8 +177,31 @@ jobs:
   #######################
   ##### SYSTEM TESTS ####
   #######################
+  system-test-files:
+    if: github.repository == 'exercism/website'
+
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.test-files.outputs.matrix }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - id: test-files
+        env:
+          FILES_PER_BATCH: 12
+        run: |
+          tests=$(find test/system -name *_test.rb | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
+          echo "::set-output name=matrix::{\"tests\":[${tests}]}"
+
   system-tests:
     if: github.repository == 'exercism/website'
+
+    needs: system-test-files
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
     runs-on: ubuntu-latest
     services:
@@ -269,7 +292,13 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-        run: bundle exec rails test:system
+        run: bundle exec rails test ${{ matrix.tests }}
+
+  system-tests-completed:
+    runs-on: ubuntu-latest
+    needs: system-tests
+    steps:
+      - run: echo "System tests completed"
 
   ######################
   ##### ASSET TESTS ####

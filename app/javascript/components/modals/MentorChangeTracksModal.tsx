@@ -3,10 +3,9 @@ import { Modal, ModalProps } from './Modal'
 import { TrackSelector } from '../mentoring/TrackSelector'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
-import { useIsMounted } from 'use-is-mounted'
 import { MentoredTrack } from '../types'
 import { APIResponse as TrackListAPIResponse } from '../mentoring/queue/useTrackList'
-import { queryCache } from 'react-query'
+import { useQueryCache } from 'react-query'
 
 type Links = {
   tracks: string
@@ -26,6 +25,7 @@ export const MentorChangeTracksModal = ({
   cacheKey: string
   onSuccess: () => void
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.slug))
 
   const [mutation] = useMutation<TrackListAPIResponse>(

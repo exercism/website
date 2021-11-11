@@ -177,3 +177,41 @@ test('hides unlocked concepts section when there are no unlocked concepts', asyn
     screen.queryByRole('heading', { name: "You've unlocked 0 concepts" })
   ).not.toBeInTheDocument()
 })
+
+test('hides concepts link when there is no link to concepts', async () => {
+  const completion = {
+    exercise: {
+      title: 'Lasagna',
+      type: 'concept',
+      links: { self: 'https://exercism.test/exercise' },
+    },
+    track: {
+      title: 'Ruby',
+      links: {
+        exercises: 'https://exercism.test/tracks/ruby/exercises',
+      },
+    },
+    conceptProgressions: [
+      {
+        name: 'Arrays',
+        from: 4,
+        to: 5,
+        total: 5,
+      },
+    ],
+    unlockedConcepts: [],
+    unlockedExercises: [],
+  }
+
+  render(
+    <ExerciseCompletedModal
+      open={true}
+      completion={completion}
+      ariaHideApp={false}
+    />
+  )
+
+  expect(
+    screen.queryByRole('link', { name: 'Show me more concepts' })
+  ).not.toBeInTheDocument()
+})

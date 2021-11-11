@@ -18,7 +18,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
       num_stars: solution.num_stars,
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
-      num_loc: solution.num_loc,
+      num_loc: nil,
       published_at: solution.published_at.iso8601,
       completed_at: solution.completed_at.iso8601,
       updated_at: solution.updated_at.iso8601,
@@ -37,6 +37,12 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     }
 
     assert_equal expected, SerializeSolution.(solution, user_track: user_track)
+  end
+
+  test "num_loc works" do
+    solution = create :practice_solution, num_loc: 10
+    output = SerializeSolution.(solution)
+    assert_equal 10, output[:num_loc]
   end
 
   test "with no submissions" do

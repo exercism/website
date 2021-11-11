@@ -24,6 +24,8 @@ class User::ReputationTokens::PublishedSolutionTokenTest < ActiveSupport::TestCa
     assert_equal 2, rt.value
     assert_equal solution.published_at.to_date, rt.earned_on
     assert_equal Exercism::Routes.published_solution_url(solution), rt.rendering_data[:internal_url]
+    assert_equal solution.track, rt.track
+    assert_equal solution.exercise, rt.exercise
   end
 
   test "correct levels" do

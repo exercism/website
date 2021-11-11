@@ -35,8 +35,7 @@ class Solution
         page(page).per(per)
     rescue StandardError => e
       Bugsnag.notify(e)
-      Fallback.(user, page: page, per: per, track_slug: track_slug, status: status, mentoring_status: mentoring_status,
-criteria: criteria, order: order)
+      Fallback.(user, page, per, track_slug, status, mentoring_status, criteria, order)
     end
 
     private
@@ -79,16 +78,7 @@ criteria: criteria, order: order)
     class Fallback
       include Mandate
 
-      def initialize(user, criteria: nil, track_slug: nil, status: nil, mentoring_status: nil, page: nil, per: nil, order: nil)
-        @user = user
-        @criteria = criteria
-        @track_slug = track_slug
-        @status = status
-        @mentoring_status = mentoring_status
-        @page = page
-        @per = per
-        @order = order
-      end
+      initialize_with :user, :page, :per, :track_slug, :status, :mentoring_status, :criteria, :order
 
       def call
         @solutions = user.solutions
@@ -102,9 +92,7 @@ criteria: criteria, order: order)
       end
 
       private
-      attr_reader :user, :criteria, :track_slug, :status, :mentoring_status,
-        :per, :page, :order,
-        :solutions
+      attr_reader :solutions
 
       def filter_criteria!
         return if criteria.blank?

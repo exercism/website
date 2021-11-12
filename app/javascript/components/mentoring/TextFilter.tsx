@@ -8,7 +8,7 @@ export const TextFilter = ({
 }: {
   setFilter: (filter: string) => void
   id: string
-  filter: string
+  filter?: string
   placeholder: string
 }): JSX.Element => {
   return (

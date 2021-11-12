@@ -32,6 +32,7 @@ export const PreviousMentoringSessionsModal = ({
 }): JSX.Element => {
   const { request, setPage } = useList({
     endpoint: student.links.previousSessions,
+    options: {},
   })
   const {
     status,

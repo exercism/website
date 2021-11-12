@@ -84,7 +84,7 @@ export default ({
           <TagsFilter
             setTags={setTags}
             options={tagOptions}
-            value={request.query.tags}
+            value={request.query.tags ?? []}
             numTracks={resolvedData ? resolvedData.tracks.length : 0}
           />
           <OrderSelect value="last_touched_first" setValue={() => null} />

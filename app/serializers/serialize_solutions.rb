@@ -18,7 +18,7 @@ class SerializeSolutions
   def solutions_with_includes
     # Some upstream callers pass in a manually constructed kaminari array that already
     # includes the exercise and track. For the other callers, we include it here
-    return solutions unless ActiveRecord::Relation
+    return solutions unless solutions.is_a?(ActiveRecord::Relation)
 
     solutions.includes(*NP1_INCLUDES)
   end

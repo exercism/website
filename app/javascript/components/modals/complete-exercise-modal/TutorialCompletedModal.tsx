@@ -20,7 +20,7 @@ export const TutorialCompletedModal = ({
       <GraphicalIcon icon="hello-world" category="graphics" />
       <h2>You’ve completed “{completion.exercise.title}”</h2>
       <h3>
-        This is just start of your journey on the {completion.track.title} track
+        This is just the start of your journey on the {completion.track.title} track
         🚀
       </h3>
       <p>

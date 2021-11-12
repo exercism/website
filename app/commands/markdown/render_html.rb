@@ -35,10 +35,16 @@ class Markdown::RenderHTML
     end
 
     def header_id(node)
-      title = "h-#{node.each.map(&:string_content).join('-').parameterize}"
+      title = "h-#{header_string_content(node).join('-').parameterize}"
       unique_title = heading_id_counts[title].zero? ? title : "#{title}-#{heading_id_counts[title]}"
       heading_id_counts[title] = heading_id_counts[title] + 1
       unique_title
+    end
+
+    def header_string_content(node)
+      return node.string_content if %i[text code].include?(node.type)
+
+      node.each.map { |n| header_string_content(n) }
     end
 
     def link(node)

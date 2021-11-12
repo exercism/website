@@ -358,6 +358,16 @@ Done')
     assert_equal expected, Markdown::Parse.("## this is m*", heading_ids: true, lower_heading_levels_by: 0)
   end
 
+  test "heading id for code fence title" do
+    expected = %(<h2 id="h-summary"><code>summary</code></h2>\n)
+    assert_equal expected, Markdown::Parse.("## `summary`", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for markdown title" do
+    expected = %(<h2 id="h-why-is-it-not-e-g-must">Why is it not ... (e.g. <strong>MUST</strong>)?</h2>\n)
+    assert_equal expected, Markdown::Parse.("## Why is it not ... (e.g. **MUST**)?", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
   test "heading id with consecutive non-letter/digit characters title are replaced with dashes" do
     expected = %(<h2 id="h-this-is-m">this % is @@ m</h2>\n)
     assert_equal expected, Markdown::Parse.("## this % is @@ m", heading_ids: true, lower_heading_levels_by: 0)

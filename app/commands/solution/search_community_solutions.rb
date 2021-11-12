@@ -4,6 +4,7 @@ class Solution
 
     DEFAULT_PAGE = 1
     DEFAULT_PER = 25
+    MAX_ROWS = 10_000
 
     def self.default_per
       DEFAULT_PER
@@ -17,18 +18,21 @@ class Solution
     end
 
     def call
-      return Fallback.(exercise, page, per, criteria)
+      # ES can only handle paginating up to 10_000 rows.
+      # If it's above that, return nothing
+      return Kaminari.paginate_array([], total_count: MAX_ROWS).page(page).per(per) if from + per > MAX_ROWS
 
       results = Exercism.opensearch_client.search(index: Solution::OPENSEARCH_INDEX, body: search_body)
 
       solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
       solutions = solution_ids.present? ?
         Solution.where(id: solution_ids).
-          includes(:exercise, :track).
+          includes(*SerializeSolutions::NP1_INCLUDES).
           order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
           to_a : []
 
-      total_count = results["hits"]["total"]["value"].to_i
+      total_count = [results["hits"]["total"]["value"].to_i, MAX_ROWS].min
+
       Kaminari.paginate_array(solutions, total_count: total_count).
         page(page).per(per)
     rescue StandardError => e
@@ -48,9 +52,14 @@ class Solution
         _source: [:id],
 
         # Paging information
-        from: (page - 1) * per,
+        from: from,
         size: per
       }
+    end
+
+    memoize
+    def from
+      (page - 1) * per
     end
 
     def search_query

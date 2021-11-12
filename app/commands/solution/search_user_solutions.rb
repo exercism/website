@@ -21,14 +21,12 @@ class Solution
     end
 
     def call
-      return Fallback.(user, page, per, track_slug, status, mentoring_status, criteria, order)
-
       results = Exercism.opensearch_client.search(index: Solution::OPENSEARCH_INDEX, body: search_body)
 
       solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
       solutions = solution_ids.present? ?
         Solution.where(id: solution_ids).
-          includes(:exercise, :track).
+          includes(*SerializeSolutions::NP1_INCLUDES).
           order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
           to_a : []
 

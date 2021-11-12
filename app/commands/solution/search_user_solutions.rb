@@ -21,6 +21,8 @@ class Solution
     end
 
     def call
+      return Fallback.(user, page, per, track_slug, status, mentoring_status, criteria, order)
+
       results = Exercism.opensearch_client.search(index: Solution::OPENSEARCH_INDEX, body: search_body)
 
       solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }

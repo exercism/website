@@ -285,6 +285,48 @@ module Flows
         end
       end
 
+      test "user views tests for submission on track with test runner disabled" do
+        user = create :user
+        track = create :track, has_test_runner: false
+        create :user_track, user: user, track: track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, exercise: exercise, user: user
+        submission = create :submission, solution: solution,
+                                         tests_status: :not_queued,
+                                         representation_status: :generated,
+                                         analysis_status: :completed
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_iterations_url(track, exercise)
+          click_on "Tests"
+
+          assert_text "This track does not support automatically running exercise tests."
+        end
+      end
+
+      test "user views tests for submission on exercise with test runner disabled" do
+        user = create :user
+        track = create :track
+        create :user_track, user: user, track: track
+        exercise = create :concept_exercise, track: track, has_test_runner: false
+        solution = create :concept_solution, exercise: exercise, user: user
+        submission = create :submission, solution: solution,
+                                         tests_status: :not_queued,
+                                         representation_status: :generated,
+                                         analysis_status: :completed
+        create :iteration, solution: solution, submission: submission
+
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_iterations_url(track, exercise)
+          click_on "Tests"
+
+          assert_text "This exercise does not support automatically running its tests."
+        end
+      end
+
       test "user sees latest iteration" do
         user = create :user
         track = create :track

@@ -3,12 +3,13 @@ import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { ResultsZone } from '../../ResultsZone'
 import { TestRunSummary } from '../../editor/TestRunSummary'
-import { TestRun } from '../../editor/types'
+import { TestRun, TestRunnerStatus } from '../../editor/types'
 
 const DEFAULT_ERROR = new Error('Unable to fetch test run')
 
 type APIResponse = {
   testRun: TestRun
+  testRunnerStatus: TestRunnerStatus
 }
 
 export const TestsInformation = ({
@@ -30,6 +31,7 @@ export const TestsInformation = ({
         {resolvedData ? (
           <TestRunSummary
             testRun={resolvedData.testRun}
+            testRunnerStatus={resolvedData.testRunnerStatus}
             showSuccessBox={false}
           />
         ) : null}

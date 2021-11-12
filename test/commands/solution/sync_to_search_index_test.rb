@@ -84,7 +84,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
+    doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -138,7 +138,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
+    doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -198,7 +198,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
+    doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -258,7 +258,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
+    doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -314,7 +314,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
+    doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",
@@ -370,7 +370,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     Solution::SyncToSearchIndex.(solution)
 
-    doc = get_opensearch_doc(SOLUTIONS_INDEX, solution.id)
+    doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
       "_type" => "solution",

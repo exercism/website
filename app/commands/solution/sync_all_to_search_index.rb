@@ -14,6 +14,7 @@ class Solution::SyncAllToSearchIndex
           index: {
             _index: Solution::OPENSEARCH_INDEX,
             _id: solution.id,
+            _type: 'solution',
             data: Solution::CreateSearchIndexDocument.(solution)
           }
         }

@@ -55,6 +55,7 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
     expected = {
       "_index" => "test-solutions",
       "_id" => "17",
+      "_type" => "solution",
       "found" => true,
       "_source" => {
         "id" => 17,
@@ -78,6 +79,6 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
         "latest_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser"] }
       }
     }
-    assert_equal expected, doc.except("_type", "_version", "_seq_no", "_primary_term")
+    assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
   end
 end

@@ -3,12 +3,13 @@ require "test_helper"
 class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
   %w[added removed].each do |action|
     test "updates reviewer permission if action is #{action} and TEAM can be found" do
-      skip # TODO: enable this once we are confident that org member syncing works
       Github::Organization.any_instance.stubs(:name).returns('exercism')
 
       create :user, github_username: 'user22'
       team = create :contributor_team, github_name: 'team11'
-      Github::OrganizationMember::RemoveWhenNoTeamMemberships.stubs(:call)
+
+      # TODO: enable this once we are confident that org member syncing works
+      # Github::OrganizationMember::RemoveWhenNoTeamMemberships.stubs(:call)
 
       ContributorTeam::UpdateReviewersTeamPermissions.expects(:call).with(team)
 
@@ -16,12 +17,13 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
     end
 
     test "does not update reviewer permission if action is #{action} and TEAM cannot be found" do
-      skip # TODO: enable this once we are confident that org member syncing works
       Github::Organization.any_instance.stubs(:name).returns('exercism')
 
       create :user, github_username: 'user22'
       create :contributor_team, github_name: 'team11'
-      Github::OrganizationMember::RemoveWhenNoTeamMemberships.stubs(:call)
+
+      # TODO: enable this once we are confident that org member syncing works
+      # Github::OrganizationMember::RemoveWhenNoTeamMemberships.stubs(:call)
 
       ContributorTeam::UpdateReviewersTeamPermissions.expects(:call).never
 
@@ -56,7 +58,6 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
   end
 
   test "does not do anything if organization does not match" do
-    skip # TODO: enable this once we are confident that org member syncing works
     Github::Organization.any_instance.stubs(:name).returns('exercism')
 
     create :user, github_username: 'user22'
@@ -69,7 +70,6 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
   end
 
   test "does not do anything if action is unknown" do
-    skip # TODO: enable this once we are confident that org member syncing works
     create :user, github_username: 'user22'
     create :contributor_team, github_name: 'team11'
 

@@ -488,7 +488,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   commonmarker
-  devise (~> 4.7.1)
+  devise (~> 4.7)
   elasticsearch (= 6.8.3)
   exercism-config (>= 0.77.0)
   factory_bot_rails

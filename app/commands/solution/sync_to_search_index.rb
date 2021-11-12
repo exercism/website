@@ -4,6 +4,7 @@ class Solution::SyncToSearchIndex
   initialize_with :solution
 
   def call
+    return
     Exercism.opensearch_client.index(
       index: Solution::OPENSEARCH_INDEX,
       type: 'solution',

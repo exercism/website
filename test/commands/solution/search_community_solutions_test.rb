@@ -57,6 +57,28 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     assert_empty Solution::SearchCommunitySolutions.(exercise, page: 2, per: 2, criteria: "")
   end
 
+  test "does not try and access values above 10_000" do
+    # Don't do any checking in DB or ES
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+    Exercism.expects(:opensearch_client).never
+
+    results = Solution::SearchCommunitySolutions.(create(:concept_exercise), page: 1001, per: 10)
+    assert_empty results
+  end
+
+  test "pagination returns max of 10_000 results" do
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+
+    data = { "hits" => { "hits" => [], "total" => { "value" => 10_001 } } }
+    os_client = mock
+    os_client.expects(:search).returns(data)
+    Exercism.expects(:opensearch_client).returns(os_client)
+
+    results = Solution::SearchCommunitySolutions.(create(:concept_exercise))
+    assert_equal 10_000, results.total_count
+  end
+
   test "fallback is called" do
     exercise = create :concept_exercise
     Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "foobar")

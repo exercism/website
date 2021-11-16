@@ -1,6 +1,10 @@
 require "test_helper"
 
 class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
+  setup do
+    reset_opensearch!
+  end
+
   test "respects force_sync: true" do
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", git_sha: repo.head_commit.oid, synced_to_git_sha: repo.head_commit.oid # rubocop:disable Layout/LineLength

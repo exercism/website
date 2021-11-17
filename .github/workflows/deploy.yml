@@ -5,13 +5,13 @@ env:
   webservers_cluster_name: webservers
   sidekiq_cluster_name: sidekiq
 
-  website_task_service_name: website
+  website_task_definition_name: website
   website_service_name: website
 
-  api_task_service_name: api
+  api_task_definition_name: api
   api_service_name: api
 
-  anycable_task_service_name: anycable
+  anycable_task_definition_name: anycable
   anycable_service_name: anycable
 
   sidekiq_task_definition_name: sidekiq
@@ -34,7 +34,7 @@ on:
 
 jobs:
   deploy:
-    # if: github.repository == 'exercism/website-deployer'
+    if: github.repository == 'exercism/website-deployer'
 
     name: Upload images to ECR, assets to S3, and definition to ECS
     runs-on: self-hosted

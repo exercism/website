@@ -178,21 +178,12 @@ jobs:
         id: update_definition_for_website_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: website-task-definition.json
+          task-definition: ${{ steps.update_definition_for_website_puma.outputs.task-definition }}
           container-name: nginx
           image: "${{ steps.build_nginx.outputs.image }}"
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy website task definition for puma container
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.update_definition_for_website_puma.outputs.task-definition }}
-          service: ${{ env.website_service_name }}
-          cluster: ${{ env.website_cluster_name }}
-          wait-for-service-stability: false
-
-      # Push the new definition up to ECS and deploy the new service from it
-      - name: Deploy website task definition for nginx container
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.update_definition_for_website_nginx.outputs.task-definition }}
@@ -225,21 +216,12 @@ jobs:
         id: update_definition_for_api_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: api-task-definition.json
+          task-definition: ${{ steps.update_definition_for_api_puma.outputs.task-definition }}
           container-name: nginx
           image: "${{ steps.build_nginx.outputs.image }}"
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy api task definition for puma container
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.update_definition_for_api_puma.outputs.task-definition }}
-          service: ${{ env.api_service_name }}
-          cluster: ${{ env.api_cluster_name }}
-          wait-for-service-stability: false
-
-      # Push the new definition up to ECS and deploy the new service from it
-      - name: Deploy api task definition for nginx container
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.update_definition_for_api_nginx.outputs.task-definition }}
@@ -272,7 +254,7 @@ jobs:
         id: update_definition_for_anycable_go
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: anycable-task-definition.json
+          task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
           container-name: anycable_go
           image: "${{ steps.build_anycable_go.outputs.image }}"
 
@@ -280,30 +262,12 @@ jobs:
         id: update_definition_for_anycable_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: anycable-task-definition.json
+          task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
           container-name: nginx
           image: "${{ steps.build_nginx.outputs.image }}"
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy anycable task definition for anycable_ruby container
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
-          service: ${{ env.anycable_service_name }}
-          cluster: ${{ env.anycable_cluster_name }}
-          wait-for-service-stability: false
-
-      # Push the new definition up to ECS and deploy the new service from it
-      - name: Deploy anycable task definition for anycable_go container
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
-          service: ${{ env.anycable_service_name }}
-          cluster: ${{ env.anycable_cluster_name }}
-          wait-for-service-stability: false
-
-      # Push the new definition up to ECS and deploy the new service from it
-      - name: Deploy anycable task definition for nginx container
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.update_definition_for_anycable_nginx.outputs.task-definition }}

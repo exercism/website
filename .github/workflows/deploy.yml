@@ -155,7 +155,7 @@ jobs:
       # but then chained from action to action for the others.
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.webservers_task_definition_name }} --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ env.webservers_task_definition_name }} --query taskdefinition > task-definition.json
 
       # Set puma to rails
       - name: Update the definition for puma
@@ -199,7 +199,7 @@ jobs:
       ##############################
       ##############################
 
-      # Push the new defintion up to ECS and deploy a new sevice from it.
+      # Push the new definition up to ECS and deploy a new service from it.
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
@@ -220,7 +220,7 @@ jobs:
       # but then chained from action to action for the others.
       - name: Download sidekiq task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.sidekiq_task_definition_name }} --query taskDefinition > sidekiq-task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ env.sidekiq_task_definition_name }} --query taskdefinition > sidekiq-task-definition.json
 
       # Set puma to rails
       - name: Update the sidekiq definition
@@ -231,7 +231,7 @@ jobs:
           container-name: sidekiq
           image: "${{ steps.build_rails.outputs.image }}"
 
-      # Push the new defintion up to ECS and deploy a new sevice from it.
+      # Push the new definition up to ECS and deploy a new service from it.
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:

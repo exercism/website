@@ -2,22 +2,20 @@ name: Deploy to Amazon ECS
 
 env:
   aws_region: eu-west-2
+  webservers_cluster_name: webservers
+  sidekiq_cluster_name: sidekiq
 
   website_task_service_name: website
   website_service_name: website
-  website_cluster_name: website
 
   api_task_service_name: api
   api_service_name: api
-  api_cluster_name: api
 
   anycable_task_service_name: anycable
   anycable_service_name: anycable
-  anycable_cluster_name: anycable
 
   sidekiq_task_definition_name: sidekiq
   sidekiq_service_name: sidekiq
-  sidekiq_cluster_name: sidekiq
 
   ecr_repository_rails: "webserver-rails"
   dockerfile_rails: "docker/rails.Dockerfile"
@@ -32,13 +30,11 @@ env:
   s3_bucket: "exercism-v3-assets"
 
 on:
-  push:
-    branches:
-      - main
+  - push
 
 jobs:
   deploy:
-    if: github.repository == 'exercism/website-deployer'
+    # if: github.repository == 'exercism/website-deployer'
 
     name: Upload images to ECR, assets to S3, and definition to ECS
     runs-on: self-hosted
@@ -188,7 +184,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_website_nginx.outputs.task-definition }}
           service: ${{ env.website_service_name }}
-          cluster: ${{ env.website_cluster_name }}
+          cluster: ${{ env.webservers_cluster_name }}
           wait-for-service-stability: false
 
       ##############################
@@ -226,7 +222,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_api_nginx.outputs.task-definition }}
           service: ${{ env.api_service_name }}
-          cluster: ${{ env.api_cluster_name }}
+          cluster: ${{ env.webservers_cluster_name }}
           wait-for-service-stability: false
 
       ##################################
@@ -272,7 +268,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_anycable_nginx.outputs.task-definition }}
           service: ${{ env.anycable_service_name }}
-          cluster: ${{ env.anycable_cluster_name }}
+          cluster: ${{ env.webservers_cluster_name }}
           wait-for-service-stability: false
 
       ##################################

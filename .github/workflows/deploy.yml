@@ -2,9 +2,18 @@ name: Deploy to Amazon ECS
 
 env:
   aws_region: eu-west-2
-  webservers_task_definition_name: webservers
-  webservers_service_name: webservers
-  webservers_cluster_name: webservers
+
+  website_task_service_name: website
+  website_service_name: website
+  website_cluster_name: website
+
+  api_task_service_name: api
+  api_service_name: api
+  api_cluster_name: api
+
+  anycable_task_service_name: anycable
+  anycable_service_name: anycable
+  anycable_cluster_name: anycable
 
   sidekiq_task_definition_name: sidekiq
   sidekiq_service_name: sidekiq
@@ -144,83 +153,176 @@ jobs:
           # Save the output for writing to the task definiton
           echo "::set-output name=image::$IMAGE_NAME"
 
+      ##################################
+      ##################################
+      # Update website Task definition #
+      ##################################
+      ##################################
+
+      # We get the existing task definition to update
+      # Note that this is passed into the first update action
+      # but then chained from action to action for the others.
+      - name: Download website task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.website_task_definition_name }} --query taskDefinition > website-task-definition.json
+
+      - name: Update website task definition for puma container
+        id: update_definition_for_website_puma
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: website-task-definition.json
+          container-name: puma
+          image: "${{ steps.build_rails.outputs.image }}"
+
+      - name: Update website task definition for nginx container
+        id: update_definition_for_website_nginx
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: website-task-definition.json
+          container-name: nginx
+          image: "${{ steps.build_nginx.outputs.image }}"
+
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy website task definition for puma container
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_website_puma.outputs.task-definition }}
+          service: ${{ env.website_service_name }}
+          cluster: ${{ env.website_cluster_name }}
+          wait-for-service-stability: false
+
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy website task definition for nginx container
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_website_nginx.outputs.task-definition }}
+          service: ${{ env.website_service_name }}
+          cluster: ${{ env.website_cluster_name }}
+          wait-for-service-stability: false
+
       ##############################
       ##############################
-      # Update the task definition #
+      # Update api Task definition #
       ##############################
       ##############################
 
       # We get the existing task definition to update
       # Note that this is passed into the first update action
       # but then chained from action to action for the others.
-      - name: Download task definition
+      - name: Download api task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.webservers_task_definition_name }} --query taskdefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ env.api_task_definition_name }} --query taskDefinition > api-task-definition.json
 
-      # Set puma to rails
-      - name: Update the definition for puma
-        id: update_definition_for_puma
+      - name: Update api task definition for puma container
+        id: update_definition_for_api_puma
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: api-task-definition.json
           container-name: puma
           image: "${{ steps.build_rails.outputs.image }}"
 
-      # Set anycable_ruby to rails
-      - name: Update the definition for anycable_ruby
-        id: update_definition_for_anycable_ruby
+      - name: Update api task definition for nginx container
+        id: update_definition_for_api_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.update_definition_for_puma.outputs.task-definition }}
-          container-name: anycable_ruby
-          image: "${{ steps.build_rails.outputs.image }}"
-
-      # Set nginx to nginx
-      - name: Update the definition for nginx
-        id: update_definition_for_nginx
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
+          task-definition: api-task-definition.json
           container-name: nginx
           image: "${{ steps.build_nginx.outputs.image }}"
 
-      # Set anycable_go to anycable_go
-      - name: Update the definition for anycable_go
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy api task definition for puma container
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_api_puma.outputs.task-definition }}
+          service: ${{ env.api_service_name }}
+          cluster: ${{ env.api_cluster_name }}
+          wait-for-service-stability: false
+
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy api task definition for nginx container
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_api_nginx.outputs.task-definition }}
+          service: ${{ env.api_service_name }}
+          cluster: ${{ env.api_cluster_name }}
+          wait-for-service-stability: false
+
+      ##################################
+      ##################################
+      # Update anycable Task definition #
+      ##################################
+      ##################################
+
+      # We get the existing task definition to update
+      # Note that this is passed into the first update action
+      # but then chained from action to action for the others.
+      - name: Download anycable task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.anycable_task_definition_name }} --query taskDefinition > anycable-task-definition.json
+
+      - name: Update anycable task definition for anycable_ruby container
+        id: update_definition_for_anycable_ruby
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: anycable-task-definition.json
+          container-name: anycable_ruby
+          image: "${{ steps.build_rails.outputs.image }}"
+
+      - name: Update anycable task definition for anycable_go container
         id: update_definition_for_anycable_go
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.update_definition_for_nginx.outputs.task-definition }}
+          task-definition: anycable-task-definition.json
           container-name: anycable_go
           image: "${{ steps.build_anycable_go.outputs.image }}"
 
-      ##############################
-      ##############################
-      # Deploy the task definition #
-      ##############################
-      ##############################
+      - name: Update anycable task definition for nginx container
+        id: update_definition_for_anycable_nginx
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: anycable-task-definition.json
+          container-name: nginx
+          image: "${{ steps.build_nginx.outputs.image }}"
 
-      # Push the new definition up to ECS and deploy a new service from it.
-      - name: Deploy Amazon ECS task definition
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy anycable task definition for anycable_ruby container
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          # Ensure this is the final step in the daisy-chain above
-          task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
-          service: ${{ env.webservers_service_name }}
-          cluster: ${{ env.webservers_cluster_name }}
+          task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
+          service: ${{ env.anycable_service_name }}
+          cluster: ${{ env.anycable_cluster_name }}
           wait-for-service-stability: false
 
-      ##############################
-      ##############################
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy anycable task definition for anycable_go container
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
+          service: ${{ env.anycable_service_name }}
+          cluster: ${{ env.anycable_cluster_name }}
+          wait-for-service-stability: false
+
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy anycable task definition for nginx container
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_anycable_nginx.outputs.task-definition }}
+          service: ${{ env.anycable_service_name }}
+          cluster: ${{ env.anycable_cluster_name }}
+          wait-for-service-stability: false
+
+      ##################################
+      ##################################
       # Update Sidekiq Task definition #
-      ##############################
-      ##############################
+      ##################################
+      ##################################
 
       # We get the existing task definition to update
       # Note that this is passed into the first update action
       # but then chained from action to action for the others.
       - name: Download sidekiq task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.sidekiq_task_definition_name }} --query taskdefinition > sidekiq-task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ env.sidekiq_task_definition_name }} --query taskDefinition > sidekiq-task-definition.json
 
       # Set puma to rails
       - name: Update the sidekiq definition

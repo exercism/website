@@ -162,7 +162,7 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.website_task_definition_name }} --query taskDefinition > website-task-definition.json
 
-      - name: Update website task definition for puma container
+      - name: Update website | puma container
         id: update_definition_for_website_puma
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -170,7 +170,7 @@ jobs:
           container-name: puma
           image: "${{ steps.build_rails.outputs.image }}"
 
-      - name: Update website task definition for nginx container
+      - name: Update website | nginx container
         id: update_definition_for_website_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -179,7 +179,7 @@ jobs:
           image: "${{ steps.build_nginx.outputs.image }}"
 
       # Push the new definition up to ECS and deploy the new service from it
-      - name: Deploy website task definition for puma container
+      - name: Deploy Website
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.update_definition_for_website_nginx.outputs.task-definition }}
@@ -200,7 +200,7 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.api_task_definition_name }} --query taskDefinition > api-task-definition.json
 
-      - name: Update api task definition for puma container
+      - name: Update api | puma container
         id: update_definition_for_api_puma
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -208,7 +208,7 @@ jobs:
           container-name: puma
           image: "${{ steps.build_rails.outputs.image }}"
 
-      - name: Update api task definition for nginx container
+      - name: Update api | nginx container
         id: update_definition_for_api_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -217,7 +217,7 @@ jobs:
           image: "${{ steps.build_nginx.outputs.image }}"
 
       # Push the new definition up to ECS and deploy the new service from it
-      - name: Deploy api task definition for puma container
+      - name: Deploy API
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.update_definition_for_api_nginx.outputs.task-definition }}
@@ -238,7 +238,7 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.anycable_task_definition_name }} --query taskDefinition > anycable-task-definition.json
 
-      - name: Update anycable task definition for anycable_ruby container
+      - name: Update anycable | anycable_ruby container
         id: update_definition_for_anycable_ruby
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -246,7 +246,7 @@ jobs:
           container-name: anycable_ruby
           image: "${{ steps.build_rails.outputs.image }}"
 
-      - name: Update anycable task definition for anycable_go container
+      - name: Update anycable | anycable_go container
         id: update_definition_for_anycable_go
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -254,7 +254,7 @@ jobs:
           container-name: anycable_go
           image: "${{ steps.build_anycable_go.outputs.image }}"
 
-      - name: Update anycable task definition for nginx container
+      - name: Update anycable | nginx container
         id: update_definition_for_anycable_nginx
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -263,7 +263,7 @@ jobs:
           image: "${{ steps.build_nginx.outputs.image }}"
 
       # Push the new definition up to ECS and deploy the new service from it
-      - name: Deploy anycable task definition for anycable_ruby container
+      - name: Deploy Anycable
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.update_definition_for_anycable_nginx.outputs.task-definition }}
@@ -294,7 +294,7 @@ jobs:
           image: "${{ steps.build_rails.outputs.image }}"
 
       # Push the new definition up to ECS and deploy a new service from it.
-      - name: Deploy Amazon ECS task definition
+      - name: Deploy Sidekiq
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           # Ensure this is the final step in the daisy-chain above

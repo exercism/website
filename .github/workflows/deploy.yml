@@ -125,30 +125,6 @@ jobs:
           # Save the output for writing to the task definiton
           echo "::set-output name=image::$IMAGE_NAME"
 
-      ############################
-      ############################
-      # Build the AnyCable image #
-      ############################
-      ############################
-      - name: Build and Push Anycable Go Docker
-        id: build_anycable_go
-        env:
-          ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ecr_repository_anycable_go }}
-          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
-          DOCKERFILE: ${{ env.dockerfile_anycable_go }}
-        run: |
-          # Build a docker container and push it to ECR
-          docker build -t $IMAGE_NAME -f $DOCKERFILE .
-          docker push $IMAGE_NAME
-
-          # Retag this as the latest
-          docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-
-          # Save the output for writing to the task definiton
-          echo "::set-output name=image::$IMAGE_NAME"
-
       ##################################
       ##################################
       # Update website Task definition #
@@ -252,7 +228,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
           container-name: anycable_go
-          image: "${{ steps.build_anycable_go.outputs.image }}"
+          image: "${{ steps.login_to_ecr.outputs.registry}}/anycable-go-pro:latest"
 
       - name: Update anycable | nginx container
         id: update_definition_for_anycable_nginx

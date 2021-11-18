@@ -30,7 +30,8 @@ env:
   s3_bucket: "exercism-v3-assets"
 
 on:
-  - push
+  push:
+    branches: [main]
 
 jobs:
   deploy:

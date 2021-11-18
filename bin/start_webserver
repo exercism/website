@@ -15,7 +15,7 @@ FileUtils.chdir APP_ROOT do
   system! 'bundle exec bin/rails runner lib/run_migrations_with_concurrent_guard.rb'
 
   # Warm the local cache of EFS to avoid big read spikes as users start to hit the website.
-  system! 'bundle exec bin/rails runner "Track.find_each{|t|t.git.config}"'
+  system! 'bundle exec bin/rails runner "Track.find_each{|t|begin;t.git.config;rescue;end}"'
   system! 'bundle exec bin/rails runner "Git::WebsiteCopy.new.walkthrough"'
   system! 'bundle exec bin/rails runner "Git::Docs.new.section_config(:using)"'
 

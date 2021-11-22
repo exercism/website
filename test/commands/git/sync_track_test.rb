@@ -370,22 +370,22 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "ignores concept exercise prerequisites with no concept exercise unlocking them" do
     track = create :track, synced_to_git_sha: 'cb075456495cc4c2910ca86148024f232c659ceb'
-    types = create :concept, track: track, slug: 'types', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    types = create :concept, track: track, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
 
     Git::SyncTrack.(track)
 
-    exercise = track.reload.concept_exercises.find_by(uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17')
+    exercise = track.concept_exercises.find_by(uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17')
     refute_includes exercise.prerequisites, types
   end
 
   test "ignores practice exercise prerequisites with no concept exercise unlocking them" do
     track = create :track, synced_to_git_sha: 'cb075456495cc4c2910ca86148024f232c659ceb'
-    types = create :concept, track: track, slug: 'types', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    types = create :concept, track: track, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
     dates = create :concept, track: track, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
 
     Git::SyncTrack.(track)
 
-    exercise = track.reload.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
+    exercise = track.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
     refute_includes exercise.prerequisites, types
     refute_includes exercise.prerequisites, dates
   end

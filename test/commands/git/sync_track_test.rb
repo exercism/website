@@ -112,7 +112,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.concepts.length
+    assert_equal 10, track.concepts.length
   end
 
   test "concept exercises use position from config" do
@@ -186,13 +186,13 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "practice exercises use track concepts for prerequisites" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :concept, track: track, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    track_concept = create :concept, track: track, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
     other_track = create :track, slug: 'fsharp'
-    other_track_concept = create :concept, track: other_track, slug: 'dates'
+    other_track_concept = create :concept, track: other_track, slug: 'conditionals'
 
     Git::SyncTrack.(track)
 
-    track_practice_exercise = track.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
+    track_practice_exercise = track.practice_exercises.find_by(uuid: '4f12ede3-312e-482a-b0ae-dfd29f10b5fb')
     assert_includes track_practice_exercise.prerequisites, track_concept
     refute_includes track_practice_exercise.prerequisites, other_track_concept
   end
@@ -235,7 +235,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.concepts.length
+    assert_equal 10, track.concepts.length
     track.concepts.each do |concept|
       assert_equal track.git.head_sha, concept.synced_to_git_sha
     end
@@ -366,6 +366,28 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     assert_equal 9, track.practice_exercises.length
+  end
+
+  test "ignores concept exercise prerequisites with no concept exercise unlocking them" do
+    track = create :track, synced_to_git_sha: 'cb075456495cc4c2910ca86148024f232c659ceb'
+    types = create :concept, track: track, slug: 'types', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+
+    Git::SyncTrack.(track)
+
+    exercise = track.reload.concept_exercises.find_by(uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17')
+    refute_includes exercise.prerequisites, types
+  end
+
+  test "ignores practice exercise prerequisites with no concept exercise unlocking them" do
+    track = create :track, synced_to_git_sha: 'cb075456495cc4c2910ca86148024f232c659ceb'
+    types = create :concept, track: track, slug: 'types', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    dates = create :concept, track: track, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+
+    Git::SyncTrack.(track)
+
+    exercise = track.reload.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
+    refute_includes exercise.prerequisites, types
+    refute_includes exercise.prerequisites, dates
   end
 
   test "delete concept exercises no longer in config.json" do

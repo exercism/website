@@ -130,6 +130,13 @@ module Git
       concepts.find { |c| c[:uuid] == uuid }
     end
 
+    memoize
+    def taught_concept_slugs
+      concept_slugs = concepts.map { |c| c[:slug] }
+      concept_exercise_concept_slugs = concept_exercises.flat_map { |e| e[:concepts].to_a }
+      concept_exercise_concept_slugs & concept_slugs
+    end
+
     private
     attr_reader :repo, :git_sha
 

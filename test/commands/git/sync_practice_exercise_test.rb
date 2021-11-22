@@ -16,9 +16,11 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     updated_at = Time.current - 1.week
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     git_sha = repo.head_commit.parents.first.oid
-    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: git_sha, synced_to_git_sha: git_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
+    strings = create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
+    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', position: 9, difficulty: 7, git_sha: git_sha, synced_to_git_sha: git_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
     exercise.prerequisites << (create :concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca')
-    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+    exercise.prerequisites << strings
+    exercise.practiced_concepts << strings
 
     assert_equal updated_at, exercise.reload.updated_at # Sanity
 
@@ -154,6 +156,19 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     Git::SyncPracticeExercise.(exercise)
 
     refute_includes exercise.prerequisites, time
+  end
+
+  test "removes prerequisites that are not taught by any concept exercise" do
+    time = create :concept, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    types = create :concept, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
+    exercise = create :practice_exercise, uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206', slug: 'space-age', title: 'Space Age', git_sha: "503834363624c44f1202953427e7047f0472cbe7", synced_to_git_sha: "503834363624c44f1202953427e7047f0472cbe7" # rubocop:disable Layout/LineLength
+    exercise.prerequisites << (create :concept, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a')
+    exercise.prerequisites << time
+    exercise.prerequisites << types
+
+    Git::SyncPracticeExercise.(exercise)
+
+    refute_includes exercise.prerequisites, types
   end
 
   test "adds new practiced concepts defined in config.json" do

@@ -13,16 +13,16 @@ module Git
 
     private
     def sync_config!(section)
-      config = repo.read_json_blob(repo.head_commit, "#{section}/config.json")
+      config = repo.section_config(section)
 
       config.to_a.each do |doc_config|
-        Git::SyncDoc.(doc_config, section, repo.head_commit.oid)
+        Git::SyncDoc.(doc_config, section, repo.head_sha)
       end
     end
 
     memoize
     def repo
-      Git::Repository.new(repo_url: Document::REPO_URL, branch_ref: ENV['GIT_DOCS_BRANCH'])
+      Git::Docs.new(branch_ref: ENV['GIT_DOCS_BRANCH'])
     end
   end
 end

@@ -23,7 +23,7 @@ class Document::SyncAllToSearchIndexTest < ActiveSupport::TestCase
     track = create :track, id: 22, slug: 'nim', title: 'Nim'
     doc = create :document, id: 3, title: 'Installation', blurb: 'How to install Nim', track: track,
 updated_at: Time.parse("2020-10-17T02:39:37.000Z").utc
-    Document.any_instance.stubs(:content_html).returns('<h1>Installation</h1>')
+    Document.any_instance.stubs(:markdown).returns('# Installation')
     wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
 
     Document::SyncAllToSearchIndex.()
@@ -39,7 +39,7 @@ updated_at: Time.parse("2020-10-17T02:39:37.000Z").utc
         "id" => 3,
         "title" => "Installation",
         "blurb" => "How to install Nim",
-        "content_html" => "<h1>Installation</h1>",
+        "markdown" => "# Installation",
         "updated_at" => "2020-10-17T02:39:37.000Z",
         "track" => { "id" => 22, "slug" => "nim", "title" => "Nim" }
       }
@@ -51,7 +51,7 @@ updated_at: Time.parse("2020-10-17T02:39:37.000Z").utc
   test "indexes document not linked to track" do
     doc = create :document, id: 4, title: 'Automated Feedback', blurb: 'Getting Automated Feedback',
 updated_at: Time.parse("2020-10-17T02:39:37.000Z").utc
-    Document.any_instance.stubs(:content_html).returns('<h1>Automated Feedback</h1>')
+    Document.any_instance.stubs(:markdown).returns('# Automated Feedback')
     wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
 
     Document::SyncAllToSearchIndex.()
@@ -67,7 +67,7 @@ updated_at: Time.parse("2020-10-17T02:39:37.000Z").utc
         "id" => 4,
         "title" => "Automated Feedback",
         "blurb" => "Getting Automated Feedback",
-        "content_html" => "<h1>Automated Feedback</h1>",
+        "markdown" => "# Automated Feedback",
         "updated_at" => "2020-10-17T02:39:37.000Z",
         "track" => nil
       }

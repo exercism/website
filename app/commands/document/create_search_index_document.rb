@@ -8,7 +8,7 @@ class Document::CreateSearchIndexDocument
       id: doc.id,
       title: doc.title,
       blurb: doc.blurb,
-      content_html: doc.content_html,
+      markdown: doc.markdown,
       updated_at: doc.updated_at,
       track: doc.track.nil? ? nil : {
         id: doc.track.id,

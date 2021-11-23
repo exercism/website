@@ -28,9 +28,14 @@ class Document < ApplicationRecord
     slug == "APEX"
   end
 
-  def content_html
+  memoize
+  def markdown
     repo = Git::Repository.new(repo_url: git_repo, branch_ref: ENV['GIT_DOCS_BRANCH'])
-    markdown = repo.read_text_blob(repo.head_commit, git_path)
+    repo.read_text_blob(repo.head_commit, git_path)
+  end
+
+  memoize
+  def content_html
     Markdown::Parse.(markdown, strip_h1: true, lower_heading_levels_by: 0, heading_ids: true)
   end
 

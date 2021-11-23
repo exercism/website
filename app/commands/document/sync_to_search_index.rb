@@ -1,14 +1,14 @@
 class Document::SyncToSearchIndex
   include Mandate
 
-  initialize_with :document
+  initialize_with :doc
 
   def call
     Exercism.opensearch_client.index(
       index: Document::OPENSEARCH_INDEX,
       type: 'document',
-      id: document.id,
-      body: Document::CreateSearchIndexDocument.(document)
+      id: doc.id,
+      body: Document::CreateSearchIndexDocument.(doc)
     )
   end
 end

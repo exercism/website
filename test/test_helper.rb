@@ -241,10 +241,10 @@ class ActiveSupport::TestCase
   ######################
   # OpenSearch Helpers #
   ######################
-  def reset_opensearch!
+  def reset_opensearch!(index)
     opensearch = Exercism.opensearch_client
-    opensearch.indices.delete(index: Solution::OPENSEARCH_INDEX) if opensearch.indices.exists(index: Solution::OPENSEARCH_INDEX)
-    opensearch.indices.create(index: Solution::OPENSEARCH_INDEX)
+    opensearch.indices.delete(index: index) if opensearch.indices.exists(index: index)
+    opensearch.indices.create(index: index)
   end
 
   def get_opensearch_doc(index, id)

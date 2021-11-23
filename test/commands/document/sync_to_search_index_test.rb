@@ -2,7 +2,7 @@ require "test_helper"
 
 class Document::SyncToSearchIndexTest < ActiveSupport::TestCase
   setup do
-    reset_opensearch!
+    reset_opensearch!(Document::OPENSEARCH_INDEX)
   end
 
   test "indexes document linked to track" do

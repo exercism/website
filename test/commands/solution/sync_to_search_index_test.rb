@@ -2,7 +2,7 @@ require "test_helper"
 
 class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
   setup do
-    reset_opensearch!
+    reset_opensearch!(Solution::OPENSEARCH_INDEX)
   end
 
   test "indexes solution" do

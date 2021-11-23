@@ -2,7 +2,7 @@ require "test_helper"
 
 class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
   setup do
-    reset_opensearch!
+    reset_opensearch!(Solution::OPENSEARCH_INDEX)
   end
 
   test "no options returns everything" do

@@ -25,7 +25,7 @@ module API
     end
 
     test "index should search and return solutions" do
-      reset_opensearch!
+      reset_opensearch!(Solution::OPENSEARCH_INDEX)
 
       track = create :track
       exercise = create :concept_exercise, :random_slug, track: track

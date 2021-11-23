@@ -2,7 +2,7 @@ require "test_helper"
 
 class Document::SyncAllToSearchIndexTest < ActiveSupport::TestCase
   setup do
-    reset_opensearch!
+    reset_opensearch!(Document::OPENSEARCH_INDEX)
   end
 
   test "indexes all documents" do

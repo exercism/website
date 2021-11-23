@@ -21,7 +21,7 @@ module Git
         title: exercise_config[:name].presence,
         blurb: head_git_exercise.blurb,
         taught_concepts: find_concepts(exercise_config[:concepts]),
-        prerequisites: find_concepts(exercise_config_taught_prerequisites),
+        prerequisites: find_concepts(exercise_config_prerequisites),
         has_test_runner: head_git_exercise.has_test_runner?
       )
 
@@ -45,7 +45,7 @@ module Git
         exercise_config[:name] != exercise.title ||
         (exercise_config[:status] || :active) != exercise.status ||
         exercise_config[:concepts].to_a.sort != exercise.taught_concepts.map(&:slug).sort ||
-        exercise_config_taught_prerequisites.sort != exercise.prerequisites.map(&:slug).sort
+        exercise_config_prerequisites.sort != exercise.prerequisites.map(&:slug).sort
     end
 
     def exercise_config_modified?
@@ -89,7 +89,7 @@ module Git
     end
 
     memoize
-    def exercise_config_taught_prerequisites
+    def exercise_config_prerequisites
       head_git_track.taught_concept_slugs & exercise_config[:prerequisites].to_a
     end
 

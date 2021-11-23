@@ -69,7 +69,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
 
     Solution.find_each { |solution| create :iteration, submission: create(:submission, solution: solution) }
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     get api_profile_solutions_path(profile_user), headers: @headers, as: :json
     assert_response 200

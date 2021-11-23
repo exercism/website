@@ -55,7 +55,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       status: :published,
       mentoring_status: "finished"
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     get api_solutions_path(
       criteria: "ru",

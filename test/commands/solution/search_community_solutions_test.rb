@@ -20,7 +20,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     # A different exercise
     create :concept_solution
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 10, criteria: "")
   end
@@ -35,7 +35,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [solution_2, solution_3, solution_1], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 10, criteria: "")
   end
@@ -49,7 +49,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 1, criteria: "")
     assert_equal [solution_1], Solution::SearchCommunitySolutions.(exercise, page: 2, per: 1, criteria: "")

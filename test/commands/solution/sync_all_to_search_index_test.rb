@@ -17,11 +17,11 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
       create :iteration, submission: submission
     end
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     Solution::SyncAllToSearchIndex.()
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     counts = Exercism.opensearch_client.count(index: Solution::OPENSEARCH_INDEX)
     assert 200, counts["counts"]

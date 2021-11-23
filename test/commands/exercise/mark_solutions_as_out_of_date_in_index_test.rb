@@ -18,7 +18,7 @@ git_important_files_hash: exercise_1.git_important_files_hash
 git_important_files_hash: exercise_2.git_important_files_hash
     solution_4 = create :practice_solution, exercise: exercise_2, user: user_2
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     # Sanity check
     assert out_of_date_in_index?(solution_1)
@@ -26,7 +26,7 @@ git_important_files_hash: exercise_2.git_important_files_hash
     refute out_of_date_in_index?(solution_3)
     refute out_of_date_in_index?(solution_4)
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     Exercise::MarkSolutionsAsOutOfDateInIndex.(exercise_1)
 

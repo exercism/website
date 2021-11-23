@@ -16,7 +16,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user)
   end
@@ -36,7 +36,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user)
     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: " ") # rubocop:disable Layout:LineLength
@@ -62,7 +62,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [elixir_solution, js_solution, ruby_solution], Solution::SearchUserSolutions.(user)
     assert_equal [js_solution, ruby_solution], Solution::SearchUserSolutions.(user, track_slug: %i[ruby javascript])
@@ -78,7 +78,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [iterated, completed, published], Solution::SearchUserSolutions.(user, status: nil)
     assert_equal [iterated], Solution::SearchUserSolutions.(user, status: :iterated)
@@ -99,7 +99,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [none, requested, in_progress, finished], Solution::SearchUserSolutions.(user, mentoring_status: nil)
 
@@ -126,7 +126,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [solution_2], Solution::SearchUserSolutions.(user, page: 1, per: 1)
     assert_equal [solution_1], Solution::SearchUserSolutions.(user, page: 2, per: 1)
@@ -142,7 +142,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user, page: 0, per: 0)
     assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user, page: 'foo', per: 'bar')
@@ -156,7 +156,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [old_solution, new_solution], Solution::SearchUserSolutions.(user, order: "oldest_first")
   end
@@ -169,7 +169,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced
+    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
 
     assert_equal [new_solution, old_solution], Solution::SearchUserSolutions.(user)
   end

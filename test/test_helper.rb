@@ -251,12 +251,12 @@ class ActiveSupport::TestCase
     Exercism.opensearch_client.get(index: index, id: id)
   end
 
-  def wait_for_opensearch_to_be_synced
+  def wait_for_opensearch_to_be_synced(index)
     # Wait for enqueued jobs to finish as opensearch is always updated from within jobs
     perform_enqueued_jobs
 
     # Force an index refresh to ensure there are no concurrent actions in the background
-    Exercism.opensearch_client.indices.refresh(index: Solution::OPENSEARCH_INDEX)
+    Exercism.opensearch_client.indices.refresh(index: index)
   end
 end
 

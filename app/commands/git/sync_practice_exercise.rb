@@ -21,7 +21,7 @@ module Git
         position: exercise_position,
         git_sha: head_git_exercise.synced_git_sha,
         synced_to_git_sha: head_git_exercise.synced_git_sha,
-        prerequisites: find_concepts(exercise_config[:prerequisites]),
+        prerequisites: find_concepts(exercise_config_prerequisites),
         practiced_concepts: find_concepts(exercise_config[:practices]),
         has_test_runner: head_git_exercise.has_test_runner?
       )
@@ -46,7 +46,7 @@ module Git
         exercise_config[:name] != exercise.title ||
         (exercise_config[:status] || :active) != exercise.status ||
         exercise_config[:difficulty] != exercise.difficulty ||
-        exercise_config[:prerequisites].to_a.sort != exercise.prerequisites.map(&:slug).sort ||
+        exercise_config_prerequisites.sort != exercise.prerequisites.map(&:slug).sort ||
         exercise_config[:practices].to_a.sort != exercise.practiced_concepts.map(&:slug).sort
     end
 
@@ -92,6 +92,11 @@ module Git
     memoize
     def exercise_config
       head_git_track.practice_exercises[exercise_index]
+    end
+
+    memoize
+    def exercise_config_prerequisites
+      head_git_track.taught_concept_slugs & exercise_config[:prerequisites].to_a
     end
 
     memoize

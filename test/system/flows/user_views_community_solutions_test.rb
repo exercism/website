@@ -14,6 +14,8 @@ module Flows
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
 
+      wait_for_opensearch_to_be_synced
+
       use_capybara_host do
         sign_in!(user)
         visit track_exercise_solutions_path(exercise.track, exercise)
@@ -35,6 +37,8 @@ module Flows
       other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author
       other_submission = create :submission, solution: other_solution
       create :iteration, solution: other_solution, submission: other_submission
+
+      wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         sign_in!(user)
@@ -59,6 +63,8 @@ module Flows
       other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author
       other_submission = create :submission, solution: other_solution
       create :iteration, solution: other_solution, submission: other_submission
+
+      wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         sign_in!(user)

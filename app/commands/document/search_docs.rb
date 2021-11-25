@@ -40,7 +40,7 @@ class Document
     def search_body
       {
         query: search_query,
-        sort: search_sort,
+        sort: :_score,
 
         # Only return the solution IDs, not the entire document, to improve performance
         _source: [:id],
@@ -55,26 +55,16 @@ class Document
       {
         bool: {
           must: [
-            track_slug.blank? ? nil : {
-              terms: {
-                'track.slug': [track_slug].flatten
-              }
-            },
+            track_slug.blank? ? nil : { terms: { 'track.slug': [track_slug].flatten } },
             criteria.blank? ? nil : {
-              multi_match: {
-                query: criteria,
+              query_string: {
+                query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),
                 fields: ['title^5', 'blurb^3', 'markdown']
               }
             }
           ].compact
         }
       }
-    end
-
-    def search_sort
-      sort = [{ updated_at: { order: :desc, unmapped_type: "date" } }]
-      sort.prepend(:_score) if criteria.present?
-      sort
     end
 
     class Fallback
@@ -97,42 +87,19 @@ class Document
       def filter_criteria!
         return if criteria.blank?
 
-        @solutions = @solutions.joins(exercise: :track)
         criteria.strip.split(" ").each do |crit|
-          @solutions = @solutions.where(
-            "exercises.title LIKE ? OR tracks.title LIKE ?",
-            "%#{crit}%",
-            "%#{crit}%"
-          )
+          @docs = @docs.where("title LIKE ? OR blurb LIKE ?", "%#{crit}%", "%#{crit}%")
         end
       end
 
       def filter_track!
         return if track_slug.blank?
 
-        @solutions = @solutions.joins(exercise: :track).
-          where('tracks.slug': track_slug)
-      end
-
-      def filter_status!
-        return if status.blank?
-
-        @solutions = @solutions.where(status: status)
-      end
-
-      def filter_mentoring_status!
-        return if mentoring_status.blank?
-
-        @solutions = @solutions.where(mentoring_status: mentoring_status)
+        @docs = @docs.joins(:track).where('tracks.slug': track_slug)
       end
 
       def sort!
-        case order&.to_sym
-        when :oldest_first
-          @solutions = @solutions.order(id: :asc)
-        else # :newest_first
-          @solutions = @solutions.order(id: :desc)
-        end
+        @docs = @docs.order(id: :asc)
       end
     end
   end

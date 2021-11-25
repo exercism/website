@@ -14,14 +14,13 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
 
     wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
 
-    assert_equal [doc_2, doc_1], Document::SearchDocs.()
+    assert_equal [doc_1, doc_2], Document::SearchDocs.()
   end
 
   test "criteria" do
     ruby = create :track, title: "Ruby", slug: "ruby"
     elixir = create :track, title: "Elixir", slug: 'elixir'
 
-    # Sanity check: non track doc should not be included
     non_track_doc = create :document, track: nil, title: 'Feedback', blurb: 'Give and receive'
     ruby_doc_1 = create :document, track: ruby, title: 'Installation', blurb: 'Step by step'
     ruby_doc_2 = create :document, track: ruby, title: 'Learning', blurb: 'How to learn resources'
@@ -43,8 +42,10 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     Document::SyncToSearchIndex.(ruby_doc_2)
     Document::SyncToSearchIndex.(elixir_doc)
 
-    assert_equal [elixir_doc, ruby_doc_2, ruby_doc_1, non_track_doc], Document::SearchDocs.()
-    assert_equal [elixir_doc, ruby_doc_2, ruby_doc_1, non_track_doc], Document::SearchDocs.(criteria: " ") # rubocop:disable Layout:LineLength
+    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+
+    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.()
+    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.(criteria: " ") # rubocop:disable Layout:LineLength
     assert_equal [ruby_doc_1], Document::SearchDocs.(criteria: "install")
     assert_equal [ruby_doc_1], Document::SearchDocs.(criteria: "inst step")
     assert_equal [elixir_doc, ruby_doc_2], Document::SearchDocs.(criteria: "resources")
@@ -69,6 +70,8 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     Document::SyncToSearchIndex.(matching_blurb)
     Document::SyncToSearchIndex.(matching_markdown)
 
+    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+
     # We've setup the document to have the "Install" text in different properties (title/blurb/markdown)
     # to verify that the right boosting is applied
     assert_equal [matching_title, matching_blurb, matching_markdown], Document::SearchDocs.(criteria: "install")
@@ -90,171 +93,97 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
 
     wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
 
-    assert_equal [elixir_doc, ruby_doc_2, ruby_doc_1, non_track_doc], Document::SearchDocs.()
-    assert_equal [elixir_doc, ruby_doc_2, ruby_doc_1], Document::SearchDocs.(track_slug: %i[ruby elixir])
-    assert_equal [ruby_doc_2, ruby_doc_1], Document::SearchDocs.(track_slug: "ruby")
+    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.()
+    assert_equal [ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.(track_slug: %i[ruby elixir])
+    assert_equal [ruby_doc_1, ruby_doc_2], Document::SearchDocs.(track_slug: "ruby")
   end
 
-  #   test "pagination" do
-  #     user = create :user
-  #     solution_1 = create :concept_solution, user: user
-  #     solution_2 = create :concept_solution, user: user
+  test "pagination" do
+    doc_1 = create :document
+    doc_2 = create :document
+    doc_3 = create :document
 
-  #     # Sanity check: ensure that the results are not returned using the fallback
-  #     Document::SearchDocs::Fallback.expects(:call).never
+    # Sanity check: ensure that the results are not returned using the fallback
+    Document::SearchDocs::Fallback.expects(:call).never
 
-  #     wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
 
-  #     assert_equal [solution_2], Document::SearchDocs.(user, page: 1, per: 1)
-  #     assert_equal [solution_1], Document::SearchDocs.(user, page: 2, per: 1)
-  #     assert_equal [solution_2, solution_1], Document::SearchDocs.(user, page: 1, per: 2)
-  #     assert_empty Document::SearchDocs.(user, page: 2, per: 2)
-  #   end
+    assert_equal [doc_1], Document::SearchDocs.(page: 1, per: 1)
+    assert_equal [doc_2], Document::SearchDocs.(page: 2, per: 1)
+    assert_equal [doc_3], Document::SearchDocs.(page: 3, per: 1)
+    assert_equal [doc_1, doc_2], Document::SearchDocs.(page: 1, per: 2)
+    assert_empty Document::SearchDocs.(page: 3, per: 2)
+  end
 
-  #   test "pagination with invalid values" do
-  #     user = create :user
-  #     solution_1 = create :concept_solution, user: user
-  #     solution_2 = create :concept_solution, user: user
+  test "pagination with invalid values" do
+    doc_1 = create :document
+    doc_2 = create :document
+    doc_3 = create :document
 
-  #     # Sanity check: ensure that the results are not returned using the fallback
-  #     Document::SearchDocs::Fallback.expects(:call).never
+    # Sanity check: ensure that the results are not returned using the fallback
+    Document::SearchDocs::Fallback.expects(:call).never
 
-  #     wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
 
-  #     assert_equal [solution_2, solution_1], Document::SearchDocs.(user, page: 0, per: 0)
-  #     assert_equal [solution_2, solution_1], Document::SearchDocs.(user, page: 'foo', per: 'bar')
-  #   end
+    assert_equal [doc_1, doc_2, doc_3], Document::SearchDocs.(page: 0, per: 0)
+    assert_equal [doc_1, doc_2, doc_3], Document::SearchDocs.(page: 'foo', per: 'bar')
+  end
 
-  #   test "fallback is called" do
-  #     user = create :user
-  #     Document::SearchDocs::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", "oldest_first")
-  #     Elasticsearch::Client.expects(:new).raises
+  test "fallback is called" do
+    Document::SearchDocs::Fallback.expects(:call).with("foobar", "csharp", 2, 15)
+    Elasticsearch::Client.expects(:new).raises
 
-  #     Document::SearchDocs.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
-  # criteria: "foobar", order: "oldest_first")
-  #   end
+    Document::SearchDocs.(criteria: "foobar", track_slug: "csharp", page: 2, per: 15)
+  end
 
-  #   test "fallback: no options returns everything" do
-  #     user = create :user
-  #     solution_1 = create :concept_solution, user: user
-  #     solution_2 = create :practice_solution, user: user
+  test "fallback: no options returns everything" do
+    doc_1 = create :document
+    doc_2 = create :document
 
-  #     # Someone else's solution
-  #     create :concept_solution
+    assert_equal [doc_1, doc_2], Document::SearchDocs::Fallback.(nil, nil, 1, 15)
+  end
 
-  #     assert_equal [solution_2, solution_1], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
-  #   end
+  test "fallback: criteria" do
+    ruby = create :track, title: "Ruby", slug: "ruby"
+    elixir = create :track, title: "Elixir", slug: 'elixir'
 
-  #   test "fallback: criteria" do
-  #     user = create :user
-  #     javascript = create :track, title: "JavaScript", slug: "javascript"
-  #     ruby = create :track, title: "Ruby"
-  #     js_bob = create :concept_exercise, title: "Bob", track: javascript
-  #     ruby_food = create :concept_exercise, title: "Food Chain", track: ruby
-  #     ruby_bob = create :concept_exercise, title: "Bob", track: ruby
+    non_track_doc = create :document, track: nil, title: 'Feedback', blurb: 'Give and receive'
+    ruby_doc_1 = create :document, track: ruby, title: 'Installation', blurb: 'Step by step'
+    ruby_doc_2 = create :document, track: ruby, title: 'Learning', blurb: 'How to learn resources'
+    elixir_doc = create :document, track: elixir, title: 'Resources', blurb: 'Links to documents'
 
-  #     js_bob_solution = create :practice_solution, user: user, exercise: js_bob
-  #     ruby_food_solution = create :concept_solution, user: user, exercise: ruby_food
-  #     ruby_bob_solution = create :concept_solution, user: user, exercise: ruby_bob
+    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs::Fallback.(nil, nil, 1, 15)
+    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs::Fallback.(" ", nil, 1, 15)
+    assert_equal [ruby_doc_1], Document::SearchDocs::Fallback.("install", nil, 1, 15)
+    assert_equal [ruby_doc_1], Document::SearchDocs::Fallback.("inst step", nil, 1, 15)
+    assert_equal [ruby_doc_2, elixir_doc], Document::SearchDocs::Fallback.("resources", nil, 1, 15)
+  end
 
-  #     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution],
-  #       Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
-  #     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, " ", nil) # rubocop:disable Layout:LineLength
-  #     assert_equal [ruby_bob_solution, ruby_food_solution],
-  #       Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, "ru", nil)
-  #     assert_equal [ruby_bob_solution, js_bob_solution], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, "bo", nil)
-  #     assert_equal [ruby_bob_solution].map(&:track),
-  #       Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, "ru bo", nil).map(&:track)
-  #     assert_equal [ruby_food_solution], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, "r ch fo", nil)
-  #   end
+  test "fallback: track_slug" do
+    ruby = create :track, title: "Ruby", slug: "ruby"
+    elixir = create :track, title: "Elixir", slug: 'elixir'
 
-  #   test "fallback: track_slug" do
-  #     user = create :user
-  #     javascript = create :track, title: "JavaScript", slug: "javascript"
-  #     ruby = create :track, title: "Ruby", slug: "ruby"
-  #     elixir = create :track, title: "Elixir", slug: 'elixir'
-  #     ruby_exercise = create :practice_exercise, track: ruby
-  #     js_exercise = create :practice_exercise, track: javascript
-  #     elixir_exercise = create :practice_exercise, track: elixir
+    # Sanity check: non track doc should not be included
+    non_track_doc = create :document, track: nil
 
-  #     ruby_solution = create :practice_solution, user: user, exercise: ruby_exercise
-  #     js_solution = create :practice_solution, user: user, exercise: js_exercise
-  #     elixir_solution = create :practice_solution, user: user, exercise: elixir_exercise
+    ruby_doc_1 = create :document, track: ruby
+    ruby_doc_2 = create :document, track: ruby
+    elixir_doc = create :document, track: elixir
 
-  #     assert_equal [elixir_solution, js_solution, ruby_solution],
-  #       Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
-  #     assert_equal [js_solution, ruby_solution],
-  #       Document::SearchDocs::Fallback.(user, 1, 15, %i[ruby javascript], nil, nil, nil, nil)
-  #     assert_equal [ruby_solution], Document::SearchDocs::Fallback.(user, 1, 15, "ruby", nil, nil, nil, nil)
-  #   end
+    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs::Fallback.(nil, nil, 1, 15)
+    assert_equal [ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs::Fallback.(nil, %i[ruby elixir], 1, 15)
+    assert_equal [ruby_doc_1, ruby_doc_2], Document::SearchDocs::Fallback.(nil, "ruby", 1, 15)
+  end
 
-  #   test "fallback: status" do
-  #     user = create :user
-  #     published = create :practice_solution, user: user, status: :published
-  #     completed = create :practice_solution, user: user, status: :completed
-  #     iterated = create :concept_solution, user: user, status: :iterated
+  test "fallback: pagination" do
+    doc_1 = create :document
+    doc_2 = create :document
+    doc_3 = create :document
 
-  #     assert_equal [iterated, completed, published], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
-  #     assert_equal [iterated], Document::SearchDocs::Fallback.(user, 1, 15, nil, :iterated, nil, nil, nil)
-  #     assert_equal [iterated], Document::SearchDocs::Fallback.(user, 1, 15, nil, 'iterated', nil, nil, nil)
-  #     assert_equal [completed, published],
-  #       Document::SearchDocs::Fallback.(user, 1, 15, nil, %i[completed published], nil, nil, nil)
-  #     assert_equal [completed, published],
-  #       Document::SearchDocs::Fallback.(user, 1, 15, nil, %w[completed published], nil, nil, nil)
-  #     assert_equal [published], Document::SearchDocs::Fallback.(user, 1, 15, nil, :published, nil, nil, nil)
-  #     assert_equal [published], Document::SearchDocs::Fallback.(user, 1, 15, nil, 'published', nil, nil, nil)
-  #   end
-
-  #   test "fallback: mentoring_status" do
-  #     user = create :user
-  #     finished = create :concept_solution, user: user, mentoring_status: :finished
-  #     in_progress = create :concept_solution, user: user, mentoring_status: :in_progress
-  #     requested = create :concept_solution, user: user, mentoring_status: :requested
-  #     none = create :concept_solution, user: user, mentoring_status: :none
-
-  #     assert_equal [none, requested, in_progress, finished],
-  #       Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
-
-  #     assert_equal [none], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, :none, nil, nil)
-  #     assert_equal [none], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, 'none', nil, nil)
-
-  #     assert_equal [requested], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, :requested, nil, nil)
-  #     assert_equal [requested], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, 'requested', nil, nil)
-
-  #     assert_equal [in_progress], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, :in_progress, nil, nil)
-  #     assert_equal [in_progress], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, 'in_progress', nil, nil)
-
-  #     assert_equal [finished], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, :finished, nil, nil)
-  #     assert_equal [finished], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, 'finished', nil, nil)
-
-  #     assert_equal [none, finished], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, [:none, 'finished'], nil, nil)
-  #   end
-
-  #   test "fallback: pagination" do
-  #     user = create :user
-  #     solution_1 = create :concept_solution, user: user
-  #     solution_2 = create :concept_solution, user: user
-
-  #     assert_equal [solution_2], Document::SearchDocs::Fallback.(user, 1, 1, nil, nil, nil, nil, nil)
-  #     assert_equal [solution_1], Document::SearchDocs::Fallback.(user, 2, 1, nil, nil, nil, nil, nil)
-  #     assert_equal [solution_2, solution_1], Document::SearchDocs::Fallback.(user, 1, 2, nil, nil, nil, nil, nil)
-  #     assert_empty Document::SearchDocs::Fallback.(user, 2, 2, nil, nil, nil, nil, nil)
-  #   end
-
-  #   test "fallback: sort oldest first" do
-  #     user = create :user
-  #     old_solution = create :concept_solution, user: user
-  #     new_solution = create :concept_solution, user: user
-
-  #     assert_equal [old_solution, new_solution],
-  #       Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, nil, "oldest_first")
-  #   end
-
-  #   test "fallback: sort newest first by default" do
-  #     user = create :user
-  #     old_solution = create :concept_solution, user: user
-  #     new_solution = create :concept_solution, user: user
-
-  #     assert_equal [new_solution, old_solution], Document::SearchDocs::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
-  #   end
+    assert_equal [doc_1], Document::SearchDocs::Fallback.(nil, nil, 1, 1)
+    assert_equal [doc_2], Document::SearchDocs::Fallback.(nil, nil, 2, 1)
+    assert_equal [doc_1, doc_2], Document::SearchDocs::Fallback.(nil, nil, 1, 2)
+    assert_equal [doc_3], Document::SearchDocs::Fallback.(nil, nil, 2, 2)
+    assert_empty Document::SearchDocs::Fallback.(nil, nil, 3, 2)
+  end
 end

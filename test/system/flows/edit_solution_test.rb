@@ -11,7 +11,7 @@ module Components
       include RedirectHelpers
 
       test "user submits code" do
-        Submission::File.any_instance.stubs(:content)
+        # Submission::File.any_instance.stubs(:content)
         use_capybara_host do
           user = create :user
           create :user_auth_token, user: user
@@ -41,7 +41,7 @@ module Components
       end
 
       test "user submits code via results panel" do
-        Submission::File.any_instance.stubs(:content)
+        # Submission::File.any_instance.stubs(:content)
         use_capybara_host do
           user = create :user
           create :user_auth_token, user: user

@@ -38,7 +38,7 @@ class SubmissionFileTest < ActiveSupport::TestCase
     assert_equal "\xC2", File.read(reloaded_file.efs_path)
 
     # File should be turned into empty string
-    # it can't be turned into JSON.
+    # if it can't be turned into JSON.
     assert_equal "[Invalid Unicode]", reloaded_file.content.to_json
   end
 end

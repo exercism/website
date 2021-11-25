@@ -54,7 +54,7 @@ class Submission::File < ApplicationRecord
 
     return file_contents if uri.empty?
 
-    @raw_content ||= Exercism.s3_client.get_object(
+    @raw_content = Exercism.s3_client.get_object(
       bucket: s3_bucket,
       key: s3_key
     ).body.read

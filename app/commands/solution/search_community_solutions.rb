@@ -79,10 +79,12 @@ class Solution
     end
 
     def search_sort
-      [
-        { num_stars: { order: :desc, unmapped_type: "integer" } },
-        { id: { order: :desc, unmapped_type: "integer" } }
-      ]
+      case order&.to_sym
+      when :newest
+        [{ published_at: { order: :desc, unmapped_type: "date" } }]
+      else # :most_starred
+        [{ num_stars: { order: :desc, unmapped_type: "integer" } }]
+      end
     end
 
     class Fallback
@@ -91,12 +93,27 @@ class Solution
       initialize_with :exercise, :page, :per, :order, :criteria, :status, :mentoring_status, :up_to_date
 
       def call
-        solutions = exercise.solutions.published.order(num_stars: :desc, id: :desc)
-        solutions = solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%") if @criteria.present?
-        solutions.page(page).per(per)
+        @solutions = exercise.solutions.published
+        @solutions = @solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%") if @criteria.present?
+
+        sort!
+
+        @solutions.page(page).per(per)
 
         # TODO: use status: nil, up_to_date: nil, mentoring_status: nil
         # TODO: order
+      end
+
+      private
+      attr_reader :solutions
+
+      def sort!
+        case order&.to_sym
+        when :newest
+          @solutions = @solutions.order(published_at: :desc)
+        else # :most_starred
+          @solutions = @solutions.order(num_stars: :desc)
+        end
       end
     end
   end

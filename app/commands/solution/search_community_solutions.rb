@@ -182,6 +182,18 @@ class Solution
 
         [value].flatten
       end
+
+      private
+      attr_reader :solutions
+
+      def sort!
+        case order&.to_sym
+        when :newest
+          @solutions = @solutions.order(published_at: :desc)
+        else # :most_starred
+          @solutions = @solutions.order(num_stars: :desc)
+        end
+      end
     end
   end
 end

@@ -18,7 +18,9 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 10, criteria: "")
+    assert_equal [solution_2, solution_1],
+      Solution::SearchCommunitySolutions.(exercise, page: 1, per: 10, criteria: "", status: nil, mentoring_status: nil,
+up_to_date: nil)
   end
 
   test "orders by stars then id" do
@@ -33,7 +35,9 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [solution_2, solution_3, solution_1], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 10, criteria: "")
+    assert_equal [solution_2, solution_3, solution_1],
+      Solution::SearchCommunitySolutions.(exercise, page: 1, per: 10, criteria: "", status: nil, mentoring_status: nil,
+up_to_date: nil)
   end
 
   test "pagination" do
@@ -47,10 +51,14 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 1, criteria: "")
-    assert_equal [solution_1], Solution::SearchCommunitySolutions.(exercise, page: 2, per: 1, criteria: "")
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 2, criteria: "")
-    assert_empty Solution::SearchCommunitySolutions.(exercise, page: 2, per: 2, criteria: "")
+    assert_equal [solution_2],
+      Solution::SearchCommunitySolutions.(exercise, page: 1, per: 1, criteria: "", status: nil, mentoring_status: nil, up_to_date: nil)
+    assert_equal [solution_1],
+      Solution::SearchCommunitySolutions.(exercise, page: 2, per: 1, criteria: "", status: nil, mentoring_status: nil, up_to_date: nil)
+    assert_equal [solution_2, solution_1],
+      Solution::SearchCommunitySolutions.(exercise, page: 1, per: 2, criteria: "", status: nil, mentoring_status: nil, up_to_date: nil)
+    assert_empty Solution::SearchCommunitySolutions.(exercise, page: 2, per: 2, criteria: "", status: nil, mentoring_status: nil,
+up_to_date: nil)
   end
 
   test "does not try and access values above 10_000" do
@@ -77,10 +85,11 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback is called" do
     exercise = create :concept_exercise
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "foobar")
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "foobar", :active, :requested, true)
     Elasticsearch::Client.expects(:new).raises
 
-    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, criteria: "foobar")
+    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, criteria: "foobar", status: :active, mentoring_status: :requested,
+up_to_date: true)
   end
 
   test "fallback: no options returns all published" do
@@ -95,7 +104,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     # A different exercise
     create :concept_solution
 
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 10, "")
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 10, "", nil, nil, nil)
   end
 
   test "fallback: orders by stars then id" do
@@ -105,7 +114,8 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published, num_stars: 2
     solution_3 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published, num_stars: 1
 
-    assert_equal [solution_2, solution_3, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 10, "")
+    assert_equal [solution_2, solution_3, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 10, "", nil, nil, nil)
   end
 
   test "fallback: pagination" do
@@ -114,9 +124,9 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
     solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
 
-    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 1, "")
-    assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 1, "")
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 2, "")
-    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 2, "")
+    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 1, "", nil, nil, nil)
+    assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 1, "", nil, nil, nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 2, "", nil, nil, nil)
+    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 2, "", nil, nil, nil)
   end
 end

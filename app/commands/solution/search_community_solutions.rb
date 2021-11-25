@@ -10,11 +10,14 @@ class Solution
       DEFAULT_PER
     end
 
-    def initialize(exercise, page: nil, per: nil, criteria: nil)
+    def initialize(exercise, page: nil, per: nil, criteria: nil, status: nil, mentoring_status: nil, up_to_date: nil)
       @exercise = exercise
       @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
       @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per # rubocop:disable Style/ConditionalAssignment
       @criteria = criteria
+      @status = status
+      @mentoring_status = mentoring_status
+      @up_to_date = up_to_date
     end
 
     def call
@@ -37,11 +40,11 @@ class Solution
         page(page).per(per)
     rescue StandardError => e
       Bugsnag.notify(e)
-      Fallback.(exercise, page, per, criteria)
+      Fallback.(exercise, page, per, criteria, status, mentoring_status, up_to_date)
     end
 
     private
-    attr_reader :exercise, :per, :page, :solutions, :criteria
+    attr_reader :exercise, :per, :page, :solutions, :criteria, :status, :mentoring_status, :up_to_date
 
     def search_body
       {
@@ -84,12 +87,14 @@ class Solution
     class Fallback
       include Mandate
 
-      initialize_with :exercise, :page, :per, :criteria
+      initialize_with :exercise, :page, :per, :criteria, :status, :mentoring_status, :up_to_date
 
       def call
         solutions = exercise.solutions.published.order(num_stars: :desc, id: :desc)
         solutions = solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%") if @criteria.present?
         solutions.page(page).per(per)
+
+        # TODO: use status: nil, up_to_date: nil, mentoring_status: nil
       end
     end
   end

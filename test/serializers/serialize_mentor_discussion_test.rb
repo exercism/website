@@ -15,6 +15,11 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
     create :mentor_discussion_post, discussion: discussion
     create :mentor_discussion_post, discussion: discussion
 
+    is_finished = mock
+    is_unread = mock
+    student_favorited = mock
+    links = mock
+
     expected = {
       uuid: discussion.uuid,
       status: discussion.status,
@@ -33,7 +38,7 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       student: {
         handle: student.handle,
         avatar_url: student.avatar_url,
-        is_favorited: true # TODO
+        is_favorited: student_favorited
       },
 
       mentor: {
@@ -44,18 +49,19 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       created_at: discussion.created_at.iso8601,
       updated_at: discussion.updated_at.iso8601,
 
-      is_finished: false,
-      is_unread: true,
+      is_finished: is_finished,
+      is_unread: is_unread,
       posts_count: 2,
       iterations_count: 1,
-
-      links: {
-        self: Exercism::Routes.track_exercise_mentor_discussion_url(track, exercise, discussion),
-        posts: Exercism::Routes.api_solution_discussion_posts_url(solution.uuid, discussion),
-        finish: Exercism::Routes.finish_api_solution_discussion_url(solution.uuid, discussion.uuid)
-      }
+      links: links
     }
 
-    assert_equal expected, SerializeMentorDiscussion.(discussion, student)
+    assert_equal expected, SerializeMentorDiscussion.(
+      discussion,
+      student_favorited,
+      is_finished,
+      is_unread,
+      links
+    )
   end
 end

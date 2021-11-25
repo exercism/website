@@ -30,7 +30,7 @@ module API
       render json: SerializePaginatedCollection.(
         discussions,
         serializer: SerializeMentorDiscussions,
-        serializer_args: :mentor,
+        serializer_args: [current_user, :mentor],
         meta: meta || {}
       )
     end

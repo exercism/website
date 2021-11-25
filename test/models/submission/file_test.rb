@@ -39,6 +39,6 @@ class SubmissionFileTest < ActiveSupport::TestCase
 
     # File should be turned into empty string
     # if it can't be turned into JSON.
-    assert_equal "[Invalid Unicode]", reloaded_file.content.to_json
+    assert_equal "[Invalid Unicode]", reloaded_file.content
   end
 end

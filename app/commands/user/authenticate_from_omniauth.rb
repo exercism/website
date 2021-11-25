@@ -20,7 +20,7 @@ class User
 
       # Ensure this is done after the normal save as this failing
       # shouldn't cause the whole model's save to fail
-      set_github_username!(user, auth)
+      User::SetGithubUsername.(user, auth.info.nickname)
 
       user.update_column(:avatar_url, auth.info.image) if user.attributes['avatar_url'].blank?
 
@@ -55,7 +55,7 @@ class User
 
       # Ensure this is done after the normal save as this failing
       # shouldn't cause the whole model's save to fail
-      set_github_username!(user, auth)
+      User::SetGithubUsername.(user, auth.info.nickname)
 
       user
     end
@@ -76,7 +76,7 @@ class User
       if user.save
         # Ensure this is done after the normal save as this failing
         # shouldn't cause the whole model's save to fail
-        set_github_username!(user, auth)
+        User::SetGithubUsername.(user, auth.info.nickname)
 
         User::Bootstrap.(user)
       end
@@ -89,17 +89,6 @@ class User
       attempt = auth.info.nickname
       attempt = "#{auth.info.nickname}-#{SecureRandom.random_number(10_000)}" while User.where(handle: attempt).exists?
       attempt
-    end
-
-    def set_github_username!(user, auth)
-      return if user.github_username == auth.info.nickname
-
-      begin
-        user.update_column(:github_username, auth.info.nickname)
-        AwardReputationToUserForPullRequestsJob.perform_later(user)
-      rescue ActiveRecord::RecordNotUnique
-        # Sometimes users change github usernames which can cause this to violate
-      end
     end
   end
 end

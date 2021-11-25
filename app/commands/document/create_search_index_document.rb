@@ -9,12 +9,7 @@ class Document::CreateSearchIndexDocument
       title: doc.title,
       blurb: doc.blurb,
       markdown: doc.markdown,
-      updated_at: doc.updated_at,
-      track: doc.track.nil? ? nil : {
-        id: doc.track.id,
-        slug: doc.track.slug,
-        title: doc.track.title
-      }
+      track: doc.track.nil? ? nil : { slug: doc.track.slug }
     }
   end
 end

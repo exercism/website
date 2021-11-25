@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Document::SearchDocsTest < ActiveSupport::TestCase
-  setup do
-    reset_opensearch!(Document::OPENSEARCH_INDEX)
-  end
-
   test "no options returns everything" do
     doc_1 = create :document
     doc_2 = create :document
@@ -12,7 +8,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Document::SearchDocs::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     assert_equal [doc_1, doc_2], Document::SearchDocs.()
   end
@@ -29,7 +25,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Document::SearchDocs::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     # We need to manually re-sync as markdown isn't a DB column and the indexing
     # is started automatically when a Document record is saved (before the stub is setup)
@@ -42,7 +38,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     Document::SyncToSearchIndex.(ruby_doc_2)
     Document::SyncToSearchIndex.(elixir_doc)
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.()
     assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.(criteria: " ") # rubocop:disable Layout:LineLength
@@ -59,7 +55,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Document::SearchDocs::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     # We need to manually re-sync as markdown isn't a DB column and the indexing
     # is started automatically when a Document record is saved (before the stub is setup)
@@ -70,7 +66,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     Document::SyncToSearchIndex.(matching_blurb)
     Document::SyncToSearchIndex.(matching_markdown)
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     # We've setup the document to have the "Install" text in different properties (title/blurb/markdown)
     # to verify that the right boosting is applied
@@ -91,7 +87,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Document::SearchDocs::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.()
     assert_equal [ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.(track_slug: %i[ruby elixir])
@@ -106,7 +102,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Document::SearchDocs::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     assert_equal [doc_1], Document::SearchDocs.(page: 1, per: 1)
     assert_equal [doc_2], Document::SearchDocs.(page: 2, per: 1)
@@ -123,7 +119,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     # Sanity check: ensure that the results are not returned using the fallback
     Document::SearchDocs::Fallback.expects(:call).never
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     assert_equal [doc_1, doc_2, doc_3], Document::SearchDocs.(page: 0, per: 0)
     assert_equal [doc_1, doc_2, doc_3], Document::SearchDocs.(page: 'foo', per: 'bar')

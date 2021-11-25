@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Document::SyncToSearchIndexTest < ActiveSupport::TestCase
-  setup do
-    reset_opensearch!(Document::OPENSEARCH_INDEX)
-  end
-
   test "indexes document linked to track" do
     track = create :track, slug: 'nim'
     doc = create :document, id: 3, title: 'Installation', blurb: 'How to install Nim', track: track

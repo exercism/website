@@ -3,7 +3,6 @@ require "test_helper"
 class AssembleDocsTest < ActiveSupport::TestCase
   setup do
     Document::SearchDocs::Fallback.expects(:call).never
-    reset_opensearch!(Document::OPENSEARCH_INDEX)
   end
 
   test "proxies correctly" do
@@ -29,7 +28,7 @@ class AssembleDocsTest < ActiveSupport::TestCase
       create :document
     end
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     assert_equal SerializePaginatedCollection.(
       Document.page(1).per(25),

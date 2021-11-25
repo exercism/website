@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
-  setup do
-    reset_opensearch!(Solution::OPENSEARCH_INDEX)
-  end
-
   test "indexes all solutions" do
     track = create :track
     users = build_list(:user, 10)
@@ -17,11 +13,11 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
       create :iteration, submission: submission
     end
 
-    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     Solution::SyncAllToSearchIndex.()
 
-    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     counts = Exercism.opensearch_client.count(index: Solution::OPENSEARCH_INDEX)
     assert 200, counts["counts"]

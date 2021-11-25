@@ -1,19 +1,15 @@
 require "test_helper"
 
 class Document::SyncAllToSearchIndexTest < ActiveSupport::TestCase
-  setup do
-    reset_opensearch!(Document::OPENSEARCH_INDEX)
-  end
-
   test "indexes all documents" do
     tracks = [create(:track), nil]
     docs = build_list(:document, 2000, track: tracks.sample)
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     Document::SyncAllToSearchIndex.()
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     counts = Exercism.opensearch_client.count(index: Document::OPENSEARCH_INDEX)
     assert docs.size, counts["counts"]
@@ -23,11 +19,11 @@ class Document::SyncAllToSearchIndexTest < ActiveSupport::TestCase
     track = create :track, slug: 'nim'
     doc = create :document, id: 3, title: 'Installation', blurb: 'How to install Nim', track: track
     Document.any_instance.stubs(:markdown).returns('# Installation')
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     Document::SyncAllToSearchIndex.()
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
     indexed_doc = get_opensearch_doc(Document::OPENSEARCH_INDEX, doc.id)
     expected = {
       "_index" => "test-documents",
@@ -49,11 +45,11 @@ class Document::SyncAllToSearchIndexTest < ActiveSupport::TestCase
   test "indexes document not linked to track" do
     doc = create :document, id: 4, title: 'Automated Feedback', blurb: 'Getting Automated Feedback'
     Document.any_instance.stubs(:markdown).returns('# Automated Feedback')
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     Document::SyncAllToSearchIndex.()
 
-    wait_for_opensearch_to_be_synced(Document::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
     indexed_doc = get_opensearch_doc(Document::OPENSEARCH_INDEX, doc.id)
     expected = {
       "_index" => "test-documents",

@@ -60,8 +60,6 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
   test "index retrieves solutions" do
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    reset_opensearch!(Solution::OPENSEARCH_INDEX)
-
     setup_user
 
     profile_user = create(:user_profile).user
@@ -69,7 +67,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
 
     Solution.find_each { |solution| create :iteration, submission: create(:submission, solution: solution) }
 
-    wait_for_opensearch_to_be_synced(Solution::OPENSEARCH_INDEX)
+    wait_for_opensearch_to_be_synced
 
     get api_profile_solutions_path(profile_user), headers: @headers, as: :json
     assert_response 200

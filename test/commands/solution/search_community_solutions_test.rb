@@ -85,6 +85,55 @@ up_to_date: nil)
     assert_equal 10_000, results.total_count
   end
 
+  test "sort newest first" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    new_solution = create :concept_solution, exercise: exercise, published_at: Time.current - 1.week, status: :published
+    old_solution = create :concept_solution, exercise: exercise, published_at: Time.current - 2.weeks, status: :published
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [new_solution, old_solution],
+      Solution::SearchCommunitySolutions.(exercise, order: "newest")
+  end
+
+  test "sort most starred first" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+status: :published
+    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+status: :published
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [most_starred_solution, least_starred_solution],
+      Solution::SearchCommunitySolutions.(exercise, order: "most_starred")
+  end
+
+  test "sort most starred first by default" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+status: :published
+    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+status: :published
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [most_starred_solution, least_starred_solution],
+      Solution::SearchCommunitySolutions.(exercise, order: nil)
+  end
+
   test "fallback is called" do
     exercise = create :concept_exercise
     Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "newest", "foobar", :active, :requested, true)
@@ -152,5 +201,39 @@ up_to_date: nil)
     assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 1, nil, "", nil, nil, nil)
     assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 2, nil, "", nil, nil, nil)
     assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 2, nil, "", nil, nil, nil)
+  end
+
+  test "fallback: sort newest first" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    new_solution = create :concept_solution, exercise: exercise, published_at: Time.current - 1.week, status: :published
+    old_solution = create :concept_solution, exercise: exercise, published_at: Time.current - 2.weeks, status: :published
+
+    assert_equal [new_solution, old_solution],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, "newest", "", nil, nil, nil)
+  end
+
+  test "fallback: sort most starred first" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+status: :published
+    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+status: :published
+
+    assert_equal [most_starred_solution, least_starred_solution],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, "most_starred", "", nil, nil, nil)
+  end
+
+  test "fallback: sort most starred first by default" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+status: :published
+    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+status: :published
+
+    assert_equal [most_starred_solution, least_starred_solution],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
   end
 end

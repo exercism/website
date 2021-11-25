@@ -137,6 +137,9 @@ class ActiveSupport::TestCase
   # parallelize(workers: :number_of_processors)
 
   def setup
+    # Clearout elasticsearch
+    reset_opensearch!
+
     # Clear out redis
     redis = Exercism.redis_tooling_client
     keys = redis.keys("#{Exercism.env}:*")

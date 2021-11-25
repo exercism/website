@@ -17,6 +17,8 @@ module Components
           3.times { create :iteration, solution: solution }
         end
 
+        wait_for_opensearch_to_be_synced
+
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
@@ -40,6 +42,8 @@ module Components
         user = create :user
         solution = create :concept_solution, user: user
 
+        wait_for_opensearch_to_be_synced
+
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
@@ -56,6 +60,8 @@ module Components
         exercise_2 = create :concept_exercise, title: "Lasagna"
         create :concept_solution, exercise: exercise, user: user
         create :concept_solution, exercise: exercise_2, user: user
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)
@@ -80,6 +86,8 @@ module Components
         create :concept_solution, exercise: exercise, user: user
         create :concept_solution, exercise: exercise_2, user: user
 
+        wait_for_opensearch_to_be_synced
+
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
@@ -102,6 +110,8 @@ module Components
           published_at: Time.current,
           mentoring_status: :requested,
           status: :started
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)
@@ -126,6 +136,8 @@ module Components
           published_at: Time.current,
           mentoring_status: :requested
 
+        wait_for_opensearch_to_be_synced
+
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
@@ -148,6 +160,8 @@ module Components
           completed_at: Time.current,
           published_at: Time.current,
           mentoring_status: :finished
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)
@@ -172,6 +186,8 @@ module Components
           published_at: Time.current,
           mentoring_status: :requested
 
+        wait_for_opensearch_to_be_synced
+
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
@@ -191,6 +207,8 @@ module Components
         exercise_2 = create :concept_exercise, title: "Bob"
         create :concept_solution, exercise: exercise, user: user, created_at: 2.days.ago
         create :concept_solution, exercise: exercise_2, user: user, created_at: 3.days.ago
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)

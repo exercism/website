@@ -16,6 +16,8 @@ module Flows
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
 
+      wait_for_opensearch_to_be_synced
+
       use_capybara_host do
         sign_in!(author)
         visit solutions_profile_path(author.handle)
@@ -38,6 +40,8 @@ module Flows
       solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
+
+      wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         visit solutions_profile_path(author.handle)
@@ -62,6 +66,8 @@ module Flows
       solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
+
+      wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         sign_in!(author)
@@ -88,6 +94,8 @@ module Flows
       solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
+
+      wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         sign_in!(author)
@@ -117,6 +125,8 @@ module Flows
       solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
+
+      wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         sign_in!(author)

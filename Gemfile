@@ -37,7 +37,7 @@ gem 'image_processing', '~> 1.2'
 gem 'friendly_id', '~> 5.4.0'
 gem 'sidekiq', '~> 6.1'
 gem 'sidekiq-failures'
-gem "sidekiq-scheduler"
+gem 'sidekiq-scheduler'
 
 # View-level Dependencies
 gem 'webpacker', '~> 5.x'
@@ -90,7 +90,6 @@ group :test do
   gem 'minitest-retry'
   gem 'mocha'
   gem 'selenium-webdriver'
-  gem 'simplecov', '~> 0.17.0', require: false
   gem 'webdrivers'
   gem 'webmock'
   gem 'show_me_the_cookies'
@@ -102,7 +101,7 @@ group :test do
   gem 'recursive-open-struct'
 end
 
-gem "addressable", "~> 2.7"
-gem "mini_magick"
+gem 'addressable', '~> 2.7'
+gem 'mini_magick'
 
-gem "elasticsearch", "6.8.3"
+gem 'elasticsearch', '6.8.3'

@@ -30,11 +30,11 @@ class Solution::CreateSearchIndexDocument
         handle: solution.user.handle
       },
       published_iteration: published_iteration ? {
-        tests_passed: published_iteration.submission.tests_passed?,
+        tests_status: published_iteration.tests_status,
         code: published_iteration.submission.files.map(&:content) || []
       } : nil,
       latest_iteration: latest_iteration ? {
-        tests_passed: latest_iteration.submission.tests_passed?,
+        tests_status: latest_iteration.tests_status,
         code: latest_iteration.submission.files.map(&:content) || []
       } : nil
     }

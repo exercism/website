@@ -11,14 +11,22 @@ module API
 
       Solution::SearchCommunitySolutions.expects(:call).with(
         exercise,
+        page: '5',
+        order: "newest",
         criteria: "author",
-        page: '5'
+        tests_status: "passed",
+        mentoring_status: "requested",
+        sync_status: "up_to_date"
       ).returns(Solution.page(1))
 
       get api_track_exercise_community_solutions_path(
         track, exercise,
         page: 5,
-        criteria: "author"
+        order: "newest",
+        criteria: "author",
+        tests_status: "passed",
+        mentoring_status: "requested",
+        sync_status: "up_to_date"
       ), headers: @headers, as: :json
 
       assert_response :success

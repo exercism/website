@@ -204,12 +204,11 @@ class Solution
         @solutions = @solutions.where(mentoring_status: mentoring_status)
       end
 
-      def filter_up_to_date!
-        return if up_to_date.nil?
-
-        if up_to_date
+      def filter_sync_status!
+        case sync_status&.to_sym
+        when :up_to_date
           @solutions = @solutions.where(git_important_files_hash: exercise.git_important_files_hash)
-        else
+        when :out_of_date
           @solutions = @solutions.where.not(git_important_files_hash: exercise.git_important_files_hash)
         end
       end

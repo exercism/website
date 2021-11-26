@@ -71,8 +71,8 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
         },
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
-        "published_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser"] },
-        "latest_iteration" => { "tests_passed" => false, "code" => ["module LogLineParser"] }
+        "published_iteration" => { "tests_status" => "not_queued", "code" => ["module LogLineParser"] },
+        "latest_iteration" => { "tests_status" => "not_queued", "code" => ["module LogLineParser"] }
       }
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")

@@ -19,9 +19,6 @@ class AssembleExerciseCommunitySolutionsList
 
   memoize
   def solutions
-    Solution::SearchCommunitySolutions.(
-      exercise,
-      **params.slice(*self.class.keys).to_hash.symbolize_keys
-    )
+    Solution::SearchCommunitySolutions.(exercise, **params.to_hash.symbolize_keys)
   end
 end

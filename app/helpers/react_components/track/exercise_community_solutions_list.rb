@@ -11,13 +11,18 @@ module ReactComponents
       def request
         {
           endpoint: Exercism::Routes.api_track_exercise_community_solutions_url(exercise.track, exercise),
-          query: params.slice(*AssembleExerciseCommunitySolutionsList.keys),
+          query: search_params,
           options: { initial_data: data }
         }
       end
 
       def data
-        AssembleExerciseCommunitySolutionsList.(exercise, params)
+        AssembleExerciseCommunitySolutionsList.(exercise, search_params)
+      end
+
+      memoize
+      def search_params
+        params.permit(*AssembleExerciseCommunitySolutionsList.keys)
       end
     end
   end

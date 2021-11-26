@@ -4,8 +4,8 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
   test "no options returns all published" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
@@ -18,49 +18,168 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [solution_2, solution_1],
-      Solution::SearchCommunitySolutions.(exercise, page: 1, per: 10, order: nil, criteria: "", status: nil, mentoring_status: nil,
-up_to_date: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise)
   end
 
-  test "orders by stars then id" do
+  test "criteria: search for user handle" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published, num_stars: 1
-    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published, num_stars: 2
-    solution_3 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published, num_stars: 1
+    user_1 = create :user, handle: 'amy'
+    user_2 = create :user, handle: 'chris'
+    solution_1 = create :concept_solution, exercise: exercise, user: user_1, num_stars: 11, published_at: Time.current,
+status: :published
+    solution_2 = create :concept_solution, exercise: exercise, user: user_2, num_stars: 22, published_at: Time.current,
+status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
     wait_for_opensearch_to_be_synced
 
-    assert_equal [solution_2, solution_3, solution_1],
-      Solution::SearchCommunitySolutions.(exercise, page: 1, per: 10, order: nil, criteria: "", status: nil, mentoring_status: nil,
-up_to_date: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, criteria: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, criteria: "")
+    assert_equal [solution_1], Solution::SearchCommunitySolutions.(exercise, criteria: "amy")
+    assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, criteria: "ris")
+  end
+
+  test "criteria: search for published iteration code" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
+    submission_1 = create :submission, solution: solution_1
+    iteration_1 = create :iteration, solution: solution_1, submission: submission_1
+    submission_file_1 = create :submission_file, submission: submission_1
+    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
+    submission_2 = create :submission, solution: solution_2
+    iteration_2 = create :iteration, solution: solution_2, submission: submission_2
+    submission_file_2 = create :submission_file, submission: submission_2
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    wait_for_opensearch_to_be_synced
+
+    # Overwrite the content
+    upload_to_s3(submission_file_1.s3_bucket, submission_file_1.s3_key, 'let foo = 20')
+    upload_to_s3(submission_file_2.s3_bucket, submission_file_2.s3_key, 'let bar = 30')
+    solution_1.update!(published_iteration: iteration_1)
+    solution_2.update!(published_iteration: iteration_2)
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, criteria: "bar")
+  end
+
+  test "filter: tests_status" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
+    submission_1 = create :submission, solution: solution_1, tests_status: :passed
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
+    submission_2 = create :submission, solution: solution_2, tests_status: :passed
+    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published
+    submission_3 = create :submission, solution: solution_3, tests_status: :failed
+    solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+    solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+    solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, tests_status: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, tests_status: :passed)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, tests_status: :failed)
+    assert_empty Solution::SearchCommunitySolutions.(exercise, tests_status: :errored)
+  end
+
+  test "filter: mentoring_status" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, mentoring_status: :requested,
+published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, mentoring_status: :in_progress,
+published_at: Time.current, status: :published
+    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, mentoring_status: :requested,
+published_at: Time.current, status: :published
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, mentoring_status: nil)
+    assert_equal [solution_3, solution_1], Solution::SearchCommunitySolutions.(exercise, mentoring_status: :requested)
+    assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, mentoring_status: :in_progress)
+    assert_empty Solution::SearchCommunitySolutions.(exercise, mentoring_status: :finished)
+  end
+
+  test "filter: up_to_date" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution_1 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
+num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
+num_stars: 22, published_at: Time.current, status: :published
+    solution_3 = create :concept_solution, exercise: exercise, git_important_files_hash: 'different_hash', num_stars: 33,
+published_at: Time.current, status: :published
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, up_to_date: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, up_to_date: true)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, up_to_date: false)
   end
 
   test "pagination" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [solution_2],
-      Solution::SearchCommunitySolutions.(exercise, page: 1, per: 1, order: nil, criteria: "", status: nil, mentoring_status: nil,
-up_to_date: nil)
-    assert_equal [solution_1],
-      Solution::SearchCommunitySolutions.(exercise, page: 2, per: 1, order: nil, criteria: "", status: nil, mentoring_status: nil,
-up_to_date: nil)
-    assert_equal [solution_2, solution_1],
-      Solution::SearchCommunitySolutions.(exercise, page: 1, per: 2, order: nil, criteria: "", status: nil, mentoring_status: nil,
-up_to_date: nil)
-    assert_empty Solution::SearchCommunitySolutions.(exercise, page: 2, per: 2, order: nil, criteria: "", status: nil, mentoring_status: nil, up_to_date: nil) # rubocop:disable Layout:LineLength
+    assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 1)
+    assert_equal [solution_1], Solution::SearchCommunitySolutions.(exercise, page: 2, per: 1)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, page: 1, per: 2)
+    assert_empty Solution::SearchCommunitySolutions.(exercise, page: 2, per: 2)
   end
 
   test "does not try and access values above 10_000" do
@@ -96,16 +215,15 @@ up_to_date: nil)
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [new_solution, old_solution],
-      Solution::SearchCommunitySolutions.(exercise, order: "newest")
+    assert_equal [new_solution, old_solution], Solution::SearchCommunitySolutions.(exercise, order: "newest")
   end
 
   test "sort most starred first" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+    least_starred = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
 status: :published
-    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
 status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
@@ -113,16 +231,15 @@ status: :published
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [most_starred_solution, least_starred_solution],
-      Solution::SearchCommunitySolutions.(exercise, order: "most_starred")
+    assert_equal [most_starred, least_starred], Solution::SearchCommunitySolutions.(exercise, order: "most_starred")
   end
 
   test "sort most starred first by default" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+    least_starred = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
 status: :published
-    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
 status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
@@ -130,16 +247,15 @@ status: :published
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [most_starred_solution, least_starred_solution],
-      Solution::SearchCommunitySolutions.(exercise, order: nil)
+    assert_equal [most_starred, least_starred], Solution::SearchCommunitySolutions.(exercise, order: nil)
   end
 
   test "fallback is called" do
     exercise = create :concept_exercise
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "newest", "foobar", :active, :requested, true)
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "newest", "foobar", :passed, :requested, true)
     Elasticsearch::Client.expects(:new).raises
 
-    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", status: :active, mentoring_status: :requested, up_to_date: true) # rubocop:disable Layout:LineLength
+    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed, mentoring_status: :requested, up_to_date: true) # rubocop:disable Layout:LineLength
   end
 
   test "fallback is called when elasticsearch times out" do
@@ -168,8 +284,8 @@ status: :published
   test "fallback: no options returns all published" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
 
     # Unpublished
     create :concept_solution, exercise: exercise
@@ -180,22 +296,107 @@ status: :published
     assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 10, nil, "", nil, nil, nil)
   end
 
-  test "fallback: orders by stars then id" do
+  test "fallback: criteria: search for user handle" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published, num_stars: 1
-    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published, num_stars: 2
-    solution_3 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published, num_stars: 1
+    user_1 = create :user, handle: 'amy'
+    user_2 = create :user, handle: 'chris'
+    solution_1 = create :concept_solution, exercise: exercise, user: user_1, num_stars: 11, published_at: Time.current,
+status: :published
+    solution_2 = create :concept_solution, exercise: exercise, user: user_2, num_stars: 22, published_at: Time.current,
+status: :published
 
-    assert_equal [solution_2, solution_3, solution_1],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 10, nil, "", nil, nil, nil)
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
+    assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "amy", nil, nil, nil)
+    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "ris", nil, nil, nil)
+  end
+
+  test "fallback: filter: tests_status" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
+    submission_1 = create :submission, solution: solution_1, tests_status: :passed
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
+    submission_2 = create :submission, solution: solution_2, tests_status: :passed
+    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published
+    submission_3 = create :submission, solution: solution_3, tests_status: :failed
+    solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+    solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+    solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :passed, nil, nil)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :failed, nil, nil)
+    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :errored, nil, nil)
+  end
+
+  test "fallback: filter: mentoring_status" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, mentoring_status: :requested,
+published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, mentoring_status: :in_progress,
+published_at: Time.current, status: :published
+    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, mentoring_status: :requested,
+published_at: Time.current, status: :published
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
+    assert_equal [solution_3, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :requested, nil)
+    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :in_progress, nil)
+    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :finished, nil)
+  end
+
+  test "fallback: filter: up_to_date" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution_1 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
+num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
+num_stars: 22, published_at: Time.current, status: :published
+    solution_3 = create :concept_solution, exercise: exercise, git_important_files_hash: 'different_hash', num_stars: 33,
+published_at: Time.current, status: :published
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, true)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, false)
   end
 
   test "fallback: pagination" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
 
     assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 1, nil, "", nil, nil, nil)
     assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 1, nil, "", nil, nil, nil)
@@ -216,24 +417,23 @@ status: :published
   test "fallback: sort most starred first" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+    least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
 status: :published
-    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
 status: :published
 
-    assert_equal [most_starred_solution, least_starred_solution],
+    assert_equal [most_starred, least_starred],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, "most_starred", "", nil, nil, nil)
   end
 
   test "fallback: sort most starred first by default" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+    least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
 status: :published
-    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
 status: :published
 
-    assert_equal [most_starred_solution, least_starred_solution],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
+    assert_equal [most_starred, least_starred], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
   end
 end

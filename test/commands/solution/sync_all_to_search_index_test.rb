@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
-  setup do
-    reset_opensearch!
-  end
-
   test "indexes all solutions" do
     track = create :track
     users = build_list(:user, 10)

@@ -44,8 +44,6 @@ class API::SolutionsControllerTest < API::BaseTestCase
   test "index should search and return solutions" do
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    reset_opensearch!
-
     setup_user
     ruby = create :track, title: "Ruby"
     ruby_bob = create :concept_exercise, track: ruby, title: "Bob"

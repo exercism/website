@@ -160,6 +160,8 @@ Rails.application.routes.draw do
 
       resources :tasks, only: [:index]
 
+      resources :docs, only: [:index]
+
       resources :solutions, only: %i[index show update], param: :uuid do
         member do
           get :diff

@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
-  setup do
-    reset_opensearch!
-  end
-
   test "no options returns everything" do
     user = create :user
     solution_1 = create :concept_solution, user: user

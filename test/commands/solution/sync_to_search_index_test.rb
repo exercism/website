@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
-  setup do
-    reset_opensearch!
-  end
-
   test "indexes solution" do
     user = create :user, id: 7, handle: 'jane'
     track = create :track, id: 11, slug: 'fsharp', title: 'F#'

@@ -60,8 +60,6 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
   test "index retrieves solutions" do
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
-    reset_opensearch!
-
     setup_user
 
     profile_user = create(:user_profile).user

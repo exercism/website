@@ -126,7 +126,7 @@ class ActiveSupport::TestCase
   # parallelize(workers: :number_of_processors)
 
   def setup
-    # Clearout elasticsearch
+    # Clear out elasticsearch
     reset_opensearch!
 
     # Clear out redis
@@ -232,8 +232,10 @@ class ActiveSupport::TestCase
   ######################
   def reset_opensearch!
     opensearch = Exercism.opensearch_client
-    opensearch.indices.delete(index: Solution::OPENSEARCH_INDEX) if opensearch.indices.exists(index: Solution::OPENSEARCH_INDEX)
-    opensearch.indices.create(index: Solution::OPENSEARCH_INDEX)
+    [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
+      opensearch.indices.delete(index: index) if opensearch.indices.exists(index: index)
+      opensearch.indices.create(index: index)
+    end
   end
 
   def get_opensearch_doc(index, id)
@@ -245,7 +247,9 @@ class ActiveSupport::TestCase
     perform_enqueued_jobs
 
     # Force an index refresh to ensure there are no concurrent actions in the background
-    Exercism.opensearch_client.indices.refresh(index: Solution::OPENSEARCH_INDEX)
+    [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
+      Exercism.opensearch_client.indices.refresh(index: index)
+    end
   end
 end
 

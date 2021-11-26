@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Exercise::MarkSolutionsAsOutOfDateInIndexTest < ActiveSupport::TestCase
-  setup do
-    reset_opensearch!
-  end
-
   test "mark all solutions of an exercise as out of date in index" do
     track = create :track, slug: 'fsharp'
     user_1 = create :user

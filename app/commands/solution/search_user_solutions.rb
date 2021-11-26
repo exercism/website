@@ -65,9 +65,12 @@ class Solution
             track_slug.blank? ? nil : { terms: { 'track.slug': [track_slug].flatten } },
             status.blank? ? nil : { terms: { status: [status].flatten } },
             mentoring_status.blank? ? nil : { terms: { mentoring_status: [mentoring_status].flatten } },
-            criteria.blank? ? nil : { query_string: { query: criteria.split(' ').map do |c|
-                                                               "*#{c}*"
-                                                             end.join(' AND '), fields: ['exercise.title', 'track.title'] } }
+            criteria.blank? ? nil : {
+              query_string: {
+                query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),
+                fields: ['exercise.title', 'track.title']
+              }
+            }
           ].compact
         }
       }

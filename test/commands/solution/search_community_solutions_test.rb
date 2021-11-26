@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
-  setup do
-    reset_opensearch!
-  end
-
   test "no options returns all published" do
     track = create :track
     exercise = create :concept_exercise, track: track

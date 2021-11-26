@@ -139,7 +139,7 @@ published_at: Time.current, status: :published
     assert_empty Solution::SearchCommunitySolutions.(exercise, mentoring_status: :finished)
   end
 
-  test "filter: up_to_date" do
+  test "filter: sync_status" do
     track = create :track
     exercise = create :concept_exercise, track: track
     solution_1 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
@@ -160,9 +160,9 @@ published_at: Time.current, status: :published
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, up_to_date: nil)
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, up_to_date: true)
-    assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, up_to_date: false)
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, sync_status: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, sync_status: :up_to_date)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, sync_status: :out_of_date)
   end
 
   test "pagination" do
@@ -252,10 +252,11 @@ status: :published
 
   test "fallback is called" do
     exercise = create :concept_exercise
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "newest", "foobar", :passed, :requested, true)
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "newest", "foobar", :passed, :requested,
+      :up_to_date)
     Elasticsearch::Client.expects(:new).raises
 
-    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed, mentoring_status: :requested, up_to_date: true) # rubocop:disable Layout:LineLength
+    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed, mentoring_status: :requested, sync_status: :up_to_date) # rubocop:disable Layout:LineLength
   end
 
   test "fallback is called when elasticsearch times out" do
@@ -370,7 +371,7 @@ published_at: Time.current, status: :published
     assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :finished, nil)
   end
 
-  test "fallback: filter: up_to_date" do
+  test "fallback: filter: sync_status" do
     track = create :track
     exercise = create :concept_exercise, track: track
     solution_1 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
@@ -388,8 +389,9 @@ published_at: Time.current, status: :published
 
     assert_equal [solution_3, solution_2, solution_1],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, true)
-    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, false)
+    assert_equal [solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :up_to_date)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :out_of_date)
   end
 
   test "fallback: pagination" do

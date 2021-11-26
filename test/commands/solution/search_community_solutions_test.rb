@@ -551,24 +551,23 @@ status: :published
   test "fallback: sort most starred first" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+    least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
 status: :published
-    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
 status: :published
 
-    assert_equal [most_starred_solution, least_starred_solution],
+    assert_equal [most_starred, least_starred],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, "most_starred", "", nil, nil, nil)
   end
 
   test "fallback: sort most starred first by default" do
     track = create :track
     exercise = create :concept_exercise, track: track
-    least_starred_solution = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+    least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
 status: :published
-    most_starred_solution = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
 status: :published
 
-    assert_equal [most_starred_solution, least_starred_solution],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
+    assert_equal [most_starred, least_starred], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
   end
 end

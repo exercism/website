@@ -8,6 +8,7 @@ import { Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
+import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -19,16 +20,22 @@ type PaginatedResult = {
   }
 }
 
+export type Order = 'most_starred' | 'newest'
+
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
+const DEFAULT_ORDER = 'most_starred'
 
 export const ExerciseCommunitySolutionsList = ({
   request: initialRequest,
 }: {
   request: Request
 }): JSX.Element => {
-  const { request, setPage, setCriteria: setRequestCriteria } = useList(
-    initialRequest
-  )
+  const {
+    request,
+    setPage,
+    setOrder,
+    setCriteria: setRequestCriteria,
+  } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const {
     status,
@@ -70,6 +77,10 @@ export const ExerciseCommunitySolutionsList = ({
           }}
           value={criteria}
           placeholder="Search by user"
+        />
+        <OrderSelect
+          value={request.query.order || DEFAULT_ORDER}
+          setValue={setOrder}
         />
       </div>
       <ResultsZone isFetching={isFetching}>

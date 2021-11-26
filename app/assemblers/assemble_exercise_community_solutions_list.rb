@@ -21,7 +21,7 @@ class AssembleExerciseCommunitySolutionsList
   def solutions
     Solution::SearchCommunitySolutions.(
       exercise,
-      **params.slice(:page, :order, :criteria, :tests_status, :mentoring_status, :sync_status).to_hash.symbolize_keys
+      **params.slice(*self.class.keys).to_hash.symbolize_keys
     )
   end
 end

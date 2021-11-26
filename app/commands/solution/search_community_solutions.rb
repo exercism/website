@@ -11,7 +11,7 @@ class Solution
     end
 
     def initialize(exercise, page: nil, per: nil, order: nil,
-                   criteria: nil, tests_status: nil, mentoring_status: nil, up_to_date: nil)
+                   criteria: nil, tests_status: nil, mentoring_status: nil, sync_status: nil)
       @exercise = exercise
       @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
       @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per # rubocop:disable Style/ConditionalAssignment
@@ -19,7 +19,7 @@ class Solution
       @criteria = criteria
       @tests_status = tests_status
       @mentoring_status = mentoring_status
-      @up_to_date = up_to_date
+      @sync_status = sync_status
     end
 
     def call
@@ -42,11 +42,11 @@ class Solution
         page(page).per(per)
     rescue StandardError => e
       Bugsnag.notify(e)
-      Fallback.(exercise, page, per, order, criteria, tests_status, mentoring_status, up_to_date)
+      Fallback.(exercise, page, per, order, criteria, tests_status, mentoring_status, sync_status)
     end
 
     private
-    attr_reader :exercise, :per, :page, :order, :solutions, :criteria, :tests_status, :mentoring_status, :up_to_date
+    attr_reader :exercise, :per, :page, :order, :solutions, :criteria, :tests_status, :mentoring_status, :sync_status
 
     def search_body
       {
@@ -73,7 +73,7 @@ class Solution
           must: [
             { term: { 'exercise.id': exercise.id } },
             { term: { status: 'published' } },
-            @up_to_date.nil? ? nil : { term: { 'out_of_date': !@up_to_date } },
+            @sync_status.nil? ? nil : { term: { 'out_of_date': @sync_status == :out_of_date } },
             @mentoring_status.blank? ? nil : { term: { 'mentoring_status': @mentoring_status.to_s } },
             @tests_status.blank? ? nil : { term: { 'published_iteration.tests_status': @tests_status.to_s } },
             @criteria.blank? ? nil : {
@@ -99,7 +99,7 @@ class Solution
     class Fallback
       include Mandate
 
-      initialize_with :exercise, :page, :per, :order, :criteria, :tests_status, :mentoring_status, :up_to_date
+      initialize_with :exercise, :page, :per, :order, :criteria, :tests_status, :mentoring_status, :sync_status
 
       def call
         @solutions = exercise.solutions.published
@@ -107,7 +107,7 @@ class Solution
         filter_criteria!
         filter_tests_status!
         filter_mentoring_status!
-        filter_up_to_date!
+        filter_sync_status!
         sort!
 
         @solutions.page(page).per(per)
@@ -134,12 +134,11 @@ class Solution
         @solutions = @solutions.where(mentoring_status: mentoring_status)
       end
 
-      def filter_up_to_date!
-        return if up_to_date.nil?
-
-        if up_to_date
+      def filter_sync_status!
+        case sync_status&.to_sym
+        when :up_to_date
           @solutions = @solutions.where(git_important_files_hash: exercise.git_important_files_hash)
-        else
+        when :out_of_date
           @solutions = @solutions.where.not(git_important_files_hash: exercise.git_important_files_hash)
         end
       end

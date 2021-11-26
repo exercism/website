@@ -21,11 +21,7 @@ class AssembleExerciseCommunitySolutionsList
   def solutions
     Solution::SearchCommunitySolutions.(
       exercise,
-      page: params[:page],
-      criteria: params[:criteria],
-      tests_status: params[:tests_status],
-      mentoring_status: params[:mentoring_status],
-      up_to_date: params[:up_to_date]
+      **params.slice(:page, :criteria, :tests_status, :mentoring_status, :up_to_date)
     )
   end
 end

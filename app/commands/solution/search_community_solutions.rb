@@ -10,13 +10,13 @@ class Solution
       DEFAULT_PER
     end
 
-    def initialize(exercise, page: nil, per: nil, order: nil, criteria: nil, status: nil, mentoring_status: nil, up_to_date: nil)
+    def initialize(exercise, page: nil, per: nil, order: nil, criteria: nil, tests_status: nil, mentoring_status: nil, up_to_date: nil)
       @exercise = exercise
       @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
       @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per # rubocop:disable Style/ConditionalAssignment
       @order = order
       @criteria = criteria
-      @status = status
+      @tests_status = tests_status
       @mentoring_status = mentoring_status
       @up_to_date = up_to_date
     end
@@ -41,11 +41,11 @@ class Solution
         page(page).per(per)
     rescue StandardError => e
       Bugsnag.notify(e)
-      Fallback.(exercise, page, per, order, criteria, status, mentoring_status, up_to_date)
+      Fallback.(exercise, page, per, order, criteria, tests_status, mentoring_status, up_to_date)
     end
 
     private
-    attr_reader :exercise, :per, :page, :order, :solutions, :criteria, :status, :mentoring_status, :up_to_date
+    attr_reader :exercise, :per, :page, :order, :solutions, :criteria, :tests_status, :mentoring_status, :up_to_date
 
     def search_body
       {
@@ -72,7 +72,15 @@ class Solution
           must: [
             { term: { 'exercise.id': exercise.id } },
             { term: { status: 'published' } },
-            @criteria.blank? ? nil : { wildcard: { 'user.handle': "*#{criteria}*" } }
+            @up_to_date.nil? ? nil : { term: { 'out_of_date': !@up_to_date } },
+            @mentoring_status.blank? ? nil : { term: { 'mentoring_status': @mentoring_status.to_s } },
+            @tests_status.blank? ? nil : { term: { 'published_iteration.tests_status': @tests_status.to_s } },
+            @criteria.blank? ? nil : {
+              query_string: {
+                query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),
+                fields: ['user.handle', 'published_iteration.code']
+              }
+            }
           ].compact
         }
       }
@@ -90,22 +98,50 @@ class Solution
     class Fallback
       include Mandate
 
-      initialize_with :exercise, :page, :per, :order, :criteria, :status, :mentoring_status, :up_to_date
+      initialize_with :exercise, :page, :per, :order, :criteria, :tests_status, :mentoring_status, :up_to_date
 
       def call
         @solutions = exercise.solutions.published
-        @solutions = @solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%") if @criteria.present?
 
+        filter_criteria!
+        filter_tests_status!
+        filter_mentoring_status!
+        filter_up_to_date!
         sort!
 
         @solutions.page(page).per(per)
-
-        # TODO: use status: nil, up_to_date: nil, mentoring_status: nil
-        # TODO: order
       end
 
       private
       attr_reader :solutions
+
+      def filter_criteria!
+        return if @criteria.blank?
+
+        @solutions = @solutions.joins(:user).where("users.handle LIKE ?", "%#{criteria}%")
+      end
+
+      def filter_tests_status!
+        return if tests_status.blank?
+
+        @solutions = @solutions.joins(published_iteration: :submission).where('submissions.tests_status': tests_status)
+      end
+
+      def filter_mentoring_status!
+        return if mentoring_status.blank?
+
+        @solutions = @solutions.where(mentoring_status: mentoring_status)
+      end
+
+      def filter_up_to_date!
+        return if up_to_date.nil?
+
+        if up_to_date
+          @solutions = @solutions.where(git_important_files_hash: exercise.git_important_files_hash)
+        else
+          @solutions = @solutions.where.not(git_important_files_hash: exercise.git_important_files_hash)
+        end
+      end
 
       def sort!
         case order&.to_sym

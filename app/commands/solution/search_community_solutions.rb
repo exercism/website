@@ -10,7 +10,8 @@ class Solution
       DEFAULT_PER
     end
 
-    def initialize(exercise, page: nil, per: nil, order: nil, criteria: nil, tests_status: nil, mentoring_status: nil, up_to_date: nil)
+    def initialize(exercise, page: nil, per: nil, order: nil,
+                   criteria: nil, tests_status: nil, mentoring_status: nil, up_to_date: nil)
       @exercise = exercise
       @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
       @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per # rubocop:disable Style/ConditionalAssignment

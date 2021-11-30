@@ -29,6 +29,21 @@ module Components
           assert_text "0"
           assert_text "a year ago"
           assert_link "", href: Exercism::Routes.mentoring_discussion_url(discussion)
+          refute_css "img[alt='Favorite student']"
+        end
+      end
+
+      test "shows favourites" do
+        mentor = create :user
+        student = create :user, handle: "Mentee"
+        solution = create :concept_solution, user: student
+        create :mentor_discussion, :awaiting_mentor, solution: solution, mentor: mentor
+        create :mentor_student_relationship, mentor: mentor, student: student, favorited: true
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentoring_inbox_url
+
           assert_css "img[alt='Favorite student']"
         end
       end

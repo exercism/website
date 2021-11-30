@@ -35,11 +35,11 @@ module API
     test "index should search and return solutions" do
       track = create :track
       exercise = create :concept_exercise, :random_slug, track: track
-      solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current
+      solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, num_stars: 11
       create :iteration, solution: solution_1
-      solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current
+      solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, num_stars: 22
       create :iteration, solution: solution_2
-      create :concept_solution, published_at: Time.current
+      create :concept_solution, published_at: Time.current, num_stars: 33
 
       wait_for_opensearch_to_be_synced
 

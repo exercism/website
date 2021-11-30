@@ -135,8 +135,11 @@ published_at: Time.current, status: :published
 
     assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, mentoring_status: nil)
     assert_equal [solution_3, solution_1], Solution::SearchCommunitySolutions.(exercise, mentoring_status: :requested)
+    assert_equal [solution_3, solution_1], Solution::SearchCommunitySolutions.(exercise, mentoring_status: "requested")
     assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, mentoring_status: :in_progress)
+    assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, mentoring_status: "in_progress")
     assert_empty Solution::SearchCommunitySolutions.(exercise, mentoring_status: :finished)
+    assert_empty Solution::SearchCommunitySolutions.(exercise, mentoring_status: "finished")
   end
 
   test "filter: sync_status" do
@@ -162,7 +165,9 @@ published_at: Time.current, status: :published
 
     assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, sync_status: nil)
     assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, sync_status: :up_to_date)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, sync_status: "up_to_date")
     assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, sync_status: :out_of_date)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, sync_status: "out_of_date")
   end
 
   test "pagination" do
@@ -367,8 +372,11 @@ published_at: Time.current, status: :published
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
     assert_equal [solution_3, solution_1],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :requested, nil)
+    Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, "requested", nil)
     assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :in_progress, nil)
+    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, "in_progress", nil)
     assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :finished, nil)
+    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, "finished", nil)
   end
 
   test "fallback: filter: sync_status" do
@@ -391,7 +399,10 @@ published_at: Time.current, status: :published
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
     assert_equal [solution_2, solution_1],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :up_to_date)
+    assert_equal [solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "up_to_date")
     assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :out_of_date)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "out_of_date")
   end
 
   test "fallback: pagination" do

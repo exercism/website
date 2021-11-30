@@ -9,6 +9,7 @@ class User::CommunicationPreferences < ApplicationRecord
       email_on_student_added_iteration_notification
       email_on_acquired_badge_notification
       email_on_general_update_notification
+      email_on_usage_nudge_notification
       receive_product_updates
     ]
   end

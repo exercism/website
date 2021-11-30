@@ -57,10 +57,10 @@ module Flows
       other_author = create :user, handle: "author2"
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
-      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
+      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author, num_stars: 11
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
-      other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author
+      other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author, num_stars: 22
       other_submission = create :submission, solution: other_solution
       create :iteration, solution: other_solution, submission: other_submission
 

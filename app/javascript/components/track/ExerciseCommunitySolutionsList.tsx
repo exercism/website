@@ -9,7 +9,7 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
-import { SyncStatusSelect } from './exercise-community-solutions-list/SyncStatusSelect'
+import { SyncStatusCheckbox } from './exercise-community-solutions-list/SyncStatusCheckbox'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -88,7 +88,7 @@ export const ExerciseCommunitySolutionsList = ({
           value={criteria}
           placeholder="Search by user"
         />
-        <SyncStatusSelect
+        <SyncStatusCheckbox
           value={request.query.syncStatus}
           setValue={setSyncStatus}
         />

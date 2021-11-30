@@ -132,6 +132,28 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     Document::SearchDocs.(criteria: "foobar", track_slug: "csharp", page: 2, per: 15)
   end
 
+  test "fallback is called when elasticsearch times out" do
+    # Simulate a timeout
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Document::SearchDocs.any_instance.stubs(:search_query).returns({
+        query: {
+          function_score: {
+            script_score: {
+              script: {
+                lang: "painless",
+                source: "long total = 0; for (int i = 0; i < 500000; ++i) { total += i; } return total;"
+              }
+            }
+          }
+        }
+      })
+    end
+
+    Document::SearchDocs::Fallback.expects(:call).with(nil, nil, 1, 25)
+
+    Document::SearchDocs.()
+  end
+
   test "fallback: no options returns everything" do
     doc_1 = create :document
     doc_2 = create :document

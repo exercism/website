@@ -179,6 +179,30 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 criteria: "foobar", order: "oldest_first")
   end
 
+  test "fallback is called when elasticsearch times out" do
+    # Simulate a timeout
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Solution::SearchUserSolutions.any_instance.stubs(:search_query).returns({
+        query: {
+          function_score: {
+            script_score: {
+              script: {
+                lang: "painless",
+                source: "long total = 0; for (int i = 0; i < 500000; ++i) { total += i; } return total;"
+              }
+            }
+          }
+        }
+      })
+    end
+
+    user = create :user
+    Solution::SearchUserSolutions::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", "oldest_first")
+
+    Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
+criteria: "foobar", order: "oldest_first")
+  end
+
   test "fallback: no options returns everything" do
     user = create :user
     solution_1 = create :concept_solution, user: user

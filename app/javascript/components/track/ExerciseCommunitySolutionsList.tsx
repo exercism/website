@@ -9,6 +9,7 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
+import { SyncStatusSelect } from './exercise-community-solutions-list/SyncStatusSelect'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -21,6 +22,7 @@ type PaginatedResult = {
 }
 
 export type Order = 'most_starred' | 'newest'
+export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
 const DEFAULT_ORDER = 'most_starred'

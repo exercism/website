@@ -9,7 +9,7 @@ module ReactComponents
           {
             user_handle: student.handle,
             request: SerializeMentorSessionRequest.(request, student),
-            discussion: discussion ? SerializeMentorDiscussion.(discussion, student) : nil,
+            discussion: discussion ? SerializeMentorDiscussionForStudent.(discussion) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,

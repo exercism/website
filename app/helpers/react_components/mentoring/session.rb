@@ -17,7 +17,7 @@ module ReactComponents
           {
             user_handle: current_user.handle,
             request: SerializeMentorSessionRequest.(request, current_user),
-            discussion: discussion ? SerializeMentorDiscussion.(discussion, :mentor) : nil,
+            discussion: discussion ? SerializeMentorDiscussionForMentor.(discussion, relationship: mentor_student_relationship) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations: iterations,

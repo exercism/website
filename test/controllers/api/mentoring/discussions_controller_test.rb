@@ -48,7 +48,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     expected = SerializePaginatedCollection.(
       Mentor::Discussion.page(1).per(10),
-      serializer: SerializeMentorDiscussions,
+      serializer: SerializeMentorDiscussionsForMentor,
       serializer_args: :mentor,
       meta: {}
     )
@@ -68,7 +68,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     expected = SerializePaginatedCollection.(
       Mentor::Discussion.page(1).per(10),
-      serializer: SerializeMentorDiscussions,
+      serializer: SerializeMentorDiscussionsForMentor,
       serializer_args: :mentor,
       meta: {
         awaiting_mentor_total: 1,

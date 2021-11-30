@@ -25,9 +25,7 @@ class Mentor::Discussion < ApplicationRecord
   belongs_to :mentor, class_name: "User"
   belongs_to :request, optional: true
 
-  has_many :posts, class_name: "DiscussionPost",
-                   dependent: :destroy,
-                   inverse_of: :discussion
+  has_many :posts, class_name: "DiscussionPost", dependent: :destroy, inverse_of: :discussion
   has_many :iterations, through: :solution
 
   scope :in_progress_for_student, -> { where(status: %i[awaiting_student awaiting_mentor mentor_finished]) }

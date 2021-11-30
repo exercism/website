@@ -97,7 +97,7 @@ module ReactComponents::Mentoring
         {
           user_handle: mentor.handle,
           request: SerializeMentorSessionRequest.(mentor_request, mentor),
-          discussion: SerializeMentorDiscussion.(discussion, :mentor),
+          discussion: SerializeMentorDiscussionForMentor.(discussion, relationship: nil),
           track: SerializeMentorSessionTrack.(track),
           exercise: SerializeMentorSessionExercise.(exercise),
           iterations: [

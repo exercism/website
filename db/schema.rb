@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_120614) do
+ActiveRecord::Schema.define(version: 2021_11_30_133210) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -527,11 +527,15 @@ ActiveRecord::Schema.define(version: 2021_11_01_120614) do
     t.integer "num_loc", limit: 3
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["exercise_id", "type", "user_id", "last_iterated_at"], name: "fast_4"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
+    t.index ["last_iterated_at", "user_id"], name: "fast_1"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
+    t.index ["type", "user_id", "exercise_id", "last_iterated_at"], name: "fast_3"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
+    t.index ["user_id", "last_iterated_at"], name: "fast_2"
     t.index ["user_id"], name: "index_solutions_on_user_id"
     t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
   end
@@ -709,6 +713,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_120614) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "email_on_general_update_notification", default: true, null: false
     t.boolean "email_on_acquired_badge_notification", default: true, null: false
+    t.boolean "email_on_nudge_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
@@ -751,7 +756,10 @@ ActiveRecord::Schema.define(version: 2021_11_01_120614) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
     t.index ["track_id"], name: "index_user_notifications_on_track_id"
+    t.index ["type", "user_id"], name: "fast_6"
+    t.index ["type"], name: "fast_5"
     t.index ["uniqueness_key"], name: "index_user_notifications_on_uniqueness_key", unique: true
+    t.index ["user_id", "type"], name: "fast_7"
     t.index ["user_id"], name: "index_user_notifications_on_user_id"
     t.index ["uuid"], name: "index_user_notifications_on_uuid", unique: true
   end

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useList } from '../../hooks/use-list'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
@@ -9,6 +9,7 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
+import { SyncStatusSelect } from './exercise-community-solutions-list/SyncStatusSelect'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -21,6 +22,7 @@ type PaginatedResult = {
 }
 
 export type Order = 'most_starred' | 'newest'
+export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
 const DEFAULT_ORDER = 'most_starred'
@@ -34,6 +36,7 @@ export const ExerciseCommunitySolutionsList = ({
     request,
     setPage,
     setOrder,
+    setQuery,
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
@@ -60,6 +63,13 @@ export const ExerciseCommunitySolutionsList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
+  const setSyncStatus = useCallback(
+    (syncStatus) => {
+      setQuery({ ...request.query, syncStatus: syncStatus, page: undefined })
+    },
+    [request.query, setQuery]
+  )
+
   return (
     <div className="lg-container">
       {resolvedData ? (
@@ -77,6 +87,10 @@ export const ExerciseCommunitySolutionsList = ({
           }}
           value={criteria}
           placeholder="Search by user"
+        />
+        <SyncStatusSelect
+          value={request.query.syncStatus}
+          setValue={setSyncStatus}
         />
         <OrderSelect
           value={request.query.order || DEFAULT_ORDER}

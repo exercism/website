@@ -17,10 +17,12 @@ class Document
     end
 
     def call
-      results = Exercism.opensearch_client.search(index: Document::OPENSEARCH_INDEX,
+      results = Exercism.opensearch_client.search(
+        index: Document::OPENSEARCH_INDEX,
         body: search_body,
         timeout: TIMEOUT,
-        allow_partial_search_results: false)
+        allow_partial_search_results: false
+      )
 
       doc_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
       docs = doc_ids.present? ?

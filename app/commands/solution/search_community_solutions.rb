@@ -22,10 +22,12 @@ class Solution
       # If it's above that, return nothing
       return Kaminari.paginate_array([], total_count: MAX_ROWS).page(page).per(per) if from + per > MAX_ROWS
 
-      results = Exercism.opensearch_client.search(index: Solution::OPENSEARCH_INDEX,
+      results = Exercism.opensearch_client.search(
+        index: Solution::OPENSEARCH_INDEX,
         body: search_body,
         timeout: TIMEOUT,
-        allow_partial_search_results: false)
+        allow_partial_search_results: false
+      )
 
       solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
       solutions = solution_ids.present? ?

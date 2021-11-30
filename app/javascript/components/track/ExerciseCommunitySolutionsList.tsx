@@ -10,7 +10,6 @@ import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
 import { SyncStatusCheckbox } from './exercise-community-solutions-list/SyncStatusCheckbox'
-import { MentoringStatusCheckbox } from './exercise-community-solutions-list/MentoringStatusCheckbox'
 import { TestsStatusCheckbox } from './exercise-community-solutions-list/TestsStatusCheckbox'
 
 type PaginatedResult = {
@@ -24,16 +23,7 @@ type PaginatedResult = {
 }
 
 export type Order = 'most_starred' | 'newest'
-
 export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
-
-export type MentoringStatus =
-  | undefined
-  | 'none'
-  | 'requested'
-  | 'in_progress'
-  | 'finished'
-
 export type TestsStatus =
   | undefined
   | 'not_queued'
@@ -90,17 +80,6 @@ export const ExerciseCommunitySolutionsList = ({
     [request.query, setQuery]
   )
 
-  const setMentoringStatus = useCallback(
-    (mentoringStatus) => {
-      setQuery({
-        ...request.query,
-        mentoringStatus: mentoringStatus,
-        page: undefined,
-      })
-    },
-    [request.query, setQuery]
-  )
-
   const setTestsStatus = useCallback(
     (testsStatus) => {
       setQuery({
@@ -137,10 +116,6 @@ export const ExerciseCommunitySolutionsList = ({
         <SyncStatusCheckbox
           value={request.query.syncStatus}
           setValue={setSyncStatus}
-        />
-        <MentoringStatusCheckbox
-          value={request.query.mentoringStatus}
-          setValue={setMentoringStatus}
         />
         <OrderSelect
           value={request.query.order || DEFAULT_ORDER}

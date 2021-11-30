@@ -73,7 +73,7 @@ class Solution
           must: [
             { term: { 'exercise.id': exercise.id } },
             { term: { status: 'published' } },
-            @sync_status.nil? ? nil : { term: { 'out_of_date': @sync_status == :out_of_date } },
+            @sync_status.nil? ? nil : { term: { 'out_of_date': @sync_status.to_sym == :out_of_date } },
             @mentoring_status.blank? ? nil : { term: { 'mentoring_status': @mentoring_status.to_s } },
             @tests_status.blank? ? nil : { term: { 'published_iteration.tests_status': @tests_status.to_s } },
             @criteria.blank? ? nil : {

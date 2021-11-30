@@ -83,6 +83,29 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, criteria: "foobar")
   end
 
+  test "fallback is called when elasticsearch times out" do
+    # Simulate a timeout
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Solution::SearchCommunitySolutions.any_instance.stubs(:search_query).returns({
+        query: {
+          function_score: {
+            script_score: {
+              script: {
+                lang: "painless",
+                source: "long total = 0; for (int i = 0; i < 500000; ++i) { total += i; } return total;"
+              }
+            }
+          }
+        }
+      })
+    end
+
+    exercise = create :concept_exercise
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "foobar")
+
+    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, criteria: "foobar")
+  end
+
   test "fallback: no options returns all published" do
     track = create :track
     exercise = create :concept_exercise, track: track

@@ -5,7 +5,7 @@ class Solution < ApplicationRecord
 
   enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: 'mentoring'
   enum status: { started: 0, iterated: 1, completed: 2, published: 3 }, _prefix: true
-  enum published_iteration_head_tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: true # rubocop:disable Layout/LineLength
+  enum published_iteration_head_tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "published_iteration_head_tests" # rubocop:disable Layout/LineLength
 
   belongs_to :user
   belongs_to :exercise

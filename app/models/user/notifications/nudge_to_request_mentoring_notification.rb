@@ -2,7 +2,7 @@ class User
   module Notifications
     class NudgeToRequestMentoringNotification < Notification
       def url
-        Exercism::Routes.track_url(track, anchor: "mentoring")
+        Exercism::Routes.track_url(track, notification_uuid: uuid, anchor: "mentoring")
       end
 
       def image_type

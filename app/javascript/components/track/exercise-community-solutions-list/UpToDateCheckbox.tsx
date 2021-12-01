@@ -1,20 +1,19 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common'
-import { SyncStatus } from '../ExerciseCommunitySolutionsList'
 
-export const SyncStatusCheckbox = ({
-  value,
-  setValue,
+export const UpToDateCheckbox = ({
+  checked,
+  setChecked,
 }: {
-  value: SyncStatus
-  setValue: (value: SyncStatus) => void
+  checked: boolean
+  setChecked: (value: boolean) => void
 }): JSX.Element => {
   return (
     <label className="c-checkbox-wrapper filter">
       <input
         type="checkbox"
-        checked={value === 'up_to_date'}
-        onChange={(e) => setValue(e.target.checked ? 'up_to_date' : undefined)}
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
       />
       <div className="row">
         <div className="c-checkbox">

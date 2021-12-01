@@ -9,8 +9,9 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
-import { SyncStatusCheckbox } from './exercise-community-solutions-list/SyncStatusCheckbox'
-import { TestsStatusCheckbox } from './exercise-community-solutions-list/TestsStatusCheckbox'
+import { UpToDateCheckbox } from './exercise-community-solutions-list/UpToDateCheckbox'
+import { PassedTestsCheckbox } from './exercise-community-solutions-list/PassedTestsCheckbox'
+import { PassedHeadTestsCheckbox } from './exercise-community-solutions-list/PassedHeadTestsCheckbox'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -23,16 +24,6 @@ type PaginatedResult = {
 }
 
 export type Order = 'most_starred' | 'newest'
-export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
-export type TestsStatus =
-  | undefined
-  | 'not_queued'
-  | 'queued'
-  | 'passed'
-  | 'failed'
-  | 'errored'
-  | 'exceptioned'
-  | 'cancelled'
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
 const DEFAULT_ORDER = 'most_starred'
@@ -73,18 +64,29 @@ export const ExerciseCommunitySolutionsList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const setSyncStatus = useCallback(
-    (syncStatus) => {
-      setQuery({ ...request.query, syncStatus: syncStatus, page: undefined })
+  const setUpToDate = useCallback(
+    (upToDate) => {
+      setQuery({ ...request.query, upToDate: upToDate, page: undefined })
     },
     [request.query, setQuery]
   )
 
-  const setTestsStatus = useCallback(
-    (testsStatus) => {
+  const setPassedTests = useCallback(
+    (passedTests) => {
       setQuery({
         ...request.query,
-        testsStatus: testsStatus,
+        passedTests: passedTests,
+        page: undefined,
+      })
+    },
+    [request.query, setQuery]
+  )
+
+  const setPassedHeadTests = useCallback(
+    (passedHeadTests) => {
+      setQuery({
+        ...request.query,
+        passedHeadTests: passedHeadTests,
         page: undefined,
       })
     },
@@ -109,13 +111,17 @@ export const ExerciseCommunitySolutionsList = ({
           value={criteria}
           placeholder="Search by user"
         />
-        <TestsStatusCheckbox
-          value={request.query.testsStatus}
-          setValue={setTestsStatus}
+        <PassedTestsCheckbox
+          checked={request.query.passedTests}
+          setChecked={setPassedTests}
         />
-        <SyncStatusCheckbox
-          value={request.query.syncStatus}
-          setValue={setSyncStatus}
+        <PassedHeadTestsCheckbox
+          checked={request.query.passedHeadTests}
+          setChecked={setPassedHeadTests}
+        />
+        <UpToDateCheckbox
+          checked={request.query.upToDate}
+          setChecked={setUpToDate}
         />
         <OrderSelect
           value={request.query.order || DEFAULT_ORDER}

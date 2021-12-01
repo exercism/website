@@ -8,7 +8,19 @@ class Submission < ApplicationRecord
   has_one :iteration, dependent: :destroy
 
   has_many :files, class_name: "Submission::File", dependent: :destroy
-  has_one :test_run, class_name: "Submission::TestRun", dependent: :destroy
+
+  # A submission can have many different test_runs for different git_shas
+  has_many :test_runs, class_name: "Submission::TestRun", dependent: :destroy
+
+  # A head test run is one that's up to date with the head exercise's important files hash
+  has_one :head_test_run, # rubocop:disable Rails/InverseOf
+    -> { joins(submission: :exercise).where('submission_test_runs.git_important_files_hash = exercises.git_important_files_hash') },
+    class_name: "Submission::TestRun", dependent: :destroy
+
+  # But we always search on the git_sha to get the latest of each
+  has_one :test_run, # rubocop:disable Rails/InverseOf
+    -> { joins(:submission).where('submission_test_runs.git_important_files_hash = submissions.git_important_files_hash') },
+    class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
   has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
@@ -16,14 +28,14 @@ class Submission < ApplicationRecord
   # TODO: It's important that we enforce rules on these to stop things from
   # going from the success states (passed/failed/errored/generated/completed)
   # backwards to the pending states.
-
-  enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "tests" # rubocop:disable Layout/LineLength
-  enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation" # rubocop:disable Layout/LineLength
+  enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "tests"
+  enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation"
   enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
 
   before_create do
     self.git_slug = solution.git_slug
     self.git_sha = solution.git_sha
+    self.git_important_files_hash = solution.git_important_files_hash if self.git_important_files_hash.blank?
   end
 
   after_save_commit do

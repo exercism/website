@@ -116,5 +116,32 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     test_run.metadata
   end
 
+  test "sets git sha and hash from submission" do
+    submission = create :submission
+    job = create_test_runner_job!(submission)
+    Submission::TestRun::Process.(job)
+    test_run = submission.test_run
+
+    assert_equal submission.git_sha, test_run.git_sha
+    assert_equal submission.git_important_files_hash, test_run.git_important_files_hash
+  end
+
+  test "correctly uses custom git_sha and important_files_hash" do
+    old_sha = "37604404f19512548733f0eaeb319b93f63ac58b"
+    old_hash = "b72b0958a135cddd775bf116c128e6e859bf11e4"
+
+    ruby = create :track, slug: :ruby
+    bob = create :practice_exercise, slug: :bob, track: ruby
+    solution = create :practice_solution, exercise: bob
+    submission = create :submission, solution: solution
+    test_run = create :submission_test_run, git_sha: old_sha, submission: submission
+
+    # Assert that the hash has been created from the old sha
+    # which is different to the latest sha.
+    assert_equal old_sha, test_run.git_sha
+    assert_equal old_hash, test_run.git_important_files_hash
+    refute_equal old_hash, bob.git_important_files_hash
+  end
+
   # TODO: - Add a test for if the raw_results is empty
 end

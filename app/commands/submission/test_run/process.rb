@@ -3,9 +3,7 @@ class Submission
     class Process
       include Mandate
 
-      def initialize(tooling_job)
-        @tooling_job = tooling_job
-      end
+      initialize_with :tooling_job
 
       def call
         # This goes in its own transaction. We want
@@ -13,7 +11,8 @@ class Submission
         test_run = submission.create_test_run!(
           tooling_job_id: tooling_job.id,
           ops_status: tooling_job.execution_status.to_i,
-          raw_results: results
+          raw_results: results,
+          git_sha: git_sha
         )
 
         # Then all of the submethods here should
@@ -35,24 +34,10 @@ class Submission
           update_status!(:exceptioned)
         end
 
-        # Work through and process the test run
-        # then before broadcasting, check whether it's been
-        # cancelled, and update it if so.
-        # This whole bit is very racey so the order is very
-        # important to consider.
-        if submission.tests_cancelled?
-          test_run.update!(status: "cancelled")
-          return
-        end
-
-        submission.broadcast!
-        submission.iteration&.broadcast!
-        test_run.broadcast!
+        broadcast!(test_run)
       end
 
       private
-      attr_reader :tooling_job
-
       def handle_ops_error!
         update_status!(:exceptioned)
       end
@@ -72,21 +57,48 @@ class Submission
       end
 
       def cancel_other_services!
+        return if solution_head_run?
+
         ToolingJob::Cancel.(submission.uuid, :analyzer)
         ToolingJob::Cancel.(submission.uuid, :representer)
       end
 
-      memoize
-      def submission
-        Submission.find_by!(uuid: tooling_job.submission_uuid)
+      def update_status!(status)
+        solution_head_run? ? update_solution_status!(status) : update_submission_status!(status)
       end
 
-      def update_status!(status)
+      def update_submission_status!(status)
         submission.with_lock do
           return if submission.tests_cancelled?
 
           submission.send("tests_#{status}!")
         end
+      end
+
+      def update_solution_status!(status)
+        submission.solution.with_lock do
+          return unless submission.exercise.git_sha == git_sha
+
+          submission.solution.send("published_iteration_head_tests_status_#{status}!")
+        end
+      end
+
+      def broadcast!(test_run)
+        return if solution_head_run?
+
+        # Work through and process the test run
+        # then before broadcasting, check whether it's been
+        # cancelled, and update it if so.
+        # This whole bit is very racey so the order is very
+        # important to consider.
+        if submission.tests_cancelled?
+          test_run.update!(status: "cancelled")
+          return
+        end
+
+        submission.broadcast!
+        submission.iteration&.broadcast!
+        test_run.broadcast!
       end
 
       memoize
@@ -95,6 +107,22 @@ class Submission
         res.is_a?(Hash) ? res.symbolize_keys : {}
       rescue StandardError
         {}
+      end
+
+      memoize
+      def submission
+        Submission.find_by!(uuid: tooling_job.submission_uuid)
+      end
+
+      memoize
+      def solution_head_run?
+        !!tooling_job.head_run
+      rescue NoMethodError
+        false
+      end
+
+      def git_sha
+        tooling_job.source["exercise_git_sha"]
       end
     end
   end

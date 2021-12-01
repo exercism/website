@@ -5,6 +5,7 @@ class Solution < ApplicationRecord
 
   enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: 'mentoring'
   enum status: { started: 0, iterated: 1, completed: 2, published: 3 }, _prefix: true
+  enum published_iteration_head_tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: true # rubocop:disable Layout/LineLength
 
   belongs_to :user
   belongs_to :exercise
@@ -114,6 +115,12 @@ class Solution < ApplicationRecord
     return [published_iteration] if published_iteration && !published_iteration.deleted?
 
     iterations.not_deleted
+  end
+
+  def up_to_date_tests_status
+    return if published_iterations.blank?
+
+    published_iterations.last.submission.head_test_run&.tests_status
   end
 
   memoize
@@ -227,6 +234,9 @@ class Solution < ApplicationRecord
     "anonymous-#{Digest::SHA1.hexdigest("#{id}-#{uuid}")}"
   end
 
+  # TODO: Move this into a command, reset the latest iteration to
+  # be the latest git_sha, git_important_files and rerun the tests
+  # if they're not already run for that git_important_files_hash.
   def sync_git!
     update!(
       git_slug: exercise.slug,

@@ -4,7 +4,7 @@ class AssembleExerciseCommunitySolutionsList
   initialize_with :exercise, :params
 
   def self.keys
-    %i[page order criteria tests_status mentoring_status sync_status]
+    %i[page order criteria up_to_date passed_tests passed_head_tests]
   end
 
   def call
@@ -19,6 +19,14 @@ class AssembleExerciseCommunitySolutionsList
 
   memoize
   def solutions
-    Solution::SearchCommunitySolutions.(exercise, **params.to_hash.symbolize_keys)
+    Solution::SearchCommunitySolutions.(
+      exercise,
+      page: params[:page],
+      order: params[:order],
+      criteria: params[:criteria],
+      sync_status: !!params[:up_to_date] ? :up_to_date : nil,
+      tests_status: !!params[:passed_tests] ? :passed : nil,
+      head_tests_status: !!params[:passed_head_tests] ? %i[queued passed] : nil
+    )
   end
 end

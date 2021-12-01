@@ -1,20 +1,19 @@
 import React from 'react'
 import { GraphicalIcon } from '../../common'
-import { TestsStatus } from '../ExerciseCommunitySolutionsList'
 
-export const TestsStatusCheckbox = ({
-  value,
-  setValue,
+export const PassedHeadTestsCheckbox = ({
+  checked,
+  setChecked,
 }: {
-  value: TestsStatus
-  setValue: (value: TestsStatus) => void
+  checked: boolean
+  setChecked: (value: boolean) => void
 }): JSX.Element => {
   return (
     <label className="c-checkbox-wrapper filter">
       <input
         type="checkbox"
-        checked={value === 'passed'}
-        onChange={(e) => setValue(e.target.checked ? 'passed' : undefined)}
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
       />
       <div className="row">
         <div className="c-checkbox">

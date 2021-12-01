@@ -28,7 +28,7 @@ class NudgeUsersToRequestMentoringJob < ApplicationJob
 
     user_ids.in_groups_of(100) do |batch|
       User.find(batch).each do |user|
-        track = PracticeSolution.status_iterated.where(user: user).
+        track = PracticeSolution.where(user: user).where.not(status: :started).
           joins(:exercise).where.not('exercises.slug': 'hello-world').
           last.track
 

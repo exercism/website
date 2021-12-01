@@ -7,7 +7,7 @@ class NudgeUsersToRequestMentoringJobTest < ActiveJob::TestCase
     javascript = create :track, slug: :javascript
     user = create :user
     create :iteration, created_at: 2.days.ago, solution: create(:practice_solution, track: javascript, user: user, status: :iterated)
-    create :iteration, created_at: 2.days.ago, solution: create(:practice_solution, track: ruby, user: user, status: :iterated)
+    create :iteration, created_at: 2.days.ago, solution: create(:practice_solution, track: ruby, user: user, status: :completed)
 
     # Too recent
     create :iteration, created_at: 5.minutes.ago, solution: create(:practice_solution)

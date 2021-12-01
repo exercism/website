@@ -34,7 +34,8 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
       num_views: 20,
       num_comments: 2,
       user: user,
-      exercise: exercise
+      exercise: exercise,
+      published_iteration_head_tests_status: :not_queued
     submission = create :submission, solution: solution
     create :submission_file, submission: submission, content: "module LogLineParser"
     iteration = create :iteration, submission: submission
@@ -71,7 +72,8 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
         },
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
-        "published_iteration" => { "tests_status" => "not_queued", "code" => ["module LogLineParser"] },
+        "published_iteration" => { "tests_status" => "not_queued", "head_tests_status" => "not_queued",
+                                   "code" => ["module LogLineParser"] },
         "latest_iteration" => { "tests_status" => "not_queued", "code" => ["module LogLineParser"] }
       }
     }

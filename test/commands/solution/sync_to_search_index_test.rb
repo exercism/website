@@ -12,7 +12,8 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       num_views: 20,
       num_comments: 2,
       user: user,
-      exercise: exercise
+      exercise: exercise,
+      published_iteration_head_tests_status: :failed
     submission = create :submission, solution: solution, tests_status: :passed
     create :submission_file, submission: submission, content: "module LogLineParser"
     iteration = create :iteration, submission: submission
@@ -49,7 +50,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         },
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
-        "published_iteration" => { "tests_status" => "passed", "code" => ["module LogLineParser"] },
+        "published_iteration" => { "tests_status" => "passed", "head_tests_status" => "failed", "code" => ["module LogLineParser"] },
         "latest_iteration" => { "tests_status" => "passed", "code" => ["module LogLineParser"] }
       }
     }
@@ -68,6 +69,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       num_comments: 2,
       user: user,
       exercise: exercise,
+      published_iteration_head_tests_status: :failed,
       git_important_files_hash: 'different-hash' # Makes the solution out-of-date
     submission = create :submission, solution: solution, tests_status: :failed
     create :submission_file, submission: submission, content: "module LogLineParser"
@@ -104,7 +106,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         },
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
-        "published_iteration" => { "tests_status" => "failed", "code" => ["module LogLineParser"] },
+        "published_iteration" => { "tests_status" => "failed", "head_tests_status" => "failed", "code" => ["module LogLineParser"] },
         "latest_iteration" => { "tests_status" => "failed", "code" => ["module LogLineParser"] }
       }
     }
@@ -122,7 +124,8 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       num_views: 20,
       num_comments: 2,
       user: user,
-      exercise: exercise
+      exercise: exercise,
+      published_iteration_head_tests_status: :passed
     submission = create :submission, solution: solution, tests_status: :passed
     create :submission_file, submission: submission, content: "module LogLineParser"
     iteration = create :iteration, submission: submission
@@ -158,7 +161,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         },
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
-        "published_iteration" => { "tests_status" => "passed", "code" => ["module LogLineParser"] },
+        "published_iteration" => { "tests_status" => "passed", "head_tests_status" => "passed", "code" => ["module LogLineParser"] },
         "latest_iteration" => { "tests_status" => "passed", "code" => ["module LogLineParser"] }
       }
     }
@@ -176,7 +179,8 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       num_views: 20,
       num_comments: 2,
       user: user,
-      exercise: exercise
+      exercise: exercise,
+      published_iteration_head_tests_status: :passed
 
     submission_1 = create :submission, solution: solution, tests_status: :failed
     create :submission_file, submission: submission_1, content: "module LogLineParser"
@@ -218,7 +222,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         },
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
-        "published_iteration" => { "tests_status" => "failed", "code" => ["module LogLineParser"] },
+        "published_iteration" => { "tests_status" => "failed", "head_tests_status" => "passed", "code" => ["module LogLineParser"] },
         "latest_iteration" => { "tests_status" => "passed", "code" => ["module LogLineParser\n\nlet parse str = 2"] }
       }
     }
@@ -390,7 +394,8 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         },
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
-        "published_iteration" => { "tests_status" => "not_queued", "code" => ["module LogLineParser", "module Helper"] },
+        "published_iteration" => { "tests_status" => "not_queued", "head_tests_status" => "not_queued",
+                                   "code" => ["module LogLineParser", "module Helper"] },
         "latest_iteration" => { "tests_status" => "not_queued", "code" => ["module LogLineParser", "module Helper"] }
       }
     }

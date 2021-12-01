@@ -8,6 +8,7 @@ class User
       reset_tracks!
       reset_mentoring!
       reset_associations!
+      reassign_to_ghost!
 
       user.update(
         reputation: 0,
@@ -34,6 +35,10 @@ class User
       user.mentor_discussion_posts.update_all(user_id: User::GHOST_USER_ID)
       user.mentor_testimonials.update_all(mentor_id: User::GHOST_USER_ID)
       user.provided_testimonials.update_all(student_id: User::GHOST_USER_ID)
+    end
+
+    def reassign_to_ghost!
+      user.problem_reports.update_all(user_id: User::GHOST_USER_ID)
     end
 
     def reset_associations!

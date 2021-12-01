@@ -82,6 +82,8 @@ class User < ApplicationRecord
   has_many :team_memberships, class_name: "ContributorTeam::Membership", dependent: :destroy
   has_many :teams, through: :team_memberships, source: :team
 
+  has_many :problem_reports, dependent: :destroy
+
   # TODO: Validate presence of name
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true

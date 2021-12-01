@@ -20,7 +20,7 @@ export const TestsStatusCheckbox = ({
         <div className="c-checkbox">
           <GraphicalIcon icon="checkmark" />
         </div>
-        Tests passing
+        Passed tests
       </div>
     </label>
   )

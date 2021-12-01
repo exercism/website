@@ -112,6 +112,39 @@ status: :published
     assert_empty Solution::SearchCommunitySolutions.(exercise, tests_status: :errored)
   end
 
+  test "filter: head_tests_status" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published,
+published_iteration_head_tests_status: :passed
+    submission_1 = create :submission, solution: solution_1, tests_status: :passed
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published,
+published_iteration_head_tests_status: :passed
+    submission_2 = create :submission, solution: solution_2, tests_status: :passed
+    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published,
+published_iteration_head_tests_status: :errored
+    submission_3 = create :submission, solution: solution_3, tests_status: :failed
+    solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+    solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+    solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).never
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, head_tests_status: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, head_tests_status: :passed)
+    assert_empty Solution::SearchCommunitySolutions.(exercise, head_tests_status: :failed)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, head_tests_status: :errored)
+  end
+
   test "filter: mentoring_status" do
     track = create :track
     exercise = create :concept_exercise, track: track
@@ -351,6 +384,36 @@ status: :published
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :passed, nil, nil, nil)
     assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :failed, nil, nil, nil)
     assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :errored, nil, nil, nil)
+  end
+
+  test "fallback: filter: head_tests_status" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published,
+published_iteration_head_tests_status: :passed
+    submission_1 = create :submission, solution: solution_1, tests_status: :passed
+    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published,
+published_iteration_head_tests_status: :passed
+    submission_2 = create :submission, solution: solution_2, tests_status: :passed
+    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published,
+published_iteration_head_tests_status: :errored
+    submission_3 = create :submission, solution: solution_3, tests_status: :failed
+    solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+    solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+    solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
+
+    # Unpublished
+    create :concept_solution, exercise: exercise
+
+    # A different exercise
+    create :concept_solution
+
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :passed, nil, nil)
+    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :failed, nil, nil)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :errored, nil, nil)
   end
 
   test "fallback: filter: mentoring_status" do

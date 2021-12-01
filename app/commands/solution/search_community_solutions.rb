@@ -144,7 +144,7 @@ class Solution
       def filter_head_tests_status!
         return if head_tests_status.blank?
 
-        @solutions = @solutions.where(head_tests_status: head_tests_status)
+        @solutions = @solutions.where(published_iteration_head_tests_status: head_tests_status)
       end
 
       def filter_mentoring_status!

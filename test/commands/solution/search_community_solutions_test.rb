@@ -108,8 +108,11 @@ status: :published
 
     assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, tests_status: nil)
     assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, tests_status: :passed)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, tests_status: "passed")
     assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, tests_status: :failed)
     assert_empty Solution::SearchCommunitySolutions.(exercise, tests_status: :errored)
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, tests_status: %i[passed failed])
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, tests_status: "passed failed")
   end
 
   test "filter: head_tests_status" do
@@ -143,6 +146,11 @@ published_iteration_head_tests_status: :errored
     assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions.(exercise, head_tests_status: :passed)
     assert_empty Solution::SearchCommunitySolutions.(exercise, head_tests_status: :failed)
     assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, head_tests_status: :errored)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions.(exercise, head_tests_status: "errored")
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions.(exercise, head_tests_status: %i[passed errored])
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions.(exercise, head_tests_status: "passed errored")
   end
 
   test "filter: mentoring_status" do
@@ -173,6 +181,10 @@ published_at: Time.current, status: :published
     assert_equal [solution_2], Solution::SearchCommunitySolutions.(exercise, mentoring_status: "in_progress")
     assert_empty Solution::SearchCommunitySolutions.(exercise, mentoring_status: :finished)
     assert_empty Solution::SearchCommunitySolutions.(exercise, mentoring_status: "finished")
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions.(exercise, mentoring_status: %i[requested in_progress])
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions.(exercise, mentoring_status: "requested in_progress")
   end
 
   test "filter: sync_status" do
@@ -361,6 +373,10 @@ status: :published
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :passed, nil, nil, nil)
     assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :failed, nil, nil, nil)
     assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :errored, nil, nil, nil)
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", "passed failed", nil, nil, nil)
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", %i[passed failed], nil, nil, nil)
   end
 
   test "fallback: filter: head_tests_status" do
@@ -391,6 +407,10 @@ published_iteration_head_tests_status: :errored
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :passed, nil, nil)
     assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :failed, nil, nil)
     assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :errored, nil, nil)
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, %i[passed errored], nil, nil)
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, "passed errored", nil, nil)
   end
 
   test "fallback: filter: mentoring_status" do
@@ -418,6 +438,9 @@ published_at: Time.current, status: :published
     assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "in_progress", nil)
     assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :finished, nil)
     assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "finished", nil)
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "requested in_progress", nil)
+    Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, %i[requested in_progress], nil)
   end
 
   test "fallback: filter: sync_status" do

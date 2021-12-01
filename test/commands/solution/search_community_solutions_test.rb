@@ -257,11 +257,11 @@ status: :published
 
   test "fallback is called" do
     exercise = create :concept_exercise
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "newest", "foobar", :passed, :requested,
-      :up_to_date)
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "newest", "foobar", :passed, :failed,
+      :requested, :up_to_date)
     Elasticsearch::Client.expects(:new).raises
 
-    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed, mentoring_status: :requested, sync_status: :up_to_date) # rubocop:disable Layout:LineLength
+    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed, head_tests_status: :failed, mentoring_status: :requested, sync_status: :up_to_date) # rubocop:disable Layout:LineLength
   end
 
   test "fallback is called when elasticsearch times out" do
@@ -299,7 +299,7 @@ status: :published
     # A different exercise
     create :concept_solution
 
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 10, nil, "", nil, nil, nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 10, nil, "", nil, nil, nil, nil)
   end
 
   test "fallback: criteria: search for user handle" do
@@ -320,10 +320,10 @@ status: :published
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, nil, nil, nil, nil)
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
-    assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "amy", nil, nil, nil)
-    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "ris", nil, nil, nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, nil, nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, nil)
+    assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "amy", nil, nil, nil, nil)
+    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "ris", nil, nil, nil, nil)
   end
 
   test "fallback: filter: tests_status" do
@@ -346,10 +346,11 @@ status: :published
     create :concept_solution
 
     assert_equal [solution_3, solution_2, solution_1],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :passed, nil, nil)
-    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :failed, nil, nil)
-    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :errored, nil, nil)
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :passed, nil, nil, nil)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :failed, nil, nil, nil)
+    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", :errored, nil, nil, nil)
   end
 
   test "fallback: filter: mentoring_status" do
@@ -369,14 +370,14 @@ published_at: Time.current, status: :published
     create :concept_solution
 
     assert_equal [solution_3, solution_2, solution_1],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, nil)
     assert_equal [solution_3, solution_1],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :requested, nil)
-    Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, "requested", nil)
-    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :in_progress, nil)
-    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, "in_progress", nil)
-    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :finished, nil)
-    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, "finished", nil)
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :requested, nil)
+    Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "requested", nil)
+    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :in_progress, nil)
+    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "in_progress", nil)
+    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :finished, nil)
+    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "finished", nil)
   end
 
   test "fallback: filter: sync_status" do
@@ -396,13 +397,13 @@ published_at: Time.current, status: :published
     create :concept_solution
 
     assert_equal [solution_3, solution_2, solution_1],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, nil)
     assert_equal [solution_2, solution_1],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :up_to_date)
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, :up_to_date)
     assert_equal [solution_2, solution_1],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "up_to_date")
-    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, :out_of_date)
-    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, "out_of_date")
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, "up_to_date")
+    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, :out_of_date)
+    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, "out_of_date")
   end
 
   test "fallback: pagination" do
@@ -411,10 +412,10 @@ published_at: Time.current, status: :published
     solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
     solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
 
-    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 1, nil, "", nil, nil, nil)
-    assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 1, nil, "", nil, nil, nil)
-    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 2, nil, "", nil, nil, nil)
-    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 2, nil, "", nil, nil, nil)
+    assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 1, nil, "", nil, nil, nil, nil)
+    assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 1, nil, "", nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 2, nil, "", nil, nil, nil, nil)
+    assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 2, nil, "", nil, nil, nil, nil)
   end
 
   test "fallback: sort newest first" do
@@ -424,7 +425,7 @@ published_at: Time.current, status: :published
     old_solution = create :concept_solution, exercise: exercise, published_at: Time.current - 2.weeks, status: :published
 
     assert_equal [new_solution, old_solution],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, "newest", "", nil, nil, nil)
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, "newest", "", nil, nil, nil, nil)
   end
 
   test "fallback: sort most starred first" do
@@ -436,7 +437,7 @@ status: :published
 status: :published
 
     assert_equal [most_starred, least_starred],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, "most_starred", "", nil, nil, nil)
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, "most_starred", "", nil, nil, nil, nil)
   end
 
   test "fallback: sort most starred first by default" do
@@ -447,6 +448,7 @@ status: :published
     most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
 status: :published
 
-    assert_equal [most_starred, least_starred], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)
+    assert_equal [most_starred, least_starred],
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, nil)
   end
 end

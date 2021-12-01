@@ -11,13 +11,15 @@ class Solution
     end
 
     def initialize(exercise, page: nil, per: nil, order: nil,
-                   criteria: nil, tests_status: nil, mentoring_status: nil, sync_status: nil)
+                   criteria: nil, tests_status: nil, head_tests_status: nil,
+                   mentoring_status: nil, sync_status: nil)
       @exercise = exercise
       @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
       @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per # rubocop:disable Style/ConditionalAssignment
       @order = order
       @criteria = criteria
       @tests_status = tests_status
+      @head_tests_status = head_tests_status
       @mentoring_status = mentoring_status
       @sync_status = sync_status
     end
@@ -42,11 +44,12 @@ class Solution
         page(page).per(per)
     rescue StandardError => e
       Bugsnag.notify(e)
-      Fallback.(exercise, page, per, order, criteria, tests_status, mentoring_status, sync_status)
+      Fallback.(exercise, page, per, order, criteria, tests_status, head_tests_status, mentoring_status, sync_status)
     end
 
     private
-    attr_reader :exercise, :per, :page, :order, :solutions, :criteria, :tests_status, :mentoring_status, :sync_status
+    attr_reader :exercise, :per, :page, :order, :solutions, :criteria, :tests_status,
+      :head_tests_status, :mentoring_status, :sync_status
 
     def search_body
       {
@@ -76,6 +79,7 @@ class Solution
             @sync_status.nil? ? nil : { term: { 'out_of_date': @sync_status.to_sym == :out_of_date } },
             @mentoring_status.blank? ? nil : { term: { 'mentoring_status': @mentoring_status.to_s } },
             @tests_status.blank? ? nil : { term: { 'published_iteration.tests_status': @tests_status.to_s } },
+            @head_tests_status.blank? ? nil : { term: { 'published_iteration.head_tests_status': @head_tests_status.to_s } },
             @criteria.blank? ? nil : {
               query_string: {
                 query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),
@@ -99,13 +103,14 @@ class Solution
     class Fallback
       include Mandate
 
-      initialize_with :exercise, :page, :per, :order, :criteria, :tests_status, :mentoring_status, :sync_status
+      initialize_with :exercise, :page, :per, :order, :criteria, :tests_status, :head_tests_status, :mentoring_status, :sync_status
 
       def call
         @solutions = exercise.solutions.published
 
         filter_criteria!
         filter_tests_status!
+        filter_head_tests_status!
         filter_mentoring_status!
         filter_sync_status!
         sort!
@@ -126,6 +131,12 @@ class Solution
         return if tests_status.blank?
 
         @solutions = @solutions.joins(published_iteration: :submission).where('submissions.tests_status': tests_status)
+      end
+
+      def filter_head_tests_status!
+        return if head_tests_status.blank?
+
+        @solutions = @solutions.where(head_tests_status: head_tests_status)
       end
 
       def filter_mentoring_status!

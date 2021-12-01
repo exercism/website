@@ -17,9 +17,9 @@ class Submission < ApplicationRecord
     -> { joins(submission: :exercise).where('submission_test_runs.git_important_files_hash = exercises.git_important_files_hash') },
     class_name: "Submission::TestRun", dependent: :destroy
 
-  # But we always search on the git_sha to get the latest of each
+  # The "normal" one is the one run against the same git_sha as the submission
   has_one :test_run, # rubocop:disable Rails/InverseOf
-    -> { joins(:submission).where('submission_test_runs.git_important_files_hash = submissions.git_important_files_hash') },
+    -> { joins(:submission).where('submission_test_runs.git_sha = submissions.git_sha') },
     class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
   has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
@@ -34,7 +34,7 @@ class Submission < ApplicationRecord
 
   before_create do
     self.git_slug = solution.git_slug
-    self.git_sha = solution.git_sha
+    self.git_sha = solution.git_sha if git_sha.blank?
     self.git_important_files_hash = solution.git_important_files_hash if self.git_important_files_hash.blank?
   end
 

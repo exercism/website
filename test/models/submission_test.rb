@@ -38,22 +38,21 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "correct test_runs are retrieved" do
     exercise_hash = "exercise-hash"
-    submission_hash = "submission-hash"
+    submission_sha = "submission-hash"
 
     exercise = create :practice_exercise, git_important_files_hash: exercise_hash
-    submission = create :submission, git_important_files_hash: submission_hash,
-solution: create(:practice_solution, exercise: exercise)
-
-    create :submission_test_run, submission: submission, git_important_files_hash: SecureRandom.uuid
-    head_run = create :submission_test_run, submission: submission, git_important_files_hash: exercise_hash
-    submission_run = create :submission_test_run, submission: submission, git_important_files_hash: submission_hash
-    create :submission_test_run, submission: submission, git_important_files_hash: SecureRandom.uuid
+    submission = create :submission, git_sha: submission_sha, solution: create(:practice_solution, exercise: exercise)
+    create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
+    head_run = create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: exercise_hash
+    submission_run = create :submission_test_run, submission: submission, git_sha: submission_sha,
+git_important_files_hash: SecureRandom.uuid
+    create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
 
     # Sanity
     assert_equal exercise_hash, exercise.git_important_files_hash
     assert_equal exercise_hash, head_run.git_important_files_hash
-    assert_equal submission_hash, submission.git_important_files_hash
-    assert_equal submission_hash, submission_run.git_important_files_hash
+    assert_equal submission_sha, submission.git_sha
+    assert_equal submission_sha, submission_run.git_sha
 
     assert_equal 4, submission.test_runs.size
     assert_equal head_run, submission.head_test_run

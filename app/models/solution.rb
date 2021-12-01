@@ -117,12 +117,6 @@ class Solution < ApplicationRecord
     iterations.not_deleted
   end
 
-  def up_to_date_tests_status
-    return if published_iterations.blank?
-
-    published_iterations.last.submission.head_test_run&.tests_status
-  end
-
   memoize
   # Submissions that have the tests cancelled should never be
   # show to a user. This is the submission we show in the editor by default.
@@ -234,15 +228,17 @@ class Solution < ApplicationRecord
     "anonymous-#{Digest::SHA1.hexdigest("#{id}-#{uuid}")}"
   end
 
-  # TODO: Move this into a command, reset the latest iteration to
-  # be the latest git_sha, git_important_files and rerun the tests
-  # if they're not already run for that git_important_files_hash.
+  # TODO: Move this into a command with tests
   def sync_git!
     update!(
       git_slug: exercise.slug,
       git_sha: exercise.git_sha,
       git_important_files_hash: exercise.git_important_files_hash
     )
+
+    # This should probably be DRY'd with Exercise::QueueSolutionHeadTestRuns
+    submission = solution.published_iterations.last.submission
+    Submission::TestRun::Init.(submission, head_run: true, git_sha: git_sha) unless submission.head_test_run
   end
 
   def read_file(filepath)

@@ -82,9 +82,9 @@ class Solution
             { term: { 'exercise.id': exercise.id } },
             { term: { status: 'published' } },
             @sync_status.nil? ? nil : { term: { 'out_of_date': @sync_status.to_sym == :out_of_date } },
-            @mentoring_status.blank? ? nil : { term: { 'mentoring_status': @mentoring_status.to_s } },
-            @tests_status.blank? ? nil : { term: { 'published_iteration.tests_status': @tests_status.to_s } },
-            @head_tests_status.blank? ? nil : { term: { 'published_iteration.head_tests_status': @head_tests_status.to_s } },
+            @mentoring_status.blank? ? nil : { terms: { 'mentoring_status': to_terms(@mentoring_status) } },
+            @tests_status.blank? ? nil : { terms: { 'published_iteration.tests_status': to_terms(@tests_status) } },
+            @head_tests_status.blank? ? nil : { terms: { 'published_iteration.head_tests_status': to_terms(@head_tests_status) } },
             @criteria.blank? ? nil : {
               query_string: {
                 query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),
@@ -103,6 +103,12 @@ class Solution
       else # :most_starred
         [{ num_stars: { order: :desc, unmapped_type: "integer" } }]
       end
+    end
+
+    def to_terms(value)
+      return value.split if value.is_a?(String)
+
+      [value].flatten
     end
 
     TIMEOUT = '100ms'.freeze
@@ -138,19 +144,19 @@ class Solution
       def filter_tests_status!
         return if tests_status.blank?
 
-        @solutions = @solutions.joins(published_iteration: :submission).where('submissions.tests_status': tests_status)
+        @solutions = @solutions.joins(published_iteration: :submission).where('submissions.tests_status': to_terms(tests_status))
       end
 
       def filter_head_tests_status!
         return if head_tests_status.blank?
 
-        @solutions = @solutions.where(published_iteration_head_tests_status: head_tests_status)
+        @solutions = @solutions.where(published_iteration_head_tests_status: to_terms(head_tests_status))
       end
 
       def filter_mentoring_status!
         return if mentoring_status.blank?
 
-        @solutions = @solutions.where(mentoring_status: mentoring_status)
+        @solutions = @solutions.where(mentoring_status: to_terms(mentoring_status))
       end
 
       def filter_sync_status!
@@ -169,6 +175,12 @@ class Solution
         else # :most_starred
           @solutions = @solutions.order(num_stars: :desc)
         end
+      end
+
+      def to_terms(value)
+        return value.split if value.is_a?(String)
+
+        [value].flatten
       end
     end
   end

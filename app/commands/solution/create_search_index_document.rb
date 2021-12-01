@@ -31,6 +31,7 @@ class Solution::CreateSearchIndexDocument
       },
       published_iteration: published_iteration ? {
         tests_status: published_iteration.tests_status,
+        head_tests_status: solution.published_iteration_head_tests_status,
         code: published_iteration.submission.files.map(&:content) || []
       } : nil,
       latest_iteration: latest_iteration ? {

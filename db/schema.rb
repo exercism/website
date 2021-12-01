@@ -527,15 +527,11 @@ ActiveRecord::Schema.define(version: 2021_11_30_133210) do
     t.integer "num_loc", limit: 3
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exercise_id", "type", "user_id", "last_iterated_at"], name: "fast_4"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
-    t.index ["last_iterated_at", "user_id"], name: "fast_1"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
-    t.index ["type", "user_id", "exercise_id", "last_iterated_at"], name: "fast_3"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
-    t.index ["user_id", "last_iterated_at"], name: "fast_2"
     t.index ["user_id"], name: "index_solutions_on_user_id"
     t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
   end
@@ -583,6 +579,7 @@ ActiveRecord::Schema.define(version: 2021_11_30_133210) do
     t.text "output"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "git_sha", limit: 50
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
     t.index ["uuid"], name: "index_submission_test_runs_on_uuid", unique: true
   end
@@ -756,10 +753,8 @@ ActiveRecord::Schema.define(version: 2021_11_30_133210) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
     t.index ["track_id"], name: "index_user_notifications_on_track_id"
-    t.index ["type", "user_id"], name: "fast_6"
-    t.index ["type"], name: "fast_5"
+    t.index ["type", "user_id"], name: "index_user_notifications_on_type_and_user_id"
     t.index ["uniqueness_key"], name: "index_user_notifications_on_uniqueness_key", unique: true
-    t.index ["user_id", "type"], name: "fast_7"
     t.index ["user_id"], name: "index_user_notifications_on_user_id"
     t.index ["uuid"], name: "index_user_notifications_on_uuid", unique: true
   end

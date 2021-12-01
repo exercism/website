@@ -86,6 +86,7 @@ class NotificationsMailer < ApplicationMailer
   def nudge_to_request_mentoring
     @notification = params[:notification]
     @user = @notification.user
+    @unsubscribe_key = :email_on_nudge_notification
 
     subject = "Level up with feedback from our mentors"
     @title = "Level up with feedback from our mentors!"

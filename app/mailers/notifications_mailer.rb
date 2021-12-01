@@ -82,4 +82,13 @@ class NotificationsMailer < ApplicationMailer
     @title = "Welcome to Exercism!"
     mail_to_user(@user, subject)
   end
+
+  def nudge_to_request_mentoring
+    @notification = params[:notification]
+    @user = @notification.user
+
+    subject = "Level up with feedback from our mentors"
+    @title = "Level up with feedback from our mentors!"
+    mail_to_user(@user, subject)
+  end
 end

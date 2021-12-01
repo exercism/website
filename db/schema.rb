@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_120614) do
+ActiveRecord::Schema.define(version: 2021_11_30_133210) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -579,6 +579,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_120614) do
     t.text "output"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "git_sha", limit: 50
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
     t.index ["uuid"], name: "index_submission_test_runs_on_uuid", unique: true
   end
@@ -709,6 +710,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_120614) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "email_on_general_update_notification", default: true, null: false
     t.boolean "email_on_acquired_badge_notification", default: true, null: false
+    t.boolean "email_on_nudge_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
@@ -751,6 +753,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_120614) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
     t.index ["track_id"], name: "index_user_notifications_on_track_id"
+    t.index ["type", "user_id"], name: "index_user_notifications_on_type_and_user_id"
     t.index ["uniqueness_key"], name: "index_user_notifications_on_uniqueness_key", unique: true
     t.index ["user_id"], name: "index_user_notifications_on_user_id"
     t.index ["uuid"], name: "index_user_notifications_on_uuid", unique: true

@@ -23,6 +23,7 @@ module ReactComponents
       memoize
       def search_params
         params.permit(*AssembleExerciseCommunitySolutionsList.keys).tap do |params|
+          # Set passed_head_tests to true by default
           params[:passed_head_tests] = true if params[:passed_head_tests].blank?
         end
       end

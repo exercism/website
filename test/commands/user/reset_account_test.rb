@@ -146,4 +146,14 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       solution_star.reload
     end
   end
+
+  test "cleans up problem reports" do
+    create :user, :ghost
+    user = create :user
+    pr = create :problem_report, user: user
+
+    User::ResetAccount.(user)
+
+    assert_equal User::GHOST_USER_ID, pr.reload.user_id
+  end
 end

@@ -13,7 +13,7 @@ module ReactComponents
           discussions: discussions,
           request: request,
           exercise_type: exercise_type,
-          iterations: solution.iterations.map { |iteration| SerializeIteration.(iteration) },
+          iterations: solution.iterations.order(idx: :desc).map { |iteration| SerializeIteration.(iteration) },
           links: links
         })
       end
@@ -58,7 +58,7 @@ module ReactComponents
       end
 
       def discussions
-        SerializeMentorDiscussions.(solution.mentor_discussions.order(id: :desc), :student)
+        SerializeMentorDiscussionsForStudent.(solution.mentor_discussions.order(id: :desc))
       end
     end
   end

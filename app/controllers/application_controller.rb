@@ -37,6 +37,8 @@ class ApplicationController < ActionController::Base
     return if request.xhr?
 
     User::Notification::MarkRelevantAsRead.(current_user, request.path)
+
+    User::Notification::MarkBatchAsRead.(current_user, [params[:notification_uuid]]) if params[:notification_uuid].present?
   end
 
   def ensure_mentor!

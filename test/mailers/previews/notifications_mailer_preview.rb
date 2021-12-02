@@ -17,6 +17,12 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).student_replied_to_discussion
   end
 
+  def student_added_iteration
+    NotificationsMailer.with(
+    notification: User::Notifications::StudentAddedIterationNotification.first
+  ).student_added_iteration
+  end
+
   def added_to_contributors_page
     NotificationsMailer.with(
       notification: User::Notifications::AddedToContributorsPageNotification.first
@@ -33,5 +39,11 @@ class NotificationsMailerPreview < ActionMailer::Preview
     NotificationsMailer.with(
       notification: User::Notifications::JoinedExercismNotification.first
     ).joined_exercism
+  end
+
+  def nudge_to_request_mentoring
+    NotificationsMailer.with(
+      notification: User::Notifications::NudgeToRequestMentoringNotification.first
+    ).nudge_to_request_mentoring
   end
 end

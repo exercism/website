@@ -25,3 +25,8 @@ en:
     joined_exercism:
       1: >
         Welcome to Exercism! Explore your dashboard to learn more.
+
+    nudge_to_request_mentoring:
+      1: >
+        <strong>It's time to get mentored!</strong>
+        Learning with our mentors is an amazing way to level up your knowledge, and it's 100% free. Choose one of your solutions to begin.

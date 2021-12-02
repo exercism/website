@@ -16,5 +16,7 @@ en:
     email_on_student_replied_to_discussion_notification: "Email me when a student replies to a discussion I am mentoring"
     email_on_student_added_iteration_notification: "Email me when a student adds an iteration to a solution I am mentoring"
 
+    email_on_nudge_notification: "Email me prompts about how to get the most out of Exercism"
+
     email_on_general_update_notification: "Email me about other non-essential updates to my account"
     email_on_acquired_badge_notification: "Email me when I receive a unlock a new badge"

@@ -13,6 +13,7 @@ class SerializeCommunitySolution
       num_iterations: solution.num_iterations,
       num_loc: solution.num_loc.presence, # Currently this column is not-null in production
       iteration_status: solution.iteration_status,
+      published_iteration_head_tests_status: solution.published_iteration_head_tests_status,
       published_at: solution.published_at,
       is_out_of_date: solution.out_of_date?,
       language: track.highlightjs_language,

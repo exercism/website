@@ -1,12 +1,14 @@
 import React from 'react'
-import { GraphicalIcon } from '../../common'
+import { GraphicalIcon } from '.'
 
-export const PassedHeadTestsCheckbox = ({
+export const Checkbox = ({
   checked,
   setChecked,
+  children,
 }: {
   checked: boolean
   setChecked: (value: boolean) => void
+  children: React.ReactNode
 }): JSX.Element => {
   return (
     <label className="c-checkbox-wrapper filter">
@@ -19,7 +21,7 @@ export const PassedHeadTestsCheckbox = ({
         <div className="c-checkbox">
           <GraphicalIcon icon="checkmark" />
         </div>
-        Passed head tests
+        {children}
       </div>
     </label>
   )

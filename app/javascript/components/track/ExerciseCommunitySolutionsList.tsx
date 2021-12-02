@@ -4,14 +4,11 @@ import { useList } from '../../hooks/use-list'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { CommunitySolution as CommunitySolutionProps } from '../types'
 import { CommunitySolution } from '../common/CommunitySolution'
-import { Pagination } from '../common'
+import { Checkbox, Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
-import { UpToDateCheckbox } from './exercise-community-solutions-list/UpToDateCheckbox'
-import { PassedTestsCheckbox } from './exercise-community-solutions-list/PassedTestsCheckbox'
-import { PassedHeadTestsCheckbox } from './exercise-community-solutions-list/PassedHeadTestsCheckbox'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -111,18 +108,21 @@ export const ExerciseCommunitySolutionsList = ({
           value={criteria}
           placeholder="Search by user"
         />
-        <PassedTestsCheckbox
+        <Checkbox
           checked={request.query.passedTests}
           setChecked={setPassedTests}
-        />
-        <PassedHeadTestsCheckbox
+        >
+          Passed tests
+        </Checkbox>
+        <Checkbox
           checked={request.query.passedHeadTests}
           setChecked={setPassedHeadTests}
-        />
-        <UpToDateCheckbox
-          checked={request.query.upToDate}
-          setChecked={setUpToDate}
-        />
+        >
+          Passed head tests
+        </Checkbox>
+        <Checkbox checked={request.query.upToDate} setChecked={setUpToDate}>
+          Up to date
+        </Checkbox>
         <OrderSelect
           value={request.query.order || DEFAULT_ORDER}
           setValue={setOrder}

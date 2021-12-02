@@ -15,7 +15,10 @@ module API
     end
 
     def search_params
-      params.permit(AssembleExerciseCommunitySolutionsList.keys)
+      params.permit(AssembleExerciseCommunitySolutionsList.keys).tap do |p|
+        # Filter on passed head tests by default
+        p[:passed_head_tests] = "true" if p[:passed_head_tests].nil?
+      end
     end
   end
 end

@@ -327,9 +327,11 @@ status: :published
     end
 
     exercise = create :concept_exercise
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "foobar")
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "newest", "foobar", :passed, :requested,
+      :up_to_date)
 
-    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, criteria: "foobar")
+    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed,
+mentoring_status: :requested, sync_status: :up_to_date)
   end
 
   test "fallback: no options returns all published" do

@@ -8,6 +8,7 @@ import { useHighlighting } from '../../utils/highlight'
 import { shortFromNow } from '../../utils/time'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
+import { ProcessingPublishedIterationHeadTestsStatusSummary } from './ProcessingPublishedIterationHeadTestsStatusSummary'
 
 const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
   return (
@@ -100,6 +101,9 @@ export const CommunitySolution = ({
         ) : null}
 
         <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
+        <ProcessingPublishedIterationHeadTestsStatusSummary
+          testsStatus={solution.publishedIterationHeadTestsStatus}
+        />
       </header>
       <pre ref={snippetRef}>
         <code className={solution.track.highlightjsLanguage}>

@@ -1,5 +1,8 @@
 class Exercise
-  class UpdateImportantFilesHashWithSolutions
+  # This command should only be called manually when the important files hash
+  # calculation algorithm has been updated and the important files hash thus
+  # must be re-calculated
+  class RecalculateImportantFilesHashWithSolutions
     include Mandate
 
     initialize_with :exercise

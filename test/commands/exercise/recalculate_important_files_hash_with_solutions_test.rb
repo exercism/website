@@ -21,11 +21,11 @@ class Exercise::RecalculateImportantFilesHashWithSolutionsTest < ActiveSupport::
 
     # Sanity check for different exercise, same track, same SHA
     different_exercise_same_track_same_sha = create :practice_exercise, slug: exercise.slug, track: exercise.track,
-git_important_files_hash: exercise.git_important_files_hash
+                                                                        git_important_files_hash: exercise.git_important_files_hash
 
     # Sanity check for same exercise, different track, same SHA
     same_exercise_different_track_same_sha = create :practice_exercise, slug: exercise.slug, track: other_track,
-git_important_files_hash: exercise.git_important_files_hash
+                                                                        git_important_files_hash: exercise.git_important_files_hash
 
     Git::GenerateHashForImportantExerciseFiles.stubs(:call).returns("new-hash")
 

@@ -237,7 +237,7 @@ class Solution < ApplicationRecord
     )
 
     # This should probably be DRY'd with Exercise::QueueSolutionHeadTestRuns
-    submission = solution.published_iterations.last.submission
+    submission = published_iterations.last.submission
     Submission::TestRun::Init.(submission, type: :solution, git_sha: git_sha) unless submission.head_test_run
   end
 

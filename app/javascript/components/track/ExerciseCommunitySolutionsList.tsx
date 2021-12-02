@@ -109,18 +109,29 @@ export const ExerciseCommunitySolutionsList = ({
           placeholder="Search by user"
         />
         <Checkbox
-          checked={request.query.passedTests}
+          checked={
+            request.query.passedTests === 'true' ||
+            request.query.passedTests === true
+          }
           setChecked={setPassedTests}
         >
           Passed tests
         </Checkbox>
         <Checkbox
-          checked={request.query.passedHeadTests}
+          checked={
+            request.query.passedHeadTests === 'true' ||
+            request.query.passedHeadTests === true
+          }
           setChecked={setPassedHeadTests}
         >
           Passed head tests
         </Checkbox>
-        <Checkbox checked={request.query.upToDate} setChecked={setUpToDate}>
+        <Checkbox
+          checked={
+            request.query.upToDate === 'true' || request.query.upToDate === true
+          }
+          setChecked={setUpToDate}
+        >
           Up to date
         </Checkbox>
         <OrderSelect

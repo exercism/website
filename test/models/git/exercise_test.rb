@@ -130,6 +130,18 @@ module Git
       assert_equal expected_filepaths, exercise.important_filepaths
     end
 
+    test "important_filepaths with editor files" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".docs/instructions.md",
+        "isogram_test.rb",
+        "helper.rb"
+      ]
+      assert_equal expected_filepaths, exercise.important_filepaths
+    end
+
     test "retrieves instructions" do
       exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

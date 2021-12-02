@@ -189,7 +189,8 @@ module Git
         introduction_filepath,
         introduction_append_filepath,
         hints_filepath,
-        *test_filepaths
+        *test_filepaths,
+        *editor_filepaths
       ].select do |filepath|
         filepaths.include?(filepath)
       end

@@ -14,9 +14,9 @@ module API
         page: '5',
         order: "newest",
         criteria: "author",
-        tests_status: "passed",
-        mentoring_status: "requested",
-        sync_status: "up_to_date"
+        sync_status: :up_to_date,
+        tests_status: nil,
+        head_tests_status: %i[queued passed]
       ).returns(Solution.page(1))
 
       get api_track_exercise_community_solutions_path(
@@ -24,9 +24,36 @@ module API
         page: 5,
         order: "newest",
         criteria: "author",
-        tests_status: "passed",
-        mentoring_status: "requested",
-        sync_status: "up_to_date"
+        up_to_date: "true",
+        passed_tests: "false",
+        passed_head_tests: "true"
+      ), headers: @headers, as: :json
+
+      assert_response :success
+    end
+
+    test "passed_head_tests is on by default" do
+      track = create :track
+      exercise = create :concept_exercise, track: track
+
+      Solution::SearchCommunitySolutions.expects(:call).with(
+        exercise,
+        page: '5',
+        order: "newest",
+        criteria: "author",
+        sync_status: :up_to_date,
+        tests_status: nil,
+        head_tests_status: %i[queued passed]
+      ).returns(Solution.page(1))
+
+      get api_track_exercise_community_solutions_path(
+        track, exercise,
+        page: 5,
+        order: "newest",
+        criteria: "author",
+        up_to_date: "true",
+        passed_tests: "false",
+        passed_head_tests: nil
       ), headers: @headers, as: :json
 
       assert_response :success

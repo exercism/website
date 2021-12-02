@@ -19,7 +19,7 @@ export const PassedHeadTestsCheckbox = ({
         <div className="c-checkbox">
           <GraphicalIcon icon="checkmark" />
         </div>
-        Passed tests
+        Passed head tests
       </div>
     </label>
   )

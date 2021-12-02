@@ -24,9 +24,9 @@ class AssembleExerciseCommunitySolutionsList
       page: params[:page],
       order: params[:order],
       criteria: params[:criteria],
-      sync_status: !!params[:up_to_date] ? :up_to_date : nil,
-      tests_status: !!params[:passed_tests] ? :passed : nil,
-      head_tests_status: !!params[:passed_head_tests] ? %i[queued passed] : nil
+      sync_status: params[:up_to_date] == "true" ? :up_to_date : nil,
+      tests_status: params[:passed_tests] == "true" ? :passed : nil,
+      head_tests_status: params[:passed_head_tests] == "true" ? %i[queued passed] : nil
     )
   end
 end

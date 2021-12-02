@@ -154,6 +154,7 @@ export type CommunitySolution = {
   publishedAt: string
   language: string
   iterationStatus: IterationStatus
+  publishedIterationHeadTestsStatus: SubmissionTestsStatus
   isOutOfDate: boolean
   author: {
     handle: string

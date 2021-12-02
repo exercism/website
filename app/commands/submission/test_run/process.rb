@@ -57,14 +57,18 @@ class Submission
       end
 
       def cancel_other_services!
-        return if solution_head_run?
+        return unless normal_test_run?
 
         ToolingJob::Cancel.(submission.uuid, :analyzer)
         ToolingJob::Cancel.(submission.uuid, :representer)
       end
 
       def update_status!(status)
-        solution_head_run? ? update_solution_status!(status) : update_submission_status!(status)
+        if solution_test_run?
+          update_solution_status!(status)
+        else
+          update_submission_status!(status)
+        end
       end
 
       def update_submission_status!(status)
@@ -76,15 +80,13 @@ class Submission
       end
 
       def update_solution_status!(status)
-        submission.solution.with_lock do
-          return unless submission.exercise.git_sha == git_sha
+        return unless submission.exercise.git_sha == git_sha
 
-          submission.solution.send("published_iteration_head_tests_status_#{status}!")
-        end
+        submission.solution.send("published_iteration_head_tests_status_#{status}!")
       end
 
       def broadcast!(test_run)
-        return if solution_head_run?
+        return unless submission_test_run?
 
         # Work through and process the test run
         # then before broadcasting, check whether it's been
@@ -115,10 +117,22 @@ class Submission
       end
 
       memoize
-      def solution_head_run?
-        !!tooling_job.head_run
+      def solution_test_run?
+        test_run_type == :solution
+      end
+
+      # This should be "anything else" rather than a specific
+      # check as legacy jobs don't have this field
+      memoize
+      def submission_test_run?
+        !solution_test_run?
+      end
+
+      memoize
+      def test_run_type
+        tooling_job.test_run_type.to_sym
       rescue NoMethodError
-        false
+        :submission
       end
 
       def git_sha

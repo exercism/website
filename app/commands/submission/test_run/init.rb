@@ -3,9 +3,9 @@ class Submission
     class Init
       include Mandate
 
-      def initialize(submission, head_run: false, git_sha: nil)
+      def initialize(submission, type: :submission, git_sha: nil)
         @submission = submission
-        @head_run = !!head_run
+        @type = type.to_sym
         @git_sha = git_sha || solution.git_sha
       end
 
@@ -23,20 +23,19 @@ class Submission
             exercise_git_dir: exercise_repo.dir,
             exercise_filepaths: exercise_filepaths
           },
-          head_run: head_run?
+          test_run_type: type
         ).tap do
-          head_run? ?
-            submission.solution.published_iteration_head_tests_status_queued! :
+          case type
+          when :solution
+            submission.solution.published_iteration_head_tests_status_queued!
+          else
             submission.tests_queued!
+          end
         end
       end
 
       private
-      attr_reader :submission, :git_sha
-
-      def head_run?
-        @head_run
-      end
+      attr_reader :submission, :git_sha, :type
 
       memoize
       delegate :solution, to: :submission

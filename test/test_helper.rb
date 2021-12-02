@@ -166,7 +166,7 @@ class ActiveSupport::TestCase
   ###################
   # Tooling Helpers #
   ###################
-  def create_test_runner_job!(submission, execution_status: nil, results: nil, head_run: false)
+  def create_test_runner_job!(submission, execution_status: nil, results: nil, type: nil)
     results ? execution_output = { "results.json" => results.to_json } : execution_output = nil
     create_tooling_job!(
       submission,
@@ -176,7 +176,7 @@ class ActiveSupport::TestCase
       source: {
         'exercise_git_sha' => submission.git_sha
       },
-      head_run: head_run
+      test_run_type: type
     )
   end
 

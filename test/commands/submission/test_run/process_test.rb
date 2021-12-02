@@ -117,9 +117,9 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     Submission::TestRun::Process.(job)
   end
 
-  test "does not broadcast for head run" do
+  test "does not broadcast for solution run" do
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(create(:submission), execution_status: 200, results: results, head_run: true)
+    job = create_test_runner_job!(create(:submission), execution_status: 200, results: results, type: :solution)
 
     IterationChannel.expects(:broadcast!).never
     SubmissionChannel.expects(:broadcast!).never
@@ -128,10 +128,10 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     Submission::TestRun::Process.(job)
   end
 
-  test "changes solution not submission for head run" do
+  test "changes solution not submission for solution run" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results, head_run: true)
+    job = create_test_runner_job!(submission, execution_status: 200, results: results, type: :solution)
 
     Submission::TestRun::Process.(job)
 

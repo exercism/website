@@ -57,7 +57,7 @@ class Submission
       end
 
       def cancel_other_services!
-        return unless normal_test_run?
+        return unless submission_test_run?
 
         ToolingJob::Cancel.(submission.uuid, :analyzer)
         ToolingJob::Cancel.(submission.uuid, :representer)

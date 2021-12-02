@@ -58,6 +58,8 @@ class Submission::File < ApplicationRecord
       bucket: s3_bucket,
       key: s3_key
     ).body.read
+  rescue Aws::S3::Errors::NoSuchKey
+    ""
   end
 
   def s3_bucket

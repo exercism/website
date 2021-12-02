@@ -121,7 +121,7 @@ const DropdownPanel = ({
         <a href={links.local} target="_blank" rel="noreferrer">
           guide to solving exercises locally
         </a>{' '}
-        to understand the flow and instal Exercism locally. Then come back here
+        to understand the flow and install Exercism locally. Then come back here
         and use the command above to start the exercise.
       </p>
     </div>

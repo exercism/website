@@ -19,7 +19,7 @@ class Exercise::QueueSolutionHeadTestRuns
     submission = solution.published_iterations.last.submission
     return if submission.head_test_run
 
-    Submission::TestRun::Init.(submission, type: :head, git_sha: git_sha)
+    Submission::TestRun::Init.(submission, type: :head, git_sha: git_sha, run_in_background: true)
   end
 
   private

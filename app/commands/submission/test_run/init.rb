@@ -3,10 +3,11 @@ class Submission
     class Init
       include Mandate
 
-      def initialize(submission, type: :submission, git_sha: nil)
+      def initialize(submission, type: :submission, git_sha: nil, run_in_background: false)
         @submission = submission
         @type = type.to_sym
         @git_sha = git_sha || solution.git_sha
+        @run_in_background = !!run_in_background
       end
 
       def call
@@ -15,6 +16,7 @@ class Submission
           submission.uuid,
           solution.track.slug,
           solution.exercise.slug,
+          run_in_background: run_in_background,
           source: {
             submission_efs_root: submission.uuid,
             submission_filepaths: submission.valid_filepaths,
@@ -35,7 +37,7 @@ class Submission
       end
 
       private
-      attr_reader :submission, :git_sha, :type
+      attr_reader :submission, :git_sha, :type, :run_in_background
 
       memoize
       delegate :solution, to: :submission

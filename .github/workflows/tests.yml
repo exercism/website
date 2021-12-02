@@ -13,7 +13,7 @@ jobs:
     # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
   js-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       ###
       # Checkout using GitHub's checkout action
@@ -82,7 +82,7 @@ jobs:
   ruby-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     services:
       mysql:
         image: mysql:5.7
@@ -190,7 +190,7 @@ jobs:
   system-test-files:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
 
@@ -213,7 +213,7 @@ jobs:
       max-parallel: 15
       matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     services:
       mysql:
         image: mysql:5.7
@@ -315,7 +315,7 @@ jobs:
         run: bundle exec rails test ${{ matrix.tests }}
 
   system-tests-completed:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     needs: system-tests
     steps:
       - run: echo "System tests completed"
@@ -326,7 +326,7 @@ jobs:
   asset-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       ###
       # Checkout using GitHub's checkout action

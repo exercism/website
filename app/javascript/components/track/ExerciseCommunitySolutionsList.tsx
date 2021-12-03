@@ -4,7 +4,7 @@ import { useList } from '../../hooks/use-list'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { CommunitySolution as CommunitySolutionProps } from '../types'
 import { CommunitySolution } from '../common/CommunitySolution'
-import { Checkbox, Pagination } from '../common'
+import { Checkbox, Icon, Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
@@ -138,7 +138,13 @@ export const ExerciseCommunitySolutionsList = ({
           }
           setChecked={setPassedTests}
         >
-          Passed tests
+          <div
+            className={`c-iteration-processing-status --passed`}
+            role="status"
+            aria-label="Processing status"
+          >
+            <div role="presentation" className="--dot"></div>
+          </div>
         </Checkbox>
         <Checkbox
           checked={
@@ -147,7 +153,10 @@ export const ExerciseCommunitySolutionsList = ({
           }
           setChecked={setPassedHeadTests}
         >
-          Passed head tests
+          <Icon
+            icon="golden-check"
+            alt="Only show solution that pass the tests of the latest version of this exercise"
+          />
         </Checkbox>
         <Checkbox
           checked={
@@ -155,7 +164,10 @@ export const ExerciseCommunitySolutionsList = ({
           }
           setChecked={setUpToDate}
         >
-          Up to date
+          <Icon
+            icon="up-to-date"
+            alt="Only show solutions that are up-to-date with the latest version of this exercise"
+          />
         </Checkbox>
         <OrderSelect
           value={request.query.order || DEFAULT_ORDER}

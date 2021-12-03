@@ -3,12 +3,12 @@ import { GraphicalIcon, Avatar, Icon } from '../common'
 import {
   CommunitySolution as CommunitySolutionProps,
   CommunitySolutionContext,
+  SubmissionTestsStatus,
 } from '../types'
 import { useHighlighting } from '../../utils/highlight'
 import { shortFromNow } from '../../utils/time'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
-import { ProcessingPublishedIterationHeadTestsStatusSummary } from './ProcessingPublishedIterationHeadTestsStatusSummary'
 
 const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
   return (
@@ -37,6 +37,25 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
       </div>
     </>
   )
+}
+
+const ProcessingStatus = ({
+  solution,
+}: {
+  solution: CommunitySolutionProps
+}) => {
+  if (
+    solution.publishedIterationHeadTestsStatus === SubmissionTestsStatus.PASSED
+  ) {
+    return (
+      <Icon
+        icon="golden-check"
+        alt="This solution passes the tests of the latest version of this exercise"
+      />
+    )
+  }
+
+  return <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
 }
 
 export const CommunitySolution = ({
@@ -100,10 +119,7 @@ export const CommunitySolution = ({
           </div>
         ) : null}
 
-        <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
-        <ProcessingPublishedIterationHeadTestsStatusSummary
-          testsStatus={solution.publishedIterationHeadTestsStatus}
-        />
+        <ProcessingStatus solution={solution} />
       </header>
       <pre ref={snippetRef}>
         <code className={solution.track.highlightjsLanguage}>

@@ -2,10 +2,14 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { CommunitySolution } from '../../../../app/javascript/components/common/CommunitySolution'
-import { IterationStatus } from '../../../../app/javascript/components/types'
+import {
+  IterationStatus,
+  SubmissionTestsStatus,
+} from '../../../../app/javascript/components/types'
 
 test('shows CTA to contribute notes when notes isnt present', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -17,6 +21,7 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -42,6 +47,7 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
 
 test('links to private url if context is mentoring', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -53,6 +59,7 @@ test('links to private url if context is mentoring', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -79,6 +86,7 @@ test('links to private url if context is mentoring', async () => {
 
 test('links to public url if context is profile', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -90,6 +98,7 @@ test('links to public url if context is profile', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -116,6 +125,7 @@ test('links to public url if context is profile', async () => {
 
 test('links to public url if context is exercise', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -127,6 +137,7 @@ test('links to public url if context is exercise', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -153,6 +164,7 @@ test('links to public url if context is exercise', async () => {
 
 test('shows author avatar if context is exercise', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -164,6 +176,7 @@ test('shows author avatar if context is exercise', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -189,6 +202,7 @@ test('shows author avatar if context is exercise', async () => {
 
 test('shows author avatar if context is mentoring', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -200,6 +214,7 @@ test('shows author avatar if context is mentoring', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -228,6 +243,7 @@ test('shows author avatar if context is mentoring', async () => {
 
 test('shows exercise icon if context is profile', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -239,6 +255,7 @@ test('shows exercise icon if context is profile', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -267,6 +284,7 @@ test('shows exercise icon if context is profile', async () => {
 
 test('shows correct title if context is mentoring', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -278,6 +296,7 @@ test('shows correct title if context is mentoring', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -302,6 +321,7 @@ test('shows correct title if context is mentoring', async () => {
 
 test('shows correct title if context is profile', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -313,6 +333,7 @@ test('shows correct title if context is profile', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -337,6 +358,7 @@ test('shows correct title if context is profile', async () => {
 
 test('shows correct title if context is exercise', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -348,6 +370,7 @@ test('shows correct title if context is exercise', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -372,6 +395,7 @@ test('shows correct title if context is exercise', async () => {
 
 test('renders processing status', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -383,6 +407,7 @@ test('renders processing status', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -406,6 +431,7 @@ test('renders processing status', async () => {
 
 test('renders warning icon when solution is out of date', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -417,6 +443,7 @@ test('renders warning icon when solution is out of date', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: true,
     exercise: {
       title: 'Exercise',
@@ -445,6 +472,7 @@ test('renders warning icon when solution is out of date', async () => {
 
 test('does not render warning icon when solution is not out of date', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
@@ -456,6 +484,7 @@ test('does not render warning icon when solution is not out of date', async () =
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',

@@ -117,4 +117,20 @@ class ExerciseTest < ActiveSupport::TestCase
       exercise.update!(position: 2)
     end
   end
+
+  test "enqueues job to run head test runs when git_important_files_hash changes" do
+    exercise = create :practice_exercise
+
+    assert_enqueued_with(job: QueueSolutionHeadTestRunsJob, args: [exercise]) do
+      exercise.update!(git_important_files_hash: 'new-hash')
+    end
+  end
+
+  test "does not enqueue job to run head test runs when git_important_files_hash does not change" do
+    exercise = create :practice_exercise
+
+    assert_enqueued_jobs 0, only: QueueSolutionHeadTestRunsJob do
+      exercise.update!(position: 2)
+    end
+  end
 end

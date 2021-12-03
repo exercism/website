@@ -20,3 +20,4 @@ end
 # Becuase Rails tests are run in transactions, :read_committed breaks
 # in tests, so we set a constant here to use instead.
 Exercism::READ_COMMITTED = Rails.env.test? ? nil : :read_committed
+Exercism::READ_UNCOMMITTED = Rails.env.test? ? nil : :read_uncommitted

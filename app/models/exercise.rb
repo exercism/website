@@ -63,7 +63,10 @@ class Exercise < ApplicationRecord
   end
 
   after_update do
-    MarkSolutionsAsOutOfDateInIndexJob.perform_later(self) if saved_changes.include?(:git_important_files_hash)
+    if saved_changes.include?(:git_important_files_hash)
+      MarkSolutionsAsOutOfDateInIndexJob.perform_later(self)
+      QueueSolutionHeadTestRunsJob.perform_later(self)
+    end
   end
 
   def status

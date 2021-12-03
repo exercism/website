@@ -15,6 +15,7 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
       submission.uuid,
       solution.track.slug,
       solution.exercise.slug,
+      run_in_background: false,
       source: {
         submission_efs_root: submission.uuid,
         submission_filepaths: ["log_line_parser.rb", "subdir/new_file.rb"],
@@ -23,7 +24,8 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
         exercise_git_dir: "exercises/concept/strings",
         # Check we exclude .docs, README and the overriden source file
         exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-      }
+      },
+      test_run_type: :submission
     )
 
     Submission::TestRun::Init.(submission)

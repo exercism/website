@@ -1,0 +1,11 @@
+@import "../styles";
+
+.c-community-solutions-list {
+    & > .c-search-bar {
+        & .c-iteration-processing-status {
+            & .--status {
+                @apply hidden;
+            }
+        }
+    }
+}

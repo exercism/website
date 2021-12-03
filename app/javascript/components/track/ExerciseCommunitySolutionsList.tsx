@@ -114,7 +114,7 @@ export const ExerciseCommunitySolutionsList = ({
   )
 
   return (
-    <div className="lg-container">
+    <div className="lg-container c-community-solutions-list">
       {resolvedData ? (
         <h2>
           {resolvedData.meta.unscopedTotal}{' '}

@@ -125,10 +125,7 @@ export const ExerciseCommunitySolutionsList = ({
           placeholder="Search by user"
         />
         <Checkbox
-          checked={
-            request.query.passedTests === 'true' ||
-            request.query.passedTests === true
-          }
+          checked={request.query.passedTests}
           setChecked={setPassedTests}
         >
           <div
@@ -149,12 +146,7 @@ export const ExerciseCommunitySolutionsList = ({
             alt="Only show solution that pass the tests of the latest version of this exercise"
           />
         </Checkbox>
-        <Checkbox
-          checked={
-            request.query.upToDate === 'true' || request.query.upToDate === true
-          }
-          setChecked={setUpToDate}
-        >
+        <Checkbox checked={request.query.upToDate} setChecked={setUpToDate}>
           <Icon
             icon="up-to-date"
             alt="Only show solutions that are up-to-date with the latest version of this exercise"

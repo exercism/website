@@ -4,7 +4,7 @@ class AssembleExerciseCommunitySolutionsList
   initialize_with :exercise, :params
 
   def self.keys
-    %i[page order criteria up_to_date passed_tests passed_head_tests]
+    %i[page order criteria up_to_date passed_tests not_passed_head_tests]
   end
 
   def call
@@ -24,9 +24,9 @@ class AssembleExerciseCommunitySolutionsList
       page: params[:page],
       order: params[:order],
       criteria: params[:criteria],
-      sync_status: params[:up_to_date] == "true" ? :up_to_date : nil,
-      tests_status: params[:passed_tests] == "true" ? :passed : nil,
-      head_tests_status: params[:passed_head_tests].nil? || params[:passed_head_tests] == "true" ? %i[queued passed] : nil
+      sync_status: params[:up_to_date].present? ? :up_to_date : nil,
+      tests_status: params[:passed_tests].present? ? :passed : nil,
+      head_tests_status: params[:not_passed_head_tests].present? ? nil : %i[queued passed]
     )
   end
 end

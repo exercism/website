@@ -22,9 +22,7 @@ module ReactComponents
 
       memoize
       def search_params
-        params.permit(*AssembleExerciseCommunitySolutionsList.keys).tap do |params|
-          params[:passed_head_tests] = true if params[:passed_head_tests].blank?
-        end
+        params.permit(*AssembleExerciseCommunitySolutionsList.keys)
       end
     end
   end

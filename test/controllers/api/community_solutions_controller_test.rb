@@ -16,7 +16,7 @@ module API
         criteria: "author",
         sync_status: :up_to_date,
         tests_status: nil,
-        head_tests_status: %i[queued passed]
+        head_tests_status: nil
       ).returns(Solution.page(1))
 
       get api_track_exercise_community_solutions_path(
@@ -26,13 +26,13 @@ module API
         criteria: "author",
         up_to_date: "true",
         passed_tests: "false",
-        passed_head_tests: "true"
+        not_passed_head_tests: "true"
       ), headers: @headers, as: :json
 
       assert_response :success
     end
 
-    test "passed_head_tests is on by default" do
+    test "head_tests_status filter is on by default" do
       track = create :track
       exercise = create :concept_exercise, track: track
 
@@ -53,7 +53,7 @@ module API
         criteria: "author",
         up_to_date: "true",
         passed_tests: "false",
-        passed_head_tests: nil
+        not_passed_head_tests: nil
       ), headers: @headers, as: :json
 
       assert_response :success

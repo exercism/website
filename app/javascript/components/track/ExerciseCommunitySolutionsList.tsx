@@ -75,7 +75,11 @@ export const ExerciseCommunitySolutionsList = ({
 
   const setUpToDate = useCallback(
     (upToDate) => {
-      setQuery({ ...request.query, upToDate: upToDate, page: undefined })
+      setQuery({
+        ...request.query,
+        upToDate: upToDate ? true : null,
+        page: undefined,
+      })
     },
     [request.query, setQuery]
   )
@@ -84,7 +88,7 @@ export const ExerciseCommunitySolutionsList = ({
     (passedTests) => {
       setQuery({
         ...request.query,
-        passedTests: passedTests,
+        passedTests: passedTests ? true : null,
         page: undefined,
       })
     },
@@ -95,18 +99,7 @@ export const ExerciseCommunitySolutionsList = ({
     (passedHeadTests) => {
       setQuery({
         ...request.query,
-        passedHeadTests: passedHeadTests,
-        page: undefined,
-      })
-    },
-    [request.query, setQuery]
-  )
-
-  const setTestsStatus = useCallback(
-    (testsStatus) => {
-      setQuery({
-        ...request.query,
-        testsStatus: testsStatus,
+        notPassedHeadTests: passedHeadTests === false ? true : null,
         page: undefined,
       })
     },
@@ -148,10 +141,7 @@ export const ExerciseCommunitySolutionsList = ({
           </div>
         </Checkbox>
         <Checkbox
-          checked={
-            request.query.passedHeadTests === 'true' ||
-            request.query.passedHeadTests === true
-          }
+          checked={!request.query.notPassedHeadTests}
           setChecked={setPassedHeadTests}
         >
           <Icon

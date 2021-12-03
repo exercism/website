@@ -10,7 +10,8 @@ module Flows
       author = create :user, handle: "author"
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
-      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
+      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author,
+                                           published_iteration_head_tests_status: :passed
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
 
@@ -31,10 +32,12 @@ module Flows
       other_author = create :user, handle: "author2"
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
-      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
+      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author,
+                                           published_iteration_head_tests_status: :passed
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
-      other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author
+      other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author,
+                                                 published_iteration_head_tests_status: :passed
       other_submission = create :submission, solution: other_solution
       create :iteration, solution: other_solution, submission: other_submission
 
@@ -50,6 +53,43 @@ module Flows
       assert_no_text "author1's solution"
     end
 
+    test "filter community solutions" do
+      user = create :user
+      author = create :user, handle: "author1"
+      other_author = create :user, handle: "author2"
+      another_author = create :user, handle: "author3"
+      ruby = create :track, title: "Ruby"
+      exercise = create :concept_exercise, track: ruby, title: "Strings"
+      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author, num_stars: 11,
+                                           git_important_files_hash: exercise.git_important_files_hash,
+                                           published_iteration_head_tests_status: :queued
+      submission = create :submission, solution: solution, tests_status: :passed
+      create :iteration, solution: solution, submission: submission
+      other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author, num_stars: 22,
+                                                 git_important_files_hash: exercise.git_important_files_hash,
+                                                 published_iteration_head_tests_status: :failed
+      other_submission = create :submission, solution: other_solution, tests_status: :passed
+      create :iteration, solution: other_solution, submission: other_submission
+      another_solution = create :concept_solution, exercise: exercise, published_at: 4.days.ago, user: another_author, num_stars: 33,
+                                                   git_important_files_hash: 'another-hash',
+                                                   published_iteration_head_tests_status: :passed
+      another_submission = create :submission, solution: another_solution, tests_status: :failed
+      create :iteration, solution: another_solution, submission: another_submission
+
+      wait_for_opensearch_to_be_synced
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_solutions_path(exercise.track, exercise)
+      end
+
+      assert_text "author1's solution"
+      assert_no_text "author2's solution" # Filtered via head tests passed filter
+      assert_text "author3's solution"
+
+      # TODO: use other filters
+    end
+
     test "paginates community solutions" do
       Solution::SearchCommunitySolutions.stubs(:default_per).returns(1)
       user = create :user
@@ -57,10 +97,12 @@ module Flows
       other_author = create :user, handle: "author2"
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
-      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author, num_stars: 11
+      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author, num_stars: 11,
+                                           published_iteration_head_tests_status: :passed
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
-      other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author, num_stars: 22
+      other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author, num_stars: 22,
+                                                 published_iteration_head_tests_status: :passed
       other_submission = create :submission, solution: other_solution
       create :iteration, solution: other_solution, submission: other_submission
 

@@ -25,7 +25,7 @@ module API
         order: "newest",
         criteria: "author",
         up_to_date: "true",
-        passed_tests: "false",
+        passed_tests: nil,
         not_passed_head_tests: "true"
       ), headers: @headers, as: :json
 
@@ -52,7 +52,7 @@ module API
         order: "newest",
         criteria: "author",
         up_to_date: "true",
-        passed_tests: "false",
+        passed_tests: nil,
         not_passed_head_tests: nil
       ), headers: @headers, as: :json
 

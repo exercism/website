@@ -16,12 +16,12 @@ class Solution
       @exercise = exercise
       @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
       @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per # rubocop:disable Style/ConditionalAssignment
-      @order = order
+      @order = order&.to_sym
       @criteria = criteria
       @tests_status = tests_status
       @head_tests_status = head_tests_status
       @mentoring_status = mentoring_status
-      @sync_status = sync_status
+      @sync_status = sync_status&.to_sym
     end
 
     def call
@@ -81,7 +81,7 @@ class Solution
           must: [
             { term: { 'exercise.id': exercise.id } },
             { term: { status: 'published' } },
-            @sync_status.nil? ? nil : { term: { 'out_of_date': @sync_status.to_sym == :out_of_date } },
+            @sync_status.nil? ? nil : { term: { 'out_of_date': @sync_status == :out_of_date } },
             @mentoring_status.blank? ? nil : { terms: { 'mentoring_status': to_terms(@mentoring_status) } },
             @tests_status.blank? ? nil : { terms: { 'published_iteration.tests_status': to_terms(@tests_status) } },
             @head_tests_status.blank? ? nil : { terms: { 'published_iteration.head_tests_status': to_terms(@head_tests_status) } },
@@ -97,7 +97,7 @@ class Solution
     end
 
     def search_sort
-      case order&.to_sym
+      case order
       when :newest
         [{ published_at: { order: :desc, unmapped_type: "date" } }]
       else # :most_starred
@@ -160,7 +160,7 @@ class Solution
       end
 
       def filter_sync_status!
-        case sync_status&.to_sym
+        case sync_status
         when :up_to_date
           @solutions = @solutions.where(git_important_files_hash: exercise.git_important_files_hash)
         when :out_of_date
@@ -169,7 +169,7 @@ class Solution
       end
 
       def sort!
-        case order&.to_sym
+        case order
         when :newest
           @solutions = @solutions.order(published_at: :desc)
         else # :most_starred

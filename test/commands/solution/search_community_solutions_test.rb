@@ -304,7 +304,7 @@ status: :published
 
   test "fallback is called" do
     exercise = create :concept_exercise
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, "newest", "foobar", :passed, :failed,
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, :newest, "foobar", :passed, :failed,
       :requested, :up_to_date)
     Elasticsearch::Client.expects(:new).raises
 
@@ -490,10 +490,7 @@ published_at: Time.current, status: :published
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, nil)
     assert_equal [solution_2, solution_1],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, :up_to_date)
-    assert_equal [solution_2, solution_1],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, "up_to_date")
     assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, :out_of_date)
-    assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, "out_of_date")
   end
 
   test "fallback: pagination" do
@@ -522,9 +519,9 @@ published_at: Time.current, status: :published
     track = create :track
     exercise = create :concept_exercise, track: track
     least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
-status: :published
+                                              status: :published
     most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
-status: :published
+                                             status: :published
 
     assert_equal [most_starred, least_starred],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, "most_starred", "", nil, nil, nil, nil)
@@ -534,9 +531,9 @@ status: :published
     track = create :track
     exercise = create :concept_exercise, track: track
     least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
-status: :published
+                                              status: :published
     most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
-status: :published
+                                             status: :published
 
     assert_equal [most_starred, least_starred],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil, nil)

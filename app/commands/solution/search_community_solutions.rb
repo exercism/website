@@ -143,6 +143,12 @@ class Solution
         @solutions = @solutions.joins(published_iteration: :submission).where('submissions.tests_status': tests_status)
       end
 
+      def filter_head_tests_status!
+        return if head_tests_status.blank?
+
+        @solutions = @solutions.where(published_iteration_head_tests_status: head_tests_status)
+      end
+
       def filter_sync_status!
         case sync_status
         when :up_to_date

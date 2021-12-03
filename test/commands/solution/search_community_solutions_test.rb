@@ -49,6 +49,8 @@ status: :published
   end
 
   test "criteria: search for published iteration code" do
+    # TODO: enable once we allow searching for code
+    skip
     track = create :track
     exercise = create :concept_exercise, track: track
     solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published

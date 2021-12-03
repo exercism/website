@@ -88,7 +88,7 @@ class Solution
             @criteria.blank? ? nil : {
               query_string: {
                 query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),
-                fields: ['user.handle', 'published_iteration.code']
+                fields: ['user.handle']
               }
             }
           ].compact

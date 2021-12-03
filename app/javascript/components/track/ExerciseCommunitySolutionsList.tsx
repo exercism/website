@@ -141,9 +141,10 @@ export const ExerciseCommunitySolutionsList = ({
           <div
             className={`c-iteration-processing-status --passed`}
             role="status"
-            aria-label="Processing status"
+            aria-label="Only show solutions that pass the tests"
           >
             <div role="presentation" className="--dot"></div>
+            <div className="--status">Passed</div>
           </div>
         </Checkbox>
         <Checkbox

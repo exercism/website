@@ -447,6 +447,7 @@ Rails.application.routes.draw do
   get "my/tracks", to: redirect("tracks")
   get "getting-started", to: redirect("docs/using/getting-started")
   get '/languages/:slug', to: redirect('/tracks/%{slug}') # rubocop:disable Style/FormatStringToken
+  get "contribute", to: redirect("contributing")
 
   # Licences
   %w[licence license].each do |spelling|

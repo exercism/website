@@ -294,10 +294,10 @@ status: :published
     end
 
     exercise = create :concept_exercise
-    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, :newest, "foobar", :passed, 
+    Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, :newest, "foobar", :passed,
       :passed, :up_to_date)
 
-    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed, 
+    Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed,
       head_tests_status: :passed, sync_status: :up_to_date)
   end
 
@@ -398,9 +398,9 @@ published_iteration_head_tests_status: :errored
     assert_empty Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :failed, nil)
     assert_equal [solution_3], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, :errored, nil)
     assert_equal [solution_3, solution_2, solution_1],
-      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, %i[passed errored], nil)    
+      Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, %i[passed errored], nil)
   end
-  
+
   test "fallback: filter: sync_status" do
     track = create :track
     exercise = create :concept_exercise, track: track

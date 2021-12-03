@@ -91,9 +91,9 @@ jobs:
 
       - id: test-files
         env:
-          FILES_PER_BATCH: 60
+          FILES_PER_BATCH: 50
         run: |
-          tests=$(find test -name *_test.rb -not -path system | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
+          tests=$(find test -name '*_test.rb' -not -path 'test/system/*' | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
           echo "::set-output name=matrix::{\"tests\":[${tests}]}"
 
   ruby-tests:

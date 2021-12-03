@@ -88,6 +88,7 @@ import '../../css/components/track-select'
 import '../../css/components/user_activity'
 import '../../css/components/search-bar'
 import '../../css/components/community-solution'
+import '../../css/components/community-solutions-list'
 import '../../css/components/iteration-processing-status'
 import '../../css/components/notification-dot'
 

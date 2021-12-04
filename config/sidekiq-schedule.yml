@@ -59,3 +59,9 @@ update_median_wait_times:
   cron: "0 1 * * 4"
   class: "UpdateMedianWaitTimesJob"
   queue: dribble
+
+# 1am Thursday
+nudge_users_to_request_mentoring:
+  cron: "0 1 * * 4"
+  class: "NudgeUsersToRequestMentoringJob"
+  queue: dribble

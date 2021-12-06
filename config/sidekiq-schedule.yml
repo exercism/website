@@ -59,3 +59,9 @@ update_median_wait_times:
   cron: "0 1 * * 4"
   class: "UpdateMedianWaitTimesJob"
   queue: dribble
+
+# 12mins past every hour
+nudge_users_to_request_mentoring:
+  cron: "12 * * * *"
+  class: "NudgeUsersToRequestMentoringJob"
+  queue: dribble

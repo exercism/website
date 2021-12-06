@@ -67,6 +67,14 @@ class Solution < ApplicationRecord
     SyncSolutionToSearchIndexJob.perform_later(self)
   end
 
+  after_update do
+    # It's basically never bad to run this.
+    # There should always be a head test run and if there's
+    # not we should make one. 99% of the time this will result
+    # in a no-op
+    QueueSolutionHeadTestRunJob.perform_later(self)
+  end
+
   def self.for!(*args)
     solution = self.for(*args)
     solution || raise(ActiveRecord::RecordNotFound)

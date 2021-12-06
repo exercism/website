@@ -57,7 +57,12 @@ class Submission
 
       memoize
       def exercise_repo
-        Git::Exercise.for_solution(solution)
+        Git::Exercise.new(
+          solution.git_slug,
+          solution.git_type,
+          git_sha,
+          repo_url: solution.track.repo_url
+        )
       end
     end
   end

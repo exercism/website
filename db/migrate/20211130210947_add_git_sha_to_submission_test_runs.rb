@@ -5,31 +5,61 @@ class AddGitShaToSubmissionTestRuns < ActiveRecord::Migration[6.1]
     execute "ALTER TABLE `submission_test_runs` ADD `git_important_files_hash` varchar(50) NULL, ALGORITHM=INPLACE, LOCK=NONE"
     execute "ALTER TABLE `submission_test_runs` ADD `git_sha` varchar(50) NULL, ALGORITHM=INPLACE, LOCK=NONE"
 
-    # # Run the following to set the git_important_files_hash on all submissions
-    # ActiveRecord::Base.transaction(isolation: Exercism::READ_UNCOMMITTED) do
-    #   submissions = Submission.joins(:solution).includes(solution: :exercise).
-    #     where(git_important_files_hash: nil).
-    #     select(:id, :git_sha, :solution_id, :exercise_id).
-    #     group_by(&:git_sha)
+    return
 
-    #   submissions.each do |git_sha, group|
-    #     exercise = group.first.exercise
-    #     new_hash = Git::GenerateHashForImportantExerciseFiles.(exercise, git_sha: git_sha)
-    #     group.each do |submission|
-    #       submission.update_column(:git_important_files_hash, new_hash)
-    #     end
-    #   end
-    # end
+    Exercise.all.find_each do |exercise|
+      next if exercise.track_id == 31
+      next if exercise.slug.starts_with?('legacy')
 
-    # # Run the following to set the git_shas on all submission_test_runs
-    # ActiveRecord::Base.transaction(isolation: Exercism::READ_UNCOMMITTED) do
-    #   Submission::TestRun.
-    #     where(git_sha: nil).
-    #     joins(submission: :solution).update_all("submission_test_runs.git_sha = submissions.git_sha")
-    # end
+      ActiveRecord::Base.transaction(isolation: Exercism::READ_UNCOMMITTED) do
+        Submission.joins(:solution).includes(:solution).
+          where(git_sha: "").
+          where("solution.exercise_id": exercise.id).
+          update_all('submissions.git_sha = solution.git_sha')
+      end
+    end
+
+    # Run the following to set the git_important_files_hash on all submissions
+    Exercise.all.find_each do |exercise|
+      next if exercise.track_id == 31
+      next if exercise.slug.starts_with?('legacy')
+
+      submissions = Submission.joins(:solution).includes(solution: :exercise).
+        where(git_important_files_hash: nil).
+        where.not(git_sha: "").
+        where("solution.exercise_id": exercise.id).
+        select(:id, :git_sha, :solution_id, :exercise_id).
+        group_by(&:git_sha);0
+
+      submissions.each do |git_sha, group|
+        new_hash = Git::GenerateHashForImportantExerciseFiles.(group.first.exercise, git_sha: git_sha)
+        group.in_groups_of(100, false).each do |subgroup|
+          ActiveRecord::Base.transaction(isolation: Exercism::READ_UNCOMMITTED) do
+            Submission.where(id: subgroup.map(&:id)).update_all("submissions.git_important_files_hash = '#{new_hash}'")
+          end
+        end
+      rescue
+      end
+    end
+
+     # Run the following to set the git_shas on all submission_test_runs
+    Exercise.all.find_each do |exercise|
+      next if exercise.track_id == 31
+      next if exercise.slug.starts_with?('legacy')
+
+      ActiveRecord::Base.transaction(isolation: Exercism::READ_UNCOMMITTED) do
+        Submission::TestRun.joins(submission: :solution).
+          where(git_sha: nil).
+          where('solutions.exercise_id': exercise.id).
+          update_all("submission_test_runs.git_sha = submissions.git_sha, submission_test_runs.git_important_files_hash = submissions.git_important_files_hash")
+      end
+    end
 
     # # Run the following to set the git_important_files_hash on all submission_test_runs
-    # ActiveRecord::Base.transaction(isolation: Exercism::READ_UNCOMMITTED) do
+    # Exercise.all.find_each do |exercise|
+    #   next if exercise.track_id == 31
+    #   next if exercise.slug.starts_with?('legacy')
+
     #   test_runs = Submission::TestRun.joins(submission: :solution).includes(submission: {solution: :exercise}).
     #     where(git_important_files_hash: nil).
     #     select(:id, :git_sha, :submission_id, :solution_id, :exercise_id).

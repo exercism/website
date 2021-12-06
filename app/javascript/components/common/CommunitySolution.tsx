@@ -51,6 +51,7 @@ const ProcessingStatus = ({
       <Icon
         icon="golden-check"
         alt="This solution passes the tests of the latest version of this exercise"
+        className="passes-up-to-date-tests"
       />
     )
   }

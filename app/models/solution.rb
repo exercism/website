@@ -240,11 +240,7 @@ class Solution < ApplicationRecord
       git_important_files_hash: exercise.git_important_files_hash
     )
 
-    # This should probably be DRY'd with Exercise::QueueSolutionHeadTestRuns
-    submission = published_iterations.last&.submission
-    return unless submission
-
-    Submission::TestRun::Init.(submission, type: :solution, git_sha: git_sha) unless submission.head_test_run
+    Solution::QueueHeadTestRun.(self)
   end
 
   def read_file(filepath)

@@ -11,6 +11,7 @@ import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
 import { SyncStatusCheckbox } from './exercise-community-solutions-list/SyncStatusCheckbox'
 import { TestsStatusCheckbox } from './exercise-community-solutions-list/TestsStatusCheckbox'
+import { GenericTooltip } from '../misc/ExercismTippy'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -124,34 +125,53 @@ export const ExerciseCommunitySolutionsList = ({
           value={criteria}
           placeholder="Search by user"
         />
-        <Checkbox
-          checked={request.query.passedTests}
-          setChecked={setPassedTests}
+        <GenericTooltip
+          content={
+            <>
+              Only show solutions that pass the <strong>latest</strong> tests.
+            </>
+          }
         >
-          <div
-            className={`c-iteration-processing-status --passed`}
-            role="status"
-            aria-label="Only show solutions that pass the tests"
-          >
-            <div role="presentation" className="--dot"></div>
-            <div className="--status">Passed</div>
+          <div>
+            <Checkbox
+              checked={!request.query.notPassedHeadTests}
+              setChecked={setPassedHeadTests}
+            >
+              <Icon
+                icon="golden-check"
+                alt="Only show solution that pass the tests of the latest version of this exercise"
+              />
+            </Checkbox>
           </div>
-        </Checkbox>
-        <Checkbox
-          checked={!request.query.notPassedHeadTests}
-          setChecked={setPassedHeadTests}
-        >
-          <Icon
-            icon="golden-check"
-            alt="Only show solution that pass the tests of the latest version of this exercise"
-          />
-        </Checkbox>
-        <Checkbox checked={request.query.upToDate} setChecked={setUpToDate}>
-          <Icon
-            icon="up-to-date"
-            alt="Only show solutions that are up-to-date with the latest version of this exercise"
-          />
-        </Checkbox>
+        </GenericTooltip>
+        <GenericTooltip content="Only show solutions that pass the tests as they were at the time when the student solved the exercise.">
+          <div>
+            <Checkbox
+              checked={request.query.passedTests}
+              setChecked={setPassedTests}
+            >
+              <div
+                className={`c-iteration-processing-status --passed`}
+                role="status"
+                aria-label="Only show solutions that pass the tests"
+              >
+                <div role="presentation" className="--dot"></div>
+                <div className="--status">Passed</div>
+              </div>
+            </Checkbox>
+          </div>
+        </GenericTooltip>
+
+        <GenericTooltip content="Only show solutions that are up to date.">
+          <div>
+            <Checkbox checked={request.query.upToDate} setChecked={setUpToDate}>
+              <Icon
+                icon="up-to-date"
+                alt="Only show solutions that are up-to-date with the latest version of this exercise"
+              />
+            </Checkbox>
+          </div>
+        </GenericTooltip>
         <OrderSelect
           value={request.query.order || DEFAULT_ORDER}
           setValue={setOrder}

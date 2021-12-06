@@ -127,8 +127,8 @@ class Submission::TestRunTest < ActiveSupport::TestCase
   end
 
   test "correctly uses custom git_sha and important_files_hash" do
-    old_sha = "37604404f19512548733f0eaeb319b93f63ac58b"
-    old_hash = "b72b0958a135cddd775bf116c128e6e859bf11e4"
+    old_sha = "e333c0137fd8faaf519bc606fb510f9d5411482c"
+    old_hash = "a52dbbf7a75e7f883b717ad215bc0553ccd18694"
 
     ruby = create :track, slug: :ruby
     bob = create :practice_exercise, slug: :bob, track: ruby

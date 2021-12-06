@@ -699,4 +699,12 @@ class SolutionTest < ActiveSupport::TestCase
       solution.update!(published_at: Time.current)
     end
   end
+
+  test "updating solution enqueues job to queue head test run" do
+    solution = create :practice_solution
+
+    assert_enqueued_with(job: QueueSolutionHeadTestRunJob, args: [solution]) do
+      solution.update!(published_at: Time.current)
+    end
+  end
 end

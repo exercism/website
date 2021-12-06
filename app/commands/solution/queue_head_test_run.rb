@@ -8,8 +8,7 @@ class Solution::QueueHeadTestRun
 
   def call
     return unless submission
-
-    return if !force && submission.head_test_run
+    return if submission.head_test_run && !force
 
     submission.files.each(&:write_to_efs!) unless Dir.exist?(Exercism.config.efs_submissions_mount_point, submission.uuid)
 

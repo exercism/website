@@ -8,7 +8,14 @@ class Solution::QueueHeadTestRun
 
   def call
     return unless submission
-    return if submission.head_test_run&.ops_success? && !force
+
+    # Get out of here if:
+    # - we don't want to force run things
+    # - and we've got a head test run that succeeded
+    # - and the published iteration status makes sense
+    return if !force && 
+      submission.head_test_run&.ops_success? &&
+      %i[passed failed errored].include?(solution.published_iteration_head_tests_status)
 
     write_efs!
     init_test_run!

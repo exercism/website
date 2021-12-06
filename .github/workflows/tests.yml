@@ -79,8 +79,31 @@ jobs:
   #####################
   ##### RUBY TESTS ####
   #####################
+  ruby-test-files:
+    if: github.repository == 'exercism/website'
+
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.test-files.outputs.matrix }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - id: test-files
+        env:
+          FILES_PER_BATCH: 50
+        run: |
+          tests=$(find test -name '*_test.rb' -not -path 'test/system/*' | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
+          echo "::set-output name=matrix::{\"tests\":[${tests}]}"
+
   ruby-tests:
     if: github.repository == 'exercism/website'
+
+    needs: ruby-test-files
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix: ${{ fromJson(needs.ruby-test-files.outputs.matrix) }}
 
     runs-on: ubuntu-latest
     services:
@@ -181,8 +204,14 @@ jobs:
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false
         run: |
-          bundle exec rails test:zeitwerk
-          bundle exec rails test
+          bundle exec rails test:zeitwerk ${{ matrix.tests }}
+          bundle exec rails test ${{ matrix.tests }}
+
+  ruby-tests-completed:
+    runs-on: ubuntu-latest
+    needs: ruby-tests
+    steps:
+      - run: echo "Ruby tests completed"
 
   #######################
   ##### SYSTEM TESTS ####

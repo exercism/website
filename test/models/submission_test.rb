@@ -45,7 +45,7 @@ class SubmissionTest < ActiveSupport::TestCase
     create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
     head_run = create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: exercise_hash
     submission_run = create :submission_test_run, submission: submission, git_sha: submission_sha,
-git_important_files_hash: SecureRandom.uuid
+                                                  git_important_files_hash: SecureRandom.uuid
     create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
 
     # Sanity

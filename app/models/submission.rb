@@ -18,7 +18,9 @@ class Submission < ApplicationRecord
     class_name: "Submission::TestRun", dependent: :destroy
 
   # The "normal" one is the one run against the same git_sha as the submission
-  has_one :test_run, dependent: :destroy # rubocop:disable Rails/InverseOf
+  has_one :test_run, # rubocop:disable Rails/InverseOf
+    -> { joins(:submission).where('submission_test_runs.git_sha = submissions.git_sha') },
+    class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
   has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation

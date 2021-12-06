@@ -12,7 +12,7 @@ class Solution::QueueHeadTestRun
 
   memoize
   def submission
-    solution.published_iterations.last.submission
+    solution.published_iterations.last&.submission
   end
 
   memoize

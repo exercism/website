@@ -68,7 +68,7 @@ module Flows
       other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author, num_stars: 22,
                                                  git_important_files_hash: exercise.git_important_files_hash,
                                                  published_iteration_head_tests_status: :failed
-      other_submission = create :submission, solution: other_solution, tests_status: :passed
+      other_submission = create :submission, solution: other_solution, tests_status: :failed
       create :iteration, solution: other_solution, submission: other_submission
       another_solution = create :concept_solution, exercise: exercise, published_at: 4.days.ago, user: another_author, num_stars: 33,
                                                    git_important_files_hash: 'another-hash',
@@ -83,11 +83,41 @@ module Flows
         visit track_exercise_solutions_path(exercise.track, exercise)
       end
 
+      # Default: head tests passed filter is one
       assert_text "author1's solution"
-      assert_no_text "author2's solution" # Filtered via head tests passed filter
+      assert_no_text "author2's solution"
       assert_text "author3's solution"
 
-      # TODO: use other filters
+      # Disable head tests passed filter
+      use_capybara_host do
+        find("img[alt='Only show solution that pass the tests of the latest version of this exercise']").click
+      end
+
+      assert_text "author1's solution"
+      assert_text "author2's solution"
+      assert_text "author3's solution"
+
+      # Enable up-to-date filter
+      use_capybara_host do
+        find("img[alt='Only show solutions that are up-to-date with the latest version of this exercise']").click
+      end
+
+      sleep(0.1)
+
+      assert_text "author1's solution"
+      assert_text "author2's solution"
+      assert_no_text "author3's solution"
+
+      # Enable tests passing filter
+      use_capybara_host do
+        find(".c-search-bar .--passed").click
+      end
+
+      sleep(0.1)
+
+      assert_text "author1's solution"
+      assert_no_text "author2's solution"
+      assert_no_text "author3's solution"
     end
 
     test "paginates community solutions" do

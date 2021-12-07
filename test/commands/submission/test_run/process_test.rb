@@ -138,4 +138,18 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.tests_not_queued?
     assert submission.solution.reload.published_iteration_head_tests_status_passed?
   end
+
+  test "queues search index job but does not touch user_track solution run" do
+    time = Time.current - 4.months
+
+    submission = create :submission
+    user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
+    job = create_test_runner_job!(submission, execution_status: 200, results: results, type: :solution)
+
+    SyncSolutionToSearchIndexJob.expects(:perform_later).with(submission.solution)
+    Submission::TestRun::Process.(job)
+
+    assert_equal time.to_i, user_track.reload.last_touched_at.to_i
+  end
 end

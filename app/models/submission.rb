@@ -13,13 +13,23 @@ class Submission < ApplicationRecord
   has_many :test_runs, class_name: "Submission::TestRun", dependent: :destroy
 
   # A head test run is one that's up to date with the head exercise's important files hash
+  # We use order id desc to get the latest
   has_one :head_test_run, # rubocop:disable Rails/InverseOf
-    -> { joins(submission: :exercise).where('submission_test_runs.git_important_files_hash = exercises.git_important_files_hash') },
+    lambda {
+      order(id: :desc).
+        joins(submission: :exercise).
+        where('submission_test_runs.git_important_files_hash = exercises.git_important_files_hash')
+    },
     class_name: "Submission::TestRun", dependent: :destroy
 
   # The "normal" one is the one run against the same git_sha as the submission
+  # We again use order id desc to get the latest
   has_one :test_run, # rubocop:disable Rails/InverseOf
-    -> { joins(:submission).where('submission_test_runs.git_sha = submissions.git_sha') },
+    lambda {
+      order(id: :desc).
+        joins(:submission).
+        where('submission_test_runs.git_sha = submissions.git_sha')
+    },
     class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
   has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy

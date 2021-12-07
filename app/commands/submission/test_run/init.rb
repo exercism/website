@@ -29,7 +29,7 @@ class Submission
         ).tap do
           case type
           when :solution
-            submission.solution.published_iteration_head_tests_status_queued!
+            submission.solution.update_published_iteration_head_tests_status!(:queued)
           else
             submission.tests_queued!
           end

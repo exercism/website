@@ -82,7 +82,7 @@ class Submission
       def update_solution_status!(status)
         return unless submission.exercise.git_sha == git_sha
 
-        submission.solution.send("published_iteration_head_tests_status_#{status}!")
+        submission.solution.update_published_iteration_head_tests_status!(status)
       end
 
       def broadcast!(test_run)

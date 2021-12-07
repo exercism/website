@@ -96,6 +96,11 @@ class Solution < ApplicationRecord
 
   delegate :instructions, :introduction, :tests, :source, :source_url, to: :git_exercise
 
+  def update_published_iteration_head_tests_status!(status)
+    update_column(:published_iteration_head_tests_status, status)
+    SyncSolutionToSearchIndexJob.perform_later(self)
+  end
+
   def mentor_download_cmd
     "exercism download --uuid=#{uuid}"
   end

@@ -22,7 +22,7 @@ export const OrderSelect = ({
 }): JSX.Element => {
   return (
     <SingleSelect<Order>
-      options={['newest_first', 'oldest_first', 'most_starred']}
+      options={['most_starred', 'newest_first', 'oldest_first']}
       value={value}
       setValue={setValue}
       SelectedComponent={OptionComponent}

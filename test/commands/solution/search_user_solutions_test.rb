@@ -3,8 +3,8 @@ require "test_helper"
 class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
   test "no options returns everything" do
     user = create :user
-    solution_1 = create :concept_solution, user: user, published_at: 2.weeks.ago
-    solution_2 = create :practice_solution, user: user, published_at: 1.week.ago
+    solution_1 = create :concept_solution, user: user, num_stars: 1
+    solution_2 = create :practice_solution, user: user, num_stars: 2
 
     # Someone else's solution
     create :concept_solution
@@ -26,8 +26,8 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     ruby_bob = create :concept_exercise, title: "Bob", track: ruby
 
     js_bob_solution = create :practice_solution, user: user, exercise: js_bob, published_at: 3.weeks.ago
-    ruby_food_solution = create :concept_solution, user: user, exercise: ruby_food, published_at: 2.weeks.ago
-    ruby_bob_solution = create :concept_solution, user: user, exercise: ruby_bob, published_at: 1.week.ago
+    ruby_food_solution = create :concept_solution, user: user, exercise: ruby_food, num_stars: 1
+    ruby_bob_solution = create :concept_solution, user: user, exercise: ruby_bob, num_stars: 2
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -52,8 +52,8 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     elixir_exercise = create :practice_exercise, track: elixir
 
     ruby_solution = create :practice_solution, user: user, exercise: ruby_exercise, published_at: 3.weeks.ago
-    js_solution = create :practice_solution, user: user, exercise: js_exercise, published_at: 2.weeks.ago
-    elixir_solution = create :practice_solution, user: user, exercise: elixir_exercise, published_at: 1.week.ago
+    js_solution = create :practice_solution, user: user, exercise: js_exercise, num_stars: 1
+    elixir_solution = create :practice_solution, user: user, exercise: elixir_exercise, num_stars: 2
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -68,8 +68,8 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
   test "status" do
     user = create :user
     published = create :practice_solution, user: user, status: :published, published_at: 3.weeks.ago
-    completed = create :practice_solution, user: user, status: :completed, published_at: 2.weeks.ago
-    iterated = create :concept_solution, user: user, status: :iterated, published_at: 1.week.ago
+    completed = create :practice_solution, user: user, status: :completed, num_stars: 1
+    iterated = create :concept_solution, user: user, status: :iterated, num_stars: 2
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -87,10 +87,10 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
   test "mentoring_status" do
     user = create :user
-    finished = create :concept_solution, user: user, mentoring_status: :finished, published_at: 4.weeks.ago
-    in_progress = create :concept_solution, user: user, mentoring_status: :in_progress, published_at: 3.weeks.ago
-    requested = create :concept_solution, user: user, mentoring_status: :requested, published_at: 2.weeks.ago
-    none = create :concept_solution, user: user, mentoring_status: :none, published_at: 1.week.ago
+    finished = create :concept_solution, user: user, mentoring_status: :finished, num_stars: 3
+    in_progress = create :concept_solution, user: user, mentoring_status: :in_progress, num_stars: 5
+    requested = create :concept_solution, user: user, mentoring_status: :requested, num_stars: 7
+    none = create :concept_solution, user: user, mentoring_status: :none, num_stars: 9
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -116,8 +116,8 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
   test "pagination" do
     user = create :user
-    solution_1 = create :concept_solution, user: user, published_at: 2.weeks.ago
-    solution_2 = create :concept_solution, user: user, published_at: 1.week.ago
+    solution_1 = create :concept_solution, user: user, num_stars: 1
+    solution_2 = create :concept_solution, user: user, num_stars: 2
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -132,8 +132,8 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
   test "pagination with invalid values" do
     user = create :user
-    solution_1 = create :concept_solution, user: user, published_at: 2.weeks.ago
-    solution_2 = create :concept_solution, user: user, published_at: 1.week.ago
+    solution_1 = create :concept_solution, user: user, num_stars: 1
+    solution_2 = create :concept_solution, user: user, num_stars: 2
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -146,8 +146,8 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
   test "sort most starred first" do
     user = create :user
-    most_starred_solution = create :concept_solution, user: user, published_at: 2.weeks.ago, num_stars: 10
-    least_starred_solution = create :concept_solution, user: user, published_at: 1.week.ago, num_stars: 4
+    most_starred_solution = create :concept_solution, user: user, num_stars: 10
+    least_starred_solution = create :concept_solution, user: user, num_stars: 4
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -159,8 +159,8 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
   test "sort oldest first" do
     user = create :user
-    old_solution = create :concept_solution, user: user, published_at: 2.weeks.ago
-    new_solution = create :concept_solution, user: user, published_at: 1.week.ago
+    old_solution = create :concept_solution, user: user, num_stars: 1
+    new_solution = create :concept_solution, user: user, num_stars: 2
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -172,8 +172,8 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
   test "sort newest first by default" do
     user = create :user
-    old_solution = create :concept_solution, user: user, published_at: 2.weeks.ago
-    new_solution = create :concept_solution, user: user, published_at: 1.week.ago
+    old_solution = create :concept_solution, user: user, num_stars: 1
+    new_solution = create :concept_solution, user: user, num_stars: 2
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -218,8 +218,8 @@ criteria: "foobar", order: "oldest_first")
 
   test "fallback: no options returns everything" do
     user = create :user
-    solution_1 = create :concept_solution, user: user, published_at: 2.weeks.ago
-    solution_2 = create :practice_solution, user: user, published_at: 1.week.ago
+    solution_1 = create :concept_solution, user: user, num_stars: 1
+    solution_2 = create :practice_solution, user: user, num_stars: 2
 
     # Someone else's solution
     create :concept_solution
@@ -236,8 +236,8 @@ criteria: "foobar", order: "oldest_first")
     ruby_bob = create :concept_exercise, title: "Bob", track: ruby
 
     js_bob_solution = create :practice_solution, user: user, exercise: js_bob, published_at: 3.weeks.ago
-    ruby_food_solution = create :concept_solution, user: user, exercise: ruby_food, published_at: 2.weeks.ago
-    ruby_bob_solution = create :concept_solution, user: user, exercise: ruby_bob, published_at: 1.week.ago
+    ruby_food_solution = create :concept_solution, user: user, exercise: ruby_food, num_stars: 1
+    ruby_bob_solution = create :concept_solution, user: user, exercise: ruby_bob, num_stars: 2
 
     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution],
       Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
@@ -260,8 +260,8 @@ criteria: "foobar", order: "oldest_first")
     elixir_exercise = create :practice_exercise, track: elixir
 
     ruby_solution = create :practice_solution, user: user, exercise: ruby_exercise, published_at: 3.weeks.ago
-    js_solution = create :practice_solution, user: user, exercise: js_exercise, published_at: 2.weeks.ago
-    elixir_solution = create :practice_solution, user: user, exercise: elixir_exercise, published_at: 1.week.ago
+    js_solution = create :practice_solution, user: user, exercise: js_exercise, num_stars: 1
+    elixir_solution = create :practice_solution, user: user, exercise: elixir_exercise, num_stars: 2
 
     assert_equal [elixir_solution, js_solution, ruby_solution],
       Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
@@ -272,9 +272,9 @@ criteria: "foobar", order: "oldest_first")
 
   test "fallback: status" do
     user = create :user
-    published = create :practice_solution, user: user, status: :published
-    completed = create :practice_solution, user: user, status: :completed
-    iterated = create :concept_solution, user: user, status: :iterated
+    published = create :practice_solution, user: user, status: :published, num_stars: 3
+    completed = create :practice_solution, user: user, status: :completed, num_stars: 5
+    iterated = create :concept_solution, user: user, status: :iterated, num_stars: 7
 
     assert_equal [iterated, completed, published], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
     assert_equal [iterated], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, :iterated, nil, nil, nil)
@@ -289,10 +289,10 @@ criteria: "foobar", order: "oldest_first")
 
   test "fallback: mentoring_status" do
     user = create :user
-    finished = create :concept_solution, user: user, mentoring_status: :finished, published_at: 4.weeks.ago
-    in_progress = create :concept_solution, user: user, mentoring_status: :in_progress, published_at: 3.weeks.ago
-    requested = create :concept_solution, user: user, mentoring_status: :requested, published_at: 2.weeks.ago
-    none = create :concept_solution, user: user, mentoring_status: :none, published_at: 1.week.ago
+    finished = create :concept_solution, user: user, mentoring_status: :finished, num_stars: 1
+    in_progress = create :concept_solution, user: user, mentoring_status: :in_progress, num_stars: 3
+    requested = create :concept_solution, user: user, mentoring_status: :requested, num_stars: 7
+    none = create :concept_solution, user: user, mentoring_status: :none, num_stars: 9
 
     assert_equal [none, requested, in_progress, finished],
       Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
@@ -314,8 +314,8 @@ criteria: "foobar", order: "oldest_first")
 
   test "fallback: pagination" do
     user = create :user
-    solution_1 = create :concept_solution, user: user, published_at: 2.weeks.ago
-    solution_2 = create :concept_solution, user: user, published_at: 1.week.ago
+    solution_1 = create :concept_solution, user: user, num_stars: 1
+    solution_2 = create :concept_solution, user: user, num_stars: 2
 
     assert_equal [solution_2], Solution::SearchUserSolutions::Fallback.(user, 1, 1, nil, nil, nil, nil, nil)
     assert_equal [solution_1], Solution::SearchUserSolutions::Fallback.(user, 2, 1, nil, nil, nil, nil, nil)
@@ -325,18 +325,38 @@ criteria: "foobar", order: "oldest_first")
 
   test "fallback: sort oldest first" do
     user = create :user
-    old_solution = create :concept_solution, user: user, published_at: 2.weeks.ago
-    new_solution = create :concept_solution, user: user, published_at: 1.week.ago
+    old_solution = create :concept_solution, user: user, num_stars: 1
+    new_solution = create :concept_solution, user: user, num_stars: 2
 
     assert_equal [old_solution, new_solution],
       Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, :oldest_first)
   end
 
-  test "fallback: sort newest first by default" do
+  test "fallback: sort newest first" do
     user = create :user
-    old_solution = create :concept_solution, user: user, published_at: 2.weeks.ago
-    new_solution = create :concept_solution, user: user, published_at: 1.week.ago
+    old_solution = create :concept_solution, user: user, num_stars: 1
+    new_solution = create :concept_solution, user: user, num_stars: 2
 
-    assert_equal [new_solution, old_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
+    assert_equal [new_solution, old_solution],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, :newest_first)
+  end
+
+  test "fallback: sort most starred" do
+    user = create :user
+    solution_1 = create :concept_solution, user: user, published_at: 2.weeks.ago, num_stars: 33
+    solution_2 = create :concept_solution, user: user, published_at: 3.weeks.ago, num_stars: 22
+    solution_3 = create :concept_solution, user: user, published_at: 1.week.ago, num_stars: 11
+
+    assert_equal [solution_1, solution_2, solution_3],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, :most_starred)
+  end
+
+  test "fallback: sort most starred by default" do
+    user = create :user
+    solution_1 = create :concept_solution, user: user, published_at: 2.weeks.ago, num_stars: 33
+    solution_2 = create :concept_solution, user: user, published_at: 3.weeks.ago, num_stars: 22
+    solution_3 = create :concept_solution, user: user, published_at: 1.week.ago, num_stars: 11
+
+    assert_equal [solution_1, solution_2, solution_3], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
   end
 end

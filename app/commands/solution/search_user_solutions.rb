@@ -83,12 +83,12 @@ class Solution
 
     def search_sort
       case order
-      when :most_starred
-        [{ num_stars: { order: :desc, unmapped_type: "integer" } }]
+      when :newest_first
+        [{ published_at: { order: :desc, unmapped_type: "date" } }]
       when :oldest_first
         [{ published_at: { order: :asc, unmapped_type: "date" } }]
-      else # :newest_first
-        [{ published_at: { order: :desc, unmapped_type: "date" } }]
+      else # :most_starred
+        [{ num_stars: { order: :desc, unmapped_type: "integer" } }]
       end
     end
 
@@ -148,12 +148,12 @@ class Solution
 
       def sort!
         case order
-        when :most_starred
-          @solutions = @solutions.order(num_stars: :desc)
+        when :newest_first
+          @solutions = @solutions.order(id: :desc)
         when :oldest_first
           @solutions = @solutions.order(id: :asc)
-        else # :newest_first
-          @solutions = @solutions.order(id: :desc)
+        else # :most_starred
+          @solutions = @solutions.order(num_stars: :desc)
         end
       end
     end

@@ -17,6 +17,11 @@ class Solution::QueueHeadTestRun
               submission.head_test_run&.ops_success? &&
               %i[passed failed errored].include?(solution.published_iteration_head_tests_status)
 
+    unless solution.exercise.has_test_runner?
+      solution.update_published_iteration_head_tests_status!(:not_queued)
+      return
+    end
+
     write_efs!
     init_test_run!
   end

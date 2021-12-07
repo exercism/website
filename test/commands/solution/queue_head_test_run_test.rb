@@ -52,6 +52,18 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     Solution::QueueHeadTestRun.(solution)
   end
 
+  test "does not init if there's no test runner" do
+    solution = create :practice_solution, :published
+    submission = create :submission, solution: solution
+    create :iteration, submission: submission, solution: solution
+    create :submission_test_run, submission: submission
+    solution.exercise.expects(:has_test_runner?).returns(false)
+
+    Submission::TestRun::Init.expects(:call).never
+
+    Solution::QueueHeadTestRun.(solution)
+  end
+
   test "inits if there's not a head run" do
     solution = create :practice_solution, :published
     submission = create :submission, solution: solution

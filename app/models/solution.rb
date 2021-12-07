@@ -160,6 +160,10 @@ class Solution < ApplicationRecord
     super&.to_sym
   end
 
+  def published_iteration_head_tests_status
+    super.to_sym
+  end
+
   # TODO: Karlo
   def has_unsubmitted_code?
     false

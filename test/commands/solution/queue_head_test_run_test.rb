@@ -13,19 +13,34 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     Solution::QueueHeadTestRun.(solution)
   end
 
-  test "does not inits if there's a head run" do
-    solution = create :practice_solution, :published
-    submission = create :submission, solution: solution
-    create :iteration, submission: submission, solution: solution
-    create :submission_test_run, submission: submission
+  %i[not_queued exceptioned].each do |status|
+    test "inits if there's a head run and but #{status}" do
+      solution = create :practice_solution, :published, published_iteration_head_tests_status: status
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission, solution: solution
+      create :submission_test_run, submission: submission
 
-    Submission::TestRun::Init.expects(:call).never
+      Submission::TestRun::Init.expects(:call)
 
-    Solution::QueueHeadTestRun.(solution)
+      Solution::QueueHeadTestRun.(solution)
+    end
   end
 
-  test "inits if there's an exceptioned head run" do
-    solution = create :practice_solution, :published
+  %i[passed failed errored].each do |status|
+    test "does not init if there's a head run and status is #{status}" do
+      solution = create :practice_solution, :published, published_iteration_head_tests_status: status
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission, solution: solution
+      create :submission_test_run, submission: submission
+
+      Submission::TestRun::Init.expects(:call).never
+
+      Solution::QueueHeadTestRun.(solution)
+    end
+  end
+
+  test "inits if there's an exceptioned head run even if passed" do
+    solution = create :practice_solution, :published, published_iteration_head_tests_status: :passed
     submission = create :submission, solution: solution
     create :iteration, submission: submission, solution: solution
     create :submission_test_run, submission: submission, ops_status: 405

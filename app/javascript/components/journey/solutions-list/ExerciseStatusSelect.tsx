@@ -1,12 +1,17 @@
 import React from 'react'
 import { SingleSelect } from '../../common'
 
-type Status = undefined | 'started' | 'iterated' | 'completed' | 'published'
+export type ExerciseStatus =
+  | undefined
+  | 'started'
+  | 'iterated'
+  | 'completed'
+  | 'published'
 
 const OptionComponent = ({
   option: status,
 }: {
-  option: Status
+  option: ExerciseStatus
 }): JSX.Element => {
   switch (status) {
     case 'started':
@@ -22,7 +27,7 @@ const OptionComponent = ({
   }
 }
 
-const SelectedComponent = ({ option }: { option: Status }) => {
+const SelectedComponent = ({ option }: { option: ExerciseStatus }) => {
   switch (option) {
     case undefined:
       return <>Exercise status</>
@@ -35,11 +40,11 @@ export const ExerciseStatusSelect = ({
   value,
   setValue,
 }: {
-  value: Status
-  setValue: (value: Status) => void
+  value: ExerciseStatus
+  setValue: (value: ExerciseStatus) => void
 }): JSX.Element => {
   return (
-    <SingleSelect<Status>
+    <SingleSelect<ExerciseStatus>
       options={[undefined, 'started', 'iterated', 'completed', 'published']}
       value={value}
       setValue={setValue}

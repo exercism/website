@@ -9,9 +9,8 @@ import { Pagination, GraphicalIcon } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { PaginatedResult } from '../types'
 import { OrderSwitcher } from './solutions-list/OrderSwitcher'
-import { ExerciseStatusSelect } from './solutions-list/ExerciseStatusSelect'
-import { MentoringStatusSelect } from './solutions-list/MentoringStatusSelect'
 import pluralize from 'pluralize'
+import { SolutionFilter } from './solutions-list/SolutionFilter'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -97,14 +96,13 @@ export const SolutionsList = ({
             value={criteria}
             placeholder="Search by exercise name"
           />
-          <ExerciseStatusSelect
-            value={request.query.status}
-            setValue={setStatus}
+          <SolutionFilter
+            status={request.query.status}
+            setStatus={setStatus}
+            mentoringStatus={request.query.mentoringStatus}
+            setMentoringStatus={setMentoringStatus}
           />
-          <MentoringStatusSelect
-            value={request.query.mentoringStatus}
-            setValue={setMentoringStatus}
-          />
+
           <OrderSwitcher
             value={(request.query.order || DEFAULT_ORDER) as Order}
             setValue={setOrder}

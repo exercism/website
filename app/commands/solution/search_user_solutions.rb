@@ -17,7 +17,7 @@ class Solution
       @mentoring_status = mentoring_status
       @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
       @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
-      @order = order
+      @order = order&.to_sym
     end
 
     def call
@@ -82,9 +82,14 @@ class Solution
     end
 
     def search_sort
-      [
-        { id: { order: order&.to_sym == :oldest_first ? :asc : :desc, unmapped_type: "integer" } }
-      ]
+      case order
+      when :most_starred
+        [{ num_stars: { order: :desc, unmapped_type: "integer" } }]
+      when :oldest_first
+        [{ published_at: { order: :asc, unmapped_type: "date" } }]
+      else # :newest_first
+        [{ published_at: { order: :desc, unmapped_type: "date" } }]
+      end
     end
 
     TIMEOUT = '100ms'.freeze
@@ -142,7 +147,9 @@ class Solution
       end
 
       def sort!
-        case order&.to_sym
+        case order
+        when :most_starred
+          @solutions = @solutions.order(num_stars: :desc)
         when :oldest_first
           @solutions = @solutions.order(id: :asc)
         else # :newest_first

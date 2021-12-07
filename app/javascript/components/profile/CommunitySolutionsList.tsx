@@ -27,7 +27,7 @@ type PaginatedResult = {
   }
 }
 
-export type Order = 'newest_first' | 'oldest_first'
+export type Order = 'newest_first' | 'oldest_first' | 'most_starred'
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
 const DEFAULT_ORDER = 'newest_first'

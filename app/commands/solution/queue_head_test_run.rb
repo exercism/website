@@ -37,7 +37,6 @@ class Solution::QueueHeadTestRun
     )
   end
 
-  private
   memoize
   def submission
     solution.published_iterations.last&.submission

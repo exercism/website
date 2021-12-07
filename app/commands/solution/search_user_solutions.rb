@@ -84,9 +84,9 @@ class Solution
     def search_sort
       case order
       when :newest_first
-        [{ published_at: { order: :desc, unmapped_type: "date" } }]
+        [{ id: { order: :desc, unmapped_type: "integer" } }]
       when :oldest_first
-        [{ published_at: { order: :asc, unmapped_type: "date" } }]
+        [{ id: { order: :asc, unmapped_type: "integer" } }]
       else # :most_starred
         [{ num_stars: { order: :desc, unmapped_type: "integer" } }]
       end

@@ -22,7 +22,7 @@ module ReactComponents
                 status: params[:status],
                 mentoring_status: params[:mentoring_status],
                 page: params[:page],
-                order: params[:order]
+                order: params[:order] || :newest_first
               ),
               serializer: SerializeSolutions,
               serializer_args: [current_user]
@@ -34,7 +34,7 @@ module ReactComponents
             status: params[:status],
             mentoring_status: params[:mentoring_status],
             page: params[:page],
-            order: params[:order]
+            order: params[:order] || :newest_first
           }.compact
         else
           options = {}

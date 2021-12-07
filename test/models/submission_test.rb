@@ -43,20 +43,26 @@ class SubmissionTest < ActiveSupport::TestCase
     exercise = create :practice_exercise, git_important_files_hash: exercise_hash
     submission = create :submission, git_sha: submission_sha, solution: create(:practice_solution, exercise: exercise)
     create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
-    head_run = create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: exercise_hash
-    submission_run = create :submission_test_run, submission: submission, git_sha: submission_sha,
-                                                  git_important_files_hash: SecureRandom.uuid
+
+    # Create two head runs to check we get the latest
+    create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: exercise_hash
+    head_run_2 = create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid,
+                                              git_important_files_hash: exercise_hash
+    # Create two submission runs to check we get the latest
+    create :submission_test_run, submission: submission, git_sha: submission_sha, git_important_files_hash: SecureRandom.uuid
+    submission_run_2 = create :submission_test_run, submission: submission, git_sha: submission_sha,
+                                                    git_important_files_hash: SecureRandom.uuid
     create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
 
     # Sanity
     assert_equal exercise_hash, exercise.git_important_files_hash
-    assert_equal exercise_hash, head_run.git_important_files_hash
+    assert_equal exercise_hash, head_run_2.git_important_files_hash
     assert_equal submission_sha, submission.git_sha
-    assert_equal submission_sha, submission_run.git_sha
+    assert_equal submission_sha, submission_run_2.git_sha
 
-    assert_equal 4, submission.test_runs.size
-    assert_equal head_run, submission.head_test_run
-    assert_equal submission_run, submission.test_run
+    assert_equal 6, submission.test_runs.size
+    assert_equal head_run_2, submission.head_test_run
+    assert_equal submission_run_2, submission.test_run
   end
 
   test "exercise_representation" do

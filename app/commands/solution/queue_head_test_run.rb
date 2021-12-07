@@ -8,14 +8,28 @@ class Solution::QueueHeadTestRun
 
   def call
     return unless submission
-    return if submission.head_test_run && !force
+    return if submission.head_test_run&.ops_success? && !force
 
-    submission.files.each(&:write_to_efs!) unless Dir.exist?(Exercism.config.efs_submissions_mount_point, submission.uuid)
-
-    Submission::TestRun::Init.(submission, type: :solution, git_sha: exercise.git_sha, run_in_background: true)
+    write_efs!
+    init_test_run!
   end
 
   private
+  def write_efs!
+    return if Dir.exist?([Exercism.config.efs_submissions_mount_point, submission.uuid].join('/'))
+
+    submission.files.each(&:write_to_efs!)
+  end
+
+  def init_test_run!
+    Submission::TestRun::Init.(
+      submission,
+      type: :solution,
+      git_sha: exercise.git_sha,
+      run_in_background: true
+    )
+  end
+
   memoize
   def submission
     solution.published_iterations.last&.submission

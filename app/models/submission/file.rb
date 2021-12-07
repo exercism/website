@@ -1,6 +1,8 @@
 class Submission::File < ApplicationRecord
   belongs_to :submission
 
+  attr_writer :content
+
   URI_REGEX = %r{s3://(?<bucket>[a-z0-9-]+)/(?<key>.*)}.freeze
 
   before_create do
@@ -35,8 +37,6 @@ class Submission::File < ApplicationRecord
     FileUtils.mkdir_p(efs_path.split("/").tap(&:pop).join("/"))
     File.open(efs_path, 'w') { |f| f.write(utf8_content) }
   end
-
-  attr_writer :content
 
   def content
     utf8_content.tap(&:to_json)

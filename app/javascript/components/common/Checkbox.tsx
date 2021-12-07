@@ -14,7 +14,7 @@ export const Checkbox = ({
     <label className="c-checkbox-wrapper filter">
       <input
         type="checkbox"
-        checked={checked}
+        checked={checked || false}
         onChange={(e) => setChecked(e.target.checked)}
       />
       <div className="row">

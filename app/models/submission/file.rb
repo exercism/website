@@ -33,23 +33,28 @@ class Submission::File < ApplicationRecord
 
   def write_to_efs!
     FileUtils.mkdir_p(efs_path.split("/").tap(&:pop).join("/"))
-    File.open(efs_path, 'w') { |f| f.write(raw_content) }
+    File.open(efs_path, 'w') { |f| f.write(utf8_content) }
   end
 
-  def content=(val)
-    @content = val.force_encoding('utf-8')
-  end
+  attr_writer :content
 
   def content
-    raw_content.tap(&:to_json)
+    utf8_content.tap(&:to_json)
   rescue JSON::GeneratorError
     "[Invalid Unicode]"
   end
 
+  def utf8_content
+    @utf8_content ||= raw_content.force_encoding('utf-8')
+  end
+
   def raw_content
+    # We memoize this method
     # Don't use `.presence?` here as the encoding might be incorrect
     # and then the string check will raise an exception
     return @raw_content if @raw_content && @raw_content != ""
+
+    # Check to see if content has been passed in
     return @content if @content && @content != ""
 
     return file_contents if uri.empty?

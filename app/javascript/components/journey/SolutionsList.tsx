@@ -103,6 +103,8 @@ export const SolutionsList = ({
       status: undefined,
       mentoringStatus: undefined,
       syncStatus: undefined,
+      testsStatus: undefined,
+      headTestsStatus: undefined,
     })
   }, [request.query, setQuery])
 

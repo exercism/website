@@ -172,11 +172,12 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
   test "fallback is called" do
     user = create :user
-    Solution::SearchUserSolutions::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", "oldest_first")
+    Solution::SearchUserSolutions::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", "oldest_first",
+      :up_to_date, "passed", "failed")
     Elasticsearch::Client.expects(:new).raises
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
-criteria: "foobar", order: "oldest_first")
+criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_status: "passed", head_tests_status: "failed")
   end
 
   test "fallback is called when elasticsearch times out" do
@@ -197,10 +198,11 @@ criteria: "foobar", order: "oldest_first")
     end
 
     user = create :user
-    Solution::SearchUserSolutions::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", "oldest_first")
+    Solution::SearchUserSolutions::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", "oldest_first",
+      :up_to_date, "passed", "failed")
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
-criteria: "foobar", order: "oldest_first")
+criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_status: "passed", head_tests_status: "failed")
   end
 
   test "fallback: no options returns everything" do
@@ -211,7 +213,8 @@ criteria: "foobar", order: "oldest_first")
     # Someone else's solution
     create :concept_solution
 
-    assert_equal [solution_2, solution_1], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
   end
 
   test "fallback: criteria" do
@@ -227,14 +230,16 @@ criteria: "foobar", order: "oldest_first")
     ruby_bob_solution = create :concept_solution, user: user, exercise: ruby_bob
 
     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution],
-      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
-    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, " ", nil) # rubocop:disable Layout:LineLength
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
+    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, " ", nil, nil, nil, nil) # rubocop:disable Layout:LineLength
     assert_equal [ruby_bob_solution, ruby_food_solution],
-      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "ru", nil)
-    assert_equal [ruby_bob_solution, js_bob_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "bo", nil)
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "ru", nil, nil, nil, nil)
+    assert_equal [ruby_bob_solution, js_bob_solution],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "bo", nil, nil, nil, nil)
     assert_equal [ruby_bob_solution].map(&:track),
-      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "ru bo", nil).map(&:track)
-    assert_equal [ruby_food_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "r ch fo", nil)
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "ru bo", nil, nil, nil, nil).map(&:track)
+    assert_equal [ruby_food_solution],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "r ch fo", nil, nil, nil, nil)
   end
 
   test "fallback: track_slug" do
@@ -251,10 +256,10 @@ criteria: "foobar", order: "oldest_first")
     elixir_solution = create :practice_solution, user: user, exercise: elixir_exercise
 
     assert_equal [elixir_solution, js_solution, ruby_solution],
-      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
     assert_equal [js_solution, ruby_solution],
-      Solution::SearchUserSolutions::Fallback.(user, 1, 15, %i[ruby javascript], nil, nil, nil, nil)
-    assert_equal [ruby_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, "ruby", nil, nil, nil, nil)
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, %i[ruby javascript], nil, nil, nil, nil, nil, nil, nil)
+    assert_equal [ruby_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, "ruby", nil, nil, nil, nil, nil, nil, nil)
   end
 
   test "fallback: status" do
@@ -263,15 +268,16 @@ criteria: "foobar", order: "oldest_first")
     completed = create :practice_solution, user: user, status: :completed
     iterated = create :concept_solution, user: user, status: :iterated
 
-    assert_equal [iterated, completed, published], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
-    assert_equal [iterated], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, :iterated, nil, nil, nil)
-    assert_equal [iterated], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, 'iterated', nil, nil, nil)
+    assert_equal [iterated, completed, published],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
+    assert_equal [iterated], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, :iterated, nil, nil, nil, nil, nil, nil)
+    assert_equal [iterated], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, 'iterated', nil, nil, nil, nil, nil, nil)
     assert_equal [completed, published],
-      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, %i[completed published], nil, nil, nil)
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, %i[completed published], nil, nil, nil, nil, nil, nil)
     assert_equal [completed, published],
-      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, %w[completed published], nil, nil, nil)
-    assert_equal [published], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, :published, nil, nil, nil)
-    assert_equal [published], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, 'published', nil, nil, nil)
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, %w[completed published], nil, nil, nil, nil, nil, nil)
+    assert_equal [published], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, :published, nil, nil, nil, nil, nil, nil)
+    assert_equal [published], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, 'published', nil, nil, nil, nil, nil, nil)
   end
 
   test "fallback: mentoring_status" do
@@ -282,21 +288,22 @@ criteria: "foobar", order: "oldest_first")
     none = create :concept_solution, user: user, mentoring_status: :none
 
     assert_equal [none, requested, in_progress, finished],
-      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
 
-    assert_equal [none], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :none, nil, nil)
-    assert_equal [none], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, 'none', nil, nil)
+    assert_equal [none], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :none, nil, nil, nil, nil, nil)
+    assert_equal [none], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, 'none', nil, nil, nil, nil, nil)
 
-    assert_equal [requested], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :requested, nil, nil)
-    assert_equal [requested], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, 'requested', nil, nil)
+    assert_equal [requested], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :requested, nil, nil, nil, nil, nil)
+    assert_equal [requested], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, 'requested', nil, nil, nil, nil, nil)
 
-    assert_equal [in_progress], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :in_progress, nil, nil)
-    assert_equal [in_progress], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, 'in_progress', nil, nil)
+    assert_equal [in_progress], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :in_progress, nil, nil, nil, nil, nil)
+    assert_equal [in_progress], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, 'in_progress', nil, nil, nil, nil, nil)
 
-    assert_equal [finished], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :finished, nil, nil)
-    assert_equal [finished], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, 'finished', nil, nil)
+    assert_equal [finished], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :finished, nil, nil, nil, nil, nil)
+    assert_equal [finished], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, 'finished', nil, nil, nil, nil, nil)
 
-    assert_equal [none, finished], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, [:none, 'finished'], nil, nil)
+    assert_equal [none, finished],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, [:none, 'finished'], nil, nil, nil, nil, nil)
   end
 
   test "fallback: pagination" do
@@ -304,10 +311,10 @@ criteria: "foobar", order: "oldest_first")
     solution_1 = create :concept_solution, user: user
     solution_2 = create :concept_solution, user: user
 
-    assert_equal [solution_2], Solution::SearchUserSolutions::Fallback.(user, 1, 1, nil, nil, nil, nil, nil)
-    assert_equal [solution_1], Solution::SearchUserSolutions::Fallback.(user, 2, 1, nil, nil, nil, nil, nil)
-    assert_equal [solution_2, solution_1], Solution::SearchUserSolutions::Fallback.(user, 1, 2, nil, nil, nil, nil, nil)
-    assert_empty Solution::SearchUserSolutions::Fallback.(user, 2, 2, nil, nil, nil, nil, nil)
+    assert_equal [solution_2], Solution::SearchUserSolutions::Fallback.(user, 1, 1, nil, nil, nil, nil, nil, nil, nil, nil)
+    assert_equal [solution_1], Solution::SearchUserSolutions::Fallback.(user, 2, 1, nil, nil, nil, nil, nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1], Solution::SearchUserSolutions::Fallback.(user, 1, 2, nil, nil, nil, nil, nil, nil, nil, nil)
+    assert_empty Solution::SearchUserSolutions::Fallback.(user, 2, 2, nil, nil, nil, nil, nil, nil, nil, nil)
   end
 
   test "fallback: sort oldest first" do
@@ -316,7 +323,7 @@ criteria: "foobar", order: "oldest_first")
     new_solution = create :concept_solution, user: user
 
     assert_equal [old_solution, new_solution],
-      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, "oldest_first")
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, "oldest_first", nil, nil, nil)
   end
 
   test "fallback: sort newest first by default" do
@@ -324,6 +331,7 @@ criteria: "foobar", order: "oldest_first")
     old_solution = create :concept_solution, user: user
     new_solution = create :concept_solution, user: user
 
-    assert_equal [new_solution, old_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil)
+    assert_equal [new_solution, old_solution],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
   end
 end

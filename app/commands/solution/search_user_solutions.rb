@@ -9,12 +9,17 @@ class Solution
       DEFAULT_PER
     end
 
-    def initialize(user, criteria: nil, track_slug: nil, status: nil, mentoring_status: nil, page: nil, per: nil, order: nil)
+    def initialize(user, page: nil, per: nil, order: nil,
+                   criteria: nil, track_slug: nil, status: nil, mentoring_status: nil,
+                   sync_status: nil, tests_status: nil, head_tests_status: nil)
       @user = user
       @criteria = criteria
       @track_slug = track_slug
       @status = status
       @mentoring_status = mentoring_status
+      @sync_status = sync_status&.to_sym
+      @tests_status = tests_status
+      @head_tests_status = head_tests_status
       @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
       @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
       @order = order
@@ -40,11 +45,12 @@ class Solution
         page(page).per(per)
     rescue StandardError => e
       Bugsnag.notify(e)
-      Fallback.(user, page, per, track_slug, status, mentoring_status, criteria, order)
+      Fallback.(user, page, per, track_slug, status, mentoring_status,
+        criteria, order, sync_status, tests_status, head_tests_status)
     end
 
     private
-    attr_reader :user, :criteria, :track_slug, :status, :mentoring_status,
+    attr_reader :user, :criteria, :track_slug, :status, :mentoring_status, :sync_status, :tests_status, :head_tests_status,
       :per, :page, :order,
       :solutions
 
@@ -93,7 +99,8 @@ class Solution
     class Fallback
       include Mandate
 
-      initialize_with :user, :page, :per, :track_slug, :status, :mentoring_status, :criteria, :order
+      initialize_with :user, :page, :per, :track_slug, :status, :mentoring_status, :criteria, :order,
+        :sync_status, :tests_status, :head_tests_status
 
       def call
         @solutions = user.solutions

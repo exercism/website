@@ -100,7 +100,7 @@ export const ExerciseCommunitySolutionsList = ({
     (passedHeadTests) => {
       setQuery({
         ...request.query,
-        notPassedHeadTests: passedHeadTests === false ? true : null,
+        passedHeadTests: passedHeadTests ? true : null,
         page: undefined,
       })
     },
@@ -134,7 +134,7 @@ export const ExerciseCommunitySolutionsList = ({
         >
           <div>
             <Checkbox
-              checked={!request.query.notPassedHeadTests}
+              checked={request.query.passedHeadTests}
               setChecked={setPassedHeadTests}
             >
               <Icon

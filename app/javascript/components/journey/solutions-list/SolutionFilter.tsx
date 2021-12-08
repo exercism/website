@@ -1,23 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ExerciseStatus, ExerciseStatusSelect } from './ExerciseStatusSelect'
+import { HeadTestsStatus, HeadTestsStatusSelect } from './HeadTestsStatusSelect'
 import { MentoringStatus, MentoringStatusSelect } from './MentoringStatusSelect'
 import { SyncStatus, SyncStatusSelect } from './SyncStatusSelect'
+import { TestsStatus, TestsStatusSelect } from './TestsStatusSelect'
 
 export const SolutionFilter = ({
   status,
   syncStatus,
   mentoringStatus,
+  testsStatus,
+  headTestsStatus,
   setStatus,
   setMentoringStatus,
   setSyncStatus,
+  setTestsStatus,
+  setHeadTestsStatus,
 }: {
   status: ExerciseStatus
   mentoringStatus: MentoringStatus
   syncStatus: SyncStatus
+  testsStatus: TestsStatus
+  headTestsStatus: HeadTestsStatus
   setStatus: (status: ExerciseStatus) => void
   setMentoringStatus: (status: MentoringStatus) => void
   setSyncStatus: (status: SyncStatus) => void
+  setTestsStatus: (status: TestsStatus) => void
+  setHeadTestsStatus: (status: HeadTestsStatus) => void
 }): JSX.Element => {
   const [expanded, setExpanded] = useState(false)
   const [hasExpandedEver, markAsExpanded] = useState(false)
@@ -88,6 +98,11 @@ export const SolutionFilter = ({
             setValue={setMentoringStatus}
           />
           <SyncStatusSelect value={syncStatus} setValue={setSyncStatus} />
+          <TestsStatusSelect value={testsStatus} setValue={setTestsStatus} />
+          <HeadTestsStatusSelect
+            value={headTestsStatus}
+            setValue={setHeadTestsStatus}
+          />
         </div>
       </div>
     </>

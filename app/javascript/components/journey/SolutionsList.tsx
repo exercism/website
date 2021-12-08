@@ -82,6 +82,20 @@ export const SolutionsList = ({
     [request.query, setQuery]
   )
 
+  const setTestsStatus = useCallback(
+    (status) => {
+      setQuery({ ...request.query, testsStatus: status, page: undefined })
+    },
+    [request.query, setQuery]
+  )
+
+  const setHeadTestsStatus = useCallback(
+    (status) => {
+      setQuery({ ...request.query, headTestsStatus: status, page: undefined })
+    },
+    [request.query, setQuery]
+  )
+
   const handleReset = useCallback(() => {
     setQuery({
       ...request.query,
@@ -108,9 +122,13 @@ export const SolutionsList = ({
             status={request.query.status}
             mentoringStatus={request.query.mentoringStatus}
             syncStatus={request.query.syncStatus}
+            testsStatus={request.query.testsStatus}
+            headTestsStatus={request.query.headTestsStatus}
             setStatus={setStatus}
             setMentoringStatus={setMentoringStatus}
             setSyncStatus={setSyncStatus}
+            setTestsStatus={setTestsStatus}
+            setHeadTestsStatus={setHeadTestsStatus}
           />
 
           <OrderSwitcher

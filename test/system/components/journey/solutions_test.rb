@@ -116,6 +116,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
+          click_on "Filter by"
           click_on "Exercise status"
           find("label", text: "Started").click
         end
@@ -141,6 +142,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
+          click_on "Filter by"
           click_on "Mentoring status"
           find("label", text: "Requested").click
         end
@@ -166,6 +168,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
+          click_on "Filter by"
           click_on "Mentoring status"
           find("label", text: "Mentoring Completed").click
         end
@@ -191,6 +194,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
+          click_on "Filter by"
           click_on "Mentoring status"
           find("label", text: "Requested").click
           click_on "Reset filters"

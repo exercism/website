@@ -75,12 +75,20 @@ export const SolutionsList = ({
     [request.query, setQuery]
   )
 
+  const setSyncStatus = useCallback(
+    (status) => {
+      setQuery({ ...request.query, syncStatus: status, page: undefined })
+    },
+    [request.query, setQuery]
+  )
+
   const handleReset = useCallback(() => {
     setQuery({
       ...request.query,
       page: undefined,
       status: undefined,
       mentoringStatus: undefined,
+      syncStatus: undefined,
     })
   }, [request.query, setQuery])
 
@@ -98,9 +106,11 @@ export const SolutionsList = ({
           />
           <SolutionFilter
             status={request.query.status}
-            setStatus={setStatus}
             mentoringStatus={request.query.mentoringStatus}
+            syncStatus={request.query.syncStatus}
+            setStatus={setStatus}
             setMentoringStatus={setMentoringStatus}
+            setSyncStatus={setSyncStatus}
           />
 
           <OrderSwitcher

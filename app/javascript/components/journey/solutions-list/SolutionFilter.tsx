@@ -2,17 +2,22 @@ import React, { useState, useEffect, useRef } from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ExerciseStatus, ExerciseStatusSelect } from './ExerciseStatusSelect'
 import { MentoringStatus, MentoringStatusSelect } from './MentoringStatusSelect'
+import { SyncStatus, SyncStatusSelect } from './SyncStatusSelect'
 
 export const SolutionFilter = ({
   status,
-  setStatus,
+  syncStatus,
   mentoringStatus,
+  setStatus,
   setMentoringStatus,
+  setSyncStatus,
 }: {
   status: ExerciseStatus
-  setStatus: (status: ExerciseStatus) => void
   mentoringStatus: MentoringStatus
+  syncStatus: SyncStatus
+  setStatus: (status: ExerciseStatus) => void
   setMentoringStatus: (status: MentoringStatus) => void
+  setSyncStatus: (status: SyncStatus) => void
 }): JSX.Element => {
   const [expanded, setExpanded] = useState(false)
   const [hasExpandedEver, markAsExpanded] = useState(false)
@@ -82,6 +87,7 @@ export const SolutionFilter = ({
             value={mentoringStatus}
             setValue={setMentoringStatus}
           />
+          <SyncStatusSelect value={syncStatus} setValue={setSyncStatus} />
         </div>
       </div>
     </>

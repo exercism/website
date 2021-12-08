@@ -17,7 +17,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user)
   end
 
-  test "criteria" do
+  test "filter: criteria" do
     user = create :user
     javascript = create :track, title: "JavaScript", slug: "javascript"
     ruby = create :track, title: "Ruby"
@@ -42,7 +42,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     assert_equal [ruby_food_solution], Solution::SearchUserSolutions.(user, criteria: "r ch fo")
   end
 
-  test "track_slug" do
+  test "filter: track_slug" do
     user = create :user
     javascript = create :track, title: "JavaScript", slug: "javascript"
     ruby = create :track, title: "Ruby", slug: "ruby"
@@ -65,7 +65,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     assert_equal [ruby_solution], Solution::SearchUserSolutions.(user, track_slug: "ruby")
   end
 
-  test "status" do
+  test "filter: status" do
     user = create :user
     published = create :practice_solution, user: user, status: :published
     completed = create :practice_solution, user: user, status: :completed
@@ -85,7 +85,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     assert_equal [published], Solution::SearchUserSolutions.(user, status: 'published')
   end
 
-  test "mentoring_status" do
+  test "filter: mentoring_status" do
     user = create :user
     finished = create :concept_solution, user: user, mentoring_status: :finished
     in_progress = create :concept_solution, user: user, mentoring_status: :in_progress
@@ -112,6 +112,92 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     assert_equal [finished], Solution::SearchUserSolutions.(user, mentoring_status: 'finished')
 
     assert_equal [none, finished], Solution::SearchUserSolutions.(user, mentoring_status: [:none, 'finished'])
+  end
+
+  test "filter: tests_status" do
+    user = create :user
+    solution_1 = create :concept_solution, user: user, published_at: Time.current
+    solution_2 = create :concept_solution, user: user, published_at: Time.current
+    solution_3 = create :concept_solution, user: user, published_at: Time.current
+    submission_1 = create :submission, solution: solution_1, tests_status: :passed
+    submission_2 = create :submission, solution: solution_2, tests_status: :passed
+    submission_3 = create :submission, solution: solution_3, tests_status: :failed
+    solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+    solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+    solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
+
+    # A different user
+    create :concept_solution
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchUserSolutions.(user, tests_status: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user, tests_status: :passed)
+    assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user, tests_status: "passed")
+    assert_equal [solution_3], Solution::SearchUserSolutions.(user, tests_status: :failed)
+    assert_empty Solution::SearchUserSolutions.(user, tests_status: :errored)
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchUserSolutions.(user, tests_status: %i[passed failed])
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchUserSolutions.(user, tests_status: "passed failed")
+  end
+
+  test "filter: head_tests_status" do
+    user = create :user
+    solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
+    solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
+    solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current
+    solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
+submission: create(:submission, solution: solution_1)))
+    solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
+submission: create(:submission, solution: solution_2)))
+    solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
+submission: create(:submission, solution: solution_3)))
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
+
+    # A different user
+    create :concept_solution
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchUserSolutions.(user, head_tests_status: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user, head_tests_status: :passed)
+    assert_empty Solution::SearchUserSolutions.(user, head_tests_status: :failed)
+    assert_equal [solution_3], Solution::SearchUserSolutions.(user, head_tests_status: :errored)
+    assert_equal [solution_3], Solution::SearchUserSolutions.(user, head_tests_status: "errored")
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchUserSolutions.(user, head_tests_status: %i[passed errored])
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchUserSolutions.(user, head_tests_status: "passed errored")
+  end
+
+  test "filter: sync_status" do
+    user = create :user
+    exercise_1 = create :concept_exercise
+    exercise_2 = create :concept_exercise
+    exercise_3 = create :concept_exercise
+    solution_1 = create :concept_solution, user: user, exercise: exercise_1,
+git_important_files_hash: exercise_1.git_important_files_hash
+    solution_2 = create :concept_solution, user: user, exercise: exercise_2,
+git_important_files_hash: exercise_2.git_important_files_hash
+    solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash'
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
+
+    # A different user
+    create :concept_solution
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_3, solution_2, solution_1], Solution::SearchUserSolutions.(user, sync_status: nil)
+    assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user, sync_status: :up_to_date)
+    assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user, sync_status: "up_to_date")
+    assert_equal [solution_3], Solution::SearchUserSolutions.(user, sync_status: :out_of_date)
+    assert_equal [solution_3], Solution::SearchUserSolutions.(user, sync_status: "out_of_date")
   end
 
   test "pagination" do
@@ -217,7 +303,7 @@ criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_stat
       Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
   end
 
-  test "fallback: criteria" do
+  test "fallback: filter: criteria" do
     user = create :user
     javascript = create :track, title: "JavaScript", slug: "javascript"
     ruby = create :track, title: "Ruby"
@@ -242,7 +328,7 @@ criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_stat
       Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "r ch fo", nil, nil, nil, nil)
   end
 
-  test "fallback: track_slug" do
+  test "fallback: filter: track_slug" do
     user = create :user
     javascript = create :track, title: "JavaScript", slug: "javascript"
     ruby = create :track, title: "Ruby", slug: "ruby"
@@ -262,7 +348,7 @@ criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_stat
     assert_equal [ruby_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, "ruby", nil, nil, nil, nil, nil, nil, nil)
   end
 
-  test "fallback: status" do
+  test "fallback: filter: status" do
     user = create :user
     published = create :practice_solution, user: user, status: :published
     completed = create :practice_solution, user: user, status: :completed
@@ -280,7 +366,7 @@ criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_stat
     assert_equal [published], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, 'published', nil, nil, nil, nil, nil, nil)
   end
 
-  test "fallback: mentoring_status" do
+  test "fallback: filter: mentoring_status" do
     user = create :user
     finished = create :concept_solution, user: user, mentoring_status: :finished
     in_progress = create :concept_solution, user: user, mentoring_status: :in_progress
@@ -304,6 +390,84 @@ criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_stat
 
     assert_equal [none, finished],
       Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, [:none, 'finished'], nil, nil, nil, nil, nil)
+  end
+
+  test "fallback: filter: tests_status" do
+    user = create :user
+    solution_1 = create :concept_solution, user: user, published_at: Time.current
+    solution_2 = create :concept_solution, user: user, published_at: Time.current
+    solution_3 = create :concept_solution, user: user, published_at: Time.current
+    submission_1 = create :submission, solution: solution_1, tests_status: :passed
+    submission_2 = create :submission, solution: solution_2, tests_status: :passed
+    submission_3 = create :submission, solution: solution_3, tests_status: :failed
+    solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+    solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+    solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
+
+    # A different user
+    create :concept_solution
+
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :none, nil, nil, nil, :passed, nil)
+    assert_equal [solution_3], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :none, nil, nil, nil, :failed, nil)
+    assert_empty Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :none, nil, nil, nil, :errored, nil)
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, :none, nil, nil, nil, %i[passed failed], nil)
+  end
+
+  test "fallback: filter: head_tests_status" do
+    user = create :user
+    solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
+    solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
+    solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current
+    solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
+submission: create(:submission, solution: solution_1)))
+    solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
+submission: create(:submission, solution: solution_2)))
+    solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
+submission: create(:submission, solution: solution_3)))
+
+    # A different user
+    create :concept_solution
+
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, :passed)
+    assert_empty Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, :failed)
+    assert_equal [solution_3], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, :errored)
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, %i[passed errored])
+  end
+
+  test "fallback: filter: sync_status" do
+    user = create :user
+    exercise_1 = create :concept_exercise
+    exercise_2 = create :concept_exercise
+    exercise_3 = create :concept_exercise
+    solution_1 = create :concept_solution, user: user, exercise: exercise_1,
+git_important_files_hash: exercise_1.git_important_files_hash, published_at: Time.current
+    solution_2 = create :concept_solution, user: user, exercise: exercise_2,
+git_important_files_hash: exercise_2.git_important_files_hash, published_at: Time.current
+    solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash',
+published_at: Time.current
+    solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
+submission: create(:submission, solution: solution_1)))
+    solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
+submission: create(:submission, solution: solution_2)))
+    solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
+submission: create(:submission, solution: solution_3)))
+
+    # A different user
+    create :concept_solution
+
+    assert_equal [solution_3, solution_2, solution_1],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
+    assert_equal [solution_2, solution_1],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, :up_to_date, nil, nil)
+    assert_equal [solution_3], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, :out_of_date, nil, nil)
   end
 
   test "fallback: pagination" do

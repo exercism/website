@@ -76,6 +76,9 @@ class Solution
             track_slug.blank? ? nil : { terms: { 'track.slug': [track_slug].flatten } },
             status.blank? ? nil : { terms: { status: [status].flatten } },
             mentoring_status.blank? ? nil : { terms: { mentoring_status: [mentoring_status].flatten } },
+            sync_status.nil? ? nil : { term: { 'out_of_date': sync_status == :out_of_date } },
+            tests_status.blank? ? nil : { terms: { 'published_iteration.tests_status': to_terms(tests_status) } },
+            head_tests_status.blank? ? nil : { terms: { 'published_iteration.head_tests_status': to_terms(head_tests_status) } },
             criteria.blank? ? nil : {
               query_string: {
                 query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),
@@ -93,6 +96,12 @@ class Solution
       ]
     end
 
+    def to_terms(value)
+      return value.split if value.is_a?(String)
+
+      [value].flatten
+    end
+
     TIMEOUT = '100ms'.freeze
     private_constant :TIMEOUT
 
@@ -108,6 +117,9 @@ class Solution
         filter_track!
         filter_status!
         filter_mentoring_status!
+        filter_sync_status!
+        filter_tests_status!
+        filter_head_tests_status!
         sort!
 
         @solutions.page(page).per(per)
@@ -146,6 +158,29 @@ class Solution
         return if mentoring_status.blank?
 
         @solutions = @solutions.where(mentoring_status: mentoring_status)
+      end
+
+      def filter_tests_status!
+        return if tests_status.blank?
+
+        @solutions = @solutions.joins(published_iteration: :submission).where('submissions.tests_status': tests_status)
+      end
+
+      def filter_head_tests_status!
+        return if head_tests_status.blank?
+
+        @solutions = @solutions.where(published_iteration_head_tests_status: head_tests_status)
+      end
+
+      def filter_sync_status!
+        case sync_status
+        when :up_to_date
+          @solutions = @solutions.joins(published_iteration: :exercise).
+            where('solutions.git_important_files_hash = exercises.git_important_files_hash')
+        when :out_of_date
+          @solutions = @solutions.joins(published_iteration: :exercise).
+            where.not('solutions.git_important_files_hash = exercises.git_important_files_hash')
+        end
       end
 
       def sort!

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { ExerciseStatus, ExerciseStatusSelect } from './ExerciseStatusSelect'
 import { HeadTestsStatus, HeadTestsStatusSelect } from './HeadTestsStatusSelect'
@@ -72,6 +72,22 @@ export const SolutionFilter = ({
     }
   }, [expanded])
 
+  const handleApply = useCallback(
+    (e) => {
+      e.preventDefault()
+      setExpanded(false)
+    },
+    [setExpanded]
+  )
+
+  const handleClose = useCallback(
+    (e) => {
+      e.preventDefault()
+      setExpanded(false)
+    },
+    [setExpanded]
+  )
+
   return (
     <>
       <button
@@ -107,8 +123,12 @@ export const SolutionFilter = ({
             />
           </div>
           <footer className="buttons">
-            <button className="btn-primary btn-m">Apply filters</button>
-            <button className="btn-default btn-m">Close</button>
+            <button className="btn-primary btn-m" onClick={handleApply}>
+              Apply filters
+            </button>
+            <button className="btn-default btn-m" onClick={handleClose}>
+              Close
+            </button>
           </footer>
         </div>
       </div>

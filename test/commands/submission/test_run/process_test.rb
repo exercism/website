@@ -91,6 +91,19 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.tests_exceptioned?
   end
 
+  test "doesn't update status for wrong git_sha" do
+    submission = create :submission
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
+    job = create_test_runner_job!(submission, execution_status: 200, results: results,
+                                              git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a')
+
+    assert submission.reload.tests_not_queued? # Sanity
+
+    Submission::TestRun::Process.(job)
+
+    assert submission.reload.tests_not_queued?
+  end
+
   test "broadcast without iteration" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }

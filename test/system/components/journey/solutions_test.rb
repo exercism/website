@@ -119,6 +119,7 @@ module Components
           click_on "Filter by"
           click_on "Exercise status"
           find("label", text: "Started").click
+          click_on "Apply filters"
         end
 
         assert_text "Bob"
@@ -145,6 +146,7 @@ module Components
           click_on "Filter by"
           click_on "Mentoring status"
           find("label", text: "Requested").click
+          click_on "Apply filters"
         end
 
         assert_text "Bob"
@@ -171,6 +173,7 @@ module Components
           click_on "Filter by"
           click_on "Mentoring status"
           find("label", text: "Mentoring Completed").click
+          click_on "Apply filters"
         end
 
         assert_text "Bob"
@@ -197,6 +200,7 @@ module Components
           click_on "Filter by"
           click_on "Sync status"
           find("label", text: "Up-to-date").click
+          click_on "Apply filters"
         end
 
         assert_text "Lasagna"
@@ -226,6 +230,7 @@ module Components
           click_on "Filter by"
           click_on "Tests status"
           find("label", text: "Passed").click
+          click_on "Apply filters"
         end
 
         assert_text "Bob"
@@ -260,6 +265,7 @@ module Components
           click_on "Filter by"
           click_on "Latest Tests status"
           find("label", text: "Passed").click
+          click_on "Apply filters"
         end
 
         assert_text "Lasagna"
@@ -286,6 +292,7 @@ module Components
           click_on "Filter by"
           click_on "Mentoring status"
           find("label", text: "Requested").click
+          click_on "Apply filters"
           click_on "Reset filters"
         end
 

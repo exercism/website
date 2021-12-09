@@ -110,8 +110,8 @@ export const SolutionsList = ({
 
   return (
     <article className="solutions-tab theme-dark">
-      <div className="md-container container">
-        <div className="c-search-bar">
+      <div className="c-search-bar">
+        <div className="md-container container">
           <input
             className="--search"
             onChange={(e) => {
@@ -138,6 +138,8 @@ export const SolutionsList = ({
             setValue={setOrder}
           />
         </div>
+      </div>
+      <div className="md-container container">
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary
             status={status}

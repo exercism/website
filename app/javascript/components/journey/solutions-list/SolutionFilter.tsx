@@ -85,24 +85,31 @@ export const SolutionFilter = ({
         <GraphicalIcon icon="chevron-down" />
       </button>
       <div
+        className="filter-options"
         ref={dialogRef}
         tabIndex={-1}
         role="dialog"
         aria-label="A series of options to filter Exercism tracks"
         {...(expanded ? {} : { hidden: true })}
       >
-        <div className="lg-container container">
-          <ExerciseStatusSelect value={status} setValue={setStatus} />
-          <MentoringStatusSelect
-            value={mentoringStatus}
-            setValue={setMentoringStatus}
-          />
-          <SyncStatusSelect value={syncStatus} setValue={setSyncStatus} />
-          <TestsStatusSelect value={testsStatus} setValue={setTestsStatus} />
-          <HeadTestsStatusSelect
-            value={headTestsStatus}
-            setValue={setHeadTestsStatus}
-          />
+        <div className="md-container container">
+          <div className="options">
+            <ExerciseStatusSelect value={status} setValue={setStatus} />
+            <MentoringStatusSelect
+              value={mentoringStatus}
+              setValue={setMentoringStatus}
+            />
+            <SyncStatusSelect value={syncStatus} setValue={setSyncStatus} />
+            <TestsStatusSelect value={testsStatus} setValue={setTestsStatus} />
+            <HeadTestsStatusSelect
+              value={headTestsStatus}
+              setValue={setHeadTestsStatus}
+            />
+          </div>
+          <footer className="buttons">
+            <button className="btn-primary btn-m">Apply filters</button>
+            <button className="btn-default btn-m">Close</button>
+          </footer>
         </div>
       </div>
     </>

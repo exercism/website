@@ -11,6 +11,11 @@ import { PaginatedResult } from '../types'
 import { OrderSwitcher } from './solutions-list/OrderSwitcher'
 import pluralize from 'pluralize'
 import { SolutionFilter } from './solutions-list/SolutionFilter'
+import { ExerciseStatus } from './solutions-list/ExerciseStatusSelect'
+import { MentoringStatus } from './solutions-list/MentoringStatusSelect'
+import { SyncStatus } from './solutions-list/SyncStatusSelect'
+import { TestsStatus } from './solutions-list/TestsStatusSelect'
+import { HeadTestsStatus } from './solutions-list/HeadTestsStatusSelect'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -61,37 +66,23 @@ export const SolutionsList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const setStatus = useCallback(
-    (status) => {
-      setQuery({ ...request.query, status: status, page: undefined })
-    },
-    [request.query, setQuery]
-  )
-
-  const setMentoringStatus = useCallback(
-    (status) => {
-      setQuery({ ...request.query, mentoringStatus: status, page: undefined })
-    },
-    [request.query, setQuery]
-  )
-
-  const setSyncStatus = useCallback(
-    (status) => {
-      setQuery({ ...request.query, syncStatus: status, page: undefined })
-    },
-    [request.query, setQuery]
-  )
-
-  const setTestsStatus = useCallback(
-    (status) => {
-      setQuery({ ...request.query, testsStatus: status, page: undefined })
-    },
-    [request.query, setQuery]
-  )
-
-  const setHeadTestsStatus = useCallback(
-    (status) => {
-      setQuery({ ...request.query, headTestsStatus: status, page: undefined })
+  const handleApply = useCallback(
+    (
+      status: ExerciseStatus,
+      mentoringStatus: MentoringStatus,
+      syncStatus: SyncStatus,
+      testsStatus: TestsStatus,
+      headTestsStatus: HeadTestsStatus
+    ) => {
+      setQuery({
+        ...request.query,
+        page: undefined,
+        status: status,
+        mentoringStatus: mentoringStatus,
+        syncStatus: syncStatus,
+        testsStatus: testsStatus,
+        headTestsStatus: headTestsStatus,
+      })
     },
     [request.query, setQuery]
   )
@@ -120,19 +111,7 @@ export const SolutionsList = ({
             value={criteria}
             placeholder="Search by exercise name"
           />
-          <SolutionFilter
-            status={request.query.status}
-            mentoringStatus={request.query.mentoringStatus}
-            syncStatus={request.query.syncStatus}
-            testsStatus={request.query.testsStatus}
-            headTestsStatus={request.query.headTestsStatus}
-            setStatus={setStatus}
-            setMentoringStatus={setMentoringStatus}
-            setSyncStatus={setSyncStatus}
-            setTestsStatus={setTestsStatus}
-            setHeadTestsStatus={setHeadTestsStatus}
-          />
-
+          <SolutionFilter request={request} onApply={handleApply} />
           <OrderSwitcher
             value={(request.query.order || DEFAULT_ORDER) as Order}
             setValue={setOrder}

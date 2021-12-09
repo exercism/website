@@ -7,28 +7,32 @@ import { SyncStatus, SyncStatusSelect } from './SyncStatusSelect'
 import { TestsStatus, TestsStatusSelect } from './TestsStatusSelect'
 
 export const SolutionFilter = ({
-  status,
-  syncStatus,
-  mentoringStatus,
-  testsStatus,
-  headTestsStatus,
-  setStatus,
-  setMentoringStatus,
-  setSyncStatus,
-  setTestsStatus,
-  setHeadTestsStatus,
+  request,
+  onApply,
 }: {
-  status: ExerciseStatus
-  mentoringStatus: MentoringStatus
-  syncStatus: SyncStatus
-  testsStatus: TestsStatus
-  headTestsStatus: HeadTestsStatus
-  setStatus: (status: ExerciseStatus) => void
-  setMentoringStatus: (status: MentoringStatus) => void
-  setSyncStatus: (status: SyncStatus) => void
-  setTestsStatus: (status: TestsStatus) => void
-  setHeadTestsStatus: (status: HeadTestsStatus) => void
+  request: any
+  onApply: (
+    status: ExerciseStatus,
+    mentoringStatus: MentoringStatus,
+    syncStatus: SyncStatus,
+    testsStatus: TestsStatus,
+    headTestsStatus: HeadTestsStatus
+  ) => void
 }): JSX.Element => {
+  const [status, setStatus] = useState<ExerciseStatus>(request.query.status)
+  const [mentoringStatus, setMentoringStatus] = useState<MentoringStatus>(
+    request.query.mentoringStatus
+  )
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>(
+    request.query.syncStatus
+  )
+  const [testsStatus, setTestsStatus] = useState<TestsStatus>(
+    request.query.testsStatus
+  )
+  const [headTestsStatus, setHeadTestsStatus] = useState<HeadTestsStatus>(
+    request.query.headTestsStatus
+  )
+
   const [expanded, setExpanded] = useState(false)
   const [hasExpandedEver, markAsExpanded] = useState(false)
 
@@ -75,9 +79,17 @@ export const SolutionFilter = ({
   const handleApply = useCallback(
     (e) => {
       e.preventDefault()
+      onApply(status, mentoringStatus, syncStatus, testsStatus, headTestsStatus)
       setExpanded(false)
     },
-    [setExpanded]
+    [
+      setExpanded,
+      status,
+      mentoringStatus,
+      syncStatus,
+      testsStatus,
+      headTestsStatus,
+    ]
   )
 
   const handleClose = useCallback(

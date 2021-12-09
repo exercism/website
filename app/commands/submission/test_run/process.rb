@@ -72,6 +72,9 @@ class Submission
       end
 
       def update_submission_status!(status)
+        # Guard against weird batch processing data
+        return unless submission.git_sha == git_sha
+
         submission.with_lock do
           return if submission.tests_cancelled?
 

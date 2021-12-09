@@ -177,6 +177,95 @@ module Components
         assert_no_text "Lasagna"
       end
 
+      test "filters by sync status" do
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        create :concept_solution, exercise: exercise, user: user, git_important_files_hash: exercise.git_important_files_hash
+        create :concept_solution,
+          exercise: exercise_2,
+          user: user,
+          completed_at: Time.current,
+          published_at: Time.current,
+          git_important_files_hash: 'other-hash'
+
+        wait_for_opensearch_to_be_synced
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          click_on "Filter by"
+          click_on "Sync status"
+          find("label", text: "Up-to-date").click
+        end
+
+        assert_text "Lasagna"
+        assert_no_text "Bob"
+      end
+
+      test "filters by tests status" do
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        solution_1 = create :concept_solution, exercise: exercise, user: user, published_at: Time.current
+        solution_2 = create :concept_solution,
+          exercise: exercise_2,
+          user: user,
+          completed_at: Time.current,
+          published_at: Time.current
+        submission_1 = create :submission, solution: solution_1, tests_status: :failed
+        submission_2 = create :submission, solution: solution_2, tests_status: :passed
+        solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+        solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+
+        wait_for_opensearch_to_be_synced
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          click_on "Filter by"
+          click_on "Tests status"
+          find("label", text: "Passed").click
+        end
+
+        assert_text "Bob"
+        assert_no_text "Lasagna"
+      end
+
+      test "filters by head tests status" do
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        solution_1 = create :concept_solution,
+          exercise: exercise,
+          user: user,
+          published_at: Time.current,
+          published_iteration_head_tests_status: :passed
+        solution_2 = create :concept_solution,
+          exercise: exercise_2,
+          user: user,
+          completed_at: Time.current,
+          published_at: Time.current,
+          published_iteration_head_tests_status: :errored
+        submission_1 = create :submission, solution: solution_1, tests_status: :failed
+        submission_2 = create :submission, solution: solution_2, tests_status: :passed
+        solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+        solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+
+        wait_for_opensearch_to_be_synced
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          click_on "Filter by"
+          click_on "Latest Tests status"
+          find("label", text: "Passed").click
+        end
+
+        assert_text "Lasagna"
+        assert_no_text "Bob"
+      end
+
       test "user resets filters" do
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"

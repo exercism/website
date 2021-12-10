@@ -1,12 +1,13 @@
 import React from 'react'
 import { fromNow } from '../../utils/time'
-import { GraphicalIcon, TrackIcon, ExerciseIcon } from '../common'
+import { GraphicalIcon, TrackIcon, ExerciseIcon, Icon } from '../common'
 import pluralize from 'pluralize'
 
 export type SolutionProps = {
   uuid: string
   privateUrl: string
   status: string
+  publishedIterationHeadTestsStatus: string
   numViews?: number
   numStars: number
   numComments: number
@@ -26,6 +27,7 @@ export type SolutionProps = {
 export const Solution = ({
   privateUrl,
   status,
+  publishedIterationHeadTestsStatus,
   numViews,
   numStars,
   numComments,
@@ -49,7 +51,12 @@ export const Solution = ({
                 <div className="track-title">{track.title}</div>
               </div>
               <div className="status">
-                {status === 'completed' ? (
+                {publishedIterationHeadTestsStatus === 'passed' ? (
+                  <>
+                    <GraphicalIcon icon="golden-check" />
+                    Passes tests of the latest version of the exercise
+                  </>
+                ) : status === 'completed' ? (
                   <>
                     <GraphicalIcon icon="completed-check-circle" />
                     Completed

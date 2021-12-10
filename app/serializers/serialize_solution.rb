@@ -14,6 +14,7 @@ class SerializeSolution
       public_url: Exercism::Routes.published_solution_url(solution),
       status: solution.status,
       mentoring_status: solution.mentoring_status,
+      published_iteration_head_tests_status: solution.published_iteration_head_tests_status,
       has_notifications: has_notifications?,
       num_views: solution.num_views,
       num_stars: solution.num_stars,

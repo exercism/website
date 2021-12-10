@@ -28,7 +28,7 @@ class Submission
 
       def exercise_filepaths
         exercise_repo.tooling_filepaths.select do |filepath|
-          filepath.starts_with?(".meta")
+          filepath.starts_with?(".meta/")
         end
       end
 

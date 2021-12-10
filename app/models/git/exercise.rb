@@ -42,9 +42,9 @@ module Git
 
     def valid_submission_filepath?(filepath)
       return false if filepath.match?(%r{[^a-zA-Z0-9_./-]})
-      return false if filepath.starts_with?(".meta")
-      return false if filepath.starts_with?(".docs")
-      return false if filepath.starts_with?(".exercism")
+      return false if filepath.starts_with?(".meta/")
+      return false if filepath.starts_with?(".docs/")
+      return false if filepath.starts_with?(".exercism/")
 
       # We don't want to let students override the test files. However, some languages
       # have solutions and tests in the same file so we need the second guard for that.
@@ -166,7 +166,7 @@ module Git
     memoize
     def tooling_filepaths
       filepaths.reject do |filepath|
-        filepath.starts_with?(".docs")
+        filepath.starts_with?(".docs/")
       end
     end
 

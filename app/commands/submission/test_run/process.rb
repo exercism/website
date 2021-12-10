@@ -126,13 +126,6 @@ class Submission
       end
 
       memoize
-      def test_run_type
-        tooling_job.test_run_type.to_sym
-      rescue NoMethodError
-        :submission
-      end
-
-      memoize
       def git_important_files_hash
         Git::GenerateHashForImportantExerciseFiles.(exercise, git_sha: git_sha)
       end

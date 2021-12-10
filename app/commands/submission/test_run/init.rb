@@ -3,9 +3,8 @@ class Submission
     class Init
       include Mandate
 
-      def initialize(submission, type: :submission, git_sha: nil, run_in_background: false)
+      def initialize(submission, git_sha: nil, run_in_background: false)
         @submission = submission
-        @type = type.to_sym
         @git_sha = git_sha || solution.git_sha
         @run_in_background = !!run_in_background
       end
@@ -24,8 +23,7 @@ class Submission
             exercise_git_sha: git_sha,
             exercise_git_dir: exercise_repo.dir,
             exercise_filepaths: exercise_filepaths
-          },
-          test_run_type: type
+          }
         ).tap do
           case type
           when :solution

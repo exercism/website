@@ -116,9 +116,9 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
   test "filter: tests_status" do
     user = create :user
-    solution_1 = create :concept_solution, user: user, published_at: Time.current
-    solution_2 = create :concept_solution, user: user, published_at: Time.current
-    solution_3 = create :concept_solution, user: user, published_at: Time.current
+    solution_1 = create :concept_solution, user: user, published_at: Time.current, num_stars: 11
+    solution_2 = create :concept_solution, user: user, published_at: Time.current, num_stars: 22
+    solution_3 = create :concept_solution, user: user, published_at: Time.current, num_stars: 33
     submission_1 = create :submission, solution: solution_1, tests_status: :passed
     submission_2 = create :submission, solution: solution_2, tests_status: :passed
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
@@ -145,9 +145,12 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
   test "filter: head_tests_status" do
     user = create :user
-    solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
-    solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
-    solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current
+    solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
+num_stars: 11
+    solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
+num_stars: 22
+    solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current,
+num_stars: 33
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
 submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
@@ -180,10 +183,10 @@ submission: create(:submission, solution: solution_3)))
     exercise_2 = create :concept_exercise
     exercise_3 = create :concept_exercise
     solution_1 = create :concept_solution, user: user, exercise: exercise_1,
-git_important_files_hash: exercise_1.git_important_files_hash
+git_important_files_hash: exercise_1.git_important_files_hash, num_stars: 11
     solution_2 = create :concept_solution, user: user, exercise: exercise_2,
-git_important_files_hash: exercise_2.git_important_files_hash
-    solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash'
+git_important_files_hash: exercise_2.git_important_files_hash, num_stars: 22
+    solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash', num_stars: 33
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -272,8 +275,7 @@ git_important_files_hash: exercise_2.git_important_files_hash
   test "fallback is called" do
     user = create :user
     Solution::SearchUserSolutions::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", :oldest_first,
-      :up_to_date, "passed", "failed"
-    )
+      :up_to_date, "passed", "failed")
     Elasticsearch::Client.expects(:new).raises
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
@@ -299,8 +301,7 @@ criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_stat
 
     user = create :user
     Solution::SearchUserSolutions::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", :oldest_first,
-      :up_to_date, "passed", "failed"
-    )
+      :up_to_date, "passed", "failed")
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
 criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_status: "passed", head_tests_status: "failed")
@@ -409,9 +410,9 @@ criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_stat
 
   test "fallback: filter: tests_status" do
     user = create :user
-    solution_1 = create :concept_solution, user: user, published_at: Time.current
-    solution_2 = create :concept_solution, user: user, published_at: Time.current
-    solution_3 = create :concept_solution, user: user, published_at: Time.current
+    solution_1 = create :concept_solution, user: user, published_at: Time.current, num_stars: 11
+    solution_2 = create :concept_solution, user: user, published_at: Time.current, num_stars: 22
+    solution_3 = create :concept_solution, user: user, published_at: Time.current, num_stars: 33
     submission_1 = create :submission, solution: solution_1, tests_status: :passed
     submission_2 = create :submission, solution: solution_2, tests_status: :passed
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
@@ -434,9 +435,12 @@ criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_stat
 
   test "fallback: filter: head_tests_status" do
     user = create :user
-    solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
-    solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
-    solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current
+    solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
+num_stars: 11
+    solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
+num_stars: 22
+    solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current,
+num_stars: 33
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
 submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
@@ -463,11 +467,11 @@ submission: create(:submission, solution: solution_3)))
     exercise_2 = create :concept_exercise
     exercise_3 = create :concept_exercise
     solution_1 = create :concept_solution, user: user, exercise: exercise_1,
-git_important_files_hash: exercise_1.git_important_files_hash, published_at: Time.current
+git_important_files_hash: exercise_1.git_important_files_hash, published_at: Time.current, num_stars: 11
     solution_2 = create :concept_solution, user: user, exercise: exercise_2,
-git_important_files_hash: exercise_2.git_important_files_hash, published_at: Time.current
+git_important_files_hash: exercise_2.git_important_files_hash, published_at: Time.current, num_stars: 22
     solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash',
-published_at: Time.current
+published_at: Time.current, num_stars: 33
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
 submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
@@ -530,6 +534,7 @@ submission: create(:submission, solution: solution_3)))
     solution_2 = create :concept_solution, user: user, published_at: 3.weeks.ago, num_stars: 22
     solution_3 = create :concept_solution, user: user, published_at: 1.week.ago, num_stars: 11
 
-    assert_equal [solution_1, solution_2, solution_3], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
+    assert_equal [solution_1, solution_2, solution_3],
+      Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
   end
 end

@@ -40,6 +40,20 @@ module Git
       assert_equal expected_filepaths, exercise.tooling_filepaths
     end
 
+    test "tooling_filepaths with editor files" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".meta/config.json",
+        ".meta/example.rb",
+        "helper.rb",
+        "isogram.rb",
+        "isogram_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.tooling_filepaths
+    end
+
     test "cli_filepaths with hints" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

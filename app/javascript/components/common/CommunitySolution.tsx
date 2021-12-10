@@ -9,6 +9,8 @@ import { useHighlighting } from '../../utils/highlight'
 import { shortFromNow } from '../../utils/time'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
+import { Outdated } from './exercise-widget/info/Outdated'
+import { GenericTooltip } from '../misc/ExercismTippy'
 
 const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
   return (
@@ -56,7 +58,16 @@ const ProcessingStatus = ({
     )
   }
 
-  return <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
+  return (
+    <>
+      <GenericTooltip content="This solution was solved against an older version of this exercise and may not fully solve the latest version.">
+        <div>
+          <Outdated />
+        </div>
+      </GenericTooltip>
+      <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
+    </>
+  )
 }
 
 export const CommunitySolution = ({
@@ -110,15 +121,6 @@ export const CommunitySolution = ({
             </>
           )}
         </div>
-
-        {solution.isOutOfDate ? (
-          <div className="out-of-date">
-            <Icon
-              icon="warning"
-              alt="This solution has not been tested against the latest version of this exercise"
-            />
-          </div>
-        ) : null}
 
         <ProcessingStatus solution={solution} />
       </header>

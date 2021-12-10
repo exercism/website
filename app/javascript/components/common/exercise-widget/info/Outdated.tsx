@@ -6,7 +6,7 @@ export const Outdated = (): JSX.Element => {
     <Icon
       className="--out-of-date"
       icon="warning"
-      alt="The solution has not been solved against the latest version of the exercise"
+      alt="This solution was solved against an older version of this exercise"
     />
   )
 }

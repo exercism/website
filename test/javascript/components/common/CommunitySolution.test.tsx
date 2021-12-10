@@ -506,7 +506,7 @@ test('renders warning icon when solution is out of date', async () => {
   expect(
     screen.getByRole('img', {
       name:
-        'This solution has not been tested against the latest version of this exercise',
+        'This solution was solved against an older version of this exercise',
     })
   ).toBeInTheDocument()
 })

@@ -131,8 +131,15 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   end
 
   test "does not broadcast for solution run" do
+    # see changes solution not submission for solution run for explaination of this setup
+    exercise = create :practice_exercise, git_important_files_hash: 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
+    solution = create :practice_solution, :published, exercise: exercise
+    submission = create :submission, solution: solution, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
+    create :iteration, solution: solution, submission: submission
+
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(create(:submission), execution_status: 200, results: results, type: :solution)
+    job = create_test_runner_job!(create(:submission), execution_status: 200, results: results,
+                                  git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
 
     IterationChannel.expects(:broadcast!).never
     SubmissionChannel.expects(:broadcast!).never
@@ -149,7 +156,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     submission = create :submission, solution: solution, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
     create :iteration, solution: solution, submission: submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results, type: :solution,
+    job = create_test_runner_job!(submission, execution_status: 200, results: results,
                                   git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
 
     Submission::TestRun::Process.(job)

@@ -67,7 +67,7 @@ class Submission
 
       def update_status!(status)
         update_submission_status!(status)
-        update_solution_status!(status)
+        update_solution_status!
       end
 
       def update_submission_status!(status)
@@ -81,7 +81,7 @@ class Submission
         end
       end
 
-      def update_solution_status!(_status)
+      def update_solution_status!
         # If this is the latest head version then let's check whether
         # it affects the published status too.
         return unless submission.exercise.git_important_files_hash == git_important_files_hash

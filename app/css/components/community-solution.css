@@ -32,6 +32,12 @@
                 filter: var(--orange-filter);
             }
         }
+        & > .passes-up-to-date-tests {
+            @apply ml-16;
+            height: 16px;
+            width: 16px;
+            filter: var(--dark-green-filter);
+        }
         & .c-iteration-processing-status {
             @apply ml-24;
             & .--status {

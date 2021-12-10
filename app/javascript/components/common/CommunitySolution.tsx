@@ -3,6 +3,7 @@ import { GraphicalIcon, Avatar, Icon } from '../common'
 import {
   CommunitySolution as CommunitySolutionProps,
   CommunitySolutionContext,
+  SubmissionTestsStatus,
 } from '../types'
 import { useHighlighting } from '../../utils/highlight'
 import { shortFromNow } from '../../utils/time'
@@ -36,6 +37,26 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
       </div>
     </>
   )
+}
+
+const ProcessingStatus = ({
+  solution,
+}: {
+  solution: CommunitySolutionProps
+}) => {
+  if (
+    solution.publishedIterationHeadTestsStatus === SubmissionTestsStatus.PASSED
+  ) {
+    return (
+      <Icon
+        icon="golden-check"
+        alt="This solution passes the tests of the latest version of this exercise"
+        className="passes-up-to-date-tests"
+      />
+    )
+  }
+
+  return <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
 }
 
 export const CommunitySolution = ({
@@ -99,7 +120,7 @@ export const CommunitySolution = ({
           </div>
         ) : null}
 
-        <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
+        <ProcessingStatus solution={solution} />
       </header>
       <pre ref={snippetRef}>
         <code className={solution.track.highlightjsLanguage}>

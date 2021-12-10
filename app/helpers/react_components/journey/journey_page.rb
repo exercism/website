@@ -21,6 +21,9 @@ module ReactComponents
                 track_slug: params[:track_id],
                 status: params[:status],
                 mentoring_status: params[:mentoring_status],
+                sync_status: params[:sync_status],
+                tests_status: params[:tests_status],
+                head_tests_status: params[:head_tests_status],
                 page: params[:page],
                 order: params[:order] || :newest_first
               ),
@@ -33,6 +36,9 @@ module ReactComponents
             track_slug: params[:track_id],
             status: params[:status],
             mentoring_status: params[:mentoring_status],
+            sync_status: params[:sync_status],
+            tests_status: params[:tests_status],
+            head_tests_status: params[:head_tests_status],
             page: params[:page],
             order: params[:order] || :newest_first
           }.compact

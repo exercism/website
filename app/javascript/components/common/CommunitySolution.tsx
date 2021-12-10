@@ -3,11 +3,14 @@ import { GraphicalIcon, Avatar, Icon } from '../common'
 import {
   CommunitySolution as CommunitySolutionProps,
   CommunitySolutionContext,
+  SubmissionTestsStatus,
 } from '../types'
 import { useHighlighting } from '../../utils/highlight'
 import { shortFromNow } from '../../utils/time'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
+import { Outdated } from './exercise-widget/info/Outdated'
+import { GenericTooltip } from '../misc/ExercismTippy'
 
 const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
   return (
@@ -34,6 +37,35 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
           <div className="--num">{solution.numComments}</div>
         </div>
       </div>
+    </>
+  )
+}
+
+const ProcessingStatus = ({
+  solution,
+}: {
+  solution: CommunitySolutionProps
+}) => {
+  if (
+    solution.publishedIterationHeadTestsStatus === SubmissionTestsStatus.PASSED
+  ) {
+    return (
+      <Icon
+        icon="golden-check"
+        alt="This solution passes the tests of the latest version of this exercise"
+        className="passes-up-to-date-tests"
+      />
+    )
+  }
+
+  return (
+    <>
+      <GenericTooltip content="This solution was solved against an older version of this exercise and may not fully solve the latest version.">
+        <div>
+          <Outdated />
+        </div>
+      </GenericTooltip>
+      <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
     </>
   )
 }
@@ -90,16 +122,7 @@ export const CommunitySolution = ({
           )}
         </div>
 
-        {solution.isOutOfDate ? (
-          <div className="out-of-date">
-            <Icon
-              icon="warning"
-              alt="This solution has not been tested against the latest version of this exercise"
-            />
-          </div>
-        ) : null}
-
-        <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
+        <ProcessingStatus solution={solution} />
       </header>
       <pre ref={snippetRef}>
         <code className={solution.track.highlightjsLanguage}>

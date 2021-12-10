@@ -24,12 +24,11 @@ class Submission
             exercise_git_sha: git_sha,
             exercise_git_dir: exercise_repo.dir,
             exercise_filepaths: exercise_filepaths
-          },
-          test_run_type: type
+          }
         ).tap do
           case type
           when :solution
-            submission.solution.published_iteration_head_tests_status_queued!
+            submission.solution.update_published_iteration_head_tests_status!(:queued)
           else
             submission.tests_queued!
           end

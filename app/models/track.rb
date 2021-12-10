@@ -7,6 +7,7 @@ class Track < ApplicationRecord
   # TODO: Pre-launch: remove dependent: :destroy
   has_many :concepts, class_name: "::Concept", dependent: :destroy
   has_many :exercises, dependent: :destroy
+  has_many :solutions, through: :exercises
   has_many :user_tracks, dependent: :destroy
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent

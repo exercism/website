@@ -7,8 +7,19 @@ class Solution::QueueHeadTestRun
   end
 
   def call
+    # Get out of here if:
+    # - we don't want to force run things
+    # - and the current head sync works fine
+    # - and the previous version didn't exception
+    return if !force &&
+              Solution::SyncPublishedIterationHeadTestsStatus.(solution) &&
+              !solution.published_iteration_head_tests_status_exceptioned?
     return unless submission
-    return if submission.head_test_run&.ops_success? && !force
+
+    unless solution.exercise.has_test_runner?
+      solution.update_published_iteration_head_tests_status!(:not_queued)
+      return
+    end
 
     write_efs!
     init_test_run!

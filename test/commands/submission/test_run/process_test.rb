@@ -91,6 +91,19 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.tests_exceptioned?
   end
 
+  test "doesn't update status for wrong git_sha" do
+    submission = create :submission
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
+    job = create_test_runner_job!(submission, execution_status: 200, results: results,
+                                              git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a')
+
+    assert submission.reload.tests_not_queued? # Sanity
+
+    Submission::TestRun::Process.(job)
+
+    assert submission.reload.tests_not_queued?
+  end
+
   test "broadcast without iteration" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
@@ -118,8 +131,15 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   end
 
   test "does not broadcast for solution run" do
+    # see changes solution not submission for solution run for explanation of this setup
+    exercise = create :practice_exercise, git_important_files_hash: 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
+    solution = create :practice_solution, :published, exercise: exercise
+    submission = create :submission, solution: solution, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
+    create :iteration, solution: solution, submission: submission
+
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(create(:submission), execution_status: 200, results: results, type: :solution)
+    job = create_test_runner_job!(create(:submission), execution_status: 200, results: results,
+                                  git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
 
     IterationChannel.expects(:broadcast!).never
     SubmissionChannel.expects(:broadcast!).never
@@ -129,9 +149,15 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   end
 
   test "changes solution not submission for solution run" do
-    submission = create :submission
+    # Set the exercise and test run to be one sha, and the solution to be a different one
+    # da39a3ee5e6b4b0d3255bfef95601890afd80709 is the hash of b72b0958a135cddd775bf116c128e6e859bf11e4
+    exercise = create :practice_exercise, git_important_files_hash: 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
+    solution = create :practice_solution, :published, exercise: exercise
+    submission = create :submission, solution: solution, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
+    create :iteration, solution: solution, submission: submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results, type: :solution)
+    job = create_test_runner_job!(submission, execution_status: 200, results: results,
+                                  git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
 
     Submission::TestRun::Process.(job)
 

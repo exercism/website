@@ -24,10 +24,23 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
         exercise_git_dir: "exercises/concept/strings",
         # Check we exclude .docs, README and the overriden source file
         exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-      },
-      test_run_type: :submission
+      }
     )
 
     Submission::TestRun::Init.(submission)
+  end
+
+  test "queues search index job but does not touch user_track solution run" do
+    time = Time.current - 4.months
+
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Override old file
+    user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
+
+    SyncSolutionToSearchIndexJob.expects(:perform_later).with(submission.solution)
+    Submission::TestRun::Init.(submission, type: :solution)
+
+    assert_equal time.to_i, user_track.reload.last_touched_at.to_i
   end
 end

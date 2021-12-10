@@ -13,19 +13,38 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     Solution::QueueHeadTestRun.(solution)
   end
 
-  test "does not inits if there's a head run" do
-    solution = create :practice_solution, :published
-    submission = create :submission, solution: solution
-    create :iteration, submission: submission, solution: solution
-    create :submission_test_run, submission: submission
+  %i[not_queued exceptioned].each do |status|
+    test "updates status and exits if there's a good head run and but old #{status} status" do
+      solution = create :practice_solution, :published, published_iteration_head_tests_status: status
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission, solution: solution
+      create :submission_test_run, submission: submission
 
-    Submission::TestRun::Init.expects(:call).never
+      Submission::TestRun::Init.expects(:call).never
 
-    Solution::QueueHeadTestRun.(solution)
+      Solution::QueueHeadTestRun.(solution)
+
+      assert_equal :passed, solution.reload.published_iteration_head_tests_status
+    end
   end
 
-  test "inits if there's an exceptioned head run" do
-    solution = create :practice_solution, :published
+  %i[passed failed errored].each do |status|
+    test "does not init if there's a head run and status is #{status}" do
+      solution = create :practice_solution, :published, published_iteration_head_tests_status: status
+      submission = create :submission, solution: solution
+      create :iteration, submission: submission, solution: solution
+      create :submission_test_run, submission: submission
+
+      Submission::TestRun::Init.expects(:call).never
+
+      Solution::QueueHeadTestRun.(solution)
+
+      assert_equal :passed, solution.reload.published_iteration_head_tests_status
+    end
+  end
+
+  test "inits if there's an exceptioned head run even if passed" do
+    solution = create :practice_solution, :published, published_iteration_head_tests_status: :passed
     submission = create :submission, solution: solution
     create :iteration, submission: submission, solution: solution
     create :submission_test_run, submission: submission, ops_status: 405
@@ -33,6 +52,17 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     Submission::TestRun::Init.expects(:call).with(
       submission, type: :solution, git_sha: submission.exercise.git_sha, run_in_background: true
     )
+
+    Solution::QueueHeadTestRun.(solution)
+  end
+
+  test "does not init if there's no test runner" do
+    solution = create :practice_solution, :published
+    submission = create :submission, solution: solution
+    create :iteration, submission: submission, solution: solution
+    solution.exercise.expects(:has_test_runner?).returns(false)
+
+    Submission::TestRun::Init.expects(:call).never
 
     Solution::QueueHeadTestRun.(solution)
   end

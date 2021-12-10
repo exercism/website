@@ -96,6 +96,11 @@ class Solution < ApplicationRecord
 
   delegate :instructions, :introduction, :tests, :source, :source_url, to: :git_exercise
 
+  def update_published_iteration_head_tests_status!(status)
+    update_column(:published_iteration_head_tests_status, status)
+    SyncSolutionToSearchIndexJob.perform_later(self)
+  end
+
   def mentor_download_cmd
     "exercism download --uuid=#{uuid}"
   end
@@ -153,6 +158,10 @@ class Solution < ApplicationRecord
 
   def iteration_status
     super&.to_sym
+  end
+
+  def published_iteration_head_tests_status
+    super.to_sym
   end
 
   # TODO: Karlo
@@ -243,12 +252,6 @@ class Solution < ApplicationRecord
       git_sha: exercise.git_sha,
       git_important_files_hash: exercise.git_important_files_hash
     )
-
-    # This should probably be DRY'd with Exercise::QueueSolutionHeadTestRuns
-    submission = published_iterations.last&.submission
-    return unless submission
-
-    Submission::TestRun::Init.(submission, type: :solution, git_sha: git_sha) unless submission.head_test_run
   end
 
   def read_file(filepath)

@@ -1,4 +1,4 @@
-equire 'test_helper'
+require 'test_helper'
 
 class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "should not do anything if the test run is not pending" do

@@ -24,13 +24,11 @@
                 @apply text-14 leading-160 text-textColor6;
             }
         }
-        & .out-of-date {
+        & .--out-of-date {
             @apply ml-24;
-            & .c-icon {
-                height: 16px;
-                width: 16px;
-                filter: var(--orange-filter);
-            }
+            height: 16px;
+            width: 16px;
+            filter: var(--orange-filter);
         }
         & > .passes-up-to-date-tests {
             @apply ml-16;

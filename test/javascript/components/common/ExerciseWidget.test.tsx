@@ -69,7 +69,9 @@ test('renders a solution when passed in', async () => {
   expect(screen.getByText('3 iterations')).toBeInTheDocument()
   expect(screen.getByText('Tasty exercise')).toBeInTheDocument()
   expect(
-    screen.getByAltText(/solution has not been solved against/i)
+    screen.getByAltText(
+      /This solution was solved against an older version of this exercise/i
+    )
   ).toBeInTheDocument()
 })
 

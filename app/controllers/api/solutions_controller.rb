@@ -7,6 +7,9 @@ module API
         track_slug: params[:track_slug],
         status: params[:status],
         mentoring_status: params[:mentoring_status],
+        sync_status: params[:sync_status],
+        tests_status: params[:tests_status],
+        head_tests_status: params[:head_tests_status],
         page: params[:page],
         per: params[:per_page],
         order: params[:order]

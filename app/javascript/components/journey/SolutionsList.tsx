@@ -9,9 +9,13 @@ import { Pagination, GraphicalIcon } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { PaginatedResult } from '../types'
 import { OrderSwitcher } from './solutions-list/OrderSwitcher'
-import { ExerciseStatusSelect } from './solutions-list/ExerciseStatusSelect'
-import { MentoringStatusSelect } from './solutions-list/MentoringStatusSelect'
 import pluralize from 'pluralize'
+import { SolutionFilter } from './solutions-list/SolutionFilter'
+import { ExerciseStatus } from './solutions-list/ExerciseStatusSelect'
+import { MentoringStatus } from './solutions-list/MentoringStatusSelect'
+import { SyncStatus } from './solutions-list/SyncStatusSelect'
+import { TestsStatus } from './solutions-list/TestsStatusSelect'
+import { HeadTestsStatus } from './solutions-list/HeadTestsStatusSelect'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -62,16 +66,23 @@ export const SolutionsList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const setStatus = useCallback(
-    (status) => {
-      setQuery({ ...request.query, status: status, page: undefined })
-    },
-    [request.query, setQuery]
-  )
-
-  const setMentoringStatus = useCallback(
-    (status) => {
-      setQuery({ ...request.query, mentoringStatus: status, page: undefined })
+  const handleApply = useCallback(
+    (
+      status: ExerciseStatus,
+      mentoringStatus: MentoringStatus,
+      syncStatus: SyncStatus,
+      testsStatus: TestsStatus,
+      headTestsStatus: HeadTestsStatus
+    ) => {
+      setQuery({
+        ...request.query,
+        page: undefined,
+        status: status,
+        mentoringStatus: mentoringStatus,
+        syncStatus: syncStatus,
+        testsStatus: testsStatus,
+        headTestsStatus: headTestsStatus,
+      })
     },
     [request.query, setQuery]
   )
@@ -82,13 +93,16 @@ export const SolutionsList = ({
       page: undefined,
       status: undefined,
       mentoringStatus: undefined,
+      syncStatus: undefined,
+      testsStatus: undefined,
+      headTestsStatus: undefined,
     })
   }, [request.query, setQuery])
 
   return (
     <article className="solutions-tab theme-dark">
-      <div className="md-container container">
-        <div className="c-search-bar">
+      <div className="c-search-bar">
+        <div className="md-container container">
           <input
             className="--search"
             onChange={(e) => {
@@ -97,19 +111,14 @@ export const SolutionsList = ({
             value={criteria}
             placeholder="Search by exercise name"
           />
-          <ExerciseStatusSelect
-            value={request.query.status}
-            setValue={setStatus}
-          />
-          <MentoringStatusSelect
-            value={request.query.mentoringStatus}
-            setValue={setMentoringStatus}
-          />
+          <SolutionFilter request={request} onApply={handleApply} />
           <OrderSwitcher
             value={(request.query.order || DEFAULT_ORDER) as Order}
             setValue={setOrder}
           />
         </div>
+      </div>
+      <div className="md-container container">
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary
             status={status}

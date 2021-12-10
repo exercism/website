@@ -26,7 +26,7 @@ class AssembleExerciseCommunitySolutionsList
       criteria: params[:criteria],
       sync_status: params[:up_to_date].present? ? :up_to_date : nil,
       tests_status: params[:passed_tests].present? ? :passed : nil,
-      head_tests_status: params[:passed_head_tests].present? ? %i[queued passed] : nil
+      head_tests_status: params[:passed_head_tests].present? ? %i[not_queued queued passed] : nil
     )
   end
 end

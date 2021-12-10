@@ -5,6 +5,14 @@ module Flows
   class UserViewsPublishedSolutionsTest < ApplicationSystemTestCase
     include CapybaraHelpers
 
+    def setup
+      super
+
+      # If we let this run then we need valid git filepaths
+      # for all of the stub exercises below, so we stub it
+      Solution::QueueHeadTestRun.stubs(:call)
+    end
+
     test "shows published solutions" do
       # TODO: Change this stub
       User::Profile.any_instance.expects(solutions_tab?: true).at_least_once

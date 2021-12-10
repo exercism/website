@@ -118,16 +118,19 @@ status: :published
   end
 
   test "filter: head_tests_status" do
+    # If we let this run it will override the solutions below
+    Solution::QueueHeadTestRun.stubs(:call)
+
     track = create :track
     exercise = create :concept_exercise, track: track
     solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published,
-published_iteration_head_tests_status: :passed
+                                           published_iteration_head_tests_status: :passed
     submission_1 = create :submission, solution: solution_1, tests_status: :passed
     solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published,
-published_iteration_head_tests_status: :passed
+                                          published_iteration_head_tests_status: :passed
     submission_2 = create :submission, solution: solution_2, tests_status: :passed
     solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published,
-published_iteration_head_tests_status: :errored
+                                          published_iteration_head_tests_status: :errored
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))

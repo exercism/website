@@ -24,8 +24,7 @@ class Submission
             exercise_git_sha: git_sha,
             exercise_git_dir: exercise_repo.dir,
             exercise_filepaths: exercise_filepaths
-          },
-          test_run_type: type
+          }
         ).tap do
           case type
           when :solution

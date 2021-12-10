@@ -38,6 +38,8 @@ class Submission
       end
 
       private
+      delegate :solution, :exercise, to: :submission
+
       def handle_ops_error!
         update_status!(:exceptioned)
       end
@@ -64,16 +66,13 @@ class Submission
       end
 
       def update_status!(status)
-        if solution_test_run?
-          update_solution_status!(status)
-        else
-          update_submission_status!(status)
-        end
+        update_submission_status!(status)
+        update_solution_status!
       end
 
       def update_submission_status!(status)
-        # Guard against weird batch processing data
-        return unless submission.git_sha == git_sha
+        # If this is not relevant to the submission, leave it alone
+        return unless submission_test_run?
 
         submission.with_lock do
           return if submission.tests_cancelled?
@@ -82,10 +81,12 @@ class Submission
         end
       end
 
-      def update_solution_status!(status)
-        return unless submission.exercise.git_sha == git_sha
+      def update_solution_status!
+        # If this is the latest head version then let's check whether
+        # it affects the published status too.
+        return unless submission.exercise.git_important_files_hash == git_important_files_hash
 
-        submission.solution.update_published_iteration_head_tests_status!(status)
+        Solution::SyncPublishedIterationHeadTestsStatus.(solution)
       end
 
       def broadcast!(test_run)
@@ -120,24 +121,16 @@ class Submission
       end
 
       memoize
-      def solution_test_run?
-        test_run_type == :solution
-      end
-
-      # This should be "anything else" rather than a specific
-      # check as legacy jobs don't have this field
-      memoize
       def submission_test_run?
-        !solution_test_run?
+        submission.git_sha == git_sha
       end
 
       memoize
-      def test_run_type
-        tooling_job.test_run_type.to_sym
-      rescue NoMethodError
-        :submission
+      def git_important_files_hash
+        Git::GenerateHashForImportantExerciseFiles.(exercise, git_sha: git_sha)
       end
 
+      memoize
       def git_sha
         tooling_job.source["exercise_git_sha"]
       end

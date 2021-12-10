@@ -14,15 +14,17 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
   end
 
   %i[not_queued exceptioned].each do |status|
-    test "inits if there's a head run and but #{status}" do
+    test "updates status and exits if there's a good head run and but old #{status} status" do
       solution = create :practice_solution, :published, published_iteration_head_tests_status: status
       submission = create :submission, solution: solution
       create :iteration, submission: submission, solution: solution
       create :submission_test_run, submission: submission
 
-      Submission::TestRun::Init.expects(:call)
+      Submission::TestRun::Init.expects(:call).never
 
       Solution::QueueHeadTestRun.(solution)
+
+      assert_equal :passed, solution.reload.published_iteration_head_tests_status
     end
   end
 
@@ -36,6 +38,8 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
       Submission::TestRun::Init.expects(:call).never
 
       Solution::QueueHeadTestRun.(solution)
+
+      assert_equal :passed, solution.reload.published_iteration_head_tests_status
     end
   end
 
@@ -56,7 +60,6 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     solution = create :practice_solution, :published
     submission = create :submission, solution: solution
     create :iteration, submission: submission, solution: solution
-    create :submission_test_run, submission: submission
     solution.exercise.expects(:has_test_runner?).returns(false)
 
     Submission::TestRun::Init.expects(:call).never

@@ -162,13 +162,15 @@ module Git
       end
     end
 
-    # This includes meta files
+    # This includes meta files, but excludes docs files
     memoize
     def tooling_filepaths
-      filepaths
+      filepaths.reject do |filepath|
+        filepath.starts_with?(".docs")
+      end
     end
 
-    # This includes meta files
+    # This includes meta files, but excludes docs files
     memoize
     def tooling_absolute_filepaths
       tooling_filepaths.map { |filepath| absolute_filepath(filepath) }

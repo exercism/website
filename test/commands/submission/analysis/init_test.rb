@@ -22,7 +22,7 @@ class Submission::Analysis::InitTest < ActiveSupport::TestCase
         exercise_git_repo: "ruby",
         exercise_git_sha: solution.git_sha,
         exercise_git_dir: exercise_repo.dir,
-        exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb"]
+        exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
       }
     )
     Submission::Analysis::Init.(submission)

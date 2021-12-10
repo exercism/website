@@ -31,11 +31,6 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
-        ".docs/hints.md",
-        ".docs/instructions.append.md",
-        ".docs/instructions.md",
-        ".docs/introduction.append.md",
-        ".docs/introduction.md",
         ".meta/config.json",
         ".meta/example.rb",
         "bob.rb",

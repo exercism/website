@@ -42,15 +42,8 @@ class Submission
       delegate :solution, to: :submission
 
       def exercise_filepaths
-        exercise_repo.tooling_filepaths.select do |filepath|
-          # Skip non-functional files
-          next false if filepath.starts_with?(".docs")
-          next false if filepath == "README.md"
-
-          # Skip submitted files
-          next false if submission.valid_filepaths.include?(filepath)
-
-          true
+        exercise_repo.tooling_filepaths.reject do |filepath|
+          submission.valid_filepaths.include?(filepath)
         end
       end
 

@@ -7,15 +7,14 @@ class Solution::QueueHeadTestRun
   end
 
   def call
-    return unless submission
-
     # Get out of here if:
     # - we don't want to force run things
-    # - and we've got a head test run that succeeded
-    # - and the published iteration status makes sense
+    # - and the current head sync works fine
+    # - and the previous version didn't exception
     return if !force &&
-              submission.head_test_run&.ops_success? &&
-              %i[passed failed errored].include?(solution.published_iteration_head_tests_status)
+              Solution::SyncPublishedIterationHeadTestsStatus.(solution) &&
+              !solution.published_iteration_head_tests_status_exceptioned?
+    return unless submission
 
     unless solution.exercise.has_test_runner?
       solution.update_published_iteration_head_tests_status!(:not_queued)

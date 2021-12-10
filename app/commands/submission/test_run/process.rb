@@ -38,6 +38,8 @@ class Submission
       end
 
       private
+      delegate :solution, :exercise, to: :submission
+
       def handle_ops_error!
         update_status!(:exceptioned)
       end
@@ -64,10 +66,19 @@ class Submission
       end
 
       def update_status!(status)
-        if solution_test_run?
-          update_solution_status!(status)
-        else
-          update_submission_status!(status)
+        # If this is relevant to the submission, update that status.
+        if submission.git_sha == git_sha
+          submission.with_lock do
+            return if submission.tests_cancelled?
+
+            submission.send("tests_#{status}!")
+          end
+        end
+
+        # If this is the latest head version then let's check whether
+        # it affects the published status too.
+        if submission.exercise.git_important_files_hash == git_important_files_hash # rubocop:disable Style/GuardClause
+          Solution::SyncPublishedIterationHeadTestsStatus.(solution)
         end
       end
 
@@ -138,6 +149,12 @@ class Submission
         :submission
       end
 
+      memoize
+      def git_important_files_hash
+        Git::GenerateHashForImportantExerciseFiles.(exercise, git_sha: git_sha)
+      end
+
+      memoize
       def git_sha
         tooling_job.source["exercise_git_sha"]
       end

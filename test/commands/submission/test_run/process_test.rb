@@ -142,27 +142,19 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   end
 
   test "changes solution not submission for solution run" do
-    submission = create :submission
+    # Set the exercise and test run to be one sha, and the solution to be a different one
+    # da39a3ee5e6b4b0d3255bfef95601890afd80709 is the hash of b72b0958a135cddd775bf116c128e6e859bf11e4
+    exercise = create :practice_exercise, git_important_files_hash: 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
+    solution = create :practice_solution, :published, exercise: exercise
+    submission = create :submission, solution: solution, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
+    create :iteration, solution: solution, submission: submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results, type: :solution)
+    job = create_test_runner_job!(submission, execution_status: 200, results: results, type: :solution,
+                                  git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
 
     Submission::TestRun::Process.(job)
 
     assert submission.reload.tests_not_queued?
     assert submission.solution.reload.published_iteration_head_tests_status_passed?
-  end
-
-  test "queues search index job but does not touch user_track solution run" do
-    time = Time.current - 4.months
-
-    submission = create :submission
-    user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
-    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results, type: :solution)
-
-    SyncSolutionToSearchIndexJob.expects(:perform_later).with(submission.solution)
-    Submission::TestRun::Process.(job)
-
-    assert_equal time.to_i, user_track.reload.last_touched_at.to_i
   end
 end

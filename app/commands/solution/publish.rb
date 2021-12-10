@@ -13,7 +13,8 @@ class Solution
         ActiveRecord::Base.transaction do
           solution.update(
             published_at: Time.current,
-            published_iteration_id: published_iteration_id
+            published_iteration: published_iteration,
+            num_loc: num_loc
           )
         end
       end
@@ -44,10 +45,14 @@ class Solution
       Rails.logger.error e.message
     end
 
-    def published_iteration_id
+    def published_iteration
       return nil unless iteration_idx
 
-      solution.iterations.where(idx: iteration_idx).pick(:id)
+      solution.iterations.find_by(idx: iteration_idx)
+    end
+
+    def num_loc
+      published_iteration ? published_iteration.num_loc : solution.latest_iteration&.num_loc
     end
   end
 end

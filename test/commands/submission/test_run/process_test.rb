@@ -1,4 +1,4 @@
-require 'test_helper'
+equire 'test_helper'
 
 class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "should not do anything if the test run is not pending" do
@@ -131,7 +131,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   end
 
   test "does not broadcast for solution run" do
-    # see changes solution not submission for solution run for explaination of this setup
+    # see changes solution not submission for solution run for explanation of this setup
     exercise = create :practice_exercise, git_important_files_hash: 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
     solution = create :practice_solution, :published, exercise: exercise
     submission = create :submission, solution: solution, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"

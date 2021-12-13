@@ -84,22 +84,27 @@ export function FileEditorCodeMirror({
   const handleDelete = useCallback(
     (fileToDelete: File) => {
       return () => {
-        const index = files.findIndex((f) => f === fileToDelete)
+        const currentFiles = getFiles()
+        const index = currentFiles.findIndex(
+          (f) => f.filename === fileToDelete.filename
+        )
 
         if (index === -1) {
           throw 'File not found!'
         }
 
         if (index === 0) {
-          setTab(files[1].filename)
+          setTab(currentFiles[1].filename)
         } else {
-          setTab(files[index - 1].filename)
+          setTab(currentFiles[index - 1].filename)
         }
 
-        setFiles(files.filter((f) => f.filename !== fileToDelete.filename))
+        setFiles(
+          currentFiles.filter((f) => f.filename !== fileToDelete.filename)
+        )
       }
     },
-    [files, setFiles]
+    [files, getFiles, setFiles]
   )
 
   const focus = useCallback(() => {

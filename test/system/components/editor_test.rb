@@ -479,12 +479,16 @@ module Components
       use_capybara_host do
         sign_in!(user)
         visit edit_track_exercise_path(track, exercise)
+        click_on "log_line_parser.rb"
+        fill_in_editor "this should remain"
+
         click_on "something_else.rb"
         click_on "Delete file"
         within(".m-generic-confirmation") { click_on "Delete file" }
 
         assert_no_text "something_else.rb"
-        assert_text "foobar1"
+        assert_text "log_line_parser.rb"
+        assert_text "this should remain"
       end
     end
 

@@ -50,11 +50,33 @@ const ProcessingStatus = ({
     solution.publishedIterationHeadTestsStatus === SubmissionTestsStatus.PASSED
   ) {
     return (
-      <Icon
-        icon="golden-check"
-        alt="This solution passes the tests of the latest version of this exercise"
-        className="passes-up-to-date-tests"
-      />
+      <GenericTooltip content="This solution correctly solves the latest version of this exercise">
+        <div>
+          <Icon
+            icon="golden-check"
+            alt="This solution passes the tests of the latest version of this exercise"
+            className="passed-up-to-date-tests"
+          />
+        </div>
+      </GenericTooltip>
+    )
+  }
+
+  if (
+    solution.publishedIterationHeadTestsStatus ===
+      SubmissionTestsStatus.FAILED ||
+    solution.publishedIterationHeadTestsStatus === SubmissionTestsStatus.ERRORED
+  ) {
+    return (
+      <GenericTooltip content="This solution does not fully solve the latest version of this exercise">
+        <div>
+          <Icon
+            icon="cross-circle"
+            alt="This solution does not fully solve the latest version of this exercise"
+            className="failed-up-to-date-tests"
+          />
+        </div>
+      </GenericTooltip>
     )
   }
 

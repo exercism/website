@@ -407,7 +407,7 @@ test('renders processing status', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
-    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.EXCEPTIONED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -470,7 +470,7 @@ test('renders golden check icon when published iteration passed head tests', asy
   ).toBeInTheDocument()
 })
 
-test('renders warning icon when solution is out of date', async () => {
+test('renders cross when published iteration fails head tests', async () => {
   const solution = {
     uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
@@ -485,6 +485,47 @@ test('renders warning icon when solution is out of date', async () => {
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
     publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
+    isOutOfDate: true,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    links: {
+      publicUrl: 'https://exercism.test/public',
+      privateIterationsUrl: 'https://exercism.test/private',
+    },
+  }
+
+  render(<CommunitySolution solution={solution} context="exercise" />)
+
+  expect(
+    screen.getByRole('img', {
+      name:
+        'This solution does not fully solve the latest version of this exercise',
+    })
+  ).toBeInTheDocument()
+})
+
+test('renders warning icon when solution is out of date', async () => {
+  const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
+    author: {
+      handle: 'handle',
+      avatarUrl: 'url',
+    },
+    snippet: '',
+    numLoc: '1-5',
+    numStars: '2',
+    numComments: '2',
+    publishedAt: '',
+    language: 'ruby',
+    iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.EXCEPTIONED,
     isOutOfDate: true,
     exercise: {
       title: 'Exercise',

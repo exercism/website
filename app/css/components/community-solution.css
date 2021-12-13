@@ -30,11 +30,17 @@
             width: 16px;
             filter: var(--orange-filter);
         }
-        & > .passes-up-to-date-tests {
+        & .passed-up-to-date-tests,
+        & .failed-up-to-date-tests {
             @apply ml-16;
             height: 16px;
             width: 16px;
+        }
+        & .passed-up-to-date-tests {
             filter: var(--dark-green-filter);
+        }
+        & .failed-up-to-date-tests {
+            filter: var(--red-filter);
         }
         & .c-iteration-processing-status {
             @apply ml-24;

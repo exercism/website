@@ -5,10 +5,12 @@ FactoryBot.define do
 
     trait :completed do
       completed_at { Time.current }
+      status { :completed }
     end
 
     trait :published do
       published_at { Time.current }
+      status { :published }
     end
 
     transient do

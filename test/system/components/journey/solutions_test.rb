@@ -238,6 +238,8 @@ module Components
       end
 
       test "filters by head tests status" do
+        QueueSolutionHeadTestRunJob.stubs(:perform_later)
+
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"

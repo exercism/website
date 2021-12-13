@@ -150,6 +150,10 @@ class ActiveSupport::TestCase
     Array(num).map { create(model, params) }.sample
   end
 
+  def assert_equal_arrays(expected, actual)
+    assert_equal(expected.to_ary.sort, actual.to_ary.sort)
+  end
+
   def assert_idempotent_command(&cmd)
     obj_1 = cmd.yield
     obj_2 = cmd.yield

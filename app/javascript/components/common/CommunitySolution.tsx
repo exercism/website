@@ -82,11 +82,13 @@ const ProcessingStatus = ({
 
   return (
     <>
-      <GenericTooltip content="This solution was solved against an older version of this exercise and may not fully solve the latest version.">
-        <div>
-          <Outdated />
-        </div>
-      </GenericTooltip>
+      {solution.isOutOfDate ? (
+        <GenericTooltip content="This solution was solved against an older version of this exercise and may not fully solve the latest version.">
+          <div>
+            <Outdated />
+          </div>
+        </GenericTooltip>
+      ) : null}
       <ProcessingStatusSummary iterationStatus={solution.iterationStatus} />
     </>
   )

@@ -6,7 +6,7 @@ class Submission
       def initialize(submission, type: :submission, git_sha: nil, run_in_background: false)
         @submission = submission
         @type = type.to_sym
-        @git_sha = git_sha || solution.git_sha
+        @git_sha = git_sha || submission.git_sha
         @run_in_background = !!run_in_background
       end
 

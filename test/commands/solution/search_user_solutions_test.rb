@@ -144,16 +144,18 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
   end
 
   test "filter: head_tests_status" do
+    QueueSolutionHeadTestRunJob.stubs(:perform_later)
+
     user = create :user
     solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
     solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
     solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
-submission: create(:submission, solution: solution_1)))
+                                                    submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
-submission: create(:submission, solution: solution_2)))
+                                                    submission: create(:submission, solution: solution_2)))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
-submission: create(:submission, solution: solution_3)))
+                                                    submission: create(:submission, solution: solution_3)))
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never

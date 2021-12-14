@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
+class Solution::SyncLatestIterationHeadTestsStatusTest < ActiveSupport::TestCase
   test "returns status correctly" do
     solution = create :practice_solution
     submission = create :submission, solution: solution

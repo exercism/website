@@ -18,14 +18,24 @@ class Submission
 
       private
       attr_reader :submission, :git_sha, :type, :run_in_background
+      delegate :solution, to: :submission
 
+      # rubocop:disable Style/IfUnlessModifier
+      # rubocop:disable Style/GuardClause
       def update_status!
-        if type == :solution
+        return submission.tests_queued! unless type == :solution
+
+        if submission == solution.latest_submission
+          submission.solution.update_latest_iteration_head_tests_status!(:queued)
+        end
+
+        if submission == solution.latest_published_iteration_submission
           submission.solution.update_published_iteration_head_tests_status!(:queued)
-        else
-          submission.tests_queued!
         end
       end
+      # rubocop:enable Style/GuardClause
+      # rubocop:enable Style/IfUnlessModifier
+
     end
   end
 end

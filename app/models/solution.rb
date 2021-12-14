@@ -6,6 +6,7 @@ class Solution < ApplicationRecord
   enum mentoring_status: { none: 0, requested: 1, in_progress: 2, finished: 3 }, _prefix: 'mentoring'
   enum status: { started: 0, iterated: 1, completed: 2, published: 3 }, _prefix: true
   enum published_iteration_head_tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: true # rubocop:disable Layout/LineLength
+  enum latest_iteration_head_tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: true # rubocop:disable Layout/LineLength
 
   belongs_to :user
   belongs_to :exercise
@@ -99,8 +100,27 @@ class Solution < ApplicationRecord
   delegate :instructions, :introduction, :tests, :source, :source_url, to: :git_exercise
 
   def update_published_iteration_head_tests_status!(status)
+    return if published_iteration_head_tests_status == status.to_sym
+
     update_column(:published_iteration_head_tests_status, status)
     SyncSolutionToSearchIndexJob.perform_later(self)
+  end
+
+  def update_latest_iteration_head_tests_status!(status)
+    return if latest_iteration_head_tests_status == status.to_sym
+
+    update_column(:latest_iteration_head_tests_status, status)
+    SyncSolutionToSearchIndexJob.perform_later(self)
+  end
+
+  memoize
+  def latest_published_iteration_submission
+    published_iterations.last&.submission
+  end
+
+  memoize
+  def latest_iteration_submission
+    latest_iteration&.submission
   end
 
   def mentor_download_cmd
@@ -150,20 +170,16 @@ class Solution < ApplicationRecord
     ).last
   end
 
-  def status
-    super.to_sym
-  end
-
-  def mentoring_status
-    super.to_sym
+  %i[status mentoring_status
+     published_iteration_head_tests_status
+     latest_iteration_head_tests_status].each do |meth|
+    define_method meth do
+      super().to_sym
+    end
   end
 
   def iteration_status
     super&.to_sym
-  end
-
-  def published_iteration_head_tests_status
-    super.to_sym
   end
 
   # TODO: Karlo

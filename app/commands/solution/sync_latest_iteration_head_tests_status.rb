@@ -1,4 +1,4 @@
-class Solution::SyncPublishedIterationHeadTestsStatus
+class Solution::SyncLatestIterationHeadTestsStatus
   include Mandate
 
   initialize_with :solution
@@ -16,15 +16,15 @@ class Solution::SyncPublishedIterationHeadTestsStatus
       status = :errored
     end
 
-    return true if solution.published_iteration_head_tests_status == status
+    return true if solution.latest_iteration_head_tests_status == status
 
-    solution.update_published_iteration_head_tests_status!(status)
+    solution.update_latest_iteration_head_tests_status!(status)
 
     true
   end
 
   memoize
   def test_run
-    solution.latest_published_iteration_submission&.head_test_run
+    solution.latest_iteration&.submission&.head_test_run
   end
 end

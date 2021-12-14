@@ -86,7 +86,11 @@ class Submission
         # it affects the published status too.
         return unless submission.exercise.git_important_files_hash == git_important_files_hash
 
+        # All the logic about whether we should do this etc is encapsulated
+        # into the two downstream commands, so we can just proxy to them and
+        # leave them to work it all out.
         Solution::SyncPublishedIterationHeadTestsStatus.(solution)
+        Solution::SyncLatestIterationHeadTestsStatus.(solution)
       end
 
       def broadcast!(test_run)

@@ -51,7 +51,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
         "published_iteration" => { "tests_status" => "passed", "head_tests_status" => "failed", "code" => ["module LogLineParser"] },
-        "latest_iteration" => { "tests_status" => "passed", "code" => ["module LogLineParser"] }
+        "latest_iteration" => { "tests_status" => "passed", "head_tests_status" => "not_queued", "code" => ["module LogLineParser"] }
       }
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
@@ -107,7 +107,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
         "published_iteration" => { "tests_status" => "failed", "head_tests_status" => "failed", "code" => ["module LogLineParser"] },
-        "latest_iteration" => { "tests_status" => "failed", "code" => ["module LogLineParser"] }
+        "latest_iteration" => { "tests_status" => "failed", "head_tests_status" => "not_queued", "code" => ["module LogLineParser"] }
       }
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
@@ -162,7 +162,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
         "published_iteration" => { "tests_status" => "passed", "head_tests_status" => "passed", "code" => ["module LogLineParser"] },
-        "latest_iteration" => { "tests_status" => "passed", "code" => ["module LogLineParser"] }
+        "latest_iteration" => { "tests_status" => "passed", "head_tests_status" => "not_queued", "code" => ["module LogLineParser"] }
       }
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
@@ -223,7 +223,8 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
         "published_iteration" => { "tests_status" => "failed", "head_tests_status" => "passed", "code" => ["module LogLineParser"] },
-        "latest_iteration" => { "tests_status" => "passed", "code" => ["module LogLineParser\n\nlet parse str = 2"] }
+        "latest_iteration" => { "tests_status" => "passed", "head_tests_status" => "not_queued",
+                                "code" => ["module LogLineParser\n\nlet parse str = 2"] }
       }
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
@@ -283,7 +284,8 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
         "user" => { "id" => 7, "handle" => "jane" },
         "published_iteration" => nil,
-        "latest_iteration" => { "tests_status" => "passed", "code" => ["module LogLineParser\n\nlet parse str = 2"] }
+        "latest_iteration" => { "tests_status" => "passed", "head_tests_status" => "not_queued",
+                                "code" => ["module LogLineParser\n\nlet parse str = 2"] }
       }
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
@@ -396,7 +398,8 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
         "user" => { "id" => 7, "handle" => "jane" },
         "published_iteration" => { "tests_status" => "not_queued", "head_tests_status" => "not_queued",
                                    "code" => ["module LogLineParser", "module Helper"] },
-        "latest_iteration" => { "tests_status" => "not_queued", "code" => ["module LogLineParser", "module Helper"] }
+        "latest_iteration" => { "tests_status" => "not_queued", "head_tests_status" => "not_queued",
+                                "code" => ["module LogLineParser", "module Helper"] }
       }
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")

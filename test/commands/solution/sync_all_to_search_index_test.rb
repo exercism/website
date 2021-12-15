@@ -2,6 +2,8 @@ require "test_helper"
 
 class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
   test "indexes all solutions" do
+    Solution::QueueHeadTestRun.stubs(:call)
+
     track = create :track
     users = build_list(:user, 10)
     exercises = build_list(:practice_exercise, 20, :random_slug, track: track)
@@ -74,7 +76,8 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
         "user" => { "id" => 7, "handle" => "jane" },
         "published_iteration" => { "tests_status" => "not_queued", "head_tests_status" => "not_queued",
                                    "code" => ["module LogLineParser"] },
-        "latest_iteration" => { "tests_status" => "not_queued", "code" => ["module LogLineParser"] }
+        "latest_iteration" => { "tests_status" => "not_queued", "head_tests_status" => "not_queued",
+                                "code" => ["module LogLineParser"] }
       }
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")

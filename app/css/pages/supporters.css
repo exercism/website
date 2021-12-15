@@ -33,7 +33,10 @@
             width: 64px;
         }
         & a {
-            @apply rounded-12 px-80;
+            @apply rounded-12;
+            @screen md {
+                @apply px-80;
+            }
         }
     }
     & .areas-of-collaboration {

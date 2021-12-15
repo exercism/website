@@ -322,8 +322,6 @@
         @apply bg-backgroundColorE;
         @apply rounded-8;
 
-        @apply flex items-center;
-
         & .total {
             @apply flex flex-col items-center;
             @apply mr-40;

@@ -251,6 +251,12 @@ initReact({
   'settings-reset-account-button': (data: any) => (
     <Settings.ResetAccountButton handle={data.handle} links={data.links} />
   ),
+  'settings-show-on-supporters-page-button': (data: any) => (
+    <Settings.ShowOnSupportersPageButton
+      defaultValue={data.value}
+      links={data.links}
+    />
+  ),
   'dropdowns-notifications': (data: any) => (
     <NotificationsDropdown endpoint={data.endpoint} />
   ),

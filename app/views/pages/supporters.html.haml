@@ -3,18 +3,18 @@
 
 #page-supporters
   %header.pb-56.c-header-with-bg
-    .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1
+    .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1.text-center
       = graphical_icon "rocket", category: "graphics", css_class: "logo mb-8"
       %h1.text-h0.mb-16
         Become
         %strong rocket fuel
         for our mission
-      %p.text-p-2xlarge.text-textColor2.mb-40.text-center
+      %p.text-p-2xlarge.text-textColor2.mb-40
         Partner with us or donate to support our mission to bringing free code learning and practice to the world.
 
   .md-container.mb-48
-    .cta.flex.flex-col.md:flex-row.md:items-center.border-gradient.py-24.px-24.md:px-40
-      = image_pack_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mr-24 rounded-100'
+    .cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40.items-center.text-center
+      = image_pack_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mb-24 md:mb-0 md:mr-24 rounded-100'
       .text
         %h2.text-h4.mb-4 Want to discuss how you can help Exercism?
         %p.text-p-large
@@ -23,12 +23,12 @@
             %strong Jeremy Walker
           Exercism's CEO.
 
-      = link_to "mailto:jeremy@exercism.io", class: 'btn-primary btn-m ml-auto' do
+      = link_to "mailto:jeremy@exercism.io", class: 'btn-primary btn-m mt-16 lg:mt-0 lg:ml-auto md:px-80' do
         = graphical_icon "email"
         %span jeremy@exercism.io
 
   .md-container
-    .flex.mb-56
+    .flex.mb-56.items-start.lg:items-center.flex-col.md:flex-row
       .lhs
         = graphical_icon "target", css_class: "mb-16"
         %h2.text-h2.mb-20 Support from our funders is crucial to achieving Exercism's goals
@@ -37,13 +37,13 @@
         %p.text-p-large.mb-16 We also undertake specific larger projects, such as the development of our automated analyzers, which require a committed team working more intensely on something over a fixed period of time.
         %p.text-p-large In order to fund this core team and these products we rely on grant funding from companies or organisation that wish to contribute to our vision of helping providing free programming education for everyone.
 
-      = graphical_icon "target", category: :graphics, css_class: "ml-128"
+      = graphical_icon "target", category: :graphics, css_class: "md:ml-64 lg:ml-128"
 
-    .areas-of-collaboration.pt-32.pb-56.px-64.flex.flex-col.items-center.bg-evenLighterBlue.rounded-8
+    .areas-of-collaboration.pt-32.pb-56.px-32.md:px-64.flex.flex-col.items-center.bg-evenLighterBlue.rounded-8
       = graphical_icon "partnership", css_class: "mb-16"
       %h2.text-h2.text-center Areas in which organisations have supported us so far
 
-      .grid.grid-cols-3.gap-y-48.gap-x-32
+      .grid.grid-cols-2.md:grid-cols-3.gap-y-48.gap-x-32
         -# .item Diversity &amp; Inclusivity Initiatives
         .item Fundraising
         .item Research Projects

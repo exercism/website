@@ -1,0 +1,19 @@
+%h1 Individual Supporters
+
+%p These people are very generous!
+
+- @badges.each do |badge|
+  - user = badge.user
+  = user.name
+
+
+%h2.text-h2 Why am I not on this page?
+
+.c-textual-content
+  %p
+    This page aims to show all individuals who have financially supported Exercism.
+    Technically, it lists everyone who have been awarded the Supporters Badge and who have enabled the "Appear on supporters page?" toggle in their #{link_to 'Donations Settings', donations_settings_path}.
+    Donating through the Exercism website should automatically award you the Supporters badge.
+    However, donating through a third party website (e.g. GitHub) may require you to email #{link_to 'donations@exercism.org', 'mailto:donations@exercism.org'} to ask us to manually award the badge.
+
+

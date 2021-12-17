@@ -1,1 +1,2 @@
-= link_to_unless current_page.first?, t('views.pagination.first').html_safe, url, remote: remote, class: 'first'
+%span.--pagination-more
+  = t('views.pagination.truncate').html_safe

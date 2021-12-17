@@ -10,7 +10,6 @@ jobs:
   ##### RUBOCOP ####
   ##################
   rubocop:
-    # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
@@ -22,6 +21,7 @@ jobs:
         uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
         with:
           ruby-version: .ruby-version
+          bundler-cache: true
 
       - name: Run Rubocop
         run: bundle exec rubocop --except Metrics

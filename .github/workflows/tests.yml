@@ -23,21 +23,8 @@ jobs:
         with:
           ruby-version: .ruby-version
 
-      - name: Install gems
-        run: |
-          # Extract the exact versions of the rubocop gems from Gemfile.lock
-          rubocop_version=$(sed -n -E 's/^    rubocop \((.+)\)/\1/p' Gemfile.lock)
-          rubocop_minitest_version=$(sed -n -E 's/^    rubocop-minitest \((.+)\)/\1/p' Gemfile.lock)
-          rubocop_performance_version=$(sed -n -E 's/^    rubocop-performance \((.+)\)/\1/p' Gemfile.lock)
-          rubocop_rails_version=$(sed -n -E 's/^    rubocop-rails \((.+)\)/\1/p' Gemfile.lock)
-
-          gem install rubocop -v $rubocop_version
-          gem install rubocop-minitest -v $rubocop_minitest_version
-          gem install rubocop-performance -v $rubocop_performance_version
-          gem install rubocop-rails -v $rubocop_rails_version
-
       - name: Run Rubocop
-        run: rubocop --except Metrics
+        run: bundle exec rubocop --except Metrics
 
   ###################
   ##### JS TESTS ####

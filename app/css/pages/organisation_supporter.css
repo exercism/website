@@ -24,8 +24,10 @@
         @apply mr-auto;
     }
     & .rhs {
-        @apply ml-40;
-        width: 380px;
+        @screen md {
+            @apply flex-shrink-0;
+            width: 380px;
+        }
 
         & .c-blog-post {
             @apply mb-24;

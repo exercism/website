@@ -10,7 +10,7 @@
 
         & .emoji {
             font-size: 80px;
-            @apply mb-12;
+            @apply mb-16;
         }
 
         & p {

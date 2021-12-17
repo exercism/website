@@ -11,7 +11,7 @@
         = icon "gobridge", "GoBridge", category: :partners, css_class: "logo gobridge"
 
   .md-container
-    %article.flex
+    %article.flex.flex-col.md:flex-row
       .lhs
         %h2.text-h2 How GoBridge supports Exercism
         %hr.c-divider.mt-20.mb-28
@@ -21,6 +21,6 @@
         %hr.c-divider.mt-20.mb-28
         %p.text-p-xlarge.mb-16 GoBridge's mission is to enable minorities in tech to use Go as a tool to learn and teach programming and, ultimately, to empower underrepresented groups in tech to help increase diversity in the Go community. That fits perfectly with our mission of providing opportunity through the development of programming, and so we're really excited to be able to launch this partnership. GoBridge and the GDN will be promoting Exercism across their networks, and we'll be hoping for a large influx of both Go mentors and students.
 
-      .rhs
+      .rhs.mt-24.md:mt-0.md:ml-40
         - @blog_posts.each do |blog_post|
           = render ViewComponents::BlogPost.new(blog_post)

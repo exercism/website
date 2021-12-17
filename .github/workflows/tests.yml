@@ -10,6 +10,7 @@ jobs:
   ##### RUBOCOP ####
   ##################
   rubocop:
+    # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
@@ -21,10 +22,24 @@ jobs:
         uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
         with:
           ruby-version: .ruby-version
-          bundler-cache: true
+
+      - name: Install gems
+        run: |
+          # Extract the exact versions of the rubocop gems from Gemfile.lock
+          rubocop_version=$(sed -n -E 's/^    rubocop \((.+)\)/\1/p' Gemfile.lock)
+          rubocop_minitest_version=$(sed -n -E 's/^    rubocop-minitest \((.+)\)/\1/p' Gemfile.lock)
+          rubocop_performance_version=$(sed -n -E 's/^    rubocop-performance \((.+)\)/\1/p' Gemfile.lock)
+          rubocop_rails_version=$(sed -n -E 's/^    rubocop-rails \((.+)\)/\1/p' Gemfile.lock)
+          activesupport_version=$(sed -n -E 's/^    activesupport \((.+)\)/\1/p' Gemfile.lock)
+
+          gem install activesupport -v $activesupport_version
+          gem install rubocop -v $rubocop_version
+          gem install rubocop-minitest -v $rubocop_minitest_version
+          gem install rubocop-performance -v $rubocop_performance_version
+          gem install rubocop-rails -v $rubocop_rails_version
 
       - name: Run Rubocop
-        run: bundle exec rubocop --except Metrics
+        run: rubocop --except Metrics
 
   ###################
   ##### JS TESTS ####

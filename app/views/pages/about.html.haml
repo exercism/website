@@ -25,18 +25,25 @@
           = graphical_icon :team
           %span Team
           = graphical_icon 'arrow-right'
+        %li
+          = link_to individual_supporters_page_path do
+            = graphical_icon :'individual-supporters'
+            %span Individual Supporters
+            = graphical_icon 'arrow-right'
+
+        %li
+          = link_to organisation_supporters_page_path do
+            = graphical_icon :supporters
+            %span Supporting Organisations
+            = graphical_icon 'arrow-right'
+
+
       -# TODO
         %li
           = link_to "#" do
             = graphical_icon :roadmap
             %span Roadmap
             = graphical_icon 'arrow-right'
-        %li
-          = link_to supporters_page_path do
-            = graphical_icon :supporters
-            %span Supporters
-            = graphical_icon 'arrow-right'
-
   .md-container
     .purpose.border-t-4.md:border-t-0.md:border-l-6.py-28.md:py-40.px-32.md:px-64.flex.items-start.lg:items-center.flex-col.lg:flex-row.mb-64
       .info

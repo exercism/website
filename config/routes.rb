@@ -406,9 +406,9 @@ Rails.application.routes.draw do
   get "about" => "pages#about", as: :about_page
   get "team" => "pages#team", as: :team_page
   get "supporters/individuals" => "pages#individual_supporters", as: :individual_supporters_page
-  get "supporters" => "pages#supporters", as: :supporters_page
-  %w[packt].each do |supporter|
-    get "supporters/#{supporter}" => "pages#supporter_#{supporter}", as: "supporter_#{supporter}_page"
+  get "supporters/organisations" => "pages#organisation_supporters", as: :organisation_supporters_page
+  %w[packt gobridge].each do |supporter|
+    get "supporters/organisations/#{supporter}" => "pages#supporter_#{supporter}", as: "supporter_#{supporter}_page"
   end
 
   ############

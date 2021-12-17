@@ -1,16 +1,18 @@
 @import "../styles";
 
-#page-supporters {
+#page-individual-supporters {
     @apply bg-backgroundColorA;
 
     & > header {
         & .md-container {
-            @apply pt-48;
+            @apply pt-24;
         }
-        & .logo {
-            height: 80px;
-            width: 80px;
+
+        & .emoji {
+            font-size: 80px;
+            @apply mb-12;
         }
+
         & p {
             max-width: 780px;
         }
@@ -26,11 +28,16 @@
         }
     }
     & .cta {
-        margin-top: -58px;
         @apply shadow-smZ1 rounded-8 border-2;
+
+        &.top-cta {
+            margin-top: -58px;
+        }
+
         & > img {
             height: 64px;
             width: 64px;
+            @apply mr-16;
         }
         & a {
             @apply rounded-12;
@@ -39,14 +46,21 @@
             }
         }
     }
-    & .areas-of-collaboration {
-        & h2 {
-            max-width: 600px;
-            @apply mb-64;
+    & .donors {
+        & .donor {
+            @apply shadow-base px-24 py-12 rounded-8;
+            & img {
+                height: 48px;
+                width: 48px;
+                @apply mr-16;
+            }
         }
-        & .item {
-            @apply text-20 leading-150 font-medium text-center;
-            @apply self-center;
+    }
+    & .missing {
+        & .c-icon {
+            height: 16px;
+            width: 16px;
+            @apply mt-4 mr-16;
         }
     }
 }

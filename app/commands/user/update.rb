@@ -28,7 +28,7 @@ class User
     end
 
     def user_params
-      (sanitized_params[:user] || {}).slice(:name, :location, :bio, :pronoun_parts)
+      (sanitized_params[:user] || {}).slice(:name, :location, :bio, :pronoun_parts, :show_on_supporters_page)
     end
 
     def profile_params

@@ -6,7 +6,12 @@
         height: 16px;
         width: 16px;
         filter: var(--link-blue-filter);
-        @apply ml-12;
+        &:first-child {
+            @apply mr-12;
+        }
+        &:last-child {
+            @apply ml-12;
+        }
     }
 
     &.--with-bg {

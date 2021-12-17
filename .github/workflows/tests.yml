@@ -30,7 +30,9 @@ jobs:
           rubocop_minitest_version=$(sed -n -E 's/^    rubocop-minitest \((.+)\)/\1/p' Gemfile.lock)
           rubocop_performance_version=$(sed -n -E 's/^    rubocop-performance \((.+)\)/\1/p' Gemfile.lock)
           rubocop_rails_version=$(sed -n -E 's/^    rubocop-rails \((.+)\)/\1/p' Gemfile.lock)
+          activesupport_version=$(sed -n -E 's/^    activesupport \((.+)\)/\1/p' Gemfile.lock)
 
+          gem install activesupport -v $activesupport_version
           gem install rubocop -v $rubocop_version
           gem install rubocop-minitest -v $rubocop_minitest_version
           gem install rubocop-performance -v $rubocop_performance_version

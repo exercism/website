@@ -1,0 +1,4 @@
+- if page.current?
+  = button_tag page, { remote: remote, rel: page.rel, disabled: true, class: "page current" }
+- else
+  = link_to page, url, { remote: remote, rel: page.rel, class: "page" }

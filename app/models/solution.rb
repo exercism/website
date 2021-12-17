@@ -13,7 +13,7 @@ class Solution < ApplicationRecord
   has_one :track, through: :exercise
 
   # TODO: This might be horrific for performance
-  has_one :user_track,
+  has_one :user_track, # rubocop:disable Rails/HasManyOrHasOneDependent
     lambda { |s|
       joins(track: :exercises).
         where('exercises.id': s.exercise_id)
@@ -27,7 +27,9 @@ class Solution < ApplicationRecord
   has_many :iterations, dependent: :destroy
   has_many :user_activities, class_name: "User::Activity", dependent: :destroy
 
+  # rubocop:disable Rails/HasManyOrHasOneDependent
   has_one :latest_iteration, -> { where(deleted_at: nil).order('id DESC') }, class_name: "Iteration" # rubocop:disable Rails/InverseOf
+  # rubocop:enable Rails/HasManyOrHasOneDependent
 
   has_many :comments, dependent: :destroy
   has_many :stars, dependent: :destroy

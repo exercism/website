@@ -10,7 +10,7 @@ class UserTrack < ApplicationRecord
   # and probably move it to a bg job as it'll be slow
   belongs_to :track, counter_cache: :num_students
 
-  has_many :solutions,
+  has_many :solutions, # rubocop:disable Rails/HasManyOrHasOneDependent
     lambda { |ut|
       joins(:exercise).
         where("exercises.track_id": ut.track_id)

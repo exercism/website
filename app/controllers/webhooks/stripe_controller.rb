@@ -10,13 +10,13 @@ module Webhooks
 
       HandleStripeWebhookJob.perform_later(signature, payload_body)
 
-      head 200
+      head :ok
     rescue JSON::ParserError => e
       Bugsnag.notify(e)
-      head 400
+      head :bad_request
     rescue Stripe::SignatureVerificationError => e
       Bugsnag.notify(e)
-      head 400
+      head :bad_request
     end
   end
 end

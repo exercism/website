@@ -47,7 +47,7 @@ class PagesController < ApplicationController
       where(badge_id: Badge.find_by_slug!("supporter")). # rubocop:disable Rails/DynamicFindBy
       where(users: { show_on_supporters_page: true }).select(:user_id, :created_at).
       order(id: :asc).
-      page(params[:page]).per(40)
+      page(params[:page]).per(30)
   end
 
   def supporter_gobridge

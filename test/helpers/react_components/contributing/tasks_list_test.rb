@@ -6,13 +6,13 @@ module ReactComponents::Contributing
       track = create :track, slug: 'ruby'
 
       task_1 = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/888', title: 'Improve test speed',
-                                    opened_at: Time.parse("2021-03-05T23:23:00Z").utc, opened_by_username: 'iHiD',
-                                    action: :fix, knowledge: :elementary, area: :analyzer, size: :tiny, type: :ci,
-                                    repo: 'exercism/ruby', track: track
+        opened_at: Time.parse("2021-03-05T23:23:00Z").utc, opened_by_username: 'iHiD',
+        action: :fix, knowledge: :elementary, area: :analyzer, size: :tiny, type: :ci,
+        repo: 'exercism/ruby', track: track
       task_2 = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312', title: 'Sync anagram',
-                                    opened_at: Time.parse("2020-10-17T02:39:37Z").utc, opened_by_username: 'ErikSchierboom',
-                                    action: :fix, knowledge: :none, area: :analyzer, size: :small, type: :ci,
-                                    repo: 'exercism/ruby', track: track
+        opened_at: Time.parse("2020-10-17T02:39:37Z").utc, opened_by_username: 'ErikSchierboom',
+        action: :fix, knowledge: :none, area: :analyzer, size: :small, type: :ci,
+        repo: 'exercism/ruby', track: track
 
       params = {
         actions: ["fix"],

@@ -1,4 +1,4 @@
-class CreateProblemReports < ActiveRecord::Migration[6.1]
+class CreateProblemReports < ActiveRecord::Migration[7.0]
   def change
     create_table :problem_reports do |t|
       t.belongs_to :user, null: false, foreign_key: true

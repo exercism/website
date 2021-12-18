@@ -60,14 +60,14 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     create :user_reputation_period, user: small_contributor, period: :forever, reputation: 300
 
     create :user_reputation_period, user: irrelevant_contributor, period: :forever, reputation: 50, about: :track,
-                                    track_id: create(:track).id
+      track_id: create(:track).id
 
     create :user_reputation_period, user: big_contributor, period: :forever, reputation: 50, about: :track,
-                                    track_id: track.id
+      track_id: track.id
     create :user_reputation_period, user: small_contributor, period: :forever, reputation: 30, about: :track,
-                                    track_id: track.id
+      track_id: track.id
     create :user_reputation_period, user: medium_contributor, period: :forever, reputation: 40, about: :track,
-                                    track_id: track.id
+      track_id: track.id
 
     assert_search [big_contributor, medium_contributor, small_contributor],
       User::ReputationPeriod::Search.(track_id: track.id)

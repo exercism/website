@@ -1,4 +1,5 @@
 import React from 'react'
+import { assetUrl } from '../../utils/assets'
 
 export function GraphicalIcon({
   icon,
@@ -15,7 +16,7 @@ export function GraphicalIcon({
     (className) => className.length > 0
   )
 
-  const iconFile = require(`../../images/${category || 'icons'}/${icon}.svg`)
+  const iconFile = assetUrl(`${category || 'icons'}/${icon}.svg`)
 
   return hex ? (
     <div className={classNames.join(' ')}>

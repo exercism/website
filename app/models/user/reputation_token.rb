@@ -87,12 +87,12 @@ class User::ReputationToken < ApplicationRecord
 
   def cacheable_rendering_data
     data = {
-      uuid: uuid,
-      value: value,
-      text: text,
-      icon_url: icon_url,
-      internal_url: internal_url,
-      external_url: external_url,
+      uuid:,
+      value:,
+      text:,
+      icon_url:,
+      internal_url:,
+      external_url:,
       created_at: created_at.iso8601
     }
 
@@ -109,10 +109,10 @@ class User::ReputationToken < ApplicationRecord
   def icon_url
     return exercise.icon_url if exercise
 
-    asset_pack_url(
-      "media/images/graphics/#{icon_name}.svg",
-      host: Rails.application.config.action_controller.asset_host
-    )
+    [
+      Rails.application.config.action_controller.asset_host,
+      compute_asset_path("graphics/#{icon_name}.svg")
+    ].compact.join('/')
   end
 
   # To be overriden in children classes

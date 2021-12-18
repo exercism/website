@@ -1,6 +1,5 @@
 module API
   class Mentoring::DiscussionsController < BaseController
-    include Webpacker::Helper
     include ActionView::Helpers::AssetUrlHelper
 
     # TODO: (Optional) Add filters (the criteria aren't the filters?)

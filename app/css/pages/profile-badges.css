@@ -8,7 +8,7 @@
             @apply shadow-base bg-backgroundColorA py-16 mb-40 rounded-8;
             @apply flex justify-center;
 
-            & .block {
+            & .section {
                 @apply flex items-center mx-32;
 
                 & .c-icon {

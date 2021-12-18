@@ -15,9 +15,9 @@ module Components
           discussion = create :mentor_discussion, request: request, solution: solution, mentor: mentor
           request.fulfilled!
           submission = create :submission, solution: solution,
-                                           tests_status: :passed,
-                                           representation_status: :generated,
-                                           analysis_status: :completed
+            tests_status: :passed,
+            representation_status: :generated,
+            analysis_status: :completed
           create :iteration, idx: 1, solution: solution, submission: submission
           create :user_track, user: user, track: solution.track
 
@@ -37,9 +37,9 @@ module Components
           user = create :user
           solution = create :practice_solution, user: user
           submission = create :submission, solution: solution,
-                                           tests_status: :passed,
-                                           representation_status: :generated,
-                                           analysis_status: :completed
+            tests_status: :passed,
+            representation_status: :generated,
+            analysis_status: :completed
           create :iteration, idx: 1, solution: solution, submission: submission
           create :user_track, user: user, track: solution.track
 
@@ -70,9 +70,9 @@ module Components
             finished_at: Time.current
           request.fulfilled!
           submission = create :submission, solution: solution,
-                                           tests_status: :passed,
-                                           representation_status: :generated,
-                                           analysis_status: :completed
+            tests_status: :passed,
+            representation_status: :generated,
+            analysis_status: :completed
           create :iteration, idx: 1, solution: solution, submission: submission
           solution.update_mentoring_status!
           create :user_track, user: user, track: solution.track
@@ -92,9 +92,9 @@ module Components
           user = create :user
           solution = create :practice_solution, user: user
           submission = create :submission, solution: solution,
-                                           tests_status: :passed,
-                                           representation_status: :generated,
-                                           analysis_status: :completed
+            tests_status: :passed,
+            representation_status: :generated,
+            analysis_status: :completed
           create :iteration, idx: 1, solution: solution, submission: submission
           create :user_track, user: user, track: solution.track
 

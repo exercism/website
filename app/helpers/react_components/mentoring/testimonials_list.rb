@@ -1,7 +1,6 @@
 module ReactComponents
   module Mentoring
     class TestimonialsList < ReactComponent
-      include Webpacker::Helper
       include ActionView::Helpers::AssetUrlHelper
 
       initialize_with :params

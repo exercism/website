@@ -94,10 +94,7 @@
                     @apply text-16 leading-160;
                 }
 
-                @apply mb-16;
-                @screen md {
-                    @apply mb-0;
-                }
+                @apply mb-16 md:mb-0;
             }
         }
     }

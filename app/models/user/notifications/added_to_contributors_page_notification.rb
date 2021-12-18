@@ -13,11 +13,8 @@ class User
         :icon
       end
 
-      def image_url
-        asset_pack_url(
-          "media/images/icons/contributors.svg",
-          host: Rails.application.config.action_controller.asset_host
-        )
+      def image_path
+        "icons/contributors.svg"
       end
 
       def guard_params

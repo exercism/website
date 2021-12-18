@@ -58,8 +58,7 @@ module IsParamaterisedSTI
   extend ActiveSupport::Concern
 
   include ActionView::Helpers::SanitizeHelper
-  include ActionView::Helpers::AssetUrlHelper
-  include Webpacker::Helper
+  include Propshaft::Helper
   extend Mandate::Memoize
 
   included do
@@ -136,7 +135,7 @@ module IsParamaterisedSTI
   def text
     I18n.t(
       "#{i18n_category}.#{i18n_key}.#{version}",
-      i18n_params.transform_values { |v| sanitize(v.to_s) }
+      **i18n_params.transform_values { |v| sanitize(v.to_s) }
     ).strip
   end
 

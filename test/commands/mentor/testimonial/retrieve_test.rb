@@ -41,7 +41,7 @@ class Mentor::Testimonial::RetrieveTest < ActiveSupport::TestCase
     ruby_bob_req = create :mentor_testimonial, solution: create(:concept_solution, exercise: ruby_bob), mentor: mentor
     js_bob_req = create :mentor_testimonial, solution: create(:concept_solution, exercise: js_bob), mentor: mentor
     ruby_strings_req = create :mentor_testimonial, solution: create(:concept_solution, exercise: ruby_strings),
-                                                   mentor: mentor
+      mentor: mentor
     js_strings_req = create :mentor_testimonial, solution: create(:concept_solution, exercise: js_strings), mentor: mentor
 
     assert_equal [

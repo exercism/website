@@ -1,4 +1,4 @@
-class CreateMentorRequests < ActiveRecord::Migration[6.0]
+class CreateMentorRequests < ActiveRecord::Migration[7.0]
   def change
     create_table :mentor_requests do |t|
       t.string :uuid, null: false

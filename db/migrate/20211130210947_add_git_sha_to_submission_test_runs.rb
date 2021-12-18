@@ -1,4 +1,4 @@
-class AddGitShaToSubmissionTestRuns < ActiveRecord::Migration[6.1]
+class AddGitShaToSubmissionTestRuns < ActiveRecord::Migration[7.0]
   def up
     execute "ALTER TABLE `submissions` ADD `git_important_files_hash` varchar(50) NULL, ALGORITHM=INPLACE, LOCK=NONE"
 

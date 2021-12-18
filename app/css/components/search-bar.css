@@ -38,9 +38,7 @@
             width: 18px;
             filter: var(--buttonBorderColor1-filter);
         }
-        @screen md {
-            @apply px-24;
-        }
+        @apply md:px-24;
     }
     & .--reset-btn {
         @apply border-transparent;

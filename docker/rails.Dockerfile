@@ -1,9 +1,9 @@
-FROM ruby:2.6.6
+FROM ruby:3.1.0-bullseye
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get install -y cmake nodejs yarn graphicsmagick
+    apt-get install -y cmake make nodejs yarn graphicsmagick
 
 WORKDIR /opt/exercism/website/current
 
@@ -25,7 +25,6 @@ RUN yarn install
 # These are:
 # - Anything in the apex (such as babel.config.js); and 
 # - The bin directory that contains the requisit scripts
-# - The config directory which controls webpacker settings
 # - The contents on app/javascript
 # These are deliberately permissive in case we want to add
 # future apex files or future config files, so we don't have
@@ -49,7 +48,7 @@ COPY app/helpers ./app/helpers
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
 ENV NODE_OPTIONS="--max-old-space-size=6144"
-RUN RACK_ENV=production NODE_ENV=production bundle exec bin/webpack
+RUN RACK_ENV=production NODE_ENV=production bundle exec rails assets:precompile
 
 # Copy everything over now
 COPY . ./

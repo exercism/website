@@ -11,7 +11,7 @@ module Flows
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
       solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author,
-                                           published_iteration_head_tests_status: :passed
+        published_iteration_head_tests_status: :passed
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
 
@@ -33,11 +33,11 @@ module Flows
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
       solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author,
-                                           published_iteration_head_tests_status: :passed
+        published_iteration_head_tests_status: :passed
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
       other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author,
-                                                 published_iteration_head_tests_status: :passed
+        published_iteration_head_tests_status: :passed
       other_submission = create :submission, solution: other_solution
       create :iteration, solution: other_solution, submission: other_submission
 
@@ -64,18 +64,18 @@ module Flows
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
       solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author, num_stars: 11,
-                                           git_important_files_hash: exercise.git_important_files_hash,
-                                           published_iteration_head_tests_status: :queued
+        git_important_files_hash: exercise.git_important_files_hash,
+        published_iteration_head_tests_status: :queued
       submission = create :submission, solution: solution, tests_status: :passed
       create :iteration, solution: solution, submission: submission
       other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author, num_stars: 22,
-                                                 git_important_files_hash: exercise.git_important_files_hash,
-                                                 published_iteration_head_tests_status: :failed
+        git_important_files_hash: exercise.git_important_files_hash,
+        published_iteration_head_tests_status: :failed
       other_submission = create :submission, solution: other_solution, tests_status: :failed
       create :iteration, solution: other_solution, submission: other_submission
       another_solution = create :concept_solution, exercise: exercise, published_at: 4.days.ago, user: another_author, num_stars: 33,
-                                                   git_important_files_hash: 'another-hash',
-                                                   published_iteration_head_tests_status: :passed
+        git_important_files_hash: 'another-hash',
+        published_iteration_head_tests_status: :passed
       another_submission = create :submission, solution: another_solution, tests_status: :failed
       create :iteration, solution: another_solution, submission: another_submission
 
@@ -132,11 +132,11 @@ module Flows
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
       solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author, num_stars: 11,
-                                           published_iteration_head_tests_status: :passed
+        published_iteration_head_tests_status: :passed
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
       other_solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: other_author, num_stars: 22,
-                                                 published_iteration_head_tests_status: :passed
+        published_iteration_head_tests_status: :passed
       other_submission = create :submission, solution: other_solution
       create :iteration, solution: other_solution, submission: other_submission
 

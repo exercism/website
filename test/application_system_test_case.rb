@@ -30,7 +30,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   def teardown
     # Reset logs regardless of status
-    errors = page.driver.browser.manage.logs.get(:browser)
+    errors = page.driver.browser.logs.get(:browser)
 
     # Reset everything
     Capybara.reset_sessions!

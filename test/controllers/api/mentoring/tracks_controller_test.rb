@@ -31,7 +31,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     setup_user(user)
 
     get api_mentoring_tracks_path, headers: @headers, as: :json,
-                                   params: { criteria: "ruby" }
+      params: { criteria: "ruby" }
     assert_response 200
 
     expected = {
@@ -68,7 +68,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     setup_user(user)
 
     get mentored_api_mentoring_tracks_path, headers: @headers, as: :json,
-                                            params: { criteria: "ruby" }
+      params: { criteria: "ruby" }
     assert_response 200
 
     expected = {

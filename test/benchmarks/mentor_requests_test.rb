@@ -26,15 +26,15 @@ module Benchmarks
       # Build solutions for a mentor
       mentor_solutions = loads[:exercises].times.map do |i|
         build(:concept_solution, user: mentor, exercise: exercises[i],
-                                 uuid: i, git_slug: "a", git_sha: "b",
-                                 created_at: Time.current, updated_at: Time.current).attributes
+          uuid: i, git_slug: "a", git_sha: "b",
+          created_at: Time.current, updated_at: Time.current).attributes
       end
       Solution.insert_all(mentor_solutions)
       mentor_solution_ids = mentor.solutions.pluck(:id)
 
       mentor_solution_requests = loads[:exercises].times.map do |i|
         build(:mentor_request, solution_id: mentor_solution_ids[i], uuid: i,
-                               created_at: Time.current, updated_at: Time.current).attributes
+          created_at: Time.current, updated_at: Time.current).attributes
       end
       Mentor::Request.insert_all(mentor_solution_requests)
 
@@ -50,15 +50,15 @@ module Benchmarks
         start_solution_id = Solution.order(id: :asc).last.id
         solutions = count.times.map do |i|
           build(:concept_solution, user_id: user_ids[i], exercise: exercises.sample,
-                                   uuid: i, git_slug: "a", git_sha: "b",
-                                   created_at: Time.current, updated_at: Time.current).attributes
+            uuid: i, git_slug: "a", git_sha: "b",
+            created_at: Time.current, updated_at: Time.current).attributes
         end
         Solution.insert_all(solutions)
         solution_ids = Solution.where("id > ?", start_solution_id).pluck(:id)
 
         solution_requests = count.times.map do |i|
           build(:mentor_request, solution_id: solution_ids[i], uuid: "#{prefix}-#{i}",
-                                 created_at: Time.current, updated_at: Time.current).attributes
+            created_at: Time.current, updated_at: Time.current).attributes
         end
         Mentor::Request.insert_all(solution_requests)
       end

@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
+        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
         with:
           ruby-version: .ruby-version
 
@@ -78,7 +78,7 @@ jobs:
       ###
       # Run the tests
       - name: Run JS tests
-        run: yarn test --runInBand
+        run: yarn test
 
   #####################
   ##### RUBY TESTS ####
@@ -154,7 +154,7 @@ jobs:
       ###
       # Setup Ruby
       - name: Set up Ruby
-        uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
+        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -210,7 +210,8 @@ jobs:
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false
         run: |
-          bundle exec rails test:zeitwerk ${{ matrix.tests }}
+          bundle exec rails test:zeitwerk
+          bundle exec rails test:prepare
           bundle exec rails test ${{ matrix.tests }}
 
   ruby-tests-completed:
@@ -292,7 +293,7 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
+        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -336,7 +337,7 @@ jobs:
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
-          bundle exec rails assets:precompile
+          bundle exec rails test:prepare
 
       ###
       # Run the tests
@@ -373,7 +374,7 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@b161cb92f0e2f28d992f04f38fff204d84132c47
+        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -411,4 +412,4 @@ jobs:
         env:
           RAILS_ENV: test
           EXERCISM_CI: true
-        run: bundle exec bin/webpack
+        run: bundle exec rails test:prepare

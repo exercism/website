@@ -1,11 +1,15 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '3.1.0'
 
 # Service/framework dependencies
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 7.0.1'
+gem 'cssbundling-rails'
+gem 'jsbundling-rails'
+gem 'turbo-rails'
+gem 'propshaft'
 
-gem 'mysql2', '>= 0.4.4'
+gem 'mysql2', github: 'brianmario/mysql2', ref: '25c42c7'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
@@ -29,7 +33,7 @@ gem 'kaminari'
 gem 'oj'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.80.0'
+gem 'exercism-config', '>= 0.81.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies
@@ -40,8 +44,6 @@ gem 'sidekiq-failures'
 gem 'sidekiq-scheduler'
 
 # View-level Dependencies
-gem 'webpacker', '~> 5.x'
-gem 'turbo-rails'
 gem 'hamlit'
 gem 'commonmarker'
 gem 'ansi-to-html'
@@ -51,12 +53,15 @@ gem 'devise', '~> 4.7'
 
 # Omniauth
 gem 'omniauth-github'
+gem "omniauth-rails_csrf_protection"
 
 # Payments
 gem 'stripe'
 
 # Reporting
 gem 'skylight'
+
+gem 'listen', '>= 3.0.5', '< 3.2'
 
 # Let's be nice to Windows users
 platforms :mingw, :mswin, :x64_mingw, :jruby do
@@ -75,7 +80,6 @@ end
 
 group :development do
   gem 'haml_lint', require: false
-  gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'solargraph'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false

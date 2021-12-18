@@ -31,7 +31,7 @@ module ReactComponents
       end
 
       def to_s
-        super("common-modal", html: html)
+        super("common-modal", { html: })
       end
 
       private

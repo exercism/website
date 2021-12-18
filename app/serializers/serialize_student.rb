@@ -1,6 +1,11 @@
 class SerializeStudent
   include Mandate
 
+  # TODO: figure out why mandate doesn't work for this class
+  def self.call(...)
+    new(...).()
+  end
+
   def initialize(student, mentor, user_track:, relationship:, anonymous_mode:)
     @student = student
     @mentor = mentor
@@ -23,9 +28,9 @@ class SerializeStudent
       is_favorited: !!relationship&.favorited?,
       is_blocked: !!relationship&.blocked_by_mentor?,
       track_objectives: user_track&.objectives.to_s,
-      num_total_discussions: num_total_discussions,
+      num_total_discussions:,
       num_discussions_with_mentor: relationship&.num_discussions.to_i,
-      links: links
+      links:
     }
   end
 

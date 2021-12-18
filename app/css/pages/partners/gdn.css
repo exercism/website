@@ -4,9 +4,7 @@
         & .icons {
             & span {
                 @apply text-40 mx-24;
-                @screen md {
-                    @apply text-64 mx-32;
-                }
+                @apply md:text-64 md:mx-32;
             }
             & .c-icon {
                 height: 80px;
@@ -35,24 +33,16 @@
         }
         & h3 {
             & .sm {
-                @apply inline;
+                @apply inline md:hidden;
             }
             & .md {
-                @apply hidden;
-            }
-            @screen md {
-                & .sm {
-                    @apply hidden;
-                }
-                & .md {
-                    @apply inline;
-                }
+                @apply hidden md:inline;
             }
         }
         & .video-section {
             width: 100%;
+            @apply lg:ml-64;
             @screen lg {
-                @apply ml-64;
                 max-width: 640px;
             }
         }
@@ -102,9 +92,7 @@
                 position: absolute;
                 box-shadow: 0 -20px 20px 20px var(--backgroundColorB) inset;
                 background: transparent;
-                @screen lg {
-                    @apply hidden;
-                }
+                @apply lg:hidden;
             }
         }
     }
@@ -134,10 +122,7 @@
             & .text-h3 {
                 @apply text-center;
                 max-width: 300px;
-                @apply mb-24;
-                @screen md {
-                    @apply mb-32;
-                }
+                @apply mb-24 md:mb-32;
             }
             & img:last-child {
                 height: 24px;

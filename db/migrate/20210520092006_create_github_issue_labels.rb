@@ -1,4 +1,4 @@
-class CreateGithubIssueLabels < ActiveRecord::Migration[6.1]
+class CreateGithubIssueLabels < ActiveRecord::Migration[7.0]
   def change
     create_table :github_issue_labels do |t|
       t.belongs_to :github_issue, null: false, foreign_key: true

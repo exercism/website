@@ -16,9 +16,9 @@ module Flows
           exercise = create :concept_exercise, track: track
           solution = create :concept_solution, exercise: exercise, user: user
           submission = create :submission, solution: solution,
-                                           tests_status: :passed,
-                                           representation_status: :generated,
-                                           analysis_status: :completed
+            tests_status: :passed,
+            representation_status: :generated,
+            analysis_status: :completed
           create :iteration, idx: 1, solution: solution, submission: submission
           discussion = create :mentor_discussion, solution: solution
 
@@ -43,9 +43,9 @@ module Flows
           exercise = create :concept_exercise, track: track
           solution = create :concept_solution, exercise: exercise, user: user
           submission = create :submission, solution: solution,
-                                           tests_status: :passed,
-                                           representation_status: :generated,
-                                           analysis_status: :completed
+            tests_status: :passed,
+            representation_status: :generated,
+            analysis_status: :completed
           create :iteration, idx: 1, solution: solution, submission: submission
           discussion = create :mentor_discussion, solution: solution
 

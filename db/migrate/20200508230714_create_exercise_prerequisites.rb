@@ -1,4 +1,4 @@
-class CreateExercisePrerequisites < ActiveRecord::Migration[6.0]
+class CreateExercisePrerequisites < ActiveRecord::Migration[7.0]
   def change
     create_table :exercise_prerequisites do |t|
       t.belongs_to :exercise, foreign_key: true, null: false

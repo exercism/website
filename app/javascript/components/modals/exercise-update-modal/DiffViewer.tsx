@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Diff2HtmlUI } from 'diff2html/lib/ui/js/diff2html-ui-base.js'
-import * as HighlightJS from 'highlight.js'
+import HighlightJS from 'highlight.js'
 
 export const DiffViewer = ({ diff }: { diff: string }): JSX.Element => {
   const contentRef = useRef<HTMLDivElement>(null)

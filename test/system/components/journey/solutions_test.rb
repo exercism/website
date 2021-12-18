@@ -11,7 +11,7 @@ module Components
         track = create :track, title: "Ruby"
         exercise = create :concept_exercise, title: "Lasagna", icon_name: 'lasagna', track: track, slug: :lasagna
         solution = create :concept_solution, :completed, exercise: exercise, completed_at: Time.current, user: user,
-                                                         num_views: 1270, num_comments: 10, num_stars: 12, num_loc: 18
+          num_views: 1270, num_comments: 10, num_stars: 12, num_loc: 18
         create :submission, solution: solution
         travel_to(Time.current - 2.days) do
           3.times { create :iteration, solution: solution }

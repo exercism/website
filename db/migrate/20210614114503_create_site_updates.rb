@@ -1,4 +1,4 @@
-class CreateSiteUpdates < ActiveRecord::Migration[6.1]
+class CreateSiteUpdates < ActiveRecord::Migration[7.0]
   def change
     create_table :site_updates do |t|
       t.string :type, null: false

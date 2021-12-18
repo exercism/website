@@ -138,9 +138,9 @@ module Components
         user = create :user
         solution = create :practice_solution, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         assert iteration.status.no_automated_feedback? # Sanity
 
@@ -166,9 +166,9 @@ module Components
         user_track = create :user_track
         solution = create :concept_solution, user: user_track.user, track: user_track.track
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         assert iteration.status.no_automated_feedback? # Sanity
 
@@ -195,9 +195,9 @@ module Components
         user = create :user
         solution = create :practice_solution, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         create :submission_analysis, submission: submission, data: {
           comments: [
@@ -231,9 +231,9 @@ module Components
         user_track = create :user_track
         solution = create :concept_solution, user: user_track.user, track: user_track.track
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         create :submission_analysis, submission: submission, data: {
           comments: [
@@ -267,9 +267,9 @@ module Components
         user = create :user
         solution = create :practice_solution, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         create :submission_analysis, submission: submission, data: {
           comments: [
@@ -302,9 +302,9 @@ module Components
         user_track = create :user_track
         solution = create :concept_solution, user: user_track.user, track: user_track.track
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         create :submission_analysis, submission: submission, data: {
           comments: [
@@ -339,9 +339,9 @@ module Components
         user_track = create :user_track
         solution = create :concept_solution, user: user_track.user, track: user_track.track
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         create :submission_analysis, submission: submission, data: {
           comments: [
@@ -377,9 +377,9 @@ module Components
         user = create :user
         solution = create :practice_solution, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         assert iteration.status.no_automated_feedback? # Sanity
         create :mentor_request, solution: solution
@@ -400,9 +400,9 @@ module Components
 
         solution = create :practice_solution, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         assert iteration.status.no_automated_feedback? # Sanity
 

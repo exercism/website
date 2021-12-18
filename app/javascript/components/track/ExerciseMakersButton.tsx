@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import pluralize from 'pluralize'
 import { Avatar } from '../common'
-import { User } from '../types'
 import { ExerciseMakersModal } from '../modals/ExerciseMakersModal'
 
 type Links = {
@@ -29,8 +28,8 @@ export const ExerciseMakersButton = ({
         onClick={() => setOpen(!open)}
       >
         <div className="c-faces">
-          {avatarUrls.map((avatarUrl) => (
-            <Avatar className="face" src={avatarUrl} key={avatarUrl} />
+          {avatarUrls.map((avatarUrl, i) => (
+            <Avatar className="face" src={avatarUrl} key={i} />
           ))}
         </div>
         <div className="stats">

@@ -74,10 +74,10 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "track is updated when there are changes" do
     track = create :track, slug: "ruby",
-                           title: "Ruby",
-                           active: true,
-                           blurb: "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.", # rubocop:disable Layout/LineLength
-                           synced_to_git_sha: "aad630acfbbdef16d90105a205b957c138fa1b93"
+      title: "Ruby",
+      active: true,
+      blurb: "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.", # rubocop:disable Layout/LineLength
+      synced_to_git_sha: "aad630acfbbdef16d90105a205b957c138fa1b93"
 
     Git::SyncTrack.(track)
 
@@ -86,11 +86,11 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "track is updated when tags change" do
     track = create :track, slug: "fsharp",
-                           title: "F#",
-                           active: true,
-                           blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
-                           tags: ["execution_mode/interpreted", "platform/windows", "platform/linux", "paradigm/declarative", "paradigm/object_oriented"], # rubocop:disable Layout/LineLength
-                           synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52"
+      title: "F#",
+      active: true,
+      blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
+      tags: ["execution_mode/interpreted", "platform/windows", "platform/linux", "paradigm/declarative", "paradigm/object_oriented"], # rubocop:disable Layout/LineLength
+      synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52"
 
     Git::SyncTrack.(track)
 

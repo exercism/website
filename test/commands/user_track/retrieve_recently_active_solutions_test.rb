@@ -25,7 +25,7 @@ class UserTrack::RetrieveRecentlyActiveSolutionsTest < ActiveSupport::TestCase
     solution = create :concept_solution
     create :started_exercise_user_activity, user: user, track: track, solution: solution
     create :started_exercise_user_activity, user: user, track: create(:track, :random_slug),
-                                            solution: create(:concept_solution)
+      solution: create(:concept_solution)
     create :started_exercise_user_activity, track: track, solution: create(:concept_solution)
 
     activities = UserTrack::RetrieveRecentlyActiveSolutions.(user_track)

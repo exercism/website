@@ -1,9 +1,9 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
-ruby '2.6.6'
+ruby '3.0.3'
 
 # Service/framework dependencies
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 7.0.0'
 
 gem 'mysql2', '>= 0.4.4'
 gem 'redis', '~> 4.0'

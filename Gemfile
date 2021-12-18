@@ -7,7 +7,7 @@ gem 'rails', '~> 7.0.0'
 gem 'cssbundling-rails'
 gem "jsbundling-rails"
 gem 'turbo-rails'
-gem 'sprockets-rails'
+gem 'propshaft'
 
 gem 'mysql2', '>= 0.4.4'
 gem 'redis', '~> 4.0'

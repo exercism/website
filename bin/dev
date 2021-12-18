@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+hivemind -p 3020 Procfile.dev

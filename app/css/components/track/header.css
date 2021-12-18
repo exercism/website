@@ -10,10 +10,7 @@
     }
 
     & .text-h1 {
-        @apply text-28;
-        @screen md {
-            @apply text-39;
-        }
+        @apply text-28 md:text-39;
     }
     & .c-track-icon {
         height: 48px;

@@ -70,21 +70,13 @@
             & .--reset-btn {
                 @apply ml-24;
             }
-            @screen lg {
-                @apply flex;
-            }
+            @apply lg:flex;
         }
         & .--filter-btn {
-            @apply mr-0;
-            @screen lg {
-                @apply mr-40;
-            }
+            @apply mr-0 lg:mr-40;
         }
         & .c-single-select {
-            @apply hidden ml-auto;
-            @screen lg {
-                @apply flex;
-            }
+            @apply hidden ml-auto lg:flex;
         }
     }
     & .joined-tracks {
@@ -95,10 +87,7 @@
     }
     & .joined-tracks,
     & .unjoined-tracks {
-        @apply grid gap-16;
-        @screen md {
-            @apply grid-cols-2;
-        }
+        @apply grid gap-16 md:grid-cols-2;
     }
 
     & .--track {
@@ -189,9 +178,7 @@
                         width: 21px;
                         @apply mr-8;
                         filter: var(--textColor6-filter);
-                        @screen md {
-                            @apply mr-12;
-                        }
+                        @apply md:mr-12;
                     }
                 }
             }
@@ -221,7 +208,7 @@
                     @apply border-borderColor7 border-1 rounded-100;
                     @apply font-medium text-13 text-textColor6 leading-200;
                     @apply px-12;
-                    @apply whitespace-no-wrap;
+                    @apply whitespace-nowrap;
                 }
             }
             & .--last-touched {

@@ -14,10 +14,10 @@
             width: 48px;
             @apply mb-8;
 
+            @apply md:ml-48;
             @screen md {
                 height: 96px;
                 width: 96px;
-                @apply ml-48;
             }
         }
         & .info-bar {
@@ -70,10 +70,7 @@
             & .c-avatar {
                 height: 64px;
                 width: 64px;
-                @apply mr-12;
-                @screen md {
-                    @apply mr-24;
-                }
+                @apply mr-12 md:mr-24;
             }
         }
     }

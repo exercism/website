@@ -24,8 +24,9 @@
         @apply mr-auto;
     }
     & .rhs {
+        @apply md:flex-shrink-0;
+
         @screen md {
-            @apply flex-shrink-0;
             width: 380px;
         }
 

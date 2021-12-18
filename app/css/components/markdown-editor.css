@@ -48,10 +48,7 @@
         @apply flex flex-col-reverse;
 
         & .editor-toolbar {
-            @apply hidden;
-            @screen md {
-                @apply flex;
-            }
+            @apply hidden md:flex;
 
             border-width: 0; /* Override default */
             @apply border-t-1 border-borderColor5 rounded-none;

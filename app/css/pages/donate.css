@@ -27,8 +27,8 @@
     & article {
         @apply flex flex-col;
 
+        @apply lg:grid;
         @screen lg {
-            @apply grid;
             grid-template:
                 "video form" auto
                 "info form" auto / auto auto;
@@ -131,8 +131,8 @@
         box-shadow: 0px 4px 32px 0px #4f72cd80;
         max-width: none;
 
+        @apply lg:ml-auto;
         @screen lg {
-            @apply ml-auto;
             max-width: 570px;
         }
     }

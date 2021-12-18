@@ -1,6 +1,5 @@
 class BlogPost < ApplicationRecord
   include ActionView::Helpers::AssetUrlHelper
-  include Webpacker::Helper
 
   extend FriendlyId
   friendly_id :slug, use: [:history]
@@ -32,7 +31,7 @@ class BlogPost < ApplicationRecord
   end
 
   def image_url
-    attributes['image_url'].presence || asset_pack_url(
+    attributes['image_url'].presence || compute_asset_path(
       "media/images/graphics/blog-placeholder-article.svg",
       host: Rails.application.config.action_controller.asset_host
     )

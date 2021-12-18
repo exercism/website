@@ -220,7 +220,7 @@
                             & .journey-h3 {
                                 @apply mb-8;
                             }
-                            & p.text-h6 {
+                            & h5 {
                                 @apply text-textColor5;
                                 @apply mb-6;
                             }
@@ -242,7 +242,7 @@
                             & .journey-h3 {
                                 @apply mb-8;
                             }
-                            & p.text-h6 {
+                            & h5 {
                                 @apply text-textColor5;
                                 @apply mb-6;
                             }

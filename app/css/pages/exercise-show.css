@@ -156,7 +156,9 @@
             }
             & .options {
                 @apply flex items-center;
-                & .c-combo-button,
+                & .c-combo-button {
+                    @apply mr-24;
+                }
                 & .btn-primary {
                     @apply mr-24;
                 }
@@ -397,9 +399,7 @@
     }
     & .action-box {
         @apply shadow-lg py-20 px-20 rounded-8;
-        @screen lg {
-            @apply py-24 px-32;
-        }
+        @apply lg:py-24 lg:px-32;
 
         & h3 {
             @apply flex items-center text-h4 mb-8;

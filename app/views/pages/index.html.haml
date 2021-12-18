@@ -73,7 +73,7 @@
                     .track-icons.sm:ml-16
                       - @tracks.sort_by { rand }[0, 3].each do |track|
                         = track_icon(track)
-                    .font-semibold.text-textColor7.ml-16.whitespace-no-wrap +#{sample[:num_tracks]} more
+                    .font-semibold.text-textColor7.ml-16.whitespace-nowrap +#{sample[:num_tracks]} more
 
         = graphical_icon "landing-page-exercise", category: :graphics, css_class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1"
 
@@ -107,7 +107,7 @@
           %p.text-p-xlarge
             Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of a particular programming language.
 
-      = image_pack_tag "screenshots/mentoring.jpg", role: :presentation, class: "main-graphic mb-60 shadow-lgZ1"
+      = image_tag "screenshots/mentoring.jpg", role: :presentation, class: "main-graphic mb-60 shadow-lgZ1"
 
       .flex.flex-col.items-center
         %h3.text-h2 Why mentoring?

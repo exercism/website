@@ -24,18 +24,21 @@
         @apply ml-8;
     }
 
+    @apply md:flex-col md:p-0 md:rounded-circle;
+    & .c-icon {
+        @apply md:mr-0 md:mb-8;
+    }
+    & + .social-icon {
+        @apply md:ml-16;
+    }
+
     @screen md {
         height: 96px;
         width: 96px;
-        @apply flex-col p-0 rounded-circle;
 
         & .c-icon {
             height: 32px;
             width: 32px;
-            @apply mr-0 mb-8;
-        }
-        & + .social-icon {
-            @apply ml-16;
         }
     }
 }

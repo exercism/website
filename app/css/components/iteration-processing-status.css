@@ -13,10 +13,7 @@
     & .--status {
         @apply font-mono font-bold;
         @apply ml-12;
-        @apply hidden;
-        @screen md {
-            @apply block;
-        }
+        @apply hidden md:block;
     }
     &.--processing {
         @apply text-orange;

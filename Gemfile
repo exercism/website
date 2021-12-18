@@ -4,6 +4,10 @@ ruby '3.0.3'
 
 # Service/framework dependencies
 gem 'rails', '~> 7.0.0'
+gem 'cssbundling-rails'
+gem "jsbundling-rails"
+gem 'turbo-rails'
+gem 'sprockets-rails'
 
 gem 'mysql2', '>= 0.4.4'
 gem 'redis', '~> 4.0'
@@ -40,8 +44,7 @@ gem 'sidekiq-failures'
 gem 'sidekiq-scheduler'
 
 # View-level Dependencies
-gem 'webpacker', '~> 5.x'
-gem 'turbo-rails'
+# gem 'webpacker', '~> 5.x'
 gem 'hamlit'
 gem 'commonmarker'
 gem 'ansi-to-html'

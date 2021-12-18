@@ -1,17 +1,16 @@
 module.exports = {
-  mode: 'jit',
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
-  purge: [
+  content: [
     './app/views/**/*.haml',
     './app/helpers/**/*.rb',
+    './app/css/*.css',
     './app/css/**/*.css',
     './app/javascript/**/*',
   ],
   theme: {
     extend: {
+      screens: {
+        max850: { max: '850px' },
+      },
       gridTemplateColumns: {
         // Simple 16 column grid
         '2-auto': 'repeat(2, auto)',

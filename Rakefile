@@ -3,4 +3,12 @@
 
 require_relative 'config/application'
 
+# namespace :assets do
+#   task :precompile do
+#   end
+#   task :clobber do
+#   end
+# end
+
 Rails.application.load_tasks
+

@@ -12,8 +12,8 @@
         max-height: 170px;
 
         @apply hidden;
+        @apply sm:flex;
         @screen sm {
-            @apply flex;
             width: 17%;
         }
         @screen md {

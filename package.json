@@ -41,6 +41,7 @@
     "dayjs": "^1.8.35",
     "diff2html": "^3.4.5",
     "easymde": "^2.15.0",
+    "esbuild": "^0.14.5",
     "esbuild-jest": "^0.5.0",
     "focus-visible": "^5.2.0",
     "fontfaceobserver": "^2.1.0",
@@ -56,6 +57,7 @@
     "pluralize": "^8.0.0",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-nesting": "^10.0.3",
     "prop-types": "^15.7.2",
     "qs": "^6.9.6",
@@ -88,7 +90,6 @@
     "@babel/preset-typescript": "^7.13.0",
     "@jackfranklin/test-data-bot": "^1.3.0",
     "@prettier/plugin-ruby": "^0.18.2",
-    "@rails/webpacker": "5.4.3",
     "@testing-library/dom": "^7.24.1",
     "@testing-library/jest-dom": "^5.11.0",
     "@testing-library/react": "^10.4.3",
@@ -104,13 +105,14 @@
     "@types/react-image-crop": "^8.1.2",
     "@types/react-modal": "^3.12.0",
     "@types/uuid": "^8.3.0",
-    "@types/webpack-env": "^1.15.3",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "babel-jest": "^26.5.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "esbuild-loader": "^2.16.0",
+    "esbuild-plugin-import-glob": "^0.1.1",
+    "esbuild-plugin-svgr": "^1.0.0",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-jest": "^24.1.0",
@@ -118,7 +120,6 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-testing-library": "^4.1.2",
     "flush-promises": "^1.0.2",
-    "fork-ts-checker-webpack-plugin": "^5.2.0",
     "husky": "^4.2.5",
     "isomorphic-fetch": "^3.0.0",
     "jest": "27",
@@ -126,15 +127,14 @@
     "postcss-import": "^14.0.2",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "typescript": "^4.0.3",
-    "webpack-bundle-analyzer": "^4.4.2",
-    "webpack-dev-server": "^3.11.0"
+    "typescript": "^4.0.3"
   },
   "scripts": {
     "test-debug": "node --unhandled-rejections=strict --trace-warnings node_modules/.bin/jest",
     "test": "jest",
     "test-watch": "jest --watchAll",
-    "build:css": "postcss ./app/css/application.postcss.css -o ./app/assets/builds/application.css"
+    "build:css": "postcss ./app/css/application.postcss.css -o .built-assets/application.css",
+    "build": "./app/javascript/esbuild.js"
   },
   "jest": {
     "roots": [

@@ -1,4 +1,4 @@
-const errorIcon = require(`../../images/graphics/missing-exercise.svg`)
+const errorIcon = require(`../../../images/graphics/missing-exercise.svg`)
 
 export const imageErrorHandler = (
   e: React.SyntheticEvent<HTMLImageElement, Event>

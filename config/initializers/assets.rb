@@ -1,4 +1,8 @@
-Rails.application.config.assets.version = "1.0"
+Rails.application.configure do
+  config.assets.version = "1.0"
+  config.assets.paths << "app/images"
+  config.assets.paths << ".built-assets"
+end
 
 # class AssetUrlProcessor
 #   def self.call(input)

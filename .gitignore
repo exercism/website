@@ -38,5 +38,5 @@ yarn-debug.log*
 # Any code coverage that's generated
 coverage/
 
-/app/assets/builds/*
-!/app/assets/builds/.keep
+.built-assets/*
+!.build-assets/.keep

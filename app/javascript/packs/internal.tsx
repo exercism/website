@@ -1,6 +1,6 @@
 import 'easymde/dist/easymde.min.css'
 
-require('channels')
+import Channels from 'channels'
 
 import React from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'

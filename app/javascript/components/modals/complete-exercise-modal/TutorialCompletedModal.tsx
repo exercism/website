@@ -26,7 +26,7 @@ export const TutorialCompletedModal = ({
       <p>
         You’re now ready to get stuck into some{' '}
         <a href={completion.track.links.exercises}>real exercises</a>.
-        {completion.track.course && completion.track.numConcepts > 0 ? (
+        {completion.track.course ? (
           <>
             <br />
             We’ve also revealed {completion.track.title}’s{' '}
@@ -41,7 +41,7 @@ export const TutorialCompletedModal = ({
         section on your track too.
       </div>
       <div className="btns">
-        {completion.track.course && completion.track.numConcepts > 0 ? (
+        {completion.track.course ? (
           <a
             href={completion.track.links.concepts}
             className="btn-primary btn-m"

@@ -13,7 +13,7 @@
             %em.c-underline
               %strong #{@user_track.num_exercises} exercises
 
-            - if @track.course? && @user_track.num_concepts.positive?
+            - if @track.course?
               grouped into #{@user_track.num_concepts} #{@track.title} Concepts,
             with automatic analysis
             of your code and

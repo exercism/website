@@ -25,6 +25,7 @@ class SerializeTrackTest < ActiveSupport::TestCase
     expected = {
       slug: track.slug,
       title: track.title,
+      course: track.course?,
       num_concepts: num_concepts,
       num_exercises: num_concept_exercises + num_practice_exercises,
       web_url: "https://test.exercism.org/tracks/#{track.slug}",

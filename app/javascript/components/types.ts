@@ -260,6 +260,7 @@ export type Track = {
   slug: string
   title: string
   iconUrl: string
+  course: boolean
   numConcepts: number
   numExercises: number
   numSolutions: number

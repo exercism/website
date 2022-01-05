@@ -3,8 +3,7 @@ require_relative "../react_component_test_case"
 module ReactComponents::Dropdowns
   class TrackMenuTest < ReactComponentTestCase
     test "external course" do
-      track = create :track
-      track.expects(:course?).never
+      track = create :track, course: false
 
       component = render(ReactComponents::Dropdowns::TrackMenu.new(track))
       assert_component component,
@@ -19,8 +18,7 @@ module ReactComponents::Dropdowns
     end
 
     test "joined course in learning mode" do
-      track = create :track
-      track.expects(course?: true)
+      track = create :track, course: true
       user = create :user
       user_track = create :user_track, track: track, user: user
 
@@ -44,8 +42,7 @@ module ReactComponents::Dropdowns
     end
 
     test "joined course in practice mode" do
-      track = create :track
-      track.expects(course?: true)
+      track = create :track, course: true
       user = create :user
       user_track = create :user_track, track: track, user: user, practice_mode: true
 
@@ -69,8 +66,7 @@ module ReactComponents::Dropdowns
     end
 
     test "joined non-course track" do
-      track = create :track
-      track.expects(course?: false)
+      track = create :track, course: false
       user = create :user
       user_track = create :user_track, track: track, user: user, practice_mode: true
 

@@ -21,7 +21,7 @@
         %h3 Community-sourced #{track.title} exercises
         %p
           The #{track.title} track on Exercism has
-          - if track.num_concepts.positive?
+          - if @track.course?
             #{track.num_concepts} concepts and
 
           #{track.num_exercises} exercises to help you write better code.

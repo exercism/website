@@ -4,6 +4,7 @@ class Tracks::ConceptsController < ApplicationController
   before_action :use_concept, only: %i[show tooltip start complete]
 
   before_action :guard_practice_mode!, only: [:index]
+  before_action :guard_course!, only: [:index]
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
 
   def index
@@ -67,6 +68,12 @@ class Tracks::ConceptsController < ApplicationController
 
   def guard_practice_mode!
     return unless @user_track.practice_mode?
+
+    redirect_to track_path(@track)
+  end
+
+  def guard_course!
+    return if @track.course?
 
     redirect_to track_path(@track)
   end

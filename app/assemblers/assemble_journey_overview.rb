@@ -37,10 +37,10 @@ class AssembleJourneyOverview
         progress_data = track_chart_values(user_track, 12.months.ago, :month, 12, 12)
       elsif first_completion && first_completion < (Time.current - 6.weeks).to_i
         progress_period = "Last 10 weeks"
-        progress_data = track_chart_values(user_track, 10.weeks.ago, :cweek, 53, 10)
+        progress_data = track_chart_values(user_track, 10.weeks.ago, :cweek, 10.weeks.ago.to_datetime.end_of_year.cweek, 10)
       else
         progress_period = "Last 14 days"
-        progress_data = track_chart_values(user_track, 14.days.ago, :yday, 365, 14)
+        progress_data = track_chart_values(user_track, 14.days.ago, :yday, 14.days.ago.to_datetime.end_of_year.yday, 14)
       end
 
       {

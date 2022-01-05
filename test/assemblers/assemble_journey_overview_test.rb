@@ -97,7 +97,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     dates = []
     values = [1, 3, 4, 2, 1, 3, 2, 3, 5, 9]
     values.each.with_index do |value, idx|
-      dates += value.times.map { (Time.current - ((values.size - 1 - idx) * 7).days).to_i } # rubocop:disable Performance/TimesMap
+      dates += value.times.map { (Time.current - (values.size - 1 - idx).weeks).to_i } # rubocop:disable Performance/TimesMap
     end
     UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
 

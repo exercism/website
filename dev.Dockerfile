@@ -1,7 +1,7 @@
 #############
 ## Stage 1 ##
 #############
-FROM ruby:2.6.6 as builder
+FROM ruby:3.0.3-bullseye as builder
 
 RUN set -ex; \
     apt-get update; \
@@ -16,12 +16,12 @@ RUN curl -L -o - https://github.com/DarthSim/overmind/releases/download/v2.2.0/o
 RUN curl -L -o /usr/local/bin/anycable-go https://github.com/anycable/anycable-go/releases/download/v1.0.0/anycable-go-linux-amd64 && \
     chmod u+x /usr/local/bin/anycable-go
 
-RUN gem install -N bundler:2.1.4
+RUN gem install -N bundler:2.2.32
 
 #############
 ## Stage 2 ##
 #############
-FROM ruby:2.6.6-slim-buster as slim-website
+FROM ruby:3.0.3-slim-bullseye as slim-website
 
 RUN set -ex; \
     apt-get update; \
@@ -53,7 +53,7 @@ RUN apt-get install -y libmariadb-dev git;
 
 WORKDIR /usr/src/app
 
-RUN gem install -N bundler:2.1.4
+RUN gem install -N bundler:2.2.32
 
 #############
 ## Stage 3 ##

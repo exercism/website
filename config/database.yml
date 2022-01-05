@@ -5,14 +5,11 @@ default: &default
   pool: 50
   username: exercism
   password: exercism
+  socket: <%= Exercism.config.mysql_socket %>
   timeout: 5000
 
-  # TODO: fix this
-  # socket: <%= Exercism.config.mysql_socket %>
-  # host: <%= Exercism.config.mysql_master_endpoint %>
-  # port: <%= Exercism.config.mysql_port %>
-  host: mysql
-  port: 3306
+  host: <%= Exercism.config.mysql_master_endpoint %>
+  port: <%= Exercism.config.mysql_port %>
 
   variables:
     sql_mode: traditional

@@ -18,7 +18,14 @@ export function Icon({
   if (className !== undefined) {
     classNames.push(className)
   }
-  const iconFile = manifest[`images/${category}/${icon}.svg`]
+  const iconFile = manifest[`${category}/${icon}.svg`]
+  const assetHost = 'assets/'
 
-  return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
+  return (
+    <img
+      src={`${assetHost}${iconFile}`}
+      alt={alt}
+      className={classNames.join(' ')}
+    />
+  )
 }

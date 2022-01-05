@@ -18,11 +18,12 @@ export function GraphicalIcon({
     (className) => className.length > 0
   )
 
-  const iconFile = manifest[`images/${category || 'icons'}/${icon}.svg`]
+  const iconFile = manifest[`${category || 'icons'}/${icon}.svg`]
+  const assetHost = 'assets/'
 
   return hex ? (
     <div className={classNames.join(' ')}>
-      <img src={iconFile} alt="" role="presentation" />
+      <img src={`${assetHost}${iconFile}`} alt="" role="presentation" />
     </div>
   ) : (
     <img

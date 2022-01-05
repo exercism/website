@@ -6,7 +6,7 @@
     -# - unless user_signed_in?
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1" }
 
-    = stylesheet_link_tag "application", "data-turbo-track": "reload" 
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
     -# = stylesheet_packs_with_chunks_tag(*css_packs, media: 'all', 'data-turbo-track': 'reload', 'data-turbo-eval': false)
     = javascript_include_tag('core', 'data-turbo-track': 'reload', 'data-turbo-eval': false)
     - js_packs.each do |pack|

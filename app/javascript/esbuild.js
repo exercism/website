@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+console.log('yay')
 const svgrPlugin = require('esbuild-plugin-svgr')
 const ImportGlobPlugin = require('esbuild-plugin-import-glob')
 
@@ -12,7 +12,7 @@ for (const k in process.env) {
 */
 
 /* TODO: Get a map of all the images (name -> digest name)
- * and pass this into the config to replace the dynamic requires 
+ * and pass this into the config to replace the dynamic requires
  * in Icon/GraphicalIcon which don't work with esbuild */
 
 require('esbuild')
@@ -25,7 +25,7 @@ require('esbuild')
     bundle: true,
     sourcemap: true,
     outdir: '.built-assets',
-    tsconfig: "./tsconfig.json",
+    tsconfig: './tsconfig.json',
     define: {
       'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
     },

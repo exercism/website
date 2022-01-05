@@ -5,7 +5,7 @@ ruby '3.0.3'
 # Service/framework dependencies
 gem 'rails', '~> 7.0.0'
 gem 'cssbundling-rails'
-gem "jsbundling-rails"
+gem 'jsbundling-rails'
 gem 'turbo-rails'
 gem 'propshaft'
 

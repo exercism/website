@@ -40,7 +40,7 @@ class AssembleJourneyOverview
         progress_data = track_chart_values(user_track, 10.weeks.ago, :cweek, 10.weeks.ago.to_datetime.end_of_year.cweek, 10)
       else
         progress_period = "Last 14 days"
-        progress_data = track_chart_values(user_track, 14.days.ago, :yday, 365, 14)
+        progress_data = track_chart_values(user_track, 14.days.ago, :yday, 14.days.ago.to_datetime.end_of_year.yday, 14)
       end
 
       {

@@ -12,6 +12,7 @@ require('esbuild')
     ],
     bundle: true,
     sourcemap: true,
+    minify: process.env.NODE_ENV === 'production',
     watch: process.argv.includes('--watch'),
     outdir: '.built-assets',
     tsconfig: './tsconfig.json',

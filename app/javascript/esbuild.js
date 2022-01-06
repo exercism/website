@@ -1,16 +1,6 @@
 #!/usr/bin/env node
-console.log('yay')
 const svgrPlugin = require('esbuild-plugin-svgr')
 const ImportGlobPlugin = require('esbuild-plugin-import-glob')
-
-/* TODO: For the bugnsag, pass as an ENV var and use something like this:
- * const define = {}
-
-for (const k in process.env) {
-  define[`process.env.${k}`] = JSON.stringify(process.env[k])
-}
-*/
-
 const config = require('./config/config.json')
 
 require('esbuild')
@@ -22,6 +12,7 @@ require('esbuild')
     ],
     bundle: true,
     sourcemap: true,
+    watch: process.argv.includes('--watch'),
     outdir: '.built-assets',
     tsconfig: './tsconfig.json',
     define: {

@@ -26,7 +26,6 @@ require('esbuild')
     tsconfig: './tsconfig.json',
     define: {
       'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
-      'process.env.WEBSITE_ICONS_HOST': `"${config['website_icons_host']}"`,
       'process.env.WEBSITE_ASSETS_HOST': `"${config['website_assets_host']}"`,
     },
     plugins: [svgrPlugin(), ImportGlobPlugin.default()],

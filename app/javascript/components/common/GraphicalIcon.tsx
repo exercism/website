@@ -1,7 +1,5 @@
 import React from 'react'
-import manifest from '../../.manifest.json'
-
-console.log(manifest)
+import { assetUrl } from '../../utils/assets'
 
 export function GraphicalIcon({
   icon,
@@ -18,12 +16,11 @@ export function GraphicalIcon({
     (className) => className.length > 0
   )
 
-  const iconFile = manifest[`${category || 'icons'}/${icon}.svg`]
-  const assetHost = 'assets/'
+  const iconFile = assetUrl(`${category || 'icons'}/${icon}.svg`)
 
   return hex ? (
     <div className={classNames.join(' ')}>
-      <img src={`${assetHost}${iconFile}`} alt="" role="presentation" />
+      <img src={iconFile} alt="" role="presentation" />
     </div>
   ) : (
     <img

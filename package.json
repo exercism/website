@@ -58,6 +58,7 @@
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
     "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-minify": "^1.1.0",
     "postcss-nesting": "^10.0.3",
     "prop-types": "^15.7.2",
     "qs": "^6.9.6",

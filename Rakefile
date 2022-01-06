@@ -27,7 +27,6 @@ end
 namespace :assets do
   task :config do
     output_config_files
-    puts Exercism.config.mysql_port
   end
 end
 

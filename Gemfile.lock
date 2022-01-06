@@ -1,5 +1,5 @@
 PATH
-  remote: ../exercism_config
+  remote: ../config
   specs:
     exercism-config (0.80.0)
       aws-sdk-dynamodb (~> 1.0)

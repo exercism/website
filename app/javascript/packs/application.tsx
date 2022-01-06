@@ -379,9 +379,6 @@ document.addEventListener('turbo:load', () => {
   highlightAll()
 })
 
-const images = require('../images/**/*')
-const imagePath = (name: any) => images(name)
-
 // object.entries polyfill
 if (!Object.entries) {
   Object.entries = function (obj: any) {

@@ -13,6 +13,7 @@
     "strict": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "types": ["webpack-env", "app/javascript/declarations"]
   },
   "exclude": [

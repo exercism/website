@@ -7,10 +7,20 @@ require_relative 'config/application'
 
 namespace :erik do
   task :setup do
-    puts `cp public/assets/.manifest.json app/javascript/.manifest.json`
+    ass = Propshaft::Assembly.new(Rails.application.config.assets)
+    File.write(
+      # Use app/javascript/config/.manifest.json
+      Rails.root / 'app' / 'javascript' / '.manifest.json',
+      ass.load_path.manifest.to_json
+    )
+
+    File.write(
+      Rails.root / 'app' / 'javascript' / 'config.json',
+      Exercism.config.to_h.slice(:website_assets_host).to_json
+    )
   end
 end
 
 Rails.application.load_tasks
 
-Rake::Task['assets:precompile'].enhance(%w[erik:setup])
+Rake::Task['css:build'].enhance(%w[erik:setup])

@@ -11,7 +11,7 @@ for (const k in process.env) {
 }
 */
 
-const config = require('../../.built-assets/config.json')
+const config = require('./config.json')
 
 require('esbuild')
   .build({

@@ -1,7 +1,5 @@
 import * as React from 'react'
-import manifest from '../../.manifest.json'
-
-console.log(manifest)
+import { assetUrl } from '../../utils/assets'
 
 export function Icon({
   icon,
@@ -18,14 +16,7 @@ export function Icon({
   if (className !== undefined) {
     classNames.push(className)
   }
-  const iconFile = manifest[`${category}/${icon}.svg`]
-  const assetHost = 'assets/'
+  const iconFile = assetUrl(`${category}/${icon}.svg`)
 
-  return (
-    <img
-      src={`${assetHost}${iconFile}`}
-      alt={alt}
-      className={classNames.join(' ')}
-    />
-  )
+  return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
 }

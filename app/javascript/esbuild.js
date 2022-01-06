@@ -11,9 +11,7 @@ for (const k in process.env) {
 }
 */
 
-/* TODO: Get a map of all the images (name -> digest name)
- * and pass this into the config to replace the dynamic requires
- * in Icon/GraphicalIcon which don't work with esbuild */
+const config = require('../../.built-assets/config.json')
 
 require('esbuild')
   .build({
@@ -28,6 +26,8 @@ require('esbuild')
     tsconfig: './tsconfig.json',
     define: {
       'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
+      'process.env.WEBSITE_ICONS_HOST': `"${config['website_icons_host']}"`,
+      'process.env.WEBSITE_ASSETS_HOST': `"${config['website_assets_host']}"`,
     },
     plugins: [svgrPlugin(), ImportGlobPlugin.default()],
   })

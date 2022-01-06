@@ -5,7 +5,8 @@ require_relative 'config/application'
 
 namespace :erik do
   task :setup do
-    puts `cp public/assets/.manifest.json app/javascript/.manifest.json`
+    # puts `cp public/assets/.manifest.json app/javascript/.manifest.json`
+    File.write('.built-assets/config.json', Exercism.config.to_json)
   end
 end
 

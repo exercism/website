@@ -1,4 +1,4 @@
-import manifest from '../config/.manifest.json'
+import manifest from '../.config/manifest.json'
 
 export function assetUrl(baseUrl: string): string {
   return `${process.env.WEBSITE_ASSETS_HOST}/${manifest[baseUrl]}`

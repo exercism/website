@@ -1,12 +1,3 @@
-PATH
-  remote: ../exercism_config
-  specs:
-    exercism-config (0.80.0)
-      aws-sdk-dynamodb (~> 1.0)
-      aws-sdk-secretsmanager (~> 1.0)
-      mandate
-      zeitwerk
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -156,6 +147,11 @@ GEM
     erubi (1.10.0)
     et-orbi (1.2.6)
       tzinfo
+    exercism-config (0.81.0)
+      aws-sdk-dynamodb (~> 1.0)
+      aws-sdk-secretsmanager (~> 1.0)
+      mandate
+      zeitwerk
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -501,7 +497,7 @@ DEPENDENCIES
   cssbundling-rails
   devise (~> 4.7)
   elasticsearch (= 6.8.3)
-  exercism-config!
+  exercism-config (>= 0.81.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   haml_lint

@@ -8,3 +8,4 @@ js: yarn build --watch
 # assets: WEBPACKER_DEV_SERVER_HOST=0.0.0.0 bundle exec bin/webpack-dev-server
 # anycable: RAILS_ENV=development bundle exec anycable --server-command "anycable-go --disconnect_rate=5 --host=0.0.0.0 --port 3334 --redis_url='redis://redis:6379'"
 # sidekiq: bundle exec sidekiq
+manifest: bin/rails r bin/monitor_manifest

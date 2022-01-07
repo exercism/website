@@ -6,6 +6,8 @@ module Github
       initialize_with :repo, :title, :body
 
       def call
+        return if Rails.env.development?
+
         if missing?
           create_issue
         elsif closed?

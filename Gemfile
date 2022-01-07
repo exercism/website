@@ -62,6 +62,8 @@ gem 'stripe'
 # Reporting
 gem 'skylight'
 
+gem 'listen', '>= 3.0.5', '< 3.2'
+
 # Let's be nice to Windows users
 platforms :mingw, :mswin, :x64_mingw, :jruby do
   # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -78,8 +80,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'haml_lint', require: false
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'haml_lint', require: false  
   gem 'solargraph'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false

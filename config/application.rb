@@ -26,3 +26,26 @@ module Website
     Rails.autoloaders.main.ignore(Rails.root.join('app', 'css'))
   end
 end
+
+# Rails.application.config.to_prepare do
+#   puts "to_prepare"
+
+#   module Propshaft
+#     LoadPath.class_eval do
+#       def cache_sweeper
+#         puts "my cache sweeper"
+#         @cache_sweeper ||= begin
+#           puts "paths: #{paths}"
+
+#           exts_to_watch  = Mime::EXTENSION_LOOKUP.map(&:first)
+#           files_to_watch = Array(paths).collect { |dir| [ dir.to_s, exts_to_watch ] }.to_h
+#           puts "files_to_watch: #{files_to_watch}"
+#           Rails.application.config.file_watcher.new([], files_to_watch) do
+#             "clear cache"
+#             clear_cache
+#           end
+#         end
+#       end
+#     end
+#   end
+# end

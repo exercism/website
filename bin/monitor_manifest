@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'listen'
+
+config_dir = Rails.root / 'app' / 'javascript' / 'config'
+manifest_file = config_dir / '.manifest.json'
+config_file = config_dir / 'config.json'
+
+listener =
+  Listen.to(Rails.root / 'app' / 'images') do
+    # Write the manifest to allow dynamically loading the images from JS
+    # using the correct digest
+    File.write(
+      manifest_file,
+      Propshaft::Assembly.new(Rails.application.config.assets).load_path
+        .manifest.to_json
+    )
+
+    # Write a subset of the Exercism config settings to a JSON file
+    # to allow using those settings in JS
+    File.write(
+      config_file,
+      Exercism.config.to_h.slice(:website_assets_host).to_json
+    )
+  end
+listener.start
+sleep

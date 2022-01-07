@@ -132,7 +132,7 @@
     "test-debug": "node --unhandled-rejections=strict --trace-warnings node_modules/.bin/jest",
     "test": "jest",
     "test-watch": "jest --watchAll",
-    "build:css": "postcss ./app/css/application.postcss.css -o .built-assets/vendor.css",
+    "build:css": "postcss ./app/css/application.postcss.css -o .built-assets/erik.css",
     "build": "./app/javascript/esbuild.js"
   },
   "jest": {

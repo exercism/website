@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 ruby '3.0.3'
 
@@ -79,7 +79,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'haml_lint', require: false  
+  gem 'haml_lint', require: false
   gem 'solargraph'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false

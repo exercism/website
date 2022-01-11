@@ -7,10 +7,10 @@ class User::Notifications::NudgeToRequestMentoringNotificationTest < ActiveSuppo
     user = create :user
     track = create :track
 
-    notification = User::Notifications::NudgeToRequestMentoringNotification.create!(user: user, track: track)
+    notification = User::Notifications::NudgeToRequestMentoringNotification.create!(user:, track:)
 
     url = Exercism::Routes.track_url(track, notification_uuid: notification.uuid, anchor: "mentoring")
-    icon = asset_pack_url(
+    icon = asset_path(
       "media/images/icons/mentoring-gradient.svg",
       host: Rails.application.config.action_controller.asset_host
     )

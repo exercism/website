@@ -44,7 +44,6 @@ gem 'sidekiq-failures'
 gem 'sidekiq-scheduler'
 
 # View-level Dependencies
-# gem 'webpacker', '~> 5.x'
 gem 'hamlit'
 gem 'commonmarker'
 gem 'ansi-to-html'

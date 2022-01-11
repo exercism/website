@@ -404,4 +404,4 @@ jobs:
         env:
           RAILS_ENV: test
           EXERCISM_CI: true
-        run: bundle exec bin/webpack
+        run: bundle exec rails assets:precompile

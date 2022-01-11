@@ -10,7 +10,7 @@ class User
       end
 
       def image_url
-        asset_pack_url(
+        asset_path(
           "media/images/icons/mentoring-gradient.svg",
           host: Rails.application.config.action_controller.asset_host
         )

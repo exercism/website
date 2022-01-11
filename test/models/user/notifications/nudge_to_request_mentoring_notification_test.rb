@@ -2,7 +2,6 @@ require 'test_helper'
 
 class User::Notifications::NudgeToRequestMentoringNotificationTest < ActiveSupport::TestCase
   include ActionView::Helpers::AssetUrlHelper
-  include Webpacker::Helper
 
   test "keys are valid" do
     user = create :user

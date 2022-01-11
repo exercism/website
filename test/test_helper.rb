@@ -40,7 +40,6 @@ module ActiveRecord
 end
 
 module TestHelpers
-  extend Webpacker::Helper
   extend ActionView::Helpers::AssetUrlHelper
 
   def self.git_repo_url(slug)

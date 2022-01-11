@@ -2,7 +2,6 @@ require "test_helper"
 
 class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
   include IconsHelper
-  include Webpacker::Helper
 
   test "started" do
     track = create :track, slug: 'ruby'

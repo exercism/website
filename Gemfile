@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '3.1.0'
 
 # Service/framework dependencies
-gem 'rails', '~> 7.0.0'
+gem 'rails', '~> 7.0.1'
 gem 'cssbundling-rails'
 gem 'jsbundling-rails'
 gem 'turbo-rails'

@@ -4,4 +4,4 @@ sidekiq: bundle exec sidekiq
 ws: anycable-go --host=local.exercism.io --port 3334
 css: yarn build:css --watch
 js: yarn build --watch
-manifest: bin/rails r bin/monitor_manifest
+manifest: bin/rails r bin/monitor-manifest

@@ -16,7 +16,7 @@ RUN curl -L -o - https://github.com/DarthSim/overmind/releases/download/v2.2.0/o
 RUN curl -L -o /usr/local/bin/anycable-go https://github.com/anycable/anycable-go/releases/download/v1.0.0/anycable-go-linux-amd64 && \
     chmod u+x /usr/local/bin/anycable-go
 
-RUN gem install -N bundler:2.2.32
+RUN gem install -N bundler:2.3.4
 
 #############
 ## Stage 2 ##
@@ -53,7 +53,7 @@ RUN apt-get install -y libmariadb-dev git;
 
 WORKDIR /usr/src/app
 
-RUN gem install -N bundler:2.2.32
+RUN gem install -N bundler:2.3.4
 
 #############
 ## Stage 3 ##

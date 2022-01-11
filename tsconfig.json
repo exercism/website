@@ -14,7 +14,7 @@
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "types": ["webpack-env", "app/javascript/declarations"]
+    "types": ["app/javascript/declarations"]
   },
   "exclude": [
     "**/*.spec.ts",

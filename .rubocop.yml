@@ -8,7 +8,7 @@ AllCops:
   Exclude:
     - "app/controllers/tmp/**/*"
     - "bin/**/*"
-    - "bin/{bundle,rails,rake,setup,webpack,webpack-dev-server,yarn}"
+    - "bin/{bundle,rails,rake,setup,yarn}"
     - "db/schema.rb"
     - "db/migrate/*"
     - "db/seeds.rb"

@@ -1,4 +1,4 @@
-FROM ruby:3.0.3-bullseye
+FROM ruby:3.1.0-bullseye
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \

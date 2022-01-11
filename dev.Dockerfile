@@ -1,7 +1,7 @@
 #############
 ## Stage 1 ##
 #############
-FROM ruby:3.0.3-bullseye as builder
+FROM ruby:3.1.0-bullseye as builder
 
 RUN set -ex; \
     apt-get update; \
@@ -21,7 +21,7 @@ RUN gem install -N bundler:2.2.32
 #############
 ## Stage 2 ##
 #############
-FROM ruby:3.0.3-slim-bullseye as slim-website
+FROM ruby:3.1.0-slim-bullseye as slim-website
 
 RUN set -ex; \
     apt-get update; \

@@ -8,6 +8,12 @@ require 'webmock/minitest'
 require 'minitest/retry'
 require_relative './helpers/turbo_assertions_helper'
 
+# We need to build our JS and CSS before running tests
+# In CI, this happens through the test:prepare rake task
+# but locally when running single tests, we might need this intead
+`bundle exec rake css:build` unless File.exist?(Rails.root / ".built-assets/website.css")
+`bundle exec rake javascript:build` unless File.exist?(Rails.root / ".built-assets/application.js")
+
 # Handle flakey tests in CI
 Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
 

@@ -206,7 +206,8 @@ jobs:
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false
         run: |
-          bundle exec rails test:zeitwerk ${{ matrix.tests }}
+          bundle exec rails test:zeitwerk
+          bundle exec rails test:prepare
           bundle exec rails test ${{ matrix.tests }}
 
   ruby-tests-completed:
@@ -330,7 +331,7 @@ jobs:
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
-          bundle exec rails assets:precompile
+          bundle exec rails test:prepare
 
       ###
       # Run the tests

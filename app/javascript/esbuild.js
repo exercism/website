@@ -37,4 +37,4 @@ const intervalID = setInterval(() => {
     clearInterval(intervalID)
     build()
   })
-}, 1000)
+}, 100)

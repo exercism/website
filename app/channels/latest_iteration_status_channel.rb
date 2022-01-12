@@ -12,7 +12,7 @@ class LatestIterationStatusChannel < ApplicationCable::Channel
 
     ActionCable.server.broadcast(
       "latest_iteration_status:#{solution.uuid}",
-      status: solution.latest_iteration.status.to_s
+      { status: solution.latest_iteration.status.to_s }
     )
   end
 end

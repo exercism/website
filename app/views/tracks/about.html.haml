@@ -82,7 +82,7 @@
 
           = render ViewComponents::ProminentLink.new("See all #{@track.title} exercises on Exercism", track_exercises_path(@track))
 
-        = image_pack_tag "screenshots/exercise-about.png", role: :presentation, class: 'hidden lg:block'
+        = image_tag "screenshots/exercise-about.png", role: :presentation, class: 'hidden lg:block'
 
   = render "tracks/about/key_features", track: @track
   = render "tracks/about/concepts", track: @track

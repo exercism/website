@@ -5,7 +5,7 @@ class Iteration
     initialize_with :solution, :submission
 
     def call
-      time = Time.now.utc.to_s(:db)
+      time = Time.now.utc.to_formatted_s(:db)
       id = Iteration.connection.insert(%{
         INSERT INTO iterations (uuid, solution_id, submission_id, idx, created_at, updated_at)
         SELECT "#{SecureRandom.compact_uuid}", #{solution.id}, #{submission.id}, (COUNT(*) + 1), "#{time}", "#{time}"
@@ -26,7 +26,7 @@ class Iteration
         record_activity!(iteration)
       end
     rescue ActiveRecord::RecordNotUnique
-      Iteration.find_by!(solution: solution, submission: submission)
+      Iteration.find_by!(solution:, submission:)
     end
 
     def init_services
@@ -40,8 +40,8 @@ class Iteration
         :submitted_iteration,
         user,
         track: solution.track,
-        solution: solution,
-        iteration: iteration
+        solution:,
+        iteration:
       )
       # rescue StandardError => e
       #   Rails.logger.error "Failed to create activity"

@@ -38,6 +38,8 @@ yarn-debug.log*
 # Any code coverage that's generated
 coverage/
 
-/app/javascript/.config/
 .built-assets/*
 !.built-assets/.keep
+
+app/javascript/.config/*
+!app/javascript/.config/.keep

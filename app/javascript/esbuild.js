@@ -29,7 +29,7 @@ function build() {
 
 const intervalID = setInterval(() => {
   // Wait for the env config file to exists before building
-  fs.access('./.config/env.json', fs.constants.F_OK, (err) => {
+  fs.access('app/javascript/.config/env.json', fs.constants.F_OK, (err) => {
     if (err) {
       return
     }

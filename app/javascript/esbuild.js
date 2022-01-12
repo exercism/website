@@ -3,10 +3,7 @@ const fs = require('fs')
 const svgrPlugin = require('esbuild-plugin-svgr')
 const ImportGlobPlugin = require('esbuild-plugin-import-glob')
 
-// Wait for the env config file to exists before building
-const listener = fs.watchFile('./.config/env.json', () => {
-  fs.unwatchFile('./.config/env.json', listener)
-
+function build() {
   const env = require('./.config/env.json')
   require('esbuild')
     .build({
@@ -28,4 +25,16 @@ const listener = fs.watchFile('./.config/env.json', () => {
       plugins: [svgrPlugin(), ImportGlobPlugin.default()],
     })
     .catch(() => process.exit(1))
-})
+}
+
+const intervalID = setInterval(() => {
+  // Wait for the env config file to exists before building
+  fs.access('./.config/env.json', fs.constants.F_OK, (err) => {
+    if (err) {
+      return
+    }
+
+    clearInterval(intervalID)
+    build()
+  })
+}, 1000)

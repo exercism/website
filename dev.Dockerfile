@@ -5,7 +5,7 @@ FROM ruby:3.1.0-bullseye as builder
 
 RUN set -ex; \
     apt-get update; \
-    apt-get install -y cmake ruby-dev;
+    apt-get install -y cmake make ruby-dev
 
 # We can do this work early and then copy a binary to the slim build later
 # overmind

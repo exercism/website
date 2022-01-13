@@ -18,6 +18,7 @@ function build() {
       outdir: '.built-assets',
       tsconfig: './tsconfig.json',
       define: {
+        // TODO: move bugsnag API key into config
         'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
         'process.env.WEBSITE_ASSETS_HOST': `"${env['website_assets_host']}"`,
       },

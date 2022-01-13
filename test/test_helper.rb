@@ -281,6 +281,10 @@ class ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   include TurboAssertionsHelper
 
+  def setup
+    host! URI(Rails.application.routes.default_url_options[:host]).host
+  end
+
   def sign_in!(user = nil)
     @current_user = user || create(:user)
     @current_user.auth_tokens.create! unless @current_user.auth_tokens.exists?

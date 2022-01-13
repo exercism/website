@@ -2,6 +2,11 @@ class AssembleContributionsSummary
   include Mandate
   include ActionView::Helpers::NumberHelper
 
+  # TODO: figure out why mandate doesn't work for this class
+  def self.call(...)
+    new(...).()
+  end
+
   def initialize(user, for_self:)
     @user = user
     @for_self = for_self

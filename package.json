@@ -112,7 +112,6 @@
     "babel-jest": "^26.5.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "esbuild-plugin-import-glob": "^0.1.1",
-    "esbuild-plugin-svgr": "^1.0.0",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-jest": "^24.1.0",

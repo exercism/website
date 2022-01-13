@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const fs = require('fs')
-const svgrPlugin = require('esbuild-plugin-svgr')
 const ImportGlobPlugin = require('esbuild-plugin-import-glob')
 
 function build() {
@@ -22,7 +21,7 @@ function build() {
         'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
         'process.env.WEBSITE_ASSETS_HOST': `"${env['website_assets_host']}"`,
       },
-      plugins: [svgrPlugin(), ImportGlobPlugin.default()],
+      plugins: [ImportGlobPlugin.default()],
     })
     .catch(() => process.exit(1))
 }

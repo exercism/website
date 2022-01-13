@@ -70,10 +70,6 @@ module TestHelpers
     repo = Git::Repository.new(repo_url:)
     Git::Repository.expects(:new).at_least_once.returns(repo)
   end
-
-  def self.image_pack_url(icon_name, category: 'icons')
-    asset_path("media/images/#{category}/#{icon_name}.svg")
-  end
 end
 
 class ActiveSupport::TimeWithZone

@@ -108,6 +108,9 @@ track_slugs.each do |track_slug|
   end
 end
 
+Git::SyncBlog.()
+Git::SyncMainDocs.()
+
 puts ""
 puts "To use the CLI locally, run: "
 puts "exercism configure -a http://local.exercism.io:3020/api/v1 -t #{auth_token.token}"

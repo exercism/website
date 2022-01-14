@@ -35,7 +35,7 @@
           - user.featured_badges.each do |badge|
             .c-badge
               .c-badge-medallion{ class: "--#{badge.rarity}" }
-                = icon(badge.icon, alt: "Badge: #{badge.name}")
+                = icon(badge.icon, "Badge: #{badge.name}")
 
         - if user.roles.present?
           .tags

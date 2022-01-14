@@ -11,11 +11,8 @@ class Solution
         return if solution.published?
 
         ActiveRecord::Base.transaction do
-          solution.update(
-            published_at: Time.current,
-            published_iteration: published_iteration,
-            num_loc: num_loc
-          )
+          solution.update(published_at: Time.current)
+          Solution::PublishIteration.(solution, iteration_idx)
         end
       end
 
@@ -43,16 +40,6 @@ class Solution
     rescue StandardError => e
       Rails.logger.error "Failed to create activity"
       Rails.logger.error e.message
-    end
-
-    def published_iteration
-      return nil unless iteration_idx
-
-      solution.iterations.find_by(idx: iteration_idx)
-    end
-
-    def num_loc
-      published_iteration ? published_iteration.num_loc : solution.latest_iteration&.num_loc
     end
   end
 end

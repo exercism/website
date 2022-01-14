@@ -5,12 +5,17 @@ class Solution
     initialize_with :solution, :iteration_idx
 
     def call
-      solution.update!(published_iteration: iteration, num_loc: num_loc.to_i)
+      solution.update!(
+        published_iteration: iteration,
+        num_loc: num_loc.to_i
+      )
     end
 
     private
     memoize
     def iteration
+      return nil unless iteration_idx
+
       solution.iterations.find_by(idx: iteration_idx)
     end
 

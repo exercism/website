@@ -249,10 +249,10 @@ end
 end
 
 
-exercises = Exercise.all.sort_by{rand}[0,3]
-iHiD.authored_exercises += exercises
+authored_exercises = Exercise.all.excluding(iHiD.authored_exercises).sort_by{rand}[0,3]
+iHiD.authored_exercises += authored_exercises
 
-exercises.each do |exercise|
+authored_exercises.each do |exercise|
   track = exercise.track
   User::ReputationToken::Create.(
     iHiD,
@@ -262,9 +262,9 @@ exercises.each do |exercise|
   )
 end
 
-exercises = Exercise.all.sort_by{rand}[0,10]
-iHiD.contributed_exercises += exercises
-exercises.each do |exercise|
+contributed_exercises = Exercise.all.excluding(iHiD.contributed_exercises).sort_by{rand}[0,10]
+iHiD.contributed_exercises += contributed_exercises
+contributed_exercises.each do |exercise|
   track = exercise.track
   User::ReputationToken::Create.(
     iHiD,

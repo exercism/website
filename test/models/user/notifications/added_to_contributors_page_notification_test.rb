@@ -10,7 +10,7 @@ class User::Notifications::AddedToContributorsPageNotificationTest < ActiveSuppo
     assert_equal "#{user.id}|added_to_contributors_page|", notification.uniqueness_key
     assert_equal "You now appear on our Contributors page. Thank you for contributing to Exercism!", notification.text
     assert_equal :icon, notification.image_type
-    assert_equal 'foo.bar', notification.image_url
+    assert notification.image_url.starts_with?('/assets/icons/contributors-')
     assert_equal Exercism::Routes.contributing_contributors_url, notification.url
     assert_equal "/contributing/contributors", notification.path
   end

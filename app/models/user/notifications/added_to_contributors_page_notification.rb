@@ -13,7 +13,7 @@ class User
         :icon
       end
 
-      def image_url
+      def image_path
         "icons/contributors.svg"
       end
 

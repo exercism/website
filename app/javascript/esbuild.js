@@ -11,6 +11,9 @@ function build() {
         './app/javascript/packs/application.tsx',
         './app/javascript/packs/core.tsx',
         './app/javascript/packs/internal.tsx',
+        ...(process.env.RAILS_ENV === 'test'
+          ? ['./app/javascript/packs/test.tsx']
+          : []),
       ],
       bundle: true,
       sourcemap: true,

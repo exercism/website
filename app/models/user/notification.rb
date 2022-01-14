@@ -66,6 +66,13 @@ class User::Notification < ApplicationRecord
     }
   end
 
+  def image_url
+    [
+      Rails.application.config.action_controller.asset_host,
+      compute_asset_path(image_path)
+    ].compact.join('/')
+  end
+
   private
   memoize
   def type

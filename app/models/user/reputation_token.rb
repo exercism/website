@@ -109,10 +109,10 @@ class User::ReputationToken < ApplicationRecord
   def icon_url
     return exercise.icon_url if exercise
 
-    asset_path(
-      "media/images/graphics/#{icon_name}.svg",
-      host: Rails.application.config.action_controller.asset_host
-    )
+    [
+      Rails.application.config.action_controller.asset_host,
+      compute_asset_path("graphics/#{icon_name}.svg")
+    ].compact.join('/')
   end
 
   # To be overriden in children classes

@@ -14,10 +14,7 @@ class User
       end
 
       def image_url
-        asset_path(
-          "media/images/icons/contributors.svg",
-          host: Rails.application.config.action_controller.asset_host
-        )
+        "icons/contributors.svg"
       end
 
       def guard_params

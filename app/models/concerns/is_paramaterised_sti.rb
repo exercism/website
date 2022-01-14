@@ -58,7 +58,7 @@ module IsParamaterisedSTI
   extend ActiveSupport::Concern
 
   include ActionView::Helpers::SanitizeHelper
-  include ActionView::Helpers::AssetUrlHelper
+  include Propshaft::Helper
   extend Mandate::Memoize
 
   included do

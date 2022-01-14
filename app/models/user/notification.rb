@@ -42,6 +42,13 @@ class User::Notification < ApplicationRecord
     super.to_sym
   end
 
+  def image_url
+    [
+      Rails.application.config.action_controller.asset_host,
+      compute_asset_path(image_path)
+    ].compact.join('/')
+  end
+
   def read!
     update_columns(
       status: :read,
@@ -55,14 +62,14 @@ class User::Notification < ApplicationRecord
       url: url,
       text: text,
       created_at: created_at.iso8601,
-      image_type: image_type,
-      image_url: image_url
+      image_type: image_type
     }
   end
 
   def non_cacheable_rendering_data
     {
-      is_read: read?
+      is_read: read?,
+      image_url: image_url
     }
   end
 

@@ -13,4 +13,9 @@ class Badge::MemberBadgeTest < ActiveSupport::TestCase
   test "award_to?" do
     assert build(:member_badge).award_to?(nil)
   end
+
+  test "percentage_awardees" do
+    badge = create :member_badge
+    assert_equal 100, badge.percentage_awardees
+  end
 end

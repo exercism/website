@@ -8,8 +8,9 @@ module ReactComponents
       css_classes << "c-react-wrapper-#{id}-#{wrapper_class_modifier}" if wrapper_class_modifier.present?
       css_classes << '--fitted' if fitted
       tag.div(
+        "",
         class: css_classes.join(" "),
-        style: style,
+        style:,
         "data-react-#{id}": true,
         "data-react-data": data.to_json
       )

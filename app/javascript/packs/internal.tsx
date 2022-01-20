@@ -1,7 +1,5 @@
 import 'easymde/dist/easymde.min.css'
 
-import Channels from 'channels'
-
 import React from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 

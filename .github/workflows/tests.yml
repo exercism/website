@@ -405,4 +405,4 @@ jobs:
         env:
           RAILS_ENV: test
           EXERCISM_CI: true
-        run: bundle exec rails assets:precompile
+        run: bundle exec rails test:prepare

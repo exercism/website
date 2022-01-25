@@ -1,4 +1,4 @@
-class CreateDonationsSubscriptions < ActiveRecord::Migration[6.1]
+class CreateDonationsSubscriptions < ActiveRecord::Migration[7.0]
   def change
     create_table :donations_subscriptions do |t|
       t.belongs_to :user, foreign_key: true,  null: false

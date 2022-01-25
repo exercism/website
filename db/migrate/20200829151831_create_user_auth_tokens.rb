@@ -1,4 +1,4 @@
-class CreateUserAuthTokens < ActiveRecord::Migration[6.1]
+class CreateUserAuthTokens < ActiveRecord::Migration[7.0]
   def change
     create_table :user_auth_tokens do |t|
       t.belongs_to :user, foreign_key: true, null: false

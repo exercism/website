@@ -1,4 +1,4 @@
-class CreateMentorTestimonials < ActiveRecord::Migration[6.1]
+class CreateMentorTestimonials < ActiveRecord::Migration[7.0]
   def change
     create_table :mentor_testimonials do |t|
       t.belongs_to :mentor, null: false, foreign_key: { to_table: :users }

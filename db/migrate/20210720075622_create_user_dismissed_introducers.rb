@@ -1,4 +1,4 @@
-class CreateUserDismissedIntroducers < ActiveRecord::Migration[6.1]
+class CreateUserDismissedIntroducers < ActiveRecord::Migration[7.0]
   def change
     create_table :user_dismissed_introducers do |t|
       t.belongs_to :user, null: false, foreign_key: true

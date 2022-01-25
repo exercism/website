@@ -1,4 +1,4 @@
-class CreateTrackConcepts < ActiveRecord::Migration[6.0]
+class CreateTrackConcepts < ActiveRecord::Migration[7.0]
   def change
     create_table :track_concepts do |t|
       t.belongs_to :track, foreign_key: true, null: false

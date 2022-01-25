@@ -1,4 +1,4 @@
-class AddIndexToUniquenessKeyOnSiteUpdates < ActiveRecord::Migration[6.1]
+class AddIndexToUniquenessKeyOnSiteUpdates < ActiveRecord::Migration[7.0]
   def change
     add_index :site_updates, :uniqueness_key, unique: true
   end

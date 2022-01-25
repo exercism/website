@@ -1,4 +1,4 @@
-class CreateContributorTeamMemberships < ActiveRecord::Migration[6.1]
+class CreateContributorTeamMemberships < ActiveRecord::Migration[7.0]
   def change
     create_table :contributor_team_memberships do |t|
       t.belongs_to :contributor_team, null: false, foreign_key: true

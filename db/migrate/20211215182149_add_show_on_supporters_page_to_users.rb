@@ -1,4 +1,4 @@
-class AddShowOnSupportersPageToUsers < ActiveRecord::Migration[6.1]
+class AddShowOnSupportersPageToUsers < ActiveRecord::Migration[7.0]
   def change
     add_column :users, :show_on_supporters_page, :boolean, default: true, null: false, if_not_exists: true
 

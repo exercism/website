@@ -1,4 +1,4 @@
-class CreateSubmissionRepresentations < ActiveRecord::Migration[6.0]
+class CreateSubmissionRepresentations < ActiveRecord::Migration[7.0]
   def change
     create_table :submission_representations do |t|
       t.belongs_to :submission, foreign_key: true, null: false

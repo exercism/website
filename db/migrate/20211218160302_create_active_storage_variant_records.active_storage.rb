@@ -1,5 +1,5 @@
 # This migration comes from active_storage (originally 20191206030411)
-class CreateActiveStorageVariantRecords < ActiveRecord::Migration[6.0]
+class CreateActiveStorageVariantRecords < ActiveRecord::Migration[7.0]
   def change
     # Use Active Record's configured type for primary key
     create_table :active_storage_variant_records, id: primary_key_type, if_not_exists: true do |t|

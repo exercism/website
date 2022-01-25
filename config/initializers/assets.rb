@@ -4,6 +4,8 @@ Rails.application.configure do
   config.assets.paths << '.built-assets'
 end
 
+# This code is taken from https://github.com/rails/propshaft/blob/main/lib/propshaft/server.rb#L8
+# and modified to ignore esbuild derrived chunks and related files
 require 'propshaft/server'
 module Propshaft
   class Server

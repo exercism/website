@@ -55,154 +55,154 @@
             }
         }
     }
-}
 
-.btn-primary {
-    @apply btn-i-filled;
-    @apply bg-purple text-white;
-    @apply border-1 border-primaryBtnBorder;
+    .btn-primary {
+        @apply btn-i-filled;
+        @apply bg-purple text-white;
+        @apply border-1 border-primaryBtnBorder;
 
-    & .c-icon {
-        filter: var(--white-filter);
-    }
-    &:not(:disabled):not(.--disabled):hover {
-        @apply bg-purpleDarkened;
-    }
-}
-
-.btn-secondary {
-    @apply btn-i-filled;
-    @apply text-purple bg-lightPurple;
-
-    @apply border-1 border-purple;
-    & > .c-icon {
-        filter: var(--purple-filter);
-    }
-    &:not(:disabled):not(.--disabled):hover {
-        @apply bg-lightPurpleDarkened;
-    }
-}
-
-.btn-enhanced {
-    @apply btn-i-filled;
-    @apply bg-backgroundColorA text-textColor2;
-    @apply border-1 border-btnBorder;
-    & > .c-icon {
-        filter: var(--textColor2-filter);
-    }
-    &:not(:disabled):not(.--disabled):hover {
-        background: rgb(96, 79, 205, 0.02);
-        &.btn-l {
-            background: rgb(96, 79, 205, 0.05);
-            box-shadow: 0px 4px 8px rgba(79, 114, 205, 0.6);
+        & .c-icon {
+            filter: var(--white-filter);
+        }
+        &:not(:disabled):not(.--disabled):hover {
+            @apply bg-purpleDarkened;
         }
     }
-}
 
-.btn-default {
-    @apply text-textColor2;
-    @apply border-1 border-btnBorder;
-    & > .c-icon {
-        filter: var(--textColor2-filter);
-    }
-    &:not(:disabled):not(.--disabled):hover {
-        background: rgba(0, 0, 0, 0.05);
-    }
-}
+    .btn-secondary {
+        @apply btn-i-filled;
+        @apply text-purple bg-lightPurple;
 
-.btn-warning {
-    @apply btn-i-filled;
-    @apply bg-warning text-white;
-    @apply border-1 border-warningBtnBorder;
-
-    & .c-icon {
-        filter: var(--white-filter);
-    }
-    &:not(:disabled):not(.--disabled):hover {
-        /* TODO: Darker color */
-    }
-}
-
-.btn-alert {
-    @apply bg-alert text-white;
-    @apply border-1 border-alertBtnBorder;
-
-    & .c-icon {
-        filter: var(--white-filter);
-    }
-    &:not(:disabled):not(.--disabled):hover {
-        /* TODO: Darker color */
-    }
-}
-
-.btn-link {
-    @apply btn-i-base;
-    @apply text-linkColor;
-    & .c-icon {
-        filter: var(--linkColor-filter);
-        height: 18px;
-        width: 18px;
-    }
-}
-
-.btn-xs {
-    @apply btn-i-base;
-    height: 32px;
-    @apply px-16 rounded-5;
-    @apply text-14;
-
-    & > .c-icon {
-        height: 14px;
-        width: 14px;
-    }
-    & > .kb-shortcut {
-        @apply text-13;
-    }
-}
-.btn-s {
-    @apply btn-i-base;
-    height: 40px;
-    @apply px-16 rounded-5;
-    @apply text-15;
-    line-height: 16px;
-
-    & > .c-icon {
-        height: 16px;
-        width: 16px;
+        @apply border-1 border-purple;
+        & > .c-icon {
+            filter: var(--purple-filter);
+        }
+        &:not(:disabled):not(.--disabled):hover {
+            @apply bg-lightPurpleDarkened;
+        }
     }
 
-    & > .kb-shortcut {
-        @apply text-13;
-        line-height: 13px;
+    .btn-enhanced {
+        @apply btn-i-filled;
+        @apply bg-backgroundColorA text-textColor2;
+        @apply border-1 border-btnBorder;
+        & > .c-icon {
+            filter: var(--textColor2-filter);
+        }
+        &:not(:disabled):not(.--disabled):hover {
+            background: rgb(96, 79, 205, 0.02);
+            &.btn-l {
+                background: rgb(96, 79, 205, 0.05);
+                box-shadow: 0px 4px 8px rgba(79, 114, 205, 0.6);
+            }
+        }
     }
-}
-.btn-m {
-    @apply btn-i-base;
-    height: 48px;
-    @apply px-20 rounded-5;
-    @apply text-16;
 
-    & > .c-icon {
-        height: 18px;
-        width: 18px;
+    .btn-default {
+        @apply text-textColor2;
+        @apply border-1 border-btnBorder;
+        & > .c-icon {
+            filter: var(--textColor2-filter);
+        }
+        &:not(:disabled):not(.--disabled):hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
     }
 
-    & > .kb-shortcut {
+    .btn-warning {
+        @apply btn-i-filled;
+        @apply bg-warning text-white;
+        @apply border-1 border-warningBtnBorder;
+
+        & .c-icon {
+            filter: var(--white-filter);
+        }
+        &:not(:disabled):not(.--disabled):hover {
+            /* TODO: Darker color */
+        }
+    }
+
+    .btn-alert {
+        @apply bg-alert text-white;
+        @apply border-1 border-alertBtnBorder;
+
+        & .c-icon {
+            filter: var(--white-filter);
+        }
+        &:not(:disabled):not(.--disabled):hover {
+            /* TODO: Darker color */
+        }
+    }
+
+    .btn-link {
+        @apply btn-i-base;
+        @apply text-linkColor;
+        & .c-icon {
+            filter: var(--linkColor-filter);
+            height: 18px;
+            width: 18px;
+        }
+    }
+
+    .btn-xs {
+        @apply btn-i-base;
+        height: 32px;
+        @apply px-16 rounded-5;
         @apply text-14;
-    }
-}
-.btn-l {
-    @apply btn-i-base;
-    height: 56px;
-    @apply px-24 rounded-8;
-    @apply text-18;
 
-    & > .c-icon {
-        height: 20px;
-        width: 20px;
+        & > .c-icon {
+            height: 14px;
+            width: 14px;
+        }
+        & > .kb-shortcut {
+            @apply text-13;
+        }
     }
-
-    & > .kb-shortcut {
+    .btn-s {
+        @apply btn-i-base;
+        height: 40px;
+        @apply px-16 rounded-5;
         @apply text-15;
+        line-height: 16px;
+
+        & > .c-icon {
+            height: 16px;
+            width: 16px;
+        }
+
+        & > .kb-shortcut {
+            @apply text-13;
+            line-height: 13px;
+        }
+    }
+    .btn-m {
+        @apply btn-i-base;
+        height: 48px;
+        @apply px-20 rounded-5;
+        @apply text-16;
+
+        & > .c-icon {
+            height: 18px;
+            width: 18px;
+        }
+
+        & > .kb-shortcut {
+            @apply text-14;
+        }
+    }
+    .btn-l {
+        @apply btn-i-base;
+        height: 56px;
+        @apply px-24 rounded-8;
+        @apply text-18;
+
+        & > .c-icon {
+            height: 20px;
+            width: 20px;
+        }
+
+        & > .kb-shortcut {
+            @apply text-15;
+        }
     }
 }

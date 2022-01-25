@@ -17,6 +17,8 @@ function build() {
       ],
       bundle: true,
       sourcemap: true,
+      format: 'esm',
+      splitting: true,
       minify: process.env.NODE_ENV === 'production',
       watch: process.argv.includes('--watch'),
       outdir: '.built-assets',

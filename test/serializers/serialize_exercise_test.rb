@@ -99,9 +99,12 @@ class SerializeExerciseTest < ActiveSupport::TestCase
   test "practice with user track" do
     user = create :user
     track = create :track
+    concept = create :concept
+    concept_exercise = create :concept_exercise, track: track
+    concept_exercise.taught_concepts << concept
     user_track = create :user_track, user: user, track: track
     exercise = create :practice_exercise, track: track
-    create :exercise_prerequisite, exercise: exercise
+    exercise.prerequisites << concept
 
     create :hello_world_solution, :completed, track: track, user: user
 

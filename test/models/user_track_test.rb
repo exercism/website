@@ -80,6 +80,40 @@ class UserTrackTest < ActiveSupport::TestCase
     assert user_track.exercise_unlocked?(exercise)
   end
 
+  test "exercise_unlocked? ignores prerequisites taught by wip exercises" do
+    user = create :user
+    track = create :track
+    concept_1 = create :concept, track: track
+    concept_2 = create :concept, track: track
+    concept_3 = create :concept, track: track
+    active_exercise = create :concept_exercise, :random_slug, track: track, status: :active
+    beta_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
+    wip_exercise = create :concept_exercise, :random_slug, track: track, status: :wip
+    active_exercise.taught_concepts << concept_1
+    beta_exercise.taught_concepts << concept_2
+    beta_exercise.prerequisites << concept_1
+    wip_exercise.taught_concepts << concept_3
+    practice_exercise = create :practice_exercise, :random_slug, track: track
+    practice_exercise.prerequisites = [concept_1, concept_2, concept_3]
+    user_track = create :user_track, track: track, user: user
+    create :hello_world_solution, :completed, track: track, user: user
+
+    # Sanity check
+    assert user_track.exercise_unlocked?(active_exercise)
+    refute user_track.exercise_unlocked?(beta_exercise)
+    refute user_track.exercise_unlocked?(practice_exercise)
+
+    create :concept_solution, :completed, user: user, exercise: active_exercise
+    create :concept_solution, :completed, user: user, exercise: beta_exercise
+
+    # Reload the user track to override memoizing
+    user_track.reset_summary!
+
+    assert user_track.exercise_unlocked?(active_exercise)
+    assert user_track.exercise_unlocked?(beta_exercise)
+    assert user_track.exercise_unlocked?(practice_exercise)
+  end
+
   test "unlocked exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track
@@ -94,6 +128,9 @@ class UserTrackTest < ActiveSupport::TestCase
 
     prereq_1 = create :concept, track: track
     prereq_2 = create :concept, track: track
+
+    concept_exercise_1.taught_concepts << prereq_1
+    concept_exercise_1.taught_concepts << prereq_2
 
     create(:exercise_prerequisite, exercise: concept_exercise_2, concept: prereq_1)
     create(:exercise_prerequisite, exercise: practice_exercise_2, concept: prereq_1)
@@ -271,8 +308,12 @@ class UserTrackTest < ActiveSupport::TestCase
   test "num_xxx_exercises" do
     track = create :track
     user = create :user
+    concept = create :concept, track: track
+    concept_exercise = create :concept_exercise, track: track
+    concept_exercise.taught_concepts << concept
     user_track = create :user_track, user: user, track: track
     exercises = Array.new(10) { create :practice_exercise, :random_slug, track: track }
+    exercises << concept_exercise
 
     # Started
     create :practice_solution, exercise: exercises[0], user: user
@@ -287,10 +328,10 @@ class UserTrackTest < ActiveSupport::TestCase
     end
 
     # Locked
-    create :exercise_prerequisite, exercise: exercises[7]
+    exercises[7].prerequisites << concept
 
-    assert_equal 10, user_track.num_exercises
-    assert_equal 3, user_track.num_available_exercises
+    assert_equal 11, user_track.num_exercises
+    assert_equal 4, user_track.num_available_exercises
     assert_equal 2, user_track.num_in_progress_exercises
     assert_equal 1, user_track.num_locked_exercises
     assert_equal 4, user_track.num_completed_exercises

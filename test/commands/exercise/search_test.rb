@@ -141,6 +141,7 @@ class Exercise::SearchTest < ActiveSupport::TestCase
     create :practice_solution, :published, exercise: pe_published, user: user
     create :practice_solution, :completed, exercise: pe_completed, user: user
 
+    ce_started.taught_concepts << concept
     ce_locked_1.prerequisites << concept
     ce_locked_2.prerequisites << concept
     ce_locked_3.prerequisites << concept

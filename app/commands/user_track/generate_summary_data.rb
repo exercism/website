@@ -135,7 +135,7 @@ class UserTrack
       return true if solutions_data[exercise_data[:slug]]
       return exercise_data[:tutorial] if tutorial_pending
 
-      ((exercise_data[:prerequisite_concept_slugs] & taught_concept_slugs) - learnt_concept_slugs).empty?
+      ((exercise_data[:prerequisite_concept_slugs] & learnable_concept_slugs) - learnt_concept_slugs).empty?
     end
 
     memoize
@@ -156,7 +156,7 @@ class UserTrack
     end
 
     memoize
-    def taught_concept_slugs
+    def learnable_concept_slugs
       user_track.concept_exercises.joins(:taught_concepts).pluck('track_concepts.slug')
     end
   end

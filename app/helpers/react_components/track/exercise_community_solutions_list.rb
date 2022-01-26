@@ -24,7 +24,7 @@ module ReactComponents
       def search_params
         permitted = params.permit(*AssembleExerciseCommunitySolutionsList.keys).to_h
 
-        booleans = %w[up_to_date passed_tests passed_head_tests]
+        booleans = %w[up_to_date passed_tests not_passed_head_tests]
         permitted.each_with_object({}) do |(k, v), h|
           h[k] = booleans.include?(k) ? ActiveModel::Type::Boolean.new.cast(v) : v
         end

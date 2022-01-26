@@ -86,23 +86,22 @@ module Flows
         visit track_exercise_solutions_path(exercise.track, exercise)
       end
 
-      # Default: head tests passed filter is off
+      # Default: head tests passed filter is one
       assert_text "author1's solution"
-      assert_text "author2's solution"
+      assert_no_text "author2's solution"
       assert_text "author3's solution"
 
-      # Enable head tests passed filter
+      # Disable head tests passed filter
       use_capybara_host do
         find("img[alt='Only show solution that pass the tests of the latest version of this exercise']").click
       end
 
       assert_text "author1's solution"
-      assert_no_text "author2's solution"
+      assert_text "author2's solution"
       assert_text "author3's solution"
 
-      # Disable head tests passed and enable tests passed filter
+      # Enable up-to-date filter
       use_capybara_host do
-        find("img[alt='Only show solution that pass the tests of the latest version of this exercise']").click
         find("img[alt='Only show solutions that are up-to-date with the latest version of this exercise']").click
       end
 

@@ -16,33 +16,6 @@ module API
         criteria: "author",
         sync_status: :up_to_date,
         tests_status: nil,
-        head_tests_status: %i[not_queued queued passed]
-      ).returns(Solution.page(1))
-
-      get api_track_exercise_community_solutions_path(
-        track, exercise,
-        page: 5,
-        order: "newest",
-        criteria: "author",
-        up_to_date: "true",
-        passed_tests: nil,
-        passed_head_tests: "true"
-      ), headers: @headers, as: :json
-
-      assert_response :success
-    end
-
-    test "head_tests_status filter is off by default" do
-      track = create :track
-      exercise = create :concept_exercise, track: track
-
-      Solution::SearchCommunitySolutions.expects(:call).with(
-        exercise,
-        page: '5',
-        order: "newest",
-        criteria: "author",
-        sync_status: :up_to_date,
-        tests_status: nil,
         head_tests_status: nil
       ).returns(Solution.page(1))
 
@@ -53,7 +26,34 @@ module API
         criteria: "author",
         up_to_date: "true",
         passed_tests: nil,
-        passed_head_tests: nil
+        not_passed_head_tests: "true"
+      ), headers: @headers, as: :json
+
+      assert_response :success
+    end
+
+    test "head_tests_status filter is on by default" do
+      track = create :track
+      exercise = create :concept_exercise, track: track
+
+      Solution::SearchCommunitySolutions.expects(:call).with(
+        exercise,
+        page: '5',
+        order: "newest",
+        criteria: "author",
+        sync_status: :up_to_date,
+        tests_status: nil,
+        head_tests_status: %i[queued passed]
+      ).returns(Solution.page(1))
+
+      get api_track_exercise_community_solutions_path(
+        track, exercise,
+        page: 5,
+        order: "newest",
+        criteria: "author",
+        up_to_date: "true",
+        passed_tests: nil,
+        not_passed_head_tests: nil
       ), headers: @headers, as: :json
 
       assert_response :success

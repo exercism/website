@@ -209,3 +209,6 @@
 @import "./pages/journey/solutions";
 @import "./pages/journey/reputation";
 @import "./pages/journey/badges";
+
+@import "./highlighters/highlightjs-light";
+@import "./highlighters/highlightjs-dark";

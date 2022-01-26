@@ -5,7 +5,7 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     code = "Some source code"
     @snippet = "Some generated snippet"
 
-    stub_request(:post, "https://internal.exercism.org/extract_snippet").
+    stub_request(:post, "https://test.exercism.org/extract_snippet").
       with(
         body: "{\"language\":\"ruby\",\"source_code\":\"#{code}\"}"
       ).

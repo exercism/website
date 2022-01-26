@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import pluralize from 'pluralize'
 import { Avatar } from '../common'
-import { User } from '../types'
 import { ExerciseMakersModal } from '../modals/ExerciseMakersModal'
 
 type Links = {

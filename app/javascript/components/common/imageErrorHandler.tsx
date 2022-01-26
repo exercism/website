@@ -1,6 +1,6 @@
 import { assetUrl } from '../../utils/assets'
 
-const errorIcon = assetUrl('images/graphics/missing-exercise.svg')
+const errorIcon = assetUrl('graphics/missing-exercise.svg')
 
 export const imageErrorHandler = (
   e: React.SyntheticEvent<HTMLImageElement, Event>

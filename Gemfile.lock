@@ -383,7 +383,7 @@ GEM
     semantic_range (3.0.0)
     show_me_the_cookies (5.0.1)
       capybara (>= 2, < 4)
-    sidekiq (6.2.1)
+    sidekiq (6.4.0)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -513,7 +513,7 @@ DEPENDENCIES
   rugged
   selenium-webdriver
   show_me_the_cookies
-  sidekiq (~> 6.1)
+  sidekiq (~> 6.4)
   sidekiq-failures
   sidekiq-scheduler
   skylight

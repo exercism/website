@@ -163,6 +163,7 @@ import '../../css/dropdowns/request-mentoring'
 import '../../css/dropdowns/open-editor-button'
 
 import '../../css/pages/partners/gdn'
+import '../../css/pages/hiring'
 import '../../css/pages/about'
 import '../../css/pages/team'
 import '../../css/pages/individual_supporters'

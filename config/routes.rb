@@ -405,6 +405,9 @@ Rails.application.routes.draw do
   get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
   get "about" => "pages#about", as: :about_page
   get "team" => "pages#team", as: :team_page
+  get "team/hiring" => "pages#hiring", as: :hiring_page
+  get "team/hiring/fundraiser-1" => "pages#hiring_fundraiser", as: :hiring_1_page
+  get "team/hiring/content-2" => "pages#hiring_content", as: :hiring_2_page
   get "supporters/individuals" => "pages#individual_supporters", as: :individual_supporters_page
   get "supporters/organisations" => "pages#organisation_supporters", as: :organisation_supporters_page
   %w[packt gobridge].each do |supporter|

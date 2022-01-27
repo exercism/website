@@ -9,7 +9,7 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
       exercise = "two-fer"
       attributes = { foo: :bar }
 
-      job = ToolingJob::Create.(type, submission_uuid, language, exercise, attributes)
+      job = Exercism::ToolingJob.create!(type, submission_uuid, language, exercise, attributes)
 
       redis = Exercism.redis_tooling_client
       expected = {

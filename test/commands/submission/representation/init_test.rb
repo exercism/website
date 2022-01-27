@@ -10,11 +10,12 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
     create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow meta
 
-    ToolingJob::Create.expects(:call).with(
+    Exercism::ToolingJob.expects(:create!).with(
       :representer,
       submission.uuid,
       solution.track.slug,
       solution.exercise.slug,
+      run_in_background: false,
       source: {
         submission_efs_root: submission.uuid,
         submission_filepaths: ["log_line_parser.rb", "subdir/new_file.rb"],
@@ -38,11 +39,12 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
     create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow meta
 
-    ToolingJob::Create.expects(:call).with(
+    Exercism::ToolingJob.expects(:create!).with(
       :representer,
       submission.uuid,
       solution.track.slug,
       solution.exercise.slug,
+      run_in_background: false,
       source: {
         submission_efs_root: submission.uuid,
         submission_filepaths: ["isogram.rb", "subdir/new_file.rb"],

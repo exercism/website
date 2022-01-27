@@ -27,8 +27,8 @@ class Submission
       delegate :solution, to: :submission
 
       def exercise_filepaths
-        exercise_repo.tooling_filepaths.select do |filepath|
-          filepath.starts_with?(".meta/")
+        exercise_repo.tooling_filepaths.reject do |filepath|
+          submission.valid_filepaths.include?(filepath)
         end
       end
 

@@ -21,8 +21,7 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
         exercise_git_repo: solution.track.slug,
         exercise_git_sha: solution.git_sha,
         exercise_git_dir: "exercises/concept/strings",
-        # This should only be .meta
-        exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb"]
+        exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
       }
     )
     Submission::Representation::Init.(submission)
@@ -50,8 +49,7 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
         exercise_git_repo: solution.track.slug,
         exercise_git_sha: solution.git_sha,
         exercise_git_dir: "exercises/practice/isogram",
-        # This should only be .meta
-        exercise_filepaths: [".meta/config.json", ".meta/example.rb"]
+        exercise_filepaths: [".meta/config.json", ".meta/example.rb", "helper.rb", "isogram_test.rb"]
       }
     )
     Submission::Representation::Init.(submission)

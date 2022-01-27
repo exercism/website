@@ -46,6 +46,26 @@ class Solution::PublishTest < ActiveSupport::TestCase
     Solution::Publish.(solution, solution.user_track, nil)
   end
 
+  test "sets solution num_loc to published iteration num_loc" do
+    solution = create :practice_solution
+    iteration = create :iteration, solution: solution, idx: 1, num_loc: 33
+    create :iteration, solution: solution, idx: 2, num_loc: 44
+
+    Solution::Publish.(solution, solution.user_track, 1)
+
+    assert iteration.num_loc, solution.num_loc
+  end
+
+  test "sets solution num_loc to latest iteration num_loc if publishing all iterations" do
+    solution = create :practice_solution
+    create :iteration, solution: solution, idx: 1, num_loc: 33
+    latest_iteration = create :iteration, solution: solution, idx: 2, num_loc: 44
+
+    Solution::Publish.(solution, solution.user_track, nil)
+
+    assert latest_iteration.num_loc, solution.num_loc
+  end
+
   test "awards level correctly" do
     easy_solution = create :practice_solution, exercise: create(:practice_exercise, :random_slug, difficulty: 1)
     medium_solution = create :practice_solution, exercise: create(:practice_exercise, :random_slug, difficulty: 5)

@@ -10,7 +10,7 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
     create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow meta
 
-    ToolingJob::Create.expects(:call).with(
+    Exercism::ToolingJob.expects(:create!).with(
       :test_runner,
       submission.uuid,
       solution.track.slug,
@@ -40,7 +40,7 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
     create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow meta
 
-    ToolingJob::Create.expects(:call).with(
+    Exercism::ToolingJob.expects(:create!).with(
       :test_runner,
       submission.uuid,
       solution.track.slug,

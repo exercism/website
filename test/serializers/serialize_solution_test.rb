@@ -3,7 +3,7 @@ require 'test_helper'
 class SerializeSolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution, status: :published, published_iteration_head_tests_status: :passed,
-                                          published_at: Time.current - 1.week, completed_at: Time.current
+      published_at: Time.current - 1.week, completed_at: Time.current
     submission = create :submission, solution: solution
     iteration = create :iteration, submission: submission
 

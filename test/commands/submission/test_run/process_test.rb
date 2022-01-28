@@ -95,7 +95,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results: results,
-                                              git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a')
+      git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a')
 
     assert submission.reload.tests_not_queued? # Sanity
 
@@ -139,7 +139,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(create(:submission), execution_status: 200, results: results,
-                                  git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
+      git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
 
     IterationChannel.expects(:broadcast!).never
     SubmissionChannel.expects(:broadcast!).never
@@ -157,7 +157,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     create :iteration, solution: solution, submission: submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results: results,
-                                  git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
+      git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
 
     Submission::TestRun::Process.(job)
 

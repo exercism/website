@@ -64,7 +64,7 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal :open, issue.status
     assert_empty issue.labels
     assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
-    assert issue.opened_by_username.nil?
+    assert_nil issue.opened_by_username
   end
 
   test "update issue if data has changed" do

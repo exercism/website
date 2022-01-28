@@ -9,9 +9,9 @@ class Exercise::MarkSolutionsAsOutOfDateInIndexTest < ActiveSupport::TestCase
     exercise_2 = create :practice_exercise, id: 8, track: track
     solution_1 = create :practice_solution, exercise: exercise_1, user: user_1, git_important_files_hash: 'different-hash'
     solution_2 = create :practice_solution, exercise: exercise_1, user: user_2,
-git_important_files_hash: exercise_1.git_important_files_hash
+      git_important_files_hash: exercise_1.git_important_files_hash
     solution_3 = create :practice_solution, exercise: exercise_2, user: user_1,
-git_important_files_hash: exercise_2.git_important_files_hash
+      git_important_files_hash: exercise_2.git_important_files_hash
     solution_4 = create :practice_solution, exercise: exercise_2, user: user_2
 
     wait_for_opensearch_to_be_synced

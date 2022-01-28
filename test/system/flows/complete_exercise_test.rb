@@ -84,9 +84,9 @@ module Flows
       create :user_track, user: user, track: track
       solution = create :concept_solution, user: user, exercise: boutique
       submission = create :submission, solution: solution,
-                                       tests_status: :passed,
-                                       representation_status: :generated,
-                                       analysis_status: :completed
+        tests_status: :passed,
+        representation_status: :generated,
+        analysis_status: :completed
       create :iteration, idx: 1, solution: solution, submission: submission
 
       sign_in!(user)

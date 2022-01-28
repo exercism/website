@@ -34,7 +34,7 @@ module API
 
       setup_user(user)
       patch update_amount_api_donations_subscription_path(subscription.id, amount_in_cents: amount_in_cents), headers: @headers,
-                                                                                                              as: :json
+        as: :json
       assert_response 200
       expected = { subscription: { links: { index: donations_settings_url } } }
       assert_equal(expected.to_json, response.body)

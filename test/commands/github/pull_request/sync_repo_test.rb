@@ -297,7 +297,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     Github::PullRequest::SyncRepo.('exercism/ruby')
 
     pr = ::Github::PullRequest.find_by(node_id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4')
-    assert pr.author_username.nil?
+    assert_nil pr.author_username
   end
 
   test "imports pull request that wasn't merged" do
@@ -356,7 +356,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     Github::PullRequest::SyncRepo.('exercism/ruby')
 
     pr = ::Github::PullRequest.find_by(node_id: 'MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4')
-    assert pr.merged_by_username.nil?
+    assert_nil pr.merged_by_username
   end
 
   test "imports pull request review without reviewer" do
@@ -415,7 +415,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     Github::PullRequest::SyncRepo.('exercism/ruby')
 
     review = ::Github::PullRequestReview.find_by(node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx')
-    assert review.reviewer_username.nil?
+    assert_nil review.reviewer_username
   end
 
   test "fetch all pull requests even if rate limit is reached" do

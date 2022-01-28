@@ -14,7 +14,7 @@ class SolutionTest < ActiveSupport::TestCase
       solution = build solution_type, uuid: nil
       assert_nil solution.uuid
       solution.save!
-      refute solution.uuid.nil?
+      refute_nil solution.uuid
     end
 
     test "#{solution_type}: doesn't override uuid" do

@@ -29,25 +29,25 @@ class User < ApplicationRecord
   has_many :activities, class_name: "User::Activity", dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :mentor_discussions, foreign_key: :mentor_id,
-                                inverse_of: :mentor,
-                                dependent: :destroy,
-                                class_name: "Mentor::Discussion"
+    inverse_of: :mentor,
+    dependent: :destroy,
+    class_name: "Mentor::Discussion"
   has_many :mentor_discussion_posts, inverse_of: :author,
-                                     dependent: :destroy,
-                                     class_name: "Mentor::DiscussionPost"
+    dependent: :destroy,
+    class_name: "Mentor::DiscussionPost"
   has_many :mentor_testimonials, foreign_key: :mentor_id,
-                                 inverse_of: :mentor,
-                                 dependent: :destroy,
-                                 class_name: "Mentor::Testimonial"
+    inverse_of: :mentor,
+    dependent: :destroy,
+    class_name: "Mentor::Testimonial"
   has_many :provided_testimonials, foreign_key: :student_id,
-                                   inverse_of: :student,
-                                   dependent: :destroy,
-                                   class_name: "Mentor::Testimonial"
+    inverse_of: :student,
+    dependent: :destroy,
+    class_name: "Mentor::Testimonial"
 
   has_many :student_relationships, class_name: "Mentor::StudentRelationship",
-                                   foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy
+    foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy
   has_many :mentor_relationships, class_name: "Mentor::StudentRelationship",
-                                  foreign_key: :student_id, inverse_of: :student, dependent: :destroy
+    foreign_key: :student_id, inverse_of: :student, dependent: :destroy
 
   has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
   has_many :reputation_periods, class_name: "User::ReputationPeriod", dependent: :destroy

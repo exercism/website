@@ -377,7 +377,7 @@ Done')
     expected = %(<h1 id="h-one">one</h1>\n<h2 id="h-two">two</h2>\n<h3 id="h-three">three</h3>\n<h4 id="h-four">four</h4>\n<h5 id="h-five">five</h5>\n<h6 id="h-six">six</h6>\n) # rubocop:disable Layout/LineLength
     assert_equal expected,
       Markdown::Parse.("# one\n\n## two\n\n### three\n\n#### four\n\n##### five\n\n###### six", heading_ids: true,
-lower_heading_levels_by: 0, strip_h1: false)
+        lower_heading_levels_by: 0, strip_h1: false)
   end
 
   test "heading id for same titles uses sequential numbering" do

@@ -3,7 +3,7 @@ require "test_helper"
 class Track::CreateTest < ActiveSupport::TestCase
   test "creates track" do
     Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/fsharp', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
-                             tags: ['Compiles to:Binary', 'Runtime:Browser'])
+      tags: ['Compiles to:Binary', 'Runtime:Browser'])
 
     assert_equal 1, Track.count
     track = Track.last
@@ -18,7 +18,7 @@ class Track::CreateTest < ActiveSupport::TestCase
 
   test "creates contributor team if track does not exist" do
     track = Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/fsharp', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
-                                     tags: ['Compiles to:Binary', 'Runtime:Browser'])
+      tags: ['Compiles to:Binary', 'Runtime:Browser'])
 
     assert_equal 1, ContributorTeam.count
     team = ContributorTeam.last
@@ -33,7 +33,7 @@ class Track::CreateTest < ActiveSupport::TestCase
     updated_at_before_create = team.updated_at
 
     Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/fsharp', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
-                             tags: ['Compiles to:Binary', 'Runtime:Browser'])
+      tags: ['Compiles to:Binary', 'Runtime:Browser'])
 
     assert_equal updated_at_before_create, team.reload.updated_at
   end
@@ -41,7 +41,7 @@ class Track::CreateTest < ActiveSupport::TestCase
   test "idempotent" do
     assert_idempotent_command do
       Track::Create.('fsharp', title: 'F#', blurb: 'F# is a functional language', repo_url: 'https://github.com/exercism/fsharp', synced_to_git_sha: 'HEAD', # rubocop:disable Layout/LineLength
-                               tags: ['Compiles to:Binary', 'Runtime:Browser'])
+        tags: ['Compiles to:Binary', 'Runtime:Browser'])
     end
   end
 end

@@ -17,7 +17,7 @@ module Components
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, user: student, exercise: exercise
         request = create :mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
-                                          updated_at: 2.days.ago
+          updated_at: 2.days.ago
         discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
         submission = create :submission, solution: solution
         iteration = create :iteration,

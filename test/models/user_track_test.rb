@@ -406,11 +406,11 @@ class UserTrackTest < ActiveSupport::TestCase
     create :mentor_started_discussion_notification, user: user, status: :unread
     create :mentor_started_discussion_notification, user: user, status: :read
     create :mentor_started_discussion_notification, user: user, status: :pending,
-                                                    params: { discussion: create(:mentor_discussion, solution: solution) }
+      params: { discussion: create(:mentor_discussion, solution: solution) }
     create :mentor_started_discussion_notification, user: user, status: :read,
-                                                    params: { discussion: create(:mentor_discussion, solution: solution) }
+      params: { discussion: create(:mentor_discussion, solution: solution) }
     create :mentor_started_discussion_notification, status: :unread,
-                                                    params: { discussion: create(:mentor_discussion, solution: solution) }
+      params: { discussion: create(:mentor_discussion, solution: solution) }
     refute UserTrack.find(ut_id).has_notifications?
 
     create :mentor_started_discussion_notification, status: :unread, user: user, params: { discussion: discussion }

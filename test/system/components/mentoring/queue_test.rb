@@ -39,7 +39,7 @@ module Components
         request = create_mentor_request exercise: series, student: student, created_at: 1.year.ago
         relationship = create :mentor_student_relationship, student: student, mentor: mentor
         create :mentor_discussion, solution: create(:practice_solution, user: student),
-                                   request: create(:mentor_request, status: :fulfilled)
+          request: create(:mentor_request, status: :fulfilled)
 
         use_capybara_host do
           sign_in!(mentor)

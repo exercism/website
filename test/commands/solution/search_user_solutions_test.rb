@@ -151,11 +151,11 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
     solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
-                                                    submission: create(:submission, solution: solution_1)))
+      submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
-                                                    submission: create(:submission, solution: solution_2)))
+      submission: create(:submission, solution: solution_2)))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
-                                                    submission: create(:submission, solution: solution_3)))
+      submission: create(:submission, solution: solution_3)))
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -182,9 +182,9 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     exercise_2 = create :concept_exercise
     exercise_3 = create :concept_exercise
     solution_1 = create :concept_solution, user: user, exercise: exercise_1,
-git_important_files_hash: exercise_1.git_important_files_hash
+      git_important_files_hash: exercise_1.git_important_files_hash
     solution_2 = create :concept_solution, user: user, exercise: exercise_2,
-git_important_files_hash: exercise_2.git_important_files_hash
+      git_important_files_hash: exercise_2.git_important_files_hash
     solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash'
 
     # Sanity check: ensure that the results are not returned using the fallback
@@ -265,7 +265,7 @@ git_important_files_hash: exercise_2.git_important_files_hash
     Elasticsearch::Client.expects(:new).raises
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
-criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_status: "passed", head_tests_status: "failed")
+      criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_status: "passed", head_tests_status: "failed")
   end
 
   test "fallback is called when elasticsearch times out" do
@@ -290,7 +290,7 @@ criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_stat
       :up_to_date, "passed", "failed")
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
-criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_status: "passed", head_tests_status: "failed")
+      criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_status: "passed", head_tests_status: "failed")
   end
 
   test "fallback: no options returns everything" do
@@ -425,11 +425,11 @@ criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_stat
     solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current
     solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
-submission: create(:submission, solution: solution_1)))
+      submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
-submission: create(:submission, solution: solution_2)))
+      submission: create(:submission, solution: solution_2)))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
-submission: create(:submission, solution: solution_3)))
+      submission: create(:submission, solution: solution_3)))
 
     # A different user
     create :concept_solution
@@ -450,17 +450,17 @@ submission: create(:submission, solution: solution_3)))
     exercise_2 = create :concept_exercise
     exercise_3 = create :concept_exercise
     solution_1 = create :concept_solution, user: user, exercise: exercise_1,
-git_important_files_hash: exercise_1.git_important_files_hash, published_at: Time.current
+      git_important_files_hash: exercise_1.git_important_files_hash, published_at: Time.current
     solution_2 = create :concept_solution, user: user, exercise: exercise_2,
-git_important_files_hash: exercise_2.git_important_files_hash, published_at: Time.current
+      git_important_files_hash: exercise_2.git_important_files_hash, published_at: Time.current
     solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash',
-published_at: Time.current
+      published_at: Time.current
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
-submission: create(:submission, solution: solution_1)))
+      submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
-submission: create(:submission, solution: solution_2)))
+      submission: create(:submission, solution: solution_2)))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
-submission: create(:submission, solution: solution_3)))
+      submission: create(:submission, solution: solution_3)))
 
     # A different user
     create :concept_solution

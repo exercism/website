@@ -318,7 +318,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
     existing_contributorship = create :exercise_contributorship, exercise: exercise, contributor: existing_contributor
     create :user_exercise_contribution_reputation_token, user: existing_contributor,
-                                                         params: { contributorship: existing_contributorship }
+      params: { contributorship: existing_contributorship }
 
     perform_enqueued_jobs do
       Git::SyncConceptExercise.(exercise)

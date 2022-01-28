@@ -45,8 +45,8 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
     create :github_issue_label, issue: issue, name: 'x:type/coding'
 
     task = create :github_task, issue_url: issue.github_url, repo: issue.repo, title: issue.title,
-                                opened_at: issue.opened_at, opened_by_username: issue.opened_by_username,
-                                action: :proofread, knowledge: :none, area: :representer, size: :large, type: :docs
+      opened_at: issue.opened_at, opened_by_username: issue.opened_by_username,
+      action: :proofread, knowledge: :none, area: :representer, size: :large, type: :docs
 
     issue.update!(
       title: 'Improve CI speed',

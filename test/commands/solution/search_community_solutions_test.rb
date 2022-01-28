@@ -27,9 +27,9 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     user_1 = create :user, handle: 'amy'
     user_2 = create :user, handle: 'chris'
     solution_1 = create :concept_solution, exercise: exercise, user: user_1, num_stars: 11, published_at: Time.current,
-status: :published
+      status: :published
     solution_2 = create :concept_solution, exercise: exercise, user: user_2, num_stars: 22, published_at: Time.current,
-status: :published
+      status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
@@ -124,13 +124,13 @@ status: :published
     track = create :track
     exercise = create :concept_exercise, track: track
     solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published,
-                                           published_iteration_head_tests_status: :passed
+      published_iteration_head_tests_status: :passed
     submission_1 = create :submission, solution: solution_1, tests_status: :passed
     solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published,
-                                          published_iteration_head_tests_status: :passed
+      published_iteration_head_tests_status: :passed
     submission_2 = create :submission, solution: solution_2, tests_status: :passed
     solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published,
-                                          published_iteration_head_tests_status: :errored
+      published_iteration_head_tests_status: :errored
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
@@ -240,9 +240,9 @@ status: :published
     track = create :track
     exercise = create :concept_exercise, track: track
     least_starred = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
-status: :published
+      status: :published
     most_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
-status: :published
+      status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
@@ -256,9 +256,9 @@ status: :published
     track = create :track
     exercise = create :concept_exercise, track: track
     least_starred = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
-status: :published
+      status: :published
     most_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
-status: :published
+      status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
@@ -322,9 +322,9 @@ status: :published
     user_1 = create :user, handle: 'amy'
     user_2 = create :user, handle: 'chris'
     solution_1 = create :concept_solution, exercise: exercise, user: user_1, num_stars: 11, published_at: Time.current,
-status: :published
+      status: :published
     solution_2 = create :concept_solution, exercise: exercise, user: user_2, num_stars: 22, published_at: Time.current,
-status: :published
+      status: :published
 
     # Unpublished
     create :concept_solution, exercise: exercise
@@ -373,13 +373,13 @@ status: :published
     track = create :track
     exercise = create :concept_exercise, track: track
     solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published,
-published_iteration_head_tests_status: :passed
+      published_iteration_head_tests_status: :passed
     submission_1 = create :submission, solution: solution_1, tests_status: :passed
     solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published,
-published_iteration_head_tests_status: :passed
+      published_iteration_head_tests_status: :passed
     submission_2 = create :submission, solution: solution_2, tests_status: :passed
     solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published,
-published_iteration_head_tests_status: :errored
+      published_iteration_head_tests_status: :errored
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
@@ -405,11 +405,11 @@ published_iteration_head_tests_status: :errored
     track = create :track
     exercise = create :concept_exercise, track: track
     solution_1 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
-num_stars: 11, published_at: Time.current, status: :published
+      num_stars: 11, published_at: Time.current, status: :published
     solution_2 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
-num_stars: 22, published_at: Time.current, status: :published
+      num_stars: 22, published_at: Time.current, status: :published
     solution_3 = create :concept_solution, exercise: exercise, git_important_files_hash: 'different_hash', num_stars: 33,
-published_at: Time.current, status: :published
+      published_at: Time.current, status: :published
 
     # Unpublished
     create :concept_solution, exercise: exercise
@@ -450,9 +450,9 @@ published_at: Time.current, status: :published
     track = create :track
     exercise = create :concept_exercise, track: track
     least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
-                                              status: :published
+      status: :published
     most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
-                                             status: :published
+      status: :published
 
     assert_equal [most_starred, least_starred],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, :most_starred, "", nil, nil, nil)
@@ -462,9 +462,9 @@ published_at: Time.current, status: :published
     track = create :track
     exercise = create :concept_exercise, track: track
     least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
-                                              status: :published
+      status: :published
     most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
-                                             status: :published
+      status: :published
 
     assert_equal [most_starred, least_starred],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, nil, "", nil, nil, nil)

@@ -291,7 +291,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     existing_contributorship = create :exercise_contributorship, exercise: exercise, contributor: existing_contributor
     create :user_exercise_contribution_reputation_token, user: existing_contributor,
-                                                         params: { contributorship: existing_contributorship }
+      params: { contributorship: existing_contributorship }
 
     perform_enqueued_jobs do
       Git::SyncPracticeExercise.(exercise)

@@ -31,16 +31,25 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
-        ".docs/hints.md",
-        ".docs/instructions.append.md",
-        ".docs/instructions.md",
-        ".docs/introduction.append.md",
-        ".docs/introduction.md",
         ".meta/config.json",
         ".meta/example.rb",
         "bob.rb",
         "bob_test.rb",
         "subdir/more_bob.rb"
+      ]
+      assert_equal expected_filepaths, exercise.tooling_filepaths
+    end
+
+    test "tooling_filepaths with editor files" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".meta/config.json",
+        ".meta/example.rb",
+        "helper.rb",
+        "isogram.rb",
+        "isogram_test.rb"
       ]
       assert_equal expected_filepaths, exercise.tooling_filepaths
     end

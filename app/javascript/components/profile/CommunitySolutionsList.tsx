@@ -27,10 +27,10 @@ type PaginatedResult = {
   }
 }
 
-export type Order = 'newest_first' | 'oldest_first'
+export type Order = 'most_starred' | 'newest_first' | 'oldest_first'
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
-const DEFAULT_ORDER = 'newest_first'
+const DEFAULT_ORDER = 'most_starred'
 
 export const CommunitySolutionsList = ({
   request: initialRequest,

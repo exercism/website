@@ -73,7 +73,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
     assert_response 200
 
     expected = SerializePaginatedCollection.(
-      Solution.order(id: :desc).page(1),
+      Solution.order(num_stars: :desc).page(1),
       serializer: SerializeCommunitySolutions,
       meta: {
         unscoped_total: 5

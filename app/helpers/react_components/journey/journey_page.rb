@@ -25,7 +25,7 @@ module ReactComponents
                 tests_status: params[:tests_status],
                 head_tests_status: params[:head_tests_status],
                 page: params[:page],
-                order: params[:order]
+                order: params[:order] || :newest_first
               ),
               serializer: SerializeSolutions,
               serializer_args: [current_user]
@@ -40,7 +40,7 @@ module ReactComponents
             tests_status: params[:tests_status],
             head_tests_status: params[:head_tests_status],
             page: params[:page],
-            order: params[:order]
+            order: params[:order] || :newest_first
           }.compact
         else
           options = {}

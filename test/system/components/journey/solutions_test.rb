@@ -58,8 +58,8 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Bob"
         exercise_2 = create :concept_exercise, title: "Lasagna"
-        create :concept_solution, exercise: exercise, user: user
-        create :concept_solution, exercise: exercise_2, user: user
+        create :concept_solution, exercise: exercise, user: user, published_at: 2.days.ago
+        create :concept_solution, exercise: exercise_2, user: user, published_at: 1.day.ago
 
         wait_for_opensearch_to_be_synced
 

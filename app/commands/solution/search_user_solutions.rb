@@ -22,7 +22,7 @@ class Solution
       @head_tests_status = head_tests_status
       @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
       @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
-      @order = order
+      @order = order&.to_sym
     end
 
     def call
@@ -91,9 +91,14 @@ class Solution
     end
 
     def search_sort
-      [
-        { id: { order: order&.to_sym == :oldest_first ? :asc : :desc, unmapped_type: "integer" } }
-      ]
+      case order
+      when :newest_first
+        [{ id: { order: :desc, unmapped_type: "integer" } }]
+      when :oldest_first
+        [{ id: { order: :asc, unmapped_type: "integer" } }]
+      else # :most_starred
+        [{ num_stars: { order: :desc, unmapped_type: "integer" } }]
+      end
     end
 
     def to_terms(value)
@@ -184,11 +189,13 @@ class Solution
       end
 
       def sort!
-        case order&.to_sym
+        case order
+        when :newest_first
+          @solutions = @solutions.order(id: :desc)
         when :oldest_first
           @solutions = @solutions.order(id: :asc)
-        else # :newest_first
-          @solutions = @solutions.order(id: :desc)
+        else # :most_starred
+          @solutions = @solutions.order(num_stars: :desc)
         end
       end
     end

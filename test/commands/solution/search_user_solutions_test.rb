@@ -188,7 +188,8 @@ num_stars: 33
       git_important_files_hash: exercise_1.git_important_files_hash, num_stars: 11
     solution_2 = create :concept_solution, user: user, exercise: exercise_2,
       git_important_files_hash: exercise_2.git_important_files_hash, num_stars: 22
-    solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash'
+    solution_3 = create :concept_solution, user: user, exercise: exercise_3,
+      git_important_files_hash: 'different_hash', num_stars: 33
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never

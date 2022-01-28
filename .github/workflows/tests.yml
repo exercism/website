@@ -14,6 +14,7 @@ jobs:
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v2
@@ -48,6 +49,7 @@ jobs:
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       ###
       # Checkout using GitHub's checkout action
@@ -85,6 +87,7 @@ jobs:
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
 
@@ -108,6 +111,7 @@ jobs:
       matrix: ${{ fromJson(needs.ruby-test-files.outputs.matrix) }}
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     services:
       mysql:
         image: mysql:5.7
@@ -223,6 +227,7 @@ jobs:
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
 
@@ -246,6 +251,7 @@ jobs:
       matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     services:
       mysql:
         image: mysql:5.7
@@ -359,6 +365,7 @@ jobs:
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       ###
       # Checkout using GitHub's checkout action

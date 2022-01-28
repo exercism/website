@@ -106,7 +106,7 @@ export const BugReportModal = ({
       ) : (
         <form data-turbo="false" onSubmit={handleSubmit}>
           <label htmlFor="content_markdown">
-            Thanks for reporting. Please tell is what is wrong.
+            Thanks for reporting. Please tell us what is wrong.
           </label>
           <textarea
             id="content_markdown"

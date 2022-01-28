@@ -135,7 +135,7 @@ class UserTrack
       return true if solutions_data[exercise_data[:slug]]
       return exercise_data[:tutorial] if tutorial_pending
 
-      (exercise_data[:prerequisite_concept_slugs] - learnt_concept_slugs).empty?
+      ((exercise_data[:prerequisite_concept_slugs] & learnable_concept_slugs) - learnt_concept_slugs).empty?
     end
 
     memoize
@@ -153,6 +153,11 @@ class UserTrack
       completed_solution_slugs = solutions_data.select { |_, s| s[:completed_at] }.keys
       exercises_data.select { |slug, _| completed_solution_slugs.include?(slug) }.
         flat_map { |_, exercise_data| exercise_data[:taught_concepts] }
+    end
+
+    memoize
+    def learnable_concept_slugs
+      user_track.concept_exercises.joins(:taught_concepts).pluck('track_concepts.slug')
     end
   end
 end

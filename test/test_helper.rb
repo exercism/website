@@ -222,7 +222,7 @@ class ActiveSupport::TestCase
   end
 
   def create_tooling_job!(submission, type, params = {})
-    ToolingJob::Create.(
+    Exercism::ToolingJob.create!(
       type,
       submission.uuid,
       submission.track.slug,

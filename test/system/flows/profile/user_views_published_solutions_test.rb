@@ -95,20 +95,27 @@ module Flows
       create :user_profile, user: author
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
-      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
+      solution = create :concept_solution, exercise: exercise, published_at: 3.days.ago, num_stars: 1, user: author
       submission = create :submission, solution: solution
       create :iteration, solution: solution, submission: submission
-      exercise = create :concept_exercise, track: ruby, slug: "Running", title: "Running"
-      solution = create :concept_solution, exercise: exercise, published_at: 2.days.ago, user: author
-      submission = create :submission, solution: solution
-      create :iteration, solution: solution, submission: submission
+      other_exercise = create :concept_exercise, track: ruby, slug: "Running", title: "Running"
+      other_solution = create :concept_solution, exercise: other_exercise, published_at: 2.days.ago, num_stars: 5, user: author
+      other_submission = create :submission, solution: other_solution
+      create :iteration, solution: other_solution, submission: other_submission
 
       wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         sign_in!(author)
         visit solutions_profile_path(author.handle)
-        click_on "Sort by Newest First"
+      end
+
+      # Default is sort by most stars
+      assert_no_text "Strings"
+      assert_text "Running"
+
+      use_capybara_host do
+        click_on "Sort by Most Starred"
         find("label", text: "Sort by Oldest First").click
       end
 

@@ -312,6 +312,7 @@ body.devise {
     }
 }
 
+body.action-about,
 body.controller-docs,
 body.namespace-docs {
     @apply bg-backgroundColorA;
@@ -328,6 +329,25 @@ body.namespace-docs {
             /* TODO: Readd once implemented */
             /* @apply block; */
         }
+        & .signed-in,
+        & .signed-out {
+            @apply hidden;
+        }
+    }
+}
+
+body.controller-about,
+body.namespace-about {
+    @apply bg-backgroundColorA;
+
+    & #site-header {
+        @apply bg-backgroundColorA;
+        @apply border-0;
+
+        & .exercism-link {
+            @apply mr-32;
+        }
+
         & .signed-in,
         & .signed-out {
             @apply hidden;

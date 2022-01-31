@@ -51,6 +51,7 @@
 @import "./components/iteration-summary";
 @import "./components/accordion-section";
 @import "./components/underline";
+@import "./components/about-nav";
 @import "./components/docs-main-nav";
 @import "./components/docs-side-nav";
 @import "./components/docs-tracks-list";

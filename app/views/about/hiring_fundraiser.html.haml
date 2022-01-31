@@ -1,14 +1,16 @@
+= render ViewComponents::AboutNav.new(:hiring)
+
 #page-hiring-job.bg-backgroundColorA.pb-16
   %header.c-shapes
     .md-container
-      = link_to hiring_page_path, class: "c-prominent-link" do
+      = link_to hiring_about_path, class: "c-prominent-link" do
         = graphical_icon "arrow-left"
         Back to All Job Listings
 
       .role
         = graphical_icon "hiring-fundraiser", category: 'graphics', css_class: 'graphic'
         .information
-          %h1.text-h0.mb-12 Content Factotum
+          %h1.text-h0.mb-12 Head of Partnerships and Fundraising
           .details
             .remote-tag
               = graphical_icon "stars"
@@ -18,10 +20,10 @@
   %article
     .sm-container
       %p.text-p-2xlarge.mb-40
-        %strong Become Exercism's Content Factotum!
-        We need someone to lead and support our team of content-creating volunteers as we create one of the best educational resources on the planet.
-        Are you looking for a job that's a mixture of strategy, authoring, editing and leading, this might be the perfect role for you?
-        Do you have passion for programming?
+        %strong Become Exercism's Head of Partnerships and Fundraising!
+        Are you a strategic thinker? Do you have a track record of generating revenue?
+        Do you care about high-quality, lifelong education, and the opportunities it provides?
+        Do you want to work with an exceptional team and help underpin a platform that touches millions of lives?
         If so, this role might be perfect for you.
 
       %h2.text-h2.mb-12 Summary
@@ -32,10 +34,10 @@
         Through our work we aim to improve the global standard of programming and increase participation in tech from under-represented groups.
         You can learn more about Exercism in our #{link_to '"About Exercism" pages', 'https://exercism.org/about', target: '_blank', rel: :noopener}.
       %p.text-p-xlarge.mb-16
-        At the heart of Exercism is our content - thousands of programming exercises across over 5o programming languages, designed to teach and enable practice of programming concepts, nearly all of which has been written by our volunteer community.
-        As we continue to grow our content, and plan to expand it beyond our traditional exercise format, we need someone to lead our content strategy.
-        This is a hands-on role, where you'll be writing and editor content, alongside planning and leading our volunteer maintainers.
-        Currently this role is split between the CEO and Head of Open Source, both of whom you'll work closely with.
+        To take our next steps we need to grow our team.
+        To do that we need to place ourselves on more solid financial ground.
+        We're looking for someone to lead this process, to work with the CEO to create a comprehensive fundraising strategy, and to execute it, raising funds through sponsorship and partnerships.
+        Our target is to generate £500k of funds in the next 12 months.
       %p.text-p-xlarge.mb-32
         We are building an exceptional team of ambitious, passionate people who love their work, excel at what they do, and have fun doing it.
         The values of empathy, integrity and personal-growth are core to everything we do.
@@ -43,38 +45,31 @@
 
       %h2.text-h2.mb-12 Responsibilities
       %p.text-p-xlarge.mb-16
-        Your role is to fundmentally take all the work currently done by the CEO and the Head of Open Source,
-        Your role splits roughly into three areas.
+        So far, fundraising has been done on an ad-hoc basis by our CEO.
+        Over the last 3 years, we have raised ~£800k in support from organisations including #{link_to 'Mozilla', 'https://www.mozilla.org/en-GB/', target: '_blank', rel: :noopener}, #{link_to 'Packt Publishing', 'https://www.packtpub.com/about', target: '_blank', rel: :noopener}, #{link_to 'GoBridge', 'https://exercism.org/partners/gobridge', target: '_blank', rel: :noopener}, and the #{link_to 'University of Chicago', 'https://www.uchicago.edu/', target: '_blank', rel: :noopener}, ~£500k of which has come since Dec 2021.
+        Your role is to take that ad-hoc work, formalise it into a coherent strategy, and then execute on that to deliver £500k of new support in the next 12 months.
+        If the initial work is successful, we will reinvest some of the funds into growing a fundraising team around you.
+        Although most of your role will be autonomous, you will have close access to the CEO to strategise and explore opportunities as needed.
       %p.text-p-xlarge.mb-12
-        The first is strategic, which has the following key responsibilities:
-      %ul.text-p-xlarge.mb-16
-        %li Work with our CEO, Head of Open Source to more tighly define our our wider content strategy for the next three years.
-        %li Work with our senior maintainers to design and document systems that improve the flow and quality of content.
-        %li Work with our content partners (e.g. Packt Publishing) to determine synergies between their content and ours, and how we can make the most use of their educational portfolio.
-      %p.text-p-xlarge.mb-12
-        The second is a leadership role:
-      %ul.text-p-xlarge.mb-16
-        %li You will be the senior content voice for our community, answering questions, arbitrating discussions, and acting as the knowledgable sage of wisdom. This doesn't mean you have to be the most knowledgable on any given subject, but means you must speak to Exercism's perspective on content, education, and how we make pragmatic decisions.
-        %li You will act as a locum maintainer - supporting tracks where there are no maintainers, addressing issues and reviewing pull-requests from contributors. In this you will be supported by our community "reviewers" team, who help out in PR reviews on tracks where there are no formal maintainers.
-      %p.text-p-xlarge.mb-16
-        The third, but by no means least, is actually writing educational content.
-        As part of our three year plan, we are extending our content beyond programming-language content, to the programming concept - looking at fundemental programming concepts, design patters, and the knowledge that makes someone an excellent programmer.
-        You will lead this, planning out and writing the content, supported by both our internal team and our contributor team.
+        The key areas of your work will be:
 
-      %p.text-p-xlarge.mb-40
-        Although that's a lot of different hats to wear, they are a synegistic set of responsibilities, which all center around the central mindset of "owning" Exercism's content.
-        There will be a lot to learn, but we have a knowledgable and friendly community who will support you in the role, and three core team members who have all worked in this role and have years of experience to share.
-        We'll give you time to get up to speed and support you in every step of the way.
+      %ul.text-p-xlarge.mb-40
+        %li Work with the CEO to develop an overarching fundraising strategy.
+        %li Identify, approach, and close deals with potential sponsors.
+        %li Identify partnership opportunities and work with the CEO to close them.
+        %li Identify and apply for grants.
 
       %h2.text-h2.mb-12 Is this job right for you?
       %p.text-p-xlarge.mb-12
-        The right person for this role will be someone who loves programming, is passionate about education, and who shares our values.
+        The right person for this role will be someone with the experience to devise and execute a fundraising strategy, who cares about free lifelong education (preferably programming or STEM), and who shares our values.
       %p.text-p-xlarge.mb-12
-        You might be coming from a developer background wanting to use your knowledge in education, or maybe you're an educator and wanting to focus on programming education
-        Maybe programming has been a hobby for you and you want others to share in that same passion.
-        We're entirely agnostic about your background, and don't require any specific academic qualifications.
-        You don't need to be the best developer in the world, but you do need some solid programming fundamentals and need to be excited to learn and develop your knowledge.
+        Maybe you're relatively early in your career, looking to take a step up into a position of more responsibility?
+        Maybe you're coming towards the end of your career and looking to give back to a not-for-profit?
+        Or maybe you're somewhere in between?
+        All are fine by us.
+        Similarly, we don't require any specific academic qualifications.
         Our main criteria for hiring will be the belief that you will be able to execute in the role.
+        For that, we need to see some track-record of fundraising and/or sales and your ability to think and plan strategically.
       %p.text-p-xlarge.mb-12
         At Exercism, we have a shared commitment to kindness, honesty, and curiosity, and strive to build a working environment where everyone can learn, improve and do their best work.
         We believe that everyone has the right to feel happy, safe and supported at work, and strive to ensure that is the case at Exercism.
@@ -96,8 +91,9 @@
       %ul.text-p-xlarge.mb-40
         %li Able to work at least 4 hours per day during 9am - 6pm UTC, to enable you to interact with the rest of the team.
         %li You are willing to travel once per year for an in-person meetup.
-        %li You are comfortable speaking English, and could write English to a level similar to <a href="https://github.com/exercism/elixir/blob/main/exercises/concept/lasagna/.docs/introduction.md" target="_blank" rel="noopener">this</a>.
+        %li You are comfortable using spoken and written English in your job.
         %li You are excited to work in a diverse, inclusive team that cares about culture and where honest, empathic communication is the norm, and self-improvement is a lived value.
+        %li You have some interest in tech or programming, and a passion for free education.
 
       %h2.text-h2.mb-12 Benefits
       %p.text-p-xlarge.mb-16
@@ -125,7 +121,7 @@
         with:
 
       %ul.text-p-xlarge.mb-16
-        %li Subject of "Content Factotum"
+        %li Subject of "Head of Partnerships and Fundraising"
         %li A couple of paragraphs introducing yourself and providing some brief background.
         %li
           A link to a short video introducing yourself in more detail, telling us why you're interested joining Exercism, and giving us some more information on your experience and why you're right for the role.
@@ -141,5 +137,4 @@
         %li We will send you a questionaire to try and understand more about your experience.
         %li Based on initial applications and questionares, we'll invite a final set of applicants to have a video interview with the CEO.
         %li We hope to make a final decision on who we offer the role to by the end of April.
-
 

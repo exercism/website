@@ -1,10 +1,13 @@
 @import "../styles";
 
 #page-team {
-    @apply bg-backgroundColorA;
-
     & > header {
         @apply relative;
+        background: linear-gradient(
+            180deg,
+            var(--backgroundColorE) 0%,
+            var(--backgroundColorA) 100%
+        );
 
         & .lg-container {
             @apply pt-32;

@@ -1,0 +1,45 @@
+@import "../styles";
+
+.c-about-nav {
+    @apply bg-backgroundColorA;
+    @apply pt-12;
+    @apply border-b-1;
+    border-color: rgba(96, 79, 205, 0.2); /* anotherPurple * 0.2 */
+
+    & .container {
+        @apply flex flex-grow;
+    }
+
+    & ul {
+        @apply flex;
+    }
+    & li {
+        @apply mr-40;
+        @apply border-b-3 border-transparent;
+        &:last-child {
+            @apply mr-0;
+        }
+        & a {
+            @apply text-16 leading-200 text-textColor6 font-medium;
+            @apply block mt-8 mb-8;
+
+            & .c-icon {
+                height: 24px;
+                width: 24px;
+                @apply text-anotherPurple;
+            }
+        }
+        &:hover {
+            & a {
+                @apply text-textColor1;
+            }
+        }
+        &.selected {
+            @apply border-anotherPurple;
+
+            & a {
+                @apply text-anotherPurple;
+            }
+        }
+    }
+}

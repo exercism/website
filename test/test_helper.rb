@@ -7,18 +7,11 @@ require 'minitest/pride'
 require 'webmock/minitest'
 require 'minitest/retry'
 require_relative './helpers/turbo_assertions_helper'
+require 'generate_js_config'
 
 # We need to write the manifest.json and env.json files as the
 # javascript:build rake task that is called below depends on it
-File.write(
-  Rails.root / 'app' / 'javascript' / '.config' / 'manifest.json',
-  Propshaft::Assembly.new(Rails.application.config.assets).load_path.manifest.
-    to_json
-)
-File.write(
-  Rails.root / 'app' / 'javascript' / '.config' / 'env.json',
-  Exercism.config.to_h.slice(:website_assets_host).to_json
-)
+GenerateJSConfig.generate!
 
 # We need to build our JS and CSS before running tests
 # In CI, this happens through the test:prepare rake task

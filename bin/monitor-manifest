@@ -29,6 +29,8 @@ end
 # Ensure that the files are written when starting
 write_files
 
-listener = Listen.to(Rails.root / 'app' / 'images') { write_files }
-listener.start
-sleep
+unless ENV["EXERCISM_CI"]
+  listener = Listen.to(Rails.root / 'app' / 'images') { write_files }
+  listener.start
+  sleep
+end

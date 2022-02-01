@@ -199,6 +199,19 @@ jobs:
           bundle exec setup_exercism_local_aws
 
       ###
+      # Precompile JS
+      - name: Precompile JS
+        env:
+          RAILS_ENV: test
+          NODE_ENV: development
+          EXERCISM_CI: true
+          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
+          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+        run: |
+          bundle exec rails r bin/monitor-manifest
+          bundle exec rails test:prepare
+
+      ###
       # Run the tests
       - name: Run Ruby tests
         env:
@@ -209,9 +222,9 @@ jobs:
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false
+
         run: |
           bundle exec rails test:zeitwerk
-          bundle exec rails test:prepare
           bundle exec rails test ${{ matrix.tests }}
 
   ruby-tests-completed:
@@ -337,6 +350,7 @@ jobs:
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
+          bundle exec rails r bin/monitor-manifest
           bundle exec rails test:prepare
 
       ###

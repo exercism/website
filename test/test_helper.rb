@@ -227,7 +227,7 @@ class ActiveSupport::TestCase
       submission.uuid,
       submission.track.slug,
       submission.exercise.slug,
-      params
+      **params
     )
   end
 

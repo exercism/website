@@ -35,7 +35,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     wait_for_opensearch_to_be_synced
 
     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user)
-    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: " ") # rubocop:disable Layout:LineLength
+    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: " ")
     assert_equal [ruby_bob_solution, ruby_food_solution], Solution::SearchUserSolutions.(user, criteria: "ru")
     assert_equal [ruby_bob_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: "bo")
     assert_equal [ruby_bob_solution], Solution::SearchUserSolutions.(user, criteria: "ru bo")
@@ -148,11 +148,11 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
     user = create :user
     solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
-num_stars: 11
+      num_stars: 11
     solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
-num_stars: 22
+      num_stars: 22
     solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current,
-num_stars: 33
+      num_stars: 33
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
       submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
@@ -439,11 +439,11 @@ num_stars: 33
   test "fallback: filter: head_tests_status" do
     user = create :user
     solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
-num_stars: 11
+      num_stars: 11
     solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
-num_stars: 22
+      num_stars: 22
     solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current,
-num_stars: 33
+      num_stars: 33
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
       submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,

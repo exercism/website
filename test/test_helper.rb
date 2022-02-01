@@ -291,6 +291,8 @@ class ActionDispatch::IntegrationTest
 
   def setup
     host! URI(Rails.application.routes.default_url_options[:host]).host
+
+    super
   end
 
   def sign_in!(user = nil)

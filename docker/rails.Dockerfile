@@ -35,6 +35,7 @@ RUN yarn install
 COPY *.js *.json ./
 COPY bin ./bin
 COPY config ./config
+COPY Rakefile ./Rakefile
 
 # Any of these files may contain CSS and all files
 # need to be here to avoid purging used styles

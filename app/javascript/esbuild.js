@@ -19,7 +19,7 @@ function build() {
       sourcemap: true,
       format: 'esm',
       splitting: true,
-      minify: process.env.NODE_ENV === 'production',
+      minify: process.env.RAILS_ENV === 'production',
       watch: process.argv.includes('--watch'),
       outdir: '.built-assets',
       tsconfig: './tsconfig.json',

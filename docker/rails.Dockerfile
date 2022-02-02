@@ -5,7 +5,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y cmake make nodejs yarn graphicsmagick
 
-WORKDIR /opt/exercism/website/current
+WORKDIR /opt/exercism/website
 
 # Set this as a global env var
 ENV RAILS_ENV=production
@@ -30,28 +30,15 @@ RUN yarn install
 # future apex files or future config files, so we don't have
 # to worry about adding them here.
 
-# TODO: If these can be merged into one that would save
-# a lot of cache space
-COPY *.js *.json ./
-COPY bin ./bin
-COPY config ./config
-COPY Rakefile ./Rakefile
-
-# Any of these files may contain CSS and all files
-# need to be here to avoid purging used styles
-COPY app/javascript ./app/javascript
-COPY app/css ./app/css
-COPY app/views ./app/views
-COPY app/helpers ./app/helpers
-
 # This compiles the assets into public/packs
 # During deployment the assets are copied from this image and 
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
 ENV NODE_OPTIONS="--max-old-space-size=6144"
-RUN RACK_ENV=production NODE_ENV=production bundle exec rails assets:precompile
 
 # Copy everything over now
 COPY . ./
+
+RUN NODE_ENV=production bundle exec rails assets:precompile
 
 ENTRYPOINT bin/start_webserver

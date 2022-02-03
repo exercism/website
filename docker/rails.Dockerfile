@@ -8,6 +8,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
 WORKDIR /opt/exercism/website
 
 ENV RAILS_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=6144"
 
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./
@@ -28,12 +29,5 @@ COPY . ./
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
 RUN EXERCISM_DEPLOY=true bundle exec rails assets:precompile
-
-# Set the NODE_ENV to production until _after_ the assets have been
-# precompiled, as it will run `yarn install` which would cause any
-# devDependencies to not be installed and thus the CSS and JS not
-# being able to be created
-ENV NODE_ENV=production
-ENV NODE_OPTIONS="--max-old-space-size=6144"
 
 ENTRYPOINT bin/start_webserver

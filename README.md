@@ -60,7 +60,7 @@ Often you only want to run the tests in a single file. You can do that by passin
 The website can be also be setup and run locally. This is unsupported.
 You need the following installed:
 
-- Ruby 2.6.6 (For other Ruby versions, change the version in the `Gemfile`)
+- Ruby 3.1.0 (For other Ruby versions, change the version in the `Gemfile`)
 - MySQL
 - Redis
 - [AnyCable-Go](https://github.com/anycable/anycable-go#installation)

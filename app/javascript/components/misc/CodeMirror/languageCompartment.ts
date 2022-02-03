@@ -211,6 +211,10 @@ export const loadLanguageCompartment = async (
       const { vb } = await import('@codemirror/legacy-modes/mode/vb')
       return compartment.of(StreamLanguage.define(vb))
     }
+    case 'wasm': {
+      const { wast } = await import('@codemirror/legacy-modes/mode/wast')
+      return compartment.of(StreamLanguage.define(wast))
+    }
     case 'x86-64-assembly': {
       const { gas } = await import('@codemirror/legacy-modes/mode/gas')
       return compartment.of(StreamLanguage.define(gas))

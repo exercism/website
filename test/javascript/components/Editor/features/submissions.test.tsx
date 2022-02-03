@@ -145,7 +145,6 @@ test('disables submit button unless tests passed', async () => {
 })
 
 test('disables submit button when files changed', async () => {
-  jest.useFakeTimers()
   server.use(
     rest.get('https://exercism.test/test_run', (req, res, ctx) => {
       return res(
@@ -164,7 +163,7 @@ test('disables submit button when files changed', async () => {
       )
     })
   )
-  const interval = 50000
+  const interval = 1
   const props = buildEditor({
     overrides: {
       defaultSubmissions: [
@@ -195,12 +194,7 @@ test('disables submit button when files changed', async () => {
   fireEvent.change(screen.getByTestId('editor-value'), {
     target: { value: 'code' },
   })
-  act(() => {
-    jest.advanceTimersByTime(interval + 10)
-  })
   await waitFor(() => {
     expect(submitButton).toBeDisabled()
   })
-
-  jest.useRealTimers()
 })

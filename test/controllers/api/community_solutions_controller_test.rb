@@ -63,10 +63,10 @@ module API
       track = create :track
       exercise = create :concept_exercise, :random_slug, track: track
       solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, num_stars: 11,
-published_iteration_head_tests_status: :queued
+        published_iteration_head_tests_status: :queued
       create :iteration, solution: solution_1
       solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, num_stars: 22,
-published_iteration_head_tests_status: :passed
+        published_iteration_head_tests_status: :passed
       create :iteration, solution: solution_2
       create :concept_solution, published_at: Time.current, num_stars: 33
 

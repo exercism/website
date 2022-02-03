@@ -8,10 +8,10 @@ module IconsHelper
 
     if hex
       tag.div(class: "c-icon #{css_class} --hex") do
-        image_pack_tag "#{category}/#{icon}.svg", role: role, alt: alt.to_s
+        image_tag "#{category}/#{icon}.svg", role: role, alt: alt.to_s
       end
     else
-      image_pack_tag "#{category}/#{icon}.svg",
+      image_tag "#{category}/#{icon}.svg",
         role: role,
         alt: alt.to_s,
         class: "c-icon #{css_class} #{'--hex' if hex}".strip
@@ -22,11 +22,11 @@ module IconsHelper
 
   def track_icon(track, css_class: nil)
     image_tag track.icon_url, alt: track.title,
-                              class: "c-track-icon #{css_class} --#{track.slug}"
+      class: "c-track-icon #{css_class} --#{track.slug}"
   end
 
   def exercise_icon(exercise, css_class: nil)
-    error_icon = asset_pack_url("media/images/graphics/missing-exercise.svg")
+    error_icon = image_path("graphics/missing-exercise.svg")
 
     image_tag exercise.icon_url,
       alt: exercise.title,

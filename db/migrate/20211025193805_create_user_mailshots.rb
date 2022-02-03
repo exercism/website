@@ -1,4 +1,4 @@
-class CreateUserMailshots < ActiveRecord::Migration[6.1]
+class CreateUserMailshots < ActiveRecord::Migration[7.0]
   def change
     create_table :user_mailshots do |t|
       t.belongs_to :user, null: false

@@ -17,11 +17,11 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
       assert_equal "#{user.id}:#{practice_exercise.id}", solution_2.unique_key
 
       user_track = create :user_track, user: user, track: track,
-                                       objectives: "something",
-                                       anonymous_during_mentoring: true,
-                                       created_at: Time.current - 1.week,
-                                       updated_at: Time.current - 1.week,
-                                       last_touched_at: Time.current - 1.week
+        objectives: "something",
+        anonymous_during_mentoring: true,
+        created_at: Time.current - 1.week,
+        updated_at: Time.current - 1.week,
+        last_touched_at: Time.current - 1.week
 
       user_track.expects(:reset_summary!)
 

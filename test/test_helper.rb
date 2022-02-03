@@ -7,6 +7,17 @@ require 'minitest/pride'
 require 'webmock/minitest'
 require 'minitest/retry'
 require_relative './helpers/turbo_assertions_helper'
+require 'generate_js_config'
+
+# We need to write the manifest.json and env.json files as the
+# javascript:build rake task that is called below depends on it
+GenerateJSConfig.generate!
+
+# We need to build our JS and CSS before running tests
+# In CI, this happens through the test:prepare rake task
+# but locally when running single tests, we might need this intead
+`bundle exec rake css:build` unless File.exist?(Rails.root / '.built-assets' / 'website.css')
+`bundle exec rake javascript:build` unless File.exist?(Rails.root / '.built-assets' / 'test.js')
 
 # Handle flakey tests in CI
 Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
@@ -40,7 +51,6 @@ module ActiveRecord
 end
 
 module TestHelpers
-  extend Webpacker::Helper
   extend ActionView::Helpers::AssetUrlHelper
 
   def self.git_repo_url(slug)
@@ -49,25 +59,21 @@ module TestHelpers
 
   def self.use_website_copy_test_repo!
     repo_url = TestHelpers.git_repo_url("website-copy")
-    Git::WebsiteCopy.new(repo_url: repo_url).tap do |repo|
+    Git::WebsiteCopy.new(repo_url:).tap do |repo|
       Git::WebsiteCopy.expects(:new).at_least_once.returns(repo)
     end
   end
 
   def self.use_blog_test_repo!
     repo_url = TestHelpers.git_repo_url("blog")
-    repo = Git::Blog.new(repo_url: repo_url)
+    repo = Git::Blog.new(repo_url:)
     Git::Blog.expects(:new).at_least_once.returns(repo)
   end
 
   def self.use_docs_test_repo!
     repo_url = TestHelpers.git_repo_url("docs")
-    repo = Git::Repository.new(repo_url: repo_url)
+    repo = Git::Repository.new(repo_url:)
     Git::Repository.expects(:new).at_least_once.returns(repo)
-  end
-
-  def self.image_pack_url(icon_name, category: 'icons')
-    asset_pack_url("media/images/#{category}/#{icon_name}.svg")
   end
 end
 
@@ -175,8 +181,8 @@ class ActiveSupport::TestCase
     create_tooling_job!(
       submission,
       :test_runner,
-      execution_status: execution_status,
-      execution_output: execution_output,
+      execution_status:,
+      execution_output:,
       source: {
         'exercise_git_sha' => git_sha || submission.git_sha
       }
@@ -191,8 +197,8 @@ class ActiveSupport::TestCase
     create_tooling_job!(
       submission,
       :representer,
-      execution_status: execution_status,
-      execution_output: execution_output
+      execution_status:,
+      execution_output:
     )
   end
 
@@ -203,8 +209,8 @@ class ActiveSupport::TestCase
     create_tooling_job!(
       submission,
       :analyzer,
-      execution_status: execution_status,
-      execution_output: execution_output
+      execution_status:,
+      execution_output:
     )
   end
 
@@ -214,23 +220,23 @@ class ActiveSupport::TestCase
       submission.uuid,
       submission.track.slug,
       submission.exercise.slug,
-      params
+      **params
     )
   end
 
   def upload_to_s3(bucket, key, body) # rubocop:disable Naming/VariableNumber
     Exercism.s3_client.put_object(
-      bucket: bucket,
-      key: key,
-      body: body,
+      bucket:,
+      key:,
+      body:,
       acl: 'private'
     )
   end
 
   def download_s3_file(bucket, key)
     Exercism.s3_client.get_object(
-      bucket: bucket,
-      key: key
+      bucket:,
+      key:
     ).body.read
   end
 
@@ -240,13 +246,13 @@ class ActiveSupport::TestCase
   def reset_opensearch!
     opensearch = Exercism.opensearch_client
     [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
-      opensearch.indices.delete(index: index) if opensearch.indices.exists(index: index)
-      opensearch.indices.create(index: index)
+      opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
+      opensearch.indices.create(index:)
     end
   end
 
   def get_opensearch_doc(index, id)
-    Exercism.opensearch_client.get(index: index, id: id)
+    Exercism.opensearch_client.get(index:, id:)
   end
 
   def wait_for_opensearch_to_be_synced
@@ -255,7 +261,7 @@ class ActiveSupport::TestCase
 
     # Force an index refresh to ensure there are no concurrent actions in the background
     [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
-      Exercism.opensearch_client.indices.refresh(index: index)
+      Exercism.opensearch_client.indices.refresh(index:)
     end
   end
 end
@@ -275,6 +281,12 @@ end
 class ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   include TurboAssertionsHelper
+
+  def setup
+    host! URI(Rails.application.routes.default_url_options[:host]).host
+
+    super
+  end
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)

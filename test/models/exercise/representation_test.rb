@@ -13,7 +13,7 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     refute create(:exercise_representation, feedback_markdown: nil, feedback_author: user).has_feedback?
     refute create(:exercise_representation, feedback_markdown: "foo", feedback_author: user).has_feedback?
     assert create(:exercise_representation, feedback_markdown: "foo", feedback_author: user,
-                                            feedback_type: :non_actionable).has_feedback?
+      feedback_type: :non_actionable).has_feedback?
   end
 
   test "has_essential_feedback?" do

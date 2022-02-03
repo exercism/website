@@ -1,7 +1,6 @@
 require_relative '../base_test_case'
 
 class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
-  include Webpacker::Helper
   include ActionView::Helpers::AssetUrlHelper
 
   guard_incorrect_token! :api_mentoring_discussions_path

@@ -41,12 +41,10 @@
         & .c-exercise-icon {
             width: 64px;
             height: 64px;
-            @apply mr-12;
-
+            @apply mr-12 md:mr-32;
             @screen md {
                 width: 118px;
                 height: 118px;
-                @apply mr-32;
             }
         }
         & .info {
@@ -75,9 +73,7 @@
             @apply mr-32;
         }
         & .c-react-wrapper-track-exercise-makers-button {
-            @screen lg {
-                @apply ml-auto;
-            }
+            @apply lg:ml-auto;
         }
     }
     & .navbar {

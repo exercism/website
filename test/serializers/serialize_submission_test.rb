@@ -5,9 +5,9 @@ class SerializeSubmissionTest < ActiveSupport::TestCase
     user = create :user
     solution = create :concept_solution, user: user
     submission = create :submission, solution: solution,
-                                     tests_status: :failed,
-                                     representation_status: :generated,
-                                     analysis_status: :completed
+      tests_status: :failed,
+      representation_status: :generated,
+      analysis_status: :completed
 
     expected = {
       uuid: submission.uuid,

@@ -29,10 +29,7 @@
         }
         & .info-bar {
             @apply text-textColor6;
-            @apply mb-16;
-            @screen md {
-                @apply mb-24;
-            }
+            @apply mb-16 md:mb-24;
             & .video img {
                 height: 24px;
                 width: 24px;

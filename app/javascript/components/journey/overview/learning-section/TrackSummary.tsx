@@ -39,7 +39,7 @@ export const TrackSummary = ({
           <h4 className="journey-h3">
             {timeFormat(track.startedAt, 'DD MMM YYYY')}
           </h4>
-          <p className="text-h6">When you joined the {track.title} Track</p>
+          <h5 className="text-h6">When you joined the {track.title} Track</h5>
           <p>
             You started working through the {track.title} Track{' '}
             <strong>{fromNow(track.startedAt)}</strong>.
@@ -50,11 +50,11 @@ export const TrackSummary = ({
           <h4 className="journey-h3">
             {track.numCompletedMentoringDiscussions}
           </h4>
-          <p className="text-h6">
+          <h5 className="text-h6">
             Mentoring{' '}
             {pluralize('session', track.numCompletedMentoringDiscussions)}{' '}
             completed
-          </p>
+          </h5>
 
           <p>
             You have{' '}

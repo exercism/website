@@ -35,7 +35,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     wait_for_opensearch_to_be_synced
 
     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user)
-    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: " ") # rubocop:disable Layout:LineLength
+    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: " ")
     assert_equal [ruby_bob_solution, ruby_food_solution], Solution::SearchUserSolutions.(user, criteria: "ru")
     assert_equal [ruby_bob_solution, js_bob_solution], Solution::SearchUserSolutions.(user, criteria: "bo")
     assert_equal [ruby_bob_solution], Solution::SearchUserSolutions.(user, criteria: "ru bo")
@@ -148,17 +148,17 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
     user = create :user
     solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
-num_stars: 11
+      num_stars: 11
     solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
-num_stars: 22
+      num_stars: 22
     solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current,
-num_stars: 33
+      num_stars: 33
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
-                                                    submission: create(:submission, solution: solution_1)))
+      submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
-                                                    submission: create(:submission, solution: solution_2)))
+      submission: create(:submission, solution: solution_2)))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
-                                                    submission: create(:submission, solution: solution_3)))
+      submission: create(:submission, solution: solution_3)))
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -185,10 +185,11 @@ num_stars: 33
     exercise_2 = create :concept_exercise
     exercise_3 = create :concept_exercise
     solution_1 = create :concept_solution, user: user, exercise: exercise_1,
-git_important_files_hash: exercise_1.git_important_files_hash, num_stars: 11
+      git_important_files_hash: exercise_1.git_important_files_hash, num_stars: 11
     solution_2 = create :concept_solution, user: user, exercise: exercise_2,
-git_important_files_hash: exercise_2.git_important_files_hash, num_stars: 22
-    solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash', num_stars: 33
+      git_important_files_hash: exercise_2.git_important_files_hash, num_stars: 22
+    solution_3 = create :concept_solution, user: user, exercise: exercise_3,
+      git_important_files_hash: 'different_hash', num_stars: 33
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -281,7 +282,7 @@ git_important_files_hash: exercise_2.git_important_files_hash, num_stars: 22
     Elasticsearch::Client.expects(:new).raises
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
-criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_status: "passed", head_tests_status: "failed")
+      criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_status: "passed", head_tests_status: "failed")
   end
 
   test "fallback is called when elasticsearch times out" do
@@ -306,7 +307,7 @@ criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_stat
       :up_to_date, "passed", "failed")
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
-criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_status: "passed", head_tests_status: "failed")
+      criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_status: "passed", head_tests_status: "failed")
   end
 
   test "fallback: no options returns everything" do
@@ -438,17 +439,17 @@ criteria: "foobar", order: "oldest_first", sync_status: 'up_to_date', tests_stat
   test "fallback: filter: head_tests_status" do
     user = create :user
     solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
-num_stars: 11
+      num_stars: 11
     solution_2 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,
-num_stars: 22
+      num_stars: 22
     solution_3 = create :concept_solution, user: user, published_iteration_head_tests_status: :errored, published_at: Time.current,
-num_stars: 33
+      num_stars: 33
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
-submission: create(:submission, solution: solution_1)))
+      submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
-submission: create(:submission, solution: solution_2)))
+      submission: create(:submission, solution: solution_2)))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
-submission: create(:submission, solution: solution_3)))
+      submission: create(:submission, solution: solution_3)))
 
     # A different user
     create :concept_solution
@@ -469,17 +470,17 @@ submission: create(:submission, solution: solution_3)))
     exercise_2 = create :concept_exercise
     exercise_3 = create :concept_exercise
     solution_1 = create :concept_solution, user: user, exercise: exercise_1,
-git_important_files_hash: exercise_1.git_important_files_hash, published_at: Time.current, num_stars: 11
+      git_important_files_hash: exercise_1.git_important_files_hash, published_at: Time.current, num_stars: 11
     solution_2 = create :concept_solution, user: user, exercise: exercise_2,
-git_important_files_hash: exercise_2.git_important_files_hash, published_at: Time.current, num_stars: 22
+      git_important_files_hash: exercise_2.git_important_files_hash, published_at: Time.current, num_stars: 22
     solution_3 = create :concept_solution, user: user, exercise: exercise_3, git_important_files_hash: 'different_hash',
-published_at: Time.current, num_stars: 33
+      published_at: Time.current, num_stars: 33
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1,
-submission: create(:submission, solution: solution_1)))
+      submission: create(:submission, solution: solution_1)))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2,
-submission: create(:submission, solution: solution_2)))
+      submission: create(:submission, solution: solution_2)))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3,
-submission: create(:submission, solution: solution_3)))
+      submission: create(:submission, solution: solution_3)))
 
     # A different user
     create :concept_solution

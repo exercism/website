@@ -11,9 +11,9 @@ module Components
         hello_world = create :practice_exercise, slug: "hello-world"
         solution = create :concept_solution, user: user, exercise: hello_world
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         assert iteration.status.no_automated_feedback? # Sanity
 
@@ -33,9 +33,9 @@ module Components
         hello_world = create :practice_exercise, slug: "hello-world"
         solution = create :concept_solution, user: user, exercise: hello_world
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         iteration = create :iteration, idx: 1, solution: solution, submission: submission
         assert iteration.status.no_automated_feedback? # Sanity
 
@@ -56,9 +56,9 @@ module Components
         hello_world = create :practice_exercise, slug: "hello-world", track: ruby
         solution = create :concept_solution, user: user, exercise: hello_world
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         create :iteration, idx: 1, solution: solution, submission: submission
 
         use_capybara_host do

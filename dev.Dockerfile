@@ -1,11 +1,11 @@
 #############
 ## Stage 1 ##
 #############
-FROM ruby:2.6.6 as builder
+FROM ruby:3.1.0-bullseye as builder
 
 RUN set -ex; \
     apt-get update; \
-    apt-get install -y cmake ruby-dev;
+    apt-get install -y cmake make ruby-dev
 
 # We can do this work early and then copy a binary to the slim build later
 # overmind
@@ -16,12 +16,12 @@ RUN curl -L -o - https://github.com/DarthSim/overmind/releases/download/v2.2.0/o
 RUN curl -L -o /usr/local/bin/anycable-go https://github.com/anycable/anycable-go/releases/download/v1.0.0/anycable-go-linux-amd64 && \
     chmod u+x /usr/local/bin/anycable-go
 
-RUN gem install -N bundler:2.1.4
+RUN gem install -N bundler:2.3.4
 
 #############
 ## Stage 2 ##
 #############
-FROM ruby:2.6.6-slim-buster as slim-website
+FROM ruby:3.1.0-slim-bullseye as slim-website
 
 RUN set -ex; \
     apt-get update; \
@@ -53,7 +53,7 @@ RUN apt-get install -y libmariadb-dev git;
 
 WORKDIR /usr/src/app
 
-RUN gem install -N bundler:2.1.4
+RUN gem install -N bundler:2.3.4
 
 #############
 ## Stage 3 ##

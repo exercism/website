@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { assetUrl } from '../../utils/assets'
 
 export function Icon({
   icon,
@@ -15,8 +16,7 @@ export function Icon({
   if (className !== undefined) {
     classNames.push(className)
   }
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const iconFile = require(`../../images/${category}/${icon}.svg`)
+  const iconFile = assetUrl(`${category}/${icon}.svg`)
 
   return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
 }

@@ -30,19 +30,19 @@ class User::ReputationTokens::PublishedSolutionTokenTest < ActiveSupport::TestCa
 
   test "correct levels" do
     token = User::ReputationToken::Create.(create(:user), :published_solution, solution: create(:practice_solution, :published),
-level: :medium)
+      level: :medium)
     assert_equal 2, token.value
 
     token = User::ReputationToken::Create.(create(:user), :published_solution, solution: create(:practice_solution, :published),
-level: :easy)
+      level: :easy)
     assert_equal 1, token.value
 
     token = User::ReputationToken::Create.(create(:user), :published_solution, solution: create(:practice_solution, :published),
-level: :hard)
+      level: :hard)
     assert_equal 3, token.value
 
     token = User::ReputationToken::Create.(create(:user), :published_solution, solution: create(:concept_solution, :published),
-level: :concept)
+      level: :concept)
     assert_equal 1, token.value
   end
 end

@@ -22,10 +22,10 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
   test "updates existing posts" do
     create :user, handle: "iHiD"
     create :blog_post, uuid: "d925ec36-92dd-4bf6-be1d-969d192a4034",
-                       slug: "rlly",
-                       title: "Very wrong",
-                       marketing_copy: "Wrong",
-                       description: "Naughty"
+      slug: "rlly",
+      title: "Very wrong",
+      marketing_copy: "Wrong",
+      description: "Naughty"
 
     Git::SyncBlog.()
 

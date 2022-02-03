@@ -99,10 +99,6 @@
                     opacity: 1;
                 }
 
-                &.hidden {
-                    visibility: hidden;
-                }
-
                 & .display {
                     @apply flex items-center justify-center;
                     border-radius: 7px 7px 0 0;

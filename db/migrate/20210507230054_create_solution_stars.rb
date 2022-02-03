@@ -1,4 +1,4 @@
-class CreateSolutionStars < ActiveRecord::Migration[6.1]
+class CreateSolutionStars < ActiveRecord::Migration[7.0]
   def change
     create_table :solution_stars, if_not_exists: true do |t|
       t.belongs_to :solution, foreign_key: true, null: false

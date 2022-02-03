@@ -32,7 +32,7 @@ class Solution
       submitting_solution_intro_text = I18n.t("exercises.documents.submitting_solution_intro").strip
 
       submitting_solution_text = I18n.t("exercises.documents.submitting_solution",
-        { solution_file_paths: solution.exercise.git.solution_filepaths.join(" ") }).strip
+        solution_file_paths: solution.exercise.git.solution_filepaths.join(" ")).strip
 
       <<~TEXT.strip
         ## #{submitting_solution_intro_text}
@@ -45,7 +45,7 @@ class Solution
       help_intro_text = I18n.t("exercises.documents.help_intro").strip
 
       help_text = I18n.t("exercises.documents.help",
-        { track_title: solution.track.title, track_slug: solution.track.slug }).strip
+        track_title: solution.track.title, track_slug: solution.track.slug).strip
 
       track_help_text = Markdown::Render.(solution.track.git.help, :text).strip
 

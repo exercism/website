@@ -1,8 +1,6 @@
 require "test_helper"
 
 class ViewComponents::Track::ExerciseStatusTagTest < ActionView::TestCase
-  include Webpacker::Helper
-
   test "available" do
     assert_tag(:available, "Available", "available")
   end

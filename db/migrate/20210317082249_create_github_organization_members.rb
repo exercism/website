@@ -1,4 +1,4 @@
-class CreateGithubOrganizationMembers < ActiveRecord::Migration[6.1]
+class CreateGithubOrganizationMembers < ActiveRecord::Migration[7.0]
   def change
     create_table :github_organization_members do |t|
       t.string :username, null: false, index: { unique: true }

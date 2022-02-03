@@ -41,9 +41,7 @@
         }
         & a {
             @apply rounded-12;
-            @screen md {
-                @apply px-80;
-            }
+            @apply md:px-80;
         }
     }
     & .donors {

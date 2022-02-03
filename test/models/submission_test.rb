@@ -47,11 +47,11 @@ class SubmissionTest < ActiveSupport::TestCase
     # Create two head runs to check we get the latest
     create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: exercise_hash
     head_run_2 = create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid,
-                                              git_important_files_hash: exercise_hash
+      git_important_files_hash: exercise_hash
     # Create two submission runs to check we get the latest
     create :submission_test_run, submission: submission, git_sha: submission_sha, git_important_files_hash: SecureRandom.uuid
     submission_run_2 = create :submission_test_run, submission: submission, git_sha: submission_sha,
-                                                    git_important_files_hash: SecureRandom.uuid
+      git_important_files_hash: SecureRandom.uuid
     create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
 
     # Sanity
@@ -192,7 +192,7 @@ class SubmissionTest < ActiveSupport::TestCase
     submission = create :submission, representation_status: :generated
     create :submission_representation, ast_digest: ast_digest, submission: submission
     create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
-                                     feedback_markdown: markdown, feedback_author: author, feedback_type: :essential
+      feedback_markdown: markdown, feedback_author: author, feedback_type: :essential
 
     expected = {
       html: "<p>foobar</p>\n",
@@ -219,7 +219,7 @@ class SubmissionTest < ActiveSupport::TestCase
       comments: ["ruby.two-fer.incorrect_default_param"]
     }
     create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
-                                     feedback_markdown: markdown, feedback_author: author
+      feedback_markdown: markdown, feedback_author: author
 
     expected = {
       summary: "Some summary",

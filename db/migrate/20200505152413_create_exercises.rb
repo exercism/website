@@ -1,7 +1,7 @@
-class CreateExercises < ActiveRecord::Migration[6.0]
+class CreateExercises < ActiveRecord::Migration[7.0]
   def change
     create_table :exercises do |t|
-      t.belongs_to :track, foreign_key: true, null: false
+      t.belongs_to :track, foreign_key: true, null: false, type: :bigint
 
       t.string :uuid, null: false, index: true
       t.string :type, null: false

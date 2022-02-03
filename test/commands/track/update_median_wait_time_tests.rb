@@ -187,29 +187,29 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
       Track::UpdateMedianWaitTimes.()
 
       request_1 = create :mentor_request, solution: solution_1, exercise: solution_1.exercise, track: solution_1.track,
-created_at: Time.current - 18.minutes
+        created_at: Time.current - 18.minutes
       request_2 = create :mentor_request, solution: solution_2, exercise: solution_2.exercise, track: solution_2.track,
-created_at: Time.current - 50.minutes
+        created_at: Time.current - 50.minutes
       request_3 = create :mentor_request, solution: solution_3, exercise: solution_3.exercise, track: solution_3.track,
-created_at: Time.current - 90.minutes
+        created_at: Time.current - 90.minutes
       request_4 = create :mentor_request, solution: solution_3, exercise: solution_3.exercise, track: solution_3.track,
-created_at: Time.current - 5.minutes
+        created_at: Time.current - 5.minutes
       request_5 = create :mentor_request, solution: solution_4, exercise: solution_4.exercise, track: solution_4.track,
-created_at: Time.current - 19.minutes
+        created_at: Time.current - 19.minutes
       request_6 = create :mentor_request, solution: solution_5, exercise: solution_5.exercise, track: solution_5.track,
-created_at: Time.current - 31.minutes
+        created_at: Time.current - 31.minutes
       create :mentor_discussion, request: request_1, solution: request_1.solution, track: request_1.track,
-created_at: Time.current - 11.minutes
+        created_at: Time.current - 11.minutes
       create :mentor_discussion, request: request_2, solution: request_2.solution, track: request_2.track,
-created_at: Time.current - 22.minutes
+        created_at: Time.current - 22.minutes
       create :mentor_discussion, request: request_3, solution: request_3.solution, track: request_3.track,
-created_at: Time.current - 33.minutes
+        created_at: Time.current - 33.minutes
       create :mentor_discussion, request: request_4, solution: request_4.solution, track: request_4.track,
-created_at: Time.current - 2.minutes
+        created_at: Time.current - 2.minutes
       create :mentor_discussion, request: request_5, solution: request_5.solution, track: request_5.track,
-created_at: Time.current - 16.minutes
+        created_at: Time.current - 16.minutes
       create :mentor_discussion, request: request_6, solution: request_6.solution, track: request_6.track,
-created_at: Time.current - 29.minutes
+        created_at: Time.current - 29.minutes
 
       Track::UpdateMedianWaitTimes.()
 

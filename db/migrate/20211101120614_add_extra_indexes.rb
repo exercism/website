@@ -1,4 +1,4 @@
-class AddExtraIndexes < ActiveRecord::Migration[6.1]
+class AddExtraIndexes < ActiveRecord::Migration[7.0]
   def change
     add_index :users, :unconfirmed_email, if_not_exists: true
 

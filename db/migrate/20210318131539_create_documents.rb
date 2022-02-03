@@ -1,4 +1,4 @@
-class CreateDocuments < ActiveRecord::Migration[6.1]
+class CreateDocuments < ActiveRecord::Migration[7.0]
   def change
     create_table :documents do |t|
       t.string :uuid, null: false, index: {unique: true}

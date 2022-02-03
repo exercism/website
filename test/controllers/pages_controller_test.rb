@@ -9,7 +9,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "index redirects if logged n" do
     sign_in!
     get "/"
-    assert_redirected_to "http://www.example.com/dashboard"
+    assert_redirected_to "http://test.exercism.org/dashboard"
   end
 
   test "health_check works" do

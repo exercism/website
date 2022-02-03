@@ -164,9 +164,9 @@ module Flows
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, exercise: exercise, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         create :iteration, solution: solution, submission: submission
         create :submission_file, submission: submission
 
@@ -204,9 +204,9 @@ module Flows
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, exercise: exercise, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         create :exercise_representation,
           exercise: exercise,
           source_submission: submission,
@@ -236,9 +236,9 @@ module Flows
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, exercise: exercise, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         create :iteration, solution: solution, submission: submission
         create :submission_file, submission: submission
         create :submission_analysis, submission: submission, data: {
@@ -263,9 +263,9 @@ module Flows
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, exercise: exercise, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
         create :iteration, solution: solution, submission: submission
         create :submission_test_run,
           submission: submission,
@@ -292,9 +292,9 @@ module Flows
         exercise = create :concept_exercise, track: track
         solution = create :concept_solution, exercise: exercise, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :not_queued,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :not_queued,
+          representation_status: :generated,
+          analysis_status: :completed
         create :iteration, solution: solution, submission: submission
 
         use_capybara_host do
@@ -313,9 +313,9 @@ module Flows
         exercise = create :concept_exercise, track: track, has_test_runner: false
         solution = create :concept_solution, exercise: exercise, user: user
         submission = create :submission, solution: solution,
-                                         tests_status: :not_queued,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
+          tests_status: :not_queued,
+          representation_status: :generated,
+          analysis_status: :completed
         create :iteration, solution: solution, submission: submission
 
         use_capybara_host do

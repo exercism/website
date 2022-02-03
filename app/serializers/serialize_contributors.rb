@@ -1,6 +1,11 @@
 class SerializeContributors
   include Mandate
 
+  # TODO: figure out why mandate doesn't work for this class
+  def self.call(...)
+    new(...).()
+  end
+
   def initialize(users, starting_rank:, contextual_data:)
     @users = users
     @starting_rank = starting_rank

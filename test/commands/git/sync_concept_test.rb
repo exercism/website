@@ -156,7 +156,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
     existing_contributorship = create :concept_contributorship, concept: concept, contributor: existing_contributor
     create :user_concept_contribution_reputation_token, user: existing_contributor,
-                                                        params: { contributorship: existing_contributorship }
+      params: { contributorship: existing_contributorship }
 
     perform_enqueued_jobs do
       Git::SyncConcept.(concept)

@@ -4,7 +4,11 @@ require_relative 'application'
 # Rails is very pinickity over this being set and really
 # really wants it to be an ENV var. So let's just give it
 # its way, even though this is pretty ugly.
-ENV["SECRET_KEY_BASE"] = Exercism.secrets.website_secret_key_base
+if ENV["EXERCISM_DEPLOY"]
+  ENV["SECRET_KEY_BASE"] = "deployment"
+else
+  ENV["SECRET_KEY_BASE"] = Exercism.secrets.website_secret_key_base
+end
 
 begin
   ref = File.read(Rails.root.join(".git", "HEAD")) # This gives `ref: refs/heads/main`

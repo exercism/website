@@ -100,7 +100,7 @@ jobs:
 
       - name: Upload assets to s3
         run: |
-          aws s3 sync assets s3://${{ env.s3_bucket }} --acl public-read --no-progress --cache-control max-age=31536000
+          aws s3 sync assets s3://${{ env.s3_bucket }}/assets --acl public-read --no-progress --cache-control max-age=31536000
 
       #########################
       #########################

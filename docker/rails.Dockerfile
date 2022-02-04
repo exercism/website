@@ -33,6 +33,7 @@ COPY . ./
 # During deployment the assets are copied from this image and 
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
+RUN bundle exec rails r bin/monitor-manifest
 RUN EXERCISM_DEPLOY=true bundle exec rails assets:precompile
 
 # Re-enable production mode, which enables things like React

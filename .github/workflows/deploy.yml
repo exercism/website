@@ -95,7 +95,7 @@ jobs:
       - name: Copy assets from Dockerfile
         run: |
           container_id=$(docker create website)
-          docker cp ${container_id}:/opt/exercism/website/.built-assets assets
+          docker cp ${container_id}:/opt/exercism/website/public/assets assets
           docker rm ${container_id}
 
       - name: Upload assets to s3

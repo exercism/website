@@ -407,6 +407,7 @@ Rails.application.routes.draw do
     get :hiring
     get :hiring_fundraiser, path: "hiring/fundraiser-1", as: :hiring_1
     get :hiring_content, path: "hiring/content-2", as: :hiring_2
+    get :hiring_community, path: "hiring/community-3", as: :hiring_3
     get :individual_supporters, path: "supporters/individuals", as: :individual_supporters
     get :organisation_supporters, path: "supporters/organisations", as: :organisation_supporters
 

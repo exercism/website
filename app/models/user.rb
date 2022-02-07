@@ -88,12 +88,9 @@ class User < ApplicationRecord
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
 
-  # TODO: Inline this here and use variant(:thumb) everywhere in Rails Edge
-  AVATAR_THUMB_VARIANT = { thumbnail: "200x200^", extent: "200x200", gravity: :center }.freeze
-  has_one_attached :avatar
-  # has_one_attached :avatar do |attachable|
-  #   attachable.variant :thumb, THUMB_VARIANT
-  # end
+  has_one_attached :avatar do |attachable|
+    attachable.variant :thumb, resize_to_fill: [200, 200]
+  end
 
   before_create do
     self.name = self.handle if self.name.blank?
@@ -225,7 +222,7 @@ class User < ApplicationRecord
   end
 
   def avatar_url
-    return Rails.application.routes.url_helpers.url_for(avatar.variant(AVATAR_THUMB_VARIANT)) if avatar.attached?
+    return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
 
     super.presence || "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
   end

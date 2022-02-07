@@ -6,6 +6,8 @@ end
 
 # This code is taken from https://github.com/rails/propshaft/blob/main/lib/propshaft/server.rb#L8
 # and modified to ignore esbuild derrived chunks and related files
+
+# This stops it locally
 require 'propshaft/server'
 module Propshaft
   class Server
@@ -31,5 +33,19 @@ module Propshaft
         [404, { "Content-Type" => "text/plain", "Content-Length" => "9" }, ["Not found"]]
       end
     end
+  end
+end
+
+# This stops it in production
+class Propshaft::Asset
+  def digested_path
+    return logical_path if digested_by_esbuild?
+    return logical_path if already_digested?
+
+    logical_path.sub(/\.(\w+)$/) { |ext| "-#{digest}#{ext}" }
+  end
+
+  def digested_by_esbuild?
+    logical_path.to_s =~ /-([0-9A-Z]{8})\.js/
   end
 end

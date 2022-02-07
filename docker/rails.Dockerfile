@@ -29,6 +29,9 @@ RUN yarn install
 # Copy everything over now
 COPY . ./
 
+# Speed things up by precompiling bootsnap
+RUN bundle exec bootsnap precompile --gemfile app/ lib/
+
 # This compiles the assets
 # During deployment the assets are copied from this image and 
 # uploaded into s3. The assets left on the machine are not actually

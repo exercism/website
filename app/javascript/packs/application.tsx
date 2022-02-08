@@ -6,27 +6,30 @@ import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 import React, { lazy, Suspense } from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
-const DonationsFormWithModal = lazy(() =>
-  import('../components/donations/FormWithModal')
+const DonationsFormWithModal = lazy(
+  () => import('../components/donations/FormWithModal')
 )
 
-const DonationsSubscriptionForm = lazy(() =>
-  import('../components/donations/SubscriptionForm')
+const DonationsSubscriptionForm = lazy(
+  () => import('../components/donations/SubscriptionForm')
 )
 
 const Editor = lazy(() => import('../components/Editor'))
 import { Props as EditorProps } from '../components/editor/Props'
 
-const DonationsFooterForm = lazy(() =>
-  import('../components/donations/FooterForm')
+const DonationsFooterForm = lazy(
+  () => import('../components/donations/FooterForm')
+)
+
+const CLIWalkthrough = lazy(() => import('../components/common/CLIWalkthrough'))
+const CLIWalkthroughButton = lazy(
+  () => import('../components/common/CLIWalkthroughButton')
 )
 
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
 
 import * as Common from '../components/common'
-import { CLIWalkthrough } from '../components/common/CLIWalkthrough'
-import { CLIWalkthroughButton } from '../components/common/CLIWalkthroughButton'
 
 import * as Student from '../components/student'
 
@@ -61,7 +64,7 @@ import { Links as CommentsListLinks } from '../components/community-solutions/Co
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
-  return (camelizeKeys(object) as unknown) as T
+  return camelizeKeys(object) as unknown as T
 }
 import currency from 'currency.js'
 
@@ -154,9 +157,15 @@ initReact({
       endpoint={data.endpoint}
     />
   ),
-  'common-cli-walkthrough': (data: any) => <CLIWalkthrough html={data.html} />,
+  'common-cli-walkthrough': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <CLIWalkthrough html={data.html} />
+    </Suspense>
+  ),
   'common-cli-walkthrough-button': (data: any) => (
-    <CLIWalkthroughButton html={data.html} />
+    <Suspense fallback={renderLoader()}>
+      <CLIWalkthroughButton html={data.html} />
+    </Suspense>
   ),
   'track-exercise-community-solutions-list': (data: any) => (
     <TrackComponents.ExerciseCommunitySolutionsList

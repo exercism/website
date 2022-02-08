@@ -2,11 +2,7 @@ import React, { useState } from 'react'
 import { CLIWalkthroughModal } from '../modals/CLIWalkthroughModal'
 import { GraphicalIcon, Icon } from '../common'
 
-export const CLIWalkthroughButton = ({
-  html,
-}: {
-  html: string
-}): JSX.Element => {
+export default ({ html }: { html: string }): JSX.Element => {
   const [open, setOpen] = useState(false)
 
   return (

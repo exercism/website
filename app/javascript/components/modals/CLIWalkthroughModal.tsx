@@ -1,6 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '../common'
-import { CLIWalkthrough } from '../common/CLIWalkthrough'
+import CLIWalkthrough from '../common/CLIWalkthrough'
 import { Modal, ModalProps } from './Modal'
 
 export const CLIWalkthroughModal = ({

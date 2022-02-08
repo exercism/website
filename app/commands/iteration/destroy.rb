@@ -7,11 +7,8 @@ class Iteration
     def call
       iteration.update!(deleted_at: Time.current)
 
-      if !solution.iterations.not_deleted.exists?
-        Solution::Uncomplete.(solution)
-      elsif solution.published_iteration_id == iteration.id
-        Solution::Unpublish.(solution)
-      end
+      Solution::Uncomplete.(solution) unless solution.iterations.not_deleted.exists?
+      Solution::Unpublish.(solution) if solution.published_iteration_id == iteration.id
     end
 
     private

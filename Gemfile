@@ -7,13 +7,13 @@ gem 'rails', '~> 7.0.1'
 gem 'cssbundling-rails'
 gem 'jsbundling-rails'
 gem 'turbo-rails'
-gem 'propshaft'
+gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
 
 gem 'mysql2', github: 'brianmario/mysql2', ref: '25c42c7'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
-gem 'anycable-rails', '~> 1.0.4'
+gem 'anycable-rails', '~> 1.2.0'
 
 # Serving requests
 gem 'puma', '~> 4.1'

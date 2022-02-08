@@ -36,7 +36,7 @@ module Propshaft
   end
 end
 
-# This stops it in production
+# # This stops it in production
 class Propshaft::Asset
   def digested_path
     return logical_path if digested_by_esbuild?

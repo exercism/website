@@ -76,12 +76,15 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     ansi-to-html (0.0.3)
-    anycable (1.0.3)
-      anyway_config (>= 1.4.2)
-      grpc (~> 1.17)
-    anycable-rails (1.0.8)
-      actioncable (>= 5)
-      anycable (~> 1.0.0)
+    anycable (1.2.0)
+      anycable-core (= 1.2.0)
+      grpc (~> 1.37)
+    anycable-core (1.2.0)
+      anyway_config (>= 2.1.0)
+      google-protobuf (>= 3.13)
+    anycable-rails (1.2.1)
+      actioncable (>= 6.0)
+      anycable (~> 1.2.0)
       globalid
     anyway_config (2.2.3)
       ruby-next-core (>= 0.14.0)
@@ -327,11 +330,8 @@ GEM
     parallel (1.21.0)
     parser (3.1.0.0)
       ast (~> 2.4.1)
-    propshaft (0.5.0)
-      actionpack (>= 7.0.0)
-      activesupport (>= 7.0.0)
-      rack
-      railties (>= 7.0.0)
+    propshaft (0.4.0)
+      rails (>= 7.0.0.alpha2)
     public_suffix (4.0.6)
     puma (4.3.10)
       nio4r (~> 2.0)
@@ -517,7 +517,7 @@ PLATFORMS
 DEPENDENCIES
   addressable (~> 2.7)
   ansi-to-html
-  anycable-rails (~> 1.0.4)
+  anycable-rails (~> 1.2.0)
   aws-sdk-ecr
   aws-sdk-s3 (~> 1)
   bootsnap (>= 1.4.2)
@@ -547,7 +547,7 @@ DEPENDENCIES
   oj
   omniauth-github
   omniauth-rails_csrf_protection
-  propshaft
+  propshaft (= 0.4.0)
   puma (~> 4.1)
   rails (~> 7.0.1)
   rails-controller-testing

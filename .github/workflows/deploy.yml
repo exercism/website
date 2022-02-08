@@ -6,7 +6,7 @@ env:
   sidekiq_cluster_name: sidekiq
 
   website_task_definition_name: website
-  website_service_name: website-staging
+  website_service_name: website
 
   api_task_definition_name: api
   api_service_name: api

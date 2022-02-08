@@ -20,7 +20,30 @@ class Iteration::DestroyTest < ActiveSupport::TestCase
     assert_nil iteration.solution.published_at
   end
 
-  test "does not unpublish solution if iteration was not published iteration" do
+  test "unpublishes solution if iteration was not published iteration" do
+    iteration = create :iteration
+    iteration.solution.update!(published_iteration: iteration, published_at: Time.current)
+
+    Iteration::Destroy.(iteration)
+
+    assert iteration.deleted?
+    assert_nil iteration.solution.published_iteration
+    assert_nil iteration.solution.published_at
+  end
+
+  test "unpublishes solution if iteration was not published iteration but only deleted iterations remain" do
+    iteration = create :iteration
+    create :iteration, solution: iteration.solution, deleted_at: Time.current
+    create :iteration, solution: iteration.solution, deleted_at: Time.current
+
+    Iteration::Destroy.(iteration)
+
+    assert iteration.deleted?
+    assert_nil iteration.solution.published_iteration
+    assert_nil iteration.solution.published_at
+  end
+
+  test "does not unpublish solution if iteration was not published iteration and non-deleted iterations remain" do
     freeze_time do
       iteration = create :iteration
       published_iteration = create :iteration, solution: iteration.solution

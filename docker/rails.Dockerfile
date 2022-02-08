@@ -37,7 +37,7 @@ RUN bundle exec bootsnap precompile --gemfile app/ lib/
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
 RUN bundle exec rails r bin/monitor-manifest
-RUN EXERCISM_DEPLOY=true bundle exec rails assets:precompile
+RUN bundle exec rails assets:precompile
 
 # Re-enable production mode, which enables things like React
 # production mode

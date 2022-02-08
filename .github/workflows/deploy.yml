@@ -95,12 +95,12 @@ jobs:
       - name: Copy assets from Dockerfile
         run: |
           container_id=$(docker create website)
-          docker cp ${container_id}:/opt/exercism/website/.built-assets assets
+          docker cp ${container_id}:/opt/exercism/website/public/assets assets
           docker rm ${container_id}
 
       - name: Upload assets to s3
         run: |
-          aws s3 sync assets s3://${{ env.s3_bucket }} --acl public-read --no-progress --cache-control max-age=31536000
+          aws s3 sync assets s3://${{ env.s3_bucket }}/assets --acl public-read --no-progress --cache-control max-age=31536000
 
       #########################
       #########################

@@ -81,7 +81,7 @@ end
 group :development do
   gem 'haml_lint', require: false
   gem 'solargraph'
-  gem 'rubocop', require: false
+  gem 'rubocop', '1.25.0', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-minitest', require: false
   gem 'rubocop-performance', require: false

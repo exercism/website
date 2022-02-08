@@ -7,6 +7,7 @@
 module API
   class BaseController < ApplicationController
     skip_before_action :verify_authenticity_token
+    after_action :log_usage!
 
     rescue_from ActionController::RoutingError, with: -> { render_404 }
 
@@ -89,6 +90,18 @@ module API
           message: message
         }.merge(data)
       }, status: status
+    end
+
+    def log_usage!
+      return unless user_signed_in?
+
+      Thread.new do
+        # .strftime('%Y-%m-%d %H:%M')
+        # TODO: log per minute per hour per day
+        # TODO: also log URI/method
+        # puts "#{Exercism.env}:api_request:#{current_user.handle}:#{Time.current.min}"
+        Exercism.redis_tooling_client.incr("#{Exercism.env}:api_request:#{current_user.handle}:#{Time.current.min}")
+      end
     end
   end
 end

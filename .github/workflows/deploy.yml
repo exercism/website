@@ -6,16 +6,16 @@ env:
   sidekiq_cluster_name: sidekiq
 
   website_task_definition_name: website
-  website_service_name: website-staging
+  website_service_name: website
 
   api_task_definition_name: api
-  # api_service_name: api
+  api_service_name: api
 
   anycable_task_definition_name: anycable
-  # anycable_service_name: anycable
+  anycable_service_name: anycable
 
   sidekiq_task_definition_name: sidekiq
-  # sidekiq_service_name: sidekiq
+  sidekiq_service_name: sidekiq
 
   ecr_repository_rails: "webserver-rails"
   dockerfile_rails: "docker/rails.Dockerfile"
@@ -194,13 +194,13 @@ jobs:
           image: "${{ steps.build_nginx.outputs.image }}"
 
       # Push the new definition up to ECS and deploy the new service from it
-      # - name: Deploy API
-      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      #   with:
-      #     task-definition: ${{ steps.update_definition_for_api_nginx.outputs.task-definition }}
-      #     service: ${{ env.api_service_name }}
-      #     cluster: ${{ env.webservers_cluster_name }}
-      #     wait-for-service-stability: false
+      - name: Deploy API
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_api_nginx.outputs.task-definition }}
+          service: ${{ env.api_service_name }}
+          cluster: ${{ env.webservers_cluster_name }}
+          wait-for-service-stability: false
 
       ##################################
       ##################################
@@ -240,13 +240,13 @@ jobs:
           image: "${{ steps.build_nginx.outputs.image }}"
 
       # Push the new definition up to ECS and deploy the new service from it
-      # - name: Deploy Anycable
-      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      #   with:
-      #     task-definition: ${{ steps.update_definition_for_anycable_nginx.outputs.task-definition }}
-      #     service: ${{ env.anycable_service_name }}
-      #     cluster: ${{ env.webservers_cluster_name }}
-      #     wait-for-service-stability: false
+      - name: Deploy Anycable
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update_definition_for_anycable_nginx.outputs.task-definition }}
+          service: ${{ env.anycable_service_name }}
+          cluster: ${{ env.webservers_cluster_name }}
+          wait-for-service-stability: false
 
       ##################################
       ##################################
@@ -271,11 +271,11 @@ jobs:
           image: "${{ steps.build_rails.outputs.image }}"
 
       # Push the new definition up to ECS and deploy a new service from it.
-      # - name: Deploy Sidekiq
-      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      #   with:
-      #     # Ensure this is the final step in the daisy-chain above
-      #     task-definition: ${{ steps.update_definition_for_sidekiq.outputs.task-definition }}
-      #     service: ${{ env.sidekiq_service_name }}
-      #     cluster: ${{ env.sidekiq_cluster_name }}
-      #     wait-for-service-stability: true
+      - name: Deploy Sidekiq
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          # Ensure this is the final step in the daisy-chain above
+          task-definition: ${{ steps.update_definition_for_sidekiq.outputs.task-definition }}
+          service: ${{ env.sidekiq_service_name }}
+          cluster: ${{ env.sidekiq_cluster_name }}
+          wait-for-service-stability: true

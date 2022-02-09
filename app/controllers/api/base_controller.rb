@@ -96,11 +96,12 @@ module API
       return unless user_signed_in?
 
       Thread.new do
-        # .strftime('%Y-%m-%d %H:%M')
+        #
         # TODO: log per minute per hour per day
         # TODO: also log URI/method
         # puts "#{Exercism.env}:api_request:#{current_user.handle}:#{Time.current.min}"
-        Exercism.redis_tooling_client.incr("#{Exercism.env}:api_request:#{current_user.handle}:#{Time.current.min}")
+        time = Time.current.utc.strftime('%Y-%m-%d %H:%M')
+        Exercism.redis_tooling_client.incr("#{Exercism.env}:api_request:#{current_user.handle}:#{time}")
       end
     end
   end

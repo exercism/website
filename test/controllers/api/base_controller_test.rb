@@ -13,12 +13,10 @@ module API
       get api_docs_path, headers: @headers, as: :json
       get api_docs_path, headers: @headers, as: :json
       sign_out user_1
-
       setup_user(user_2)
       get api_docs_path, headers: @headers, as: :json
 
       sleep(0.1)
-
       assert_equal "3", redis.get("test:request:user:foo:2022-01-05 14:53")
       assert_equal "1", redis.get("test:request:user:bar:2022-01-05 14:53")
 
@@ -27,7 +25,6 @@ module API
       get api_docs_path, headers: @headers, as: :json
 
       sleep(0.1)
-
       assert_nil redis.get("test:request:user:foo:2022-01-05 15:11")
       assert_equal "2", redis.get("test:request:user:bar:2022-01-05 15:11")
     end
@@ -39,11 +36,9 @@ module API
       get api_docs_path, headers: @headers, as: :json
       get api_docs_path, headers: @headers, as: :json
       get api_docs_path, headers: @headers, as: :json
-
       get api_ping_path, headers: @headers, as: :json
 
       sleep(0.1)
-
       assert_equal "3", redis.get("test:request:url:/api/v2/docs:GET:2022-01-05 14:53")
       assert_equal "1", redis.get("test:request:url:/api/v2/ping:GET:2022-01-05 14:53")
 
@@ -54,32 +49,23 @@ module API
       post api_parse_markdown_path, headers: @headers, as: :json, params: { markdown: "*Hello*" }
 
       sleep(0.1)
-
       assert_nil redis.get("test:request:url:/api/v2/docs:GET:2022-01-05 15:11")
       assert_equal "2", redis.get("test:request:url:/api/v2/ping:GET:2022-01-05 15:11")
       assert_equal "1", redis.get("test:request:url:/api/v2/markdown/parse:POST:2022-01-05 15:11")
     end
 
     test "does not log user for anonymous API request" do
-      travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
-      redis = Exercism.redis_tooling_client
-
       get api_docs_path, headers: @headers, as: :json
-      sleep(0.1)
 
-      keys = redis.keys("#{Exercism.env}:request:user:*")
-      assert_empty keys
+      sleep(0.1)
+      assert_empty Exercism.redis_tooling_client.keys("test:request:user:*")
     end
 
     test "does not log requests for non-API request" do
-      travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
-      redis = Exercism.redis_tooling_client
-
       get tracks_path, headers: @headers
-      sleep(0.1)
 
-      keys = redis.keys("#{Exercism.env}:request:*")
-      assert_empty keys
+      sleep(0.1)
+      assert_empty Exercism.redis_tooling_client.keys("test:request:*")
     end
   end
 end

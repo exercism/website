@@ -89,7 +89,8 @@ class Submission::TestRun < ApplicationRecord
         message_html: Ansi::RenderHTML.(test[:message]),
         expected: test[:expected],
         output: test[:output],
-        output_html: Ansi::RenderHTML.(test[:output])
+        output_html: Ansi::RenderHTML.(test[:output]),
+        task_id: test[:task_id]&.to_i
       }
     end
 

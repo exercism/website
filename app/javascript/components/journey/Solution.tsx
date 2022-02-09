@@ -40,7 +40,6 @@ export const Solution = ({
   track,
   isOutOfDate,
 }: SolutionProps): JSX.Element => {
-  console.log(isOutOfDate)
   return (
     <a href={privateUrl} className="solution">
       <div className="main">

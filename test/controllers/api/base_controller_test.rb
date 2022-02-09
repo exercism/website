@@ -61,7 +61,7 @@ module API
     end
 
     test "does not log user for anonymous API request" do
-      travel_to(Time.zone.local(2022, 1, 5, 14, 53, 7))
+      travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
       redis = Exercism.redis_tooling_client
 
       get api_docs_path, headers: @headers, as: :json
@@ -72,7 +72,7 @@ module API
     end
 
     test "does not log requests for non-API request" do
-      travel_to(Time.zone.local(2022, 1, 5, 14, 53, 7))
+      travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
       redis = Exercism.redis_tooling_client
 
       get tracks_path, headers: @headers

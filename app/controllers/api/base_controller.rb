@@ -93,15 +93,10 @@ module API
     end
 
     def log_usage!
-      return unless user_signed_in?
-
       Thread.new do
-        #
-        # TODO: log per minute per hour per day
-        # TODO: also log URI/method
-        # puts "#{Exercism.env}:api_request:#{current_user.handle}:#{Time.current.min}"
-        time = Time.current.utc.strftime('%Y-%m-%d %H:%M')
-        Exercism.redis_tooling_client.incr("#{Exercism.env}:api_request:#{current_user.handle}:#{time}")
+        log_time = Time.current.utc.strftime('%Y-%m-%d %H:%M')
+        Exercism.redis_tooling_client.incr("#{Exercism.env}:request:url:#{request.original_fullpath}:#{request.method}:#{log_time}")
+        Exercism.redis_tooling_client.incr("#{Exercism.env}:request:user:#{current_user.handle}:#{log_time}") if user_signed_in?
       end
     end
   end

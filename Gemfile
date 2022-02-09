@@ -39,7 +39,7 @@ gem 'exercism-config', '>= 0.81.0'
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
 gem 'friendly_id', '~> 5.4.0'
-gem 'sidekiq', '~> 6.1'
+gem 'sidekiq', '6.3.1'
 gem 'sidekiq-failures'
 gem 'sidekiq-scheduler'
 

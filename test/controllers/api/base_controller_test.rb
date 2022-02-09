@@ -35,7 +35,6 @@ module API
     test "log url and HTTP method for API request" do
       travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
       redis = Exercism.redis_tooling_client
-      setup_user
 
       get api_docs_path, headers: @headers, as: :json
       get api_docs_path, headers: @headers, as: :json
@@ -51,6 +50,7 @@ module API
       travel_to(Time.utc(2022, 1, 5, 15, 11, 55))
       get api_ping_path, headers: @headers, as: :json
       get api_ping_path, headers: @headers, as: :json
+      setup_user # Needed for the POST request below
       post api_parse_markdown_path, headers: @headers, as: :json, params: { markdown: "*Hello*" }
 
       sleep(0.1)

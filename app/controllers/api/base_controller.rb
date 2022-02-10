@@ -97,8 +97,10 @@ module API
 
       Thread.new do
         log_time = Time.current.utc.strftime('%Y-%m-%d %H:%M')
+        path_hash = Digest::SHA1.hexdigest(request.path)
         redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
-        redis.incr("#{Exercism.env}:request:#{request.path}:#{request.method}:#{current_user.id}:#{log_time}")
+        redis.incr("#{Exercism.env}:request:#{path_hash}:#{request.method}:#{current_user.id}:#{log_time}")
+        redis.set("#{Exercism.env}:url:#{path_hash}", request.path)
       end
     end
   end

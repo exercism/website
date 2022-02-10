@@ -13,8 +13,8 @@ module API
 
       sleep(0.1)
       redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
-      assert_equal "2", redis.get("test:request:/api/v2/docs:GET:1:2022-01-05 14:53")
-      assert_equal "1", redis.get("test:request:/api/v2/markdown/parse:POST:1:2022-01-05 14:53")
+      assert_equal "2", redis.get("test:request:138a23ad6560048bb588579798e9ccd9f3dfba70:GET:1:2022-01-05 14:53")
+      assert_equal "1", redis.get("test:request:53301be8163d429a2ab0cdb1e03daa58b6405796:POST:1:2022-01-05 14:53")
     end
 
     test "logs authenticated request per minute" do
@@ -30,8 +30,8 @@ module API
 
       sleep(0.1)
       redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
-      assert_equal "1", redis.get("test:request:/api/v2/docs:GET:1:2022-01-05 14:53")
-      assert_equal "2", redis.get("test:request:/api/v2/docs:GET:1:2022-01-05 15:11")
+      assert_equal "1", redis.get("test:request:138a23ad6560048bb588579798e9ccd9f3dfba70:GET:1:2022-01-05 14:53")
+      assert_equal "2", redis.get("test:request:138a23ad6560048bb588579798e9ccd9f3dfba70:GET:1:2022-01-05 15:11")
     end
 
     test "logs authenticated request per user" do
@@ -48,8 +48,8 @@ module API
 
       sleep(0.1)
       redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
-      assert_equal "2", redis.get("test:request:/api/v2/docs:GET:1:2022-01-05 14:53")
-      assert_equal "1", redis.get("test:request:/api/v2/docs:GET:2:2022-01-05 14:53")
+      assert_equal "2", redis.get("test:request:138a23ad6560048bb588579798e9ccd9f3dfba70:GET:1:2022-01-05 14:53")
+      assert_equal "1", redis.get("test:request:138a23ad6560048bb588579798e9ccd9f3dfba70:GET:2:2022-01-05 14:53")
     end
 
     test "logs request path without query parameters" do
@@ -63,7 +63,23 @@ module API
 
       sleep(0.1)
       redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
-      assert_equal "3", redis.get("test:request:/api/v2/notifications:GET:1:2022-01-05 14:53")
+      assert_equal "3", redis.get("test:request:912e6bf4935cec63887d7ef7966af3fcbf5ff918:GET:1:2022-01-05 14:53")
+    end
+
+    test "logs hash to url" do
+      travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
+      user = create :user, id: 1
+      setup_user(user)
+
+      get api_docs_path, headers: @headers, as: :json
+      get api_notifications_path, headers: @headers, as: :json
+      post api_parse_markdown_path, headers: @headers, as: :json, params: { markdown: "*Hello*" }
+
+      sleep(0.1)
+      redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
+      assert_equal "/api/v2/docs", redis.get("test:url:138a23ad6560048bb588579798e9ccd9f3dfba70")
+      assert_equal "/api/v2/notifications", redis.get("test:url:912e6bf4935cec63887d7ef7966af3fcbf5ff918")
+      assert_equal "/api/v2/markdown/parse", redis.get("test:url:53301be8163d429a2ab0cdb1e03daa58b6405796")
     end
 
     test "does not log anonymous requests" do

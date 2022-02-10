@@ -102,6 +102,8 @@ module API
         redis.incr("#{Exercism.env}:request:#{path_hash}:#{request.method}:#{current_user.id}:#{log_time}")
         redis.set("#{Exercism.env}:url:#{path_hash}", request.path)
       end
+    rescue StandardError
+      # Don't let this being wrong break anything
     end
   end
 end

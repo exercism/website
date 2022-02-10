@@ -374,6 +374,7 @@ export default ({
                   onSubmit={submit}
                   isSubmitDisabled={isSubmitDisabled}
                   hasCancelled={hasCancelled}
+                  tasks={panels.instructions.assignment.tasks}
                   {...panels.results}
                 />
               </>

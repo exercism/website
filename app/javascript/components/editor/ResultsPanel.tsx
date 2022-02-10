@@ -1,6 +1,6 @@
 import React from 'react'
 import { TestRunSummaryContainer } from './TestRunSummaryContainer'
-import { Submission, TestRun } from './types'
+import { AssignmentTask, Submission, TestRun } from './types'
 import { GraphicalIcon, Tab } from '../common'
 import { TabsContext } from '../Editor'
 
@@ -13,6 +13,7 @@ export const ResultsPanel = ({
   isSubmitDisabled,
   averageTestDuration,
   hasCancelled,
+  tasks,
 }: {
   submission: Submission | null
   timeout: number
@@ -22,6 +23,7 @@ export const ResultsPanel = ({
   isSubmitDisabled: boolean
   averageTestDuration: number
   hasCancelled: boolean
+  tasks: AssignmentTask[]
 }): JSX.Element => {
   return (
     <Tab.Panel id="results" context={TabsContext}>
@@ -41,6 +43,7 @@ export const ResultsPanel = ({
             onSubmit={onSubmit}
             isSubmitDisabled={isSubmitDisabled}
             averageTestDuration={averageTestDuration}
+            tasks={tasks}
           />
         </section>
       ) : (

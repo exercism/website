@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef } from 'react'
-import { TestRun, TestRunStatus } from './types'
+import { AssignmentTask, TestRun, TestRunStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
 import { fetchJSON } from '../../utils/fetch-json'
 import { useRequestQuery } from '../../hooks/request-query'
@@ -15,6 +15,7 @@ export const TestRunSummaryContainer = ({
   isSubmitDisabled,
   cancelLink,
   averageTestDuration,
+  tasks,
 }: {
   testRun: TestRun
   timeout: number
@@ -23,6 +24,7 @@ export const TestRunSummaryContainer = ({
   isSubmitDisabled: boolean
   cancelLink: string
   averageTestDuration: number
+  tasks: AssignmentTask[]
 }): JSX.Element | null => {
   const { data } = useRequestQuery<{ testRun: TestRun }>(
     `test-run-${testRun.submissionUuid}`,
@@ -109,6 +111,7 @@ export const TestRunSummaryContainer = ({
       onCancel={cancel}
       averageTestDuration={averageTestDuration}
       showSuccessBox={true}
+      tasks={tasks}
     />
   )
 }

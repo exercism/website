@@ -1,5 +1,11 @@
 import React from 'react'
-import { TestRun, TestRunnerStatus, TestRunStatus, TestStatus } from './types'
+import {
+  AssignmentTask,
+  TestRun,
+  TestRunnerStatus,
+  TestRunStatus,
+  TestStatus,
+} from './types'
 import { TestRunSummaryByStatusHeaderMessage } from './TestRunSummaryByStatusHeaderMessage'
 import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
@@ -13,6 +19,7 @@ export const TestRunSummary = ({
   onCancel,
   averageTestDuration,
   showSuccessBox,
+  tasks,
 }: {
   testRun: TestRun
   testRunnerStatus?: TestRunnerStatus
@@ -21,11 +28,12 @@ export const TestRunSummary = ({
   onCancel?: () => void
   averageTestDuration?: number
   showSuccessBox: boolean
+  tasks: AssignmentTask[]
 }): JSX.Element => {
   if (testRun) {
     return (
       <div className="c-test-run">
-        <TestRunSummaryHeader testRun={testRun} />
+        <TestRunSummaryHeader testRun={testRun} tasks={tasks} />
         <TestRunSummaryContent
           testRun={testRun}
           onSubmit={onSubmit}
@@ -65,7 +73,13 @@ export const TestRunSummary = ({
   )
 }
 
-const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
+const TestRunSummaryHeader = ({
+  testRun,
+  tasks,
+}: {
+  testRun: TestRun
+  tasks: AssignmentTask[]
+}) => {
   switch (testRun.status) {
     case TestRunStatus.FAIL: {
       const failed = testRun.tests.filter(

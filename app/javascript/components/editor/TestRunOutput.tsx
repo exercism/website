@@ -1,11 +1,13 @@
 import React from 'react'
-import { TestRun } from './types'
+import { AssignmentTask, TestRun } from './types'
 import { TestsGroupedByStatusList } from './TestsGroupedByStatusList'
 
 export const TestRunOutput = ({
   testRun,
+  tasks,
 }: {
   testRun: TestRun
+  tasks: AssignmentTask[]
 }): JSX.Element => {
   return testRun.version === 2 || testRun.version === 3 ? (
     <TestsGroupedByStatusList

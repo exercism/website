@@ -18,7 +18,10 @@ class Solution
       return unless submission
 
       submission.update!(git_sha: solution.git_sha, git_slug: solution.git_slug)
-      Submission::TestRun::Init.(submission, type: :solution)
+
+      # We run this in submission mode (the default) so as to set the last
+      # iteration to look like it's reprocessing in the UI.
+      Submission::TestRun::Init.(submission, run_in_background: true)
     end
   end
 end

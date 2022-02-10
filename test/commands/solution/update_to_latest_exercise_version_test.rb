@@ -39,4 +39,15 @@ class Solution::UpdateToLatestExerciseVersionTest < ActiveSupport::TestCase
     assert_equal "foo", deleted_submission.git_sha
     assert_equal "bar", deleted_submission.git_slug
   end
+
+  test "reruns test on latest iteration's submission" do
+    solution = create :concept_solution
+    create(:iteration, solution: solution).submission
+    new_submission = create(:iteration, solution: solution).submission
+    create(:iteration, solution: solution, deleted_at: Time.current).submission
+
+    Submission::TestRun::Init.expects(:call).with(new_submission, run_in_background: true)
+
+    Solution::UpdateToLatestExerciseVersion.(solution)
+  end
 end

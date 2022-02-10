@@ -74,6 +74,18 @@ export const TestRunSummary = ({
   )
 }
 
+const TestRunSummaryStatus = ({
+  statusClass,
+  children,
+}: React.PropsWithChildren<{ statusClass: string }>): JSX.Element => {
+  return (
+    <div className={`summary-status ${statusClass}`} role="status">
+      <span className="--dot" />
+      {children}
+    </div>
+  )
+}
+
 const TestRunSummaryHeader = ({
   testRun,
   tasks,
@@ -89,36 +101,32 @@ const TestRunSummaryHeader = ({
       )
 
       return (
-        <div className="summary-status failed" role="status">
-          <span className="--dot" />
+        <TestRunSummaryStatus statusClass="failed">
           <TestRunSummaryByStatusHeaderMessage
             version={testRun.version}
             numFailedTests={failed.length}
           />
-        </div>
+        </TestRunSummaryStatus>
       )
     }
     case TestRunStatus.PASS:
       return (
-        <div className="summary-status passed" role="status">
-          <span className="--dot" />
+        <TestRunSummaryStatus statusClass="passed">
           All tests passed
-        </div>
+        </TestRunSummaryStatus>
       )
     case TestRunStatus.ERROR:
     case TestRunStatus.OPS_ERROR:
       return (
-        <div className="summary-status errored" role="status">
-          <span className="--dot" />
+        <TestRunSummaryStatus statusClass="errored">
           An error occurred
-        </div>
+        </TestRunSummaryStatus>
       )
     case TestRunStatus.TIMEOUT:
       return (
-        <div className="summary-status errored" role="status">
-          <span className="--dot" />
+        <TestRunSummaryStatus statusClass="errored">
           Your tests timed out
-        </div>
+        </TestRunSummaryStatus>
       )
     default:
       return null

@@ -247,7 +247,7 @@ class Solution < ApplicationRecord
     "anonymous-#{Digest::SHA1.hexdigest("#{id}-#{uuid}")}"
   end
 
-  # TODO: Move this into a command with tests
+  # TODO: Check this has tests
   def sync_git!
     update!(
       git_slug: exercise.slug,

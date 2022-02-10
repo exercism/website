@@ -177,9 +177,7 @@ module API
       end
       return render_solution_not_accessible unless solution.user_id == current_user.id
 
-      solution.sync_git!
-      submission = solution.iterations.last&.submission
-      Submission::TestRun::Init.(submission) if submission
+      Solution::UpdateToLatestExerciseVersion.(solution)
 
       render json: { solution: SerializeSolution.(solution) }
     end

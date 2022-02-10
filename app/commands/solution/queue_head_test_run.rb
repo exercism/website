@@ -1,3 +1,6 @@
+# This queues a test-run for the latest published
+# iteration. By default it does not queue it if
+# the previous version passed, error or failed the tests.
 class Solution::QueueHeadTestRun
   include Mandate
 

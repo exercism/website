@@ -7,6 +7,7 @@
 module API
   class BaseController < ApplicationController
     skip_before_action :verify_authenticity_token
+    after_action :log_usage!
 
     rescue_from ActionController::RoutingError, with: -> { render_404 }
 
@@ -89,6 +90,20 @@ module API
           message: message
         }.merge(data)
       }, status: status
+    end
+
+    def log_usage!
+      return unless user_signed_in?
+
+      Thread.new do
+        log_time = Time.current.utc.strftime('%Y-%m-%d %H:%M')
+        path_hash = Digest::SHA1.hexdigest(request.path)
+        redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
+        redis.incr("#{Exercism.env}:request:#{path_hash}:#{request.method}:#{current_user.id}:#{log_time}")
+        redis.set("#{Exercism.env}:url:#{path_hash}", request.path)
+      end
+    rescue StandardError
+      # Don't let this being wrong break anything
     end
   end
 end

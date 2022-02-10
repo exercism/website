@@ -2,6 +2,43 @@ import React from 'react'
 import { TestStatus, Test } from './types'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { TestsGroup, TestWithToggle } from './TestsGroup'
+import pluralize from 'pluralize'
+import { TestSummary } from './TestSummary'
+
+const Tests = ({
+  tests,
+  language,
+}: {
+  tests: TestWithToggle[]
+  language: string
+}): JSX.Element => {
+  return (
+    <>
+      {tests.map((test) => (
+        <TestSummary
+          key={test.name}
+          test={test}
+          defaultOpen={test.defaultOpen}
+          language={language}
+        />
+      ))}
+    </>
+  )
+}
+
+const Title = ({
+  status,
+  tests,
+}: {
+  status: string
+  tests: TestWithToggle[]
+}): JSX.Element => {
+  return (
+    <>
+      {tests.length} {pluralize('test', tests.length)} {status}
+    </>
+  )
+}
 
 export function TestsGroupedByStatusList({
   tests,
@@ -28,23 +65,23 @@ export function TestsGroupedByStatusList({
 
   return (
     <div className="tests-list">
-      <TestsGroup tests={passed} language={language}>
+      <TestsGroup tests={passed}>
         <TestsGroup.Header>
           <GraphicalIcon icon="passed-check-circle" className="indicator" />
-          <TestsGroup.Title status="passed" />
+          <Title tests={passed} status="passed" />
           <GraphicalIcon icon="chevron-right" className="--closed-icon" />
           <GraphicalIcon icon="chevron-down" className="--open-icon" />
         </TestsGroup.Header>
-        <TestsGroup.Tests />
+        <Tests tests={passed} language={language} />
       </TestsGroup>
-      <TestsGroup open={true} tests={failed} language={language}>
+      <TestsGroup tests={failed} open={true}>
         <TestsGroup.Header>
           <GraphicalIcon icon="failed-check-circle" className="indicator" />
-          <TestsGroup.Title status="failed" />
+          <Title tests={failed} status="failed" />
           <GraphicalIcon icon="chevron-right" className="--closed-icon" />
           <GraphicalIcon icon="chevron-down" className="--open-icon" />
         </TestsGroup.Header>
-        <TestsGroup.Tests />
+        <Tests tests={failed} language={language} />
       </TestsGroup>
     </div>
   )

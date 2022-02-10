@@ -29,7 +29,7 @@ module API
       assert_equal "2", redis.get("test:request:user:bar:2022-01-05 15:11")
     end
 
-    test "log url and HTTP method for API request" do
+    test "log request path and HTTP method for API request" do
       travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
       redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
 
@@ -52,6 +52,19 @@ module API
       assert_nil redis.get("test:request:url:/api/v2/docs:GET:2022-01-05 15:11")
       assert_equal "2", redis.get("test:request:url:/api/v2/ping:GET:2022-01-05 15:11")
       assert_equal "1", redis.get("test:request:url:/api/v2/markdown/parse:POST:2022-01-05 15:11")
+    end
+
+    test "log request path without query parameters for API request" do
+      travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
+      setup_user
+      redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
+
+      get api_notifications_path, headers: @headers, as: :json
+      get api_notifications_path(page: 2), headers: @headers, as: :json
+      get api_notifications_path(page: 2, order: :unread_first), headers: @headers, as: :json
+
+      sleep(0.1)
+      assert_equal "3", redis.get("test:request:url:/api/v2/notifications:GET:2022-01-05 14:53")
     end
 
     test "does not log user for anonymous API request" do

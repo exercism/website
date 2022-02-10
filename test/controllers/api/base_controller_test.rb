@@ -4,7 +4,7 @@ module API
   class BaseControllerTest < API::BaseTestCase
     test "log user for authenticated API request" do
       travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
-      redis = Exercism.redis_tooling_client
+      redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
       user_1 = create :user, handle: 'foo'
       user_2 = create :user, handle: 'bar'
 
@@ -31,7 +31,7 @@ module API
 
     test "log url and HTTP method for API request" do
       travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
-      redis = Exercism.redis_tooling_client
+      redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
 
       get api_docs_path, headers: @headers, as: :json
       get api_docs_path, headers: @headers, as: :json

@@ -95,8 +95,9 @@ module API
     def log_usage!
       Thread.new do
         log_time = Time.current.utc.strftime('%Y-%m-%d %H:%M')
-        Exercism.redis_tooling_client.incr("#{Exercism.env}:request:url:#{request.original_fullpath}:#{request.method}:#{log_time}")
-        Exercism.redis_tooling_client.incr("#{Exercism.env}:request:user:#{current_user.handle}:#{log_time}") if user_signed_in?
+        redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
+        redis.incr("#{Exercism.env}:request:url:#{request.original_fullpath}:#{request.method}:#{log_time}")
+        redis.incr("#{Exercism.env}:request:user:#{current_user.handle}:#{log_time}") if user_signed_in?
       end
     end
   end

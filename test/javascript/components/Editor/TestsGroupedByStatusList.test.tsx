@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
-import { TestsGroupList } from '../../../../app/javascript/components/editor/TestsGroupList'
+import { TestsGroupedByStatusList } from '../../../../app/javascript/components/editor/TestsGroupedByStatusList'
 import { TestStatus } from '../../../../app/javascript/components/editor/types'
 
 test('shows passed tests', async () => {
@@ -27,7 +27,7 @@ test('shows passed tests', async () => {
     },
   ]
 
-  render(<TestsGroupList tests={tests} />)
+  render(<TestsGroupedByStatusList tests={tests} />)
   userEvent.click(screen.getByText('2 tests passed'))
 
   expect(screen.getByText('first test')).toBeInTheDocument()
@@ -65,7 +65,7 @@ test('shows all failed tests', async () => {
     },
   ]
 
-  render(<TestsGroupList tests={tests} />)
+  render(<TestsGroupedByStatusList tests={tests} />)
 
   expect(screen.getByText('second test')).toBeInTheDocument()
   expect(screen.getByText('third test')).toBeInTheDocument()
@@ -93,7 +93,7 @@ test('opens first failing test by default', async () => {
     },
   ]
 
-  render(<TestsGroupList tests={tests} />)
+  render(<TestsGroupedByStatusList tests={tests} />)
 
   expect(screen.getByText('second test message')).toBeInTheDocument()
   expect(screen.queryByText('third test message')).not.toBeVisible()

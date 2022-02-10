@@ -3,7 +3,7 @@ import { TestStatus, Test } from './types'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { TestsGroup, TestWithToggle } from './TestsGroup'
 
-export function TestsGroupList({
+export function TestsGroupedByStatusList({
   tests,
   language,
 }: {

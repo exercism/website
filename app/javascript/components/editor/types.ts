@@ -45,6 +45,7 @@ export type Test = {
   output: string
   outputHtml: string
   index?: number
+  task_id?: number
 }
 
 export enum TestStatus {

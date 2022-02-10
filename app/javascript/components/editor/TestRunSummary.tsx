@@ -41,6 +41,7 @@ export const TestRunSummary = ({
           onCancel={onCancel}
           averageTestDuration={averageTestDuration}
           showSuccessBox={showSuccessBox}
+          tasks={tasks}
         />
       </div>
     )
@@ -131,6 +132,7 @@ const TestRunSummaryContent = ({
   onCancel,
   averageTestDuration,
   showSuccessBox,
+  tasks,
 }: {
   testRun: TestRun
   onSubmit?: () => void
@@ -138,13 +140,14 @@ const TestRunSummaryContent = ({
   onCancel?: () => void
   averageTestDuration?: number
   showSuccessBox: boolean
+  tasks: AssignmentTask[]
 }) => {
   switch (testRun.status) {
     case TestRunStatus.PASS: {
       return (
         <>
           {testRun.version === 2 || testRun.version === 3 ? (
-            <TestRunOutput testRun={testRun} />
+            <TestRunOutput testRun={testRun} tasks={tasks} />
           ) : null}
           {showSuccessBox ? (
             <div className="success-box">
@@ -169,7 +172,7 @@ const TestRunSummaryContent = ({
       )
     }
     case TestRunStatus.FAIL:
-      return <TestRunOutput testRun={testRun} />
+      return <TestRunOutput testRun={testRun} tasks={tasks} />
     case TestRunStatus.ERROR:
       return (
         <div className="error-message">

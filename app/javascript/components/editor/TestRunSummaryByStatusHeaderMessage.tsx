@@ -1,7 +1,7 @@
 import React from 'react'
 import pluralize from 'pluralize'
 
-export const TestRunSummaryHeaderMessage = ({
+export const TestRunSummaryByStatusHeaderMessage = ({
   version,
   numFailedTests,
 }: {

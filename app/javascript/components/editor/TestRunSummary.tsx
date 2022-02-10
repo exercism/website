@@ -1,6 +1,6 @@
 import React from 'react'
 import { TestRun, TestRunnerStatus, TestRunStatus, TestStatus } from './types'
-import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
+import { TestRunSummaryByStatusHeaderMessage } from './TestRunSummaryByStatusHeaderMessage'
 import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
 import { GraphicalIcon } from '../common'
@@ -76,7 +76,7 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
       return (
         <div className="summary-status failed" role="status">
           <span className="--dot" />
-          <TestRunSummaryHeaderMessage
+          <TestRunSummaryByStatusHeaderMessage
             version={testRun.version}
             numFailedTests={failed.length}
           />

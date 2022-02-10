@@ -4,7 +4,7 @@ module API
   class BaseControllerTest < API::BaseTestCase
     test "logs authenticated request count" do
       travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
-      user = create :user, handle: 'foo'
+      user = create :user, id: 1
       setup_user(user)
 
       get api_docs_path, headers: @headers, as: :json
@@ -13,12 +13,12 @@ module API
 
       sleep(0.1)
       redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
-      assert_equal "2", redis.get("test:request:/api/v2/docs:GET:foo:2022-01-05 14:53")
-      assert_equal "1", redis.get("test:request:/api/v2/markdown/parse:POST:foo:2022-01-05 14:53")
+      assert_equal "2", redis.get("test:request:/api/v2/docs:GET:1:2022-01-05 14:53")
+      assert_equal "1", redis.get("test:request:/api/v2/markdown/parse:POST:1:2022-01-05 14:53")
     end
 
     test "logs authenticated request per minute" do
-      user = create :user, handle: 'foo'
+      user = create :user, id: 1
       setup_user(user)
 
       travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
@@ -30,14 +30,14 @@ module API
 
       sleep(0.1)
       redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
-      assert_equal "1", redis.get("test:request:/api/v2/docs:GET:foo:2022-01-05 14:53")
-      assert_equal "2", redis.get("test:request:/api/v2/docs:GET:foo:2022-01-05 15:11")
+      assert_equal "1", redis.get("test:request:/api/v2/docs:GET:1:2022-01-05 14:53")
+      assert_equal "2", redis.get("test:request:/api/v2/docs:GET:1:2022-01-05 15:11")
     end
 
     test "logs authenticated request per user" do
       travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
-      user_1 = create :user, handle: 'foo'
-      user_2 = create :user, handle: 'bar'
+      user_1 = create :user, id: 1
+      user_2 = create :user, id: 2
 
       setup_user(user_1)
       get api_docs_path, headers: @headers, as: :json
@@ -48,13 +48,13 @@ module API
 
       sleep(0.1)
       redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
-      assert_equal "2", redis.get("test:request:/api/v2/docs:GET:foo:2022-01-05 14:53")
-      assert_equal "1", redis.get("test:request:/api/v2/docs:GET:bar:2022-01-05 14:53")
+      assert_equal "2", redis.get("test:request:/api/v2/docs:GET:1:2022-01-05 14:53")
+      assert_equal "1", redis.get("test:request:/api/v2/docs:GET:2:2022-01-05 14:53")
     end
 
     test "logs request path without query parameters" do
       travel_to(Time.utc(2022, 1, 5, 14, 53, 7))
-      user = create :user, handle: 'foo'
+      user = create :user, id: 1
       setup_user(user)
 
       get api_notifications_path, headers: @headers, as: :json
@@ -63,7 +63,7 @@ module API
 
       sleep(0.1)
       redis = Redis.new(url: "#{Exercism.config.tooling_redis_url}/5")
-      assert_equal "3", redis.get("test:request:/api/v2/notifications:GET:foo:2022-01-05 14:53")
+      assert_equal "3", redis.get("test:request:/api/v2/notifications:GET:1:2022-01-05 14:53")
     end
 
     test "does not log anonymous requests" do

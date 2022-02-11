@@ -9,7 +9,7 @@ export const TestsGroup = ({
   children,
 }: {
   open?: boolean
-  tests: TestWithToggle[]
+  tests: Test[]
   children: React.ReactNode
 }): JSX.Element | null => {
   if (tests.length === 0) {

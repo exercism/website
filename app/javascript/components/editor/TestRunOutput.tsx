@@ -1,6 +1,7 @@
 import React from 'react'
 import { AssignmentTask, TestRun } from './types'
 import { TestsGroupedByStatusList } from './TestsGroupedByStatusList'
+import { TestsGroupedByTaskList } from './TestsGroupedByTaskList'
 
 export const TestRunOutput = ({
   testRun,
@@ -9,12 +10,26 @@ export const TestRunOutput = ({
   testRun: TestRun
   tasks: AssignmentTask[]
 }): JSX.Element => {
-  return testRun.version === 2 || testRun.version === 3 ? (
-    <TestsGroupedByStatusList
-      tests={testRun.tests}
-      language={testRun.highlightjsLanguage}
-    />
-  ) : (
+  if (testRun.version === 3) {
+    return (
+      <TestsGroupedByTaskList
+        tests={testRun.tests}
+        language={testRun.highlightjsLanguage}
+        tasks={tasks}
+      />
+    )
+  }
+
+  if (testRun.version === 2) {
+    return (
+      <TestsGroupedByStatusList
+        tests={testRun.tests}
+        language={testRun.highlightjsLanguage}
+      />
+    )
+  }
+
+  return (
     <pre className="v1-message">
       <code dangerouslySetInnerHTML={{ __html: testRun.messageHtml }} />
     </pre>

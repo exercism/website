@@ -10,9 +10,9 @@ class Solution
     end
 
     # This updates the submission of the latest iteration
-    # by setting its git_sha and then rerunning the tests
-    # in solution mode, which leads the status of the solution
-    # being set to the result of this latest run.
+    # by setting its git_sha and then rerunning the tests.
+    # This then updates the status of both the solution and
+    # the submission to the result of this latest run.
     def update_latest_iteration!
       submission = solution.latest_iteration&.submission
       return unless submission

@@ -1,13 +1,11 @@
 - content_for :meta_title, "Supporting Exercism"
 - content_for :meta_description, "Can your organisation help Exercism grow? Become rocket fuel for our mission!"
 
+= render ViewComponents::AboutNav.new(:organisation_supporters)
+
 #page-organisation-supporters
   %header.pb-56.c-header-with-bg
     .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1.text-center
-      = link_to about_page_path, class: "c-prominent-link mb-40" do
-        = graphical_icon "arrow-left"
-        Back to About Exercism
-
       = graphical_icon "rocket", category: "graphics", css_class: "rocket mb-8"
       %h1.text-h0.mb-16
         Become
@@ -73,7 +71,7 @@
           %p
             %strong Packt Publishing
             are a core Exercism partner, helping us develop both the fundraising and content side of the platform. They have sponsored our new Fundraising role, and we are currently developing a deeper partnership which we will launch in early 2022.
-          = render ViewComponents::ProminentLink.new("Learn more", supporter_packt_page_path)
+          = render ViewComponents::ProminentLink.new("Learn more", supporter_packt_about_path)
 
         .supporter
           = icon "gobridge", "GoBridge", category: :partners, css_class: "logo gobridge"
@@ -83,7 +81,7 @@
             and the
             %strong Go Developer Network
             as part of which they kindly made a significant donation to support the development of Exercism Teams.
-          = render ViewComponents::ProminentLink.new("Learn more", supporter_gobridge_page_path)
+          = render ViewComponents::ProminentLink.new("Learn more", supporter_gobridge_about_path)
 
         .supporter
           = icon "chicago", "University of Chicago", category: :partners, css_class: "logo chicago"
@@ -104,7 +102,7 @@
       = icon "individual-supporters", "Individual Supporters"
       %h2.text-h2 Exercism is also supported by generous individuals
       %hr.c-divider.mt-20.mb-28
-      = render ViewComponents::ProminentLink.new("See all of our #{@num_individual_supporters} individual supporters", individual_supporters_page_path)
+      = render ViewComponents::ProminentLink.new("See all of our #{@num_individual_supporters} individual supporters", individual_supporters_about_path)
 
     .cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40
       = image_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mb-12 md:mb-0 md:mr-24 rounded-100'

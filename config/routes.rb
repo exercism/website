@@ -401,20 +401,29 @@ Rails.application.routes.draw do
   get "/500", to: "errors#internal_error"
   get "/503", to: "errors#internal_error"
 
+  ###############
+  # About Pages #
+  ###############
+  resource :about, controller: 'about', only: [:show] do
+    get :team
+    get :hiring
+    get :hiring_fundraiser, path: "hiring/fundraiser-1", as: :hiring_1
+    get :hiring_content, path: "hiring/content-2", as: :hiring_2
+    get :hiring_community, path: "hiring/community-3", as: :hiring_3
+    get :hiring_front_end_developer, path: "hiring/front-end-developer-4", as: :hiring_4
+    get :hiring_rails_developer, path: "hiring/rails-developer-5", as: :hiring_5
+    get :individual_supporters, path: "supporters/individuals", as: :individual_supporters
+    get :organisation_supporters, path: "supporters/organisations", as: :organisation_supporters
+
+    %w[packt gobridge].each do |supporter|
+      get "supporter_#{supporter}".to_sym, path: "supporters/organisations/#{supporter}", as: "supporter_#{supporter}"
+    end
+  end
+
   #########
   # Pages #
   #########
   get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
-  get "about" => "pages#about", as: :about_page
-  get "team" => "pages#team", as: :team_page
-  get "team/hiring" => "pages#hiring", as: :hiring_page
-  get "team/hiring/fundraiser-1" => "pages#hiring_fundraiser", as: :hiring_1_page
-  get "team/hiring/content-2" => "pages#hiring_content", as: :hiring_2_page
-  get "supporters/individuals" => "pages#individual_supporters", as: :individual_supporters_page
-  get "supporters/organisations" => "pages#organisation_supporters", as: :organisation_supporters_page
-  %w[packt gobridge].each do |supporter|
-    get "supporters/organisations/#{supporter}" => "pages#supporter_#{supporter}", as: "supporter_#{supporter}_page"
-  end
 
   ############
   # Partners #

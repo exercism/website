@@ -19,32 +19,7 @@
             width: 16px;
         }
     }
-    & .links {
-        & li {
-            @apply mb-20;
-            @apply md:mb-0 md:mr-40;
-        }
-        & a {
-            @apply flex items-center;
-            @apply text-18 leading-160 font-semibold text-textColor7;
-            & .c-icon {
-                filter: var(--textColor7-filter);
-            }
-            & .c-icon:first-child {
-                height: 30px;
-                width: 30px;
-                @apply mr-24;
-            }
-            & .c-icon:last-child {
-                height: 16px;
-                width: 16px;
-                @apply ml-auto;
-            }
-            & span {
-                @apply mr-20;
-            }
-        }
-    }
+
     & .purpose {
         @apply bg-evenLighterBlue border-purple;
         & h2 {

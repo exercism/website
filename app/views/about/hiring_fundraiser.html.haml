@@ -1,7 +1,9 @@
+= render ViewComponents::AboutNav.new(:hiring)
+
 #page-hiring-job.bg-backgroundColorA.pb-16
   %header.c-shapes
     .md-container
-      = link_to hiring_page_path, class: "c-prominent-link" do
+      = link_to hiring_about_path, class: "c-prominent-link" do
         = graphical_icon "arrow-left"
         Back to All Job Listings
 
@@ -44,7 +46,7 @@
       %h2.text-h2.mb-12 Responsibilities
       %p.text-p-xlarge.mb-16
         So far, fundraising has been done on an ad-hoc basis by our CEO.
-        Over the last 3 years, we have raised ~£500k in support from organisations including #{link_to 'Mozilla', 'https://www.mozilla.org/en-GB/', target: '_blank', rel: :noopener}, #{link_to 'Packt Publishing', 'https://www.packtpub.com/about', target: '_blank', rel: :noopener}, #{link_to 'GoBridge', 'https://exercism.org/partners/gobridge', target: '_blank', rel: :noopener}, and the #{link_to 'University of Chicago', 'https://www.uchicago.edu/', target: '_blank', rel: :noopener}.
+        Over the last 3 years, we have raised ~£800k in support from organisations including #{link_to 'Mozilla', 'https://www.mozilla.org/en-GB/', target: '_blank', rel: :noopener}, #{link_to 'Packt Publishing', 'https://www.packtpub.com/about', target: '_blank', rel: :noopener}, #{link_to 'GoBridge', 'https://exercism.org/partners/gobridge', target: '_blank', rel: :noopener}, and the #{link_to 'University of Chicago', 'https://www.uchicago.edu/', target: '_blank', rel: :noopener}, ~£500k of which has come since Dec 2021.
         Your role is to take that ad-hoc work, formalise it into a coherent strategy, and then execute on that to deliver £500k of new support in the next 12 months.
         If the initial work is successful, we will reinvest some of the funds into growing a fundraising team around you.
         Although most of your role will be autonomous, you will have close access to the CEO to strategise and explore opportunities as needed.
@@ -78,7 +80,7 @@
         We are passionate about what we're building - about creating a world-class educational resource that everyone can use for free, and it matters to us that everyone in the team shares that passion.
         You don't have to be a programmer yourself, but hopefully you'll be inspired to learn via Exercism once you start!
 
-      %h2.text-h2.mb-12 Other Requirements
+      %h2.text-h2.mb-12 Other requirements
       %p.text-p-xlarge.mb-16
         We are a fully remote team who communicate in English.
         We aim to mix effective work with a sense of connectedness, so spend some time during the week on video calls sharing ideas and updates, some time doing simpler work while being on Slack, and some time offline focusing on deeper-work.
@@ -86,12 +88,19 @@
       %p.text-p-xlarge.mb-16
         These lead to the following extra requirements:
 
-      %ul.text-p-xlarge.mb-40
-        %li Able to work at least 5 hours per day during 9am - 6pm UTC, to enable you to interact with the rest of the team.
+      %ul.text-p-xlarge.mb-16
+        %li Able to work at least 4 hours per day during 9am - 6pm UTC, to enable you to interact with the rest of the team.
         %li You are willing to travel once per year for an in-person meetup.
         %li You are comfortable using spoken and written English in your job.
         %li You are excited to work in a diverse, inclusive team that cares about culture and where honest, empathic communication is the norm, and self-improvement is a lived value.
         %li You have some interest in tech or programming, and a passion for free education.
+
+      %p.text-p-xlarge.mb-40
+        %em
+          Research has shown that people from under-represented groups are less likely to apply for jobs if they don't feel they fit
+          %strong all
+          of the criteria.
+          If you think you'd enjoy the role and could do a good job, but are not sure if you're fully qualified, please apply anyway!
 
       %h2.text-h2.mb-12 Benefits
       %p.text-p-xlarge.mb-16
@@ -109,7 +118,7 @@
       %p.text-p-xlarge.mb-40
         The role is full time, but you may choose to work either 5 days (~40 hours) per week or 4 days (~32 hours) per week. If you opt for the shorter working week, salary and holiday will be prorated accordingly.
 
-      %h2.text-h2.mb-12 How to Apply
+      %h2.text-h2.mb-12 How to apply
       %p.text-p-xlarge.mb-16
         Firstly, if you're about to apply, thank you!
         We're grateful and excited that you're taking the time to do so 🙂
@@ -134,5 +143,5 @@
         %li We'll review your application and let you know whether we wish to continue the process with you (generally within 7 working days).
         %li We will send you a questionaire to try and understand more about your experience.
         %li Based on initial applications and questionares, we'll invite a final set of applicants to have a video interview with the CEO.
-        %li We hope to make a final decision on who we offer the role to by the end of March.
+        %li We hope to make a final decision on who we offer the role to by the end of April.
 

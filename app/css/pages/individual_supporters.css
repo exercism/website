@@ -5,7 +5,7 @@
 
     & > header {
         & .md-container {
-            @apply pt-24;
+            @apply pt-44;
         }
 
         & .emoji {

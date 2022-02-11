@@ -1,0 +1,86 @@
+= render ViewComponents::AboutNav.new(:hiring)
+
+#page-hiring
+  %header
+    .lg-container.c-shapes
+      = graphical_icon "exercism-face"
+      %h1.text-h1.mb-12 Exercism is hiring!
+      %p.text-p-2xlarge Come join a passionate team making programming education fun and effective. Here are some of the roles we’re hiring for.
+
+  .roles.sm-container
+    = link_to hiring_1_about_path, class: 'role' do
+      = graphical_icon "hiring-fundraiser", category: 'graphics', css_class: 'graphic'
+      .information
+        %h2.text-h3 Head of Partnerships and Fundraising
+        .remote-tag
+          = graphical_icon "stars"
+          100% remote
+        %p.text-p-large
+          %strong Can you build and execute a fundraising strategy?
+          We're looking for someone to develop sponsorship and partnership revenue to support our growth as we strive to become the leading resource for lifelong programming education.
+        .details
+          .salary Salary: £50k (~$68k, ~€60k).
+          .remote Remote
+
+    = link_to hiring_2_about_path, class: 'role' do
+      = graphical_icon "hiring-content", category: 'graphics', css_class: 'graphic'
+      .information
+        %h2.text-h3 Content Factotum
+        .remote-tag
+          = graphical_icon "stars"
+          100% remote
+        %p.text-p-large
+          %strong Passionate about programming education?
+          We're looking for someone to lead the content side of our platform, working with our community to create world-class resources. A varied and interesting role that mixes strategy, authoring and editing.
+        .details
+          .salary Salary: £50k (~$68k, ~€60k).
+          .remote Remote
+
+    = link_to hiring_3_about_path, class: 'role' do
+      = graphical_icon "hiring-community", category: 'graphics', css_class: 'graphic'
+      .information
+        %h2.text-h3 Community Manager
+        .remote-tag
+          = graphical_icon "stars"
+          100% remote
+        %p.text-p-large
+          %strong Passionate about community?
+          Love interacting with people?
+          Interesting in creating systems that foster great discussions and connections?
+          Then you might be the perfect person to become our first full-time Community Manager!
+        .details
+          .salary Salary: £50k (~$68k, ~€60k).
+          .remote Remote
+
+    = link_to hiring_4_about_path, class: 'role' do
+      = graphical_icon "hiring-front-end-developer", category: 'graphics', css_class: 'graphic'
+      .information
+        %h2.text-h3 Front-end Developer
+        .remote-tag
+          = graphical_icon "stars"
+          100% remote
+        %p.text-p-large
+          %strong Excited to build awesome UIs?
+          Love React and CSS?
+          Want to build out a technically interesting application used by millions of other developers?
+          Excited by the style and feel of Exercism?
+          Then you might be the perfect person to become our first full-time Front-end Developer!
+        .details
+          .salary Salary: £50k (~$68k, ~€60k).
+          .remote Remote
+
+    = link_to hiring_5_about_path, class: 'role' do
+      = graphical_icon "hiring-rails-developer", category: 'graphics', css_class: 'graphic'
+      .information
+        %h2.text-h3 Ruby on Rails Developer
+        .remote-tag
+          = graphical_icon "stars"
+          100% remote
+        %p.text-p-large
+          %strong Want to work on a leading Rails app used by millions?
+          Care about clean, readable code?
+          Want to build out a technically interesting application used by millions of other developers?
+          Then you might be the perfect person to join our team!
+        .details
+          .salary Salary: £50k (~$68k, ~€60k).
+          .remote Remote

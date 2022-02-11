@@ -1,16 +1,16 @@
 - content_for :meta_title, "About Exercism"
 - content_for :meta_description, "Learn about Exercism: our vision, mission, and strategy."
 
+= render ViewComponents::AboutNav.new
+
 #page-about
   %header.pb-56.c-header-with-bg
     .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1
       = graphical_icon "exercism-face", css_class: "logo mb-8"
-      %h1.text-h0.mb-16 About Exercism
+      %h1.text-h0.mb-16 Exercism
       %hr.c-divider.mb-16
       %p.text-p-3xlarge.text-textColor2.mb-40.text-center
-        We want to help
-        %strong anyone
-        get really good at programming, regardless of their background, through a mixture of practical-learning, practice and mentorship.
+        We're building the most effective, intrinsically rewarding, and friendly place to both learn and master programming. And its free.
       .grid.grid-1.md:grid-cols-2-auto.gap-24
         = link_to donate_path, class: 'btn-l btn-primary' do
           Donate to Exercism
@@ -19,60 +19,31 @@
           = link_to "Support Exercism (for organisations)", supporters_page_path, class: 'btn-l btn-enhanced'
 
   .md-container
-    %ul.links.flex.flex-col.md:flex-row.items-stretch.md:items-center.my-40.md:my-56.px-16.md:px-0
-      %li
-        = link_to team_page_path do
-          = graphical_icon :team
-          %span Team
-          = graphical_icon 'arrow-right'
-        %li
-          = link_to individual_supporters_page_path do
-            = graphical_icon :'individual-supporters'
-            %span Individual Supporters
-            = graphical_icon 'arrow-right'
-
-        %li
-          = link_to organisation_supporters_page_path do
-            = graphical_icon :supporters
-            %span Supporting Organisations
-            = graphical_icon 'arrow-right'
-
-
-      -# TODO
-        %li
-          = link_to "#" do
-            = graphical_icon :roadmap
-            %span Roadmap
-            = graphical_icon 'arrow-right'
-  .md-container
-    .purpose.border-t-4.md:border-t-0.md:border-l-6.py-28.md:py-40.px-32.md:px-64.flex.items-start.lg:items-center.flex-col.lg:flex-row.mb-64
+    .purpose.border-t-4.md:border-t-0.md:border-l-6.py-28.my-40.md:my-56.md:py-40.px-32.md:px-64.flex.items-start.lg:items-center.flex-col.lg:flex-row.mb-64
       .info
         %h2.text-h1.mb-16.flex.items-center
           = graphical_icon "purpose"
           Purpose
         %p.text-p-2xlarge
-          Exercism exists to help as many people as possible
-          = link_to "attain fluency", doc_path(:using, "product/fluency")
-          in any programming language they want.
-          Programming skills can be source of great fun
-          and a route to social mobility and we want to help people regardless of their backgrounds or their motivations.
+          We're here to help everyone get really good at programming, regardless of their background.
+          We want to share our love of programming, and help people upskill as part of their upward social mobility.
       = graphical_icon "purpose", category: 'graphics', css_class: 'graphic mt-16 lg:mt-0 lg:ml-40 xl:ml-80'
 
     .goals.mb-80.grid.grid-cols-1.md:grid-cols-3.gap-x-40.gap-y-24
       .goal
         .number 1
-        %h3 Attain Fluency
-        %p We want people to experience the joy of fluency, of being intimitely connected to the language you're working within.
+        %h3 Attain mastery
+        %p We want people to experience the joy of programming — the deep satisfaction from being a fluent programmer.
 
       .goal
         .number 2
         %h3 Have Fun
-        %p We believe developing programming skills should be empowering and fun, not competitive, frustrating or stressful.
+        %p Developing programming skills should be empowering and fun, not competitive, frustrating or stressful.
 
       .goal
         .number 3
         %h3 Social Mobility
-        %p We want everyone, especially the socially and economically deprived, to achieve upward mobility through learning to code.
+        %p We want everyone, especially the economically deprived, to achieve upward mobility through learning to code.
 
     .principles.flex.flex-col.items-center
       = graphical_icon "principles", css_class: 'graphic'

@@ -1,7 +1,9 @@
+= render ViewComponents::AboutNav.new(:organisation_supporters)
+
 #page-organisation-supporter
   %header.pb-60
     .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1.text-center
-      = link_to organisation_supporters_page_path, class: "c-prominent-link mt-48 mb-24" do
+      = link_to organisation_supporters_about_path, class: "c-prominent-link mt-48 mb-24" do
         = graphical_icon "arrow-left"
         See all our supporters
 

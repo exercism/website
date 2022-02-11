@@ -16,6 +16,7 @@ class SerializeSubmissionTestRun
       output: test_run.output,
       output_html: Ansi::RenderHTML.(test_run.output),
       tests: test_run.test_results,
+      tasks: tasks,
       highlightjs_language: test_run.solution.track.highlightjs_language,
       links: {
         self: Exercism::Routes.api_solution_submission_test_run_url(test_run.solution.uuid, test_run.submission.uuid)
@@ -37,6 +38,12 @@ class SerializeSubmissionTestRun
     return "An unknown error occurred" if !test_run.ops_success? && test_run.message.blank?
 
     test_run.message
+  end
+
+  def tasks
+    return unless test_run.version >= 3
+
+    SerializeExerciseAssignment.(test_run.solution)[:tasks].map { |task| task.slice(:id, :title) }
   end
 
   OPS_ERROR_STATUS = "ops_error".freeze

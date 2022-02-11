@@ -70,6 +70,7 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Exclude:
     - "test/commands/solution/search_user_solutions_test.rb"
+    - "test/serializers/serialize_submission_test_run_test.rb"
 
 Naming/PredicateName:
   Enabled: false

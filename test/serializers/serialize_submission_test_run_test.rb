@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
-  test "test successful run" do
+  test "test successful v3 run" do
     test = {
       'name' => 'test_a_name_given',
       'status' => 'pass',
@@ -10,14 +10,14 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     test_run = create :submission_test_run,
       ops_status: 200,
       status: "pass",
-      raw_results: { tests: [test], status: "pass" }
+      raw_results: { version: 3, tests: [test], status: "pass" }
 
     actual = SerializeSubmissionTestRun.(test_run)
 
     expected = {
       uuid: test_run.uuid,
       submission_uuid: test_run.submission.uuid,
-      version: 0,
+      version: 3,
       status: :pass,
       message: nil,
       message_html: nil,
@@ -32,9 +32,60 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
           message_html: nil,
           expected: nil,
           output: 'foobar',
-          output_html: "foobar"
+          output_html: "foobar",
+          task_id: nil
         }
       ],
+      tasks: [
+        { id: 1, title: "Get message from a log line" },
+        { id: 2, title: "Get log level from a log line" },
+        { id: 3, title: "Reformat a log line" }
+      ],
+      highlightjs_language: 'ruby',
+      links: {
+        self: Exercism::Routes.api_solution_submission_test_run_url(test_run.solution.uuid, test_run.submission.uuid)
+      }
+    }
+
+    assert_equal expected.to_json, actual.to_json
+  end
+
+  test "test successful v2 run" do
+    test = {
+      'name' => 'test_a_name_given',
+      'status' => 'pass',
+      'output' => 'foobar'
+    }
+    test_run = create :submission_test_run,
+      ops_status: 200,
+      status: "pass",
+      raw_results: { version: 2, tests: [test], status: "pass" }
+
+    actual = SerializeSubmissionTestRun.(test_run)
+
+    expected = {
+      uuid: test_run.uuid,
+      submission_uuid: test_run.submission.uuid,
+      version: 2,
+      status: :pass,
+      message: nil,
+      message_html: nil,
+      output: nil,
+      output_html: nil,
+      tests: [
+        {
+          name: 'test_a_name_given',
+          status: 'pass',
+          test_code: nil,
+          message: nil,
+          message_html: nil,
+          expected: nil,
+          output: 'foobar',
+          output_html: "foobar",
+          task_id: nil
+        }
+      ],
+      tasks: nil,
       highlightjs_language: 'ruby',
       links: {
         self: Exercism::Routes.api_solution_submission_test_run_url(test_run.solution.uuid, test_run.submission.uuid)
@@ -136,7 +187,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
   end
 
   test "legacy v1 spec" do
-    version = 5
+    version = 1
     output = "\e[31mHello\e[0m\e[K\e[34mWorld\e[0"
 
     test_run = create :submission_test_run,
@@ -151,5 +202,54 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     assert_equal version, serialized[:version]
     assert_equal output, serialized[:output]
     assert_equal "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>", serialized[:output_html]
+    assert_nil serialized[:tasks]
+  end
+
+  test "tasks: serialized for v3 run" do
+    test = {
+      'name' => 'test_a_name_given',
+      'status' => 'pass',
+      'output' => 'foobar'
+    }
+    test_run = create :submission_test_run,
+      ops_status: 200,
+      status: "pass",
+      raw_results: { version: 3, tests: [test], status: "pass" }
+
+    actual = SerializeSubmissionTestRun.(test_run)
+
+    expected = [
+      { id: 1, title: "Get message from a log line" },
+      { id: 2, title: "Get log level from a log line" },
+      { id: 3, title: "Reformat a log line" }
+    ]
+    assert_equal expected, actual[:tasks]
+  end
+
+  test "tasks: nil for v2 run" do
+    test = {
+      'name' => 'test_a_name_given',
+      'status' => 'pass',
+      'output' => 'foobar'
+    }
+    test_run = create :submission_test_run,
+      ops_status: 200,
+      status: "pass",
+      raw_results: { version: 2, tests: [test], status: "pass" }
+
+    actual = SerializeSubmissionTestRun.(test_run)
+
+    assert_nil actual[:tasks]
+  end
+
+  test "tasks: nil for v1 run" do
+    test_run = create :submission_test_run,
+      ops_status: 200,
+      status: "pass",
+      raw_results: { version: 1, status: "pass" }
+
+    actual = SerializeSubmissionTestRun.(test_run)
+
+    assert_nil actual[:tasks]
   end
 end

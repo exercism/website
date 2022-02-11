@@ -68,8 +68,8 @@ class User::Notification < ApplicationRecord
 
   def image_url
     [
-      Rails.application.config.action_controller.asset_host,
-      compute_asset_path(image_path)
+      Rails.application.config.action_controller.asset_host.delete_suffix('/'),
+      compute_asset_path(image_path).delete_prefix('/')
     ].compact.join('/')
   end
 

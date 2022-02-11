@@ -4,7 +4,6 @@ import { TabsContext } from '../Editor'
 import { Assignment, AssignmentTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
 import { GraphicalIcon, Icon } from '../common'
-import { File } from '../types'
 import { useHighlighting } from '../../utils/highlight'
 
 export const InstructionsPanel = ({

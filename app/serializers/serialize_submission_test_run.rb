@@ -41,9 +41,9 @@ class SerializeSubmissionTestRun
   end
 
   def tasks
-    return unless test_run.version >= 3
+    return [] unless test_run.version >= 3
 
-    SerializeExerciseAssignment.(test_run.solution)[:tasks].map { |task| task.slice(:id, :title) }
+    SerializeExerciseAssignment.(test_run.solution)[:tasks].to_a.map { |task| task.slice(:id, :title) }
   end
 
   OPS_ERROR_STATUS = "ops_error".freeze

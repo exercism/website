@@ -8,7 +8,7 @@ export const TestRunOutput = ({
 }: {
   testRun: TestRun
 }): JSX.Element => {
-  if (testRun.version === 3) {
+  if (testRun.version >= 3 && testRun.tasks.length > 0) {
     return (
       <TestsGroupedByTaskList
         tests={testRun.tests}
@@ -18,7 +18,7 @@ export const TestRunOutput = ({
     )
   }
 
-  if (testRun.version === 2) {
+  if (testRun.version >= 2) {
     return (
       <TestsGroupedByStatusList
         tests={testRun.tests}

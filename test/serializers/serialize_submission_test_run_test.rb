@@ -85,7 +85,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
           task_id: nil
         }
       ],
-      tasks: nil,
+      tasks: [],
       highlightjs_language: 'ruby',
       links: {
         self: Exercism::Routes.api_solution_submission_test_run_url(test_run.solution.uuid, test_run.submission.uuid)
@@ -202,7 +202,8 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     assert_equal version, serialized[:version]
     assert_equal output, serialized[:output]
     assert_equal "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>", serialized[:output_html]
-    assert_nil serialized[:tasks]
+    assert_empty serialized[:tests]
+    assert_empty serialized[:tasks]
   end
 
   test "tasks: serialized for v3 run" do
@@ -226,7 +227,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
     assert_equal expected, actual[:tasks]
   end
 
-  test "tasks: nil for v2 run" do
+  test "tasks: empty for v2 run" do
     test = {
       'name' => 'test_a_name_given',
       'status' => 'pass',
@@ -239,10 +240,10 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
 
     actual = SerializeSubmissionTestRun.(test_run)
 
-    assert_nil actual[:tasks]
+    assert_empty actual[:tasks]
   end
 
-  test "tasks: nil for v1 run" do
+  test "tasks: empty for v1 run" do
     test_run = create :submission_test_run,
       ops_status: 200,
       status: "pass",
@@ -250,6 +251,6 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
 
     actual = SerializeSubmissionTestRun.(test_run)
 
-    assert_nil actual[:tasks]
+    assert_empty actual[:tasks]
   end
 end

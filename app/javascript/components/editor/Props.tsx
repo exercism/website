@@ -7,7 +7,7 @@ export type EditorFeatures = {
 }
 
 export type TaskContext = {
-  current: number
+  current: number | null
   switchToTask: (id: number) => void
 }
 

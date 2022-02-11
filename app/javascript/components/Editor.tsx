@@ -62,7 +62,7 @@ export const FeaturesContext = createContext<EditorFeatures>({
 })
 
 export const TasksContext = createContext<TaskContext>({
-  current: 1,
+  current: null,
   switchToTask: () => {},
 })
 
@@ -84,7 +84,7 @@ export default ({
 
   const [hasCancelled, setHasCancelled] = useSubmissionCancelling()
   const [tab, setTab] = useState<TabIndex>('instructions')
-  const [task, setTask] = useState(1)
+  const [task, setTask] = useState<number | null>(null)
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)

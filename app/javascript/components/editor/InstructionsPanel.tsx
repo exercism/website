@@ -1,10 +1,11 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Tab } from '../common/Tab'
 import { TabsContext, TasksContext } from '../Editor'
 import { Assignment, AssignmentTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
 import { GraphicalIcon, Icon } from '../common'
 import { useHighlighting } from '../../utils/highlight'
+import { useReducedMotion } from '../../hooks/use-reduced-motion'
 
 export const InstructionsPanel = ({
   introduction,
@@ -51,8 +52,6 @@ const Introduction = ({ introduction }: { introduction: string }) => {
 }
 
 const Instructions = ({ assignment }: { assignment: Assignment }) => {
-  const { current } = useContext(TasksContext)
-
   return (
     <div className="instructions">
       <h2>Instructions</h2>
@@ -62,28 +61,31 @@ const Instructions = ({ assignment }: { assignment: Assignment }) => {
       />
 
       {assignment.tasks.map((task, idx) => (
-        <Task key={idx} task={task} open={task.id === current} idx={idx} />
+        <Task key={idx} task={task} idx={idx} />
       ))}
     </div>
   )
 }
 
-const Task = ({
-  task,
-  open,
-  idx,
-}: {
-  task: AssignmentTask
-  open?: boolean
-  idx: number
-}) => {
+const Task = ({ task, idx }: { task: AssignmentTask; idx: number }) => {
+  const { current } = useContext(TasksContext)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
-  const detailsProps = open ? { open: true } : {}
+  const detailsRef = useRef<HTMLDetailsElement>(null)
+  const detailsProps = current === task.id ? { open: true } : {}
+  const reducedMotion = useReducedMotion()
+
+  useEffect(() => {
+    if (detailsRef?.current && current === task.id) {
+      detailsRef.current.scrollIntoView(
+        reducedMotion ? {} : { behavior: 'smooth' }
+      )
+    }
+  }, [current, detailsRef])
 
   return (
-    <details className="c-details task" {...detailsProps}>
+    <details ref={detailsRef} className="c-details task" {...detailsProps}>
       <summary className="--summary">
         <div className="--summary-inner">
           <div className="task-marker">Task {idx + 1}</div>

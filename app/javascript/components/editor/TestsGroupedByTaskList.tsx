@@ -91,7 +91,7 @@ export function TestsGroupedByTaskList({
   return (
     <div className="tests-list">
       {passed.map((task) => (
-        <TestsGroup tests={task.tests} open={false}>
+        <TestsGroup key={task.id} tests={task.tests} open={false}>
           <TestsGroup.Header>
             <GraphicalIcon icon="passed-check-circle" className="indicator" />
             <Title task={task} />
@@ -103,7 +103,7 @@ export function TestsGroupedByTaskList({
       ))}
 
       {failed.map((task, i) => (
-        <TestsGroup tests={task.tests} open={i === 0}>
+        <TestsGroup key={task.id} tests={task.tests} open={i === 0}>
           <TestsGroup.Header>
             <GraphicalIcon icon="failed-check-circle" className="indicator" />
             <Title task={task} />

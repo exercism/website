@@ -41,7 +41,6 @@ export const ResultsPanel = ({
             onSubmit={onSubmit}
             isSubmitDisabled={isSubmitDisabled}
             averageTestDuration={averageTestDuration}
-            tasks={tasks}
           />
         </section>
       ) : (

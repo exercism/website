@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef } from 'react'
-import { AssignmentTask, TestRun, TestRunStatus } from './types'
+import { TestRun, TestRunStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
 import { fetchJSON } from '../../utils/fetch-json'
 import { useRequestQuery } from '../../hooks/request-query'
@@ -109,7 +109,6 @@ export const TestRunSummaryContainer = ({
       onCancel={cancel}
       averageTestDuration={averageTestDuration}
       showSuccessBox={true}
-      tasks={tasks}
     />
   )
 }

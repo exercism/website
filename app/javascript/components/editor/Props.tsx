@@ -6,6 +6,11 @@ export type EditorFeatures = {
   keybindings: boolean
 }
 
+export type TaskContext = {
+  current: number
+  switchToTask: (id: number) => void
+}
+
 type Links = {
   runTests: string
   back: string

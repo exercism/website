@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { TestStatus, Test, AssignmentTask } from './types'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { TestsGroup, TestWithToggle } from './TestsGroup'
 import { TestSummary } from './TestSummary'
+import { TasksContext } from '../Editor'
 
 type TaskWithTestsWithToggle = AssignmentTask & {
   id: number
@@ -35,6 +36,20 @@ const Title = ({ task }: { task: TaskWithTestsWithToggle }): JSX.Element => {
     <>
       <span>Task {task.id}</span> <span>{task.title}</span>
     </>
+  )
+}
+
+const JumpToInstructionButton = ({
+  taskId,
+}: {
+  taskId: number
+}): JSX.Element => {
+  const { switchToTask } = useContext(TasksContext)
+
+  return (
+    <button type="button" onClick={() => switchToTask(taskId)}>
+      Jump to Instruction
+    </button>
   )
 }
 
@@ -99,6 +114,7 @@ export function TestsGroupedByTaskList({
             <GraphicalIcon icon="chevron-down" className="--open-icon" />
           </TestsGroup.Header>
           <Tests tests={task.tests} language={language} />
+          <JumpToInstructionButton taskId={task.id} />
         </TestsGroup>
       ))}
 
@@ -111,6 +127,7 @@ export function TestsGroupedByTaskList({
             <GraphicalIcon icon="chevron-down" className="--open-icon" />
           </TestsGroup.Header>
           <Tests tests={task.tests} language={language} />
+          <JumpToInstructionButton taskId={task.id} />
         </TestsGroup>
       ))}
     </div>

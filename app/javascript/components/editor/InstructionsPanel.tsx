@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Tab } from '../common/Tab'
-import { TabsContext } from '../Editor'
+import { TabsContext, TasksContext } from '../Editor'
 import { Assignment, AssignmentTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
 import { GraphicalIcon, Icon } from '../common'
@@ -50,19 +50,23 @@ const Introduction = ({ introduction }: { introduction: string }) => {
   )
 }
 
-const Instructions = ({ assignment }: { assignment: Assignment }) => (
-  <div className="instructions">
-    <h2>Instructions</h2>
-    <div
-      className="content"
-      dangerouslySetInnerHTML={{ __html: assignment.overview }}
-    />
+const Instructions = ({ assignment }: { assignment: Assignment }) => {
+  const { current } = useContext(TasksContext)
 
-    {assignment.tasks.map((task, idx) => (
-      <Task key={idx} task={task} open={idx === 0} idx={idx} />
-    ))}
-  </div>
-)
+  return (
+    <div className="instructions">
+      <h2>Instructions</h2>
+      <div
+        className="content"
+        dangerouslySetInnerHTML={{ __html: assignment.overview }}
+      />
+
+      {assignment.tasks.map((task, idx) => (
+        <Task key={idx} task={task} open={task.id === current} idx={idx} />
+      ))}
+    </div>
+  )
+}
 
 const Task = ({
   task,

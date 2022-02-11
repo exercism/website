@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import { TestRun, TestRunStatus } from './editor/types'
 import { File } from './types'
-import { Props, EditorFeatures } from './editor/Props'
+import { Props, EditorFeatures, TaskContext } from './editor/Props'
 import { Header } from './editor/Header'
 import {
   FileEditorCodeMirror,
@@ -61,6 +61,11 @@ export const FeaturesContext = createContext<EditorFeatures>({
   keybindings: false,
 })
 
+export const TasksContext = createContext<TaskContext>({
+  current: 1,
+  switchToTask: () => {},
+})
+
 export default ({
   timeout = 60000,
   defaultSubmissions,
@@ -79,6 +84,7 @@ export default ({
 
   const [hasCancelled, setHasCancelled] = useSubmissionCancelling()
   const [tab, setTab] = useState<TabIndex>('instructions')
+  const [task, setTask] = useState(1)
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)
@@ -358,7 +364,14 @@ export default ({
               </>
             }
             right={
-              <>
+              <TasksContext.Provider
+                value={{
+                  current: task,
+                  switchToTask: (id) => {
+                    setTask(id), setTab('instructions')
+                  },
+                }}
+              >
                 <div className="tabs">
                   <InstructionsTab />
                   {panels.tests ? <TestsTab /> : null}
@@ -374,10 +387,9 @@ export default ({
                   onSubmit={submit}
                   isSubmitDisabled={isSubmitDisabled}
                   hasCancelled={hasCancelled}
-                  tasks={panels.instructions.assignment.tasks}
                   {...panels.results}
                 />
-              </>
+              </TasksContext.Provider>
             }
           />
         </div>

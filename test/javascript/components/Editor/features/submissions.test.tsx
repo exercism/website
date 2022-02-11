@@ -3,13 +3,7 @@ jest.mock(
 )
 
 import React from 'react'
-import {
-  waitFor,
-  screen,
-  act,
-  fireEvent,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'

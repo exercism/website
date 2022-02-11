@@ -85,7 +85,7 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
           test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
       )
 
-      if (testRun.tasks.length > 0) {
+      if (testRun.tasks && testRun.tasks.length > 0) {
         const numFailedTasks = new Set(
           failed
             .filter((test) => test.taskId !== undefined)
@@ -110,7 +110,7 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
       )
     }
     case TestRunStatus.PASS:
-      if (testRun.tasks.length > 0) {
+      if (testRun.tasks && testRun.tasks.length > 0) {
         return (
           <TestRunSummaryStatus statusClass="passed">
             All tasks passed

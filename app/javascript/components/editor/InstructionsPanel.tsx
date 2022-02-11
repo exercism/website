@@ -70,8 +70,6 @@ const Instructions = ({ assignment }: { assignment: Assignment }) => {
 const Task = ({ task, idx }: { task: AssignmentTask; idx: number }) => {
   const { current } = useContext(TasksContext)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const componentRef = useRef<HTMLDivElement>(null)
   const detailsRef = useRef<HTMLDetailsElement>(null)
   const detailsProps = current === task.id ? { open: true } : {}
   const reducedMotion = useReducedMotion()
@@ -100,14 +98,13 @@ const Task = ({ task, idx }: { task: AssignmentTask; idx: number }) => {
       </summary>
       <div dangerouslySetInnerHTML={{ __html: task.text }} />
 
-      <div ref={componentRef}>
+      <div>
         <TaskHintsModal
           task={task}
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
         <button
-          ref={buttonRef}
           className="btn-default btn-s hints-btn"
           onClick={() => {
             setIsModalOpen(true)

@@ -33,8 +33,8 @@ class BlogPost < ApplicationRecord
   def image_url
     attributes['image_url'].presence ||
       [
-        Rails.application.config.action_controller.asset_host,
-        compute_asset_path("graphics/blog-placeholder-article.svg")
+        Rails.application.config.action_controller.asset_host&.delete_suffix('/'),
+        compute_asset_path("graphics/blog-placeholder-article.svg")&.delete_prefix('/')
       ].compact.join('/')
   end
 

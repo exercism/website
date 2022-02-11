@@ -203,18 +203,14 @@ class API::SolutionsControllerTest < API::BaseTestCase
     )
   end
 
-  test "Sync should 404 if the solution belongs to someone else" do
+  test "Sync should work correctly" do
     setup_user
-    solution = create :concept_solution
+    solution = create :concept_solution, user: @current_user
+    Solution::UpdateToLatestExerciseVersion.expects(:call).with(solution)
+
     patch sync_api_solution_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response 403
-    expected = { error: {
-      type: "solution_not_accessible",
-      message: I18n.t('api.errors.solution_not_accessible')
-    } }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
+    assert_response 200
   end
 
   ############

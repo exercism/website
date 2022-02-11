@@ -22,7 +22,7 @@ module ToolingJob
           submission_efs_root: submission.uuid,
           submission_filepaths: submission.valid_filepaths,
           exercise_git_repo: solution.track.slug,
-          exercise_git_sha: solution.git_sha,
+          exercise_git_sha: git_sha,
           exercise_git_dir: exercise_repo.dir,
           exercise_filepaths: exercise_filepaths
         }

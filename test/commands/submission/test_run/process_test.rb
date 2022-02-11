@@ -164,4 +164,18 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.tests_not_queued?
     assert submission.solution.reload.published_iteration_head_tests_status_passed?
   end
+
+  test "changes solution and submission if they're the same" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, :published, exercise: exercise, git_sha: exercise.git_sha
+    submission = create :submission, solution: solution, git_sha: exercise.git_sha
+    create :iteration, solution: solution, submission: submission
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
+    job = create_test_runner_job!(submission, execution_status: 200, results: results, git_sha: exercise.git_sha)
+
+    Submission::TestRun::Process.(job)
+
+    assert submission.reload.tests_passed?
+    assert submission.solution.reload.published_iteration_head_tests_status_passed?
+  end
 end

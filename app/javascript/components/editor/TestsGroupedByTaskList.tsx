@@ -43,14 +43,14 @@ const JumpToInstructionButton = ({
   taskId,
 }: {
   taskId: number
-}): JSX.Element => {
-  const { switchToTask } = useContext(TasksContext)
+}): JSX.Element | null => {
+  const { switchToTask, showJumpToInstructionButton } = useContext(TasksContext)
 
-  return (
+  return showJumpToInstructionButton ? (
     <button type="button" onClick={() => switchToTask(taskId)}>
       Jump to Instruction
     </button>
-  )
+  ) : null
 }
 
 export function TestsGroupedByTaskList({

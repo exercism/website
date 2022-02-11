@@ -64,6 +64,7 @@ export const FeaturesContext = createContext<EditorFeatures>({
 export const TasksContext = createContext<TaskContext>({
   current: null,
   switchToTask: () => {},
+  showJumpToInstructionButton: false,
 })
 
 export default ({
@@ -370,6 +371,7 @@ export default ({
                   switchToTask: (id) => {
                     setTask(id), setTab('instructions')
                   },
+                  showJumpToInstructionButton: true,
                 }}
               >
                 <div className="tabs">

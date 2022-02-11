@@ -9,6 +9,7 @@ export type EditorFeatures = {
 export type TaskContext = {
   current: number | null
   switchToTask: (id: number) => void
+  showJumpToInstructionButton: boolean
 }
 
 type Links = {

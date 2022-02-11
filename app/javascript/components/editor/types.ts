@@ -31,6 +31,7 @@ export type TestRun = {
   outputHtml: string
   tests: Test[]
   highlightjsLanguage: string
+  tasks: AssignmentTask[]
   links: {
     self: string
   }
@@ -86,6 +87,7 @@ export type Assignment = {
 }
 
 export type AssignmentTask = {
+  id: number
   title: string
   text: string
   hints: string[]

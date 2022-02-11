@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  AssignmentTask,
-  TestRun,
-  TestRunnerStatus,
-  TestRunStatus,
-  TestStatus,
-} from './types'
+import { TestRun, TestRunnerStatus, TestRunStatus, TestStatus } from './types'
 import { TestRunSummaryByStatusHeaderMessage } from './TestRunSummaryByStatusHeaderMessage'
 import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
@@ -19,7 +13,6 @@ export const TestRunSummary = ({
   onCancel,
   averageTestDuration,
   showSuccessBox,
-  tasks,
 }: {
   testRun: TestRun
   testRunnerStatus?: TestRunnerStatus
@@ -28,12 +21,11 @@ export const TestRunSummary = ({
   onCancel?: () => void
   averageTestDuration?: number
   showSuccessBox: boolean
-  tasks: AssignmentTask[]
 }): JSX.Element => {
   if (testRun) {
     return (
       <div className="c-test-run">
-        <TestRunSummaryHeader testRun={testRun} tasks={tasks} />
+        <TestRunSummaryHeader testRun={testRun} />
         <TestRunSummaryContent
           testRun={testRun}
           onSubmit={onSubmit}
@@ -41,7 +33,6 @@ export const TestRunSummary = ({
           onCancel={onCancel}
           averageTestDuration={averageTestDuration}
           showSuccessBox={showSuccessBox}
-          tasks={tasks}
         />
       </div>
     )
@@ -86,13 +77,7 @@ const TestRunSummaryStatus = ({
   )
 }
 
-const TestRunSummaryHeader = ({
-  testRun,
-  tasks,
-}: {
-  testRun: TestRun
-  tasks: AssignmentTask[]
-}) => {
+const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
   switch (testRun.status) {
     case TestRunStatus.FAIL: {
       const failed = testRun.tests.filter(
@@ -100,7 +85,7 @@ const TestRunSummaryHeader = ({
           test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
       )
 
-      if (tasks.length > 0) {
+      if (testRun.tasks.length > 0) {
         const numFailedTasks = new Set(
           failed
             .filter((test) => test.taskId !== undefined)
@@ -109,7 +94,8 @@ const TestRunSummaryHeader = ({
         // TODO: render background as percentage
         return (
           <TestRunSummaryStatus statusClass="failed">
-            {tasks.length - numFailedTasks} / {tasks.length} tasks completed
+            {testRun.tasks.length - numFailedTasks} / {testRun.tasks.length}{' '}
+            tasks completed
           </TestRunSummaryStatus>
         )
       }
@@ -124,7 +110,7 @@ const TestRunSummaryHeader = ({
       )
     }
     case TestRunStatus.PASS:
-      if (tasks.length > 0) {
+      if (testRun.tasks.length > 0) {
         return (
           <TestRunSummaryStatus statusClass="passed">
             All tasks passed
@@ -162,7 +148,6 @@ const TestRunSummaryContent = ({
   onCancel,
   averageTestDuration,
   showSuccessBox,
-  tasks,
 }: {
   testRun: TestRun
   onSubmit?: () => void
@@ -170,14 +155,13 @@ const TestRunSummaryContent = ({
   onCancel?: () => void
   averageTestDuration?: number
   showSuccessBox: boolean
-  tasks: AssignmentTask[]
 }) => {
   switch (testRun.status) {
     case TestRunStatus.PASS: {
       return (
         <>
           {testRun.version === 2 || testRun.version === 3 ? (
-            <TestRunOutput testRun={testRun} tasks={tasks} />
+            <TestRunOutput testRun={testRun} />
           ) : null}
           {showSuccessBox ? (
             <div className="success-box">
@@ -202,7 +186,7 @@ const TestRunSummaryContent = ({
       )
     }
     case TestRunStatus.FAIL:
-      return <TestRunOutput testRun={testRun} tasks={tasks} />
+      return <TestRunOutput testRun={testRun} />
     case TestRunStatus.ERROR:
       return (
         <div className="error-message">

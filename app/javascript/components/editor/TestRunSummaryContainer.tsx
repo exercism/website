@@ -15,7 +15,6 @@ export const TestRunSummaryContainer = ({
   isSubmitDisabled,
   cancelLink,
   averageTestDuration,
-  tasks,
 }: {
   testRun: TestRun
   timeout: number
@@ -24,7 +23,6 @@ export const TestRunSummaryContainer = ({
   isSubmitDisabled: boolean
   cancelLink: string
   averageTestDuration: number
-  tasks: AssignmentTask[]
 }): JSX.Element | null => {
   const { data } = useRequestQuery<{ testRun: TestRun }>(
     `test-run-${testRun.submissionUuid}`,

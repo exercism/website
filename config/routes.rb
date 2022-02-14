@@ -445,6 +445,7 @@ Rails.application.routes.draw do
   end
 
   get "values", to: redirect("about")
+  get "team", to: redirect("about/team")
   get "team/staff", to: redirect("team")
   get "team/staff", to: redirect("contributors")
 

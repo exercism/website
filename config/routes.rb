@@ -52,6 +52,7 @@ Rails.application.routes.draw do
     scope :v2 do # rubocop:disable Naming/VariableNumber
       get "ping" => "ping#index"
       get "validate_token" => "validate_token#index"
+      get "hiring/testimonials" => "hiring#testimonials"
 
       namespace :donations do
         resource :active_subscription, only: [:show]
@@ -145,9 +146,7 @@ Rails.application.routes.draw do
       resources :profiles, only: [], param: :handle do
         get :summary, on: :member
 
-        resources :testimonials, only: %i[index], controller: "profiles/testimonials", param: :uuid do
-          get :hiring, on: :collection
-        end
+        resources :testimonials, only: %i[index], controller: "profiles/testimonials", param: :uuid
         resources :solutions, only: [:index], controller: 'profiles/solutions'
         resources :contributions, only: [], controller: 'profiles/contributions' do
           collection do

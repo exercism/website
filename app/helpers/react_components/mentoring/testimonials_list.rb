@@ -1,7 +1,7 @@
 module ReactComponents
   module Mentoring
     class TestimonialsList < ReactComponent
-      include ActionView::Helpers::AssetUrlHelper
+      include Propshaft::Helper
 
       initialize_with :params
 

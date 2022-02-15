@@ -1,5 +1,5 @@
 class BlogPost < ApplicationRecord
-  include ActionView::Helpers::AssetUrlHelper
+  include Propshaft::Helper
 
   extend FriendlyId
   friendly_id :slug, use: [:history]

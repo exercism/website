@@ -1,7 +1,7 @@
 require_relative '../base_test_case'
 
 class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
-  include ActionView::Helpers::AssetUrlHelper
+  include Propshaft::Helper
 
   guard_incorrect_token! :api_mentoring_discussions_path
   guard_incorrect_token! :tracks_api_mentoring_discussions_path

@@ -184,7 +184,7 @@ module Components
           }
         Submission::TestRunsChannel.broadcast!(test_run)
 
-        assert_text "2/3 TASKS COMPLETED"
+        assert_text "2 / 3 TASKS COMPLETED"
       end
     end
 
@@ -371,7 +371,7 @@ module Components
         sign_in!(user)
         visit edit_track_exercise_path(track, exercise)
 
-        assert_text "ALL TASKS COMPLETED"
+        assert_text "ALL TASKS PASSED"
       end
     end
 

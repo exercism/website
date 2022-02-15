@@ -31,7 +31,7 @@ module Components
           }
         Submission::TestRunsChannel.broadcast!(test_run)
 
-        assert_text "1 test passed"
+        assert_text "ALL TASKS PASSED"
       end
     end
 
@@ -102,6 +102,7 @@ module Components
           }
         Submission::TestRunsChannel.broadcast!(test_run)
 
+        assert_text "ALL TESTS PASSED"
         assert_text "1 test passed"
       end
     end
@@ -183,7 +184,7 @@ module Components
           }
         Submission::TestRunsChannel.broadcast!(test_run)
 
-        assert_text "1 test failed"
+        assert_text "2/3 TASKS COMPLETED"
       end
     end
 
@@ -211,6 +212,7 @@ module Components
           }
         Submission::TestRunsChannel.broadcast!(test_run)
 
+        assert_text "1 TEST FAILURE"
         assert_text "1 test failed"
       end
     end
@@ -369,7 +371,7 @@ module Components
         sign_in!(user)
         visit edit_track_exercise_path(track, exercise)
 
-        assert_text "1 test passed"
+        assert_text "ALL TASKS COMPLETED"
       end
     end
 

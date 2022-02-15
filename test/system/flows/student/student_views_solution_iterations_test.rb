@@ -311,6 +311,7 @@ module Flows
           click_on "Tests"
 
           assert_text "1 TEST FAILURE"
+          assert_text "1 test failed"
         end
       end
 

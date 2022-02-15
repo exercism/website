@@ -20,6 +20,16 @@ body.devise {
     /* This is needed to raise the menu above other components */
     @apply z-menu;
 
+    & .announcement-bar {
+        @apply block;
+        @apply bg-textColor2 py-8;
+        @apply text-lightPurple font-semibold text-16 leading-160 text-center;
+        & strong {
+            @apply text-lightGold mx-4 font-semibold;
+            @apply underline;
+        }
+    }
+
     & .container {
         /* Should be py-12 when other components have been added */
         @apply flex items-center;

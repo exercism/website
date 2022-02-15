@@ -7,8 +7,20 @@ module ViewComponents
 
     def to_s
       tag.header(id: "site-header") do
-        tag.div(class: "lg-container container") do
-          logo + docs_nav + contextual_section
+        announcement_bar +
+          tag.div(class: "lg-container container") do
+            logo + docs_nav + contextual_section
+          end
+      end
+    end
+
+    private
+    def announcement_bar
+      link_to(Exercism::Routes.hiring_about_path, class: "announcement-bar") do
+        tag.div(class: "lg-container") do
+          tag.span("We’re hiring!") +
+            tag.strong("Come and join the Exercism team") +
+            tag.span("😁")
         end
       end
     end

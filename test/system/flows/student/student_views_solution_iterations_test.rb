@@ -256,7 +256,7 @@ module Flows
         end
       end
 
-      test "user views test run" do
+      test "user views v3 test run" do
         user = create :user
         track = create :track
         create :user_track, user: user, track: track
@@ -281,7 +281,65 @@ module Flows
           visit track_exercise_iterations_url(track, exercise)
           click_on "Tests"
 
-          assert_text "1 test failed"
+          assert_text "2 / 3 TASKS COMPLETED"
+        end
+      end
+
+      test "user views v2 test run" do
+        user = create :user
+        track = create :track
+        create :user_track, user: user, track: track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, exercise: exercise, user: user
+        submission = create :submission, solution: solution,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        create :iteration, solution: solution, submission: submission
+        create :submission_test_run,
+          submission: submission,
+          ops_status: 200,
+          raw_results: {
+            version: 2,
+            status: "fail",
+            tests: [{ name: :test_no_name_given, status: :fail }]
+          }
+
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_iterations_url(track, exercise)
+          click_on "Tests"
+
+          assert_text "1 TEST FAILURE"
+        end
+      end
+
+      test "user views v1 test run" do
+        user = create :user
+        track = create :track
+        create :user_track, user: user, track: track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, exercise: exercise, user: user
+        submission = create :submission, solution: solution,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        create :iteration, solution: solution, submission: submission
+        create :submission_test_run,
+          submission: submission,
+          ops_status: 200,
+          raw_results: {
+            version: 1,
+            status: "fail",
+            message: "Test 2 failed"
+          }
+
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_iterations_url(track, exercise)
+          click_on "Tests"
+
+          assert_text "TESTS FAILED"
         end
       end
 

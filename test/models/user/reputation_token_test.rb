@@ -78,4 +78,20 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
 
     assert 10, user.reload.reputation
   end
+
+  test "image_url for asset host that is domain" do
+    Rails.application.config.action_controller.expects(:asset_host).returns('http://test.exercism.org').at_least_once
+    reputation_token = create :user_reputation_token
+
+    assert_equal "http://test.exercism.org/assets/graphics/pull-request-open-8e7b2001eac43dd3a84577f0f5ccfca4c8cc9088.svg",
+      reputation_token.rendering_data[:icon_url]
+  end
+
+  test "image_url for asset host that is path" do
+    Rails.application.config.action_controller.expects(:asset_host).returns('/my-assets').at_least_once
+    reputation_token = create :user_reputation_token
+
+    assert_equal "/my-assets/assets/graphics/pull-request-open-8e7b2001eac43dd3a84577f0f5ccfca4c8cc9088.svg",
+      reputation_token.rendering_data[:icon_url]
+  end
 end

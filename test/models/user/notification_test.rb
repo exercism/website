@@ -67,13 +67,23 @@ class NotificationTest < ActiveSupport::TestCase
     assert_equal expected, notification.rendering_data
   end
 
-  test "image_url strips duplicate slashes" do
-    Rails.application.config.action_controller.expects(:asset_host).returns('http://test.exercism.org/').at_least_once
+  test "image_url for asset host that is domain" do
+    Rails.application.config.action_controller.expects(:asset_host).returns('http://test.exercism.org').at_least_once
     user = create :user
 
     notification = User::Notifications::AddedToContributorsPageNotification.create!(user:)
 
     assert_equal "http://test.exercism.org/assets/icons/contributors-8873894d89a89d8a22512b9253d17a57b91df2d7.svg",
+      notification.image_url
+  end
+
+  test "image_url for asset host that is path" do
+    Rails.application.config.action_controller.expects(:asset_host).returns('/my-assets').at_least_once
+    user = create :user
+
+    notification = User::Notifications::AddedToContributorsPageNotification.create!(user:)
+
+    assert_equal "/my-assets/assets/icons/contributors-8873894d89a89d8a22512b9253d17a57b91df2d7.svg",
       notification.image_url
   end
 end

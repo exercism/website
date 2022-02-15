@@ -71,7 +71,8 @@ const Task = ({ task, idx }: { task: AssignmentTask; idx: number }) => {
   const { current } = useContext(TasksContext)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const detailsRef = useRef<HTMLDetailsElement>(null)
-  const detailsProps = current === task.id ? { open: true } : {}
+  const detailsProps =
+    (current === null && idx === 0) || current === task.id ? { open: true } : {}
   const reducedMotion = useReducedMotion()
 
   useEffect(() => {

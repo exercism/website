@@ -18,7 +18,7 @@ export const TestRunOutput = ({
     )
   }
 
-  if (testRun.version >= 2) {
+  if (testRun.version >= 2 && testRun.tests.length > 0) {
     return (
       <TestsGroupedByStatusList
         tests={testRun.tests}

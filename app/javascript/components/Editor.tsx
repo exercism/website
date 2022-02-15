@@ -369,7 +369,8 @@ export default ({
                 value={{
                   current: task,
                   switchToTask: (id) => {
-                    setTask(id), setTab('instructions')
+                    setTask(id)
+                    setTab('instructions')
                   },
                   showJumpToInstructionButton: true,
                 }}

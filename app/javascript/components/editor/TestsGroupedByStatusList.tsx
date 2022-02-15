@@ -14,9 +14,9 @@ const Tests = ({
 }): JSX.Element => {
   return (
     <>
-      {tests.map((test) => (
+      {tests.map((test, i) => (
         <TestSummary
-          key={test.name}
+          key={i}
           test={test}
           defaultOpen={test.defaultOpen}
           language={language}

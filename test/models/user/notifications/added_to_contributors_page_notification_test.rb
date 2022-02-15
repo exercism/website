@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class User::Notifications::AddedToContributorsPageNotificationTest < ActiveSupport::TestCase
-  include ActionView::Helpers::AssetUrlHelper
+  include Propshaft::Helper
 
   test "keys are valid" do
     user = create :user

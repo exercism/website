@@ -31,4 +31,20 @@ class BlogPostTest < ActiveSupport::TestCase
     expected = "<p>This is some great blog content\nFTW!!</p>\n"
     assert_equal expected, create(:blog_post).content_html
   end
+
+  test "image_url for asset host that is domain" do
+    Rails.application.config.action_controller.expects(:asset_host).returns('http://test.exercism.org').at_least_once
+    blog_post = create :blog_post, image_url: nil
+
+    assert_equal "http://test.exercism.org/assets/graphics/blog-placeholder-article-242f2203f76126e572ded5bd56d8d7942e0475cf.svg",
+      blog_post.image_url
+  end
+
+  test "image_url for asset host that is path" do
+    Rails.application.config.action_controller.expects(:asset_host).returns('/my-assets').at_least_once
+    blog_post = create :blog_post, image_url: nil
+
+    assert_equal "/my-assets/assets/graphics/blog-placeholder-article-242f2203f76126e572ded5bd56d8d7942e0475cf.svg",
+      blog_post.image_url
+  end
 end

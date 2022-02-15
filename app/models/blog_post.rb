@@ -1,5 +1,5 @@
 class BlogPost < ApplicationRecord
-  include ActionView::Helpers::AssetUrlHelper
+  include Propshaft::Helper
 
   extend FriendlyId
   friendly_id :slug, use: [:history]
@@ -32,10 +32,7 @@ class BlogPost < ApplicationRecord
 
   def image_url
     attributes['image_url'].presence ||
-      [
-        Rails.application.config.action_controller.asset_host,
-        compute_asset_path("graphics/blog-placeholder-article.svg")
-      ].compact.join('/')
+      "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path('graphics/blog-placeholder-article.svg')}"
   end
 
   # TODO: Guarantee all posts have descriptions instead

@@ -1,6 +1,6 @@
 module API
   class Mentoring::DiscussionsController < BaseController
-    include ActionView::Helpers::AssetUrlHelper
+    include Propshaft::Helper
 
     # TODO: (Optional) Add filters (the criteria aren't the filters?)
     def index

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Solution::UncompleteTest < ActiveSupport::TestCase
+class Solution::UnpublishTest < ActiveSupport::TestCase
   test "unpublishes solution" do
     solution = create :concept_solution
     iteration = create :iteration, solution: solution

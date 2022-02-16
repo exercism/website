@@ -11,6 +11,7 @@ module API
       testimonials = testimonials.page(params[:page]).per(20)
 
       track_slugs = user.mentor_testimonials.published.joins(solution: { exercise: :track }).distinct.pluck('tracks.slug')
+      track_counts = user.mentor_testimonials.published.joins(solution: { exercise: :track }).group('tracks.slug').count
 
       serialized = {
         results: testimonials.map do |t|
@@ -39,7 +40,8 @@ module API
           total_count: testimonials.total_count,
           total_pages: testimonials.total_pages
         },
-        tracks: track_slugs
+        tracks: track_slugs,
+        track_counts: track_counts
       }
 
       render json: { testimonials: serialized }

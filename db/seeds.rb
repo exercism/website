@@ -39,7 +39,7 @@ iHiD.create_profile(
   linkedin: "iHiD",
   medium: "iHiD",
   website: "https://ihid.info"
-)
+) unless iHiD.profile
 User::AcquiredBadge::Create.(iHiD, :member)
 
 puts "Creating User erikSchierboom"
@@ -117,7 +117,7 @@ puts "exercism configure -a http://local.exercism.io:3020/api/v1 -t #{auth_token
 puts ""
 
 ruby = Track.find_by_slug(:ruby)
-user_track = UserTrack.create!(user: iHiD, track: ruby)
+user_track = UserTrack.create_or_find_by!(user: iHiD, track: ruby)
 solution = Solution::Create.(
   iHiD,
   ruby.practice_exercises.find_by!(slug: "hello-world")
@@ -138,7 +138,7 @@ Solution::Complete.(solution, user_track)
 Solution::Publish.(solution, user_track, [])
 
 ## Create mentoring solutions
-UserTrack.create!(user: erik, track: ruby)
+UserTrack.create_or_find_by!(user: erik, track: ruby)
 Solution::Create.( erik, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 
 solution = Solution::Create.( erik, ruby.concept_exercises.find_by!(slug: "lasagna"))
@@ -148,7 +148,7 @@ Iteration.create!(uuid: SecureRandom.uuid, submission: submission, solution: sol
 Mentor::Request.create!(solution: solution, comment_markdown: "I would like to improve the performance of my code")
 
 ## Create mentoring solutions
-UserTrack.create!(user: karlo, track: ruby, practice_mode: true)
+UserTrack.create_or_find_by!(user: karlo, track: ruby, practice_mode: true)
 Solution::Create.( karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 
 ruby.practice_exercises.limit(10).each do |exercise|

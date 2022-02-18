@@ -21,8 +21,12 @@ module IconsHelper
   end
 
   def track_icon(track, css_class: nil)
-    image_tag track.icon_url, alt: track.title,
-      class: "c-track-icon #{css_class} --#{track.slug}"
+    error_icon = image_path("graphics/missing-track.svg")
+
+    image_tag track.icon_url,
+      alt: track.title,
+      class: "c-track-icon #{css_class} --#{track.slug}",
+      onerror: "if (this.src != '#{error_icon}') this.src = '#{error_icon}';"
   end
 
   def exercise_icon(exercise, css_class: nil)

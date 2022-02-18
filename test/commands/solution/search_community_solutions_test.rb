@@ -162,11 +162,11 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :concept_exercise, track: track
     solution_1 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
-                                           num_stars: 11, published_at: Time.current, status: :published
+      num_stars: 11, published_at: Time.current, status: :published
     solution_2 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
-                                           num_stars: 22, published_at: Time.current, status: :published
+      num_stars: 22, published_at: Time.current, status: :published
     solution_3 = create :concept_solution, exercise: exercise, git_important_files_hash: 'different_hash', num_stars: 33,
-                                           published_at: Time.current, status: :published
+      published_at: Time.current, status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never

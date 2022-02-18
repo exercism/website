@@ -29,6 +29,8 @@ class TracksController < ApplicationController
       return render "tracks/about"
     end
 
+    return render_404 unless @track.active || current_user.maintainer?
+
     # TODO: (Optional) Move this into a method somewhere else and add tests
     data = @user_track.solutions.
       where('completed_at > ?', Time.current.beginning_of_week - 8.weeks).

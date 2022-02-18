@@ -13,7 +13,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     assert_response 404
   end
 
-  test "cancel should 404 if the solution belongs to someone else" do
+  test "cancel should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     submission = create :submission, solution: solution

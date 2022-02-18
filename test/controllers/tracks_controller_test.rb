@@ -17,6 +17,12 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     assert_template "tracks/index"
   end
 
+  test "show: 404s silently for missing track" do
+    get track_url('foobar')
+
+    assert_rendered_404
+  end
+
   test "show: renders correctly for active track" do
     track = create :track, active: true
 

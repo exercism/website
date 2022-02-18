@@ -35,5 +35,7 @@ class DocsController < ApplicationController
   def use_track
     @track = Track.find(params[:track_slug])
     @nav_docs = Document.where(track_id: @track.id)
+
+    render_404 unless @track.active || current_user&.maintainer?
   end
 end

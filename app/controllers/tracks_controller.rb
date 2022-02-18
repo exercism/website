@@ -29,8 +29,6 @@ class TracksController < ApplicationController
       return render "tracks/about"
     end
 
-    return render_404 unless @track.active || current_user.maintainer?
-
     # TODO: (Optional) Move this into a method somewhere else and add tests
     data = @user_track.solutions.
       where('completed_at > ?', Time.current.beginning_of_week - 8.weeks).
@@ -51,6 +49,8 @@ class TracksController < ApplicationController
   def use_track
     @track = Track.find(params[:id])
     @user_track = UserTrack.for(current_user, @track)
+
+    render_404 unless @track.active || current_user&.maintainer?
   rescue ActiveRecord::RecordNotFound
     render_404
   end

@@ -27,7 +27,7 @@ iHiD = User.find_by(handle: 'iHiD') || User.create!(
   bio: "Co-founder of Exercism. I'm an entrepreneur and software developer, and have been running a variety of businesses and non-for-profits for the last decade in the fields of medicine, education and artificial intelligence",
   location: "Bree, Middle Earth",
   pronouns: "He/Him",
-  roles: [:admin]
+  roles: [:admin, :maintainer]
 )
 iHiD.confirm
 iHiD.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
@@ -50,7 +50,7 @@ erik = User.find_by(handle: 'erikSchierboom') || User.create!(
   github_username: 'ErikSchierboom',
   password: 'password',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best.",
-  roles: [:admin]
+  roles: [:admin, :maintainer]
 )
 erik.confirm
 erik.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
@@ -64,7 +64,7 @@ karlo = User.find_by(handle: 'kntsoriano') || User.create!(
   password: 'password',
   github_username: 'kntsoriano',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best.",
-  roles: [:admin]
+  roles: [:admin, :maintainer]
 )
 karlo.confirm
 karlo.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)

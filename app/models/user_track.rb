@@ -92,6 +92,8 @@ class UserTrack < ApplicationRecord
   end
 
   def completed_percentage
+    return 100.0 if num_exercises.zero?
+
     c = (num_completed_exercises / num_exercises.to_f) * 100
     c.denominator == 1 ? c.round : c.round(1)
   end

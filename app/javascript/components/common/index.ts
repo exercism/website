@@ -24,6 +24,9 @@ export { SingleSelect } from './SingleSelect'
 export { MultipleSelect } from './MultipleSelect'
 export { SiteUpdatesList } from './SiteUpdatesList'
 export { ProgressGraph } from './ProgressGraph'
-export { imageErrorHandler } from './imageErrorHandler'
+export {
+  missingExerciseIconErrorHandler,
+  missingTrackIconErrorHandler,
+} from './imageErrorHandler'
 export { MedianWaitTime } from './MedianWaitTime'
 export { Checkbox } from './Checkbox'

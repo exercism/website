@@ -1,7 +1,7 @@
 import React from 'react'
 import { Contribution as ContributionProps } from '../../types'
 import {
-  imageErrorHandler,
+  missingExerciseIconErrorHandler,
   TrackIcon,
   Reputation,
   GraphicalIcon,
@@ -30,16 +30,11 @@ export const BuildingContributionsList = ({
   request: Request
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    [request.endpoint, request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+      [request.endpoint, request.query],
+      request
+    )
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -92,7 +87,7 @@ const Contribution = ({
         role="presentation"
         src={iconUrl}
         className="c-icon primary-icon"
-        onError={imageErrorHandler}
+        onError={missingExerciseIconErrorHandler}
       />
       <div className="info">
         <div

@@ -1,7 +1,7 @@
 import React from 'react'
 import { fromNow } from '../../utils/date'
 import {
-  imageErrorHandler,
+  missingExerciseIconErrorHandler,
   GraphicalIcon,
   TrackIcon,
   Reputation,
@@ -27,7 +27,7 @@ export const Contribution = ({
         role="presentation"
         src={iconUrl}
         className="c-icon primary-icon"
-        onError={imageErrorHandler}
+        onError={missingExerciseIconErrorHandler}
       />
       <div className="info">
         <div className="title" dangerouslySetInnerHTML={{ __html: text }} />

@@ -1,14 +1,19 @@
 import { assetUrl } from '../../utils/assets'
 
-const errorIcon = assetUrl('graphics/missing-exercise.svg')
+const missingExerciseIcon = assetUrl('graphics/missing-exercise.svg')
 
-export const imageErrorHandler = (
-  e: React.SyntheticEvent<HTMLImageElement, Event>
+const missingImageErrorHandler = (
+  e: React.SyntheticEvent<HTMLImageElement, Event>,
+  missingImage: string
 ) => {
   const el = e.target as HTMLImageElement
-  if ((el.src = errorIcon)) {
+  if ((el.src = missingExerciseIcon)) {
     return
   }
   el.onerror = null
-  el.src = errorIcon
+  el.src = missingImage
 }
+
+export const missingExerciseIconErrorHandler = (
+  e: React.SyntheticEvent<HTMLImageElement, Event>
+) => missingImageErrorHandler(e, missingExerciseIcon)

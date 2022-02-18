@@ -1,6 +1,10 @@
 import React from 'react'
 import { fromNow } from '../../../utils/time'
-import { imageErrorHandler, GraphicalIcon, Reputation } from '../../common'
+import {
+  missingExerciseIconErrorHandler,
+  GraphicalIcon,
+  Reputation,
+} from '../../common'
 import { ReputationToken } from '../Reputation'
 
 export const ReputationMenuItem = ({
@@ -26,7 +30,7 @@ export const ReputationMenuItem = ({
         role="presentation"
         src={iconUrl}
         className="reason-icon"
-        onError={imageErrorHandler}
+        onError={missingExerciseIconErrorHandler}
       />
       <div className="content">
         <div

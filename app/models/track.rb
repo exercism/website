@@ -85,7 +85,6 @@ class Track < ApplicationRecord
   end
 
   def highlightjs_language
-    # TODO: remove || slug once all tracks have updated their config.json
     git.highlightjs_language || slug
   end
 

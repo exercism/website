@@ -17,6 +17,7 @@ gem 'anycable-rails', '~> 1.2.0'
 
 # Serving requests
 gem 'puma', '~> 4.3'
+gem 'rack-cors'
 
 # Helper gems for Rails
 gem 'bootsnap', '>= 1.4.2', require: false

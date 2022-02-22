@@ -5,6 +5,10 @@ module.exports = {
     require('tailwindcss'),
     require('autoprefixer'),
     require('postcss-flexbugs-fixes'),
-    process.env.NODE_ENV === 'production' ? require('postcss-minify') : null,
+    process.env.NODE_ENV === 'production'
+      ? require('cssnano')({
+          preset: 'default',
+        })
+      : null,
   ],
 }

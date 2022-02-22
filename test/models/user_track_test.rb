@@ -196,6 +196,56 @@ class UserTrackTest < ActiveSupport::TestCase
     ], user_track.unlocked_practice_exercises
   end
 
+  test "all exercises are unlocked for admins" do
+    track = create :track
+    concept_exercise_1 = create :concept_exercise, :random_slug, track: track
+    concept_exercise_2 = create :concept_exercise, :random_slug, track: track
+    concept_exercise_3 = create :concept_exercise, :random_slug, track: track
+    concept_exercise_4 = create :concept_exercise, :random_slug, track: track
+
+    practice_exercise_1 = create :practice_exercise, :random_slug, track: track
+    practice_exercise_2 = create :practice_exercise, :random_slug, track: track
+    practice_exercise_3 = create :practice_exercise, :random_slug, track: track
+    practice_exercise_4 = create :practice_exercise, :random_slug, track: track
+
+    prereq_1 = create :concept, track: track
+    prereq_2 = create :concept, track: track
+
+    concept_exercise_1.taught_concepts << prereq_1
+    concept_exercise_1.taught_concepts << prereq_2
+
+    create(:exercise_prerequisite, exercise: concept_exercise_2, concept: prereq_1)
+    create(:exercise_prerequisite, exercise: practice_exercise_2, concept: prereq_1)
+    create(:exercise_prerequisite, exercise: concept_exercise_3, concept: prereq_1)
+    create(:exercise_prerequisite, exercise: practice_exercise_3, concept: prereq_1)
+    create(:exercise_prerequisite, exercise: concept_exercise_3, concept: prereq_2)
+    create(:exercise_prerequisite, exercise: practice_exercise_3, concept: prereq_2)
+    create(:exercise_prerequisite, exercise: concept_exercise_4, concept: prereq_2)
+    create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
+    hello_world = create :hello_world_exercise, track: track
+
+    user = create :user, roles: [:admin]
+    user_track = create :user_track, track: track, user: user
+
+    assert_equal [
+      concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4,
+      practice_exercise_1, practice_exercise_2, practice_exercise_3, practice_exercise_4,
+      hello_world
+    ], user_track.unlocked_exercises
+
+    assert_equal [
+      concept_exercise_1, concept_exercise_2, concept_exercise_3, concept_exercise_4
+    ], user_track.unlocked_concept_exercises
+
+    assert_equal [
+      practice_exercise_1,
+      practice_exercise_2,
+      practice_exercise_3,
+      practice_exercise_4,
+      hello_world
+    ], user_track.unlocked_practice_exercises
+  end
+
   test "in_progress_exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track

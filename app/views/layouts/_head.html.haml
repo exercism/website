@@ -2,10 +2,10 @@
 = stylesheet_link_tag "website", "data-turbo-track": "reload"
 
 - if landing_page?
-  - content_for :deferred do
-    / Get this rendered as the next thing
-    = javascript_include_tag('landing', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false)
+  / Get this rendered as the next thing
+  = javascript_include_tag('landing', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false)
 
+  - content_for :deferred do
     = stylesheet_link_tag "internal", "data-turbo-track": "reload"
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_include_tag('core', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)

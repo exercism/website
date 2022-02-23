@@ -33,14 +33,6 @@ const Tests = ({
   )
 }
 
-const Title = ({ task }: { task: TaskWithTestsWithToggle }): JSX.Element => {
-  return (
-    <>
-      <span>Task {task.id}</span> <span>{task.title}</span>
-    </>
-  )
-}
-
 const JumpToInstructionButton = ({
   taskId,
 }: {
@@ -50,7 +42,7 @@ const JumpToInstructionButton = ({
 
   return showJumpToInstructionButton ? (
     <button type="button" onClick={() => switchToTask(taskId)}>
-      Jump to Instruction
+      Jump to Instructions
     </button>
   ) : null
 }
@@ -100,15 +92,21 @@ export function TestsGroupedByTaskList({
       {tasksWithTestsWithToggle.map((task, i) => (
         <TestsGroup key={i} tests={task.tests} open={task.defaultOpen}>
           <TestsGroup.Header>
-            <GraphicalIcon
-              icon={
-                task.passing ? 'passed-check-circle' : 'failed-check-circle'
-              }
-              className="indicator"
-            />
-            <Title task={task} />
-            <GraphicalIcon icon="chevron-right" className="--closed-icon" />
-            <GraphicalIcon icon="chevron-down" className="--open-icon" />
+            <div
+              className={`task-marker ${task.passing ? 'passed' : 'pending'}`}
+            >
+              Task {task.id}
+            </div>
+            <div className="title">{task.title}</div>
+
+            {task.passing ? (
+              <GraphicalIcon
+                icon={'completed-check-circle'}
+                className="indicator"
+              />
+            ) : null}
+            <GraphicalIcon icon="plus" className="--closed-icon" />
+            <GraphicalIcon icon="minus" className="--open-icon" />
           </TestsGroup.Header>
           <Tests tests={task.tests} language={language} />
           <JumpToInstructionButton taskId={task.id} />

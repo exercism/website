@@ -160,9 +160,6 @@ const TestRunSummaryContent = ({
     case TestRunStatus.PASS: {
       return (
         <>
-          {testRun.version === 2 || testRun.version === 3 ? (
-            <TestRunOutput testRun={testRun} />
-          ) : null}
           {showSuccessBox ? (
             <div className="success-box">
               <GraphicalIcon icon="balloons" category="graphics" />
@@ -181,6 +178,9 @@ const TestRunSummaryContent = ({
                 ) : null}
               </div>
             </div>
+          ) : null}
+          {testRun.version === 2 || testRun.version === 3 ? (
+            <TestRunOutput testRun={testRun} />
           ) : null}
         </>
       )

@@ -32,7 +32,7 @@ class SerializeExerciseAssignment
   end
 
   def general_hints
-    hints["general"].to_a
+    hints[0].to_a
   end
 
   memoize
@@ -49,8 +49,8 @@ class SerializeExerciseAssignment
       next unless header.header_level == 2
       next unless list.type == :list
 
-      heading = parse_title(header).downcase
-      hints[heading] = list.each.map { |list_item| Markdown::Parse.(list_item.each.first.to_commonmark) }
+      task_id = parse_task_id(header)
+      hints[task_id] = list.each.map { |list_item| Markdown::Parse.(list_item.each.first.to_commonmark) }
     end
   end
 
@@ -65,9 +65,10 @@ class SerializeExerciseAssignment
       # sibling nodes up until the next header
       chunk_while { |_, nxt| nxt.type != :header }.
       map do |nodes|
-        task_title = parse_title(nodes.first)
+        task_id = parse_task_id(nodes.first)
+        task_title = parse_task_title(nodes.first)
         task_text = Markdown::Parse.(nodes[1..].each.map(&:to_commonmark).join("\n"))
-        task_hints = hints[task_title.downcase].to_a
+        task_hints = hints[task_id].to_a
 
         { title: task_title, text: task_text, hints: task_hints }
       end
@@ -87,9 +88,17 @@ class SerializeExerciseAssignment
     Markdown::Render.(solution.git_exercise.hints, :doc)
   end
 
-  def parse_title(header)
-    # Extract everything after the task number
+  def parse_task_title(header)
+    # Parse the task's title, which is everything after the task number
     # "## 2. Do stuff" becomes "Do stuff"
+    # "## General" becomes "General"
     header.to_plaintext.strip.gsub(/^(^\d+)\.\s*(.*)/, '\2')
+  end
+
+  def parse_task_id(header)
+    # Parse the task's ID, which is the starting number.
+    # "## 2. Do stuff" becomes 2
+    # "## General" becomes 0
+    header.to_plaintext.strip.gsub(/^(^\d+)\.\s*(.*)/, '\1').to_i
   end
 end

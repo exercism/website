@@ -281,7 +281,7 @@ module Flows
           visit track_exercise_iterations_url(track, exercise)
           click_on "Tests"
 
-          assert_text "2 / 3 TASKS COMPLETED"
+          assert_text "2 / 3 Tasks Completed"
         end
       end
 

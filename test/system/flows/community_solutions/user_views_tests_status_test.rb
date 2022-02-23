@@ -27,7 +27,7 @@ module Flows
           visit track_exercise_solution_url(track, exercise, "author")
           click_on "Failed"
 
-          assert_text "2 / 3 TASKS COMPLETED"
+          assert_text "2 / 3 Tasks Completed"
         end
       end
 

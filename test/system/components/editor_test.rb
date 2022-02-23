@@ -184,7 +184,7 @@ module Components
           }
         Submission::TestRunsChannel.broadcast!(test_run)
 
-        assert_text "2 / 3 TASKS COMPLETED"
+        assert_text "2 / 3 Tasks Completed"
       end
     end
 

@@ -64,7 +64,7 @@ export function TestsGroupedByStatusList({
     })
 
   return (
-    <div className="tests-list">
+    <div className="tests-grouped-by-status">
       <TestsGroup tests={passed}>
         <TestsGroup.Header>
           <GraphicalIcon icon="passed-check-circle" className="indicator" />

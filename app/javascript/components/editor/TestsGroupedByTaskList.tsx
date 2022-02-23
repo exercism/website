@@ -96,7 +96,7 @@ export function TestsGroupedByTaskList({
     }))
 
   return (
-    <div className="tests-list">
+    <div className="tests-grouped-by-task">
       {tasksWithTestsWithToggle.map((task, i) => (
         <TestsGroup key={i} tests={task.tests} open={task.defaultOpen}>
           <TestsGroup.Header>

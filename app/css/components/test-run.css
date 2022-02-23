@@ -1,26 +1,58 @@
 @import "../styles";
 
 .c-test-run {
+    & .progress {
+        &,
+        & .bar {
+            height: 4px;
+        }
+
+        &.failed:not(.grouped-by-task),
+        &.errored {
+            @apply bg-lightRed;
+            & .bar {
+                @apply bg-red;
+            }
+        }
+        &.failed.grouped-by-task {
+            @apply bg-veryLightBlue;
+            & .bar {
+                background: linear-gradient(180deg, #2200ff 0%, #9e00ff 100%);
+            }
+        }
+        &.passed {
+            @apply bg-veryLightGreen;
+
+            & .bar {
+                @apply bg-literallySoManyGreens;
+            }
+        }
+    }
     & .summary-status {
         @apply flex items-center justify-center;
-        @apply pt-6 pb-8 px-8 border-t-4 mb-24;
-        @apply font-bold font-mono uppercase leading-code;
+        @apply pt-6 pb-8 px-8 mb-24;
+        @apply font-bold font-mono leading-code;
         & .--dot {
             @apply rounded-circle mr-12;
             height: 8px;
             width: 8px;
         }
-        &.failed,
+        &.failed:not(.grouped-by-task),
         &.errored {
-            @apply bg-lightRed text-red;
-            @apply border-red;
+            @apply bg-lightRed text-red uppercase;
             & .--dot {
                 @apply bg-red;
             }
         }
+        &.failed.grouped-by-task {
+            @apply bg-veryLightBlue text-textColor2;
+
+            & .--dot {
+                @apply hidden;
+            }
+        }
         &.passed {
-            @apply bg-veryLightGreen text-darkGreen;
-            @apply border-literallySoManyGreens;
+            @apply bg-veryLightGreen text-darkGreen uppercase;
             & .--dot {
                 @apply bg-darkGreen;
             }
@@ -70,7 +102,7 @@
     }
 
     & .tests-grouped-by-status {
-        @apply px-24 pb-16;
+        @apply px-24;
 
         & .tests-group-summary {
             @apply inline-block;
@@ -98,6 +130,9 @@
             &:first-child {
                 @apply border-t-0;
                 margin-top: -16px;
+            }
+            &:last-child {
+                @apply border-b-0;
             }
         }
 
@@ -222,5 +257,8 @@
                 }
             }
         }
+    }
+    & .instructions-btn {
+        @apply border-borderColor6 text-textColor6;
     }
 }

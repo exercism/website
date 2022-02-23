@@ -41,7 +41,11 @@ const JumpToInstructionButton = ({
   const { switchToTask, showJumpToInstructionButton } = useContext(TasksContext)
 
   return showJumpToInstructionButton ? (
-    <button type="button" onClick={() => switchToTask(taskId)}>
+    <button
+      className="instructions-btn btn-enhanced btn-s"
+      type="button"
+      onClick={() => switchToTask(taskId)}
+    >
       Jump to Instructions
     </button>
   ) : null

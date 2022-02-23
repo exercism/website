@@ -68,12 +68,21 @@ export const TestRunSummary = ({
 const TestRunSummaryStatus = ({
   statusClass,
   children,
-}: React.PropsWithChildren<{ statusClass: string }>): JSX.Element => {
+  percentagePassing,
+}: React.PropsWithChildren<{
+  status: string
+  percentagePassing: number
+}>): JSX.Element => {
   return (
-    <div className={`summary-status ${statusClass}`} role="status">
-      <span className="--dot" />
-      {children}
-    </div>
+    <>
+      <div className={`progress ${statusClass}`}>
+        <div className="bar" style={{ width: `${percentagePassing}%` }} />
+      </div>
+      <div className={`summary-status ${statusClass}`} role="status">
+        <span className="--dot" />
+        {children}
+      </div>
+    </>
   )
 }
 
@@ -91,17 +100,29 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
             .filter((test) => test.taskId !== undefined)
             .map((test) => test.taskId)
         ).size
-        // TODO: render background as percentage
+
         return (
-          <TestRunSummaryStatus statusClass="failed">
+          <TestRunSummaryStatus
+            statusClass="failed grouped-by-task"
+            percentagePassing={
+              ((testRun.tests.length - failed.length) / testRun.tests.length) *
+              100
+            }
+          >
             {testRun.tasks.length - numFailedTasks} / {testRun.tasks.length}{' '}
-            tasks completed
+            Tasks Completed
           </TestRunSummaryStatus>
         )
       }
 
       return (
-        <TestRunSummaryStatus statusClass="failed">
+        <TestRunSummaryStatus
+          statusClass="failed"
+          percentagePassing={
+            ((testRun.tests.length - failed.length) / testRun.tests.length) *
+            100
+          }
+        >
           <TestRunSummaryByStatusHeaderMessage
             version={testRun.version}
             numFailedTests={failed.length}
@@ -112,27 +133,27 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
     case TestRunStatus.PASS:
       if (testRun.version >= 3 && testRun.tasks.length > 0) {
         return (
-          <TestRunSummaryStatus statusClass="passed">
+          <TestRunSummaryStatus statusClass="passed" percentagePassing={100}>
             All tasks passed
           </TestRunSummaryStatus>
         )
       }
 
       return (
-        <TestRunSummaryStatus statusClass="passed">
+        <TestRunSummaryStatus statusClass="passed" percentagePassing={100}>
           All tests passed
         </TestRunSummaryStatus>
       )
     case TestRunStatus.ERROR:
     case TestRunStatus.OPS_ERROR:
       return (
-        <TestRunSummaryStatus statusClass="errored">
+        <TestRunSummaryStatus statusClass="errored" percentagePassing={100}>
           An error occurred
         </TestRunSummaryStatus>
       )
     case TestRunStatus.TIMEOUT:
       return (
-        <TestRunSummaryStatus statusClass="errored">
+        <TestRunSummaryStatus statusClass="errored" percentagePassing={100}>
           Your tests timed out
         </TestRunSummaryStatus>
       )

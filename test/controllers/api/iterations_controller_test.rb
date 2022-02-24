@@ -15,7 +15,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_response 404
   end
 
-  test "latest_status should 404 if the solution belongs to someone else" do
+  test "latest_status should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
@@ -81,13 +81,13 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_response 404
   end
 
-  test "create should 404 if the submission doesn't exist" do
+  test "create should 403 if the submission doesn't exist" do
     setup_user
     post api_solution_iterations_path(create(:concept_solution).uuid, submission_id: 999), headers: @headers, as: :json
     assert_response 403
   end
 
-  test "create should 404 if the solution belongs to someone else" do
+  test "create should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     submission = create :submission, solution: solution
@@ -172,7 +172,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_equal expected.to_json, response.body
   end
 
-  test "destroy should 404 if the solution belongs to someone else" do
+  test "destroy should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     iteration = create :iteration, solution: solution

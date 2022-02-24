@@ -13,7 +13,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     assert_response 404
   end
 
-  test "create should 404 if the solution belongs to someone else" do
+  test "create should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     create :user_track, user: @current_user, track: solution.track

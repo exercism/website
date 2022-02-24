@@ -38,6 +38,31 @@ class Tracks::CommunitySolutionsControllerTest < ActionDispatch::IntegrationTest
     assert_rendered_404
   end
 
+  test "show: 404s silently for published solution on inactive track and user is not a maintainer" do
+    exercise = create :practice_exercise
+    exercise.track.update!(active: false)
+    solution = create :practice_solution, :published, exercise: exercise
+
+    sign_in!(solution.user)
+
+    get track_exercise_solution_url(exercise.track, exercise, solution.user)
+
+    assert_rendered_404
+  end
+
+  test "show: 200s for published solution on inactive track and user is a maintainer" do
+    exercise = create :practice_exercise
+    exercise.track.update!(active: false)
+    solution = create :practice_solution, :published, exercise: exercise
+    solution.user.update!(roles: [:maintainer])
+
+    sign_in!(solution.user)
+
+    get track_exercise_solution_url(exercise.track, exercise, solution.user.reload)
+
+    assert_response 200
+  end
+
   test "show: 200s for published solution" do
     exercise = create :practice_exercise
     solution = create :practice_solution, :published, exercise: exercise

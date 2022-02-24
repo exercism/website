@@ -23,6 +23,36 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     assert_rendered_404
   end
 
+  test "show: renders correctly for active track" do
+    track = create :track, active: true
+
+    get track_url(track)
+
+    assert_response 200
+  end
+
+  test "show: renders correctly for inactive track but user is a maintainer" do
+    user = create :user, roles: [:maintainer]
+    sign_in!(user)
+    track = create :track, active: false
+    create :user_track, user: user, track: track
+
+    get track_url(track)
+
+    assert_response 200
+  end
+
+  test "show: 404s silently for inactive track and user is not a maintainer" do
+    user = create :user, roles: []
+    sign_in!(user)
+    track = create :track, active: false
+    create :user_track, user: user, track: track
+
+    get track_url(track)
+
+    assert_rendered_404
+  end
+
   test "about shows for joined member" do
     user = create :user
     track = create :track

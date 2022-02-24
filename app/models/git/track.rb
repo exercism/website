@@ -146,7 +146,7 @@ module Git
 
     memoize
     def online_editor
-      config[:online_editor]
+      config[:online_editor] || {}
     end
 
     memoize

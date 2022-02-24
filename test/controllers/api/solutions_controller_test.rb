@@ -98,7 +98,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     )
   end
 
-  test "Show should 404 if the solution belongs to someone else" do
+  test "Show should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     get api_solution_path(solution.uuid), headers: @headers, as: :json
@@ -159,7 +159,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     )
   end
 
-  test "Diff should 404 if the solution belongs to someone else" do
+  test "Diff should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     get diff_api_solution_path(solution.uuid), headers: @headers, as: :json
@@ -234,7 +234,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     )
   end
 
-  test "complete should 404 if the solution belongs to someone else" do
+  test "complete should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     patch complete_api_solution_path(solution.uuid), headers: @headers, as: :json
@@ -418,7 +418,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     )
   end
 
-  test "publish should 404 if the solution belongs to someone else" do
+  test "publish should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     patch publish_api_solution_path(solution.uuid), headers: @headers, as: :json
@@ -538,7 +538,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     )
   end
 
-  test "unpublish should 404 if the solution belongs to someone else" do
+  test "unpublish should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     patch unpublish_api_solution_path(solution.uuid), headers: @headers, as: :json

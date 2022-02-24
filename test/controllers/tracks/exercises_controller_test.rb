@@ -29,6 +29,28 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     assert_template "tracks/exercises/index"
   end
 
+  test "index: renders correctly for inactive track and user is a maintainer" do
+    user = create :user, roles: [:maintainer]
+    track = create :track, active: false
+
+    sign_in!(user)
+
+    get track_exercises_url(track)
+
+    assert_template "tracks/exercises/index"
+  end
+
+  test "index: 404s silently for inactive track and user is not a maintainer" do
+    user = create :user
+    track = create :track, active: false
+
+    sign_in!(user)
+
+    get track_exercises_url(track)
+
+    assert_rendered_404
+  end
+
   test "show: 404s silently for missing track" do
     get track_exercise_url('foobar', 'foobar')
 
@@ -39,6 +61,29 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     get track_exercise_url(create(:track), 'foobar')
 
     assert_rendered_404
+  end
+
+  test "show: 404s silently for inactive track and user is not a maintainer" do
+    user = create :user
+    track = create :track, active: false
+    exercise = create :practice_exercise, track: track
+
+    sign_in!(user)
+
+    get track_exercise_url(exercise.track, exercise)
+
+    assert_rendered_404
+  end
+
+  test "show: renders correctly for inactive track and user is a maintainer" do
+    user = create :user, roles: [:maintainer]
+    track = create :track, active: false
+    exercise = create :practice_exercise, track: track
+
+    sign_in!(user)
+
+    get track_exercise_url(exercise.track, exercise)
+    assert_template "tracks/exercises/show"
   end
 
   test "concept/show: renders correctly for external" do

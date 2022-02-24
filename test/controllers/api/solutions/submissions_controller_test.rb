@@ -12,7 +12,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     assert_response 404
   end
 
-  test "create should 404 if the solution belongs to someone else" do
+  test "create should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     post api_solution_submissions_path(solution.uuid), headers: @headers, as: :json

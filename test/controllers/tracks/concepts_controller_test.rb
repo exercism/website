@@ -49,6 +49,27 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     assert_template "tracks/concepts/index"
   end
 
+  test "index: renders correctly for inactive track and user is a maintainer" do
+    user = create :user, roles: [:maintainer]
+    track = create :track, active: false, course: true
+
+    sign_in!(user)
+
+    get track_concepts_url(track)
+    assert_template "tracks/concepts/index"
+  end
+
+  test "index: 404s silently for inactive track and user is not a maintainer" do
+    user = create :user
+    track = create :track, active: false, course: true
+
+    sign_in!(user)
+
+    get track_concepts_url(track)
+
+    assert_rendered_404
+  end
+
   test "show: 404s silently for missing track" do
     get track_concept_url('foobar', 'foobar')
 
@@ -57,6 +78,31 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
 
   test "show: 404s silently for missing concept" do
     get track_concept_url(create(:track), 'foobar')
+
+    assert_rendered_404
+  end
+
+  test "show: renders correctly for inactive track and user is a maintainer" do
+    concept = create :concept, :with_git_data
+    concept.track.update!(active: false)
+    user = create :user, roles: [:maintainer]
+    ut = create :user_track, track: concept.track, user: user
+
+    sign_in!(user)
+
+    get track_concept_url(ut.track, concept)
+    assert_template "tracks/concepts/show"
+  end
+
+  test "show: 404s silently for inactive track and user is not a maintainer" do
+    concept = create :concept, :with_git_data
+    concept.track.update!(active: false)
+    user = create :user
+    ut = create :user_track, track: concept.track, user: user
+
+    sign_in!(user)
+
+    get track_concept_url(ut.track, concept)
 
     assert_rendered_404
   end

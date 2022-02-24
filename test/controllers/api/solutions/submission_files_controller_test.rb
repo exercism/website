@@ -21,7 +21,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "index should return 404 when submission is inaccessible" do
+  test "index should return 403 when submission is inaccessible" do
     setup_user
     submission = create :submission
 

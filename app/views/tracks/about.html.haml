@@ -67,7 +67,8 @@
           %h2
             %em.c-underline #{@user_track.num_exercises} coding exercises
             for #{@track.title} on Exercism.
-            From #{@showcase_exercises.first.title} to #{@showcase_exercises.last.title}.
+            - unless @showcase_exercises.empty?
+              From #{@showcase_exercises.first.title} to #{@showcase_exercises.last.title}.
           %hr.c-divider
           %p Get better at programming through fun, rewarding coding exercises that test your understanding of concepts with Exercism.
 

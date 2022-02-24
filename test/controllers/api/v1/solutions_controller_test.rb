@@ -249,7 +249,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     assert_response 404
   end
 
-  test "update should 404 if the solution belongs to someone else" do
+  test "update should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     patch api_v1_solution_path(solution.uuid), headers: @headers, as: :json

@@ -67,6 +67,24 @@ class SerializeTrackTest < ActiveSupport::TestCase
     assert_equal last_touched_at.iso8601, data[:last_touched_at]
   end
 
+  test "is_new is true for new track" do
+    track = create :track, created_at: Time.current - 5.months
+    user_track = create :user_track, track: track
+
+    data = SerializeTrack.(track, user_track)
+
+    assert data[:is_new]
+  end
+
+  test "is_new is false for old track" do
+    track = create :track, created_at: Time.current - 1.year
+    user_track = create :user_track, track: track
+
+    data = SerializeTrack.(track, user_track)
+
+    refute data[:is_new]
+  end
+
   test "with user joined and progressed" do
     track = create :track
 

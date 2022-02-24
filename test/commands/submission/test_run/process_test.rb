@@ -163,6 +163,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
     assert submission.reload.tests_not_queued?
     assert submission.solution.reload.published_iteration_head_tests_status_passed?
+    assert submission.solution.reload.latest_iteration_head_tests_status_passed?
   end
 
   test "changes solution and submission if they're the same" do

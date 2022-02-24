@@ -528,6 +528,7 @@ ActiveRecord::Schema.define(version: 2021_12_18_160303) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "published_iteration_head_tests_status", default: 0, null: false
+    t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true

@@ -82,6 +82,52 @@ module Pages
           end
         end
 
+        test "exercise page always unlocked for admin user" do
+          track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+          ce_1 = create :concept_exercise, track: track, slug: 'movie'
+          ce_2 = create :concept_exercise, track: track, slug: 'team'
+          ce_3 = create :concept_exercise, track: track, slug: 'book', status: :deprecated
+          pe_1 = create :practice_exercise, track: track, slug: 'bob'
+          pe_2 = create :practice_exercise, track: track, slug: 'iso'
+          c_1 = create :concept, track: track, slug: 'basics'
+          c_2 = create :concept, track: track, slug: 'strings'
+          ce_1.taught_concepts << c_1
+          ce_2.taught_concepts << c_2
+          ce_3.taught_concepts << c_1
+          ce_2.prerequisites << c_1
+          pe_1.prerequisites << c_1
+          pe_2.prerequisites << c_1
+          pe_2.prerequisites << c_2
+
+          user = create :user, roles: [:admin]
+          create :user_track, user: user, track: track
+
+          use_capybara_host do
+            sign_in!(user)
+
+            # Normally locked due to 'hello-world' exercise not being completed
+            visit track_exercise_path(track, ce_1)
+            assert_text "Start Movie"
+
+            # Normally locked due to 'basics' Concept not being unlocked, which is taught by the 'movie' Concept Exercise)
+            visit track_exercise_path(track, ce_2)
+            assert_text "Start Team"
+
+            # Normally locked due to 'basics' Concept not being unlocked, which is taught by the 'movie' Concept Exercise)
+            visit track_exercise_path(track, pe_1)
+            assert_text "Start Bob"
+
+            # Normally locked due to 'basics' Concept not being unlocked, which is taught by the 'movie' Concept Exercise)
+            # Normally locked due to 'strings' Concept not being unlocked, which is taught by the 'team' Concept Exercise)
+            visit track_exercise_path(track, pe_2)
+            assert_text "Start Iso"
+
+            # Normally locked due to 'strings' Concept not being unlocked, which is taught by the 'team' Concept Exercise)
+            visit track_exercise_path(track, pe_2)
+            assert_text "Start Iso"
+          end
+        end
+
         test "exercise page for exercise with append instructions" do
           track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
           pe = create :practice_exercise, track: track, slug: 'bob', status: :active

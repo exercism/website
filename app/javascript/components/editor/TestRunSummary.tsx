@@ -1,6 +1,6 @@
 import React from 'react'
 import { TestRun, TestRunnerStatus, TestRunStatus, TestStatus } from './types'
-import { TestRunSummaryHeaderMessage } from './TestRunSummaryHeaderMessage'
+import { TestRunSummaryByStatusHeaderMessage } from './TestRunSummaryByStatusHeaderMessage'
 import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
 import { GraphicalIcon } from '../common'
@@ -65,6 +65,27 @@ export const TestRunSummary = ({
   )
 }
 
+const TestRunSummaryStatus = ({
+  statusClass,
+  children,
+  percentagePassing,
+}: React.PropsWithChildren<{
+  status: string
+  percentagePassing: number
+}>): JSX.Element => {
+  return (
+    <>
+      <div className={`progress ${statusClass}`}>
+        <div className="bar" style={{ width: `${percentagePassing}%` }} />
+      </div>
+      <div className={`summary-status ${statusClass}`} role="status">
+        <span className="--dot" />
+        {children}
+      </div>
+    </>
+  )
+}
+
 const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
   switch (testRun.status) {
     case TestRunStatus.FAIL: {
@@ -73,37 +94,68 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
           test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
       )
 
+      if (testRun.version >= 3 && testRun.tasks.length > 0) {
+        const numFailedTasks = new Set(
+          failed
+            .filter((test) => test.taskId !== undefined)
+            .map((test) => test.taskId)
+        ).size
+
+        return (
+          <TestRunSummaryStatus
+            statusClass="failed grouped-by-task"
+            percentagePassing={
+              ((testRun.tests.length - failed.length) / testRun.tests.length) *
+              100
+            }
+          >
+            {testRun.tasks.length - numFailedTasks} / {testRun.tasks.length}{' '}
+            Tasks Completed
+          </TestRunSummaryStatus>
+        )
+      }
+
       return (
-        <div className="summary-status failed" role="status">
-          <span className="--dot" />
-          <TestRunSummaryHeaderMessage
+        <TestRunSummaryStatus
+          statusClass="failed"
+          percentagePassing={
+            ((testRun.tests.length - failed.length) / testRun.tests.length) *
+            100
+          }
+        >
+          <TestRunSummaryByStatusHeaderMessage
             version={testRun.version}
             numFailedTests={failed.length}
           />
-        </div>
+        </TestRunSummaryStatus>
       )
     }
     case TestRunStatus.PASS:
+      if (testRun.version >= 3 && testRun.tasks.length > 0) {
+        return (
+          <TestRunSummaryStatus statusClass="passed" percentagePassing={100}>
+            All tasks passed
+          </TestRunSummaryStatus>
+        )
+      }
+
       return (
-        <div className="summary-status passed" role="status">
-          <span className="--dot" />
+        <TestRunSummaryStatus statusClass="passed" percentagePassing={100}>
           All tests passed
-        </div>
+        </TestRunSummaryStatus>
       )
     case TestRunStatus.ERROR:
     case TestRunStatus.OPS_ERROR:
       return (
-        <div className="summary-status errored" role="status">
-          <span className="--dot" />
+        <TestRunSummaryStatus statusClass="errored" percentagePassing={100}>
           An error occurred
-        </div>
+        </TestRunSummaryStatus>
       )
     case TestRunStatus.TIMEOUT:
       return (
-        <div className="summary-status errored" role="status">
-          <span className="--dot" />
+        <TestRunSummaryStatus statusClass="errored" percentagePassing={100}>
           Your tests timed out
-        </div>
+        </TestRunSummaryStatus>
       )
     default:
       return null
@@ -129,9 +181,6 @@ const TestRunSummaryContent = ({
     case TestRunStatus.PASS: {
       return (
         <>
-          {testRun.version === 2 || testRun.version === 3 ? (
-            <TestRunOutput testRun={testRun} />
-          ) : null}
           {showSuccessBox ? (
             <div className="success-box">
               <GraphicalIcon icon="balloons" category="graphics" />
@@ -150,6 +199,9 @@ const TestRunSummaryContent = ({
                 ) : null}
               </div>
             </div>
+          ) : null}
+          {testRun.version === 2 || testRun.version === 3 ? (
+            <TestRunOutput testRun={testRun} />
           ) : null}
         </>
       )

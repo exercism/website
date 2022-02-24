@@ -64,7 +64,19 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert tr.failed?
   end
 
-  test "test_results" do
+  test "test_results - version 1" do
+    tr = create :submission_test_run, raw_results: {
+      version: 1,
+      status: 'fail',
+      message: 'Test 2 failed'
+    }
+    assert_equal 1, tr.version
+    assert_equal :fail, tr.status
+    assert_equal 'Test 2 failed', tr.message
+    assert_empty tr.test_results
+  end
+
+  test "test_results - version 2" do
     name = "some name"
     status = "some status"
     test_code = "some cmd"
@@ -81,7 +93,13 @@ class Submission::TestRunTest < ActiveSupport::TestCase
       'output' => output
     }]
 
-    tr = create :submission_test_run, raw_results: { tests: tests }
+    tr = create :submission_test_run, raw_results: {
+      version: 2,
+      status: 'pass',
+      tests: tests
+    }
+    assert_equal 2, tr.version
+    assert_equal :pass, tr.status
     assert_equal 1, tr.test_results.size
     result = tr.test_results.first
 
@@ -93,7 +111,54 @@ class Submission::TestRunTest < ActiveSupport::TestCase
       message_html: message,
       expected: expected,
       output: output,
-      output_html: "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>"
+      output_html: "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>",
+      task_id: nil
+    }
+
+    assert_equal test_as_hash, result.to_h
+    assert_equal test_as_hash.to_json, result.to_json
+    assert_equal test_as_hash, result.as_json(1, 2, 3) # Test with arbitary args
+  end
+
+  test "test_results - version 3" do
+    name = "some name"
+    status = "some status"
+    test_code = "some cmd"
+    message = "some message"
+    expected = "Some expected"
+    output = "\e[31mHello\e[0m\e[34mWorld\e[0"
+    task_id = 7
+
+    tests = [{
+      'name' => name,
+      'status' => status,
+      'test_code' => test_code,
+      'message' => message,
+      'expected' => expected,
+      'output' => output,
+      'task_id' => task_id
+    }]
+
+    tr = create :submission_test_run, raw_results: {
+      version: 3,
+      status: 'pass',
+      tests: tests
+    }
+    assert_equal 3, tr.version
+    assert_equal :pass, tr.status
+    assert_equal 1, tr.test_results.size
+    result = tr.test_results.first
+
+    test_as_hash = {
+      name: name,
+      status: status.to_sym,
+      test_code: test_code,
+      message: message,
+      message_html: message,
+      expected: expected,
+      output: output,
+      output_html: "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>",
+      task_id: task_id
     }
 
     assert_equal test_as_hash, result.to_h

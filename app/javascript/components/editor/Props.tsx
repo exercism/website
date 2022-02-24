@@ -6,6 +6,12 @@ export type EditorFeatures = {
   keybindings: boolean
 }
 
+export type TaskContext = {
+  current: number | null
+  switchToTask: (id: number) => void
+  showJumpToInstructionButton: boolean
+}
+
 type Links = {
   runTests: string
   back: string

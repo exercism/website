@@ -64,13 +64,13 @@ class SerializeExerciseAssignment
       # Convert to chunks that start with a header node and subsequent
       # sibling nodes up until the next header
       chunk_while { |_, nxt| nxt.type != :header }.
-      map do |nodes|
+      map.with_index do |nodes, i|
         task_id = parse_task_id(nodes.first)
         task_title = parse_task_title(nodes.first)
         task_text = Markdown::Parse.(nodes[1..].each.map(&:to_commonmark).join("\n"))
         task_hints = hints[task_id].to_a
 
-        { title: task_title, text: task_text, hints: task_hints }
+        { id: i + 1, title: task_title, text: task_text, hints: task_hints }
       end
   end
 

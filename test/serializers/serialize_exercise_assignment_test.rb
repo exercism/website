@@ -68,6 +68,15 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     assert_equal expected, serialized[:overview]
   end
 
+  test "serialize concept exercise task ids" do
+    solution = create :concept_solution
+
+    serialized = SerializeExerciseAssignment.(solution)
+
+    expected = [1, 2, 3]
+    assert_equal expected, (serialized[:tasks].map { |task| task[:id] })
+  end
+
   test "serialize concept exercise task titles" do
     solution = create :concept_solution
 

@@ -110,7 +110,7 @@ export const MentoringRequestForm = ({
           </label>
           <p id="request-mentoring-form-solution-description">
             Give your mentor a starting point for the conversation. This will be
-            your first comment on during the session.
+            your first comment during the session. Markdown is permitted.
           </p>
           <textarea
             ref={solutionCommentRef}

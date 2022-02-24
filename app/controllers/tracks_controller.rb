@@ -50,7 +50,7 @@ class TracksController < ApplicationController
     @track = Track.find(params[:id])
     @user_track = UserTrack.for(current_user, @track)
 
-    render_404 unless @track.active || current_user&.maintainer?
+    render_404 unless @track.accessible_by?(current_user)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

@@ -23,7 +23,7 @@ module API
         return render_404(:track_not_found, fallback_url: tracks_url)
       end
 
-      return render_404(:track_not_found, fallback_url: tracks_url) unless track.active || current_user.maintainer?
+      return render_404(:track_not_found, fallback_url: tracks_url) unless track.accessible_by?(current_user)
 
       render json: {
         track: {

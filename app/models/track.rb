@@ -93,6 +93,10 @@ class Track < ApplicationRecord
     git.average_test_duration + INFRASTRUCTURE_DURATION_S
   end
 
+  def accessible_by?(user)
+    active || user&.maintainer? || user&.admin?
+  end
+
   CATGEORIES = {
     paradigm: "Paradigm",
     typing: "Typing",

@@ -18,6 +18,7 @@ class Submission
 
       private
       attr_reader :submission, :git_sha, :type, :run_in_background
+
       delegate :solution, to: :submission
 
       # rubocop:disable Style/IfUnlessModifier
@@ -35,7 +36,6 @@ class Submission
       end
       # rubocop:enable Style/GuardClause
       # rubocop:enable Style/IfUnlessModifier
-
     end
   end
 end

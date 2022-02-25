@@ -13,7 +13,7 @@ module API
         solution.submissions.last :
         solution.latest_iteration.submission
 
-      content = submission ? submission.files.find_by(filename: params[:filepath])&.content : nil
+      content = submission.files.find_by(filename: params[:filepath])&.content if submission
 
       unless content
         begin

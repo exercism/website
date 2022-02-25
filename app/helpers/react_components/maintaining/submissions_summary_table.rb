@@ -42,8 +42,12 @@ module ReactComponents
         def tests_data
           data = submission.tests_status
           if submission.tests_errored? || submission.tests_exceptioned?
-            job = Exercism::ToolingJob.find(submission.test_run.tooling_job_id)
-            data = append_exception_data(data, job)
+            begin
+              job = Exercism::ToolingJob.find(submission.test_run.tooling_job_id)
+              data = append_exception_data(data, job)
+            rescue StandardError
+              # Silently ignore missing tooling job data
+            end
           end
           data
         end
@@ -51,8 +55,12 @@ module ReactComponents
         def representer_data
           data = submission.representation_status
           if submission.representation_exceptioned?
-            job = Exercism::ToolingJob.find(submission.submission_representation.tooling_job_id)
-            data = append_exception_data(data, job)
+            begin
+              job = Exercism::ToolingJob.find(submission.submission_representation.tooling_job_id)
+              data = append_exception_data(data, job)
+            rescue StandardError
+              # Silently ignore missing tooling job data
+            end
           end
           data
         end
@@ -60,8 +68,12 @@ module ReactComponents
         def analyzer_data
           data = submission.analysis_status
           if submission.analysis_exceptioned?
-            job = Exercism::ToolingJob.new(submission.analysis.tooling_job_id, {})
-            data = append_exception_data(data, job)
+            begin
+              job = Exercism::ToolingJob.new(submission.analysis.tooling_job_id, {})
+              data = append_exception_data(data, job)
+            rescue StandardError
+              # Silently ignore missing tooling job data
+            end
           elsif submission.analysis
             data += "\n\n#{submission.analysis.send(:data)}"
           end

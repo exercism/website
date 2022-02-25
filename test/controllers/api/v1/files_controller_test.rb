@@ -51,7 +51,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     assert_equal response.body, content
   end
 
-  test "show should latest iteration, not latest submission" do
+  test "show should return latest iteration, not latest submission" do
     setup_user
     solution = create :practice_solution, user: @current_user
 

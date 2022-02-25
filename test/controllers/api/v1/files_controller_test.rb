@@ -84,9 +84,9 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     create :submission_file, submission: iteration_submission, filename: filename, content: correct_content
     create :iteration, solution: solution, submission: iteration_submission
 
-    iteration_submission = create :submission, solution: solution
-    create :submission_file, submission: iteration_submission, filename: filename, content: "deleted-code"
-    create :iteration, solution: solution, submission: iteration_submission, deleted_at: Time.current
+    deleted_iteration_submission = create :submission, solution: solution
+    create :submission_file, submission: deleted_iteration_submission, filename: filename, content: "deleted-code"
+    create :iteration, solution: solution, submission: deleted_iteration_submission, deleted_at: Time.current
 
     new_submission = create :submission, solution: solution
     create :submission_file, submission: new_submission, filename: filename, content: "new-code"

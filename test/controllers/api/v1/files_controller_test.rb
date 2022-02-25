@@ -44,16 +44,39 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     submission = create :submission, solution: solution
     content = "foobar!!"
     file = create :submission_file, submission: submission, content: content
+    create :iteration, solution: solution, submission: submission
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{file.filename}", headers: @headers, as: :json
     assert_response 200
     assert_equal response.body, content
   end
 
+  test "show should return latest iteration, not latest submission" do
+    setup_user
+    solution = create :practice_solution, user: @current_user
+
+    filename = "meh"
+    old_submission = create :submission, solution: solution
+    create :submission_file, submission: old_submission, filename: filename, content: "old-code"
+
+    correct_content = "iteration-code"
+    iteration_submission = create :submission, solution: solution
+    create :submission_file, submission: iteration_submission, filename: filename, content: correct_content
+    create :iteration, solution: solution, submission: iteration_submission
+
+    new_submission = create :submission, solution: solution
+    create :submission_file, submission: new_submission, filename: filename, content: "new-code"
+
+    get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
+    assert_response 200
+    assert_equal correct_content, response.body
+  end
+
   test "show should return special README.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    create :submission, solution: solution
+    submission = create :submission, solution: solution
+    create :iteration, solution: solution, submission: submission
 
     get "/api/v1/solutions/#{solution.uuid}/files/README.md", headers: @headers, as: :json
     assert_response 200
@@ -97,7 +120,8 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   test "show should return special HELP.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    create :submission, solution: solution
+    submission = create :submission, solution: solution
+    create :iteration, solution: solution, submission: submission
 
     get "/api/v1/solutions/#{solution.uuid}/files/HELP.md", headers: @headers, as: :json
     assert_response 200
@@ -137,7 +161,8 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   test "show should return special HINTS.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    create :submission, solution: solution
+    submission = create :submission, solution: solution
+    create :iteration, solution: solution, submission: submission
 
     get "/api/v1/solutions/#{solution.uuid}/files/HINTS.md", headers: @headers, as: :json
     assert_response 200

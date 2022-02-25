@@ -44,16 +44,36 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     submission = create :submission, solution: solution
     content = "foobar!!"
     file = create :submission_file, submission: submission, content: content
-    create :iteration, solution: solution, submission: submission
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{file.filename}", headers: @headers, as: :json
     assert_response 200
     assert_equal response.body, content
   end
 
-  test "show should return latest iteration, not latest submission" do
+  test "show should return latest submission, not latest iteration for user" do
     setup_user
     solution = create :practice_solution, user: @current_user
+
+    filename = "meh"
+    old_submission = create :submission, solution: solution
+    create :submission_file, submission: old_submission, filename: filename, content: "old-code"
+
+    iteration_submission = create :submission, solution: solution
+    create :submission_file, submission: iteration_submission, filename: filename, content: "iteration-code"
+    create :iteration, solution: solution, submission: iteration_submission
+
+    correct_content = "new-code"
+    new_submission = create :submission, solution: solution
+    create :submission_file, submission: new_submission, filename: filename, content: correct_content
+
+    get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
+    assert_response 200
+    assert_equal correct_content, response.body
+  end
+
+  test "show should return latest iteration, not latest submission for different user" do
+    setup_user
+    solution = create :practice_solution, :published
 
     filename = "meh"
     old_submission = create :submission, solution: solution
@@ -63,6 +83,10 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     iteration_submission = create :submission, solution: solution
     create :submission_file, submission: iteration_submission, filename: filename, content: correct_content
     create :iteration, solution: solution, submission: iteration_submission
+
+    iteration_submission = create :submission, solution: solution
+    create :submission_file, submission: iteration_submission, filename: filename, content: "deleted-code"
+    create :iteration, solution: solution, submission: iteration_submission, deleted_at: Time.current
 
     new_submission = create :submission, solution: solution
     create :submission_file, submission: new_submission, filename: filename, content: "new-code"

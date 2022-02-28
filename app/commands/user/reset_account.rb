@@ -22,15 +22,25 @@ class User
     end
 
     def reset_tracks!
+      # If someone has left a user track then we won't reset
+      # and things will break. So we need to temporarily recreate
+      # the user tracks.
+      existing_track_ids = user.user_tracks.pluck(:track_id)
+      user.solutions.joins(:exercise).distinct.pluck(:track_id).each do |track_id|
+        next if existing_track_ids.include?(track_id)
+
+        UserTrack.create!(user: user, track_id: track_id)
+      end
+
       user.user_tracks.each do |user_track|
         UserTrack::Destroy.(user_track)
       end
-
-      Mentor::Request.where(student_id: user.id).pending.delete_all
-      Mentor::Request.where(student_id: user.id).update_all(student_id: User::GHOST_USER_ID)
     end
 
     def reset_mentoring!
+      Mentor::Request.where(student_id: user.id).pending.delete_all
+      Mentor::Request.where(student_id: user.id).update_all(student_id: User::GHOST_USER_ID)
+
       user.mentor_discussions.update_all(mentor_id: User::GHOST_USER_ID)
       user.mentor_discussion_posts.update_all(user_id: User::GHOST_USER_ID)
       user.mentor_testimonials.update_all(mentor_id: User::GHOST_USER_ID)

@@ -7,6 +7,9 @@ body.namespace-.controller-journey {
 }
 
 #site-footer {
+    /* Show this through JS to avoid CLS */
+    display: none;
+
     margin-top: 100px;
     @screen lg {
         margin-top: 200px;

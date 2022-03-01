@@ -22,9 +22,9 @@ class User
     end
 
     def reset_tracks!
-      # If someone has left a user track then we won't reset
-      # and things will break. So we need to temporarily recreate
-      # the user tracks.
+      # If someone has submitted solutions then left a user track,
+      # then we won't reset those solutions and things will break.
+      # So we need to temporarily recreate the user tracks here.
       existing_track_ids = user.user_tracks.pluck(:track_id)
       user.solutions.joins(:exercise).distinct.pluck(:track_id).each do |track_id|
         next if existing_track_ids.include?(track_id)

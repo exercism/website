@@ -321,7 +321,10 @@
             }
         }
         & .main-graphic {
-            width: 100%;
+            /* Avoid CLS */
+            width: 90vw;
+            height: 58.9vw;
+            @apply mx-auto;
         }
         & .section-header {
             max-width: 680px;

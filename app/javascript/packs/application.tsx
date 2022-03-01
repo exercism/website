@@ -380,6 +380,11 @@ initReact({
   ),
 })
 
+document.addEventListener(
+  'turbo:load',
+  () => (document.getElementById('site-footer').style.display = 'block')
+)
+
 import { highlightAll } from '../utils/highlight'
 
 document.addEventListener('turbo:load', () => {

@@ -10,7 +10,8 @@
             @apply flex-grow;
             max-width: 600px;
             @screen lg {
-                max-width: 700px;
+                /* Ensure this doesn't cause CLS with system fonts */
+                max-width: 680px;
             }
 
             & h1 {
@@ -79,6 +80,8 @@
 
                 & .c-textual-content {
                     max-width: 750px;
+                    /* Avoid CLS */
+                    min-height: 272px;
 
                     & h2 {
                         @apply text-h2;
@@ -301,6 +304,8 @@
         & img.screenshot {
             @apply mb-32;
             max-width: 100%;
+            /* Avoid CLS */
+            @apply min-h-[46vw];
         }
     }
     & .upsell-section {

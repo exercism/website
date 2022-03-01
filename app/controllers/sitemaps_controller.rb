@@ -57,9 +57,9 @@ class SitemapsController < ApplicationController
 
       priority = 0 + [0.75, user.reputation / 10_000.0].min
       pages << [profile_url(user), user.updated_at, :monthly, priority]
-      pages << [solutions_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.solutions_tab?
-      pages << [testimonials_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.testimonials_tab?
-      pages << [contributions_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.contributions_tab?
+      # pages << [solutions_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.solutions_tab?
+      # pages << [testimonials_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.testimonials_tab?
+      # pages << [contributions_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.contributions_tab?
     end
 
     render xml: pages_to_xml(pages)

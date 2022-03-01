@@ -385,6 +385,14 @@ Rails.application.routes.draw do
 
   get "donate" => "donations#index", as: :donate
 
+  # #### #
+  # SEO #
+  # #### #
+  get "sitemap" => "sitemaps#index", as: :sitemap
+  get "sitemap-general" => "sitemaps#general", as: :sitemap_general
+  get "sitemap-profiles" => "sitemaps#profiles", as: :sitemap_profiles
+  get "sitemap-tracks-:track_id" => "sitemaps#track", as: :sitemap_track
+
   root to: "pages#index"
 
   ##############

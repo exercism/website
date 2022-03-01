@@ -1,6 +1,10 @@
 class SitemapsController < ApplicationController
   skip_before_action :authenticate_user!
 
+  def robots_txt
+    render html: "User-agent: * Allow: /"
+  end
+
   def index
     builder = Nokogiri::XML::Builder.new do |xml|
       xml.root do

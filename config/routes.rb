@@ -388,6 +388,7 @@ Rails.application.routes.draw do
   # #### #
   # SEO #
   # #### #
+  get "robots" => "sitemaps#robots_txt", as: :robots_txt
   get "sitemap" => "sitemaps#index", as: :sitemap
   get "sitemap-general" => "sitemaps#general", as: :sitemap_general
   get "sitemap-profiles" => "sitemaps#profiles", as: :sitemap_profiles

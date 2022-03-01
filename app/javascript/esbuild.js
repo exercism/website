@@ -5,7 +5,6 @@ const browserslistToEsbuild = require('browserslist-to-esbuild')
 
 function build() {
   const env = require('./.config/env.json')
-
   require('esbuild')
     .build({
       entryPoints: [

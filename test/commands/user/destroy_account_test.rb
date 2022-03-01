@@ -18,4 +18,16 @@ class User::DestroyAccountTest < ActiveSupport::TestCase
     assert_raises ActiveRecord::RecordNotFound, &proc { rel_2.reload }
     assert_nothing_raised { rel_3.reload }
   end
+
+  test "test works without user track" do
+    create :user, :ghost
+
+    user = create :user
+    solution = create :practice_solution, user: user
+    submission = create :submission, solution: solution
+    iteration = create :iteration, solution: solution, submission: submission
+    solution.update!(published_iteration: iteration)
+
+    User::DestroyAccount.(user)
+  end
 end

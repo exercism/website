@@ -32,12 +32,16 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       user = create :user
       user_track_1 = create :user_track, user: user, track: ruby
       user_track_2 = create :user_track, user: user, track: js
+      orphaned_solution = create :practice_solution, user: user, track: create(:track, :random_slug)
 
       pending_request = create :mentor_request, solution: create(:practice_solution, user: user)
       fulfilled_request = create :mentor_request, :fulfilled, solution: create(:practice_solution, user: user)
 
       UserTrack::Destroy.expects(:call).with(user_track_1)
       UserTrack::Destroy.expects(:call).with(user_track_2)
+      UserTrack::Destroy.expects(:call).with do |ut|
+        ut.track == orphaned_solution.track && ut.user == user
+      end
 
       User::ResetAccount.(user)
 

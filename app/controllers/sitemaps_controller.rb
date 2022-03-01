@@ -48,7 +48,7 @@ class SitemapsController < ApplicationController
 
   def profiles
     pages = []
-    User::Profile.includes(:user).find_each do |profile|
+    User::Profile.joins(:user).where('users.reputation >= 200').includes(:user).find_each do |profile|
       user = profile.user
 
       priority = 0 + [0.75, user.reputation / 10_000.0].min

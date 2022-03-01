@@ -38,7 +38,7 @@ gem 'exercism-config', '>= 0.81.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies
-gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.12'
 gem 'friendly_id', '~> 5.4.0'
 gem 'sidekiq', '~> 6.3'
 gem 'sidekiq-failures'

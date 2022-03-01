@@ -8,7 +8,7 @@ body.controller-user_onboarding.action-show,
 body.devise {
     & #site-header,
     & #site-footer {
-        display: none;
+        display: none !important;
     }
 }
 

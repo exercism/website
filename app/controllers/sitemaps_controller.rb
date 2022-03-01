@@ -7,14 +7,12 @@ class SitemapsController < ApplicationController
 
   def index
     builder = Nokogiri::XML::Builder.new do |xml|
-      xml.root do
-        xml.sitemapindex(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
-          xml.sitemap { xml.loc sitemap_general_url(format: :xml) }
-          xml.sitemap { xml.loc sitemap_profiles_url(format: :xml) }
-          Track.active.order('num_concepts DESC, num_exercises DESC').each do |track|
-            xml.sitemap do
-              xml.loc sitemap_track_url(track, format: :xml)
-            end
+      xml.sitemapindex(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
+        xml.sitemap { xml.loc sitemap_general_url(format: :xml) }
+        xml.sitemap { xml.loc sitemap_profiles_url(format: :xml) }
+        Track.active.order('num_concepts DESC, num_exercises DESC').each do |track|
+          xml.sitemap do
+            xml.loc sitemap_track_url(track, format: :xml)
           end
         end
       end
@@ -58,7 +56,7 @@ class SitemapsController < ApplicationController
       priority = 0 + [0.75, user.reputation / 10_000.0].min
       pages << [profile_url(user), user.updated_at, :monthly, priority]
       # pages << [solutions_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.solutions_tab?
-      # pages << [testimonials_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.testimonials_tab?
+      pages << [testimonials_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.testimonials_tab?
       # pages << [contributions_profile_url(user), user.updated_at, :monthly, priority - 0.01] if profile.contributions_tab?
     end
 
@@ -94,15 +92,13 @@ class SitemapsController < ApplicationController
   private
   def pages_to_xml(pages)
     builder = Nokogiri::XML::Builder.new do |xml|
-      xml.root do
-        xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
-          pages.each do |page|
-            xml.url do
-              xml.loc page[0]
-              xml.lastmod page[1].xmlschema
-              xml.changefreq page[2]
-              xml.priority page[3]
-            end
+      xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
+        pages.each do |page|
+          xml.url do
+            xml.loc page[0]
+            xml.lastmod page[1].xmlschema
+            xml.changefreq page[2]
+            xml.priority page[3]
           end
         end
       end

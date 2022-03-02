@@ -78,6 +78,7 @@ class SitemapsController < ApplicationController
 
     track.exercises.active.each do |exercise|
       pages << [track_exercise_url(track, exercise), exercise.updated_at, :monthly, 0.75]
+      pages << [track_exercise_solutions_url(track, exercise), Time.zone.today, :daily, 0.7]
 
       exercise.solutions.published.where('num_stars > 0').order(num_stars: :desc).limit(100).includes(:track, :exercise,
         :user).each do |solution|

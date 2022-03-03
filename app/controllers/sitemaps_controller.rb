@@ -10,7 +10,7 @@ class SitemapsController < ApplicationController
       xml.sitemapindex(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
         xml.sitemap { xml.loc sitemap_general_url(format: :xml) }
         xml.sitemap { xml.loc sitemap_profiles_url(format: :xml) }
-        Track.active.order('num_concepts DESC, num_exercises DESC').find_each do |track|
+        Track.active.order('num_concepts DESC, num_exercises DESC').each do |track|
           xml.sitemap do
             xml.loc sitemap_track_url(track, format: :xml)
           end
@@ -41,12 +41,12 @@ class SitemapsController < ApplicationController
       [blog_posts_url, BlogPost.published.pluck(:updated_at).last, :monthly, 0.95]
     ]
 
-    BlogPost.published.ordered_by_recency.find_each do |blog_post|
+    BlogPost.published.ordered_by_recency.each do |blog_post|
       pages << [blog_post_url(blog_post), blog_post.updated_at, :monthly, 0.75]
     end
 
-    Document.where(track: nil).find_each do |doc|
-      pages << [doc_url(doc.section, doc.slug), doc.updated_at, :monthly, 0.8]
+    Document.where(track: nil).each do |doc|
+      pages << [doc_url(doc.section, doc.slug), doc.updated_at, :monthly, 0.75]
     end
 
     render xml: pages_to_xml(pages)
@@ -82,7 +82,7 @@ class SitemapsController < ApplicationController
 
     pages << [track_docs_url(track.slug), track.updated_at, :monthly, 0.8]
     track.documents.find_each do |doc|
-      pages << [track_doc_url(track.slug, doc.slug), doc.updated_at, :monthly, 0.8]
+      pages << [track_doc_url(track.slug, doc.slug), doc.updated_at, :monthly, 0.75]
     end
 
     track.exercises.active.find_each do |exercise|

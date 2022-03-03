@@ -10,7 +10,7 @@ class SitemapsController < ApplicationController
       xml.sitemapindex(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
         xml.sitemap { xml.loc sitemap_general_url(format: :xml) }
         xml.sitemap { xml.loc sitemap_profiles_url(format: :xml) }
-        Track.active.order('num_concepts DESC, num_exercises DESC').each do |track|
+        Track.active.order('num_concepts DESC, num_exercises DESC').find_each do |track|
           xml.sitemap do
             xml.loc sitemap_track_url(track, format: :xml)
           end
@@ -41,7 +41,7 @@ class SitemapsController < ApplicationController
       [blog_posts_url, BlogPost.published.pluck(:updated_at).last, :monthly, 0.95]
     ]
 
-    BlogPost.published.ordered_by_recency.each do |blog_post|
+    BlogPost.published.ordered_by_recency.find_each do |blog_post|
       pages << [blog_post_url(blog_post), blog_post.updated_at, :monthly, 0.75]
     end
 
@@ -71,17 +71,17 @@ class SitemapsController < ApplicationController
     pages << [track_exercises_url(track), track.updated_at, :monthly, 0.85]
 
     if track.course?
-      track.concepts.each do |concept|
+      track.concepts.find_each do |concept|
         pages << [track_concept_url(track, concept), concept.updated_at, :monthly, 0.8]
       end
     end
 
-    track.exercises.active.each do |exercise|
+    track.exercises.active.find_each do |exercise|
       pages << [track_exercise_url(track, exercise), exercise.updated_at, :monthly, 0.75]
       pages << [track_exercise_solutions_url(track, exercise), Time.zone.today, :daily, 0.7]
 
       exercise.solutions.published.where('num_stars > 0').order(num_stars: :desc).limit(100).includes(:track, :exercise,
-        :user).each do |solution|
+        :user).find_each do |solution|
         priority = 0.5 + [0.1, solution.num_stars / 100.0].min
         pages << [Exercism::Routes.published_solution_url(solution), solution.updated_at, :monthly, priority]
       end

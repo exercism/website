@@ -75,22 +75,22 @@ class SitemapsController < ApplicationController
     pages << [track_exercises_url(track), track.updated_at, :monthly, 0.85]
 
     if track.course?
-      track.concepts.find_each do |concept|
+      track.concepts.each do |concept|
         pages << [track_concept_url(track, concept), concept.updated_at, :monthly, 0.8]
       end
     end
 
     pages << [track_docs_url(track.slug), track.updated_at, :monthly, 0.8]
-    track.documents.find_each do |doc|
+    track.documents.each do |doc|
       pages << [track_doc_url(track.slug, doc.slug), doc.updated_at, :monthly, 0.75]
     end
 
-    track.exercises.active.find_each do |exercise|
+    track.exercises.active.each do |exercise|
       pages << [track_exercise_url(track, exercise), exercise.updated_at, :monthly, 0.75]
       pages << [track_exercise_solutions_url(track, exercise), Time.zone.today, :daily, 0.7]
 
       exercise.solutions.published.where('num_stars > 0').order(num_stars: :desc).limit(100).includes(:track, :exercise,
-        :user).find_each do |solution|
+        :user).each do |solution|
         priority = 0.5 + [0.1, solution.num_stars / 100.0].min
         pages << [Exercism::Routes.published_solution_url(solution), solution.updated_at, :monthly, priority]
       end

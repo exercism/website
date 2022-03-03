@@ -45,6 +45,10 @@ class SitemapsController < ApplicationController
       pages << [blog_post_url(blog_post), blog_post.updated_at, :monthly, 0.75]
     end
 
+    Document.where(track: nil).find_each do |doc|
+      pages << [doc_url(doc.section, doc.slug), doc.updated_at, :monthly, 0.8]
+    end
+
     render xml: pages_to_xml(pages)
   end
 

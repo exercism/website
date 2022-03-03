@@ -12,6 +12,7 @@ class Track < ApplicationRecord
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :documents # rubocop:disable Rails/HasManyOrHasOneDependent
 
   # TODO: Pre-launch: remove dependent: :destroy
   has_many :tasks, class_name: "Github::Task", dependent: :destroy

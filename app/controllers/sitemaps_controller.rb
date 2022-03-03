@@ -80,6 +80,11 @@ class SitemapsController < ApplicationController
       end
     end
 
+    pages << [track_docs_url(track.slug), track.updated_at, :monthly, 0.8]
+    track.documents.find_each do |doc|
+      pages << [track_doc_url(track.slug, doc.slug), doc.updated_at, :monthly, 0.8]
+    end
+
     track.exercises.active.find_each do |exercise|
       pages << [track_exercise_url(track, exercise), exercise.updated_at, :monthly, 0.75]
       pages << [track_exercise_solutions_url(track, exercise), Time.zone.today, :daily, 0.7]

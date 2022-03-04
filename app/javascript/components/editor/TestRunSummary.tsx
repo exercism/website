@@ -87,13 +87,10 @@ const TestRunSummaryStatus = ({
 }
 
 const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
-  const testsWithoutTasks = testRun.tests.filter(
-    (t) => t.taskId == null || t.taskId == undefined
-  )
   const hasTasks =
     testRun.version >= 3 &&
     testRun.tasks.length > 0 &&
-    testsWithoutTasks.length == 0
+    testRun.tests.filter((t) => t.taskId == null || t.taskId == undefined) == 0
 
   switch (testRun.status) {
     case TestRunStatus.FAIL: {

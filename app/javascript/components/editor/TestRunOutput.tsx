@@ -8,7 +8,12 @@ export const TestRunOutput = ({
 }: {
   testRun: TestRun
 }): JSX.Element => {
-  if (testRun.version >= 3 && testRun.tasks.length > 0) {
+  const hasTasks =
+    testRun.version >= 3 &&
+    testRun.tasks.length > 0 &&
+    testRun.tests.filter((t) => t.taskId == null || t.taskId == undefined) == 0
+
+  if (hasTasks) {
     return (
       <TestsGroupedByTaskList
         tests={testRun.tests}

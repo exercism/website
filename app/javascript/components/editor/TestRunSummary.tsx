@@ -87,6 +87,14 @@ const TestRunSummaryStatus = ({
 }
 
 const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
+  const testsWithoutTasks = testRun.tests.filter(
+    (t) => t.taskId == null || t.taskId == undefined
+  )
+  const hasTasks =
+    testRun.version >= 3 &&
+    testRun.tasks.length > 0 &&
+    testsWithoutTasks.length == 0
+
   switch (testRun.status) {
     case TestRunStatus.FAIL: {
       const failed = testRun.tests.filter(
@@ -94,7 +102,7 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
           test.status === TestStatus.FAIL || test.status === TestStatus.ERROR
       )
 
-      if (testRun.version >= 3 && testRun.tasks.length > 0) {
+      if (hasTasks) {
         const numFailedTasks = new Set(
           failed
             .filter((test) => test.taskId !== undefined)
@@ -131,7 +139,7 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
       )
     }
     case TestRunStatus.PASS:
-      if (testRun.version >= 3 && testRun.tasks.length > 0) {
+      if (hasTasks) {
         return (
           <TestRunSummaryStatus statusClass="passed" percentagePassing={100}>
             All tasks passed

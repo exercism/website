@@ -273,7 +273,10 @@ module Flows
           raw_results: {
             version: 3,
             status: "fail",
-            tests: [{ name: :test_no_name_given, status: :fail, task_id: 1 }]
+            tests: [
+              { name: :test_no_name_given, status: :fail, task_id: 1 },
+              { name: :test_something_else, status: :fail, task_id: 1 }
+            ]
           }
 
         use_capybara_host do
@@ -282,6 +285,39 @@ module Flows
           click_on "Tests"
 
           assert_text "2 / 3 Tasks Completed"
+        end
+      end
+
+      test "user views v3 test run with missing task" do
+        user = create :user
+        track = create :track
+        create :user_track, user: user, track: track
+        exercise = create :concept_exercise, track: track
+        solution = create :concept_solution, exercise: exercise, user: user
+        submission = create :submission, solution: solution,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        create :iteration, solution: solution, submission: submission
+        create :submission_test_run,
+          submission: submission,
+          ops_status: 200,
+          raw_results: {
+            version: 3,
+            status: "fail",
+            tests: [
+              { name: :test_no_name_given, status: :fail, task_id: 1 },
+              { name: :test_something_else, status: :fail }
+            ]
+          }
+
+        use_capybara_host do
+          sign_in!(user)
+          visit track_exercise_iterations_url(track, exercise)
+          click_on "Tests"
+
+          assert_text "2 TEST FAILURES"
+          assert_text "2 tests failed"
         end
       end
 

@@ -45,6 +45,10 @@ class SitemapsController < ApplicationController
       pages << [blog_post_url(blog_post), blog_post.updated_at, :monthly, 0.75]
     end
 
+    Document.where(track: nil).each do |doc|
+      pages << [doc_url(doc.section, doc.slug), doc.updated_at, :monthly, 0.75]
+    end
+
     render xml: pages_to_xml(pages)
   end
 
@@ -74,6 +78,11 @@ class SitemapsController < ApplicationController
       track.concepts.each do |concept|
         pages << [track_concept_url(track, concept), concept.updated_at, :monthly, 0.8]
       end
+    end
+
+    pages << [track_docs_url(track.slug), track.updated_at, :monthly, 0.8]
+    track.documents.each do |doc|
+      pages << [track_doc_url(track.slug, doc.slug), doc.updated_at, :monthly, 0.75]
     end
 
     track.exercises.active.each do |exercise|

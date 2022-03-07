@@ -22,10 +22,10 @@ In expanding the team and growing Exercism, we have three main goals:
 
 We're hiring for four roles:
 
-- Community Manager - to help design and lead the community side of Exercism.
-- Content Factotum - to support our maintainers and write original educational content for Exercism.
+- Community Manager - to help design and lead our community strategy.
+- Content Factotum - to support our maintainers and write exercises and educational content for Exercism.
 - React/CSS Dev - to lead on the front-end development of Exercism.
-- Ruby on Rails Dev - to develop the Rails backend and Ruby microservices.
+- Ruby on Rails Dev - to develop our Rails backend and Ruby microservices.
 
 I want to take this opportunity to say thank you to the thousands of you that have contributed and donated to Exercism to make this possible. 
 Together, we're creating an incredible platform that teaches programming education to the highest of standards, and giving it to the world for free.

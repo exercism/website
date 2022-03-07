@@ -49,7 +49,7 @@
   %section.exercises-section.pb-64
     .lg-container
       .flex.flex-col.lg:flex-row.lg:items-start.mb-48.lg:mb-72
-        .flex-grow
+        .flex-grow{ class: "min-w-[50%] lg:max-w-[640px]" }
           .section-header.mb-24.sm:mb-32
             = graphical_icon :exercises, hex: true
             %h2.text-h2
@@ -75,7 +75,7 @@
                         = track_icon(track)
                     .font-semibold.text-textColor7.ml-16.whitespace-nowrap +#{sample[:num_tracks]} more
 
-        = image_tag "screenshots/landing-page-exercise.jpg", alt: "", role: :presentation, category: :graphics, class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1"
+        = image_tag "screenshots/landing-page-exercise.jpg", alt: "", role: :presentation, category: :graphics, class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1", width: 668, height: 611
 
       .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
@@ -107,7 +107,7 @@
           %p.text-p-xlarge
             Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of a particular programming language.
 
-      = image_tag "screenshots/mentoring.jpg", role: :presentation, class: "main-graphic mb-60 shadow-lgZ1"
+      = image_tag "screenshots/mentoring.jpg", role: :presentation, class: "main-graphic mb-60 shadow-lgZ1", width: 2880, height: 1880
 
       .flex.flex-col.items-center
         %h3.text-h2 Why mentoring?

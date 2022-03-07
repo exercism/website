@@ -30,6 +30,5 @@ We're hiring for four roles:
 I want to take this opportunity to say thank you to the thousands of you that have contributed and donated to Exercism to make this possible. 
 Together, we're creating an incredible platform that teaches programming education to the highest of standards, and giving it to the world for free.
 
-Kind regards,
 Jeremy Walker, 
 CEO of Exercism

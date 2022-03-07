@@ -175,6 +175,8 @@
             @apply flex items-start;
 
             & .info {
+                max-width: 656px;
+
                 & hr.c-divider {
                     @apply mb-28;
                 }
@@ -304,8 +306,6 @@
         & img.screenshot {
             @apply mb-32;
             max-width: 100%;
-            /* Avoid CLS */
-            @apply min-h-[46vw];
         }
     }
     & .upsell-section {

@@ -211,9 +211,6 @@
 
         & .main-graphic {
             @screen lg {
-                /* TODO */
-                /* max-height:585px; */
-                width: 733px;
                 margin-right: calc(0px - var(--container-padding-x));
             }
         }
@@ -321,10 +318,7 @@
             }
         }
         & .main-graphic {
-            /* Avoid CLS */
-            width: 90vw;
-            height: 58.9vw;
-            @apply mx-auto;
+            width: 100%;
         }
         & .section-header {
             max-width: 680px;

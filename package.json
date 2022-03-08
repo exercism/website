@@ -32,6 +32,7 @@
     "browserslist-to-esbuild": "^1.1.1",
     "chart.js": "^3.1.0",
     "codemirror-lang-elixir": "https://github.com/sachinraja/codemirror-lang-elixir",
+    "codemirror6-abap": "^0.1.3",
     "copy-to-clipboard": "^3.3.1",
     "core-js": "^3.6.5",
     "cssnano": "^5.0.17",

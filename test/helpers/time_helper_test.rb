@@ -2,6 +2,7 @@ require "test_helper"
 
 class TimeHelperTest < ActionView::TestCase
   test "time_ago_in_words" do
+    travel_to(Date.new(2022, 6, 3))
     assert_equal "seconds", time_ago_in_words(Time.current)
     assert_equal "seconds", time_ago_in_words(Time.current - 1.second)
     assert_equal "seconds", time_ago_in_words(Time.current - 10.seconds)
@@ -14,6 +15,7 @@ class TimeHelperTest < ActionView::TestCase
   end
 
   test "time_ago_in_words short" do
+    travel_to(Date.new(2022, 6, 3))
     assert_equal "1s", time_ago_in_words(Time.current, short: true)
     assert_equal "1s", time_ago_in_words(Time.current - 1.second, short: true)
     assert_equal "1m", time_ago_in_words(Time.current - 1.minute, short: true)

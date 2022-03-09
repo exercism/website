@@ -5,7 +5,7 @@ FactoryBot.define do
   # rubocop:disable Naming/VariableNumber
   %i[
     member rookie supporter contributor
-    anybody_there growth_mindset v1
+    anybody_there growth_mindset v1 v2
   ].each do |type|
     factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do
     end

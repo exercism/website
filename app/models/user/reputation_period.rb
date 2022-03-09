@@ -1,7 +1,7 @@
 class User::ReputationPeriod < ApplicationRecord
   enum period: { forever: 0, year: 1, month: 2, week: 3 }
   enum about: { everything: 0, track: 1 }, _prefix: true
-  enum category: { any: 0, building: 1, maintaining: 2, authoring: 3, mentoring: 4 }, _suffix: true
+  enum category: { any: 0, building: 1, maintaining: 2, authoring: 3, mentoring: 4, other: 5 }, _suffix: true
 
   scope :dirty, -> { where(dirty: true) }
   belongs_to :user

@@ -70,7 +70,7 @@ const TestRunSummaryStatus = ({
   children,
   percentagePassing,
 }: React.PropsWithChildren<{
-  status: string
+  statusClass: string
   percentagePassing: number
 }>): JSX.Element => {
   return (

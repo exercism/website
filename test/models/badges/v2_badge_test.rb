@@ -6,7 +6,7 @@ class Badge::V2BadgeTest < ActiveSupport::TestCase
     assert_equal "V2", badge.name
     assert_equal :common, badge.rarity
     assert_equal :v2, badge.icon # rubocop:disable Naming/VariableNumber
-    assert_equal 'Awarded for having joined Exercism v2', badge.description
+    assert_equal 'Awarded for having joined when Exercism was at version 2', badge.description
     refute badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

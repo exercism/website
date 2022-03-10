@@ -5,7 +5,7 @@ class AwardBadgeJobTest < ActiveJob::TestCase
     user = mock
     slug = mock
 
-    User::AcquiredBadge::Create.expects(:call).with(user, slug)
+    User::AcquiredBadge::Create.expects(:call).with(user, slug, skip_email: false)
     AwardBadgeJob.perform_now(user, slug)
   end
 
@@ -13,7 +13,35 @@ class AwardBadgeJobTest < ActiveJob::TestCase
     user = mock
     slug = mock
 
-    User::AcquiredBadge::Create.expects(:call).with(user, slug).raises(BadgeCriteriaNotFulfilledError)
+    User::AcquiredBadge::Create.expects(:call).with(user, slug, skip_email: false).raises(BadgeCriteriaNotFulfilledError)
     AwardBadgeJob.perform_now(user, slug)
+  end
+
+  test "use badge email setting by default" do
+    user = create :user
+    solution = create :practice_solution, user: user
+    solution.update_column(:last_iterated_at, Time.current - 1.week)
+    create :mentor_discussion, solution: solution, created_at: Time.current - 1.day
+    solution.update_column(:last_iterated_at, Time.current)
+
+    perform_enqueued_jobs do
+      # The default for the growth_mindset badge is to send an email
+      User::Notification::CreateEmailOnly.expects(:call).once
+      AwardBadgeJob.perform_now(user.reload, :growth_mindset)
+    end
+  end
+
+  test "override badge email setting" do
+    user = create :user
+    solution = create :practice_solution, user: user
+    solution.update_column(:last_iterated_at, Time.current - 1.week)
+    create :mentor_discussion, solution: solution, created_at: Time.current - 1.day
+    solution.update_column(:last_iterated_at, Time.current)
+
+    perform_enqueued_jobs do
+      # The default for the growth_mindset badge is to send an email, but we override that
+      User::Notification::CreateEmailOnly.expects(:call).never
+      AwardBadgeJob.perform_now(user.reload, :growth_mindset, skip_email: true)
+    end
   end
 end

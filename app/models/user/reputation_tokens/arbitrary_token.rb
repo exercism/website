@@ -16,7 +16,5 @@ class User::ReputationTokens::ArbitraryToken < User::ReputationToken
   end
 
   protected
-  def determine_value
-    arbitrary_value
-  end
+  def determine_value = arbitrary_value
 end

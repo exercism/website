@@ -32,7 +32,8 @@ module ViewComponents
     end
 
     def ukraine
-      link_to "https://donate.redcross.org.uk/appeal/ukraine-crisis-appeal", class: "ukraine-link" do
+      link_to "https://donate.redcross.org.uk/appeal/ukraine-crisis-appeal", class: "ukraine-link", target: "_blank",
+        rel: 'noopener' do
         icon("ukraine", "Ukraine-coloured heart")
       end
     end

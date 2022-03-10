@@ -31,5 +31,9 @@ class Badge::V1BadgeTest < ActiveSupport::TestCase
     # Don't award if created after v2 release date
     user.update!(created_at: v2_release_date + 1.day, confirmed_at: Time.current)
     refute badge.award_to?(user.reload)
+
+    # Don't award if created now
+    user.update!(created_at: Time.current, confirmed_at: Time.current)
+    refute badge.award_to?(user.reload)
   end
 end

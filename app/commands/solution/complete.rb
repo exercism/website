@@ -19,6 +19,7 @@ class Solution
       AwardBadgeJob.perform_later(user, :anybody_there)
       AwardBadgeJob.perform_later(user, :all_your_base)
       AwardBadgeJob.perform_later(user, :whatever)
+      AwardBadgeJob.perform_later(user, :lackadaisical)
       record_activity!
     end
 

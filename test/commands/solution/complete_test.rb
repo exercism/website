@@ -141,4 +141,26 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     perform_enqueued_jobs
     assert_equal Badges::WhateverBadge, user.reload.badges.first.class
   end
+
+  test "awards lackadaisical badge when bob exercise is completed in five tracks" do
+    user = create :user
+    track = create :track
+    user_track = create :user_track, user: user, track: track
+    refute user.badges.present?
+
+    exercise = create :practice_exercise, slug: 'bob'
+    solution = create :practice_solution, user: user, track: track, exercise: exercise
+    create :iteration, solution: solution
+
+    4.times do |idx|
+      other_track = create :track, slug: "track_#{idx}"
+      exercise = create :practice_exercise, slug: 'bob', track: other_track
+      create :practice_solution, :completed, user: user, track: other_track, exercise: exercise
+    end
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_equal Badges::LackadaisicalBadge, user.reload.badges.last.class
+  end
 end

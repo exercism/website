@@ -29,8 +29,8 @@ class Badge::WhateverBadgeTest < ActiveSupport::TestCase
     refute badge.award_to?(user.reload)
 
     # Iterate the bob exercise without completing does not award the badge
-    whatever_exercise = create :practice_exercise, slug: 'bob'
-    solution = create :practice_solution, :iterated, user: user, track: track, exercise: whatever_exercise
+    bob_exercise = create :practice_exercise, slug: 'bob'
+    solution = create :practice_solution, :iterated, user: user, track: track, exercise: bob_exercise
     refute badge.award_to?(user.reload)
 
     # Complete the bob exercise awards the badge

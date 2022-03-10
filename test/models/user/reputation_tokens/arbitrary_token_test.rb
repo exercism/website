@@ -18,7 +18,7 @@ class User::ReputationTokens::ArbitraryTokenTest < ActiveSupport::TestCase
       assert_equal User::ReputationTokens::ArbitraryToken, rt.class
       assert_equal 'For helping troubleshoot', rt.text
       assert_equal :'For helping troubleshoot', rt.reason
-      assert_equal :other, rt.category
+      assert_equal :misc, rt.category
       assert_equal 23, rt.value
       assert_equal Time.current.to_date, rt.earned_on
     end

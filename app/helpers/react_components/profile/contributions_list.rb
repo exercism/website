@@ -56,6 +56,20 @@ module ReactComponents
                 )
               }
             }
+          },
+          {
+            title: "Other",
+            icon: "more-horizontal",
+            count: User::ReputationToken::Search.(user, category: :misc, paginated: false, sorted: false).count,
+            request: {
+              endpoint: Exercism::Routes.other_api_profile_contributions_url(user.handle),
+              options: {
+                initial_data: SerializePaginatedCollection.(
+                  User::ReputationToken::Search.(user, category: :misc),
+                  serializer: SerializeUserReputationTokens
+                )
+              }
+            }
           }
         ].select { |c| c[:count].positive? }
       end

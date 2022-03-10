@@ -17,7 +17,8 @@
             }
         }
         & .building,
-        & .maintaining {
+        & .maintaining,
+        & .other {
             & .reputation-token {
                 @apply flex items-center;
                 @apply mb-16 rounded-8;

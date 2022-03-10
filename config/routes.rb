@@ -153,6 +153,7 @@ Rails.application.routes.draw do
             get :building
             get :maintaining
             get :authoring
+            get :other
           end
         end
       end

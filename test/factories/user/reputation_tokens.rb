@@ -119,4 +119,15 @@ FactoryBot.define do
       }
     end
   end
+
+  factory :user_arbitrary_reputation_token, class: 'User::ReputationTokens::ArbitraryToken' do
+    user
+
+    params do
+      {
+        arbitrary_value: 23,
+        arbitrary_reason: 'For helping troubleshoot'
+      }
+    end
+  end
 end

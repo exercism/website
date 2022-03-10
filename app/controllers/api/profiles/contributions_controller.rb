@@ -37,5 +37,18 @@ module API::Profiles
         serializer: SerializeExerciseAuthorships
       )
     end
+
+    def other
+      tokens = User::ReputationToken::Search.(
+        @user,
+        category: :other,
+        page: params[:page]
+      )
+
+      render json: SerializePaginatedCollection.(
+        tokens,
+        serializer: SerializeUserReputationTokens
+      )
+    end
   end
 end

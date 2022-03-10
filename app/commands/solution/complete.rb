@@ -18,6 +18,7 @@ class Solution
       # But at the job level, not at this level. So passing some args etc?
       AwardBadgeJob.perform_later(user, :anybody_there)
       AwardBadgeJob.perform_later(user, :all_your_base)
+      AwardBadgeJob.perform_later(user, :whatever)
       record_activity!
     end
 

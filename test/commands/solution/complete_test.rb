@@ -126,4 +126,19 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     perform_enqueued_jobs
     assert_equal Badges::AllYourBaseBadge, user.reload.badges.first.class
   end
+
+  test "awards whatever badge when bob exercise is completed" do
+    exercise = create :practice_exercise, slug: 'bob'
+
+    user = create :user
+    user_track = create :user_track, user: user, track: exercise.track
+    solution = create :practice_solution, user: user, exercise: exercise
+    create :iteration, solution: solution
+    refute user.badges.present?
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_equal Badges::WhateverBadge, user.reload.badges.first.class
+  end
 end

@@ -38,34 +38,27 @@ body.devise {
 
     & .exercism-link {
         @apply mr-8 flex-shrink-0;
-        max-width: 45px;
+        @apply max-w-[45px] sm:max-w-[unset] lg:max-w-[32px] xl:max-w-[unset];
         overflow: hidden;
 
         & .c-icon {
-            &:first-child {
-                height: 35px;
-                width: 194px;
-            }
-            &:last-child {
-                height: 35px;
-                width: 35px;
-                @apply ml-8;
+            height: 35px;
+            width: 194px;
+        }
+
+        @screen sm {
+            & .c-icon {
+                height: 24px;
+                width: 133px;
             }
         }
+    }
+    & .ukraine-link {
         @apply sm:mr-56;
-        @screen sm {
-            max-width: unset;
-
-            & .c-icon {
-                &:first-child {
-                    height: 24px;
-                    width: 133px;
-                }
-                &:last-child {
-                    height: 24px;
-                    width: 24px;
-                }
-            }
+        @apply hidden sm:block;
+        & .c-icon {
+            height: 20px;
+            width: 20px;
         }
     }
 

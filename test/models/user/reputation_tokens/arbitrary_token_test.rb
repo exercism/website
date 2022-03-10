@@ -21,6 +21,33 @@ class User::ReputationTokens::ArbitraryTokenTest < ActiveSupport::TestCase
       assert_equal :misc, rt.category
       assert_equal 23, rt.value
       assert_equal Time.current.to_date, rt.earned_on
+      assert_nil rt.track
+    end
+  end
+
+  test "creates arbitrary reputation token linked to track" do
+    freeze_time do
+      user = create :user, handle: "User33", github_username: "user33"
+      track = create :track
+
+      User::ReputationToken::Create.(
+        user,
+        :arbitrary,
+        arbitrary_value: 500,
+        arbitrary_reason: 'For building the test runner',
+        track:
+      )
+
+      assert_equal 1, user.reputation_tokens.size
+      rt = user.reputation_tokens.first
+
+      assert_equal User::ReputationTokens::ArbitraryToken, rt.class
+      assert_equal 'For building the test runner', rt.text
+      assert_equal :'For building the test runner', rt.reason
+      assert_equal :misc, rt.category
+      assert_equal 500, rt.value
+      assert_equal Time.current.to_date, rt.earned_on
+      assert_equal track, rt.track
     end
   end
 

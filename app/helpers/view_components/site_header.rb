@@ -26,8 +26,9 @@ module ViewComponents
     end
 
     def logo
-      link_to Exercism::Routes.root_path, class: "exercism-link lg:hidden xl:block" do
-        icon "exercism-with-logo-black", "Exercism"
+      link_to Exercism::Routes.root_path, class: "exercism-link lg:hidden xl:flex" do
+        icon("exercism-with-logo-black", "Exercism") +
+          icon("ukraine", "Our hearts break for Ukraine")
       end
     end
 

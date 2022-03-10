@@ -42,17 +42,29 @@ body.devise {
         overflow: hidden;
 
         & .c-icon {
-            height: 35px;
-            width: 194px;
+            &:first-child {
+                height: 35px;
+                width: 194px;
+            }
+            &:last-child {
+                height: 35px;
+                width: 35px;
+                @apply ml-8;
+            }
         }
-
         @apply sm:mr-56;
         @screen sm {
             max-width: unset;
 
             & .c-icon {
-                height: 24px;
-                width: 133px;
+                &:first-child {
+                    height: 24px;
+                    width: 133px;
+                }
+                &:last-child {
+                    height: 24px;
+                    width: 24px;
+                }
             }
         }
     }

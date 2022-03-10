@@ -93,4 +93,37 @@ class Solution::CompleteTest < ActiveSupport::TestCase
       Solution::Complete.(solution, user_track)
     end
   end
+
+  test "awards anybody there badge when hello-world exercise is completed in five tracks" do
+    user = create :user
+    user_track = create :user_track, user: user
+    solution = create :hello_world_solution, user: user
+    create :iteration, solution: solution
+    refute user.badges.present?
+
+    4.times do |idx|
+      track = create :track, slug: "track_#{idx}"
+      create :hello_world_solution, :completed, user: user, track: track
+    end
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_equal Badges::AnybodyThereBadge, user.reload.badges.first.class
+  end
+
+  test "awards all your base badge when all-your-base exercise is completed" do
+    exercise = create :practice_exercise, slug: 'all-your-base'
+
+    user = create :user
+    user_track = create :user_track, user: user, track: exercise.track
+    solution = create :practice_solution, user: user, exercise: exercise
+    create :iteration, solution: solution
+    refute user.badges.present?
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_equal Badges::AllYourBaseBadge, user.reload.badges.first.class
+  end
 end

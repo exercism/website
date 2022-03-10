@@ -17,6 +17,7 @@ class Solution
       # we only go through the checks in the job if the exercise is hello-world.
       # But at the job level, not at this level. So passing some args etc?
       AwardBadgeJob.perform_later(user, :anybody_there)
+      AwardBadgeJob.perform_later(user, :all_your_base)
       record_activity!
     end
 

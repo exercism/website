@@ -4,7 +4,7 @@ class Badge::AllYourBaseBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :all_your_base_badge
     assert_equal "All your base are belong to us", badge.name
-    assert_equal :common, badge.rarity
+    assert_equal :rare, badge.rarity
     assert_equal :'all-your-base', badge.icon
     assert_equal 'Awarded for completing the "All Your Base" exercise', badge.description
     assert badge.send_email_on_acquisition?

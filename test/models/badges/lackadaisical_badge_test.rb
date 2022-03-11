@@ -4,7 +4,7 @@ class Badge::LackadaisicalBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :lackadaisical_badge
     assert_equal "Lackadaisical", badge.name
-    assert_equal :rare, badge.rarity
+    assert_equal :ultimate, badge.rarity
     assert_equal :lackadaisical, badge.icon
     assert_equal 'Awarded for completing the "Bob" exercise in five languages', badge.description
     assert badge.send_email_on_acquisition?

@@ -1,7 +1,7 @@
 module Badges
   class LackadaisicalBadge < Badge
     seed "Lackadaisical",
-      :rare,
+      :ultimate,
       'lackadaisical',
       'Awarded for completing the "Bob" exercise in five languages'
 

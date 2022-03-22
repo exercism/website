@@ -5,7 +5,7 @@ class AwardBadgeJobTest < ActiveJob::TestCase
     user = mock
     slug = mock
 
-    User::AcquiredBadge::Create.expects(:call).with(user, slug, skip_email: false)
+    User::AcquiredBadge::Create.expects(:call).with(user, slug, send_email: true)
     AwardBadgeJob.perform_now(user, slug)
   end
 
@@ -13,7 +13,7 @@ class AwardBadgeJobTest < ActiveJob::TestCase
     user = mock
     slug = mock
 
-    User::AcquiredBadge::Create.expects(:call).with(user, slug, skip_email: false).raises(BadgeCriteriaNotFulfilledError)
+    User::AcquiredBadge::Create.expects(:call).with(user, slug, send_email: true).raises(BadgeCriteriaNotFulfilledError)
     AwardBadgeJob.perform_now(user, slug)
   end
 
@@ -41,7 +41,7 @@ class AwardBadgeJobTest < ActiveJob::TestCase
     perform_enqueued_jobs do
       # The default for the growth_mindset badge is to send an email, but we override that
       User::Notification::CreateEmailOnly.expects(:call).never
-      AwardBadgeJob.perform_now(user.reload, :growth_mindset, skip_email: true)
+      AwardBadgeJob.perform_now(user.reload, :growth_mindset, send_email: false)
     end
   end
 end

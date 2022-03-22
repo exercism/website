@@ -3,10 +3,10 @@ class User
     class Create
       include Mandate
 
-      def initialize(user, slug, skip_email: false)
+      def initialize(user, slug, send_email: true)
         @user = user
         @slug = slug
-        @skip_email = skip_email
+        @send_email = send_email
       end
 
       def call
@@ -25,7 +25,7 @@ class User
             user: user,
             badge: badge
           ).tap do |uab|
-            if badge.send_email_on_acquisition? && !skip_email
+            if badge.send_email_on_acquisition? && send_email
               User::Notification::CreateEmailOnly.(user, :acquired_badge,
                 user_acquired_badge: uab)
             end
@@ -45,7 +45,7 @@ class User
       end
 
       private
-      attr_reader :user, :slug, :skip_email
+      attr_reader :user, :slug, :send_email
 
       memoize
       def badge

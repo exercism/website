@@ -17,7 +17,7 @@ module Webhooks
       else
         track = Track.find_by(slug: repo_name)
         SyncTrackJob.perform_later(track) if track
-        Github::DispatchEventToOrgWideFilesRepo.(:appends_update, [repo], pusher_username) if appends_file_changed?
+        Github::DispatchEventToOrgWideFilesRepo.(:repo_update, [repo], pusher_username) if trigger_repo_update?
       end
     end
 
@@ -30,12 +30,15 @@ module Webhooks
       "#{repo_owner}/#{repo_name}"
     end
 
-    def appends_file_changed?
+    def trigger_repo_update?
       commits.to_a.any? do |commit|
         Set.new([*commit[:added], *commit[:removed], *commit[:modified]]).any? do |file|
-          file.starts_with?('.appends/')
+          file == ORG_WIDE_FILES_CONFIG_FILE || file.starts_with?('.appends/')
         end
       end
     end
+
+    ORG_WIDE_FILES_CONFIG_FILE = '.github/org-wide-files-config.toml'.freeze
+    private_constant :ORG_WIDE_FILES_CONFIG_FILE
   end
 end

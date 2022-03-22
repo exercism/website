@@ -81,6 +81,17 @@ class User::AcquiredBadge::CreateTest < ActiveSupport::TestCase
     User::AcquiredBadge::Create.(user, :contributor)
   end
 
+  test "Does not send email if send_email_on_acquisition is true and send_email is false" do
+    user = create :user
+    force_award!(user)
+
+    create :contributor_badge
+    Badges::ContributorBadge.any_instance.expects(:send_email_on_acquisition?).returns(true)
+    User::Notification::CreateEmailOnly.expects(:call).never
+
+    User::AcquiredBadge::Create.(user, :contributor, send_email: false)
+  end
+
   def force_award!(user)
     Badges::ContributorBadge.any_instance.expects(:award_to?).with(user).returns(true)
   end

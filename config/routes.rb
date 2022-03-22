@@ -415,7 +415,6 @@ Rails.application.routes.draw do
   resource :about, controller: 'about', only: [:show] do
     get :team
     get :hiring
-    get :hiring_fundraiser, path: "hiring/fundraiser-1", as: :hiring_1
     get :hiring_content, path: "hiring/content-2", as: :hiring_2
     get :hiring_community, path: "hiring/community-3", as: :hiring_3
     get :hiring_front_end_developer, path: "hiring/front-end-developer-4", as: :hiring_4

@@ -163,4 +163,23 @@ class Iteration::CreateTest < ActiveSupport::TestCase
       Iteration::Create.(solution, submission)
     end
   end
+
+  test "awards die unendliche geschichte badge when submitting 10th iteration" do
+    user = create :user
+    solution = create :concept_solution, user: user
+
+    perform_enqueued_jobs do
+      9.times do |_idx|
+        submission = create :submission, solution: solution
+        Iteration::Create.(solution, submission)
+      end
+
+      refute user.badges.present?
+
+      submission = create :submission, solution: solution
+      Iteration::Create.(solution, submission)
+
+      assert_equal Badges::DieUnendlicheGeschichteBadge, user.reload.badges.first.class
+    end
+  end
 end

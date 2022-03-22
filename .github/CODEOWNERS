@@ -12,10 +12,9 @@ lib/      @iHiD
 Rakefile  @iHiD
 
 # Docker and deployment files
-docker/          @iHiD
-dev.Dockerfile   @erikschierboom @iHiD @kntsoriano
-Procfile*        @iHiD
-.github          @iHiD
+docker/   @iHiD
+Procfile* @iHiD
+.github   @iHiD
 
 # Bin files
 bin/     @iHiD

@@ -6,58 +6,10 @@
 
 This is the website component of Exercism. It is Ruby on Rails app, backed by MySQL. It also relies on Redis and AnyCable.
 
-## Running within our development-environment
+## Local setup
 
-Our supported development setup is via our [development environment](https://github.com/exercism/development-environment) repo. Please follow the instructions there. _You can also run locally without Docker, but this is unsupported - see the next section for details._
+The website can be be setup and run locally, but this is unsupported.
 
-### Setup database
-
-Assuming your docker-compose is already "up," you can run the following commands from the `development-environment` directory to setup the database. All these are run "inside" the existing `website` container that needs to already have been started.
-
-```sh
-# seed the database
-./bin/script website seed-db
-
-# reset the database (drop -> migrate -> seed)
-./bin/script website reset-db
-```
-
-### Running tests
-
-Assuming your docker-compose is already "up," you can run the following commands from the `development-environment` directory to run tests. All these are run "inside" the existing `website` container that needs to already have been started.
-
-```sh
-# run rubocop to lint the codebase
-./bin/script website lint
-
-# run rails test
-./bin/script website run-tests
-
-# run rails test:system
-./bin/script website run-system-tests
-
-# run yarn test
-./bin/script website run-js-tests
-```
-
-#### Running single tests
-
-Often you only want to run the tests in a single file. You can do that by passing an additional argument to the scripts:
-
-```bash
-# run rails test test/commands/track/create_test.rb
-./bin/script website run-tests test/commands/track/create_test.rb
-
-# run rails test:system test/system/components/tooltips/tooltip_test.rb
-./bin/script website run-system-tests test/system/components/tooltips/tooltip_test.rb
-
-# run yarn test test/javascript/components/student/TracksList/Track.test.js
-./bin/script website run-js-tests test/javascript/components/student/TracksList/Track.test.js
-```
-
-### Local setup
-
-The website can be also be setup and run locally. This is unsupported.
 You need the following installed:
 
 - Ruby 3.1.0 (For other Ruby versions, change the version in the `Gemfile`)
@@ -67,20 +19,20 @@ You need the following installed:
 - [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
 - [S3Mock](https://github.com/adobe/s3mock)
 
-Run localstack for a local AWS, and elasticsearch seperately:
+Run localstack for a local AWS, and opensearch via Docker:
 
 ```bash
 docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
 docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:1.1.0
 ```
 
-#### Mac-Specific
+### Mac-Specific
 
 The main dependencies can be installed via homebrew
 
 - `brew install libgit2 cmake pkg-config anycable-go hivemind`
 
-#### Configure the database
+### Configure the database
 
 Running these commands inside a mysql console will get a working database setup:
 
@@ -113,7 +65,7 @@ EXERCISM_ENV=development bundle exec setup_exercism_local_aws
 
 **Note: you will need to do this every time you reset dynamodb, which happens when Docker is restarted.**
 
-#### Running the local servers
+### Running the local servers
 
 We have a Procfile which executes the various commands need to run Exercism locally.
 On MacOSX we recommend using `hivemind` to manage this, which can be installed via `brew install hivemind`.

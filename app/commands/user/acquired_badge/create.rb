@@ -3,7 +3,11 @@ class User
     class Create
       include Mandate
 
-      initialize_with :user, :slug
+      def initialize(user, slug, send_email: true)
+        @user = user
+        @slug = slug
+        @send_email = send_email
+      end
 
       def call
         # Check to see if it exists already before
@@ -21,7 +25,10 @@ class User
             user: user,
             badge: badge
           ).tap do |uab|
-            User::Notification::CreateEmailOnly.(user, :acquired_badge, user_acquired_badge: uab) if badge.send_email_on_acquisition?
+            if badge.send_email_on_acquisition? && send_email
+              User::Notification::CreateEmailOnly.(user, :acquired_badge,
+                user_acquired_badge: uab)
+            end
 
             User::Notification::Create.(user, badge.notification_key, {}) if badge.notification_key.present?
           end
@@ -36,6 +43,9 @@ class User
           )
         end
       end
+
+      private
+      attr_reader :user, :slug, :send_email
 
       memoize
       def badge

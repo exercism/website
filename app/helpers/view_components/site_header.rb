@@ -9,7 +9,7 @@ module ViewComponents
       tag.header(id: "site-header") do
         announcement_bar +
           tag.div(class: "lg-container container") do
-            logo + docs_nav + contextual_section
+            logo + ukraine + docs_nav + contextual_section
           end
       end
     end
@@ -26,8 +26,15 @@ module ViewComponents
     end
 
     def logo
-      link_to Exercism::Routes.root_path, class: "exercism-link lg:hidden xl:block" do
-        icon "exercism-with-logo-black", "Exercism"
+      link_to Exercism::Routes.root_path, class: "exercism-link xl:block" do
+        icon("exercism-with-logo-black", "Exercism")
+      end
+    end
+
+    def ukraine
+      link_to "https://donate.redcross.org.uk/appeal/ukraine-crisis-appeal", class: "ukraine-link", target: "_blank",
+        rel: 'noopener' do
+        icon("ukraine", "Ukraine-coloured heart")
       end
     end
 

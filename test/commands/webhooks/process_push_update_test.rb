@@ -44,7 +44,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   end
 
   test "should dispatch org-wide-files event when commit contains added file in .appends directory" do
-    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:appends_update, ['exercism/ruby'], 'user17')
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:repo_update, ['exercism/ruby'], 'user17')
 
     Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', 'user17', [
                                    { added: ['.appends/labels.yml'], removed: [], modified: [] }
@@ -52,7 +52,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   end
 
   test "should dispatch org-wide-files event when commit contains removed file from .appends directory" do
-    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:appends_update, ['exercism/website'], 'user17')
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:repo_update, ['exercism/website'], 'user17')
 
     Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'website', 'user17', [
                                    { added: [], removed: ['.appends/issues.json'], modified: [] }
@@ -60,7 +60,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   end
 
   test "should dispatch org-wide-files event when commit contains modified file in .appends directory" do
-    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:appends_update, ['exercism/configlet'], 'user17')
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:repo_update, ['exercism/configlet'], 'user17')
 
     Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'configlet', 'user17', [
                                    { added: [], removed: [], modified: ['.appends/LICENSE.md'] }
@@ -72,6 +72,30 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
 
     Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', 'user17', [
                                    { added: ['README.md'], removed: ['GENERATORS.md'], modified: ['CONTRIBUTING.md'] }
+                                 ])
+  end
+
+  test "should dispatch org-wide-files event when commit contains added org-wide-files-config file" do
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:repo_update, ['exercism/ruby'], 'user17')
+
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', 'user17', [
+                                   { added: ['.github/org-wide-files-config.toml'], removed: [], modified: [] }
+                                 ])
+  end
+
+  test "should dispatch org-wide-files event when commit contains removed org-wide-files-config file" do
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:repo_update, ['exercism/website'], 'user17')
+
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'website', 'user17', [
+                                   { added: [], removed: ['.github/org-wide-files-config.toml'], modified: [] }
+                                 ])
+  end
+
+  test "should dispatch org-wide-files event when commit contains modified org-wide-files-config file" do
+    Github::DispatchEventToOrgWideFilesRepo.expects(:call).with(:repo_update, ['exercism/configlet'], 'user17')
+
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'configlet', 'user17', [
+                                   { added: [], removed: [], modified: ['.github/org-wide-files-config.toml'] }
                                  ])
   end
 end

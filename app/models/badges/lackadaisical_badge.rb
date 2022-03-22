@@ -1,0 +1,18 @@
+module Badges
+  class LackadaisicalBadge < Badge
+    seed "Lackadaisical",
+      :ultimate,
+      'lackadaisical',
+      'Awarded for completing the "Bob" exercise in five languages'
+
+    def award_to?(user)
+      user.solutions.completed.joins(:exercise).
+        where('exercises.slug': 'bob').
+        count >= 5
+    end
+
+    def send_email_on_acquisition?
+      true
+    end
+  end
+end

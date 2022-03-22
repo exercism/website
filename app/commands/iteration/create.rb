@@ -23,6 +23,7 @@ class Iteration
         GenerateIterationSnippetJob.perform_later(iteration)
         CalculateLinesOfCodeJob.perform_later(iteration)
         ProcessIterationForDiscussionsJob.perform_later(iteration)
+        AwardBadgeJob.perform_later(user, :die_unendliche_geschichte)
         record_activity!(iteration)
       end
     rescue ActiveRecord::RecordNotUnique

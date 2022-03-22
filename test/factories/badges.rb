@@ -6,7 +6,7 @@ FactoryBot.define do
   %i[
     member rookie supporter contributor
     anybody_there growth_mindset v1 v2
-    die_unendliche_geschichte
+    new_years_resolution die_unendliche_geschichte
   ].each do |type|
     factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do
     end

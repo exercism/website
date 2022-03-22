@@ -30,6 +30,7 @@ module Mentor
         block!
         create_testimonial!
         award_reputation!
+        award_badge!
       end
 
       def requeue!
@@ -80,6 +81,10 @@ module Mentor
           :mentored,
           discussion: discussion
         )
+      end
+
+      def award_badge!
+        AwardBadgeJob.perform_later(discussion.mentor, :mentor)
       end
 
       private

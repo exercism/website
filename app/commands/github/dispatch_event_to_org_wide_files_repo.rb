@@ -21,7 +21,7 @@ module Github
       }.to_json
     end
 
-    EVENT_TYPES = %i[appends_update].freeze
+    EVENT_TYPES = %i[repo_update].freeze
     private_constant :EVENT_TYPES
   end
 end

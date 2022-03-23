@@ -3,7 +3,7 @@ module Badges
     seed "V3 Pioneer",
       :ultimate,
       'v3-pioneer',
-      'Awarded for having helped build Exercism version 3'
+      'Helped build Exercism version 3'
 
     def award_to?(user)
       V3_PIONEERS.include?(user.handle.downcase)

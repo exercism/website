@@ -6,7 +6,7 @@ class Badge::MentorBadgeTest < ActiveSupport::TestCase
     assert_equal "Mentor", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :mentor, badge.icon
-    assert_equal "Awarded for mentoring 10 students", badge.description
+    assert_equal "Mentored 10 students", badge.description
     refute badge.send_email_on_acquisition?
   end
 

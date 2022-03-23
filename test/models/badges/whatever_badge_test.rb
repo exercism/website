@@ -6,7 +6,7 @@ class Badge::WhateverBadgeTest < ActiveSupport::TestCase
     assert_equal "Whatever", badge.name
     assert_equal :common, badge.rarity
     assert_equal :whatever, badge.icon
-    assert_equal 'Awarded for completing the "Bob" exercise', badge.description
+    assert_equal 'Completed the "Bob" exercise', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

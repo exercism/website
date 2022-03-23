@@ -3,7 +3,7 @@ module Badges
     seed "V2",
       :common,
       'v2',
-      'Awarded for having joined when Exercism was at version 2'
+      'Joined when Exercism was at version 2'
 
     def award_to?(user)
       return false if user.confirmed_at.nil?

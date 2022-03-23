@@ -6,7 +6,7 @@ class Badge::AnybodyThereBadgeTest < ActiveSupport::TestCase
     assert_equal "Anybody there?", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :'hello-world', badge.icon
-    assert_equal 'Awarded for completing "Hello, World!" in five languages', badge.description
+    assert_equal 'Completed "Hello, World!" in five languages', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

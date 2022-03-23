@@ -6,7 +6,7 @@ class Badge::LackadaisicalBadgeTest < ActiveSupport::TestCase
     assert_equal "Lackadaisical", badge.name
     assert_equal :ultimate, badge.rarity
     assert_equal :lackadaisical, badge.icon
-    assert_equal 'Awarded for completing the "Bob" exercise in five languages', badge.description
+    assert_equal 'Completed the "Bob" exercise in five languages', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

@@ -3,7 +3,7 @@ module Badges
     seed "Researcher",
       :ultimate,
       'researcher',
-      'Awarded for having helped with Exercism Research'
+      'Helped with Exercism Research'
 
     def award_to?(user)
       RESEARCHERS.include?(user.handle.downcase)

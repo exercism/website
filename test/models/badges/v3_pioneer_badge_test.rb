@@ -7,7 +7,7 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
     assert_equal :ultimate, badge.rarity
     assert_equal :'v3-pioneer', badge.icon # rubocop:disable Naming/VariableNumber
     assert_equal 'Awarded for having helped build Exercism version 3', badge.description
-    refute badge.send_email_on_acquisition?
+    assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end
 

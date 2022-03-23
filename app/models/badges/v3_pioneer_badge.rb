@@ -10,7 +10,7 @@ module Badges
     end
 
     def send_email_on_acquisition?
-      false
+      true
     end
 
     V3_PIONEERS = %w[

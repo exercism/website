@@ -140,4 +140,18 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     AwardReputationTokenJob.expects(:perform_later).never
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 1)
   end
+
+  test "awards mentor badge" do
+    mentor = create :user
+    9.times do |_idx|
+      create :mentor_discussion, :student_finished, mentor: mentor
+    end
+
+    discussion = create :mentor_discussion, mentor: mentor
+    refute mentor.badges.present?
+
+    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+    perform_enqueued_jobs
+    assert_equal Badges::MentorBadge, mentor.reload.badges.first.class
+  end
 end

@@ -6,7 +6,9 @@ module Badges
       'Helped develop Exercism Research'
 
     def award_to?(user)
-      RESEARCHERS.include?(user.handle.downcase)
+      return false unless user.github_username
+
+      RESEARCHERS.include?(user.github_username.downcase)
     end
 
     def send_email_on_acquisition?

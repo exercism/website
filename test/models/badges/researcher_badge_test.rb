@@ -6,7 +6,7 @@ class Badge::ResearcherBadgeTest < ActiveSupport::TestCase
     assert_equal "Researcher", badge.name
     assert_equal :ultimate, badge.rarity
     assert_equal :researcher, badge.icon
-    assert_equal 'Helped with Exercism Research', badge.description
+    assert_equal 'Helped develop Exercism Research', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

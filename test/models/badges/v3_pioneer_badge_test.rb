@@ -17,9 +17,12 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
     non_pioneer_user = create :user
     refute badge.award_to?(non_pioneer_user)
 
+    non_github_user = create :user, github_username: nil
+    refute badge.award_to?(non_github_user)
+
     # Checks username case-insensitive
-    %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |handle|
-      user = create :user, handle: handle
+    %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |github_username|
+      user = create :user, github_username: github_username
       assert badge.award_to?(user)
       user.destroy
     end
@@ -191,8 +194,8 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
       ZoltanOnody
       Zulu-Inuoe
       zuzia-kru
-    ].each do |pioneer|
-      pioneer_user = create :user, handle: pioneer
+    ].each do |github_username|
+      pioneer_user = create :user, github_username: github_username
 
       # Award to pioneer user
       assert badge.award_to?(pioneer_user)

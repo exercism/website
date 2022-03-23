@@ -6,7 +6,9 @@ module Badges
       'Contributed to the development of Exercism v3'
 
     def award_to?(user)
-      V3_PIONEERS.include?(user.handle.downcase)
+      return false unless user.github_username
+
+      V3_PIONEERS.include?(user.github_username.downcase)
     end
 
     def send_email_on_acquisition?

@@ -16,6 +16,7 @@ module Badges
     end
 
     V3_PIONEERS = %w[
+      aerostun
       aes421
       aimorris
       albusportucalis
@@ -59,7 +60,6 @@ module Badges
       eqt
       ericbalawejder
       erikschierboom
-      erostun
       evelynstender
       ferhatelmas
       fireproofsocks
@@ -73,7 +73,7 @@ module Badges
       himanshugoyal1065
       ihid
       infiniteverma
-      isaac
+      isaacg
       itamargal
       j08k
       jamessouth
@@ -93,6 +93,7 @@ module Badges
       khoivan88
       kimolivia
       kmjones77
+      kntsoriano
       kotp
       kristinaborn
       kytrinyx
@@ -121,7 +122,6 @@ module Badges
       nikimanoledaki
       nobbz
       nov314k
-      ntsoriano
       oanaom
       omega-y
       ovidiu141

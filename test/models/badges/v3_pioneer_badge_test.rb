@@ -28,6 +28,7 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
     end
 
     %w[
+      AeroStun
       aes421
       aimorris
       AlbusPortucalis
@@ -71,7 +72,6 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
       EQt
       ericbalawejder
       ErikSchierboom
-      eroStun
       evelynstender
       ferhatelmas
       fireproofsocks
@@ -85,7 +85,7 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
       himanshugoyal1065
       iHiD
       InfiniteVerma
-      isaac
+      isaacg
       itamargal
       J08K
       jamessouth
@@ -105,6 +105,7 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
       khoivan88
       kimolivia
       kmjones77
+      kntsoriano
       kotp
       kristinaborn
       kytrinyx
@@ -133,7 +134,6 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
       nikimanoledaki
       NobbZ
       nov314k
-      ntsoriano
       oanaOM
       OMEGA-Y
       ovidiu141

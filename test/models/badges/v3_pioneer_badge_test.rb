@@ -17,6 +17,13 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
     non_pioneer_user = create :user
     refute badge.award_to?(non_pioneer_user)
 
+    # Checks username case-insensitive
+    %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |handle|
+      user = create :user, handle: handle
+      assert badge.award_to?(user)
+      user.destroy
+    end
+
     %w[
       aes421
       aimorris

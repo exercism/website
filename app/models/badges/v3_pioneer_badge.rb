@@ -6,7 +6,7 @@ module Badges
       'Awarded for having helped build Exercism version 3'
 
     def award_to?(user)
-      V3_PIONEERS.include?(user.handle)
+      V3_PIONEERS.include?(user.handle.downcase)
     end
 
     def send_email_on_acquisition?
@@ -16,37 +16,37 @@ module Badges
     V3_PIONEERS = %w[
       aes421
       aimorris
-      AlbusPortucalis
+      albusportucalis
       aldraco
-      AlexLeSang
+      alexlesang
       andrerfcsantos
       andres-zartab
       angelikatyborska
-      archrisV
-      Azumix
+      archrisv
+      azumix
       batibot323
       bemself
       ben-grossmann
       benreyn
       bergjohan
-      BethanyG
+      bethanyg
       bgottlob
       biancapower
       bkhl
       bmeverett
       bobahop
-      Br1ght0ne
-      Calamari
+      br1ght0ne
+      calamari
       ceddlyburge
       chocopowwwa
       cmcaine
       cmccandless
-      Cohen-Carlisle
-      Corentin-Leffy
+      cohen-carlisle
+      corentin-leffy
       coriolinus
       cstby
-      DavidGerva
-      DavyJ0nes
+      davidgerva
+      davyj0nes
       dector
       devanshraj300
       devkabiir
@@ -54,29 +54,29 @@ module Badges
       ee7
       efx
       eparovyshnaya
-      EQt
+      eqt
       ericbalawejder
-      ErikSchierboom
-      eroStun
+      erikschierboom
+      erostun
       evelynstender
       ferhatelmas
       fireproofsocks
       gilescope
       goalaleo
-      HanaisMe
+      hanaisme
       hans-d
-      HaoZeke
+      haozeke
       haunshila
       hayashi-ay
       himanshugoyal1065
-      iHiD
-      InfiniteVerma
+      ihid
+      infiniteverma
       isaac
       itamargal
-      J08K
+      j08k
       jamessouth
       jiegillet
-      Jlamon
+      jlamon
       jmrunkle
       jocelo
       jonathanyeong
@@ -87,7 +87,7 @@ module Badges
       junedev
       jwarwick
       kayn1
-      KevinWMatthews
+      kevinwmatthews
       khoivan88
       kimolivia
       kmjones77
@@ -96,7 +96,7 @@ module Badges
       kytrinyx
       leobenkel
       lewisclement
-      Limm-jk
+      limm-jk
       lxmrc
       m-dango
       maurelio1234
@@ -114,14 +114,14 @@ module Badges
       nathanchere
       neenjaw
       neiesc
-      NextNebula
+      nextnebula
       nicolechalmers
       nikimanoledaki
-      NobbZ
+      nobbz
       nov314k
       ntsoriano
-      oanaOM
-      OMEGA-Y
+      oanaom
+      omega-y
       ovidiu141
       paparomeo
       patricksjackson
@@ -130,7 +130,7 @@ module Badges
       porkostomus
       pranasziaukas
       proose
-      Prounckk
+      prounckk
       pvcarrera
       pwadsworth
       pyropy
@@ -143,8 +143,8 @@ module Badges
       ryanplusplus
       sachsom95
       samuelteixeiras
-      samWson
-      SaschaMann
+      samwson
+      saschamann
       seanchen1991
       sebito91
       senal
@@ -154,16 +154,16 @@ module Badges
       shubhsk88
       siebenschlaefer
       silvanocerza
-      SleeplessByte
+      sleeplessbyte
       sshine
-      Stargator
-      Syntax753
+      stargator
+      syntax753
       taiyab
-      TalesDias
+      talesdias
       tehsphinx
-      TheLostLambda
+      thelostlambda
       thodg
-      Ticktakto
+      ticktakto
       timotheosh
       tushartyagi
       uzilan
@@ -173,12 +173,12 @@ module Badges
       wnstj2007
       wolf99
       workingjubilee
-      Yabby1997
+      yabby1997
       yawpitch
       ynfle
       ystromm
-      ZoltanOnody
-      Zulu-Inuoe
+      zoltanonody
+      zulu-inuoe
       zuzia-kru
     ].freeze
     private_constant :V3_PIONEERS

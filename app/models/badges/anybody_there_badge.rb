@@ -3,7 +3,7 @@ module Badges
     seed "Anybody there?",
       :rare,
       'hello-world',
-      'Awarded for completing "Hello, World!" in five languages'
+      'Completed "Hello, World!" in five languages'
 
     def award_to?(user)
       user.solutions.completed.joins(:exercise).

@@ -3,7 +3,7 @@ module Badges
     seed "Mentor",
       :rare,
       :mentor,
-      "Awarded for mentoring 10 students"
+      "Mentored 10 students"
 
     def award_to?(user)
       user.mentor_discussions.joins(:request).

@@ -6,7 +6,7 @@ class Badge::ContributorBadgeTest < ActiveSupport::TestCase
     assert_equal "Contributor", badge.name
     assert_equal :ultimate, badge.rarity
     assert_equal :contributors, badge.icon
-    assert_equal 'Awarded for contributing to Exercism', badge.description
+    assert_equal 'Contributed to Exercism', badge.description
     refute badge.send_email_on_acquisition?
     assert_equal :added_to_contributors_page, badge.notification_key
   end

@@ -6,7 +6,7 @@ class Badge::GrowthMindsetBadgeTest < ActiveSupport::TestCase
     assert_equal "Growth Mindset", badge.name
     assert_equal :common, badge.rarity
     assert_equal :mentoring, badge.icon
-    assert_equal "Awarded for iterating a solution while working with a mentor", badge.description
+    assert_equal "Iterated a solution while working with a mentor", badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

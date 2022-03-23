@@ -12,7 +12,7 @@ class SerializeUserAcquiredBadgesTest < ActiveSupport::TestCase
         is_revealed: false,
         unlocked_at: acquired_badge.created_at.iso8601,
         name: "Rookie",
-        description: "Awarded for submitting an exercise",
+        description: "Submitted an exercise",
         rarity: :common,
         icon_name: :editor,
         num_awardees: 1,

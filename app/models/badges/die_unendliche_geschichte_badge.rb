@@ -3,7 +3,7 @@ module Badges
     seed "Die Unendliche Geschichte",
       :rare,
       'die-unendliche-geschichte',
-      'Awarded for submitting 10 iterations to the same exercise'
+      'Submitted 10 iterations to the same exercise'
 
     def award_to?(user)
       user.iterations.

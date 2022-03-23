@@ -6,7 +6,7 @@ class Badge::DieUnendlicheGeschichteBadgeTest < ActiveSupport::TestCase
     assert_equal "Die Unendliche Geschichte", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :'die-unendliche-geschichte', badge.icon
-    assert_equal 'Awarded for submitting 10 iterations to the same exercise', badge.description
+    assert_equal 'Submitted 10 iterations to the same exercise', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

@@ -3,7 +3,7 @@ module Badges
     seed "Lackadaisical",
       :ultimate,
       'lackadaisical',
-      'Awarded for completing the "Bob" exercise in five languages'
+      'Completed the "Bob" exercise in five languages'
 
     def award_to?(user)
       user.solutions.completed.joins(:exercise).

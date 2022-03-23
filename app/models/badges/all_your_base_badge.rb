@@ -3,7 +3,7 @@ module Badges
     seed "All your base are belong to us",
       :rare,
       'all-your-base',
-      'Awarded for completing the "All Your Base" exercise'
+      'Completed the "All Your Base" exercise'
 
     def award_to?(user)
       user.solutions.completed.joins(:exercise).

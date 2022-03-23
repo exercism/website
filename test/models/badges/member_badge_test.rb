@@ -6,7 +6,7 @@ class Badge::MemberBadgeTest < ActiveSupport::TestCase
     assert_equal "Member", badge.name
     assert_equal :common, badge.rarity
     assert_equal :logo, badge.icon
-    assert_equal "Awarded for joining Exercism", badge.description
+    assert_equal "Joined Exercism", badge.description
     refute badge.send_email_on_acquisition?
   end
 

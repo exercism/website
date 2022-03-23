@@ -3,7 +3,7 @@ module Badges
     seed "Supporter",
       :rare,
       :supporter,
-      "Donated to Exercism, helping fund free education for everyone"
+      "Donated to Exercism, helping fund free education"
 
     def award_to?(user)
       user.total_donated_in_cents.positive?

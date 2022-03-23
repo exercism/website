@@ -3,7 +3,7 @@ module Badges
     seed "Contributor",
       :ultimate,
       :contributors,
-      'Awarded for contributing to Exercism'
+      'Contributed to Exercism'
 
     def award_to?(user)
       User::ReputationToken.where(

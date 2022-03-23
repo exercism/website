@@ -3,7 +3,7 @@ module Badges
     seed "New Years Resolution",
       :rare,
       'new-years-resolution',
-      'Awarded for submitting a solution on January 1st'
+      'Submitted a solution on January 1st'
 
     def award_to?(user)
       user.solutions.

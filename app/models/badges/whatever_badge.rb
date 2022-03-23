@@ -3,7 +3,7 @@ module Badges
     seed "Whatever",
       :common,
       'whatever',
-      'Awarded for completing the "Bob" exercise'
+      'Completed the "Bob" exercise'
 
     def award_to?(user)
       user.solutions.completed.joins(:exercise).

@@ -98,6 +98,24 @@ module Flows
 
         assert_link "Strings", href: track_exercise_path(exercise.track, exercise.slug)
       end
+
+      test "shows other contributions for a user" do
+        user = create :user, handle: "maintainer"
+        create :user_profile, user: user
+        create :user_arbitrary_reputation_token,
+          user: user,
+          params: {
+            arbitrary_value: 19,
+            arbitrary_reason: 'For helping troubleshoot'
+          }
+
+        use_capybara_host do
+          sign_in!(user)
+          visit contributions_profile_url(user.handle)
+        end
+
+        assert_text "For helping troubleshoot"
+      end
     end
   end
 end

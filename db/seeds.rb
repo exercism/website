@@ -70,6 +70,32 @@ karlo.confirm
 karlo.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 karlo.auth_tokens.create!
 
+# Create Alice, a maintainer user
+puts "Creating User alice"
+alice = User.find_by(handle: 'alice') || User.create!(
+  handle: 'alice',
+  email: 'alice@exercism.org',
+  name: 'Alice',
+  password: 'password',
+  roles: [:maintainer]
+)
+alice.confirm
+alice.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
+alice.auth_tokens.create!
+
+# Create Bob, a regular user
+puts "Creating User bob"
+bob = User.find_by(handle: 'bob') || User.create!(
+  handle: 'bob',
+  email: 'bob@exercism.org',
+  name: 'Bob',
+  password: 'password',
+  roles: []
+)
+bob.confirm
+bob.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
+bob.auth_tokens.create!
+
 track_slugs = %w[05ab1e ada arm64-assembly ballerina bash c ceylon cfml clojure clojurescript coffeescript common-lisp coq cpp crystal csharp d dart delphi elixir elm emacs-lisp erlang factor forth fortran fsharp gleam gnu-apl go groovy haskell haxe idris io j java javascript julia kotlin lfe lua mips nim nix objective-c ocaml perl5 pharo-smalltalk php plsql pony powershell prolog purescript python r racket raku reasonml ruby rust scala scheme shen sml solidity swift system-verilog tcl typescript vbnet vimscript x86-64-assembly zig]
 track_slugs.each do |track_slug|
   next unless %w[ruby csharp prolog].include?(track_slug)

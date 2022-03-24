@@ -8,7 +8,7 @@ class User::ReputationPeriod
       args = { user_id: token.user_id, user_handle: token.user.handle, dirty: true }
 
       rows = %i[forever year month week].flat_map do |period|
-        # Make rows for :any and the category as long as the category isn't publishing
+        # Make rows for :any and the category as long as the category isn't publishing or misc
         categories = [:any]
         categories << token.category unless %i[publishing misc].include?(token.category.to_sym)
 

@@ -51,22 +51,22 @@ module Git
 
     memoize
     def has_concept_exercises?
-      !!config[:status][:concept_exercises]
+      !!status[:concept_exercises]
     end
 
     memoize
     def has_test_runner?
-      !!config[:status][:test_runner]
+      !!status[:test_runner]
     end
 
     memoize
     def has_representer?
-      config[:status][:representer]
+      !!status[:representer]
     end
 
     memoize
     def has_analyzer?
-      config[:status][:analyzer]
+      !!status[:analyzer]
     end
 
     memoize
@@ -152,6 +152,11 @@ module Git
     memoize
     def test_runner
       config[:test_runner] || {}
+    end
+
+    memoize
+    def status
+      config[:status] || {}
     end
   end
 end

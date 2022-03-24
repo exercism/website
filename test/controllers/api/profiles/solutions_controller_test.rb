@@ -63,7 +63,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
     setup_user
 
     profile_user = create(:user_profile).user
-    5.times { create :practice_solution, :published, user: profile_user }
+    5.times { |i| create :practice_solution, :published, user: profile_user, num_stars: i }
 
     Solution.find_each { |solution| create :iteration, submission: create(:submission, solution: solution) }
 

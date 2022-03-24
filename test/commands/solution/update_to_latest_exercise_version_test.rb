@@ -50,4 +50,16 @@ class Solution::UpdateToLatestExerciseVersionTest < ActiveSupport::TestCase
 
     Solution::UpdateToLatestExerciseVersion.(solution)
   end
+
+  test "don't rerun test if test runner is disabled" do
+    solution = create :concept_solution
+    solution.exercise.update(has_test_runner: false)
+    create(:iteration, solution: solution).submission
+    create(:iteration, solution: solution).submission
+    create(:iteration, solution: solution, deleted_at: Time.current).submission
+
+    Submission::TestRun::Init.expects(:call).never
+
+    Solution::UpdateToLatestExerciseVersion.(solution)
+  end
 end

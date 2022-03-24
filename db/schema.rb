@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_18_160303) do
+ActiveRecord::Schema.define(version: 2022_03_24_090941) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -652,6 +652,8 @@ ActiveRecord::Schema.define(version: 2021_12_18_160303) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "course", default: false, null: false
     t.boolean "has_test_runner", default: false, null: false
+    t.boolean "has_representer", default: false, null: false
+    t.boolean "has_analyzer", default: false, null: false
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 

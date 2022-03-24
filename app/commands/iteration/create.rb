@@ -32,8 +32,8 @@ class Iteration
 
     def init_services
       Submission::TestRun::Init.(submission) if submission.tests_not_queued? && solution.exercise.has_test_runner?
-      Submission::Representation::Init.(submission)
-      Submission::Analysis::Init.(submission)
+      Submission::Representation::Init.(submission) if solution.track.has_representer?
+      Submission::Analysis::Init.(submission) if solution.track.has_analyzer?
     end
 
     def record_activity!(iteration)

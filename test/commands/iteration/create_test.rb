@@ -94,6 +94,26 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, submission)
   end
 
+  test "do not create representation if there's no representer" do
+    track = create :track, has_representer: false
+    exercise = create :concept_exercise, track: track
+    solution = create :concept_solution, exercise: exercise
+    submission = create :submission, solution: solution
+
+    Submission::Representation::Init.expects(:call).never
+    Iteration::Create.(solution, submission)
+  end
+
+  test "do not analyze if there's no analyzer" do
+    track = create :track, has_analyzer: false
+    exercise = create :concept_exercise, track: track
+    solution = create :concept_solution, exercise: exercise
+    submission = create :submission, solution: solution
+
+    Submission::Analysis::Init.expects(:call).never
+    Iteration::Create.(solution, submission)
+  end
+
   test "starts analysis and representation" do
     filename_1 = "subdir/foobar.rb"
     content_1 = "'I think' = 'I am'"

@@ -8,14 +8,15 @@
         .handle= current_user.handle
         .extra= current_user.name
       / TODO: Add tests for this
-      .badges
-        - @featured_badges.each do |badge|
-          .c-badge-medallion{ class: "--#{badge.rarity}" }
-            = graphical_icon badge.icon
-        .count
-          - num_extra_badges = @num_badges - @featured_badges.size
-          - if num_extra_badges.positive?
-            + #{num_extra_badges} more
+      = link_to badges_profile_path(current_user) do
+        .badges
+          - @featured_badges.each do |badge|
+            .c-badge-medallion{ class: "--#{badge.rarity}" }
+              = graphical_icon badge.icon
+          .count
+            - num_extra_badges = @num_badges - @featured_badges.size
+            - if num_extra_badges.positive?
+              + #{num_extra_badges} more
 
       .journey
         = link_to journey_path, class: 'c-prominent-link --with-bg' do

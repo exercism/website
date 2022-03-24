@@ -31,11 +31,12 @@
           = graphical_icon :badges
           %h3 #{pluralize user.acquired_badges.count, 'badge'} collected
           = render ViewComponents::ProminentLink.new("See all", badges_profile_path(user))
-        .badges
-          - user.featured_badges.each do |badge|
-            .c-badge
-              .c-badge-medallion{ class: "--#{badge.rarity}" }
-                = icon(badge.icon, "Badge: #{badge.name}")
+        = link_to badges_profile_path(user) do
+          .badges
+            - user.featured_badges.each do |badge|
+              .c-badge
+                .c-badge-medallion{ class: "--#{badge.rarity}" }
+                  = icon(badge.icon, "Badge: #{badge.name}")
 
         - if user.roles.present?
           .tags

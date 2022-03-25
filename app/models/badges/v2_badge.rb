@@ -1,6 +1,6 @@
 module Badges
   class V2Badge < Badge
-    seed "V2",
+    seed "v2",
       :common,
       'v2',
       'Joined Exercism before September 1st 2021'

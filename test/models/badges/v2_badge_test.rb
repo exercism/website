@@ -3,7 +3,7 @@ require "test_helper"
 class Badge::V2BadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :v2_badge
-    assert_equal "V2", badge.name
+    assert_equal "v2", badge.name
     assert_equal :common, badge.rarity
     assert_equal :v2, badge.icon # rubocop:disable Naming/VariableNumber
     assert_equal 'Joined Exercism before September 1st 2021', badge.description

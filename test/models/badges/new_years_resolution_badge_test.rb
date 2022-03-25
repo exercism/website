@@ -3,7 +3,7 @@ require "test_helper"
 class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :new_years_resolution_badge
-    assert_equal "New Year's Resolution", badge.name
+    assert_equal "New Year's resolution", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :'new-years-resolution', badge.icon
     assert_equal "Submitted a solution on January 1st", badge.description

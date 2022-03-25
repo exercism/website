@@ -1,6 +1,6 @@
 module Badges
   class NewYearsResolutionBadge < Badge
-    seed "New Years Resolution",
+    seed "New Year's Resolution",
       :rare,
       'new-years-resolution',
       'Submitted a solution on January 1st'

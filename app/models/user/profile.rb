@@ -17,6 +17,6 @@ class User::Profile < ApplicationRecord
 
   memoize
   def contributions_tab?
-    user.reputation_tokens.where(category: %i[building authoring maintaining]).exists?
+    user.reputation_tokens.where(category: %i[building authoring maintaining misc]).exists?
   end
 end

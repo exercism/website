@@ -30,3 +30,6 @@ en:
     issue_author:
       1: >
         You opened <strong>issue#%{issue_number}</strong> on <strong>%{repo}</strong>: %{issue_title}
+    arbitrary:
+      1: >
+        %{reason}

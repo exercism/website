@@ -20,5 +20,9 @@ class User::ProfileTest < ActiveSupport::TestCase
     User::ReputationToken.destroy_all
     create :user_code_merge_reputation_token, user: user
     assert profile.reload.contributions_tab?
+
+    User::ReputationToken.destroy_all
+    create :user_arbitrary_reputation_token, user: user
+    assert profile.reload.contributions_tab?
   end
 end

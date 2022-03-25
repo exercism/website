@@ -21,7 +21,7 @@ class IterationCreatedTest < ActionDispatch::IntegrationTest
     end
 
     assert_equal :awaiting_mentor, discussion.reload.status
-    email = ActionMailer::Base.deliveries.last
+    email = ActionMailer::Base.deliveries.first
     assert_equal(
       "[Mentoring] student has submitted a new iteration on the solution you are mentoring for Ruby/Strings",
       email.subject

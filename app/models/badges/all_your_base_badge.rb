@@ -1,6 +1,6 @@
 module Badges
   class AllYourBaseBadge < Badge
-    seed "All your base are belong to us",
+    seed "All your base",
       :rare,
       'all-your-base',
       'Completed the "All Your Base" exercise'

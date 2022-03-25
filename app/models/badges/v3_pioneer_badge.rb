@@ -1,6 +1,6 @@
 module Badges
   class V3PioneerBadge < Badge
-    seed "V3 Pioneer",
+    seed "v3 pioneer",
       :ultimate,
       'v3-pioneer',
       'Contributed to the development of Exercism v3'

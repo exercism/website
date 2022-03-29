@@ -151,6 +151,31 @@ module Git
       assert_equal expected_filepaths, exercise.important_filepaths
     end
 
+    test "valid_filepaths" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert exercise.valid_submission_filepath?('bob.rb')
+      assert exercise.valid_submission_filepath?('subdir/more_bob.rb')
+      refute exercise.valid_submission_filepath?('bob_test.rb')
+      refute exercise.valid_submission_filepath?('.meta/config.json')
+      refute exercise.valid_submission_filepath?('.meta/example.rb')
+      refute exercise.valid_submission_filepath?('.docs/instructions.md')
+    end
+
+    test "valid_filepaths with editor files" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert exercise.valid_submission_filepath?('isogram.rb')
+      assert exercise.valid_submission_filepath?('subdir/more_isogram.rb')
+      refute exercise.valid_submission_filepath?('helper.rb')
+      refute exercise.valid_submission_filepath?('isogram_test.rb')
+      refute exercise.valid_submission_filepath?('.meta/config.json')
+      refute exercise.valid_submission_filepath?('.meta/example.rb')
+      refute exercise.valid_submission_filepath?('.docs/instructions.md')
+    end
+
     test "retrieves instructions" do
       exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

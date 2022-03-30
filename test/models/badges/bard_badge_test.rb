@@ -15,7 +15,69 @@ class Badge::BardBadgeTest < ActiveSupport::TestCase
     badge = create :bard_badge
 
     %w[
-      TODO
+      aldraco
+      andrerfcsantos
+      andres-zartab
+      angelikatyborska
+      archrisv
+      bethanyg
+      brugnara
+      ceddlyburge
+      chocopowwwa
+      cmcaine
+      coriolinus
+      efx
+      erikschierboom
+      gilescope
+      ihid
+      isaacg
+      itamargal
+      j08k
+      jamessouth
+      japatgithub
+      jiegillet
+      jmrunkle
+      junedev
+      kimolivia
+      kristinaborn
+      lewisclement
+      limm-jk
+      lxmrc
+      maurelio1234
+      micuffaro
+      mikedamay
+      mohanrajanr
+      mpizenberg
+      neenjaw
+      nikimanoledaki
+      omega-y
+      ovidiu141
+      pault89
+      peterchu999
+      pranasziaukas
+      pvcarrera
+      rishiosaur
+      sachsom95
+      saschamann
+      seanchen1991
+      senal
+      shubhsk88
+      sleeplessbyte
+      stargator
+      still-flow
+      sudomateo
+      talesdias
+      tehsphinx
+      thelostlambda
+      ticktakto
+      tompradat
+      valentin-p
+      verdammelt
+      wneumann
+      wnstj2007
+      yabby1997
+      yyyc514
+      yzalvin
     ].each do |github_username|
       bard_user = create :user, github_username: github_username
       assert badge.award_to?(bard_user)
@@ -26,7 +88,7 @@ class Badge::BardBadgeTest < ActiveSupport::TestCase
     badge = create :bard_badge
 
     # Checks username case-insensitive
-    %w[todo TODO toDo].each do |github_username|
+    %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |github_username|
       user = create :user, github_username: github_username
       assert badge.award_to?(user)
       user.destroy

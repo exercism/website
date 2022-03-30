@@ -15,7 +15,14 @@ class Badge::MossBadgeTest < ActiveSupport::TestCase
     badge = create :moss_badge
 
     %w[
-      TODO
+      andrerfcsantos
+      BethanyG
+      erikschierboom
+      ihid
+      kotp
+      NobbZ
+      SleeplessByte
+      ynfle
     ].each do |github_username|
       supporter_user = create :user, github_username: github_username
       assert badge.award_to?(supporter_user)
@@ -26,7 +33,7 @@ class Badge::MossBadgeTest < ActiveSupport::TestCase
     badge = create :moss_badge
 
     # Checks username case-insensitive
-    %w[todo TODO toDo].each do |github_username|
+    %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |github_username|
       user = create :user, github_username: github_username
       assert badge.award_to?(user)
       user.destroy

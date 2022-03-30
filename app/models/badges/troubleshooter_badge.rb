@@ -16,6 +16,12 @@ module Badges
     end
 
     TROUBLESHOOTERS = %w[
+      angelikatyborska
+      ihid
+      kotp
+      kytrinyx
+      nobbz
+      sleeplessbyte
     ].freeze
     private_constant :TROUBLESHOOTERS
   end

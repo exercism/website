@@ -15,6 +15,12 @@ class Badge::TroubleshooterBadgeTest < ActiveSupport::TestCase
     badge = create :troubleshooter_badge
 
     %w[
+      angelikatyborska
+      iHiD
+      kotp
+      kytrinyx
+      NobbZ
+      SleeplessByte
     ].each do |github_username|
       troubleshooter_user = create :user, github_username: github_username
       assert badge.award_to?(troubleshooter_user)
@@ -25,7 +31,7 @@ class Badge::TroubleshooterBadgeTest < ActiveSupport::TestCase
     badge = create :troubleshooter_badge
 
     # Checks username case-insensitive
-    %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |github_username|
+    %w[sleeplessbyte SLEEPLESSBYTE SleeplessByte].each do |github_username|
       user = create :user, github_username: github_username
       assert badge.award_to?(user)
       user.destroy

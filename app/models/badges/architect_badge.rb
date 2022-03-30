@@ -16,7 +16,24 @@ module Badges
     end
 
     ARCHITECTS = %w[
-      todo
+      angelikatyborska
+      bethanyg
+      ceddlyburge
+      coriolinus
+      davidgerva
+      efx
+      erikschierboom
+      junedev
+      mikedamay
+      mirkoperillo
+      mpizenberg
+      neenjaw
+      porkostomus
+      sleeplessbyte
+      thelostlambda
+      verdammelt
+      wneumann
+      yawpitch
     ].freeze
     private_constant :ARCHITECTS
   end

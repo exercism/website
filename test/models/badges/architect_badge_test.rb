@@ -15,7 +15,24 @@ class Badge::ArchitectBadgeTest < ActiveSupport::TestCase
     badge = create :architect_badge
 
     %w[
-      TODO
+      angelikatyborska
+      BethanyG
+      ceddlyburge
+      coriolinus
+      davidgerva
+      efx
+      erikschierboom
+      junedev
+      mikedamay
+      mirkoperillo
+      mpizenberg
+      neenjaw
+      porkostomus
+      SleeplessByte
+      theLostLambda
+      Verdammelt
+      wneumann
+      yawpitch
     ].each do |github_username|
       architect_user = create :user, github_username: github_username
       assert badge.award_to?(architect_user)
@@ -26,7 +43,7 @@ class Badge::ArchitectBadgeTest < ActiveSupport::TestCase
     badge = create :architect_badge
 
     # Checks username case-insensitive
-    %w[todo TODO toDo].each do |github_username|
+    %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |github_username|
       user = create :user, github_username: github_username
       assert badge.award_to?(user)
       user.destroy

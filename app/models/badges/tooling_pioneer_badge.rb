@@ -16,7 +16,19 @@ module Badges
     end
 
     PIONEERS = %w[
-      todo
+      alirezaghey
+      bergjohan
+      ceddlyburge
+      cmccandless
+      coriolinus
+      erikschierboom
+      ihid
+      mpizenberg
+      seventhnadir
+      sleeplessbyte
+      tehsphinx
+      thelostlambda
+      yawpitch
     ].freeze
     private_constant :PIONEERS
   end

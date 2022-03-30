@@ -15,7 +15,19 @@ class Badge::ToolingPioneerBadgeTest < ActiveSupport::TestCase
     badge = create :tooling_pioneer_badge
 
     %w[
-      TODO
+      alirezaghey
+      bergjohan
+      ceddlyburge
+      cmccandless
+      coriolinus
+      erikschierboom
+      ihid
+      mpizenberg
+      seventhnadir
+      sleeplessbyte
+      tehsphinx
+      thelostlambda
+      yawpitch
     ].each do |github_username|
       tooling_pioneer_user = create :user, github_username: github_username
       assert badge.award_to?(tooling_pioneer_user)
@@ -26,7 +38,7 @@ class Badge::ToolingPioneerBadgeTest < ActiveSupport::TestCase
     badge = create :tooling_pioneer_badge
 
     # Checks username case-insensitive
-    %w[todo TODO toDo].each do |github_username|
+    %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |github_username|
       user = create :user, github_username: github_username
       assert badge.award_to?(user)
       user.destroy

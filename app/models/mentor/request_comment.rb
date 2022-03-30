@@ -30,7 +30,7 @@ class Mentor::RequestComment
       by_student: true,
       content_markdown: request.comment_markdown,
       content_html: request.comment_html,
-      updated_at: request.updated_at,
+      updated_at: request.created_at,
       request: request
     )
   end

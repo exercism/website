@@ -3,7 +3,7 @@ require "test_helper"
 class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :v3_pioneer_badge
-    assert_equal "V3 Pioneer", badge.name
+    assert_equal "v3 pioneer", badge.name
     assert_equal :legendary, badge.rarity
     assert_equal :'v3-pioneer', badge.icon # rubocop:disable Naming/VariableNumber
     assert_equal 'Contributed to the development of Exercism v3', badge.description

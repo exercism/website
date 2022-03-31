@@ -1,6 +1,6 @@
 module Badges
   class GrowthMindsetBadge < Badge
-    seed "Growth Mindset",
+    seed "Growth mindset",
       :common,
       'mentoring',
       'Iterated a solution while working with a mentor'

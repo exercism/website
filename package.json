@@ -70,7 +70,7 @@
     "react-image-crop": "^8.6.9",
     "react-modal": "^3.13.1",
     "react-popper": "^2.2.3",
-    "react-query": "2.23.1",
+    "react-query": "^2.26.4",
     "react-query-devtools": "^2.6.3",
     "react-simplemde-editor": "^5",
     "reconnecting-websocket": "3.2.2",

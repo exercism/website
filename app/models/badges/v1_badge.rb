@@ -1,9 +1,9 @@
 module Badges
   class V1Badge < Badge
-    seed "V1",
+    seed "v1",
       :common,
       'v1',
-      'Joined when Exercism was at version 1'
+      'Joined Exercism before July 13th 2018'
 
     def award_to?(user)
       return false if user.confirmed_at.nil?

@@ -3,7 +3,7 @@ require "test_helper"
 class Badge::GrowthMindsetBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :growth_mindset_badge
-    assert_equal "Growth Mindset", badge.name
+    assert_equal "Growth mindset", badge.name
     assert_equal :common, badge.rarity
     assert_equal :mentoring, badge.icon
     assert_equal "Iterated a solution while working with a mentor", badge.description

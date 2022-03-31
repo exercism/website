@@ -202,4 +202,31 @@ class Iteration::CreateTest < ActiveSupport::TestCase
       assert_equal Badges::DieUnendlicheGeschichteBadge, user.reload.badges.first.class
     end
   end
+
+  test "awards growth mindset badge when solution has mentor discussion" do
+    user = create :user
+    solution = create :concept_solution, user: user
+    submission_1 = create :submission, solution: solution
+    Iteration::Create.(solution, submission_1)
+    perform_enqueued_jobs
+
+    # Sanity check: no discussion present
+    refute user.badges.present?
+
+    create :mentor_discussion, solution: solution.reload
+    submission_2 = create :submission, solution: solution
+    Iteration::Create.(solution, submission_2)
+    perform_enqueued_jobs
+
+    # Sanity check: discussion present, but no iteration after creation of discussion
+    refute user.reload.badges.present?
+
+    travel 1.day do
+      submission_3 = create :submission, solution: solution
+      Iteration::Create.(solution.reload, submission_3)
+      perform_enqueued_jobs
+    end
+
+    assert_equal Badges::GrowthMindsetBadge, user.reload.badges.first.class
+  end
 end

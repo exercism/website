@@ -3,10 +3,11 @@ import { GraphicalIcon } from '../common'
 import { BuildingContributionsList } from './contributions-list/BuildingContributionsList'
 import { MaintainingContributionsList } from './contributions-list/MaintainingContributionsList'
 import { AuthoringContributionsList } from './contributions-list/AuthoringContributionsList'
+import { OtherContributionsList } from './contributions-list/OtherContributionsList'
 import { Request } from '../../hooks/request-query'
 
 export type Category = {
-  title: 'Building' | 'Maintaining' | 'Authoring'
+  title: 'Building' | 'Maintaining' | 'Authoring' | 'Other'
   count: number
   request: Request
   icon: string
@@ -54,6 +55,8 @@ const ContributionsContent = ({ category }: { category: Category }) => {
       return <MaintainingContributionsList request={category.request} />
     case 'Authoring':
       return <AuthoringContributionsList request={category.request} />
+    case 'Other':
+      return <OtherContributionsList request={category.request} />
     default:
       return null
   }

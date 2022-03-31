@@ -27,3 +27,6 @@ en:
     published_solution:
       1: >
         You published your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
+    arbitrary:
+      1: >
+        %{reason}

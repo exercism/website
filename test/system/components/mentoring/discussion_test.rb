@@ -167,7 +167,7 @@ module Components
         student = create :user, handle: "student"
         solution = create :concept_solution, user: student
         request = create :mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
-          updated_at: 2.days.ago
+          created_at: 5.days.ago, updated_at: 2.days.ago
         discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
         submission = create :submission, solution: solution
         create :iteration, idx: 2, solution: solution, created_at: 1.week.ago, submission: submission
@@ -190,7 +190,7 @@ module Components
         assert_css "img[src='#{student.avatar_url}']"
         assert_text "Hello, Mentor"
         assert_text "student"
-        assert_text "2d ago"
+        assert_text "5d ago"
         assert_css "img[src='#{mentor.avatar_url}']"
         assert_css ".comments.unread", text: "2"
         assert_text "author"

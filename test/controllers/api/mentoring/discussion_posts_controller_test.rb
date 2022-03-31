@@ -15,7 +15,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     mentor_request = create :mentor_request,
       solution: solution,
       comment_markdown: "Welcome",
-      updated_at: Time.utc(2016, 12, 25)
+      created_at: Time.utc(2016, 12, 25)
     discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
     iteration = create :iteration, idx: 2, solution: solution
     discussion_post = create(:mentor_discussion_post,
@@ -68,7 +68,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     mentor_request = create :mentor_request,
       solution: solution,
       comment_markdown: "Hello",
-      updated_at: Time.utc(2016, 12, 25)
+      created_at: Time.utc(2016, 12, 25)
     discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
     create :iteration, idx: 7, solution: solution
 

@@ -52,9 +52,8 @@ class User
       end
 
       def delete_token!
-        User::ReputationTokens::IssueAuthorToken.where(user: author, external_url: params[:html_url]).first&.tap do |token|
-          token.destroy!
-          User::ReputationPeriod::MarkForToken.(token)
+        User::ReputationTokens::IssueAuthorToken.find_by(user: author, external_url: params[:html_url])&.tap do |token|
+          User::ReputationToken::Destroy.(token)
         end
       end
     end

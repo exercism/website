@@ -8,7 +8,7 @@
         .handle= current_user.handle
         .extra= current_user.name
       / TODO: Add tests for this
-      = link_to badges_profile_path(current_user) do
+      = link_to badges_journey_path(anchor: "journey-content") do
         .badges
           - @featured_badges.each do |badge|
             .c-badge-medallion{ class: "--#{badge.rarity}" }

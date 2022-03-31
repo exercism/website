@@ -231,6 +231,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     labels = ['x:size/large']
     user = create :user, handle: "User-22", github_username: "user22", roles: [:maintainer]
     reputation_token = create :user_issue_author_reputation_token, user: user, level: :massive,
+      external_url: html_url,
       params: {
         repo: repo,
         issue_node_id: node_id,
@@ -241,7 +242,73 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
     )
 
+    user.reload
     assert_equal 1, user.reputation_tokens.size
     assert_equal 30, reputation_token.reload.value
+    assert_equal 30, user.reputation
+  end
+
+  ['x:size/tiny', 'x:size/small', 'x:size/medium'].each do |label|
+    test "reputation token removed if size label changes to #{label}" do
+      action = 'labeled'
+      opened_by_username = 'user22'
+      repo = 'exercism/v3'
+      node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+      number = 1347
+      title = "The cat sat on the mat"
+      opened_at = Time.parse('2020-04-03T14:54:57Z').utc
+      url = 'https://api.github.com/repos/exercism/v3/issues/1347'
+      html_url = 'https://github.com/exercism/v3/issue/1347'
+      labels = [label]
+      user = create :user, handle: "User-22", github_username: "user22", roles: [:maintainer]
+      create :user_issue_author_reputation_token, user: user, level: :massive,
+        external_url: html_url,
+        params: {
+          repo: repo,
+          issue_node_id: node_id,
+          opened_at: opened_at
+        }
+
+      # Sanity check
+      assert_equal 100, user.reload.reputation
+
+      User::ReputationToken::AwardForIssue.(
+        action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
+      )
+
+      assert_empty user.reload.reputation_tokens
+      assert_equal 0, user.reload.reputation
+    end
+  end
+
+  test "reputation token removed if size label is removed" do
+    action = 'unlabeled'
+    opened_by_username = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    opened_at = Time.parse('2020-04-03T14:54:57Z').utc
+    url = 'https://api.github.com/repos/exercism/v3/issues/1347'
+    html_url = 'https://github.com/exercism/v3/issue/1347'
+    labels = []
+    user = create :user, handle: "User-22", github_username: "user22", roles: [:maintainer]
+    create :user_issue_author_reputation_token, user: user, level: :massive,
+      external_url: html_url,
+      params: {
+        repo: repo,
+        issue_node_id: node_id,
+        opened_at: opened_at
+      }
+
+    # Sanity check
+    assert_equal 100, user.reload.reputation
+
+    User::ReputationToken::AwardForIssue.(
+      action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
+    )
+
+    assert_empty user.reload.reputation_tokens
+    assert_equal 0, user.reload.reputation
   end
 end

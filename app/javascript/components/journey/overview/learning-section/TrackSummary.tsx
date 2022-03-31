@@ -50,11 +50,7 @@ export const TrackSummary = ({
           <h4 className="journey-h3">
             {track.numCompletedMentoringDiscussions}
           </h4>
-          <h5 className="text-h6">
-            Mentoring{' '}
-            {pluralize('session', track.numCompletedMentoringDiscussions)}{' '}
-            completed
-          </h5>
+          <h5 className="text-h6">Times you were mentored</h5>
 
           <p>
             You have{' '}

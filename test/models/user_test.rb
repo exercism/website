@@ -116,6 +116,42 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [unrevealed], user.unrevealed_badges
   end
 
+  test "featured_badges" do
+    user = create :user
+
+    common_badge_1 = create :rookie_badge
+    common_badge_2 = create :member_badge
+    rare_badge_1 = create :all_your_base_badge
+    ultimate_badge_1 = create :lackadaisical_badge
+    legendary_badge_1 = create :begetter_badge
+    legendary_badge_2 = create :moss_badge
+
+    create :user_acquired_badge, user: user, badge: common_badge_1
+    create :user_acquired_badge, user: user, badge: common_badge_2
+    create :user_acquired_badge, user: user, badge: rare_badge_1
+    create :user_acquired_badge, user: user, badge: ultimate_badge_1
+    create :user_acquired_badge, user: user, badge: legendary_badge_1
+    create :user_acquired_badge, user: user, badge: legendary_badge_2
+
+    assert_equal [legendary_badge_1, legendary_badge_2, ultimate_badge_1, rare_badge_1, common_badge_1], user.featured_badges
+  end
+
+  test "featured_badges include unrevealed badges" do
+    user = create :user
+
+    common_badge = create :rookie_badge
+    rare_badge = create :supporter_badge
+    ultimate_badge = create :lackadaisical_badge
+    legendary_badge = create :begetter_badge
+
+    create :user_acquired_badge, revealed: false, user: user, badge: common_badge
+    create :user_acquired_badge, revealed: false, user: user, badge: rare_badge
+    create :user_acquired_badge, revealed: false, user: user, badge: ultimate_badge
+    create :user_acquired_badge, revealed: false, user: user, badge: legendary_badge
+
+    assert_equal [legendary_badge, ultimate_badge, rare_badge, common_badge], user.featured_badges
+  end
+
   test "mentor?" do
     user = create :user, became_mentor_at: nil
     refute user.mentor?

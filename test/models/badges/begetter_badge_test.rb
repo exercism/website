@@ -15,7 +15,74 @@ class Badge::BegetterBadgeTest < ActiveSupport::TestCase
     badge = create :begetter_badge
 
     %w[
-      TODO
+      aarti
+      alexanderific
+      amscotti
+      andrej-makarov-skrt
+      arguello
+      axtens
+      bdw429s
+      berg-johan
+      bressain
+      bushidocodes
+      canweriotnow
+      chezwicker
+      clementi
+      cmc333333
+      derekgottlieb
+      Dispader
+      dog
+      elorest
+      erikschierboom
+      etrepum
+      glennj
+      hankturowski
+      icyrockcom
+      jonboiser
+      joshgoebel
+      jrdnull
+      junedev
+      jwood803
+      kenden
+      kytrinyx
+      larshp
+      LeaveNhA
+      LegalizeAdulthood
+      lpil
+      macta
+      marianfoo
+      mbertheau
+      mbtools
+      mhelmetag
+      mhinz
+      mikegehard
+      ozan
+      paf31
+      parkerl
+      pclausen
+      pminten
+      pokrakam
+      porkostomus
+      qjd2413
+      robinhilliard
+      rpottsoh
+      rubysolo
+      SaschaMann
+      sdavids13
+      sgrif
+      sillymoose
+      sit
+      sjakobi
+      sleeplessbyte
+      sshine
+      stevejb71
+      sunzenshen
+      SuperPaintman
+      szabgab
+      tgecho
+      thelostlambda
+      tmcgilchrist
+      verdammelt
     ].each do |github_username|
       begetter_user = create :user, github_username: github_username
       assert badge.award_to?(begetter_user)
@@ -26,7 +93,7 @@ class Badge::BegetterBadgeTest < ActiveSupport::TestCase
     badge = create :begetter_badge
 
     # Checks username case-insensitive
-    %w[todo TODO toDo].each do |github_username|
+    %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |github_username|
       user = create :user, github_username: github_username
       assert badge.award_to?(user)
       user.destroy

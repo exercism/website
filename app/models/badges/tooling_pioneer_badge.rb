@@ -1,7 +1,7 @@
 module Badges
   class ToolingPioneerBadge < Badge
     seed "Tooling Pioneer",
-      :ultimate,
+      :legendary,
       'tooling-pioneer',
       'Developed early prototypes of tooling for Exercism'
 

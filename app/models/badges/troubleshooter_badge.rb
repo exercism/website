@@ -1,7 +1,7 @@
 module Badges
   class TroubleshooterBadge < Badge
     seed "Troubleshooter",
-      :ultimate,
+      :legendary,
       'troubleshooter',
       'Helped troubleshoot issues'
 

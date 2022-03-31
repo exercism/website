@@ -1,7 +1,7 @@
 module Badges
   class ResearcherBadge < Badge
     seed "Researcher",
-      :ultimate,
+      :legendary,
       'researcher',
       'Helped develop Exercism Research'
 

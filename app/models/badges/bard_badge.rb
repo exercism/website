@@ -1,7 +1,7 @@
 module Badges
   class BardBadge < Badge
     seed "Bard",
-      :ultimate,
+      :legendary,
       'bard',
       'Created an exercise story'
 

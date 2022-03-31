@@ -1,7 +1,7 @@
 module Badges
   class BegetterBadge < Badge
     seed "Begetter",
-      :ultimate,
+      :legendary,
       'begetter',
       'Significantly contributed to a Track before launch'
 

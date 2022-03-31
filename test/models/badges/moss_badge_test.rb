@@ -4,7 +4,7 @@ class Badge::MossBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :moss_badge
     assert_equal 'Moss', badge.name
-    assert_equal :ultimate, badge.rarity
+    assert_equal :legendary, badge.rarity
     assert_equal :moss, badge.icon
     assert_equal 'Provided support to new users', badge.description
     assert badge.send_email_on_acquisition?

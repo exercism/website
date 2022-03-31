@@ -4,7 +4,7 @@ class Badge::ArchitectBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :architect_badge
     assert_equal 'Architect', badge.name
-    assert_equal :ultimate, badge.rarity
+    assert_equal :legendary, badge.rarity
     assert_equal :architect, badge.icon
     assert_equal 'Designed a track syllabus', badge.description
     assert badge.send_email_on_acquisition?

@@ -4,7 +4,7 @@ class Badge::TroubleshooterBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :troubleshooter_badge
     assert_equal "Troubleshooter", badge.name
-    assert_equal :ultimate, badge.rarity
+    assert_equal :legendary, badge.rarity
     assert_equal :troubleshooter, badge.icon
     assert_equal 'Helped troubleshoot issues', badge.description
     assert badge.send_email_on_acquisition?

@@ -1,7 +1,7 @@
 module Badges
   class MossBadge < Badge
     seed "Moss",
-      :ultimate,
+      :legendary,
       'moss',
       'Provided support to new users'
 

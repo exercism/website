@@ -4,7 +4,7 @@ class Badge::BegetterBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :begetter_badge
     assert_equal 'Begetter', badge.name
-    assert_equal :ultimate, badge.rarity
+    assert_equal :legendary, badge.rarity
     assert_equal :begetter, badge.icon
     assert_equal 'Significantly contributed to a Track before launch', badge.description
     assert badge.send_email_on_acquisition?

@@ -1,7 +1,7 @@
 module Badges
   class ArchitectBadge < Badge
     seed "Architect",
-      :ultimate,
+      :legendary,
       'architect',
       'Designed a track syllabus'
 

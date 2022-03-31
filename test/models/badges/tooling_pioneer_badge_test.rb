@@ -4,7 +4,7 @@ class Badge::ToolingPioneerBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :tooling_pioneer_badge
     assert_equal "Tooling Pioneer", badge.name
-    assert_equal :ultimate, badge.rarity
+    assert_equal :legendary, badge.rarity
     assert_equal :'tooling-pioneer', badge.icon
     assert_equal 'Developed early prototypes of tooling for Exercism', badge.description
     assert badge.send_email_on_acquisition?

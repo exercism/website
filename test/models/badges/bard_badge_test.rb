@@ -4,7 +4,7 @@ class Badge::BardBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :bard_badge
     assert_equal "Bard", badge.name
-    assert_equal :ultimate, badge.rarity
+    assert_equal :legendary, badge.rarity
     assert_equal :bard, badge.icon
     assert_equal 'Created an exercise story', badge.description
     assert badge.send_email_on_acquisition?

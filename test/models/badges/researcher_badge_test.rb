@@ -4,7 +4,7 @@ class Badge::ResearcherBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :researcher_badge
     assert_equal "Researcher", badge.name
-    assert_equal :ultimate, badge.rarity
+    assert_equal :legendary, badge.rarity
     assert_equal :researcher, badge.icon
     assert_equal 'Helped develop Exercism Research', badge.description
     assert badge.send_email_on_acquisition?

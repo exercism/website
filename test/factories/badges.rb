@@ -8,7 +8,8 @@ FactoryBot.define do
     anybody_there growth_mindset v1 v2
     new_years_resolution die_unendliche_geschichte
     all_your_base whatever lackadaisical
-    mentor researcher v3_pioneer
+    mentor researcher v3_pioneer tooling_pioneer
+    moss begetter bard architect troubleshooter
   ].each do |type|
     factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do
     end

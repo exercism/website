@@ -193,7 +193,7 @@ class User < ApplicationRecord
   end
 
   def featured_badges
-    badges.order(Arel.sql("FIND_IN_SET(rarity, 'legendary,ultimate,rare,common')")).limit(5)
+    badges.ordered_by_rarity.limit(5)
   end
 
   def recently_used_cli?

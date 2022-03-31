@@ -3,6 +3,8 @@ class Badge < ApplicationRecord
 
   RARITIES = %i[common rare ultimate legendary].freeze
 
+  scope :ordered_by_rarity, -> { order(Arel.sql("FIND_IN_SET(rarity, 'legendary,ultimate,rare,common')")) }
+
   def self.seed(name, rarity, icon, description)
     raise "Incorrect Rarity" unless RARITIES.include?(rarity)
 

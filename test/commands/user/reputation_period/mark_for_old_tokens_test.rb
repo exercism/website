@@ -12,9 +12,9 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
     token_3 = create :user_code_contribution_reputation_token, user: user, track: track, earned_on: Date.new(2021, 1, 3)
 
     # Create all the relevant records
-    User::ReputationPeriod::MarkForNewToken.(token_1)
-    User::ReputationPeriod::MarkForNewToken.(token_2)
-    User::ReputationPeriod::MarkForNewToken.(token_3)
+    User::ReputationPeriod::MarkForToken.(token_1)
+    User::ReputationPeriod::MarkForToken.(token_2)
+    User::ReputationPeriod::MarkForToken.(token_3)
     User::ReputationPeriod::Sweep.()
 
     assert_equal 16, User::ReputationPeriod.count # Sanity
@@ -36,9 +36,9 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
     token_3 = create :user_code_contribution_reputation_token, user: user, earned_on: Date.new(2021, 1, 3)
 
     # Create all the relevant records
-    User::ReputationPeriod::MarkForNewToken.(token_1)
-    User::ReputationPeriod::MarkForNewToken.(token_2)
-    User::ReputationPeriod::MarkForNewToken.(token_3)
+    User::ReputationPeriod::MarkForToken.(token_1)
+    User::ReputationPeriod::MarkForToken.(token_2)
+    User::ReputationPeriod::MarkForToken.(token_3)
     User::ReputationPeriod::Sweep.()
 
     assert_equal 8, User::ReputationPeriod.count # Sanity
@@ -58,8 +58,8 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
     token_2 = create :user_reputation_token, user: user, earned_on: Date.new(2021, 1, 1)
 
     # Create all the relevant records
-    User::ReputationPeriod::MarkForNewToken.(token_1)
-    User::ReputationPeriod::MarkForNewToken.(token_2)
+    User::ReputationPeriod::MarkForToken.(token_1)
+    User::ReputationPeriod::MarkForToken.(token_2)
     User::ReputationPeriod::Sweep.()
 
     assert_equal 2, User::ReputationToken.count # Sanity

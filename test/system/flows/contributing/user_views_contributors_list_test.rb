@@ -10,7 +10,7 @@ module Flows
         create :user
         contributor = create :user, handle: "contributor"
         token = create :user_reputation_token, user: contributor, value: 10
-        User::ReputationPeriod::MarkForNewToken.(token)
+        User::ReputationPeriod::MarkForToken.(token)
         User::ReputationPeriod::Sweep.()
 
         use_capybara_host do
@@ -26,9 +26,9 @@ module Flows
         create :user
         contributor = create :user, handle: "contributor"
         week_token = create :user_reputation_token, user: contributor, value: 10, earned_on: Time.zone.today
-        User::ReputationPeriod::MarkForNewToken.(week_token)
+        User::ReputationPeriod::MarkForToken.(week_token)
         month_token = create :user_reputation_token, user: contributor, value: 10, earned_on: 2.months.ago
-        User::ReputationPeriod::MarkForNewToken.(month_token)
+        User::ReputationPeriod::MarkForToken.(month_token)
         User::ReputationPeriod::Sweep.()
 
         use_capybara_host do
@@ -43,9 +43,9 @@ module Flows
         create :user
         contributor = create :user, handle: "contributor"
         building_token = create :user_reputation_token, user: contributor, value: 10
-        User::ReputationPeriod::MarkForNewToken.(building_token)
+        User::ReputationPeriod::MarkForToken.(building_token)
         maintaining_token = create :user_code_merge_reputation_token, user: contributor, value: 10
-        User::ReputationPeriod::MarkForNewToken.(maintaining_token)
+        User::ReputationPeriod::MarkForToken.(maintaining_token)
         User::ReputationPeriod::Sweep.()
 
         use_capybara_host do
@@ -63,10 +63,10 @@ module Flows
         contributor = create :user, handle: "contributor"
         ruby = create :track, title: "Ruby", slug: "ruby"
         ruby_token = create :user_reputation_token, user: contributor, value: 10, track: ruby
-        User::ReputationPeriod::MarkForNewToken.(ruby_token)
+        User::ReputationPeriod::MarkForToken.(ruby_token)
         go = create :track, title: "Go", slug: "go"
         go_token = create :user_reputation_token, user: contributor, value: 10, track: go
-        User::ReputationPeriod::MarkForNewToken.(go_token)
+        User::ReputationPeriod::MarkForToken.(go_token)
         User::ReputationPeriod::Sweep.()
 
         use_capybara_host do
@@ -84,10 +84,10 @@ module Flows
         contributor = create :user, handle: "contributor"
         ruby = create :track, title: "Ruby", slug: "ruby"
         ruby_token = create :user_reputation_token, user: contributor, value: 10, track: ruby
-        User::ReputationPeriod::MarkForNewToken.(ruby_token)
+        User::ReputationPeriod::MarkForToken.(ruby_token)
         go = create :track, title: "Go", slug: "go"
         go_token = create :user_reputation_token, user: contributor, value: 10, track: go
-        User::ReputationPeriod::MarkForNewToken.(go_token)
+        User::ReputationPeriod::MarkForToken.(go_token)
         User::ReputationPeriod::Sweep.()
 
         use_capybara_host do

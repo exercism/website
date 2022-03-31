@@ -1,5 +1,5 @@
 class User::ReputationPeriod
-  class MarkForNewToken
+  class MarkForToken
     include Mandate
 
     initialize_with :token

@@ -120,6 +120,21 @@ FactoryBot.define do
     end
   end
 
+  factory :user_issue_author_reputation_token, class: 'User::ReputationTokens::IssueAuthorToken' do
+    user
+    level { :large }
+
+    params do
+      {
+        repo: "exercism/ruby",
+        issue_node_id: SecureRandom.uuid,
+        issue_number: SecureRandom.random_number(100_000),
+        issue_title: "The cat sat on the mat",
+        earned_on: Time.current - SecureRandom.random_number(100_000).seconds
+      }
+    end
+  end
+
   factory :user_arbitrary_reputation_token, class: 'User::ReputationTokens::ArbitraryToken' do
     user
 

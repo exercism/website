@@ -1,13 +1,13 @@
 require "test_helper"
 
-class User::ReputationPeriod::MarkForNewTokenTest < ActiveSupport::TestCase
+class User::ReputationPeriod::MarkForTokenTest < ActiveSupport::TestCase
   test "adds relevant rows with track for normal tokens" do
     handle = 'ihid'
     user = create :user, handle: handle
     track = create :track
     token = create :user_code_contribution_reputation_token, user: user, track: track
 
-    User::ReputationPeriod::MarkForNewToken.(token)
+    User::ReputationPeriod::MarkForToken.(token)
 
     args = { user_handle: handle, user_id: user.id, dirty: true }
 
@@ -44,7 +44,7 @@ class User::ReputationPeriod::MarkForNewTokenTest < ActiveSupport::TestCase
     token = create :user_code_contribution_reputation_token, user: user
     refute token.track # Sanity
 
-    User::ReputationPeriod::MarkForNewToken.(token)
+    User::ReputationPeriod::MarkForToken.(token)
 
     args = { user_handle: handle, user_id: user.id, dirty: true }
 
@@ -67,7 +67,7 @@ class User::ReputationPeriod::MarkForNewTokenTest < ActiveSupport::TestCase
     track = create :track
     token = create :user_published_solution_reputation_token, user: user, track: track
 
-    User::ReputationPeriod::MarkForNewToken.(token)
+    User::ReputationPeriod::MarkForToken.(token)
 
     refute User::ReputationPeriod.where.not(category: :any).exists?
     assert_equal 8, User::ReputationPeriod.where(category: :any).count

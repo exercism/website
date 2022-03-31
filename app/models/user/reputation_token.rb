@@ -32,8 +32,9 @@ class User::ReputationToken < ApplicationRecord
     self.value = self.determine_value
   end
 
-  after_save_commit do
-    summing_sql = Arel.sql("(#{user.reputation_tokens.select('SUM(value)').to_sql})")
+  after_commit do
+    # The COALESCE is needed for the rare case where a user's single reputation token is deleted
+    summing_sql = Arel.sql("(#{user.reputation_tokens.select('COALESCE(SUM(value), 0)').to_sql})")
 
     # We're updating in a single query instead of two queries to avoid race-conditions
     # and using read_committed to avoid deadlocks

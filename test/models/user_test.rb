@@ -126,12 +126,12 @@ class UserTest < ActiveSupport::TestCase
     legendary_badge_1 = create :begetter_badge
     legendary_badge_2 = create :moss_badge
 
-    create :user_acquired_badge, user: user, badge: common_badge_1
-    create :user_acquired_badge, user: user, badge: common_badge_2
     create :user_acquired_badge, user: user, badge: rare_badge_1
-    create :user_acquired_badge, user: user, badge: ultimate_badge_1
+    create :user_acquired_badge, user: user, badge: common_badge_1
     create :user_acquired_badge, user: user, badge: legendary_badge_1
+    create :user_acquired_badge, user: user, badge: common_badge_2
     create :user_acquired_badge, user: user, badge: legendary_badge_2
+    create :user_acquired_badge, user: user, badge: ultimate_badge_1
 
     assert_equal [legendary_badge_1, legendary_badge_2, ultimate_badge_1, rare_badge_1, common_badge_1], user.featured_badges
   end
@@ -144,10 +144,10 @@ class UserTest < ActiveSupport::TestCase
     ultimate_badge = create :lackadaisical_badge
     legendary_badge = create :begetter_badge
 
-    create :user_acquired_badge, revealed: false, user: user, badge: common_badge
     create :user_acquired_badge, revealed: false, user: user, badge: rare_badge
-    create :user_acquired_badge, revealed: false, user: user, badge: ultimate_badge
     create :user_acquired_badge, revealed: false, user: user, badge: legendary_badge
+    create :user_acquired_badge, revealed: false, user: user, badge: common_badge
+    create :user_acquired_badge, revealed: false, user: user, badge: ultimate_badge
 
     assert_equal [legendary_badge, ultimate_badge, rare_badge, common_badge], user.featured_badges
   end

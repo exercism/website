@@ -81,6 +81,17 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     assert_equal exercise.git.head_sha, exercise.git_sha
   end
 
+  test "git SHA and git sync SHA change to HEAD SHA when there are changes in important files" do
+    exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "7a8bd1bbeb0d54a08c39d84d59cc7a8ed54d45aa", synced_to_git_sha: "7a8bd1bbeb0d54a08c39d84d59cc7a8ed54d45aa" # rubocop:disable Layout/LineLength
+    exercise.taught_concepts << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
+    exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+    assert_equal exercise.git.head_sha, exercise.git_sha
+  end
+
   test "metadata is updated when there are changes in config.json" do
     exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125', status: :deprecated, git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24", synced_to_git_sha: "e9086c7c5c9f005bbab401062fa3b2f501ecac24" # rubocop:disable Layout/LineLength
     create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'

@@ -131,7 +131,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     actual_order = track.practice_exercises.order(:position).pluck(:slug)
-    expected_order = %w[hello-world allergies anagram bob hamming isogram leap satellite space-age]
+    expected_order = %w[hello-world allergies anagram bob hamming isogram leap satellite space-age tournament]
     assert_equal expected_order, actual_order
   end
 
@@ -144,7 +144,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     expected_order = %w[
       hello-world
       arrays booleans lasagna log-levels numbers strings allergies
-      anagram bob hamming isogram leap satellite space-age
+      anagram bob hamming isogram leap satellite space-age tournament
     ]
     assert_equal expected_order, actual_order
   end
@@ -227,7 +227,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.practice_exercises.length
+    assert_equal 10, track.practice_exercises.length
   end
 
   test "syncs all concepts" do
@@ -257,7 +257,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.practice_exercises.length
+    assert_equal 10, track.practice_exercises.length
     track.practice_exercises.each do |practice_exercise|
       assert_equal track.git.head_sha, practice_exercise.synced_to_git_sha
     end
@@ -350,7 +350,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.practice_exercises.length
+    assert_equal 10, track.practice_exercises.length
   end
 
   test "syncs practice exercises with nil practices" do
@@ -365,7 +365,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.practice_exercises.length
+    assert_equal 10, track.practice_exercises.length
   end
 
   test "ignores concept exercise prerequisites with no concept exercise unlocking them" do

@@ -44,9 +44,8 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     end
   end
 
-  test "git SHA and git sync SHA change to HEAD SHA when there are changes in documentation files" do
-    exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', slug: 'anagram', title: 'Anagram', git_sha: "e6927df782dd5c348054b12c8d6c3216b644d715", synced_to_git_sha: "e6927df782dd5c348054b12c8d6c3216b644d715" # rubocop:disable Layout/LineLength
-    exercise.prerequisites << (create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68')
+  test "git SHA and git sync SHA change to HEAD SHA when there are changes in important files" do
+    exercise = create :practice_exercise, uuid: 'a8b33d2e-d4f7-4162-acf8-44f75f9b1988', slug: 'tournament', title: 'Tournament', git_sha: "23fc26dad93968db3da774cbcc3fc8bb929762c7", synced_to_git_sha: "23fc26dad93968db3da774cbcc3fc8bb929762c7" # rubocop:disable Layout/LineLength
 
     Git::SyncPracticeExercise.(exercise)
 

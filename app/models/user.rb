@@ -192,9 +192,8 @@ class User < ApplicationRecord
     acquired_badges.where(badge_id: badge.id).exists?
   end
 
-  # TODO: Order by rarity
   def featured_badges
-    badges.limit(5)
+    badges.ordered_by_rarity.limit(5)
   end
 
   def recently_used_cli?

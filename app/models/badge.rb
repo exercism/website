@@ -1,10 +1,12 @@
 class Badge < ApplicationRecord
   has_many :acquired_badges, class_name: "User::AcquiredBadge", dependent: :destroy
 
-  RARIRIES = %i[common rare ultimate legendary].freeze
+  RARITIES = %i[common rare ultimate legendary].freeze
+
+  scope :ordered_by_rarity, -> { order(Arel.sql("FIND_IN_SET(rarity, 'legendary,ultimate,rare,common')")) }
 
   def self.seed(name, rarity, icon, description)
-    raise "Incorrect Rarity" unless RARIRIES.include?(rarity)
+    raise "Incorrect Rarity" unless RARITIES.include?(rarity)
 
     @seed_data = {
       name: name,

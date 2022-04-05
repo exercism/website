@@ -15,7 +15,7 @@ class Solution
 
     private
     def preamble
-      hints_text = I18n.t("exercises.documents.hints_reference").strip if solution.git_exercise.hints.present?
+      hints_text = I18n.t("exercises.documents.hints_reference").strip if solution.hints.present?
 
       welcome_text = I18n.t("exercises.documents.welcome", exercise_title: solution.exercise.title,
         track_title: solution.track.title).strip

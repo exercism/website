@@ -85,7 +85,7 @@ class SerializeExerciseAssignment
 
   memoize
   def hints_doc
-    Markdown::Render.(solution.git_exercise.hints, :doc)
+    Markdown::Render.(solution.hints, :doc)
   end
 
   def parse_task_title(header)

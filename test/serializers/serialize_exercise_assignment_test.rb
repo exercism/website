@@ -113,6 +113,35 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     assert_equal expected, (serialized[:tasks].map { |task| task[:hints] })
   end
 
+  test "serialize hints with reference links" do
+    hints = <<~HINTS.strip
+      # Hints
+
+      ## General
+
+      - Hint [number one][hint-one]
+      - Hint [number two][hint-two]
+
+      ## 1. Task
+
+      - Some task hints
+
+      [hint-one]: http://exercism.org/about
+      [hint-two]: http://exercism.org/tracks
+    HINTS
+
+    solution = create :concept_solution
+    solution.stubs(:hints).returns(hints)
+
+    serialized = SerializeExerciseAssignment.(solution)
+
+    expected = [
+      "<p>Hint <a href=\"http://exercism.org/about\">number one</a></p>\n",
+      "<p>Hint <a href=\"http://exercism.org/tracks\">number two</a></p>\n"
+    ]
+    assert_equal expected, serialized[:general_hints]
+  end
+
   test "serialize concept exercise without general hints" do
     exercise = create :concept_exercise, slug: 'numbers'
     solution = create :concept_solution, exercise: exercise

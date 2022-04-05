@@ -114,6 +114,34 @@ module Flows
       OmniAuth.config.test_mode = false
     end
 
+    test "user registers via Github, onboards, and is not redirected to /site.webmanifest" do
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
+        provider: "github",
+        uid: "111",
+        info: {
+          email: "user@exercism.org",
+          name: "Name",
+          nickname: "user22"
+        }
+      )
+
+      use_capybara_host do
+        expecting_errors do
+          visit '/site.webmanifest'
+          visit new_user_registration_path
+          click_on "Sign Up with GitHub"
+          find('label', text: "I accept Exercism's Terms of Service").click
+          find('label', text: "I accept Exercism's Privacy Policy").click
+          click_on "Save & Get Started"
+
+          assert_text "Welcome back, user22!", wait: 10
+        end
+      end
+    ensure
+      OmniAuth.config.test_mode = false
+    end
+
     test "user sees errors when registering via Github" do
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(

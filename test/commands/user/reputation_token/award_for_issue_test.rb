@@ -2,27 +2,25 @@ require "test_helper"
 
 class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
   %w[labeled unlabeled].each do |action|
-    %i[admin maintainer].each do |role|
-      test "adds reputation token to issue author when action is #{action} and user is #{role}" do
-        opened_by_username = 'user22'
-        repo = 'exercism/v3'
-        node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-        number = 1347
-        title = "The cat sat on the mat"
-        opened_at = Time.parse('2020-04-03T14:54:57Z').utc
-        url = 'https://api.github.com/repos/exercism/v3/issues/1347'
-        html_url = 'https://github.com/exercism/v3/issue/1347'
-        labels = ['x:size/large']
-        user = create :user, handle: "User-22", github_username: "user22", roles: [role]
+    test "adds reputation token to issue author when action is #{action}" do
+      opened_by_username = 'user22'
+      repo = 'exercism/v3'
+      node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+      number = 1347
+      title = "The cat sat on the mat"
+      opened_at = Time.parse('2020-04-03T14:54:57Z').utc
+      url = 'https://api.github.com/repos/exercism/v3/issues/1347'
+      html_url = 'https://github.com/exercism/v3/issue/1347'
+      labels = ['x:size/large']
+      user = create :user, handle: "User-22", github_username: "user22"
 
-        User::ReputationToken::AwardForIssue.(
-          action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-        )
+      User::ReputationToken::AwardForIssue.(
+        action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
+      )
 
-        assert_equal 1, User::ReputationTokens::IssueAuthorToken.where(user: user).count
-        token = User::ReputationTokens::IssueAuthorToken.where(user: user).first
-        assert opened_at.to_date, token.earned_on
-      end
+      assert_equal 1, User::ReputationTokens::IssueAuthorToken.where(user: user).count
+      token = User::ReputationTokens::IssueAuthorToken.where(user: user).first
+      assert opened_at.to_date, token.earned_on
     end
   end
 
@@ -37,7 +35,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       url = 'https://api.github.com/repos/exercism/v3/issues/1347'
       html_url = 'https://github.com/exercism/v3/issue/1347'
       labels = ['x:size/large']
-      user = create :user, handle: "User-22", github_username: "user22", roles: [:admin]
+      user = create :user, handle: "User-22", github_username: "user22"
 
       User::ReputationToken::AwardForIssue.(
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
@@ -59,7 +57,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       url = 'https://api.github.com/repos/exercism/v3/issues/1347'
       html_url = 'https://github.com/exercism/v3/issue/1347'
       labels = [label]
-      user = create :user, handle: "User-22", github_username: "user22", roles: [:admin]
+      user = create :user, handle: "User-22", github_username: "user22"
 
       User::ReputationToken::AwardForIssue.(
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
@@ -69,7 +67,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     end
   end
 
-  test "no reputation is awarded when author is no admin or maintainer" do
+  test "no reputation is awarded when author could not be found" do
     action = 'labeled'
     opened_by_username = 'user22'
     repo = 'exercism/v3'
@@ -80,13 +78,12 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = ['x:size/large']
-    user = create :user, handle: "User-22", github_username: "user22", roles: []
 
     User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
     )
 
-    refute User::ReputationTokens::IssueAuthorToken.where(user: user).exists?
+    refute User::ReputationTokens::IssueAuthorToken.exists?
   end
 
   test "no reputation is awarded when there is no size label" do
@@ -100,7 +97,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = ['bug']
-    user = create :user, handle: "User-22", github_username: "user22", roles: [:admin]
+    user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
@@ -147,7 +144,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       url = "https://api.github.com/repos/exercism/#{repo_name}/issues/1347"
       html_url = "https://github.com/exercism/#{repo_name}/issue/1347"
       labels = ['x:size/massive']
-      user = create :user, handle: "User-22", github_username: "user22", roles: [:maintainer]
+      user = create :user, handle: "User-22", github_username: "user22"
       track = create :track, repo_url: 'https://github.com/exercism/ruby'
 
       User::ReputationToken::AwardForIssue.(
@@ -189,7 +186,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = ['x:size/large', 'x:size/massive']
-    user = create :user, handle: "User-22", github_username: "user22", roles: [:admin]
+    user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
@@ -209,7 +206,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = ['duplicate', 'x:size/large', 'bug']
-    user = create :user, handle: "User-22", github_username: "user22", roles: [:maintainer]
+    user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
@@ -229,7 +226,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = ['x:size/large']
-    user = create :user, handle: "User-22", github_username: "user22", roles: [:maintainer]
+    user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_issue_author_reputation_token, user: user, level: :massive,
       external_url: html_url,
       params: {
@@ -260,7 +257,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       url = 'https://api.github.com/repos/exercism/v3/issues/1347'
       html_url = 'https://github.com/exercism/v3/issue/1347'
       labels = [label]
-      user = create :user, handle: "User-22", github_username: "user22", roles: [:maintainer]
+      user = create :user, handle: "User-22", github_username: "user22"
       create :user_issue_author_reputation_token, user: user, level: :massive,
         external_url: html_url,
         params: {
@@ -292,7 +289,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = []
-    user = create :user, handle: "User-22", github_username: "user22", roles: [:maintainer]
+    user = create :user, handle: "User-22", github_username: "user22"
     create :user_issue_author_reputation_token, user: user, level: :massive,
       external_url: html_url,
       params: {

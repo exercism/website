@@ -8,7 +8,6 @@ class User
       def call
         return unless label_change?
         return unless author
-        return unless author.maintainer? || author.admin?
 
         if reputation_level
           create_token!

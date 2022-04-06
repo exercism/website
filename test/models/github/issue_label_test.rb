@@ -42,8 +42,18 @@ class Github::IssueLabelTest < ActiveSupport::TestCase
     end
   end
 
-  test "for_typr with module is unknown" do
+  test "for_type with module is unknown" do
     assert_nil Github::IssueLabel.for_type(:module, :unknown)
+  end
+
+  %i[tiny small medium large massive].each do |rep|
+    test "for_type with rep is #{rep}" do
+      assert_equal "x:rep/#{rep}", Github::IssueLabel.for_type(:rep, rep)
+    end
+  end
+
+  test "for_type with rep is unknown" do
+    assert_nil Github::IssueLabel.for_type(:rep, :unknown)
   end
 
   %i[tiny small medium large massive].each do |size|

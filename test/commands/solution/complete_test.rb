@@ -185,4 +185,26 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     perform_enqueued_jobs
     assert_equal Badges::CompleterBadge, user.reload.badges.last.class
   end
+
+  test "awards conceptual badge when all the track's learning exercises are now completed" do
+    user = create :user
+    track = create :track
+    create :hello_world_exercise, track: track
+    concept_exercise = create :concept_exercise, track: track, position: 1
+    practice_exercise = create :practice_exercise, track: track, position: 2, slug: 'leap'
+    user_track = create :user_track, user: user, track: track
+    refute user.badges.present?
+
+    create :hello_world_solution, :completed, user: user, track: track
+    create :concept_solution, :completed, user: user, track: track, exercise: concept_exercise
+    refute user.reload.badges.present?
+
+    solution = create :concept_solution, user: user, track: track, exercise: practice_exercise
+    create :iteration, solution: solution
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_equal Badges::ConceptualBadge, user.reload.badges.last.class
+  end
 end

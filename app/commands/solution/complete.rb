@@ -16,7 +16,7 @@ class Solution
       # TODO: Think about how we can add a guard here for hello-world so
       # we only go through the checks in the job if the exercise is hello-world.
       # But at the job level, not at this level. So passing some args etc?
-      %i[anybody_there all_your_base whatever lackadaisical completer].each do |badge|
+      %i[anybody_there all_your_base whatever lackadaisical completer conceptual].each do |badge|
         AwardBadgeJob.perform_later(user, badge)
       end
       record_activity!

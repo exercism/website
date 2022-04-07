@@ -152,6 +152,6 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
     Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
     perform_enqueued_jobs
-    assert_includes user.reload.badges.map(&:class), Badges::MentorBadge
+    assert_includes mentor.reload.badges.map(&:class), Badges::MentorBadge
   end
 end

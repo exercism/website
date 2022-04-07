@@ -163,4 +163,26 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     perform_enqueued_jobs
     assert_equal Badges::LackadaisicalBadge, user.reload.badges.last.class
   end
+
+  test "awards completer badge when all the track's exercises are now completed" do
+    user = create :user
+    track = create :track
+    create :hello_world_exercise, track: track
+    concept_exercise = create :concept_exercise, track: track, position: 1
+    practice_exercise = create :practice_exercise, track: track, position: 2, slug: 'leap'
+    user_track = create :user_track, user: user, track: track
+    refute user.badges.present?
+
+    create :hello_world_solution, :completed, user: user, track: track
+    create :concept_solution, :completed, user: user, track: track, exercise: concept_exercise
+    refute user.reload.badges.present?
+
+    solution = create :practice_solution, user: user, track: track, exercise: practice_exercise
+    create :iteration, solution: solution
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_equal Badges::CompleterBadge, user.reload.badges.last.class
+  end
 end

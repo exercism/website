@@ -21,15 +21,13 @@ export const TaskHintsModal = ({
       </header>
       <div className="single-task-hints">
         <h3>{task.title}</h3>
-        <ul>
-          {task.hints.map((hint, idx) => (
-            <li
-              className="c-textual-content --large"
-              key={idx}
-              dangerouslySetInnerHTML={{ __html: hint }}
-            ></li>
-          ))}
-        </ul>
+        {task.hints.map((hint, idx) => (
+          <div
+            className="c-textual-content --large"
+            key={idx}
+            dangerouslySetInnerHTML={{ __html: hint }}
+          ></div>
+        ))}
       </div>
     </Modal>
   )

@@ -42,16 +42,14 @@ class SerializeExerciseAssignment
     #  ## Header
     #  - foo
     #  - bar
-    hints_doc.each_cons(2).each_with_object({}) do |(header, list), hints|
-      # TODO: Add an issue to the relevant track via a async job
-      # if any of these are invalid
-      next unless header.type == :header
-      next unless header.header_level == 2
-      next unless list.type == :list
 
-      task_id = parse_task_id(header)
-      hints[task_id] = list.each.map { |list_item| Markdown::Parse.(list_item.each.first.to_commonmark) }
-    end
+    hints_doc.
+      each.
+      slice_before { |x| x.type == :header && x.header_level == 2 }.
+      each_with_object({}) do |chunk, hints|
+        task_id = parse_task_id(chunk.each.first)
+        hints[task_id] = chunk.each.drop(1).map { |content| Markdown::Parse.(content.to_commonmark) }
+      end
   end
 
   def tasks
@@ -85,7 +83,35 @@ class SerializeExerciseAssignment
 
   memoize
   def hints_doc
-    Markdown::Render.(solution.hints, :doc)
+    hints = <<~HINTS.strip
+      # Hints
+
+      ## General
+
+      - Hint one
+        - Sub hint one
+        - Sub hint two
+      - Hint two
+      - Hint three
+        - Sub hint three
+
+      These are more hints
+
+      ~~~exercism/note
+      This is a note
+      ~~~
+
+      ## 1. Task one
+
+      - Task hint one
+        - Task sub hint one
+
+      ## 2. Task two
+
+      - Task hint two
+    HINTS
+
+    Markdown::Render.(hints, :doc)
   end
 
   def parse_task_title(header)

@@ -142,6 +142,48 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     assert_equal expected, serialized[:general_hints]
   end
 
+  test "serialize hints with complex content" do
+    hints = <<~HINTS.strip
+      # Hints
+
+      ## General
+
+      - Hint one
+        - Sub hint one
+        - Sub hint two
+      - Hint two
+      - Hint three
+        - Sub hint three
+
+      These are more hints
+
+      ~~~exercism/note
+      This is a note
+      ~~~
+
+      ## 1. Task one
+
+      - Task hint one
+        - Task sub hint one
+
+      ## 2. Task two
+
+      - Task hint two
+    HINTS
+
+    solution = create :concept_solution
+    solution.stubs(:hints).returns(hints)
+
+    serialized = SerializeExerciseAssignment.(solution)
+
+    expected = [
+      "<ul>\n<li>Hint one\n<ul>\n<li>Sub hint one</li>\n<li>Sub hint two</li>\n</ul>\n</li>\n<li>Hint two</li>\n<li>Hint three\n<ul>\n<li>Sub hint three</li>\n</ul>\n</li>\n</ul>\n", # rubocop:disable Layout/LineLength
+      "<p>These are more hints</p>\n",
+      "<div class=\"c-textblock-note\">\n<div class=\"c-textblock-header\">Note</div>\n<div class=\"c-textblock-content\">\n<p>This is a note</p>\n</div>\n</div>\n" # rubocop:disable Layout/LineLength
+    ]
+    assert_equal expected, serialized[:general_hints]
+  end
+
   test "serialize concept exercise without general hints" do
     exercise = create :concept_exercise, slug: 'numbers'
     solution = create :concept_solution, exercise: exercise

@@ -7,7 +7,7 @@ module Badges
 
     def award_to?(user)
       user.user_tracks.joins(:track).
-        where('tracks.active').
+        where('tracks.active && tracks.course').
         any? { |ut| ut.completed_concept_exercises_percentage == 100 }
     end
 

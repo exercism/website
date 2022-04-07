@@ -61,4 +61,19 @@ class Badge::ConceptualBadgeTest < ActiveSupport::TestCase
     create :concept_solution, :completed, user: user, track: track, exercise: concept_exercise
     refute badge.award_to?(user.reload)
   end
+
+  test "don't award when completing track without learning mode" do
+    user = create :user
+    track = create :track, course: false
+    create :hello_world_exercise, track: track
+    concept_exercise = create :concept_exercise, track: track
+    create :user_track, user: user, track: track
+
+    badge = create :conceptual_badge
+
+    # Fully completing the concept exercises does not award the badge
+    create :hello_world_solution, :completed, user: user, track: track
+    create :concept_solution, :completed, user: user, track: track, exercise: concept_exercise
+    refute badge.award_to?(user.reload)
+  end
 end

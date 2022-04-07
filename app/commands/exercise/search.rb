@@ -19,10 +19,8 @@ class Exercise
       return if criteria.blank?
 
       criteria.strip.split(" ").each do |crit|
-        @exercises = @exercises.where(
-          "exercises.title LIKE ?",
-          "%#{crit}%"
-        )
+        @exercises = @exercises.where("exercises.title LIKE ?", "%#{crit}%").
+          or(@exercises.where("exercises.slug LIKE ?", "%#{crit}%"))
       end
     end
 

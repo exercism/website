@@ -109,7 +109,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::AnybodyThereBadge, user.reload.badges.first.class
+    assert_includes user.reload.badges.map(&:class), Badges::AnybodyThereBadge
   end
 
   test "awards all your base badge when all-your-base exercise is completed" do
@@ -124,7 +124,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::AllYourBaseBadge, user.reload.badges.first.class
+    assert_includes user.reload.badges.map(&:class), Badges::AllYourBaseBadge
   end
 
   test "awards whatever badge when bob exercise is completed" do
@@ -139,7 +139,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::WhateverBadge, user.reload.badges.first.class
+    assert_includes user.reload.badges.map(&:class), Badges::WhateverBadge
   end
 
   test "awards lackadaisical badge when bob exercise is completed in five tracks" do
@@ -161,7 +161,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::LackadaisicalBadge, user.reload.badges.last.class
+    assert_includes user.reload.badges.map(&:class), Badges::LackadaisicalBadge
   end
 
   test "awards completer badge when all the track's exercises are now completed" do
@@ -183,7 +183,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::CompleterBadge, user.reload.badges.last.class
+    assert_includes user.reload.badges.map(&:class), Badges::CompleterBadge
   end
 
   test "awards conceptual badge when all the track's learning exercises are now completed" do
@@ -205,6 +205,6 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::ConceptualBadge, user.reload.badges.last.class
+    assert_includes user.reload.badges.map(&:class), Badges::ConceptualBadge
   end
 end

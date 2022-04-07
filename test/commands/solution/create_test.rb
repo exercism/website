@@ -92,7 +92,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
       travel_to(Time.utc(2019, 1, 1, 0, 0, 0))
       exercise_3 = create :concept_exercise, slug: 'exercise_3'
       Solution::Create.(user, exercise_3)
-      assert_equal Badges::NewYearsResolutionBadge, user.reload.badges.first.class
+      assert_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
     end
   end
 end

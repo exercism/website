@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/brianmario/mysql2.git
-  revision: 25c42c712118b046eb9df7a0f50ffde1a04ee6d1
-  ref: 25c42c7
+  revision: 56c0ced2afe2cabe0b3f1a05e8e5e86713ebbc87
+  ref: 56c0ced2afe2cabe0b3f1a05e8e5e86713ebbc87
   specs:
     mysql2 (0.5.3)
 
@@ -578,4 +578,4 @@ RUBY VERSION
    ruby 3.1.0p0
 
 BUNDLED WITH
-   2.3.4
+   2.3.7

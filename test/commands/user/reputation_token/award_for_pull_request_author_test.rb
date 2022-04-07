@@ -168,7 +168,12 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     ['x:size/small', 5],
     ['x:size/medium', 12],
     ['x:size/large', 30],
-    ['x:size/massive', 100]
+    ['x:size/massive', 100],
+    ['x:rep/tiny', 3],
+    ['x:rep/small', 5],
+    ['x:rep/medium', 12],
+    ['x:rep/large', 30],
+    ['x:rep/massive', 100]
   ].each do |label, reputation|
     test "pull request with #{label} label adds reputation token with correct value" do
       action = 'closed'

@@ -11,7 +11,7 @@ module API
 
       submission = solution.user == current_user ?
         solution.submissions.last :
-        solution.latest_iteration.submission
+        solution.latest_iteration&.submission
 
       content = submission.files.find_by(filename: params[:filepath])&.content if submission
 

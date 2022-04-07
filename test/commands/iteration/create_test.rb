@@ -211,7 +211,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     perform_enqueued_jobs
 
     # Sanity check: no discussion present
-    refute user.badges.present?
+    assert_empty User::AcquiredBadge.where(user: user.reload, badge: Badges::GrowthMindsetBadge)
 
     create :mentor_discussion, solution: solution.reload
     submission_2 = create :submission, solution: solution
@@ -219,7 +219,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     perform_enqueued_jobs
 
     # Sanity check: discussion present, but no iteration after creation of discussion
-    refute user.reload.badges.present?
+    assert_empty User::AcquiredBadge.where(user: user.reload, badge: Badges::GrowthMindsetBadge)
 
     travel 1.day do
       submission_3 = create :submission, solution: solution

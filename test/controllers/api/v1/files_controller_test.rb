@@ -30,6 +30,35 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "show should return 404 for different user if all iterations are deleted" do
+    setup_user
+    solution = create :practice_solution, :published
+
+    filename = "meh"
+    old_submission = create :submission, solution: solution
+    create :submission_file, submission: old_submission, filename: filename, content: "old-code"
+
+    deleted_iteration_submission = create :submission, solution: solution
+    create :submission_file, submission: deleted_iteration_submission, filename: filename, content: "deleted-code"
+    create :iteration, solution: solution, submission: deleted_iteration_submission, deleted_at: Time.current
+
+    second_deleted_iteration_submission = create :submission, solution: solution
+    create :submission_file, submission: second_deleted_iteration_submission, filename: filename, content: "more-deleted-code"
+    create :iteration, solution: solution, submission: second_deleted_iteration_submission, deleted_at: Time.current
+
+    new_submission = create :submission, solution: solution
+    create :submission_file, submission: new_submission, filename: filename, content: "new-code"
+
+    get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
+    assert_response 404
+    expected = { error: {
+      type: "file_not_found",
+      message: I18n.t('api.errors.file_not_found')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
   test "show should return exercise file" do
     setup_user
     solution = create :practice_solution, user: @current_user

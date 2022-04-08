@@ -45,6 +45,8 @@ module Git
         tags: head_git_track.tags,
         course: head_git_track.has_concept_exercises?,
         has_test_runner: head_git_track.has_test_runner?,
+        has_analyzer: head_git_track.has_analyzer?,
+        has_representer: head_git_track.has_representer?,
         concepts: concepts
       )
 

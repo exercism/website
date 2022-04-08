@@ -482,7 +482,23 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert track.has_test_runner?
+    assert track.reload.has_test_runner?
+  end
+
+  test "syncs has_analyzer" do
+    track = create :track, has_analyzer: true
+
+    Git::SyncTrack.(track)
+
+    refute track.reload.has_analyzer?
+  end
+
+  test "syncs has_representer" do
+    track = create :track, has_representer: false
+
+    Git::SyncTrack.(track)
+
+    assert track.reload.has_representer?
   end
 
   test "syncs course" do

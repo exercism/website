@@ -55,7 +55,8 @@ class User
       def reputation_level
         # Sort descendingly to award greatest possible reputation
         %i[massive large medium small tiny].find do |type|
-          params[:labels].include?(Github::IssueLabel.for_type(:size, type))
+          params[:labels].include?(Github::IssueLabel.for_type(:size, type)) ||
+            params[:labels].include?(Github::IssueLabel.for_type(:rep, type))
         end || :medium
       end
     end

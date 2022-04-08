@@ -50,7 +50,7 @@ module Components
         solution = create :concept_solution, exercise: lasagna, user: user
         submission = create :submission, solution: solution
         create :iteration, solution: solution, submission: submission
-        strings = create :concept_exercise, track: track, title: "Strings", slug: "lasagna"
+        strings = create :concept_exercise, track: track, title: "Strings", slug: "strings"
         solution = create :concept_solution, exercise: strings, user: user
         submission = create :submission, solution: solution
         create :iteration, solution: solution, submission: submission

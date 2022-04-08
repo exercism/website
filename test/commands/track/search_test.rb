@@ -28,12 +28,20 @@ class Track::SearchTest < ActiveSupport::TestCase
     assert_equal [strong_js_track], Track::Search.(tags: ['typing:strong', 'compiles_to:javascript'])
   end
 
-  test "search: wildcard with criteria" do
+  test "search: wildcard with criteria matches title" do
     # Create one track with Ruby in the title
     track = create :track, :random_slug, title: "A Ruby Track"
     create :track, :random_slug, title: "A JS Track"
 
     assert_equal [track], Track::Search.(criteria: "ruby")
+  end
+
+  test "search: wildcard with criteria matches slug" do
+    # Create one track with Ruby in the title
+    track = create :track, :random_slug, title: "A C# Track", slug: 'csharp'
+    create :track, :random_slug, title: "A Ruby Track", slug: 'ruby'
+
+    assert_equal [track], Track::Search.(criteria: "csharp")
   end
 
   test "status: raises without a user" do

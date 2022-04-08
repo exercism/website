@@ -25,9 +25,8 @@ class Track
     def filter_criteria!
       return if criteria.blank?
 
-      @tracks = tracks.where(
-        "title like ?", "%#{criteria}%"
-      )
+      @tracks = tracks.where("title like ?", "%#{criteria}%").
+        or(tracks.where("slug like ?", "%#{criteria}%"))
     end
 
     def filter_tags!

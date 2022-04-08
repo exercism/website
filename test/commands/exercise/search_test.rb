@@ -14,7 +14,7 @@ class Exercise::SearchTest < ActiveSupport::TestCase
     assert_equal [concept_exercise, practice_exercise], Exercise::Search.(user_track)
   end
 
-  test "criteria" do
+  test "criteria matches title" do
     track = create :track
     user_track = UserTrack::External.new(track)
 
@@ -27,6 +27,19 @@ class Exercise::SearchTest < ActiveSupport::TestCase
     assert_equal [bob], Exercise::Search.(user_track, criteria: "bo")
     assert_equal [food], Exercise::Search.(user_track, criteria: "chain")
     assert_equal [bob], Exercise::Search.(user_track, criteria: "bob")
+  end
+
+  test "criteria matches slug" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    food = create :concept_exercise, title: "Food Chain", slug: 'chainy', track: track, position: 1
+    bob = create :concept_exercise, title: "Bob", slug: 'bobby', track: track, position: 2
+
+    assert_equal [food, bob], Exercise::Search.(user_track)
+    assert_equal [food, bob], Exercise::Search.(user_track, criteria: " ")
+    assert_equal [food], Exercise::Search.(user_track, criteria: "chainy")
+    assert_equal [bob], Exercise::Search.(user_track, criteria: "bobby")
   end
 
   test "beta and active exercises are always shown" do

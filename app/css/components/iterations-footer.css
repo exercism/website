@@ -12,7 +12,6 @@
     & .iterations {
         @apply flex flex-grow items-center;
         @apply mr-24;
-        overflow-x: auto;
 
         & .iteration {
             height: 32px;

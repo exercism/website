@@ -11,10 +11,8 @@ test('highlightAll() highlights code snippets', () => {
   expected.innerHTML = `
     <pre>
       <code class="ruby hljs language-ruby" data-highlighted="true">
-        <span class="hljs-class">
-          <span class="hljs-keyword">class</span>
-          <span class="hljs-title">Dog</span>
-        </span>
+        <span class="hljs-keyword">class</span>
+        <span class="hljs-title class_">Dog</span>
         <span class="hljs-keyword">end</span>
       </code>
     </pre>
@@ -45,10 +43,8 @@ test('highlightAll() highlights code snippets with line numbers', () => {
           <li>
             <div class="idx">2</div>
             <div class="loc">
-              <span class="hljs-class">
-                <span class="hljs-keyword">class</span>
-                <span class="hljs-title">Dog</span>
-              </span>
+              <span class="hljs-keyword">class</span>
+              <span class="hljs-title class_">Dog</span>
             </div>
           </li>
           <li>

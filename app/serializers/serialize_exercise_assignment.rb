@@ -83,6 +83,7 @@ class SerializeExerciseAssignment
 
   memoize
   def hints_doc
+    # TODO: remove
     hints = <<~HINTS.strip
       # Hints
 

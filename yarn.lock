@@ -5065,15 +5065,15 @@ highlight.js@11.2.0:
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.2.0.tgz#a7e3b8c1fdc4f0538b93b2dc2ddd53a40c6ab0f0"
   integrity sha512-JOySjtOEcyG8s4MLR2MNbLUyaXqUunmSnL2kdV/KuGJOmHZuAR5xC54Ko7goAXBWNhf09Vy3B+U7vR62UZ/0iw==
 
-highlight.js@^11:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.4.0.tgz#34ceadd49e1596ee5aba3d99346cdfd4845ee05a"
-  integrity sha512-nawlpCBCSASs7EdvZOYOYVkJpGmAOKMYZgZtUqSRqodZE0GRVcFKwo1RcpeOemqh9hyttTdd5wDBwHkuSyUfnA==
+highlight.js@^11.5.1:
+  version "11.5.1"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.5.1.tgz#027c24e4509e2f4dcd00b4a6dda542ce0a1f7aea"
+  integrity sha512-LKzHqnxr4CrD2YsNoIf/o5nJ09j4yi/GcH5BnYz9UnVpZdS4ucMgvP61TDty5xJcFGRjnH4DpujkS9bHT3hq0Q==
 
-highlightjs-sap-abap@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/highlightjs-sap-abap/-/highlightjs-sap-abap-0.1.0.tgz#26a3c049a4388569c1ca8540e8d0ab511eb2c3b7"
-  integrity sha512-mGXYyQa/gSWQMJo7EaZYQKQGHI4rCBgfVKZAxkrzKV7p4H2KVBmiR9aJ7E0Ej8OuCoRkGSE+OAlAaWhME4aBZg==
+highlightjs-sap-abap@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/highlightjs-sap-abap/-/highlightjs-sap-abap-0.2.0.tgz#d5291bf777deb7c297683f7dc87c02c8d108cc5b"
+  integrity sha512-vUwYBIMB+BmlPKjlHeEiQK8M1GeQ2VOtiaQo778kZ8N+kh+Q3gQ9jd1wbFNOAgbkLnpOrQrsxypVuJsZIIHoqQ==
 
 hogan.js@3.0.2:
   version "3.0.2"

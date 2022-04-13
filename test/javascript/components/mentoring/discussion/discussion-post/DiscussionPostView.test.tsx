@@ -31,5 +31,8 @@ test('highlights code blocks', async () => {
   )
 
   expect(screen.getByText('class')).toHaveAttribute('class', 'hljs-keyword')
-  expect(screen.getByText('Hello')).toHaveAttribute('class', 'hljs-title')
+  expect(screen.getByText('Hello')).toHaveAttribute(
+    'class',
+    'hljs-title class_'
+  )
 })

@@ -3,11 +3,11 @@ class User
     class Create
       include Mandate
 
-      def initialize(user, slug, send_email: true, context: {})
+      def initialize(user, slug, send_email:, **kwargs)
         @user = user
         @slug = slug
         @send_email = send_email
-        @context = context
+        @context = kwargs
       end
 
       def call
@@ -18,7 +18,7 @@ class User
 
         # Check if the badge should be awarded.
         # Raise an exception if not
-        raise BadgeCriteriaNotFulfilledError unless badge.award_to?(user, *context)
+        raise BadgeCriteriaNotFulfilledError unless badge.award_to?(user, **context)
 
         # Build the badge
         begin

@@ -5,7 +5,9 @@ module Badges
       'hello-world',
       'Completed "Hello, World!" in five languages'
 
-    def award_to?(user)
+    def award_to?(user, exercise:)
+      return false unless exercise == 'hello-world'
+
       user.solutions.completed.joins(:exercise).
         where('exercises.slug': "hello-world").
         count >= 5

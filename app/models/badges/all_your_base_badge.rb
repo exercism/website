@@ -5,7 +5,9 @@ module Badges
       'all-your-base',
       'Completed the "All Your Base" exercise'
 
-    def award_to?(user)
+    def award_to?(user, exercise:)
+      return false unless exercise == 'all-your-base'
+
       user.solutions.completed.joins(:exercise).
         where('exercises.slug': 'all-your-base').
         any?

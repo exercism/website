@@ -5,7 +5,9 @@ module Badges
       'lackadaisical',
       'Completed the "Bob" exercise in five languages'
 
-    def award_to?(user)
+    def award_to?(user, exercise:)
+      return false unless exercise == 'bob'
+
       user.solutions.completed.joins(:exercise).
         where('exercises.slug': 'bob').
         count >= 5

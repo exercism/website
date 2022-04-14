@@ -5,8 +5,10 @@ module Badges
       'new-years-resolution',
       'Submitted a solution on January 1st'
 
-    def award_to?(_user, day_of_year:)
-      day_of_year == 1
+    def award_to?(user)
+      user.solutions.
+        where('DAYOFYEAR(solutions.created_at) = 1').
+        exists?
     end
 
     def send_email_on_acquisition?

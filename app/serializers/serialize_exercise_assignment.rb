@@ -84,35 +84,36 @@ class SerializeExerciseAssignment
   memoize
   def hints_doc
     # TODO: remove
-    hints = <<~HINTS.strip
-      # Hints
+    # hints = <<~HINTS.strip
+    #   # Hints
 
-      ## General
+    #   ## General
 
-      - Hint one
-        - Sub hint one
-        - Sub hint two
-      - Hint two
-      - Hint three
-        - Sub hint three
+    #   - Hint one
+    #     - Sub hint one
+    #     - Sub hint two
+    #   - Hint two
+    #   - Hint three
+    #     - Sub hint three
 
-      These are more hints
+    #   These are more hints
 
-      ~~~exercism/note
-      This is a note
-      ~~~
+    #   ~~~exercism/note
+    #   This is a note
+    #   ~~~
 
-      ## 1. Task one
+    #   ## 1. Task one
 
-      - Task hint one
-        - Task sub hint one
+    #   - Task hint one
+    #     - Task sub hint one
 
-      ## 2. Task two
+    #   ## 2. Task two
 
-      - Task hint two
-    HINTS
+    #   - Task hint two
+    # HINTS
 
-    Markdown::Render.(hints, :doc)
+    # return Markdown::Render.(hints, :doc)
+    Markdown::Render.(solution.hints, :doc)
   end
 
   def parse_task_title(header)

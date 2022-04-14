@@ -48,7 +48,7 @@ class Badge < ApplicationRecord
   # notifications when they are created
   def notification_key; end
 
-  def award_to?(_user)
+  def award_to?(_user, **_kwargs)
     raise "Implement this method in the child class"
   end
 

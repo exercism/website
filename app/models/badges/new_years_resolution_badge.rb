@@ -5,7 +5,7 @@ module Badges
       'new-years-resolution',
       'Submitted a solution on January 1st'
 
-    def award_to?(user, **_context)
+    def award_to?(user, _context)
       user.solutions.
         where('DAYOFYEAR(solutions.created_at) = 1').
         exists?

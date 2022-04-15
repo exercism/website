@@ -3,11 +3,11 @@ class User
     class Create
       include Mandate
 
-      def initialize(user, slug, send_email:, **kwargs)
+      def initialize(user, slug, send_email:, **context)
         @user = user
         @slug = slug
         @send_email = send_email
-        @context = kwargs
+        @context = context
       end
 
       def call

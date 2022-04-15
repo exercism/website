@@ -3,7 +3,7 @@ class AwardBadgeJob < ApplicationJob
 
   discard_on BadgeCriteriaNotFulfilledError
 
-  def perform(user, badge_slug, send_email: true, **kwargs)
-    User::AcquiredBadge::Create.(user, badge_slug, send_email:, **kwargs)
+  def perform(user, badge_slug, send_email: true, **context)
+    User::AcquiredBadge::Create.(user, badge_slug, send_email:, **context)
   end
 end

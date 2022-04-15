@@ -35,7 +35,8 @@ gem 'kaminari'
 gem 'oj'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.83.0' # gem 'exercism-config', path: '../exercism_config'
+gem 'exercism-config', '>= 0.83.0'
+# gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
@@ -54,7 +55,7 @@ gem 'devise', '~> 4.7'
 
 # Omniauth
 gem 'omniauth-github'
-gem 'omniauth-rails_csrf_protection'
+gem "omniauth-rails_csrf_protection"
 
 # Payments
 gem 'stripe'

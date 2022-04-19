@@ -39,6 +39,7 @@
 
         & .--summary-inner {
             @apply px-32 pt-16;
+
             @apply text-h5;
             @apply flex items-center;
             & .c-icon {
@@ -48,21 +49,20 @@
             }
         }
     }
-    & .single-task-hints {
-        @apply px-32 py-16;
-        & h3 {
-            @apply text-h5 mb-4;
-        }
+    & .c-textual-content {
+        @apply px-32 pb-16;
         & ul {
-            @apply pl-0;
+            @apply ml-0;
+            & li {
+                @apply text-18 leading-170;
+                list-style: disc;
+                @apply ml-20;
+            }
         }
     }
-    & ul {
-        @apply px-32;
-        & li {
-            @apply text-18 leading-170;
-            list-style: disc;
-            @apply ml-20;
+    & .single-task-hints {
+        & h3 {
+            @apply text-h5 px-32 py-16;
         }
     }
 }

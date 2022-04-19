@@ -11,7 +11,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       opened_at = Time.parse('2020-04-03T14:54:57Z').utc
       url = 'https://api.github.com/repos/exercism/v3/issues/1347'
       html_url = 'https://github.com/exercism/v3/issue/1347'
-      labels = ['x:size/large']
+      labels = ['x:rep/large']
       user = create :user, handle: "User-22", github_username: "user22"
 
       User::ReputationToken::AwardForIssue.(
@@ -34,7 +34,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       opened_at = Time.parse('2020-04-03T14:54:57Z').utc
       url = 'https://api.github.com/repos/exercism/v3/issues/1347'
       html_url = 'https://github.com/exercism/v3/issue/1347'
-      labels = ['x:size/large']
+      labels = ['x:rep/large']
       user = create :user, handle: "User-22", github_username: "user22"
 
       User::ReputationToken::AwardForIssue.(
@@ -45,7 +45,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     end
   end
 
-  ['x:size/tiny', 'x:size/small', 'x:size/medium'].each do |label|
+  ['x:size/tiny', 'x:size/small', 'x:size/medium', 'x:size/large', 'x:size/massive'].each do |label|
     test "no reputation is awarded when size label is #{label}" do
       action = 'labeled'
       opened_by_username = 'user22'
@@ -67,6 +67,28 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     end
   end
 
+  ['x:rep/tiny', 'x:rep/small', 'x:rep/medium'].each do |label|
+    test "no reputation is awarded when rep label is #{label}" do
+      action = 'labeled'
+      opened_by_username = 'user22'
+      repo = 'exercism/v3'
+      node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+      number = 1347
+      title = "The cat sat on the mat"
+      opened_at = Time.parse('2020-04-03T14:54:57Z').utc
+      url = 'https://api.github.com/repos/exercism/v3/issues/1347'
+      html_url = 'https://github.com/exercism/v3/issue/1347'
+      labels = [label]
+      user = create :user, handle: "User-22", github_username: "user22", roles: [:admin]
+
+      User::ReputationToken::AwardForIssue.(
+        action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
+      )
+
+      refute User::ReputationTokens::IssueAuthorToken.where(user: user).exists?
+    end
+  end
+
   test "no reputation is awarded when author could not be found" do
     action = 'labeled'
     opened_by_username = 'user22'
@@ -77,7 +99,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     opened_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
-    labels = ['x:size/large']
+    labels = ['x:rep/large']
 
     User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
@@ -86,7 +108,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     refute User::ReputationTokens::IssueAuthorToken.exists?
   end
 
-  test "no reputation is awarded when there is no size label" do
+  test "no reputation is awarded when there is no rep label" do
     action = 'labeled'
     opened_by_username = 'user22'
     repo = 'exercism/v3'
@@ -143,7 +165,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       opened_at = Time.parse('2020-04-03T14:54:57Z').utc
       url = "https://api.github.com/repos/exercism/#{repo_name}/issues/1347"
       html_url = "https://github.com/exercism/#{repo_name}/issue/1347"
-      labels = ['x:size/massive']
+      labels = ['x:rep/massive']
       user = create :user, handle: "User-22", github_username: "user22"
       track = create :track, repo_url: 'https://github.com/exercism/ruby'
 
@@ -175,7 +197,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     refute User::ReputationTokens::IssueAuthorToken.exists?
   end
 
-  test "issue with large and massive sizes adds reputation token for greatest size" do
+  test "issue with large and massive rep adds reputation token for greatest rep" do
     action = 'labeled'
     opened_by_username = 'user22'
     repo = 'exercism/v3'
@@ -185,7 +207,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     opened_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
-    labels = ['x:size/large', 'x:size/massive']
+    labels = ['x:rep/large', 'x:rep/massive']
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForIssue.(
@@ -205,7 +227,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     opened_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
-    labels = ['duplicate', 'x:size/large', 'bug']
+    labels = ['duplicate', 'x:rep/large', 'bug']
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForIssue.(
@@ -225,7 +247,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     opened_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/issues/1347'
     html_url = 'https://github.com/exercism/v3/issue/1347'
-    labels = ['x:size/large']
+    labels = ['x:rep/large']
     user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_issue_author_reputation_token, user: user, level: :massive,
       external_url: html_url,
@@ -245,8 +267,8 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     assert_equal 30, user.reputation
   end
 
-  ['x:size/tiny', 'x:size/small', 'x:size/medium'].each do |label|
-    test "reputation token removed if size label changes to #{label}" do
+  ['x:rep/tiny', 'x:rep/small', 'x:rep/medium'].each do |label|
+    test "reputation token removed if rep label changes to #{label}" do
       action = 'labeled'
       opened_by_username = 'user22'
       repo = 'exercism/v3'
@@ -278,7 +300,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     end
   end
 
-  test "reputation token removed if size label is removed" do
+  test "reputation token removed if rep label is removed" do
     action = 'unlabeled'
     opened_by_username = 'user22'
     repo = 'exercism/v3'

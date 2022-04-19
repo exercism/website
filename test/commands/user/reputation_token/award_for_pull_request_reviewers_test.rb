@@ -294,7 +294,12 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ['x:size/small', 2],
     ['x:size/medium', 5],
     ['x:size/large', 10],
-    ['x:size/massive', 20]
+    ['x:size/massive', 20],
+    ['x:rep/tiny', 1],
+    ['x:rep/small', 2],
+    ['x:rep/medium', 5],
+    ['x:rep/large', 10],
+    ['x:rep/massive', 20]
   ].each do |label, reputation|
     test "pull request with #{label} label adds reputation token with correct value" do
       action = 'closed'
@@ -332,7 +337,7 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
-    labels = ['x:size/small', 'x:size/large']
+    labels = ['x:size/small', 'x:rep/large']
     reviewer = create :user, handle: "Reviewer-71", github_username: "reviewer71"
     create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]

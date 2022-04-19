@@ -168,7 +168,12 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     ['x:size/small', 5],
     ['x:size/medium', 12],
     ['x:size/large', 30],
-    ['x:size/massive', 100]
+    ['x:size/massive', 100],
+    ['x:rep/tiny', 3],
+    ['x:rep/small', 5],
+    ['x:rep/medium', 12],
+    ['x:rep/large', 30],
+    ['x:rep/massive', 100]
   ].each do |label, reputation|
     test "pull request with #{label} label adds reputation token with correct value" do
       action = 'closed'
@@ -215,6 +220,28 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     assert_equal 30, user.reputation_tokens.last.value
   end
 
+  test "pull request with small and large rep adds reputation token for greatest rep" do
+    action = 'closed'
+    author = 'user22'
+    repo = 'exercism/v3'
+    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
+    number = 1347
+    title = "The cat sat on the mat"
+    merged = true
+    merged_at = Time.parse('2020-04-03T14:54:57Z').utc
+    url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
+    html_url = 'https://github.com/exercism/v3/pull/1347'
+    labels = ['x:rep/small', 'x:rep/large']
+    user = create :user, handle: "User-22", github_username: "user22"
+
+    User::ReputationToken::AwardForPullRequestAuthor.(
+      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
+      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at
+    )
+
+    assert_equal 30, user.reputation_tokens.last.value
+  end
+
   test "pull request ignores irrelevant labels" do
     action = 'closed'
     author = 'user22'
@@ -248,7 +275,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
-    labels = ['x:size/small']
+    labels = ['x:rep/small']
     user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_code_contribution_reputation_token,
       user: user,
@@ -283,7 +310,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     merged_at = Time.parse('2020-04-03T14:54:57Z').utc
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
-    labels = ['x:size/large']
+    labels = ['x:rep/large']
     user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_code_contribution_reputation_token,
       user: user, level: :small, params: { repo: repo, pr_node_id: node_id, merged_at: merged_at }
@@ -332,7 +359,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     merged = false
     url = 'https://api.github.com/repos/exercism/v3/pulls/1347'
     html_url = 'https://github.com/exercism/v3/pull/1347'
-    labels = ['x:size/large']
+    labels = ['x:rep/large']
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestAuthor.(

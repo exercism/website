@@ -5,9 +5,11 @@ module Badges
       'all-your-base',
       'Completed the "All Your Base" exercise'
 
-    def award_to?(user, exercise:)
-      return false unless exercise == 'all-your-base'
+    def self.worth_queuing?(context)
+      context[:exercise] == 'all-your-base'
+    end
 
+    def award_to?(user)
       user.solutions.completed.joins(:exercise).
         where('exercises.slug': 'all-your-base').
         any?

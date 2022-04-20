@@ -3,11 +3,10 @@ class User
     class Create
       include Mandate
 
-      def initialize(user, slug, send_email:, **context)
+      def initialize(user, slug, send_email:)
         @user = user
         @slug = slug
         @send_email = send_email
-        @context = context
       end
 
       def call
@@ -18,7 +17,7 @@ class User
 
         # Check if the badge should be awarded.
         # Raise an exception if not
-        raise BadgeCriteriaNotFulfilledError unless badge.award_to?(user, **context)
+        raise BadgeCriteriaNotFulfilledError unless badge.award_to?(user)
 
         # Build the badge
         begin
@@ -46,7 +45,7 @@ class User
       end
 
       private
-      attr_reader :user, :slug, :send_email, :context
+      attr_reader :user, :slug, :send_email
 
       memoize
       def badge

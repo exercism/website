@@ -45,6 +45,18 @@ class SerializeExerciseAssignment
 
     hints_doc.
       each.
+      # Create chunks of nodes whenever the node types is a level 2 heading
+      # It will skip over any nodes before the first level 2 heading
+      # The level 2 heading node itself will be the first element of the chunk,
+      # and any nodes up until the next level 2 heading (or the end of the file)
+      # will be the other elements in the array
+      #
+      # Example: [h1, h2_a, p1, h2_b, p2, c1, h2_c, l1] is chunked as:
+      # [
+      #   [h2_a, p1],
+      #   [h2_b, p2, c1],
+      #   [h2_c, l1]
+      # ]
       slice_before { |x| x.type == :header && x.header_level == 2 }.
       each_with_object({}) do |chunk, hints|
         task_id = parse_task_id(chunk.each.first)

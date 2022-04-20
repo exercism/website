@@ -7,8 +7,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     serialized = SerializeExerciseAssignment.(solution)
 
     expected = [
-      "<p>The <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">rubymostas strings guide</a> has a nice\nintroduction to Ruby strings.</p>\n", # rubocop:disable Layout/LineLength
-      "<p>The <code>String</code> object has many useful <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noopener\">built-in methods</a>.</p>\n" # rubocop:disable Layout/LineLength
+      "<ul>\n<li>The <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">rubymostas strings guide</a> has a nice\nintroduction to Ruby strings.</li>\n<li>The <code>String</code> object has many useful <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noopener\">built-in methods</a>.</li>\n</ul>\n" # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, serialized[:general_hints]
   end
@@ -18,7 +17,9 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
     serialized = SerializeExerciseAssignment.(solution)
 
-    expected = ["<p>There are many useful string methods built-in</p>\n"]
+    expected = [
+      "<ul>\n<li>There are many useful string methods built-in</li>\n</ul>\n"
+    ]
     assert_equal expected, serialized[:general_hints]
   end
 
@@ -105,10 +106,9 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     serialized = SerializeExerciseAssignment.(solution)
 
     expected = [
-      ["<p>There are different ways to search for text in a string, which can be found on the <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noopener\">Ruby language official\ndocumentation</a>.</p>\n", # rubocop:disable Layout/LineLength
-       "<p>There are <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\" target=\"_blank\" rel=\"noopener\">built in methods</a> to strip white space.</p>\n"], # rubocop:disable Layout/LineLength
-      ["<p>Ruby <code>String</code> objects have a <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase\" target=\"_blank\" rel=\"noopener\">method</a> to perform this\noperation.</p>\n"], # rubocop:disable Layout/LineLength
-      ["<p>There are several ways to <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">concatenate\nstrings</a>, but the preferred one is usually\n<a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">string interpolation</a></p>\n"] # rubocop:disable Layout/LineLength
+      ["<ul>\n<li>There are different ways to search for text in a string, which can be found on the <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noopener\">Ruby language official\ndocumentation</a>.</li>\n<li>There are <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\" target=\"_blank\" rel=\"noopener\">built in methods</a> to strip white space.</li>\n</ul>\n"], # rubocop:disable Layout/LineLength
+      ["<ul>\n<li>Ruby <code>String</code> objects have a <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase\" target=\"_blank\" rel=\"noopener\">method</a> to perform this\noperation.</li>\n</ul>\n"], # rubocop:disable Layout/LineLength
+      ["<ul>\n<li>There are several ways to <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">concatenate\nstrings</a>, but the preferred one is usually\n<a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">string interpolation</a>\n</li>\n</ul>\n"] # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, (serialized[:tasks].map { |task| task[:hints] })
   end
@@ -136,8 +136,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     serialized = SerializeExerciseAssignment.(solution)
 
     expected = [
-      "<p>Hint <a href=\"http://exercism.org/about\">number one</a></p>\n",
-      "<p>Hint <a href=\"http://exercism.org/tracks\">number two</a></p>\n"
+      "<ul>\n<li>Hint <a href=\"http://exercism.org/about\">number one</a>\n</li>\n<li>Hint <a href=\"http://exercism.org/tracks\">number two</a>\n</li>\n</ul>\n" # rubocop:disable Layout/LineLength
     ]
     assert_equal expected, serialized[:general_hints]
   end

@@ -44,4 +44,11 @@ class Badge::DieUnendlicheGeschichteBadgeTest < ActiveSupport::TestCase
     create :iteration, solution: solution
     assert badge.award_to?(user.reload)
   end
+
+  test "worth_queuing?" do
+    refute Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration_idx: 1)
+    refute Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration_idx: 9)
+    assert Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration_idx: 10)
+    assert Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration_idx: 11)
+  end
 end

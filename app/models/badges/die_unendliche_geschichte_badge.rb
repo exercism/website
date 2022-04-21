@@ -5,6 +5,10 @@ module Badges
       'die-unendliche-geschichte',
       'Submitted 10 iterations to the same exercise'
 
+    def self.worth_queuing?(iteration_idx:)
+      iteration_idx >= 10
+    end
+
     def award_to?(user)
       user.iterations.
         group(:solution_id).

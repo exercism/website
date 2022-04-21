@@ -343,6 +343,28 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal 50, UserTrack.find(user_track.id).completed_percentage
   end
 
+  test "completed_concept_exercises_percentage" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+    exercises = Array.new(6) { create :concept_exercise, :random_slug, track: track }
+    create :concept_solution, exercise: exercises[0], completed_at: Time.current, user: user
+    pe_1 = create :practice_exercise, :random_slug, track: track
+    pe_2 = create :practice_exercise, :random_slug, track: track
+
+    # Don't count these
+    create :concept_solution, exercise: exercises[4], user: user
+    create :concept_solution, exercise: exercises[5]
+    create :practice_solution, exercise: pe_1
+    create :practice_solution, :completed, exercise: pe_2
+
+    assert_equal 16.7, user_track.completed_concept_exercises_percentage
+
+    create :concept_solution, exercise: exercises[1], completed_at: Time.current, user: user
+    create :concept_solution, exercise: exercises[2], completed_at: Time.current, user: user
+    assert_equal 50, UserTrack.find(user_track.id).completed_concept_exercises_percentage
+  end
+
   test "tutorial_exercise_completed?" do
     track = create :track
     user = create :user
@@ -359,8 +381,11 @@ class UserTrackTest < ActiveSupport::TestCase
     track = create :track
     user = create :user
     concept = create :concept, track: track
+    another_concept = create :concept, track: track, slug: 'dates'
     concept_exercise = create :concept_exercise, track: track
     concept_exercise.taught_concepts << concept
+    another_concept_exercise = create :concept_exercise, track: track, slug: 'daring-dates'
+    another_concept_exercise.taught_concepts << another_concept
     user_track = create :user_track, user: user, track: track
     exercises = Array.new(10) { create :practice_exercise, :random_slug, track: track }
     exercises << concept_exercise
@@ -377,14 +402,18 @@ class UserTrackTest < ActiveSupport::TestCase
       create :practice_solution, exercise: exercises[idx], completed_at: Time.current, user: user
     end
 
+    create :concept_solution, exercise: another_concept_exercise, completed_at: Time.current, user: user
+
     # Locked
     exercises[7].prerequisites << concept
 
-    assert_equal 11, user_track.num_exercises
+    assert_equal 12, user_track.num_exercises
+    assert_equal 2, user_track.num_concept_exercises
     assert_equal 4, user_track.num_available_exercises
     assert_equal 2, user_track.num_in_progress_exercises
     assert_equal 1, user_track.num_locked_exercises
-    assert_equal 4, user_track.num_completed_exercises
+    assert_equal 5, user_track.num_completed_exercises
+    assert_equal 1, user_track.num_completed_concept_exercises
   end
 
   test "num_xxx_concepts" do

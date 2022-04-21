@@ -98,6 +98,13 @@ class UserTrack < ApplicationRecord
     c.denominator == 1 ? c.round : c.round(1)
   end
 
+  def completed_concept_exercises_percentage
+    return 100.0 if num_concept_exercises.zero?
+
+    c = (num_completed_concept_exercises / num_concept_exercises.to_f) * 100
+    c.denominator == 1 ? c.round : c.round(1)
+  end
+
   def mentoring_unlocked?
     user.solutions.joins(:exercise).where.not("exercises.slug": "hello-world").where.not(type: :started).exists?
   end

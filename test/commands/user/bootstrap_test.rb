@@ -15,6 +15,6 @@ class User::BootstrapTest < ActiveSupport::TestCase
 
     User::Bootstrap.(user)
     perform_enqueued_jobs
-    assert_equal Badges::MemberBadge, user.reload.badges.first.class
+    assert_includes user.reload.badges.map(&:class), Badges::MemberBadge
   end
 end

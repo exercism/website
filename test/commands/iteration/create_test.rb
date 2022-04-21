@@ -199,7 +199,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
       submission = create :submission, solution: solution
       Iteration::Create.(solution, submission)
 
-      assert_equal Badges::DieUnendlicheGeschichteBadge, user.reload.badges.first.class
+      assert_includes user.reload.badges.map(&:class), Badges::DieUnendlicheGeschichteBadge
     end
   end
 
@@ -227,6 +227,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
       perform_enqueued_jobs
     end
 
-    assert_equal Badges::GrowthMindsetBadge, user.reload.badges.first.class
+    assert_includes user.reload.badges.map(&:class), Badges::GrowthMindsetBadge
   end
 end

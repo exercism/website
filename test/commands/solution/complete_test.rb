@@ -109,7 +109,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::AnybodyThereBadge, user.reload.badges.first.class
+    assert_includes user.reload.badges.map(&:class), Badges::AnybodyThereBadge
   end
 
   test "awards all your base badge when all-your-base exercise is completed" do
@@ -124,7 +124,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::AllYourBaseBadge, user.reload.badges.first.class
+    assert_includes user.reload.badges.map(&:class), Badges::AllYourBaseBadge
   end
 
   test "awards whatever badge when bob exercise is completed" do
@@ -139,7 +139,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::WhateverBadge, user.reload.badges.first.class
+    assert_includes user.reload.badges.map(&:class), Badges::WhateverBadge
   end
 
   test "awards lackadaisical badge when bob exercise is completed in five tracks" do
@@ -161,6 +161,50 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_equal Badges::LackadaisicalBadge, user.reload.badges.last.class
+    assert_includes user.reload.badges.map(&:class), Badges::LackadaisicalBadge
+  end
+
+  test "awards completer badge when all the track's exercises are now completed" do
+    user = create :user
+    track = create :track
+    create :hello_world_exercise, track: track
+    concept_exercise = create :concept_exercise, track: track, position: 1
+    practice_exercise = create :practice_exercise, track: track, position: 2, slug: 'leap'
+    user_track = create :user_track, user: user, track: track
+    refute user.badges.present?
+
+    create :hello_world_solution, :completed, user: user, track: track
+    create :concept_solution, :completed, user: user, track: track, exercise: concept_exercise
+    refute user.reload.badges.present?
+
+    solution = create :practice_solution, user: user, track: track, exercise: practice_exercise
+    create :iteration, solution: solution
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::CompleterBadge
+  end
+
+  test "awards conceptual badge when all the track's learning exercises are now completed" do
+    user = create :user
+    track = create :track
+    create :hello_world_exercise, track: track
+    concept_exercise = create :concept_exercise, track: track, position: 1
+    practice_exercise = create :practice_exercise, track: track, position: 2, slug: 'leap'
+    user_track = create :user_track, user: user, track: track
+    refute user.badges.present?
+
+    create :hello_world_solution, :completed, user: user, track: track
+    create :concept_solution, :completed, user: user, track: track, exercise: concept_exercise
+    refute user.reload.badges.present?
+
+    solution = create :concept_solution, user: user, track: track, exercise: practice_exercise
+    create :iteration, solution: solution
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::ConceptualBadge
   end
 end

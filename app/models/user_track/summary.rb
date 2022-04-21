@@ -111,6 +111,10 @@ class UserTrack
       mapped_exercises.count
     end
 
+    def num_concept_exercises
+      mapped_exercises.values.count { |e| e.type == "concept" }
+    end
+
     def num_completed_exercises
       mapped_exercises.values.count(&:completed_at)
     end

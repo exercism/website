@@ -44,4 +44,13 @@ class AwardBadgeJobTest < ActiveJob::TestCase
       AwardBadgeJob.perform_now(user.reload, :growth_mindset, send_email: false)
     end
   end
+
+  test "badge create is not called when badge is not worth queueing" do
+    user = mock
+
+    User::AcquiredBadge::Create.expects(:call).never
+
+    # The whatever badge is only queued when the exercise is bob
+    AwardBadgeJob.perform_later(user, 'whatever', exercise: 'leap')
+  end
 end

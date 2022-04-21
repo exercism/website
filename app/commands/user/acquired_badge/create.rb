@@ -3,7 +3,7 @@ class User
     class Create
       include Mandate
 
-      def initialize(user, slug, send_email:)
+      def initialize(user, slug, send_email: true)
         @user = user
         @slug = slug
         @send_email = send_email

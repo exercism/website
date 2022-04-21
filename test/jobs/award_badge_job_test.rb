@@ -51,6 +51,6 @@ class AwardBadgeJobTest < ActiveJob::TestCase
     User::AcquiredBadge::Create.expects(:call).never
 
     # The whatever badge is only queued when the exercise is bob
-    AwardBadgeJob.perform_later(user, 'whatever', exercise: 'leap')
+    AwardBadgeJob.perform_later(user, 'whatever', exercise_slug: 'leap')
   end
 end

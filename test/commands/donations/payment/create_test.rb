@@ -25,7 +25,9 @@ class Donations::Payment::CreateTest < Donations::TestBase
     user = create :user
     refute user.reload.badges.present?
 
-    Donations::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
+    assert_enqueued_with(job: AwardBadgeJob) do
+      Donations::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
+    end
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::SupporterBadge

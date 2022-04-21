@@ -5,8 +5,8 @@ module Badges
       'whatever',
       'Completed the "Bob" exercise'
 
-    def self.worth_queuing?(exercise:)
-      exercise == 'bob'
+    def self.worth_queuing?(exercise_slug:)
+      exercise_slug == 'bob'
     end
 
     def award_to?(user)

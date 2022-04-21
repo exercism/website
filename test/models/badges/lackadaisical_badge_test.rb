@@ -44,9 +44,8 @@ class Badge::LackadaisicalBadgeTest < ActiveSupport::TestCase
   end
 
   test "worth_queuing?" do
-    refute Badges::LackadaisicalBadge.worth_queuing?(exercise: nil)
-    refute Badges::LackadaisicalBadge.worth_queuing?(exercise: 'leap')
-    refute Badges::LackadaisicalBadge.worth_queuing?(exercise: 'hello-world')
-    assert Badges::LackadaisicalBadge.worth_queuing?(exercise: 'bob')
+    refute Badges::LackadaisicalBadge.worth_queuing?(exercise_slug: 'leap')
+    refute Badges::LackadaisicalBadge.worth_queuing?(exercise_slug: 'hello-world')
+    assert Badges::LackadaisicalBadge.worth_queuing?(exercise_slug: 'bob')
   end
 end

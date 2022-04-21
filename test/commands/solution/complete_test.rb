@@ -196,10 +196,10 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     refute user.badges.present?
 
     create :hello_world_solution, :completed, user: user, track: track
-    create :concept_solution, :completed, user: user, track: track, exercise: concept_exercise
+    create :practice_solution, :completed, user: user, track: track, exercise: practice_exercise
     refute user.reload.badges.present?
 
-    solution = create :concept_solution, user: user, track: track, exercise: practice_exercise
+    solution = create :concept_solution, user: user, track: track, exercise: concept_exercise
     create :iteration, solution: solution
 
     Solution::Complete.(solution, user_track)

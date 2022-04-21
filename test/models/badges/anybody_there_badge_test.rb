@@ -41,9 +41,8 @@ class Badge::AnybodyThereBadgeTest < ActiveSupport::TestCase
   end
 
   test "worth_queuing?" do
-    refute Badges::AnybodyThereBadge.worth_queuing?(exercise: nil)
-    refute Badges::AnybodyThereBadge.worth_queuing?(exercise: 'leap')
-    refute Badges::AnybodyThereBadge.worth_queuing?(exercise: 'bob')
-    assert Badges::AnybodyThereBadge.worth_queuing?(exercise: 'hello-world')
+    refute Badges::AnybodyThereBadge.worth_queuing?(exercise_slug: 'leap')
+    refute Badges::AnybodyThereBadge.worth_queuing?(exercise_slug: 'bob')
+    assert Badges::AnybodyThereBadge.worth_queuing?(exercise_slug: 'hello-world')
   end
 end

@@ -50,4 +50,14 @@ class Badge::ContributorBadgeTest < ActiveSupport::TestCase
 
     assert badge.award_to?(user)
   end
+
+  test "worth_queuing?" do
+    %i[misc publishing].each do |category|
+      refute Badges::ContributorBadge.worth_queuing?(category:)
+    end
+
+    %i[building maintaining mentoring authoring].each do |category|
+      assert Badges::ContributorBadge.worth_queuing?(category:)
+    end
+  end
 end

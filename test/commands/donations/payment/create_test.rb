@@ -21,12 +21,14 @@ class Donations::Payment::CreateTest < Donations::TestBase
     assert_equal amount, user.total_donated_in_cents
   end
 
-  test "enqueues badge job" do
+  test "awards supporter badge" do
     user = create :user
+    refute user.reload.badges.present?
 
-    assert_enqueued_with(job: AwardBadgeJob, args: [user, :supporter]) do
-      Donations::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
-    end
+    Donations::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::SupporterBadge
   end
 
   test "enqueues email job" do

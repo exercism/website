@@ -5,8 +5,8 @@ module Badges
       'lackadaisical',
       'Completed the "Bob" exercise in five languages'
 
-    def self.worth_queuing?(context)
-      context[:exercise] == 'bob'
+    def self.worth_queuing?(exercise:)
+      exercise == 'bob'
     end
 
     def award_to?(user)

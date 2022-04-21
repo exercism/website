@@ -5,8 +5,8 @@ module Badges
       'hello-world',
       'Completed "Hello, World!" in five languages'
 
-    def self.worth_queuing?(context)
-      context[:exercise] == 'hello-world'
+    def self.worth_queuing?(exercise:)
+      exercise == 'hello-world'
     end
 
     def award_to?(user)

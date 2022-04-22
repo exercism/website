@@ -31,15 +31,13 @@ const Hints = ({
           ) : null}
         </div>
       </summary>
-      <ul>
-        {hints.map((hint, idx) => (
-          <li
-            className="c-textual-content --large"
-            key={idx}
-            dangerouslySetInnerHTML={{ __html: hint }}
-          ></li>
-        ))}
-      </ul>
+      {hints.map((hint, idx) => (
+        <div
+          className="c-textual-content --large"
+          key={idx}
+          dangerouslySetInnerHTML={{ __html: hint }}
+        ></div>
+      ))}
     </details>
   )
 }

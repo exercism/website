@@ -42,16 +42,26 @@ class SerializeExerciseAssignment
     #  ## Header
     #  - foo
     #  - bar
-    hints_doc.each_cons(2).each_with_object({}) do |(header, list), hints|
-      # TODO: Add an issue to the relevant track via a async job
-      # if any of these are invalid
-      next unless header.type == :header
-      next unless header.header_level == 2
-      next unless list.type == :list
 
-      task_id = parse_task_id(header)
-      hints[task_id] = list.each.map { |list_item| Markdown::Parse.(list_item.each.first.to_commonmark) }
-    end
+    hints_doc.
+      each.
+      # Create chunks of nodes whenever the node types is a level 2 heading
+      # It will skip over any nodes before the first level 2 heading
+      # The level 2 heading node itself will be the first element of the chunk,
+      # and any nodes up until the next level 2 heading (or the end of the file)
+      # will be the other elements in the array
+      #
+      # Example: [h1, h2_a, p1, h2_b, p2, c1, h2_c, l1] is chunked as:
+      # [
+      #   [h2_a, p1],
+      #   [h2_b, p2, c1],
+      #   [h2_c, l1]
+      # ]
+      slice_before { |x| x.type == :header && x.header_level == 2 }.
+      each_with_object({}) do |chunk, hints|
+        task_id = parse_task_id(chunk.each.first)
+        hints[task_id] = chunk.each.drop(1).map { |content| Markdown::Parse.(content.to_commonmark) }
+      end
   end
 
   def tasks
@@ -85,7 +95,7 @@ class SerializeExerciseAssignment
 
   memoize
   def hints_doc
-    Markdown::Render.(solution.git_exercise.hints, :doc)
+    Markdown::Render.(solution.hints, :doc)
   end
 
   def parse_task_title(header)

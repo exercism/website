@@ -39,8 +39,8 @@ class Badge::AllYourBaseBadgeTest < ActiveSupport::TestCase
   end
 
   test "worth_queuing?" do
-    refute Badges::AllYourBaseBadge.worth_queuing?(exercise_slug: 'hello-world')
-    refute Badges::AllYourBaseBadge.worth_queuing?(exercise_slug: 'bob')
-    assert Badges::AllYourBaseBadge.worth_queuing?(exercise_slug: 'all-your-base')
+    refute Badges::AllYourBaseBadge.worth_queuing?(exercise: create(:practice_exercise, slug: 'hello-world'))
+    refute Badges::AllYourBaseBadge.worth_queuing?(exercise: create(:practice_exercise, slug: 'bob'))
+    assert Badges::AllYourBaseBadge.worth_queuing?(exercise: create(:practice_exercise, slug: 'all-your-base'))
   end
 end

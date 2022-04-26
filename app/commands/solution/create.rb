@@ -9,7 +9,7 @@ class Solution
       begin
         solution_class.create!(user: user, exercise: exercise).tap do |solution|
           record_activity!(solution)
-          AwardBadgeJob.perform_later(user, :new_years_resolution, day_of_year: Time.now.utc.yday)
+          AwardBadgeJob.perform_later(user, :new_years_resolution)
         end
       rescue ActiveRecord::RecordNotUnique
         solution_class.find_by!(

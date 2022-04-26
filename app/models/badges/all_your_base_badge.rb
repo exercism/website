@@ -5,8 +5,8 @@ module Badges
       'all-your-base',
       'Completed the "All Your Base" exercise'
 
-    def self.worth_queuing?(exercise_slug:)
-      exercise_slug == 'all-your-base'
+    def self.worth_queuing?(exercise:)
+      exercise.slug == 'all-your-base'
     end
 
     def award_to?(user)

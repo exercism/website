@@ -78,7 +78,7 @@ class Badge::ConceptualBadgeTest < ActiveSupport::TestCase
   end
 
   test "worth_queuing?" do
-    refute Badges::ConceptualBadge.worth_queuing?(exercise_type: 'PracticeExercise')
-    assert Badges::ConceptualBadge.worth_queuing?(exercise_type: 'ConceptExercise')
+    refute Badges::ConceptualBadge.worth_queuing?(exercise: create(:practice_exercise))
+    assert Badges::ConceptualBadge.worth_queuing?(exercise: create(:concept_exercise))
   end
 end

@@ -37,10 +37,14 @@ class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
   end
 
   test "worth_queuing?" do
-    refute Badges::NewYearsResolutionBadge.worth_queuing?(day_of_year: 2)
-    refute Badges::NewYearsResolutionBadge.worth_queuing?(day_of_year: 196)
-    refute Badges::NewYearsResolutionBadge.worth_queuing?(day_of_year: 365)
-    refute Badges::NewYearsResolutionBadge.worth_queuing?(day_of_year: 366)
-    assert Badges::NewYearsResolutionBadge.worth_queuing?(day_of_year: 1)
+    (2..366).each do |day|
+      travel_to(Date.ordinal(2020, day)) do
+        refute Badges::NewYearsResolutionBadge.worth_queuing?
+      end
+    end
+
+    travel_to(Date.ordinal(2020, 1)) do
+      assert Badges::NewYearsResolutionBadge.worth_queuing?
+    end
   end
 end

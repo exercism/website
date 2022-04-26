@@ -14,10 +14,10 @@ class Solution
       end
 
       %i[anybody_there all_your_base whatever lackadaisical].each do |badge|
-        AwardBadgeJob.perform_later(user, badge, exercise_slug: exercise.slug)
+        AwardBadgeJob.perform_later(user, badge, context: exercise)
       end
 
-      AwardBadgeJob.perform_later(user, :conceptual, exercise_type: exercise.type)
+      AwardBadgeJob.perform_later(user, :conceptual, context: exercise)
       AwardBadgeJob.perform_later(user, :completer)
 
       record_activity!

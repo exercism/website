@@ -5,8 +5,8 @@ module Badges
       :conceptual,
       "Completed all learning exercises in a track"
 
-    def self.worth_queuing?(exercise_type:)
-      exercise_type == 'ConceptExercise'
+    def self.worth_queuing?(exercise:)
+      exercise.type == 'ConceptExercise'
     end
 
     def award_to?(user)

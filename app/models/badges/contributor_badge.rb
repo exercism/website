@@ -5,8 +5,8 @@ module Badges
       :contributors,
       'Contributed to Exercism'
 
-    def self.worth_queuing?(category:)
-      CATEGORIES.include?(category)
+    def self.worth_queuing?(reputation_token:)
+      CATEGORIES.include?(reputation_token.category)
     end
 
     def award_to?(user)

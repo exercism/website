@@ -50,7 +50,9 @@ class AwardBadgeJobTest < ActiveJob::TestCase
 
     User::AcquiredBadge::Create.expects(:call).never
 
-    # The whatever badge is only queued when the exercise is bob
-    AwardBadgeJob.perform_later(user, 'whatever', exercise_slug: 'leap')
+    # The new_years_resolution badge is only queued on the first day of the year
+    travel_to(Date.ordinal(2021, 13)) do
+      AwardBadgeJob.perform_later(user, :new_years_resolution)
+    end
   end
 end

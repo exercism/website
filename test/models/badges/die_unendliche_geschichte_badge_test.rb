@@ -46,9 +46,9 @@ class Badge::DieUnendlicheGeschichteBadgeTest < ActiveSupport::TestCase
   end
 
   test "worth_queuing?" do
-    refute Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration_idx: 1)
-    refute Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration_idx: 9)
-    assert Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration_idx: 10)
-    assert Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration_idx: 11)
+    refute Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration: create(:iteration, idx: 1))
+    refute Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration: create(:iteration, idx: 9))
+    assert Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration: create(:iteration, idx: 10))
+    assert Badges::DieUnendlicheGeschichteBadge.worth_queuing?(iteration: create(:iteration, idx: 11))
   end
 end

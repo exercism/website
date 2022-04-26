@@ -107,8 +107,8 @@ module Git
     end
 
     memoize
-    def discriminator_filepaths
-      config.dig(:files, :discriminator).to_a
+    def invalidator_filepaths
+      config.dig(:files, :invalidator).to_a
     end
 
     memoize
@@ -200,7 +200,8 @@ module Git
         introduction_append_filepath,
         hints_filepath,
         *test_filepaths,
-        *editor_filepaths
+        *editor_filepaths,
+        *invalidator_filepaths
       ].select do |filepath|
         filepaths.include?(filepath)
       end

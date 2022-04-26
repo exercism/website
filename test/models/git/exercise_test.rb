@@ -39,11 +39,11 @@ module Git
       assert_equal(expected, exercise.editor_filepaths)
     end
 
-    test "discriminator_filepaths" do
+    test "invalidator_filepaths" do
       exercise = Git::Exercise.new(:hamming, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = ["rubocop.yml"]
-      assert_equal(expected, exercise.discriminator_filepaths)
+      assert_equal(expected, exercise.invalidator_filepaths)
     end
 
     test "example_filepaths" do
@@ -92,6 +92,20 @@ module Git
         "helper.rb",
         "isogram.rb",
         "isogram_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.tooling_filepaths
+    end
+
+    test "tooling_filepaths with invalidator files" do
+      exercise = Git::Exercise.new(:hamming, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".meta/config.json",
+        ".meta/example.rb",
+        "hamming.rb",
+        "hamming_test.rb",
+        "rubocop.yml"
       ]
       assert_equal expected_filepaths, exercise.tooling_filepaths
     end
@@ -189,6 +203,18 @@ module Git
         ".docs/instructions.md",
         "isogram_test.rb",
         "helper.rb"
+      ]
+      assert_equal expected_filepaths, exercise.important_filepaths
+    end
+
+    test "important_filepaths with invalidator files" do
+      exercise = Git::Exercise.new(:hamming, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".docs/instructions.md",
+        "hamming_test.rb",
+        "rubocop.yml"
       ]
       assert_equal expected_filepaths, exercise.important_filepaths
     end

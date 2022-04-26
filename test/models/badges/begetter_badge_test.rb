@@ -41,7 +41,6 @@ class Badge::BegetterBadgeTest < ActiveSupport::TestCase
       jonboiser
       joshgoebel
       jrdnull
-      junedev
       jwood803
       kenden
       kytrinyx

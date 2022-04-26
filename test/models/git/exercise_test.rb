@@ -18,6 +18,41 @@ module Git
       assert_equal "stub content\n", exercise.read_file_blob('bob.rb')
     end
 
+    test "solution_filepaths" do
+      exercise = Git::Exercise.new(:satellite, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = ["satellite.rb"]
+      assert_equal(expected, exercise.solution_filepaths)
+    end
+
+    test "test_filepaths" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = ["bob_test.rb"]
+      assert_equal(expected, exercise.test_filepaths)
+    end
+
+    test "editor_filepaths" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = ["helper.rb"]
+      assert_equal(expected, exercise.editor_filepaths)
+    end
+
+    test "example_filepaths" do
+      exercise = Git::Exercise.new(:anagram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = [".meta/example.rb"]
+      assert_equal(expected, exercise.example_filepaths)
+    end
+
+    test "exemplar_filepaths" do
+      exercise = Git::Exercise.new(:booleans, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = [".meta/exemplar.rb"]
+      assert_equal(expected, exercise.exemplar_filepaths)
+    end
+
     test "tooling_files" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

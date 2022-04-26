@@ -107,6 +107,11 @@ module Git
     end
 
     memoize
+    def discriminator_filepaths
+      config.dig(:files, :discriminator).to_a
+    end
+
+    memoize
     def exemplar_filepaths
       config.dig(:files, :exemplar).to_a
     end

@@ -39,6 +39,13 @@ module Git
       assert_equal(expected, exercise.editor_filepaths)
     end
 
+    test "discriminator_filepaths" do
+      exercise = Git::Exercise.new(:hamming, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = ["rubocop.yml"]
+      assert_equal(expected, exercise.discriminator_filepaths)
+    end
+
     test "example_filepaths" do
       exercise = Git::Exercise.new(:anagram, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

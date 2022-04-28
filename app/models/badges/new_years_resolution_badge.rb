@@ -5,8 +5,8 @@ module Badges
       'new-years-resolution',
       'Submitted a solution on January 1st'
 
-    def self.worth_queuing?
-      Time.now.utc.yday == 1
+    def self.worth_queuing?(solution:)
+      solution.created_at.yday == 1
     end
 
     def award_to?(user)

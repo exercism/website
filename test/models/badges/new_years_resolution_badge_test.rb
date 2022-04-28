@@ -38,13 +38,11 @@ class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
 
   test "worth_queuing?" do
     (2..366).each do |day|
-      travel_to(Date.ordinal(2020, day)) do
-        refute Badges::NewYearsResolutionBadge.worth_queuing?
-      end
+      solution = create :concept_solution, created_at: Date.ordinal(2020, day)
+      refute Badges::NewYearsResolutionBadge.worth_queuing?(solution:)
     end
 
-    travel_to(Date.ordinal(2020, 1)) do
-      assert Badges::NewYearsResolutionBadge.worth_queuing?
-    end
+    solution = create :concept_solution, created_at: Date.ordinal(2020, 1)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(solution:)
   end
 end

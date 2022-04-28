@@ -6,6 +6,7 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
       ref: 'refs/heads/main',
       repository: { name: 'csharp', owner: { login: 'exercism' } },
       pusher: { name: 'user17' },
+      created: false,
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
 
@@ -21,6 +22,7 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
       ref: 'refs/heads/main',
       repository: { name: 'csharp', owner: { login: 'exercism' } },
       pusher: { name: 'user17' },
+      created: false,
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
 
@@ -33,12 +35,13 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
       ref: 'refs/heads/main',
       repository: { name: 'csharp', owner: { login: 'exercism' } },
       pusher: { name: 'user17' },
+      created: false,
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
     Webhooks::ProcessPushUpdate.expects(:call).with(
       'refs/heads/main', 'exercism', 'csharp', 'user17', [
         ActionController::Parameters.new(added: [], removed: [], modified: ['README.md'])
-      ]
+      ], false
     )
 
     post webhooks_push_updates_path, headers: headers(payload), as: :json, params: payload
@@ -49,6 +52,7 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
       ref: 'refs/heads/main',
       repository: { name: 'csharp', owner: { login: 'exercism' } },
       pusher: { name: 'user17' },
+      created: false,
       commits: [{ added: [], removed: [], modified: ['README.md'] }]
     }
 

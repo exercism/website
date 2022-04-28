@@ -2,7 +2,7 @@ module Webhooks
   class ProcessPushUpdate
     include Mandate
 
-    initialize_with :ref, :repo_owner, :repo_name, :pusher_username, :commits
+    initialize_with :ref, :repo_owner, :repo_name, :pusher_username, :commits, :created
 
     def call
       return unless pushed_to_main?
@@ -31,6 +31,10 @@ module Webhooks
     end
 
     def trigger_repo_update?
+      # If created is true, this is the initial commit for which we always
+      # want to trigger a repo update
+      return true if created
+
       commits.to_a.any? do |commit|
         Set.new([*commit[:added], *commit[:removed], *commit[:modified]]).any? do |file|
           file == ORG_WIDE_FILES_CONFIG_FILE || file.starts_with?('.appends/')

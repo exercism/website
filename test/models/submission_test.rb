@@ -344,6 +344,7 @@ class SubmissionTest < ActiveSupport::TestCase
   end
 
   test "viewable_by pivots correctly" do
+    admin = create :user, :admin
     student = create :user
     mentor_1 = create :user
     mentor_2 = create :user
@@ -354,6 +355,7 @@ class SubmissionTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution, submission: submission
     other_iteration = create :iteration, solution: solution
 
+    assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     refute submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
@@ -361,6 +363,7 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(nil)
 
     create :mentor_discussion, mentor: mentor_1, solution: solution
+    assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
@@ -368,6 +371,7 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(nil)
 
     create :mentor_request, solution: solution, status: :fulfilled
+    assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     refute submission.viewable_by?(mentor_2)
@@ -375,6 +379,7 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(nil)
 
     create :mentor_request, solution: solution, status: :pending
+    assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
@@ -382,6 +387,7 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(nil)
 
     solution.update(published_at: Time.current)
+    assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
@@ -389,6 +395,7 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission.viewable_by?(nil)
 
     solution.update(published_iteration: other_iteration)
+    assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)
@@ -396,6 +403,7 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(nil)
 
     solution.update(published_iteration: iteration)
+    assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
     assert submission.viewable_by?(mentor_2)

@@ -93,6 +93,18 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
+  test "index shows for admin user who is not mentor or student" do
+    admin = create :user, :admin
+    sign_in!(admin)
+
+    solution = create :concept_solution
+    discussion = create :mentor_discussion, solution: solution
+    create :iteration, solution: solution
+    get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
+
+    assert_response 200
+  end
+
   test "index should return 403 when discussion can not be accessed" do
     setup_user
     discussion = create :mentor_discussion

@@ -102,6 +102,12 @@ class Mentor::Discussion < ApplicationRecord
     [mentor, student].include?(user)
   end
 
+  def viewable_by_mentor?(user)
+    return true if user.admin?
+
+    user == mentor
+  end
+
   def student_handle
     anonymous_mode? ? "anonymous" : student.handle
   end

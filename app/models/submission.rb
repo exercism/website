@@ -97,6 +97,9 @@ class Submission < ApplicationRecord
     # A user can always see their own stuff
     return true if solution.user == user
 
+    # Admins can always see submissions
+    return true if user&.admin?
+
     # Other users can only see if it's an iteration
     return false unless iteration
 

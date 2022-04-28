@@ -18,12 +18,32 @@ class Mentoring::DiscussionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to mentoring_path
   end
 
+  test "redirects maintainer" do
+    maintainer = create :user, :maintainer
+    sign_in!(maintainer)
+
+    discussion = create :mentor_discussion
+    get mentoring_discussion_path(discussion)
+    assert_redirected_to mentoring_path
+  end
+
   test "shows for correct mentor" do
     mentor = create :user
     sign_in!(mentor)
 
     solution = create :concept_solution
     discussion = create :mentor_discussion, mentor: mentor, solution: solution
+    create :iteration, solution: solution
+    get mentoring_discussion_path(discussion)
+    assert_response :success
+  end
+
+  test "shows for admin" do
+    admin = create :user, :admin
+    sign_in!(admin)
+
+    solution = create :concept_solution
+    discussion = create :mentor_discussion, solution: solution
     create :iteration, solution: solution
     get mentoring_discussion_path(discussion)
     assert_response :success

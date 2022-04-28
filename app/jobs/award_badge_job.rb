@@ -4,7 +4,7 @@ class AwardBadgeJob < ApplicationJob
   discard_on BadgeCriteriaNotFulfilledError
 
   def self.perform_later(user, badge_slug, send_email: true, context: nil)
-    return unless badge(badge_slug).worth_queuing?(**worth_queuing_context(context))
+    return unless self.worth_queuing?(badge_slug, context:)
 
     super(user, badge_slug, send_email:)
   end
@@ -13,13 +13,11 @@ class AwardBadgeJob < ApplicationJob
     User::AcquiredBadge::Create.(user, badge_slug, send_email:)
   end
 
-  def self.badge(badge_slug)
-    "Badges::#{badge_slug.to_s.camelize}Badge".constantize
-  end
+  def self.worth_queuing?(badge_slug, context:)
+    return true if context.nil?
 
-  def self.worth_queuing_context(context)
-    return {} if context.nil?
-
-    { context.class.base_class.name.demodulize.underscore => context }.symbolize_keys
+    context_key = context.class.base_class.name.demodulize.underscore
+    badge = "Badges::#{badge_slug.to_s.camelize}Badge".constantize
+    badge.worth_queuing?(**{ context_key => context }.symbolize_keys)
   end
 end

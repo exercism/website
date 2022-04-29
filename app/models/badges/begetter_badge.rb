@@ -42,7 +42,6 @@ module Badges
       jonboiser
       joshgoebel
       jrdnull
-      junedev
       jwood803
       kenden
       kytrinyx

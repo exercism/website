@@ -29,7 +29,7 @@ module ViewComponents
               li_link("Building Exercism", :building),
               li_link("Mentoring", :mentoring),
               li_link("Community", :community),
-              li_link("Not-for-profit", :organisation),
+              # li_link("Not-for-profit", :organisation),
               li_link("Track-specific", :tracks)
             ]
           )

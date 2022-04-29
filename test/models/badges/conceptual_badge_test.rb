@@ -76,4 +76,9 @@ class Badge::ConceptualBadgeTest < ActiveSupport::TestCase
     create :concept_solution, :completed, user: user, track: track, exercise: concept_exercise
     refute badge.award_to?(user.reload)
   end
+
+  test "worth_queuing?" do
+    refute Badges::ConceptualBadge.worth_queuing?(exercise: create(:practice_exercise))
+    assert Badges::ConceptualBadge.worth_queuing?(exercise: create(:concept_exercise))
+  end
 end

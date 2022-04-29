@@ -23,7 +23,7 @@ class Iteration
         GenerateIterationSnippetJob.perform_later(iteration)
         CalculateLinesOfCodeJob.perform_later(iteration)
         ProcessIterationForDiscussionsJob.perform_later(iteration)
-        AwardBadgeJob.perform_later(user, :die_unendliche_geschichte)
+        AwardBadgeJob.perform_later(user, :die_unendliche_geschichte, context: iteration)
         AwardBadgeJob.perform_later(user, :growth_mindset)
         record_activity!(iteration)
       end

@@ -42,4 +42,10 @@ class Badge::LackadaisicalBadgeTest < ActiveSupport::TestCase
     solution.update(completed_at: Time.current)
     assert badge.award_to?(user.reload)
   end
+
+  test "worth_queuing?" do
+    refute Badges::LackadaisicalBadge.worth_queuing?(exercise: create(:practice_exercise, slug: 'leap'))
+    refute Badges::LackadaisicalBadge.worth_queuing?(exercise: create(:practice_exercise, slug: 'hello-world'))
+    assert Badges::LackadaisicalBadge.worth_queuing?(exercise: create(:practice_exercise, slug: 'bob'))
+  end
 end

@@ -26,7 +26,7 @@ class User::AcquiredBadge::CreateTest < ActiveSupport::TestCase
     Badges::ContributorBadge.any_instance.expects(:award_to?).with(user).returns(false)
 
     assert_raises BadgeCriteriaNotFulfilledError do
-      User::AcquiredBadge::Create.(user, :contributor)
+      User::AcquiredBadge::Create.(user, :contributor, send_email: false)
     end
   end
 

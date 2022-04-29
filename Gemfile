@@ -29,7 +29,7 @@ gem 'rest-client' # http
 gem 'octokit' # GitHub
 
 # General-purpose gems
-gem 'mandate', '1.0.0.beta1'
+gem 'mandate', '2.0.0'
 gem 'kaminari'
 gem 'oj'
 
@@ -54,7 +54,7 @@ gem 'devise', '~> 4.7'
 
 # Omniauth
 gem 'omniauth-github'
-gem "omniauth-rails_csrf_protection"
+gem 'omniauth-rails_csrf_protection'
 
 # Payments
 gem 'stripe'

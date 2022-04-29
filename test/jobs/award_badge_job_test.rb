@@ -44,4 +44,14 @@ class AwardBadgeJobTest < ActiveJob::TestCase
       AwardBadgeJob.perform_now(user.reload, :growth_mindset, send_email: false)
     end
   end
+
+  test "badge create is not called when badge is not worth queueing" do
+    user = mock
+
+    User::AcquiredBadge::Create.expects(:call).never
+
+    # The new_years_resolution badge is only queued on the first day of the year
+    solution = create :concept_solution, created_at: Date.ordinal(2021, 13)
+    AwardBadgeJob.perform_later(user, :new_years_resolution, context: solution)
+  end
 end

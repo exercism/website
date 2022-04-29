@@ -264,7 +264,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    mandate (1.0.0.beta1)
+    mandate (2.0.0)
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
@@ -537,7 +537,7 @@ DEPENDENCIES
   jsbundling-rails
   kaminari
   listen (>= 3.0.5, < 3.2)
-  mandate (= 1.0.0.beta1)
+  mandate (= 2.0.0)
   mini_magick
   minitest
   minitest-retry

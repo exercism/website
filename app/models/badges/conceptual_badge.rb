@@ -5,6 +5,10 @@ module Badges
       :conceptual,
       "Completed all learning exercises in a track"
 
+    def self.worth_queuing?(exercise:)
+      exercise.type == 'ConceptExercise'
+    end
+
     def award_to?(user)
       user.user_tracks.joins(:track).
         where('tracks.active && tracks.course').

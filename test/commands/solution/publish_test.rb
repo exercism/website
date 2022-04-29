@@ -112,13 +112,21 @@ class Solution::PublishTest < ActiveSupport::TestCase
     end
   end
 
-  test "enqueues anybody_there badge job" do
+  test "awards anybody_there badge" do
     user = create :user
-    solution = create :practice_solution, completed_at: nil, user: user
+
+    # 4 hello worlds is not enough
+    4.times do |idx|
+      track = create :track, slug: "track_#{idx}"
+      create :hello_world_solution, :completed, user: user, track: track
+    end
+
+    solution = create :hello_world_solution, completed_at: nil, user: user
     create :iteration, solution: solution, idx: 1
 
-    assert_enqueued_with job: AwardBadgeJob, args: [user, :anybody_there] do
-      Solution::Publish.(solution, solution.user_track, 1)
-    end
+    Solution::Publish.(solution, solution.user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::AnybodyThereBadge
   end
 end

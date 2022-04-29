@@ -35,4 +35,14 @@ class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
     solution.update(created_at: Time.utc(2019, 1, 2, 0, 0, 0))
     refute badge.award_to?(user.reload)
   end
+
+  test "worth_queuing?" do
+    (2..366).each do |day|
+      solution = create :concept_solution, created_at: Date.ordinal(2020, day)
+      refute Badges::NewYearsResolutionBadge.worth_queuing?(solution:)
+    end
+
+    solution = create :concept_solution, created_at: Date.ordinal(2020, 1)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(solution:)
+  end
 end

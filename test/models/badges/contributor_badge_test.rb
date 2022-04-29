@@ -50,4 +50,24 @@ class Badge::ContributorBadgeTest < ActiveSupport::TestCase
 
     assert badge.award_to?(user)
   end
+
+  test "worth_queuing?" do
+    # category: misc
+    refute Badges::ContributorBadge.worth_queuing?(reputation_token: create(:user_arbitrary_reputation_token))
+
+    # category: publishing
+    refute Badges::ContributorBadge.worth_queuing?(reputation_token: create(:user_published_solution_reputation_token))
+
+    # category: building
+    assert Badges::ContributorBadge.worth_queuing?(reputation_token: create(:user_code_contribution_reputation_token))
+
+    # category: maintaining
+    assert Badges::ContributorBadge.worth_queuing?(reputation_token: create(:user_code_merge_reputation_token))
+
+    # category: mentoring
+    assert Badges::ContributorBadge.worth_queuing?(reputation_token: create(:user_mentored_reputation_token))
+
+    # category: authoring
+    assert Badges::ContributorBadge.worth_queuing?(reputation_token: create(:user_exercise_author_reputation_token))
+  end
 end

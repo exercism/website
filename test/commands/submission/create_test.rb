@@ -64,17 +64,20 @@ class Submission::CreateTest < ActiveSupport::TestCase
     Submission::Create.(solution.reload, files, :cli)
   end
 
-  test "award rookie badge job is enqueued" do
+  test "awards rookie badge" do
     # Generic setup
     files = [{ filename: 'foo.bar', content: "foobar" }]
 
     # Create user and solution
     user = create :user
     solution = create :concept_solution, user: user
+    create :iteration, solution: solution
+    refute user.badges.present?
 
-    assert_enqueued_with(job: AwardBadgeJob, args: [user, :rookie]) do
-      Submission::Create.(solution, [files.first], :cli)
-    end
+    Submission::Create.(solution, files, :cli)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::RookieBadge
   end
 
   test "starts test run" do

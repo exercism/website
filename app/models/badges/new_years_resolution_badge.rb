@@ -5,6 +5,10 @@ module Badges
       'new-years-resolution',
       'Submitted a solution on January 1st'
 
+    def self.worth_queuing?(solution:)
+      solution.created_at.yday == 1
+    end
+
     def award_to?(user)
       user.solutions.
         where('DAYOFYEAR(solutions.created_at) = 1').

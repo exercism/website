@@ -5,6 +5,10 @@ module Badges
       'hello-world',
       'Completed "Hello, World!" in five languages'
 
+    def self.worth_queuing?(exercise:)
+      exercise.slug == 'hello-world'
+    end
+
     def award_to?(user)
       user.solutions.completed.joins(:exercise).
         where('exercises.slug': "hello-world").

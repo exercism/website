@@ -39,4 +39,10 @@ class Badge::AnybodyThereBadgeTest < ActiveSupport::TestCase
     solution.update(completed_at: Time.current)
     assert badge.award_to?(user.reload)
   end
+
+  test "worth_queuing?" do
+    refute Badges::AnybodyThereBadge.worth_queuing?(exercise: create(:practice_exercise, slug: 'leap'))
+    refute Badges::AnybodyThereBadge.worth_queuing?(exercise: create(:practice_exercise, slug: 'bob'))
+    assert Badges::AnybodyThereBadge.worth_queuing?(exercise: create(:practice_exercise, slug: 'hello-world'))
+  end
 end

@@ -14,7 +14,7 @@ class AwardBadgeJob < ApplicationJob
   end
 
   def self.worth_queuing?(badge_slug, context:)
-    return true if context.nil?
+    return true if context.blank?
 
     context_key = context.class.base_class.name.demodulize.underscore
     badge = "Badges::#{badge_slug.to_s.camelize}Badge".constantize

@@ -37,5 +37,13 @@ FactoryBot.define do
       github_username { 'exercism-ghost' }
       name { "Ghost" }
     end
+
+    trait :admin do
+      roles { [:admin] }
+    end
+
+    trait :maintainer do
+      roles { [:maintainer] }
+    end
   end
 end

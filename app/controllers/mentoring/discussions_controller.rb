@@ -17,6 +17,6 @@ class Mentoring::DiscussionsController < ApplicationController
     @mentor_discussion = Mentor::Discussion.find_by!(uuid: params[:id])
 
     # TODO: (Required) Do we want an unauthorised page here?
-    redirect_to mentoring_path unless @mentor_discussion.mentor_id == current_user.id
+    redirect_to mentoring_path unless @mentor_discussion.viewable_by_mentor?(current_user)
   end
 end

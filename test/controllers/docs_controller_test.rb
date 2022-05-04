@@ -78,4 +78,25 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     get track_docs_path(track)
     assert_response 200
   end
+
+  test "track shows when logged out" do
+    doc = create :document, :track
+    get track_doc_path(doc.track, doc)
+    assert_response 200
+  end
+
+  test "track shows when logged in" do
+    doc = create :document, :track
+    sign_in!
+    get track_doc_path(doc.track, doc)
+    assert_response 200
+  end
+
+  test "track shows when not onboarded" do
+    doc = create :document, :track
+    user = create :user, :not_onboarded
+    sign_in!(user)
+    get track_doc_path(doc.track, doc)
+    assert_response 200
+  end
 end

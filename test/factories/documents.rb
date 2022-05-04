@@ -7,4 +7,8 @@ FactoryBot.define do
     section { :contributing }
     title { "Running the Tests" }
   end
+
+  trait :track do
+    track { create :track }
+  end
 end

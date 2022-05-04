@@ -39,4 +39,22 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     get docs_section_path(:mentoring)
     assert_response 200
   end
+
+  test "tracks shows when logged out" do
+    get docs_tracks_path
+    assert_response 200
+  end
+
+  test "tracks shows when logged in" do
+    sign_in!
+    get docs_tracks_path
+    assert_response 200
+  end
+
+  test "tracks shows when not onboarded" do
+    user = create :user, :not_onboarded
+    sign_in!(user)
+    get docs_tracks_path
+    assert_response 200
+  end
 end

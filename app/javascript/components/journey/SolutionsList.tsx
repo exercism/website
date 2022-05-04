@@ -42,17 +42,12 @@ export const SolutionsList = ({
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult<SolutionProps[]>>(cacheKey, {
-    ...request,
-    query: removeEmpty(request.query),
-    options: { ...request.options, enabled: isEnabled },
-  })
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult<SolutionProps[]>>(cacheKey, {
+      ...request,
+      query: removeEmpty(request.query),
+      options: { ...request.options, enabled: isEnabled },
+    })
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -109,7 +104,7 @@ export const SolutionsList = ({
               setCriteria(e.target.value)
             }}
             value={criteria}
-            placeholder="Search by exercise name"
+            placeholder="Search by exercise or track name"
           />
           <SolutionFilter request={request} onApply={handleApply} />
           <OrderSwitcher

@@ -86,7 +86,7 @@ module Flows
         visit track_exercise_solutions_path(exercise.track, exercise)
       end
 
-      # Default: head tests passed filter is one
+      # Default: head tests passed filter is on
       assert_text "author1's solution"
       assert_no_text "author2's solution"
       assert_text "author3's solution"

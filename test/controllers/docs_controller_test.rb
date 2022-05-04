@@ -40,6 +40,11 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
+  test "section shows 404s for missing document" do
+    get docs_section_path(:mentoring)
+    assert_rendered_404
+  end
+
   test "tracks shows when logged out" do
     get docs_tracks_path
     assert_response 200
@@ -79,6 +84,11 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
+  test "track index shows 404s for unknown track" do
+    get track_docs_path('unknown')
+    assert_rendered_404
+  end
+
   test "track shows when logged out" do
     doc = create :document, :track
     get track_doc_path(doc.track, doc)
@@ -98,5 +108,11 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
     get track_doc_path(doc.track, doc)
     assert_response 200
+  end
+
+  test "track shows 404s for missing document" do
+    track = create :track
+    get track_doc_path(track, 'missing')
+    assert_rendered_404
   end
 end

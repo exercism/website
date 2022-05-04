@@ -17,10 +17,10 @@ module MetaTagsHelper
     content_for?(:meta_url) ? content_for(:meta_url) : request.original_url.gsub(%r{/$}, "")
   end
 
-  def track_meta_tags(track)
-    content_for :meta_title, "#{track.title} on Exercism"
+  def track_meta_tags(user_track)
+    content_for :meta_title, "#{user_track.track.title} on Exercism"
     content_for :meta_description,
-      "Get fluent in #{track.title} by solving #{track.num_exercises} exercises. And then level up with mentoring from our world-class team." # rubocop:disable Layout/LineLength
+      "Get fluent in #{user_track.track.title} by solving #{user_track.num_exercises} exercises. And then level up with mentoring from our world-class team." # rubocop:disable Layout/LineLength
   end
 
   def concept_meta_tags(concept, user_track)

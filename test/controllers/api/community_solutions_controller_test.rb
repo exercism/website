@@ -43,7 +43,7 @@ module API
         criteria: "author",
         sync_status: :up_to_date,
         tests_status: nil,
-        head_tests_status: %i[queued passed]
+        head_tests_status: %i[not_queued queued passed]
       ).returns(Solution.page(1))
 
       get api_track_exercise_community_solutions_path(

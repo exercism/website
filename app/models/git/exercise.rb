@@ -107,6 +107,11 @@ module Git
     end
 
     memoize
+    def invalidator_filepaths
+      config.dig(:files, :invalidator).to_a
+    end
+
+    memoize
     def exemplar_filepaths
       config.dig(:files, :exemplar).to_a
     end
@@ -195,7 +200,8 @@ module Git
         introduction_append_filepath,
         hints_filepath,
         *test_filepaths,
-        *editor_filepaths
+        *editor_filepaths,
+        *invalidator_filepaths
       ].select do |filepath|
         filepaths.include?(filepath)
       end

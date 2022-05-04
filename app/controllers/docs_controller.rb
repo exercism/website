@@ -14,7 +14,7 @@ class DocsController < ApplicationController
   end
 
   def show
-    @doc = Document.where(section: @section).find(params[:slug])
+    @doc = @nav_docs.find(params[:slug])
     render action: :show
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -25,7 +25,7 @@ class DocsController < ApplicationController
   def track_index; end
 
   def track_show
-    @doc = Document.where(track: @track).find(params[:slug])
+    @doc = @nav_docs.find(params[:slug])
     @section = :tracks
     render action: :show
   rescue ActiveRecord::RecordNotFound

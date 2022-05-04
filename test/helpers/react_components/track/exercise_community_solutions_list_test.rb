@@ -30,7 +30,7 @@ module ReactComponents::Track
       component = ReactComponents::Track::ExerciseCommunitySolutionsList.new(exercise, ActionController::Parameters.new({
         up_to_date: "true",
         passed_tests: "true",
-        passed_head_tests: "true",
+        not_passed_head_tests: "true",
         page: 5
       }))
 
@@ -44,7 +44,7 @@ module ReactComponents::Track
               "page": 5,
               "up_to_date": true,
               "passed_tests": true,
-              "passed_head_tests": true
+              "not_passed_head_tests": true
             },
             options: { initial_data: {
               results: [],

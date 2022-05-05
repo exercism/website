@@ -41,8 +41,9 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "section shows 404s for missing document" do
-    get docs_section_path(:mentoring)
-    assert_rendered_404
+    assert_raises ActiveRecord::RecordNotFound do
+      get docs_section_path(:mentoring)
+    end
   end
 
   test "tracks shows when logged out" do
@@ -85,8 +86,9 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "track index shows 404s for unknown track" do
-    get track_docs_path('unknown')
-    assert_rendered_404
+    assert_raises ActiveRecord::RecordNotFound do
+      get track_docs_path('unknown')
+    end
   end
 
   test "track shows when logged out" do
@@ -112,7 +114,8 @@ class DocsControllerTest < ActionDispatch::IntegrationTest
 
   test "track shows 404s for missing document" do
     track = create :track
-    get track_doc_path(track, 'missing')
-    assert_rendered_404
+    assert_raises ActiveRecord::RecordNotFound do
+      get track_doc_path(track, 'missing')
+    end
   end
 end

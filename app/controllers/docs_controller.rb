@@ -9,15 +9,11 @@ class DocsController < ApplicationController
   def section
     @doc = Document.find_by!(section: @section, slug: "APEX")
     render action: :show
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def show
     @doc = @nav_docs.find(params[:slug])
     render action: :show
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def tracks; end
@@ -28,8 +24,6 @@ class DocsController < ApplicationController
     @doc = @nav_docs.find(params[:slug])
     @section = :tracks
     render action: :show
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   private
@@ -43,7 +37,5 @@ class DocsController < ApplicationController
     @nav_docs = Document.where(track_id: @track.id)
 
     render_404 unless @track.accessible_by?(current_user)
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 end

@@ -24,7 +24,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @comments = @solution.comments
 
     # TODO: (Required) Real algorithm here
-    @other_solutions = @exercise.solutions.published.limit(3)
+    @other_solutions = @exercise.solutions.published.where.not(id: @solution.id).limit(3)
     @mentor_discussions = @solution.mentor_discussions.
       finished.not_negatively_rated.includes(:mentor)
   rescue ActiveRecord::RecordNotFound

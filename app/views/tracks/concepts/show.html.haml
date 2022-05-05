@@ -25,8 +25,7 @@
           = track_icon(@track)
         .exercises
           = graphical_icon(:exercises)
-          = @user_track.num_exercises_for_concept(@concept)
-          = 'exercise'.pluralize(@user_track.num_exercises_for_concept(@concept))
+          = pluralize @user_track.num_exercises_for_concept(@concept), "exercise"
       - unless @user_track.external?
         .rhs.progress
           .progress-text{ class: @user_track.concept_mastered?(@concept) ? 'completed' : '' }

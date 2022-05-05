@@ -7,12 +7,12 @@ class DocsController < ApplicationController
   def index; end
 
   def section
-    @doc = Document.find_by(section: @section, slug: "APEX")
+    @doc = Document.find_by!(section: @section, slug: "APEX")
     render action: :show
   end
 
   def show
-    @doc = Document.where(section: @section).find(params[:slug])
+    @doc = @nav_docs.find(params[:slug])
     render action: :show
   end
 
@@ -21,7 +21,7 @@ class DocsController < ApplicationController
   def track_index; end
 
   def track_show
-    @doc = Document.where(track: @track).find(params[:slug])
+    @doc = @nav_docs.find(params[:slug])
     @section = :tracks
     render action: :show
   end

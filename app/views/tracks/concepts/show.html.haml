@@ -25,7 +25,8 @@
           = track_icon(@track)
         .exercises
           = graphical_icon(:exercises)
-          5 exercises
+          = @user_track.num_exercises_for_concept(@concept)
+          = 'exercise'.pluralize(@user_track.num_exercises_for_concept(@concept))
       - unless @user_track.external?
         .rhs.progress
           .progress-text{ class: @user_track.concept_mastered?(@concept) ? 'completed' : '' }

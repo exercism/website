@@ -91,7 +91,7 @@ module Components
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
-          fill_in "Search by exercise name", with: "Bob"
+          fill_in "Search by exercise or track name", with: "Bob"
         end
 
         assert_text "Bob"

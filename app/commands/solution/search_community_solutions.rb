@@ -3,7 +3,7 @@ class Solution
     include Mandate
 
     DEFAULT_PAGE = 1
-    DEFAULT_PER = 30
+    DEFAULT_PER = 24
     MAX_ROWS = 10_000
 
     def self.default_per

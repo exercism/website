@@ -3,7 +3,7 @@ class Solution
     include Mandate
 
     DEFAULT_PAGE = 1
-    DEFAULT_PER = 25
+    DEFAULT_PER = 24
 
     def self.default_per
       DEFAULT_PER

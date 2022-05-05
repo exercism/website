@@ -34,6 +34,7 @@ en:
     student_finished_discussion:
       1: >
         %{student_name} has finished the discussion on the solution you are mentoring for %{track_title}:%{exercise_title}
+
     mentor_finished_discussion:
       1: >
         %{mentor_name} has finished the discussion on your solution for %{track_title}:%{exercise_title}

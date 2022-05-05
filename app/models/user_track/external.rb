@@ -12,6 +12,7 @@ class UserTrack
 
     delegate :concepts, :num_concepts, :updated_at,
       to: :track
+    delegate :title, to: :track, prefix: true
 
     def tutorial_exercise_completed?
       false

@@ -20,6 +20,7 @@ class UserTrack < ApplicationRecord
     inverse_of: :user_track
 
   delegate :num_concepts, to: :track
+  delegate :title, to: :track, prefix: true
 
   before_create do
     self.last_touched_at = Time.current unless self.last_touched_at

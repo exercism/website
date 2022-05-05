@@ -183,5 +183,29 @@ module Flows
         assert_text "class Bob", wait: 2
       end
     end
+
+    test "viewing other solutions on community solution" do
+      user = create :user, handle: "Jane"
+      other_user = create :user, handle: "John"
+      ruby = create :track, slug: "ruby"
+      exercise = create :concept_exercise, track: ruby
+      solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: user
+      create :iteration, idx: 1, solution: solution
+      other_user_solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: other_user
+      create :iteration, idx: 1, solution: other_user_solution
+
+      use_capybara_host do
+        sign_in!
+        visit track_exercise_solution_path(exercise.track, exercise, user.handle)
+
+        within(".other-solutions") do
+          # Own solution is not shown
+          refute_text "Jane's solution", wait: 2
+
+          # Other user's published solutions are shown
+          assert_text "John's solution", wait: 2
+        end
+      end
+    end
   end
 end

@@ -7,10 +7,10 @@ module Mentor
 
       def call
         discussion.mentor_finished!
-
         notify!
       end
 
+      private
       def notify!
         User::Notification::Create.(
           discussion.student,

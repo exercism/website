@@ -35,6 +35,7 @@ module Mentor
         log_metric!
       end
 
+      private
       def requeue!
         return unless should_requeue
 
@@ -104,7 +105,6 @@ module Mentor
         )
       end
 
-      private
       attr_reader :discussion, :rating,
         :should_requeue,
         :should_report, :report_reason, :report_message,

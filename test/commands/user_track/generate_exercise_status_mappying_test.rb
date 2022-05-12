@@ -20,10 +20,13 @@ class UserTrack::GenerateExerciseStatusMappingTest < ActiveSupport::TestCase
     }
     assert_equal expected, mapping['basics'][0]
   end
+
   test "sorts correctly" do
     track = create :track
     user_track = create :user_track, track: track
     basics = create :concept, track: track, slug: 'basics'
+    concept = create :concept_exercise, :random_slug, track: track, position: 11
+    concept.taught_concepts << basics
     seven = create :practice_exercise, :random_slug, track: track, position: 7
     five = create :practice_exercise, :random_slug, track: track, position: 5
     nine = create :practice_exercise, :random_slug, track: track, position: 9
@@ -33,6 +36,6 @@ class UserTrack::GenerateExerciseStatusMappingTest < ActiveSupport::TestCase
 
     mapping = UserTrack::GenerateExerciseStatusMapping.(user_track)
 
-    assert_equal [5, 7, 9], (mapping['basics'].map { |e| e[:position] })
+    assert_equal [11, 5, 7, 9], (mapping['basics'].map { |e| e[:position] })
   end
 end

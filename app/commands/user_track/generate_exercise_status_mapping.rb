@@ -48,7 +48,7 @@ class UserTrack
             type: user_track.exercise_type(slug),
             position: user_track.exercise_position(slug)
           }
-        end.compact.sort_by { |h| h[:position] } # rubocop:disable Style/MultilineBlockChain
+        end.compact.sort_by { |h| [h[:type], h[:position]] } # rubocop:disable Style/MultilineBlockChain
       end
     end
   end

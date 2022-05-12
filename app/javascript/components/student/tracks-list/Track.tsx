@@ -22,16 +22,18 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
             className="block lg:hidden"
           />
           <h3 className="--title">{track.title}</h3>
-          <div className="items-center hidden md:flex">
-            {track.numConcepts > 5 ? (
-              <div className="--v3"> Learning Mode </div>
-            ) : track.isNew ? (
-              <div className="--new">
-                <Icon icon="stars" alt="This track is new" />
-                New
-              </div>
-            ) : null}
-          </div>
+          {!track.isJoined && (
+            <div className="items-center hidden md:flex">
+              {track.numConcepts > 5 ? (
+                <div className="--v3"> Learning Mode </div>
+              ) : track.isNew ? (
+                <div className="--new">
+                  <Icon icon="stars" alt="This track is new" />
+                  New
+                </div>
+              ) : null}
+            </div>
+          )}
           {track.hasNotifications && <div className="c-notification-dot" />}
           {track.isJoined && (
             <div className="--joined">

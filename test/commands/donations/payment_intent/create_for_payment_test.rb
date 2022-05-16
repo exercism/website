@@ -10,7 +10,8 @@ class Donations::PaymentIntent::CreateForPaymentTest < Donations::TestBase
     Stripe::PaymentIntent.expects(:create).with(
       customer: customer_id,
       amount: amount_in_cents,
-      currency: 'usd'
+      currency: 'usd',
+      setup_future_usage: 'off_session'
     ).returns(payment_intent)
 
     actual = Donations::PaymentIntent::CreateForPayment.(customer_id, amount_in_cents)

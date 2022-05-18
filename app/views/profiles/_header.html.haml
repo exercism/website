@@ -27,16 +27,17 @@
           = ReactComponents::Common::Expander.new(user.bio, button_text_compressed: "Read more", button_text_expanded: "Read less", class_name: "bio")
 
       .badges-and-tags
-        .header
-          = graphical_icon :badges
-          %h3 #{pluralize user.acquired_badges.count, 'badge'} collected
-          = render ViewComponents::ProminentLink.new("See all", badges_profile_path(user))
-        = link_to badges_profile_path(user) do
-          .badges
-            - user.featured_badges.each do |badge|
-              .c-badge
-                .c-badge-medallion{ class: "--#{badge.rarity}" }
-                  = icon(badge.icon, "Badge: #{badge.name}")
+        - if user.acquired_badges.revealed.exists?
+          .header
+            = graphical_icon :badges
+            %h3 #{pluralize user.acquired_badges.revealed.count, 'badge'} collected
+            = render ViewComponents::ProminentLink.new("See all", badges_profile_path(user))
+          = link_to badges_profile_path(user) do
+            .badges
+              - user.featured_badges.each do |badge|
+                .c-badge
+                  .c-badge-medallion{ class: "--#{badge.rarity}" }
+                    = icon(badge.icon, "Badge: #{badge.name}")
 
         - if user.roles.present?
           .tags
@@ -75,9 +76,10 @@
           = graphical_icon 'testimonials'
           %span Testimonials
 
-      = link_to badges_profile_path(user), class: "c-tab-2 #{selected_tab == :badges ? 'selected' : ''}" do
-        = graphical_icon 'badges'
-        %span Badges
+      - if profile.badges_tab?
+        = link_to badges_profile_path(user), class: "c-tab-2 #{selected_tab == :badges ? 'selected' : ''}" do
+          = graphical_icon 'badges'
+          %span Badges
 
       .external-links
         - if profile.github.present?

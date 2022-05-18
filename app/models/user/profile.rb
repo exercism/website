@@ -19,4 +19,9 @@ class User::Profile < ApplicationRecord
   def contributions_tab?
     user.reputation_tokens.where(category: %i[building authoring maintaining misc]).exists?
   end
+
+  memoize
+  def badges_tab?
+    user.acquired_badges.revealed.exists?
+  end
 end

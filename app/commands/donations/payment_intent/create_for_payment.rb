@@ -9,7 +9,8 @@ module Donations
         Stripe::PaymentIntent.create(
           customer: customer_id,
           amount: amount_in_cents,
-          currency: 'usd'
+          currency: 'usd',
+          setup_future_usage: 'off_session'
         )
       end
     end

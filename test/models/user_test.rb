@@ -136,6 +136,22 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [legendary_badge_1, legendary_badge_2, ultimate_badge_1, rare_badge_1, common_badge_1], user.featured_badges
   end
 
+  test "revealed_badges" do
+    user = create :user
+
+    common_badge = create :rookie_badge
+    rare_badge = create :supporter_badge
+    ultimate_badge = create :lackadaisical_badge
+    legendary_badge = create :begetter_badge
+
+    create :user_acquired_badge, revealed: true, user: user, badge: rare_badge
+    create :user_acquired_badge, revealed: false, user: user, badge: legendary_badge
+    create :user_acquired_badge, revealed: true, user: user, badge: common_badge
+    create :user_acquired_badge, revealed: false, user: user, badge: ultimate_badge
+
+    assert_equal [common_badge, rare_badge], user.revealed_badges.sort_by(&:name)
+  end
+
   test "featured_badges only returns revealed badges" do
     user = create :user
 

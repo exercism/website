@@ -32,6 +32,13 @@ export const MarkdownEditor = ({
         return
       }
 
+      // Ensure that the HOME and END keys make the cursor go to the
+      // beginning/end of the same line on which the cursor is placed
+      editor.codemirror.addKeyMap({
+        Home: 'goLineLeft',
+        End: 'goLineRight',
+      })
+
       editorDidMount({
         value: editor.value.bind(editor),
         focus: () => {

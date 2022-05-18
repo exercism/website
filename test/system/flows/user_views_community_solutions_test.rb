@@ -190,9 +190,19 @@ module Flows
       ruby = create :track, slug: "ruby"
       exercise = create :concept_exercise, track: ruby
       solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: user
-      create :iteration, idx: 1, solution: solution
-      other_user_solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: other_user
-      create :iteration, idx: 1, solution: other_user_solution
+      create :concept_solution, :published, published_at: 3.days.ago, exercise: exercise, user: other_user
+      submission_1 = create :submission, solution: solution
+      create :submission_file,
+        submission: submission_1,
+        content: "class Bob\nend",
+        filename: "bob.rb"
+      submission_2 = create :submission, solution: solution
+      create :submission_file,
+        submission: submission_2,
+        content: "class Lasagna\nend",
+        filename: "bob.rb"
+      create :iteration, idx: 1, solution: solution, submission: submission_1
+      create :iteration, idx: 2, solution: solution, submission: submission_2
 
       use_capybara_host do
         sign_in!

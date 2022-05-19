@@ -54,6 +54,7 @@ class User < ApplicationRecord
 
   has_many :acquired_badges, dependent: :destroy
   has_many :badges, through: :acquired_badges
+  has_many :revealed_badges, -> { User::AcquiredBadge.revealed }, through: :acquired_badges, source: :badge
 
   has_many :authorships, class_name: "Exercise::Authorship", dependent: :destroy
   has_many :authored_exercises, through: :authorships, source: :exercise
@@ -193,7 +194,7 @@ class User < ApplicationRecord
   end
 
   def featured_badges
-    badges.ordered_by_rarity.limit(5)
+    revealed_badges.ordered_by_rarity.limit(5)
   end
 
   def recently_used_cli?

@@ -25,4 +25,16 @@ class User::ProfileTest < ActiveSupport::TestCase
     create :user_arbitrary_reputation_token, user: user
     assert profile.reload.contributions_tab?
   end
+
+  test "badges_tab?" do
+    user = create :user
+    profile = create :user_profile, user: user
+    refute profile.badges_tab?
+
+    create :user_acquired_badge, user: user, badge: create(:rookie_badge), revealed: false
+    refute profile.reload.badges_tab?
+
+    create :user_acquired_badge, user: user, badge: create(:member_badge), revealed: true
+    assert profile.reload.badges_tab?
+  end
 end

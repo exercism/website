@@ -194,7 +194,7 @@ class User < ApplicationRecord
   end
 
   def featured_badges
-    badges.where(id: acquired_badges.revealed.pluck(:badge_id)).ordered_by_rarity.limit(5)
+    revealed_badges.ordered_by_rarity.limit(5)
   end
 
   def recently_used_cli?

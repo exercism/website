@@ -40,7 +40,7 @@ class ProfilesController < ApplicationController
   end
 
   def badges
-    @badges = Badge.where(id: @user.acquired_badges.revealed.select(:badge_id)).ordered_by_rarity
+    @badges = @user.revealed_badges.ordered_by_rarity
     @rarities = @badges.group(:rarity).count
   end
 

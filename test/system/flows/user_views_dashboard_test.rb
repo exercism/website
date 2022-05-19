@@ -30,5 +30,33 @@ module Flows
         end
       end
     end
+
+    test "shows latest revealed badges" do
+      user = create :user
+
+      %i[member rookie begetter researcher moss contributor architect].each do |badge_name|
+        badge = create("#{badge_name}_badge".to_sym)
+        create :user_acquired_badge, user: user, badge: badge, revealed: true
+      end
+
+      # Ignore latest unrevealed badges
+      create :user_acquired_badge, user: user, badge: create(:lackadaisical_badge), revealed: false
+      create :user_acquired_badge, user: user, badge: create(:whatever_badge), revealed: false
+
+      use_capybara_host do
+        sign_in!(user)
+        visit dashboard_path
+
+        within(".badges") do
+          assert_selector('.c-badge-medallion', count: 4)
+          assert_text "+ 3 more"
+
+          expected_order = %w[researcher moss contributor architect]
+          find_all("c-badge-medallion --legendary").map.with_index do |_, i|
+            assert_selector("img[alt*='#{expected_order[i]}']")
+          end
+        end
+      end
+    end
   end
 end

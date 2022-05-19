@@ -27,10 +27,10 @@
           = ReactComponents::Common::Expander.new(user.bio, button_text_compressed: "Read more", button_text_expanded: "Read less", class_name: "bio")
 
       .badges-and-tags
-        - if user.acquired_badges.revealed.exists?
+        - if user.revealed_badges.exists?
           .header
             = graphical_icon :badges
-            %h3 #{pluralize user.acquired_badges.revealed.count, 'badge'} collected
+            %h3 #{pluralize user.revealed_badges.count, 'badge'} collected
             = render ViewComponents::ProminentLink.new("See all", badges_profile_path(user))
           = link_to badges_profile_path(user) do
             .badges

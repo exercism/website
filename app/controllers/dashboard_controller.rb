@@ -2,8 +2,8 @@ class DashboardController < ApplicationController
   def show
     @user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3)
     @num_user_tracks = current_user.user_tracks.count
-    @featured_badges = Badge.where(id: current_user.acquired_badges.revealed.order('id desc').limit(4).pluck(:badge_id))
-    @num_badges = current_user.badges.count
+    @featured_badges = current_user.revealed_badges.order('id desc').limit(4)
+    @num_badges = current_user.revealed_badges.count
     @updates = SiteUpdate.published.for_user(current_user).sorted.limit(10)
     @blog_posts = BlogPost.published.ordered_by_recency.limit(3).includes(:author)
 

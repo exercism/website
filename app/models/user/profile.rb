@@ -22,6 +22,6 @@ class User::Profile < ApplicationRecord
 
   memoize
   def badges_tab?
-    user.acquired_badges.revealed.exists?
+    user.revealed_badges.exists?
   end
 end

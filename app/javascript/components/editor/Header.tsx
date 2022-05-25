@@ -2,8 +2,9 @@ import React, { forwardRef } from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
 import { Settings } from './header/Settings'
-import { ActionMore } from './header/ActionMore'
+import { More } from './header/More'
 import { Hints } from './header/Hints'
+import { Help } from './header/Help'
 
 export const Header = ({
   children,
@@ -52,5 +53,5 @@ Header.ActionKeyboardShortcuts = forwardRef<
 })
 
 Header.ActionSettings = Settings
-
-Header.ActionMore = ActionMore
+Header.ActionMore = More
+Header.ActionHelp = Help

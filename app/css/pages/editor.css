@@ -77,6 +77,7 @@
         }
 
         & .hints-btn,
+        & .help-btn,
         & .keyboard-shortcuts-btn,
         & .settings-btn,
         & .more-btn {
@@ -85,6 +86,15 @@
         }
 
         & .hints-btn {
+            @apply px-6;
+            & .c-icon {
+                filter: var(--orange-filter);
+                height: 24px;
+                width: 24px;
+            }
+        }
+
+        & .help-btn {
             @apply px-6;
             & .c-icon {
                 filter: var(--orange-filter);
@@ -104,6 +114,7 @@
         }
 
         & .hints-btn,
+        & .help-btn,
         & .keyboard-shortcuts-btn,
         & .settings-btn {
             @apply mr-24;

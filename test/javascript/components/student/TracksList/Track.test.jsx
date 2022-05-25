@@ -111,7 +111,22 @@ test('hides new tag if track is not new', () => {
   expect(screen.queryByText('New')).not.toBeInTheDocument()
 })
 
-test('shows v3 tag if track has more than 5 concepts', () => {
+test('hides new tag if track is joined', () => {
+  render(
+    <Track
+      track={{
+        isJoined: true,
+        isNew: true,
+        tags: [],
+        numExercises: 5,
+      }}
+    />
+  )
+
+  expect(screen.queryByText('New')).not.toBeInTheDocument()
+})
+
+test('shows learning mode tag if track has more than 5 concepts', () => {
   render(
     <Track
       track={{
@@ -126,7 +141,7 @@ test('shows v3 tag if track has more than 5 concepts', () => {
   expect(screen.getByText('Learning Mode')).toBeInTheDocument()
 })
 
-test('hides v3 tag if track has less than 5 concepts', () => {
+test('hides learning mode tag if track has less than 5 concepts', () => {
   render(
     <Track
       track={{
@@ -134,6 +149,21 @@ test('hides v3 tag if track has less than 5 concepts', () => {
         isNew: true,
         tags: [],
         numConcepts: 5,
+      }}
+    />
+  )
+
+  expect(screen.queryByText('Learning Mode')).not.toBeInTheDocument()
+})
+
+test('hides learning mode tag if track is joined', () => {
+  render(
+    <Track
+      track={{
+        isJoined: true,
+        isNew: true,
+        tags: [],
+        numConcepts: 7,
       }}
     />
   )

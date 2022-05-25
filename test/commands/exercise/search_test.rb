@@ -69,7 +69,7 @@ class Exercise::SearchTest < ActiveSupport::TestCase
     assert_equal [concept_exercise, practice_exercise], Exercise::Search.(user_track)
   end
 
-  test "concept exercises are not shown in practice mode" do
+  test "concept exercises are shown in practice mode" do
     track = create :track
     practice_exercise = create :practice_exercise, track: track
     concept_exercise = create :concept_exercise, track: track
@@ -78,7 +78,7 @@ class Exercise::SearchTest < ActiveSupport::TestCase
     assert_equal [concept_exercise, practice_exercise], Exercise::Search.(user_track)
 
     user_track.update!(practice_mode: true)
-    assert_equal [practice_exercise], Exercise::Search.(user_track)
+    assert_equal [concept_exercise, practice_exercise], Exercise::Search.(user_track)
   end
 
   test "does not show deprecated exercises when user has not started track" do

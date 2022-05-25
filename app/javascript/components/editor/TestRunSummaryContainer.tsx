@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef } from 'react'
-import { TestRun, TestRunStatus } from './types'
+import { TestRun, TestRunner, TestRunStatus } from './types'
 import { TestRunChannel } from '../../channels/testRunChannel'
 import { fetchJSON } from '../../utils/fetch-json'
 import { useRequestQuery } from '../../hooks/request-query'
@@ -9,20 +9,20 @@ const REFETCH_INTERVAL = 2000
 
 export const TestRunSummaryContainer = ({
   testRun,
+  testRunner,
   timeout,
   onUpdate,
   onSubmit,
   isSubmitDisabled,
   cancelLink,
-  averageTestDuration,
 }: {
   testRun: TestRun
+  testRunner: TestRunner
   timeout: number
   onUpdate: (testRun: TestRun) => void
   onSubmit: () => void
   isSubmitDisabled: boolean
   cancelLink: string
-  averageTestDuration: number
 }): JSX.Element | null => {
   const { data } = useRequestQuery<{ testRun: TestRun }>(
     `test-run-${testRun.submissionUuid}`,
@@ -104,10 +104,10 @@ export const TestRunSummaryContainer = ({
   return (
     <TestRunSummary
       testRun={testRun}
+      testRunner={testRunner}
       onSubmit={onSubmit}
       isSubmitDisabled={isSubmitDisabled}
       onCancel={cancel}
-      averageTestDuration={averageTestDuration}
       showSuccessBox={true}
     />
   )

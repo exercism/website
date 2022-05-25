@@ -27,7 +27,9 @@ module ReactComponents
               highlightjs_language: track.highlightjs_language
             } : nil,
             results: {
-              average_test_duration: track.average_test_duration
+              test_runner: {
+                average_test_duration: track.average_test_duration
+              }
             }
           },
           track: {

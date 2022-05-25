@@ -479,8 +479,8 @@ Rails.application.routes.draw do
 
   # Licences
   %w[licence license].each do |spelling|
-    get "#{spelling}s/cc-sa-4", to: redirect("docs/using/licenses/cc-by-nc-sa-4"), as: "cc_sa_4_#{spelling}"
-    get "#{spelling}s/cc-by-nc-sa-4", to: redirect("docs/using/licenses/cc-by-nc-sa-4"), as: "cc_by_nc_sa_4_#{spelling}"
+    get "#{spelling}s/cc-sa-4", to: redirect("docs/using/licenses/cc-by-nc-sa"), as: "cc_sa_4_#{spelling}"
+    get "#{spelling}s/cc-by-nc-sa-4", to: redirect("docs/using/licenses/cc-by-nc-sa"), as: "cc_by_nc_sa_4_#{spelling}"
     get "#{spelling}s/mit", to: redirect("docs/using/licenses/mit"), as: "mit_#{spelling}"
     get "#{spelling}s/agpl", to: redirect("docs/using/licenses/agpl"), as: "agpl_#{spelling}"
   end

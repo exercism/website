@@ -19,6 +19,9 @@ module ReactComponents
           key: solution.uuid,
           save_interval: 500
         },
+        help: {
+          html: Markdown::Parse.(::Track::GenerateHelp.(track))
+        },
         panels: {
           instructions: {
             introduction:,

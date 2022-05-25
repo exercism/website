@@ -104,6 +104,7 @@ export const buildEditor = build<Props>({
     chatgptUsage: { '3.5': 4, '4.0': 2 },
     defaultSettings: {},
     autosave: { saveInterval: 500000 },
+    help: { html: '' },
     panels: {
       instructions: {
         assignment: {

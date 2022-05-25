@@ -3,7 +3,7 @@ import { GraphicalIcon, Icon } from '../../common'
 import { BugReportModal } from '../../modals/BugReportModal'
 import { useDropdown } from '../../dropdowns/useDropdown'
 
-export const ActionMore = ({
+export const More = ({
   onRevertToLastIteration,
   onRevertToExerciseStart,
   trackSlug,

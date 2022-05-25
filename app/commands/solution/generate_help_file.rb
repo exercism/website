@@ -2,6 +2,7 @@ class Solution::GenerateHelpFile
   include Mandate
 
   initialize_with :solution
+  delegate :track, :exercise, to: :solution
 
   def call
     <<~TEXT.strip
@@ -17,43 +18,46 @@ class Solution::GenerateHelpFile
 
   private
   def tests
-    tests_intro_text = I18n.t("exercises.documents.tests_intro").strip
-    tests_text = Markdown::Render.(solution.track.git.tests, :text).strip
+    header = I18n.t("exercises.documents.tests_header").strip
+    contents = Markdown::Render.(track.git.tests, :text).strip
 
     <<~TEXT.strip
-      ## #{tests_intro_text}
+      ## #{header}
 
-      #{tests_text}
+      #{contents}
     TEXT
   end
 
   def submitting
-    submitting_solution_intro_text = I18n.t("exercises.documents.submitting_solution_intro").strip
-
-    submitting_solution_text = I18n.t("exercises.documents.submitting_solution",
-      solution_file_paths: solution.exercise.git.solution_filepaths.join(" ")).strip
+    header = I18n.t("exercises.documents.submitting_solution_header").strip
+    contents = I18n.t("exercises.documents.submitting_solution",
+      solution_file_paths: exercise.git.solution_filepaths.join(" ")).strip
 
     <<~TEXT.strip
-      ## #{submitting_solution_intro_text}
+      ## #{header}
 
-      #{submitting_solution_text}
+      #{contents}
     TEXT
   end
 
   def help
-    help_intro_text = I18n.t("exercises.documents.help_intro").strip
+    header = I18n.t("exercises.documents.help_header").strip
+    intro = I18n.t("exercises.documents.help_intro").strip
 
-    help_text = I18n.t("exercises.documents.help",
-      track_title: solution.track.title, track_slug: solution.track.slug).strip
-
-    track_help_text = Markdown::Render.(solution.track.git.help, :text).strip
+    general_help = I18n.t('exercises.documents.help_pages', track_title: track.title, track_slug: track.slug)
+    submit_incomplete = I18n.t('exercises.documents.help_submit_incomplete')
+    track_help = Markdown::Render.(track.git.help, :text).strip
 
     <<~TEXT.strip
-      ## #{help_intro_text}
+      ## #{header}
 
-      #{help_text}
+      #{intro}
 
-      #{track_help_text}
+      #{general_help}
+
+      #{submit_incomplete}
+
+      #{track_help}
     TEXT
   end
 end

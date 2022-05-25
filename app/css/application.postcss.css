@@ -153,6 +153,7 @@
 @import "./modals/bug-report";
 @import "./modals/donations-form";
 @import "./modals/editor-hints";
+@import "./modals/help-hints";
 @import "./modals/automated-feedback";
 @import "./modals/generic-confirmation";
 @import "./modals/generic-destructive";

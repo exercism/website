@@ -78,4 +78,5 @@
       - else
         = render "tracks/exercises/show/action_box_join_exercism", exercise: @exercise, user_track: @user_track
 
-      = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))
+      .mt-28.ml-8
+        = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))

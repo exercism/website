@@ -16,6 +16,11 @@ export const buildEditor = build<Props>({
           tasks: [],
         },
       },
+      results: {
+        testRunner: {
+          averageTestDuration: 3,
+        },
+      },
     },
     track: {},
     exercise: {},

@@ -3,12 +3,12 @@ import { TestRunSummary } from '../editor/TestRunSummary'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Modal, ModalProps } from './Modal'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { TestRun, TestRunnerStatus } from '../editor/types'
+import { TestRun, TestRunner } from '../editor/types'
 import { ResultsZone } from '../ResultsZone'
 
 type APIResponse = {
   testRun: TestRun
-  testRunnerStatus: TestRunnerStatus
+  testRunner: TestRunner
 }
 
 const DEFAULT_ERROR = new Error('Unable to fetch test run')
@@ -17,12 +17,11 @@ export const TestRunModal = ({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
-  const { resolvedData, status, error, isFetching } = usePaginatedRequestQuery<
-    APIResponse
-  >(['test-run', endpoint], {
-    endpoint: endpoint,
-    options: { enabled: props.open },
-  })
+  const { resolvedData, status, error, isFetching } =
+    usePaginatedRequestQuery<APIResponse>(['test-run', endpoint], {
+      endpoint: endpoint,
+      options: { enabled: props.open },
+    })
 
   return (
     <Modal className="m-test-run" {...props}>
@@ -35,7 +34,7 @@ export const TestRunModal = ({
           {resolvedData ? (
             <TestRunSummary
               testRun={resolvedData.testRun}
-              testRunnerStatus={resolvedData.testRunnerStatus}
+              testRunner={resolvedData.testRunner}
               showSuccessBox={false}
             />
           ) : null}

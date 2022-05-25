@@ -20,6 +20,11 @@ export type TestRunnerStatus = {
   exercise: boolean
 }
 
+export type TestRunner = {
+  averageTestDuration: number
+  status?: TestRunnerStatus
+}
+
 export type TestRun = {
   uuid: number | null
   submissionUuid: string

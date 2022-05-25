@@ -44,7 +44,9 @@ type EditorPanels = {
     highlightjsLanguage: string
   }
   results: {
-    averageTestDuration: number
+    testRunner: {
+      averageTestDuration: number
+    }
   }
 }
 

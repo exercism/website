@@ -90,7 +90,7 @@ class Track < ApplicationRecord
   end
 
   def average_test_duration
-    git.average_test_duration + INFRASTRUCTURE_DURATION_S
+    git.average_test_duration.round + INFRASTRUCTURE_DURATION_S
   end
 
   def accessible_by?(user)
@@ -157,5 +157,5 @@ class Track < ApplicationRecord
     }
   }.with_indifferent_access.freeze
 
-  INFRASTRUCTURE_DURATION_S = 1.0
+  INFRASTRUCTURE_DURATION_S = 1
 end

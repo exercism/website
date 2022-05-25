@@ -10,9 +10,12 @@ module API
 
         render json: {
           test_run: test_run,
-          test_runner_status: {
-            exercise: submission.exercise.has_test_runner,
-            track: submission.track.has_test_runner
+          test_runner: {
+            average_test_duration: submission.track.average_test_duration,
+            status: {
+              exercise: submission.exercise.has_test_runner,
+              track: submission.track.has_test_runner
+            }
           }
         }
       end

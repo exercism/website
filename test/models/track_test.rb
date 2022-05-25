@@ -36,7 +36,22 @@ class TrackTest < ActiveSupport::TestCase
 
   test "average_test_duration" do
     track = create :track
-    assert_equal 2.2, track.average_test_duration
+    assert_equal 2, track.average_test_duration
+  end
+
+  test "average_test_duration has infrastructure duration added" do
+    track = create :track
+    Git::Track.any_instance.stubs(:average_test_duration).returns(3)
+    assert_equal 4, track.average_test_duration
+  end
+
+  test "average_test_duration is rounded" do
+    track = create :track
+    Git::Track.any_instance.stubs(:average_test_duration).returns(3.4)
+    assert_equal 4, track.average_test_duration
+
+    Git::Track.any_instance.stubs(:average_test_duration).returns(3.8)
+    assert_equal 5, track.average_test_duration
   end
 
   test "top_contributors" do

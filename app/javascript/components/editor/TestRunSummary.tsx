@@ -1,5 +1,5 @@
 import React from 'react'
-import { TestRun, TestRunnerStatus, TestRunStatus, TestStatus } from './types'
+import { TestRun, TestRunner, TestRunStatus, TestStatus } from './types'
 import { TestRunSummaryByStatusHeaderMessage } from './TestRunSummaryByStatusHeaderMessage'
 import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
@@ -7,19 +7,17 @@ import { GraphicalIcon } from '../common'
 
 export const TestRunSummary = ({
   testRun,
-  testRunnerStatus,
+  testRunner,
   onSubmit,
   isSubmitDisabled,
   onCancel,
-  averageTestDuration,
   showSuccessBox,
 }: {
   testRun: TestRun
-  testRunnerStatus?: TestRunnerStatus
+  testRunner: TestRunner
   onSubmit?: () => void
   isSubmitDisabled?: boolean
   onCancel?: () => void
-  averageTestDuration?: number
   showSuccessBox: boolean
 }): JSX.Element => {
   if (testRun) {
@@ -28,17 +26,17 @@ export const TestRunSummary = ({
         <TestRunSummaryHeader testRun={testRun} />
         <TestRunSummaryContent
           testRun={testRun}
+          testRunner={testRunner}
           onSubmit={onSubmit}
           isSubmitDisabled={isSubmitDisabled}
           onCancel={onCancel}
-          averageTestDuration={averageTestDuration}
           showSuccessBox={showSuccessBox}
         />
       </div>
     )
   }
 
-  if (testRunnerStatus && !testRunnerStatus.track) {
+  if (testRunner.status && !testRunner.status.track) {
     return (
       <div className="test-runner-disabled">
         <h3>No test results</h3>
@@ -47,7 +45,7 @@ export const TestRunSummary = ({
     )
   }
 
-  if (testRunnerStatus && !testRunnerStatus.exercise) {
+  if (testRunner.status && !testRunner.status.exercise) {
     return (
       <div className="test-runner-disabled">
         <h3>No test results</h3>
@@ -60,7 +58,10 @@ export const TestRunSummary = ({
     <div className="automated-feedback-pending">
       <GraphicalIcon icon="spinner" />
       <h3>We&apos;re testing your code to check it works</h3>
-      <p>This usually takes 5-20 seconds.</p>
+      <p>
+        This usually takes {testRunner.averageTestDuration}-
+        {testRunner.averageTestDuration * 4} seconds.
+      </p>
     </div>
   )
 }
@@ -169,17 +170,17 @@ const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
 
 const TestRunSummaryContent = ({
   testRun,
+  testRunner,
   onSubmit,
   isSubmitDisabled,
   onCancel,
-  averageTestDuration,
   showSuccessBox,
 }: {
   testRun: TestRun
+  testRunner: TestRunner
   onSubmit?: () => void
   isSubmitDisabled?: boolean
   onCancel?: () => void
-  averageTestDuration?: number
   showSuccessBox: boolean
 }) => {
   switch (testRun.status) {
@@ -256,18 +257,18 @@ const TestRunSummaryContent = ({
         <div role="status" className="running">
           <GraphicalIcon icon="spinner" />
           <div className="progress">
-            {averageTestDuration ? (
-              <div
-                className="bar"
-                style={{ animationDuration: `${averageTestDuration}s` }}
-              />
-            ) : null}
+            <div
+              className="bar"
+              style={{
+                animationDuration: `${testRunner.averageTestDuration}s`,
+              }}
+            />
           </div>
           <p>
             <strong>Running tests...</strong>
-            {averageTestDuration !== undefined ? (
-              <span>Estimated running time ~ {averageTestDuration}s</span>
-            ) : null}
+            <span>
+              Estimated running time ~ {testRunner.averageTestDuration}s
+            </span>
           </p>
           {onCancel !== undefined ? (
             <button

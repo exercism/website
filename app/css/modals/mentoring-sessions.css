@@ -24,6 +24,20 @@
                 @apply flex-grow;
                 @apply font-semibold;
             }
+
+            & button.unfavorite-button {
+                @apply border-orange;
+                @apply bg-lightOrange;
+                @apply text-orange;
+                & .c-icon {
+                    filter: var(--orange-filter);
+                }
+                &.hover {
+                    @apply text-red;
+                    @apply border-red;
+                    @apply bg-lightRed;
+                }
+            }
         }
         & .discussions {
             & .discussion {

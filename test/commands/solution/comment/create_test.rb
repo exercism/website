@@ -13,4 +13,15 @@ class Solution::Comment::CreateTest < ActiveSupport::TestCase
     assert_equal markdown, comment.content_markdown
     assert_equal "<p>foo</p>\n<p>bar</p>\n", comment.content_html
   end
+
+  test "increments num_comments on solution" do
+    user = create :user
+    solution = create :practice_solution
+
+    Solution::Comment::Create.(user, solution, "first comment")
+    assert_equal 1, solution.num_comments
+
+    Solution::Comment::Create.(user, solution, "second comment")
+    assert_equal 2, solution.num_comments
+  end
 end

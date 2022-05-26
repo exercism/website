@@ -38,3 +38,5 @@
 %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "#{Exercism.config.website_icons_host}/meta/favicon-16x16.png" }
 - if Rails.env.production?
   %link{ rel: "manifest", href: "/site.webmanifest" }
+
+= yield :meta_tags

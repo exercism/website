@@ -11,3 +11,6 @@
         = link_to "awesome team of contributors", contributing_contributors_path
 
   = render ReactComponents::Student::TracksList.new(current_user, @tracks, params)
+
+- content_for :meta_tags do
+  %meta{ name: "turbo-visit-control", content: "reload" }

@@ -129,4 +129,24 @@ class Solution::PublishTest < ActiveSupport::TestCase
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::AnybodyThereBadge
   end
+
+  test "solution snippet updated to published iteration's snippet when single iteration is published" do
+    solution = create :practice_solution, snippet: 'my snippet'
+    iteration = create :iteration, solution: solution, idx: 1, snippet: 'aaa'
+    create :iteration, solution: solution, idx: 2, snippet: 'bbb'
+
+    Solution::Publish.(solution, solution.user_track, 1)
+
+    assert_equal iteration.snippet, solution.snippet
+  end
+
+  test "solution snippet updated to latest published iteration's snippet when all iterations are published" do
+    solution = create :practice_solution, snippet: 'my snippet'
+    create :iteration, solution: solution, idx: 1, snippet: 'aaa'
+    other_iteration = create :iteration, solution: solution, idx: 2, snippet: 'bbb'
+
+    Solution::Publish.(solution, solution.user_track, nil)
+
+    assert_equal other_iteration.snippet, solution.snippet
+  end
 end

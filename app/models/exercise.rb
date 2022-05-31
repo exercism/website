@@ -62,7 +62,7 @@ class Exercise < ApplicationRecord
     self.git_important_files_hash = Git::GenerateHashForImportantExerciseFiles.(self) if git_sha_changed?
   end
 
-  after_update do
+  after_update_commit do
     if saved_changes.include?(:git_important_files_hash)
       MarkSolutionsAsOutOfDateInIndexJob.perform_later(self)
       QueueSolutionHeadTestRunsJob.perform_later(self)

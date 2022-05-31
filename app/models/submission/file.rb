@@ -13,7 +13,7 @@ class Submission::File < ApplicationRecord
   # any content that has been passed in via the
   # attr_writer. We only want to do this on create
   # and never want to update or change this content.
-  after_create do
+  after_create_commit do
     if @content
       Exercism.s3_client.put_object(
         bucket: s3_bucket,

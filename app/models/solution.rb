@@ -66,11 +66,11 @@ class Solution < ApplicationRecord
     self.status = determine_status
   end
 
-  after_save do
+  after_save_commit do
     SyncSolutionToSearchIndexJob.perform_later(self)
   end
 
-  after_update do
+  after_update_commit do
     # It's basically never bad to run this.
     # There should always be a head test run and if there's
     # not we should make one. 99% of the time this will result

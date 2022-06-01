@@ -49,7 +49,7 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     create :iteration, solution: @submission.solution
     iteration = create :iteration, submission: @submission
     create :iteration, solution: @submission.solution
-    @submission.solution.update(published_iteration: iteration)
+    @submission.solution.update(published_iteration: iteration, published_at: Time.current)
 
     GenerateIterationSnippetJob.perform_now(iteration)
 

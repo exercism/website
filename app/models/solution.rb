@@ -114,8 +114,13 @@ class Solution < ApplicationRecord
   end
 
   memoize
+  def latest_published_iteration
+    published_iterations.last
+  end
+
+  memoize
   def latest_published_iteration_submission
-    published_iterations.last&.submission
+    latest_published_iteration&.submission
   end
 
   memoize

@@ -6,6 +6,7 @@ class Solution
 
     def call
       solution.update!(published_iteration_id: nil, published_at: nil)
+      Solution::UpdateSnippet.(solution)
     end
   end
 end

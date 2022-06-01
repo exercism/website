@@ -28,19 +28,12 @@ class GenerateIterationSnippetJob < ApplicationJob
     snippet = "#{snippet[0, 1400]}\n\n..." if snippet.length > 1400
 
     iteration.update_column(:snippet, snippet)
-    iteration.solution.update_column(:snippet, snippet) if should_update_solution?(iteration)
+    Solution::UpdateSnippet.(iteration.solution)
   rescue JSON::GeneratorError => e
     # Silently drop things where we can't parse characters in the resulting JSON.
     # This is going to be down to unicode issues
     return if e.message.include?("Invalid Unicode")
 
     raise
-  end
-
-  def should_update_solution?(iteration)
-    solution = iteration.solution
-    return true if solution.published_iteration_id == iteration.id
-
-    solution.published_iteration_id.nil? && solution.latest_iteration == iteration
   end
 end

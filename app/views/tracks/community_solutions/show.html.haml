@@ -19,7 +19,7 @@
         .seperator /
         = link_to "Community Solutions", track_exercise_solutions_path(@track, @exercise)
         .seperator /
-        .exercise-title #{@author.handle}'s solution
+        .exercise-title #{@own_solution ? 'Your' : "#{@author.handle}'s"} solution
 
     .content.lg-container.flex.flex-col.lg:flex-row.lg:items-center
       = track_icon @track
@@ -32,7 +32,9 @@
 
         %h1
           .name
-            - if @author.profile
+            - if @own_solution
+              Your
+            - elsif @author.profile
               = link_to "#{@author.handle}'s", profile_path(@author)
             - else
               #{@author.handle}'s

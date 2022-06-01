@@ -22,6 +22,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
 
     @author = @solution.user
     @comments = @solution.comments
+    @own_solution = @author == @current_user
 
     # TODO: (Required) Real algorithm here
     @other_solutions = @exercise.solutions.published.where.not(id: @solution.id).limit(3)

@@ -12,6 +12,7 @@ const buildProps = build<Props>({
   fields: {
     iterations: [createIteration({})],
     publishedIterationIdx: 1,
+    publishedIterationIdxs: [1],
     language: 'ruby',
     indentSize: 2,
     outOfDate: perBuild(() => true),

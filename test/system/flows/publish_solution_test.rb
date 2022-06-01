@@ -128,9 +128,9 @@ module Flows
         find("label", text: "Single iteration").click
         within(".c-single-select") do
           find("button").click
-          assert_text "Iteration 1" # Don't show deleted iteration
+          assert_text "Iteration 1" # Show active iteration
           assert_text "Iteration 2" # Show active iteration
-          refute_text "Iteration 3" # Show active iteration
+          refute_text "Iteration 3" # Don't show deleted iteration
 
           find(".row", text: "Iteration 1").find(:xpath, '../input', visible: false).click
         end

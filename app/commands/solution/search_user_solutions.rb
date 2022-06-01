@@ -41,7 +41,7 @@ class Solution
           to_a : []
 
       total_count = results["hits"]["total"]["value"].to_i
-      Kaminari.paginate_array(solutions, total_count: total_count).
+      Kaminari.paginate_array(solutions, total_count:).
         page(page).per(per)
     rescue StandardError => e
       Bugsnag.notify(e)
@@ -156,13 +156,13 @@ class Solution
       def filter_status!
         return if status.blank?
 
-        @solutions = @solutions.where(status: status)
+        @solutions = @solutions.where(status:)
       end
 
       def filter_mentoring_status!
         return if mentoring_status.blank?
 
-        @solutions = @solutions.where(mentoring_status: mentoring_status)
+        @solutions = @solutions.where(mentoring_status:)
       end
 
       def filter_tests_status!

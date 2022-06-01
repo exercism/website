@@ -7,9 +7,9 @@ module ReactComponents
         return if num_authors.zero? && num_contributors.zero?
 
         super("track-exercise-makers-button", {
-          avatar_urls: avatar_urls,
-          num_authors: num_authors,
-          num_contributors: num_contributors,
+          avatar_urls:,
+          num_authors:,
+          num_contributors:,
           links: {
             makers: Exercism::Routes.api_track_exercise_makers_url(exercise.track, exercise)
           }

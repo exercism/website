@@ -7,7 +7,7 @@ class SiteUpdates::ProcessNewExerciseUpdateTest < ActiveSupport::TestCase
 
       SiteUpdates::ProcessNewExerciseUpdate.(exercise)
 
-      assert SiteUpdate.where(exercise: exercise).exists?
+      assert SiteUpdate.where(exercise:).exists?
     end
 
     test "updates if #{status} and exists" do

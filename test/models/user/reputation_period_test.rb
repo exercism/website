@@ -6,7 +6,7 @@ class User::ReputationPeriodTest < ActiveSupport::TestCase
     create :user_reputation_period, user: user
 
     assert_raises ActiveRecord::RecordNotUnique do
-      create :user_reputation_period, user: user
+      create :user_reputation_period, user:
     end
   end
 

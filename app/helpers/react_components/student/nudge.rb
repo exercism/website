@@ -10,11 +10,11 @@ module ReactComponents
             title: solution.track.title,
             median_wait_time: solution.track.median_wait_time
           },
-          discussions: discussions,
-          request: request,
-          exercise_type: exercise_type,
+          discussions:,
+          request:,
+          exercise_type:,
           iterations: solution.iterations.order(idx: :desc).map { |iteration| SerializeIteration.(iteration) },
-          links: links
+          links:
         })
       end
 

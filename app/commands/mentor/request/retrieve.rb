@@ -57,7 +57,7 @@ module Mentor
         # Don't show mentor-blocked or student-blocked solutions
         @requests = @requests.where.not(
           student_id: Mentor::StudentRelationship.
-            where(mentor: mentor).
+            where(mentor:).
             where('blocked_by_mentor = ? OR blocked_by_student = ?', true, true).
             select(:student_id)
         )
@@ -78,7 +78,7 @@ module Mentor
           track_id: Track.where(slug: track_slug).select(:id)
         ).pick(:id)
 
-        @requests = @requests.where(exercise_id: exercise_id)
+        @requests = @requests.where(exercise_id:)
       end
 
       def filter_track!

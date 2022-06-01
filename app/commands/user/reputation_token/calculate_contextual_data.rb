@@ -67,9 +67,9 @@ class User::ReputationToken
     memoize
     def tuples
       ts = User::ReputationToken.where(user_id: user_ids)
-      ts = ts.where(category: category) if category
+      ts = ts.where(category:) if category
       ts = ts.where('earned_on >= ?', earned_since) if earned_since
-      ts = ts.where(track_id: track_id) if track_id
+      ts = ts.where(track_id:) if track_id
       ts = ts.group(:user_id, :type).select("user_id, type, COUNT(*) as num, SUM(value) as total")
 
       ActiveRecord::Base.connection.select_all(ts.to_sql)

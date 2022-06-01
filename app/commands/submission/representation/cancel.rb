@@ -9,7 +9,7 @@ class Submission
 
       def call
         RestClient.post "#{orchestrator_url}/submissions/cancel", {
-          submission_uuid: submission_uuid
+          submission_uuid:
         }
       end
 

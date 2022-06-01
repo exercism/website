@@ -21,14 +21,14 @@ class Badge::MentorBadgeTest < ActiveSupport::TestCase
     student = create :user
     10.times do |_idx|
       solution = create :practice_solution, user: student
-      create :mentor_discussion, :student_finished, student: student, mentor: mentor, solution: solution
+      create :mentor_discussion, :student_finished, student:, mentor:, solution:
     end
     refute badge.award_to?(mentor.reload)
 
     # 9 finished mentor discussions with different students is not enough
     8.times do |_idx|
       solution = create :practice_solution
-      create :mentor_discussion, :student_finished, mentor: mentor, solution: solution
+      create :mentor_discussion, :student_finished, mentor:, solution:
     end
     refute badge.award_to?(mentor.reload)
 

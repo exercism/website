@@ -6,7 +6,7 @@ class Donations::Payment
 
     def call
       User::SendEmail.(payment) do
-        DonationsMailer.with(payment: payment).payment_created.deliver_later
+        DonationsMailer.with(payment:).payment_created.deliver_later
       end
     end
   end

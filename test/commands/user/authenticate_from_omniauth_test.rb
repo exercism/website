@@ -51,7 +51,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       info: stub(
         email: "user@exercism.org",
         name: "Name",
-        nickname: nickname,
+        nickname:,
         image: "http://some.image/avatar.jpg"
       )
     )

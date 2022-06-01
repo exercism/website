@@ -9,8 +9,8 @@ class Solution
 
         begin
           solution.comments.create!(
-            author: author,
-            content_markdown: content_markdown
+            author:,
+            content_markdown:
           ).tap do |comment|
             # TODO: (Required) Notifications
 

@@ -14,10 +14,10 @@ module ReactComponents
         super(
           "mentoring-queue",
           {
-            queue_request: queue_request,
-            tracks_request: tracks_request,
-            default_track: default_track,
-            default_exercise: default_exercise,
+            queue_request:,
+            tracks_request:,
+            default_track:,
+            default_exercise:,
             sort_options: SORT_OPTIONS,
             links: {
               tracks: Exercism::Routes.api_mentoring_tracks_url,
@@ -72,7 +72,7 @@ module ReactComponents
 
         {
           endpoint: Exercism::Routes.api_mentoring_requests_path,
-          query: query,
+          query:,
           options: {
             initial_data: AssembleMentorRequests.(mentor, query),
             stale_time: 0,
@@ -91,7 +91,7 @@ module ReactComponents
         # TODO: It might be better to redirect to a different onboarding
         # page in this situation
         tracks = mentor.mentored_tracks.presence || ::Track.where(id: ::Track.active.pick(:id))
-        SerializeTracksForMentoring.(tracks, mentor: mentor)
+        SerializeTracksForMentoring.(tracks, mentor:)
       end
     end
   end

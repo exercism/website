@@ -12,7 +12,7 @@ class UserTrack::RetrieveRecentlyActiveSolutions
     # about the latest iteration. It achieves this by a Group/MAX(id) and then
     # an outer query to get the normal fields.
     solution_ids = User::Activity.
-      where(user: user, track: track).
+      where(user:, track:).
       group(:solution_id).
       order(id: :desc).
       select("solution_id, max(id) as id").

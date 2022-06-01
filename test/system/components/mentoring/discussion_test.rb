@@ -174,8 +174,8 @@ module Components
         submission = create :submission, solution: solution
         iteration = create :iteration, idx: 1, solution: solution, created_at: 1.week.ago, submission: submission
         create(:mentor_discussion_post,
-          discussion: discussion,
-          iteration: iteration,
+          discussion:,
+          iteration:,
           author: mentor,
           content_markdown: "Hello, student",
           updated_at: Time.current)
@@ -285,8 +285,8 @@ module Components
           sign_in!(mentor)
           visit mentoring_discussion_path(discussion)
           create(:mentor_discussion_post,
-            discussion: discussion,
-            iteration: iteration,
+            discussion:,
+            iteration:,
             author: mentor,
             content_markdown: "Hello",
             updated_at: Time.current)
@@ -348,8 +348,8 @@ module Components
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
         create(:mentor_discussion_post,
-          discussion: discussion,
-          iteration: iteration,
+          discussion:,
+          iteration:,
           author: mentor,
           content_markdown: "Hello",
           updated_at: Time.current)
@@ -374,8 +374,8 @@ module Components
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
         create(:mentor_discussion_post,
-          discussion: discussion,
-          iteration: iteration,
+          discussion:,
+          iteration:,
           author: mentor,
           content_markdown: "Hello",
           updated_at: Time.current)
@@ -399,10 +399,10 @@ module Components
         discussion = create :mentor_discussion, solution: solution, mentor: mentor
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
-        create(:mentor_request, solution: solution)
+        create(:mentor_request, solution:)
         create(:mentor_discussion_post,
-          discussion: discussion,
-          iteration: iteration,
+          discussion:,
+          iteration:,
           author: mentor)
 
         use_capybara_host do

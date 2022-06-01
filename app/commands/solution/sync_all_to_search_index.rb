@@ -27,7 +27,7 @@ class Solution::SyncAllToSearchIndex
         }
       end
 
-      Exercism.opensearch_client.bulk(body: body)
+      Exercism.opensearch_client.bulk(body:)
     end
   end
 

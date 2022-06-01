@@ -39,7 +39,7 @@ module Git
       sync_practice_exercises!
 
       track.update!(
-        blurb: blurb,
+        blurb:,
         active: head_git_track.active?,
         title: head_git_track.title,
         tags: head_git_track.tags,
@@ -47,7 +47,7 @@ module Git
         has_test_runner: head_git_track.has_test_runner?,
         has_analyzer: head_git_track.has_analyzer?,
         has_representer: head_git_track.has_representer?,
-        concepts: concepts
+        concepts:
       )
 
       Git::SyncTrackDocs.(track)

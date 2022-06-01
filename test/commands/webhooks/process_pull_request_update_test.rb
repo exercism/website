@@ -13,8 +13,8 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
       Webhooks::ProcessPullRequestUpdate.(
-        action: action, login: login, url: url, html_url: html_url,
-        labels: labels, state: state, repo: repo, number: number
+        action:, login:, url:, html_url:,
+        labels:, state:, repo:, number:
       )
     end
   end
@@ -31,8 +31,8 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
       Webhooks::ProcessPullRequestUpdate.(
-        action: action, login: login, url: url, html_url: html_url,
-        labels: labels, state: state, repo: repo, number: number
+        action:, login:, url:, html_url:,
+        labels:, state:, repo:, number:
       )
     end
   end
@@ -49,8 +49,8 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
 
     assert_enqueued_jobs 1, only: ProcessPullRequestUpdateJob do
       Webhooks::ProcessPullRequestUpdate.(
-        action: action, login: login, url: url, html_url: html_url,
-        labels: labels, state: state, repo: repo, number: number
+        action:, login:, url:, html_url:,
+        labels:, state:, repo:, number:
       )
     end
   end
@@ -67,8 +67,8 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
 
     assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob do
       Webhooks::ProcessPullRequestUpdate.(
-        action: action, login: login, url: url, html_url: html_url,
-        labels: labels, state: state, repo: repo, number: number
+        action:, login:, url:, html_url:,
+        labels:, state:, repo:, number:
       )
     end
   end
@@ -85,8 +85,8 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
 
     assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob do
       Webhooks::ProcessPullRequestUpdate.(
-        action: action, login: login, url: url, html_url: html_url,
-        labels: labels, state: state, repo: repo, number: number
+        action:, login:, url:, html_url:,
+        labels:, state:, repo:, number:
       )
     end
   end

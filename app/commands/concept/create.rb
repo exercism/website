@@ -6,19 +6,19 @@ class Concept
 
     def call
       Concept.create!(
-        uuid: uuid,
-        track: track,
+        uuid:,
+        track:,
         **attributes
       ).tap do |concept|
         SiteUpdates::NewConceptUpdate.create!(
-          track: track,
+          track:,
           params: {
-            concept: concept
+            concept:
           }
         )
       end
     rescue ActiveRecord::RecordNotUnique
-      Concept.find_by!(uuid: uuid, track: track)
+      Concept.find_by!(uuid:, track:)
     end
   end
 end

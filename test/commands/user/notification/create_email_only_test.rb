@@ -7,7 +7,7 @@ class User::Notifications::CreateEmailOnlyTest < ActiveSupport::TestCase
     user = create :user
     type = :mentor_started_discussion
     discussion = create(:mentor_discussion)
-    params = { discussion: discussion }
+    params = { discussion: }
 
     User::Notification::SendEmail.expects(:call).with { |n| assert n.is_a?(User::Notification) }
 
@@ -30,7 +30,7 @@ class User::Notifications::CreateEmailOnlyTest < ActiveSupport::TestCase
     user = create :user
     type = :mentor_started_discussion
     discussion = create(:mentor_discussion)
-    params = { discussion: discussion }
+    params = { discussion: }
 
     n_1 = User::Notification::CreateEmailOnly.(user, type, params)
     n_2 = User::Notification::CreateEmailOnly.(user, type, params)

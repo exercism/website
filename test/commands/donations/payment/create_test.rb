@@ -46,7 +46,7 @@ class Donations::Payment::CreateTest < Donations::TestBase
     subscription = create :donations_subscription
     data = mock_stripe_payment(5, 1500, "")
 
-    Donations::Payment::Create.(user, data, subscription: subscription)
+    Donations::Payment::Create.(user, data, subscription:)
 
     assert_equal 1, Donations::Payment.count
 
@@ -59,7 +59,7 @@ class Donations::Payment::CreateTest < Donations::TestBase
     stripe_subscription_id = SecureRandom.uuid
     user = create :user
     subscription = create :donations_subscription, user: user, stripe_id: stripe_subscription_id
-    data = mock_stripe_payment(5, 1500, "", invoice_id: invoice_id)
+    data = mock_stripe_payment(5, 1500, "", invoice_id:)
 
     invoice = mock_stripe_invoice(nil, stripe_subscription_id)
     Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
@@ -75,7 +75,7 @@ class Donations::Payment::CreateTest < Donations::TestBase
   test "raises if subscription isn't set up yet" do
     invoice_id = SecureRandom.uuid
     user = create :user
-    data = mock_stripe_payment(5, 1500, "", invoice_id: invoice_id)
+    data = mock_stripe_payment(5, 1500, "", invoice_id:)
 
     invoice = mock_stripe_invoice(nil, SecureRandom.uuid)
     Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)

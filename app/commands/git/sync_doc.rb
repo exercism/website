@@ -10,9 +10,9 @@ module Git
     end
 
     def call
-      doc = Document.where(track: track).create_or_find_by!(
+      doc = Document.where(track:).create_or_find_by!(
         uuid: config[:uuid],
-        track: track
+        track:
       ) { |d| d.attributes = attributes }
 
       doc.update!(attributes)
@@ -32,7 +32,7 @@ module Git
         slug: config[:slug],
         git_repo: repo_url,
         git_path: config[:path],
-        section: section,
+        section:,
         title: config[:title],
         blurb: config[:blurb]
       }

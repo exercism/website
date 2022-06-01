@@ -14,7 +14,7 @@ module Components
           num_views: 1270, num_comments: 10, num_stars: 12, num_loc: 18
         create :submission, solution: solution
         travel_to(Time.current - 2.days) do
-          3.times { create :iteration, solution: solution }
+          3.times { create :iteration, solution: }
         end
 
         wait_for_opensearch_to_be_synced

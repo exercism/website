@@ -228,11 +228,11 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     track = create :track
     user = create :user
     create :user_track, user: user, track: track
-    create :mentor_discussion, :awaiting_student, solution: create(:practice_solution, user: user, track: track)
-    create :mentor_discussion, :awaiting_mentor, solution: create(:practice_solution, user: user, track: track)
-    create :mentor_discussion, :mentor_finished, solution: create(:practice_solution, user: user, track: track)
-    create :mentor_discussion, :student_finished, solution: create(:practice_solution, user: user, track: track)
-    5.times { create :mentor_request, solution: create(:practice_solution, user: user, track: track) }
+    create :mentor_discussion, :awaiting_student, solution: create(:practice_solution, user:, track:)
+    create :mentor_discussion, :awaiting_mentor, solution: create(:practice_solution, user:, track:)
+    create :mentor_discussion, :mentor_finished, solution: create(:practice_solution, user:, track:)
+    create :mentor_discussion, :student_finished, solution: create(:practice_solution, user:, track:)
+    5.times { create :mentor_request, solution: create(:practice_solution, user:, track:) }
 
     data = AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0]
     assert_equal 1, data[:num_completed_mentoring_discussions]

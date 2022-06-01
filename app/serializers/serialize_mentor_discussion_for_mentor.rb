@@ -4,7 +4,7 @@ class SerializeMentorDiscussionForMentor
   def initialize(discussion, relationship: nil)
     @discussion = discussion
     @relationship = relationship ||
-                    Mentor::StudentRelationship.where(mentor: mentor, student: student).first
+                    Mentor::StudentRelationship.where(mentor:, student:).first
   end
 
   def call

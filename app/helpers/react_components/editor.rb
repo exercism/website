@@ -18,9 +18,9 @@ module ReactComponents
           },
           panels: {
             instructions: {
-              introduction: introduction,
+              introduction:,
               assignment: SerializeExerciseAssignment.(solution),
-              debugging_instructions: debugging_instructions
+              debugging_instructions:
             },
             tests: solution.exercise.practice_exercise? ? {
               tests: solution.tests,

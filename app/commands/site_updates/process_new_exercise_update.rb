@@ -18,21 +18,21 @@ module SiteUpdates
 
     def destroy!
       SiteUpdates::NewExerciseUpdate.where(
-        exercise: exercise,
+        exercise:,
         track: exercise.track
       ).destroy_all
     end
 
     def create!
       SiteUpdates::NewExerciseUpdate.create!(
-        exercise: exercise,
+        exercise:,
         track: exercise.track
       )
     end
 
     def update!
       SiteUpdates::NewExerciseUpdate.find_by!(
-        exercise: exercise,
+        exercise:,
         track: exercise.track
       ).regenerate_rendering_data!
     end

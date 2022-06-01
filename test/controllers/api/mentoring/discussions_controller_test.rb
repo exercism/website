@@ -175,7 +175,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
       params: {
         iteration_idx: 2,
         mentor_request_uuid: mentor_request.uuid,
-        content: content
+        content:
       },
       headers: @headers, as: :json
 

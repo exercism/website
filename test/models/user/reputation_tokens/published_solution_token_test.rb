@@ -9,7 +9,7 @@ class User::ReputationTokens::PublishedSolutionTokenTest < ActiveSupport::TestCa
     User::ReputationToken::Create.(
       student,
       :published_solution,
-      solution: solution,
+      solution:,
       level: :medium
     )
 

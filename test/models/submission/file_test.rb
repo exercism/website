@@ -8,9 +8,9 @@ class SubmissionFileTest < ActiveSupport::TestCase
     submission = create :submission
 
     file = submission.files.create!(
-      filename: filename,
-      digest: digest,
-      content: content
+      filename:,
+      digest:,
+      content:
     )
 
     assert_equal submission, file.submission

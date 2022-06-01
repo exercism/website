@@ -30,7 +30,7 @@ class Github::Organization
       }
     QUERY
 
-    response = Exercism.octokit_client.post("https://api.github.com/graphql", { query: query }.to_json).to_h
+    response = Exercism.octokit_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
     response.dig(:data, :organization, :teams, :totalCount)
   end
 
@@ -70,7 +70,7 @@ class Github::Organization
       }
     QUERY
 
-    Exercism.octokit_client.post("https://api.github.com/graphql", { query: query }.to_json).to_h
+    Exercism.octokit_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
   end
 
   def team_member_usernames
@@ -116,7 +116,7 @@ class Github::Organization
       }
     QUERY
 
-    Exercism.octokit_client.post("https://api.github.com/graphql", { query: query }.to_json).to_h
+    Exercism.octokit_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
   end
 
   def handle_rate_limit(rate_limit_data)

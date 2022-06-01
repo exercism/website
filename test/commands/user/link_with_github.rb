@@ -5,8 +5,8 @@ class User::LinkWithGithubTest < ActiveSupport::TestCase
     provider = 'github'
     uid = '111'
     auth = stub(
-      provider: provider,
-      uid: uid,
+      provider:,
+      uid:,
       info: stub(nickname: "user22")
     )
     user = create :user

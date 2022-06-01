@@ -10,11 +10,11 @@ class User::Notification
 
       klass = "user/notifications/#{type}_notification".camelize.constantize
       notification = klass.new(
-        user: user,
+        user:,
         status: :email_only,
-        track: track,
-        exercise: exercise,
-        params: params
+        track:,
+        exercise:,
+        params:
       )
 
       begin

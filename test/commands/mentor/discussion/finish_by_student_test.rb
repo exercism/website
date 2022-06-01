@@ -129,7 +129,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
       AwardReputationTokenJob.expects(:perform_later).with(
         discussion.mentor,
         :mentored,
-        discussion: discussion
+        discussion:
       )
 
       Mentor::Discussion::FinishByStudent.(discussion, rating)
@@ -144,7 +144,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "awards mentor badge" do
     mentor = create :user
     9.times do |_idx|
-      create :mentor_discussion, :student_finished, mentor: mentor
+      create :mentor_discussion, :student_finished, mentor:
     end
 
     discussion = create :mentor_discussion, mentor: mentor

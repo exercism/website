@@ -29,8 +29,8 @@ class SiteUpdateTest < ActiveSupport::TestCase
         "handle" => author.handle,
         "avatar_url" => author.avatar_url
       },
-      title: title,
-      description: description
+      title:,
+      description:
     }.stringify_keys
     assert_equal expected, update.rendering_data[:expanded]
   end

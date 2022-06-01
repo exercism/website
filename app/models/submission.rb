@@ -121,7 +121,7 @@ class Submission < ApplicationRecord
       type = merged_files.key?(file.filename) ? :solution : :legacy
 
       merged_files[file.filename] = {
-        type: type,
+        type:,
         content: file.content,
         digest: file.digest
       }

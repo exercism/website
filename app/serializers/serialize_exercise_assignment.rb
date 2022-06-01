@@ -5,9 +5,9 @@ class SerializeExerciseAssignment
 
   def call
     {
-      overview: overview,
-      general_hints: general_hints,
-      tasks: tasks
+      overview:,
+      general_hints:,
+      tasks:
     }
   end
 

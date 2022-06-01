@@ -8,11 +8,11 @@ class User::Activities::SubmittedIterationActivityTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution
 
     activity = User::Activities::SubmittedIterationActivity.create!(
-      user: user,
+      user:,
       track: exercise.track,
-      solution: solution,
+      solution:,
       params: {
-        iteration: iteration
+        iteration:
       }
     )
     assert_equal "#{user.id}|submitted_iteration|Iteration##{iteration.id}",
@@ -27,11 +27,11 @@ class User::Activities::SubmittedIterationActivityTest < ActiveSupport::TestCase
       iteration = create :iteration, solution: solution, created_at: Time.current - 1.week, idx: 3
 
       activity = User::Activities::SubmittedIterationActivity.create!(
-        user: user,
+        user:,
         track: exercise.track,
-        solution: solution,
+        solution:,
         params: {
-          iteration: iteration
+          iteration:
         }
       )
 

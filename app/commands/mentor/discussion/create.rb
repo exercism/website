@@ -21,8 +21,8 @@ module Mentor
           request.locks.where(locked_by: mentor).destroy_all
 
           Mentor::Discussion.create!(
-            mentor: mentor,
-            request: request,
+            mentor:,
+            request:,
             awaiting_student_since: Time.current
           ).tap { |d| process_discussion!(d) }
         end
@@ -36,18 +36,18 @@ module Mentor
 
       def process_discussion!(discussion)
         discussion_post = Mentor::DiscussionPost.create!(
-          iteration: iteration,
-          discussion: discussion,
+          iteration:,
+          discussion:,
           author: mentor,
-          content_markdown: content_markdown
+          content_markdown:
         )
 
         User::Notification::Create.(
           student,
           :mentor_started_discussion,
           {
-            discussion: discussion,
-            discussion_post: discussion_post
+            discussion:,
+            discussion_post:
           }
         )
       end

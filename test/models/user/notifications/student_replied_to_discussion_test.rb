@@ -10,12 +10,12 @@ class User::Notifications::StudentRepliedToDiscussionNotificationTest < ActiveSu
     submission = create :submission, solution: solution
     iteration = create :iteration, submission: submission
     mentor = create(:user)
-    discussion_post = create(:mentor_discussion_post, iteration: iteration, author: mentor)
+    discussion_post = create(:mentor_discussion_post, iteration:, author: mentor)
 
     notification = User::Notifications::StudentRepliedToDiscussionNotification.create!(
-      user: user,
+      user:,
       params: {
-        discussion_post: discussion_post
+        discussion_post:
       }
     )
     assert_equal "#{user.id}|student_replied_to_discussion|DiscussionPost##{discussion_post.id}", notification.uniqueness_key

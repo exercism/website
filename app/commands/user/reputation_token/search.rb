@@ -58,7 +58,7 @@ class User
       def filter_category!
         return if category.blank?
 
-        @tokens = @tokens.where(category: category)
+        @tokens = @tokens.where(category:)
       end
 
       def sort!

@@ -35,7 +35,7 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     Mentor::Discussion::Create.(create(:user), request, iteration.idx, "foobar")
 
     assert_equal 1, user.notifications.size
-    assert_equal User::Notifications::MentorStartedDiscussionNotification, User::Notification.where(user: user).first.class
+    assert_equal User::Notifications::MentorStartedDiscussionNotification, User::Notification.where(user:).first.class
   end
 
   test "updates num_discussions on relationship record" do
@@ -46,7 +46,7 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     mentor = create :user
     Mentor::Discussion::Create.(mentor, request, iteration.idx, "foobar")
 
-    rel = Mentor::StudentRelationship.find_by!(mentor: mentor, student: student)
+    rel = Mentor::StudentRelationship.find_by!(mentor:, student:)
     assert_equal 1, rel.num_discussions
     refute rel.favorited?
   end
@@ -153,6 +153,6 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
 
     Mentor::Discussion::Create.(mentor, request, iteration.idx, content_markdown)
 
-    assert_empty Mentor::RequestLock.where(request: request)
+    assert_empty Mentor::RequestLock.where(request:)
   end
 end

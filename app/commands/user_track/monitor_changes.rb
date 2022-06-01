@@ -33,7 +33,7 @@ class UserTrack
       # Build a before and after of each concept progression and keep any that have changed
       concept_progressions = user_track.concept_progressions.map do |id, data|
         {
-          id: id,
+          id:,
           total: data[:total],
           from: concept_progressions[id][:completed],
           to: data[:completed]
@@ -55,7 +55,7 @@ class UserTrack
       {
         unlocked_exercises: Exercise.where(id: unlocked_exercise_ids),
         unlocked_concepts: Concept.where(id: unlocked_concept_ids),
-        concept_progressions: concept_progressions
+        concept_progressions:
       }
     end
 

@@ -6,7 +6,7 @@ module Github
       initialize_with :node_id
 
       def call
-        issue = ::Github::Issue.find_by!(node_id: node_id)
+        issue = ::Github::Issue.find_by!(node_id:)
         issue.destroy
       end
     end

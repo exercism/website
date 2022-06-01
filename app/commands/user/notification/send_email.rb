@@ -6,7 +6,7 @@ class User::Notification
 
     def call
       User::SendEmail.(notification) do
-        NotificationsMailer.with(notification: notification).
+        NotificationsMailer.with(notification:).
           send(notification.email_type).deliver_later
       end
     end

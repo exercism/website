@@ -12,7 +12,7 @@ module Flows
         user = create :user
         mentor = create :user, handle: "mr-mentor"
         discussion = create :mentor_discussion, mentor: mentor
-        create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }, status: :unread
+        create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
         create :user_dismissed_introducer, slug: "v3-modal", user: user
 
         use_capybara_host do
@@ -37,7 +37,7 @@ module Flows
           visit dashboard_path
           wait_for_websockets
 
-          create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }, status: :unread
+          create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
 
           NotificationsChannel.broadcast_changed!(user)
           within(".c-notification") { assert_text "1" }
@@ -58,7 +58,7 @@ module Flows
           visit dashboard_path
           find(".c-notification").click
 
-          create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }, status: :unread
+          create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
           NotificationsChannel.broadcast_changed!(user)
           wait_for_websockets
 

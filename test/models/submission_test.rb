@@ -41,7 +41,7 @@ class SubmissionTest < ActiveSupport::TestCase
     submission_sha = "submission-hash"
 
     exercise = create :practice_exercise, git_important_files_hash: exercise_hash
-    submission = create :submission, git_sha: submission_sha, solution: create(:practice_solution, exercise: exercise)
+    submission = create :submission, git_sha: submission_sha, solution: create(:practice_solution, exercise:)
     create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
 
     # Create two head runs to check we get the latest

@@ -31,11 +31,11 @@ class SerializeMentorDiscussion
       created_at: discussion.created_at.iso8601,
       updated_at: discussion.updated_at.iso8601,
 
-      is_finished: is_finished,
-      is_unread: is_unread,
+      is_finished:,
+      is_unread:,
       posts_count: discussion.num_posts,
       iterations_count: discussion.solution.num_iterations,
-      links: links
+      links:
     }
   end
 end

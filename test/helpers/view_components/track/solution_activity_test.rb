@@ -15,8 +15,8 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
         <header>
           <a class="content" href="https://test.exercism.org/tracks/ruby/exercises/bob">
           #{render ReactComponents::Common::ExerciseWidget.new(
-            exercise, user_track, solution: solution,
-                                  render_as_link: false, render_blurb: false, render_track: false
+            exercise, user_track, solution:,
+            render_as_link: false, render_blurb: false, render_track: false
           )}
           </a>
 

@@ -1,6 +1,6 @@
 module IconsHelper
   def graphical_icon(icon, css_class: nil, category: 'icons', hex: false)
-    icon(icon, nil, role: :presentation, css_class: css_class, category: category, hex: hex)
+    icon(icon, nil, role: :presentation, css_class:, category:, hex:)
   end
 
   def icon(icon, alt, role: nil, category: 'icons', css_class: nil, hex: false)
@@ -8,11 +8,11 @@ module IconsHelper
 
     if hex
       tag.div(class: "c-icon #{css_class} --hex") do
-        image_tag "#{category}/#{icon}.svg", role: role, alt: alt.to_s
+        image_tag "#{category}/#{icon}.svg", role:, alt: alt.to_s
       end
     else
       image_tag "#{category}/#{icon}.svg",
-        role: role,
+        role:,
         alt: alt.to_s,
         class: "c-icon #{css_class} #{'--hex' if hex}".strip
     end

@@ -10,13 +10,13 @@ module ReactComponents
             title: solution.track.title,
             median_wait_time: solution.track.median_wait_time
           },
-          request: request,
-          discussions: discussions,
+          request:,
+          discussions:,
           exercise: {
             title: solution.exercise.title,
             type: exercise_type
           },
-          links: links
+          links:
         })
       end
 

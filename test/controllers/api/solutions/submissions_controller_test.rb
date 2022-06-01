@@ -68,7 +68,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     Submission::Create.expects(:call).with(solution, files, :api).returns(create(:submission))
 
     post api_solution_submissions_path(solution.uuid),
-      params: { files: files },
+      params: { files: },
       headers: @headers,
       as: :json
 
@@ -83,7 +83,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
 
     post api_solution_submissions_path(solution.uuid),
-      params: { files: [{ filename: filename, content: content }] },
+      params: { files: [{ filename:, content: }] },
       headers: @headers,
       as: :json
 

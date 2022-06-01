@@ -52,7 +52,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
 
     comment = "foo to the baaar"
     post api_solution_mentor_requests_path(solution.uuid),
-      params: { comment: comment },
+      params: { comment: },
       headers: @headers, as: :json
 
     req = Mentor::Request.last

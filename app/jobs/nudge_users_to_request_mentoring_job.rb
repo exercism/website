@@ -28,14 +28,14 @@ class NudgeUsersToRequestMentoringJob < ApplicationJob
 
     user_ids.in_groups_of(100) do |batch|
       User.find(batch).each do |user|
-        track = PracticeSolution.where(user: user).where.not(status: :started).
+        track = PracticeSolution.where(user:).where.not(status: :started).
           joins(:exercise).where.not('exercises.slug': 'hello-world').
           last.track
 
         User::Notification::Create.(
           user,
           :nudge_to_request_mentoring,
-          track: track
+          track:
         )
       end
     end

@@ -49,11 +49,11 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
       created_at: discussion.created_at.iso8601,
       updated_at: discussion.updated_at.iso8601,
 
-      is_finished: is_finished,
-      is_unread: is_unread,
+      is_finished:,
+      is_unread:,
       posts_count: 2,
       iterations_count: 1,
-      links: links
+      links:
     }
 
     assert_equal expected, SerializeMentorDiscussion.(

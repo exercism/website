@@ -59,9 +59,9 @@ module API
 
       output = {
         track: SerializeTrack.(solution.track, user_track),
-        exercise: SerializeExercise.(solution.exercise, user_track: user_track),
+        exercise: SerializeExercise.(solution.exercise, user_track:),
         unlocked_exercises: changes[:unlocked_exercises].map do |exercise|
-          SerializeExercise.(exercise, user_track: user_track)
+          SerializeExercise.(exercise, user_track:)
         end,
         unlocked_concepts: changes[:unlocked_concepts].map do |concept|
           {
@@ -161,12 +161,12 @@ module API
             title: solution.exercise.title,
             icon_url: solution.exercise.icon_url
           },
-          files: files,
+          files:,
           links: {
             update: Exercism::Routes.sync_api_solution_url(solution.uuid)
           }
         }
-      }, status: status
+      }, status:
     end
 
     def sync

@@ -13,7 +13,7 @@ module Git
         contributors.find_each { |contributor| ::Concept::Contributorship::Create.(concept, contributor) }
 
         # This is required to remove contributors that were already added
-        concept.reload.update!(contributors: contributors)
+        concept.reload.update!(contributors:)
 
         # TODO: (Optional) consider what to do with missing contributors
         missing_contributors = contributors_config - contributors.pluck(:github_username)

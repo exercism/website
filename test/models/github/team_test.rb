@@ -156,6 +156,6 @@ class Github::TeamTest < ActiveSupport::TestCase
     parent_team = Github::Team.new('track-maintainers')
     team = Github::Team.new('csharp-maintainers')
 
-    team.create('csharp', parent_team: parent_team)
+    team.create('csharp', parent_team:)
   end
 end

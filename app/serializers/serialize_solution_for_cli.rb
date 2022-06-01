@@ -14,14 +14,14 @@ class SerializeSolutionForCLI
         },
         exercise: {
           id: solution.exercise.slug,
-          instructions_url: instructions_url,
+          instructions_url:,
           track: {
             id: track.slug,
             language: track.title
           }
         },
-        file_download_base_url: file_download_base_url,
-        files: files,
+        file_download_base_url:,
+        files:,
         submission: submission_hash
       }
     }
@@ -82,11 +82,11 @@ class SerializeSolutionForCLI
 
   memoize
   def discussion
-    Mentor::Discussion.find_by(mentor: requester, solution: solution)
+    Mentor::Discussion.find_by(mentor: requester, solution:)
   end
 
   memoize
   def mentoring_request
-    Mentor::Request.find_by(solution: solution, status: :pending)
+    Mentor::Request.find_by(solution:, status: :pending)
   end
 end

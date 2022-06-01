@@ -23,7 +23,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     locked_by_mentor = create :mentor_request
     create :mentor_request_lock, request: locked_by_mentor, locked_by: mentor
 
-    assert_equal [expired, pending, locked_by_mentor], Mentor::Request::Retrieve.(mentor: mentor)
+    assert_equal [expired, pending, locked_by_mentor], Mentor::Request::Retrieve.(mentor:)
   end
 
   test "does not retrieve own solutions" do
@@ -61,7 +61,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     create :mentor_request, solution: naughty_solution
     create :mentor_request, solution: unhappy_solution
 
-    assert_equal [good_request], Mentor::Request::Retrieve.(mentor: mentor)
+    assert_equal [good_request], Mentor::Request::Retrieve.(mentor:)
   end
 
   test "only retrieves mentored or selected tracks" do
@@ -146,7 +146,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
 
     solution = create :concept_solution, track: mentored_track
 
-    52.times { create :mentor_request, solution: solution }
+    52.times { create :mentor_request, solution: }
 
     requests = Mentor::Request::Retrieve.(mentor: user, page: 2)
     assert_equal 2, requests.current_page

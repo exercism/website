@@ -23,7 +23,7 @@ class Badge::DieUnendlicheGeschichteBadgeTest < ActiveSupport::TestCase
 
     # Solution with 9 iterations is not enough
     9.times do |_idx|
-      create :iteration, solution: solution
+      create :iteration, solution:
     end
     refute badge.award_to?(user.reload)
 

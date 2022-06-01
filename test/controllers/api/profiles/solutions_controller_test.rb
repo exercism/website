@@ -44,16 +44,16 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
       profile_user,
       status: :published,
       criteria: "Foobar",
-      track_slug: track_slug,
+      track_slug:,
       order: "recent",
-      page: page
+      page:
     ).returns(Solution.page(1).per(1))
 
     get api_profile_solutions_path(profile_user), params: {
-      page: page,
+      page:,
       criteria: "Foobar",
       order: "recent",
-      track_slug: track_slug
+      track_slug:
     }, headers: @headers, as: :json
   end
 
@@ -65,7 +65,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
     profile_user = create(:user_profile).user
     5.times { |i| create :practice_solution, :published, user: profile_user, num_stars: i }
 
-    Solution.find_each { |solution| create :iteration, submission: create(:submission, solution: solution) }
+    Solution.find_each { |solution| create :iteration, submission: create(:submission, solution:) }
 
     wait_for_opensearch_to_be_synced
 

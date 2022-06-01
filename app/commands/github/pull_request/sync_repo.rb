@@ -89,7 +89,7 @@ module Github
           }
         QUERY
 
-        Exercism.octokit_client.post("https://api.github.com/graphql", { query: query }.to_json).to_h
+        Exercism.octokit_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
       end
 
       def pull_requests_from_page_data(response)

@@ -40,14 +40,14 @@ class Submission
         @submission_representation = submission.create_submission_representation!(
           tooling_job_id: tooling_job.id,
           ops_status: tooling_job.execution_status.to_i,
-          ast_digest: ast_digest
+          ast_digest:
         )
       end
 
       def create_exercise_representation!
         @exercise_representation = Exercise::Representation.create_or_find_by!(
           exercise: submission.exercise,
-          ast_digest: ast_digest
+          ast_digest:
         ) do |rep|
           rep.source_submission = submission
           rep.ast = ast

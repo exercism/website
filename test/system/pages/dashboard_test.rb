@@ -40,7 +40,7 @@ module Pages
       user = create :user
 
       3.times do
-        create :user_track, user: user, track: create(:track, :random_slug)
+        create :user_track, user:, track: create(:track, :random_slug)
       end
 
       use_capybara_host do
@@ -96,7 +96,7 @@ module Pages
       track = create :track
       create :user_track_mentorship, user: user, track: track
       create :mentor_discussion, mentor: user, status: :awaiting_student
-      create :mentor_request, solution: create(:practice_solution, track: track)
+      create :mentor_request, solution: create(:practice_solution, track:)
 
       use_capybara_host do
         sign_in!(user)
@@ -111,7 +111,7 @@ module Pages
       track = create :track
       create :user_track_mentorship, user: user, track: track
       discussion = create :mentor_discussion, mentor: user, status: :awaiting_mentor
-      create :mentor_request, solution: create(:practice_solution, track: track)
+      create :mentor_request, solution: create(:practice_solution, track:)
 
       use_capybara_host do
         sign_in!(user)

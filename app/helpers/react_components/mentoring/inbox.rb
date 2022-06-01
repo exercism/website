@@ -7,8 +7,8 @@ module ReactComponents
         super(
           "mentoring-inbox",
           {
-            discussions_request: discussions_request,
-            tracks_request: tracks_request,
+            discussions_request:,
+            tracks_request:,
             sort_options: SORT_OPTIONS,
             links: {
               queue: Exercism::Routes.mentoring_queue_path

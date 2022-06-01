@@ -21,7 +21,7 @@ class Badge::AnybodyThereBadgeTest < ActiveSupport::TestCase
     # 4 hello worlds is not enough
     4.times do |idx|
       track = create :track, slug: "track_#{idx}"
-      create :hello_world_solution, :completed, user: user, track: track
+      create :hello_world_solution, :completed, user:, track:
     end
     refute badge.award_to?(user.reload)
 

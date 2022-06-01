@@ -4,7 +4,7 @@ module API
       opts = params.permit!.to_hash.with_indifferent_access[:parse_options]
       opts = opts ? opts.symbolize_keys : {}
       html = Markdown::Parse.(params[:markdown].to_s, **opts)
-      render json: { html: html }
+      render json: { html: }
     end
   end
 end

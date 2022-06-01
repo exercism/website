@@ -9,7 +9,7 @@ class User::ReputationToken::AwardForPullRequestsForUserTest < ActiveSupport::Te
 
     User::ReputationToken::AwardForPullRequestsForUser.(user)
 
-    assert_equal 2, User::ReputationTokens::CodeContributionToken.where(user: user).size
+    assert_equal 2, User::ReputationTokens::CodeContributionToken.where(user:).size
   end
 
   test "award reputation for reviewed pull requests" do
@@ -23,7 +23,7 @@ class User::ReputationToken::AwardForPullRequestsForUserTest < ActiveSupport::Te
 
     User::ReputationToken::AwardForPullRequestsForUser.(user)
 
-    assert_equal 3, User::ReputationTokens::CodeReviewToken.where(user: user).size
+    assert_equal 3, User::ReputationTokens::CodeReviewToken.where(user:).size
   end
 
   test "award reputation for merged pull requests" do
@@ -33,7 +33,7 @@ class User::ReputationToken::AwardForPullRequestsForUserTest < ActiveSupport::Te
 
     User::ReputationToken::AwardForPullRequestsForUser.(user)
 
-    assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user: user).size
+    assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user:).size
   end
 
   test "don't award reputation for user without github_username" do
@@ -43,6 +43,6 @@ class User::ReputationToken::AwardForPullRequestsForUserTest < ActiveSupport::Te
 
     User::ReputationToken::AwardForPullRequestsForUser.(user)
 
-    assert_equal 0, User::ReputationTokens::CodeMergeToken.where(user: user).size
+    assert_equal 0, User::ReputationTokens::CodeMergeToken.where(user:).size
   end
 end

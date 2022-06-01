@@ -4,7 +4,7 @@ class Solution
 
     initialize_with :solution
 
-    def call = solution.update(snippet: snippet)
+    def call = solution.update(snippet:)
 
     private
     def snippet = snippet_iteration&.snippet

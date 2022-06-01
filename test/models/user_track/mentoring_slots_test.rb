@@ -65,7 +65,7 @@ class User::MentoringSlotsTest < ActiveSupport::TestCase
     user_track = create :user_track, user: user
     5.times do
       solution = create :practice_solution, user: user, track: user_track.track
-      create :mentor_request, solution: solution
+      create :mentor_request, solution:
     end
 
     assert_equal 2, user_track.num_locked_mentoring_slots

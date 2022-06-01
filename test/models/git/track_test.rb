@@ -4,7 +4,7 @@ module Git
   class TrackTest < ActiveSupport::TestCase
     test "passing_repo_works" do
       repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      track = Git::Track.new(repo: repo)
+      track = Git::Track.new(repo:)
       assert_equal("ruby", track.slug)
     end
 

@@ -30,7 +30,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
       student,
       mentor,
       user_track: nil,
-      relationship: relationship,
+      relationship:,
       anonymous_mode: false
     )
   end
@@ -112,7 +112,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
     result = SerializeStudent.(
       create(:user),
       create(:user),
-      user_track: user_track,
+      user_track:,
       relationship: nil,
       anonymous_mode: false
     )

@@ -6,14 +6,14 @@ class ConceptExercise
 
     def call
       ConceptExercise.create!(
-        uuid: uuid,
-        track: track,
+        uuid:,
+        track:,
         **attributes
       ).tap do |exercise|
         SiteUpdates::ProcessNewExerciseUpdate.(exercise)
       end
     rescue ActiveRecord::RecordNotUnique
-      ConceptExercise.find_by!(uuid: uuid, track: track)
+      ConceptExercise.find_by!(uuid:, track:)
     end
   end
 end

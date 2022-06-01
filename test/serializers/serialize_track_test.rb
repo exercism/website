@@ -13,12 +13,12 @@ class SerializeTrackTest < ActiveSupport::TestCase
     num_concept_exercises.times do
       concept = create :concept, track: track
       exercise = create :concept_exercise, track: track
-      create :exercise_taught_concept, exercise: exercise, concept: concept
+      create :exercise_taught_concept, exercise:, concept:
     end
-    ConceptExercise.last.taught_concepts << (create :concept, track: track)
+    ConceptExercise.last.taught_concepts << (create :concept, track:)
 
     # Create num_practice_exercises practice exercises
-    num_practice_exercises.times { create :practice_exercise, track: track }
+    num_practice_exercises.times { create :practice_exercise, track: }
 
     track.reload
 
@@ -26,7 +26,7 @@ class SerializeTrackTest < ActiveSupport::TestCase
       slug: track.slug,
       title: track.title,
       course: track.course?,
-      num_concepts: num_concepts,
+      num_concepts:,
       num_exercises: num_concept_exercises + num_practice_exercises,
       web_url: "https://test.exercism.org/tracks/#{track.slug}",
       icon_url: track.icon_url,
@@ -93,13 +93,13 @@ class SerializeTrackTest < ActiveSupport::TestCase
 
     # Create num_concept_exercises, each with a concept
     # and then add one extra concept to the last exercise
-    ces = Array.new(num_concept_exercises).map { create(:concept_exercise, :random_slug, track: track) }
+    ces = Array.new(num_concept_exercises).map { create(:concept_exercise, :random_slug, track:) }
 
     # Create num_practice_exercises practice exercises
     pes = Array.new(num_practice_exercises).map { create :practice_exercise, :random_slug, track: track }
 
     # Create a concept that the user has acquired
-    concept = create(:concept, track: track)
+    concept = create(:concept, track:)
     ces.first.taught_concepts << concept
 
     user = create :user
@@ -133,7 +133,7 @@ class SerializeTrackTest < ActiveSupport::TestCase
   test "with notifications" do
     user = create :user
     track = create :track, :random_slug
-    ut_id = create(:user_track, user: user, track: track).id
+    ut_id = create(:user_track, user:, track:).id
     solution = create :practice_solution, user: user, track: track
     discussion = create :mentor_discussion, solution: solution
 
@@ -146,7 +146,7 @@ class SerializeTrackTest < ActiveSupport::TestCase
     assert track_data[:has_notifications]
 
     # True if there is one
-    create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }, status: :unread
+    create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
     track_data = SerializeTrack.(track, UserTrack.find(ut_id))
     assert track_data[:has_notifications]
   end

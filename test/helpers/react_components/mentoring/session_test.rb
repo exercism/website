@@ -40,7 +40,7 @@ module ReactComponents::Mentoring
           ],
           instructions: Markdown::Parse.(solution.instructions),
           tests: solution.tests,
-          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
+          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
           mentor_solution: nil,
           exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
           notes: "<p>These are notes for lasagna.</p>\n",
@@ -87,7 +87,7 @@ module ReactComponents::Mentoring
       create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: true
       create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: false
 
-      component = ReactComponents::Mentoring::Session.new(discussion: discussion)
+      component = ReactComponents::Mentoring::Session.new(discussion:)
       component.stubs(current_user: mentor)
       scratchpad = ScratchpadPage.new(about: exercise)
 
@@ -107,7 +107,7 @@ module ReactComponents::Mentoring
           ],
           instructions: Markdown::Parse.(solution.instructions),
           tests: solution.tests,
-          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
+          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
           mentor_solution: nil,
           exemplar_files: [
             {
@@ -176,7 +176,7 @@ module ReactComponents::Mentoring
           ],
           instructions: Markdown::Parse.(solution.instructions),
           tests: solution.tests,
-          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track: user_track),
+          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
           mentor_solution: nil,
           exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
           notes: "<p>These are notes for lasagna.</p>\n",

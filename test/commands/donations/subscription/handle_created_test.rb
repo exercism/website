@@ -6,7 +6,7 @@ class Donations::Subscription::HandleCreatedTest < Donations::TestBase
     payment_intent_id = SecureRandom.uuid
     payment_method = SecureRandom.uuid
 
-    payment_intent_data = mock_stripe_payment_intent(payment_intent_id, payment_method: payment_method)
+    payment_intent_data = mock_stripe_payment_intent(payment_intent_id, payment_method:)
     Stripe::PaymentIntent.expects(:retrieve).with(payment_intent_id).returns(payment_intent_data)
     Stripe::Subscription.expects(:update).with(
       subscription_id,
@@ -14,8 +14,8 @@ class Donations::Subscription::HandleCreatedTest < Donations::TestBase
     )
 
     Donations::Subscription::HandleCreated.(
-      subscription_id: subscription_id,
-      payment_intent_id: payment_intent_id
+      subscription_id:,
+      payment_intent_id:
     )
   end
 end

@@ -18,13 +18,13 @@ class AssembleExerciseWidget < Assembler
 
   def call
     {
-      exercise: SerializeExercise.(exercise, user_track: user_track, recommended: recommended),
+      exercise: SerializeExercise.(exercise, user_track:, recommended:),
       track: render_track ? SerializeTrack.(exercise.track, user_track) : nil,
-      solution: solution ? SerializeSolution.(solution, user_track: user_track) : nil,
-      links: links,
-      render_as_link: render_as_link,
-      render_blurb: render_blurb,
-      skinny: skinny
+      solution: solution ? SerializeSolution.(solution, user_track:) : nil,
+      links:,
+      render_as_link:,
+      render_blurb:,
+      skinny:
     }
   end
 

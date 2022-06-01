@@ -88,7 +88,7 @@ class UserTrack < ApplicationRecord
   memoize
   def has_notifications?
     User::Notification.unread.
-      where(user_id: user_id, track_id: track_id).
+      where(user_id:, track_id:).
       exists?
   end
 
@@ -132,7 +132,7 @@ class UserTrack < ApplicationRecord
     ].include?(exercise_status(exercise))
 
     User::Notification.unread.
-      where(user_id: user_id, exercise_id: exercise.id).
+      where(user_id:, exercise_id: exercise.id).
       exists?
   end
 

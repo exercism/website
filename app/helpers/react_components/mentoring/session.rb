@@ -20,7 +20,7 @@ module ReactComponents
             discussion: discussion ? SerializeMentorDiscussionForMentor.(discussion, relationship: mentor_student_relationship) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
-            iterations: iterations,
+            iterations:,
             instructions: Markdown::Parse.(solution.instructions),
             tests: solution.tests,
             student: SerializeStudent.(
@@ -30,7 +30,7 @@ module ReactComponents
               relationship: mentor_student_relationship,
               anonymous_mode: discussion&.anonymous_mode?
             ),
-            mentor_solution: mentor_solution,
+            mentor_solution:,
             exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
             notes: exercise.mentoring_notes_content,
             out_of_date: solution.out_of_date?,
@@ -43,7 +43,7 @@ module ReactComponents
                 self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
               }
             },
-            links: links
+            links:
           }
         )
       end
@@ -53,7 +53,7 @@ module ReactComponents
 
       memoize
       def mentor_student_relationship
-        Mentor::StudentRelationship.find_by(mentor: current_user, student: student)
+        Mentor::StudentRelationship.find_by(mentor: current_user, student:)
       end
 
       def links
@@ -76,7 +76,7 @@ module ReactComponents
           counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
           unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : false
 
-          SerializeIteration.(iteration).merge(unread: unread)
+          SerializeIteration.(iteration).merge(unread:)
         end
       end
 
@@ -106,7 +106,7 @@ module ReactComponents
           files.map do |filename, content|
             {
               filename: filename.gsub(%r{^\.meta/}, ''),
-              content: content
+              content:
             }
           end
         end

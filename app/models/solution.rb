@@ -86,7 +86,7 @@ class Solution < ApplicationRecord
   def self.for(*args)
     if args.size == 2
       user, exercise = args
-      find_by(user: user, exercise: exercise)
+      find_by(user:, exercise:)
     else
       user_handle, track_slug, exercise_slug = args
       joins(:user, exercise: :track).find_by(
@@ -147,7 +147,7 @@ class Solution < ApplicationRecord
   end
 
   def starred_by?(user)
-    stars.exists?(user: user)
+    stars.exists?(user:)
   end
 
   def published_iterations

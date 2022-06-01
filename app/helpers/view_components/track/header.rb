@@ -13,10 +13,10 @@ module ViewComponents
         tag.header class: "c-track-header" do
           render(
             "tracks/header",
-            track: track,
-            user_track: user_track,
-            tabs: tabs,
-            tags: tags
+            track:,
+            user_track:,
+            tabs:,
+            tags:
           )
         end
       end

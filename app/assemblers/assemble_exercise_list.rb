@@ -5,7 +5,7 @@ class AssembleExerciseList < Assembler
 
   def call
     {
-      exercises: SerializeExercises.(exercises, user_track: user_track),
+      exercises: SerializeExercises.(exercises, user_track:),
       solutions: sideload?(:solutions) ? solutions : nil
     }.compact
   end

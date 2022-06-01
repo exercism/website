@@ -12,10 +12,10 @@ module ReactComponents
 
       def to_s
         super("common-expander", {
-          content: content,
-          button_text_compressed: button_text_compressed,
-          button_text_expanded: button_text_expanded,
-          class_name: class_name
+          content:,
+          button_text_compressed:,
+          button_text_expanded:,
+          class_name:
         })
       end
 

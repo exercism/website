@@ -40,7 +40,7 @@ module Mentor
       def request_counts
         # Use the inner query for this
         Mentor::Request::Retrieve.(
-          mentor: mentor,
+          mentor:,
           track_slug: track.slug,
           sorted: false, paginated: false
         ).group(:exercise_id).count

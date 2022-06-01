@@ -176,7 +176,7 @@ class User < ApplicationRecord
     category = "track_#{track_slug}" if track_slug
 
     q = reputation_tokens
-    q.where!(category: category) if category
+    q.where!(category:) if category
     q.sum(:value)
   end
 
@@ -249,11 +249,11 @@ class User < ApplicationRecord
   end
 
   def dismiss_introducer!(slug)
-    dismissed_introducers.create_or_find_by!(slug: slug)
+    dismissed_introducers.create_or_find_by!(slug:)
   end
 
   def introducer_dismissed?(slug)
-    dismissed_introducers.where(slug: slug).exists?
+    dismissed_introducers.where(slug:).exists?
   end
 
   def send_devise_notification(notification, *args)

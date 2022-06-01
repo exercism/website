@@ -24,11 +24,11 @@ class UserTest < ActiveSupport::TestCase
   test "defaults name to handle correctly" do
     name = "Someone"
     handle = "soooomeone"
-    user = User.create!(name: name, handle: handle, email: "who@where.com", password: "foobar")
+    user = User.create!(name:, handle:, email: "who@where.com", password: "foobar")
     assert_equal name, user.name
 
     handle = "eeeelllseee"
-    user = User.create!(handle: handle, email: "who@there.com", password: "foobar")
+    user = User.create!(handle:, email: "who@there.com", password: "foobar")
     assert_equal handle, user.name
   end
 

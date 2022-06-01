@@ -10,7 +10,7 @@ class User::ReputationTokens::MentoredTokenTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       mentor,
       :mentored,
-      discussion: discussion
+      discussion:
     )
 
     assert_equal 1, mentor.reputation_tokens.size

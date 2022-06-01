@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :concept_solution do
     user { create :user }
-    exercise { create :concept_exercise, track: track }
+    exercise { create :concept_exercise, track: }
 
     trait :completed do
       completed_at { Time.current }

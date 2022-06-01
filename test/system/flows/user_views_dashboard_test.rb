@@ -36,7 +36,7 @@ module Flows
 
       %i[member rookie begetter researcher moss contributor architect].each do |badge_name|
         badge = create("#{badge_name}_badge".to_sym)
-        create :user_acquired_badge, user: user, badge: badge, revealed: true
+        create :user_acquired_badge, user:, badge:, revealed: true
       end
 
       # Ignore latest unrevealed badges

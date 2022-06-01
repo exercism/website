@@ -14,6 +14,6 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def mail_to_user(user, subject)
-    mail(to: user_email_with_name(user), subject: subject)
+    mail(to: user_email_with_name(user), subject:)
   end
 end

@@ -6,7 +6,7 @@ class SerializeCommunicationPreferences
   def call
     User::CommunicationPreferences.keys.map do |key|
       {
-        key: key,
+        key:,
         value: preferences.send(key),
         label: I18n.t("communication_preferences.#{key}")
       }

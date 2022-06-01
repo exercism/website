@@ -5,7 +5,7 @@ module ReactComponents
 
       def to_s
         super("profile-community-solutions-list", {
-          request: request,
+          request:,
           tracks: tracks_data
         })
       end

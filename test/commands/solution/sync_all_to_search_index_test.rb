@@ -6,13 +6,13 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
 
     track = create :track
     users = build_list(:user, 10)
-    exercises = build_list(:practice_exercise, 20, :random_slug, track: track)
+    exercises = build_list(:practice_exercise, 20, :random_slug, track:)
 
     exercises.product(users).each do |(exercise, user)|
       solution = create :practice_solution, user: user, exercise: exercise
       submission = create :submission, solution: solution
       create :submission_file, submission: submission, content: "module LogLineParser"
-      create :iteration, submission: submission
+      create :iteration, submission:
     end
 
     wait_for_opensearch_to_be_synced

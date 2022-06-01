@@ -10,7 +10,7 @@ class Donations::Payment::SendEmailTest < ActiveSupport::TestCase
         "DonationsMailer",
         "payment_created",
         "deliver_now",
-        { params: { payment: payment }, args: [] }
+        { params: { payment: }, args: [] }
       ]
     ) do
       Donations::Payment::SendEmail.(payment)

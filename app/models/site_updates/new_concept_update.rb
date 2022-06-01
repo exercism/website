@@ -9,7 +9,7 @@ class SiteUpdates::NewConceptUpdate < SiteUpdate
     {
       concept_name: concept.name,
       concept_url: Exercism::Routes.track_concept_url(track, concept),
-      maker_handles: maker_handles
+      maker_handles:
     }
   end
 

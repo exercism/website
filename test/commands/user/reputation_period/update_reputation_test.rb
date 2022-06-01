@@ -4,7 +4,7 @@ class User::ReputationPeriod::UpdateReputationTest < ActiveSupport::TestCase
   test "recalculates everything row" do
     user = create :user
     value = 3.times.sum do
-      create(:user_code_contribution_reputation_token, user: user).value
+      create(:user_code_contribution_reputation_token, user:).value
     end
 
     # Random other token

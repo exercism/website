@@ -7,7 +7,7 @@ class HCaptcha
         "#{Exercism.config.hcaptcha_endpoint}/siteverify",
         {
           secret: Exercism.secrets.hcaptcha_secret,
-          response: response
+          response:
         }
       )
     rescue RestClient::ExceptionWithResponse

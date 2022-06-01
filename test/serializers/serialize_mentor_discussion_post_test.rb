@@ -5,8 +5,8 @@ class SerializeMentorDiscussionPostTest < ActiveSupport::TestCase
     author = create :user, handle: "author"
     iteration = create :iteration, idx: 1
     discussion_post = create(:mentor_discussion_post,
-      author: author,
-      iteration: iteration,
+      author:,
+      iteration:,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
 
@@ -33,8 +33,8 @@ class SerializeMentorDiscussionPostTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion, mentor: author
     iteration = create :iteration, idx: 1
     discussion_post = create(:mentor_discussion_post,
-      discussion: discussion,
-      iteration: iteration,
+      discussion:,
+      iteration:,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
 

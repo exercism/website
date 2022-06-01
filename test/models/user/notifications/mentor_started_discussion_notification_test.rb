@@ -7,14 +7,14 @@ class User::Notifications::MentorStartedDiscussionNotificationTest < ActiveSuppo
     solution = create :concept_solution
     exercise = solution.exercise
     track = solution.track
-    discussion = create(:mentor_discussion, mentor: mentor, solution: solution)
+    discussion = create(:mentor_discussion, mentor:, solution:)
     discussion_post = create(:mentor_discussion_post)
 
     notification = User::Notifications::MentorStartedDiscussionNotification.create!(
-      user: user,
+      user:,
       params: {
-        discussion: discussion,
-        discussion_post: discussion_post
+        discussion:,
+        discussion_post:
       }
     )
     assert_equal "#{user.id}|mentor_started_discussion|Discussion##{discussion.id}", notification.uniqueness_key

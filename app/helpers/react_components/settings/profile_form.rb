@@ -8,7 +8,7 @@ module ReactComponents
             location: current_user.location,
             bio: current_user.bio
           },
-          profile: profile,
+          profile:,
           links: {
             update: Exercism::Routes.api_settings_url
           }

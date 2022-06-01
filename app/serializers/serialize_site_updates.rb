@@ -42,7 +42,7 @@ class SerializeSiteUpdates
 
   memoize
   def user_tracks
-    UserTrack.where(user: user, track_id: updates.map(&:track_id).compact).index_by(&:track_id)
+    UserTrack.where(user:, track_id: updates.map(&:track_id).compact).index_by(&:track_id)
   end
 
   def exercises
@@ -50,6 +50,6 @@ class SerializeSiteUpdates
   end
 
   def solutions
-    Solution.where(user: user, exercise_id: updates.map(&:exercise_id).compact).index_by(&:exercise_id)
+    Solution.where(user:, exercise_id: updates.map(&:exercise_id).compact).index_by(&:exercise_id)
   end
 end

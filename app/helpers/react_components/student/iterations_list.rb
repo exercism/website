@@ -8,7 +8,7 @@ module ReactComponents
           "student-iterations-list",
           {
             solution_uuid: solution.uuid,
-            request: request,
+            request:,
             exercise: {
               title: exercise.title,
               slug: exercise.slug,

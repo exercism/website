@@ -21,8 +21,8 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
   def i18n_params
     {
       repo: repo.split("/").last,
-      pr_number: pr_number,
-      pr_title: pr_title
+      pr_number:,
+      pr_title:
     }
   end
 

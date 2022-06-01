@@ -24,7 +24,7 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
   test "pagination works" do
     user = create :user
 
-    7.times { create :notification, user: user, status: :unread }
+    7.times { create :notification, user:, status: :unread }
 
     notifications = User::Notification::Retrieve.(user, page: 2)
     assert_equal 2, notifications.current_page
@@ -36,7 +36,7 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
   test "per_page works" do
     user = create :user
 
-    7.times { create :notification, user: user, status: :unread }
+    7.times { create :notification, user:, status: :unread }
 
     notifications = User::Notification::Retrieve.(user, page: 2, per_page: 3)
     assert_equal 2, notifications.current_page

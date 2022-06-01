@@ -12,7 +12,7 @@ module Git
       config = git_repo.read_json_blob(git_repo.head_commit, "docs/config.json")
 
       config[:docs].to_a.each do |doc_config|
-        Git::SyncDoc.(doc_config, :tracks, git_repo.head_commit.oid, track: track)
+        Git::SyncDoc.(doc_config, :tracks, git_repo.head_commit.oid, track:)
       end
     end
   end

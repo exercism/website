@@ -170,7 +170,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
 
     get edit_track_exercise_url(track, exercise)
     assert_template "tracks/exercises/edit"
-    assert PracticeSolution.find_by(user: user, exercise: exercise)
+    assert PracticeSolution.find_by(user:, exercise:)
   end
 
   test "edit: redirects if exercise is locked" do

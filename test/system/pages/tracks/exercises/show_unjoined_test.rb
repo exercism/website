@@ -18,9 +18,9 @@ module Pages
           create :practice_exercise, track: track, slug: 'iso', status: :wip
           create :practice_exercise, track: track, slug: 'bob', status: :active
           create :practice_exercise, track: track, slug: 'leap', status: :deprecated
-          ce.taught_concepts << (create :concept, track: track, slug: 'basics')
-          ce.taught_concepts << (create :concept, track: track, slug: 'strings')
-          ce.taught_concepts << (create :concept, track: track, slug: 'dates')
+          ce.taught_concepts << (create :concept, track:, slug: 'basics')
+          ce.taught_concepts << (create :concept, track:, slug: 'strings')
+          ce.taught_concepts << (create :concept, track:, slug: 'dates')
 
           use_capybara_host do
             visit track_exercise_path(track, ce)
@@ -46,9 +46,9 @@ module Pages
           create :practice_exercise, track: track, slug: 'iso', status: :wip
           create :practice_exercise, track: track, slug: 'bob', status: :active
           create :practice_exercise, track: track, slug: 'leap', status: :deprecated
-          ce.taught_concepts << (create :concept, track: track, slug: 'basics')
-          ce.taught_concepts << (create :concept, track: track, slug: 'strings')
-          ce.taught_concepts << (create :concept, track: track, slug: 'dates')
+          ce.taught_concepts << (create :concept, track:, slug: 'basics')
+          ce.taught_concepts << (create :concept, track:, slug: 'strings')
+          ce.taught_concepts << (create :concept, track:, slug: 'dates')
 
           user = create :user
 

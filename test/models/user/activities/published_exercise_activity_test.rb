@@ -4,12 +4,12 @@ class User::Activities::PublishedExerciseActivityTest < ActiveSupport::TestCase
   test "keys" do
     user = create :user
     exercise = create(:concept_exercise)
-    solution = create(:concept_solution, exercise: exercise, published_at: Time.current)
+    solution = create(:concept_solution, exercise:, published_at: Time.current)
 
     activity = User::Activities::PublishedExerciseActivity.create!(
-      user: user,
+      user:,
       track: exercise.track,
-      solution: solution
+      solution:
     )
     assert_equal "#{user.id}|published_exercise|Solution##{solution.id}",
       activity.uniqueness_key
@@ -19,12 +19,12 @@ class User::Activities::PublishedExerciseActivityTest < ActiveSupport::TestCase
     freeze_time do
       user = create :user
       exercise = create(:concept_exercise)
-      solution = create(:concept_solution, exercise: exercise, published_at: Time.current - 1.week)
+      solution = create(:concept_solution, exercise:, published_at: Time.current - 1.week)
 
       activity = User::Activities::PublishedExerciseActivity.create!(
-        user: user,
+        user:,
         track: exercise.track,
-        solution: solution
+        solution:
       )
       assert_equal "/tracks/ruby/exercises/strings", activity.rendering_data[:url]
       assert_equal "You published <strong>Strings</strong>", activity.rendering_data[:text]

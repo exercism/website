@@ -148,7 +148,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     margaret_food_chain = create :practice_solution, user: margaret, exercise: food_chain
 
     PracticeSolution.all.each do |solution|
-      create :mentor_discussion, :awaiting_mentor, solution: solution, mentor: mentor
+      create :mentor_discussion, :awaiting_mentor, solution:, mentor:
     end
 
     assert_equal 9, Mentor::Discussion::Retrieve.(mentor, :all).size

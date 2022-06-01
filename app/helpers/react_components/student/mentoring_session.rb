@@ -12,11 +12,11 @@ module ReactComponents
             discussion: discussion ? SerializeMentorDiscussionForStudent.(discussion) : nil,
             track: SerializeMentorSessionTrack.(track),
             exercise: SerializeMentorSessionExercise.(exercise),
-            iterations: iterations,
+            iterations:,
             mentor: mentor_data,
             track_objectives: user_track&.objectives.to_s,
             out_of_date: solution.out_of_date?,
-            videos: videos,
+            videos:,
             links: {
               exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
               create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
@@ -61,7 +61,7 @@ module ReactComponents
       end
 
       def num_discussions_with_mentor
-        mentor_relationship = Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
+        mentor_relationship = Mentor::StudentRelationship.find_by(mentor:, student:)
         mentor_relationship&.num_discussions.to_i
       end
 
@@ -89,7 +89,7 @@ module ReactComponents
           counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
           unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : false
 
-          SerializeIteration.(iteration).merge(unread: unread)
+          SerializeIteration.(iteration).merge(unread:)
         end
       end
     end

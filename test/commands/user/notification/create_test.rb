@@ -7,7 +7,7 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
     user = create :user
     type = :mentor_started_discussion
     discussion = create(:mentor_discussion)
-    params = { discussion: discussion }
+    params = { discussion: }
 
     notification = User::Notification::Create.(user, type, params)
 
@@ -29,7 +29,7 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
       user = create :user
       type = :mentor_started_discussion
       discussion = create(:mentor_discussion)
-      params = { discussion: discussion }
+      params = { discussion: }
 
       assert_enqueued_with job: ActivateUserNotificationJob, at: Time.current + 5.seconds do
         User::Notification::Create.(user, type, params)
@@ -41,7 +41,7 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
     user = create :user
     type = :mentor_started_discussion
     discussion = create(:mentor_discussion)
-    params = { discussion: discussion }
+    params = { discussion: }
     NotificationsChannel.expects(:broadcast_pending!).with do |u, n|
       assert_equal u, user
       assert n.is_a?(User::Notification)
@@ -54,7 +54,7 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
     user = create :user
     type = :mentor_started_discussion
     discussion = create(:mentor_discussion)
-    params = { discussion: discussion }
+    params = { discussion: }
 
     n_1 = User::Notification::Create.(user, type, params)
     n_2 = User::Notification::Create.(user, type, params)

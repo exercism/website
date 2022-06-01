@@ -9,7 +9,7 @@ class User::Mailshot::SendTest < ActiveSupport::TestCase
         "MailshotsMailer",
         "v3_launch",
         "deliver_now",
-        { params: { user: user }, args: [] }
+        { params: { user: }, args: [] }
       ]
     ) do
       User::Mailshot::Send.(user, :v3_launch)

@@ -372,9 +372,9 @@ class API::SolutionsControllerTest < API::BaseTestCase
       assert_response 200
       expected = {
         track: SerializeTrack.(solution.track, user_track),
-        exercise: SerializeExercise.(solution.exercise, user_track: user_track),
+        exercise: SerializeExercise.(solution.exercise, user_track:),
         unlocked_exercises: [concept_exercise_2, practice_exercise_1, practice_exercise_2].map do |exercise|
-          SerializeExercise.(exercise, user_track: user_track)
+          SerializeExercise.(exercise, user_track:)
         end,
         "unlocked_concepts" => [
           {

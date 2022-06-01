@@ -15,7 +15,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
   test "summary returns data" do
     summary = "foobar"
-    analysis = create :submission_analysis, data: { summary: summary }
+    analysis = create :submission_analysis, data: { summary: }
     assert_equal summary, analysis.summary
   end
 
@@ -29,7 +29,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     Github::Issue::Open.expects(:call)
 
     comments = ["ruby.two-fer.incorrect_default_param"]
-    analysis = create :submission_analysis, data: { comments: comments }
+    analysis = create :submission_analysis, data: { comments: }
 
     Markdown::Parse.expects(:call).raises
     expected = []
@@ -40,7 +40,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     TestHelpers.use_website_copy_test_repo!
 
     comments = ["ruby.two-fer.incorrect_default_param"]
-    analysis = create :submission_analysis, data: { comments: comments }
+    analysis = create :submission_analysis, data: { comments: }
 
     expected = [{
       type: :informative,
@@ -58,7 +58,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
         "name_variable" => "iHiD"
       }
     }]
-    analysis = create :submission_analysis, data: { comments: comments }
+    analysis = create :submission_analysis, data: { comments: }
 
     expected = [
       {
@@ -83,7 +83,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
         }
       }
     ]
-    analysis = create :submission_analysis, data: { comments: comments }
+    analysis = create :submission_analysis, data: { comments: }
 
     expected = [
       {
@@ -107,7 +107,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
   test "informative comments: short-syntax" do
     comments = ["ruby.two-fer.incorrect_default_param"]
-    analysis = create :submission_analysis, data: { comments: comments }
+    analysis = create :submission_analysis, data: { comments: }
 
     assert_equal 1, analysis.num_informative_comments
     assert analysis.has_informative_comments?
@@ -134,7 +134,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
   test "celebratory comments: none" do
     comments = ["ruby.two-fer.incorrect_default_param"]
-    analysis = create :submission_analysis, data: { comments: comments }
+    analysis = create :submission_analysis, data: { comments: }
 
     assert_equal 0, analysis.num_celebratory_comments
     refute analysis.has_celebratory_comments?
@@ -152,7 +152,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
   test "essential comments: none" do
     comments = ["ruby.two-fer.incorrect_default_param"]
-    analysis = create :submission_analysis, data: { comments: comments }
+    analysis = create :submission_analysis, data: { comments: }
 
     assert_equal 0, analysis.num_essential_comments
     refute analysis.has_essential_comments?

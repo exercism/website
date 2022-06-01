@@ -22,7 +22,7 @@ class Github::Team
   def add_to_repository(repo_name, permission)
     return unless organization.active?
 
-    Exercism.octokit_client.add_team_repository(team_id, repo_name, permission: permission)
+    Exercism.octokit_client.add_team_repository(team_id, repo_name, permission:)
   end
 
   def remove_from_repository(repo_name)
@@ -47,7 +47,7 @@ class Github::Team
     return unless organization.active?
 
     Exercism.octokit_client.create_team(organization.name,
-      name: name,
+      name:,
       repo_names: ["#{organization.name}/#{repo_name}"],
       privacy: :closed,
       parent_team_id: parent_team&.team_id,

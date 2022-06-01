@@ -26,8 +26,8 @@ class Solution
       AwardReputationTokenJob.perform_later(
         solution.user,
         :published_solution,
-        solution: solution,
-        level: level
+        solution:,
+        level:
       )
     end
 
@@ -36,7 +36,7 @@ class Solution
         :published_exercise,
         solution.user,
         track: solution.track,
-        solution: solution
+        solution:
       )
     rescue StandardError => e
       Rails.logger.error "Failed to create activity"

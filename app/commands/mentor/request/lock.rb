@@ -15,7 +15,7 @@ module Mentor
           raise MentorSolutionLockLimitReachedError if mentor.mentor_locks.size >= Mentor::RequestLock::MAX_LOCKS_PER_MENTOR
 
           Mentor::RequestLock.create!(
-            request: request,
+            request:,
             locked_until: Time.zone.now + 30.minutes,
             locked_by: mentor
           )

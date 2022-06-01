@@ -166,7 +166,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     concept = create :concept, :with_git_data
     create :user_track, track: concept.track
 
-    ce = create(:concept_exercise, track: track).tap { |e| e.taught_concepts << concept }
+    ce = create(:concept_exercise, track:).tap { |e| e.taught_concepts << concept }
 
     sign_in!(user)
 

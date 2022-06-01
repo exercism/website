@@ -7,7 +7,7 @@ class User::AcquiredBadgeTest < ActiveSupport::TestCase
     create :user_acquired_badge, user: user, badge: badge
 
     assert_raises do
-      create :user_acquired_badge, user: user, badge: badge
+      create :user_acquired_badge, user:, badge:
     end
   end
 

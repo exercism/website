@@ -3,7 +3,7 @@ module ViewComponents
     def to_s
       # TODO: (Optional) Cache this component on user.updated_at
       # TODO: (Optional) Ensure that name/handle/avatar changes touch users.updated_at
-      ReactComponents::Dropdowns::Dropdown.new(menu_button: menu_button, menu_items: menu_items)
+      ReactComponents::Dropdowns::Dropdown.new(menu_button:, menu_items:)
     end
 
     private

@@ -10,7 +10,7 @@ class SerializeExerciseAuthorships
       user_track = UserTrack::External.new(exercise.track)
 
       {
-        exercise: SerializeExercise.(exercise, user_track: user_track),
+        exercise: SerializeExercise.(exercise, user_track:),
         track: SerializeTrack.(exercise.track, user_track)
       }
     end

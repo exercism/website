@@ -13,9 +13,9 @@ module ReactComponents
 
         super("profile-testimonials-summary", {
           handle: user.handle,
-          num_testimonials: num_testimonials,
-          num_solutions_mentored: num_solutions_mentored,
-          num_students_helped: num_students_helped,
+          num_testimonials:,
+          num_solutions_mentored:,
+          num_students_helped:,
           num_testimonials_received: num_testimonials,
           # TODO: (Optional) Add test for published
           testimonials: SerializeMentorTestimonials.(user.mentor_testimonials.published.limit(3)),

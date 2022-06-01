@@ -8,7 +8,7 @@ class Donations::Subscription::UpdateAmountTest < Donations::TestBase
     subscription = create :donations_subscription, user: user, stripe_id: subscription_id, amount_in_cents: 500
     new_amount_in_cents = 1200
 
-    subscription_data = mock_stripe_subscription(subscription_id, 500, item_id: item_id)
+    subscription_data = mock_stripe_subscription(subscription_id, 500, item_id:)
     Stripe::Subscription.expects(:retrieve).with(subscription_id).returns(subscription_data)
     Stripe::Subscription.expects(:update).with(
       subscription_id,

@@ -14,8 +14,8 @@ class User::ReputationPeriod
 
         categories.flat_map do |category|
           [
-            { period: period, category: category, about: :everything, track_id: 0, **args },
-            (token.track_id ? { period: period, category: category, about: :track, track_id: token.track_id, **args } : nil)
+            { period:, category:, about: :everything, track_id: 0, **args },
+            (token.track_id ? { period:, category:, about: :track, track_id: token.track_id, **args } : nil)
           ].compact
         end
       end

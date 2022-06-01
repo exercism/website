@@ -8,31 +8,31 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
     js = create :track, slug: :js, title: "JavaScript"
 
     # Building tokens
-    3.times { create :user_code_contribution_reputation_token, track: elixir, user: user }
-    2.times { create :user_code_contribution_reputation_token, track: js, user: user }
-    1.times { create :user_code_contribution_reputation_token, user: user } # rubocop:disable Lint/UselessTimes
+    3.times { create :user_code_contribution_reputation_token, track: elixir, user: }
+    2.times { create :user_code_contribution_reputation_token, track: js, user: }
+    1.times { create :user_code_contribution_reputation_token, user: } # rubocop:disable Lint/UselessTimes
 
     # Maintaining tokens
-    4.times { create :user_code_review_reputation_token, track: elixir, user: user }
-    3.times { create :user_code_review_reputation_token, track: js, user: user }
-    2.times { create :user_code_review_reputation_token, user: user }
+    4.times { create :user_code_review_reputation_token, track: elixir, user: }
+    3.times { create :user_code_review_reputation_token, track: js, user: }
+    2.times { create :user_code_review_reputation_token, user: }
 
     # Contributing tokens
     5.times do
       exercise = create :practice_exercise, track: elixir
-      contributorship = create(:exercise_contributorship, contributor: user, exercise: exercise)
-      create :user_exercise_contribution_reputation_token, params: { contributorship: contributorship }, user: user
+      contributorship = create(:exercise_contributorship, contributor: user, exercise:)
+      create :user_exercise_contribution_reputation_token, params: { contributorship: }, user:
     end
     6.times do
       exercise = create :practice_exercise, track: js
-      contributorship = create(:exercise_contributorship, contributor: user, exercise: exercise)
-      create :user_exercise_contribution_reputation_token, params: { contributorship: contributorship }, user: user
+      contributorship = create(:exercise_contributorship, contributor: user, exercise:)
+      create :user_exercise_contribution_reputation_token, params: { contributorship: }, user:
     end
 
     # Published solutions tokens
-    3.times { create :practice_solution, :published, track: elixir, user: user }
-    2.times { create :practice_solution, :published, track: js, user: user }
-    1.times { create :practice_solution, :published, user: user } # rubocop:disable Lint/UselessTimes
+    3.times { create :practice_solution, :published, track: elixir, user: }
+    2.times { create :practice_solution, :published, track: js, user: }
+    1.times { create :practice_solution, :published, user: } # rubocop:disable Lint/UselessTimes
 
     # Mentoring discussions
     5.times { create :mentor_discussion, solution: create(:practice_solution, track: elixir), mentor: user }

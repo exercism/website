@@ -16,8 +16,8 @@ module Mentor
       private
       def create_request
         request = Mentor::Request.new(
-          solution: solution,
-          comment_markdown: comment_markdown
+          solution:,
+          comment_markdown:
         )
 
         ActiveRecord::Base.transaction do

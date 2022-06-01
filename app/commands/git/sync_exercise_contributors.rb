@@ -13,7 +13,7 @@ module Git
         contributors.find_each { |contributor| ::Exercise::Contributorship::Create.(exercise, contributor) }
 
         # This is required to remove contributors that were already added
-        exercise.reload.update!(contributors: contributors)
+        exercise.reload.update!(contributors:)
 
         # TODO: (Optional) consider what to do with missing contributors
         missing_contributors = contributors_config - contributors.pluck(:github_username)

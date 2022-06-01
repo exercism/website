@@ -80,7 +80,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     }.each do |solution, level|
       create :iteration, solution: solution
 
-      AwardReputationTokenJob.expects(:perform_later).once.with(solution.user, :published_solution, solution: solution, level: level)
+      AwardReputationTokenJob.expects(:perform_later).once.with(solution.user, :published_solution, solution:, level:)
       Solution::Publish.(solution, solution.user_track, nil)
     end
   end
@@ -118,7 +118,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     # 4 hello worlds is not enough
     4.times do |idx|
       track = create :track, slug: "track_#{idx}"
-      create :hello_world_solution, :completed, user: user, track: track
+      create :hello_world_solution, :completed, user:, track:
     end
 
     solution = create :hello_world_solution, completed_at: nil, user: user

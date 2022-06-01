@@ -15,7 +15,7 @@ class Markdown::Preprocess
     lower_heading_levels! if lower_heading_levels_by.positive?
     apply_mutations! if mutations.present?
 
-    { doc: doc, text: text }
+    { doc:, text: }
   end
 
   private
@@ -25,7 +25,7 @@ class Markdown::Preprocess
     doc.each do |node|
       next unless node.type == :header && node.header_level == 1
 
-      mutations << { type: :delete_header, node: node }
+      mutations << { type: :delete_header, node: }
     end
   end
 
@@ -33,7 +33,7 @@ class Markdown::Preprocess
     doc.each do |node|
       next unless node.type == :header && (node.header_level > 1 || !strip_h1)
 
-      mutations << { type: :lower_header_level, node: node }
+      mutations << { type: :lower_header_level, node: }
     end
   end
 

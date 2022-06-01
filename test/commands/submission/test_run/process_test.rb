@@ -20,7 +20,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     version = 5
     tests = [{ 'foo' => 'bar' }]
     results = { 'version' => version, 'status' => status, 'message' => message, 'tests' => tests }
-    job = create_test_runner_job!(submission, execution_status: ops_status, results: results)
+    job = create_test_runner_job!(submission, execution_status: ops_status, results:)
 
     Submission::TestRun::Process.(job)
 
@@ -36,7 +36,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "handle ops error" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 500, results: results)
+    job = create_test_runner_job!(submission, execution_status: 500, results:)
 
     Submission::TestRun::Process.(job)
 
@@ -46,7 +46,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "handle tests pass" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results)
+    job = create_test_runner_job!(submission, execution_status: 200, results:)
 
     Submission::TestRun::Process.(job)
 
@@ -56,7 +56,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "handle tests fail" do
     submission = create :submission
     results = { 'status' => 'fail', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results)
+    job = create_test_runner_job!(submission, execution_status: 200, results:)
 
     # Cancel representation and analysis
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
@@ -70,7 +70,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "handle tests error" do
     submission = create :submission
     results = { 'status' => 'error', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results)
+    job = create_test_runner_job!(submission, execution_status: 200, results:)
 
     # Cancel representation and analysis
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
@@ -84,7 +84,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "handle bad status" do
     submission = create :submission
     results = { 'status' => 'oops', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results)
+    job = create_test_runner_job!(submission, execution_status: 200, results:)
 
     Submission::TestRun::Process.(job)
 
@@ -94,7 +94,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "doesn't update status for wrong git_sha" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results,
+    job = create_test_runner_job!(submission, execution_status: 200, results:,
       git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a')
 
     assert submission.reload.tests_not_queued? # Sanity
@@ -107,7 +107,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "broadcast without iteration" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results)
+    job = create_test_runner_job!(submission, execution_status: 200, results:)
 
     SubmissionChannel.expects(:broadcast!).with(submission)
     Submission::TestRunsChannel.expects(:broadcast!).with(kind_of(Submission::TestRun))
@@ -121,7 +121,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     submission = create :submission
     iteration = create :iteration, submission: submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results)
+    job = create_test_runner_job!(submission, execution_status: 200, results:)
 
     IterationChannel.expects(:broadcast!).with(iteration)
     SubmissionChannel.expects(:broadcast!).with(submission)
@@ -138,7 +138,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     create :iteration, solution: solution, submission: submission
 
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(create(:submission), execution_status: 200, results: results,
+    job = create_test_runner_job!(create(:submission), execution_status: 200, results:,
       git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
 
     IterationChannel.expects(:broadcast!).never
@@ -156,7 +156,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     submission = create :submission, solution: solution, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
     create :iteration, solution: solution, submission: submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results,
+    job = create_test_runner_job!(submission, execution_status: 200, results:,
       git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
 
     Submission::TestRun::Process.(job)
@@ -172,7 +172,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     submission = create :submission, solution: solution, git_sha: exercise.git_sha
     create :iteration, solution: solution, submission: submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results: results, git_sha: exercise.git_sha)
+    job = create_test_runner_job!(submission, execution_status: 200, results:, git_sha: exercise.git_sha)
 
     Submission::TestRun::Process.(job)
 

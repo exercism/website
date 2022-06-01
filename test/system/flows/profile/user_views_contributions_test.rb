@@ -87,7 +87,7 @@ module Flows
         create :user_exercise_author_reputation_token,
           user: user,
           params: {
-            authorship: create(:exercise_authorship, author: user, exercise: exercise)
+            authorship: create(:exercise_authorship, author: user, exercise:)
           }
 
         use_capybara_host do

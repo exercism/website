@@ -21,8 +21,8 @@ class User::ReputationTokens::IssueAuthorToken < User::ReputationToken
   def i18n_params
     {
       repo: repo.split("/").last,
-      issue_number: issue_number,
-      issue_title: issue_title
+      issue_number:,
+      issue_title:
     }
   end
 end

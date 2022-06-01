@@ -5,10 +5,10 @@ module ViewComponents
 
       def to_s
         render "profiles/header",
-          user: user,
-          profile: profile,
-          selected_tab: selected_tab,
-          top_three_tracks: top_three_tracks
+          user:,
+          profile:,
+          selected_tab:,
+          top_three_tracks:
       end
 
       def top_three_tracks

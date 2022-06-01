@@ -19,8 +19,8 @@ class Submission
         raise SubmissionFileTooLargeError if content.size > 1.megabyte
 
         {
-          filename: filename,
-          content: content
+          filename:,
+          content:
         }
       end
     end

@@ -32,7 +32,7 @@ class Document
           to_a : []
 
       total_count = results["hits"]["total"]["value"].to_i
-      Kaminari.paginate_array(docs, total_count: total_count).
+      Kaminari.paginate_array(docs, total_count:).
         page(page).per(per)
     rescue StandardError => e
       Bugsnag.notify(e)

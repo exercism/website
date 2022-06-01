@@ -17,7 +17,7 @@ class User::SendEmailTest < ActiveSupport::TestCase
 
   test "does not send if user's email is github placeholder" do
     user = create :user, email: "foo@users.noreply.github.com"
-    notification = create(:notification, :unread, user: user)
+    notification = create(:notification, :unread, user:)
 
     refute_email_sent(notification)
   end
@@ -25,7 +25,7 @@ class User::SendEmailTest < ActiveSupport::TestCase
   test "does not send if preference set to false" do
     user = create :user
     user.communication_preferences.update(email_on_mentor_started_discussion_notification: false)
-    notification = create(:notification, :unread, user: user)
+    notification = create(:notification, :unread, user:)
 
     refute_email_sent(notification)
 

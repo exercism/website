@@ -11,7 +11,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
       User::ReputationToken::Create.(
         user,
         :exercise_contribution, {
-          contributorship: contributorship
+          contributorship:
         }
       )
     end
@@ -24,7 +24,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :exercise_contribution, {
-        contributorship: contributorship
+        contributorship:
       }
     )
 
@@ -38,7 +38,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :exercise_contribution, {
-        contributorship: contributorship
+        contributorship:
       }
     )
 
@@ -53,7 +53,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
       User::ReputationToken::Create.(
         user,
         :exercise_contribution, {
-          contributorship: contributorship
+          contributorship:
         }
       )
     end
@@ -64,7 +64,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     contributorship = create :exercise_contributorship, contributor: user
 
     # The exercise contribution reputation token's category is authoring
-    User::ReputationToken::Create.(user, :exercise_contribution, { contributorship: contributorship })
+    User::ReputationToken::Create.(user, :exercise_contribution, { contributorship: })
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::ContributorBadge
@@ -118,7 +118,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :mentored,
-      discussion: discussion
+      discussion:
     )
 
     perform_enqueued_jobs
@@ -133,7 +133,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :published_solution,
-      solution: solution,
+      solution:,
       level: :medium
     )
 

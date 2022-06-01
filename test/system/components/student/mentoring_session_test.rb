@@ -26,8 +26,8 @@ module Components
           created_at: 1.week.ago,
           submission: submission
         create(:mentor_discussion_post,
-          discussion: discussion,
-          iteration: iteration,
+          discussion:,
+          iteration:,
           author: mentor,
           content_markdown: "Hello, student",
           updated_at: Time.current)
@@ -59,8 +59,8 @@ module Components
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
         create(:mentor_discussion_post,
-          discussion: discussion,
-          iteration: iteration,
+          discussion:,
+          iteration:,
           author: student,
           content_markdown: "How are you?")
 
@@ -90,8 +90,8 @@ module Components
           sign_in!(student)
           visit track_exercise_mentor_discussion_path(track, exercise, discussion)
           create(:mentor_discussion_post,
-            discussion: discussion,
-            iteration: iteration,
+            discussion:,
+            iteration:,
             author: mentor,
             content_markdown: "Hello",
             updated_at: Time.current)
@@ -203,8 +203,8 @@ module Components
         submission = create :submission, solution: solution
         iteration = create :iteration, solution: solution, submission: submission
         create(:mentor_discussion_post,
-          discussion: discussion,
-          iteration: iteration,
+          discussion:,
+          iteration:,
           author: student,
           content_markdown: "Hello",
           updated_at: Time.current)

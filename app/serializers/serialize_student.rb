@@ -6,12 +6,13 @@ class SerializeStudent
     new(...).()
   end
 
-  def initialize(student, mentor, user_track:, relationship:, anonymous_mode:)
+  def initialize(student, mentor, user_track:, relationship:, anonymous_mode:, discussion:)
     @student = student
     @mentor = mentor
     @user_track = user_track
     @relationship = relationship
     @anonymous_mode = anonymous_mode
+    @discussion = discussion
   end
 
   def call
@@ -35,7 +36,7 @@ class SerializeStudent
   end
 
   private
-  attr_reader :student, :mentor, :user_track, :relationship, :anonymous_mode
+  attr_reader :student, :mentor, :user_track, :relationship, :anonymous_mode, :discussion
 
   def anonymous_details
     {
@@ -56,7 +57,8 @@ class SerializeStudent
       favorite: if Mentor::StudentRelationship::ToggleFavorited.new(mentor, student, false).allowed?
                   Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
                 end,
-      previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all)
+      previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all,
+        exclude: discussion.try(:uuid))
     }.compact
   end
 end

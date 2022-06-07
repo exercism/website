@@ -115,13 +115,33 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     end
   end
 
-  test "cleans up acquired_badges" do
-    user = create :user
-    acquired_badge = create :user_acquired_badge, user: user
+  test "cleans up acquired_badges that no longer should be awarded" do
+    user = create :user, github_username: 'ihid'
+
+    member_badge = create :member_badge
+    moss_badge = create :moss_badge
+    completer_badge = create :completer_badge
+    whatever_badge = create :whatever_badge
+
+    member_acquired_badge = create :user_acquired_badge, user: user, badge: member_badge
+    moss_acquired_badge = create :user_acquired_badge, user: user, badge: moss_badge
+    completer_acquired_badge = create :user_acquired_badge, user: user, badge: completer_badge
+    whatever_acquired_badge = create :user_acquired_badge, user: user, badge: whatever_badge
+
     User::ResetAccount.(user)
-    assert_raises ActiveRecord::RecordNotFound do
-      acquired_badge.reload
-    end
+
+    user.reload
+    assert_equal 2, user.acquired_badges.size
+
+    # The user should keep the member and moss badges as resetting
+    # the other data does not influence those badges
+    assert_includes user.acquired_badges, member_acquired_badge
+    assert_includes user.acquired_badges, moss_acquired_badge
+
+    # The user should lose the completer and whatever badges as resetting
+    # the other data does influence those badges
+    refute_includes user.acquired_badges, completer_acquired_badge
+    refute_includes user.acquired_badges, whatever_acquired_badge
   end
 
   test "cleans up track_mentorships" do

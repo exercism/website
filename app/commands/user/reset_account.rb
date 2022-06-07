@@ -8,6 +8,7 @@ class User
       reset_tracks!
       reset_mentoring!
       reset_associations!
+      reset_badges!
       reassign_to_ghost!
 
       user.update(
@@ -57,10 +58,15 @@ class User
       user.notifications.delete_all
       user.reputation_tokens.delete_all
       user.reputation_periods.delete_all
-      user.acquired_badges.delete_all
       user.track_mentorships.delete_all
       user.scratchpad_pages.delete_all
       user.solution_stars.delete_all
+    end
+
+    def reset_badges!
+      user.acquired_badges.
+        where.not(badge: user.badges.filter { |badge| badge.award_to?(user) }).
+        delete_all
     end
   end
 end

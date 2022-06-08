@@ -14,7 +14,7 @@ class CalculateLinesOfCodeJob < ApplicationJob
     return unless iteration.submission.valid_filepaths.any?
 
     body = RestClient.post(
-      Exercism.config.tooling_lines_of_code_counter_url,
+      Exercism.config.lines_of_code_counter_url,
       {
         track_slug: iteration.track.slug,
         submission_uuid: iteration.submission.uuid,

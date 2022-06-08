@@ -15,7 +15,7 @@ class GenerateIterationSnippetJob < ApplicationJob
     return unless file
 
     snippet = RestClient.post(
-      Exercism.config.tooling_snippet_generator_url,
+      Exercism.config.snippet_generator_url,
       {
         language: iteration.track.slug,
         source_code: file.content

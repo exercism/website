@@ -78,10 +78,10 @@ class Solution
         bool: {
           must: [
             { term: { 'exercise.id': exercise.id } },
-            { term: { status: 'published' } },
+            { term: { 'status.keyword': 'published' } },
             @sync_status.nil? ? nil : { term: { 'out_of_date': @sync_status == :out_of_date } },
-            @tests_status.blank? ? nil : { terms: { 'published_iteration.tests_status': to_terms(@tests_status) } },
-            @head_tests_status.blank? ? nil : { terms: { 'published_iteration.head_tests_status': to_terms(@head_tests_status) } },
+            @tests_status.blank? ? nil : { terms: { 'published_iteration.tests_status.keyword': to_terms(@tests_status) } },
+            @head_tests_status.blank? ? nil : { terms: { 'published_iteration.head_tests_status.keyword': to_terms(@head_tests_status) } }, # rubocop:disable Layout/LineLength
             @criteria.blank? ? nil : {
               query_string: {
                 query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),

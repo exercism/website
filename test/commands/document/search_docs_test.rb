@@ -76,6 +76,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
   test "track_slug" do
     ruby = create :track, title: "Ruby", slug: "ruby"
     elixir = create :track, title: "Elixir", slug: 'elixir'
+    common_lisp = create :track, title: "Common Lisp", slug: 'common-lisp'
 
     # Sanity check: non track doc should not be included
     non_track_doc = create :document, track: nil
@@ -83,15 +84,17 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     ruby_doc_1 = create :document, track: ruby
     ruby_doc_2 = create :document, track: ruby
     elixir_doc = create :document, track: elixir
+    common_lisp_doc = create :document, track: common_lisp
 
     # Sanity check: ensure that the results are not returned using the fallback
     Document::SearchDocs::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.()
+    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc, common_lisp_doc], Document::SearchDocs.()
     assert_equal [ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.(track_slug: %i[ruby elixir])
     assert_equal [ruby_doc_1, ruby_doc_2], Document::SearchDocs.(track_slug: "ruby")
+    assert_equal [common_lisp_doc], Document::SearchDocs.(track_slug: "common-lisp")
   end
 
   test "pagination" do

@@ -47,22 +47,26 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     javascript = create :track, title: "JavaScript", slug: "javascript"
     ruby = create :track, title: "Ruby", slug: "ruby"
     elixir = create :track, title: "Elixir", slug: 'elixir'
+    common_lisp = create :track, title: "Common Lisp", slug: 'common-lisp'
     ruby_exercise = create :practice_exercise, track: ruby
     js_exercise = create :practice_exercise, track: javascript
     elixir_exercise = create :practice_exercise, track: elixir
+    common_lisp_exercise = create :practice_exercise, track: common_lisp
 
     ruby_solution = create :practice_solution, user: user, exercise: ruby_exercise, published_at: 3.weeks.ago
     js_solution = create :practice_solution, user: user, exercise: js_exercise, num_stars: 1
     elixir_solution = create :practice_solution, user: user, exercise: elixir_exercise, num_stars: 2
+    common_lisp_solution = create :practice_solution, user: user, exercise: common_lisp_exercise, num_stars: 3
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     wait_for_opensearch_to_be_synced
 
-    assert_equal [elixir_solution, js_solution, ruby_solution], Solution::SearchUserSolutions.(user)
+    assert_equal [common_lisp_solution, elixir_solution, js_solution, ruby_solution], Solution::SearchUserSolutions.(user)
     assert_equal [js_solution, ruby_solution], Solution::SearchUserSolutions.(user, track_slug: %i[ruby javascript])
     assert_equal [ruby_solution], Solution::SearchUserSolutions.(user, track_slug: "ruby")
+    assert_equal [common_lisp_solution], Solution::SearchUserSolutions.(user, track_slug: "common-lisp")
   end
 
   test "filter: status" do

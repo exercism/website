@@ -73,12 +73,12 @@ class Solution
         bool: {
           must: [
             { term: { 'user.id': user.id } },
-            track_slug.blank? ? nil : { terms: { 'track.slug': [track_slug].flatten } },
-            status.blank? ? nil : { terms: { status: [status].flatten } },
-            mentoring_status.blank? ? nil : { terms: { mentoring_status: [mentoring_status].flatten } },
+            track_slug.blank? ? nil : { terms: { 'track.slug.keyword': [track_slug].flatten } },
+            status.blank? ? nil : { terms: { 'status.keyword': [status].flatten } },
+            mentoring_status.blank? ? nil : { terms: { 'mentoring_status.keyword': [mentoring_status].flatten } },
             sync_status.nil? ? nil : { term: { 'out_of_date': sync_status == :out_of_date } },
-            tests_status.blank? ? nil : { terms: { 'published_iteration.tests_status': to_terms(tests_status) } },
-            head_tests_status.blank? ? nil : { terms: { 'published_iteration.head_tests_status': to_terms(head_tests_status) } },
+            tests_status.blank? ? nil : { terms: { 'published_iteration.tests_status.keyword': to_terms(tests_status) } },
+            head_tests_status.blank? ? nil : { terms: { 'published_iteration.head_tests_status.keyword': to_terms(head_tests_status) } }, # rubocop:disable Layout/LineLength
             criteria.blank? ? nil : {
               query_string: {
                 query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),

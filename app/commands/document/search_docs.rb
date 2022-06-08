@@ -60,7 +60,7 @@ class Document
       {
         bool: {
           must: [
-            track_slug.blank? ? nil : { terms: { 'track.slug': [track_slug].flatten } },
+            track_slug.blank? ? nil : { terms: { 'track.slug.keyword': [track_slug].flatten } },
             criteria.blank? ? nil : {
               query_string: {
                 query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),

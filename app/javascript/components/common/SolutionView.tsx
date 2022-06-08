@@ -19,6 +19,7 @@ export type Links = {
 export type Props = {
   iterations: readonly Iteration[]
   publishedIterationIdx: number | null
+  publishedIterationIdxs: readonly number[]
   language: string
   indentSize: number
   outOfDate: boolean
@@ -30,13 +31,17 @@ const DEFAULT_ERROR = new Error('Unable to load files')
 export const SolutionView = ({
   iterations,
   publishedIterationIdx,
+  publishedIterationIdxs,
   language,
   indentSize,
   outOfDate,
   links,
 }: Props): JSX.Element => {
+  const publishedIterations = iterations.filter((iteration) =>
+    publishedIterationIdxs.includes(iteration.idx)
+  )
   const [currentIteration, setCurrentIteration] = useState(
-    iterations[iterations.length - 1]
+    publishedIterations[publishedIterations.length - 1]
   )
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
     files: File[]
@@ -72,9 +77,9 @@ export const SolutionView = ({
         </FetchingBoundary>
       </ResultsZone>
       <footer className="c-iterations-footer">
-        {iterations.length > 1 ? (
+        {publishedIterations.length > 1 ? (
           <IterationsList
-            iterations={iterations}
+            iterations={publishedIterations}
             onClick={setCurrentIteration}
             current={currentIteration}
           />

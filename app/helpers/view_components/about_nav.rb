@@ -20,7 +20,7 @@ module ViewComponents
           [
             li_link("About Exercism"),
             li_link("Team", :team),
-            li_link("Jobs", :hiring),
+            # li_link("Jobs", :hiring),
             li_link("Supporters", :individual_supporters),
             li_link("Supporting Orgs", :organisation_supporters)
             # li_link("Community", :community),

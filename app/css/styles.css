@@ -179,6 +179,9 @@ img {
         & .--hint {
             @apply text-textColor6 font-semibold;
         }
+        &:disabled {
+            opacity: 0.5;
+        }
     }
 
     .btn-link-legacy {

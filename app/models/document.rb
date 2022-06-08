@@ -10,7 +10,7 @@ class Document < ApplicationRecord
 
   belongs_to :track, optional: true
 
-  after_save do
+  after_save_commit do
     SyncDocToSearchIndexJob.perform_later(self)
   end
 

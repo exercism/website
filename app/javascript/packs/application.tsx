@@ -132,6 +132,7 @@ initReact({
       language={data.language}
       indentSize={data.indent_size}
       publishedIterationIdx={data.published_iteration_idx}
+      publishedIterationIdxs={data.published_iteration_idxs}
       outOfDate={data.out_of_date}
       links={camelizeKeysAs<SolutionViewLinks>(data.links)}
     />

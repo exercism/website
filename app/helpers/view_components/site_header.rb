@@ -7,10 +7,10 @@ module ViewComponents
 
     def to_s
       tag.header(id: "site-header") do
-        announcement_bar +
-          tag.div(class: "lg-container container") do
-            logo + ukraine + docs_nav + contextual_section
-          end
+        # announcement_bar +
+        tag.div(class: "lg-container container") do
+          logo + ukraine + docs_nav + contextual_section
+        end
       end
     end
 

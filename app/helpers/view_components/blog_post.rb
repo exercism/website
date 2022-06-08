@@ -5,7 +5,7 @@ module ViewComponents
     initialize_with :post
 
     def to_s
-      render template: 'components/blog_post', locals: { post: post }
+      render template: 'components/blog_post', locals: { post: }
     end
   end
 end

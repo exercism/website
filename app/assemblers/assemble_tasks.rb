@@ -24,7 +24,7 @@ class AssembleTasks
       repo_url: params[:repo_url],
       order: params[:order],
       page: params[:page],
-      track_id: track_id
+      track_id:
     )
   end
 

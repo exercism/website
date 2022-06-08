@@ -5,13 +5,13 @@ class User::ActivityTest < ActiveSupport::TestCase
     freeze_time do
       user = create :user
       exercise = create(:concept_exercise)
-      solution = create(:concept_solution, exercise: exercise)
+      solution = create(:concept_solution, exercise:)
       track = exercise.track
 
       activity = User::Activities::StartedExerciseActivity.create!(
-        user: user,
-        track: track,
-        solution: solution
+        user:,
+        track:,
+        solution:
       )
 
       assert_equal user, activity.user
@@ -24,12 +24,12 @@ class User::ActivityTest < ActiveSupport::TestCase
     freeze_time do
       user = create :user
       exercise = create(:concept_exercise)
-      solution = create(:concept_solution, exercise: exercise)
+      solution = create(:concept_solution, exercise:)
 
       User::Activities::StartedExerciseActivity.create!(
-        user: user,
+        user:,
         track: exercise.track,
-        solution: solution
+        solution:
       )
 
       # Reload it to check nothing is memoized
@@ -52,12 +52,12 @@ class User::ActivityTest < ActiveSupport::TestCase
     freeze_time do
       user = create :user
       exercise = create(:concept_exercise)
-      solution = create(:concept_solution, exercise: exercise)
+      solution = create(:concept_solution, exercise:)
 
       activity = User::Activities::StartedExerciseActivity.create!(
-        user: user,
+        user:,
         track: exercise.track,
-        solution: solution
+        solution:
       )
       activity.update!(rendering_data_cache: {})
 

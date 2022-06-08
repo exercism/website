@@ -8,7 +8,7 @@ module API
     test "index should return top 20 serialized correctly" do
       Array.new(25) do |idx|
         create(:user, handle: "handle-#{idx}").tap do |user|
-          create :user_reputation_period, user: user, period: :forever, reputation: idx
+          create :user_reputation_period, user:, period: :forever, reputation: idx
         end
       end.reverse
 

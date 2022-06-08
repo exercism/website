@@ -8,7 +8,7 @@ class Donations::PaymentIntent::CancelTest < Donations::TestBase
     invoice = mock_stripe_invoice(invoice_id, subscription_id)
     payment_intent = mock_stripe_payment_intent(
       payment_intent_id,
-      invoice_id: invoice_id
+      invoice_id:
     )
 
     Stripe::PaymentIntent.expects(:retrieve).with(payment_intent_id).returns(payment_intent)
@@ -26,7 +26,7 @@ class Donations::PaymentIntent::CancelTest < Donations::TestBase
     invoice = mock_stripe_invoice(invoice_id, subscription_id, status: 'closed')
     payment_intent = mock_stripe_payment_intent(
       payment_intent_id,
-      invoice_id: invoice_id
+      invoice_id:
     )
 
     Stripe::PaymentIntent.expects(:retrieve).with(payment_intent_id).returns(payment_intent)

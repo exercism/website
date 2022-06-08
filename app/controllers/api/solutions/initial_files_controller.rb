@@ -12,7 +12,7 @@ module API
 
         files = SerializeFiles.(solution.exercise_files_for_editor)
 
-        render json: { files: files }
+        render json: { files: }
       end
     end
   end

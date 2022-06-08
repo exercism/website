@@ -27,7 +27,7 @@ module Flows
       leap.prerequisites << basics
       leap.prerequisites << conditionals
 
-      misc = create(:concept_exercise, track: track)
+      misc = create(:concept_exercise, track:)
       misc.taught_concepts << strings
       misc.prerequisites << conditionals
 

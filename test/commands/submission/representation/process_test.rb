@@ -7,7 +7,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     ast = "here(lives(an(ast)))"
     ast_digest = Submission::Representation.digest_ast(ast)
 
-    job = create_representer_job!(submission, execution_status: ops_status, ast: ast)
+    job = create_representer_job!(submission, execution_status: ops_status, ast:)
     Submission::Representation::Process.(job)
 
     representation = submission.reload.submission_representation
@@ -23,7 +23,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     submission = create :submission
     mapping = { 'foo' => 'bar' }
 
-    job = create_representer_job!(submission, execution_status: 200, ast: ast, mapping: mapping)
+    job = create_representer_job!(submission, execution_status: 200, ast:, mapping:)
     Submission::Representation::Process.(job)
 
     assert_equal 1, Exercise::Representation.count
@@ -84,7 +84,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
 
     submission = create :submission, exercise: exercise
 
-    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    job = create_representer_job!(submission, execution_status: 200, ast:)
     Submission::Representation::Process.(job)
 
     assert submission.reload.representation_generated?
@@ -101,7 +101,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
 
     submission = create :submission, exercise: exercise
 
-    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    job = create_representer_job!(submission, execution_status: 200, ast:)
     cmd = Submission::Representation::Process.new(job)
     cmd.expects(:handle_generated!).raises
     cmd.()
@@ -120,7 +120,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
 
     SubmissionChannel.expects(:broadcast!).with(submission)
 
-    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    job = create_representer_job!(submission, execution_status: 200, ast:)
     Submission::Representation::Process.(job)
   end
 
@@ -137,7 +137,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     IterationChannel.expects(:broadcast!).with(iteration)
     SubmissionChannel.expects(:broadcast!).with(submission)
 
-    job = create_representer_job!(submission, execution_status: 200, ast: ast)
+    job = create_representer_job!(submission, execution_status: 200, ast:)
     Submission::Representation::Process.(job)
   end
 end

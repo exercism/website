@@ -9,14 +9,14 @@ module Mentor
         return unless allowed?
 
         relationship = Mentor::StudentRelationship.create_or_find_by!(
-          mentor: mentor,
-          student: student
+          mentor:,
+          student:
         )
         relationship.update_column(:favorited, favorited)
       end
 
       def allowed?
-        Mentor::Discussion.between(mentor: mentor, student: student).exists?
+        Mentor::Discussion.between(mentor:, student:).exists?
       end
     end
   end

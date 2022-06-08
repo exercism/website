@@ -6,7 +6,7 @@ class SiteUpdate < ApplicationRecord
   self.i18n_category = :site_updates
 
   scope :published, -> { where('published_at < ?', Time.current) }
-  scope :for_track, ->(track) { where(track: track) }
+  scope :for_track, ->(track) { where(track:) }
   scope :for_user, ->(user) { for_track(user.tracks) }
   scope :sorted, -> { order(published_at: :desc, id: :desc) }
 
@@ -40,8 +40,8 @@ class SiteUpdate < ApplicationRecord
 
   def cacheable_rendering_data
     d = {
-      text: text,
-      icon: icon,
+      text:,
+      icon:,
       published_at: published_at.iso8601
     }
 
@@ -58,8 +58,8 @@ class SiteUpdate < ApplicationRecord
           handle: author.handle,
           avatar_url: author.avatar_url
         },
-        title: title,
-        description: description
+        title:,
+        description:
       }
     end
 

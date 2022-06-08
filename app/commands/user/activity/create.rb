@@ -14,9 +14,9 @@ class User::Activity
       klass = "user/activities/#{type}_activity".camelize.constantize
 
       klass.create!(
-        user: user,
+        user:,
         solution: params.delete(:solution),
-        params: params
+        params:
       ).tap do
         # TODO: (Optional) Broadcast new activity
         # ActivitiesChannel.broadcast_changed!(user)

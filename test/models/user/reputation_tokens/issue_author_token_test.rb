@@ -14,13 +14,13 @@ class User::ReputationTokens::IssueAuthorTokenTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :issue_author,
-      repo: repo,
-      level: level,
-      issue_node_id: issue_node_id,
-      issue_number: issue_number,
-      issue_title: issue_title,
-      opened_at: opened_at,
-      external_url: external_url
+      repo:,
+      level:,
+      issue_node_id:,
+      issue_number:,
+      issue_title:,
+      opened_at:,
+      external_url:
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -50,13 +50,13 @@ class User::ReputationTokens::IssueAuthorTokenTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :issue_author,
-      repo: repo,
-      level: level,
-      issue_node_id: issue_node_id,
-      issue_number: issue_number,
-      issue_title: issue_title,
-      opened_at: opened_at,
-      external_url: external_url
+      repo:,
+      level:,
+      issue_node_id:,
+      issue_number:,
+      issue_title:,
+      opened_at:,
+      external_url:
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -86,13 +86,13 @@ class User::ReputationTokens::IssueAuthorTokenTest < ActiveSupport::TestCase
       User::ReputationToken::Create.(
         user,
         :issue_author,
-        repo: repo,
-        level: level,
-        issue_node_id: issue_node_id,
-        issue_number: issue_number,
-        issue_title: issue_title,
+        repo:,
+        level:,
+        issue_node_id:,
+        issue_number:,
+        issue_title:,
         opened_at: nil,
-        external_url: external_url
+        external_url:
       )
 
       assert_equal 1, user.reputation_tokens.size
@@ -125,7 +125,7 @@ class User::ReputationTokens::IssueAuthorTokenTest < ActiveSupport::TestCase
         user,
         :issue_author,
         level: :large,
-        repo: repo,
+        repo:,
         issue_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         issue_number: 1347,
         issue_title: "The cat sat on the mat",

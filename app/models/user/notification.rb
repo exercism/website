@@ -51,12 +51,12 @@ class User::Notification < ApplicationRecord
 
   def cacheable_rendering_data
     {
-      uuid: uuid,
-      url: url,
-      text: text,
+      uuid:,
+      url:,
+      text:,
       created_at: created_at.iso8601,
-      image_type: image_type,
-      image_url: image_url
+      image_type:,
+      image_url:
     }
   end
 

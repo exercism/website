@@ -68,7 +68,7 @@ module Mentor
         Mentor::Testimonial.create!(
           mentor: discussion.mentor,
           student: discussion.student,
-          discussion: discussion,
+          discussion:,
           content: testimonial
         )
       end
@@ -79,7 +79,7 @@ module Mentor
         AwardReputationTokenJob.perform_later(
           discussion.mentor,
           :mentored,
-          discussion: discussion
+          discussion:
         )
       end
 

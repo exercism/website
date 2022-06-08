@@ -26,7 +26,7 @@ module Donations
           proration_behavior: 'none'
         )
 
-        subscription.update!(amount_in_cents: amount_in_cents)
+        subscription.update!(amount_in_cents:)
 
         # Update based on whether there is another different active subscription
         user = subscription.user

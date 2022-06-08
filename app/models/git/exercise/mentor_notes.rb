@@ -13,7 +13,7 @@ module Git
       def edit_url
         url = exists? ? EDIT_GITHUB_URL : NEW_GITHUB_URL
 
-        format(url, track_slug: track_slug, exercise_slug: exercise_slug)
+        format(url, track_slug:, exercise_slug:)
       end
 
       private

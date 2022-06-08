@@ -317,9 +317,9 @@ class UserTrackTest < ActiveSupport::TestCase
     track = create :track, slug: :js
     user_track = create :user_track, user: user, track: track
 
-    s_1 = create :concept_solution, user: user, exercise: create(:concept_exercise, track: track)
-    s_2 = create :practice_solution, user: user, exercise: create(:practice_exercise, track: track)
-    create :concept_solution, exercise: create(:concept_exercise, track: track)
+    s_1 = create :concept_solution, user: user, exercise: create(:concept_exercise, track:)
+    s_2 = create :practice_solution, user: user, exercise: create(:practice_exercise, track:)
+    create :concept_solution, exercise: create(:concept_exercise, track:)
     create :concept_solution, user: user
 
     assert_equal [s_1, s_2], user_track.solutions
@@ -399,7 +399,7 @@ class UserTrackTest < ActiveSupport::TestCase
 
     # Completed
     (3..6).each do |idx|
-      create :practice_solution, exercise: exercises[idx], completed_at: Time.current, user: user
+      create :practice_solution, exercise: exercises[idx], completed_at: Time.current, user:
     end
 
     create :concept_solution, exercise: another_concept_exercise, completed_at: Time.current, user: user
@@ -475,7 +475,7 @@ class UserTrackTest < ActiveSupport::TestCase
   test "has_notifications" do
     user = create :user
     track = create :track, :random_slug
-    ut_id = create(:user_track, user: user, track: track).id
+    ut_id = create(:user_track, user:, track:).id
 
     solution = create :practice_solution, user: user, track: track
     discussion = create :mentor_discussion, solution: solution
@@ -485,14 +485,14 @@ class UserTrackTest < ActiveSupport::TestCase
     create :mentor_started_discussion_notification, user: user, status: :unread
     create :mentor_started_discussion_notification, user: user, status: :read
     create :mentor_started_discussion_notification, user: user, status: :pending,
-      params: { discussion: create(:mentor_discussion, solution: solution) }
+      params: { discussion: create(:mentor_discussion, solution:) }
     create :mentor_started_discussion_notification, user: user, status: :read,
-      params: { discussion: create(:mentor_discussion, solution: solution) }
+      params: { discussion: create(:mentor_discussion, solution:) }
     create :mentor_started_discussion_notification, status: :unread,
-      params: { discussion: create(:mentor_discussion, solution: solution) }
+      params: { discussion: create(:mentor_discussion, solution:) }
     refute UserTrack.find(ut_id).has_notifications?
 
-    create :mentor_started_discussion_notification, status: :unread, user: user, params: { discussion: discussion }
+    create :mentor_started_discussion_notification, status: :unread, user: user, params: { discussion: }
     assert UserTrack.find(ut_id).has_notifications?
   end
 

@@ -76,7 +76,7 @@ module Components
         end
 
         submission = create :submission, solution: solution, tests_status: :failed
-        iteration.update!(submission: submission)
+        iteration.update!(submission:)
         SolutionChannel.broadcast!(solution)
         LatestIterationStatusChannel.broadcast!(solution)
 
@@ -102,7 +102,7 @@ module Components
         end
 
         submission = create :submission, solution: solution, tests_status: :failed
-        iteration.update!(submission: submission)
+        iteration.update!(submission:)
 
         within "section.latest-iteration header" do
           assert_text "Your solution failed the tests"
@@ -407,7 +407,7 @@ module Components
         assert iteration.status.no_automated_feedback? # Sanity
 
         create :user_track, user: user, track: solution.track
-        request = create(:mentor_request, solution: solution)
+        request = create(:mentor_request, solution:)
         create :mentor_discussion, solution: solution, request: request
         request.fulfilled!
 

@@ -6,11 +6,11 @@ module Mentor
       initialize_with :mentor, :student, :blocked
 
       def call
-        return unless Mentor::Discussion.between(mentor: mentor, student: student).exists?
+        return unless Mentor::Discussion.between(mentor:, student:).exists?
 
         relationship = Mentor::StudentRelationship.create_or_find_by!(
-          mentor: mentor,
-          student: student
+          mentor:,
+          student:
         )
 
         if blocked

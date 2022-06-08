@@ -7,9 +7,9 @@ module Mentor
 
       def call
         discussion_post = Mentor::DiscussionPost.create!(
-          iteration: iteration,
-          discussion: discussion,
-          content_markdown: content_markdown,
+          iteration:,
+          discussion:,
+          content_markdown:,
           author: iteration.solution.user,
           seen_by_student: true
         )
@@ -19,7 +19,7 @@ module Mentor
         User::Notification::Create.(
           discussion.mentor,
           :student_replied_to_discussion,
-          { discussion_post: discussion_post }
+          { discussion_post: }
         )
 
         discussion_post

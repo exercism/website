@@ -15,7 +15,7 @@ module Git
       author = User.find_by!(handle: data[:author_handle])
       attributes = {
         slug: data[:slug],
-        author: author,
+        author:,
         category: data[:category],
         title: data[:title],
         published_at: data[:published_at],

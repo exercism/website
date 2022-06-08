@@ -9,7 +9,7 @@ class AssembleMentorRequests
       serializer: SerializeMentorRequests,
       serializer_args: mentor,
       meta: {
-        unscoped_total: unscoped_total
+        unscoped_total:
       }
     )
   end
@@ -17,7 +17,7 @@ class AssembleMentorRequests
   memoize
   def unscoped_total
     ::Mentor::Request::Retrieve.(
-      mentor: mentor,
+      mentor:,
       page: params[:page],
       track_slug: params[:track_slug],
       exercise_slug: params[:exercise_slug],
@@ -28,7 +28,7 @@ class AssembleMentorRequests
 
   def requests
     ::Mentor::Request::Retrieve.(
-      mentor: mentor,
+      mentor:,
       page: params[:page],
       criteria: params[:criteria],
       order: params[:order],

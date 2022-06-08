@@ -11,15 +11,15 @@ class User
         klass = "user/reputation_tokens/#{type}_token".camelize.constantize
 
         klass.new(
-          user: user,
-          params: params
+          user:,
+          params:
         ).tap do |token|
           token.save!
 
           AwardBadgeJob.perform_later(user, :contributor, context: token)
           User::ReputationPeriod::MarkForToken.(token)
         rescue ActiveRecord::RecordNotUnique
-          return klass.find_by!(user: user, uniqueness_key: token.uniqueness_key)
+          return klass.find_by!(user:, uniqueness_key: token.uniqueness_key)
         end
       end
     end

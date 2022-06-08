@@ -20,11 +20,11 @@ module Mentor
     end
 
     def rated_acceptable_or_better_count_sql
-      Arel.sql(Mentor::Discussion.where(mentor: mentor, rating: %i[acceptable good great]).select("COUNT(*)").to_sql)
+      Arel.sql(Mentor::Discussion.where(mentor:, rating: %i[acceptable good great]).select("COUNT(*)").to_sql)
     end
 
     def rated_count_sql
-      Arel.sql(Mentor::Discussion.where(mentor: mentor).where.not(rating: nil).select("COUNT(*)").to_sql)
+      Arel.sql(Mentor::Discussion.where(mentor:).where.not(rating: nil).select("COUNT(*)").to_sql)
     end
   end
 end

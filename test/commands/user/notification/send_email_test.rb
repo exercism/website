@@ -10,7 +10,7 @@ class User::Notification::SendEmailTest < ActiveSupport::TestCase
         "NotificationsMailer",
         "mentor_started_discussion",
         "deliver_now",
-        { params: { notification: notification }, args: [] }
+        { params: { notification: }, args: [] }
       ]
     ) do
       User::Notification::SendEmail.(notification)
@@ -25,7 +25,7 @@ class User::Notification::SendEmailTest < ActiveSupport::TestCase
                            "NotificationsMailer",
                            "student_replied_to_discussion",
                            "deliver_now",
-                           { params: { notification: notification }, args: [] }
+                           { params: { notification: }, args: [] }
                          ]) do
       User::Notification::SendEmail.(notification)
     end

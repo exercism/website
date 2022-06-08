@@ -7,7 +7,7 @@ class Exercise
 
       def call
         begin
-          authorship = exercise.authorships.create!(author: author)
+          authorship = exercise.authorships.create!(author:)
         rescue ActiveRecord::RecordNotUnique
           return nil
         end
@@ -15,7 +15,7 @@ class Exercise
         AwardReputationTokenJob.perform_later(
           author,
           :exercise_author,
-          authorship: authorship
+          authorship:
         )
       end
     end

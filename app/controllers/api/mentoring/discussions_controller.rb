@@ -45,7 +45,7 @@ module API
       data = track_counts.map do |track_id, count|
         track = tracks[track_id]
 
-        SerializeTrackForSelect.(track).merge(count: count)
+        SerializeTrackForSelect.(track).merge(count:)
       end
 
       render json: [
@@ -113,7 +113,7 @@ module API
             discussion.student,
             discussion.mentor,
             user_track: UserTrack.for(discussion.student, discussion.track),
-            relationship: relationship,
+            relationship:,
             anonymous_mode: discussion.anonymous_mode?
           ),
           is_finished: true,

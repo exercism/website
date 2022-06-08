@@ -4,13 +4,13 @@ class Iteration::CreateTest < ActiveSupport::TestCase
   test "increments iteration" do
     solution = create :concept_solution
 
-    it_1 = Iteration::Create.(solution, create(:submission, solution: solution))
+    it_1 = Iteration::Create.(solution, create(:submission, solution:))
     assert_equal 1, it_1.idx
 
-    it_2 = Iteration::Create.(solution, create(:submission, solution: solution))
+    it_2 = Iteration::Create.(solution, create(:submission, solution:))
     assert_equal 2, it_2.idx
 
-    it_3 = Iteration::Create.(solution, create(:submission, solution: solution))
+    it_3 = Iteration::Create.(solution, create(:submission, solution:))
     assert_equal 3, it_3.idx
 
     # Check different count for different solution

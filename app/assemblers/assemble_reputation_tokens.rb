@@ -18,7 +18,7 @@ class AssembleReputationTokens
 
     SerializePaginatedCollection.(
       tokens,
-      data: data,
+      data:,
       meta: {
         links: {
           tokens: Exercism::Routes.reputation_journey_url,

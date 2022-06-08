@@ -25,13 +25,13 @@ class Mentor::RequestComment
 
     new(
       uuid: "request-comment",
-      iteration_idx: iteration_idx,
+      iteration_idx:,
       author: request.student,
       by_student: true,
       content_markdown: request.comment_markdown,
       content_html: request.comment_html,
       updated_at: request.created_at,
-      request: request
+      request:
     )
   end
 

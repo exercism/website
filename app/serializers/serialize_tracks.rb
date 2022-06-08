@@ -30,7 +30,7 @@ class SerializeTracks
     return {} unless user
 
     UserTrack.
-      where(user: user).
+      where(user:).
       where(track: tracks).
       includes(:track).
       index_by(&:track_id)

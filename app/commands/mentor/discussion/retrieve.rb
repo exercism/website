@@ -58,7 +58,7 @@ module Mentor
         @discussions = Mentor::Discussion.
           joins(solution: :exercise).
           includes(solution: [:user, { exercise: :track }]).
-          where(mentor: mentor)
+          where(mentor:)
       end
 
       def filter_status!

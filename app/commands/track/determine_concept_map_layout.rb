@@ -15,7 +15,7 @@ class Track
     # a graph then traversing it to discover and memoize the progression
     def call
       {
-        concepts: concepts,
+        concepts:,
         levels: concept_levels,
         connections: concept_connections
       }

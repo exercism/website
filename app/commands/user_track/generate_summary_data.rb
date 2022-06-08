@@ -83,8 +83,8 @@ class UserTrack
           type: exercise.git_type.to_sym,
           position: exercise.position,
           tutorial: exercise.tutorial?,
-          prerequisite_concept_slugs: prerequisite_concept_slugs,
-          practiced_concepts: practiced_concepts,
+          prerequisite_concept_slugs:,
+          practiced_concepts:,
           has_solution: !!solution_data,
           completed_at: solution_data&.fetch(:completed_at) || nil
         }

@@ -219,7 +219,7 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     solution = create :practice_solution, :published
     published_submission = create :submission, solution: solution
     published_iteration = create :iteration, submission: published_submission, solution: solution
-    solution.update(published_iteration: published_iteration)
+    solution.update(published_iteration:)
     latest_submission = create :submission, solution: solution
     create :iteration, submission: latest_submission, solution: solution
     create :iteration, solution: solution, deleted_at: Time.current

@@ -26,7 +26,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
       assert params, actual_params
     end
 
-    get api_mentoring_requests_path, params: params, headers: @headers, as: :json
+    get api_mentoring_requests_path, params:, headers: @headers, as: :json
   end
 
   test "index retrieves requests" do
@@ -36,7 +36,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     mentored_track = create :track
     create :user_track_mentorship, user: user, track: mentored_track
     solution = create :concept_solution, track: mentored_track
-    50.times { create :mentor_request, solution: solution }
+    50.times { create :mentor_request, solution: }
 
     get api_mentoring_requests_path, headers: @headers, as: :json
     assert_response 200

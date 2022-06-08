@@ -5,7 +5,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
     freeze_time do
       track = create :track
       concept = create :concept, track: track
-      update = create :new_concept_site_update, track: track, params: { concept: concept }
+      update = create :new_concept_site_update, track: track, params: { concept: }
 
       expected = {
         text: "<em>We</em> published a new Concept: #{i18n_concept(concept)}",
@@ -42,7 +42,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
     author = create :user
     concept = create :concept, track: track
     create :concept_authorship, concept: concept, author: author
-    update = create :new_concept_site_update, track: track, params: { concept: concept }
+    update = create :new_concept_site_update, track: track, params: { concept: }
 
     text = "<em>#{author.handle}</em> published a new Concept: #{i18n_concept(concept)}"
     assert_equal text, update.rendering_data[:text]
@@ -58,7 +58,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
     concept = create :concept, track: track
     create :concept_contributorship, concept: concept, contributor: contributor
     create :concept_authorship, concept: concept, author: author
-    update = create :new_concept_site_update, track: track, params: { concept: concept }
+    update = create :new_concept_site_update, track: track, params: { concept: }
 
     text = "<em>#{author.handle} and #{contributor.handle}</em> published a new Concept: #{i18n_concept(concept)}"
     assert_equal text, update.rendering_data[:text]
@@ -76,7 +76,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
     create :concept_contributorship, concept: concept, contributor: contributor_1
     create :concept_authorship, concept: concept, author: author
     create :concept_contributorship, concept: concept, contributor: contributor_2
-    update = create :new_concept_site_update, track: track, params: { concept: concept }
+    update = create :new_concept_site_update, track: track, params: { concept: }
 
     text = "<em>#{author.handle}, #{contributor_1.handle}, and #{contributor_2.handle}</em> published a new Concept: #{i18n_concept(concept)}" # rubocop:disable Layout/LineLength
     assert_equal text, update.rendering_data[:text]
@@ -96,7 +96,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
     create :concept_authorship, concept: concept, author: author
     create :concept_contributorship, concept: concept, contributor: contributor_2
     create :concept_contributorship, concept: concept, contributor: contributor_3
-    update = create :new_concept_site_update, track: track, params: { concept: concept }
+    update = create :new_concept_site_update, track: track, params: { concept: }
 
     text = "<em>#{author.handle}, #{contributor_1.handle}, and 2 others</em> published a new Concept: #{i18n_concept(concept)}" # rubocop:disable Layout/LineLength
     assert_equal text, update.rendering_data[:text]

@@ -32,10 +32,10 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     tests = [{ 'status' => 'pass' }]
 
     raw_results = {
-      version: version,
-      status: status,
-      message: message,
-      tests: tests
+      version:,
+      status:,
+      message:,
+      tests:
     }
     tr = create :submission_test_run, raw_results: raw_results
     assert_equal status.to_sym, tr.status
@@ -96,7 +96,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     tr = create :submission_test_run, raw_results: {
       version: 2,
       status: 'pass',
-      tests: tests
+      tests:
     }
     assert_equal 2, tr.version
     assert_equal :pass, tr.status
@@ -104,13 +104,13 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     result = tr.test_results.first
 
     test_as_hash = {
-      name: name,
+      name:,
       status: status.to_sym,
-      test_code: test_code,
-      message: message,
+      test_code:,
+      message:,
       message_html: message,
-      expected: expected,
-      output: output,
+      expected:,
+      output:,
       output_html: "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>",
       task_id: nil
     }
@@ -142,7 +142,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     tr = create :submission_test_run, raw_results: {
       version: 3,
       status: 'pass',
-      tests: tests
+      tests:
     }
     assert_equal 3, tr.version
     assert_equal :pass, tr.status
@@ -150,15 +150,15 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     result = tr.test_results.first
 
     test_as_hash = {
-      name: name,
+      name:,
       status: status.to_sym,
-      test_code: test_code,
-      message: message,
+      test_code:,
+      message:,
       message_html: message,
-      expected: expected,
-      output: output,
+      expected:,
+      output:,
       output_html: "<span style='color:#A00;'>Hello</span><span style='color:#00A;'>World</span>",
-      task_id: task_id
+      task_id:
     }
 
     assert_equal test_as_hash, result.to_h

@@ -103,7 +103,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
     4.times do |idx|
       track = create :track, slug: "track_#{idx}"
-      create :hello_world_solution, :completed, user: user, track: track
+      create :hello_world_solution, :completed, user:, track:
     end
 
     Solution::Complete.(solution, user_track)
@@ -155,7 +155,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     4.times do |idx|
       other_track = create :track, slug: "track_#{idx}"
       exercise = create :practice_exercise, slug: 'bob', track: other_track
-      create :practice_solution, :completed, user: user, track: other_track, exercise: exercise
+      create :practice_solution, :completed, user:, track: other_track, exercise:
     end
 
     Solution::Complete.(solution, user_track)

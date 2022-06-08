@@ -5,7 +5,7 @@ class ContributorTeam::Membership
     initialize_with :user, :team
 
     def call
-      ContributorTeam::Membership.where(user: user, team: team).destroy_all
+      ContributorTeam::Membership.where(user:, team:).destroy_all
 
       user.update(roles: user.roles - [team.role_for_members]) unless remains_in_team_role?
 

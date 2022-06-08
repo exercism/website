@@ -11,7 +11,7 @@ class Submission
       end
 
       def call
-        ToolingJob::Create.(submission, :test_runner, git_sha: git_sha, run_in_background: run_in_background).tap do
+        ToolingJob::Create.(submission, :test_runner, git_sha:, run_in_background:).tap do
           update_status!
         end
       end

@@ -15,14 +15,14 @@ class User::Activity < ApplicationRecord
 
   def cacheable_rendering_data
     {
-      text: text,
-      url: url,
-      icon_name: icon_name
+      text:,
+      url:,
+      icon_name:
     }
   end
 
   def non_cacheable_rendering_data
-    super.merge(occurred_at: occurred_at)
+    super.merge(occurred_at:)
   end
 
   private

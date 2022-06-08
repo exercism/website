@@ -42,7 +42,7 @@ class Markdown::Parse
 
   memoize
   def raw_html
-    doc = Markdown::Render.(text, :doc, strip_h1: strip_h1, lower_heading_levels_by: lower_heading_levels_by)
-    Markdown::RenderHTML.(doc, nofollow_links: nofollow_links, heading_ids: heading_ids)
+    doc = Markdown::Render.(text, :doc, strip_h1:, lower_heading_levels_by:)
+    Markdown::RenderHTML.(doc, nofollow_links:, heading_ids:)
   end
 end

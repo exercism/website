@@ -14,8 +14,8 @@ class User::Notifications::StudentAddedIteration < ActiveSupport::TestCase
     notification = User::Notifications::StudentAddedIterationNotification.create!(
       user: mentor,
       params: {
-        discussion: discussion,
-        iteration: iteration
+        discussion:,
+        iteration:
       }
     )
     assert_equal "#{mentor.id}|student_added_iteration|Discussion##{discussion.id}|Iteration##{iteration.id}",

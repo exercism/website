@@ -6,11 +6,11 @@ module ViewComponents
       def to_s
         tag.header class: "c-exercise-header" do
           render("tracks/exercise_header",
-            track: track,
-            user_track: user_track,
-            exercise: exercise,
-            solution: solution,
-            selected_tab: selected_tab) + tabs
+            track:,
+            user_track:,
+            exercise:,
+            solution:,
+            selected_tab:) + tabs
         end
       end
 
@@ -87,7 +87,7 @@ module ViewComponents
       end
 
       def lockable_tab(html, href, class_name, locked)
-        css_class = tab_class(class_name, locked: locked)
+        css_class = tab_class(class_name, locked:)
 
         locked ? tag.div(html, class: css_class) :
           link_to(html, href, class: css_class)

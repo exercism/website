@@ -43,7 +43,7 @@ class Solution
 
       total_count = [results["hits"]["total"]["value"].to_i, MAX_ROWS].min
 
-      Kaminari.paginate_array(solutions, total_count: total_count).
+      Kaminari.paginate_array(solutions, total_count:).
         page(page).per(per)
     rescue StandardError => e
       Bugsnag.notify(e)
@@ -63,7 +63,7 @@ class Solution
         _source: [:id],
 
         # Paging information
-        from: from,
+        from:,
         size: per
       }
     end

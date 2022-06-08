@@ -7,7 +7,7 @@ class Concept
 
       def call
         begin
-          contributorship = concept.contributorships.create!(contributor: contributor)
+          contributorship = concept.contributorships.create!(contributor:)
         rescue ActiveRecord::RecordNotUnique
           return nil
         end
@@ -15,7 +15,7 @@ class Concept
         AwardReputationTokenJob.perform_later(
           contributor,
           :concept_contribution,
-          contributorship: contributorship
+          contributorship:
         )
       end
     end

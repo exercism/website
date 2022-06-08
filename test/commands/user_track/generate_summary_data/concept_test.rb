@@ -43,14 +43,14 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
     ce_1 = create :concept_exercise, :random_slug, track: track
     ce_1.taught_concepts << concept
     ce_2 = create :concept_exercise, :random_slug, track: track
-    ce_2.taught_concepts << create(:concept, track: track)
+    ce_2.taught_concepts << create(:concept, track:)
 
     pe_1 = create :practice_exercise, :random_slug, track: track
     pe_1.practiced_concepts << concept
     pe_2 = create :practice_exercise, :random_slug, track: track
     pe_2.practiced_concepts << concept
     pe_3 = create :practice_exercise, :random_slug, track: track
-    pe_3.practiced_concepts << create(:concept, track: track)
+    pe_3.practiced_concepts << create(:concept, track:)
 
     summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, ut))
 
@@ -115,14 +115,14 @@ class UserTrack::GenerateSummaryData::ConceptTest < ActiveSupport::TestCase
     ce_1 = create :concept_exercise, :random_slug, track: track
     ce_1.taught_concepts << concept
     ce_2 = create :concept_exercise, :random_slug, track: track
-    ce_2.taught_concepts << create(:concept, track: track)
+    ce_2.taught_concepts << create(:concept, track:)
 
     pe_1 = create :practice_exercise, :random_slug, track: track
     pe_1.practiced_concepts << concept
     pe_2 = create :practice_exercise, :random_slug, track: track
     pe_2.practiced_concepts << concept
     pe_3 = create :practice_exercise, :random_slug, track: track
-    pe_3.practiced_concepts << create(:concept, track: track)
+    pe_3.practiced_concepts << create(:concept, track:)
 
     summary = UserTrack::Summary.new(UserTrack::GenerateSummaryData.(track, UserTrack::External.new(track)))
 

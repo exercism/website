@@ -25,6 +25,6 @@ class ErrorsController < ApplicationController
   private
   def render_html(status)
     @status_code = status
-    render "error", status: status
+    render "error", status:
   end
 end

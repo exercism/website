@@ -5,7 +5,7 @@ class ProcessIssueUpdateJobTest < ActiveJob::TestCase
   non_deleted_actions.each do |action|
     test "creates issue record when action is #{action}" do
       ProcessIssueUpdateJob.perform_now(
-        action: action,
+        action:,
         node_id: "MDU6SXNzdWU3MjM2MjUwMTI=",
         html_url: 'https://github.com/exercism/ruby/issues/999',
         number: 999,

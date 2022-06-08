@@ -10,7 +10,7 @@ class SerializePaginatedCollectionTest < ActiveSupport::TestCase
     collection = User.page(2).per(2)
 
     expected = {
-      results: results,
+      results:,
       meta: {
         current_page: 2,
         total_pages: 3,
@@ -43,7 +43,7 @@ class SerializePaginatedCollectionTest < ActiveSupport::TestCase
     actual = SerializePaginatedCollection.(
       collection,
       serializer: collection_serializer,
-      data: data
+      data:
     )
     assert_equal expected, actual
   end
@@ -57,7 +57,7 @@ class SerializePaginatedCollectionTest < ActiveSupport::TestCase
     collection = User.page(2).per(2)
 
     expected = {
-      results: results,
+      results:,
       meta: {
         misc: "Hello",
         current_page: 7,

@@ -5,7 +5,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     request = create :mentor_request
     discussion = Mentor::Discussion.create!(
       mentor: create(:user),
-      request: request
+      request:
     )
     assert_equal request.solution, discussion.solution
   end

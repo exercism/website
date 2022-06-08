@@ -8,7 +8,7 @@ class Markdown::RenderHTML
   end
 
   def call
-    renderer = Renderer.new(options: %i[UNSAFE FOOTNOTES], nofollow_links: nofollow_links, heading_ids: heading_ids)
+    renderer = Renderer.new(options: %i[UNSAFE FOOTNOTES], nofollow_links:, heading_ids:)
     renderer.render(doc)
   end
 
@@ -17,7 +17,7 @@ class Markdown::RenderHTML
 
   class Renderer < CommonMarker::HtmlRenderer
     def initialize(options:, nofollow_links: false, heading_ids: false)
-      super(options: options)
+      super(options:)
       @nofollow_links = nofollow_links
       @heading_ids = heading_ids
       @heading_id_counts = Hash.new(0)

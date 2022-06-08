@@ -7,8 +7,8 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     results = { 'some' => 'result' }
     job = create_test_runner_job!(
       submission,
-      execution_status: execution_status,
-      results: results
+      execution_status:,
+      results:
     )
 
     Submission::TestRun::Process.expects(:call).with(job)
@@ -21,7 +21,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     execution_status = "job-status"
     job = create_representer_job!(
       submission,
-      execution_status: execution_status,
+      execution_status:,
       ast: nil,
       mapping: nil
     )
@@ -36,7 +36,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     execution_status = "job-status"
     job = create_analyzer_job!(
       submission,
-      execution_status: execution_status,
+      execution_status:,
       data: nil
     )
 

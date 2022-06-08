@@ -12,7 +12,7 @@ class Submission
           tooling_job_id: tooling_job.id,
           ops_status: tooling_job.execution_status.to_i,
           raw_results: results,
-          git_sha: git_sha
+          git_sha:
         )
 
         # Then all of the submethods here should
@@ -131,7 +131,7 @@ class Submission
 
       memoize
       def git_important_files_hash
-        Git::GenerateHashForImportantExerciseFiles.(exercise, git_sha: git_sha)
+        Git::GenerateHashForImportantExerciseFiles.(exercise, git_sha:)
       end
 
       memoize

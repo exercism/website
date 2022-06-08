@@ -18,7 +18,7 @@ class Donations::Customer::CreateForEmailTest < Donations::TestBase
     customer_id = SecureRandom.uuid
 
     resp = mock(data: [mock(id: customer_id)])
-    Stripe::Customer.expects(:list).with(email: email, limit: 1).returns(resp)
+    Stripe::Customer.expects(:list).with(email:, limit: 1).returns(resp)
     Stripe::Customer.expects(:create).never
 
     actual = Donations::Customer::CreateForEmail.(email)

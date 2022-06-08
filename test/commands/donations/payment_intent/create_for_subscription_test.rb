@@ -6,7 +6,7 @@ class Donations::PaymentIntent::CreateForSubscriptionTest < Donations::TestBase
     amount_in_cents = 1500
 
     payment_intent = mock
-    stripe_subscription = mock_stripe_subscription(nil, nil, payment_intent: payment_intent)
+    stripe_subscription = mock_stripe_subscription(nil, nil, payment_intent:)
 
     Stripe::Subscription.expects(:create).with(
       customer: customer_id,

@@ -41,7 +41,7 @@ module API
           total_pages: testimonials.total_pages
         },
         tracks: track_slugs,
-        track_counts: track_counts
+        track_counts:
       }
 
       render json: { testimonials: serialized }

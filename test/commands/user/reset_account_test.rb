@@ -34,8 +34,8 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       user_track_2 = create :user_track, user: user, track: js
       orphaned_solution = create :practice_solution, user: user, track: create(:track, :random_slug)
 
-      pending_request = create :mentor_request, solution: create(:practice_solution, user: user)
-      fulfilled_request = create :mentor_request, :fulfilled, solution: create(:practice_solution, user: user)
+      pending_request = create :mentor_request, solution: create(:practice_solution, user:)
+      fulfilled_request = create :mentor_request, :fulfilled, solution: create(:practice_solution, user:)
 
       UserTrack::Destroy.expects(:call).with(user_track_1)
       UserTrack::Destroy.expects(:call).with(user_track_2)

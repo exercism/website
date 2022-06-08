@@ -5,7 +5,7 @@ module ReactComponents
 
       def to_s
         super("student-exercise-list", {
-          request: request,
+          request:,
           status: params[:status]
         })
       end
@@ -23,7 +23,7 @@ module ReactComponents
             initial_data: AssembleExerciseList.(current_user, track, query),
             stale_time: 0
           },
-          query: query
+          query:
         }
       end
     end

@@ -23,10 +23,10 @@ module Donations
       def call
         charge = stripe_data.charges.first
         Donations::Payment.create!(
-          user: user,
+          user:,
           stripe_id: stripe_data.id,
           stripe_receipt_url: charge.receipt_url,
-          subscription: subscription,
+          subscription:,
           amount_in_cents: stripe_data.amount
         ).tap do |payment|
           user.update(total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))

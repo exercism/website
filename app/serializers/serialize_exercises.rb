@@ -16,7 +16,7 @@ class SerializeExercises
 
       SerializeExercise.(
         exercise,
-        user_track: user_track,
+        user_track:,
         recommended: !!recommended
       )
     end

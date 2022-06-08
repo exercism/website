@@ -8,8 +8,8 @@ module Donations
       initialize_with :email
 
       def call
-        existing = Stripe::Customer.list(email: email, limit: 1).data.first
-        existing ? existing.id : Stripe::Customer.create(email: email).id
+        existing = Stripe::Customer.list(email:, limit: 1).data.first
+        existing ? existing.id : Stripe::Customer.create(email:).id
       end
     end
   end

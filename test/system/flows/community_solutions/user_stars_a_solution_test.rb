@@ -12,7 +12,7 @@ module Flows
         solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: author
         submission = create :submission, solution: solution
         create :iteration, idx: 1, solution: solution, submission: submission
-        3.times { create :solution_star, solution: solution }
+        3.times { create :solution_star, solution: }
 
         use_capybara_host do
           sign_in!

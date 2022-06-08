@@ -11,7 +11,7 @@ module ReactComponents
           {
             request: {
               endpoint: Exercism::Routes.api_tasks_url,
-              query: query,
+              query:,
               options: {
                 initial_data: AssembleTasks.(params)
               }

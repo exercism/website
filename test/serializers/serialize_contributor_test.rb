@@ -7,7 +7,7 @@ class SerializeContributorTest < ActiveSupport::TestCase
     create :user_reputation_token, user: user
 
     expected = {
-      rank: rank,
+      rank:,
       activity: "1 PR created",
       handle: user.handle,
       reputation: "12",
@@ -16,7 +16,7 @@ class SerializeContributorTest < ActiveSupport::TestCase
     }
 
     contextual_data = User::ReputationToken::CalculateContextualData.(user.id)
-    assert_equal expected, SerializeContributor.(user, rank: rank, contextual_data: contextual_data)
+    assert_equal expected, SerializeContributor.(user, rank:, contextual_data:)
   end
 
   test "serializes profile link" do
@@ -24,7 +24,7 @@ class SerializeContributorTest < ActiveSupport::TestCase
     create :user_profile, user: user
 
     contextual_data = User::ReputationToken::CalculateContextualData.(user.id)
-    data = SerializeContributor.(user, rank: 0, contextual_data: contextual_data)
+    data = SerializeContributor.(user, rank: 0, contextual_data:)
     assert_equal Exercism::Routes.profile_url(user), data[:links][:profile]
   end
 
@@ -34,7 +34,7 @@ class SerializeContributorTest < ActiveSupport::TestCase
 
     contextual_data = User::ReputationToken::CalculateContextualData.(user.id)
     contextual_data.stubs(reputation: 1_000_000)
-    data = SerializeContributor.(user, rank: 0, contextual_data: contextual_data)
+    data = SerializeContributor.(user, rank: 0, contextual_data:)
     assert_equal "1000k", data[:reputation]
   end
 end

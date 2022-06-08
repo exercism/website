@@ -11,7 +11,7 @@ module Donations
 
       def call
         Donations::Subscription.create!(
-          user: user,
+          user:,
           stripe_id: stripe_data.id,
           amount_in_cents: stripe_data.items.data[0].price.unit_amount,
           active: true

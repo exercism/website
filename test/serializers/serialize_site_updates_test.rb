@@ -47,7 +47,7 @@ class SerializeSiteUpdatesTest < ActiveSupport::TestCase
         exercise_widget: AssembleExerciseWidget.(
           update.exercise,
           user_track,
-          solution: solution,
+          solution:,
           with_tooltip: false,
           render_as_link: true,
           render_blurb: true,
@@ -57,7 +57,7 @@ class SerializeSiteUpdatesTest < ActiveSupport::TestCase
         )
       )
     ]
-    assert_equal expected, SerializeSiteUpdates.([update], user: user)
+    assert_equal expected, SerializeSiteUpdates.([update], user:)
   end
 
   test "serializes new_concept_update" do

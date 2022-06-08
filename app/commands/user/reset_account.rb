@@ -30,7 +30,7 @@ class User
       user.solutions.joins(:exercise).distinct.pluck(:track_id).each do |track_id|
         next if existing_track_ids.include?(track_id)
 
-        UserTrack.create!(user: user, track_id: track_id)
+        UserTrack.create!(user:, track_id:)
       end
 
       user.user_tracks.each do |user_track|

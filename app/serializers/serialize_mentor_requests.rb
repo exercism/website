@@ -30,8 +30,8 @@ class SerializeMentorRequests
 
       have_mentored_previously: !!relationship,
       is_favorited: !!relationship&.favorited?,
-      status: status,
-      tooltip_url: tooltip_url,
+      status:,
+      tooltip_url:,
 
       # TODO: Rename this to web_url
       url: Exercism::Routes.mentoring_request_url(request)
@@ -40,7 +40,7 @@ class SerializeMentorRequests
 
   memoize
   def relationships
-    Mentor::StudentRelationship.where(mentor: mentor, student_id: requests.map(&:student_id)).
+    Mentor::StudentRelationship.where(mentor:, student_id: requests.map(&:student_id)).
       index_by(&:student_id)
   end
 

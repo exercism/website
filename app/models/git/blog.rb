@@ -14,7 +14,7 @@ module Git
     end
 
     def initialize(repo_url: DEFAULT_REPO_URL)
-      @repo = Repository.new(repo_url: repo_url)
+      @repo = Repository.new(repo_url:)
     end
 
     memoize

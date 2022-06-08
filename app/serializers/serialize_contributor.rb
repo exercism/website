@@ -14,8 +14,8 @@ class SerializeContributor
 
   def call
     {
-      rank: rank,
-      activity: activity,
+      rank:,
+      activity:,
       handle: user.handle,
       reputation: User::FormatReputation.(reputation),
       avatar_url: user.avatar_url,

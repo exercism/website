@@ -45,7 +45,7 @@ class User::ReputationPeriod
         with_attached_avatar.
         to_a
 
-      Kaminari.paginate_array(users, total_count: total_count).
+      Kaminari.paginate_array(users, total_count:).
         page(page).per(self.class.requests_per_page)
     end
 
@@ -70,7 +70,7 @@ class User::ReputationPeriod
     # data but really a complex cache.
     def filter_about!
       if track_id.to_i.positive?
-        @rows = @rows.where(about: :track, track_id: track_id)
+        @rows = @rows.where(about: :track, track_id:)
       else
         @rows = @rows.where(about: :everything)
       end

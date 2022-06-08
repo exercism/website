@@ -15,7 +15,7 @@ class AssembleReputationTokensTest < ActiveSupport::TestCase
 
     expected = SerializePaginatedCollection.(
       user.reputation_tokens.page(1).per(20),
-      data: data,
+      data:,
       meta: {
         links: {
           tokens: Exercism::Routes.reputation_journey_url,

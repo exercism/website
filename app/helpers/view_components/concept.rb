@@ -19,12 +19,12 @@ module ViewComponents
         tag.div(class: 'info') do
           safe_join(
             [
-              ViewComponents::ConceptIcon.new(concept, :small, view_context: view_context).to_s,
+              ViewComponents::ConceptIcon.new(concept, :small, view_context:).to_s,
               concept.name
             ]
           )
         end +
-          ViewComponents::ConceptProgressBar.new(concept, user_track, view_context: view_context).to_s
+          ViewComponents::ConceptProgressBar.new(concept, user_track, view_context:).to_s
       end
     end
 

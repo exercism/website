@@ -23,8 +23,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -56,8 +56,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -84,8 +84,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_empty reviewer.reputation_tokens
@@ -108,8 +108,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_empty reviewer.reputation_tokens
@@ -132,11 +132,11 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviews = [{ reviewer_username: "user22" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
-    refute User::ReputationTokens::CodeReviewToken.where(user: user).exists?
+    refute User::ReputationTokens::CodeReviewToken.where(user:).exists?
   end
 
   test "pull request reviewers are only awarded reputation once per pull request" do
@@ -164,8 +164,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_equal 1, reviewer_1.reputation_tokens.size
@@ -195,8 +195,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_equal 2, User::ReputationTokens::CodeReviewToken.find_each.size
@@ -224,8 +224,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_empty User::ReputationTokens::CodeReviewToken.where(user: system_user)
@@ -253,8 +253,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_empty User::ReputationTokens::CodeReviewToken.where(user: ghost_user)
@@ -281,8 +281,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     refute_empty reviewer_1.reputation_tokens
@@ -318,8 +318,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       reviews = [{ reviewer_username: "reviewer71" }]
 
       User::ReputationToken::AwardForPullRequestReviewers.(
-        action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-        repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+        action:, author_username: author, url:, html_url:, labels:,
+        repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
       )
 
       assert_equal reputation, reviewer.reputation_tokens.last.value
@@ -343,8 +343,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_equal 10, reviewer.reputation_tokens.last.value
@@ -367,8 +367,8 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_equal 5, reviewer.reputation_tokens.last.value
@@ -394,17 +394,17 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       user: reviewer,
       level: :medium,
       params: {
-        repo: repo,
+        repo:,
         pr_node_id: node_id,
-        merged_at: merged_at
+        merged_at:
       }
 
     assert_equal :medium, reputation_token.level # Sanity
     assert_equal 5, reputation_token.value # Sanity
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_equal 1, reviewer.reputation_tokens.size
@@ -432,17 +432,17 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       user: reviewer,
       level: :small,
       params: {
-        repo: repo,
+        repo:,
         pr_node_id: node_id,
-        merged_at: merged_at
+        merged_at:
       }
 
     assert_equal :small, reputation_token.level # Sanity
     assert_equal 2, reputation_token.value # Sanity
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_equal 1, reviewer.reputation_tokens.size
@@ -470,17 +470,17 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       user: reviewer,
       level: :small,
       params: {
-        repo: repo,
+        repo:,
         pr_node_id: node_id,
-        merged_at: merged_at
+        merged_at:
       }
 
     assert_equal :small, reputation_token.level # Sanity
     assert_equal 2, reputation_token.value # Sanity
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
     )
 
     assert_equal 1, reviewer.reputation_tokens.size
@@ -510,9 +510,9 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, reviews:
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
@@ -544,9 +544,9 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     ]
 
     User::ReputationToken::AwardForPullRequestReviewers.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title, merged: merged,
-      closed_at: closed_at, reviews: reviews
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:, merged:,
+      closed_at:, reviews:
     )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last

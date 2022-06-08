@@ -11,7 +11,7 @@ class SerializeMentorDiscussionsForMentor
 
   memoize
   def relationships
-    Mentor::StudentRelationship.where(mentor: mentor, student_id: discussions.joins(:solution).pluck(:user_id)).
+    Mentor::StudentRelationship.where(mentor:, student_id: discussions.joins(:solution).pluck(:user_id)).
       index_by(&:student_id)
   end
 end

@@ -7,8 +7,8 @@ module ReactComponents
         super(
           "common-progress-graph", {
             values: data,
-            height: height,
-            width: width
+            height:,
+            width:
           }
         )
       end

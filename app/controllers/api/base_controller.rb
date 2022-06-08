@@ -18,7 +18,7 @@ module API
       authenticate_with_http_token do |token|
         return if token.blank?
 
-        user = User::AuthToken.find_by!(token: token).user
+        user = User::AuthToken.find_by!(token:).user
         sign_in(user)
       end
     rescue ActiveRecord::RecordNotFound
@@ -85,10 +85,10 @@ module API
 
       render json: {
         error: {
-          type: type,
-          message: message
+          type:,
+          message:
         }.merge(data)
-      }, status: status
+      }, status:
     end
   end
 end

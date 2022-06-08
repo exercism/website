@@ -115,7 +115,7 @@ FactoryBot.define do
 
     params do
       {
-        solution: create(:practice_solution, :published, user: user)
+        solution: create(:practice_solution, :published, user:)
       }
     end
   end

@@ -15,9 +15,9 @@ module ReactComponents
 
       def to_s
         super("mentoring-try-mentoring-button", {
-          text: text,
-          size: size,
-          links: links
+          text:,
+          size:,
+          links:
         })
       end
 

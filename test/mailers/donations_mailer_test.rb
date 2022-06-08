@@ -5,7 +5,7 @@ class DonationsMailerTest < ActionMailer::TestCase
     user = create :user, handle: "handle-6b48cf20"
     payment = create :donations_payment, user: user
 
-    email = DonationsMailer.with(payment: payment).payment_created
+    email = DonationsMailer.with(payment:).payment_created
     subject = "Thank you for your donation"
     assert_email(email, user.email, subject, "payment_created")
   end

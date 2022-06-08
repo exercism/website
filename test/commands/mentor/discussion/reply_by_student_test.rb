@@ -30,7 +30,7 @@ class Mentor::Discussion::ReplyByStudentTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user
     iteration = create :iteration, solution: solution
     mentor = create :user
-    discussion = create(:mentor_discussion, solution: solution, mentor: mentor)
+    discussion = create(:mentor_discussion, solution:, mentor:)
 
     Mentor::Discussion::ReplyByStudent.(
       discussion,

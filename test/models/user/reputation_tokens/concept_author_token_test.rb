@@ -10,7 +10,7 @@ class User::ReputationTokens::ConceptAuthorTokenTest < ActiveSupport::TestCase
     User::ReputationToken::Create.(
       user,
       :concept_author,
-      authorship: authorship
+      authorship:
     )
 
     assert_equal 1, user.reputation_tokens.size

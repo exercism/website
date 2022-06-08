@@ -10,27 +10,27 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     reviews = [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", reviewer_username: "ErikSchierboom" }]
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
-      repo: repo,
-      node_id: node_id,
-      number: number,
+      repo:,
+      node_id:,
+      number:,
       state: "closed",
       action: "closed",
       author_username: author,
       labels: [],
       merged: true,
       merged_by_username: merged_by,
-      reviews: reviews,
+      reviews:,
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
       node_id,
-      number: number,
+      number:,
       author_username: author,
       merged_by_username: merged_by,
-      repo: repo,
-      reviews: reviews,
-      data: data
+      repo:,
+      reviews:,
+      data:
     )
 
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
@@ -53,27 +53,27 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     reviews = []
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
-      repo: repo,
-      node_id: node_id,
-      number: number,
+      repo:,
+      node_id:,
+      number:,
       state: "closed",
       action: "closed",
       author_username: author,
       labels: [],
       merged: true,
       merged_by_username: merged_by,
-      reviews: reviews,
+      reviews:,
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
       node_id,
-      number: number,
+      number:,
       author_username: author,
       merged_by_username: merged_by,
-      repo: repo,
-      reviews: reviews,
-      data: data
+      repo:,
+      reviews:,
+      data:
     )
 
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id

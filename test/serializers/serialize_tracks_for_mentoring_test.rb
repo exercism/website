@@ -136,7 +136,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         }
       }
     ]
-    actual = SerializeTracksForMentoring.(Track.all, mentor: mentor)
+    actual = SerializeTracksForMentoring.(Track.all, mentor:)
     assert_equal expected, actual
   end
 
@@ -147,11 +147,11 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
     2.times { create :mentor_request, solution: create(:practice_solution) }
     create :mentor_request, solution: solution
 
-    data = SerializeTracksForMentoring.(Track.all, mentor: mentor)
+    data = SerializeTracksForMentoring.(Track.all, mentor:)
     assert_equal 3, data[0][:num_solutions_queued]
 
     create :mentor_student_relationship, mentor: mentor, student: solution.user, blocked_by_student: true
-    data = SerializeTracksForMentoring.(Track.all, mentor: mentor)
+    data = SerializeTracksForMentoring.(Track.all, mentor:)
     assert_equal 2, data[0][:num_solutions_queued]
   end
 end

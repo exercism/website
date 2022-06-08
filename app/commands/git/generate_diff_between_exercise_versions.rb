@@ -37,12 +37,12 @@ module Git
 
     memoize
     def old_git
-      Git::Exercise.new(old_slug, exercise.git_type, old_sha, repo: repo)
+      Git::Exercise.new(old_slug, exercise.git_type, old_sha, repo:)
     end
 
     memoize
     def new_git
-      Git::Exercise.new(exercise.slug, exercise.git_type, exercise.git_sha, repo: repo)
+      Git::Exercise.new(exercise.slug, exercise.git_type, exercise.git_sha, repo:)
     end
 
     memoize

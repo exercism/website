@@ -14,7 +14,7 @@ class SerializeMentorDiscussionsForMentorTest < ActiveSupport::TestCase
     relationship = create :mentor_student_relationship, mentor: mentor, student: student
 
     data = mock
-    SerializeMentorDiscussionForMentor.expects(:call).with(discussion, relationship: relationship).returns(data)
+    SerializeMentorDiscussionForMentor.expects(:call).with(discussion, relationship:).returns(data)
     assert_equal [data], SerializeMentorDiscussionsForMentor.(Mentor::Discussion.all, mentor)
   end
 end

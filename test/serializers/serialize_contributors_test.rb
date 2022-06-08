@@ -17,7 +17,7 @@ class SerializeContributorsTest < ActiveSupport::TestCase
     assert_equal expected, SerializeContributors.(
       [user_1, user_2],
       starting_rank: 1,
-      contextual_data: contextual_data
+      contextual_data:
     )
   end
 end

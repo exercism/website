@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :user
 
       def to_s
-        super("profile-contributions-list", { categories: categories })
+        super("profile-contributions-list", { categories: })
       end
 
       private

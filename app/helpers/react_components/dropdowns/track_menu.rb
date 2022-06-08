@@ -6,7 +6,7 @@ module ReactComponents
       def to_s
         super("dropdowns-track-menu", {
           track: SerializeTrack.(track, user_track),
-          links: links
+          links:
         })
       end
 

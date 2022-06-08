@@ -9,10 +9,10 @@ module ReactComponents
         super(
           "student-open-editor-button",
           {
-            status: status,
-            command: command,
+            status:,
+            command:,
             editor_enabled: exercise.has_test_runner?,
-            links: links
+            links:
           }
         )
       end

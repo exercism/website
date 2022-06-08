@@ -47,7 +47,7 @@ class Iteration::DestroyTest < ActiveSupport::TestCase
     freeze_time do
       iteration = create :iteration
       published_iteration = create :iteration, solution: iteration.solution
-      published_iteration.solution.update!(published_iteration: published_iteration, published_at: Time.current)
+      published_iteration.solution.update!(published_iteration:, published_at: Time.current)
 
       Iteration::Destroy.(iteration)
 

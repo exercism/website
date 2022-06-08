@@ -47,7 +47,7 @@ class Submission
     def create_submission!
       @submission = solution.submissions.create!(
         uuid: submission_uuid,
-        submitted_via: submitted_via
+        submitted_via:
       )
     end
 

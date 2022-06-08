@@ -155,8 +155,8 @@ class IterationTest < ActiveSupport::TestCase
     analyzer_feedback = mock
 
     submission.stubs(
-      representer_feedback: representer_feedback,
-      analyzer_feedback: analyzer_feedback
+      representer_feedback:,
+      analyzer_feedback:
     )
 
     assert_equal representer_feedback, iteration.representer_feedback

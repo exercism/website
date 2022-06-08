@@ -15,7 +15,7 @@ module Github
       {
         event_type: event_type.to_s,
         client_payload: {
-          repos: repos,
+          repos:,
           pusher: pusher_github_username
         }
       }.to_json

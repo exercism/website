@@ -18,7 +18,7 @@ class AssembleExerciseListTest < ActiveSupport::TestCase
     user_track = create :user_track, user: user, track: track
 
     expected = {
-      exercises: SerializeExercises.([exercise], user_track: user_track)
+      exercises: SerializeExercises.([exercise], user_track:)
     }
     assert_equal expected, AssembleExerciseList.(user, track, {})
   end
@@ -33,7 +33,7 @@ class AssembleExerciseListTest < ActiveSupport::TestCase
     user_track = create :user_track, user: user, track: track
 
     expected = {
-      exercises: SerializeExercises.([exercise_1, exercise_2], user_track: user_track),
+      exercises: SerializeExercises.([exercise_1, exercise_2], user_track:),
       solutions: SerializeSolutions.(user.solutions, user)
     }
     assert_equal expected, AssembleExerciseList.(user, track, { sideload: ['solutions'] })
@@ -45,14 +45,14 @@ class AssembleExerciseListTest < ActiveSupport::TestCase
     user_track = create :user_track, user: user, track: track
 
     criteria = "foo"
-    params = { sideload: ['solutions'], criteria: criteria }
+    params = { sideload: ['solutions'], criteria: }
 
     exercises = mock
     serialized_exercises = mock
     serialized_solutions = mock
 
-    Exercise::Search.expects(:call).with(user_track, criteria: criteria).returns(exercises)
-    SerializeExercises.expects(:call).with(exercises, user_track: user_track).returns(serialized_exercises)
+    Exercise::Search.expects(:call).with(user_track, criteria:).returns(exercises)
+    SerializeExercises.expects(:call).with(exercises, user_track:).returns(serialized_exercises)
     SerializeSolutions.expects(:call).returns(serialized_solutions)
 
     expected = {

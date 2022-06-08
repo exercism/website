@@ -17,9 +17,9 @@ class Solution::UpdateToLatestExerciseVersionTest < ActiveSupport::TestCase
 
   test "updates last iteration submission's git data" do
     solution = create :concept_solution
-    old_submission = create(:iteration, solution: solution).submission
-    new_submission = create(:iteration, solution: solution).submission
-    deleted_submission = create(:iteration, solution: solution, deleted_at: Time.current).submission
+    old_submission = create(:iteration, solution:).submission
+    new_submission = create(:iteration, solution:).submission
+    deleted_submission = create(:iteration, solution:, deleted_at: Time.current).submission
 
     [old_submission, new_submission, deleted_submission].each do |submission|
       submission.update!(git_sha: "foo", git_slug: "bar")
@@ -42,9 +42,9 @@ class Solution::UpdateToLatestExerciseVersionTest < ActiveSupport::TestCase
 
   test "reruns test on latest iteration's submission" do
     solution = create :concept_solution
-    create(:iteration, solution: solution).submission
-    new_submission = create(:iteration, solution: solution).submission
-    create(:iteration, solution: solution, deleted_at: Time.current).submission
+    create(:iteration, solution:).submission
+    new_submission = create(:iteration, solution:).submission
+    create(:iteration, solution:, deleted_at: Time.current).submission
 
     Submission::TestRun::Init.expects(:call).with(new_submission, run_in_background: true)
 
@@ -54,9 +54,9 @@ class Solution::UpdateToLatestExerciseVersionTest < ActiveSupport::TestCase
   test "don't rerun test if test runner is disabled" do
     solution = create :concept_solution
     solution.exercise.update(has_test_runner: false)
-    create(:iteration, solution: solution).submission
-    create(:iteration, solution: solution).submission
-    create(:iteration, solution: solution, deleted_at: Time.current).submission
+    create(:iteration, solution:).submission
+    create(:iteration, solution:).submission
+    create(:iteration, solution:, deleted_at: Time.current).submission
 
     Submission::TestRun::Init.expects(:call).never
 

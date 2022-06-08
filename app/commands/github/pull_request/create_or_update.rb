@@ -6,7 +6,7 @@ module Github
       initialize_with :node_id, :attributes
 
       def call
-        pull_request = ::Github::PullRequest.create_or_find_by!(node_id: node_id) do |pr|
+        pull_request = ::Github::PullRequest.create_or_find_by!(node_id:) do |pr|
           pr.number = attributes[:number]
           pr.title = attributes[:title]
           pr.repo = attributes[:repo]

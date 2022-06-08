@@ -13,7 +13,7 @@ class Submission
         analysis = submission.create_analysis!(
           tooling_job_id: tooling_job.id,
           ops_status: tooling_job.execution_status.to_i,
-          data: data
+          data:
         )
 
         begin

@@ -6,7 +6,7 @@ class Submission::Analysis::CancelTest < ActiveSupport::TestCase
     submission_uuid = SecureRandom.compact_uuid
     RestClient.expects(:post).with(
       'http://analyzer.example.com/submissions/cancel',
-      submission_uuid: submission_uuid
+      submission_uuid:
     )
     Submission::Analysis::Cancel.(submission_uuid)
   end

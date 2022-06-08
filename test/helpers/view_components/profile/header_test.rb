@@ -26,9 +26,9 @@ class ViewComponents::Profile::HeaderTest < ActionView::TestCase
 
   test "solutions tab" do
     user = create :user, roles: [:must_be_present]
-    profile_id = create(:user_profile, user: user).id
+    profile_id = create(:user_profile, user:).id
 
-    3.times { create :practice_solution, :published, user: user }
+    3.times { create :practice_solution, :published, user: }
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     refute_includes html, "Published Solutions"
 
@@ -39,7 +39,7 @@ class ViewComponents::Profile::HeaderTest < ActionView::TestCase
 
   test "testimonials tab" do
     user = create :user, roles: [:must_be_present]
-    profile_id = create(:user_profile, user: user).id
+    profile_id = create(:user_profile, user:).id
 
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     refute_includes html, "Testimonials"
@@ -51,7 +51,7 @@ class ViewComponents::Profile::HeaderTest < ActionView::TestCase
 
   test "contributions tab" do
     user = create :user, roles: [:must_be_present]
-    profile_id = create(:user_profile, user: user).id
+    profile_id = create(:user_profile, user:).id
 
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     refute_includes html, "Contributions"

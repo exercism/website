@@ -11,7 +11,7 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
 
       refute_equal submission.git_sha, git_sha # Sanity
 
-      job = ToolingJob::Create.(submission, type, git_sha: git_sha, run_in_background: false)
+      job = ToolingJob::Create.(submission, type, git_sha:, run_in_background: false)
 
       redis = Exercism.redis_tooling_client
       expected = {
@@ -32,7 +32,7 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
         },
         id: job.id,
         submission_uuid: submission.uuid,
-        type: type,
+        type:,
         language: submission.track.slug,
         exercise: submission.exercise.slug,
         created_at: Time.current.utc.to_i

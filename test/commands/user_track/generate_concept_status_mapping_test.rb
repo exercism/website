@@ -187,6 +187,6 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
   end
 
   def setup_from_factory(track, type, slugs)
-    slugs.map { |slug| create type, slug: slug, track: track }
+    slugs.map { |slug| create type, slug:, track: }
   end
 end

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :practice_solution do
     user { create :user }
-    exercise { create :practice_exercise, track: track }
+    exercise { create :practice_exercise, track: }
 
     trait :completed do
       status { :completed }
@@ -20,7 +20,7 @@ FactoryBot.define do
     end
 
     factory :hello_world_solution do
-      exercise { create :hello_world_exercise, track: track }
+      exercise { create :hello_world_exercise, track: }
     end
   end
 end

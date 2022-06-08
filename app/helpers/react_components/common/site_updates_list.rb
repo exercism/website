@@ -6,7 +6,7 @@ module ReactComponents
       def to_s
         super("common-site-updates-list", {
           updates: SerializeSiteUpdates.(updates),
-          context: context
+          context:
         })
       end
     end

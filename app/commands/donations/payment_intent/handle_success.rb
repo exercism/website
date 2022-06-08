@@ -14,7 +14,7 @@ module Donations
         return unless user
 
         subscription = Donations::Subscription::Create.(user, subscription_data) if subscription_data
-        Donations::Payment::Create.(user, payment_intent, subscription: subscription)
+        Donations::Payment::Create.(user, payment_intent, subscription:)
       end
 
       private

@@ -22,7 +22,7 @@ class Badge::LackadaisicalBadgeTest < ActiveSupport::TestCase
     4.times do |idx|
       other_track = create :track, slug: "track_#{idx}"
       exercise = create :practice_exercise, slug: 'bob', track: other_track
-      create :practice_solution, :completed, user: user, track: other_track, exercise: exercise
+      create :practice_solution, :completed, user:, track: other_track, exercise:
     end
     refute badge.award_to?(user.reload)
 

@@ -29,9 +29,9 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
       track: track,
       external_url: "https://google.com",
       params: {
-        repo: repo,
-        pr_node_id: pr_node_id,
-        pr_number: pr_number,
+        repo:,
+        pr_node_id:,
+        pr_number:,
         pr_title: title,
         merged_at: Time.parse('2020-04-03T14:54:57Z').utc
       }

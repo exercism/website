@@ -10,7 +10,7 @@ class User::ReputationTokens::ExerciseContributionTokenTest < ActiveSupport::Tes
     User::ReputationToken::Create.(
       user,
       :exercise_contribution,
-      contributorship: contributorship
+      contributorship:
     )
 
     assert_equal 1, user.reputation_tokens.size

@@ -7,7 +7,7 @@ class SiteUpdates::NewExerciseUpdate < SiteUpdate
     {
       exercise_title: exercise.title,
       exercise_url: Exercism::Routes.track_exercise_url(track, exercise),
-      maker_handles: maker_handles
+      maker_handles:
     }
   end
 

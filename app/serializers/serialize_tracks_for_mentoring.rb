@@ -35,7 +35,7 @@ class SerializeTracksForMentoring
 
   def request_counts_with_mentor
     ::Mentor::Request::Retrieve.(
-      mentor: mentor,
+      mentor:,
       limit_tracks: false,
       sorted: false,
       paginated: false

@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :exercise, :params
 
       def to_s
-        super("track-exercise-community-solutions-list", { request: request })
+        super("track-exercise-community-solutions-list", { request: })
       end
 
       private

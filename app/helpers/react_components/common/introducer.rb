@@ -7,9 +7,9 @@ module ReactComponents
         return if hidden?
 
         super("common-introducer", {
-          icon: icon,
-          content: content,
-          endpoint: endpoint
+          icon:,
+          content:,
+          endpoint:
         })
       end
 

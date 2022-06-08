@@ -6,14 +6,14 @@ class PracticeExercise
 
     def call
       PracticeExercise.create!(
-        uuid: uuid,
-        track: track,
+        uuid:,
+        track:,
         **attributes
       ).tap do |exercise|
         SiteUpdates::ProcessNewExerciseUpdate.(exercise)
       end
     rescue ActiveRecord::RecordNotUnique
-      PracticeExercise.find_by!(uuid: uuid, track: track)
+      PracticeExercise.find_by!(uuid:, track:)
     end
   end
 end

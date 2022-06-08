@@ -14,7 +14,7 @@ module Flows
         user: user,
         seen: false,
         params: {
-          external_url: external_url,
+          external_url:,
           repo: "ruby/pulls",
           pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
           pr_number: 120,

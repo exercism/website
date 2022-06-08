@@ -11,7 +11,7 @@ module Git
     git_filepath :config, file: ".meta/config.json"
 
     def initialize(concept_slug, git_sha = "HEAD", repo_url: nil, repo: nil)
-      @repo = repo || Repository.new(repo_url: repo_url)
+      @repo = repo || Repository.new(repo_url:)
       @concept_slug = concept_slug
       @git_sha = git_sha
     end

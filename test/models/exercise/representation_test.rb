@@ -42,9 +42,9 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     ast = SecureRandom.uuid
     ast_digest = Submission::Representation.digest_ast(ast)
     exercise_representation = create(:exercise_representation,
-      exercise: exercise,
-      ast: ast,
-      ast_digest: ast_digest)
+      exercise:,
+      ast:,
+      ast_digest:)
     assert_equal 0, exercise_representation.num_times_used
 
     create :submission_representation, submission: submission
@@ -66,13 +66,13 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     medium_ast_digest = SecureRandom.uuid
     frequent_ast_digest = SecureRandom.uuid
 
-    exercise_representation_medium = create(:exercise_representation, ast_digest: medium_ast_digest, exercise: exercise)
-    exercise_representation_rare = create(:exercise_representation, ast_digest: rare_ast_digest, exercise: exercise)
-    exercise_representation_frequent = create(:exercise_representation, ast_digest: frequent_ast_digest, exercise: exercise)
+    exercise_representation_medium = create(:exercise_representation, ast_digest: medium_ast_digest, exercise:)
+    exercise_representation_rare = create(:exercise_representation, ast_digest: rare_ast_digest, exercise:)
+    exercise_representation_frequent = create(:exercise_representation, ast_digest: frequent_ast_digest, exercise:)
 
-    2.times { create :submission_representation, ast_digest: medium_ast_digest, submission: submission }
+    2.times { create :submission_representation, ast_digest: medium_ast_digest, submission: }
     create :submission_representation, ast_digest: rare_ast_digest, submission: submission
-    3.times { create :submission_representation, ast_digest: frequent_ast_digest, submission: submission }
+    3.times { create :submission_representation, ast_digest: frequent_ast_digest, submission: }
 
     expected = [
       exercise_representation_frequent,
@@ -103,14 +103,14 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
     # Wrong ast
     create :submission_representation,
-      submission: create(:submission, exercise: exercise),
+      submission: create(:submission, exercise:),
       ast_digest: "something"
 
     assert_empty representation.reload.submission_representations
 
     # Correct everything!
     submission_representation = create :submission_representation,
-      submission: create(:submission, exercise: exercise),
+      submission: create(:submission, exercise:),
       ast_digest: ast_digest
 
     assert_equal [submission_representation], representation.reload.submission_representations

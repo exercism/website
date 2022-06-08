@@ -14,13 +14,13 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     User::ReputationToken::Create.(
       user,
       :code_contribution,
-      repo: repo,
-      level: level,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
-      pr_title: pr_title,
-      merged_at: merged_at,
-      external_url: external_url
+      repo:,
+      level:,
+      pr_node_id:,
+      pr_number:,
+      pr_title:,
+      merged_at:,
+      external_url:
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -50,13 +50,13 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     User::ReputationToken::Create.(
       user,
       :code_contribution,
-      repo: repo,
-      level: level,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
-      pr_title: pr_title,
-      merged_at: merged_at,
-      external_url: external_url
+      repo:,
+      level:,
+      pr_node_id:,
+      pr_number:,
+      pr_title:,
+      merged_at:,
+      external_url:
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -86,13 +86,13 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     User::ReputationToken::Create.(
       user,
       :code_contribution,
-      repo: repo,
-      level: level,
-      pr_node_id: pr_node_id,
-      pr_number: pr_number,
-      pr_title: pr_title,
-      merged_at: merged_at,
-      external_url: external_url
+      repo:,
+      level:,
+      pr_node_id:,
+      pr_number:,
+      pr_title:,
+      merged_at:,
+      external_url:
     )
 
     assert_equal 1, user.reputation_tokens.size
@@ -122,13 +122,13 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       User::ReputationToken::Create.(
         user,
         :code_contribution,
-        repo: repo,
-        level: level,
-        pr_node_id: pr_node_id,
-        pr_number: pr_number,
-        pr_title: pr_title,
+        repo:,
+        level:,
+        pr_node_id:,
+        pr_number:,
+        pr_title:,
         merged_at: nil,
-        external_url: external_url
+        external_url:
       )
 
       assert_equal 1, user.reputation_tokens.size
@@ -161,7 +161,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
         user,
         :code_contribution,
         level: :medium,
-        repo: repo,
+        repo:,
         pr_node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
         pr_number: 1347,
         pr_title: "The cat sat on the mat",

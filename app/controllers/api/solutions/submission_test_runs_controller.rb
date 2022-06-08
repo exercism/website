@@ -9,7 +9,7 @@ module API
         test_run = SerializeSubmissionTestRun.(submission.test_run)
 
         render json: {
-          test_run: test_run,
+          test_run:,
           test_runner: {
             average_test_duration: submission.track.average_test_duration,
             status: {

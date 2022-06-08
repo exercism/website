@@ -33,7 +33,7 @@ module API
       ::Donations::Subscription::UpdateAmount.expects(:call).with(subscription, amount_in_cents)
 
       setup_user(user)
-      patch update_amount_api_donations_subscription_path(subscription.id, amount_in_cents: amount_in_cents), headers: @headers,
+      patch update_amount_api_donations_subscription_path(subscription.id, amount_in_cents:), headers: @headers,
         as: :json
       assert_response 200
       expected = { subscription: { links: { index: donations_settings_url } } }

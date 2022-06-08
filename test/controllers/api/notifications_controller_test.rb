@@ -18,7 +18,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
       user: user,
       status: :unread,
       params: {
-        discussion: create(:mentor_discussion, mentor: mentor)
+        discussion: create(:mentor_discussion, mentor:)
       }
 
     get api_notifications_path, headers: @headers, as: :json

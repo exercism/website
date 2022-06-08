@@ -12,7 +12,7 @@ module Flows
         user = create :user
         mentor = create :user, handle: "mr-mentor"
         discussion = create :mentor_discussion, mentor: mentor
-        create :mentor_started_discussion_notification, user: user, params: { discussion: discussion }, status: :unread
+        create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
 
         use_capybara_host do
           sign_in!(user)

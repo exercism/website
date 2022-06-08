@@ -19,7 +19,7 @@ module API
 
       setup_user(user)
       post api_donations_payment_intents_path(
-        type: type, amount_in_cents: amount_in_cents
+        type:, amount_in_cents:
       ), headers: @headers, as: :json
 
       assert_response 200
@@ -59,7 +59,7 @@ module API
       user = create :user
 
       id = SecureRandom.uuid
-      ::Donations::PaymentIntent::HandleSuccess.expects(:call).with(id: id)
+      ::Donations::PaymentIntent::HandleSuccess.expects(:call).with(id:)
 
       setup_user(user)
       patch succeeded_api_donations_payment_intent_path(id), headers: @headers, as: :json

@@ -30,7 +30,7 @@ module Git
     end
 
     def initialize(exercise_slug, exercise_type, git_sha = "HEAD", repo_url: nil, repo: nil)
-      @repo = repo || Repository.new(repo_url: repo_url)
+      @repo = repo || Repository.new(repo_url:)
       @exercise_slug = exercise_slug
       @exercise_type = exercise_type
       @git_sha = git_sha
@@ -271,7 +271,7 @@ module Git
 
     memoize
     def track
-      Track.new(repo: repo)
+      Track.new(repo:)
     end
   end
 end

@@ -71,7 +71,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def student_mentor_relationship
-    Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
+    Mentor::StudentRelationship.find_by(mentor:, student:)
   end
 
   def student_url

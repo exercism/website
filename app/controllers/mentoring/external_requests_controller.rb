@@ -25,7 +25,7 @@ class Mentoring::ExternalRequestsController < ApplicationController
       request.fulfilled!
       Mentor::Discussion.create!(
         mentor: current_user,
-        request: request,
+        request:,
         awaiting_student_since: Time.current
       )
     end

@@ -8,11 +8,11 @@ class User::Notifications::MentorRepliedToDiscussionNotificationTest < ActiveSup
     solution = create :practice_solution, exercise: exercise, user: user
     iteration = create :iteration, solution: solution
     mentor = create(:user)
-    discussion_post = create(:mentor_discussion_post, iteration: iteration, author: mentor)
+    discussion_post = create(:mentor_discussion_post, iteration:, author: mentor)
 
     notification = User::Notifications::MentorRepliedToDiscussionNotification.create!(
-      user: user,
-      params: { discussion_post: discussion_post }
+      user:,
+      params: { discussion_post: }
     )
     assert_equal "#{user.id}|mentor_replied_to_discussion|DiscussionPost##{discussion_post.id}", notification.uniqueness_key
     assert_equal "#{mentor.handle} has added a new comment on your solution to #{track.title}: #{exercise.title}",

@@ -18,8 +18,8 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
       )
 
-      assert_equal 1, User::ReputationTokens::IssueAuthorToken.where(user: user).count
-      token = User::ReputationTokens::IssueAuthorToken.where(user: user).first
+      assert_equal 1, User::ReputationTokens::IssueAuthorToken.where(user:).count
+      token = User::ReputationTokens::IssueAuthorToken.where(user:).first
       assert opened_at.to_date, token.earned_on
     end
   end
@@ -41,7 +41,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
       )
 
-      refute User::ReputationTokens::IssueAuthorToken.where(user: user).exists?
+      refute User::ReputationTokens::IssueAuthorToken.where(user:).exists?
     end
   end
 
@@ -63,7 +63,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
       )
 
-      refute User::ReputationTokens::IssueAuthorToken.where(user: user).exists?
+      refute User::ReputationTokens::IssueAuthorToken.where(user:).exists?
     end
   end
 
@@ -85,7 +85,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
       )
 
-      refute User::ReputationTokens::IssueAuthorToken.where(user: user).exists?
+      refute User::ReputationTokens::IssueAuthorToken.where(user:).exists?
     end
   end
 
@@ -125,7 +125,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
     )
 
-    refute User::ReputationTokens::IssueAuthorToken.where(user: user).exists?
+    refute User::ReputationTokens::IssueAuthorToken.where(user:).exists?
   end
 
   test "reputation is awarded once per author per issue" do
@@ -142,16 +142,16 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     user = create :user, handle: "User-22", github_username: "user22"
     create :user_issue_author_reputation_token, user: user, level: :large,
       params: {
-        repo: repo,
+        repo:,
         pr_node_id: node_id,
-        opened_at: opened_at
+        opened_at:
       }
 
     User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
     )
 
-    assert_equal 1, User::ReputationTokens::IssueAuthorToken.where(user: user).size
+    assert_equal 1, User::ReputationTokens::IssueAuthorToken.where(user:).size
   end
 
   %w[ruby ruby-test-runner ruby-analyzer ruby-representer].each do |repo_name|
@@ -173,7 +173,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
       )
 
-      token = User::ReputationTokens::IssueAuthorToken.where(user: user).first
+      token = User::ReputationTokens::IssueAuthorToken.where(user:).first
       assert_equal track, token.track
     end
   end
@@ -252,9 +252,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     reputation_token = create :user_issue_author_reputation_token, user: user, level: :massive,
       external_url: html_url,
       params: {
-        repo: repo,
+        repo:,
         issue_node_id: node_id,
-        opened_at: opened_at
+        opened_at:
       }
 
     User::ReputationToken::AwardForIssue.(
@@ -283,9 +283,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       create :user_issue_author_reputation_token, user: user, level: :massive,
         external_url: html_url,
         params: {
-          repo: repo,
+          repo:,
           issue_node_id: node_id,
-          opened_at: opened_at
+          opened_at:
         }
 
       # Sanity check
@@ -315,9 +315,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     create :user_issue_author_reputation_token, user: user, level: :massive,
       external_url: html_url,
       params: {
-        repo: repo,
+        repo:,
         issue_node_id: node_id,
-        opened_at: opened_at
+        opened_at:
       }
 
     # Sanity check

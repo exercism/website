@@ -13,7 +13,7 @@ class AssembleContributorsTest < ActiveSupport::TestCase
     expected = SerializePaginatedCollection.(
       paginated_users,
       serializer: SerializeContributors,
-      serializer_kwargs: { starting_rank: 1, contextual_data: contextual_data }
+      serializer_kwargs: { starting_rank: 1, contextual_data: }
     )
 
     assert_equal expected, AssembleContributors.({})
@@ -32,17 +32,17 @@ class AssembleContributorsTest < ActiveSupport::TestCase
     page = '1'
 
     User::ReputationPeriod::Search.expects(:call).with(
-      period: period,
-      category: category,
+      period:,
+      category:,
       track_id: track.id,
-      user_handle: user_handle,
-      page: page
+      user_handle:,
+      page:
     ).returns(User.page(1).per(20))
 
     User::ReputationToken::CalculateContextualData.expects(:call).with(
       [user_1.id, user_2.id],
-      period: period,
-      category: category,
+      period:,
+      category:,
       track_id: track.id
     ).returns(
       user_1.id => mock(reputation: 1, activity: ""),
@@ -50,11 +50,11 @@ class AssembleContributorsTest < ActiveSupport::TestCase
     )
 
     AssembleContributors.(
-      period: period,
-      category: category,
+      period:,
+      category:,
       track_slug: track.slug,
-      user_handle: user_handle,
-      page: page
+      user_handle:,
+      page:
     )
   end
 end

@@ -10,7 +10,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
   test "index returns comments for request and solution" do
     setup_user
     solution = create :concept_solution, :published
-    comment = create(:solution_comment, solution: solution, content_markdown: "Hello", updated_at: Time.utc(2016, 12, 25))
+    comment = create(:solution_comment, solution:, content_markdown: "Hello", updated_at: Time.utc(2016, 12, 25))
 
     get api_track_exercise_community_solution_comments_path(
       solution.track, solution.exercise, solution.user.handle
@@ -96,7 +96,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     user = create :user
     solution = create :practice_solution, :published
     content_markdown = "foo to the baaar"
-    comment = create(:solution_comment, author: user, solution: solution, content_markdown: content_markdown)
+    comment = create(:solution_comment, author: user, solution:, content_markdown:)
 
     # Check we're calling the correet class
     Solution::Comment::Create.expects(:call).with(
@@ -146,7 +146,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     user = create(:user)
     setup_user(user)
     solution = create :practice_solution
-    comment = create(:solution_comment, solution: solution)
+    comment = create(:solution_comment, solution:)
 
     patch api_track_exercise_community_solution_comment_path(
       solution.track, solution.exercise, solution.user.handle, comment
@@ -164,7 +164,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     user = create(:user)
     setup_user(user)
     solution = create :practice_solution
-    comment = create(:solution_comment, author: user, solution: solution)
+    comment = create(:solution_comment, author: user, solution:)
 
     patch api_track_exercise_community_solution_comment_path(
       solution.track, solution.exercise, solution.user.handle, comment
@@ -188,7 +188,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     solution = create :practice_solution
 
     comment = create(:solution_comment,
-      solution: solution,
+      solution:,
       author: user,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
@@ -231,7 +231,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     user = create(:user)
     setup_user(user)
     solution = create :practice_solution
-    comment = create(:solution_comment, solution: solution)
+    comment = create(:solution_comment, solution:)
 
     delete api_track_exercise_community_solution_comment_path(
       solution.track, solution.exercise, solution.user.handle, comment
@@ -250,7 +250,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     setup_user(user)
     solution = create :practice_solution
     comment = create(:solution_comment,
-      solution: solution,
+      solution:,
       author: user,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))

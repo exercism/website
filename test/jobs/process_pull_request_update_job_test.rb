@@ -33,38 +33,38 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       ].to_json, headers: { 'Content-Type' => 'application/json' })
 
     User::ReputationToken::AwardForPullRequest.expects(:call).with(
-      action: action,
+      action:,
       author_username: author,
-      url: url,
-      html_url: html_url,
-      labels: labels,
-      repo: repo,
-      node_id: node_id,
-      title: title,
-      created_at: created_at,
-      number: number,
-      merged: merged,
-      merged_at: merged_at,
+      url:,
+      html_url:,
+      labels:,
+      repo:,
+      node_id:,
+      title:,
+      created_at:,
+      number:,
+      merged:,
+      merged_at:,
       merged_by_username: merged_by,
-      state: state,
-      reviews: reviews
+      state:,
+      reviews:
     )
 
     ProcessPullRequestUpdateJob.perform_now(
-      action: action,
+      action:,
       author_username: author,
-      url: url,
-      html_url: html_url,
-      labels: labels,
-      repo: repo,
-      node_id: node_id,
-      title: title,
-      created_at: created_at,
-      number: number,
-      merged: merged,
-      merged_at: merged_at,
+      url:,
+      html_url:,
+      labels:,
+      repo:,
+      node_id:,
+      title:,
+      created_at:,
+      number:,
+      merged:,
+      merged_at:,
       merged_by_username: merged_by,
-      state: state
+      state:
     )
   end
 
@@ -100,37 +100,37 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       ].to_json, headers: { 'Content-Type' => 'application/json' })
 
     ProcessPullRequestUpdateJob.perform_now(
-      action: action,
+      action:,
       author_username: author,
-      url: url,
-      html_url: html_url,
-      labels: labels,
-      repo: repo,
-      node_id: node_id,
-      title: title,
-      created_at: created_at,
-      number: number,
-      state: state,
-      merged: merged,
-      merged_at: merged_at,
+      url:,
+      html_url:,
+      labels:,
+      repo:,
+      node_id:,
+      title:,
+      created_at:,
+      number:,
+      state:,
+      merged:,
+      merged_at:,
       merged_by_username: merged_by
     )
 
-    pr = Github::PullRequest.find_by(node_id: node_id)
+    pr = Github::PullRequest.find_by(node_id:)
     expected_data = {
-      url: url,
-      repo: repo,
-      state: state,
-      title: title,
-      action: action,
-      labels: labels,
-      merged: merged,
-      number: number,
-      node_id: node_id,
-      reviews: reviews,
-      html_url: html_url,
-      merged_at: merged_at,
-      created_at: created_at,
+      url:,
+      repo:,
+      state:,
+      title:,
+      action:,
+      labels:,
+      merged:,
+      number:,
+      node_id:,
+      reviews:,
+      html_url:,
+      merged_at:,
+      created_at:,
       author_username: author,
       merged_by_username: merged_by
     }
@@ -186,19 +186,19 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       )
 
     ProcessPullRequestUpdateJob.perform_now(
-      action: action,
+      action:,
       author_username: author,
-      url: url,
-      html_url: html_url,
-      labels: labels,
-      repo: repo,
-      node_id: node_id,
-      title: title,
-      created_at: created_at,
-      number: number,
-      state: state,
-      merged: merged,
-      merged_at: merged_at,
+      url:,
+      html_url:,
+      labels:,
+      repo:,
+      node_id:,
+      title:,
+      created_at:,
+      number:,
+      state:,
+      merged:,
+      merged_at:,
       merged_by_username: merged_by
     )
 

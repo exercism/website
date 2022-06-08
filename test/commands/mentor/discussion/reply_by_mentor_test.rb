@@ -30,7 +30,7 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
     user = create :user
     solution = create :practice_solution, user: user
     iteration = create :iteration, solution: solution
-    discussion = create(:mentor_discussion, solution: solution)
+    discussion = create(:mentor_discussion, solution:)
 
     Mentor::Discussion::ReplyByMentor.(
       discussion,
@@ -38,7 +38,7 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
       "foobar"
     )
     assert_equal 1, user.notifications.size
-    notification = User::Notification.where(user: user).first
+    notification = User::Notification.where(user:).first
     assert_equal User::Notifications::MentorRepliedToDiscussionNotification, notification.class
     assert_equal(
       { discussion_post: Mentor::DiscussionPost.first.to_global_id.to_s }.with_indifferent_access,

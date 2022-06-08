@@ -7,7 +7,7 @@ class Exercise
 
       def call
         begin
-          contributorship = exercise.contributorships.create!(contributor: contributor)
+          contributorship = exercise.contributorships.create!(contributor:)
         rescue ActiveRecord::RecordNotUnique
           return nil
         end
@@ -15,7 +15,7 @@ class Exercise
         AwardReputationTokenJob.perform_later(
           contributor,
           :exercise_contribution,
-          contributorship: contributorship
+          contributorship:
         )
       end
     end

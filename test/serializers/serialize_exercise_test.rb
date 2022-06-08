@@ -92,7 +92,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
 
     assert_equal expected, SerializeExercise.(
       exercise,
-      user_track: user_track
+      user_track:
     )
   end
 
@@ -123,7 +123,7 @@ class SerializeExerciseTest < ActiveSupport::TestCase
 
     assert_equal expected, SerializeExercise.(
       exercise,
-      user_track: user_track
+      user_track:
     )
   end
 

@@ -36,7 +36,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     post favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
     assert_response 200
 
-    assert Mentor::StudentRelationship.where(mentor: mentor, student: student, favorited: true).exists?
+    assert Mentor::StudentRelationship.where(mentor:, student:, favorited: true).exists?
   end
 
   ###
@@ -68,7 +68,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     delete favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
     assert_response 200
 
-    assert Mentor::StudentRelationship.where(mentor: mentor, student: student, favorited: false).exists?
+    assert Mentor::StudentRelationship.where(mentor:, student:, favorited: false).exists?
   end
 
   ###
@@ -100,7 +100,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     post block_api_mentoring_student_path(student.handle), headers: @headers, as: :json
     assert_response 200
 
-    assert Mentor::StudentRelationship.where(mentor: mentor, student: student, blocked_by_mentor: true).exists?
+    assert Mentor::StudentRelationship.where(mentor:, student:, blocked_by_mentor: true).exists?
   end
 
   ###
@@ -132,6 +132,6 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     delete block_api_mentoring_student_path(student.handle), headers: @headers, as: :json
     assert_response 200
 
-    assert Mentor::StudentRelationship.where(mentor: mentor, student: student, blocked_by_mentor: false).exists?
+    assert Mentor::StudentRelationship.where(mentor:, student:, blocked_by_mentor: false).exists?
   end
 end

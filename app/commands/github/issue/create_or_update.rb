@@ -6,7 +6,7 @@ module Github
       initialize_with :node_id, :attributes
 
       def call
-        issue = ::Github::Issue.create_or_find_by!(node_id: node_id) do |i|
+        issue = ::Github::Issue.create_or_find_by!(node_id:) do |i|
           i.number = attributes[:number]
           i.title = attributes[:title]
           i.status = status
@@ -18,7 +18,7 @@ module Github
         issue.update!(
           number: attributes[:number],
           title: attributes[:title],
-          status: status,
+          status:,
           repo: attributes[:repo],
           opened_at: attributes[:opened_at],
           opened_by_username: attributes[:opened_by_username],

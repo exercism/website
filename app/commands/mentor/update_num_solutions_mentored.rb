@@ -14,7 +14,7 @@ module Mentor
 
     private
     def num_solutions_mentored_sql
-      Arel.sql(Mentor::Discussion.where(mentor: mentor).finished_for_mentor.select("COUNT(*)").to_sql)
+      Arel.sql(Mentor::Discussion.where(mentor:).finished_for_mentor.select("COUNT(*)").to_sql)
     end
   end
 end

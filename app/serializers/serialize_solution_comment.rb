@@ -14,7 +14,7 @@ class SerializeSolutionComment
       content_markdown: comment.content_markdown,
       content_html: comment.content_html,
       updated_at: comment.updated_at.iso8601,
-      links: links
+      links:
     }
   end
 

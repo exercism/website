@@ -4,7 +4,7 @@ class ContributorTeam::CreateTest < ActiveSupport::TestCase
   test "create track maintainers team" do
     track = create :track
 
-    ContributorTeam::Create.('csharp', type: :track_maintainers, track: track)
+    ContributorTeam::Create.('csharp', type: :track_maintainers, track:)
 
     assert_equal 1, ContributorTeam.count
     c = ContributorTeam.last
@@ -40,7 +40,7 @@ class ContributorTeam::CreateTest < ActiveSupport::TestCase
     track = create :track
 
     assert_idempotent_command do
-      ContributorTeam::Create.('csharp', type: :track_maintainers, track: track)
+      ContributorTeam::Create.('csharp', type: :track_maintainers, track:)
     end
   end
 end

@@ -267,7 +267,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     exercise = create :concept_exercise
     solution = create :concept_solution, user: @current_user, exercise: exercise
 
-    created_submission = create(:submission, solution: solution)
+    created_submission = create(:submission, solution:)
 
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock

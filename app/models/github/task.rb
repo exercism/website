@@ -60,7 +60,7 @@ class Github::Task < ApplicationRecord
 
   private
   def set_track_from_repo_url
-    self.track_id = Track.where(repo_url: repo_url).pick(:id)
+    self.track_id = Track.where(repo_url:).pick(:id)
   end
 
   def repo_url

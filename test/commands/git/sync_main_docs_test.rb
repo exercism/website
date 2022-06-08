@@ -42,7 +42,7 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
     TestHelpers.use_docs_test_repo!
 
     repo_url = TestHelpers.git_repo_url("docs")
-    repo = Git::Repository.new(repo_url: repo_url)
+    repo = Git::Repository.new(repo_url:)
 
     error = StandardError.new "Could not find Concept X"
     Document.any_instance.stubs(:update!).raises(error)

@@ -15,18 +15,18 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
 
     Mentor::Testimonial::Retrieve.expects(:call).with(
       mentor: user,
-      page: page,
+      page:,
       criteria: "Foobar",
       order: "recent",
-      track_slug: track_slug,
+      track_slug:,
       include_unrevealed: true
     ).returns(Mentor::Testimonial.page(1).per(1))
 
     get api_mentoring_testimonials_path, params: {
-      page: page,
+      page:,
       criteria: "Foobar",
       order: "recent",
-      track_slug: track_slug
+      track_slug:
     }, headers: @headers, as: :json
   end
 

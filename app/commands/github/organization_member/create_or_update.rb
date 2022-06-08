@@ -6,9 +6,9 @@ module Github
       initialize_with :username, :attributes
 
       def call
-        ::Github::OrganizationMember.create!(username: username)
+        ::Github::OrganizationMember.create!(username:)
       rescue ActiveRecord::RecordNotUnique
-        ::Github::OrganizationMember.find_by!(username: username).tap do |member|
+        ::Github::OrganizationMember.find_by!(username:).tap do |member|
           member.update!(attributes)
         end
       end

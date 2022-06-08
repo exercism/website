@@ -7,7 +7,7 @@ class Concept
 
       def call
         begin
-          authorship = concept.authorships.create!(author: author)
+          authorship = concept.authorships.create!(author:)
         rescue ActiveRecord::RecordNotUnique
           return nil
         end
@@ -15,7 +15,7 @@ class Concept
         AwardReputationTokenJob.perform_later(
           author,
           :concept_author,
-          authorship: authorship
+          authorship:
         )
       end
     end

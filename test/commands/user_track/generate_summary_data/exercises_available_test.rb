@@ -55,12 +55,12 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     prereq_1 = create :concept, track: track, slug: "bools"
     prereq_exercise_1 = create :concept_exercise, slug: 'bools-exercise'
     create(:exercise_taught_concept, exercise: prereq_exercise_1, concept: prereq_1)
-    create(:exercise_prerequisite, exercise: exercise, concept: prereq_1)
+    create(:exercise_prerequisite, exercise:, concept: prereq_1)
 
     prereq_2 = create :concept, track: track, slug: "conditionals"
     prereq_exercise_2 = create :concept_exercise, slug: 'conditionals-exercise'
     create(:exercise_taught_concept, exercise: prereq_exercise_2, concept: prereq_2)
-    create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
+    create(:exercise_prerequisite, exercise:, concept: prereq_2)
 
     user = create :user
     user_track = create :user_track, track: track, user: user
@@ -141,7 +141,7 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
   test "locked exercises honour practice mode" do
     track = create :track
     exercise = create :practice_exercise, :random_slug, track: track
-    exercise.prerequisites << create(:concept, track: track)
+    exercise.prerequisites << create(:concept, track:)
 
     ut = create :user_track, track: track
     assert_equal :locked, summary_for(ut).exercise_status(exercise)

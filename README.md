@@ -4,35 +4,33 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/b47ec4d5081d8abb59fa/maintainability)](https://codeclimate.com/github/exercism/website/maintainability)
 [![View performance data on Skylight](https://badges.skylight.io/typical/VNpB7GqXZDpQ.svg)](https://oss.skylight.io/app/applications/VNpB7GqXZDpQ)
 
-This is the website component of Exercism. It is Ruby on Rails app, backed by MySQL. It also relies on Redis and AnyCable.
+This is the website component of Exercism.
+It is Ruby on Rails app, backed by various services.
 
-## Local setup
+_Note: This repo is treated as an internal repo. That means the source code is public, but we do not accept Pull Requests and we do not officially support the app being run locally._
 
-The website can be be setup and run locally, but this is unsupported.
+## Setup
+
+These are instructions to get things working locally.
+While you are welcome to try and follow these instructions and set up this repo on your local machine, we provide no guarantee of things working on your specific local setup.
+
+### Prerequistes
 
 You need the following installed:
 
-- Ruby 3.1.0 (For other Ruby versions, change the version in the `Gemfile`)
+- Ruby 3.1.0 (For other Ruby versions, change the version in the `Gemfile` and the `.ruby-version` files)
 - MySQL
 - Redis
 - [AnyCable-Go](https://github.com/anycable/anycable-go#installation)
-- [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
-- [S3Mock](https://github.com/adobe/s3mock)
+- [Docker](https://www.docker.com/)
 
-Run localstack (for a local AWS) and opensearch via Docker:
-
-```bash
-docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
-docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:1.1.0
-```
-
-### Mac-specific
+#### Mac-specific
 
 The main dependencies can be installed via homebrew
 
 - `brew install libgit2 cmake pkg-config anycable-go hivemind node yarn`
 
-### Unix-specific
+#### Unix-specific
 
 What dependencies you need to install depends on your Unix distribution.
 
@@ -42,7 +40,7 @@ For example, for Ubuntu you'll need to install:
 
 You'll also need to install [nodejs](https://nodejs.org/en/download/) and [yarn](https://yarnpkg.com/getting-started/install).
 
-### Windows-specific
+#### Windows-specific
 
 As we recommend using WSL, see the Unix-specific instructions listed above.
 
@@ -69,9 +67,19 @@ Tests are parallelized so you need a db per processor, so you need to do this fo
 GRANT ALL PRIVILEGES ON `exercism_test-0`.* TO 'exercism'@'localhost';
 ```
 
-#### Run the setup script
+### Running local AWS
 
-Run the setup scripts:
+To run the app you must have a local version of AWS running.
+We use localstack and opensearch, and run them via Docker.
+
+```bash
+docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
+docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:1.1.0
+```
+
+### Run the setup script
+
+The following scripts configure exercism to work with your setup.
 
 ```
 bundle install
@@ -85,7 +93,7 @@ EXERCISM_ENV=development bundle exec setup_exercism_local_aws
 
 We have a Procfile which executes the various commands need to run Exercism locally.
 
-### Mac-specific
+#### Mac-specific
 
 On MacOSX we recommend using `hivemind` to manage this, which can be installed via `brew install hivemind`.
 
@@ -95,7 +103,7 @@ To get everything started you can then run:
 hivemind -p 3020 Procfile.dev
 ```
 
-### Unix-specific
+#### Unix-specific
 
 On Unix systems we recommend using `overmind` to manage this, which can be installed using [these instructions](https://github.com/DarthSim/overmind#installation).
 
@@ -105,18 +113,11 @@ To get everything started you can then run:
 overmind -p 3020 Procfile.dev
 ```
 
-### Windows-specific
+#### Windows-specific
 
 As we recommend using WSL, see the Unix-specific instructions listed above.
 
 For information on setting up WSL, check [the installation instructions](https://docs.microsoft.com/en-us/windows/wsl/install).
-
-## Configure Solargraph
-
-If you'd like to use solargraph, the gem is in the file. You need to run and set `solargraph.useBundler` to `true` in your config. I have this working well with coc-solargraph. [This article](http://blog.jamesnewton.com/setting-up-coc-nvim-for-ruby-development) was helpful for setting it up.
-
-- `bundle exec yard gems`
-- `solargraph bundle`
 
 ## Code Standards
 
@@ -164,3 +165,13 @@ git add config.json
 git commit -m "First commit"
 git push origin head
 ```
+
+## Solargraph
+
+Solargraph allows for code suggestions to appear in your editor.
+
+If you'd like to use solargraph, the gem is in the file.
+You need to run and set `solargraph.useBundler` to `true` in your config. I have this working well with coc-solargraph. [This article](http://blog.jamesnewton.com/setting-up-coc-nvim-for-ruby-development) was helpful for setting it up.
+
+- `bundle exec yard gems`
+- `solargraph bundle`

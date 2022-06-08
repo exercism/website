@@ -19,18 +19,34 @@ You need the following installed:
 - [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html)
 - [S3Mock](https://github.com/adobe/s3mock)
 
-Run localstack for a local AWS, and opensearch via Docker:
+Run localstack (for a local AWS) and opensearch via Docker:
 
 ```bash
 docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
 docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:1.1.0
 ```
 
-### Mac-Specific
+### Mac-specific
 
 The main dependencies can be installed via homebrew
 
-- `brew install libgit2 cmake pkg-config anycable-go hivemind`
+- `brew install libgit2 cmake pkg-config anycable-go hivemind node yarn`
+
+### Unix-specific
+
+What dependencies you need to install depends on your Unix distribution.
+
+For example, for Ubuntu you'll need to install:
+
+`sudo apt-get install software-properties-common libmariadb-dev cmake ruby-dev ruby-bundler ruby-railties`
+
+You'll also need to install [nodejs](https://nodejs.org/en/download/) and [yarn](https://yarnpkg.com/getting-started/install).
+
+### Windows-specific
+
+As we recommend using WSL, see the Unix-specific instructions listed above.
+
+For information on setting up WSL, check [the installation instructions](https://docs.microsoft.com/en-us/windows/wsl/install).
 
 ### Configure the database
 
@@ -68,6 +84,9 @@ EXERCISM_ENV=development bundle exec setup_exercism_local_aws
 ### Running the local servers
 
 We have a Procfile which executes the various commands need to run Exercism locally.
+
+### Mac-specific
+
 On MacOSX we recommend using `hivemind` to manage this, which can be installed via `brew install hivemind`.
 
 To get everything started you can then run:
@@ -75,6 +94,22 @@ To get everything started you can then run:
 ```bash
 hivemind -p 3020 Procfile.dev
 ```
+
+### Unix-specific
+
+On Unix systems we recommend using `overmind` to manage this, which can be installed using [these instructions](https://github.com/DarthSim/overmind#installation).
+
+To get everything started you can then run:
+
+```bash
+overmind -p 3020 Procfile.dev
+```
+
+### Windows-specific
+
+As we recommend using WSL, see the Unix-specific instructions listed above.
+
+For information on setting up WSL, check [the installation instructions](https://docs.microsoft.com/en-us/windows/wsl/install).
 
 ## Configure Solargraph
 

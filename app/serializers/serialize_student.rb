@@ -6,7 +6,7 @@ class SerializeStudent
     new(...).()
   end
 
-  def initialize(student, mentor, user_track:, relationship:, anonymous_mode:, discussion:)
+  def initialize(student, mentor, user_track:, relationship:, anonymous_mode:, discussion: nil)
     @student = student
     @mentor = mentor
     @user_track = user_track

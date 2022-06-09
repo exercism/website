@@ -11,6 +11,7 @@ module API
         track_slug: params[:track_slug],
         student_handle: params[:student],
         criteria: params[:criteria],
+        exclude_uuid: params[:exclude_uuid],
         order: params[:order]
       )
 

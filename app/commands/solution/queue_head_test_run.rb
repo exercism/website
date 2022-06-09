@@ -33,7 +33,11 @@ class Solution::QueueHeadTestRun
     # If we don't have a test runner then we shouldn't run anything so get out of here
     return solution.update_latest_iteration_head_tests_status!(:not_queued) unless exercise.has_test_runner?
 
-    process_submission!(latest_submission)
+    begin
+      process_submission!(latest_submission)
+    rescue Rugged::TreeError
+      solution.update_latest_iteration_head_tests_status!(:exceptioned)
+    end
   end
 
   def handle_latest_published!
@@ -55,7 +59,11 @@ class Solution::QueueHeadTestRun
     # same solution, as that guarantees statuses are updated correctly.
     return if latest_published_submission == latest_submission
 
-    process_submission!(latest_published_submission)
+    begin
+      process_submission!(latest_published_submission)
+    rescue Rugged::TreeError
+      solution.update_published_iteration_head_tests_status!(:exceptioned)
+    end
   end
 
   def process_submission!(submission)

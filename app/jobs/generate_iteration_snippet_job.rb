@@ -14,10 +14,8 @@ class GenerateIterationSnippetJob < ApplicationJob
     file = iteration.submission.files.first
     return unless file
 
-    # TODO: (Required) Set this through Exercism config
-    url = "https://internal.exercism.org/extract_snippet"
     snippet = RestClient.post(
-      url,
+      Exercism.config.snippet_generator_url,
       {
         language: iteration.track.slug,
         source_code: file.content

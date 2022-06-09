@@ -29,7 +29,7 @@ module ReactComponents
               user_track: UserTrack.for(student, track),
               relationship: mentor_student_relationship,
               anonymous_mode: discussion&.anonymous_mode?,
-              discussion: discussion
+              discussion:
             ),
             mentor_solution:,
             exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),

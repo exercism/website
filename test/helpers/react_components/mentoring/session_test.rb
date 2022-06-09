@@ -107,7 +107,7 @@ module ReactComponents::Mentoring
           ],
           instructions: Markdown::Parse.(solution.instructions),
           tests: solution.tests,
-          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
+          student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:, discussion:),
           mentor_solution: nil,
           exemplar_files: [
             {

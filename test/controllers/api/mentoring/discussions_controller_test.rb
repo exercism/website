@@ -22,7 +22,8 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
       track_slug: 'track_param',
       student_handle: 'student_param',
       criteria: 'criteria_param',
-      order: 'order_param'
+      order: 'order_param',
+      exclude_uuid: 'exclude_uuid'
     ).returns(mock(includes: [], total_count: 200, current_page: 1, total_pages: 1))
 
     get api_mentoring_discussions_path, params: {
@@ -31,7 +32,8 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
       track_slug: 'track_param',
       student: 'student_param',
       criteria: 'criteria_param',
-      order: 'order_param'
+      order: 'order_param',
+      exclude_uuid: 'exclude_uuid'
     }, headers: @headers, as: :json
   end
 

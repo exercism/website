@@ -1,7 +1,0 @@
-server: bundle exec bin/rails server -b '0.0.0.0'
-anycable: bundle exec anycable
-sidekiq: bundle exec sidekiq
-ws: anycable-go --host='0.0.0.0' --rpc_host='0.0.0.0:50051' --port=3334 --redis_url='redis://redis:6379'
-css: yarn build:css --watch
-js: yarn build --watch
-manifest: bin/rails r bin/monitor-manifest

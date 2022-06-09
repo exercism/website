@@ -108,6 +108,20 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     Solution::QueueHeadTestRun.(solution)
   end
 
+  test "published: set status to exceptioned when exercise files are not found" do
+    exercise = create :practice_exercise, slug: 'unknown'
+    solution = create :practice_solution, :published, exercise: exercise
+    submission_1 = create :submission, solution: solution
+    iteration_1 = create :iteration, submission: submission_1, solution: solution
+    submission_2 = create :submission, solution: solution
+    create :iteration, submission: submission_2, solution: solution
+    solution.update!(published_iteration: iteration_1)
+
+    Solution::QueueHeadTestRun.(solution)
+
+    assert_equal :exceptioned, solution.reload.published_iteration_head_tests_status
+  end
+
   test "latest: inits test run" do
     solution = create :practice_solution
     submission = create :submission, solution: solution
@@ -213,6 +227,17 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     Submission::File.any_instance.expects(:write_to_efs!).never
 
     Solution::QueueHeadTestRun.(solution)
+  end
+
+  test "latest: set status to exceptioned when exercise files are not found" do
+    exercise = create :practice_exercise, slug: 'unknown'
+    solution = create :practice_solution, exercise: exercise
+    submission = create :submission, solution: solution
+    create :iteration, submission: submission, solution: solution
+
+    Solution::QueueHeadTestRun.(solution)
+
+    assert_equal :exceptioned, solution.reload.latest_iteration_head_tests_status
   end
 
   test "published and latest: inits two test run" do

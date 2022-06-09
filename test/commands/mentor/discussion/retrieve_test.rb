@@ -160,13 +160,13 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     ], Mentor::Discussion::Retrieve.(mentor, :all, criteria: "mar").map(&:solution).sort
   end
 
-  test "exclude uuids" do
+  test "filter by exclude_uuid" do
     user = create :user
 
     discussion_1 = create :mentor_discussion, :mentor_finished, mentor: user
     discussion_2 = create :mentor_discussion, :student_finished, mentor: user
 
-    assert_empty Mentor::Discussion::Retrieve.(user, :all, page: 1, exclude: [discussion_1.uuid, discussion_2.uuid])
-    assert_equal [discussion_2], Mentor::Discussion::Retrieve.(user, :all, page: 1, exclude: discussion_1.uuid)
+    assert_empty Mentor::Discussion::Retrieve.(user, :all, page: 1, exclude_uuid: [discussion_1.uuid, discussion_2.uuid])
+    assert_equal [discussion_2], Mentor::Discussion::Retrieve.(user, :all, page: 1, exclude_uuid: discussion_1.uuid)
   end
 end

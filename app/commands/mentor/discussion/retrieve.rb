@@ -17,7 +17,7 @@ module Mentor
                      criteria: nil, order: nil,
                      track_slug: nil,
                      sorted: true, paginated: true,
-                     exclude: nil)
+                     exclude_uuid: nil)
 
         # This will be a code-level exception rather than a user-level
         # exception so we don't worry about a special class. Getting this
@@ -31,7 +31,7 @@ module Mentor
         @track_slug = track_slug
         @criteria = criteria
         @order = order&.to_sym
-        @exclude = exclude
+        @exclude_uuid = exclude_uuid
 
         @sorted = sorted
         @paginated = paginated
@@ -42,7 +42,7 @@ module Mentor
         filter_status!
         filter_track!
         filter_student!
-        filter_exclude!
+        filter_exclude_uuid!
         search!
         sort! if sorted?
         paginate! if paginated?
@@ -51,7 +51,7 @@ module Mentor
       end
 
       private
-      attr_reader :mentor, :status, :page, :student_handle, :track_slug, :criteria, :order, :exclude
+      attr_reader :mentor, :status, :page, :student_handle, :track_slug, :criteria, :order, :exclude_uuid
 
       %i[sorted paginated].each do |attr|
         define_method("#{attr}?") { instance_variable_get("@#{attr}") }
@@ -91,10 +91,10 @@ module Mentor
         @discussions = @discussions.where(solutions: { user_id: student_id })
       end
 
-      def filter_exclude!
-        return if exclude.blank?
+      def filter_exclude_uuid!
+        return if exclude_uuid.blank?
 
-        @discussions = @discussions.where.not(uuid: exclude)
+        @discussions = @discussions.where.not(uuid: exclude_uuid)
       end
 
       def search!

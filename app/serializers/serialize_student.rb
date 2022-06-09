@@ -58,7 +58,7 @@ class SerializeStudent
                   Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
                 end,
       previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all,
-        exclude: discussion.try(:uuid))
+        exclude_uuid: discussion.try(:uuid))
     }.compact
   end
 end

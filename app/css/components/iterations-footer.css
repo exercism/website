@@ -1,5 +1,6 @@
 .c-iterations-footer {
     @apply flex items-center px-24 py-16;
+    @apply overflow-x-auto;
     z-index: 1;
 
     background: linear-gradient(

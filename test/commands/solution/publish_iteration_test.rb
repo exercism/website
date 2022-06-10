@@ -37,4 +37,24 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
 
     assert_equal latest_iteration.num_loc, solution.num_loc
   end
+
+  test "set solution snippet to published iteration's snippet when single iteration is published" do
+    solution = create :practice_solution, snippet: 'my snippet', published_at: Time.current
+    iteration = create :iteration, solution: solution, idx: 1, snippet: 'aaa'
+    create :iteration, solution: solution, idx: 2, snippet: 'bbb'
+
+    Solution::PublishIteration.(solution, 1)
+
+    assert_equal iteration.snippet, solution.snippet
+  end
+
+  test "set solution snippet updated to latest published iteration's snippet when all iterations are published" do
+    solution = create :practice_solution, snippet: 'my snippet', published_at: Time.current
+    create :iteration, solution: solution, idx: 1, snippet: 'aaa'
+    other_iteration = create :iteration, solution: solution, idx: 2, snippet: 'bbb'
+
+    Solution::PublishIteration.(solution, nil)
+
+    assert_equal other_iteration.snippet, solution.snippet
+  end
 end

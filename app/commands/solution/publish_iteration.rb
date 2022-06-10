@@ -9,6 +9,7 @@ class Solution
         published_iteration: iteration,
         num_loc: num_loc.to_i
       )
+      Solution::UpdateSnippet.(solution)
     end
 
     private

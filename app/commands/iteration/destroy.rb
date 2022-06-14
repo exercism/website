@@ -9,6 +9,7 @@ class Iteration
 
       Solution::Uncomplete.(solution) unless solution.iterations.not_deleted.exists?
       Solution::Unpublish.(solution) if solution.published_iteration_id == iteration.id
+      Solution::UpdateNumLoc.(solution)
     end
 
     private

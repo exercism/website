@@ -37,9 +37,9 @@ class NotificationsMailerTest < ActionMailer::TestCase
     exercise = solution.exercise
     discussion = create :mentor_discussion, mentor: mentor, solution: solution, uuid: "d699426e31ca4ceaa953a9d3007526b0"
     notification = create :mentor_finished_discussion_notification,
-      status: :unread, user: student, params: { discussion: discussion }
+      status: :unread, user: student, params: { discussion: }
 
-    email = NotificationsMailer.with(notification: notification).mentor_finished_discussion
+    email = NotificationsMailer.with(notification:).mentor_finished_discussion
     subject = "[Mentoring] #{mentor.handle} has finished the discussion on your solution for #{exercise.track.title}/#{exercise.title}"
     assert_email(email, student.email, subject, "mentor_finished_discussion")
   end
@@ -66,9 +66,9 @@ class NotificationsMailerTest < ActionMailer::TestCase
     exercise = solution.exercise
     discussion = create :mentor_discussion, mentor: mentor, solution: solution, uuid: "d699426e31ca4ceaa953a9d3007526b0"
     notification = create :student_finished_discussion_notification,
-      status: :unread, user: mentor, params: { discussion: discussion }
+      status: :unread, user: mentor, params: { discussion: }
 
-    email = NotificationsMailer.with(notification: notification).student_finished_discussion
+    email = NotificationsMailer.with(notification:).student_finished_discussion
     subject = "[Mentoring] #{student.handle} has finished the discussion on the solution you are mentoring for #{exercise.track.title}/#{exercise.title}" # rubocop:disable Layout/LineLength
     assert_email(email, mentor.email, subject, "student_finished_discussion")
   end

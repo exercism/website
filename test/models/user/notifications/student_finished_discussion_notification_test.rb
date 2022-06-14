@@ -11,7 +11,7 @@ class User::Notifications::StudentFinishedDiscussionNotificationTest < ActiveSup
 
     notification = User::Notifications::StudentFinishedDiscussionNotification.create!(
       user: mentor,
-      params: { discussion: discussion }
+      params: { discussion: }
     )
 
     assert_equal "#{mentor.id}|student_finished_discussion|Discussion##{discussion.id}", notification.uniqueness_key

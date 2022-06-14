@@ -15,7 +15,7 @@ module Mentor
         User::Notification::Create.(
           discussion.student,
           :mentor_finished_discussion,
-          { discussion: discussion }
+          { discussion: }
         )
       end
     end

@@ -1,5 +1,6 @@
 # Create system user
-User.find_by_id(1) || User.create!(
+User.find_by_id(User::SYSTEM_USER_ID) || User.create!(
+  id: User::SYSTEM_USER_ID,
   handle: 'exercism-bot',
   email: "#{SecureRandom.uuid}@exercism.org",
   name: 'Exercism Bot',
@@ -7,7 +8,10 @@ User.find_by_id(1) || User.create!(
   password: SecureRandom.uuid,
   bio: "I am the Exercism Bot"
 )
-User.find_by_id(2) || User.create!(
+
+# Create ghost user
+User.find_by_id(User::GHOST_USER_ID) || User.create!(
+  id: User::GHOST_USER_ID,
   handle: 'exercism-ghost',
   email: "#{SecureRandom.uuid}@exercism.org",
   name: 'Exercism Ghost',
@@ -15,7 +19,6 @@ User.find_by_id(2) || User.create!(
   password: SecureRandom.uuid,
   bio: "I am the Ghost of old users who have left"
 )
-
 
 puts "Creating User iHiD"
 iHiD = User.find_by(handle: 'iHiD') || User.create!(

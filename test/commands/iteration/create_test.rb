@@ -229,4 +229,33 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     assert_includes user.reload.badges.map(&:class), Badges::GrowthMindsetBadge
   end
+
+  test "updates solution num_loc to created iteration's num_loc if all iterations are published" do
+    # solution = create :concept_solution, :published
+    # submission = create :submission
+    # create :iteration, :deleted, solution: solution, num_loc: 77
+    # solution.update!(num_loc: iteration_1.num_loc)
+
+    user = create :user
+    solution = create :concept_solution, :published, user: user
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission
+
+    stub_request(:post, Exercism.config.snippet_generator_url)
+    stub_request(:post, Exercism.config.lines_of_code_counter_url).
+      with(
+        body: {
+          track_slug: submission.track.slug,
+          submission_uuid: submission.uuid,
+          submission_filepaths: submission.valid_filepaths
+        }.to_json
+      ).
+      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+
+    iteration = Iteration::Create.(solution, submission)
+    perform_enqueued_jobs
+
+    assert_equal 77, iteration.reload.num_loc
+    assert_equal 77, solution.reload.num_loc
+  end
 end

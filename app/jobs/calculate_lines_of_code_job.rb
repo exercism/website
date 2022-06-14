@@ -27,14 +27,6 @@ class CalculateLinesOfCodeJob < ApplicationJob
     num_loc = response["counts"]["code"]
 
     iteration.update_column(:num_loc, num_loc)
-    iteration.solution.update_column(:num_loc, num_loc) if should_update_solution?(iteration)
-  end
-
-  private
-  def should_update_solution?(iteration)
-    solution = iteration.solution
-    return true if solution.published_iteration_id == iteration.id
-
-    solution.published_iteration_id.nil? && solution.latest_iteration == iteration
+    Solution::UpdateNumLoc.(iteration.solution)
   end
 end

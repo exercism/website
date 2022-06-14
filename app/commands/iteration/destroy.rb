@@ -13,8 +13,6 @@ class Iteration
 
     private
     memoize
-    def solution
-      iteration.solution
-    end
+    def solution = iteration.solution
   end
 end

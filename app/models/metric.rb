@@ -10,8 +10,8 @@ class Metric < ApplicationRecord
     merge_pull_request: 7
   }
 
-  belongs_to :track
-  belongs_to :user
+  belongs_to :track, optional: true
+  belongs_to :user, optional: true
 
   def action
     super.to_sym

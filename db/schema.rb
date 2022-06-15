@@ -436,6 +436,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.index ["uuid"], name: "index_mentor_testimonials_on_uuid"
   end
 
+  create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "action", limit: 1, default: 0, null: false
+    t.string "country_code"
+    t.bigint "track_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_metrics_on_created_at"
+    t.index ["track_id"], name: "index_metrics_on_track_id"
+    t.index ["user_id"], name: "index_metrics_on_user_id"
+  end
+
   create_table "problem_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id"

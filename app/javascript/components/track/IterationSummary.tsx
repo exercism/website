@@ -10,7 +10,7 @@ import { OutOfDateNotice } from './iteration-summary/OutOfDateNotice'
 
 const SUBMISSION_METHOD_LABELS = {
   cli: 'CLI',
-  api: 'API',
+  api: 'Editor',
 }
 
 type IterationSummaryProps = {

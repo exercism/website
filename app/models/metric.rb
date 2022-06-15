@@ -13,7 +13,5 @@ class Metric < ApplicationRecord
   belongs_to :track, optional: true
   belongs_to :user, optional: true
 
-  def action
-    super.to_sym
-  end
+  def action = super.to_sym
 end

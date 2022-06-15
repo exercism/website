@@ -8,7 +8,7 @@ class Metric::CreateTest < ActiveSupport::TestCase
     track = create :track
     user = create :user
 
-    Metric::Create.(:request_mentoring, created_at, country_code:, track:, user:)
+    Metric::Create.(action, created_at, country_code:, track:, user:)
 
     assert_equal 1, Metric.count
     metric = Metric.last
@@ -24,7 +24,7 @@ class Metric::CreateTest < ActiveSupport::TestCase
     action = :request_mentoring
     created_at = Time.current - 2.seconds
 
-    Metric::Create.(:request_mentoring, created_at, country_code: nil)
+    Metric::Create.(action, created_at, country_code: nil)
 
     assert_equal 1, Metric.count
     metric = Metric.last

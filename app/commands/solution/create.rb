@@ -9,8 +9,8 @@ class Solution
       begin
         solution_class.create!(user:, exercise:).tap do |solution|
           record_activity!(solution)
-          AwardBadgeJob.perform_later(user, :new_years_resolution, context: solution)
-          LogMetricJob.perform_later(:submit_solution, solution.created_at, track:, user:)
+          award_badge!
+          log_metric!
         end
       rescue ActiveRecord::RecordNotUnique
         solution_class.find_by!(
@@ -48,6 +48,14 @@ class Solution
         # Guard against some further third type
         raise RuntimeError
       end
+    end
+
+    def award_badge!
+      AwardBadgeJob.perform_later(user, :new_years_resolution, context: solution)
+    end
+
+    def log_metric!
+      LogMetricJob.perform_later(:submit_solution, solution.created_at, track:, user:)
     end
 
     memoize

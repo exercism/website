@@ -19,9 +19,9 @@ class Solution
 
       AwardBadgeJob.perform_later(user, :conceptual, context: exercise)
       AwardBadgeJob.perform_later(user, :completer)
-      LogMetricJob.perform_later(:complete_solution, solution.completed_at, track:, user:)
 
       record_activity!
+      log_metric!
     end
 
     private
@@ -35,6 +35,10 @@ class Solution
     rescue StandardError => e
       Rails.logger.error "Failed to create activity"
       Rails.logger.error e.message
+    end
+
+    def log_metric!
+      LogMetricJob.perform_later(:complete_solution, solution.completed_at, track:, user:)
     end
 
     memoize

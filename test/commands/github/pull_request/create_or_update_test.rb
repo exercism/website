@@ -124,4 +124,259 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     assert_empty pr.reload.reviews
   end
+
+  test "adds open metric for track pr" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+    author = create :user, github_username: 'iHiD'
+
+    data = {
+      repo: "exercism/ruby",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
+      state: "closed",
+      action: "closed",
+      author_username: "iHiD",
+      merged: true,
+      merged_by_username: "ErikSchierboom",
+      created_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      merged_at: Time.parse("2020-10-17T02:39:37Z").utc
+    }
+
+    pr = Github::PullRequest::CreateOrUpdate.(
+      data[:node_id],
+      **data.merge(data:)
+    )
+
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.where(action: :open_pull_request).count
+    metric = Metric.where(action: :open_pull_request).last
+    assert_equal pr.data[:created_at].to_time, metric.created_at
+    assert_equal :open_pull_request, metric.action
+    assert_equal track, metric.track
+    assert_equal author, metric.user
+  end
+
+  test "adds open metric for non-track pr" do
+    author = create :user, github_username: 'iHiD'
+
+    data = {
+      repo: "exercism/configlet",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
+      state: "closed",
+      action: "closed",
+      author_username: "iHiD",
+      merged: true,
+      merged_by_username: "ErikSchierboom",
+      created_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      merged_at: Time.parse("2020-10-17T02:39:37Z").utc
+    }
+
+    pr = Github::PullRequest::CreateOrUpdate.(
+      data[:node_id],
+      **data.merge(data:)
+    )
+
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.where(action: :open_pull_request).count
+    metric = Metric.where(action: :open_pull_request).last
+    assert_equal pr.data[:created_at].to_time, metric.created_at
+    assert_equal :open_pull_request, metric.action
+    assert_nil metric.track
+    assert_equal author, metric.user
+  end
+
+  test "adds open metric for pr with unknown author" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+
+    data = {
+      repo: "exercism/ruby",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
+      state: "closed",
+      action: "closed",
+      author_username: "unknown",
+      merged: true,
+      merged_by_username: "ErikSchierboom",
+      created_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      merged_at: Time.parse("2020-10-17T02:39:37Z").utc
+    }
+
+    pr = Github::PullRequest::CreateOrUpdate.(
+      data[:node_id],
+      **data.merge(data:)
+    )
+
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.where(action: :open_pull_request).count
+    metric = Metric.where(action: :open_pull_request).last
+    assert_equal pr.data[:created_at].to_time, metric.created_at
+    assert_equal :open_pull_request, metric.action
+    assert_equal track, metric.track
+    assert_nil metric.user
+  end
+
+  test "adds merge metric for track pr" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+    merged_by = create :user, github_username: 'ErikSchierboom'
+
+    data = {
+      repo: "exercism/ruby",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
+      state: "closed",
+      action: "closed",
+      author_username: "iHiD",
+      merged: true,
+      merged_by_username: "ErikSchierboom",
+      created_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      merged_at: Time.parse("2020-10-17T02:39:37Z").utc
+    }
+
+    pr = Github::PullRequest::CreateOrUpdate.(
+      data[:node_id],
+      **data.merge(data:)
+    )
+
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.where(action: :merge_pull_request).count
+    metric = Metric.where(action: :merge_pull_request).last
+    assert_equal pr.data[:merged_at].to_time, metric.created_at
+    assert_equal :merge_pull_request, metric.action
+    assert_equal track, metric.track
+    assert_equal merged_by, metric.user
+  end
+
+  test "adds merge metric for non-track pr" do
+    merged_by = create :user, github_username: 'ErikSchierboom'
+
+    data = {
+      repo: "exercism/configlet",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
+      state: "closed",
+      action: "closed",
+      author_username: "iHiD",
+      merged: true,
+      merged_by_username: "ErikSchierboom",
+      created_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      merged_at: Time.parse("2020-10-17T02:39:37Z").utc
+    }
+
+    pr = Github::PullRequest::CreateOrUpdate.(
+      data[:node_id],
+      **data.merge(data:)
+    )
+
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.where(action: :merge_pull_request).count
+    metric = Metric.where(action: :merge_pull_request).last
+    assert_equal pr.data[:merged_at].to_time, metric.created_at
+    assert_equal :merge_pull_request, metric.action
+    assert_nil metric.track
+    assert_equal merged_by, metric.user
+  end
+
+  test "adds merge metric for pr with unknown author" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+
+    data = {
+      repo: "exercism/ruby",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
+      state: "closed",
+      action: "closed",
+      author_username: "unknown",
+      merged: true,
+      merged_by_username: "ErikSchierboom",
+      created_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      merged_at: Time.parse("2020-10-17T02:39:37Z").utc
+    }
+
+    pr = Github::PullRequest::CreateOrUpdate.(
+      data[:node_id],
+      **data.merge(data:)
+    )
+
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.where(action: :merge_pull_request).count
+    metric = Metric.where(action: :merge_pull_request).last
+    assert_equal pr.data[:merged_at].to_time, metric.created_at
+    assert_equal :merge_pull_request, metric.action
+    assert_equal track, metric.track
+    assert_nil metric.user
+  end
+
+  test "adds merge metric for pr with merged status changing" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+    merged_by = create :user, github_username: 'ErikSchierboom'
+
+    data = {
+      repo: "exercism/ruby",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
+      state: "closed",
+      action: "closed",
+      author_username: "iHiD",
+      merged: false,
+      merged_by_username: nil,
+      created_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      merged_at: nil
+    }
+
+    Github::PullRequest::CreateOrUpdate.(data[:node_id], **data.merge(data:))
+    perform_enqueued_jobs
+
+    new_data = {
+      repo: "exercism/ruby",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
+      state: "closed",
+      action: "closed",
+      author_username: "iHiD",
+      merged: true,
+      merged_by_username: "ErikSchierboom",
+      created_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      merged_at: Time.parse("2020-10-17T02:39:37Z").utc
+    }
+
+    pr = Github::PullRequest::CreateOrUpdate.(
+      new_data[:node_id],
+      **new_data.merge(data: new_data)
+    )
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.where(action: :merge_pull_request).count
+    metric = Metric.where(action: :merge_pull_request).last
+    assert_equal pr.data[:merged_at].to_time, metric.created_at
+    assert_equal :merge_pull_request, metric.action
+    assert_equal track, metric.track
+    assert_equal merged_by, metric.user
+  end
+
+  test "does not add metrics for updated pr" do
+    pr = create :github_pull_request
+
+    perform_enqueued_jobs do
+      5.times do
+        Github::PullRequest::CreateOrUpdate.(
+          pr.node_id,
+          number: pr.number,
+          author_username: pr.author_username,
+          merged_by_username: pr.merged_by_username,
+          repo: pr.repo,
+          reviews: [],
+          data: pr.data
+        )
+      end
+    end
+
+    refute Metric.exists?
+  end
 end

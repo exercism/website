@@ -9,8 +9,8 @@ class Solution
       begin
         solution_class.create!(user:, exercise:).tap do |solution|
           record_activity!(solution)
-          award_badge!
-          log_metric!
+          award_badge!(solution)
+          log_metric!(solution)
         end
       rescue ActiveRecord::RecordNotUnique
         solution_class.find_by!(
@@ -50,11 +50,11 @@ class Solution
       end
     end
 
-    def award_badge!
+    def award_badge!(solution)
       AwardBadgeJob.perform_later(user, :new_years_resolution, context: solution)
     end
 
-    def log_metric!
+    def log_metric!(solution)
       LogMetricJob.perform_later(:submit_solution, solution.created_at, track:, user:)
     end
 

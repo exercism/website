@@ -10,6 +10,7 @@ class Solution
         solution_class.create!(user:, exercise:).tap do |solution|
           record_activity!(solution)
           AwardBadgeJob.perform_later(user, :new_years_resolution, context: solution)
+          LogMetricJob.perform_later(:submit_solution, solution.created_at, track:, user:)
         end
       rescue ActiveRecord::RecordNotUnique
         solution_class.find_by!(
@@ -50,8 +51,9 @@ class Solution
     end
 
     memoize
-    def user_track
-      UserTrack.for(user, exercise.track)
-    end
+    def user_track = UserTrack.for(user, track)
+
+    memoize
+    def track = exercise.track
   end
 end

@@ -149,4 +149,23 @@ class Solution::PublishTest < ActiveSupport::TestCase
 
     assert_equal other_iteration.snippet, solution.snippet
   end
+
+  test "adds metric" do
+    track = create :track
+    user = create :user
+    exercise = create :concept_exercise, track: track
+    user_track = create :user_track, user: user, track: track
+    solution = create :concept_solution, :completed, user: user, exercise: exercise
+    create :iteration, solution: solution
+
+    Solution::Publish.(solution, user_track, nil)
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_equal solution.published_at, metric.created_at
+    assert_equal :publish_solution, metric.action
+    assert_equal track, metric.track
+    assert_equal user, metric.user
+  end
 end

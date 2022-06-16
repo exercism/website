@@ -18,6 +18,7 @@ class Solution
 
       award_reputation!
       record_activity!
+      log_metric!
     end
 
     def award_reputation!
@@ -41,5 +42,12 @@ class Solution
       Rails.logger.error "Failed to create activity"
       Rails.logger.error e.message
     end
+
+    def log_metric!
+      LogMetricJob.perform_later(:publish_solution, solution.published_at, track:, user:)
+    end
+
+    delegate :user, to: :user_track
+    delegate :track, to: :user_track
   end
 end

@@ -21,6 +21,7 @@ class Solution
       log_metric!
     end
 
+    private
     def award_reputation!
       level = solution.exercise.concept_exercise? ? :concept : solution.exercise.difficulty_category
       AwardReputationTokenJob.perform_later(

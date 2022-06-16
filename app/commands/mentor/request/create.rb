@@ -8,13 +8,13 @@ module Mentor
       def call
         guard!
 
-        create_request
+        create_request!
       rescue AlreadyRequestedError => e
         e.request
       end
 
       private
-      def create_request
+      def create_request!
         request = Mentor::Request.new(
           solution:,
           comment_markdown:

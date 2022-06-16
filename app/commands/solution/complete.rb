@@ -19,6 +19,7 @@ class Solution
 
       AwardBadgeJob.perform_later(user, :conceptual, context: exercise)
       AwardBadgeJob.perform_later(user, :completer)
+      LogMetricJob.perform_later(:complete_solution, solution.completed_at, track:, user:)
 
       record_activity!
     end
@@ -37,13 +38,12 @@ class Solution
     end
 
     memoize
-    def user
-      solution.user
-    end
+    def user = solution.user
 
     memoize
-    def exercise
-      solution.exercise
-    end
+    def exercise = solution.exercise
+
+    memoize
+    def track = solution.track
   end
 end

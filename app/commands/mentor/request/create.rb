@@ -14,8 +14,10 @@ module Mentor
       end
 
       private
+      attr_reader :request
+
       def create_request!
-        request = Mentor::Request.new(
+        @request = Mentor::Request.new(
           solution:,
           comment_markdown:
         )
@@ -33,12 +35,20 @@ module Mentor
           request.save!
         end
 
+        log_metric!
         request
       end
 
       def guard!
         raise NoMentoringSlotsAvailableError unless solution.user_track.has_available_mentoring_slot?
       end
+
+      def log_metric!
+        LogMetricJob.perform_later(:request_mentoring, request.created_at, track:, user:)
+      end
+
+      def user = solution.user
+      def track = solution.track
 
       class AlreadyRequestedError < RuntimeError
         attr_reader :request

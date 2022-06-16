@@ -45,8 +45,7 @@ module Github
         LogMetricJob.perform_later(:open_issue, issue.opened_at, track:, user: opened_by_username)
       end
 
-      def repo_url = "https://github.com/#{issue.repo}"
-      def track = Track.find_by(repo_url:)
+      def track = Track.for_repo(issue.repo)
       def opened_by_username = User.find_by(github_username: issue.opened_by_username)
     end
   end

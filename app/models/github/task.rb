@@ -60,12 +60,7 @@ class Github::Task < ApplicationRecord
 
   private
   def set_track_from_repo_url
-    self.track_id = Track.where(repo_url:).pick(:id)
-  end
-
-  def repo_url
-    issue_url.
-      gsub(%r{/issues/\d+}, '').
-      gsub(/-(test-runner|analyzer|representer)$/, '')
+    slug = repo.split('/').last
+    self.track_id = Track.where(slug:).pick(:id)
   end
 end

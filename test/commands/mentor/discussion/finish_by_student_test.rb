@@ -40,7 +40,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "reports" do
     # Check it respects false
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
-    assert_equal 0, ProblemReport.count
+    refute ProblemReport.exists?
 
     # Check it respects true
     discussion = create :mentor_discussion
@@ -74,11 +74,11 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "testimonial" do
     # Check it respects nil
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
-    assert_equal 0, Mentor::Testimonial.count
+    refute Mentor::Testimonial.exists?
 
     # Check it respects empty
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5, testimonial: " \n ")
-    assert_equal 0, Mentor::Testimonial.count
+    refute Mentor::Testimonial.exists?
 
     # Check it respects true
     discussion = create :mentor_discussion
@@ -99,7 +99,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "blocking" do
     # Check it respects nil
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
-    assert_equal 0, Mentor::StudentRelationship.count
+    refute Mentor::StudentRelationship.exists?
 
     # Check it respects rating: 1
     discussion = create :mentor_discussion

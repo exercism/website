@@ -436,6 +436,39 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.index ["uuid"], name: "index_mentor_testimonials_on_uuid"
   end
 
+  create_table "metric_period_days", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "day", limit: 1, default: 0, null: false
+    t.integer "action", limit: 1, default: 0, null: false
+    t.bigint "track_id"
+    t.integer "count", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_metric_period_days_on_created_at"
+    t.index ["track_id"], name: "index_metric_period_days_on_track_id"
+  end
+
+  create_table "metric_period_hours", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "hour", limit: 1, default: 0, null: false
+    t.integer "action", limit: 1, default: 0, null: false
+    t.bigint "track_id"
+    t.integer "count", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_metric_period_hours_on_created_at"
+    t.index ["track_id"], name: "index_metric_period_hours_on_track_id"
+  end
+
+  create_table "metric_period_months", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "month", limit: 1, default: 0, null: false
+    t.integer "action", limit: 1, default: 0, null: false
+    t.bigint "track_id"
+    t.integer "count", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_metric_period_months_on_created_at"
+    t.index ["track_id"], name: "index_metric_period_months_on_track_id"
+  end
+
   create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "action", limit: 1, default: 0, null: false
     t.string "country_code"
@@ -740,6 +773,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.boolean "email_on_general_update_notification", default: true, null: false
     t.boolean "email_on_acquired_badge_notification", default: true, null: false
     t.boolean "email_on_nudge_notification", default: true, null: false
+    t.boolean "email_on_student_finished_discussion_notification", default: true, null: false
+    t.boolean "email_on_mentor_finished_discussion_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end

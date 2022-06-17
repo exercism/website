@@ -10,5 +10,18 @@ class CreateMetrics < ActiveRecord::Migration[7.0]
 
       t.index :created_at
     end
+
+    %i[month day hour].each do |period|
+      create_table "metric_period_#{period}s".to_sym do |t|
+        t.column period, :tinyint, null: false, default: 0
+        t.column :action, :tinyint, null: false, default: 0
+        t.belongs_to :track, null: true
+        t.integer :count, null: false
+
+        t.timestamps
+
+        t.index :created_at
+      end
+    end
   end
 end

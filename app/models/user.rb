@@ -85,6 +85,8 @@ class User < ApplicationRecord
 
   has_many :problem_reports, dependent: :destroy
 
+  has_many :cohort_memberships, dependent: :destroy
+
   # TODO: Validate presence of name
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true

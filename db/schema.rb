@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_24_090941) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_06_20_154615) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -30,7 +29,7 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -47,8 +46,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "icon", null: false
     t.string "description", null: false
     t.integer "num_awardees", default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_badges_on_name", unique: true
     t.index ["type"], name: "index_badges_on_type", unique: true
   end
@@ -58,16 +57,25 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "uuid", null: false
     t.string "slug", null: false
     t.string "category", null: false
-    t.datetime "published_at", precision: 6, null: false
+    t.datetime "published_at", null: false
     t.string "title", null: false
     t.text "description"
     t.string "marketing_copy", limit: 280
     t.string "image_url"
     t.string "youtube_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_blog_posts_on_author_id"
     t.index ["uuid"], name: "index_blog_posts_on_uuid", unique: true
+  end
+
+  create_table "cohort_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "cohort_slug", null: false
+    t.text "introduction", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cohort_memberships_on_user_id", unique: true
   end
 
   create_table "contributor_team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -75,8 +83,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "user_id", null: false
     t.boolean "visible", default: true, null: false
     t.integer "seniority", limit: 1, default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["contributor_team_id", "user_id"], name: "index_contributor_team_memberships_on_team_id_and_user_id", unique: true
     t.index ["contributor_team_id"], name: "index_contributor_team_memberships_on_contributor_team_id"
     t.index ["user_id"], name: "index_contributor_team_memberships_on_user_id"
@@ -86,8 +94,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "track_id"
     t.string "github_name", null: false
     t.integer "type", limit: 1, default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["github_name"], name: "index_contributor_teams_on_github_name", unique: true
     t.index ["track_id"], name: "index_contributor_teams_on_track_id"
   end
@@ -102,8 +110,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "title", null: false
     t.string "nav_title"
     t.string "blurb"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_documents_on_slug"
     t.index ["track_id"], name: "index_documents_on_track_id"
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
@@ -115,8 +123,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "stripe_id", null: false
     t.string "stripe_receipt_url", null: false
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["stripe_id"], name: "index_donations_payments_on_stripe_id", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
@@ -128,8 +136,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "stripe_id", null: false
     t.boolean "active", default: true, null: false
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["stripe_id"], name: "index_donations_subscriptions_on_stripe_id", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
@@ -138,8 +146,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["exercise_id", "user_id"], name: "index_exercise_authorships_on_exercise_id_and_user_id", unique: true
     t.index ["exercise_id"], name: "index_exercise_authorships_on_exercise_id"
     t.index ["user_id"], name: "index_exercise_authorships_on_user_id"
@@ -148,8 +156,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "exercise_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["exercise_id", "user_id"], name: "index_exercise_contributorships_on_exercise_id_and_user_id", unique: true
     t.index ["exercise_id"], name: "index_exercise_contributorships_on_exercise_id"
     t.index ["user_id"], name: "index_exercise_contributorships_on_user_id"
@@ -158,8 +166,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "exercise_practiced_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "track_concept_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["exercise_id", "track_concept_id"], name: "uniq", unique: true
     t.index ["exercise_id"], name: "index_exercise_practiced_concepts_on_exercise_id"
     t.index ["track_concept_id"], name: "index_exercise_practiced_concepts_on_track_concept_id"
@@ -168,8 +176,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "exercise_prerequisites", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "track_concept_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["exercise_id", "track_concept_id"], name: "uniq", unique: true
     t.index ["exercise_id"], name: "index_exercise_prerequisites_on_exercise_id"
     t.index ["track_concept_id"], name: "index_exercise_prerequisites_on_track_concept_id"
@@ -186,8 +194,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.text "feedback_html"
     t.bigint "feedback_author_id"
     t.bigint "feedback_editor_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
@@ -198,8 +206,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "exercise_taught_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "track_concept_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["exercise_id", "track_concept_id"], name: "uniq", unique: true
     t.index ["exercise_id"], name: "index_exercise_taught_concepts_on_exercise_id"
     t.index ["track_concept_id"], name: "index_exercise_taught_concepts_on_track_concept_id"
@@ -220,8 +228,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "position", null: false
     t.string "icon_name", null: false
     t.integer "median_wait_time"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "has_test_runner", default: false, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
@@ -233,7 +241,7 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
     t.string "scope"
-    t.datetime "created_at", precision: 6
+    t.datetime "created_at"
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
@@ -242,8 +250,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "github_issue_labels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "github_issue_id", null: false
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["github_issue_id", "name"], name: "index_github_issue_labels_on_github_issue_id_and_name", unique: true
     t.index ["github_issue_id"], name: "index_github_issue_labels_on_github_issue_id"
   end
@@ -255,17 +263,17 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "status", limit: 1, default: 0, null: false
     t.string "repo", null: false
     t.string "opened_by_username"
-    t.datetime "opened_at", precision: 6, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "opened_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_github_issues_on_node_id", unique: true
   end
 
   create_table "github_organization_members", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "username", null: false
     t.boolean "alumnus", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["username"], name: "index_github_organization_members_on_username", unique: true
   end
 
@@ -273,8 +281,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "github_pull_request_id", null: false
     t.string "node_id", null: false
     t.string "reviewer_username"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["github_pull_request_id"], name: "index_github_pull_request_reviews_on_github_pull_request_id"
     t.index ["node_id"], name: "index_github_pull_request_reviews_on_node_id", unique: true
   end
@@ -287,8 +295,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "merged_by_username"
     t.string "title"
     t.text "data", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_github_pull_requests_on_node_id", unique: true
   end
 
@@ -298,15 +306,15 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "repo", null: false
     t.string "issue_url", null: false
     t.string "opened_by_username"
-    t.datetime "opened_at", precision: 6, null: false
+    t.datetime "opened_at", null: false
     t.integer "action", limit: 1, default: 0
     t.integer "knowledge", limit: 1, default: 0
     t.integer "area", limit: 1, default: 0
     t.integer "size", limit: 1, default: 0
     t.integer "type", limit: 1, default: 0
     t.bigint "track_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["issue_url"], name: "index_github_tasks_on_issue_url", unique: true
     t.index ["track_id"], name: "index_github_tasks_on_track_id"
     t.index ["uuid"], name: "index_github_tasks_on_uuid", unique: true
@@ -318,9 +326,9 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "uuid", null: false
     t.integer "idx", limit: 1, null: false
     t.string "snippet", limit: 1500
-    t.datetime "deleted_at", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "num_loc"
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
@@ -335,8 +343,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.text "content_html", null: false
     t.boolean "seen_by_student", default: false, null: false
     t.boolean "seen_by_mentor", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["discussion_id"], name: "index_mentor_discussion_posts_on_discussion_id"
     t.index ["iteration_id"], name: "index_mentor_discussion_posts_on_iteration_id"
     t.index ["user_id"], name: "index_mentor_discussion_posts_on_user_id"
@@ -352,13 +360,13 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "rating", limit: 1
     t.integer "num_posts", limit: 3, default: 0, null: false
     t.boolean "anonymous_mode", default: false, null: false
-    t.datetime "awaiting_student_since", precision: 6
-    t.datetime "awaiting_mentor_since", precision: 6
-    t.datetime "mentor_reminder_sent_at", precision: 6
-    t.datetime "finished_at", precision: 6
+    t.datetime "awaiting_student_since"
+    t.datetime "awaiting_mentor_since"
+    t.datetime "mentor_reminder_sent_at"
+    t.datetime "finished_at"
     t.integer "finished_by", limit: 1
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"
@@ -367,7 +375,7 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "mentor_request_locks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "request_id", null: false
     t.bigint "locked_by_id", null: false
-    t.datetime "locked_until", precision: 6, null: false
+    t.datetime "locked_until", null: false
     t.index ["request_id", "locked_by_id"], name: "index_mentor_request_locks_on_request_id_and_locked_by_id"
     t.index ["request_id"], name: "index_mentor_request_locks_on_request_id"
   end
@@ -381,8 +389,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "status", limit: 1, default: 0, null: false
     t.text "comment_markdown", null: false
     t.text "comment_html", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["exercise_id", "status"], name: "index_mentor_requests_on_exercise_id_and_status"
     t.index ["exercise_id"], name: "index_mentor_requests_on_exercise_id"
     t.index ["solution_id"], name: "index_mentor_requests_on_solution_id"
@@ -401,8 +409,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.boolean "blocked_by_mentor", default: false, null: false
     t.boolean "blocked_by_student", default: false, null: false
     t.integer "num_discussions", default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["mentor_id", "student_id"], name: "index_mentor_student_relationships_on_mentor_id_and_student_id", unique: true
     t.index ["mentor_id"], name: "index_mentor_student_relationships_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_student_relationships_on_student_id"
@@ -416,9 +424,9 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.text "content", null: false
     t.boolean "revealed", default: false, null: false
     t.boolean "published", default: true, null: false
-    t.datetime "deleted_at", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id", unique: true
     t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
@@ -434,8 +442,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "type", limit: 1, default: 0, null: false
     t.text "content_markdown", null: false
     t.text "content_html", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["about_type", "about_id"], name: "index_problem_reports_on_about"
     t.index ["exercise_id"], name: "index_problem_reports_on_exercise_id"
     t.index ["track_id"], name: "index_problem_reports_on_track_id"
@@ -448,8 +456,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "user_id", null: false
     t.text "content_markdown", null: false
     t.text "content_html", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["about_type", "about_id"], name: "index_scratchpad_pages_on_about"
     t.index ["user_id"], name: "index_scratchpad_pages_on_user_id"
   end
@@ -464,11 +472,11 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "exercise_id"
     t.bigint "author_id"
     t.bigint "pull_request_id"
-    t.datetime "published_at", precision: 6, null: false
+    t.datetime "published_at", null: false
     t.string "title"
     t.text "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_site_updates_on_author_id"
     t.index ["exercise_id"], name: "index_site_updates_on_exercise_id"
     t.index ["pull_request_id"], name: "index_site_updates_on_pull_request_id"
@@ -482,9 +490,9 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "user_id", null: false
     t.text "content_markdown", null: false
     t.text "content_html", null: false
-    t.datetime "deleted_at", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["solution_id"], name: "index_solution_comments_on_solution_id"
     t.index ["user_id"], name: "index_solution_comments_on_user_id"
     t.index ["uuid"], name: "index_solution_comments_on_uuid", unique: true
@@ -493,8 +501,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "solution_stars", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["solution_id", "user_id"], name: "index_solution_stars_on_solution_id_and_user_id", unique: true
     t.index ["solution_id"], name: "index_solution_stars_on_solution_id"
     t.index ["user_id"], name: "index_solution_stars_on_user_id"
@@ -514,19 +522,19 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "status", limit: 1, default: 0, null: false
     t.string "iteration_status"
     t.boolean "allow_comments", default: true, null: false
-    t.datetime "last_iterated_at", precision: 6
+    t.datetime "last_iterated_at"
     t.integer "num_iterations", limit: 1, default: 0, null: false
     t.string "snippet", limit: 1500
-    t.datetime "downloaded_at", precision: 6
-    t.datetime "completed_at", precision: 6
-    t.datetime "published_at", precision: 6
+    t.datetime "downloaded_at"
+    t.datetime "completed_at"
+    t.datetime "published_at"
     t.integer "mentoring_status", limit: 1, default: 0, null: false
     t.integer "num_views", limit: 3, default: 0, null: false
     t.integer "num_stars", limit: 3, default: 0, null: false
     t.integer "num_comments", limit: 3, default: 0, null: false
     t.integer "num_loc", limit: 3
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
@@ -543,8 +551,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "ops_status", limit: 2, null: false
     t.text "data"
     t.string "tooling_job_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
   end
 
@@ -553,8 +561,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "filename", null: false
     t.string "digest", null: false
     t.string "uri", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["submission_id"], name: "index_submission_files_on_submission_id"
   end
 
@@ -564,8 +572,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "ops_status", limit: 2, null: false
     t.text "ast"
     t.string "ast_digest"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
   end
 
@@ -579,8 +587,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.text "raw_results", size: :medium, null: false
     t.integer "version", limit: 1, default: 0, null: false
     t.text "output"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "git_important_files_hash", limit: 50
     t.string "git_sha", limit: 50
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
@@ -596,8 +604,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "submitted_via", null: false
     t.string "git_slug", null: false
     t.string "git_sha", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "git_important_files_hash", limit: 50
     t.index ["solution_id"], name: "index_submissions_on_solution_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
@@ -606,8 +614,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "track_concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_concept_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["track_concept_id", "user_id"], name: "index_concept_authorships_concept_id_user_id", unique: true
     t.index ["track_concept_id"], name: "index_track_concept_authorships_on_track_concept_id"
     t.index ["user_id"], name: "index_track_concept_authorships_on_user_id"
@@ -616,8 +624,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "track_concept_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_concept_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["track_concept_id", "user_id"], name: "index_concept_contributorships_concept_id_user_id", unique: true
     t.index ["track_concept_id"], name: "index_track_concept_contributorships_on_track_concept_id"
     t.index ["user_id"], name: "index_track_concept_contributorships_on_user_id"
@@ -630,8 +638,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "name", null: false
     t.string "blurb", limit: 350, null: false
     t.string "synced_to_git_sha", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["track_id"], name: "index_track_concepts_on_track_id"
     t.index ["uuid"], name: "index_track_concepts_on_uuid", unique: true
   end
@@ -648,8 +656,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.boolean "active", default: true, null: false
     t.integer "num_students", default: 0, null: false
     t.integer "median_wait_time"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "course", default: false, null: false
     t.boolean "has_test_runner", default: false, null: false
     t.boolean "has_representer", default: false, null: false
@@ -662,8 +670,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "user_id", null: false
     t.bigint "badge_id", null: false
     t.boolean "revealed", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["badge_id"], name: "index_user_acquired_badges_on_badge_id"
     t.index ["user_id", "badge_id"], name: "index_user_acquired_badges_on_user_id_and_badge_id", unique: true
     t.index ["user_id"], name: "index_user_acquired_badges_on_user_id"
@@ -677,12 +685,12 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "exercise_id"
     t.bigint "solution_id"
     t.text "params", null: false
-    t.datetime "occurred_at", precision: 6, null: false
+    t.datetime "occurred_at", null: false
     t.string "uniqueness_key", null: false
     t.integer "version", null: false
     t.text "rendering_data_cache", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_user_activities_on_exercise_id"
     t.index ["solution_id"], name: "index_user_activities_on_solution_id"
     t.index ["track_id"], name: "index_user_activities_on_track_id"
@@ -694,8 +702,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "user_id", null: false
     t.string "token", null: false
     t.boolean "active", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["token"], name: "index_user_auth_tokens_on_token", unique: true
     t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
   end
@@ -712,8 +720,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.boolean "receive_product_updates", default: true, null: false
     t.boolean "email_on_remind_mentor", default: true, null: false
     t.boolean "email_on_mentor_heartbeat", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "email_on_general_update_notification", default: true, null: false
     t.boolean "email_on_acquired_badge_notification", default: true, null: false
     t.boolean "email_on_nudge_notification", default: true, null: false
@@ -724,8 +732,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   create_table "user_dismissed_introducers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "slug", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id", "slug"], name: "index_user_dismissed_introducers_on_user_id_and_slug", unique: true
     t.index ["user_id"], name: "index_user_dismissed_introducers_on_user_id"
   end
@@ -734,8 +742,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "user_id", null: false
     t.string "mailshot_id", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["email_status"], name: "index_user_mailshots_on_email_status"
     t.index ["user_id", "mailshot_id"], name: "index_user_mailshots_on_user_id_and_mailshot_id", unique: true
     t.index ["user_id"], name: "index_user_mailshots_on_user_id"
@@ -754,9 +762,9 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.integer "email_status", limit: 1, default: 0, null: false
     t.string "uniqueness_key", null: false
     t.text "rendering_data_cache", null: false
-    t.datetime "read_at", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
     t.index ["track_id"], name: "index_user_notifications_on_track_id"
     t.index ["type", "user_id"], name: "index_user_notifications_on_type_and_user_id"
@@ -772,8 +780,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "github"
     t.string "linkedin"
     t.string "medium"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_profiles_on_user_id", unique: true
   end
 
@@ -811,8 +819,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "external_url"
     t.boolean "seen", default: false, null: false
     t.date "earned_on", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
@@ -829,8 +837,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
     t.boolean "last_viewed", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["track_id"], name: "index_user_track_mentorships_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_track_mentorships_on_user_id"
@@ -843,10 +851,10 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "summary_key"
     t.boolean "practice_mode", default: false, null: false
     t.boolean "anonymous_during_mentoring", default: false, null: false
-    t.datetime "last_touched_at", precision: 6, null: false
+    t.datetime "last_touched_at", null: false
     t.text "objectives"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["track_id"], name: "index_user_tracks_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_tracks_on_user_id"
@@ -860,17 +868,17 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: 6
-    t.datetime "remember_created_at", precision: 6
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.string "confirmation_token"
-    t.datetime "confirmed_at", precision: 6
-    t.datetime "confirmation_sent_at", precision: 6
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.datetime "accepted_privacy_policy_at", precision: 6
-    t.datetime "accepted_terms_at", precision: 6
-    t.datetime "became_mentor_at", precision: 6
-    t.datetime "deleted_at", precision: 6
-    t.datetime "joined_research_at", precision: 6
+    t.datetime "accepted_privacy_policy_at"
+    t.datetime "accepted_terms_at"
+    t.datetime "became_mentor_at"
+    t.datetime "deleted_at"
+    t.datetime "joined_research_at"
     t.string "github_username"
     t.integer "reputation", default: 0, null: false
     t.json "roles"
@@ -883,8 +891,8 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
     t.string "stripe_customer_id"
     t.integer "total_donated_in_cents", default: 0
     t.boolean "active_donation_subscription", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "show_on_supporters_page", default: true, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -900,6 +908,7 @@ ActiveRecord::Schema.define(version: 2022_03_24_090941) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
+  add_foreign_key "cohort_memberships", "users"
   add_foreign_key "contributor_team_memberships", "contributor_teams"
   add_foreign_key "contributor_team_memberships", "users"
   add_foreign_key "contributor_teams", "tracks"

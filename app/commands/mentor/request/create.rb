@@ -14,10 +14,8 @@ module Mentor
       end
 
       private
-      attr_reader :request
-
       def create_request!
-        @request = Mentor::Request.new(
+        request = Mentor::Request.new(
           solution:,
           comment_markdown:
         )
@@ -35,7 +33,7 @@ module Mentor
           request.save!
         end
 
-        log_metric!
+        log_metric!(request)
         request
       end
 
@@ -43,7 +41,7 @@ module Mentor
         raise NoMentoringSlotsAvailableError unless solution.user_track.has_available_mentoring_slot?
       end
 
-      def log_metric!
+      def log_metric!(request)
         Metric::Queue.(:request_mentoring, request.created_at, track:, user:)
       end
 

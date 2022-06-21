@@ -6,7 +6,7 @@ module Github
       initialize_with :node_id, :attributes
 
       def call
-        @issue = ::Github::Issue.create_or_find_by!(node_id:) do |i|
+        issue = ::Github::Issue.create_or_find_by!(node_id:) do |i|
           i.number = attributes[:number]
           i.title = attributes[:title]
           i.status = status
@@ -15,7 +15,7 @@ module Github
           i.opened_by_username = attributes[:opened_by_username]
         end
 
-        log_metric! if issue.just_created?
+        log_metric!(issue) if issue.just_created?
 
         issue.update!(
           number: attributes[:number],
@@ -31,8 +31,6 @@ module Github
       end
 
       private
-      attr_reader :issue
-
       def labels(issue)
         attributes[:labels].to_a.map do |label|
           Github::IssueLabel::CreateOrUpdate.(issue, label)
@@ -41,7 +39,7 @@ module Github
 
       def status = attributes[:state].downcase.to_sym
 
-      def log_metric!
+      def log_metric!(issue)
         Metric::Queue.(:open_issue, issue.opened_at, track:, user: opened_by_username)
       end
 

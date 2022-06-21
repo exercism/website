@@ -67,9 +67,9 @@ nudge_users_to_request_mentoring:
   queue: dribble
 
 # Every minute
-update_hour_metrics:
+update_minute_metrics:
   cron: "* * * * *"
-  class: "UpdateHourMetricsJob"
+  class: "UpdateMinuteMetricsJob"
   queue: dribble
 
 # Every hour

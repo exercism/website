@@ -447,15 +447,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.index ["track_id"], name: "index_metric_period_days_on_track_id"
   end
 
-  create_table "metric_period_hours", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "hour", limit: 1, default: 0, null: false
+  create_table "metric_period_minutes", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "minute", limit: 1, default: 0, null: false
     t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["created_at"], name: "index_metric_period_hours_on_created_at"
-    t.index ["track_id"], name: "index_metric_period_hours_on_track_id"
+    t.index ["created_at"], name: "index_metric_period_minutes_on_created_at"
+    t.index ["track_id"], name: "index_metric_period_minutes_on_track_id"
   end
 
   create_table "metric_period_months", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

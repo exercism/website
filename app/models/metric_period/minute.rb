@@ -1,4 +1,4 @@
-class MetricPeriod::Hour < ApplicationRecord
+class MetricPeriod::Minute < ApplicationRecord
   include HasMetricAction
 
   belongs_to :track, optional: true

@@ -17,9 +17,9 @@ FactoryBot.define do
     end
   end
 
-  factory :metric_period_hour, class: 'MetricPeriod::Hour' do
+  factory :metric_period_minute, class: 'MetricPeriod::Minute' do
     metric_action { :submit_solution }
-    hour { SecureRandom.random_number(0..23) }
+    minute { SecureRandom.random_number(0..1439) }
     count { SecureRandom.random_number(100_000) }
     track do
       Track.find_by(slug: :ruby) || build(:track, slug: 'ruby')

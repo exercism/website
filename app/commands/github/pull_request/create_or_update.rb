@@ -36,11 +36,11 @@ module Github
       end
 
       def log_open_metrics!
-        LogMetricJob.perform_later(:open_pull_request, created_at, track:, user: author)
+        Metric::Queue.(:open_pull_request, created_at, track:, user: author)
       end
 
       def log_merge_metrics!
-        LogMetricJob.perform_later(:merge_pull_request, merged_at, track:, user: merged_by)
+        Metric::Queue.(:merge_pull_request, merged_at, track:, user: merged_by)
       end
 
       def track = Track.for_repo(pull_request.repo)

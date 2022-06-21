@@ -55,7 +55,7 @@ class Solution
     end
 
     def log_metric!(solution)
-      LogMetricJob.perform_later(:submit_solution, solution.created_at, track:, user:)
+      Metric::Queue.(:submit_solution, solution.created_at, track:, user:)
     end
 
     memoize

@@ -45,7 +45,7 @@ class Solution
     end
 
     def log_metric!
-      LogMetricJob.perform_later(:publish_solution, solution.published_at, track:, user:)
+      Metric::Queue.(:publish_solution, solution.published_at, track:, user:)
     end
 
     delegate :user, to: :user_track

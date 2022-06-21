@@ -19,9 +19,4 @@ class MetricPeriod::UpdateHourMetricsTest < ActiveSupport::TestCase
     assert_equal 3, MetricPeriod::Hour.find_by(hour: 15).count
     assert_equal 1, MetricPeriod::Hour.find_by(hour: 23).count
   end
-
-  # test "metrics are counted per action" do
-  #   create :metric,
-
-  # end
 end

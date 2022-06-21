@@ -41,13 +41,17 @@ module Github
         Metric::Queue.(:merge_pull_request, merged_at, track:, user: merged_by)
       end
 
+      memoize
       def track = Track.for_repo(pull_request.repo)
 
-      def created_at = pull_request.data[:created_at] || pull_request.created_at
+      memoize
       def author = User.find_by(github_username: pull_request.data[:author_username])
 
-      def merged_at = pull_request.data[:merged_at] || pull_request.updated_at
+      memoize
       def merged_by = User.find_by(github_username: pull_request.data[:merged_by_username])
+
+      def created_at = pull_request.data[:created_at] || pull_request.created_at
+      def merged_at = pull_request.data[:merged_at] || pull_request.updated_at
     end
   end
 end

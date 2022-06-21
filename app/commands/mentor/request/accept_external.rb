@@ -9,7 +9,8 @@ module Mentor
         Mentor::Request.transaction do
           request = Mentor::Request.create!(
             solution:,
-            comment_markdown: "This is a private review session"
+            comment_markdown: "This is a private review session",
+            external: true
           )
           request.fulfilled!
           Mentor::Discussion.create!(

@@ -12,6 +12,8 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     request = Mentor::Request.last
     assert_equal solution, request.solution
     assert_equal "This is a private review session", request.comment_markdown
+    assert request.fulfilled?
+    assert request.external?
   end
 
   test "creates and returns discussion" do
@@ -22,9 +24,8 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     discussion = Mentor::Request::AcceptExternal.(mentor, solution)
 
     assert Mentor::Request.last, discussion.request
-    assert discussion.request.external
-    assert discussion.request.fulfilled?
     assert mentor, discussion.mentor
+    assert discussion.external
   end
 
   test "can be accepted fail if no slots are avalable" do

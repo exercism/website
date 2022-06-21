@@ -20,7 +20,8 @@ module UserTrack::MentoringSlots
 
   memoize
   def num_used_mentoring_slots
-    active_mentoring_discussions.size + pending_mentoring_requests.size
+    active_mentoring_discussions.size - active_external_mentoring_discussions.size +
+      pending_mentoring_requests.size
   end
 
   memoize

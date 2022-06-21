@@ -16,7 +16,8 @@ module Mentor
           Mentor::Discussion.create!(
             mentor:,
             request:,
-            awaiting_student_since: Time.current
+            awaiting_student_since: Time.current,
+            external: true
           )
         end
       end

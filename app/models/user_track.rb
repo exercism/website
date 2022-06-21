@@ -116,6 +116,11 @@ class UserTrack < ApplicationRecord
   end
 
   memoize
+  def active_external_mentoring_discussions
+    active_mentoring_discussions.where(external: true)
+  end
+
+  memoize
   def pending_mentoring_requests
     Mentor::Request.where(solution: solutions).pending
   end

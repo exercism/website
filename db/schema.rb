@@ -391,6 +391,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_154615) do
     t.text "comment_html", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "external", default: false, null: false
     t.index ["exercise_id", "status"], name: "index_mentor_requests_on_exercise_id_and_status"
     t.index ["exercise_id"], name: "index_mentor_requests_on_exercise_id"
     t.index ["solution_id"], name: "index_mentor_requests_on_solution_id"

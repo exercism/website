@@ -5,16 +5,16 @@ class MetricPeriod::UpdateHourMetrics
     metrics = Metric.
       where('created_at > ?', (Time.current.utc - 24.hours).beginning_of_hour).
       all.
-      group_by { |m| [m.action, m.track_id, m.created_at.hour] }
+      group_by { |m| [m.metric_action, m.track_id, m.created_at.hour] }
 
-    actions = MetricPeriod::Hour.actions.keys.map(&:to_sym)
+    metric_actions = MetricPeriod::Hour.metric_actions.keys.map(&:to_sym)
     tracks = Track.all
     hours = (0..23).to_a
 
-    actions.product(tracks, hours).each do |action, track, hour|
-      count = metrics[[action, track.id, hour]].to_a.size
+    metric_actions.product(tracks, hours).each do |metric_action, track, hour|
+      count = metrics[[metric_action, track.id, hour]].to_a.size
 
-      metric = MetricPeriod::Hour.create_or_find_by!(action:, track:, hour:) do |m|
+      metric = MetricPeriod::Hour.create_or_find_by!(metric_action:, track:, hour:) do |m|
         m.count = count
       end
 

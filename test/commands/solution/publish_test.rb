@@ -164,7 +164,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_equal 1, Metric.count
     metric = Metric.last
     assert_equal solution.published_at, metric.created_at
-    assert_equal :publish_solution, metric.action
+    assert_equal :publish_solution, metric.metric_action
     assert_equal track, metric.track
     assert_equal user, metric.user
   end

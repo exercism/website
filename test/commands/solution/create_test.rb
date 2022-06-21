@@ -109,7 +109,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.count
     metric = Metric.last
     assert_equal solution.created_at, metric.created_at
-    assert_equal :submit_solution, metric.action
+    assert_equal :submit_solution, metric.metric_action
     assert_equal track, metric.track
     assert_equal user, metric.user
   end

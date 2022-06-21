@@ -11,7 +11,7 @@ class LogMetricJobTest < ActiveJob::TestCase
     LogMetricJob.perform_now(action, created_at, country_code:, track:, user:)
 
     metric = Metric.last
-    assert_equal action, metric.action
+    assert_equal action, metric.metric_action
     assert_equal created_at, metric.created_at
     assert_equal country_code, metric.country_code
     assert_equal track, metric.track

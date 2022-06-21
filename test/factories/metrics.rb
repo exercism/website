@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :metric do
-    action { :submit_solution }
+    metric_action { :submit_solution }
     country_code { 'NL' }
     user { create :user }
     track do

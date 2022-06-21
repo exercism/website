@@ -144,7 +144,7 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.count
     metric = Metric.last
     assert_equal issue.opened_at, metric.created_at
-    assert_equal :open_issue, metric.action
+    assert_equal :open_issue, metric.metric_action
     assert_equal track, metric.track
     assert_equal user, metric.user
   end
@@ -168,7 +168,7 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.count
     metric = Metric.last
     assert_equal issue.opened_at, metric.created_at
-    assert_equal :open_issue, metric.action
+    assert_equal :open_issue, metric.metric_action
     assert_nil metric.track
     assert_equal user, metric.user
   end
@@ -190,7 +190,7 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.count
     metric = Metric.last
     assert_equal issue.opened_at, metric.created_at
-    assert_equal :open_issue, metric.action
+    assert_equal :open_issue, metric.metric_action
     assert_nil metric.track
     assert_nil metric.user
   end

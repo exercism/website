@@ -2,7 +2,7 @@ module HasMetricAction
   extend ActiveSupport::Concern
 
   included do
-    enum action: {
+    enum metric_action: {
       submit_solution: 0,
       complete_solution: 1,
       publish_solution: 2,
@@ -11,8 +11,8 @@ module HasMetricAction
       open_issue: 5,
       open_pull_request: 6,
       merge_pull_request: 7
-    }
+    }, _prefix: true
   end
 
-  def action = super.to_sym
+  def metric_action = super.to_sym
 end

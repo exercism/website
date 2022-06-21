@@ -438,7 +438,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
 
   create_table "metric_period_days", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "day", limit: 1, default: 0, null: false
-    t.integer "action", limit: 1, default: 0, null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
@@ -449,7 +449,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
 
   create_table "metric_period_hours", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "hour", limit: 1, default: 0, null: false
-    t.integer "action", limit: 1, default: 0, null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
@@ -460,7 +460,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
 
   create_table "metric_period_months", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "month", limit: 1, default: 0, null: false
-    t.integer "action", limit: 1, default: 0, null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
@@ -470,7 +470,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
   end
 
   create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "action", limit: 1, default: 0, null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.string "country_code"
     t.bigint "track_id"
     t.bigint "user_id"

@@ -13,7 +13,7 @@ class Metric::CreateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.count
     metric = Metric.last
 
-    assert_equal action, metric.action
+    assert_equal action, metric.metric_action
     assert_equal created_at, metric.created_at
     assert_equal country_code, metric.country_code
     assert_equal track, metric.track
@@ -29,7 +29,7 @@ class Metric::CreateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.count
     metric = Metric.last
 
-    assert_equal action, metric.action
+    assert_equal action, metric.metric_action
     assert_equal created_at, metric.created_at
     assert_nil metric.country_code
     assert_nil metric.track

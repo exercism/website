@@ -14,7 +14,7 @@ module Mentor
           request.fulfilled!
           Mentor::Discussion.create!(
             mentor:,
-            request: request,
+            request:,
             awaiting_student_since: Time.current
           )
         end

@@ -368,7 +368,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.integer "finished_by", limit: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "external", default: false, null: false
     t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"
@@ -393,7 +392,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.text "comment_html", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "external", default: false, null: false
     t.index ["exercise_id", "status"], name: "index_mentor_requests_on_exercise_id_and_status"
     t.index ["exercise_id"], name: "index_mentor_requests_on_exercise_id"
     t.index ["solution_id"], name: "index_mentor_requests_on_solution_id"
@@ -775,8 +773,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.boolean "email_on_general_update_notification", default: true, null: false
     t.boolean "email_on_acquired_badge_notification", default: true, null: false
     t.boolean "email_on_nudge_notification", default: true, null: false
-    t.boolean "email_on_student_finished_discussion_notification", default: true, null: false
-    t.boolean "email_on_mentor_finished_discussion_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end

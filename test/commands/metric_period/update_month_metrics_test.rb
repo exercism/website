@@ -3,5 +3,71 @@ require "test_helper"
 class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
   include Mandate
 
-  def call; end
+  test "metrics are counted per action" do
+    freeze_time do
+      create :metric, metric_action: :publish_solution, created_at: Time.current.prev_month
+      create :metric, metric_action: :finish_mentoring, created_at: Time.current.prev_month + 13.hours
+      create :metric, metric_action: :finish_mentoring, created_at: Time.current.prev_month + 8.hours
+      create :metric, metric_action: :open_issue, created_at: Time.current.prev_month + 5.hours
+
+      MetricPeriod::UpdateMonthMetrics.()
+
+      assert_equal 1, MetricPeriod::Month.find_by(metric_action: :publish_solution, month: Time.current.prev_month.month).count
+      assert_equal 2, MetricPeriod::Month.find_by(metric_action: :finish_mentoring, month: Time.current.prev_month.month).count
+      assert_equal 1, MetricPeriod::Month.find_by(metric_action: :open_issue, month: Time.current.prev_month.month).count
+    end
+  end
+
+  test "metrics are counted per month" do
+    freeze_time do
+      create :metric, created_at: Time.current.prev_month
+      create :metric, created_at: Time.current.prev_month + 1.second
+      create :metric, created_at: Time.current.prev_month + 10.hours
+      create :metric, created_at: Time.current.prev_month + 5.hours
+
+      # Sanity check: two months ago should be ignored
+      create :metric, created_at: Time.current - 2.months
+
+      # Sanity check: current month should be ignored
+      create :metric, created_at: Time.current
+
+      MetricPeriod::UpdateMonthMetrics.()
+
+      assert_equal 4, MetricPeriod::Month.find_by(month: Time.current.prev_month.month).count
+    end
+  end
+
+  test "metrics are counted per track" do
+    freeze_time do
+      track_1 = create :track, :random_slug
+      track_2 = create :track, :random_slug
+      track_3 = create :track, :random_slug
+
+      create :metric, track: track_1, created_at: Time.current.prev_month
+      create :metric, track: track_2, created_at: Time.current.prev_month + 13.hours
+      create :metric, track: track_2, created_at: Time.current.prev_month + 8.hours
+      create :metric, track: track_2, created_at: Time.current.prev_month + 5.hours
+
+      MetricPeriod::UpdateMonthMetrics.()
+
+      assert_equal 1, MetricPeriod::Month.find_by(track: track_1, month: Time.current.prev_month.month).count
+      assert_equal 3, MetricPeriod::Month.find_by(track: track_2, month: Time.current.prev_month.month).count
+      assert_equal 0, MetricPeriod::Month.find_by(track: track_3, month: Time.current.prev_month.month).count
+    end
+  end
+
+  test "updates count of existing metric" do
+    freeze_time do
+      metric_period = create :metric_period_month, month: Time.current.prev_month.month, count: 13
+
+      7.times do
+        create :metric, metric_action: metric_period.metric_action, track: metric_period.track,
+          created_at: Time.current.prev_month
+      end
+
+      MetricPeriod::UpdateMonthMetrics.()
+
+      assert_equal 7, metric_period.reload.count
+    end
+  end
 end

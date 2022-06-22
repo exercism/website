@@ -9,8 +9,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
-      author_username: "iHiD",
+      metric_action: "closed",
+      author_username: author,
       labels: [],
       merged: true,
       merged_by_username: "ErikSchierboom",
@@ -43,8 +43,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
-      author_username: "iHiD",
+      metric_action: "closed",
+      author_username: author,
       labels: [],
       merged: true,
       merged_by_username: "ErikSchierboom",
@@ -134,7 +134,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
+      metric_action: "closed",
       author_username: "iHiD",
       merged: true,
       merged_by_username: "ErikSchierboom",
@@ -149,8 +149,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     perform_enqueued_jobs
 
-    assert_equal 1, Metric.where(action: :open_pull_request).count
-    metric = Metric.where(action: :open_pull_request).last
+    assert_equal 1, Metric.where(metric_action: :open_pull_request).count
+    metric = Metric.where(metric_action: :open_pull_request).last
     assert_equal pr.data[:created_at].to_time, metric.created_at
     assert_equal :open_pull_request, metric.metric_action
     assert_equal track, metric.track
@@ -165,7 +165,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
+      metric_action: "closed",
       author_username: "iHiD",
       merged: true,
       merged_by_username: "ErikSchierboom",
@@ -180,8 +180,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     perform_enqueued_jobs
 
-    assert_equal 1, Metric.where(action: :open_pull_request).count
-    metric = Metric.where(action: :open_pull_request).last
+    assert_equal 1, Metric.where(metric_action: :open_pull_request).count
+    metric = Metric.where(metric_action: :open_pull_request).last
     assert_equal pr.data[:created_at].to_time, metric.created_at
     assert_equal :open_pull_request, metric.metric_action
     assert_nil metric.track
@@ -196,7 +196,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
+      metric_action: "closed",
       author_username: "unknown",
       merged: true,
       merged_by_username: "ErikSchierboom",
@@ -211,8 +211,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     perform_enqueued_jobs
 
-    assert_equal 1, Metric.where(action: :open_pull_request).count
-    metric = Metric.where(action: :open_pull_request).last
+    assert_equal 1, Metric.where(metric_action: :open_pull_request).count
+    metric = Metric.where(metric_action: :open_pull_request).last
     assert_equal pr.data[:created_at].to_time, metric.created_at
     assert_equal :open_pull_request, metric.metric_action
     assert_equal track, metric.track
@@ -228,7 +228,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
+      metric_action: "closed",
       author_username: "iHiD",
       merged: true,
       merged_by_username: "ErikSchierboom",
@@ -243,8 +243,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     perform_enqueued_jobs
 
-    assert_equal 1, Metric.where(action: :merge_pull_request).count
-    metric = Metric.where(action: :merge_pull_request).last
+    assert_equal 1, Metric.where(metric_action: :merge_pull_request).count
+    metric = Metric.where(metric_action: :merge_pull_request).last
     assert_equal pr.data[:merged_at].to_time, metric.created_at
     assert_equal :merge_pull_request, metric.metric_action
     assert_equal track, metric.track
@@ -259,7 +259,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
+      metric_action: "closed",
       author_username: "iHiD",
       merged: true,
       merged_by_username: "ErikSchierboom",
@@ -274,8 +274,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     perform_enqueued_jobs
 
-    assert_equal 1, Metric.where(action: :merge_pull_request).count
-    metric = Metric.where(action: :merge_pull_request).last
+    assert_equal 1, Metric.where(metric_action: :merge_pull_request).count
+    metric = Metric.where(metric_action: :merge_pull_request).last
     assert_equal pr.data[:merged_at].to_time, metric.created_at
     assert_equal :merge_pull_request, metric.metric_action
     assert_nil metric.track
@@ -290,7 +290,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
+      metric_action: "closed",
       author_username: "unknown",
       merged: true,
       merged_by_username: "ErikSchierboom",
@@ -305,8 +305,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     perform_enqueued_jobs
 
-    assert_equal 1, Metric.where(action: :merge_pull_request).count
-    metric = Metric.where(action: :merge_pull_request).last
+    assert_equal 1, Metric.where(metric_action: :merge_pull_request).count
+    metric = Metric.where(metric_action: :merge_pull_request).last
     assert_equal pr.data[:merged_at].to_time, metric.created_at
     assert_equal :merge_pull_request, metric.metric_action
     assert_equal track, metric.track
@@ -322,7 +322,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
+      metric_action: "closed",
       author_username: "iHiD",
       merged: false,
       merged_by_username: nil,
@@ -338,7 +338,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
       number: 2,
       state: "closed",
-      action: "closed",
+      metric_action: "closed",
       author_username: "iHiD",
       merged: true,
       merged_by_username: "ErikSchierboom",
@@ -352,8 +352,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     )
     perform_enqueued_jobs
 
-    assert_equal 1, Metric.where(action: :merge_pull_request).count
-    metric = Metric.where(action: :merge_pull_request).last
+    assert_equal 1, Metric.where(metric_action: :merge_pull_request).count
+    metric = Metric.where(metric_action: :merge_pull_request).last
     assert_equal pr.data[:merged_at].to_time, metric.created_at
     assert_equal :merge_pull_request, metric.metric_action
     assert_equal track, metric.track

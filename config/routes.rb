@@ -288,6 +288,8 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index]
 
+  resources :impact, only: [:index]
+
   resources :profiles, only: %i[index show new create] do
     collection do
       get :intro

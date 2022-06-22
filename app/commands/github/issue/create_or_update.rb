@@ -43,7 +43,10 @@ module Github
         Metric::Queue.(:open_issue, issue.opened_at, track:, user: opened_by_username)
       end
 
+      memoize
       def track = Track.for_repo(issue.repo)
+
+      memoize
       def opened_by_username = User.find_by(github_username: issue.opened_by_username)
     end
   end

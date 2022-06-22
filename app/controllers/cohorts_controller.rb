@@ -2,7 +2,7 @@ class CohortsController < ApplicationController
   skip_before_action :authenticate_user!
 
   def show
-    @membership = current_user.cohort_memberships.first
+    @membership = current_user.cohort_memberships.first if user_signed_in?
   end
 
   def join

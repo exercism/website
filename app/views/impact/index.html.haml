@@ -1,0 +1,20 @@
+#page-impact
+  %header
+    %h1
+      See how Exercism impacts the world
+
+  %article
+    %section
+      %table
+        %tr
+          %th Metric
+          %th Last 24 hours
+          %th Last month
+        %tr
+          %td # Submitted solutions
+          %td= @last_24_hours[:num_solutions_submitted]
+          %td= @last_month[:num_solutions_submitted]
+        %tr
+          %td # Opened PRs
+          %td= @last_24_hours[:num_opened_pull_requests]
+          %td= @last_month[:num_opened_pull_requests]

@@ -24,4 +24,24 @@ class TimeExtensionsTest < ActiveSupport::TestCase
     assert_equal 60, Time.zone.now.change(hour: 1, min: 0).min_of_day
     assert_equal 1439, Time.zone.now.change(hour: 23, min: 59).min_of_day
   end
+
+  # rubocop:disable Rails/TimeZone
+  test "prev_min on Time instance" do
+    assert_equal Time.now.change(hour: 0, min: 0), Time.now.change(hour: 0, min: 1).prev_min
+    assert_equal Time.now.change(hour: 0, min: 0) - 1.minute, Time.now.change(hour: 0, min: 0).prev_min
+    assert_equal Time.now.change(hour: 16, min: 43, sec: 57), Time.now.change(hour: 16, min: 44, sec: 57).prev_min
+  end
+  # rubocop:enable Rails/TimeZone
+
+  test "prev_min on DateTime instance" do
+    assert_equal DateTime.now.change(hour: 0, min: 0), DateTime.now.change(hour: 0, min: 1).prev_min
+    assert_equal DateTime.now.change(hour: 0, min: 0) - 1.minute, DateTime.now.change(hour: 0, min: 0).prev_min
+    assert_equal DateTime.now.change(hour: 16, min: 43, sec: 57), DateTime.now.change(hour: 16, min: 44, sec: 57).prev_min
+  end
+
+  test "prev_min on TimeWithZone instance" do
+    assert_equal Time.zone.now.change(hour: 0, min: 0), Time.zone.now.change(hour: 0, min: 1).prev_min
+    assert_equal Time.zone.now.change(hour: 0, min: 0) - 1.minute, Time.zone.now.change(hour: 0, min: 0).prev_min
+    assert_equal Time.zone.now.change(hour: 16, min: 43, sec: 57), Time.zone.now.change(hour: 16, min: 44, sec: 57).prev_min
+  end
 end

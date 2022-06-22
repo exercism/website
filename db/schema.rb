@@ -444,6 +444,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_metric_period_days_on_created_at"
+    t.index ["day", "metric_action", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_days_on_track_id"
   end
 
@@ -455,6 +456,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_metric_period_minutes_on_created_at"
+    t.index ["minute", "metric_action", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_minutes_on_track_id"
   end
 
@@ -466,12 +468,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_metric_period_months_on_created_at"
+    t.index ["month", "metric_action", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_months_on_track_id"
   end
 
   create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "metric_action", limit: 1, default: 0, null: false
-    t.string "country_code"
     t.bigint "track_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false

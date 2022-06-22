@@ -56,6 +56,26 @@ class MetricPeriod::UpdateMinuteMetricsTest < ActiveSupport::TestCase
     end
   end
 
+  test "count specific minute of the day" do
+    freeze_time do
+      # Normally these would be counted, but they'll be ignored in this test
+      create :metric, created_at: Time.current.beginning_of_minute.prev_min
+      create :metric, created_at: Time.current.beginning_of_minute.prev_min + 1.second
+      create :metric, created_at: Time.current.beginning_of_minute.prev_min + 10.seconds
+      create :metric, created_at: Time.current.beginning_of_minute.prev_min + 59.seconds
+
+      create :metric, created_at: Time.current - 2.minutes
+      create :metric, created_at: Time.current - 2.minutes
+
+      # Sanity check: current minute should be ignored
+      create :metric, created_at: Time.current.beginning_of_minute
+
+      MetricPeriod::UpdateMinuteMetrics.(Time.current - 2.minutes)
+
+      assert_equal 2, MetricPeriod::Minute.find_by(minute: (Time.current - 2.minutes).min_of_day).count
+    end
+  end
+
   test "updates count of existing metric" do
     freeze_time do
       metric_period = create :metric_period_minute, minute: Time.current.prev_min.min_of_day, count: 13

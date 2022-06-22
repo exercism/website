@@ -70,4 +70,24 @@ class MetricPeriod::UpdateDayMetricsTest < ActiveSupport::TestCase
       assert_equal 7, metric_period.reload.count
     end
   end
+
+  test "count specific day" do
+    freeze_time do
+      # Normally these would be counted, but they'll be ignored in this test
+      create :metric, created_at: Time.current.beginning_of_day.prev_day
+      create :metric, created_at: Time.current.beginning_of_day.prev_day + 1.hour
+      create :metric, created_at: Time.current.beginning_of_day.prev_day + 10.hours
+      create :metric, created_at: Time.current.beginning_of_day.prev_day + 5.hours
+
+      # Sanity check: current day should be ignored
+      create :metric, created_at: Time.current
+
+      create :metric, created_at: Time.current - 2.days
+      create :metric, created_at: Time.current - 2.days
+
+      MetricPeriod::UpdateDayMetrics.(Time.current - 2.days)
+
+      assert_equal 2, MetricPeriod::Day.find_by(day: (Time.current - 2.days).day).count
+    end
+  end
 end

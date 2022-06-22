@@ -56,6 +56,26 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
     end
   end
 
+  test "count specific month" do
+    freeze_time do
+      # Normally these would be counted, but they'll be ignored in this test
+      create :metric, created_at: Time.current.beginning_of_month.prev_month
+      create :metric, created_at: Time.current.beginning_of_month.prev_month + 1.day
+      create :metric, created_at: Time.current.beginning_of_month.prev_month + 10.days
+      create :metric, created_at: Time.current.beginning_of_month.prev_month + 5.days
+
+      create :metric, created_at: Time.current - 2.months
+      create :metric, created_at: Time.current - 2.months
+
+      # Sanity check: current month should be ignored
+      create :metric, created_at: Time.current
+
+      MetricPeriod::UpdateMonthMetrics.(Time.current - 2.months)
+
+      assert_equal 2, MetricPeriod::Month.find_by(month: (Time.current - 2.months).month).count
+    end
+  end
+
   test "updates count of existing metric" do
     freeze_time do
       metric_period = create :metric_period_month, month: Time.current.prev_month.month, count: 13

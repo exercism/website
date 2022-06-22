@@ -449,7 +449,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
   end
 
   create_table "metric_period_minutes", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "minute", limit: 1, default: 0, null: false
+    t.integer "minute", limit: 2, default: 0, null: false
     t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false

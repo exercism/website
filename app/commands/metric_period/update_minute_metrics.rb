@@ -2,23 +2,22 @@ class MetricPeriod::UpdateMinuteMetrics
   include Mandate
 
   def call
+    current_minute = Time.current.beginning_of_minute
+    previous_minute = Time.current.beginning_of_minute.prev_min
+
     metrics = Metric.
-      where('created_at > ?', (Time.current.utc - 24.hours).beginning_of_hour).
-      all.
-      group_by { |m| [m.metric_action, m.track_id, m.created_at.hour] }
+      where('created_at >= ? AND created_at < ?', previous_minute, current_minute).
+      group_by { |m| [m.metric_action, m.track_id] }
 
     metric_actions = MetricPeriod::Minute.metric_actions.keys.map(&:to_sym)
     tracks = Track.all
-    hours = (0..23).to_a
 
-    metric_actions.product(tracks, hours).each do |metric_action, track, hour|
-      count = metrics[[metric_action, track.id, hour]].to_a.size
+    metric_actions.product(tracks).each do |metric_action, track|
+      count = metrics[[metric_action, track.id]].to_a.size
 
-      metric = MetricPeriod::Minute.create_or_find_by!(metric_action:, track:, hour:) do |m|
+      MetricPeriod::Minute.create_or_find_by!(metric_action:, track:, minute: previous_minute.min_of_day) do |m|
         m.count = count
-      end
-
-      metric.update!(count:)
+      end.tap { |m| m.update!(count:) } # rubocop:disable Style/MultilineBlockChain
     end
   end
 end

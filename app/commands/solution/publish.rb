@@ -13,7 +13,6 @@ class Solution
         ActiveRecord::Base.transaction do
           solution.update(published_at: Time.current)
           Solution::PublishIteration.(solution, iteration_idx)
-          Solution::UpdateSnippet.(solution)
         end
       end
 

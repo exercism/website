@@ -229,4 +229,101 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     assert_includes user.reload.badges.map(&:class), Badges::GrowthMindsetBadge
   end
+
+  test "updates created iteration's num_loc" do
+    user = create :user
+    solution = create :concept_solution, user: user
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission
+
+    stub_request(:post, Exercism.config.snippet_generator_url)
+    stub_request(:post, Exercism.config.lines_of_code_counter_url).
+      with(
+        body: {
+          track_slug: submission.track.slug,
+          submission_uuid: submission.uuid,
+          submission_filepaths: submission.valid_filepaths
+        }.to_json
+      ).
+      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+
+    iteration = Iteration::Create.(solution, submission)
+    perform_enqueued_jobs
+
+    assert_equal 77, iteration.reload.num_loc
+  end
+
+  test "updates solution num_loc to created iteration's num_loc when solution is unpublished" do
+    user = create :user
+    solution = create :concept_solution, user: user
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission
+
+    stub_request(:post, Exercism.config.snippet_generator_url)
+    stub_request(:post, Exercism.config.lines_of_code_counter_url).
+      with(
+        body: {
+          track_slug: submission.track.slug,
+          submission_uuid: submission.uuid,
+          submission_filepaths: submission.valid_filepaths
+        }.to_json
+      ).
+      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+
+    perform_enqueued_jobs do
+      Iteration::Create.(solution, submission)
+    end
+
+    assert_equal 77, solution.reload.num_loc
+  end
+
+  test "updates solution num_loc to created iteration's num_loc when all iterations are published" do
+    user = create :user
+    solution = create :concept_solution, :published, user: user
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission
+
+    stub_request(:post, Exercism.config.snippet_generator_url)
+    stub_request(:post, Exercism.config.lines_of_code_counter_url).
+      with(
+        body: {
+          track_slug: submission.track.slug,
+          submission_uuid: submission.uuid,
+          submission_filepaths: submission.valid_filepaths
+        }.to_json
+      ).
+      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+
+    perform_enqueued_jobs do
+      Iteration::Create.(solution, submission)
+    end
+
+    assert_equal 77, solution.reload.num_loc
+  end
+
+  test "does not update solution num_loc when other iteration is published" do
+    user = create :user
+    solution = create :concept_solution, user: user
+    published_iteration = create :iteration, solution: solution, num_loc: 77
+    solution.update!(num_loc: published_iteration.num_loc, published_iteration:, published_at: Time.current)
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission
+
+    stub_request(:post, Exercism.config.snippet_generator_url)
+    stub_request(:post, Exercism.config.lines_of_code_counter_url).
+      with(
+        body: {
+          track_slug: submission.track.slug,
+          submission_uuid: submission.uuid,
+          submission_filepaths: submission.valid_filepaths
+        }.to_json
+      ).
+      to_return(status: 200, body: "{\"counts\":{\"code\":13,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+
+    perform_enqueued_jobs do
+      Iteration::Create.(solution, submission)
+    end
+
+    assert_equal published_iteration.num_loc, solution.reload.num_loc
+  end
 end

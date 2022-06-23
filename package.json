@@ -138,19 +138,6 @@
     "build:css": "postcss ./app/css/application.postcss.css -o .built-assets/website.css",
     "build": "./app/javascript/esbuild.js"
   },
-  "jest": {
-    "roots": [
-      "test/javascript"
-    ],
-    "setupFilesAfterEnv": [
-      "./test/javascript/setupTests.js"
-    ],
-    "moduleNameMapper": {
-      "^[./a-zA-Z0-9$_-]+\\.svg$": "<rootDir>/app/javascript/images/GlobalImageStub.js",
-      "manifest.json$": "<rootDir>/app/javascript/__mocks__/fileMock.js"
-    },
-    "testEnvironment": "jsdom"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged && bin/rubocop-quick && bin/haml-lint-quick && bin/eslint-quick"

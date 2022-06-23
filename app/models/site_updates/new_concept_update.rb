@@ -1,9 +1,7 @@
 class SiteUpdates::NewConceptUpdate < SiteUpdate
   params :concept
 
-  def guard_params
-    "Concept##{concept.id}"
-  end
+  def guard_params = "Concept##{concept.id}"
 
   def i18n_params
     {
@@ -49,9 +47,5 @@ class SiteUpdates::NewConceptUpdate < SiteUpdate
   end
 
   memoize
-  def makers
-    # TODO: Readd once we have contributors
-    # concept.authors + concept.contributors
-    []
-  end
+  def makers = concept.authors + concept.contributors
 end

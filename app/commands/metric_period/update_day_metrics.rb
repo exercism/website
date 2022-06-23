@@ -6,6 +6,8 @@ class MetricPeriod::UpdateDayMetrics
   end
 
   def call
+    # TODO: add nil track
+
     metric_actions.product(Track.all).each do |metric_action, track|
       count = metric_count(metric_action, track)
 

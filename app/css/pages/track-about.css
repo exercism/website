@@ -131,7 +131,8 @@
 
             & > pre {
                 width: 100%;
-                overflow: scroll;
+                overflow-x: hidden;
+                overflow-y: auto;
                 @apply flex-shrink-0;
                 @apply bg-backgroundColorA rounded-8 py-24 px-36;
                 @apply shadow-base;

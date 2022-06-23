@@ -26,7 +26,7 @@ class NotificationsFlowsTest < ActiveSupport::TestCase
 
     User::Notification.where(user: mentor).first.read!
     assert_equal 1, mentor.notifications.count
-    assert_equal 0, mentor.notifications.unread.count
+    refute mentor.notifications.unread.exists?
     assert_equal 1, mentor.notifications.read.count
 
     User::Notification.where(user:).first.read!

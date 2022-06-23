@@ -15,7 +15,7 @@ module Github
           i.opened_by_username = attributes[:opened_by_username]
         end
 
-        log_metric!(issue) if issue.just_created?
+        log_metric! if issue.just_created?
 
         issue.update!(
           number: attributes[:number],
@@ -39,15 +39,12 @@ module Github
 
       def status = attributes[:state].downcase.to_sym
 
-      def log_metric!(issue)
-        Metric::Queue.(:open_issue, issue.opened_at, track:, user: opened_by_username)
+      def log_metric!
+        Metric::Queue.(:open_issue, attributes[:opened_at], track:, user: opened_by_username)
       end
 
-      memoize
-      def track = Track.for_repo(issue.repo)
-
-      memoize
-      def opened_by_username = User.find_by(github_username: issue.opened_by_username)
+      def track = Track.for_repo(attributes[:repo])
+      def opened_by_username = User.find_by(github_username: attributes[:opened_by_username])
     end
   end
 end

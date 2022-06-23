@@ -45,10 +45,7 @@ class Solution
     end
 
     def log_metric!
-      Metric::Queue.(:publish_solution, solution.published_at, track:, user:)
+      Metric::Queue.(:publish_solution, solution.published_at, track: user_track.track, user: user_track.user)
     end
-
-    delegate :user, to: :user_track
-    delegate :track, to: :user_track
   end
 end

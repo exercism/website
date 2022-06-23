@@ -22,7 +22,7 @@ class Metric::CreateTest < ActiveSupport::TestCase
     action = :request_mentoring
     created_at = Time.current - 2.seconds
 
-    Metric::Create.(action, created_at)
+    Metric::Create.(action, created_at, track: nil)
 
     assert_equal 1, Metric.count
     metric = Metric.last

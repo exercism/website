@@ -7,13 +7,11 @@ module Github
 
       def call
         pull_request = ::Github::PullRequest.create_or_find_by!(node_id:) do |pr|
-          pr.attributes = attributes.slice(:number, :title, :repo, :state, :author_username, :merged_by_username, :data)
+          pr.attributes = attributes.except(:reviews)
         end
 
         pull_request.tap do |pr|
-          pr.update!(
-            attributes.slice(:number, :title, :repo, :state, :author_username, :merged_by_username, :data).merge(reviews: reviews(pr))
-          )
+          pr.update!(attributes.merge(reviews: reviews(pr)))
         end
       end
 

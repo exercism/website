@@ -19,13 +19,14 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
-      data[:node_id], **data.slice(:number, :title, :author_username, :merged_by_username, :repo, :reviews).merge(data:)
+      data[:node_id], **data.slice(:number, :title, :state, :author_username, :merged_by_username, :repo, :reviews).merge(data:)
     )
 
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
     assert_equal 2, pr.number
     assert_equal "A fine PR", pr.title
     assert_equal "exercism/ruby", pr.repo
+    assert_equal :closed, pr.state
     assert_equal "iHiD", pr.author_username
     assert_equal "ErikSchierboom", pr.merged_by_username
     assert_equal data, pr.data
@@ -52,12 +53,13 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
-      data[:node_id], **data.slice(:number, :title, :author_username, :merged_by_username, :repo, :reviews).merge(data:)
+      data[:node_id], **data.slice(:number, :title, :state, :author_username, :merged_by_username, :repo, :reviews).merge(data:)
     )
 
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
     assert_equal 2, pr.number
     assert_equal "exercism/ruby", pr.repo
+    assert_equal :closed, pr.state
     assert_equal "iHiD", pr.author_username
     assert_equal "ErikSchierboom", pr.merged_by_username
     assert_equal data, pr.data

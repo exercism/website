@@ -34,7 +34,7 @@ FactoryBot.define do
 
     trait :external do
       external { true }
-      request { create :mentor_request, :external, solution: solution, status: :fulfilled }
+      request { create :mentor_request, :external, solution:, status: :fulfilled }
     end
   end
 end

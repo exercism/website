@@ -85,7 +85,7 @@ class User::MentoringSlotsTest < ActiveSupport::TestCase
     # External discussions
     4.times do
       solution = create :practice_solution, user: user
-      create :mentor_discussion, :external, solution: solution
+      create :mentor_discussion, :external, solution:
     end
 
     assert_equal 2, user_track.num_locked_mentoring_slots

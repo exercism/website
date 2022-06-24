@@ -3,25 +3,22 @@ require "test_helper"
 class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
   %w[closed labeled unlabeled].each do |action|
     test "reputation tokens are awarded when action is #{action}" do
-      author = 'user22'
-      url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
-      html_url = 'https://github.com/exercism/fsharp/pull/1347'
-      labels = %w[bug duplicate]
-      repo = 'exercism/fsharp'
-      node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-      title = "The cat sat on the mat"
-      created_at = Time.parse("2019-05-15T15:20:33Z").utc
-      number = 1347
-      merged = false
-      merged_at = nil
-      merged_by = nil
-      state = 'open'
-      reviews = [
-        { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer_username: "reviewer71",
-          submitted_at: Time.parse("2019-05-23T12:12:13Z").utc },
-        { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', reviewer_username: "reviewer13",
-          submitted_at: Time.parse("2019-05-24T10:56:29Z").utc }
-      ]
+      pull_request_update = {
+        action:,
+        author_username: 'user22',
+        url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+        html_url: 'https://github.com/exercism/fsharp/pull/1347',
+        labels: %w[bug duplicate],
+        repo: 'exercism/fsharp',
+        node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+        title: "The cat sat on the mat",
+        created_at: Time.parse("2019-05-15T15:20:33Z").utc,
+        number: 1347,
+        merged: false,
+        merged_at: nil,
+        merged_by_username: nil,
+        state: 'open'
+      }
 
       RestClient.unstub(:get)
       stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").
@@ -32,59 +29,21 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
             submitted_at: "2019-05-24T10:56:29Z" }
         ].to_json, headers: { 'Content-Type' => 'application/json' })
 
-      User::ReputationToken::AwardForPullRequest.expects(:call).with(
-        action:,
-        author_username: author,
-        url:,
-        html_url:,
-        labels:,
-        repo:,
-        node_id:,
-        title:,
-        created_at:,
-        number:,
-        merged:,
-        merged_at:,
-        merged_by_username: merged_by,
-        state:,
-        reviews:
-      )
+      reviews = [
+        { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer_username: "reviewer71",
+          submitted_at: Time.parse("2019-05-23T12:12:13Z").utc },
+        { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI5', reviewer_username: "reviewer13",
+          submitted_at: Time.parse("2019-05-24T10:56:29Z").utc }
+      ]
 
-      ProcessPullRequestUpdateJob.perform_now(
-        action:,
-        author_username: author,
-        url:,
-        html_url:,
-        labels:,
-        repo:,
-        node_id:,
-        title:,
-        created_at:,
-        number:,
-        merged:,
-        merged_at:,
-        merged_by_username: merged_by,
-        state:
-      )
+      User::ReputationToken::AwardForPullRequest.expects(:call).with(**pull_request_update.merge(reviews:))
+
+      ProcessPullRequestUpdateJob.perform_now(**pull_request_update)
     end
   end
 
   %w[edited opened reopened].each do |action|
     test "reputation tokens are not awarded when action is #{action}" do
-      author = 'user22'
-      url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
-      html_url = 'https://github.com/exercism/fsharp/pull/1347'
-      labels = %w[bug duplicate]
-      repo = 'exercism/fsharp'
-      node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-      title = "The cat sat on the mat"
-      created_at = Time.parse("2019-05-15T15:20:33Z").utc
-      number = 1347
-      merged = false
-      merged_at = nil
-      merged_by = nil
-      state = 'open'
-
       RestClient.unstub(:get)
       stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").
         to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
@@ -93,38 +52,41 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
 
       ProcessPullRequestUpdateJob.perform_now(
         action:,
-        author_username: author,
-        url:,
-        html_url:,
-        labels:,
-        repo:,
-        node_id:,
-        title:,
-        created_at:,
-        number:,
-        merged:,
-        merged_at:,
-        merged_by_username: merged_by,
-        state:
+        author: 'user22',
+        url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+        html_url: 'https://github.com/exercism/fsharp/pull/1347',
+        labels: %w[bug duplicate],
+        repo: 'exercism/fsharp',
+        node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+        title: "The cat sat on the mat",
+        created_at: Time.parse("2019-05-15T15:20:33Z").utc,
+        number: 1347,
+        merged: false,
+        merged_at: nil,
+        merged_by: nil,
+        state: 'open'
       )
     end
   end
 
-  test "creates pull request record" do
-    action = 'closed'
-    author = 'user22'
-    url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
-    html_url = 'https://github.com/exercism/fsharp/pull/1347'
-    labels = %w[bug duplicate]
-    repo = 'exercism/fsharp'
-    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    title = "The cat sat on the mat"
-    created_at = Time.parse("2019-05-15T15:20:33Z").utc
-    number = 1347
-    merged = true
-    merged_at = Time.parse("2019-05-15T16:43:00Z").utc
-    merged_by = 'merger11'
-    state = 'open'
+  test "creates pull request" do
+    pull_request_update = {
+      action: 'closed',
+      author_username: 'user22',
+      url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+      html_url: 'https://github.com/exercism/fsharp/pull/1347',
+      labels: %w[bug duplicate],
+      repo: 'exercism/fsharp',
+      node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      title: "The cat sat on the mat",
+      created_at: Time.parse("2019-05-15T15:20:33Z").utc,
+      number: 1347,
+      merged: true,
+      merged_at: Time.parse("2019-05-15T16:43:00Z").utc,
+      merged_by_username: 'merger11',
+      state: 'open'
+    }
+
     reviews = [
       { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4', reviewer_username: "reviewer71",
         submitted_at: Time.parse("2019-05-23T12:12:13Z").utc },
@@ -141,66 +103,20 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
           submitted_at: "2019-05-24T10:56:29Z" }
       ].to_json, headers: { 'Content-Type' => 'application/json' })
 
-    ProcessPullRequestUpdateJob.perform_now(
-      action:,
-      author_username: author,
-      url:,
-      html_url:,
-      labels:,
-      repo:,
-      node_id:,
-      title:,
-      created_at:,
-      number:,
-      state:,
-      merged:,
-      merged_at:,
-      merged_by_username: merged_by
-    )
+    ProcessPullRequestUpdateJob.perform_now(**pull_request_update)
 
-    pr = Github::PullRequest.find_by(node_id:)
-    expected_data = {
-      url:,
-      repo:,
-      state:,
-      title:,
-      action:,
-      labels:,
-      merged:,
-      number:,
-      node_id:,
-      reviews:,
-      html_url:,
-      merged_at:,
-      created_at:,
-      author_username: author,
-      merged_by_username: merged_by
-    }
-    assert_equal node_id, pr.node_id
-    assert_equal number, pr.number
-    assert_equal title, pr.title
-    assert_equal repo, pr.repo
-    assert_equal author, pr.author_username
-    assert_equal merged_by, pr.merged_by_username
-    assert_equal expected_data, pr.data
+    pr = Github::PullRequest.find_by(node_id: pull_request_update[:node_id])
+    pull_request_update[:data] = pull_request_update.merge(reviews:)
+    assert_equal pull_request_update[:node_id], pr.node_id
+    assert_equal pull_request_update[:number], pr.number
+    assert_equal pull_request_update[:title], pr.title
+    assert_equal pull_request_update[:repo], pr.repo
+    assert_equal pull_request_update[:author_username], pr.author_username
+    assert_equal pull_request_update[:merged_by_username], pr.merged_by_username
+    assert_equal pull_request_update[:data], pr.data
   end
 
-  test "retrieves all reviews" do
-    action = 'closed'
-    author = 'user22'
-    url = 'https://api.github.com/repos/exercism/fsharp/pulls/1347'
-    html_url = 'https://github.com/exercism/fsharp/pull/1347'
-    labels = %w[bug duplicate]
-    repo = 'exercism/fsharp'
-    node_id = 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ'
-    title = "The cat sat on the mat"
-    created_at = Time.parse("2019-05-15T15:20:33Z").utc
-    number = 1347
-    merged = false
-    merged_at = nil
-    merged_by = nil
-    state = 'open'
-
+  test "creates pull request reviews" do
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").
       to_return(
@@ -228,20 +144,20 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
       )
 
     ProcessPullRequestUpdateJob.perform_now(
-      action:,
-      author_username: author,
-      url:,
-      html_url:,
-      labels:,
-      repo:,
-      node_id:,
-      title:,
-      created_at:,
-      number:,
-      state:,
-      merged:,
-      merged_at:,
-      merged_by_username: merged_by
+      action: 'closed',
+      author_username: 'user22',
+      url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+      html_url: 'https://github.com/exercism/fsharp/pull/1347',
+      labels: %w[bug duplicate],
+      repo: 'exercism/fsharp',
+      node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      title: "The cat sat on the mat",
+      created_at: Time.parse("2019-05-15T15:20:33Z").utc,
+      number: 1347,
+      merged: false,
+      merged_at: nil,
+      merged_by_username: nil,
+      state: 'open'
     )
 
     assert_equal 3, Github::PullRequestReview.find_each.size

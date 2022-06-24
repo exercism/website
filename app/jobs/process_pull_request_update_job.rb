@@ -1,6 +1,16 @@
 class ProcessPullRequestUpdateJob < ApplicationJob
   queue_as :default
 
+  def self.perform_later(pr_data)
+    return unless self.worth_queuing?(pr_data)
+
+    super(pr_data)
+  end
+
+  def self.worth_queuing?(pr_data) = self.closed?(pr_data) && self.valid_action?(pr_data)
+  def self.closed?(pr_data) = pr_data[:state] == 'closed'
+  def self.valid_action?(pr_data) = %w[closed labeled unlabeled].include?(pr_data[:action])
+
   def perform(pr_data)
     # Fetch and append the reviews which the pull request data does not contain
     pr_data[:reviews] = reviews(pr_data[:repo], pr_data[:number])

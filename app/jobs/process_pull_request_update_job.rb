@@ -24,6 +24,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
       merged_by_username: pull_request_update[:merged_by_username],
       repo: pull_request_update[:repo],
       reviews: pull_request_update[:reviews],
+      state: state(pull_request_update),
       data: pull_request_update
     )
 
@@ -37,6 +38,12 @@ class ProcessPullRequestUpdateJob < ApplicationJob
 
   def award_reputation_tokens?(pull_request_update)
     %w[closed labeled unlabeled].include?(pull_request_update[:action])
+  end
+
+  def state(pull_request_update)
+    return :merged if !!pull_request_update[:merged]
+
+    pull_request_update[:state].downcase.to_sym
   end
 
   def reviews(repo, number)

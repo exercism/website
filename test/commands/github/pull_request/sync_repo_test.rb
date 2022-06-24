@@ -18,15 +18,13 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 number: 19,
                 title: "The cat sat on the mat",
-                state: 'MERGED',
+                state: 'OPEN',
                 author: {
                   login: 'ErikSchierboom'
                 },
-                merged: true,
-                mergedAt: '2020-04-03T14:54:57Z',
-                mergedBy: {
-                  login: 'iHiD'
-                },
+                merged: false,
+                mergedAt: nil,
+                mergedBy: nil,
                 reviews: {
                   nodes: [
                     {
@@ -49,11 +47,11 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 },
                 number: 8,
                 title: "The cat sat on the mat",
-                state: 'MERGED',
+                state: 'CLOSED',
                 author: {
                   login: 'ErikSchierboom'
                 },
-                merged: true,
+                merged: false,
                 mergedAt: nil,
                 mergedBy: nil,
                 reviews: {
@@ -92,7 +90,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
                 url: 'https://github.com/exercism/ruby/pull/2',
                 id: 'MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz',
                 createdAt: '2020-03-27T06:39:20Z',
-                closedAt: nil,
+                closedAt: '2020-03-29T18:24:47Z',
                 labels: {
                   nodes: []
                 },
@@ -142,10 +140,11 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'exercism/ruby', prs.first.repo
     assert_equal "MDExOlB1bGxSZXF1ZXN0NTY4NDMxMTE4", prs.first.node_id
     assert_equal 19, prs.first.number
+    assert_equal :open, prs.first.state
     assert_equal "The cat sat on the mat", prs.first.title
     assert_equal "exercism/ruby", prs.first.repo
     assert_equal "ErikSchierboom", prs.first.author_username
-    assert_equal "iHiD", prs.first.merged_by_username
+    assert_nil prs.first.merged_by_username
     expected_first_data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/19",
       html_url: "https://github.com/exercism/ruby/pull/19",
@@ -155,13 +154,13 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       title: "The cat sat on the mat",
       created_at: Time.parse('2021-02-05T15:29:25Z').utc,
       closed_at: nil,
-      state: "closed",
-      action: "closed",
+      state: "open",
+      action: "opened",
       author_username: "ErikSchierboom",
       labels: [],
-      merged: true,
-      merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
-      merged_by_username: "iHiD",
+      merged: false,
+      merged_at: nil,
+      merged_by_username: nil,
       reviews: [
         {
           node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTg5NDY1MzEx",
@@ -178,6 +177,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'exercism/ruby', prs.second.repo
     assert_equal "MDExOlB1bGxSZXF1ZXN0NTYzOTgwNTkw", prs.second.node_id
     assert_equal 8, prs.second.number
+    assert_equal :closed, prs.second.state
     assert_equal "The cat sat on the mat", prs.second.title
     assert_equal "exercism/ruby", prs.second.repo
     assert_equal "ErikSchierboom", prs.second.author_username
@@ -195,7 +195,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       action: "closed",
       author_username: "ErikSchierboom",
       labels: [],
-      merged: true,
+      merged: false,
       merged_at: nil,
       merged_by_username: nil,
       reviews: [
@@ -215,6 +215,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'exercism/ruby', prs.third.repo
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", prs.third.node_id
     assert_equal 2, prs.third.number
+    assert_equal :merged, prs.third.state
     assert_equal "The cat sat on the mat", prs.third.title
     assert_equal "exercism/ruby", prs.third.repo
     assert_equal "porkostomus", prs.third.author_username
@@ -227,8 +228,8 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
       number: 2,
       title: "The cat sat on the mat",
       created_at: Time.parse('2020-03-27T06:39:20Z').utc,
-      closed_at: nil,
-      state: "closed",
+      closed_at: Time.parse('2020-03-29T18:24:47Z').utc,
+      state: "merged",
       action: "closed",
       author_username: "porkostomus",
       labels: [],

@@ -148,6 +148,90 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
     end
   end
 
+  test "state is correct for closed and unmerged pull requests" do
+    pull_request_update = {
+      action: 'closed',
+      author_username: 'user22',
+      url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+      html_url: 'https://github.com/exercism/fsharp/pull/1347',
+      labels: %w[bug duplicate],
+      repo: 'exercism/fsharp',
+      node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      title: "The cat sat on the mat",
+      created_at: Time.parse("2019-05-15T15:20:33Z").utc,
+      number: 1347,
+      merged: false,
+      merged_at: nil,
+      merged_by_username: nil,
+      state: 'closed'
+    }
+
+    RestClient.unstub(:get)
+    stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").
+      to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
+
+    ProcessPullRequestUpdateJob.perform_now(**pull_request_update)
+
+    pr = Github::PullRequest.find_by(node_id: pull_request_update[:node_id])
+    assert_equal :closed, pr.state
+  end
+
+  test "state is correct for closed and merged pull requests" do
+    pull_request_update = {
+      action: 'closed',
+      author_username: 'user22',
+      url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+      html_url: 'https://github.com/exercism/fsharp/pull/1347',
+      labels: %w[bug duplicate],
+      repo: 'exercism/fsharp',
+      node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      title: "The cat sat on the mat",
+      created_at: Time.parse("2019-05-15T15:20:33Z").utc,
+      number: 1347,
+      merged: true,
+      merged_at: Time.parse("2019-05-15T16:43:00Z").utc,
+      merged_by_username: 'merger11',
+      state: 'open'
+    }
+
+    RestClient.unstub(:get)
+    stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").
+      to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
+
+    ProcessPullRequestUpdateJob.perform_now(**pull_request_update)
+
+    pr = Github::PullRequest.find_by(node_id: pull_request_update[:node_id])
+    assert_equal :merged, pr.state
+  end
+
+  test "state is correct for open pull requests" do
+    pull_request_update = {
+      action: 'opened',
+      author_username: 'user22',
+      url: 'https://api.github.com/repos/exercism/fsharp/pulls/1347',
+      html_url: 'https://github.com/exercism/fsharp/pull/1347',
+      labels: %w[bug duplicate],
+      repo: 'exercism/fsharp',
+      node_id: 'MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ',
+      title: "The cat sat on the mat",
+      created_at: Time.parse("2019-05-15T15:20:33Z").utc,
+      number: 1347,
+      merged: false,
+      merged_at: nil,
+      merged_by_username: nil,
+      state: 'open'
+    }
+
+    RestClient.unstub(:get)
+    stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").
+      to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
+
+    ProcessPullRequestUpdateJob.perform_now(**pull_request_update)
+
+    pr = Github::PullRequest.find_by(node_id: pull_request_update[:node_id])
+    assert_equal :open, pr.state
+  end
+
   test "creates pull request reviews" do
     RestClient.unstub(:get)
     stub_request(:get, "https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?per_page=100").

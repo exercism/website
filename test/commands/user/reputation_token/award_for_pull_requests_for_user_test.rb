@@ -14,14 +14,10 @@ class User::ReputationToken::AwardForPullRequestsForUserTest < ActiveSupport::Te
 
   test "award reputation for reviewed pull requests" do
     user = create :user, handle: "User1", github_username: "ErikSchierboom"
-    review_1 = create :github_pull_request_review, :random, reviewer_username: "ErikSchierboom"
-    review_1.pull_request.update(state: :closed)
-    review_2 = create :github_pull_request_review, :random, reviewer_username: "ErikSchierboom"
-    review_2.pull_request.update(state: :closed)
-    review_3 = create :github_pull_request_review, :random, reviewer_username: "iHiD"
-    review_3.pull_request.update(state: :closed)
-    review_4 = create :github_pull_request_review, :random, reviewer_username: "ErikSchierboom"
-    review_4.pull_request.update(state: :closed)
+    create :github_pull_request_review, :random, state: :closed, reviewer_username: "ErikSchierboom"
+    create :github_pull_request_review, :random, state: :closed, reviewer_username: "ErikSchierboom"
+    create :github_pull_request_review, :random, state: :closed, reviewer_username: "iHiD"
+    create :github_pull_request_review, :random, state: :closed, reviewer_username: "ErikSchierboom"
     create :github_organization_member, username: "ErikSchierboom"
     create :github_organization_member, username: "iHiD"
 
@@ -54,8 +50,7 @@ class User::ReputationToken::AwardForPullRequestsForUserTest < ActiveSupport::Te
     user = create :user, github_username: "user-1"
     create :github_pull_request, :random, state: :open, author_username: user.github_username
     create :github_pull_request, :random, state: :open, merged_by_username: user.github_username
-    review_pr = create :github_pull_request, :random, state: :open
-    create :github_pull_request_review, :random, reviewer_username: user.github_username, pull_request: review_pr
+    create :github_pull_request_review, :random, state: :open, reviewer_username: user.github_username
 
     User::ReputationToken::AwardForPullRequestsForUser.(user)
 

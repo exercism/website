@@ -2,35 +2,23 @@ require "test_helper"
 
 class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   test "create pull request with reviewers" do
-    node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
-    number = 2
-    repo = "exercism/ruby"
-    author = "iHiD"
-    merged_by = "ErikSchierboom"
-    reviews = [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", reviewer_username: "ErikSchierboom" }]
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
-      repo:,
-      node_id:,
-      number:,
+      repo: "exercism/ruby",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
       state: "closed",
       action: "closed",
-      author_username: author,
+      author_username: "iHiD",
       labels: [],
       merged: true,
-      merged_by_username: merged_by,
-      reviews:,
+      merged_by_username: "ErikSchierboom",
+      reviews: [{ node_id: "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI4", reviewer_username: "ErikSchierboom" }],
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
-      node_id,
-      number:,
-      author_username: author,
-      merged_by_username: merged_by,
-      repo:,
-      reviews:,
-      data:
+      data[:node_id], **data.slice(:number, :author_username, :merged_by_username, :repo, :reviews).merge(data:)
     )
 
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
@@ -45,35 +33,23 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
   end
 
   test "create pull request without reviewers" do
-    node_id = "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz"
-    number = 2
-    repo = "exercism/ruby"
-    author = "iHiD"
-    merged_by = "ErikSchierboom"
-    reviews = []
     data = {
       url: "https://api.github.com/repos/exercism/ruby/pulls/2",
-      repo:,
-      node_id:,
-      number:,
+      repo: "exercism/ruby",
+      node_id: "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz",
+      number: 2,
       state: "closed",
       action: "closed",
-      author_username: author,
+      author_username: "iHiD",
       labels: [],
       merged: true,
-      merged_by_username: merged_by,
-      reviews:,
+      merged_by_username: "ErikSchierboom",
+      reviews: [],
       html_url: "https://github.com/exercism/ruby/pull/2"
     }
 
     pr = Github::PullRequest::CreateOrUpdate.(
-      node_id,
-      number:,
-      author_username: author,
-      merged_by_username: merged_by,
-      repo:,
-      reviews:,
-      data:
+      data[:node_id], **data.slice(:number, :author_username, :merged_by_username, :repo, :reviews).merge(data:)
     )
 
     assert_equal "MDExOlB1bGxSZXF1ZXN0Mzk0NTc4ODMz", pr.node_id
@@ -87,8 +63,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
   test "update pull request if data has changed" do
     pr = create :github_pull_request
-    changed_data = pr.data
-    changed_data[:labels] = ["new-label"]
+    changed_data = pr.data.merge(labels: ["new-label"])
 
     Github::PullRequest::CreateOrUpdate.(
       pr.node_id,

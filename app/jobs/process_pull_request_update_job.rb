@@ -27,12 +27,16 @@ class ProcessPullRequestUpdateJob < ApplicationJob
       data: pull_request_update
     )
 
-    User::ReputationToken::AwardForPullRequest.(pull_request_update)
+    User::ReputationToken::AwardForPullRequest.(pull_request_update) if award_reputation_tokens?(pull_request_update)
   end
 
   private
   def add_reviews!(pull_request_update)
     pull_request_update[:reviews] = reviews(pull_request_update[:repo], pull_request_update[:number])
+  end
+
+  def award_reputation_tokens?(pull_request_update)
+    %w[closed labeled unlabeled].include?(pull_request_update[:action])
   end
 
   def reviews(repo, number)

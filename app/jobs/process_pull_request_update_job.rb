@@ -1,40 +1,40 @@
 class ProcessPullRequestUpdateJob < ApplicationJob
   queue_as :default
 
-  def self.perform_later(pr_data)
-    return unless self.worth_queuing?(pr_data)
+  def self.perform_later(pull_request_update)
+    return unless self.worth_queuing?(pull_request_update)
 
-    super(pr_data)
+    super(pull_request_update)
   end
 
-  def self.worth_queuing?(pr_data) = self.closed?(pr_data) && self.valid_action?(pr_data)
-  def self.closed?(pr_data) = pr_data[:state] == 'closed'
-  def self.valid_action?(pr_data) = %w[closed labeled unlabeled].include?(pr_data[:action])
+  def self.worth_queuing?(pull_request_update) = self.closed?(pull_request_update) && self.valid_action?(pull_request_update)
+  def self.closed?(pull_request_update) = pull_request_update[:state] == 'closed'
+  def self.valid_action?(pull_request_update) = %w[closed labeled unlabeled].include?(pull_request_update[:action])
 
-  def perform(pr_data)
+  def perform(pull_request_update)
     # Fetch and append the reviews which the pull request data does not contain
-    pr_data[:reviews] = reviews(pr_data[:repo], pr_data[:number])
+    pull_request_update[:reviews] = reviews(pull_request_update[:repo], pull_request_update[:number])
 
     Github::PullRequest::CreateOrUpdate.(
-      pr_data[:node_id],
-      number: pr_data[:number],
-      title: pr_data[:title],
-      author_username: pr_data[:author_username],
-      merged_by_username: pr_data[:merged_by_username],
-      repo: pr_data[:repo],
-      reviews: pr_data[:reviews],
-      data: pr_data
+      pull_request_update[:node_id],
+      number: pull_request_update[:number],
+      title: pull_request_update[:title],
+      author_username: pull_request_update[:author_username],
+      merged_by_username: pull_request_update[:merged_by_username],
+      repo: pull_request_update[:repo],
+      reviews: pull_request_update[:reviews],
+      data: pull_request_update
     )
 
-    User::ReputationToken::AwardForPullRequest.(pr_data)
+    User::ReputationToken::AwardForPullRequest.(pull_request_update)
   end
 
   private
   def reviews(repo, number)
-    Exercism.octokit_client.pull_request_reviews(repo, number).map do |r|
+    Exercism.octokit_client.pull_request_reviews(repo, number).map do |review|
       {
-        node_id: r[:node_id],
-        reviewer_username: r[:user][:login],
+        node_id: review[:node_id],
+        reviewer_username: review[:user][:login],
         submitted_at: r[:submitted_at]
       }
     end

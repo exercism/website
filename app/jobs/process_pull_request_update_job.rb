@@ -7,13 +7,14 @@ class ProcessPullRequestUpdateJob < ApplicationJob
     super(pull_request_update)
   end
 
-  def self.worth_queuing?(pull_request_update) = self.closed?(pull_request_update) && self.valid_action?(pull_request_update)
-  def self.closed?(pull_request_update) = pull_request_update[:state] == 'closed'
-  def self.valid_action?(pull_request_update) = %w[closed labeled unlabeled].include?(pull_request_update[:action])
+  def self.worth_queuing?(pull_request_update)
+    %w[closed edited opened reopened labeled unlabeled].include?(pull_request_update[:action])
+  end
 
   def perform(pull_request_update)
-    # Fetch and append the reviews which the pull request data does not contain
-    pull_request_update[:reviews] = reviews(pull_request_update[:repo], pull_request_update[:number])
+    # Add the reviews to the pull request update as it does not have
+    # that information by default
+    add_reviews!(pull_request_update)
 
     Github::PullRequest::CreateOrUpdate.(
       pull_request_update[:node_id],
@@ -30,12 +31,16 @@ class ProcessPullRequestUpdateJob < ApplicationJob
   end
 
   private
+  def add_reviews!(pull_request_update)
+    pull_request_update[:reviews] = reviews(pull_request_update[:repo], pull_request_update[:number])
+  end
+
   def reviews(repo, number)
     Exercism.octokit_client.pull_request_reviews(repo, number).map do |review|
       {
         node_id: review[:node_id],
         reviewer_username: review[:user][:login],
-        submitted_at: r[:submitted_at]
+        submitted_at: review[:submitted_at]
       }
     end
   end

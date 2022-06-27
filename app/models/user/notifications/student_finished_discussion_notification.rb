@@ -3,9 +3,10 @@ class User
     class StudentFinishedDiscussionNotification < Notification
       params :discussion
 
-      def url
-        discussion.mentor_url
-      end
+      def url = discussion.mentor_url
+      def image_type = :avatar
+      def image_url = student.avatar_url
+      def guard_params = "Discussion##{discussion.id}"
 
       def i18n_params
         {
@@ -15,26 +16,9 @@ class User
         }
       end
 
-      def image_type
-        :avatar
-      end
-
-      def image_url
-        student.avatar_url
-      end
-
-      def guard_params
-        "Discussion##{discussion.id}"
-      end
-
       private
-      def student
-        solution.user
-      end
-
-      def solution
-        discussion.solution
-      end
+      def student = solution.user
+      def solution = discussion.solution
     end
   end
 end

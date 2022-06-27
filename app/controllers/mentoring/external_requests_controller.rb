@@ -15,21 +15,7 @@ class Mentoring::ExternalRequestsController < ApplicationController
     existing_discussion = @solution.mentor_discussions.find_by(mentor: current_user)
     return redirect_to mentoring_discussion_path(existing_discussion) if existing_discussion
 
-    # TODO: (Optional): Move this into a command
-    # and make it less horrible!
-    discussion = Mentor::Request.transaction do
-      request = Mentor::Request.create!(
-        solution: @solution,
-        comment_markdown: "This is a private review session"
-      )
-      request.fulfilled!
-      Mentor::Discussion.create!(
-        mentor: current_user,
-        request:,
-        awaiting_student_since: Time.current
-      )
-    end
-
+    discussion = Mentor::Request::AcceptExternal.(current_user, @solution)
     redirect_to mentoring_discussion_path(discussion)
   end
 

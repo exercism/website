@@ -73,4 +73,23 @@ class User::MentoringSlotsTest < ActiveSupport::TestCase
     assert_equal 0, user_track.num_available_mentoring_slots
     refute user_track.has_available_mentoring_slot?
   end
+
+  test "external discussions don't take up mentoring slots" do
+    user = create :user, reputation: 0
+    user_track = create :user_track, user: user
+
+    # Regular, non-external discussion
+    solution = create :practice_solution, user: user
+    create :mentor_discussion, solution: solution
+
+    # External discussions
+    4.times do
+      solution = create :practice_solution, user: user
+      create :mentor_discussion, :external, solution:
+    end
+
+    assert_equal 2, user_track.num_locked_mentoring_slots
+    assert_equal 1, user_track.num_used_mentoring_slots
+    assert_equal 1, user_track.num_available_mentoring_slots
+  end
 end

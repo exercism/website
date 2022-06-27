@@ -99,7 +99,7 @@ module Github
         # This allows us to work with pull requests using a single code path.
         response[:data][:repository][:pullRequests][:nodes].map do |pr|
           {
-            action: pr[:state].casecmp('open').zero? ? 'opened' : 'closed',
+            action: pr[:state].casecmp?('open') ? 'opened' : 'closed',
             author_username: pr[:author].present? ? pr[:author][:login] : nil,
             url: "https://api.github.com/repos/#{response[:data][:repository][:nameWithOwner]}/pulls/#{pr[:number]}",
             html_url: pr[:url],

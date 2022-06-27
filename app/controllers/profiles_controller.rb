@@ -58,6 +58,8 @@ class ProfilesController < ApplicationController
     return redirect_to profile_path(current_user) if current_user&.profile
 
     @profile = User::Profile::Create.(current_user)
+  rescue ProfileCriteriaNotFulfilledError
+    render_404
   end
 
   private

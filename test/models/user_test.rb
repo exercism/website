@@ -285,4 +285,15 @@ class UserTest < ActiveSupport::TestCase
 
     user.save!
   end
+
+  test "profile_unlocked?" do
+    user = build :user, reputation: 0
+    refute user.profile_unlocked?
+
+    user.update(reputation: 4)
+    refute user.profile_unlocked?
+
+    user.update(reputation: 5)
+    assert user.profile_unlocked?
+  end
 end

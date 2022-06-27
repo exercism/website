@@ -4,6 +4,10 @@ class User::Profile
 
     initialize_with :user
 
-    def call = User::Profile.new(user:)
+    def call
+      raise ProfileCriteriaNotFulfilledError unless user.profile_unlocked?
+
+      User::Profile.new(user:)
+    end
   end
 end

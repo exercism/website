@@ -5,6 +5,8 @@ class User::Profile < ApplicationRecord
 
   delegate :to_param, to: :user
 
+  MIN_REPUTATION = 5
+
   memoize
   def solutions_tab?
     user.solutions.published.count > 3

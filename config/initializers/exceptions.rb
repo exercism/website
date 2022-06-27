@@ -44,3 +44,5 @@ class ReputationTokenReasonInvalid < RuntimeError; end
 class ReputationTokenCategoryInvalid < RuntimeError; end
 
 class NoMentoringSlotsAvailableError < RuntimeError; end
+
+class ProfileCriteriaNotFulfilledError < RuntimeError; end

@@ -57,7 +57,7 @@ class ProfilesController < ApplicationController
   def new
     return redirect_to profile_path(current_user) if current_user&.profile
 
-    @profile = User::Profile.new
+    @profile = User::Profile::Create.(current_user)
   end
 
   private

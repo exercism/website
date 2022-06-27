@@ -2,7 +2,7 @@ require 'test_helper'
 
 class User::Notifications::StudentAddedIteration < ActiveSupport::TestCase
   test "keys are valid" do
-    student = create :user, handle: "student"
+    student = create :user, handle: "paula"
     mentor = create :user
     track = create :track, title: "Ruby"
     exercise = create :concept_exercise, title: "Strings", track: track
@@ -20,7 +20,7 @@ class User::Notifications::StudentAddedIteration < ActiveSupport::TestCase
     )
     assert_equal "#{mentor.id}|student_added_iteration|Discussion##{discussion.id}|Iteration##{iteration.id}",
       notification.uniqueness_key
-    assert_equal "Your student, student, has submitted a new iteration (#2) on their solution to Ruby: Strings", notification.text  # rubocop:disable Layout/LineLength
+    assert_equal "Your student, <strong>paula</strong>, has submitted a new iteration (#2) on their solution to <strong>Strings</strong> in <strong>Ruby</strong>", notification.text  # rubocop:disable Layout/LineLength
 
     assert_equal :avatar, notification.image_type
     assert_equal student.avatar_url, notification.image_url

@@ -19,7 +19,7 @@ class User::Notifications::StudentRepliedToDiscussionNotificationTest < ActiveSu
       }
     )
     assert_equal "#{user.id}|student_replied_to_discussion|DiscussionPost##{discussion_post.id}", notification.uniqueness_key
-    assert_equal "#{student.handle} has added a new comment on the solution you are mentoring for #{track.title}: #{exercise.title}", notification.text  # rubocop:disable Layout/LineLength
+    assert_equal "<strong>#{student.handle}</strong> has added a new comment on the solution you are mentoring for <strong>#{exercise.title}</strong> in <strong>#{track.title}</strong>", notification.text # rubocop:disable Layout/LineLength
     assert_equal :avatar, notification.image_type
     assert_equal student.avatar_url, notification.image_url
     assert_equal discussion_post.discussion.mentor_url, notification.url

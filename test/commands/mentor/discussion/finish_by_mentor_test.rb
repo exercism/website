@@ -25,7 +25,7 @@ class Mentor::Discussion::FinishByMentorTest < ActiveSupport::TestCase
 
     email = ActionMailer::Base.deliveries.last
     assert_equal(
-      "[Mentoring] mentor has finished the discussion on your solution for Ruby/Strings",
+      "[Mentoring] mentor has ended your discussion on Ruby/Strings",
       email.subject
     )
     assert_equal [student.email], email.to

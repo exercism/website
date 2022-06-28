@@ -52,6 +52,7 @@ class ProfilesController < ApplicationController
 
   def intro
     return redirect_to profile_path(current_user) if current_user&.profile
+    return render_locked unless current_user.profile_unlocked?
   end
 
   def new

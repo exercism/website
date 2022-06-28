@@ -297,7 +297,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.text "data", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "state", limit: 1, default: 0, null: false
+    t.integer "state", limit: 1, default: 1, null: false
     t.index ["node_id"], name: "index_github_pull_requests_on_node_id", unique: true
   end
 
@@ -368,6 +368,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.integer "finished_by", limit: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "external", default: false, null: false
     t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"
     t.index ["request_id"], name: "index_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"
@@ -392,6 +393,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.text "comment_html", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "external", default: false, null: false
     t.index ["exercise_id", "status"], name: "index_mentor_requests_on_exercise_id_and_status"
     t.index ["exercise_id"], name: "index_mentor_requests_on_exercise_id"
     t.index ["solution_id"], name: "index_mentor_requests_on_solution_id"
@@ -472,6 +474,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
 
   create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "metric_action", limit: 1, default: 0, null: false
+    t.datetime "occurred_at", null: false
     t.bigint "track_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false

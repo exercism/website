@@ -8,7 +8,7 @@ class CreateMetrics < ActiveRecord::Migration[7.0]
 
       t.timestamps
 
-      t.index :created_at
+      t.index :occurred_at
     end
 
     %i[month day].each do |period|

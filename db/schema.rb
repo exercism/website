@@ -479,7 +479,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["created_at"], name: "index_metrics_on_created_at"
+    t.index ["occurred_at"], name: "index_metrics_on_occurred_at"
     t.index ["track_id"], name: "index_metrics_on_track_id"
     t.index ["user_id"], name: "index_metrics_on_user_id"
   end

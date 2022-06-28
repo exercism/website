@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_24_062903) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -297,6 +297,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_062903) do
     t.text "data", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "state", limit: 1, default: 0, null: false
     t.index ["node_id"], name: "index_github_pull_requests_on_node_id", unique: true
   end
 

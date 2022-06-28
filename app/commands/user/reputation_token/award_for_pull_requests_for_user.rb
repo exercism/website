@@ -21,15 +21,15 @@ class User
       end
 
       def authored_pull_requests
-        ::Github::PullRequest.left_joins(:reviews).where(author_username: user.github_username)
+        ::Github::PullRequest.not_open.left_joins(:reviews).where(author_username: user.github_username)
       end
 
       def merged_pull_requests
-        ::Github::PullRequest.left_joins(:reviews).where(merged_by_username: user.github_username)
+        ::Github::PullRequest.not_open.left_joins(:reviews).where(merged_by_username: user.github_username)
       end
 
       def reviewed_pull_requests
-        ::Github::PullRequest.left_joins(:reviews).where(reviews: { reviewer_username: user.github_username })
+        ::Github::PullRequest.not_open.left_joins(:reviews).where(reviews: { reviewer_username: user.github_username })
       end
     end
   end

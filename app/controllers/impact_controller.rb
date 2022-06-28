@@ -10,6 +10,7 @@ class ImpactController < ApplicationController
   def last_24_hours
     {
       num_solutions_submitted: count_last_24_hours(:submit_solution),
+      num_solutions_completed: count_last_24_hours(:complete_solution),
       num_opened_pull_requests: count_last_24_hours(:open_pull_request)
     }
   end
@@ -19,6 +20,7 @@ class ImpactController < ApplicationController
   def last_month
     {
       num_solutions_submitted: count_last_month(:submit_solution),
+      num_solutions_completed: count_last_month(:complete_solution),
       num_opened_pull_requests: count_last_month(:open_pull_request)
     }
   end

@@ -9,7 +9,7 @@ class MetricPeriod::UpdateMonthMetrics
     metric_actions.product(Track.all).each do |metric_action, track|
       count = metric_count(metric_action, track)
 
-      MetricPeriod::Month.create_or_find_by!(metric_action:, track:, month: month_to_update.month) do |m|
+      MetricPeriod::Month.find_create_or_find_by!(metric_action:, track:, month: month_to_update.month) do |m|
         m.count = count
       end.tap { |m| m.update!(count:) } # rubocop:disable Style/MultilineBlockChain
     end

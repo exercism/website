@@ -15,6 +15,10 @@
           %td= @last_24_hours[:num_solutions_submitted]
           %td= @last_month[:num_solutions_submitted]
         %tr
+          %td # Completed solutions
+          %td= @last_24_hours[:num_solutions_completed]
+          %td= @last_month[:num_solutions_completed]
+        %tr
           %td # Opened PRs
           %td= @last_24_hours[:num_opened_pull_requests]
           %td= @last_month[:num_opened_pull_requests]

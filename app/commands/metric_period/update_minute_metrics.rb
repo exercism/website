@@ -9,7 +9,7 @@ class MetricPeriod::UpdateMinuteMetrics
     metric_actions.product(Track.all).each do |metric_action, track|
       count = metric_count(metric_action, track)
 
-      MetricPeriod::Minute.create_or_find_by!(metric_action:, track:, minute: minute_of_day_to_update.min_of_day) do |m|
+      MetricPeriod::Minute.find_create_or_find_by!(metric_action:, track:, minute: minute_of_day_to_update.min_of_day) do |m|
         m.count = count
       end.tap { |m| m.update!(count:) } # rubocop:disable Style/MultilineBlockChain
     end

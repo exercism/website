@@ -6,6 +6,12 @@ class MetricPeriod::UpdateMinuteMetrics
   end
 
   def call
+    ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
+      generate_data!
+    end
+  end
+
+  def generate_data!
     metric_actions.product(Track.all).each do |metric_action, track|
       count = metric_count(metric_action, track)
 
@@ -24,7 +30,7 @@ class MetricPeriod::UpdateMinuteMetrics
   memoize
   def metrics
     Metric.
-      where('created_at >= ? AND created_at < ?', minute_of_day_to_update, minute_of_day_to_update.next_min).
+      where('occurred_at >= ? AND occurred_at < ?', minute_of_day_to_update, minute_of_day_to_update.next_min).
       group_by { |m| [m.metric_action, m.track_id] }
   end
 end

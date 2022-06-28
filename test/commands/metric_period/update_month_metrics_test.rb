@@ -5,10 +5,10 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
 
   test "metrics are counted per action" do
     freeze_time do
-      create :metric, metric_action: :publish_solution, created_at: Time.current.beginning_of_month.prev_month
-      create :metric, metric_action: :finish_mentoring, created_at: Time.current.beginning_of_month.prev_month + 13.days
-      create :metric, metric_action: :finish_mentoring, created_at: Time.current.beginning_of_month.prev_month + 8.days
-      create :metric, metric_action: :open_issue, created_at: Time.current.beginning_of_month.prev_month + 5.days
+      create :metric, metric_action: :publish_solution, occurred_at: Time.current.beginning_of_month.prev_month
+      create :metric, metric_action: :finish_mentoring, occurred_at: Time.current.beginning_of_month.prev_month + 13.days
+      create :metric, metric_action: :finish_mentoring, occurred_at: Time.current.beginning_of_month.prev_month + 8.days
+      create :metric, metric_action: :open_issue, occurred_at: Time.current.beginning_of_month.prev_month + 5.days
 
       MetricPeriod::UpdateMonthMetrics.()
 
@@ -20,16 +20,16 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
 
   test "metrics are counted per month" do
     freeze_time do
-      create :metric, created_at: Time.current.beginning_of_month.prev_month
-      create :metric, created_at: Time.current.beginning_of_month.prev_month + 1.day
-      create :metric, created_at: Time.current.beginning_of_month.prev_month + 10.days
-      create :metric, created_at: Time.current.beginning_of_month.prev_month + 5.days
+      create :metric, occurred_at: Time.current.beginning_of_month.prev_month
+      create :metric, occurred_at: Time.current.beginning_of_month.prev_month + 1.day
+      create :metric, occurred_at: Time.current.beginning_of_month.prev_month + 10.days
+      create :metric, occurred_at: Time.current.beginning_of_month.prev_month + 5.days
 
       # Sanity check: two months ago should be ignored
-      create :metric, created_at: Time.current - 2.months
+      create :metric, occurred_at: Time.current - 2.months
 
       # Sanity check: current month should be ignored
-      create :metric, created_at: Time.current
+      create :metric, occurred_at: Time.current
 
       MetricPeriod::UpdateMonthMetrics.()
 
@@ -43,10 +43,10 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
       track_2 = create :track, :random_slug
       track_3 = create :track, :random_slug
 
-      create :metric, track: track_1, created_at: Time.current.beginning_of_month.prev_month
-      create :metric, track: track_2, created_at: Time.current.beginning_of_month.prev_month + 13.days
-      create :metric, track: track_2, created_at: Time.current.beginning_of_month.prev_month + 8.days
-      create :metric, track: track_2, created_at: Time.current.beginning_of_month.prev_month + 5.days
+      create :metric, track: track_1, occurred_at: Time.current.beginning_of_month.prev_month
+      create :metric, track: track_2, occurred_at: Time.current.beginning_of_month.prev_month + 13.days
+      create :metric, track: track_2, occurred_at: Time.current.beginning_of_month.prev_month + 8.days
+      create :metric, track: track_2, occurred_at: Time.current.beginning_of_month.prev_month + 5.days
 
       MetricPeriod::UpdateMonthMetrics.()
 
@@ -59,16 +59,16 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
   test "count specific month" do
     freeze_time do
       # Normally these would be counted, but they'll be ignored in this test
-      create :metric, created_at: Time.current.beginning_of_month.prev_month
-      create :metric, created_at: Time.current.beginning_of_month.prev_month + 1.day
-      create :metric, created_at: Time.current.beginning_of_month.prev_month + 10.days
-      create :metric, created_at: Time.current.beginning_of_month.prev_month + 5.days
+      create :metric, occurred_at: Time.current.beginning_of_month.prev_month
+      create :metric, occurred_at: Time.current.beginning_of_month.prev_month + 1.day
+      create :metric, occurred_at: Time.current.beginning_of_month.prev_month + 10.days
+      create :metric, occurred_at: Time.current.beginning_of_month.prev_month + 5.days
 
-      create :metric, created_at: Time.current - 2.months
-      create :metric, created_at: Time.current - 2.months
+      create :metric, occurred_at: Time.current - 2.months
+      create :metric, occurred_at: Time.current - 2.months
 
       # Sanity check: current month should be ignored
-      create :metric, created_at: Time.current
+      create :metric, occurred_at: Time.current
 
       MetricPeriod::UpdateMonthMetrics.(Time.current - 2.months)
 
@@ -82,7 +82,7 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
 
       7.times do
         create :metric, metric_action: metric_period.metric_action, track: metric_period.track,
-          created_at: Time.current.prev_month
+          occurred_at: Time.current.prev_month
       end
 
       MetricPeriod::UpdateMonthMetrics.()

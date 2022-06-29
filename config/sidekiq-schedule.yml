@@ -83,3 +83,9 @@ update_month_metrics:
   cron: "0 0 * * *"
   class: "UpdateMonthMetricsJob"
   queue: dribble
+
+# Every 15 minutes
+update_last_hour_metrics:
+  cron: "*/15"
+  class: "UpdateLastHourMetricsJob"
+  queue: dribble

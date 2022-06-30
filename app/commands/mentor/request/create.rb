@@ -42,7 +42,7 @@ module Mentor
       end
 
       def log_metric!(request)
-        Metric::Queue.(:request_mentoring, request.created_at, track:, user:)
+        Metric::Queue.(:request_mentoring, request.created_at, request:, track:, user:)
       end
 
       def user = solution.user

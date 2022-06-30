@@ -28,11 +28,13 @@ module Github
       end
 
       def log_open_metrics!(pull_request)
-        Metric::Queue.(:open_pull_request, pull_request.data[:created_at], track: track(pull_request), user: author(pull_request))
+        Metric::Queue.(:open_pull_request, pull_request.data[:created_at], pull_request:, track: track(pull_request),
+          user: author(pull_request))
       end
 
       def log_merge_metrics!(pull_request)
-        Metric::Queue.(:merge_pull_request, pull_request.data[:merged_at], track: track(pull_request), user: merged_by(pull_request))
+        Metric::Queue.(:merge_pull_request, pull_request.data[:merged_at], pull_request:, track: track(pull_request),
+          user: merged_by(pull_request))
       end
 
       def track(pull_request) = Track.for_repo(pull_request.repo)

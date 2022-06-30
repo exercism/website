@@ -154,8 +154,8 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.where(metric_action: :open_pull_request).count
     metric = Metric.where(metric_action: :open_pull_request).last
+    assert_equal Metrics::OpenPullRequestMetric, metric.class
     assert_equal data[:created_at].to_time, metric.occurred_at
-    assert_equal :open_pull_request, metric.metric_action
     assert_equal track, metric.track
     assert_equal author, metric.user
   end
@@ -189,7 +189,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.where(metric_action: :open_pull_request).count
     metric = Metric.where(metric_action: :open_pull_request).last
     assert_equal data[:created_at].to_time, metric.occurred_at
-    assert_equal :open_pull_request, metric.metric_action
+    assert_equal Metrics::OpenPullRequestMetric, metric.class
     assert_nil metric.track
     assert_equal author, metric.user
   end
@@ -223,7 +223,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.where(metric_action: :open_pull_request).count
     metric = Metric.where(metric_action: :open_pull_request).last
     assert_equal data[:created_at].to_time, metric.occurred_at
-    assert_equal :open_pull_request, metric.metric_action
+    assert_equal Metrics::OpenPullRequestMetric, metric.class
     assert_equal track, metric.track
     assert_nil metric.user
   end
@@ -277,7 +277,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.where(metric_action: :merge_pull_request).count
     metric = Metric.where(metric_action: :merge_pull_request).last
     assert_equal data[:merged_at].to_time, metric.occurred_at
-    assert_equal :merge_pull_request, metric.metric_action
+    assert_equal Metrics::MergePullRequestMetric, metric.class
     assert_equal track, metric.track
     assert_equal merged_by, metric.user
   end
@@ -312,7 +312,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.where(metric_action: :merge_pull_request).count
     metric = Metric.where(metric_action: :merge_pull_request).last
     assert_equal data[:merged_at].to_time, metric.occurred_at
-    assert_equal :merge_pull_request, metric.metric_action
+    assert_equal Metrics::MergePullRequestMetric, metric.class
     assert_nil metric.track
     assert_equal merged_by, metric.user
   end
@@ -347,7 +347,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal 1, Metric.where(metric_action: :merge_pull_request).count
     metric = Metric.where(metric_action: :merge_pull_request).last
     assert_equal data[:merged_at].to_time, metric.occurred_at
-    assert_equal :merge_pull_request, metric.metric_action
+    assert_equal Metrics::MergePullRequestMetric, metric.class
     assert_equal track, metric.track
     assert_nil metric.user
   end
@@ -379,7 +379,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
       assert_equal 1, Metric.where(metric_action: :merge_pull_request).count
       metric = Metric.where(metric_action: :merge_pull_request).last
       assert_equal merged_at, metric.occurred_at
-      assert_equal :merge_pull_request, metric.metric_action
+      assert_equal Metrics::MergePullRequestMetric, metric.class
       assert_nil metric.track
       assert_nil metric.user
     end

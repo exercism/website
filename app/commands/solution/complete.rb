@@ -38,7 +38,7 @@ class Solution
     end
 
     def log_metric!
-      Metric::Queue.(:complete_solution, solution.completed_at, track:, user:)
+      Metric::Queue.(:complete_solution, solution.completed_at, solution:, track:, user:)
     end
 
     memoize

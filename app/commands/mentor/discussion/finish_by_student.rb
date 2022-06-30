@@ -89,7 +89,7 @@ module Mentor
       end
 
       def log_metric!
-        Metric::Queue.(:finish_mentoring, discussion.finished_at, track:, user: student)
+        Metric::Queue.(:finish_mentoring, discussion.finished_at, discussion:, track:, user: student)
       end
 
       delegate :track, to: :discussion

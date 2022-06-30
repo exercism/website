@@ -55,8 +55,8 @@ class Mentor::Request::CreateTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
+    assert_equal Metrics::RequestMentoringMetric, metric.class
     assert_equal request.created_at, metric.created_at
-    assert_equal :request_mentoring, metric.metric_action
     assert_equal track, metric.track
     assert_equal user, metric.user
   end

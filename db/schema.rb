@@ -438,37 +438,37 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
 
   create_table "metric_period_days", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "day", limit: 1, default: 0, null: false
-    t.integer "metric_action", limit: 1, default: 0, null: false
+    t.string "metric_type", null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_metric_period_days_on_created_at"
-    t.index ["day", "metric_action", "track_id"], name: "uniq", unique: true
+    t.index ["day", "metric_type", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_days_on_track_id"
   end
 
   create_table "metric_period_minutes", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "minute", limit: 2, default: 0, null: false
-    t.integer "metric_action", limit: 1, default: 0, null: false
+    t.string "metric_type", null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_metric_period_minutes_on_created_at"
-    t.index ["minute", "metric_action", "track_id"], name: "uniq", unique: true
+    t.index ["minute", "metric_type", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_minutes_on_track_id"
   end
 
   create_table "metric_period_months", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "month", limit: 1, default: 0, null: false
-    t.integer "metric_action", limit: 1, default: 0, null: false
+    t.string "metric_type", null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_metric_period_months_on_created_at"
-    t.index ["month", "metric_action", "track_id"], name: "uniq", unique: true
+    t.index ["month", "metric_type", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_months_on_track_id"
   end
 
@@ -481,7 +481,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
     t.datetime "occurred_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["occurred_at", "track_id"], name: "index_metrics_on_occurred_at_and_track_id"
+    t.index ["occurred_at", "type", "track_id"], name: "index_metrics_on_occurred_at_and_type_and_track_id"
     t.index ["track_id"], name: "index_metrics_on_track_id"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true
     t.index ["user_id"], name: "index_metrics_on_user_id"

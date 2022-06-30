@@ -5,35 +5,45 @@ class MetricPeriod::UpdateMinuteMetricsTest < ActiveSupport::TestCase
 
   test "metrics are counted per action" do
     freeze_time do
-      create :metric, metric_action: :publish_solution, occurred_at: Time.current.beginning_of_minute.prev_min
-      create :metric, metric_action: :finish_mentoring, occurred_at: Time.current.beginning_of_minute.prev_min + 13.seconds
-      create :metric, metric_action: :finish_mentoring, occurred_at: Time.current.beginning_of_minute.prev_min + 8.seconds
-      create :metric, metric_action: :open_issue, occurred_at: Time.current.beginning_of_minute.prev_min + 55.seconds
+      track = create :track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min, track: track
+      create :finish_mentoring_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 13.seconds, track: track
+      create :finish_mentoring_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 8.seconds, track: track
+      create :open_issue_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 55.seconds, track: track
 
       MetricPeriod::UpdateMinuteMetrics.()
 
-      assert_equal 1, MetricPeriod::Minute.find_by(metric_action: :publish_solution, minute: Time.current.prev_min.min_of_day).count
-      assert_equal 2, MetricPeriod::Minute.find_by(metric_action: :finish_mentoring, minute: Time.current.prev_min.min_of_day).count
-      assert_equal 1, MetricPeriod::Minute.find_by(metric_action: :open_issue, minute: Time.current.prev_min.min_of_day).count
+      assert_equal 1,
+        MetricPeriod::Minute.find_by(metric_type: Metrics::SubmitSolutionMetric.name, minute: Time.current.prev_min.min_of_day,
+          track:).count
+      assert_equal 2,
+        MetricPeriod::Minute.find_by(metric_type: Metrics::FinishMentoringMetric.name, minute: Time.current.prev_min.min_of_day,
+          track:).count
+      assert_equal 1,
+        MetricPeriod::Minute.find_by(metric_type: Metrics::OpenIssueMetric.name, minute: Time.current.prev_min.min_of_day,
+          track:).count
     end
   end
 
   test "metrics are counted per minute of the day" do
     freeze_time do
-      create :metric, occurred_at: Time.current.beginning_of_minute.prev_min
-      create :metric, occurred_at: Time.current.beginning_of_minute.prev_min + 1.second
-      create :metric, occurred_at: Time.current.beginning_of_minute.prev_min + 10.seconds
-      create :metric, occurred_at: Time.current.beginning_of_minute.prev_min + 59.seconds
+      track = create :track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 1.second, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 10.seconds, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 59.seconds, track: track
 
       # Sanity check: two minutes ago should be ignored
-      create :metric, occurred_at: Time.current.beginning_of_minute - 2.minutes
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute - 2.minutes, track: track
 
       # Sanity check: current minute should be ignored
-      create :metric, occurred_at: Time.current.beginning_of_minute
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute, track: track
 
       MetricPeriod::UpdateMinuteMetrics.()
 
-      assert_equal 4, MetricPeriod::Minute.find_by(minute: Time.current.prev_min.min_of_day).count
+      assert_equal 4,
+        MetricPeriod::Minute.find_by(minute: Time.current.prev_min.min_of_day, metric_type: Metrics::SubmitSolutionMetric.name,
+          track:).count
     end
   end
 
@@ -43,46 +53,61 @@ class MetricPeriod::UpdateMinuteMetricsTest < ActiveSupport::TestCase
       track_2 = create :track, :random_slug
       track_3 = create :track, :random_slug
 
-      create :metric, track: track_1, occurred_at: Time.current.beginning_of_minute.prev_min
-      create :metric, track: track_2, occurred_at: Time.current.beginning_of_minute.prev_min + 13.seconds
-      create :metric, track: track_2, occurred_at: Time.current.beginning_of_minute.prev_min + 8.seconds
-      create :metric, track: track_2, occurred_at: Time.current.beginning_of_minute.prev_min + 55.seconds
+      create :open_issue_metric, track: track_1, occurred_at: Time.current.beginning_of_minute.prev_min
+      create :open_issue_metric, track: track_2, occurred_at: Time.current.beginning_of_minute.prev_min + 13.seconds
+      create :open_issue_metric, track: track_2, occurred_at: Time.current.beginning_of_minute.prev_min + 8.seconds
+      create :open_issue_metric, track: track_2, occurred_at: Time.current.beginning_of_minute.prev_min + 55.seconds
+      create :open_issue_metric, track: nil, occurred_at: Time.current.beginning_of_minute.prev_min + 55.seconds
 
       MetricPeriod::UpdateMinuteMetrics.()
 
-      assert_equal 1, MetricPeriod::Minute.find_by(track: track_1, minute: Time.current.prev_min.min_of_day).count
-      assert_equal 3, MetricPeriod::Minute.find_by(track: track_2, minute: Time.current.prev_min.min_of_day).count
-      assert_equal 0, MetricPeriod::Minute.find_by(track: track_3, minute: Time.current.prev_min.min_of_day).count
+      assert_equal 1,
+        MetricPeriod::Minute.find_by(track: track_1, minute: Time.current.prev_min.min_of_day,
+          metric_type: Metrics::OpenIssueMetric.name).count
+      assert_equal 3,
+        MetricPeriod::Minute.find_by(track: track_2, minute: Time.current.prev_min.min_of_day,
+          metric_type: Metrics::OpenIssueMetric.name).count
+      assert_equal 0,
+        MetricPeriod::Minute.find_by(track: track_3, minute: Time.current.prev_min.min_of_day,
+          metric_type: Metrics::OpenIssueMetric.name).count
+      assert_equal 1,
+        MetricPeriod::Minute.find_by(track: nil, minute: Time.current.prev_min.min_of_day,
+          metric_type: Metrics::OpenIssueMetric.name).count
     end
   end
 
   test "count specific minute of the day" do
     freeze_time do
-      # Normally these would be counted, but they'll be ignored in this test
-      create :metric, occurred_at: Time.current.beginning_of_minute.prev_min
-      create :metric, occurred_at: Time.current.beginning_of_minute.prev_min + 1.second
-      create :metric, occurred_at: Time.current.beginning_of_minute.prev_min + 10.seconds
-      create :metric, occurred_at: Time.current.beginning_of_minute.prev_min + 59.seconds
+      track = create :track
 
-      create :metric, occurred_at: Time.current - 2.minutes
-      create :metric, occurred_at: Time.current - 2.minutes
+      # Normally these would be counted, but they'll be ignored in this test
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 1.second, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 10.seconds, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 59.seconds, track: track
+
+      create :submit_solution_metric, occurred_at: Time.current - 2.minutes, track: track
+      create :submit_solution_metric, occurred_at: Time.current - 2.minutes, track: track
 
       # Sanity check: current minute should be ignored
-      create :metric, occurred_at: Time.current.beginning_of_minute
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_minute, track: track
 
       MetricPeriod::UpdateMinuteMetrics.(Time.current - 2.minutes)
 
-      assert_equal 2, MetricPeriod::Minute.find_by(minute: (Time.current - 2.minutes).min_of_day).count
+      assert_equal 2,
+        MetricPeriod::Minute.find_by(minute: (Time.current - 2.minutes).min_of_day, metric_type: Metrics::SubmitSolutionMetric.name,
+          track:).count
     end
   end
 
   test "updates count of existing metric" do
     freeze_time do
-      metric_period = create :metric_period_minute, minute: Time.current.prev_min.min_of_day, count: 13
+      track = create :track
+      metric_period = create :metric_period_minute, metric_type: Metrics::OpenIssueMetric.name, track: track,
+        minute: Time.current.prev_min.min_of_day, count: 13
 
       7.times do
-        create :metric, metric_action: metric_period.metric_action, track: metric_period.track,
-          occurred_at: Time.current.beginning_of_minute.prev_min
+        create :open_issue_metric, track:, occurred_at: Time.current.beginning_of_minute.prev_min
       end
 
       MetricPeriod::UpdateMinuteMetrics.()

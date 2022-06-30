@@ -10,34 +10,34 @@ class CreateMetrics < ActiveRecord::Migration[7.0]
 
       t.timestamps
 
-      t.index %i[occurred_at track_id]
+      t.index %i[occurred_at type track_id]
       t.index :uniqueness_key, unique: true
     end
 
     %i[month day].each do |period|
       create_table "metric_period_#{period}s".to_sym do |t|
         t.column period, :tinyint, null: false, default: 0
-        t.column :metric_action, :tinyint, null: false, default: 0
+        t.string :metric_type, null: false
         t.belongs_to :track, null: true
         t.integer :count, null: false
 
         t.timestamps
 
         t.index :created_at
-        t.index [period, :metric_action, :track_id], unique: true, name: 'uniq'
+        t.index [period, :metric_type, :track_id], unique: true, name: 'uniq'
       end
     end
 
     create_table :metric_period_minutes do |t|
         t.integer :minute, limit: 2, null: false, default: 0
-        t.column :metric_action, :tinyint, null: false, default: 0
+        t.string :metric_type, null: false
         t.belongs_to :track, null: true
         t.integer :count, null: false
 
         t.timestamps
 
         t.index :created_at
-        t.index %i[minute metric_action track_id], unique: true, name: 'uniq'
+        t.index %i[minute metric_type track_id], unique: true, name: 'uniq'
       end
   end
 end

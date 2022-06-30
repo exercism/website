@@ -3,39 +3,39 @@ FactoryBot.define do
     occurred_at { Time.current }
     user { create :user }
     track do
-      Track.find_by(slug: :ruby) || build(:track, slug: 'ruby')
+      Track.find_by(slug: 'ruby') || build(:track, slug: 'ruby')
     end
   end
 
-  factory :submit_solution_metric, parent: :metric, class: 'Metrics::SubmitSolution' do
-    params { { solution: create(:practice_solution) } }
+  factory :submit_solution_metric, parent: :metric, class: 'Metrics::SubmitSolutionMetric' do
+    params { { solution: create(:practice_solution, track:) } }
   end
 
-  factory :complete_solution_metric, parent: :metric, class: 'Metrics::CompleteSolution' do
-    params { { solution: create(:practice_solution) } }
+  factory :complete_solution_metric, parent: :metric, class: 'Metrics::CompleteSolutionMetric' do
+    params { { solution: create(:practice_solution, track:) } }
   end
 
-  factory :publish_solution_metric, parent: :metric, class: 'Metrics::PublishSolution' do
-    params { { solution: create(:practice_solution) } }
+  factory :publish_solution_metric, parent: :metric, class: 'Metrics::PublishSolutionMetric' do
+    params { { solution: create(:practice_solution, track:) } }
   end
 
-  factory :finish_mentoring_metric, parent: :metric, class: 'Metrics::FinishMentoring' do
+  factory :finish_mentoring_metric, parent: :metric, class: 'Metrics::FinishMentoringMetric' do
     params { { discussion: create(:mentor_discussion, student: user) } }
   end
 
-  factory :request_mentoring_metric, parent: :metric, class: 'Metrics::RequestMentoring' do
+  factory :request_mentoring_metric, parent: :metric, class: 'Metrics::RequestMentoringMetric' do
     params { { request: create(:mentor_request, user:) } }
   end
 
-  factory :open_pull_request_metric, parent: :metric, class: 'Metrics::OpenPullRequest' do
-    params { { issue: create(:github_pull_request) } }
+  factory :open_pull_request_metric, parent: :metric, class: 'Metrics::OpenPullRequestMetric' do
+    params { { issue: create(:github_pull_request, :random) } }
   end
 
-  factory :merge_pull_request_metric, parent: :metric, class: 'Metrics::MergePullRequest' do
-    params { { issue: create(:github_pull_request) } }
+  factory :merge_pull_request_metric, parent: :metric, class: 'Metrics::MergePullRequestMetric' do
+    params { { issue: create(:github_pull_request, :random) } }
   end
 
-  factory :open_issue_metric, parent: :metric, class: 'Metrics::OpenIssue' do
-    params { { issue: create(:github_issue) } }
+  factory :open_issue_metric, parent: :metric, class: 'Metrics::OpenIssueMetric' do
+    params { { issue: create(:github_issue, :random) } }
   end
 end

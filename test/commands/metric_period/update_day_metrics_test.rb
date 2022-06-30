@@ -5,35 +5,41 @@ class MetricPeriod::UpdateDayMetricsTest < ActiveSupport::TestCase
 
   test "metrics are counted per action" do
     freeze_time do
-      create :metric, metric_action: :publish_solution, occurred_at: Time.current.beginning_of_day.prev_day
-      create :metric, metric_action: :finish_mentoring, occurred_at: Time.current.beginning_of_day.prev_day + 13.hours
-      create :metric, metric_action: :finish_mentoring, occurred_at: Time.current.beginning_of_day.prev_day + 8.hours
-      create :metric, metric_action: :open_issue, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours
+      track = create :track
+      create :submit_solution_metric, track: track, occurred_at: Time.current.beginning_of_day.prev_day
+      create :finish_mentoring_metric, track: track, occurred_at: Time.current.beginning_of_day.prev_day + 13.hours
+      create :finish_mentoring_metric, track: track, occurred_at: Time.current.beginning_of_day.prev_day + 8.hours
+      create :open_issue_metric, track: track, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours
 
       MetricPeriod::UpdateDayMetrics.()
 
-      assert_equal 1, MetricPeriod::Day.find_by(metric_action: :publish_solution, day: Time.current.prev_day.day).count
-      assert_equal 2, MetricPeriod::Day.find_by(metric_action: :finish_mentoring, day: Time.current.prev_day.day).count
-      assert_equal 1, MetricPeriod::Day.find_by(metric_action: :open_issue, day: Time.current.prev_day.day).count
+      assert_equal 1,
+        MetricPeriod::Day.find_by(metric_type: Metrics::SubmitSolutionMetric.name, day: Time.current.prev_day.day, track:).count
+      assert_equal 2,
+        MetricPeriod::Day.find_by(metric_type: Metrics::FinishMentoringMetric.name, day: Time.current.prev_day.day, track:).count
+      assert_equal 1,
+        MetricPeriod::Day.find_by(metric_type: Metrics::OpenIssueMetric.name, day: Time.current.prev_day.day, track:).count
     end
   end
 
   test "metrics are counted per day" do
     freeze_time do
-      create :metric, occurred_at: Time.current.beginning_of_day.prev_day
-      create :metric, occurred_at: Time.current.beginning_of_day.prev_day + 1.hour
-      create :metric, occurred_at: Time.current.beginning_of_day.prev_day + 10.hours
-      create :metric, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours
+      track = create :track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 1.hour, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 10.hours, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours, track: track
 
       # Sanity check: two days ago should be ignored
-      create :metric, occurred_at: Time.current - 2.days
+      create :submit_solution_metric, occurred_at: Time.current - 2.days, track: track
 
       # Sanity check: current day should be ignored
-      create :metric, occurred_at: Time.current
+      create :submit_solution_metric, occurred_at: Time.current, track: track
 
       MetricPeriod::UpdateDayMetrics.()
 
-      assert_equal 4, MetricPeriod::Day.find_by(day: Time.current.prev_day.day).count
+      assert_equal 4,
+        MetricPeriod::Day.find_by(day: Time.current.prev_day.day, metric_type: Metrics::SubmitSolutionMetric.name, track:).count
     end
   end
 
@@ -43,26 +49,33 @@ class MetricPeriod::UpdateDayMetricsTest < ActiveSupport::TestCase
       track_2 = create :track, :random_slug
       track_3 = create :track, :random_slug
 
-      create :metric, track: track_1, occurred_at: Time.current.beginning_of_day.prev_day
-      create :metric, track: track_2, occurred_at: Time.current.beginning_of_day.prev_day + 13.hours
-      create :metric, track: track_2, occurred_at: Time.current.beginning_of_day.prev_day + 8.hours
-      create :metric, track: track_2, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours
+      create :open_issue_metric, track: track_1, occurred_at: Time.current.beginning_of_day.prev_day
+      create :open_issue_metric, track: track_2, occurred_at: Time.current.beginning_of_day.prev_day + 13.hours
+      create :open_issue_metric, track: track_2, occurred_at: Time.current.beginning_of_day.prev_day + 8.hours
+      create :open_issue_metric, track: track_2, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours
+      create :open_issue_metric, track: nil, occurred_at: Time.current.beginning_of_day.prev_day + 4.hours
 
       MetricPeriod::UpdateDayMetrics.()
 
-      assert_equal 1, MetricPeriod::Day.find_by(track: track_1, day: Time.current.prev_day.day).count
-      assert_equal 3, MetricPeriod::Day.find_by(track: track_2, day: Time.current.prev_day.day).count
-      assert_equal 0, MetricPeriod::Day.find_by(track: track_3, day: Time.current.prev_day.day).count
+      assert_equal 1,
+        MetricPeriod::Day.find_by(track: track_1, metric_type: Metrics::OpenIssueMetric.name, day: Time.current.prev_day.day).count
+      assert_equal 3,
+        MetricPeriod::Day.find_by(track: track_2, metric_type: Metrics::OpenIssueMetric.name, day: Time.current.prev_day.day).count
+      assert_equal 0,
+        MetricPeriod::Day.find_by(track: track_3, metric_type: Metrics::OpenIssueMetric.name, day: Time.current.prev_day.day).count
+      assert_equal 1,
+        MetricPeriod::Day.find_by(track: nil, metric_type: Metrics::OpenIssueMetric.name, day: Time.current.prev_day.day).count
     end
   end
 
   test "updates count of existing metric" do
     freeze_time do
-      metric_period = create :metric_period_day, day: Time.current.prev_day.day, count: 13
+      track = create :track
+      metric_period = create :metric_period_day, metric_type: Metrics::OpenIssueMetric.name, day: Time.current.prev_day.day,
+        count: 13, track: track
 
       7.times do
-        create :metric, metric_action: metric_period.metric_action, track: metric_period.track,
-          occurred_at: Time.current.prev_day
+        create :open_issue_metric, track:, occurred_at: Time.current.prev_day
       end
 
       MetricPeriod::UpdateDayMetrics.()
@@ -74,20 +87,22 @@ class MetricPeriod::UpdateDayMetricsTest < ActiveSupport::TestCase
   test "count specific day" do
     freeze_time do
       # Normally these would be counted, but they'll be ignored in this test
-      create :metric, occurred_at: Time.current.beginning_of_day.prev_day
-      create :metric, occurred_at: Time.current.beginning_of_day.prev_day + 1.hour
-      create :metric, occurred_at: Time.current.beginning_of_day.prev_day + 10.hours
-      create :metric, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours
+      track = create :track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 1.hour, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 10.hours, track: track
+      create :submit_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours, track: track
 
       # Sanity check: current day should be ignored
-      create :metric, occurred_at: Time.current
+      create :submit_solution_metric, occurred_at: Time.current, track: track
 
-      create :metric, occurred_at: Time.current - 2.days
-      create :metric, occurred_at: Time.current - 2.days
+      create :submit_solution_metric, occurred_at: Time.current - 2.days, track: track
+      create :submit_solution_metric, occurred_at: Time.current - 2.days, track: track
 
       MetricPeriod::UpdateDayMetrics.(Time.current - 2.days)
 
-      assert_equal 2, MetricPeriod::Day.find_by(day: (Time.current - 2.days).day).count
+      assert_equal 2,
+        MetricPeriod::Day.find_by(day: (Time.current - 2.days).day, metric_type: Metrics::SubmitSolutionMetric.name, track:).count
     end
   end
 end

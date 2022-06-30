@@ -473,14 +473,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
   end
 
   create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "metric_action", limit: 1, default: 0, null: false
+    t.string "type", null: false
+    t.text "params", null: false
     t.bigint "track_id"
     t.bigint "user_id"
     t.string "uniqueness_key", null: false
     t.datetime "occurred_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["occurred_at"], name: "index_metrics_on_occurred_at"
+    t.index ["occurred_at", "track_id"], name: "index_metrics_on_occurred_at_and_track_id"
     t.index ["track_id"], name: "index_metrics_on_track_id"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true
     t.index ["user_id"], name: "index_metrics_on_user_id"

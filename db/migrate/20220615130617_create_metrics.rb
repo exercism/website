@@ -1,7 +1,8 @@
 class CreateMetrics < ActiveRecord::Migration[7.0]
   def change
     create_table :metrics do |t|
-      t.column :metric_action, :tinyint, null: false, default: 0
+      t.string :type, null: false
+      t.text :params, null: false
       t.belongs_to :track, null: true
       t.belongs_to :user, null: true
       t.string :uniqueness_key, null: false
@@ -9,7 +10,7 @@ class CreateMetrics < ActiveRecord::Migration[7.0]
 
       t.timestamps
 
-      t.index :occurred_at
+      t.index %i[occurred_at track_id]
       t.index :uniqueness_key, unique: true
     end
 

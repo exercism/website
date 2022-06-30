@@ -9,9 +9,9 @@ class ImpactController < ApplicationController
 
   private
   METRICS = {
-    num_solutions_submitted: :submit_solution,
-    num_solutions_completed: :complete_solution,
-    num_opened_pull_requests: :open_pull_request
+    num_solutions_submitted: Metrics::SubmitSolutionMetric.name,
+    num_solutions_completed: Metrics::CompleteSolutionMetric.name,
+    num_opened_pull_requests: Metrics::OpenPullRequestMetric.name
   }.freeze
   def last_24_hours
     METRICS.transform_values { |v| count_last_24_hours(v) }
@@ -21,14 +21,14 @@ class ImpactController < ApplicationController
     METRICS.transform_values { |v| count_last_month(v) }
   end
 
-  def count_last_24_hours(metric_action)
-    query = MetricPeriod::Minute.where(metric_action:)
+  def count_last_24_hours(metric_type)
+    query = MetricPeriod::Minute.where(metric_type:)
     query = query.where(track_id: @track.id) if @track
     query.sum(:count)
   end
 
-  def count_last_month(metric_action)
-    query = MetricPeriod::Day.where(metric_action:)
+  def count_last_month(metric_type)
+    query = MetricPeriod::Day.where(metric_type:)
     query = query.where(track_id: @track.id) if @track
     query.sum(:count)
   end

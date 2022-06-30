@@ -12,7 +12,7 @@ class LogMetricJobTest < ActiveJob::TestCase
       LogMetricJob.perform_now(type, occurred_at, track:, user:, issue:)
 
       metric = Metric.last
-      assert_equal type, metric.metric_type
+      assert_equal Metrics::OpenIssueMetric, metric.class
       assert_equal occurred_at, metric.occurred_at
       assert_equal Time.current, metric.created_at
       assert_equal Time.current, metric.updated_at

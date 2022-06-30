@@ -1,5 +1,6 @@
 FactoryBot.define do
-  factory :metric do
+  factory :metric, class: 'Metrics::SubmitSolutionMetric' do
+    params { { solution: create(:practice_solution, track:) } }
     occurred_at { Time.current }
     user { create :user }
     track do
@@ -20,19 +21,19 @@ FactoryBot.define do
   end
 
   factory :finish_mentoring_metric, parent: :metric, class: 'Metrics::FinishMentoringMetric' do
-    params { { discussion: create(:mentor_discussion, student: user) } }
+    params { { discussion: create(:mentor_discussion, student: user, solution: create(:practice_solution, track:)) } }
   end
 
   factory :request_mentoring_metric, parent: :metric, class: 'Metrics::RequestMentoringMetric' do
-    params { { request: create(:mentor_request, user:) } }
+    params { { request: create(:mentor_request, student: user, solution: create(:practice_solution, track:)) } }
   end
 
   factory :open_pull_request_metric, parent: :metric, class: 'Metrics::OpenPullRequestMetric' do
-    params { { issue: create(:github_pull_request, :random) } }
+    params { { pull_request: create(:github_pull_request, :random) } }
   end
 
   factory :merge_pull_request_metric, parent: :metric, class: 'Metrics::MergePullRequestMetric' do
-    params { { issue: create(:github_pull_request, :random) } }
+    params { { pull_request: create(:github_pull_request, :random) } }
   end
 
   factory :open_issue_metric, parent: :metric, class: 'Metrics::OpenIssueMetric' do

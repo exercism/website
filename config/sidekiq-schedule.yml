@@ -86,6 +86,6 @@ update_month_metrics:
 
 # Every 15 minutes
 update_last_hour_metrics:
-  cron: "*/15"
+  cron: "*/15 0 * * *"
   class: "UpdateLastHourMetricsJob"
   queue: metrics

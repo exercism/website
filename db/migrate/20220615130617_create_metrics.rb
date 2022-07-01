@@ -23,8 +23,7 @@ class CreateMetrics < ActiveRecord::Migration[7.0]
 
         t.timestamps
 
-        t.index :created_at
-        t.index [period, :metric_type, :track_id], unique: true, name: 'uniq'
+        t.index [:metric_type, :track_id, period], unique: true, name: 'uniq'
       end
     end
 
@@ -36,8 +35,7 @@ class CreateMetrics < ActiveRecord::Migration[7.0]
 
         t.timestamps
 
-        t.index :created_at
-        t.index %i[minute metric_type track_id], unique: true, name: 'uniq'
+        t.index %i[metric_type track_id minute], unique: true, name: 'uniq'
       end
   end
 end

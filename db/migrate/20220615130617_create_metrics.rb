@@ -10,7 +10,7 @@ class CreateMetrics < ActiveRecord::Migration[7.0]
 
       t.timestamps
 
-      t.index %i[occurred_at type track_id]
+      t.index %i[type track_id occurred_at]
       t.index :uniqueness_key, unique: true
     end
 

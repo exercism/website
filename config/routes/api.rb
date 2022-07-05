@@ -218,6 +218,10 @@ namespace :api do
       end
     end
 
+    namespace :metrics do
+      get 'periodic', to: "periodic#index"
+    end
+
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"
   end
 end

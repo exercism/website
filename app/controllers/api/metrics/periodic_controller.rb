@@ -8,7 +8,7 @@ class API::Metrics::PeriodicController < API::BaseController
   rescue InvalidMetricPeriodError
     render_400(:invalid_metric_period, valid_metric_periods: MetricPeriod::Search::PERIOD_TYPES)
   rescue InvalidMetricTypeError
-    render_400(:invalid_metric_type, valid_metric_periods: MetricPeriod::Search::METRIC_TYPES)
+    render_400(:invalid_metric_type, valid_metric_types: MetricPeriod::Search::METRIC_TYPES)
   end
 
   private

@@ -89,3 +89,15 @@ update_last_hour_metrics:
   cron: "*/15 0 * * *"
   class: "UpdateLastHourMetricsJob"
   queue: metrics
+
+# Every day at noon
+update_last_week_metrics:
+  cron: "0 12 * * *"
+  class: "UpdateLastWeekMetricsJob"
+  queue: metrics
+
+# Every day at noon
+update_last_quarter_metrics:
+  cron: "0 12 * * *"
+  class: "UpdateLastQuarterMetricsJob"
+  queue: metrics

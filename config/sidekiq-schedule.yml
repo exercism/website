@@ -66,21 +66,21 @@ nudge_users_to_request_mentoring:
   class: "NudgeUsersToRequestMentoringJob"
   queue: dribble
 
-# Every minute
+# At start of every minute
 update_minute_metrics:
   cron: "* * * * *"
   class: "UpdateMinuteMetricsJob"
   queue: metrics
 
-# Every hour
+# At start of every day
 update_day_metrics:
-  cron: "0 * * * *"
+  cron: "0 0 * * *"
   class: "UpdateDayMetricsJob"
   queue: metrics
 
-# Every day
+# At start of every month
 update_month_metrics:
-  cron: "0 0 * * *"
+  cron: "0 0 1 * *"
   class: "UpdateMonthMetricsJob"
   queue: metrics
 

@@ -5,7 +5,8 @@ class Metric::Queue
 
   def call
     LogMetricJob.perform_later(type, occurred_at, **attributes)
-  rescue StandardError
+  rescue StandardError => e
     # Don't crash if the creation fails, e.g. if sidekiq is down
+    Bugsnag.notify(e)
   end
 end

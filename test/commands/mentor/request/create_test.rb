@@ -43,4 +43,21 @@ class Mentor::Request::CreateTest < ActiveSupport::TestCase
       Mentor::Request::Create.(solution, "some copy")
     end
   end
+
+  test "adds metric" do
+    track = create :track
+    user = create :user
+    solution = create :practice_solution, user: user, track: track
+    create :user_track, user: user, track: track
+
+    request = Mentor::Request::Create.(solution, "Please help with this")
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_equal Metrics::RequestMentoringMetric, metric.class
+    assert_equal request.created_at, metric.occurred_at
+    assert_equal track, metric.track
+    assert_equal user, metric.user
+  end
 end

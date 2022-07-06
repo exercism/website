@@ -31,6 +31,7 @@ module Mentor
         create_testimonial!
         award_reputation!
         award_badge!
+        log_metric!
       end
 
       def requeue!
@@ -86,6 +87,13 @@ module Mentor
       def award_badge!
         AwardBadgeJob.perform_later(discussion.mentor, :mentor)
       end
+
+      def log_metric!
+        Metric::Queue.(:finish_mentoring, discussion.finished_at, discussion:, track:, user: student)
+      end
+
+      delegate :track, to: :discussion
+      delegate :student, to: :discussion
 
       private
       attr_reader :discussion, :rating,

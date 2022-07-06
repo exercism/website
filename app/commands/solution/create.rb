@@ -9,7 +9,8 @@ class Solution
       begin
         solution_class.create!(user:, exercise:).tap do |solution|
           record_activity!(solution)
-          AwardBadgeJob.perform_later(user, :new_years_resolution, context: solution)
+          award_badge!(solution)
+          log_metric!(solution)
         end
       rescue ActiveRecord::RecordNotUnique
         solution_class.find_by!(
@@ -49,9 +50,18 @@ class Solution
       end
     end
 
-    memoize
-    def user_track
-      UserTrack.for(user, exercise.track)
+    def award_badge!(solution)
+      AwardBadgeJob.perform_later(user, :new_years_resolution, context: solution)
     end
+
+    def log_metric!(solution)
+      Metric::Queue.(:submit_solution, solution.created_at, solution:, track:, user:)
+    end
+
+    memoize
+    def user_track = UserTrack.for(user, track)
+
+    memoize
+    def track = exercise.track
   end
 end

@@ -18,8 +18,10 @@ class Solution
 
       award_reputation!
       record_activity!
+      log_metric!
     end
 
+    private
     def award_reputation!
       level = solution.exercise.concept_exercise? ? :concept : solution.exercise.difficulty_category
       AwardReputationTokenJob.perform_later(
@@ -40,6 +42,10 @@ class Solution
     rescue StandardError => e
       Rails.logger.error "Failed to create activity"
       Rails.logger.error e.message
+    end
+
+    def log_metric!
+      Metric::Queue.(:publish_solution, solution.published_at, solution:, track: user_track.track, user: user_track.user)
     end
   end
 end

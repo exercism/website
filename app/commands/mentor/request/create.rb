@@ -8,13 +8,13 @@ module Mentor
       def call
         guard!
 
-        create_request
+        create_request!
       rescue AlreadyRequestedError => e
         e.request
       end
 
       private
-      def create_request
+      def create_request!
         request = Mentor::Request.new(
           solution:,
           comment_markdown:
@@ -33,12 +33,20 @@ module Mentor
           request.save!
         end
 
+        log_metric!(request)
         request
       end
 
       def guard!
         raise NoMentoringSlotsAvailableError unless solution.user_track.has_available_mentoring_slot?
       end
+
+      def log_metric!(request)
+        Metric::Queue.(:request_mentoring, request.created_at, request:, track:, user:)
+      end
+
+      def user = solution.user
+      def track = solution.track
 
       class AlreadyRequestedError < RuntimeError
         attr_reader :request

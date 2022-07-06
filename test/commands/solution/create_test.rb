@@ -95,4 +95,22 @@ class Solution::CreateTest < ActiveSupport::TestCase
       assert_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
     end
   end
+
+  test "adds metric" do
+    track = create :track
+    user = create :user
+    ex = create :concept_exercise, track: track
+    create :user_track, track: track, user: user
+    UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true)
+
+    solution = Solution::Create.(user, ex)
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_equal Metrics::SubmitSolutionMetric, metric.class
+    assert_equal solution.created_at, metric.occurred_at
+    assert_equal track, metric.track
+    assert_equal user, metric.user
+  end
 end

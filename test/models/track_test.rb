@@ -151,4 +151,28 @@ class TrackTest < ActiveSupport::TestCase
     assert track.accessible_by?(maintainer)
     assert track.accessible_by?(admin)
   end
+
+  test ".for_repo with track repo" do
+    track = create :track, slug: 'ruby'
+    assert_equal track, Track.for_repo("exercism/#{track.slug}")
+  end
+
+  test ".for_repo with test runner repo" do
+    track = create :track, slug: 'ruby'
+    assert_equal track, Track.for_repo("exercism/#{track.slug}-test-runner")
+  end
+
+  test ".for_repo with representer repo" do
+    track = create :track, slug: 'ruby'
+    assert_equal track, Track.for_repo("exercism/#{track.slug}-representer")
+  end
+
+  test ".for_repo with analyzer repo" do
+    track = create :track, slug: 'ruby'
+    assert_equal track, Track.for_repo("exercism/#{track.slug}-analyzer")
+  end
+
+  test ".for_repo with non-track or track tooling repo" do
+    assert_nil Track.for_repo("exercism/configlet")
+  end
 end

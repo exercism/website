@@ -213,6 +213,7 @@
             & .tabs {
                 @apply flex;
                 @apply overflow-y-hidden overflow-x-auto;
+                @apply flex-shrink-0;
                 & .c-tab {
                     @apply mr-0;
                 }

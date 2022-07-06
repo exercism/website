@@ -15,7 +15,5 @@ class AssembleTracksForSelect
   private
   attr_reader :tracks
 
-  def default_tracks
-    ::Track.active
-  end
+  def default_tracks = ::Track.active
 end

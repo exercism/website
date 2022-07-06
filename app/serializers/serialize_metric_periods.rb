@@ -13,6 +13,7 @@ class SerializeMetricPeriods
   def serialize_metric_period(metric_period)
     key = metric_period.class.name.demodulize.underscore
     value = metric_period.send(key)
+
     {
       count: metric_period.count,
       track_slug: metric_period.track&.slug,

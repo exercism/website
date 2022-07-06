@@ -1,6 +1,8 @@
 require_relative '../base_test_case'
 
 class API::Metrics::PeriodicControllerTest < API::BaseTestCase
+  guard_incorrect_token! :api_metrics_periodic_url
+
   test "index should filter correctly" do
     setup_user
 
@@ -25,7 +27,7 @@ class API::Metrics::PeriodicControllerTest < API::BaseTestCase
     assert_equal expected, response.body
   end
 
-  test "index returns 400 when not passing period type" do
+  test "index returns 400 when not passing any parameters" do
     setup_user
 
     get api_metrics_periodic_url, headers: @headers, as: :json

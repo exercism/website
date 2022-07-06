@@ -4,8 +4,8 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
   test "renders correctly with data" do
     user = create :user
 
-    elixir = create :track, slug: :elixir, title: "Elixir"
     js = create :track, slug: :js, title: "JavaScript"
+    elixir = create :track, slug: :elixir, title: "Elixir"
 
     # Building tokens
     3.times { create :user_code_contribution_reputation_token, track: elixir, user: }
@@ -30,13 +30,13 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
     end
 
     # Published solutions tokens
-    3.times { create :practice_solution, :published, track: elixir, user: }
     2.times { create :practice_solution, :published, track: js, user: }
+    3.times { create :practice_solution, :published, track: elixir, user: }
     1.times { create :practice_solution, :published, user: } # rubocop:disable Lint/UselessTimes
 
     # Mentoring discussions
-    5.times { create :mentor_discussion, solution: create(:practice_solution, track: elixir), mentor: user }
     4.times { create :mentor_discussion, solution: create(:practice_solution, track: js), mentor: user }
+    5.times { create :mentor_discussion, solution: create(:practice_solution, track: elixir), mentor: user }
 
     expected = {
       tracks: [

@@ -25,6 +25,13 @@ class API::Metrics::PeriodicControllerTest < API::BaseTestCase
     assert_equal expected, response.body
   end
 
+  test "index returns 400 when not passing period type" do
+    setup_user
+
+    get api_metrics_periodic_url, headers: @headers, as: :json
+    assert_response 400
+  end
+
   test "index returns 400 when passing unknown period type" do
     setup_user
 

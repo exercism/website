@@ -31,9 +31,11 @@ module Mentor
         create_testimonial!
         award_reputation!
         award_badge!
+        notify!
         log_metric!
       end
 
+      private
       def requeue!
         return unless should_requeue
 
@@ -95,7 +97,14 @@ module Mentor
       delegate :track, to: :discussion
       delegate :student, to: :discussion
 
-      private
+      def notify!
+        User::Notification::Create.(
+          discussion.mentor,
+          :student_finished_discussion,
+          { discussion: }
+        )
+      end
+
       attr_reader :discussion, :rating,
         :should_requeue,
         :should_report, :report_reason, :report_message,

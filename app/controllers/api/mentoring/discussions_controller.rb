@@ -102,7 +102,7 @@ module API
     # The JSON response below is what I expect for the React component.
     def finish
       discussion = current_user.mentor_discussions.find_by(uuid: params[:uuid])
-      discussion.mentor_finished!
+      Mentor::Discussion::FinishByMentor.(discussion)
       relationship = Mentor::StudentRelationship.find_or_create_by!(mentor: discussion.mentor, student: discussion.student)
 
       render json: {

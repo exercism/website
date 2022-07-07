@@ -30,3 +30,11 @@ en:
       1: >
         <strong>It's time to get mentored!</strong>
         Learning with our mentors is an amazing way to level up your knowledge, and it's 100% free. Choose one of your solutions to begin.
+
+    student_finished_discussion:
+      1: >
+        %{student_name} has finished the discussion on the solution you are mentoring for %{track_title}:%{exercise_title}
+
+    mentor_finished_discussion:
+      1: >
+        %{mentor_name} has finished the discussion on your solution for %{track_title}:%{exercise_title}

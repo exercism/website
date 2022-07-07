@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormButton, Icon, GraphicalIcon } from '../common'
 import { FormMessage } from './FormMessage'
-import { CommunicationPreferences } from '../types'
+import { CommunicationPreference } from '../types'
 
 type Links = {
   update: string
@@ -14,7 +14,7 @@ export const CommunicationPreferencesForm = ({
   defaultPreferences,
   links,
 }: {
-  defaultPreferences: readonly CommunicationPreferences[]
+  defaultPreferences: readonly CommunicationPreference[]
   links: Links
 }): JSX.Element => {
   const [preferences, setPreferences] = useState(defaultPreferences)

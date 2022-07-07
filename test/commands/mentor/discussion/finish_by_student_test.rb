@@ -168,4 +168,26 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     assert_equal discussion.track, metric.track
     assert_equal discussion.student, metric.user
   end
+
+  test "sends notification to mentor" do
+    student = create :user, handle: "student"
+    mentor = create :user, email: "mentor@exercism.org"
+    track = create :track, title: "Ruby"
+    exercise = create :concept_exercise, title: "Strings", track: track
+    solution = create :concept_solution, user: student, exercise: exercise
+    discussion = create :mentor_discussion, mentor: mentor, solution: solution
+
+    perform_enqueued_jobs do
+      Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+    end
+
+    email = ActionMailer::Base.deliveries.last
+    assert_equal(
+      "[Mentoring] student has ended your discussion on Ruby/Strings",
+      email.subject
+    )
+    assert_equal [mentor.email], email.to
+
+    ActionMailer::Base.deliveries.clear
+  end
 end

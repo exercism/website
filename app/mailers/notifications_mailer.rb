@@ -92,4 +92,30 @@ class NotificationsMailer < ApplicationMailer
     @title = "Level up with feedback from our mentors!"
     mail_to_user(@user, subject)
   end
+
+  def student_finished_discussion
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_student_finished_discussion_notification
+    @title = "Your student has finished the discussion"
+    subject = "[Mentoring] #{@discussion.student.handle} has ended your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
+    mail_to_user(@user, subject)
+  end
+
+  def mentor_finished_discussion
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_mentor_finished_discussion_notification
+    @title = "Your mentor has finished the discussion"
+    subject = "[Mentoring] #{@discussion.mentor.handle} has ended your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
+    mail_to_user(@user, subject)
+  end
 end

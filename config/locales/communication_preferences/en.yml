@@ -11,9 +11,11 @@ en:
     email_on_mentor_heartbeat: "Email me with weekly mentor summaries"
 
     email_on_mentor_started_discussion_notification: "Email me when a mentor starts mentoring my solution"
+    email_on_mentor_finished_discussion_notification: "Email me when a mentor finished a discussion on my solution"
     email_on_mentor_replied_to_discussion_notification: "Email me when a mentor replies to a discussion on my solution"
 
     email_on_student_replied_to_discussion_notification: "Email me when a student replies to a discussion I am mentoring"
+    email_on_student_finished_discussion_notification: "Email me when a student finished a discussion I am mentoring"
     email_on_student_added_iteration_notification: "Email me when a student adds an iteration to a solution I am mentoring"
 
     email_on_nudge_notification: "Email me prompts about how to get the most out of Exercism"

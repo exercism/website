@@ -65,7 +65,6 @@ export const CommunicationPreferencesForm = ({
           <label className="c-checkbox-wrapper" key={p.key}>
             <input
               type="checkbox"
-              id="communication_preferences_email_on_mentor_started_discussion_notification"
               checked={p.value}
               onChange={handlePreferenceChange(p)}
             />

@@ -39,12 +39,7 @@ export const ShowOnSupportersPageButton = ({
 
   return (
     <label className="c-checkbox-wrapper ml-auto">
-      <input
-        type="checkbox"
-        id="communication_preferences_email_on_mentor_started_discussion_notification"
-        checked={value}
-        onChange={handleChange}
-      />
+      <input type="checkbox" checked={value} onChange={handleChange} />
       <div className="row">
         <div className="c-checkbox">
           <GraphicalIcon icon="checkmark" />

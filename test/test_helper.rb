@@ -30,6 +30,8 @@ Mocha.configure do |c|
   c.stubbing_non_public_method = :prevent
 end
 
+Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+
 # Require the support helper files
 Dir.foreach(Rails.root / "test" / "support") do |path|
   next if path.starts_with?('.')

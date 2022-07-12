@@ -75,6 +75,37 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     assert_response :success
   end
 
+  test "create is rate limited" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    12.times do |idx|
+      post api_solution_submissions_path(solution.uuid),
+        params: { files: [{ filename: "foo", content: "bar #{idx}" }] },
+        headers: @headers,
+        as: :json
+
+      assert_response :success
+    end
+
+    post api_solution_submissions_path(solution.uuid),
+      params: { files: [{ filename: "foo", content: "bar 12" }] },
+      headers: @headers,
+      as: :json
+
+    assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to Time.current + 1.minute
+
+    post api_solution_submissions_path(solution.uuid),
+      params: { files: [{ filename: "foo", content: "bar 13" }] },
+      headers: @headers,
+      as: :json
+
+    assert_response :success
+  end
+
   test "returns error if submission is too large" do
     filename = "subdir/foobar.rb"
     content = "a" * (1.megabyte + 1)

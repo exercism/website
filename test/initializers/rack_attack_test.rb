@@ -13,7 +13,7 @@ class RackAttackTest < Webhooks::BaseTestCase
       post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
     end
 
-    assert_response 429
+    assert_response :too_many_requests
 
     logout
     setup_user(user_1)
@@ -28,7 +28,7 @@ class RackAttackTest < Webhooks::BaseTestCase
     # Fifth request for user in one minute hits rate limit
     submission = create :submission, user: @current_user
     post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
-    assert_response 429
+    assert_response :too_many_requests
 
     # Verify that the rate limit for a user resets every minute
     travel_to Time.current + 1.minute
@@ -99,7 +99,7 @@ class RackAttackTest < Webhooks::BaseTestCase
         post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
       end
 
-      assert_response 429
+      assert_response :too_many_requests
       assert_includes response.get_header("Retry-After"), "42" # 42 is number of secs remaining this minute
     end
   end

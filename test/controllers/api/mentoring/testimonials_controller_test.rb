@@ -81,4 +81,18 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
 
     assert testimonial.reload.revealed?
   end
+
+  test "reveal is rate limited" do
+    setup_user
+
+    30.times do
+      testimonial = create :mentor_testimonial, mentor: @current_user
+      patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
+      assert_response :success
+    end
+
+    testimonial = create :mentor_testimonial, mentor: @current_user
+    patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
+    assert_response :too_many_requests
+  end
 end

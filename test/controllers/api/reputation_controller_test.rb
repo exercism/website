@@ -77,6 +77,20 @@ class API::ReputatationControllerTest < API::BaseTestCase
     refute token_3.reload.seen?
   end
 
+  test "mark_as_seen is rate limited" do
+    setup_user
+
+    20.times do
+      token = create :user_code_contribution_reputation_token, user: @current_user
+      patch mark_as_seen_api_reputation_path(token.uuid), headers: @headers, as: :json
+      assert_response :success
+    end
+
+    token = create :user_code_contribution_reputation_token, user: @current_user
+    patch mark_as_seen_api_reputation_path(token.uuid), headers: @headers, as: :json
+    assert_response :too_many_requests
+  end
+
   test "mark_all_as_seen proxies" do
     user = create :user
     setup_user(user)

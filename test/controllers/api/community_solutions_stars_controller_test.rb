@@ -16,7 +16,7 @@ module API
         solution.track, solution.exercise, solution.user.handle
       ), headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
       assert_equal(
         {
           "star" => {
@@ -41,7 +41,7 @@ module API
         solution.track, solution.exercise, solution.user.handle
       ), headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
       assert_equal(
         {
           "star" => {

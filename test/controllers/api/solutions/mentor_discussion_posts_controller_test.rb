@@ -26,7 +26,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       items: [
         {
@@ -76,7 +76,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       items: [
         {
@@ -172,7 +172,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       },
       headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
 
     post = discussion.posts.last
     assert_equal user, post.author
@@ -292,7 +292,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :ok
 
     discussion_post.reload
     expected = {
@@ -384,7 +384,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     delete api_solution_discussion_post_path(solution.uuid, discussion, discussion_post), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
 
     expected = {
       item: {

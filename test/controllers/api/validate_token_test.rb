@@ -9,6 +9,6 @@ class API::PingControllerTest < API::BaseTestCase
   test "latest should return 200 with correct token" do
     setup_user
     get api_validate_token_path, headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 end

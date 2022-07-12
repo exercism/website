@@ -64,7 +64,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     solution = create :practice_solution, user: @current_user
 
     get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 
   test "show should return solution file" do
@@ -75,7 +75,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     file = create :submission_file, submission: submission, content: content
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{file.filename}", headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
     assert_equal response.body, content
   end
 
@@ -96,7 +96,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     create :submission_file, submission: new_submission, filename: filename, content: correct_content
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
     assert_equal correct_content, response.body
   end
 
@@ -121,7 +121,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     create :submission_file, submission: new_submission, filename: filename, content: "new-code"
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
     assert_equal correct_content, response.body
   end
 
@@ -132,7 +132,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     create :iteration, solution: solution, submission: submission
 
     get "/api/v1/solutions/#{solution.uuid}/files/README.md", headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected_body = <<~EXPECTED.strip
       # Bob
@@ -177,7 +177,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     create :iteration, solution: solution, submission: submission
 
     get "/api/v1/solutions/#{solution.uuid}/files/HELP.md", headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected_body = <<~EXPECTED.strip
       # Help
@@ -218,7 +218,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     create :iteration, solution: solution, submission: submission
 
     get "/api/v1/solutions/#{solution.uuid}/files/HINTS.md", headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected_body = <<~EXPECTED.strip
       # Hints
@@ -239,7 +239,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   #   solution = create :concept_solution, exercise: exercise
   #
   #   get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
-  #   assert_response :success
+  #   assert_response :ok
   # end
 
   # test "show should return 200 if solution is published" do
@@ -250,7 +250,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   #   solution = create :concept_solution, exercise: exercise, published_at: DateTime.yesterday
   #
   #   get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
-  #   assert_response :success
+  #   assert_response :ok
   # end
 
   # test "show should return 403 for a normal user when the solution is not published" do

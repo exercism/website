@@ -10,7 +10,7 @@ class API::Settings::CommunicationPreferencesControllerTest < API::BaseTestCase
 
     8.times do
       patch api_settings_communication_preferences_path(communication_preferences:), headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
     end
 
     patch api_settings_communication_preferences_path(communication_preferences:), headers: @headers, as: :json
@@ -20,6 +20,6 @@ class API::Settings::CommunicationPreferencesControllerTest < API::BaseTestCase
     travel_to Time.current + 1.minute
 
     patch api_settings_communication_preferences_path(communication_preferences:), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 end

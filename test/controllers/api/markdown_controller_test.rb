@@ -21,7 +21,7 @@ class API::MarkdownControllerTest < API::BaseTestCase
 
     30.times do
       post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
     end
 
     post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json
@@ -31,6 +31,6 @@ class API::MarkdownControllerTest < API::BaseTestCase
     travel_to Time.current + 1.minute
 
     post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 end

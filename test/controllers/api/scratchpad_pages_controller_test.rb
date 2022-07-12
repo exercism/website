@@ -49,7 +49,7 @@ module API
         headers: @headers,
         as: :json
 
-      assert_response :success
+      assert_response :ok
       expected = {
         scratchpad_page: {
           content_markdown: "hello world"
@@ -68,7 +68,7 @@ module API
         headers: @headers,
         as: :json
 
-      assert_response :success
+      assert_response :ok
       expected = {
         scratchpad_page: {
           content_markdown: nil
@@ -121,7 +121,7 @@ module API
         headers: @headers,
         as: :json
 
-      assert_response :success
+      assert_response :ok
       expected = {
         scratchpad_page: {
           content_markdown: "Some notes"
@@ -162,7 +162,7 @@ module API
         headers: @headers,
         as: :json
 
-      assert_response :success
+      assert_response :ok
       expected = {
         scratchpad_page: {
           content_markdown: "Some notes"

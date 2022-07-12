@@ -38,7 +38,7 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
     5.times { create :mentor_testimonial, mentor: user }
 
     get api_mentoring_testimonials_path, headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected = SerializePaginatedCollection.(
       Mentor::Testimonial.order(id: :desc).page(1),
@@ -77,7 +77,7 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
 
     patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
 
     assert testimonial.reload.revealed?
   end
@@ -88,7 +88,7 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
     30.times do
       testimonial = create :mentor_testimonial, mentor: @current_user
       patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
     end
 
     testimonial = create :mentor_testimonial, mentor: @current_user
@@ -100,6 +100,6 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
 
     testimonial = create :mentor_testimonial, mentor: @current_user
     patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 end

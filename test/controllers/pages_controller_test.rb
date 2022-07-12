@@ -3,7 +3,7 @@ require "test_helper"
 class PagesControllerTest < ActionDispatch::IntegrationTest
   test "index shows" do
     get "/"
-    assert_response :success
+    assert_response :ok
   end
 
   test "index redirects if logged n" do
@@ -17,7 +17,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
     get "/health-check"
 
-    assert_response :success
+    assert_response :ok
     expected = {
       ruok: true,
       sanity_data: {

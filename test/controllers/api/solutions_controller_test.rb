@@ -44,7 +44,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       order: "newest_first"
     ), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
   end
 
   test "index should search and return solutions" do
@@ -68,7 +68,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       page: 1
     ), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     serializer = SerializePaginatedCollection.(
       Solution.page(1),
       serializer: SerializeSolutions,
@@ -117,7 +117,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
     get api_solution_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       solution: SerializeSolution.(solution)
     }
@@ -130,7 +130,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     iteration = create :iteration, solution: solution
     get api_solution_path(solution.uuid, sideload: [:iterations]), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       solution: SerializeSolution.(solution),
       iterations: [SerializeIteration.(iteration)]
@@ -210,7 +210,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
     patch sync_api_solution_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
   end
 
   ############
@@ -303,7 +303,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       patch complete_api_solution_path(solution.uuid),
         headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
 
       solution.reload
       assert_equal Time.current, solution.completed_at
@@ -324,7 +324,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       patch complete_api_solution_path(solution.uuid, publish: true),
         headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
 
       solution.reload
       assert_equal Time.current, solution.completed_at
@@ -369,7 +369,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
 
       user_track.reload
 
-      assert_response :success
+      assert_response :ok
       expected = {
         track: SerializeTrack.(solution.track, user_track),
         exercise: SerializeExercise.(solution.exercise, user_track:),
@@ -487,7 +487,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       patch publish_api_solution_path(solution.uuid, publish: true),
         headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
 
       solution.reload
       assert_equal Time.current, solution.completed_at
@@ -508,7 +508,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       patch publish_api_solution_path(solution.uuid, publish: true),
         headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
 
       solution.reload
       assert_equal Time.current, solution.completed_at
@@ -583,7 +583,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
       patch unpublish_api_solution_path(solution.uuid, publish: true),
         headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
 
       solution.reload
       assert_equal Time.current, solution.completed_at

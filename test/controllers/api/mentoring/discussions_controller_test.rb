@@ -45,7 +45,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     get api_mentoring_discussions_path(status: :awaiting_mentor),
       headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected = SerializePaginatedCollection.(
       Mentor::Discussion.page(1).per(10),
@@ -65,7 +65,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     get api_mentoring_discussions_path(status: :awaiting_mentor, sideload: [:all_discussion_counts]),
       headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected = SerializePaginatedCollection.(
       Mentor::Discussion.page(1).per(10),
@@ -102,7 +102,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     create :mentor_discussion, :awaiting_mentor, solution: tournament_solution, mentor: @current_user
 
     get tracks_api_mentoring_discussions_path(per: 1, status: :awaiting_mentor), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected = [
       { slug: nil, title: 'All Tracks', icon_url: "ICON", count: 3 },
@@ -181,7 +181,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
       },
       headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
 
     discussion = Mentor::Discussion.last
     assert_equal mentor_request, discussion.request
@@ -248,7 +248,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     discussion.reload
     refute discussion.awaiting_mentor?
   end

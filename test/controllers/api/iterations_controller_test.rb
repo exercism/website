@@ -40,7 +40,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_equal 'untested', it_2.status.to_s
 
     get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected = { status: "untested" }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -53,7 +53,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     create :iteration, solution: solution, deleted_at: Time.current
 
     get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected = { status: "deleted" }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -65,7 +65,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
 
     get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected = { status: nil }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -124,7 +124,7 @@ class API::IterationsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       iteration: SerializeIteration.(Iteration.last)
     }
@@ -143,7 +143,7 @@ class API::IterationsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :ok
   end
 
   test "create is rate limited" do
@@ -152,7 +152,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     4.times do
       submission = create :submission, user: @current_user
       post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
-      assert_response :success
+      assert_response :ok
     end
 
     submission = create :submission, user: @current_user
@@ -164,7 +164,7 @@ class API::IterationsControllerTest < API::BaseTestCase
 
     submission = create :submission, user: @current_user
     post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
-    assert_response :success
+    assert_response :ok
   end
 
   ###
@@ -228,7 +228,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     Iteration::Destroy.expects(:call).with(iteration)
 
     delete api_solution_iteration_path(solution.uuid, iteration.uuid), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 
   ###
@@ -281,7 +281,7 @@ class API::IterationsControllerTest < API::BaseTestCase
         }
       }
     }
-    assert_response :success
+    assert_response :ok
     assert_equal expected.to_json, response.body
   end
 end

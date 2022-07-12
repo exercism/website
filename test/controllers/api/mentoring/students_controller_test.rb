@@ -34,7 +34,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
 
     setup_user(mentor)
     post favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     assert Mentor::StudentRelationship.where(mentor:, student:, favorited: true).exists?
   end
@@ -66,7 +66,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
 
     setup_user(mentor)
     delete favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     assert Mentor::StudentRelationship.where(mentor:, student:, favorited: false).exists?
   end
@@ -98,7 +98,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
 
     setup_user(mentor)
     post block_api_mentoring_student_path(student.handle), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     assert Mentor::StudentRelationship.where(mentor:, student:, blocked_by_mentor: true).exists?
   end
@@ -130,7 +130,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
 
     setup_user(mentor)
     delete block_api_mentoring_student_path(student.handle), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     assert Mentor::StudentRelationship.where(mentor:, student:, blocked_by_mentor: false).exists?
   end

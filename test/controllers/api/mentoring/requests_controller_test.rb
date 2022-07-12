@@ -39,7 +39,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     50.times { create :mentor_request, solution: }
 
     get api_mentoring_requests_path, headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
     assert_includes AssembleMentorRequests.(user, {}).to_json, response.body
   end
 
@@ -56,27 +56,27 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     refute js_mentorship.reload.last_viewed? # Sanity
 
     get api_mentoring_requests_path(track_slug: :ruby), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     assert ruby_mentorship.reload.last_viewed?
     refute js_mentorship.reload.last_viewed?
 
     get api_mentoring_requests_path(track_slug: :js), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     refute ruby_mentorship.reload.last_viewed?
     assert js_mentorship.reload.last_viewed?
 
     # Test invalid slug doesn't override
     get api_mentoring_requests_path(track_slug: :foo), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     refute ruby_mentorship.reload.last_viewed?
     assert js_mentorship.reload.last_viewed?
 
     # Test missing slug doesn't override
     get api_mentoring_requests_path, headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     refute ruby_mentorship.reload.last_viewed?
     assert js_mentorship.reload.last_viewed?
@@ -100,7 +100,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     patch lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
 
     assert request.reload.locked?
     assert_equal user, request.reload.locks.last.locked_by
@@ -133,7 +133,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     patch cancel_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
 
     assert request.reload.cancelled?
   end

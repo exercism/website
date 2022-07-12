@@ -22,7 +22,7 @@ class RackAttackTest < Webhooks::BaseTestCase
     4.times do
       submission = create :submission, user: @current_user
       post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
-      assert_response :success
+      assert_response :ok
     end
 
     # Fifth request for user in one minute hits rate limit
@@ -35,7 +35,7 @@ class RackAttackTest < Webhooks::BaseTestCase
 
     submission = create :submission, user: @current_user
     post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
-    assert_response :success
+    assert_response :ok
   end
 
   test "don't rate limit authorized API GET requests" do
@@ -43,7 +43,7 @@ class RackAttackTest < Webhooks::BaseTestCase
 
     50.times do
       get api_tracks_path, headers: @headers
-      assert_response :success
+      assert_response :ok
     end
   end
 
@@ -52,7 +52,7 @@ class RackAttackTest < Webhooks::BaseTestCase
 
     50.times do
       get api_tracks_path
-      assert_response :success
+      assert_response :ok
     end
   end
 
@@ -61,7 +61,7 @@ class RackAttackTest < Webhooks::BaseTestCase
 
     50.times do
       get tracks_path
-      assert_response :success
+      assert_response :ok
     end
   end
 
@@ -86,7 +86,7 @@ class RackAttackTest < Webhooks::BaseTestCase
 
     50.times do
       post webhooks_membership_updates_path, headers: headers(payload), as: :json, params: payload
-      assert_response :success
+      assert_response :ok
     end
   end
 

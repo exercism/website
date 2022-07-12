@@ -39,6 +39,6 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
 
     patch cancel_api_solution_submission_test_run_path(solution.uuid, submission.uuid), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 end

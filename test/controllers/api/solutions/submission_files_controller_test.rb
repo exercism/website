@@ -52,7 +52,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       files: [
         {

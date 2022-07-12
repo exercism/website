@@ -61,7 +61,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     assert_equal comment, req.comment_markdown
     assert_equal "<p>#{comment}</p>\n", req.comment_html
 
-    assert_response :success
+    assert_response :ok
 
     # TODO: Assert correct JSON
     expected = {

@@ -9,7 +9,7 @@ class API::SettingsControllerTest < API::BaseTestCase
 
     8.times do
       patch sudo_update_api_settings_path(user: { sudo_password: 'password' }), headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
     end
 
     patch sudo_update_api_settings_path(user: { sudo_password: 'password' }), headers: @headers, as: :json
@@ -19,6 +19,6 @@ class API::SettingsControllerTest < API::BaseTestCase
     travel_to Time.current + 1.minute
 
     patch sudo_update_api_settings_path(user: { sudo_password: 'password' }), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 end

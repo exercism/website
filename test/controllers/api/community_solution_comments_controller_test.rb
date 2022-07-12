@@ -16,7 +16,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       solution.track, solution.exercise, solution.user.handle
     ), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       items: [SerializeSolutionComment.(comment, @current_user)]
     }
@@ -112,7 +112,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       params: { content: content_markdown },
       headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     comment = solution.comments.last
     assert_equal user, comment.author
     assert_equal content_markdown, comment.content_markdown
@@ -200,7 +200,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :ok
 
     comment.reload
     expected = { item: SerializeSolutionComment.(comment, user) }
@@ -262,7 +262,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = { item: SerializeSolutionComment.(comment, user) }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
     refute Solution::Comment.exists?(comment.id)

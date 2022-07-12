@@ -22,7 +22,7 @@ class API::V1::TracksControllerTest < API::BaseTestCase
     setup_user
     track = create :track
     get api_v1_track_path(track.slug), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected = {
       track: {

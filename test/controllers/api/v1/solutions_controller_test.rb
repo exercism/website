@@ -81,7 +81,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     create :user_track, user: @current_user, track: exercise.track
 
     get latest_api_v1_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 
   test "latest should return 200 if solution is unlockable" do
@@ -92,7 +92,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     UserTrack.any_instance.stubs(exercise_unlocked?: true)
 
     get latest_api_v1_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 
   test "latest should use solution serializer" do
@@ -104,7 +104,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     serializer = SerializeSolutionForCLI.(solution, @current_user)
     assert_equal serializer.to_json, response.body
   end
@@ -118,7 +118,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       create :user_track, user: solution.user, track: track
 
       get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
 
       solution.reload
       assert_equal solution.downloaded_at.to_i, DateTime.now.to_i
@@ -179,7 +179,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     setup_user(solution.user)
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
   end
 
   test "show should use solution serializer" do
@@ -189,7 +189,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     serializer = SerializeSolutionForCLI.(solution, @current_user)
     assert_equal serializer.to_json, response.body
   end
@@ -201,7 +201,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       create :user_track, user: solution.user, track: solution.track
 
       get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
 
       assert_equal solution.reload.downloaded_at.to_i, DateTime.now.to_i
     end
@@ -214,7 +214,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
       setup_user(user)
       get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
 
       assert_nil solution.reload.downloaded_at
     end
@@ -280,7 +280,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :ok
   end
 
   test "update should catch duplicate submission" do

@@ -27,7 +27,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       items: [
         {
@@ -74,7 +74,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       items: [
         {
@@ -102,7 +102,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     create :iteration, solution: solution
     get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
   end
 
   test "index should return 403 when discussion can not be accessed" do
@@ -177,7 +177,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       },
       headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     post = discussion.posts.last
     assert_equal user, post.author
     assert_equal content, post.content_markdown
@@ -225,7 +225,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       },
       headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
 
     post = discussion.posts.last
     assert_equal user, post.author
@@ -336,7 +336,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :ok
 
     discussion_post.reload
     expected = {
@@ -424,7 +424,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :ok
     expected = {
       item: {
         uuid: discussion_post.uuid,

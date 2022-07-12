@@ -29,7 +29,7 @@ module API
         not_passed_head_tests: "true"
       ), headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
     end
 
     test "head_tests_status filter is on by default" do
@@ -56,7 +56,7 @@ module API
         not_passed_head_tests: nil
       ), headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
     end
 
     test "index should search and return solutions" do
@@ -76,7 +76,7 @@ module API
         track, exercise
       ), headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
       expected = SerializePaginatedCollection.(
         exercise.solutions.order(id: :desc).page(1),
         serializer: SerializeCommunitySolutions,

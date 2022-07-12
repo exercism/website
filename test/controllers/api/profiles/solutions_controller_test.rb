@@ -70,7 +70,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
     wait_for_opensearch_to_be_synced
 
     get api_profile_solutions_path(profile_user), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
 
     expected = SerializePaginatedCollection.(
       Solution.order(num_stars: :desc).page(1),

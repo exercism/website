@@ -98,7 +98,7 @@ class API::ReputatationControllerTest < API::BaseTestCase
     User::ReputationToken::MarkAllAsSeen.expects(:call).with(user)
 
     patch mark_all_as_seen_api_reputation_index_path, headers: @headers, as: :json
-    assert_response 200
+    assert_response :success
 
     assert_equal(
       AssembleReputationTokens.(@current_user.reload, {}).with_indifferent_access,

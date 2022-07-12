@@ -27,7 +27,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :success
     expected = {
       items: [
         {
@@ -74,7 +74,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :success
     expected = {
       items: [
         {
@@ -102,7 +102,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     create :iteration, solution: solution
     get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :success
   end
 
   test "index should return 403 when discussion can not be accessed" do
@@ -112,7 +112,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     get api_mentoring_discussion_posts_path(discussion, iteration_idx: iteration.idx), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t('api.errors.mentor_discussion_not_accessible')
@@ -127,7 +127,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "create should 404 if the discussion doesn't exist" do
     setup_user
     post api_mentoring_discussion_posts_path('xxx'), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "mentor_discussion_not_found",
       message: I18n.t('api.errors.mentor_discussion_not_found')
@@ -142,7 +142,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     post api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t('api.errors.mentor_discussion_not_accessible')
@@ -259,7 +259,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     patch api_mentoring_discussion_post_path(discussion, 1), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "mentor_discussion_post_not_found",
       message: I18n.t("api.errors.mentor_discussion_post_not_found")
@@ -274,7 +274,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     patch api_mentoring_discussion_post_path(discussion_post.discussion, discussion_post), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_not_accessible")
@@ -290,7 +290,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     patch api_mentoring_discussion_post_path(discussion, discussion_post), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "mentor_discussion_post_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_post_not_accessible")
@@ -309,7 +309,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "failed_validations",
       message: I18n.t("api.errors.failed_validations"),
@@ -336,7 +336,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 200
+    assert_response :success
 
     discussion_post.reload
     expected = {
@@ -368,7 +368,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     delete api_mentoring_discussion_post_path(discussion, 1), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "mentor_discussion_post_not_found",
       message: I18n.t("api.errors.mentor_discussion_post_not_found")
@@ -383,7 +383,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     delete api_mentoring_discussion_post_path(discussion_post.discussion, discussion_post), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_not_accessible")
@@ -399,7 +399,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
 
     delete api_mentoring_discussion_post_path(discussion, discussion_post), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "mentor_discussion_post_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_post_not_accessible")
@@ -424,7 +424,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 200
+    assert_response :success
     expected = {
       item: {
         uuid: discussion_post.uuid,

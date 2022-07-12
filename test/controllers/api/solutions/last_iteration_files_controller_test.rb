@@ -11,7 +11,7 @@ class API::Solutions::LastIterationFilesControllerTest < API::BaseTestCase
 
     get api_solution_last_iteration_files_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "no_iterations_submitted_yet",
       message: I18n.t('api.errors.no_iterations_submitted_yet')

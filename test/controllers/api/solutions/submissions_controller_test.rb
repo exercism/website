@@ -9,14 +9,14 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
   test "create should 404 if the solution doesn't exist" do
     setup_user
     post api_solution_submissions_path(999), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
   end
 
   test "create should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     post api_solution_submissions_path(solution.uuid), headers: @headers, as: :json
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_not_accessible",
       message: I18n.t('api.errors.solution_not_accessible')
@@ -118,7 +118,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "file_too_large",
       message: I18n.t("api.errors.file_too_large")
@@ -138,7 +138,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "duplicate_submission",
       message: I18n.t('api.errors.duplicate_submission')

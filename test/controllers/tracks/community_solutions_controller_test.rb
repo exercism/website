@@ -60,7 +60,7 @@ class Tracks::CommunitySolutionsControllerTest < ActionDispatch::IntegrationTest
 
     get track_exercise_solution_url(exercise.track, exercise, solution.user.reload)
 
-    assert_response 200
+    assert_response :success
   end
 
   test "show: 200s for published solution" do
@@ -68,7 +68,7 @@ class Tracks::CommunitySolutionsControllerTest < ActionDispatch::IntegrationTest
     solution = create :practice_solution, :published, exercise: exercise
     get track_exercise_solution_url(exercise.track, exercise, solution.user)
 
-    assert_response 200
+    assert_response :success
   end
 
   test "show: 200s for published solution with uuid" do
@@ -76,6 +76,6 @@ class Tracks::CommunitySolutionsControllerTest < ActionDispatch::IntegrationTest
     solution = create :practice_solution, :published, exercise: exercise
     get track_exercise_solution_url(exercise.track, exercise, solution.uuid)
 
-    assert_response 200
+    assert_response :success
   end
 end

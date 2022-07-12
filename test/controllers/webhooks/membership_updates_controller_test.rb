@@ -19,7 +19,7 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
     invalid_headers['HTTP_X_HUB_SIGNATURE_256'] = "invalid_signature"
 
     post webhooks_membership_updates_path, headers: invalid_headers, as: :json, params: payload
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "create should return 200 when signature is valid" do
@@ -42,7 +42,7 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_membership_updates_path, headers: headers(payload), as: :json, params: payload
-    assert_response 204
+    assert_response :no_content
   end
 
   test "create should process membership update when membership was added and signature is valid" do
@@ -102,6 +102,6 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_membership_updates_path, headers: headers(payload, event: 'ping'), as: :json, params: payload
-    assert_response 204
+    assert_response :no_content
   end
 end

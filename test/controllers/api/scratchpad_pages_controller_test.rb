@@ -15,7 +15,7 @@ module API
         headers: @headers,
         as: :json
 
-      assert_response 404
+      assert_response :not_found
       expected = { error: {
         type: "scratchpad_page_not_found",
         message: I18n.t("api.errors.scratchpad_page_not_found")
@@ -30,7 +30,7 @@ module API
         headers: @headers,
         as: :json
 
-      assert_response 404
+      assert_response :not_found
       expected = { error: {
         type: "scratchpad_page_not_found",
         message: I18n.t("api.errors.scratchpad_page_not_found")
@@ -88,7 +88,7 @@ module API
         headers: @headers,
         as: :json
 
-      assert_response 404
+      assert_response :not_found
       expected = { error: {
         type: "scratchpad_page_not_found",
         message: I18n.t("api.errors.scratchpad_page_not_found")
@@ -103,7 +103,7 @@ module API
         headers: @headers,
         as: :json
 
-      assert_response 404
+      assert_response :not_found
       expected = { error: {
         type: "scratchpad_page_not_found",
         message: I18n.t("api.errors.scratchpad_page_not_found")
@@ -142,7 +142,7 @@ module API
         headers: @headers,
         as: :json
 
-      assert_response 400
+      assert_response :bad_request
       expected = { error: {
         type: "failed_validations",
         message: I18n.t("api.errors.failed_validations"),

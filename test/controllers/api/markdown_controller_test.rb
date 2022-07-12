@@ -21,7 +21,7 @@ class API::MarkdownControllerTest < API::BaseTestCase
 
     30.times do
       post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json
-      assert_response 200
+      assert_response :success
     end
 
     post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json

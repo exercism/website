@@ -16,7 +16,7 @@ class API::TracksControllerTest < API::BaseTestCase
       criteria: "ruby",
       status: "joined"
     ), headers: @headers, as: :json
-    assert_response 200
+    assert_response :success
 
     expected = { tracks: SerializeTracks.([track_1], user) }.to_json
     assert_equal expected, response.body
@@ -27,7 +27,7 @@ class API::TracksControllerTest < API::BaseTestCase
     track = create :track, active: true
     get api_track_path(track.slug), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :success
     expected = {
       track: {
         slug: track.slug,
@@ -43,7 +43,7 @@ class API::TracksControllerTest < API::BaseTestCase
     track = create :track, active: false
     get api_track_path(track.slug), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :success
     expected = {
       track: {
         slug: track.slug,
@@ -59,7 +59,7 @@ class API::TracksControllerTest < API::BaseTestCase
     track = create :track, active: false
     get api_track_path(track.slug), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "track_not_found",
       message: I18n.t('api.errors.track_not_found'),

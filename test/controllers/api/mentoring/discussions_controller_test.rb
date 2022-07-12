@@ -45,7 +45,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     get api_mentoring_discussions_path(status: :awaiting_mentor),
       headers: @headers, as: :json
-    assert_response 200
+    assert_response :success
 
     expected = SerializePaginatedCollection.(
       Mentor::Discussion.page(1).per(10),
@@ -65,7 +65,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     get api_mentoring_discussions_path(status: :awaiting_mentor, sideload: [:all_discussion_counts]),
       headers: @headers, as: :json
-    assert_response 200
+    assert_response :success
 
     expected = SerializePaginatedCollection.(
       Mentor::Discussion.page(1).per(10),
@@ -102,7 +102,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     create :mentor_discussion, :awaiting_mentor, solution: tournament_solution, mentor: @current_user
 
     get tracks_api_mentoring_discussions_path(per: 1, status: :awaiting_mentor), headers: @headers, as: :json
-    assert_response 200
+    assert_response :success
 
     expected = [
       { slug: nil, title: 'All Tracks', icon_url: "ICON", count: 3 },
@@ -120,7 +120,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     setup_user
 
     post api_mentoring_discussions_path(mentor_request_id: 'xxx'), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "mentor_request_not_found",
       message: I18n.t('api.errors.mentor_request_not_found')
@@ -135,7 +135,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     mentor_request = create :mentor_request
     create :mentor_request_lock, request: mentor_request
     post api_mentoring_discussions_path(mentor_request_uuid: mentor_request), headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "mentor_request_locked",
       message: I18n.t('api.errors.mentor_request_locked')
@@ -154,7 +154,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     mentor_request = create :mentor_request, solution: solution
 
     post api_mentoring_discussions_path(mentor_request_uuid: mentor_request), headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "student_cannot_mentor_themselves",
       message: I18n.t('api.errors.student_cannot_mentor_themselves')
@@ -202,7 +202,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     patch mark_as_nothing_to_do_api_mentoring_discussion_path(1), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "mentor_discussion_not_found",
       message: I18n.t("api.errors.mentor_discussion_not_found")
@@ -217,7 +217,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_not_accessible")
@@ -233,7 +233,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_not_accessible")
@@ -248,7 +248,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :success
     discussion.reload
     refute discussion.awaiting_mentor?
   end

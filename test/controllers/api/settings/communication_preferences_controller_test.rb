@@ -15,5 +15,11 @@ class API::Settings::CommunicationPreferencesControllerTest < API::BaseTestCase
 
     patch api_settings_communication_preferences_path(communication_preferences:), headers: @headers, as: :json
     assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to Time.current + 1.minute
+
+    patch api_settings_communication_preferences_path(communication_preferences:), headers: @headers, as: :json
+    assert_response :success
   end
 end

@@ -94,5 +94,12 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
     testimonial = create :mentor_testimonial, mentor: @current_user
     patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
     assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to Time.current + 1.minute
+
+    testimonial = create :mentor_testimonial, mentor: @current_user
+    patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
+    assert_response :success
   end
 end

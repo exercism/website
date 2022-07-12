@@ -89,6 +89,13 @@ class API::ReputatationControllerTest < API::BaseTestCase
     token = create :user_code_contribution_reputation_token, user: @current_user
     patch mark_as_seen_api_reputation_path(token.uuid), headers: @headers, as: :json
     assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to Time.current + 1.minute
+
+    token = create :user_code_contribution_reputation_token, user: @current_user
+    patch mark_as_seen_api_reputation_path(token.uuid), headers: @headers, as: :json
+    assert_response :success
   end
 
   test "mark_all_as_seen proxies" do

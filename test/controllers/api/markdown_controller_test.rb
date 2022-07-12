@@ -26,5 +26,11 @@ class API::MarkdownControllerTest < API::BaseTestCase
 
     post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json
     assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to Time.current + 1.minute
+
+    post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json
+    assert_response :success
   end
 end

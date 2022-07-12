@@ -14,5 +14,11 @@ class API::SettingsControllerTest < API::BaseTestCase
 
     patch sudo_update_api_settings_path(user: { sudo_password: 'password' }), headers: @headers, as: :json
     assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to Time.current + 1.minute
+
+    patch sudo_update_api_settings_path(user: { sudo_password: 'password' }), headers: @headers, as: :json
+    assert_response :success
   end
 end

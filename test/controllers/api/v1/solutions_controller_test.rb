@@ -280,7 +280,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :ok
+    assert_response :created
   end
 
   test "update should catch duplicate submission" do

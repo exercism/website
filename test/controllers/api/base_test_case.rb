@@ -2,6 +2,10 @@ require 'test_helper'
 
 module API
   class BaseTestCase < ActionDispatch::IntegrationTest
+    teardown do
+      Rack::Attack.reset!
+    end
+
     def self.guard_incorrect_token!(path, args: 0, method: :get)
       test "index should return 401 with incorrect token for #{method} #{path}" do
         url = send(path, *Array.new(args, 'a')) # rubocop:disable Lint/RedundantSplatExpansion
@@ -23,6 +27,12 @@ module API
 
       auth_token = create :user_auth_token, user: @current_user
       @headers = { 'Authorization' => "Token token=#{auth_token.token}" }
+    end
+
+    def enable_rate_limiting
+      Rack::Attack.enabled = true
+      yield
+      Rack::Attack.enabled = true
     end
   end
 end

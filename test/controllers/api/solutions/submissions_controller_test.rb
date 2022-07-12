@@ -36,7 +36,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :ok
+    assert_response :created
     expected = {
       submission: {
         uuid: Submission.last.uuid,
@@ -72,7 +72,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :ok
+    assert_response :created
   end
 
   test "create is rate limited" do
@@ -85,7 +85,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
         headers: @headers,
         as: :json
 
-      assert_response :ok
+      assert_response :success
     end
 
     post api_solution_submissions_path(solution.uuid),
@@ -103,7 +103,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :ok
+    assert_response :success
   end
 
   test "returns error if submission is too large" do

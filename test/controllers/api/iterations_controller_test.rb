@@ -124,7 +124,7 @@ class API::IterationsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :ok
+    assert_response :created
     expected = {
       iteration: SerializeIteration.(Iteration.last)
     }
@@ -143,7 +143,7 @@ class API::IterationsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :ok
+    assert_response :created
   end
 
   test "create is rate limited" do
@@ -152,7 +152,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     4.times do
       submission = create :submission, user: @current_user
       post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
-      assert_response :ok
+      assert_response :success
     end
 
     submission = create :submission, user: @current_user
@@ -164,7 +164,7 @@ class API::IterationsControllerTest < API::BaseTestCase
 
     submission = create :submission, user: @current_user
     post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
-    assert_response :ok
+    assert_response :success
   end
 
   ###

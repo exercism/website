@@ -4,7 +4,7 @@ require 'http_authentication_token'
 # as otherwise we can't verify limits being exceeded
 Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new if Rails.env.test?
 
-api_post_patch_limit_proc = proc do |req|
+api_non_get_limit_proc = proc do |req|
   next 4 if req.post? && req.path =~ %r{^/api/v2/solutions/[^/]+/iterations}
   next 12 if req.post? && req.path =~ %r{^/api/v2/solutions/[^/]+/submissions}
   next 30 if req.post? && req.path =~ %r{^/api/v2/markdown/parse}
@@ -16,9 +16,10 @@ api_post_patch_limit_proc = proc do |req|
   5
 end
 
-Rack::Attack.throttle("API - POST and PATCH requests", limit: api_post_patch_limit_proc, period: 1.minute) do |req|
-  if req.post? || req.patch?
-    token = HttpAuthenticationToken.from_header(req.env['HTTP_AUTHORIZATION'])
-    token || req.ip
-  end
+Rack::Attack.throttle("API - POST/PATCH/PUT/DELETE", limit: api_non_get_limit_proc, period: 1.minute) do |req|
+  next unless req.post? || req.patch? || req.put? || req.delete?
+  next unless req.path.starts_with?('/api')
+
+  token = HttpAuthenticationToken.from_header(req.env['HTTP_AUTHORIZATION'])
+  token || req.ip
 end

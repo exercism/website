@@ -24,11 +24,5 @@ module API
       auth_token = create :user_auth_token, user: @current_user
       @headers = { 'Authorization' => "Token token=#{auth_token.token}" }
     end
-
-    def enable_rate_limiting
-      Rack::Attack.enabled = true
-      yield
-      Rack::Attack.enabled = true
-    end
   end
 end

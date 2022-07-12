@@ -3,14 +3,10 @@ module HttpAuthenticationToken
     token = header.to_s.match(/^Token (.*)/) { |m| m[1] }
     return nil unless token
 
-    values = Hash[token.split(",").map do |value|
-      value.strip! # remove any spaces between commas and values
-      key, value = value.split(/="?/) # split key=value pairs
-      value.chomp!('"') # chomp trailing " in value
-      value.gsub!(/\\"/, '"') # unescape remaining quotes
-      [key, value]
-    end]
-    values["token"]
+    token.split(",").find do |kv|
+      key, value = kv.strip.split(/="?/)
+      return value.chomp('"').gsub(/\\"/, '"') if key == 'token'
+    end
   rescue StandardError
     nil
   end

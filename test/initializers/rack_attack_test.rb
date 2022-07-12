@@ -56,6 +56,20 @@ class RackAttackTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "retry-after header is returned when rate limit is reached" do
+    travel_to Time.current.beginning_of_minute + 18.seconds do
+      setup_user
+
+      5.times do
+        submission = create :submission, user: @current_user
+        post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
+      end
+
+      assert_response 429
+      assert_includes response.get_header("Retry-After"), "42" # 42 is number of secs remaining this minute
+    end
+  end
+
   def setup_user(user = nil)
     @current_user = user || create(:user)
     @current_user.confirm

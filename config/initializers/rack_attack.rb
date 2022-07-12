@@ -4,6 +4,8 @@ require 'http_authentication_token'
 # as otherwise we can't verify limits being exceeded
 Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new if Rails.env.test?
 
+Rack::Attack.throttled_response_retry_after_header = true
+
 api_non_get_limit_proc = proc do |req|
   next 4 if req.post? && req.path =~ %r{^/api/v2/solutions/[^/]+/iterations}
   next 12 if req.post? && req.path =~ %r{^/api/v2/solutions/[^/]+/submissions}

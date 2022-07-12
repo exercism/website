@@ -1,6 +1,6 @@
-require 'test_helper'
+require './test/controllers/webhooks/base_test_case'
 
-class RackAttackTest < ActionDispatch::IntegrationTest
+class RackAttackTest < Webhooks::BaseTestCase
   test "rate limit authorized API POST/PATCH/PUT/DELETE requests by token" do
     user_1 = create :user
     user_2 = create :user
@@ -47,11 +47,45 @@ class RackAttackTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "don't rate limit aunauthorized API GET requests" do
+  test "don't rate limit unauthorized API GET requests" do
     logout
 
     50.times do
       get api_tracks_path
+      assert_response :success
+    end
+  end
+
+  test "don't rate limit unauthorized non-API GET requests" do
+    logout
+
+    50.times do
+      get tracks_path
+      assert_response :success
+    end
+  end
+
+  test "don't rate limit unauthorized non-API POST/PATCH/PUT/DELETE requests" do
+    logout
+
+    create :user, github_username: 'member12'
+    create :contributor_team, github_name: 'reviewers'
+
+    payload = {
+      action: 'added',
+      member: {
+        login: 'member12'
+      },
+      team: {
+        name: 'reviewers'
+      },
+      organization: {
+        login: 'exercism'
+      }
+    }
+
+    50.times do
+      post webhooks_membership_updates_path, headers: headers(payload), as: :json, params: payload
       assert_response :success
     end
   end

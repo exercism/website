@@ -1,0 +1,18 @@
+.border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.mb-32
+  %h2.reputation.text-h2
+    Your current reputation is
+    = render ViewComponents::Reputation.new(current_user.formatted_reputation, flashy: true)
+
+  .c-progress
+    - progress = (current_user.reputation / profile_min_reputation.to_f) * 100
+    .bar{ style: "width:#{progress}%" }
+
+  .footer
+    .info
+      = link_to doc_url(:using, 'product/reputation') do
+        = graphical_icon "info-circle"
+        How does this work?
+    .unlocks
+      = link_to doc_url(:using, 'product/reputation') do
+        Profile creation unlocks at
+        %span.reputation #{profile_min_reputation} rep

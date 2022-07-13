@@ -52,7 +52,9 @@ class ProfilesController < ApplicationController
 
   def intro
     return redirect_to profile_path(current_user) if current_user&.profile
-    return render :locked unless current_user.profile_unlocked?
+
+    @profile_min_reputation = User::Profile::MIN_REPUTATION
+    @profile_unlocked = current_user&.profile_unlocked?
   end
 
   def new

@@ -43,7 +43,7 @@
             @apply relative z-1; /* Needed to make the button clickable */
         }
 
-        & .c-icon {
+        & .c-icon.intro-image {
             width: 160px;
             height: 160px;
             @apply mb-20;
@@ -55,7 +55,7 @@
             @apply mb-24;
         }
         & p {
-            max-width: 770px;
+            max-width: 790px;
             @apply text-p-large mb-32;
         }
     }

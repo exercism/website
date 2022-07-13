@@ -6,6 +6,7 @@ FactoryBot.define do
     repo { "exercism/ruby" }
     author_username { "iHiD" }
     merged_by_username { "ErikSchierboom" }
+    state { :closed }
     data do
       {
         node_id:,

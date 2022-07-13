@@ -21,12 +21,12 @@ module ReactComponents
 
       def tracks_data
         counts = user.solutions.joins(:exercise).published.group('exercises.track_id').count
-        tracks = ::Track.where(id: counts.keys).index_by(&:id)
+        tracks = ::Track.where(id: counts.keys).order(:title)
 
         [
           SerializeTrackForSelect::ALL_TRACK.merge(num_solutions: counts.values.sum),
-          *counts.map do |track_id, count|
-            SerializeTrackForSelect.(tracks[track_id]).merge(num_solutions: count)
+          *tracks.map do |track|
+            SerializeTrackForSelect.(track).merge(num_solutions: counts[track.id])
           end
         ]
       end

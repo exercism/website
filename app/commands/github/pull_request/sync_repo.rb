@@ -15,6 +15,7 @@ module Github
             merged_by_username: pr[:merged_by_username],
             repo: pr[:repo],
             reviews: pr[:reviews],
+            state: pr[:state].downcase.to_sym,
             data: pr
           )
         end
@@ -43,9 +44,7 @@ module Github
           query {
             repository(owner: "#{repo_owner}", name: "#{repo_name}") {
               nameWithOwner
-              pullRequests(first: 100,
-                          states:[CLOSED, MERGED]
-                          #{%(, after: "#{cursor}") if cursor}) {
+              pullRequests(first: 100, #{%(, after: "#{cursor}") if cursor}) {
                 nodes {
                   id
                   url
@@ -53,6 +52,7 @@ module Github
                   number
                   createdAt
                   closedAt
+                  state
                   merged
                   mergedAt
                   mergedBy {
@@ -99,12 +99,12 @@ module Github
         # This allows us to work with pull requests using a single code path.
         response[:data][:repository][:pullRequests][:nodes].map do |pr|
           {
-            action: 'closed',
+            action: pr[:state].casecmp?('open') ? 'opened' : 'closed',
             author_username: pr[:author].present? ? pr[:author][:login] : nil,
             url: "https://api.github.com/repos/#{response[:data][:repository][:nameWithOwner]}/pulls/#{pr[:number]}",
             html_url: pr[:url],
             labels: pr[:labels][:nodes].map { |node| node[:name] },
-            state: 'closed',
+            state: pr[:state].downcase,
             node_id: pr[:id],
             number: pr[:number],
             title: pr[:title],

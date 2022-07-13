@@ -139,7 +139,7 @@ class AssembleContributionsSummary
 
   memoize
   def tracks
-    ::Track.where(id: reputation_occurrences.keys.map(&:first).compact)
+    ::Track.where(id: reputation_occurrences.keys.map(&:first).compact).order(:title)
   end
 
   memoize

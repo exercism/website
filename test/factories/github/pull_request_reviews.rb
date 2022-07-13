@@ -9,8 +9,13 @@ FactoryBot.define do
       node_id { SecureRandom.hex }
     end
 
-    before(:create) do |r|
+    transient do
+      state { :closed }
+    end
+
+    before(:create) do |r, e|
       r.pull_request.update!(
+        state: e.state,
         data: r.pull_request.data.tap do |d|
           d[:reviews] = [{ node_id: r.node_id, reviewer_username: r.reviewer_username }]
         end

@@ -6,13 +6,13 @@ en:
         <strong>%{mentor_name}</strong> has started mentoring your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
     mentor_replied_to_discussion:
       1: >
-        %{mentor_name} has added a new comment on your solution to %{track_title}: %{exercise_title}
+        <strong>%{mentor_name}</strong> has added a new comment on your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
     student_replied_to_discussion:
       1: >
-        %{student_name} has added a new comment on the solution you are mentoring for %{track_title}: %{exercise_title}
+        <strong>%{student_name}</strong> has added a new comment on the solution you are mentoring for <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
     student_added_iteration:
       1: >
-        Your student, %{student_name}, has submitted a new iteration (#%{iteration_idx}) on their solution to %{track_title}: %{exercise_title}
+        Your student, <strong>%{student_name}</strong>, has submitted a new iteration (#%{iteration_idx}) on their solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
     added_to_contributors_page:
       1: >
         You now appear on our Contributors page. Thank you for contributing to Exercism!
@@ -30,3 +30,11 @@ en:
       1: >
         <strong>It's time to get mentored!</strong>
         Learning with our mentors is an amazing way to level up your knowledge, and it's 100% free. Choose one of your solutions to begin.
+
+    student_finished_discussion:
+      1: >
+        %{student_name} has finished the discussion on the solution you are mentoring for %{track_title}:%{exercise_title}
+
+    mentor_finished_discussion:
+      1: >
+        %{mentor_name} has finished the discussion on your solution for %{track_title}:%{exercise_title}

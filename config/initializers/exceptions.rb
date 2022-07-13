@@ -46,3 +46,9 @@ class ReputationTokenCategoryInvalid < RuntimeError; end
 class NoMentoringSlotsAvailableError < RuntimeError; end
 
 class ProfileCriteriaNotFulfilledError < RuntimeError; end
+
+class MissingMetricPeriodError < RuntimeError; end
+
+class InvalidMetricPeriodError < RuntimeError; end
+
+class InvalidMetricTypeError < RuntimeError; end

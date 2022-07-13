@@ -31,8 +31,11 @@ module Mentor
         create_testimonial!
         award_reputation!
         award_badge!
+        notify!
+        log_metric!
       end
 
+      private
       def requeue!
         return unless should_requeue
 
@@ -87,7 +90,21 @@ module Mentor
         AwardBadgeJob.perform_later(discussion.mentor, :mentor)
       end
 
-      private
+      def log_metric!
+        Metric::Queue.(:finish_mentoring, discussion.finished_at, discussion:, track:, user: student)
+      end
+
+      delegate :track, to: :discussion
+      delegate :student, to: :discussion
+
+      def notify!
+        User::Notification::Create.(
+          discussion.mentor,
+          :student_finished_discussion,
+          { discussion: }
+        )
+      end
+
       attr_reader :discussion, :rating,
         :should_requeue,
         :should_report, :report_reason, :report_message,

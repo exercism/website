@@ -7,25 +7,17 @@ module Github
 
       def call
         pull_request = ::Github::PullRequest.create_or_find_by!(node_id:) do |pr|
-          pr.number = attributes[:number]
-          pr.title = attributes[:title]
-          pr.repo = attributes[:repo]
-          pr.author_username = attributes[:author_username]
-          pr.merged_by_username = attributes[:merged_by_username]
-          pr.data = attributes[:data]
+          pr.attributes = attributes.except(:reviews)
         end
 
-        pull_request.update!(
-          number: attributes[:number],
-          title: attributes[:title],
-          repo: attributes[:repo],
-          author_username: attributes[:author_username],
-          merged_by_username: attributes[:merged_by_username],
-          data: attributes[:data],
-          reviews: reviews(pull_request)
-        )
+        log_open_metrics!(pull_request) if pull_request.just_created?
+        log_merge_metrics!(pull_request) if pull_request.just_created? && pull_request.merged?
 
-        pull_request
+        pull_request.tap do |pr|
+          pr.update!(attributes.merge(reviews: reviews(pr)))
+
+          log_merge_metrics!(pr) if pr.state_previously_changed? && pr.merged?
+        end
       end
 
       private
@@ -34,6 +26,20 @@ module Github
           Github::PullRequestReview::CreateOrUpdate.(pull_request, review[:node_id], review[:reviewer_username])
         end
       end
+
+      def log_open_metrics!(pull_request)
+        Metric::Queue.(:open_pull_request, pull_request.data[:created_at], pull_request:, track: track(pull_request),
+          user: author(pull_request))
+      end
+
+      def log_merge_metrics!(pull_request)
+        Metric::Queue.(:merge_pull_request, pull_request.data[:merged_at], pull_request:, track: track(pull_request),
+          user: merged_by(pull_request))
+      end
+
+      def track(pull_request) = Track.for_repo(pull_request.repo)
+      def author(pull_request) = User.find_by(github_username: pull_request.author_username)
+      def merged_by(pull_request) = User.find_by(github_username: pull_request.merged_by_username)
     end
   end
 end

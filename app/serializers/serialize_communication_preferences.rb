@@ -4,7 +4,15 @@ class SerializeCommunicationPreferences
   initialize_with :preferences
 
   def call
-    User::CommunicationPreferences.keys.map do |key|
+    {
+      mentoring: serialize(User::CommunicationPreferences.mentoring_keys),
+      product: serialize(User::CommunicationPreferences.product_keys)
+    }
+  end
+
+  private
+  def serialize(keys)
+    keys.map do |key|
       {
         key:,
         value: preferences.send(key),

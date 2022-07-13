@@ -85,7 +85,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
   # Tracks
   ###
 
-  test "tracks retrieves all tracks including those not on current page" do
+  test "tracks retrieves all tracks sorted by title, including those not on current page" do
     user = create :user
     setup_user(user)
 
@@ -106,8 +106,8 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
 
     expected = [
       { slug: nil, title: 'All Tracks', icon_url: "ICON", count: 3 },
-      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 },
-      { slug: go.slug, title: go.title, icon_url: go.icon_url, count: 2 }
+      { slug: go.slug, title: go.title, icon_url: go.icon_url, count: 2 },
+      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 }
     ]
     assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
   end

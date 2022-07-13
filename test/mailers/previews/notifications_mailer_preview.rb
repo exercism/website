@@ -11,6 +11,12 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).mentor_replied_to_discussion
   end
 
+  def mentor_finished_discussion
+    NotificationsMailer.with(
+      notification: User::Notifications::MentorFinishedDiscussionNotification.first
+    ).mentor_finished_discussion
+  end
+
   def student_replied_to_discussion
     NotificationsMailer.with(
       notification: User::Notifications::StudentRepliedToDiscussionNotification.first
@@ -21,6 +27,12 @@ class NotificationsMailerPreview < ActionMailer::Preview
     NotificationsMailer.with(
     notification: User::Notifications::StudentAddedIterationNotification.first
   ).student_added_iteration
+  end
+
+  def student_finished_discussion
+    NotificationsMailer.with(
+      notification: User::Notifications::StudentFinishedDiscussionNotification.first
+    ).student_finished_discussion
   end
 
   def added_to_contributors_page

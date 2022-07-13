@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_24_062903) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -297,6 +297,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_062903) do
     t.text "data", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "state", limit: 1, default: 1, null: false
     t.index ["node_id"], name: "index_github_pull_requests_on_node_id", unique: true
   end
 
@@ -433,6 +434,54 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_062903) do
     t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
     t.index ["uuid"], name: "index_mentor_testimonials_on_uuid"
+  end
+
+  create_table "metric_period_days", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "day", limit: 1, default: 0, null: false
+    t.string "metric_type", null: false
+    t.bigint "track_id"
+    t.integer "count", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["metric_type", "track_id", "day"], name: "uniq", unique: true
+    t.index ["track_id"], name: "index_metric_period_days_on_track_id"
+  end
+
+  create_table "metric_period_minutes", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "minute", limit: 2, default: 0, null: false
+    t.string "metric_type", null: false
+    t.bigint "track_id"
+    t.integer "count", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["metric_type", "track_id", "minute"], name: "uniq", unique: true
+    t.index ["track_id"], name: "index_metric_period_minutes_on_track_id"
+  end
+
+  create_table "metric_period_months", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "month", limit: 1, default: 0, null: false
+    t.string "metric_type", null: false
+    t.bigint "track_id"
+    t.integer "count", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["metric_type", "track_id", "month"], name: "uniq", unique: true
+    t.index ["track_id"], name: "index_metric_period_months_on_track_id"
+  end
+
+  create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "type", null: false
+    t.text "params", null: false
+    t.bigint "track_id"
+    t.bigint "user_id"
+    t.string "uniqueness_key", null: false
+    t.datetime "occurred_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["track_id"], name: "index_metrics_on_track_id"
+    t.index ["type", "track_id", "occurred_at"], name: "index_metrics_on_type_and_track_id_and_occurred_at"
+    t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true
+    t.index ["user_id"], name: "index_metrics_on_user_id"
   end
 
   create_table "problem_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -727,6 +776,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_062903) do
     t.boolean "email_on_general_update_notification", default: true, null: false
     t.boolean "email_on_acquired_badge_notification", default: true, null: false
     t.boolean "email_on_nudge_notification", default: true, null: false
+    t.boolean "email_on_student_finished_discussion_notification", default: true, null: false
+    t.boolean "email_on_mentor_finished_discussion_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end

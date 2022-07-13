@@ -42,3 +42,6 @@ en:
       passwords_dont_match: "Passwords don't match"
       no_iterations_submitted_yet: "You haven't submitted an iteration yet."
       no_mentoring_slots_available: "You have no mentoring slots available"
+      missing_metric_period: "You need to specify the metric period type via the `period_type` parameter"
+      invalid_metric_period: "The metric period is invalid"
+      invalid_metric_type: "The metric type is invalid"

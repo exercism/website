@@ -42,11 +42,9 @@ module API
         sorted: false, paginated: false
       ).group(:track_id).count
 
-      tracks = Track.where(id: track_counts.keys).index_by(&:id)
-      data = track_counts.map do |track_id, count|
-        track = tracks[track_id]
-
-        SerializeTrackForSelect.(track).merge(count:)
+      tracks = Track.where(id: track_counts.keys).order(:title)
+      data = tracks.map do |track|
+        SerializeTrackForSelect.(track).merge(count: track_counts[track.id])
       end
 
       render json: [
@@ -104,7 +102,7 @@ module API
     # The JSON response below is what I expect for the React component.
     def finish
       discussion = current_user.mentor_discussions.find_by(uuid: params[:uuid])
-      discussion.mentor_finished!
+      Mentor::Discussion::FinishByMentor.(discussion)
       relationship = Mentor::StudentRelationship.find_or_create_by!(mentor: discussion.mentor, student: discussion.student)
 
       render json: {

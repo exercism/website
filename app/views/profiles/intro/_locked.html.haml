@@ -7,12 +7,11 @@
     - progress = (current_user.reputation / profile_min_reputation.to_f) * 100
     .bar{ style: "width:#{progress}%" }
 
-  .footer
-    .info
+  .text-textColor6
+    .text-16.font-semibold
       = link_to doc_url(:using, 'product/reputation') do
         = graphical_icon "info-circle"
         How does this work?
-    .unlocks
-      = link_to doc_url(:using, 'product/reputation') do
-        Profile creation unlocks at
-        %span.reputation #{profile_min_reputation} rep
+    .unlocks-at
+      Profile creation unlocks at
+      = link_to "#{profile_min_reputation} rep", doc_url(:using, 'product/reputation')

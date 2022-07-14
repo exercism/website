@@ -59,10 +59,9 @@ class ProfilesController < ApplicationController
 
   def new
     return redirect_to profile_path(current_user) if current_user&.profile
+    return redirect_to action: :intro unless current_user&.profile_unlocked?
 
-    @profile = User::Profile::Create.(current_user)
-  rescue ProfileCriteriaNotFulfilledError
-    render_404
+    @profile = User::Profile.new
   end
 
   private

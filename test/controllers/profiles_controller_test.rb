@@ -74,12 +74,12 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to profile_path(user)
   end
 
-  test "new: 404s if the user hasn't unlocked creating a profile" do
+  test "new: redirects to intro if the user hasn't unlocked creating a profile" do
     user = create :user, reputation: 0
     sign_in!(user)
 
     get new_profile_url
-    assert_rendered_404
+    assert_redirected_to intro_profiles_path
   end
 
   ################

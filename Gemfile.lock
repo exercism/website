@@ -204,6 +204,7 @@ GEM
     fugit (1.5.3)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
+    geocoder (1.8.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     google-protobuf (3.20.0)
@@ -531,6 +532,7 @@ DEPENDENCIES
   exercism-config (>= 0.84.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
+  geocoder (~> 1.8)
   haml_lint
   hamlit
   image_processing (~> 1.2)

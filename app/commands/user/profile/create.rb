@@ -7,7 +7,7 @@ class User::Profile
     def call
       raise ProfileCriteriaNotFulfilledError unless user.profile_unlocked?
 
-      User::Profile.new(user:)
+      user.create_profile!
     end
   end
 end

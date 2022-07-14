@@ -45,3 +45,4 @@ en:
       missing_metric_period: "You need to specify the metric period type via the `period_type` parameter"
       invalid_metric_period: "The metric period is invalid"
       invalid_metric_type: "The metric type is invalid"
+      profile_criteria_not_fulfilled: "You need at least 5 reputation to create a profile"

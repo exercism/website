@@ -3,7 +3,9 @@ module API
     def create
       if current_user.update(params[:user].permit(:name, :location, :bio))
         begin
-          current_user.create_profile!
+          User::Profile::Create.(current_user)
+        rescue ProfileCriteriaNotFulfilledError
+          return render_403(:profile_criteria_not_fulfilled)
         rescue ActiveRecord::RecordNotUnique
           # Handle a double-click gracefully
         end

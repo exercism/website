@@ -23,7 +23,7 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
           <h3>
             This task requires you to <strong>create</strong> something new.
           </h3>
-          <p>This means you’ll be bulding something from scratch.</p>
+          <p>This means you’ll be building something from scratch.</p>
         </>
       )
     case 'fix':
@@ -33,7 +33,7 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
             This task requires you to <strong>fix</strong> something broken.
           </h3>
           <p>
-            This means you’ll be bulding taking something that's currently not
+            This means you’ll be taking something that's currently not
             working and fixing it.
           </p>
         </>

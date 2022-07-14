@@ -16,7 +16,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     setup_user(user)
 
     get api_mentoring_tracks_path, headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = {
       tracks: SerializeTracksForMentoring.(Track.all, mentor: user)
@@ -32,7 +32,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
 
     get api_mentoring_tracks_path, headers: @headers, as: :json,
       params: { criteria: "ruby" }
-    assert_response 200
+    assert_response :ok
 
     expected = {
       tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), mentor: user)
@@ -51,7 +51,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     setup_user(user)
 
     get mentored_api_mentoring_tracks_path, headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = {
       tracks: SerializeTracksForMentoring.(Track.where(id: track.id), mentor: user)
@@ -69,7 +69,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
 
     get mentored_api_mentoring_tracks_path, headers: @headers, as: :json,
       params: { criteria: "ruby" }
-    assert_response 200
+    assert_response :ok
 
     expected = {
       tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), mentor: user)
@@ -90,7 +90,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     assert_equal [ruby], user.mentored_tracks # Sanity
 
     put api_mentoring_tracks_path(track_slugs: [:javascript]), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     assert_equal [javascript], user.reload.mentored_tracks
     expected = {

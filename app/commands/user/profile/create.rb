@@ -5,7 +5,7 @@ class User::Profile
     initialize_with :user
 
     def call
-      raise ProfileCriteriaNotFulfilledError unless user.profile_unlocked?
+      raise ProfileCriteriaNotFulfilledError unless user.may_create_profile?
 
       user.create_profile!
     end

@@ -1,11 +1,11 @@
 class User::Profile < ApplicationRecord
+  MIN_REPUTATION = 5
+
   extend Mandate::Memoize
 
   belongs_to :user
 
   delegate :to_param, to: :user
-
-  MIN_REPUTATION = 5
 
   memoize
   def solutions_tab?

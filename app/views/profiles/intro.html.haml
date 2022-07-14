@@ -6,9 +6,9 @@
       %hr.c-divider
       %p
         Creating a public profile is a great way to showcase your published solutions, testimonials and open source contributions.
-        - unless @profile_unlocked
+        - unless @may_create_profile
           = link_to "Get #{@profile_min_reputation} reputation to unlock profile creation.", doc_url(:using, 'product/reputation'), class: 'text-gradient font-semibold'
-      - if @profile_unlocked
+      - if @may_create_profile
         = link_to "Create a public profile", new_profile_path, class: 'btn-primary btn-m'
       - else
         = render "profiles/intro/locked", current_user: @current_user, profile_min_reputation: @profile_min_reputation

@@ -262,5 +262,5 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def profile_unlocked? = reputation >= User::Profile::MIN_REPUTATION
+  def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
 end

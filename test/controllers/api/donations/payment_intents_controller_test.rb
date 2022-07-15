@@ -2,6 +2,8 @@ require_relative '../base_test_case'
 
 module API
   class Donations::PaymentIntentsControllerTest < API::BaseTestCase
+    guard_incorrect_token! :api_donations_payment_intents_path
+
     ##########
     # Create #
     ##########

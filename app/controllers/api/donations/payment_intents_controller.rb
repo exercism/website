@@ -1,8 +1,7 @@
 module API
   module Donations
     class PaymentIntentsController < BaseController
-      skip_before_action :authenticate_user!
-      before_action :authenticate_user
+      before_action :authenticate_user!
 
       def create
         payment_intent = ::Donations::PaymentIntent::Create.(

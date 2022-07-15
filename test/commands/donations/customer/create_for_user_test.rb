@@ -5,7 +5,9 @@ class Donations::Customer::CreateForUserTest < Donations::TestBase
     user = create :user
     customer_id = SecureRandom.uuid
 
-    Stripe::Customer.expects(:create).returns(mock_stripe_customer(customer_id)).at_least_once
+    Stripe::Customer.expects(:create).
+      with(email: user.email, metadata: { user_id: user.id }).
+      returns(mock_stripe_customer(customer_id)).at_least_once
 
     actual_id = Donations::Customer::CreateForUser.(user)
 

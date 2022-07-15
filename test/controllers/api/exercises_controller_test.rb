@@ -20,7 +20,7 @@ module API
         criteria: "ru"
       ), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response :success
     end
 
     test "index should proxy params for user" do
@@ -38,7 +38,7 @@ module API
         criteria: "ru"
       ), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response :success
     end
 
     test "index should search and return exercises" do
@@ -50,7 +50,7 @@ module API
         criteria: "bo"
       ), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response :success
       expected = {
         exercises: SerializeExercises.([exercise])
       }.to_json
@@ -82,7 +82,7 @@ module API
         sideload: [:solutions]
       ), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response :success
 
       expected = {
         exercises: SerializeExercises.([bob], user_track:),
@@ -97,7 +97,7 @@ module API
 
       get api_track_exercises_path(track, sideload: [:solutions]), as: :json
 
-      assert_response :ok
+      assert_response :success
       expected = {
         exercises: SerializeExercises.([exercise]),
         solutions: []

@@ -26,7 +26,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
 
-    assert_response :ok
+    assert_response 200
     expected = {
       items: [
         {
@@ -76,7 +76,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
 
-    assert_response :ok
+    assert_response 200
     expected = {
       items: [
         {
@@ -105,7 +105,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     get api_solution_discussion_posts_path(discussion.solution.uuid, discussion, iteration_idx: iteration.idx),
       headers: @headers, as: :json
 
-    assert_response :forbidden
+    assert_response 403
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t('api.errors.mentor_discussion_not_accessible')
@@ -125,7 +125,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       create(:concept_solution, user: student).uuid, 'xxx'
     ), headers: @headers, as: :json
 
-    assert_response :not_found
+    assert_response 404
     expected = { error: {
       type: "mentor_discussion_not_found",
       message: I18n.t('api.errors.mentor_discussion_not_found')
@@ -140,7 +140,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     post api_solution_discussion_posts_path(discussion.solution.uuid, discussion), headers: @headers, as: :json
 
-    assert_response :forbidden
+    assert_response 403
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t('api.errors.mentor_discussion_not_accessible')
@@ -172,7 +172,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       },
       headers: @headers, as: :json
 
-    assert_response :ok
+    assert_response :success
 
     post = discussion.posts.last
     assert_equal user, post.author
@@ -208,7 +208,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     patch api_solution_discussion_post_path(solution.uuid, discussion, 1), headers: @headers, as: :json
 
-    assert_response :not_found
+    assert_response 404
     expected = { error: {
       type: "mentor_discussion_post_not_found",
       message: I18n.t("api.errors.mentor_discussion_post_not_found")
@@ -227,7 +227,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       discussion_post
     ), headers: @headers, as: :json
 
-    assert_response :forbidden
+    assert_response 403
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_not_accessible")
@@ -244,7 +244,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     patch api_solution_discussion_post_path(solution.uuid, discussion, discussion_post), headers: @headers, as: :json
 
-    assert_response :forbidden
+    assert_response 403
     expected = { error: {
       type: "mentor_discussion_post_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_post_not_accessible")
@@ -264,7 +264,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :bad_request
+    assert_response 400
     expected = { error: {
       type: "failed_validations",
       message: I18n.t("api.errors.failed_validations"),
@@ -292,7 +292,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :ok
+    assert_response 200
 
     discussion_post.reload
     expected = {
@@ -325,7 +325,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     delete api_solution_discussion_post_path(solution.uuid, discussion, 1), headers: @headers, as: :json
 
-    assert_response :not_found
+    assert_response 404
     expected = { error: {
       type: "mentor_discussion_post_not_found",
       message: I18n.t("api.errors.mentor_discussion_post_not_found")
@@ -344,7 +344,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       discussion_post
     ), headers: @headers, as: :json
 
-    assert_response :forbidden
+    assert_response 403
     expected = { error: {
       type: "mentor_discussion_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_not_accessible")
@@ -361,7 +361,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     delete api_solution_discussion_post_path(solution.uuid, discussion, discussion_post), headers: @headers, as: :json
 
-    assert_response :forbidden
+    assert_response 403
     expected = { error: {
       type: "mentor_discussion_post_not_accessible",
       message: I18n.t("api.errors.mentor_discussion_post_not_accessible")
@@ -384,7 +384,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
 
     delete api_solution_discussion_post_path(solution.uuid, discussion, discussion_post), headers: @headers, as: :json
 
-    assert_response :ok
+    assert_response 200
 
     expected = {
       item: {

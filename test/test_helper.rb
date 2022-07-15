@@ -132,9 +132,13 @@ class ActiveSupport::TestCase
   # parallelize(workers: :number_of_processors)
 
   def setup
+    # Clear out elasticsearch
     reset_opensearch!
-    reset_redis!
-    reset_rack_attack!
+
+    # Clear out redis
+    redis = Exercism.redis_tooling_client
+    keys = redis.keys("#{Exercism.env}:*")
+    redis.del(*keys) if keys.present?
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
@@ -167,16 +171,6 @@ class ActiveSupport::TestCase
     expected.gsub!(/\s+$/, '')
     expected.delete!("\n")
     assert_equal(expected, actual)
-  end
-
-  def reset_redis!
-    redis = Exercism.redis_tooling_client
-    keys = redis.keys("#{Exercism.env}:*")
-    redis.del(*keys) if keys.present?
-  end
-
-  def reset_rack_attack!
-    Rack::Attack.reset!
   end
 
   ###################

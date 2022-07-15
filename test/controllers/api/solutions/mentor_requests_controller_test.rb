@@ -10,7 +10,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
   test "create should 404 if the solution doesn't exist" do
     setup_user
     post api_solution_mentor_requests_path(999), headers: @headers, as: :json
-    assert_response :not_found
+    assert_response 404
   end
 
   test "create should 403 if the solution belongs to someone else" do
@@ -18,7 +18,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     solution = create :concept_solution
     create :user_track, user: @current_user, track: solution.track
     post api_solution_mentor_requests_path(solution.uuid), headers: @headers, as: :json
-    assert_response :forbidden
+    assert_response 403
     expected = { error: {
       type: "solution_not_accessible",
       message: I18n.t('api.errors.solution_not_accessible')
@@ -34,7 +34,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     Mentor::Request::Create.expects(:call).raises(NoMentoringSlotsAvailableError)
 
     post api_solution_mentor_requests_path(solution.uuid), headers: @headers, as: :json
-    assert_response :bad_request
+    assert_response 400
     expected = { error: {
       type: "no_mentoring_slots_available",
       message: I18n.t('api.errors.no_mentoring_slots_available')
@@ -61,7 +61,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     assert_equal comment, req.comment_markdown
     assert_equal "<p>#{comment}</p>\n", req.comment_html
 
-    assert_response :ok
+    assert_response :success
 
     # TODO: Assert correct JSON
     expected = {

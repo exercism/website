@@ -25,7 +25,7 @@ class API::Mentoring::RegistrationControllerTest < API::BaseTestCase
       headers: @headers, as: :json
 
     # TODO: Check JSON
-    assert_response :ok
+    assert_response :success
 
     assert user.reload.mentor?
     assert_equal [ruby, csharp], user.mentored_tracks

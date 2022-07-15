@@ -28,7 +28,7 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
 
     get track_url(track)
 
-    assert_response :ok
+    assert_response 200
   end
 
   test "show: renders correctly for inactive track but user is a maintainer" do
@@ -39,7 +39,7 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
 
     get track_url(track)
 
-    assert_response :ok
+    assert_response 200
   end
 
   test "show: 404s silently for inactive track and user is not a maintainer" do
@@ -62,7 +62,7 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
     get about_track_url(track)
 
-    assert_response :ok
+    assert_response 200
   end
 
   test "about redirects for non-joined member" do

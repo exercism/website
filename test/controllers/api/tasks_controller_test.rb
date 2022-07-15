@@ -11,7 +11,7 @@ module API
       end
 
       get api_tasks_path, headers: @headers, as: :json
-      assert_response :ok
+      assert_response :success
       expected = AssembleTasks.({}).to_json
       assert_equal expected, response.body
     end
@@ -36,7 +36,7 @@ module API
 
       get api_tasks_path(params), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response :success
     end
   end
 end

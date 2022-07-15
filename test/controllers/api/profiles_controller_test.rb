@@ -13,7 +13,7 @@ class API::ProfilesControllerTest < API::BaseTestCase
 
     post api_profile_url, params: { user: { name: "User" } }, headers: @headers, as: :json
 
-    assert_response :ok
+    assert_response 200
     assert user.reload.profile
     expected = {
       links: { profile: "https://test.exercism.org/profiles/#{user.handle}?first_time=true" }
@@ -28,7 +28,7 @@ class API::ProfilesControllerTest < API::BaseTestCase
 
     post api_profile_url, params: { user: { name: "User" } }, headers: @headers, as: :json
 
-    assert_response :ok
+    assert_response 200
     expected = {
       links: { profile: "https://test.exercism.org/profiles/#{user.handle}?first_time=true" }
     }

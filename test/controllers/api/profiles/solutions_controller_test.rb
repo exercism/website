@@ -9,7 +9,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
 
     get api_profile_solutions_path("some-random-user"), headers: @headers, as: :json
 
-    assert_response :not_found
+    assert_response 404
     expected = { error: {
       type: "profile_not_found",
       message: I18n.t('api.errors.profile_not_found')
@@ -24,7 +24,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
 
     get api_profile_solutions_path(user), headers: @headers, as: :json
 
-    assert_response :not_found
+    assert_response 404
     expected = { error: {
       type: "profile_not_found",
       message: I18n.t('api.errors.profile_not_found')
@@ -70,7 +70,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
     wait_for_opensearch_to_be_synced
 
     get api_profile_solutions_path(profile_user), headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
 
     expected = SerializePaginatedCollection.(
       Solution.order(num_stars: :desc).page(1),

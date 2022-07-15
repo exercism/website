@@ -39,7 +39,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     50.times { create :mentor_request, solution: }
 
     get api_mentoring_requests_path, headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
     assert_includes AssembleMentorRequests.(user, {}).to_json, response.body
   end
 
@@ -56,27 +56,27 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     refute js_mentorship.reload.last_viewed? # Sanity
 
     get api_mentoring_requests_path(track_slug: :ruby), headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
 
     assert ruby_mentorship.reload.last_viewed?
     refute js_mentorship.reload.last_viewed?
 
     get api_mentoring_requests_path(track_slug: :js), headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
 
     refute ruby_mentorship.reload.last_viewed?
     assert js_mentorship.reload.last_viewed?
 
     # Test invalid slug doesn't override
     get api_mentoring_requests_path(track_slug: :foo), headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
 
     refute ruby_mentorship.reload.last_viewed?
     assert js_mentorship.reload.last_viewed?
 
     # Test missing slug doesn't override
     get api_mentoring_requests_path, headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
 
     refute ruby_mentorship.reload.last_viewed?
     assert js_mentorship.reload.last_viewed?
@@ -88,7 +88,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
   test "lock should 404 if the request doesn't exist" do
     setup_user
     patch lock_api_mentoring_request_path('xxx'), headers: @headers, as: :json
-    assert_response :not_found
+    assert_response 404
   end
 
   test "locks should succeed" do
@@ -100,7 +100,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     patch lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
-    assert_response :ok
+    assert_response :success
 
     assert request.reload.locked?
     assert_equal user, request.reload.locks.last.locked_by
@@ -112,7 +112,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
   test "cancel should 404 if the request doesn't exist" do
     setup_user
     patch cancel_api_mentoring_request_path('xxx'), headers: @headers, as: :json
-    assert_response :not_found
+    assert_response 404
   end
 
   test "cancel should 404 if the request belongs to someone else" do
@@ -122,7 +122,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     patch cancel_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
-    assert_response :not_found
+    assert_response 404
   end
 
   test "cancel should succeed" do
@@ -133,7 +133,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     patch cancel_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
-    assert_response :ok
+    assert_response :success
 
     assert request.reload.cancelled?
   end

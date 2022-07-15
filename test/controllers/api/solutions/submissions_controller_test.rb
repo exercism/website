@@ -9,14 +9,14 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
   test "create should 404 if the solution doesn't exist" do
     setup_user
     post api_solution_submissions_path(999), headers: @headers, as: :json
-    assert_response :not_found
+    assert_response 404
   end
 
   test "create should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     post api_solution_submissions_path(solution.uuid), headers: @headers, as: :json
-    assert_response :forbidden
+    assert_response 403
     expected = { error: {
       type: "solution_not_accessible",
       message: I18n.t('api.errors.solution_not_accessible')
@@ -36,7 +36,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :created
+    assert_response :success
     expected = {
       submission: {
         uuid: Submission.last.uuid,
@@ -72,37 +72,6 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :created
-  end
-
-  test "create is rate limited" do
-    setup_user
-    solution = create :concept_solution, user: @current_user
-
-    12.times do |idx|
-      post api_solution_submissions_path(solution.uuid),
-        params: { files: [{ filename: "foo", content: "bar #{idx}" }] },
-        headers: @headers,
-        as: :json
-
-      assert_response :success
-    end
-
-    post api_solution_submissions_path(solution.uuid),
-      params: { files: [{ filename: "foo", content: "bar 12" }] },
-      headers: @headers,
-      as: :json
-
-    assert_response :too_many_requests
-
-    # Verify that the rate limit resets every minute
-    travel_to Time.current + 1.minute
-
-    post api_solution_submissions_path(solution.uuid),
-      params: { files: [{ filename: "foo", content: "bar 13" }] },
-      headers: @headers,
-      as: :json
-
     assert_response :success
   end
 
@@ -118,7 +87,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :bad_request
+    assert_response 400
     expected = { error: {
       type: "file_too_large",
       message: I18n.t("api.errors.file_too_large")
@@ -138,7 +107,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :bad_request
+    assert_response 400
     expected = { error: {
       type: "duplicate_submission",
       message: I18n.t('api.errors.duplicate_submission')

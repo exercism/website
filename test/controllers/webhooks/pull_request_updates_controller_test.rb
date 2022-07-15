@@ -26,7 +26,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
     invalid_headers['HTTP_X_HUB_SIGNATURE_256'] = "invalid_signature"
 
     post webhooks_pull_request_updates_path, headers: invalid_headers, as: :json, params: payload
-    assert_response :forbidden
+    assert_response 403
   end
 
   test "create should return 200 when signature is valid" do
@@ -51,7 +51,7 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_pull_request_updates_path, headers: headers(payload), as: :json, params: payload
-    assert_response :no_content
+    assert_response 204
   end
 
   test "create for merged pr should process pr update when signature is valid" do
@@ -211,6 +211,6 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_pull_request_updates_path, headers: headers(payload, event: 'ping'), as: :json, params: payload
-    assert_response :no_content
+    assert_response 204
   end
 end

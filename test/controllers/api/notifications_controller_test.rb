@@ -22,7 +22,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
       }
 
     get api_notifications_path, headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
 
     expected = {
       results: [{
@@ -61,7 +61,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
     User::Notification::MarkBatchAsRead.expects(:call).with(user, [uuid_1, uuid_2])
 
     patch mark_batch_as_read_api_notifications_path(uuids: [uuid_1, uuid_2]), headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
 
     assert_empty JSON.parse(response.body)
   end
@@ -76,7 +76,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
     User::Notification::MarkBatchAsUnread.expects(:call).with(user, [uuid_1, uuid_2])
 
     patch mark_batch_as_unread_api_notifications_path(uuids: [uuid_1, uuid_2]), headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
 
     assert_empty JSON.parse(response.body)
   end
@@ -88,7 +88,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
     User::Notification::MarkAllAsRead.expects(:call).with(user)
 
     patch mark_all_as_read_api_notifications_path, headers: @headers, as: :json
-    assert_response :ok
+    assert_response 200
 
     assert_equal AssembleNotificationsList.(user, {}).to_json, response.body
   end

@@ -24,7 +24,7 @@ module API
         type:, amount_in_cents:
       ), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response 200
       assert_equal(
         {
           "payment_intent" => {
@@ -45,7 +45,7 @@ module API
         type: 'subscription', amount_in_cents: 1000
       ), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response 200
       assert_equal(
         {
           "error" => error
@@ -66,7 +66,7 @@ module API
       setup_user(user)
       patch succeeded_api_donations_payment_intent_path(id), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response 200
       assert_equal({}.to_json, response.body)
     end
     #############
@@ -81,7 +81,7 @@ module API
       setup_user(user)
       patch failed_api_donations_payment_intent_path(id), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response 200
       assert_equal({}.to_json, response.body)
     end
   end

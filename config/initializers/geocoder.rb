@@ -1,3 +1,6 @@
+# Ensure that the location object is available for Rack::Request and ActionDispatch::Request
+require 'geocoder/request'
+
 Geocoder.configure(
   # Geocoding options
   # timeout: 3,                 # geocoding service timeout (secs)

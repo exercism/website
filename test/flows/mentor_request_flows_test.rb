@@ -13,7 +13,7 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
     mentor = create :user
 
     assert :none, solution.mentoring_status
-    request = Mentor::Request::Create.(solution, "Some text")
+    request = Mentor::Request::Create.(solution, "Some text", 'NL')
 
     Mentor::Request::Lock.(request, mentor)
     assert request.reload.locked?

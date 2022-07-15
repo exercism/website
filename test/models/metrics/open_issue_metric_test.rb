@@ -8,7 +8,7 @@ class Metrics::OpenIssueTest < ActiveSupport::TestCase
       issue = create :github_issue, id: 4
       occurred_at = Time.current - 5.seconds
 
-      metric = Metric::Create.(:open_issue, occurred_at, issue:, track:, user:)
+      metric = Metric::Create.(:open_issue, occurred_at, nil, issue:, track:, user:)
 
       assert_equal Metrics::OpenIssueMetric, metric.class
       assert_equal occurred_at, metric.occurred_at
@@ -22,7 +22,7 @@ class Metrics::OpenIssueTest < ActiveSupport::TestCase
     freeze_time do
       issue = create :github_issue, id: 4
 
-      metric = Metric::Create.(:open_issue, Time.current, issue:)
+      metric = Metric::Create.(:open_issue, Time.current, nil, issue:)
 
       expected = { "issue" => "gid://website/Github::Issue/4" }
       assert_equal expected, metric.params
@@ -32,7 +32,7 @@ class Metrics::OpenIssueTest < ActiveSupport::TestCase
   test "uniqueness_key is unique per issue" do
     uniqueness_keys = Array.new(10) do
       issue = create :github_issue, :random
-      Metric::Create.(:open_issue, Time.current, issue:)
+      Metric::Create.(:open_issue, Time.current, nil, issue:)
     end
 
     assert_equal uniqueness_keys.uniq.size, uniqueness_keys.size
@@ -42,7 +42,7 @@ class Metrics::OpenIssueTest < ActiveSupport::TestCase
     issue = create :github_issue
 
     assert_idempotent_command do
-      Metric::Create.(:open_issue, Time.utc(2012, 7, 25), issue:)
+      Metric::Create.(:open_issue, Time.utc(2012, 7, 25), nil, issue:)
     end
   end
 end

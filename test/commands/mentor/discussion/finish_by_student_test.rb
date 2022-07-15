@@ -5,7 +5,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     freeze_time do
       discussion = create :mentor_discussion
 
-      Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+      Mentor::Discussion::FinishByStudent.(discussion, 4, 'IT', requeue: false)
 
       assert_equal :finished, discussion.status
       assert_equal :student, discussion.finished_by
@@ -23,12 +23,12 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     original_request.fulfilled!
 
     # Check it respects false
-    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
+    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5, 'IT')
     assert_equal 1, solution.mentor_requests.size
 
     # Check it respects true
     discussion = create :mentor_discussion, solution: solution, request: original_request
-    Mentor::Discussion::FinishByStudent.(discussion, 5, requeue: true)
+    Mentor::Discussion::FinishByStudent.(discussion, 5, 'IT', requeue: true)
     assert_equal :finished, discussion.status
     assert_equal 2, solution.mentor_requests.size
 
@@ -39,13 +39,13 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
   test "reports" do
     # Check it respects false
-    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
+    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5, 'IT')
     refute ProblemReport.exists?
 
     # Check it respects true
     discussion = create :mentor_discussion
     Mentor::Discussion::FinishByStudent.(
-      discussion, 5,
+      discussion, 5, 'IT',
       report: true,
       report_reason: "something",
       report_message: "Oh dear"
@@ -61,7 +61,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
     # Check it respects coc
     Mentor::Discussion::FinishByStudent.(
-      create(:mentor_discussion), 5,
+      create(:mentor_discussion), 5, 'IT',
       report: true,
       report_reason: "coc",
       report_message: "Oh dear"
@@ -73,17 +73,17 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
   test "testimonial" do
     # Check it respects nil
-    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
+    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5, 'IT')
     refute Mentor::Testimonial.exists?
 
     # Check it respects empty
-    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5, testimonial: " \n ")
+    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5, 'IT', testimonial: " \n ")
     refute Mentor::Testimonial.exists?
 
     # Check it respects true
     discussion = create :mentor_discussion
     Mentor::Discussion::FinishByStudent.(
-      discussion, 5,
+      discussion, 5, 'IT',
       testimonial: "Wow. What a mentor"
     )
     assert_equal :finished, discussion.status
@@ -98,13 +98,13 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
   test "blocking" do
     # Check it respects nil
-    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
+    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5, 'IT')
     refute Mentor::StudentRelationship.exists?
 
     # Check it respects rating: 1
     discussion = create :mentor_discussion
     Mentor::Discussion::FinishByStudent.(
-      discussion, 1
+      discussion, 1, 'IT'
     )
     assert_equal :finished, discussion.status
     assert_equal 1, Mentor::StudentRelationship.count
@@ -117,7 +117,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
     # Check it respects block
     Mentor::Discussion::FinishByStudent.(
-      create(:mentor_discussion), 5, block: true
+      create(:mentor_discussion), 5, 'IT', block: true
     )
     assert_equal 2, Mentor::StudentRelationship.count
   end
@@ -132,13 +132,13 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
         discussion:
       )
 
-      Mentor::Discussion::FinishByStudent.(discussion, rating)
+      Mentor::Discussion::FinishByStudent.(discussion, rating, 'IT')
     end
   end
 
   test "reputation not awarded for 1" do
     AwardReputationTokenJob.expects(:perform_later).never
-    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 1)
+    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 1, 'IT')
   end
 
   test "awards mentor badge" do
@@ -150,7 +150,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion, mentor: mentor
     refute mentor.badges.present?
 
-    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+    Mentor::Discussion::FinishByStudent.(discussion, 4, 'IT', requeue: false)
     perform_enqueued_jobs
     assert_includes mentor.reload.badges.map(&:class), Badges::MentorBadge
   end
@@ -158,7 +158,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "adds metric" do
     discussion = create :mentor_discussion
 
-    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+    Mentor::Discussion::FinishByStudent.(discussion, 4, 'IT', requeue: false)
     perform_enqueued_jobs
 
     assert_equal 1, Metric.count
@@ -178,7 +178,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion, mentor: mentor, solution: solution
 
     perform_enqueued_jobs do
-      Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+      Mentor::Discussion::FinishByStudent.(discussion, 4, 'IT', requeue: false)
     end
 
     email = ActionMailer::Base.deliveries.last

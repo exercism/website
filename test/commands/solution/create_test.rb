@@ -7,7 +7,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(false)
 
     assert_raises ExerciseLockedError do
-      Solution::Create.(ut.user, ex)
+      Solution::Create.(ut.user, ex, 'BT')
     end
   end
 
@@ -16,7 +16,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     ut = create :user_track, track: ex.track
     UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true)
 
-    solution = Solution::Create.(ut.user, ex)
+    solution = Solution::Create.(ut.user, ex, 'BT')
     assert solution.is_a?(ConceptSolution)
     assert_equal ut.user, solution.user
     assert_equal ex, solution.exercise
@@ -27,7 +27,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     ut = create :user_track, track: ex.track
     UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true)
 
-    solution = Solution::Create.(ut.user, ex)
+    solution = Solution::Create.(ut.user, ex, 'BT')
     assert solution.is_a?(PracticeSolution)
     assert_equal ut.user, solution.user
     assert_equal ex, solution.exercise
@@ -39,7 +39,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     ut = create :user_track, user: user, track: ex.track
     UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true).twice
 
-    assert_idempotent_command { Solution::Create.(ut.user, ex) }
+    assert_idempotent_command { Solution::Create.(ut.user, ex, 'BT') }
   end
 
   test "creates activity" do
@@ -48,7 +48,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     ut = create :user_track, user: user, track: exercise.track
     create :hello_world_solution, :completed, track: ut.track, user: ut.user
 
-    solution = Solution::Create.(ut.user, exercise)
+    solution = Solution::Create.(ut.user, exercise, 'BT')
 
     activity = User::Activities::StartedExerciseActivity.last
     assert_equal user, activity.user
@@ -63,7 +63,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     create :hello_world_solution, :completed, track: ut.track, user: ut.user
     create :concept_solution, exercise: exercise, user: user
 
-    Solution::Create.(ut.user, exercise)
+    Solution::Create.(ut.user, exercise, 'BT')
 
     refute User::Activities::StartedExerciseActivity.exists?
   end
@@ -79,19 +79,19 @@ class Solution::CreateTest < ActiveSupport::TestCase
       # Solution submitted on 31st of December
       travel_to(Time.utc(2018, 12, 31, 23, 59, 59))
       exercise_1 = create :concept_exercise, slug: 'exercise_1'
-      Solution::Create.(user, exercise_1)
+      Solution::Create.(user, exercise_1, 'BT')
       refute user.badges.present?
 
       # Solution submitted on 2st of January
       travel_to(Time.utc(2019, 1, 2, 0, 0, 0))
       exercise_2 = create :concept_exercise, slug: 'exercise_2'
-      Solution::Create.(user, exercise_2)
+      Solution::Create.(user, exercise_2, 'BT')
       refute user.badges.present?
 
       # Solution submitted on 1st of January
       travel_to(Time.utc(2019, 1, 1, 0, 0, 0))
       exercise_3 = create :concept_exercise, slug: 'exercise_3'
-      Solution::Create.(user, exercise_3)
+      Solution::Create.(user, exercise_3, 'BT')
       assert_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
     end
   end
@@ -103,7 +103,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     create :user_track, track: track, user: user
     UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true)
 
-    solution = Solution::Create.(user, ex)
+    solution = Solution::Create.(user, ex, 'BT')
     perform_enqueued_jobs
 
     assert_equal 1, Metric.count

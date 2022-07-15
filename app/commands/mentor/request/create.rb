@@ -3,7 +3,7 @@ module Mentor
     class Create
       include Mandate
 
-      initialize_with :solution, :comment_markdown
+      initialize_with :solution, :comment_markdown, :country_code
 
       def call
         guard!
@@ -42,7 +42,7 @@ module Mentor
       end
 
       def log_metric!(request)
-        Metric::Queue.(:request_mentoring, request.created_at, request:, track:, user:)
+        Metric::Queue.(:request_mentoring, request.created_at, country_code, request:, track:, user:)
       end
 
       def user = solution.user

@@ -4,10 +4,7 @@ module API
     before_action :use_mentor_request, only: :update
 
     def create
-      mentor_request = Mentor::Request::Create.(
-        @solution,
-        params[:comment]
-      )
+      mentor_request = Mentor::Request::Create.(@solution, params[:comment], country_code)
 
       user_track = UserTrack.for(current_user, @solution.track)
       user_track.update!(objectives: params[:track_objectives]) unless user_track.external?

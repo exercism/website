@@ -24,7 +24,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
     assert_equal [concept_exercise_lasagna], ut.unlocked_concept_exercises
 
     # Start the exercise and get a solution
-    basics_solution = Solution::Create.(user, concept_exercise_lasagna)
+    basics_solution = Solution::Create.(user, concept_exercise_lasagna, 'AR')
 
     # Submit an submission
     basics_submission_1 = Submission::Create.(

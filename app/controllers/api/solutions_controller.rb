@@ -51,8 +51,8 @@ module API
       return render_404(:track_not_joined) if user_track.external?
 
       changes = UserTrack::MonitorChanges.(user_track) do
-        Solution::Complete.(solution, user_track)
-        Solution::Publish.(solution, user_track, params[:iteration_idx]) if params[:publish]
+        Solution::Complete.(solution, user_track, country_code)
+        Solution::Publish.(solution, user_track, params[:iteration_idx], country_code) if params[:publish]
       rescue SolutionHasNoIterationsError
         return render_400(:solution_without_iterations)
       end
@@ -95,7 +95,7 @@ module API
       return render_404(:track_not_joined) if user_track.external?
 
       begin
-        Solution::Publish.(solution, user_track, params[:iteration_idx])
+        Solution::Publish.(solution, user_track, params[:iteration_idx], country_code)
       rescue SolutionHasNoIterationsError
         return render_400(:solution_without_iterations)
       end

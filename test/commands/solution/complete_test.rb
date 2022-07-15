@@ -9,7 +9,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     solution = create :concept_solution, user: user, exercise: exercise
     create :iteration, solution: solution
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     assert solution.reload.completed?
   end
@@ -26,7 +26,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     submission = create :submission, solution: solution
     create :iteration, submission: submission
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     assert user_track.concept_learnt?(concept)
   end
@@ -39,7 +39,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user, exercise: exercise
     create :iteration, solution: solution
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     assert solution.reload.completed?
   end
@@ -52,7 +52,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user, exercise: exercise
     create :iteration, solution: solution
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     activity = User::Activities::CompletedExerciseActivity.last
     assert_equal user, activity.user
@@ -73,7 +73,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
       # Sanity check
       assert solution.completed?
 
-      Solution::Complete.(solution, user_track)
+      Solution::Complete.(solution, user_track, 'ZA')
 
       solution.reload
       assert solution.completed?
@@ -90,7 +90,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user, exercise: exercise
 
     assert_raises SolutionHasNoIterationsError do
-      Solution::Complete.(solution, user_track)
+      Solution::Complete.(solution, user_track, 'ZA')
     end
   end
 
@@ -106,7 +106,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
       create :hello_world_solution, :completed, user:, track:
     end
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::AnybodyThereBadge
@@ -121,7 +121,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     create :iteration, solution: solution
     refute user.badges.present?
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::AllYourBaseBadge
@@ -136,7 +136,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     create :iteration, solution: solution
     refute user.badges.present?
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::WhateverBadge
@@ -158,7 +158,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
       create :practice_solution, :completed, user:, track: other_track, exercise:
     end
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::LackadaisicalBadge
@@ -180,7 +180,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user, track: track, exercise: practice_exercise
     create :iteration, solution: solution
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::CompleterBadge
@@ -202,7 +202,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     solution = create :concept_solution, user: user, track: track, exercise: concept_exercise
     create :iteration, solution: solution
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::ConceptualBadge
@@ -216,7 +216,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     solution = create :concept_solution, user: user, exercise: exercise
     create :iteration, solution: solution
 
-    Solution::Complete.(solution, user_track)
+    Solution::Complete.(solution, user_track, 'ZA')
     perform_enqueued_jobs
 
     assert_equal 1, Metric.count

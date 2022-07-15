@@ -45,6 +45,7 @@ class API::Solutions::MentorDiscussionsControllerTest < API::BaseTestCase
     Mentor::Discussion::FinishByStudent.expects(:call).with(
       discussion,
       4,
+      nil,
       requeue: "requeue_param",
       report: "report_param",
       block: "block_param",

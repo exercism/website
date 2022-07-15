@@ -63,9 +63,9 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
       create :iteration, solution: other_solution
 
       perform_enqueued_jobs do
-        Solution::Publish.(solution_1, user_track, nil)
-        Solution::Publish.(solution_2, user_track, nil)
-        Solution::Publish.(other_solution, other_user_track, nil)
+        Solution::Publish.(solution_1, user_track, nil, 'MX')
+        Solution::Publish.(solution_2, user_track, nil, 'MX')
+        Solution::Publish.(other_solution, other_user_track, nil, 'MX')
       end
 
       # Sanity check

@@ -7,13 +7,15 @@ class Metrics::CompleteSolutionTest < ActiveSupport::TestCase
       user = create :user, id: 3
       solution = create :concept_solution, id: 4
       occurred_at = Time.current - 5.seconds
+      country_code = 'PA'
 
-      metric = Metric::Create.(:complete_solution, occurred_at, solution:, track:, user:)
+      metric = Metric::Create.(:complete_solution, occurred_at, country_code, solution:, track:, user:)
 
       assert_equal Metrics::CompleteSolutionMetric, metric.class
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track
+      assert_equal country_code, metric.country_code
       assert_equal "CompleteSolutionMetric|4", metric.uniqueness_key
     end
   end
@@ -22,7 +24,7 @@ class Metrics::CompleteSolutionTest < ActiveSupport::TestCase
     freeze_time do
       solution = create :concept_solution, id: 4
 
-      metric = Metric::Create.(:complete_solution, Time.current, solution:)
+      metric = Metric::Create.(:complete_solution, Time.current, 'PA', solution:)
 
       expected = { "solution" => "gid://website/ConceptSolution/4" }
       assert_equal expected, metric.params
@@ -32,7 +34,7 @@ class Metrics::CompleteSolutionTest < ActiveSupport::TestCase
   test "uniqueness_key is unique per solution" do
     uniqueness_keys = Array.new(10) do
       solution = create :concept_solution
-      Metric::Create.(:complete_solution, Time.current, solution:)
+      Metric::Create.(:complete_solution, Time.current, 'PA', solution:)
     end
 
     assert_equal uniqueness_keys.uniq.size, uniqueness_keys.size
@@ -42,7 +44,7 @@ class Metrics::CompleteSolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution
 
     assert_idempotent_command do
-      Metric::Create.(:complete_solution, Time.utc(2012, 7, 25), solution:)
+      Metric::Create.(:complete_solution, Time.utc(2012, 7, 25), 'PA', solution:)
     end
   end
 end

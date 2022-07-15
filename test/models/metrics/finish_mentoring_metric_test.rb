@@ -7,13 +7,15 @@ class Metrics::FinishMentoringTest < ActiveSupport::TestCase
       user = create :user, id: 3
       discussion = create :mentor_discussion, id: 4
       occurred_at = Time.current - 5.seconds
+      country_code = 'BR'
 
-      metric = Metric::Create.(:finish_mentoring, occurred_at, discussion:, track:, user:)
+      metric = Metric::Create.(:finish_mentoring, occurred_at, country_code, discussion:, track:, user:)
 
       assert_equal Metrics::FinishMentoringMetric, metric.class
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track
+      assert_equal country_code, metric.country_code
       assert_equal "FinishMentoringMetric|4", metric.uniqueness_key
     end
   end
@@ -22,7 +24,7 @@ class Metrics::FinishMentoringTest < ActiveSupport::TestCase
     freeze_time do
       discussion = create :mentor_discussion, id: 4
 
-      metric = Metric::Create.(:finish_mentoring, Time.current, discussion:)
+      metric = Metric::Create.(:finish_mentoring, Time.current, 'BR', discussion:)
 
       expected = { "discussion" => "gid://website/Mentor::Discussion/4" }
       assert_equal expected, metric.params
@@ -32,7 +34,7 @@ class Metrics::FinishMentoringTest < ActiveSupport::TestCase
   test "uniqueness_key is unique per discussion" do
     uniqueness_keys = Array.new(10) do
       discussion = create :mentor_discussion
-      Metric::Create.(:finish_mentoring, Time.current, discussion:)
+      Metric::Create.(:finish_mentoring, Time.current, 'BR', discussion:)
     end
 
     assert_equal uniqueness_keys.uniq.size, uniqueness_keys.size
@@ -42,7 +44,7 @@ class Metrics::FinishMentoringTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion
 
     assert_idempotent_command do
-      Metric::Create.(:finish_mentoring, Time.utc(2012, 7, 25), discussion:)
+      Metric::Create.(:finish_mentoring, Time.utc(2012, 7, 25), 'BR', discussion:)
     end
   end
 end

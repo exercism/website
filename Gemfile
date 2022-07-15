@@ -10,7 +10,7 @@ gem 'turbo-rails'
 gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
 
 gem 'mysql2',
-    github: 'brianmario/mysql2', ref: '56c0ced2afe2cabe0b3f1a05e8e5e86713ebbc87'
+  github: 'brianmario/mysql2', ref: '56c0ced2afe2cabe0b3f1a05e8e5e86713ebbc87'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
@@ -35,7 +35,8 @@ gem 'kaminari'
 gem 'oj'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.84.0' # gem 'exercism-config', path: '../exercism_config'
+gem 'exercism-config', '>= 0.84.0'
+# gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'

@@ -30,7 +30,7 @@ class Tracks::ExercisesController < ApplicationController
     return redirect_to(action: :show) if @user_track.external?
     return redirect_to(action: :no_test_runner) unless @exercise.has_test_runner?
 
-    @solution ||= Solution::Create.(current_user, @exercise) # rubocop:disable Naming/MemoizedInstanceVariableName
+    @solution ||= Solution::Create.(current_user, @exercise, country_code) # rubocop:disable Naming/MemoizedInstanceVariableName
   rescue ExerciseLockedError
     redirect_to action: :show
   end

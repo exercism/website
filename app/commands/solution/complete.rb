@@ -2,7 +2,7 @@ class Solution
   class Complete
     include Mandate
 
-    initialize_with :solution, :user_track
+    initialize_with :solution, :user_track, :country_code
 
     def call
       raise SolutionHasNoIterationsError if solution.iterations.empty?
@@ -38,7 +38,7 @@ class Solution
     end
 
     def log_metric!
-      Metric::Queue.(:complete_solution, solution.completed_at, solution:, track:, user:)
+      Metric::Queue.(:complete_solution, solution.completed_at, country_code, solution:, track:, user:)
     end
 
     memoize

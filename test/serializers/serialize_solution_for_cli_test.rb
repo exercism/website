@@ -74,7 +74,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     solution = create :practice_solution, user: student, published_at: Time.current
     iteration = create :iteration, solution: solution
     mentor = create :user
-    request = Mentor::Request::Create.(solution, "Please help")
+    request = Mentor::Request::Create.(solution, "Please help", "FM")
     discussion = Mentor::Discussion::Create.(mentor, request, iteration.idx, "I'd love to help")
 
     output = SerializeSolutionForCLI.(solution, mentor)
@@ -97,7 +97,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user_track.user, track: user_track.track
     iteration = create :iteration, solution: solution
     mentor = create :user
-    request = Mentor::Request::Create.(solution, "Please help")
+    request = Mentor::Request::Create.(solution, "Please help", "FM")
     discussion = Mentor::Discussion::Create.(mentor, request, iteration.idx, "I'd love to help")
 
     output = SerializeSolutionForCLI.(solution, mentor)
@@ -122,7 +122,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution
     non_mentor = create :user
     mentor = create :user
-    request = Mentor::Request::Create.(solution, "Please help")
+    request = Mentor::Request::Create.(solution, "Please help", 'FM')
     Mentor::Discussion::Create.(mentor, request, iteration.idx, "I'd love to help")
 
     output = SerializeSolutionForCLI.(solution, non_mentor)
@@ -136,7 +136,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution
     non_mentor = create :user
     mentor = create :user
-    request = Mentor::Request::Create.(solution, "Please help")
+    request = Mentor::Request::Create.(solution, "Please help", 'FM')
     Mentor::Discussion::Create.(mentor, request, iteration.idx, "I'd love to help")
 
     output = SerializeSolutionForCLI.(solution, non_mentor)
@@ -150,7 +150,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user_track.user, track: user_track.track
     create :iteration, solution: solution
     mentor = create :user, became_mentor_at: Time.current
-    request = Mentor::Request::Create.(solution, "Please help")
+    request = Mentor::Request::Create.(solution, "Please help", 'FM')
 
     output = SerializeSolutionForCLI.(solution, mentor)
 
@@ -162,7 +162,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user_track.user, track: user_track.track
     create :iteration, solution: solution
     non_mentor = create :user, became_mentor_at: nil
-    Mentor::Request::Create.(solution, "Please help")
+    Mentor::Request::Create.(solution, "Please help", 'FM')
 
     output = SerializeSolutionForCLI.(solution, non_mentor)
 

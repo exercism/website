@@ -3,6 +3,7 @@ FactoryBot.define do
     params { { solution: create(:practice_solution, track:) } }
     occurred_at { Time.current }
     user { create :user }
+    country_code { 'DE' }
     track do
       Track.find_by(slug: 'ruby') || build(:track, slug: 'ruby')
     end

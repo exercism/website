@@ -7,7 +7,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution, idx: 1
     other_iteration = create :iteration, solution: solution, idx: 2
 
-    Solution::Publish.(solution, solution.user_track, 1)
+    Solution::Publish.(solution, solution.user_track, 1, 'DK')
 
     assert solution.reload.published?
     assert iteration.reload.published?
@@ -20,7 +20,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution, idx: 1
     other_iteration = create :iteration, solution: solution, idx: 2
 
-    Solution::Publish.(solution, solution.user_track, nil)
+    Solution::Publish.(solution, solution.user_track, nil, 'DK')
 
     assert solution.reload.published?
     assert iteration.reload.published?
@@ -33,7 +33,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution, idx: 1
     other_iteration = create :iteration, solution: solution, idx: 2
 
-    Solution::Publish.(solution, solution.user_track, 5)
+    Solution::Publish.(solution, solution.user_track, 5, 'DK')
 
     assert solution.reload.published?
     assert iteration.reload.published?
@@ -46,8 +46,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :iteration, solution: solution
 
     AwardReputationTokenJob.expects(:perform_later).once
-    Solution::Publish.(solution, solution.user_track, nil)
-    Solution::Publish.(solution, solution.user_track, nil)
+    Solution::Publish.(solution, solution.user_track, nil, 'DK')
+    Solution::Publish.(solution, solution.user_track, nil, 'DK')
   end
 
   test "sets solution num_loc to published iteration num_loc" do
@@ -56,7 +56,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution, idx: 1, num_loc: 33
     create :iteration, solution: solution, idx: 2, num_loc: 44
 
-    Solution::Publish.(solution, solution.user_track, 1)
+    Solution::Publish.(solution, solution.user_track, 1, 'DK')
 
     assert iteration.num_loc, solution.num_loc
   end
@@ -67,7 +67,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :iteration, solution: solution, idx: 1, num_loc: 33
     latest_iteration = create :iteration, solution: solution, idx: 2, num_loc: 44
 
-    Solution::Publish.(solution, solution.user_track, nil)
+    Solution::Publish.(solution, solution.user_track, nil, 'DK')
 
     assert latest_iteration.num_loc, solution.num_loc
   end
@@ -88,7 +88,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
       create :iteration, solution: solution
 
       AwardReputationTokenJob.expects(:perform_later).once.with(solution.user, :published_solution, solution:, level:)
-      Solution::Publish.(solution, solution.user_track, nil)
+      Solution::Publish.(solution, solution.user_track, nil, 'DK')
     end
   end
 
@@ -100,7 +100,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user, exercise: exercise
     iteration = create :iteration, solution: solution
 
-    Solution::Publish.(solution, solution.user_track, iteration.idx)
+    Solution::Publish.(solution, solution.user_track, iteration.idx, 'DK')
 
     activity = User::Activities::PublishedExerciseActivity.last
     assert_equal user, activity.user
@@ -114,7 +114,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
       create :user_track, user: solution.user, track: solution.track
       create :iteration, solution: solution, idx: 1
 
-      Solution::Publish.(solution, solution.user_track, 1)
+      Solution::Publish.(solution, solution.user_track, 1, 'DK')
 
       assert_equal Time.current, solution.reload.completed_at
     end
@@ -133,7 +133,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :user_track, user: solution.user, track: solution.track
     create :iteration, solution: solution, idx: 1
 
-    Solution::Publish.(solution, solution.user_track, 1)
+    Solution::Publish.(solution, solution.user_track, 1, 'DK')
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::AnybodyThereBadge
@@ -145,7 +145,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     iteration = create :iteration, solution: solution, idx: 1, snippet: 'aaa'
     create :iteration, solution: solution, idx: 2, snippet: 'bbb'
 
-    Solution::Publish.(solution, solution.user_track, 1)
+    Solution::Publish.(solution, solution.user_track, 1, 'DK')
 
     assert_equal iteration.snippet, solution.snippet
   end
@@ -156,7 +156,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :iteration, solution: solution, idx: 1, snippet: 'aaa'
     other_iteration = create :iteration, solution: solution, idx: 2, snippet: 'bbb'
 
-    Solution::Publish.(solution, solution.user_track, nil)
+    Solution::Publish.(solution, solution.user_track, nil, 'DK')
 
     assert_equal other_iteration.snippet, solution.snippet
   end
@@ -169,7 +169,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     solution = create :concept_solution, :completed, user: user, exercise: exercise
     create :iteration, solution: solution
 
-    Solution::Publish.(solution, user_track, nil)
+    Solution::Publish.(solution, user_track, nil, 'DK')
     perform_enqueued_jobs
 
     assert_equal 1, Metric.count

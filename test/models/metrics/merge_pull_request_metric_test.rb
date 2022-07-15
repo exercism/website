@@ -8,7 +8,7 @@ class Metrics::MergePullRequestTest < ActiveSupport::TestCase
       pull_request = create :github_pull_request, id: 4
       occurred_at = Time.current - 5.seconds
 
-      metric = Metric::Create.(:merge_pull_request, occurred_at, pull_request:, track:, user:)
+      metric = Metric::Create.(:merge_pull_request, occurred_at, nil, pull_request:, track:, user:)
 
       assert_equal Metrics::MergePullRequestMetric, metric.class
       assert_equal occurred_at, metric.occurred_at
@@ -22,7 +22,7 @@ class Metrics::MergePullRequestTest < ActiveSupport::TestCase
     freeze_time do
       pull_request = create :github_pull_request, id: 4
 
-      metric = Metric::Create.(:merge_pull_request, Time.current, pull_request:)
+      metric = Metric::Create.(:merge_pull_request, Time.current, nil, pull_request:)
 
       expected = { "pull_request" => "gid://website/Github::PullRequest/4" }
       assert_equal expected, metric.params
@@ -32,7 +32,7 @@ class Metrics::MergePullRequestTest < ActiveSupport::TestCase
   test "uniqueness_key is unique per pull_request" do
     uniqueness_keys = Array.new(10) do
       pull_request = create :github_pull_request, :random
-      Metric::Create.(:merge_pull_request, Time.current, pull_request:)
+      Metric::Create.(:merge_pull_request, Time.current, nil, pull_request:)
     end
 
     assert_equal uniqueness_keys.uniq.size, uniqueness_keys.size
@@ -42,7 +42,7 @@ class Metrics::MergePullRequestTest < ActiveSupport::TestCase
     pull_request = create :github_pull_request
 
     assert_idempotent_command do
-      Metric::Create.(:merge_pull_request, Time.utc(2012, 7, 25), pull_request:)
+      Metric::Create.(:merge_pull_request, Time.utc(2012, 7, 25), nil, pull_request:)
     end
   end
 end

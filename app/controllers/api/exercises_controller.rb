@@ -10,7 +10,7 @@ module API
     end
 
     def start
-      Solution::Create.(current_user, @exercise)
+      Solution::Create.(current_user, @exercise, country_code)
 
       render json: {
         links: {

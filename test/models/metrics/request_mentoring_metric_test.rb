@@ -7,13 +7,15 @@ class Metrics::RequestMentoringTest < ActiveSupport::TestCase
       user = create :user, id: 3
       request = create :mentor_request, id: 4
       occurred_at = Time.current - 5.seconds
+      country_code = 'JM'
 
-      metric = Metric::Create.(:request_mentoring, occurred_at, request:, track:, user:)
+      metric = Metric::Create.(:request_mentoring, occurred_at, country_code, request:, track:, user:)
 
       assert_equal Metrics::RequestMentoringMetric, metric.class
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track
+      assert_equal country_code, metric.country_code
       assert_equal "RequestMentoringMetric|4", metric.uniqueness_key
     end
   end
@@ -22,7 +24,7 @@ class Metrics::RequestMentoringTest < ActiveSupport::TestCase
     freeze_time do
       request = create :mentor_request, id: 4
 
-      metric = Metric::Create.(:request_mentoring, Time.current, request:)
+      metric = Metric::Create.(:request_mentoring, Time.current, 'JM', request:)
 
       expected = { "request" => "gid://website/Mentor::Request/4" }
       assert_equal expected, metric.params
@@ -32,7 +34,7 @@ class Metrics::RequestMentoringTest < ActiveSupport::TestCase
   test "uniqueness_key is unique per request" do
     uniqueness_keys = Array.new(10) do
       request = create :mentor_request
-      Metric::Create.(:request_mentoring, Time.current, request:)
+      Metric::Create.(:request_mentoring, Time.current, 'JM', request:)
     end
 
     assert_equal uniqueness_keys.uniq.size, uniqueness_keys.size
@@ -42,7 +44,7 @@ class Metrics::RequestMentoringTest < ActiveSupport::TestCase
     request = create :mentor_request
 
     assert_idempotent_command do
-      Metric::Create.(:request_mentoring, Time.utc(2012, 7, 25), request:)
+      Metric::Create.(:request_mentoring, Time.utc(2012, 7, 25), 'JM', request:)
     end
   end
 end

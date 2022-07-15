@@ -40,7 +40,7 @@ module Github
       def status = attributes[:state].downcase.to_sym
 
       def log_metric!(issue)
-        Metric::Queue.(:open_issue, issue.opened_at, issue:, track:, user: opened_by_username)
+        Metric::Queue.(:open_issue, issue.opened_at, nil, issue:, track:, user: opened_by_username)
       end
 
       def track = Track.for_repo(attributes[:repo])

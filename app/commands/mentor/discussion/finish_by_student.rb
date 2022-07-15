@@ -3,7 +3,7 @@ module Mentor
     class FinishByStudent
       include Mandate
 
-      def initialize(discussion, rating,
+      def initialize(discussion, rating, country_code,
                      requeue: false,
                      report: false,
                      block: false,
@@ -13,6 +13,7 @@ module Mentor
 
         @discussion = discussion
         @rating = rating
+        @country_code = country_code
         @should_requeue = requeue
         @should_report = report
         @should_block = rating == 1 || block
@@ -40,7 +41,7 @@ module Mentor
         return unless should_requeue
 
         comment = @discussion.request&.comment_markdown || "[No comment provided]"
-        Mentor::Request::Create.(@discussion.solution, comment)
+        Mentor::Request::Create.(@discussion.solution, comment, country_code)
       end
 
       def report!
@@ -91,7 +92,7 @@ module Mentor
       end
 
       def log_metric!
-        Metric::Queue.(:finish_mentoring, discussion.finished_at, discussion:, track:, user: student)
+        Metric::Queue.(:finish_mentoring, discussion.finished_at, country_code, discussion:, track:, user: student)
       end
 
       delegate :track, to: :discussion
@@ -105,7 +106,7 @@ module Mentor
         )
       end
 
-      attr_reader :discussion, :rating,
+      attr_reader :discussion, :rating, :country_code,
         :should_requeue,
         :should_report, :report_reason, :report_message,
         :should_block,

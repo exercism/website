@@ -10,7 +10,7 @@ class MentorActionRequiredTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: student, track: track
     iteration = create :iteration, solution: solution
 
-    request = Mentor::Request::Create.(solution, "Please help")
+    request = Mentor::Request::Create.(solution, "Please help", 'PL')
 
     discussion = Mentor::Discussion::Create.(mentor, request, iteration.idx, "I'd love to help")
     discussion.reload

@@ -14,7 +14,7 @@ class Metrics::RequestMentoringTest < ActiveSupport::TestCase
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track
-      assert_equal "RequestMentoringMetric|2|3|4", metric.uniqueness_key
+      assert_equal "RequestMentoringMetric|4", metric.uniqueness_key
     end
   end
 

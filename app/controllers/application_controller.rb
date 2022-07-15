@@ -53,6 +53,8 @@ class ApplicationController < ActionController::Base
     redirect_to mentoring_inbox_path
   end
 
+  def country_code = request.location&.country_code
+
   #############################
   # Site Header Functionality #
   #############################

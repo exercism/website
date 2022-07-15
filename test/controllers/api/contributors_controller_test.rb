@@ -13,7 +13,7 @@ module API
       end.reverse
 
       get api_contributors_path, headers: @headers, as: :json
-      assert_response :ok
+      assert_response :success
       expected = AssembleContributors.({}).to_json
       assert_equal expected, response.body
     end
@@ -40,7 +40,7 @@ module API
 
       get api_contributors_path(params), headers: @headers, as: :json
 
-      assert_response :ok
+      assert_response :success
     end
   end
 end

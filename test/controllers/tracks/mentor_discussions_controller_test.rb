@@ -27,7 +27,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
 
-    assert_response :ok
+    assert_response :success
     assert_includes @response.body, "Take your solution to the next level"
     assert_includes @response.body, "You have no past mentoring discussions"
   end
@@ -41,7 +41,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
 
-    assert_response :ok
+    assert_response :success
     assert_includes @response.body, "You’ve requested mentoring"
     assert_includes @response.body, "You have no past mentoring discussions"
   end
@@ -55,7 +55,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
 
-    assert_response :ok
+    assert_response :success
     assert_includes @response.body, "You're being mentored by"
     assert_includes @response.body, "You have no past mentoring discussions"
   end
@@ -69,7 +69,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
 
-    assert_response :ok
+    assert_response :success
     assert_includes @response.body, "Want to try another mentor?"
     assert_includes @response.body, "Ended 10 days ago"
   end

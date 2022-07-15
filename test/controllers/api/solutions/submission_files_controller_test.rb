@@ -12,7 +12,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :not_found
+    assert_response 404
     expected = { error: {
       type: "submission_not_found",
       message: I18n.t('api.errors.submission_not_found')
@@ -29,7 +29,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :forbidden
+    assert_response 403
     expected = { error: {
       type: "submission_not_accessible",
       message: I18n.t('api.errors.submission_not_accessible')
@@ -52,7 +52,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :ok
+    assert_response 200
     expected = {
       files: [
         {

@@ -219,7 +219,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     get no_test_runner_track_exercise_url(track, exercise)
-    assert_response :ok
+    assert_response 200
   end
 
   test "no_test_runner redirects if there is a test runner" do

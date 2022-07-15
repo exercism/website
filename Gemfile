@@ -111,5 +111,3 @@ gem 'addressable', '~> 2.7'
 gem 'mini_magick'
 
 gem 'elasticsearch', '6.8.3'
-
-gem "rack-attack", "~> 6.6"

@@ -35,7 +35,7 @@ class Mentoring::DiscussionsControllerTest < ActionDispatch::IntegrationTest
     discussion = create :mentor_discussion, mentor: mentor, solution: solution
     create :iteration, solution: solution
     get mentoring_discussion_path(discussion)
-    assert_response :ok
+    assert_response :success
   end
 
   test "shows for admin" do
@@ -46,6 +46,6 @@ class Mentoring::DiscussionsControllerTest < ActionDispatch::IntegrationTest
     discussion = create :mentor_discussion, solution: solution
     create :iteration, solution: solution
     get mentoring_discussion_path(discussion)
-    assert_response :ok
+    assert_response :success
   end
 end

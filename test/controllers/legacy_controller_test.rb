@@ -55,14 +55,14 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     get "/solutions/#{solution.uuid}"
-    assert_response :not_found
+    assert_response 404
   end
 
   test "solution with logged-out non-published solution" do
     solution = create :concept_solution, published_at: nil
 
     get "/solutions/#{solution.uuid}"
-    assert_response :not_found
+    assert_response 404
   end
 
   test "mentor solution with discussion" do
@@ -79,7 +79,7 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(discussion.solution.user)
     get "/mentor/solutions/#{discussion.solution.uuid}"
-    assert_response :not_found
+    assert_response 404
   end
 
   test "my/settings" do

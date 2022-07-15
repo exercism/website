@@ -286,4 +286,15 @@ class UserTest < ActiveSupport::TestCase
 
     user.save!
   end
+
+  test "may_create_profile?" do
+    user = build :user, reputation: 0
+    refute user.may_create_profile?
+
+    user.update(reputation: 4)
+    refute user.may_create_profile?
+
+    user.update(reputation: 5)
+    assert user.may_create_profile?
+  end
 end

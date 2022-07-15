@@ -1,4 +1,6 @@
 class User::Profile < ApplicationRecord
+  MIN_REPUTATION = 5
+
   extend Mandate::Memoize
 
   belongs_to :user

@@ -261,4 +261,6 @@ class User < ApplicationRecord
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end
+
+  def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
 end

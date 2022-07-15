@@ -52,10 +52,14 @@ class ProfilesController < ApplicationController
 
   def intro
     return redirect_to profile_path(current_user) if current_user&.profile
+
+    @profile_min_reputation = User::Profile::MIN_REPUTATION
+    @may_create_profile = current_user&.may_create_profile?
   end
 
   def new
-    return redirect_to profile_path(current_user) if current_user&.profile
+    return redirect_to profile_path(current_user) if current_user.profile
+    return redirect_to action: :intro unless current_user.may_create_profile?
 
     @profile = User::Profile.new
   end

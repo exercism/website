@@ -19,5 +19,5 @@ Rack::Attack.throttle("API - POST/PATCH/PUT/DELETE", limit: api_non_get_limit_pr
   next unless req.path.starts_with?('/api')
 
   token = HttpAuthenticationToken.from_header(req.env['HTTP_AUTHORIZATION'])
-  token || req.ip
+  "#{req.path}|#{req.request_method}|#{token || req.ip}"
 end

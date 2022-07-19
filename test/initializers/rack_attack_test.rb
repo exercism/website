@@ -1,40 +1,49 @@
 require './test/controllers/webhooks/base_test_case'
 
 class RackAttackTest < Webhooks::BaseTestCase
-  test "rate limit authorized API POST/PATCH/PUT/DELETE requests by token" do
-    user_1 = create :user
-    user_2 = create :user
+  test "rate limit authorized API POST/PATCH/PUT/DELETE requests by token/path/action" do
+    user_1 = create :user, reputation: 5
+    user_2 = create :user, reputation: 5
 
     setup_user(user_2)
 
-    # Sanity check: rate limit of other user doesn't interfere
-    7.times do
-      submission = create :submission, user: @current_user
-      post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
+    # Sanity check: different token does not count against rate limit
+    5.times do
+      put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+      assert_response :success
     end
-
-    assert_response :too_many_requests
 
     logout
     setup_user(user_1)
 
-    # First four times for user won't hit rate limit
-    4.times do
-      submission = create :submission, user: @current_user
-      post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
+    # Sanity check: different path does not count against limit
+    5.times do
+      post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json
       assert_response :success
     end
 
-    # Fifth request for user in one minute hits rate limit
-    submission = create :submission, user: @current_user
-    post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
-    assert_response :too_many_requests
+    # Sanity check: different HTTP method does not count against limit
+    5.times do
+      patch api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+      assert_response :success
+    end
+
+    # Sanity check: response not rate limited while not exceeding limit
+    5.times do
+      put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+      assert_response :success
+    end
+
+    # Exceeding rate limit returns too_many_requests response
+    3.times do
+      put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+      assert_response :too_many_requests
+    end
 
     # Verify that the rate limit for a user resets every minute
     travel_to Time.current + 1.minute
 
-    submission = create :submission, user: @current_user
-    post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
+    put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
     assert_response :success
   end
 
@@ -94,9 +103,8 @@ class RackAttackTest < Webhooks::BaseTestCase
     travel_to Time.current.beginning_of_minute + 18.seconds do
       setup_user
 
-      5.times do
-        submission = create :submission, user: @current_user
-        post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
+      6.times do
+        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
       end
 
       assert_response :too_many_requests

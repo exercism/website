@@ -35,16 +35,8 @@ class RackAttackTest < Webhooks::BaseTestCase
     end
 
     # Exceeding rate limit returns too_many_requests response
-    3.times do
-      put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
-      assert_response :too_many_requests
-    end
-
-    # Verify that the rate limit for a user resets every minute
-    travel_to Time.current + 1.minute
-
     put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
-    assert_response :success
+    assert_response :too_many_requests
   end
 
   test "don't rate limit authorized API GET requests" do
@@ -96,6 +88,38 @@ class RackAttackTest < Webhooks::BaseTestCase
     50.times do
       post webhooks_membership_updates_path, headers: headers(payload), as: :json, params: payload
       assert_response :success
+    end
+  end
+
+  test "rate limit resets each minute" do
+    user = create :user, reputation: 5
+
+    setup_user(user)
+
+    beginning_of_minute = Time.current.beginning_of_minute
+
+    # First five requests are successful as they don't exceed the throttling limit
+    [1, 5, 13, 22, 28].each do |seconds_passed|
+      travel_to beginning_of_minute + seconds_passed.seconds do
+        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        assert_response :success
+      end
+    end
+
+    # Hit rate limit for requests within the same minute that exceed the throttling limit
+    [33, 44, 59].each do |seconds_passed|
+      travel_to beginning_of_minute + seconds_passed.seconds do
+        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        assert_response :too_many_requests
+      end
+    end
+
+    # Rate limit resets at 1 minute
+    travel_to beginning_of_minute + 1.minute do
+      5.times do
+        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        assert_response :success
+      end
     end
   end
 

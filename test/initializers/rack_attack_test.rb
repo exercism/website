@@ -1,7 +1,7 @@
 require './test/controllers/webhooks/base_test_case'
 
 class RackAttackTest < Webhooks::BaseTestCase
-  test "rate limit authorized API POST/PATCH/PUT/DELETE requests by token/path/action" do
+  test "rate limit authorized API POST/PATCH/PUT/DELETE requests by token/route/action" do
     freeze_time do
       user_1 = create :user, reputation: 5
       user_2 = create :user, reputation: 5
@@ -37,6 +37,35 @@ class RackAttackTest < Webhooks::BaseTestCase
 
       # Exceeding rate limit returns too_many_requests response
       put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+      assert_response :too_many_requests
+    end
+  end
+
+  test "rate limit uses route, not path for throttling" do
+    freeze_time do
+      user = create :user
+      track = create :track
+      create :user_track, track: track, user: user
+
+      setup_user(user)
+
+      # Call the same route with different parameters,
+      # which leads to a different URL path
+      5.times do
+        solution = create :practice_solution, user: user, track: track
+        create :iteration, solution: solution
+
+        patch complete_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+        assert_response :success
+      end
+
+      # Exceeding rate limit returns too_many_requests response
+      solution = create :practice_solution, user: user, track: track
+      create :iteration, solution: solution
+
+      patch complete_api_solution_path(solution.uuid), headers: @headers, as: :json
+
       assert_response :too_many_requests
     end
   end

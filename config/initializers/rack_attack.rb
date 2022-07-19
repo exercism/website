@@ -18,6 +18,14 @@ Rack::Attack.throttle("API - POST/PATCH/PUT/DELETE", limit: api_non_get_limit_pr
   next unless req.post? || req.patch? || req.put? || req.delete?
   next unless req.path.starts_with?('/api')
 
+  # We want to throttle on the route name, not the path as
+  # calls to the same API method with different IDs has the same
+  # route name, but different paths
+  route_name = nil
+  Rails.application.routes.router.recognize(req) do |route, _|
+    route_name = route.name
+  end
   token = HttpAuthenticationToken.from_header(req.env['HTTP_AUTHORIZATION'])
-  "#{req.path}|#{req.request_method}|#{token || req.ip}"
+
+  "#{route_name}|#{req.request_method}|#{token || req.ip}"
 end

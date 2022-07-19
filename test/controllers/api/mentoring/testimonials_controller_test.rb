@@ -85,6 +85,9 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
   test "reveal is rate limited" do
     setup_user
 
+    beginning_of_minute = Time.current.beginning_of_minute
+    travel_to beginning_of_minute
+
     30.times do
       testimonial = create :mentor_testimonial, mentor: @current_user
       patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
@@ -96,7 +99,7 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
     assert_response :too_many_requests
 
     # Verify that the rate limit resets every minute
-    travel_to Time.current + 1.minute
+    travel_to beginning_of_minute + 1.minute
 
     testimonial = create :mentor_testimonial, mentor: @current_user
     patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json

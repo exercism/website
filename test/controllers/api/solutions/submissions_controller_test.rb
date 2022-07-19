@@ -77,6 +77,10 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
 
   test "create is rate limited" do
     setup_user
+
+    beginning_of_minute = Time.current.beginning_of_minute
+    travel_to beginning_of_minute
+
     solution = create :concept_solution, user: @current_user
 
     12.times do |idx|
@@ -96,7 +100,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     assert_response :too_many_requests
 
     # Verify that the rate limit resets every minute
-    travel_to Time.current + 1.minute
+    travel_to beginning_of_minute + 1.minute
 
     post api_solution_submissions_path(solution.uuid),
       params: { files: [{ filename: "foo", content: "bar 13" }] },

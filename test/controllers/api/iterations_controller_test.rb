@@ -149,6 +149,9 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "create is rate limited" do
     setup_user
 
+    beginning_of_minute = Time.current.beginning_of_minute
+    travel_to beginning_of_minute
+
     4.times do
       submission = create :submission, user: @current_user
       post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
@@ -160,7 +163,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_response :too_many_requests
 
     # Verify that the rate limit resets every minute
-    travel_to Time.current + 1.minute
+    travel_to beginning_of_minute + 1.minute
 
     submission = create :submission, user: @current_user
     post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers

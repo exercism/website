@@ -80,6 +80,9 @@ class API::ReputatationControllerTest < API::BaseTestCase
   test "mark_as_seen is rate limited" do
     setup_user
 
+    beginning_of_minute = Time.current.beginning_of_minute
+    travel_to beginning_of_minute
+
     20.times do
       token = create :user_code_contribution_reputation_token, user: @current_user
       patch mark_as_seen_api_reputation_path(token.uuid), headers: @headers, as: :json
@@ -91,7 +94,7 @@ class API::ReputatationControllerTest < API::BaseTestCase
     assert_response :too_many_requests
 
     # Verify that the rate limit resets every minute
-    travel_to Time.current + 1.minute
+    travel_to beginning_of_minute + 1.minute
 
     token = create :user_code_contribution_reputation_token, user: @current_user
     patch mark_as_seen_api_reputation_path(token.uuid), headers: @headers, as: :json

@@ -19,11 +19,14 @@ class CohortsController < ApplicationController
   private
   def use_cohort
     @cohort = COHORTS[params[:id].to_sym]
-
     render_404 if @cohort.blank?
+
+    user_track = UserTrack.for(@current_user, @cohort.track_slug)
+    @num_concepts = user_track.num_concepts
+    @num_exercises = user_track.num_exercises
   end
 
-  Cohort = Struct.new(:slug, :name)
-  COHORTS = { gohort: Cohort.new(:gohort, "Go-hort") }.freeze
+  Cohort = Struct.new(:slug, :name, :track_slug)
+  COHORTS = { gohort: Cohort.new(:gohort, "Go-hort", 'go') }.freeze
   private_constant
 end

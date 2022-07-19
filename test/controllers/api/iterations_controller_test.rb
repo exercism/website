@@ -12,14 +12,14 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "latest_status should 404 if the solution doesn't exist" do
     setup_user
     get latest_status_api_solution_iterations_path(999), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
   end
 
   test "latest_status should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_not_accessible",
       message: I18n.t('api.errors.solution_not_accessible')
@@ -40,7 +40,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_equal 'untested', it_2.status.to_s
 
     get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = { status: "untested" }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -53,7 +53,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     create :iteration, solution: solution, deleted_at: Time.current
 
     get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = { status: "deleted" }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -65,7 +65,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
 
     get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = { status: nil }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -78,13 +78,13 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "create should 404 if the solution doesn't exist" do
     setup_user
     post api_solution_iterations_path(999, submission_id: create(:submission)), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
   end
 
   test "create should 403 if the submission doesn't exist" do
     setup_user
     post api_solution_iterations_path(create(:concept_solution).uuid, submission_id: 999), headers: @headers, as: :json
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "create should 403 if the solution belongs to someone else" do
@@ -92,7 +92,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     solution = create :concept_solution
     submission = create :submission, solution: solution
     post api_solution_iterations_path(solution.uuid, submission_id: submission.uuid), headers: @headers, as: :json
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_not_accessible",
       message: I18n.t('api.errors.solution_not_accessible')
@@ -106,7 +106,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
     submission = create :submission, track: solution.track
     post api_solution_iterations_path(solution.uuid, submission_id: submission.uuid), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "submission_not_found",
       message: I18n.t('api.errors.submission_not_found')
@@ -124,7 +124,7 @@ class API::IterationsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :created
     expected = {
       iteration: SerializeIteration.(Iteration.last)
     }
@@ -143,6 +143,27 @@ class API::IterationsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
+    assert_response :created
+  end
+
+  test "create is rate limited" do
+    setup_user
+
+    4.times do
+      submission = create :submission, user: @current_user
+      post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
+      assert_response :success
+    end
+
+    submission = create :submission, user: @current_user
+    post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
+    assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to Time.current + 1.minute
+
+    submission = create :submission, user: @current_user
+    post api_solution_iterations_path(submission.solution.uuid, submission_uuid: submission.uuid), headers: @headers
     assert_response :success
   end
 
@@ -152,7 +173,7 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "destroy should 404 if the solution doesn't exist" do
     setup_user
     delete api_solution_iteration_path(999, 999), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "solution_not_found",
       message: I18n.t('api.errors.solution_not_found')
@@ -164,7 +185,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     setup_user
     solution = create :concept_solution, user: @current_user
     delete api_solution_iteration_path(solution.uuid, 999), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "iteration_not_found",
       message: I18n.t('api.errors.iteration_not_found')
@@ -177,7 +198,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     solution = create :concept_solution
     iteration = create :iteration, solution: solution
     delete api_solution_iteration_path(solution.uuid, iteration.uuid), headers: @headers, as: :json
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_not_accessible",
       message: I18n.t('api.errors.solution_not_accessible')
@@ -191,7 +212,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
     iteration = create :iteration
     delete api_solution_iteration_path(solution.uuid, iteration.uuid), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "iteration_not_found",
       message: I18n.t('api.errors.iteration_not_found')
@@ -207,7 +228,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     Iteration::Destroy.expects(:call).with(iteration)
 
     delete api_solution_iteration_path(solution.uuid, iteration.uuid), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
   end
 
   ###
@@ -216,13 +237,13 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "automated_feedback should 404 if the solution doesn't exist" do
     setup_user
     get automated_feedback_api_solution_iteration_path(999, 999), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
   end
 
   test "automated_feedback should 404 if the iteration doesn't exist" do
     setup_user
     get automated_feedback_api_solution_iteration_path(create(:concept_solution).uuid, 999), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "iteration_not_found",
       message: I18n.t('api.errors.iteration_not_found')
@@ -235,7 +256,7 @@ class API::IterationsControllerTest < API::BaseTestCase
     solution = create :concept_solution, user: @current_user
     iteration = create :iteration
     get automated_feedback_api_solution_iteration_path(solution.uuid, iteration.uuid), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "iteration_not_found",
       message: I18n.t('api.errors.iteration_not_found')
@@ -260,7 +281,7 @@ class API::IterationsControllerTest < API::BaseTestCase
         }
       }
     }
-    assert_response 200
+    assert_response :ok
     assert_equal expected.to_json, response.body
   end
 end

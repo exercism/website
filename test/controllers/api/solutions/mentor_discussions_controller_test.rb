@@ -25,7 +25,7 @@ class API::Solutions::MentorDiscussionsControllerTest < API::BaseTestCase
         as: :json,
         params: { rating: 1 }
 
-      assert_response 200
+      assert_response :ok
 
       discussion.reload
       assert_equal :finished, discussion.status

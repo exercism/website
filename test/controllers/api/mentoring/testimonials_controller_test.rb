@@ -38,7 +38,7 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
     5.times { create :mentor_testimonial, mentor: user }
 
     get api_mentoring_testimonials_path, headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = SerializePaginatedCollection.(
       Mentor::Testimonial.order(id: :desc).page(1),
@@ -54,7 +54,7 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
   test "reveal should 404 if the testimonial doesn't exist" do
     setup_user
     patch reveal_api_mentoring_testimonial_path('xxx'), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
   end
 
   test "reveal should fail on a different person's testimonial" do
@@ -65,7 +65,7 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
 
     patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
 
     refute testimonial.reload.revealed?
   end
@@ -77,8 +77,29 @@ class API::Mentoring::TestimonialsControllerTest < API::BaseTestCase
 
     patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
 
     assert testimonial.reload.revealed?
+  end
+
+  test "reveal is rate limited" do
+    setup_user
+
+    30.times do
+      testimonial = create :mentor_testimonial, mentor: @current_user
+      patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
+      assert_response :ok
+    end
+
+    testimonial = create :mentor_testimonial, mentor: @current_user
+    patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
+    assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to Time.current + 1.minute
+
+    testimonial = create :mentor_testimonial, mentor: @current_user
+    patch reveal_api_mentoring_testimonial_path(testimonial.uuid), headers: @headers, as: :json
+    assert_response :ok
   end
 end

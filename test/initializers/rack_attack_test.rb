@@ -2,41 +2,43 @@ require './test/controllers/webhooks/base_test_case'
 
 class RackAttackTest < Webhooks::BaseTestCase
   test "rate limit authorized API POST/PATCH/PUT/DELETE requests by token/path/action" do
-    user_1 = create :user, reputation: 5
-    user_2 = create :user, reputation: 5
+    freeze_time do
+      user_1 = create :user, reputation: 5
+      user_2 = create :user, reputation: 5
 
-    setup_user(user_2)
+      setup_user(user_2)
 
-    # Sanity check: different token does not count against rate limit
-    5.times do
+      # Sanity check: different token does not count against rate limit
+      5.times do
+        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        assert_response :success
+      end
+
+      logout
+      setup_user(user_1)
+
+      # Sanity check: different path does not count against limit
+      5.times do
+        post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json
+        assert_response :success
+      end
+
+      # Sanity check: different HTTP method does not count against limit
+      5.times do
+        patch api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        assert_response :success
+      end
+
+      # Sanity check: response not rate limited while not exceeding limit
+      5.times do
+        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        assert_response :success
+      end
+
+      # Exceeding rate limit returns too_many_requests response
       put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
-      assert_response :success
+      assert_response :too_many_requests
     end
-
-    logout
-    setup_user(user_1)
-
-    # Sanity check: different path does not count against limit
-    5.times do
-      post api_parse_markdown_path, params: { markdown: "*Hello*" }, headers: @headers, as: :json
-      assert_response :success
-    end
-
-    # Sanity check: different HTTP method does not count against limit
-    5.times do
-      patch api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
-      assert_response :success
-    end
-
-    # Sanity check: response not rate limited while not exceeding limit
-    5.times do
-      put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
-      assert_response :success
-    end
-
-    # Exceeding rate limit returns too_many_requests response
-    put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
-    assert_response :too_many_requests
   end
 
   test "don't rate limit authorized API GET requests" do

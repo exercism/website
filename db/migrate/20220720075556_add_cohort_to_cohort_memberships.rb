@@ -1,7 +1,6 @@
 class AddCohortToCohortMemberships < ActiveRecord::Migration[7.0]
   def change
-    add_belongs_to :cohort_memberships, :cohort, null: true, if_not_exists: true
-    add_column :cohort_memberships, :status, :tinyint, default: 0, null: false, if_not_exists: true
+    add_reference :cohort_memberships, :cohort, null: true, foreign_key: true, if_not_exists: true
 
     Cohort.find_create_or_find_by!(slug: 'gohort') do |c|
       c.name = 'Go-Hort'
@@ -11,7 +10,7 @@ class AddCohortToCohortMemberships < ActiveRecord::Migration[7.0]
       c.ends_at = Time.utc(2022, 07, 30)
     end
 
-    CohortMembership.update(cohort: Cohort.find_by(slug: :cohort_slug))
+    CohortMembership.update_all(cohort_id: Cohort.find_by(slug: :gohort).id)
 
     change_column_null :cohort_memberships, :cohort_id, false
   end

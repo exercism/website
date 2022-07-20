@@ -14,7 +14,7 @@ class Metrics::CompleteSolutionTest < ActiveSupport::TestCase
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track
-      assert_equal "CompleteSolutionMetric|2|3|4", metric.uniqueness_key
+      assert_equal "CompleteSolutionMetric|4", metric.uniqueness_key
     end
   end
 

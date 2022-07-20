@@ -41,4 +41,22 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
 
     assert_equal 3, Mentor::Request.count
   end
+
+  test "adds metric" do
+    mentor = create :user
+    student = create :user
+    track = create :track
+    solution = create :practice_solution, track: track, user: student
+    create :user_track, user: student, track: track
+
+    discussion = Mentor::Request::AcceptExternal.(mentor, solution)
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_equal Metrics::RequestPrivateMentoringMetric, metric.class
+    assert_equal discussion.request.created_at, metric.occurred_at
+    assert_equal track, metric.track
+    assert_equal student, metric.user
+  end
 end

@@ -28,6 +28,10 @@ FactoryBot.define do
     params { { request: create(:mentor_request, student: user, solution: create(:practice_solution, track:)) } }
   end
 
+  factory :request_private_mentoring_metric, parent: :metric, class: 'Metrics::RequestPrivateMentoringMetric' do
+    params { { request: create(:mentor_request, student: user, solution: create(:practice_solution, track:)) } }
+  end
+
   factory :open_pull_request_metric, parent: :metric, class: 'Metrics::OpenPullRequestMetric' do
     params { { pull_request: create(:github_pull_request, :random) } }
   end

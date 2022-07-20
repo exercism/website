@@ -9,9 +9,7 @@ class Metric < ApplicationRecord
     self.params = {} if self.params.blank?
   end
 
-  def generate_uniqueness_key!
-    [type.demodulize, track_id, user_id, guard_params].join("|")
-  end
+  def generate_uniqueness_key! = "#{type.demodulize}|#{guard_params}"
 
   # This maps
   # {discussion: Mentor::Discussion.find(186)}

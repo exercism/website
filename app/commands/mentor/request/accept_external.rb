@@ -13,6 +13,7 @@ module Mentor
             external: true
           )
           request.fulfilled!
+          log_metric!(request)
           Mentor::Discussion.create!(
             mentor:,
             request:,
@@ -21,6 +22,14 @@ module Mentor
           )
         end
       end
+
+      private
+      def log_metric!(request)
+        Metric::Queue.(:request_private_mentoring, request.created_at, request:, track:, user:)
+      end
+
+      def user = solution.user
+      def track = solution.track
     end
   end
 end

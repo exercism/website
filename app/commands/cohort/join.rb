@@ -23,7 +23,7 @@ class Cohort::Join
 
     CohortMembership.find(id)
   rescue ActiveRecord::RecordNotUnique
-    CohortMembership.find_by(user:, cohort:)
+    CohortMembership.find_by!(user:, cohort:)
   end
 
   ENROLLED_STATUS = CohortMembership.statuses["enrolled"]

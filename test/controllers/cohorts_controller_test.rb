@@ -5,6 +5,8 @@ class CohortsControllerTest < ActionDispatch::IntegrationTest
   # Show #
   ########
   test "show: shows for known cohort" do
+    create :cohort, slug: 'gohort'
+
     get cohort_path('gohort')
 
     assert_template "cohorts/show"
@@ -21,6 +23,7 @@ class CohortsControllerTest < ActionDispatch::IntegrationTest
   ########
   test "join: redirects to show page" do
     sign_in!
+    create :cohort, slug: 'gohort'
 
     post join_cohort_path('gohort'), params: { introduction: 'Hi!' }, headers: @headers, as: :json
 
@@ -29,8 +32,8 @@ class CohortsControllerTest < ActionDispatch::IntegrationTest
 
   test "join: redirects to show page if current user had already joined" do
     sign_in!
-
-    create :cohort_membership, user: @current_user, cohort_slug: 'gohort'
+    cohort = create :cohort, slug: 'gohort'
+    create :cohort_membership, user: @current_user, cohort: cohort
 
     post join_cohort_path('gohort'), params: { introduction: 'Hi!' }, headers: @headers, as: :json
 
@@ -39,10 +42,11 @@ class CohortsControllerTest < ActionDispatch::IntegrationTest
 
   test "join: creates membership if current user had not joined" do
     sign_in!
+    create :cohort, slug: 'gohort'
 
     post join_cohort_path('gohort'), params: { introduction: 'Hi!' }, headers: @headers, as: :json
 
-    membership = CohortMembership.find_by(user: @current_user, cohort_slug: 'gohort')
+    membership = CohortMembership.find_by(user: @current_user, cohort: Cohort.find_by(slug: 'gohort'))
     assert 'Hi!', membership.introduction
   end
 

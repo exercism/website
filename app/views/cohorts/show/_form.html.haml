@@ -15,15 +15,16 @@
         = link_to "Log in", new_user_session_path, class: 'btn-secondary btn-l shadow-buttonS'
 
     - elsif membership
-      - if membership.member_number > 100
-        %h3.text-h1.text-center.mb-16 You're on the waiting list
-        %p.text-p-xlarge.mb-16.text-center.mx-auto{ style: "max-width:800px;" }
-          Sorry - the #{cohort.name} filled up before you got here! You're currently in #{(membership.member_number - 100).ordinalize} place on the waiting list. If a space becomes available we'll let you know. Otherwise we'll message you about the next #{cohort.name} later in the year.
-      - else
+      - if membership.enrolled?
         %h3.text-h1.text-center.mb-16 You're all set!
         %p.text-p-xlarge.mb-16.text-center.mx-auto{ style: "max-width:800px;" }
           Congratulations - you're all set!
           One of our team will email you shortly to welcome you to the #{cohort.name} and tell you how to get set up!
+      - else
+        %h3.text-h1.text-center.mb-16 You're on the waiting list
+        %p.text-p-xlarge.mb-16.text-center.mx-auto{ style: "max-width:800px;" }
+          Sorry - the #{cohort.name} filled up before you got here! You're currently in #{(membership.member_number - 100).ordinalize} place on the waiting list. If a space becomes available we'll let you know. Otherwise we'll message you about the next #{cohort.name} later in the year.
+
     - else
       %h3.text-h1.text-center.mb-16 Sign up to the #{cohort.name}
       %p.text-p-xlarge.mb-32.text-center.mx-auto{ style: "max-width:800px;" }

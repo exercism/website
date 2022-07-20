@@ -7,9 +7,5 @@ class CohortMembership < ApplicationRecord
     enrolled: 1
   }
 
-  def member_number
-    CohortMembership.where('id < ?', id).count + 1
-  end
-
   def status = super.to_sym
 end

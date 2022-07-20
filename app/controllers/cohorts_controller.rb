@@ -3,7 +3,7 @@ class CohortsController < ApplicationController
   before_action :use_cohort
 
   def show
-    @membership = current_user.cohort_memberships.find_by(cohort: @cohort) if user_signed_in?
+    @membership = CohortMembership.find_by(user: current_user, cohort: @cohort) if user_signed_in?
   end
 
   def join
@@ -14,11 +14,12 @@ class CohortsController < ApplicationController
 
   private
   def use_cohort
-    @cohort = ::Cohort.find_by(slug: params[:id])
-    render_404 if @cohort.blank?
+    @cohort = ::Cohort.find_by!(slug: params[:id])
 
     user_track = UserTrack.for(@current_user, @cohort.track)
     @num_concepts = user_track.num_concepts
     @num_exercises = user_track.num_exercises
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

@@ -5,9 +5,9 @@ class Cohort::Join
 
   def call
     # TODO: make this safe against race issues
-    user.cohort_memberships.create!(cohort:, status:, introduction:)
+    CohortMembership.create!(user:, cohort:, status:, introduction:)
   rescue ActiveRecord::RecordNotUnique
-    # This is fine
+    CohortMembership.find_by(user:, cohort:)
   end
 
   private

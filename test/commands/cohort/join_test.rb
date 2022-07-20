@@ -40,4 +40,21 @@ class Cohort::JoinTest < ActiveSupport::TestCase
 
     assert_equal 1, CohortMembership.count
   end
+
+  test "enrolled members never exceeds capacity" do
+    cohort = create :cohort, capacity: 10
+    member_count = cohort.capacity * 10
+
+    threads = Array.new(member_count) do
+      Thread.new do
+        user = create :user
+        Cohort::Join.(user, cohort, 'Hi')
+      end
+    end
+    threads.map(&:join)
+
+    assert_equal member_count, CohortMembership.count
+    assert_equal cohort.capacity, CohortMembership.enrolled.count
+    assert_equal member_count - cohort.capacity, CohortMembership.on_waiting_list.count
+  end
 end

@@ -6,14 +6,20 @@ class Cohort::Join
   def call
     time = Time.now.utc.to_formatted_s(:db)
 
-    # rubocop:disable Layout/LineLength
     id = CohortMembership.connection.insert(%{
-      INSERT INTO cohort_memberships (user_id, cohort_id, status, introduction, created_at, updated_at)
-      SELECT #{user.id}, #{cohort.id}, IF(COUNT(*)>=#{cohort.capacity},#{ON_WAITING_LIST_STATUS},#{ENROLLED_STATUS}), "#{introduction}", "#{time}", "#{time}"
+      INSERT INTO cohort_memberships (
+        user_id, cohort_id, status, introduction, created_at, updated_at
+      )
+      SELECT
+        #{user.id},
+        #{cohort.id},
+        IF(COUNT(*)>=#{cohort.capacity},#{ON_WAITING_LIST_STATUS},#{ENROLLED_STATUS}),
+        "#{introduction}",
+        "#{time}",
+        "#{time}"
       FROM cohort_memberships
       WHERE cohort_id = #{cohort.id}
     })
-    # rubocop:enable Layout/LineLength
 
     CohortMembership.find(id)
   rescue ActiveRecord::RecordNotUnique

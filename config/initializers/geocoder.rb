@@ -1,29 +1,11 @@
 # rubocop:disable Naming/VariableNumber
 Geocoder.configure(
-  # Geocoding options
-  # timeout: 3,                 # geocoding service timeout (secs)
-  # lookup: :nominatim,         # name of geocoding service (symbol)
-  # language: :en,              # ISO-639 language code
-  # use_https: false,           # use HTTPS for lookup requests? (if supported)
-  # http_proxy: nil,            # HTTP proxy server (user:pass@host:port)
-  # https_proxy: nil,           # HTTPS proxy server (user:pass@host:port)
-  # api_key: nil,               # API key for geocoding service
-  ip_lookup: :geoip2, # name of IP address geocoding service (symbol)
+  timeout: 1, # in seconds
+  ip_lookup: :geoip2,
   geoip2: {
     file: File.join('/usr', 'share', 'GeoIP', 'GeoLite2-City.mmdb')
   },
-
-  # Exceptions that should not be rescued by default
-  # (if you want to implement custom error handling);
-  # supports SocketError and Timeout::Error
-  # always_raise: [],
-
-  # Calculation options
-  # units: :mi,                 # :km for kilometers or :mi for miles
-  # distances: :linear          # :spherical or :linear
-
-  # Cache configuration
-  cache: Redis.new # cache object (must respond to #[], #[]=, and #del)
+  cache: Redis.new
   # cache_options: {
   #   expiration: 2.days,
   #   prefix: 'geocoder:'

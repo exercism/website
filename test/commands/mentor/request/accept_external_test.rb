@@ -6,7 +6,7 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
 
-    Mentor::Request::AcceptExternal.(mentor, solution)
+    Mentor::Request::AcceptExternal.(mentor, solution, '127.0.0.1')
 
     assert_equal 1, Mentor::Request.count
     request = Mentor::Request.last
@@ -21,7 +21,7 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
 
-    discussion = Mentor::Request::AcceptExternal.(mentor, solution)
+    discussion = Mentor::Request::AcceptExternal.(mentor, solution, '127.0.0.1')
 
     assert Mentor::Request.last, discussion.request
     assert mentor, discussion.mentor
@@ -37,7 +37,7 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     create :mentor_discussion, mentor: mentor, solution: solution
     create :mentor_discussion, mentor: mentor, solution: solution
 
-    Mentor::Request::AcceptExternal.(mentor, solution)
+    Mentor::Request::AcceptExternal.(mentor, solution, '127.0.0.1')
 
     assert_equal 3, Mentor::Request.count
   end
@@ -49,7 +49,7 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     solution = create :practice_solution, track: track, user: student
     create :user_track, user: student, track: track
 
-    discussion = Mentor::Request::AcceptExternal.(mentor, solution)
+    discussion = Mentor::Request::AcceptExternal.(mentor, solution, '127.0.0.1')
     perform_enqueued_jobs
 
     assert_equal 1, Metric.count
@@ -58,5 +58,6 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     assert_equal discussion.request.created_at, metric.occurred_at
     assert_equal track, metric.track
     assert_equal student, metric.user
+    assert_equal 'US', metric.country_code
   end
 end

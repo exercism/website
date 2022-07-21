@@ -3,13 +3,11 @@ require "test_helper"
 class Metric::QueueTest < ActiveSupport::TestCase
   test "queues log metric job" do
     issue = create :github_issue
-    occurred_at = Time.current - 2.seconds
-    country_code = 'NZ'
     track = create :track
     user = create :user
 
     assert_enqueued_with(job: LogMetricJob) do
-      Metric::Queue.(:open_issue, Time.current, country_code, track:, user:, issue:)
+      Metric::Queue.(:open_issue, Time.current, track:, user:, issue:)
     end
   end
 
@@ -63,13 +61,13 @@ class Metric::QueueTest < ActiveSupport::TestCase
   test "creates metric" do
     type = :open_issue
     occurred_at = Time.current - 2.seconds
-    country_code = 'NZ'
     issue = create :github_issue
     track = create :track
     user = create :user
+    remote_ip = '127.0.0.1'
 
     perform_enqueued_jobs do
-      Metric::Queue.(type, occurred_at, country_code, track:, user:, issue:)
+      Metric::Queue.(type, occurred_at, remote_ip:, track:, user:, issue:)
     end
 
     assert_equal 1, Metric.count
@@ -77,7 +75,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
 
     assert_equal Metrics::OpenIssueMetric, metric.class
     assert_equal occurred_at, metric.occurred_at
-    assert_equal country_code, metric.country_code
+    assert_equal 'US', metric.country_code
     assert_equal track, metric.track
     assert_equal user, metric.user
   end
@@ -85,7 +83,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
   test "does not crash when job fails metric" do
     type = :open_issue
     occurred_at = Time.current - 2.seconds
-    country_code = 'NZ'
+    remote_ip = '127.0.0.1'
     issue = create :github_issue
     track = create :track
     user = create :user
@@ -93,7 +91,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
     LogMetricJob.stubs(:perform_later).raises
 
     perform_enqueued_jobs do
-      Metric::Queue.(type, occurred_at, country_code, track:, user:, issue:)
+      Metric::Queue.(type, occurred_at, remote_ip:, track:, user:, issue:)
     end
 
     refute Metric.exists?

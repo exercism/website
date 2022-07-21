@@ -2,7 +2,7 @@ class Solution
   class Create
     include Mandate
 
-    initialize_with :user, :exercise, :country_code
+    initialize_with :user, :exercise, :remote_ip
 
     def call
       guard!
@@ -56,7 +56,7 @@ class Solution
     end
 
     def log_metric!(solution)
-      Metric::Queue.(:submit_solution, solution.created_at, country_code, solution:, track:, user:)
+      Metric::Queue.(:submit_solution, solution.created_at, remote_ip:, solution:, track:, user:)
     end
 
     memoize

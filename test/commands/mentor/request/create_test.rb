@@ -7,7 +7,7 @@ class Mentor::Request::CreateTest < ActiveSupport::TestCase
     create :user_track, user: user, track: solution.track
     comment = "Please help with this"
 
-    Mentor::Request::Create.(solution, comment, 'JP')
+    Mentor::Request::Create.(solution, comment, '127.0.0.1')
 
     assert_equal 1, Mentor::Request.count
 
@@ -22,7 +22,7 @@ class Mentor::Request::CreateTest < ActiveSupport::TestCase
     create :user_track, user: user, track: solution.track
     existing_request = create :mentor_request, status: :pending, solution: solution
 
-    new_request = Mentor::Request::Create.(solution, "foobar", 'JP')
+    new_request = Mentor::Request::Create.(solution, "foobar", '127.0.0.1')
     assert_equal existing_request, new_request
   end
 
@@ -30,7 +30,7 @@ class Mentor::Request::CreateTest < ActiveSupport::TestCase
     existing_request = create :mentor_request, status: :fulfilled
     create :user_track, user: existing_request.solution.user, track: existing_request.solution.track
 
-    new_request = Mentor::Request::Create.(existing_request.solution, "some copy", 'JP')
+    new_request = Mentor::Request::Create.(existing_request.solution, "some copy", '127.0.0.1')
     refute_equal existing_request, new_request
   end
 
@@ -40,7 +40,7 @@ class Mentor::Request::CreateTest < ActiveSupport::TestCase
     solution.user_track.expects(num_available_mentoring_slots: 0)
 
     assert_raises NoMentoringSlotsAvailableError do
-      Mentor::Request::Create.(solution, "some copy", 'JP')
+      Mentor::Request::Create.(solution, "some copy", '127.0.0.1')
     end
   end
 
@@ -50,7 +50,7 @@ class Mentor::Request::CreateTest < ActiveSupport::TestCase
     solution = create :practice_solution, user: user, track: track
     create :user_track, user: user, track: track
 
-    request = Mentor::Request::Create.(solution, "Please help with this", 'JP')
+    request = Mentor::Request::Create.(solution, "Please help with this", '127.0.0.1')
     perform_enqueued_jobs
 
     assert_equal 1, Metric.count

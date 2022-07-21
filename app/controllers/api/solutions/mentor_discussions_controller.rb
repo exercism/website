@@ -7,7 +7,7 @@ module API
       Mentor::Discussion::FinishByStudent.(
         @discussion,
         params[:rating],
-        country_code,
+        request.remote_ip,
         requeue: params[:requeue],
         report: params[:report],
         block: params[:block],

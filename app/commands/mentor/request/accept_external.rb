@@ -3,7 +3,7 @@ module Mentor
     class AcceptExternal
       include Mandate
 
-      initialize_with :mentor, :solution
+      initialize_with :mentor, :solution, :remote_ip
 
       def call
         Mentor::Request.transaction do
@@ -25,7 +25,7 @@ module Mentor
 
       private
       def log_metric!(request)
-        Metric::Queue.(:request_private_mentoring, request.created_at, request:, track:, user:)
+        Metric::Queue.(:request_private_mentoring, request.created_at, remote_ip:, request:, track:, user:)
       end
 
       def user = solution.user

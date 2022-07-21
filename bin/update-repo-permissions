@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+./bin/rails runner lib/update_repo_permissions.rb

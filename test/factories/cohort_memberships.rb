@@ -7,5 +7,13 @@ FactoryBot.define do
     user { create :user }
     introduction { "Welcome to the #{cohort.slug} cohort" }
     status { :enrolled }
+
+    trait :enrolled do
+      status { :enrolled }
+    end
+
+    trait :on_waiting_list do
+      status { :on_waiting_list }
+    end
   end
 end

@@ -23,7 +23,7 @@
       - else
         %h3.text-h1.text-center.mb-16 You're on the waiting list
         %p.text-p-xlarge.mb-16.text-center.mx-auto{ style: "max-width:800px;" }
-          Sorry - the #{cohort.name} filled up before you got here! You're currently on the waiting list. If a space becomes available we'll let you know. Otherwise we'll message you about the next #{cohort.name} later in the year.
+          Sorry - the #{cohort.name} filled up before you got here! You're currently in #{membership.position_on_waiting_list.ordinalize} place on the waiting list. If a space becomes available we'll let you know. Otherwise we'll message you about the next #{cohort.name} later in the year.
 
     - else
       %h3.text-h1.text-center.mb-16 Sign up to the #{cohort.name}

@@ -3,7 +3,7 @@ class CohortsController < ApplicationController
   before_action :use_cohort
 
   def show
-    @membership = CohortMembership.find_by(user: current_user, cohort: @cohort) if user_signed_in?
+    @membership = current_user.cohort_memberships.find_by(cohort: @cohort) if user_signed_in?
   end
 
   def join

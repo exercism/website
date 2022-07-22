@@ -10,7 +10,7 @@ class API::DocsControllerTest < API::BaseTestCase
     end
 
     get api_docs_path, headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
     expected = AssembleDocs.({}).to_json
     assert_equal expected, response.body
   end
@@ -30,6 +30,6 @@ class API::DocsControllerTest < API::BaseTestCase
 
     get api_docs_path(params), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
   end
 end

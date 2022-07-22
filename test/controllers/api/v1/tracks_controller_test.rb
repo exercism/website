@@ -6,7 +6,7 @@ class API::V1::TracksControllerTest < API::BaseTestCase
   test "show should return 404 when there is no track" do
     setup_user
     get api_v1_track_path(SecureRandom.uuid), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = {
       error: {
         type: "track_not_found",
@@ -22,7 +22,7 @@ class API::V1::TracksControllerTest < API::BaseTestCase
     setup_user
     track = create :track
     get api_v1_track_path(track.slug), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = {
       track: {

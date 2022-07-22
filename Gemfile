@@ -112,5 +112,7 @@ gem 'mini_magick'
 
 gem 'elasticsearch', '6.8.3'
 
+gem "rack-attack", "~> 6.6"
+
 gem 'geocoder', '~> 1.8'
 gem "maxminddb", "~> 0.1.22"

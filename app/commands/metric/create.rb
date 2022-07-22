@@ -14,8 +14,5 @@ class Metric::Create
   end
 
   private
-  def country_code
-    results = Geocoder.search(params[:remote_ip])
-    results.first&.country_code
-  end
+  def country_code = Geocoder.search(params[:remote_ip]).first&.country_code
 end

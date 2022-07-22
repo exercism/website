@@ -12,9 +12,9 @@ tooling_repos = repos_with_tag('exercism-tooling')
 TrackWithRepos = Struct.new(:repo, :tooling_repos, :active)
 tracks = track_repos.map do |track_repo|
   active = Track.for_repo(track_repo)&.active?
-  track_tooling_repos = tooling_repos.intersection(%w[test-runner representer analyzer].map do |tooling_repo_suffix|
-                                                     "#{track_repo}-#{tooling_repo_suffix}"
-                                                   end)
+  track_tooling_repos = %w[test-runner representer analyzer].
+    map { |tooling_repo_suffix| "#{track_repo}-#{tooling_repo_suffix}" }.
+    intersection(tooling_repos)
   TrackWithRepos.new(track_repo, track_tooling_repos, active)
 end
 
@@ -58,7 +58,10 @@ def update_repo_permissions(repo, additional_checks = [])
   }
 
   client.protect_branch(repo, branch, new_protection)
-  Rails.logger.info "#{repo}: updated"
+
+  # rubocop:disable Rails/Output
+  p "#{repo}: updated"
+  # rubocop:enable Rails/Output
 end
 
 active_tracks.each do |active_track|

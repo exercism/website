@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_20_075930) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -71,11 +71,27 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
 
   create_table "cohort_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "cohort_slug", null: false
     t.text "introduction", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_cohort_memberships_on_user_id", unique: true
+    t.integer "status", limit: 1, default: 0, null: false
+    t.bigint "cohort_id", null: false
+    t.index ["cohort_id"], name: "index_cohort_memberships_on_cohort_id"
+    t.index ["user_id", "cohort_id"], name: "index_cohort_memberships_on_user_id_and_cohort_id", unique: true
+    t.index ["user_id"], name: "index_cohort_memberships_on_user_id"
+  end
+
+  create_table "cohorts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "track_id", null: false
+    t.string "slug", null: false
+    t.string "name", null: false
+    t.integer "capacity", default: 0, null: false
+    t.datetime "begins_at", null: false
+    t.datetime "ends_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_cohorts_on_slug", unique: true
+    t.index ["track_id"], name: "index_cohorts_on_track_id"
   end
 
   create_table "contributor_team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -961,7 +977,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_090353) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
+  add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
+  add_foreign_key "cohorts", "tracks"
   add_foreign_key "contributor_team_memberships", "contributor_teams"
   add_foreign_key "contributor_team_memberships", "users"
   add_foreign_key "contributor_teams", "tracks"

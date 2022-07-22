@@ -1,7 +1,20 @@
 class CohortMembership < ApplicationRecord
-  belongs_to :user
+  extend Mandate::Memoize
 
-  def member_number
-    CohortMembership.where('id < ?', id).count + 1
+  belongs_to :user
+  belongs_to :cohort
+
+  enum status: {
+    on_waiting_list: 0,
+    enrolled: 1
+  }
+
+  def status = super.to_sym
+
+  memoize
+  def position_on_waiting_list
+    return unless on_waiting_list?
+
+    CohortMembership.where(cohort:, status:).where('id <= ?', id).count
   end
 end

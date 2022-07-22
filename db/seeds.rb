@@ -150,7 +150,7 @@ user_track = UserTrack.create_or_find_by!(user: iHiD, track: ruby)
 solution = Solution::Create.(
   iHiD,
   ruby.practice_exercises.find_by!(slug: "hello-world"),
-  'UK'
+  '127.0.0.1'
 )
 submission = Submission.create!(
   solution: solution,
@@ -164,14 +164,14 @@ submission.files.create!(
 )
 Iteration::Create.(solution, submission)
 
-Solution::Complete.(solution, user_track, 'UK')
-Solution::Publish.(solution, user_track, [], 'UK')
+Solution::Complete.(solution, user_track, '127.0.0.1')
+Solution::Publish.(solution, user_track, [], '127.0.0.1')
 
 ## Create mentoring solutions
 UserTrack.create_or_find_by!(user: erik, track: ruby)
-Solution::Create.(erik, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current, 'NL')
+Solution::Create.(erik, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current, '127.0.0.1')
 
-solution = Solution::Create.(erik, ruby.concept_exercises.find_by!(slug: "lasagna"), 'NL')
+solution = Solution::Create.(erik, ruby.concept_exercises.find_by!(slug: "lasagna"), '127.0.0.1')
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
 Iteration.create!(uuid: SecureRandom.uuid, submission: submission, solution: solution, idx: 1)
@@ -179,10 +179,10 @@ Mentor::Request.create!(solution: solution, comment_markdown: "I would like to i
 
 ## Create mentoring solutions
 UserTrack.create_or_find_by!(user: karlo, track: ruby, practice_mode: true)
-Solution::Create.(karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current, 'PH')
+Solution::Create.(karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current, '127.0.0.1')
 
 ruby.practice_exercises.limit(10).each do |exercise|
-  solution = Solution::Create.(karlo, exercise, 'PH')
+  solution = Solution::Create.(karlo, exercise, '127.0.0.1')
   submission = Submission.create!(solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
   submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
   Iteration.create!(uuid: SecureRandom.uuid,  submission: submission, solution: solution, idx: 1)

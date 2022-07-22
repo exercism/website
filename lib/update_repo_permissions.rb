@@ -1,4 +1,4 @@
-def repositories_with_tag(tag)
+def repos_with_tag(tag)
   Exercism.octokit_client.
     search_repositories("org:exercism topic:#{tag}").
     items.
@@ -6,5 +6,66 @@ def repositories_with_tag(tag)
     sort
 end
 
-# track_repositories = repositories_with_tag('exercism-track')
-# tooling_repositories = repositories_with_tag('exercism-tooling')
+track_repos = repos_with_tag('exercism-track')
+tooling_repos = repos_with_tag('exercism-tooling')
+
+TrackWithRepos = Struct.new(:repo, :tooling_repos, :active)
+tracks = track_repos.map do |track_repo|
+  active = Track.for_repo(track_repo)&.active?
+  track_tooling_repos = tooling_repos.intersection(%w[test-runner representer analyzer].map do |tooling_repo_suffix|
+                                                     "#{track_repo}-#{tooling_repo_suffix}"
+                                                   end)
+  TrackWithRepos.new(track_repo, track_tooling_repos, active)
+end
+
+active_tracks, _inactive_tracks = tracks.partition(&:active)
+
+def update_repo_permissions(repo, additional_checks = [])
+  branch = 'main'
+  accept = 'application/vnd.github.v3+json'
+
+  protection =
+    begin
+      Exercism.octokit_client.branch_protection(repo, branch, accept:).to_h
+    rescue Octokit::NotFound
+      {}
+    end
+
+  new_protection = {
+    accept:,
+    required_status_checks: {
+      strict: false,
+      checks: protection.dig(:required_status_checks, :checks).to_a.concat(additional_checks).uniq
+    },
+    enforce_admins: false, # We want admins to be able to override things
+    required_pull_request_reviews: {
+      dismissal_restrictions: {},
+      dismiss_stale_reviews: false,
+      require_code_owner_reviews: true, # We want to enforce code owner reviews
+      required_approving_review_count: [protection.dig(:required_pull_request_reviews, :required_approving_review_count).to_i,
+                                        1].max,
+      bypass_pull_request_allowances: {
+        users: [], # Disallow bypassing PR allowances for users
+        teams: [] # Disallow bypassing PR allowances for teams
+      }
+    },
+    restrictions: nil,
+    required_linear_history: !!protection[:required_linear_history],
+    allow_force_pushes: false, # We want to disable force pushing
+    allow_deletions: false, # Don't allow deleting the branch
+    block_creations: false,
+    required_conversation_resolution: false
+  }
+
+  client.protect_branch(repo, branch, new_protection)
+  Rails.logger.info "#{repo}: updated"
+end
+
+active_tracks.each do |active_track|
+  configlet_check = { context: "configlet / configlet", app_id: 15_368 }
+  update_repo_permissions(active_track.repo, [configlet_check])
+
+  active_track.tooling_repos.each do |tooling_repo|
+    update_repo_permissions(tooling_repo)
+  end
+end

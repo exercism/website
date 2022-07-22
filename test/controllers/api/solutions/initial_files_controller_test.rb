@@ -10,7 +10,7 @@ module API
 
         get api_solution_initial_files_path(1), headers: @headers, as: :json
 
-        assert_response 404
+        assert_response :not_found
         assert_equal(
           {
             "error" => {
@@ -28,7 +28,7 @@ module API
 
         get api_solution_initial_files_path(solution.uuid), headers: @headers, as: :json
 
-        assert_response 403
+        assert_response :forbidden
         assert_equal(
           {
             "error" => {

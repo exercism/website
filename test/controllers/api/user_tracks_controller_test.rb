@@ -16,7 +16,7 @@ class API::UserTracksControllerTest < API::BaseTestCase
 
     patch activate_learning_mode_api_track_path(user_track.track), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :ok
     refute user_track.reload.practice_mode
   end
 
@@ -30,7 +30,7 @@ class API::UserTracksControllerTest < API::BaseTestCase
 
     patch activate_practice_mode_api_track_path(user_track.track), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :ok
     assert user_track.reload.practice_mode
   end
 
@@ -45,7 +45,7 @@ class API::UserTracksControllerTest < API::BaseTestCase
 
     patch reset_api_track_path(user_track.track), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :ok
   end
 
   ###############
@@ -59,7 +59,7 @@ class API::UserTracksControllerTest < API::BaseTestCase
 
     patch leave_api_track_path(user_track.track), headers: @headers, params: { reset: true }, as: :json
 
-    assert_response 200
+    assert_response :ok
     assert_raises ActiveRecord::RecordNotFound do
       user_track.reload
     end
@@ -73,7 +73,7 @@ class API::UserTracksControllerTest < API::BaseTestCase
 
     patch leave_api_track_path(user_track.track), headers: @headers, params: { reset: false }, as: :json
 
-    assert_response 200
+    assert_response :ok
     assert_raises ActiveRecord::RecordNotFound do
       user_track.reload
     end

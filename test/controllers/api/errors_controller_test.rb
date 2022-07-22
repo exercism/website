@@ -5,7 +5,7 @@ class API::ErrorsControllerTest < API::BaseTestCase
     setup_user
     get "/api/foobar", as: :json, headers: @headers
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "resource_not_found",
       message: I18n.t('api.errors.resource_not_found')

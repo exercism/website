@@ -10,7 +10,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     setup_user
     solution = create :concept_solution
     patch cancel_api_solution_submission_test_run_path(solution.uuid, 999), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
   end
 
   test "cancel should 403 if the solution belongs to someone else" do
@@ -20,7 +20,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
 
     patch cancel_api_solution_submission_test_run_path(solution.uuid, submission.uuid), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "submission_not_accessible",
       message: I18n.t('api.errors.submission_not_accessible')
@@ -39,6 +39,6 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
 
     patch cancel_api_solution_submission_test_run_path(solution.uuid, submission.uuid), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
   end
 end

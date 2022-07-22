@@ -14,7 +14,7 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
     invalid_headers['HTTP_X_HUB_SIGNATURE_256'] = "invalid_signature"
 
     post webhooks_push_updates_path, headers: invalid_headers, as: :json, params: payload
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "create should return 200 when signature is valid" do
@@ -27,7 +27,7 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_push_updates_path, headers: headers(payload), as: :json, params: payload
-    assert_response 204
+    assert_response :no_content
   end
 
   test "create should process repo update when signature is valid" do
@@ -57,6 +57,6 @@ class Webhooks::PushUpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_push_updates_path, headers: headers(payload, event: 'ping'), as: :json, params: payload
-    assert_response 204
+    assert_response :no_content
   end
 end

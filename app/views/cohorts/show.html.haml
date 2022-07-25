@@ -2,7 +2,7 @@
   .bg-white.relative
     .m-20.py-16.px-20.text-18.font-bold.text-red.border-orange.border-1.rounded-5.bg-lightOrange.text-center
       This Cohort has now started and is closed for applications.
-= render "cohorts/show/#{@cohort.slug}", cohort: @cohort, num_concepts: @num_concepts, num_exercises: @num_exercises
+= render "cohorts/show/#{@cohort.slug.underscore}", cohort: @cohort, user_track: @user_track
 
 - if @cohort.begins_at > Date.current
   = render "cohorts/show/form", cohort: @cohort, membership: @membership

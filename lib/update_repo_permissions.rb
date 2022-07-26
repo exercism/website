@@ -1,3 +1,4 @@
+# rubocop:disable Rails/Output
 def repos_with_tag(tag)
   Exercism.octokit_client.
     search_repositories("org:exercism topic:#{tag}").
@@ -59,9 +60,7 @@ def update_repo_permissions(repo, additional_checks = [])
 
   client.protect_branch(repo, branch, new_protection)
 
-  # rubocop:disable Rails/Output
-  p "#{repo}: updated"
-  # rubocop:enable Rails/Output
+  p "#{repo}: updated repo permissions"
 end
 
 def update_active_repo_permissions(active_tracks)
@@ -80,3 +79,18 @@ def update_inactive_repo_permissions(inactive_tracks)
   # We'll want them to be able to merge pull requests without
   # approval, but we'll probably want to keep the other settings
 end
+
+def add_maintainers_admin_to_repos(repos)
+  maintainers_admin_team = client.team_by_name("exercism", "maintainers-admin")
+
+  repos.each do |repo|
+    client.add_team_repository(maintainers_admin_team.id, "exercism/#{repo}", permission: :maintain)
+    p "#{repo}: added @exercism/maintainers-admin team"
+  end
+end
+
+# update_active_repo_permissions(active_tracks)
+# update_inactive_repo_permissions(inactive_tracks)
+# add_maintainers_admin_to_repos(track_repos + tooling_repos)
+
+# rubocop:enable Rails/Output

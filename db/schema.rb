@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_20_075930) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_25_233608) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -247,6 +247,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_20_075930) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "has_test_runner", default: false, null: false
+    t.integer "num_published_solutions", default: 0, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
@@ -604,6 +605,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_20_075930) do
     t.datetime "updated_at", null: false
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
+    t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true

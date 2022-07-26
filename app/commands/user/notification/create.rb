@@ -18,7 +18,7 @@ class User::Notification
       begin
         notification.save!
         notification.tap do
-          ActivateUserNotificationJob.set(wait: 5.seconds).perform_later(notification)
+          User::Notification::Activate.defer(notification, wait: 5.seconds)
 
           NotificationsChannel.broadcast_pending!(user, notification)
         end

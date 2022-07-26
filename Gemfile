@@ -9,8 +9,10 @@ gem 'jsbundling-rails'
 gem 'turbo-rails'
 gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
 
-gem 'mysql2',
-  github: 'brianmario/mysql2', ref: '56c0ced2afe2cabe0b3f1a05e8e5e86713ebbc87'
+gem 'mysql2', 
+  github: 'brianmario/mysql2', 
+  ref: '56c0ced2afe2cabe0b3f1a05e8e5e86713ebbc87'
+
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'

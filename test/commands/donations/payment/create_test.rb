@@ -33,12 +33,15 @@ class Donations::Payment::CreateTest < Donations::TestBase
     assert_includes user.reload.badges.map(&:class), Badges::SupporterBadge
   end
 
-  test "enqueues email job" do
+  test "sends email" do
     user = create :user
 
-    assert_enqueued_with(job: SendDonationPaymentEmailJob) do
+    perform_enqueued_jobs do
       Donations::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
     end
+
+    assert_equal "Thank you for your donation", ActionMailer::Base.deliveries.first.subject
+    assert_equal 1, ActionMailer::Base.deliveries.count
   end
 
   test "works with subscription passed manually" do

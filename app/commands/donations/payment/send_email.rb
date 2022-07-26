@@ -2,6 +2,8 @@ class Donations::Payment
   class SendEmail
     include Mandate
 
+    queue_as :notifications
+
     initialize_with :payment
 
     def call

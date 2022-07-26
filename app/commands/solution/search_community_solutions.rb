@@ -108,7 +108,7 @@ class Solution
       [value].flatten
     end
 
-    TIMEOUT = '100ms'.freeze
+    TIMEOUT = '400ms'.freeze
     private_constant :TIMEOUT
 
     class Fallback

@@ -101,12 +101,18 @@ def update_inactive_repo_permissions(inactive_tracks)
   end
 end
 
+def get_team(slug) = Exercism.octokit_client.team_by_name("exercism", slug)
+
+def add_team_to_repository(team, repo, permission)
+  Exercism.octokit_client.add_team_repository(team.id, "exercism/#{repo}", permission:)
+  p "#{repo}: added @#{team.name} team"
+end
+
 def add_maintainers_admin_to_repos(repos)
-  maintainers_admin_team = Exercism.octokit_client.team_by_name("exercism", "maintainers-admin")
+  maintainers_admin_team = get_team("maintainers-admin")
 
   repos.each do |repo|
-    Exercism.octokit_client.add_team_repository(maintainers_admin_team.id, "exercism/#{repo}", permission: :maintain)
-    p "#{repo}: added @exercism/maintainers-admin team"
+    add_team_to_repository(maintainers_admin_team, repo, :maintain)
   end
 end
 
@@ -150,17 +156,15 @@ end
 
 def add_reviewers_team_to_active_tracks_with_few_maintainers(active_tracks)
   tracks_with_few_maintainers = fetch_tracks_with_few_maintainers
-  reviewers_team = Exercism.octokit_client.team_by_name("exercism", "reviewers")
+  reviewers_team = get_team("reviewers")
 
   active_tracks.each do |active_track|
     next unless tracks_with_few_maintainers.include?(active_track.slug)
 
-    Exercism.octokit_client.add_team_repository(reviewers_team.id, active_track.repo, permission: :push)
-    p "#{active_track.repo}: added @exercism/reviewers team"
+    add_team_to_repository(reviewers_team, active_track.repo, :push)
 
     active_track.tooling_repos.each do |tooling_repo|
-      Exercism.octokit_client.add_team_repository(reviewers_team.id, tooling_repo, permission: :push)
-      p "#{tooling_repo}: added @exercism/reviewers team"
+      add_team_to_repository(reviewers_team, tooling_repo, :push)
     end
   end
 end

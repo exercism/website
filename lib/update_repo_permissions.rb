@@ -18,7 +18,7 @@ tracks = track_repos.map do |track_repo|
   TrackWithRepos.new(track_repo, track_tooling_repos, active)
 end
 
-active_tracks, _inactive_tracks = tracks.partition(&:active)
+_active_tracks, _inactive_tracks = tracks.partition(&:active)
 
 def update_repo_permissions(repo, additional_checks = [])
   branch = 'main'
@@ -64,11 +64,19 @@ def update_repo_permissions(repo, additional_checks = [])
   # rubocop:enable Rails/Output
 end
 
-active_tracks.each do |active_track|
-  configlet_check = { context: "configlet / configlet", app_id: 15_368 }
-  update_repo_permissions(active_track.repo, [configlet_check])
+def update_active_repo_permissions(active_tracks)
+  active_tracks.each do |active_track|
+    configlet_check = { context: "configlet / configlet", app_id: 15_368 }
+    update_repo_permissions(active_track.repo, [configlet_check])
 
-  active_track.tooling_repos.each do |tooling_repo|
-    update_repo_permissions(tooling_repo)
+    active_track.tooling_repos.each do |tooling_repo|
+      update_repo_permissions(tooling_repo)
+    end
   end
+end
+
+def update_inactive_repo_permissions(inactive_tracks)
+  # TODO: consider what permissions to use for inactive repos
+  # We'll want them to be able to merge pull requests without
+  # approval, but we'll probably want to keep the other settings
 end

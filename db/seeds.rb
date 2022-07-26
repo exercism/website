@@ -164,14 +164,14 @@ submission.files.create!(
 )
 Iteration::Create.(solution, submission)
 
-Solution::Complete.(solution, user_track, '127.0.0.1')
-Solution::Publish.(solution, user_track, [], '127.0.0.1')
+Solution::Complete.(solution, user_track)
+Solution::Publish.(solution, user_track, [])
 
 ## Create mentoring solutions
 UserTrack.create_or_find_by!(user: erik, track: ruby)
-Solution::Create.(erik, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current, '127.0.0.1')
+Solution::Create.(erik, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 
-solution = Solution::Create.(erik, ruby.concept_exercises.find_by!(slug: "lasagna"), '127.0.0.1')
+solution = Solution::Create.(erik, ruby.concept_exercises.find_by!(slug: "lasagna"))
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
 Iteration.create!(uuid: SecureRandom.uuid, submission: submission, solution: solution, idx: 1)
@@ -179,10 +179,10 @@ Mentor::Request.create!(solution: solution, comment_markdown: "I would like to i
 
 ## Create mentoring solutions
 UserTrack.create_or_find_by!(user: karlo, track: ruby, practice_mode: true)
-Solution::Create.(karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current, '127.0.0.1')
+Solution::Create.(karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 
 ruby.practice_exercises.limit(10).each do |exercise|
-  solution = Solution::Create.(karlo, exercise, '127.0.0.1')
+  solution = Solution::Create.(karlo, exercise)
   submission = Submission.create!(solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
   submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
   Iteration.create!(uuid: SecureRandom.uuid,  submission: submission, solution: solution, idx: 1)

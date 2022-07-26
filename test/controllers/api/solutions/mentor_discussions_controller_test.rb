@@ -45,7 +45,6 @@ class API::Solutions::MentorDiscussionsControllerTest < API::BaseTestCase
     Mentor::Discussion::FinishByStudent.expects(:call).with(
       discussion,
       4,
-      '127.0.0.1',
       requeue: "requeue_param",
       report: "report_param",
       block: "block_param",

@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :ensure_onboarded!
   before_action :mark_notifications_as_read!
+  before_action :set_request_context
 
   def process_action(*args)
     super
@@ -51,6 +52,10 @@ class ApplicationController < ActionController::Base
     return unless current_user&.mentor?
 
     redirect_to mentoring_inbox_path
+  end
+
+  def set_request_context
+    Exercism.request_context = { remote_ip: request.remote_ip }
   end
 
   #############################

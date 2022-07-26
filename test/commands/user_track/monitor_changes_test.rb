@@ -31,7 +31,7 @@ class Solution::CompleteWithSummaryTest < ActiveSupport::TestCase
       create :iteration, submission: submission
 
       summary = UserTrack::MonitorChanges.(user_track) do
-        Solution::Complete.(solution, user_track, '127.0.0.1')
+        Solution::Complete.(solution, user_track)
       end
 
       assert_equal [concept_exercise_2, practice_exercise_1, practice_exercise_2], summary[:unlocked_exercises]

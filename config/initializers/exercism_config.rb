@@ -8,8 +8,12 @@ end
 
 Exercism.config.hcaptcha_endpoint = "https://hcaptcha.com"
 
-# TODO: Move this upstream
 module Exercism
+  # We'll store the request context for easy access from commands
+  # without having to pass it all the way down from the controller
+  cattr_accessor :request_context
+
+  # TODO: Move this upstream
   class ToolingJob
     def execution_exception
       data.fetch(:execution_exception, nil)

@@ -2,10 +2,10 @@ class Solution
   class Publish
     include Mandate
 
-    initialize_with :solution, :user_track, :iteration_idx, :remote_ip
+    initialize_with :solution, :user_track, :iteration_idx
 
     def call
-      Solution::Complete.(solution, user_track, remote_ip) unless solution.completed?
+      Solution::Complete.(solution, user_track) unless solution.completed?
 
       solution.with_lock do
         return if solution.published?
@@ -45,7 +45,8 @@ class Solution
     end
 
     def log_metric!
-      Metric::Queue.(:publish_solution, solution.published_at, remote_ip:, solution:, track: user_track.track, user: user_track.user)
+      Metric::Queue.(:publish_solution, solution.published_at,
+        solution:, track: user_track.track, user: user_track.user, remote_ip: Exercism.request_context[:remote_ip])
     end
   end
 end

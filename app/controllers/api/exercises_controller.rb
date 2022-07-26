@@ -10,7 +10,7 @@ module API
     end
 
     def start
-      Solution::Create.(current_user, @exercise, request.remote_ip)
+      Solution::Create.(current_user, @exercise)
 
       render json: {
         links: {

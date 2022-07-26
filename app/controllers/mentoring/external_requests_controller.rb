@@ -15,7 +15,7 @@ class Mentoring::ExternalRequestsController < ApplicationController
     existing_discussion = @solution.mentor_discussions.find_by(mentor: current_user)
     return redirect_to mentoring_discussion_path(existing_discussion) if existing_discussion
 
-    discussion = Mentor::Request::AcceptExternal.(current_user, @solution, request.remote_ip)
+    discussion = Mentor::Request::AcceptExternal.(current_user, @solution)
     redirect_to mentoring_discussion_path(discussion)
   end
 

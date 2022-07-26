@@ -3,7 +3,7 @@ module Mentor
     class Create
       include Mandate
 
-      initialize_with :solution, :comment_markdown, :remote_ip
+      initialize_with :solution, :comment_markdown
 
       def call
         guard!
@@ -42,7 +42,8 @@ module Mentor
       end
 
       def log_metric!(request)
-        Metric::Queue.(:request_mentoring, request.created_at, remote_ip:, request:, track:, user:)
+        Metric::Queue.(:request_mentoring, request.created_at,
+          request:, track:, user:, remote_ip: Exercism.request_context[:remote_ip])
       end
 
       def user = solution.user

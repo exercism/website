@@ -43,7 +43,7 @@ module API
         rescue ActiveRecord::RecordNotFound
           return render_403(:solution_not_unlocked) unless user_track.exercise_unlocked?(exercise)
 
-          solution = Solution::Create.(current_user, exercise, request.remote_ip)
+          solution = Solution::Create.(current_user, exercise)
         end
 
         respond_with_authored_solution(solution)

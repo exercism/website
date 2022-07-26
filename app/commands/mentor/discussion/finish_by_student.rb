@@ -3,7 +3,7 @@ module Mentor
     class FinishByStudent
       include Mandate
 
-      def initialize(discussion, rating, remote_ip,
+      def initialize(discussion, rating,
                      requeue: false,
                      report: false,
                      block: false,
@@ -13,7 +13,6 @@ module Mentor
 
         @discussion = discussion
         @rating = rating
-        @remote_ip = remote_ip
         @should_requeue = requeue
         @should_report = report
         @should_block = rating == 1 || block
@@ -41,7 +40,7 @@ module Mentor
         return unless should_requeue
 
         comment = @discussion.request&.comment_markdown || "[No comment provided]"
-        Mentor::Request::Create.(@discussion.solution, comment, remote_ip)
+        Mentor::Request::Create.(@discussion.solution, comment)
       end
 
       def report!
@@ -92,7 +91,8 @@ module Mentor
       end
 
       def log_metric!
-        Metric::Queue.(:finish_mentoring, discussion.finished_at, remote_ip:, discussion:, track:, user: student)
+        Metric::Queue.(:finish_mentoring, discussion.finished_at,
+          discussion:, track:, user: student, remote_ip: Exercism.request_context[:remote_ip])
       end
 
       delegate :track, to: :discussion
@@ -106,7 +106,7 @@ module Mentor
         )
       end
 
-      attr_reader :discussion, :rating, :remote_ip,
+      attr_reader :discussion, :rating,
         :should_requeue,
         :should_report, :report_reason, :report_message,
         :should_block,

@@ -70,6 +70,7 @@ module API
       create :iteration, solution: solution_2
       create :concept_solution, published_at: Time.current, num_stars: 33
 
+      exercise.update(num_published_solutions: 2)
       wait_for_opensearch_to_be_synced
 
       get api_track_exercise_community_solutions_path(

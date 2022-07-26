@@ -156,9 +156,11 @@ def add_reviewers_team_to_active_tracks_with_few_maintainers(active_tracks)
     next unless tracks_with_few_maintainers.include?(active_track.slug)
 
     Exercism.octokit_client.add_team_repository(reviewers_team.id, active_track.repo, permission: :push)
+    p "#{active_track.repo}: added @exercism/reviewers team"
 
     active_track.tooling_repos.each do |tooling_repo|
       Exercism.octokit_client.add_team_repository(reviewers_team.id, tooling_repo, permission: :push)
+      p "#{tooling_repo}: added @exercism/reviewers team"
     end
   end
 end

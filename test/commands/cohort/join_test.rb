@@ -30,6 +30,19 @@ class Cohort::JoinTest < ActiveSupport::TestCase
     assert_equal introduction, membership.introduction
   end
 
+  test "join cohort properly escapes introduction" do
+    user = create :user
+    cohort = create :cohort, capacity: 5
+    introduction = 'Hi "there"'
+
+    membership = Cohort::Join.(user, cohort, introduction)
+
+    assert_equal user, membership.user
+    assert_equal cohort, membership.cohort
+    assert_equal :enrolled, membership.status
+    assert_equal introduction, membership.introduction
+  end
+
   test "idempotent" do
     user = create :user
     cohort = create :cohort

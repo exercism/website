@@ -14,7 +14,7 @@ class Cohort::Join
         #{user.id},
         #{cohort.id},
         IF(COUNT(*)>=#{cohort.capacity},#{ON_WAITING_LIST_STATUS},#{ENROLLED_STATUS}),
-        "#{introduction}",
+        #{ActiveRecord::Base.connection.quote(introduction)},
         "#{time}",
         "#{time}"
       FROM cohort_memberships

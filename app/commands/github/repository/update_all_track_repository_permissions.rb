@@ -10,14 +10,14 @@
 #
 #    Example: GH CLI
 #    > gh api /repos/exercism/csharp/subscription --method PUT --field ignored=true
-class Github::Repository::UpdatePermissionsForAllTrackRepositories
+class Github::Repository::UpdateAllTrackRepositoryPermissions
   include Mandate
 
   def call
-    tracks_with_repos.each do |track_with_repos|
-      Github::Repository::UpdateBranchProtectionForTrackRepositories(track_with_repos.repo, track_with_repos.tooling_repos,
-        track_with_repos.active)
-    end
+    # tracks_with_repos.each do |track_with_repos|
+    #   Github::Repository::UpdateBranchProtectionForTrackRepositories(track_with_repos.repo, track_with_repos.tooling_repos,
+    #     track_with_repos.active)
+    # end
 
     # add_reviewers_team_to_active_tracks_with_few_maintainers(active_tracks)
     # add_maintainers_admin_to_repos(track_repos + tooling_repos)

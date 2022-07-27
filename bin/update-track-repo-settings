@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+./bin/rails runner 'Github::Repository::UpdateSettings.()'

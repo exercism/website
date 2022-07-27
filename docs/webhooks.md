@@ -6,7 +6,7 @@ We receive a webhook for any push event in the GitHub repo.
 The request is handled by `Webhooks::PushUpdatesController` which proxies to the `Webhooks::ProcessPushUpdate` command.
 
 The `Webhooks::ProcessPushUpdate` checks to see if this is a special repo (e.g. website-copy, docs, blog) or a track repo.
-A job is then queued (e.g. `SyncBlogJob`) for the event.
+A job is then queued for the event.
 Pushes to any other repos are silently ignored.
 
 The job then runs in the background and calls out to a corresponding class (e.g. `Git::SyncBlog.()`) which fetches the latest HEAD of the repo and then syncs whatever data needs updating.

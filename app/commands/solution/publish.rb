@@ -25,7 +25,7 @@ class Solution
     private
     def award_reputation!
       level = exercise.concept_exercise? ? :concept : exercise.difficulty_category
-      AwardReputationTokenJob.perform_later(
+      User::ReputationToken::Create.defer(
         solution.user,
         :published_solution,
         solution:,

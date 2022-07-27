@@ -20,7 +20,7 @@ class Track
         connections: concept_connections
       }
     rescue TrackHasCyclicPrerequisiteError
-      OpenIssueForDependencyCycleJob.perform_later(user_track.track)
+      Github::Issue::OpenForDependencyCycle.defer(user_track.track)
       raise
     end
 

@@ -4,6 +4,8 @@
 class Solution::QueueHeadTestRun
   include Mandate
 
+  queue_as :default
+
   def initialize(solution, force: false)
     @solution = solution
     @force = force

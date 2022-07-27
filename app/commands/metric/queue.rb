@@ -7,7 +7,7 @@ class Metric::Queue
     return if user&.ghost?
     return if user&.system?
 
-    LogMetricJob.perform_later(type, occurred_at, **attributes)
+    Metric::Create.defer(type, occurred_at, **attributes)
   rescue StandardError => e
     # Don't crash if the creation fails, e.g. if sidekiq is down
     Bugsnag.notify(e)

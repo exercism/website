@@ -146,7 +146,8 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     user = create :user, provider: "github", uid: "111", github_username: nil
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
 
-    assert_enqueued_with(job: AwardReputationToUserForPullRequestsJob, args: [user], queue: 'reputation') do
+    assert_enqueued_with(job: MandateJob, args: [User::ReputationToken::AwardForPullRequestsForUser.name, user],
+      queue: 'reputation') do
       User::AuthenticateFromOmniauth.(auth)
     end
   end
@@ -157,14 +158,15 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
 
     User::AuthenticateFromOmniauth.(auth)
 
-    assert_no_enqueued_jobs(only: AwardReputationToUserForPullRequestsJob)
+    assert_no_enqueued_jobs(only: MandateJob)
   end
 
   test "recalculate pull request reputation for email matches that change the github_username" do
     user = create :user, email: "user@exercism.org", github_username: nil
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
-    assert_enqueued_with(job: AwardReputationToUserForPullRequestsJob, args: [user], queue: 'reputation') do
+    assert_enqueued_with(job: MandateJob, args: [User::ReputationToken::AwardForPullRequestsForUser.name, user],
+      queue: 'reputation') do
       User::AuthenticateFromOmniauth.(auth)
     end
   end
@@ -175,7 +177,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
 
     User::AuthenticateFromOmniauth.(auth)
 
-    assert_no_enqueued_jobs(only: AwardReputationToUserForPullRequestsJob)
+    assert_no_enqueued_jobs(only: MandateJob)
   end
 
   test "calculate pull request reputation for bootstrapped user" do
@@ -190,7 +192,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       )
     )
 
-    assert_enqueued_jobs 1, only: AwardReputationToUserForPullRequestsJob, queue: 'reputation' do
+    assert_enqueued_jobs 1, only: MandateJob, queue: 'reputation' do
       User::AuthenticateFromOmniauth.(auth)
     end
   end

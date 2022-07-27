@@ -6,7 +6,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
     track = create :track
     user = create :user
 
-    assert_enqueued_with(job: LogMetricJob) do
+    assert_enqueued_with(job: MandateJob) do
       Metric::Queue.(:open_issue, Time.current, track:, user:, issue:)
     end
   end
@@ -15,7 +15,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
     issue = create :github_issue
     track = create :track
 
-    assert_enqueued_with(job: LogMetricJob) do
+    assert_enqueued_with(job: MandateJob) do
       Metric::Queue.(:open_issue, Time.current, track:, issue:)
     end
   end
@@ -24,7 +24,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
     issue = create :github_issue
     track = create :track
 
-    assert_enqueued_with(job: LogMetricJob) do
+    assert_enqueued_with(job: MandateJob) do
       Metric::Queue.(:open_issue, Time.current, user: nil, track:, issue:)
     end
   end
@@ -33,7 +33,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
     issue = create :github_issue
     user = create :user
 
-    assert_enqueued_with(job: LogMetricJob) do
+    assert_enqueued_with(job: MandateJob) do
       Metric::Queue.(:open_issue, Time.current, user:, issue:)
     end
   end
@@ -78,14 +78,14 @@ class Metric::QueueTest < ActiveSupport::TestCase
     assert_equal user, metric.user
   end
 
-  test "does not crash when job fails metric" do
+  test "does not crash when metric creation fails" do
     type = :open_issue
     occurred_at = Time.current - 2.seconds
     issue = create :github_issue
     track = create :track
     user = create :user
 
-    LogMetricJob.stubs(:perform_later).raises
+    Metric::Create.stubs(:defer).raises
 
     perform_enqueued_jobs do
       Metric::Queue.(type, occurred_at, track:, user:, issue:)

@@ -14,6 +14,8 @@ module Git
   class SyncTrack < Sync
     include Mandate
 
+    queue_as :default
+
     def initialize(track, force_sync: false)
       super(track, track.synced_to_git_sha)
       @force_sync = force_sync

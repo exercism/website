@@ -5,7 +5,7 @@ class User
 
       def call
         pull_requests.find_each do |pr|
-          AwardReputationForPullRequestJob.perform_later(pr.data)
+          User::ReputationToken::AwardForPullRequest.defer(pr.data)
         rescue StandardError => e
           Rails.logger.error "Error syncing pull request reputation for #{pr.repo}/#{pr.number}: #{e}"
         end

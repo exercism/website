@@ -12,7 +12,7 @@ class Concept
           return nil
         end
 
-        AwardReputationTokenJob.perform_later(
+        User::ReputationToken::Create.defer(
           contributor,
           :concept_contribution,
           contributorship:

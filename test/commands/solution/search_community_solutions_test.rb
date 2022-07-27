@@ -119,7 +119,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "filter: head_tests_status" do
     # If we let this run it will override the solutions below
-    Solution::QueueHeadTestRun.stubs(:call)
+    Solution::QueueHeadTestRun.stubs(:defer)
 
     track = create :track
     exercise = create :concept_exercise, track: track

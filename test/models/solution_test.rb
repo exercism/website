@@ -687,7 +687,7 @@ class SolutionTest < ActiveSupport::TestCase
   end
 
   test "creating solution enqueues job to sync solution to search index" do
-    assert_enqueued_with(job: SyncSolutionToSearchIndexJob) do
+    assert_enqueued_with(job: MandateJob) do
       create :practice_solution
     end
   end
@@ -695,7 +695,7 @@ class SolutionTest < ActiveSupport::TestCase
   test "updating solution enqueues job to sync solution to search index" do
     solution = create :practice_solution
 
-    assert_enqueued_with(job: SyncSolutionToSearchIndexJob, args: [solution]) do
+    assert_enqueued_with(job: MandateJob, args: [Solution::SyncToSearchIndex.name, solution]) do
       solution.update!(published_at: Time.current)
     end
   end
@@ -703,7 +703,7 @@ class SolutionTest < ActiveSupport::TestCase
   test "updating solution enqueues job to queue head test run" do
     solution = create :practice_solution
 
-    assert_enqueued_with(job: QueueSolutionHeadTestRunJob, args: [solution]) do
+    assert_enqueued_with(job: MandateJob, args: [Solution::QueueHeadTestRun.name, solution]) do
       solution.update!(published_at: Time.current)
     end
   end

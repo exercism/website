@@ -11,7 +11,7 @@ class Document < ApplicationRecord
   belongs_to :track, optional: true
 
   after_save_commit do
-    SyncDocToSearchIndexJob.perform_later(self)
+    Document::SyncToSearchIndex.defer(self)
   end
 
   def nav_title

@@ -79,7 +79,7 @@ module Mentor
       def award_reputation!
         return if rating < 3
 
-        AwardReputationTokenJob.perform_later(
+        User::ReputationToken::Create.defer(
           discussion.mentor,
           :mentored,
           discussion:

@@ -4,7 +4,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   test "should enqueue sync track job when pushing to main branch" do
     create :track, slug: 'ruby'
 
-    assert_enqueued_jobs 1, only: SyncTrackJob do
+    assert_enqueued_jobs 1, only: MandateJob do
       Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', 'user17', [], false)
     end
   end
@@ -16,13 +16,13 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   end
 
   test "should enqueue sync docs job when pushing docs" do
-    assert_enqueued_jobs 1, only: SyncDocsJob do
+    assert_enqueued_jobs 1, only: MandateJob do
       Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'docs', 'user17', [], false)
     end
   end
 
   test "should enqueue sync blog job when pushing blog" do
-    assert_enqueued_jobs 1, only: SyncBlogJob do
+    assert_enqueued_jobs 1, only: MandateJob do
       Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'blog', 'user17', [], false)
     end
   end
@@ -30,7 +30,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   test "should not enqueue sync track job when pushing to non-main branch" do
     create :track, slug: :ruby
 
-    assert_enqueued_jobs 0, only: SyncTrackJob do
+    assert_enqueued_jobs 0, only: MandateJob do
       Webhooks::ProcessPushUpdate.('refs/heads/develop', 'exercism', 'ruby', 'user17', [], false)
     end
   end
@@ -38,7 +38,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   test "should not enqueue sync track job when pushing to non-track repo" do
     create :track, slug: :ruby
 
-    assert_enqueued_jobs 0, only: SyncTrackJob do
+    assert_enqueued_jobs 0, only: MandateJob do
       Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'problem-specs', 'user17', [], false)
     end
   end

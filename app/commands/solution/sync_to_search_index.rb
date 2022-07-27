@@ -1,6 +1,8 @@
 class Solution::SyncToSearchIndex
   include Mandate
 
+  queue_as :default
+
   initialize_with :solution
 
   def call

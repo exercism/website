@@ -2,6 +2,8 @@ module Git
   class SyncBlog
     include Mandate
 
+    queue_as :default
+
     def call
       repo.update!
 

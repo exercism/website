@@ -253,7 +253,7 @@ class Track
       logger.taught_concepts << numbers
       logger.prerequisites << booleans
 
-      assert_enqueued_jobs 1, only: OpenIssueForDependencyCycleJob do
+      assert_enqueued_jobs 1, only: MandateJob do
         assert_raises TrackHasCyclicPrerequisiteError do
           Track::DetermineConceptMapLayout.(user_track)
         end

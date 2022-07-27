@@ -7,7 +7,7 @@ class DocumentTest < ActiveSupport::TestCase
   end
 
   test "creating document enqueues job to sync document to search index" do
-    assert_enqueued_with(job: SyncDocToSearchIndexJob) do
+    assert_enqueued_with(job: MandateJob) do
       create :document
     end
   end
@@ -15,7 +15,7 @@ class DocumentTest < ActiveSupport::TestCase
   test "updating document enqueues job to sync document to search index" do
     doc = create :document
 
-    assert_enqueued_with(job: SyncDocToSearchIndexJob, args: [doc]) do
+    assert_enqueued_with(job: MandateJob, args: [Document::SyncToSearchIndex.name, doc]) do
       doc.update!(title: 'new-title')
     end
   end

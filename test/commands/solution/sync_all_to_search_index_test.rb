@@ -2,7 +2,7 @@ require "test_helper"
 
 class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
   test "indexes all solutions" do
-    Solution::QueueHeadTestRun.stubs(:call)
+    Solution::QueueHeadTestRun.stubs(:defer)
 
     track = create :track
     users = build_list(:user, 10)

@@ -67,7 +67,7 @@ class Solution < ApplicationRecord
   end
 
   after_save_commit do
-    SyncSolutionToSearchIndexJob.perform_later(self)
+    Solution::SyncToSearchIndex.defer(self)
   end
 
   after_update_commit do
@@ -75,7 +75,7 @@ class Solution < ApplicationRecord
     # There should always be a head test run and if there's
     # not we should make one. 99% of the time this will result
     # in a no-op
-    QueueSolutionHeadTestRunJob.perform_later(self)
+    Solution::QueueHeadTestRun.defer(self)
   end
 
   def self.for!(*args)
@@ -103,14 +103,14 @@ class Solution < ApplicationRecord
     return if published_iteration_head_tests_status == status.to_sym
 
     update_column(:published_iteration_head_tests_status, status)
-    SyncSolutionToSearchIndexJob.perform_later(self)
+    Solution::SyncToSearchIndex.defer(self)
   end
 
   def update_latest_iteration_head_tests_status!(status)
     return if latest_iteration_head_tests_status == status.to_sym
 
     update_column(:latest_iteration_head_tests_status, status)
-    SyncSolutionToSearchIndexJob.perform_later(self)
+    Solution::SyncToSearchIndex.defer(self)
   end
 
   memoize

@@ -38,8 +38,7 @@ class Solution
     end
 
     def log_metric!
-      Metric::Queue.(:complete_solution, solution.completed_at,
-        solution:, track:, user:, remote_ip: Exercism.request_context[:remote_ip])
+      Metric::Queue.(:complete_solution, solution.completed_at, solution:, track:, user:)
     end
 
     memoize

@@ -7,9 +7,8 @@ class Metrics::FinishMentoringTest < ActiveSupport::TestCase
       user = create :user, id: 3
       discussion = create :mentor_discussion, id: 4
       occurred_at = Time.current - 5.seconds
-      remote_ip = '127.0.0.1'
 
-      metric = Metric::Create.(:finish_mentoring, occurred_at, remote_ip:, discussion:, track:, user:)
+      metric = Metric::Create.(:finish_mentoring, occurred_at, discussion:, track:, user:)
 
       assert_equal Metrics::FinishMentoringMetric, metric.class
       assert_equal occurred_at, metric.occurred_at

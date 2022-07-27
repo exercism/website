@@ -11,6 +11,10 @@ class Metric < ApplicationRecord
 
   def generate_uniqueness_key! = "#{type.demodulize}|#{guard_params}"
 
+  # By default, use the request's remote IP to determine the country code.
+  # Metrics can opt-out by overriding this method and returning nil.
+  def remote_ip = Exercism.request_context[:remote_ip]
+
   # This maps
   # {discussion: Mentor::Discussion.find(186)}
   # to

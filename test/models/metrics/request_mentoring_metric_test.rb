@@ -7,9 +7,8 @@ class Metrics::RequestMentoringTest < ActiveSupport::TestCase
       user = create :user, id: 3
       request = create :mentor_request, id: 4
       occurred_at = Time.current - 5.seconds
-      remote_ip = '127.0.0.1'
 
-      metric = Metric::Create.(:request_mentoring, occurred_at, remote_ip:, request:, track:, user:)
+      metric = Metric::Create.(:request_mentoring, occurred_at, request:, track:, user:)
 
       assert_equal Metrics::RequestMentoringMetric, metric.class
       assert_equal occurred_at, metric.occurred_at

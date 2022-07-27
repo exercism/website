@@ -64,10 +64,9 @@ class Metric::QueueTest < ActiveSupport::TestCase
     issue = create :github_issue
     track = create :track
     user = create :user
-    remote_ip = '127.0.0.1'
 
     perform_enqueued_jobs do
-      Metric::Queue.(type, occurred_at, remote_ip:, track:, user:, issue:)
+      Metric::Queue.(type, occurred_at, track:, user:, issue:)
     end
 
     assert_equal 1, Metric.count
@@ -83,7 +82,6 @@ class Metric::QueueTest < ActiveSupport::TestCase
   test "does not crash when job fails metric" do
     type = :open_issue
     occurred_at = Time.current - 2.seconds
-    remote_ip = '127.0.0.1'
     issue = create :github_issue
     track = create :track
     user = create :user
@@ -91,7 +89,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
     LogMetricJob.stubs(:perform_later).raises
 
     perform_enqueued_jobs do
-      Metric::Queue.(type, occurred_at, remote_ip:, track:, user:, issue:)
+      Metric::Queue.(type, occurred_at, track:, user:, issue:)
     end
 
     refute Metric.exists?

@@ -91,8 +91,7 @@ module Mentor
       end
 
       def log_metric!
-        Metric::Queue.(:finish_mentoring, discussion.finished_at,
-          discussion:, track:, user: student, remote_ip: Exercism.request_context[:remote_ip])
+        Metric::Queue.(:finish_mentoring, discussion.finished_at, discussion:, track:, user: student)
       end
 
       delegate :track, to: :discussion

@@ -56,8 +56,7 @@ class Solution
     end
 
     def log_metric!(solution)
-      Metric::Queue.(:submit_solution, solution.created_at,
-        solution:, track:, user:, remote_ip: Exercism.request_context[:remote_ip])
+      Metric::Queue.(:submit_solution, solution.created_at, solution:, track:, user:)
     end
 
     memoize

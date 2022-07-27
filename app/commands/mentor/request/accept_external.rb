@@ -25,8 +25,7 @@ module Mentor
 
       private
       def log_metric!(request)
-        Metric::Queue.(:request_private_mentoring, request.created_at,
-          request:, track:, user:, remote_ip: Exercism.request_context[:remote_ip])
+        Metric::Queue.(:request_private_mentoring, request.created_at, request:, track:, user:)
       end
 
       def user = solution.user

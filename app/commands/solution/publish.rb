@@ -45,8 +45,7 @@ class Solution
     end
 
     def log_metric!
-      Metric::Queue.(:publish_solution, solution.published_at,
-        solution:, track: user_track.track, user: user_track.user, remote_ip: Exercism.request_context[:remote_ip])
+      Metric::Queue.(:publish_solution, solution.published_at, solution:, track: user_track.track, user: user_track.user)
     end
   end
 end

@@ -7,9 +7,8 @@ class Metrics::CompleteSolutionTest < ActiveSupport::TestCase
       user = create :user, id: 3
       solution = create :concept_solution, id: 4
       occurred_at = Time.current - 5.seconds
-      remote_ip = '127.0.0.1'
 
-      metric = Metric::Create.(:complete_solution, occurred_at, remote_ip:, solution:, track:, user:)
+      metric = Metric::Create.(:complete_solution, occurred_at, solution:, track:, user:)
 
       assert_equal Metrics::CompleteSolutionMetric, metric.class
       assert_equal occurred_at, metric.occurred_at

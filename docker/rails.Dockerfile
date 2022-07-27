@@ -1,6 +1,7 @@
 FROM ruby:3.1.0-bullseye
 
 ARG GEOIP_LICENSE_KEY
+ARG GEOIP_CACHE_BUSTER
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"

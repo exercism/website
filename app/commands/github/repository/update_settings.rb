@@ -8,7 +8,7 @@ class Github::Repository::UpdateSettings
 
   private
   memoize
-  def repos = track_repos + tooling_repos
+  def repos = (track_repos + tooling_repos).sort
 
   def track_repos = repos_with_tag('exercism-track', :track)
   def tooling_repos = repos_with_tag('exercism-tooling', :tooling)
@@ -17,8 +17,6 @@ class Github::Repository::UpdateSettings
     Exercism.octokit_client.
       search_repositories("org:exercism topic:#{tag}").
       items.
-      map(&:name).
-      sort.
-      map { |name| Github::Repository.new(name, type) }
+      map { |repo| Github::Repository.new(repo.name, type) }
   end
 end

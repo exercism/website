@@ -28,10 +28,10 @@ class Metric::CreateTest < ActiveSupport::TestCase
     remote_ip = '127.0.0.1'
     country_code = 'US'
 
-    Exercism.request_context = { remote_ip: }
+    request_context = { remote_ip: }
     Geocoder::Lookup::Test.add_stub(remote_ip, [{ 'country_code' => country_code }])
 
-    Metric::Create.(:submit_solution, Time.current, track:, user:, solution:)
+    Metric::Create.(:submit_solution, Time.current, track:, user:, solution:, request_context:)
 
     assert_equal 1, Metric.count
     assert_equal country_code, Metric.last.country_code

@@ -7,6 +7,7 @@ class Metric::Queue
     return if user&.ghost?
     return if user&.system?
 
+    attributes[:request_context] = Exercism.request_context
     Metric::Create.defer(type, occurred_at, **attributes)
   rescue StandardError => e
     # Don't crash if the creation fails, e.g. if sidekiq is down

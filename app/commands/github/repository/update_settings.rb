@@ -3,7 +3,8 @@ class Github::Repository::UpdateSettings
 
   def call
     Github::Repository::UpdateBranchProtection.(repos)
-    Github::Repository::UpdateTeams.(repos)
+    Github::Repository::UpdateMaintainersAdminTeamPermissions.(repos)
+    Github::Repository::UpdateReviewersTeamPermissions.(repos)
   end
 
   private

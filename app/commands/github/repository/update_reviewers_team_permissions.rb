@@ -1,33 +1,17 @@
-class Github::Repository::UpdateTeams
+class Github::Repository::UpdateReviewersTeamPermissions
   include Mandate
 
   initialize_with :repos
 
   def call
-    add_maintainers_admin_team_to_repos
-    add_reviewers_team_to_repos
+    repos.each do |repo|
+      next unless active_tracks_with_few_maintainers.include?(repo.track)
+
+      Exercism.octokit_client.add_team_repository(reviewers_team.id, repo.name_with_owner, permission: :push)
+    end
   end
 
   private
-  def add_maintainers_admin_team_to_repos
-    repos.each do |repo|
-      Exercism.octokit_client.add_team_repository(maintainers_admin_team.id, "exercism/#{repo}", permission: :maintain)
-    end
-  end
-
-  memoize
-  def maintainers_admin_team
-    Exercism.octokit_client.team_by_name("exercism", "maintainers-admin")
-  end
-
-  def add_reviewers_team_to_repos
-    repos.each do |repo|
-      next unless tracks_with_few_maintainers.include?(repo.track)
-
-      Exercism.octokit_client.add_team_repository(reviewers_team.id, "exercism/#{repo}", permission: :push)
-    end
-  end
-
   memoize
   def reviewers_team
     Exercism.octokit_client.team_by_name("exercism", "reviewers")
@@ -57,7 +41,7 @@ class Github::Repository::UpdateTeams
     QUERY
 
     end_cursor = nil
-    teams = Set.new
+    teams = []
 
     loop do
       variables = { endCursor: end_cursor }.to_json

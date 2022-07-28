@@ -10,19 +10,19 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   end
 
   test "should enqueue update website copy job when pushing website-copy" do
-    assert_enqueued_jobs 1, only: UpdateWebsiteCopyJob do
+    assert_enqueued_with job: UpdateWebsiteCopyJob do
       Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'website-copy', 'user17', [], false)
     end
   end
 
-  test "should enqueue sync docs job when pushing docs" do
-    assert_enqueued_jobs 1, only: MandateJob do
+  test "should enqueue sync main docs job when pushing docs" do
+    assert_enqueued_with job: MandateJob, args: [Git::SyncMainDocs.name] do
       Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'docs', 'user17', [], false)
     end
   end
 
   test "should enqueue sync blog job when pushing blog" do
-    assert_enqueued_jobs 1, only: MandateJob do
+    assert_enqueued_with job: MandateJob, args: [Git::SyncBlog.name] do
       Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'blog', 'user17', [], false)
     end
   end

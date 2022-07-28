@@ -58,5 +58,6 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     assert_equal discussion.request.created_at, metric.occurred_at
     assert_equal track, metric.track
     assert_equal student, metric.user
+    assert_equal 'US', metric.country_code
   end
 end

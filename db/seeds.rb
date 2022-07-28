@@ -149,7 +149,8 @@ ruby = Track.find_by_slug(:ruby)
 user_track = UserTrack.create_or_find_by!(user: iHiD, track: ruby)
 solution = Solution::Create.(
   iHiD,
-  ruby.practice_exercises.find_by!(slug: "hello-world")
+  ruby.practice_exercises.find_by!(slug: "hello-world"),
+  '127.0.0.1'
 )
 submission = Submission.create!(
   solution: solution,
@@ -168,9 +169,9 @@ Solution::Publish.(solution, user_track, [])
 
 ## Create mentoring solutions
 UserTrack.create_or_find_by!(user: erik, track: ruby)
-Solution::Create.( erik, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
+Solution::Create.(erik, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 
-solution = Solution::Create.( erik, ruby.concept_exercises.find_by!(slug: "lasagna"))
+solution = Solution::Create.(erik, ruby.concept_exercises.find_by!(slug: "lasagna"))
 submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
 submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
 Iteration.create!(uuid: SecureRandom.uuid, submission: submission, solution: solution, idx: 1)
@@ -178,11 +179,11 @@ Mentor::Request.create!(solution: solution, comment_markdown: "I would like to i
 
 ## Create mentoring solutions
 UserTrack.create_or_find_by!(user: karlo, track: ruby, practice_mode: true)
-Solution::Create.( karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
+Solution::Create.(karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 
 ruby.practice_exercises.limit(10).each do |exercise|
-  solution = Solution::Create.( karlo, exercise )
-  submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
+  solution = Solution::Create.(karlo, exercise)
+  submission = Submission.create!(solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
   submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
   Iteration.create!(uuid: SecureRandom.uuid,  submission: submission, solution: solution, idx: 1)
 

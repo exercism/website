@@ -1,5 +1,7 @@
 FROM ruby:3.1.0-bullseye
 
+ARG GEOIP_LICENSE_KEY
+ARG GEOIP_CACHE_BUSTER
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"
@@ -8,6 +10,12 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y cmake make nodejs yarn graphicsmagick libvips42
+
+WORKDIR /usr/share/GeoIP
+
+RUN curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=${GEOIP_LICENSE_KEY}&suffix=tar.gz" --output geolite2-country.tar.gz && \
+    tar -xvf geolite2-country.tar.gz --strip-components=1 --wildcards '*/GeoLite2-Country.mmdb' && \
+    rm geolite2-country.tar.gz
 
 WORKDIR /opt/exercism/website
 

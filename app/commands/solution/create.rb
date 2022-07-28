@@ -1,6 +1,7 @@
 class Solution
   class Create
     include Mandate
+
     initialize_with :user, :exercise
 
     def call

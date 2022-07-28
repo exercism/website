@@ -14,6 +14,7 @@ class Metrics::FinishMentoringTest < ActiveSupport::TestCase
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track
+      assert_equal 'US', metric.country_code
       assert_equal "FinishMentoringMetric|4", metric.uniqueness_key
     end
   end

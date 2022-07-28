@@ -72,9 +72,10 @@ jobs:
           ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
           DOCKERFILE: ${{ env.dockerfile_rails }}
+          GEOIP_LICENSE_KEY: ${{ secrets.GEOIP_LICENSE_KEY }}
         run: |
           # Build a docker container and push it to ECR
-          docker build -t $IMAGE_NAME -f $DOCKERFILE .
+          docker build -t $IMAGE_NAME -f $DOCKERFILE --build-arg GEOIP_LICENSE_KEY --build-arg GEOIP_CACHE_BUSTER=$(date -d "`date +%Y%m01`" +%Y-%m-%d) .
           docker push $IMAGE_NAME
 
           # Retag this as the latest

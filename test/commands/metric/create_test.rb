@@ -4,11 +4,11 @@ class Metric::CreateTest < ActiveSupport::TestCase
   test "creates metric" do
     freeze_time do
       occurred_at = Time.current - 2.seconds
-      issue = create :github_issue
-      track = create :track
-      user = create :user
+      solution = create :concept_solution
+      track = solution.track
+      user = solution.user
 
-      Metric::Create.(:open_issue, occurred_at, track:, user:, issue:)
+      Metric::Create.(:submit_solution, occurred_at, track:, user:, solution:)
 
       assert_equal 1, Metric.count
       metric = Metric.last
@@ -21,12 +21,71 @@ class Metric::CreateTest < ActiveSupport::TestCase
     end
   end
 
-  test "creates metric without track or user" do
+  test "creates metric with remote ip can be matched to country code" do
+    solution = create :concept_solution
+    track = solution.track
+    user = solution.user
+    remote_ip = '127.0.0.1'
+    country_code = 'US'
+
+    Exercism.request_context = { remote_ip: }
+    Geocoder::Lookup::Test.add_stub(remote_ip, [{ 'country_code' => country_code }])
+
+    Metric::Create.(:submit_solution, Time.current, track:, user:, solution:)
+
+    assert_equal 1, Metric.count
+    assert_equal country_code, Metric.last.country_code
+  end
+
+  test "creates metric with remote ip cannot be matched to country code" do
+    solution = create :concept_solution
+    track = solution.track
+    user = solution.user
+    remote_ip = '127.0.0.1'
+
+    Geocoder::Lookup::Test.add_stub(remote_ip, [])
+
+    Metric::Create.(:submit_solution, Time.current, track:, user:, solution:)
+
+    assert_equal 1, Metric.count
+    assert_nil Metric.last.country_code
+  end
+
+  test "creates metric with remote ip is nil" do
+    action = :submit_solution
+    solution = create :concept_solution
+    occurred_at = Time.current - 2.seconds
+    Exercism.request_context = { remote_ip: nil }
+
+    Metric::Create.(action, occurred_at, solution:)
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+
+    assert_equal occurred_at, metric.occurred_at
+    assert_nil metric.country_code
+  end
+
+  test "creates metric that does not use remote ip" do
     action = :open_issue
     issue = create :github_issue
     occurred_at = Time.current - 2.seconds
 
     Metric::Create.(action, occurred_at, issue:)
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+
+    assert_equal occurred_at, metric.occurred_at
+    assert_nil metric.country_code
+  end
+
+  test "creates metric without track or user" do
+    action = :submit_solution
+    solution = create :concept_solution
+    occurred_at = Time.current - 2.seconds
+
+    Metric::Create.(action, occurred_at, solution:)
 
     assert_equal 1, Metric.count
     metric = Metric.last

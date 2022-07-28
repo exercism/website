@@ -22,6 +22,13 @@ GenerateJSConfig.generate!
 # Handle flakey tests in CI
 Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
 
+# Have Geocoder use a fixed stub value
+Geocoder.configure(lookup: :test, ip_lookup: :test)
+Geocoder::Lookup::Test.add_stub('127.0.0.1', [{ 'country_code' => 'US' }])
+
+# use a fixed remote IP
+Exercism.request_context = { remote_ip: '127.0.0.1' }
+
 # Configure mocha to be safe
 Mocha.configure do |c|
   c.stubbing_method_unnecessarily = :prevent

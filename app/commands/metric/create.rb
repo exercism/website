@@ -9,6 +9,7 @@ class Metric::Create
     klass = "metrics/#{type}_metric".camelize.constantize
 
     klass.new(occurred_at:, params:).tap do |metric|
+      metric.country_code = Geocoder.search(metric.remote_ip).first&.country_code
       metric.save!
     rescue ActiveRecord::RecordNotUnique
       return klass.find_by!(uniqueness_key: metric.uniqueness_key)

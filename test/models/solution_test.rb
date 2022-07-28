@@ -687,7 +687,7 @@ class SolutionTest < ActiveSupport::TestCase
   end
 
   test "creating solution enqueues job to sync solution to search index" do
-    assert_enqueued_with(job: MandateJob) do
+    assert_enqueued_with(job: MandateJob, args: ->(job_args) { job_args[0] == Solution::SyncToSearchIndex.name }) do
       create :practice_solution
     end
   end

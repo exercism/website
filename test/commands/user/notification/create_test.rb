@@ -31,7 +31,9 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
       discussion = create(:mentor_discussion)
       params = { discussion: }
 
-      assert_enqueued_with job: MandateJob, at: Time.current + 5.seconds do
+      assert_enqueued_with job: MandateJob, at: Time.current + 5.seconds, args: lambda { |job_args|
+                                                                                  job_args[0] == User::Notification::Activate.name
+                                                                                } do
         User::Notification::Create.(user, type, params)
       end
     end

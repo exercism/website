@@ -192,7 +192,9 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       )
     )
 
-    assert_enqueued_jobs 1, only: MandateJob, queue: 'reputation' do
+    assert_enqueued_with(job: MandateJob, args: lambda { |job_args|
+                                                  job_args[0] == User::ReputationToken::AwardForPullRequestsForUser.name
+                                                }, queue: 'reputation') do
       User::AuthenticateFromOmniauth.(auth)
     end
   end

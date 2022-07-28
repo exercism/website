@@ -113,7 +113,7 @@ class ExerciseTest < ActiveSupport::TestCase
   test "does not enqueue job to mark solutions as out-of-date in index when git_important_files_hash does not change" do
     exercise = create :practice_exercise
 
-    assert_enqueued_jobs 0, only: MandateJob do
+    assert_no_enqueued_jobs only: MandateJob do
       exercise.update!(position: 2)
     end
   end
@@ -129,7 +129,7 @@ class ExerciseTest < ActiveSupport::TestCase
   test "does not enqueue job to run head test runs when git_important_files_hash does not change" do
     exercise = create :practice_exercise
 
-    assert_enqueued_jobs 0, only: MandateJob do
+    assert_no_enqueued_jobs only: MandateJob do
       exercise.update!(position: 2)
     end
   end

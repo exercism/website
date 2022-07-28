@@ -55,7 +55,7 @@ module Flows
 
     test "filter community solutions" do
       # If we let this run it will override the solutions below
-      Solution::QueueHeadTestRun.stubs(:call)
+      Solution::QueueHeadTestRun.stubs(:defer)
 
       user = create :user
       author = create :user, handle: "author1"

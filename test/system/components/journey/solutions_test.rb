@@ -238,7 +238,7 @@ module Components
       end
 
       test "filters by head tests status" do
-        MandateJob.stubs(:perform_later)
+        Solution::QueueHeadTestRun.stubs(:defer)
 
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"

@@ -13,7 +13,7 @@ class Metric < ApplicationRecord
 
   # By default, use the request's remote IP to determine the country code.
   # Metrics can opt-out by overriding this method and returning nil.
-  def remote_ip = Exercism.request_context[:remote_ip]
+  def store_country_code? = true
 
   # This maps
   # {discussion: Mentor::Discussion.find(186)}

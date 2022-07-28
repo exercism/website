@@ -6,7 +6,8 @@ class Metric::QueueTest < ActiveSupport::TestCase
     track = create :track
     user = create :user
 
-    assert_enqueued_with(job: MandateJob, args: [Metric::Create.name, :open_issue, Time.current, { track:, user:, issue: }]) do
+    assert_enqueued_with(job: MandateJob,
+      args: [Metric::Create.name, :open_issue, Time.current, { track:, user:, issue:, request_context: Exercism.request_context }]) do
       Metric::Queue.(:open_issue, Time.current, track:, user:, issue:)
     end
   end
@@ -15,7 +16,8 @@ class Metric::QueueTest < ActiveSupport::TestCase
     issue = create :github_issue
     track = create :track
 
-    assert_enqueued_with(job: MandateJob, args: [Metric::Create.name, :open_issue, Time.current, { track:, issue: }]) do
+    assert_enqueued_with(job: MandateJob,
+      args: [Metric::Create.name, :open_issue, Time.current, { track:, issue:, request_context: Exercism.request_context }]) do
       Metric::Queue.(:open_issue, Time.current, track:, issue:)
     end
   end
@@ -24,7 +26,9 @@ class Metric::QueueTest < ActiveSupport::TestCase
     issue = create :github_issue
     track = create :track
 
-    assert_enqueued_with(job: MandateJob, args: [Metric::Create.name, :open_issue, Time.current, { track:, user: nil, issue: }]) do
+    assert_enqueued_with(job: MandateJob,
+      args: [Metric::Create.name, :open_issue, Time.current,
+             { track:, user: nil, issue:, request_context: Exercism.request_context }]) do
       Metric::Queue.(:open_issue, Time.current, user: nil, track:, issue:)
     end
   end
@@ -33,7 +37,8 @@ class Metric::QueueTest < ActiveSupport::TestCase
     issue = create :github_issue
     user = create :user
 
-    assert_enqueued_with(job: MandateJob, args: [Metric::Create.name, :open_issue, Time.current, { user:, issue: }]) do
+    assert_enqueued_with(job: MandateJob,
+      args: [Metric::Create.name, :open_issue, Time.current, { user:, issue:, request_context: Exercism.request_context }]) do
       Metric::Queue.(:open_issue, Time.current, user:, issue:)
     end
   end
@@ -44,7 +49,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
     user = create :user, :system
 
     assert_no_enqueued_jobs do
-      Metric::Queue.(:open_issue, Time.current, track:, user:, issue:)
+      Metric::Queue.(:open_issue, Time.current, track:, user:, issue:, request_context: Exercism.request_context)
     end
   end
 
@@ -54,7 +59,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
     user = create :user, :ghost
 
     assert_no_enqueued_jobs do
-      Metric::Queue.(:open_issue, Time.current, track:, user:, issue:)
+      Metric::Queue.(:open_issue, Time.current, track:, user:, issue:, request_context: Exercism.request_context)
     end
   end
 
@@ -68,7 +73,7 @@ class Metric::QueueTest < ActiveSupport::TestCase
     Metric::Create.stubs(:defer).raises
 
     perform_enqueued_jobs do
-      Metric::Queue.(type, occurred_at, track:, user:, issue:)
+      Metric::Queue.(type, occurred_at, track:, user:, issue:, request_context: Exercism.request_context)
     end
 
     refute Metric.exists?

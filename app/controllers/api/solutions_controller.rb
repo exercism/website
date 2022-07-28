@@ -153,7 +153,12 @@ module API
       files = Git::GenerateDiffBetweenExerciseVersions.(solution.exercise, solution.git_slug, solution.git_sha)
 
       # TODO: (Optional): Change this to always be a 200 and handle the empty files in React
-      status = files.present? ? 200 : 400
+      if files.present?
+        status = 200
+      else
+        status = 400
+        Bugsnag.notify(RuntimeError.new("No files were found during solution diff"))
+      end
 
       render json: {
         diff: {

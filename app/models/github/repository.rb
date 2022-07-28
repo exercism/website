@@ -16,4 +16,6 @@ class Github::Repository
 
   def ==(other) = self.name  == other.name && self.type == other.type
   def <=>(other) = self.name <=> other.name
+  def hash = [name, type].hash
+  def eql?(other) = self == other
 end

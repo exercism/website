@@ -19,6 +19,11 @@ class Github::Repository::UpdateReviewersTeamPermissions
 
   memoize
   def active_tracks_with_few_maintainers
+    track_team_names_with_few_maintainers = track_teams_with_num_members.filter_map { |team, num_members| team if num_members <= 1 }
+    Track.where(active: true, slug: track_team_names_with_few_maintainers)
+  end
+
+  def track_teams_with_num_members
     query = <<~QUERY
       query ($endCursor: String) {
         organization(login: "exercism") {
@@ -41,19 +46,18 @@ class Github::Repository::UpdateReviewersTeamPermissions
     QUERY
 
     end_cursor = nil
-    teams = []
+    teams = {}
 
     loop do
       variables = { endCursor: end_cursor }.to_json
       data = Exercism.octokit_client.post("https://api.github.com/graphql", { query:, variables: }.to_json).to_h
 
       data.dig(:data, :organization, :team, :childTeams, :nodes).each do |team|
-        # If a track team has 1 or 0 members we're considering that track to have few maintainers
-        teams << team[:name] if team.dig(:members, :totalCount) <= 1
+        teams[team[:name]] = team.dig(:members, :totalCount)
       end
 
       end_cursor = data.dig(:data, :organization, :team, :childTeams, :pageInfo, :endCursor)
-      return Track.where(active: true, slug: teams) if end_cursor.nil?
+      return teams if end_cursor.nil?
     end
   end
 end

@@ -58,10 +58,15 @@ class Cohort::JoinTest < ActiveSupport::TestCase
     cohort = create :cohort, capacity: 10
     member_count = cohort.capacity * 10
 
+    # We're testing that when multiple people try to join
+    # at the same time, the number of enrolled members never
+    # exceeds the cohort's capacity
     threads = Array.new(member_count) do
       Thread.new do
-        user = create :user
-        Cohort::Join.(user, cohort, 'Hi')
+        Rails.application.executor.wrap do
+          user = create :user
+          Cohort::Join.(user, cohort, 'Hi')
+        end
       end
     end
     threads.map(&:join)

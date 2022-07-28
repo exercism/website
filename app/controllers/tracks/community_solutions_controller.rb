@@ -8,7 +8,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @solution = Solution.for(current_user, @exercise)
     @solutions = Solution::SearchCommunitySolutions.(@exercise)
     @endpoint = Exercism::Routes.api_track_exercise_community_solutions_url(@track, @exercise)
-    @unscoped_total = @exercise.solutions.published.count
+    @unscoped_total = @exercise.num_published_solutions
   end
 
   def show

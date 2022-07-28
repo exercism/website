@@ -33,4 +33,20 @@ class Solution::UnpublishTest < ActiveSupport::TestCase
 
     assert_equal iteration_2.num_loc, solution.num_loc
   end
+
+  test "updates num_published_solutions" do
+    track = create :track
+    user = create :user
+    exercise = create :concept_exercise, track: track
+    solution = create :concept_solution, :published, user: user, exercise: exercise
+    create :iteration, solution: solution
+
+    CacheNumPublishedSolutionsOnExerciseJob.perform_now(exercise)
+    assert_equal 1, exercise.reload.num_published_solutions
+
+    perform_enqueued_jobs do
+      Solution::Unpublish.(solution)
+    end
+    assert_equal 0, exercise.reload.num_published_solutions
+  end
 end

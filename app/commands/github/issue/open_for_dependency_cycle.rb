@@ -3,6 +3,8 @@ module Github
     class OpenForDependencyCycle
       include Mandate
 
+      queue_as :default
+
       initialize_with :track
 
       def call

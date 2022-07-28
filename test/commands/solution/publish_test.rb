@@ -45,7 +45,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :user_track, user: solution.user, track: solution.track
     create :iteration, solution: solution
 
-    AwardReputationTokenJob.expects(:perform_later).once
+    User::ReputationToken::Create.expects(:defer).once
     Solution::Publish.(solution, solution.user_track, nil)
     Solution::Publish.(solution, solution.user_track, nil)
   end
@@ -87,7 +87,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
       create :user_track, user: solution.user, track: solution.track
       create :iteration, solution: solution
 
-      AwardReputationTokenJob.expects(:perform_later).once.with(solution.user, :published_solution, solution:, level:)
+      User::ReputationToken::Create.expects(:defer).once.with(solution.user, :published_solution, solution:, level:)
       Solution::Publish.(solution, solution.user_track, nil)
     end
   end

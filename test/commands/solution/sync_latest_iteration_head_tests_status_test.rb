@@ -24,7 +24,7 @@ class Solution::SyncLatestIterationHeadTestsStatusTest < ActiveSupport::TestCase
     create :submission_test_run, submission: submission
     user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
 
-    SyncSolutionToSearchIndexJob.expects(:perform_later).with(submission.solution)
+    Solution::SyncToSearchIndex.expects(:defer).with(submission.solution)
 
     assert Solution::SyncLatestIterationHeadTestsStatus.(solution)
 

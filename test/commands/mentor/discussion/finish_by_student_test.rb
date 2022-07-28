@@ -126,7 +126,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     test "reputation awarded for #{rating}" do
       discussion = create(:mentor_discussion)
 
-      AwardReputationTokenJob.expects(:perform_later).with(
+      User::ReputationToken::Create.expects(:defer).with(
         discussion.mentor,
         :mentored,
         discussion:
@@ -137,7 +137,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   end
 
   test "reputation not awarded for 1" do
-    AwardReputationTokenJob.expects(:perform_later).never
+    User::ReputationToken::Create.expects(:defer).never
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 1)
   end
 

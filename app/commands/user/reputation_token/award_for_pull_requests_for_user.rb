@@ -3,6 +3,8 @@ class User
     class AwardForPullRequestsForUser
       include Mandate
 
+      queue_as :reputation
+
       initialize_with :user
 
       def call

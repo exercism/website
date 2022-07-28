@@ -2,6 +2,8 @@ module Git
   class SyncMainDocs
     include Mandate
 
+    queue_as :default
+
     def call
       repo.fetch!
 

@@ -11,12 +11,12 @@ module Webhooks
       when "website-copy"
         UpdateWebsiteCopyJob.perform_later
       when "docs"
-        SyncDocsJob.perform_later
+        Git::SyncMainDocs.defer
       when "blog"
-        SyncBlogJob.perform_later
+        Git::SyncBlog.defer
       else
         track = Track.find_by(slug: repo_name)
-        SyncTrackJob.perform_later(track) if track
+        Git::SyncTrack.defer(track) if track
         Github::DispatchEventToOrgWideFilesRepo.(:repo_update, [repo], pusher_username) if trigger_repo_update?
       end
     end

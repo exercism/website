@@ -1,6 +1,8 @@
 class Exercise::QueueSolutionHeadTestRuns
   include Mandate
 
+  queue_as :default
+
   initialize_with :exercise
 
   def call

@@ -1,6 +1,8 @@
 class Document::SyncToSearchIndex
   include Mandate
 
+  queue_as :default
+
   initialize_with :doc
 
   def call

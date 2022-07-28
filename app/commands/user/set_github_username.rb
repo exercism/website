@@ -9,7 +9,7 @@ class User
 
       begin
         user.update_column(:github_username, username)
-        AwardReputationToUserForPullRequestsJob.perform_later(user)
+        User::ReputationToken::AwardForPullRequestsForUser.defer(user)
       rescue ActiveRecord::RecordNotUnique
         # Sometimes users change github usernames which can cause this to violate
       end

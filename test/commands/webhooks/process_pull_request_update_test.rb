@@ -35,7 +35,7 @@ class Webhooks::ProcessPullRequestUpdateTest < ActiveSupport::TestCase
         number: 4
       }
 
-      assert_enqueued_jobs 0, only: ProcessPullRequestUpdateJob do
+      assert_no_enqueued_jobs only: ProcessPullRequestUpdateJob do
         Webhooks::ProcessPullRequestUpdate.(**pull_request_update)
       end
     end

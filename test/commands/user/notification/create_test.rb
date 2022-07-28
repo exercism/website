@@ -31,9 +31,26 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
       discussion = create(:mentor_discussion)
       params = { discussion: }
 
-      assert_enqueued_with job: ActivateUserNotificationJob, at: Time.current + 5.seconds do
+      args_matcher = ->(job_args) { job_args[0] == User::Notification::Activate.name }
+      assert_enqueued_with job: MandateJob, at: Time.current + 5.seconds, args: args_matcher do
         User::Notification::Create.(user, type, params)
       end
+    end
+  end
+
+  test "activates activation" do
+    freeze_time do
+      user = create :user
+      type = :mentor_started_discussion
+      discussion = create(:mentor_discussion)
+      params = { discussion: }
+
+      notification = User::Notification::Create.(user, type, params)
+      assert_equal :pending, notification.status
+
+      travel(6.seconds)
+      perform_enqueued_jobs
+      assert_equal :unread, notification.reload.status
     end
   end
 

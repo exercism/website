@@ -56,7 +56,9 @@ class Github::Team
 
   memoize
   def team_id
-    Exercism.octokit_client.team_by_name(organization.name, name).id
+    # The octokit client does not surface the API method to retrieve a team
+    # by its github team name, so we just call it directly
+    Exercism.octokit_client.get("https://api.github.com/orgs/#{organization.name}/teams/#{name}")[:id]
   end
 
   def organization

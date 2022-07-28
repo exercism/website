@@ -133,9 +133,10 @@ class Solution::PublishTest < ActiveSupport::TestCase
     create :user_track, user: solution.user, track: solution.track
     create :iteration, solution: solution, idx: 1
 
-    Solution::Publish.(solution, solution.user_track, 1)
+    perform_enqueued_jobs do
+      Solution::Publish.(solution, solution.user_track, 1)
+    end
 
-    perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::AnybodyThereBadge
   end
 
@@ -169,8 +170,9 @@ class Solution::PublishTest < ActiveSupport::TestCase
     solution = create :concept_solution, :completed, user: user, exercise: exercise
     create :iteration, solution: solution
 
-    Solution::Publish.(solution, user_track, nil)
-    perform_enqueued_jobs
+    perform_enqueued_jobs do
+      Solution::Publish.(solution, user_track, nil)
+    end
 
     assert_equal 1, Metric.count
     metric = Metric.last
@@ -178,5 +180,20 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_equal solution.published_at, metric.occurred_at
     assert_equal track, metric.track
     assert_equal user, metric.user
+  end
+
+  test "updates num_published_solutions" do
+    track = create :track
+    user = create :user
+    exercise = create :concept_exercise, track: track
+    user_track = create :user_track, user: user, track: track
+    solution = create :concept_solution, :completed, user: user, exercise: exercise
+    create :iteration, solution: solution
+
+    assert_equal 0, exercise.num_published_solutions
+    perform_enqueued_jobs do
+      Solution::Publish.(solution, user_track, nil)
+    end
+    assert_equal 1, exercise.reload.num_published_solutions
   end
 end

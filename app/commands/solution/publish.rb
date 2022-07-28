@@ -19,11 +19,12 @@ class Solution
       award_reputation!
       record_activity!
       log_metric!
+      update_num_published_solutions_on_exercise!
     end
 
     private
     def award_reputation!
-      level = solution.exercise.concept_exercise? ? :concept : solution.exercise.difficulty_category
+      level = exercise.concept_exercise? ? :concept : exercise.difficulty_category
       AwardReputationTokenJob.perform_later(
         solution.user,
         :published_solution,
@@ -47,5 +48,11 @@ class Solution
     def log_metric!
       Metric::Queue.(:publish_solution, solution.published_at, solution:, track: user_track.track, user: user_track.user)
     end
+
+    def update_num_published_solutions_on_exercise!
+      CacheNumPublishedSolutionsOnExerciseJob.perform_later(exercise)
+    end
+
+    delegate :exercise, to: :solution
   end
 end

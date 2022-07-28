@@ -6,7 +6,8 @@
                 @apply text-40 mx-24;
                 @apply md:text-64 md:mx-32;
             }
-            & .c-icon {
+            & .c-icon,
+            img {
                 height: 80px;
                 @screen md {
                     height: 96px;

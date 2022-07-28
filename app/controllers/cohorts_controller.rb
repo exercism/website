@@ -1,17 +1,23 @@
 class CohortsController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :use_cohort
 
   def show
-    @membership = current_user.cohort_memberships.first if user_signed_in?
+    @membership = current_user.cohort_memberships.find_by(cohort: @cohort) if user_signed_in?
   end
 
   def join
-    begin
-      current_user.cohort_memberships.create!(cohort_slug: "gohort", introduction: params[:introduction])
-    rescue ActiveRecord::RecordNotUnique
-      # This is fine
-    end
+    Cohort::Join.(current_user, @cohort, params[:introduction])
 
     redirect_to action: :show, anchor: "register"
+  end
+
+  private
+  def use_cohort
+    @cohort = ::Cohort.find_by!(slug: params[:id])
+
+    @user_track = UserTrack.for(@current_user, @cohort.track)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

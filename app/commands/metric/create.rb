@@ -25,7 +25,5 @@ class Metric::Create
   attr_reader :type, :occurred_at, :params, :request_context
 
   memoize
-  def remote_ip
-    request_context[:remote_ip]
-  end
+  def remote_ip = request_context[:remote_ip]
 end

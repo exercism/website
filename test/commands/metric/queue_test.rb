@@ -58,27 +58,6 @@ class Metric::QueueTest < ActiveSupport::TestCase
     end
   end
 
-  test "creates metric" do
-    type = :submit_solution
-    solution = create :concept_solution
-    occurred_at = Time.current - 3.seconds
-    track = solution.track
-    user = solution.user
-
-    perform_enqueued_jobs do
-      Metric::Queue.(type, occurred_at, track:, user:, solution:)
-    end
-
-    assert_equal 1, Metric.count
-    metric = Metric.last
-
-    assert_equal Metrics::SubmitSolutionMetric, metric.class
-    assert_equal occurred_at, metric.occurred_at
-    assert_equal 'US', metric.country_code
-    assert_equal track, metric.track
-    assert_equal user, metric.user
-  end
-
   test "does not crash when metric creation fails" do
     type = :open_issue
     occurred_at = Time.current - 2.seconds

@@ -19,8 +19,8 @@ class Github::Repository::UpdateReviewersTeamPermissions
 
   memoize
   def active_tracks_with_few_maintainers
-    track_team_names_with_few_maintainers = track_teams_with_num_members.filter_map { |team, num_members| team if num_members <= 1 }
-    Track.where(active: true, slug: track_team_names_with_few_maintainers)
+    track_teams_with_few_maintainers = track_teams_with_num_members.filter_map { |team, num_members| team if num_members <= 1 }
+    Track.where(active: true, slug: track_teams_with_few_maintainers)
   end
 
   def track_teams_with_num_members

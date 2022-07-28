@@ -40,8 +40,9 @@ class Donations::Payment::CreateTest < Donations::TestBase
       Donations::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
     end
 
-    assert_equal "Thank you for your donation", ActionMailer::Base.deliveries.first.subject
-    assert_equal 1, ActionMailer::Base.deliveries.count
+    deliveries = ActionMailer::Base.deliveries.select { |d| d.subject == "Thank you for your donation" }
+    assert_equal 1, deliveries.count
+    assert_equal [user.email], deliveries.first.to
   end
 
   test "works with subscription passed manually" do

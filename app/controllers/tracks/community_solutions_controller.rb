@@ -25,7 +25,10 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @own_solution = @author == @current_user
 
     # TODO: (Required) Real algorithm here
-    @other_solutions = @exercise.solutions.published.where.not(id: @solution.id).limit(3)
+    @other_solutions = @exercise.solutions.published.
+      where.not(id: @solution.id).
+      where(published_iteration_head_tests_status: %i[not_queued queued passed]).
+      limit(3)
     @mentor_discussions = @solution.mentor_discussions.
       finished.not_negatively_rated.includes(:mentor)
   rescue ActiveRecord::RecordNotFound

@@ -28,7 +28,7 @@ class Github::Repository::UpdateReviewersTeamPermissions
       query ($endCursor: String) {
         organization(login: "exercism") {
           team(slug: "track-maintainers") {
-            childTeams(first: 50, after: $endCursor) {
+            childTeams(first: 100, after: $endCursor) {
               totalCount
               nodes {
                 name

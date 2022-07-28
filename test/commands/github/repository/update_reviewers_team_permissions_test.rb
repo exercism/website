@@ -18,7 +18,7 @@ class Github::Repository::UpdateReviewersTeamPermissionsTest < ActiveSupport::Te
 
     stub_request(:post, "https://api.github.com/graphql").
       with(
-        body: "{\"query\":\"query ($endCursor: String) {\\n  organization(login: \\\"exercism\\\") {\\n    team(slug: \\\"track-maintainers\\\") {\\n      childTeams(first: 50, after: $endCursor) {\\n        totalCount\\n        nodes {\\n          name\\n          members(first: 100) {\\n            totalCount\\n          }\\n        }\\n        pageInfo {\\n          endCursor\\n        }\\n      }\\n    }\\n  }\\n}  \\n\",\"variables\":\"{\\\"endCursor\\\":null}\"}" # rubocop:disable Layout/LineLength
+        body: "{\"query\":\"query ($endCursor: String) {\\n  organization(login: \\\"exercism\\\") {\\n    team(slug: \\\"track-maintainers\\\") {\\n      childTeams(first: 100, after: $endCursor) {\\n        totalCount\\n        nodes {\\n          name\\n          members(first: 100) {\\n            totalCount\\n          }\\n        }\\n        pageInfo {\\n          endCursor\\n        }\\n      }\\n    }\\n  }\\n}  \\n\",\"variables\":\"{\\\"endCursor\\\":null}\"}" # rubocop:disable Layout/LineLength
       ).
       to_return(
         status: 200,

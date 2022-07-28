@@ -10,7 +10,7 @@ module Flows
 
       # If we let this run then we need valid git filepaths
       # for all of the stub exercises below, so we stub it
-      Solution::QueueHeadTestRun.stubs(:call)
+      Solution::QueueHeadTestRun.stubs(:defer)
     end
 
     test "shows published solutions" do

@@ -148,7 +148,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
   end
 
   test "filter: head_tests_status" do
-    QueueSolutionHeadTestRunJob.stubs(:perform_later)
+    Solution::QueueHeadTestRun.stubs(:defer)
 
     user = create :user
     solution_1 = create :concept_solution, user: user, published_iteration_head_tests_status: :passed, published_at: Time.current,

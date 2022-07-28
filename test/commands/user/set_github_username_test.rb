@@ -19,7 +19,8 @@ class User::SetGithubUsernameTest < ActiveSupport::TestCase
 
   test "recalculate pull request reputation for uid matches that change the github_username" do
     user = create :user
-    assert_enqueued_with(job: AwardReputationToUserForPullRequestsJob, args: [user], queue: 'reputation') do
+    assert_enqueued_with(job: MandateJob, args: [User::ReputationToken::AwardForPullRequestsForUser.name, user],
+      queue: 'reputation') do
       User::SetGithubUsername.(user, "user22")
     end
   end

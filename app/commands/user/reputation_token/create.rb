@@ -3,6 +3,8 @@ class User
     class Create
       include Mandate
 
+      queue_as :reputation
+
       initialize_with :user, :type, :params
 
       def call

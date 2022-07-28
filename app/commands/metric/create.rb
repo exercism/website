@@ -1,6 +1,8 @@
 class Metric::Create
   include Mandate
 
+  queue_as :metrics
+
   initialize_with :type, :occurred_at, :params
 
   def call

@@ -1,4 +1,6 @@
 class CacheNumPublishedSolutionsOnExerciseJob < ApplicationJob
+  queue_as :default
+
   def perform(exercise)
     sql = Arel.sql(exercise.solutions.published.select("COUNT(*)").to_sql)
 

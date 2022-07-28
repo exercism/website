@@ -16,16 +16,15 @@ class Github::Repository::UpdateBranchProtection
   end
 
   def new_branch_protection_settings(repo)
-    branch_protection_settings = get_branch_protection_settings(repo)
+    existing_settings = get_branch_protection_settings(repo)
 
-    checks = branch_protection_settings.dig(:required_status_checks, :checks).to_a
+    checks = existing_settings.dig(:required_status_checks, :checks).to_a
     checks.push(CONFIGLET_CHECK) if repo.type == :track
 
-    required_approving_review_count = branch_protection_settings.dig(:required_pull_request_reviews,
-      :required_approving_review_count).to_i
+    required_approving_review_count = existing_settings.dig(:required_pull_request_reviews, :required_approving_review_count).to_i
     required_approving_review_count = repo.track.active? ? [required_approving_review_count, 1].max : 0
 
-    required_linear_history = !!branch_protection_settings[:required_linear_history]
+    required_linear_history = !!existing_settings.dig(:required_linear_history, :enabled)
 
     {
       accept: ACCEPT_HEADER,

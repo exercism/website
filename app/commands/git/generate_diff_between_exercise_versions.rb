@@ -20,6 +20,7 @@ module Git
     def changed_files
       # This is a diff of two commits considering all files in the respective old and new directories
       raw_diff = `cd #{repo.send(:repo_dir)} && git diff #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}` # rubocop:disable Layout/LineLength
+
       changes = ProcessDiff.(raw_diff)
 
       # We now need to check for any new files that have been added to they interesting_paths,

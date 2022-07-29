@@ -17,7 +17,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
       +
       +Hints for tournament
     DIFF
-    expected = [{ filename: "hints.md", diff: hints_diff }]
+    expected = [{ relative_path: ".docs/hints.md", diff: hints_diff }]
     assert_equal expected, diff
   end
 
@@ -45,7 +45,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
       -README content for space-age
       +Instructions for space-age
     DIFF
-    expected = [{ filename: "instructions.md", diff: instructions_diff }]
+    expected = [{ relative_path: ".docs/instructions.md", diff: instructions_diff }]
     assert_equal expected, diff
   end
 
@@ -72,7 +72,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
       -AllCops:
       -  NewCops: disable
     DIFF
-    expected = [{ filename: "rubocop.yml", diff: rubocop_diff }]
+    expected = [{ relative_path: "rubocop.yml", diff: rubocop_diff }]
 
     assert_equal expected, diff
   end
@@ -100,7 +100,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
       +AllCops:
       +  NewCops: enable
     DIFF
-    expected = [{ filename: "rubocop.yml", diff: rubocop_diff }]
+    expected = [{ relative_path: "rubocop.yml", diff: rubocop_diff }]
     assert_equal expected, diff
   end
 
@@ -155,10 +155,18 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
     DIFF
 
     expected = [
-      { filename: "helper.rb", diff: helper_diff },
-      { filename: "rubocop.yml", diff: rubocop_diff },
-      { filename: "tournament_test.rb", diff: tournament_test_diff }
+      { relative_path: "helper.rb", diff: helper_diff },
+      { relative_path: "rubocop.yml", diff: rubocop_diff },
+      { relative_path: "tournament_test.rb", diff: tournament_test_diff }
     ]
     assert_equal expected, diff
+  end
+
+  test "relative path is returned" do
+    exercise = create :practice_exercise, slug: 'tournament', git_sha: '7a8bd1bbeb0d54a08c39d84d59cc7a8ed54d45aa'
+
+    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'tournament', '23fc26dad93968db3da774cbcc3fc8bb929762c7')
+
+    assert_equal ".docs/hints.md", diff.first[:relative_path]
   end
 end

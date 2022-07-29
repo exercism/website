@@ -9,7 +9,7 @@ module Git
         next unless interesting_paths.include?(cf.filepath)
 
         {
-          filename: cf.filename,
+          relative_path: cf.relative_path,
           diff: cf.diff
         }
       end
@@ -26,7 +26,7 @@ module Git
       # This is a diff of two commits considering all files in the respective old and new directories
       raw_diff = `cd #{repo_dir} && git diff #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}` # rubocop:disable Layout/LineLength
 
-      ProcessDiff.(raw_diff)
+      ProcessDiff.(raw_diff, exercise)
     end
 
     def changed_in_config
@@ -36,7 +36,7 @@ module Git
 
       new_interesting_paths.flat_map do |filepath|
         raw_diff = `cd #{repo_dir} && git diff #{first_sha} #{exercise.git_sha} -- #{filepath}` # rubocop:disable Layout/LineLength
-        ProcessDiff.(raw_diff)
+        ProcessDiff.(raw_diff, exercise)
       end
     end
 
@@ -70,7 +70,7 @@ module Git
     class ProcessDiff
       include Mandate
 
-      initialize_with :raw_diff
+      initialize_with :raw_diff, :exercise
 
       # This loops through the diff and breaks it into
       # one Diff object per file.
@@ -99,13 +99,11 @@ module Git
       end
 
       def add_diff!(filepath, lines)
-        @diffs << Diff.new(filepath, lines.join) if filepath
+        @diffs << Diff.new(filepath, exercise.dir, lines.join) if filepath
       end
 
-      Diff = Struct.new(:filepath, :diff) do
-        def filename
-          filepath.split('/').last
-        end
+      Diff = Struct.new(:filepath, :dir, :diff) do
+        def relative_path = filepath[dir.size + 1..]
       end
       private_constant :Diff
     end

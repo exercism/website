@@ -24,6 +24,10 @@ module Flows
         sign_in!(user)
         visit track_exercise_path(track, exercise)
         click_on "This exercise has been updated"
+
+        assert_text "lasagna_test.rb"
+        assert_text "def test_total_time_in_minutes_for_multiple_layer"
+
         click_on "Update exercise"
 
         assert_no_text "This exercise has been updated"

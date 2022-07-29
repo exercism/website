@@ -186,11 +186,19 @@ module Flows
 
     test "viewing other solutions on community solution" do
       user = create :user, handle: "Jane"
-      other_user = create :user, handle: "John"
+      other_user_1 = create :user, handle: "John"
+      other_user_2 = create :user, handle: "Niesha"
+      other_user_3 = create :user, handle: "Iko"
       ruby = create :track, slug: "ruby"
       exercise = create :concept_exercise, track: ruby
       solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: user
-      create :concept_solution, :published, published_at: 3.days.ago, exercise: exercise, user: other_user
+      create :concept_solution, :published, published_at: 3.days.ago, exercise: exercise, user: other_user_1,
+        published_iteration_head_tests_status: :passed
+      create :concept_solution, :published, published_at: 4.days.ago, exercise: exercise, user: other_user_2,
+        published_iteration_head_tests_status: :failed
+      create :concept_solution, :published, published_at: 5.days.ago, exercise: exercise, user: other_user_3,
+        published_iteration_head_tests_status: :queued
+
       submission_1 = create :submission, solution: solution
       create :submission_file,
         submission: submission_1,
@@ -212,8 +220,14 @@ module Flows
           # Own solution is not shown
           refute_text "Jane's solution", wait: 2
 
-          # Other user's published solutions are shown
+          # Other user's published solution with published iteration head tests status is :passed are shown
           assert_text "John's solution", wait: 2
+
+          # Other user's published solution with published iteration head tests status is :queued are shown
+          assert_text "Iko's solution", wait: 2
+
+          # Other user's published solution with published iteration head tests status is :failed is not shown
+          refute_text "Niesha's solution", wait: 2
         end
       end
     end

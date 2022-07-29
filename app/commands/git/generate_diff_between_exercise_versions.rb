@@ -25,7 +25,7 @@ module Git
       # We now need to check for any new files that have been added to they interesting_paths,
       # but may have been added to git in a previous commit. In these cases we need to do a manual
       # diff for each file between the very first commit in the repo, and this latest commit
-      return changes if new_interesting_paths.blank?
+      return changes unless new_interesting_paths.present?
 
       first_sha = `cd #{repo.send(:repo_dir)} && git rev-list HEAD | tail -n 1`.strip # rubocop:disable Layout/LineLength
 

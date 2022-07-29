@@ -18,24 +18,26 @@ module Git
     private
     memoize
     def changed_files
+      changes = changed_in_git + changed_in_config
+      changes.uniq(&:filepath)
+    end
+
+    def changed_in_git
       # This is a diff of two commits considering all files in the respective old and new directories
       raw_diff = `cd #{repo.send(:repo_dir)} && git diff #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}` # rubocop:disable Layout/LineLength
 
-      changes = ProcessDiff.(raw_diff)
+      ProcessDiff.(raw_diff)
+    end
 
-      # We now need to check for any new files that have been added to they interesting_paths,
-      # but may have been added to git in a previous commit. In these cases we need to do a manual
-      # diff for each file between the very first commit in the repo, and this latest commit
-      return changes unless new_interesting_paths.present?
+    def changed_in_config
+      return [] unless new_interesting_paths.present?
 
       first_sha = `cd #{repo.send(:repo_dir)} && git rev-list HEAD | tail -n 1`.strip # rubocop:disable Layout/LineLength
 
-      new_interesting_paths.each do |filepath|
+      new_interesting_paths.flat_map do |filepath|
         raw_diff = `cd #{repo.send(:repo_dir)} && git diff #{first_sha} #{exercise.git_sha} -- #{filepath}` # rubocop:disable Layout/LineLength
-        changes += ProcessDiff.(raw_diff)
+        ProcessDiff.(raw_diff)
       end
-
-      changes.uniq(&:filepath)
     end
 
     memoize

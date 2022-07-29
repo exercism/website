@@ -5,11 +5,9 @@ module Git
     initialize_with :exercise, :old_slug, :old_sha
 
     def call
-      changed_files.filter! do |diff|
-        interesting_paths.include?(diff.filepath)
-      end
+      changed_files.filter_map do |cf|
+        next unless interesting_paths.include?(cf.filepath)
 
-      changed_files.map do |cf|
         {
           filename: cf.filename,
           diff: cf.diff
@@ -22,7 +20,21 @@ module Git
     def changed_files
       # This is a diff of two commits considering all files in the respective old and new directories
       raw_diff = `cd #{repo.send(:repo_dir)} && git diff #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}` # rubocop:disable Layout/LineLength
-      ProcessDiff.(raw_diff)
+      changes = ProcessDiff.(raw_diff)
+
+      # We now need to check for any new files that have been added to they interesting_paths,
+      # but may have been added to git in a previous commit. In these cases we need to do a manual
+      # diff for each file between the very first commit in the repo, and this latest commit
+      return changes if new_interesting_paths.blank?
+
+      first_sha = `cd #{repo.send(:repo_dir)} && git rev-list HEAD | tail -n 1`.strip # rubocop:disable Layout/LineLength
+
+      new_interesting_paths.each do |filepath|
+        raw_diff = `cd #{repo.send(:repo_dir)} && git diff #{first_sha} #{exercise.git_sha} -- #{filepath}` # rubocop:disable Layout/LineLength
+        changes += ProcessDiff.(raw_diff)
+      end
+
+      changes.uniq(&:filename)
     end
 
     memoize
@@ -33,6 +45,11 @@ module Git
           *new_git.important_absolute_filepaths
         ]
       )
+    end
+
+    memoize
+    def new_interesting_paths
+      new_git.important_absolute_filepaths - old_git.important_absolute_filepaths
     end
 
     memoize

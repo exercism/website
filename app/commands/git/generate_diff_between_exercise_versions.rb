@@ -35,7 +35,7 @@ module Git
         changes += ProcessDiff.(raw_diff)
       end
 
-      changes.uniq(&:filename)
+      changes.uniq(&:filepath)
     end
 
     memoize

@@ -117,4 +117,48 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
     # and the CLI will still download it.
     assert_empty diff
   end
+
+  test "diff for combination of added/updated/removed files" do
+    exercise = create :practice_exercise, slug: 'tournament', git_sha: '9378b6f648d840fa6f99d568d43483c95c08789f'
+
+    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'tournament', 'dd3dda8ddb502aec82042e1544dc071279413f66')
+
+    helper_diff = <<~DIFF
+      diff --git a/exercises/practice/tournament/helper.rb b/exercises/practice/tournament/helper.rb
+      deleted file mode 100644
+      index 1bea883..0000000
+      --- a/exercises/practice/tournament/helper.rb
+      +++ /dev/null
+      @@ -1 +0,0 @@
+      -helper for tournament
+    DIFF
+
+    rubocop_diff = <<~DIFF
+      diff --git a/exercises/practice/tournament/rubocop.yml b/exercises/practice/tournament/rubocop.yml
+      new file mode 100644
+      index 0000000..3b64504
+      --- /dev/null
+      +++ b/exercises/practice/tournament/rubocop.yml
+      @@ -0,0 +1,2 @@
+      +AllCops:
+      +  NewCops: enable
+    DIFF
+
+    tournament_test_diff = <<~DIFF
+      diff --git a/exercises/practice/tournament/tournament_test.rb b/exercises/practice/tournament/tournament_test.rb
+      index 2fe4fad..87ca191 100644
+      --- a/exercises/practice/tournament/tournament_test.rb
+      +++ b/exercises/practice/tournament/tournament_test.rb
+      @@ -1 +1 @@
+      -test content for tournament
+      +test content for tournament exercise
+    DIFF
+
+    expected = [
+      { filename: "helper.rb", diff: helper_diff },
+      { filename: "rubocop.yml", diff: rubocop_diff },
+      { filename: "tournament_test.rb", diff: tournament_test_diff }
+    ]
+    assert_equal expected, diff
+  end
 end

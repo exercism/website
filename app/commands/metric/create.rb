@@ -14,7 +14,7 @@ class Metric::Create
     klass = "metrics/#{type}_metric".camelize.constantize
 
     klass.new(occurred_at:, params:).tap do |metric|
-      metric.country_code = Geocoder.search(remote_ip).first&.country_code if metric.store_country_code? && remote_ip
+      metric.country_code = country_code if metric.store_country_code?
       metric.save!
     rescue ActiveRecord::RecordNotUnique
       return klass.find_by!(uniqueness_key: metric.uniqueness_key)
@@ -23,6 +23,12 @@ class Metric::Create
 
   private
   attr_reader :type, :occurred_at, :params, :request_context
+
+  def country_code
+    return if remote_ip.blank?
+
+    Geocoder.search(remote_ip).first&.country_code.presence
+  end
 
   memoize
   def remote_ip = request_context[:remote_ip]

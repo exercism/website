@@ -84,4 +84,44 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
 
     assert_empty diff
   end
+
+  test "diff for modified config includes file as interesting that was added to git previously" do
+    exercise = create :practice_exercise, slug: 'leap', git_sha: '7ab5c2dfc18b9d63529c4a96197d7ad4c4976e93'
+
+    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'leap', '31673dc5c3cde7ecc932f795d9810e71c1a1c86d')
+
+    rubocop_diff = <<~DIFF
+      diff --git a/exercises/practice/leap/rubocop.yml b/exercises/practice/leap/rubocop.yml
+      new file mode 100644
+      index 0000000..3b64504
+      --- /dev/null
+      +++ b/exercises/practice/leap/rubocop.yml
+      @@ -0,0 +1,2 @@
+      +AllCops:
+      +  NewCops: enable
+    DIFF
+    expected = [{ filename: "rubocop.yml", diff: rubocop_diff }]
+    assert_equal expected, diff
+  end
+
+  test "diff for modified config excludes file as interesting that was added to git previously" do
+    skip # TODO: determine what to display here.
+
+    exercise = create :practice_exercise, slug: 'leap', git_sha: '3213d5c55b71d33f4bedbe36116cea8188f34d0a'
+
+    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'leap', '7ab5c2dfc18b9d63529c4a96197d7ad4c4976e93')
+
+    rubocop_diff = <<~DIFF
+      diff --git a/exercises/practice/leap/rubocop.yml b/exercises/practice/leap/rubocop.yml
+      new file mode 100644
+      index 0000000..3b64504
+      --- /dev/null
+      +++ b/exercises/practice/leap/rubocop.yml
+      @@ -0,0 +1,2 @@
+      +AllCops:
+      +  NewCops: enable
+    DIFF
+    expected = [{ filename: "rubocop.yml", diff: rubocop_diff }]
+    assert_equal expected, diff
+  end
 end

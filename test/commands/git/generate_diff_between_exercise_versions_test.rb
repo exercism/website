@@ -105,23 +105,16 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   end
 
   test "diff for modified config excludes file as interesting that was added to git previously" do
-    skip # TODO: determine what to display here.
-
     exercise = create :practice_exercise, slug: 'leap', git_sha: '3213d5c55b71d33f4bedbe36116cea8188f34d0a'
 
     diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'leap', '7ab5c2dfc18b9d63529c4a96197d7ad4c4976e93')
 
-    rubocop_diff = <<~DIFF
-      diff --git a/exercises/practice/leap/rubocop.yml b/exercises/practice/leap/rubocop.yml
-      new file mode 100644
-      index 0000000..3b64504
-      --- /dev/null
-      +++ b/exercises/practice/leap/rubocop.yml
-      @@ -0,0 +1,2 @@
-      +AllCops:
-      +  NewCops: enable
-    DIFF
-    expected = [{ filename: "rubocop.yml", diff: rubocop_diff }]
-    assert_equal expected, diff
+    # Excluding a file as interesting but with the file not removed from git,
+    # doesn't have any real consequences for the student.
+    # 1. If the student had submitted the file previously, the file will still show up
+    # in the editor/be downloaded via the CLI.
+    # 2. If the student has not submitted the file, the file won't show up in the editor (which is fine)
+    # and the CLI will still download it.
+    assert_empty diff
   end
 end

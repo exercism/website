@@ -16,12 +16,9 @@ module Git
     end
 
     private
-    memoize
-    def changed_files
-      changes = changed_in_git + changed_in_config
-      changes.uniq(&:filepath)
-    end
+    def changed_files = changed_in_git + changed_in_config
 
+    memoize
     def changed_in_git
       # This is a diff of two commits considering all files in the respective old and new directories
       raw_diff = `cd #{repo_dir} && git diff #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}` # rubocop:disable Layout/LineLength
@@ -29,16 +26,22 @@ module Git
       ProcessDiff.(raw_diff, exercise)
     end
 
+    memoize
+    def changed_in_git_filepaths = changed_in_git.map(&:filepath)
+
+    memoize
     def changed_in_config
-      return [] unless new_interesting_paths.present?
-
-      first_sha = `cd #{repo_dir} && git rev-list HEAD | tail -n 1`.strip # rubocop:disable Layout/LineLength
-
-      new_interesting_paths.flat_map do |filepath|
+      changed_in_config_filepaths.flat_map do |filepath|
         raw_diff = `cd #{repo_dir} && git diff #{first_sha} #{exercise.git_sha} -- #{filepath}` # rubocop:disable Layout/LineLength
         ProcessDiff.(raw_diff, exercise)
       end
     end
+
+    memoize
+    def changed_in_config_filepaths = new_interesting_paths - changed_in_git_filepaths
+
+    memoize
+    def first_sha = `cd #{repo_dir} && git rev-list HEAD | tail -n 1`.strip # rubocop:disable Layout/LineLength
 
     memoize
     def interesting_paths

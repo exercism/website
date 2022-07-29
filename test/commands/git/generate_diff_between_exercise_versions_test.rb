@@ -169,4 +169,13 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
 
     assert_equal ".docs/hints.md", diff.first[:relative_path]
   end
+
+  test "file that changes in both git and interesting file paths is returned only once" do
+    exercise = create :practice_exercise, slug: 'tournament', git_sha: 'dd3dda8ddb502aec82042e1544dc071279413f66'
+
+    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'tournament', '3213d5c55b71d33f4bedbe36116cea8188f34d0a')
+
+    relative_filepaths = diff.map { |d| d[:relative_path] }
+    assert_equal relative_filepaths.uniq, relative_filepaths
+  end
 end

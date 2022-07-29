@@ -21,6 +21,14 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
     assert_equal expected, diff
   end
 
+  test "diff for added file that is not interesting" do
+    exercise = create :practice_exercise, slug: 'leap', git_sha: '16308d8a109b952e87ca6198c13589b89c2eeab9'
+
+    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'leap', '719afc21a32801f9c7e75ce75ebb5bbcdd025019')
+
+    assert_empty diff
+  end
+
   test "diff for modified file" do
     exercise = create :practice_exercise, slug: 'space-age', git_sha: '9aba0406b02303efe9542e48ab6f4eee0b00e6f1'
 
@@ -39,6 +47,14 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
     DIFF
     expected = [{ filename: "instructions.md", diff: instructions_diff }]
     assert_equal expected, diff
+  end
+
+  test "diff for modified file that is not interesting" do
+    exercise = create :practice_exercise, slug: 'leap', git_sha: '31673dc5c3cde7ecc932f795d9810e71c1a1c86d'
+
+    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'leap', '16308d8a109b952e87ca6198c13589b89c2eeab9')
+
+    assert_empty diff
   end
 
   test "diff for deleted file" do

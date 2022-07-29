@@ -21,21 +21,21 @@ module Git
       # This is a diff of two commits considering all files in the respective old and new directories
       raw_diff = `cd #{repo.send(:repo_dir)} && git diff #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}` # rubocop:disable Layout/LineLength
 
-      changes = ProcessDiff.(raw_diff)
+      ProcessDiff.(raw_diff)
 
-      # We now need to check for any new files that have been added to they interesting_paths,
-      # but may have been added to git in a previous commit. In these cases we need to do a manual
-      # diff for each file between the very first commit in the repo, and this latest commit
-      return changes unless new_interesting_paths.present?
+      # # We now need to check for any new files that have been added to they interesting_paths,
+      # # but may have been added to git in a previous commit. In these cases we need to do a manual
+      # # diff for each file between the very first commit in the repo, and this latest commit
+      # return changes unless new_interesting_paths.present?
 
-      first_sha = `cd #{repo.send(:repo_dir)} && git rev-list HEAD | tail -n 1`.strip # rubocop:disable Layout/LineLength
+      # first_sha = `cd #{repo.send(:repo_dir)} && git rev-list HEAD | tail -n 1`.strip # rubocop:disable Layout/LineLength
 
-      new_interesting_paths.each do |filepath|
-        raw_diff = `cd #{repo.send(:repo_dir)} && git diff #{first_sha} #{exercise.git_sha} -- #{filepath}` # rubocop:disable Layout/LineLength
-        changes += ProcessDiff.(raw_diff)
-      end
+      # new_interesting_paths.each do |filepath|
+      #   raw_diff = `cd #{repo.send(:repo_dir)} && git diff #{first_sha} #{exercise.git_sha} -- #{filepath}` # rubocop:disable Layout/LineLength
+      #   changes += ProcessDiff.(raw_diff)
+      # end
 
-      changes.uniq(&:filename)
+      # changes.uniq(&:filename)
     end
 
     memoize

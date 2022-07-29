@@ -164,7 +164,8 @@ module Git
         "README.md",
         "HELP.md",
         "leap.rb",
-        "leap_test.rb"
+        "leap_test.rb",
+        "rubocop.yml"
       ]
       assert_equal expected_filepaths, exercise.cli_filepaths
     end

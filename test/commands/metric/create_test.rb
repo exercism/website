@@ -80,6 +80,21 @@ class Metric::CreateTest < ActiveSupport::TestCase
     assert_nil metric.country_code
   end
 
+  test "sets country code to nil if country code is empty string" do
+    solution = create :concept_solution
+    track = solution.track
+    user = solution.user
+    remote_ip = '127.0.0.1'
+
+    request_context = { remote_ip: }
+    Geocoder::Lookup::Test.add_stub(remote_ip, [{ 'country_code' => '' }])
+
+    Metric::Create.(:submit_solution, Time.current, track:, user:, solution:, request_context:)
+
+    assert_equal 1, Metric.count
+    assert_nil Metric.last.country_code
+  end
+
   test "creates metric without track or user" do
     action = :submit_solution
     solution = create :concept_solution

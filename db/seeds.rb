@@ -149,8 +149,7 @@ ruby = Track.find_by_slug(:ruby)
 user_track = UserTrack.create_or_find_by!(user: iHiD, track: ruby)
 solution = Solution::Create.(
   iHiD,
-  ruby.practice_exercises.find_by!(slug: "hello-world"),
-  '127.0.0.1'
+  ruby.practice_exercises.find_by!(slug: "hello-world")
 )
 submission = Submission.create!(
   solution: solution,

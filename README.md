@@ -61,12 +61,6 @@ ALTER DATABASE `exercism_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 GRANT ALL PRIVILEGES ON `exercism_test`.* TO 'exercism'@'localhost';
 ```
 
-Tests are parallelized so you need a db per processor, so you need to do this for `n` processors.
-
-```bash
-GRANT ALL PRIVILEGES ON `exercism_test-0`.* TO 'exercism'@'localhost';
-```
-
 ### Running local AWS
 
 To run the app you must have a local version of AWS running.

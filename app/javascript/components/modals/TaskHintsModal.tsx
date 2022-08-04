@@ -14,11 +14,17 @@ export const TaskHintsModal = ({
   onClose: () => void
 }): JSX.Element => {
   return (
-    <Modal open={open} onClose={onClose} className="m-editor-hints" {...props}>
+    <Modal
+      open={open}
+      onClose={onClose}
+      aria={{ labelledby: 'task-hints-modal-heading' }}
+      className="m-editor-hints"
+      {...props}
+    >
       <div role="document">
         <header>
           <GraphicalIcon icon="hints" category="graphics" />
-          <h2>Hints and Tips</h2>
+          <h2 id="task-hints-modal-heading">Hints and Tips</h2>
         </header>
         <div className="single-task-hints">
           <h3>{task.title}</h3>

@@ -15,19 +15,21 @@ export const TaskHintsModal = ({
 }): JSX.Element => {
   return (
     <Modal open={open} onClose={onClose} className="m-editor-hints" {...props}>
-      <header>
-        <GraphicalIcon icon="hints" category="graphics" />
-        <h2>Hints and Tips</h2>
-      </header>
-      <div className="single-task-hints">
-        <h3>{task.title}</h3>
-        {task.hints.map((hint, idx) => (
-          <div
-            className="c-textual-content --large"
-            key={idx}
-            dangerouslySetInnerHTML={{ __html: hint }}
-          ></div>
-        ))}
+      <div role="document">
+        <header>
+          <GraphicalIcon icon="hints" category="graphics" />
+          <h2>Hints and Tips</h2>
+        </header>
+        <div className="single-task-hints">
+          <h3>{task.title}</h3>
+          {task.hints.map((hint, idx) => (
+            <div
+              className="c-textual-content --large"
+              key={idx}
+              dangerouslySetInnerHTML={{ __html: hint }}
+            ></div>
+          ))}
+        </div>
       </div>
     </Modal>
   )

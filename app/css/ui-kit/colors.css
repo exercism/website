@@ -201,6 +201,8 @@
     --white-filter: var(--filter-FFFFFF);
     --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
         brightness(97%) contrast(80%);
+    --dark-purple-filter: invert(20%) sepia(60%) saturate(1812%)
+        hue-rotate(229deg) brightness(92%) contrast(89%);
 
     /* TODO: Replace with purple-filter */
     --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)

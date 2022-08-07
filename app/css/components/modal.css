@@ -38,10 +38,33 @@
             right: 48px;
             height: 64px;
             width: 64px;
+
             & .c-icon {
                 height: 32px;
                 width: 32px;
                 filter: var(--filter-FFFFFF);
+            }
+
+            &:hover {
+                @apply bg-wildBlueYonder;
+            }
+
+            &:active,
+            &:focus {
+                @apply bg-crayola;
+            }
+
+            &:focus {
+                @apply border-2 border-purpleDarker3;
+                @apply outline outline-3 outline-lightLavender;
+            }
+
+            &:hover,
+            &:active,
+            &:focus {
+                & .c-icon {
+                    filter: var(--dark-purple-filter);
+                }
             }
         }
     }

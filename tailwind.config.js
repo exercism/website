@@ -19,6 +19,9 @@ module.exports = {
       outlineWidth: {
         3: '3px',
       },
+      boxShadow: {
+        lavenderFocus: '0px 0px 0px 3px rgba(35, 0, 255, 0.3)',
+      },
     },
     borderRadius: {
       none: '0',
@@ -125,7 +128,6 @@ module.exports = {
       veryLightBlue: '#E1EBFF',
       veryLightBlue2: '#E2EBFF',
       evenLighterBlue: '#ECF2FF',
-      // new blueish colors
       wildBlueYonder: '#A7B7D6',
       crayola: '#C8D5EF',
 
@@ -142,7 +144,6 @@ module.exports = {
       lightPurple: '#FAFAFF',
       purpleForever: '#5042AD',
       darkPlaceholder: '#9D94DA',
-      // new lavender color
       lightLavender: 'rgba(35, 0, 255, 0.3)',
 
       gray: '#A9A6BD',

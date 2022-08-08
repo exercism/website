@@ -59,19 +59,19 @@ erik.confirm
 erik.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 erik.auth_tokens.create!
 
-puts "Creating User kntsoriano"
-karlo = User.find_by(handle: 'kntsoriano') || User.create!(
-  handle: 'kntsoriano',
-  email: 'karlo@exercism.org',
-  name: 'Karlo Soriano',
+puts "Creating User dem4ron"
+aron = User.find_by(handle: 'dem4ron') || User.create!(
+  handle: 'dem4ron',
+  email: 'aron.demeter@exercism.org',
+  name: 'Aron Demeter',
   password: 'password',
-  github_username: 'kntsoriano',
+  github_username: 'dem4ron',
   bio: "I am a developer with a passion for learning new languages. I love programming. I've done all the languages. I like the good languages the best.",
   roles: [:admin, :maintainer]
 )
-karlo.confirm
-karlo.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
-karlo.auth_tokens.create!
+aron.confirm
+aron.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
+aron.auth_tokens.create!
 
 # Create Alice, a maintainer user
 puts "Creating User alice"
@@ -177,11 +177,11 @@ Iteration.create!(uuid: SecureRandom.uuid, submission: submission, solution: sol
 Mentor::Request.create!(solution: solution, comment_markdown: "I would like to improve the performance of my code")
 
 ## Create mentoring solutions
-UserTrack.create_or_find_by!(user: karlo, track: ruby, practice_mode: true)
-Solution::Create.(karlo, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
+UserTrack.create_or_find_by!(user: aron, track: ruby, practice_mode: true)
+Solution::Create.(aron, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 
 ruby.practice_exercises.limit(10).each do |exercise|
-  solution = Solution::Create.(karlo, exercise)
+  solution = Solution::Create.(aron, exercise)
   submission = Submission.create!(solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
   submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
   Iteration.create!(uuid: SecureRandom.uuid,  submission: submission, solution: solution, idx: 1)
@@ -225,7 +225,7 @@ end
 5.times do |i|
   track = tracks.sample
   User::ReputationToken::Create.(
-    karlo,
+    aron,
     :code_review,
     repo: track.repo_url,
     pr_node_id: SecureRandom.hex,

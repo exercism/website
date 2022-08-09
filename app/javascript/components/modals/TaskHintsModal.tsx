@@ -18,15 +18,16 @@ export const TaskHintsModal = ({
       open={open}
       onClose={onClose}
       aria={{
-        describedby: 'task-hints-description',
+        describedby: 'a11y-task-hints-description',
+        labelledby: 'a11y-task-hints-label',
       }}
       className="m-editor-hints"
       {...props}
     >
-      <div id="task-hints-description" role="document">
+      <div id="a11y-task-hints-description" role="document">
         <header>
           <GraphicalIcon icon="hints" category="graphics" />
-          <h2>Hints and Tips</h2>
+          <h2 id="a11y-task-hints-label">Hints and Tips</h2>
         </header>
         <div className="single-task-hints">
           <h3>{task.title}</h3>

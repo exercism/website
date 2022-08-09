@@ -118,6 +118,9 @@ Rails/HasManyOrHasOneDependent:
 Rails/FilePath:
   EnforcedStyle: arguments
 
+Rails/Blank:
+  Enabled: false
+
 Rails/LexicallyScopedActionFilter:
   Enabled: false
 

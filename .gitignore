@@ -45,4 +45,4 @@ app/javascript/.config/*
 !app/javascript/.config/.keep
 
 # Redis Database Backup
-dumb.rdb
+dump.rdb

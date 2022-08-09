@@ -1,12 +1,15 @@
 @import "./tailwind.css";
 @import "./defaults";
 
+@import "./ui-kit/animations";
+@import "./ui-kit/borders";
+@import "./ui-kit/buttons";
+@import "./ui-kit/colors";
+@import "./ui-kit/effects";
 @import "./ui-kit/inputs";
 @import "./ui-kit/shapes";
-@import "./ui-kit/buttons";
+@import "./ui-kit/text";
 @import "./ui-kit/tracks";
-@import "./ui-kit/animations";
-@import "./ui-kit/effects";
 
 @import "./tooltips/generic";
 @import "./tooltips/base";

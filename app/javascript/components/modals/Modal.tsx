@@ -1,5 +1,5 @@
 import React from 'react'
-import { default as ReactModal, Props } from 'react-modal'
+import { Aria, default as ReactModal, Props } from 'react-modal'
 import { Icon } from '../common/Icon'
 import { Wrapper } from '../common/Wrapper'
 import { ActiveBackground, Confetti } from '@exercism/active-background'
@@ -13,6 +13,7 @@ export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   cover?: boolean
   celebratory?: boolean
   theme?: Theme
+  aria?: Pick<Aria, 'describedby' | 'labelledby'>
 }
 
 export const Modal = ({
@@ -24,6 +25,7 @@ export const Modal = ({
   celebratory = false,
   theme = 'light',
   children,
+  aria,
   ...props
 }: React.PropsWithChildren<ModalProps>): JSX.Element => {
   const overlayClassNames = [
@@ -35,6 +37,7 @@ export const Modal = ({
 
   return (
     <ReactModal
+      aria={aria}
       ariaHideApp={process.env.NODE_ENV !== 'test'}
       isOpen={open}
       onRequestClose={onClose}

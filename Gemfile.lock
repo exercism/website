@@ -114,9 +114,7 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
-    backport (1.2.0)
     bcrypt (3.1.17)
-    benchmark (0.2.0)
     bindex (0.8.1)
     bootsnap (1.11.1)
       msgpack (~> 1.2)
@@ -148,7 +146,6 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    diff-lcs (1.5.0)
     digest (3.1.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -236,7 +233,6 @@ GEM
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
-    jaro_winkler (1.5.4)
     jmespath (1.6.1)
     jsbundling-rails (1.0.2)
       railties (>= 6.0.0)
@@ -253,13 +249,9 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
-    kramdown (2.3.2)
-      rexml
-    kramdown-parser-gfm (1.1.0)
-      kramdown (~> 2.0)
-    listen (3.0.8)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
+    listen (3.7.1)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.16.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -398,8 +390,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    reverse_markdown (2.1.1)
-      nokogiri
     rexml (3.2.5)
     rubocop (1.30.0)
       parallel (~> 1.10)
@@ -454,21 +444,6 @@ GEM
       tilt (>= 1.4.0)
     skylight (5.3.2)
       activesupport (>= 5.2.0)
-    solargraph (0.44.3)
-      backport (~> 1.2)
-      benchmark
-      bundler (>= 1.17.2)
-      diff-lcs (~> 1.4)
-      e2mmap
-      jaro_winkler (~> 1.5)
-      kramdown (~> 2.3)
-      kramdown-parser-gfm (~> 1.1)
-      parser (~> 3.0)
-      reverse_markdown (>= 1.0.5, < 3)
-      rubocop (>= 0.52)
-      thor (~> 1.0)
-      tilt (~> 2.0)
-      yard (~> 0.9, >= 0.9.24)
     stripe (5.48.0)
     strscan (3.0.1)
     sysexits (1.2.0)
@@ -504,14 +479,11 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webrick (1.7.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yard (0.9.27)
-      webrick (~> 1.7.0)
     zeitwerk (2.5.4)
 
 PLATFORMS
@@ -541,7 +513,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jsbundling-rails
   kaminari
-  listen (>= 3.0.5, < 3.2)
+  listen (>= 3.0.5, < 4.0)
   mandate (= 2.0.0)
   maxminddb (~> 0.1.22)
   mini_magick
@@ -573,7 +545,6 @@ DEPENDENCIES
   sidekiq-failures
   sidekiq-scheduler
   skylight
-  solargraph
   stripe
   turbo-rails
   tzinfo-data

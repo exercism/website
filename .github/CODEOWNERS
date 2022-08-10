@@ -2,6 +2,10 @@
 *.js       @erikschierboom @iHiD @dem4ron
 *.jsx      @erikschierboom @iHiD @dem4ron
 
+# TypeScript files
+*.ts       @erikschierboom @iHiD @dem4ron
+*.tsx      @erikschierboom @iHiD @dem4ron
+
 # CSS Files
 *.css       @iHiD
 

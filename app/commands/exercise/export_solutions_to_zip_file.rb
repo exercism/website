@@ -6,24 +6,20 @@ class Exercise::ExportSolutionsToZipFile
   initialize_with :exercise
 
   def call
-    Zip::File.open(zip_file_path, create: true) do |zip_file|
+    file_stream = Zip::OutputStream.write_buffer do |zip|
       solutions.each.with_index do |solution, idx|
         solution.latest_iteration.files.each do |iteration_file|
-          zip_file.get_output_stream("#{idx}/#{iteration_file.filename}") do |f|
-            f.puts(iteration_file.content.force_encoding("utf-8"))
-          end
+          zip.put_next_entry "#{idx}/#{iteration_file.filename}"
+          zip.print iteration_file.content.force_encoding("utf-8")
         end
       end
     end
 
-    zip_file_path
+    file_stream.rewind
+    file_stream.sysread
   end
 
   private
-  # We need to memoize this as there is randomness in the file path
-  memoize
-  def zip_file_path = Rails.root / "tmp" / "export_solutions_data" / "#{Time.now.to_i}-#{SecureRandom.uuid}.zip"
-
   def solutions
     exercise.solutions.includes(iterations: :files).
       where(status: %i[iterated completed published]).

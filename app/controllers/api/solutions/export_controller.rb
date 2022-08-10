@@ -6,8 +6,9 @@ module API
       def index
         return render_403(:solutions_export_not_accessible) unless current_user.maintainer? || current_user.admin?
 
-        zip_file = Exercise::ExportSolutionsToZipFile.(@exercise)
-        send_file(zip_file)
+        zip_file_stream = Exercise::ExportSolutionsToZipFile.(@exercise)
+
+        send_data zip_file_stream, type: 'application/zip', filename: 'solutions.zip'
       end
 
       private

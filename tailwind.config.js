@@ -16,6 +16,12 @@ module.exports = {
         '2-auto': 'repeat(2, auto)',
         '3-auto': 'repeat(2, auto)',
       },
+      outlineWidth: {
+        3: '3px',
+      },
+      boxShadow: {
+        lavenderFocus: '0px 0px 0px 3px rgba(35, 0, 255, 0.3)',
+      },
     },
     borderRadius: {
       none: '0',
@@ -122,6 +128,8 @@ module.exports = {
       veryLightBlue: '#E1EBFF',
       veryLightBlue2: '#E2EBFF',
       evenLighterBlue: '#ECF2FF',
+      wildBlueYonder: '#A7B7D6',
+      crayola: '#C8D5EF',
 
       btnBorder: '#5C5589',
       primaryBtnBorder: '#130B43',
@@ -136,6 +144,7 @@ module.exports = {
       lightPurple: '#FAFAFF',
       purpleForever: '#5042AD',
       darkPlaceholder: '#9D94DA',
+      lightLavender: 'rgba(35, 0, 255, 0.3)',
 
       gray: '#A9A6BD',
       darkGray: '#26282D',

@@ -68,15 +68,7 @@ export const Modal = ({
             )}
           >
             <div className="--modal-container">
-              {closeButton ? (
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="--close-button"
-                >
-                  <Icon icon="cross" alt="Close modal" />
-                </button>
-              ) : null}
+              {closeButton ? <CloseButton onClose={onClose} /> : null}
               {contentElement}
             </div>
           </Wrapper>
@@ -86,5 +78,15 @@ export const Modal = ({
     >
       {children}
     </ReactModal>
+  )
+}
+
+export type CloseButtonProps = Pick<ModalProps, 'onClose'>
+
+function CloseButton({ onClose }: CloseButtonProps) {
+  return (
+    <button type="button" onClick={onClose} className="--close-button">
+      <Icon icon="cross" alt="Close modal" />
+    </button>
   )
 }

@@ -17,6 +17,7 @@ export const TaskHintsModal = ({
     <Modal
       open={open}
       onClose={onClose}
+      closeButton={true}
       aria={{
         describedby: 'a11y-task-hints-description',
         labelledby: 'a11y-task-hints-label',

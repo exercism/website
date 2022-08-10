@@ -1,5 +1,11 @@
 require 'http_authentication_token'
 
+class Rack::Attack::Request
+  def auth_token
+    HttpAuthenticationToken.from_header(env['HTTP_AUTHORIZATION'])
+  end
+end
+
 Rack::Attack.throttled_response_retry_after_header = true
 
 api_non_get_limit_proc = proc do |req|
@@ -25,9 +31,8 @@ Rack::Attack.throttle("API - POST/PATCH/PUT/DELETE", limit: api_non_get_limit_pr
   Rails.application.routes.router.recognize(req) do |route, _|
     route_name = route.name
   end
-  token = HttpAuthenticationToken.from_header(req.env['HTTP_AUTHORIZATION'])
 
-  "#{route_name}|#{req.request_method}|#{token || req.ip}"
+  "#{route_name}|#{req.request_method}|#{req.auth_token || req.ip}"
 end
 
 Rack::Attack.throttle("API - export solutions", limit: 10, period: 1.week) do |req|
@@ -43,6 +48,5 @@ Rack::Attack.throttle("API - export solutions", limit: 10, period: 1.week) do |r
 
   next unless route_name == 'api_track_exercise_export_solutions'
 
-  token = HttpAuthenticationToken.from_header(req.env['HTTP_AUTHORIZATION'])
-  token || req.ip
+  req.auth_token || req.ip
 end

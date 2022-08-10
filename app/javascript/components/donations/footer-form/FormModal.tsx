@@ -58,11 +58,13 @@ export const FormModal = ({
       return (
         <Modal
           closeButton={true}
+          aria={{ describedby: 'a11y-form-modal-description' }}
           className="m-donations-form"
           onClose={handleClose}
           {...props}
         >
           <Form
+            id="a11y-form-modal-description"
             request={request}
             defaultAmount={{ payment: amount, subscription: amount }}
             defaultTransactionType="payment"

@@ -10,10 +10,10 @@ module API
 
       private
       def use_exercise
-        @track = Track.find(params[:track_slug])
+        @track = Track.find_by(slug: params[:track_slug])
         return render_track_not_found if @track.blank?
 
-        @exercise = @track.exercises.find(params[:exercise_slug])
+        @exercise = @track.exercises.find_by(slug: params[:exercise_slug])
         return render_exercise_not_found if @exercise.blank?
       end
     end

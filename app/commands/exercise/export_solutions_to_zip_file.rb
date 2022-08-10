@@ -14,7 +14,7 @@ class Exercise::ExportSolutionsToZipFile
       end
     end
 
-    zip_file_path.tap
+    zip_file_path
   end
 
   private

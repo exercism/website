@@ -59,7 +59,7 @@ module API
         )
       end
 
-      test "index renders 403 when user is not a maintainer" do
+      test "index renders 403 when user is not a maintainer or admin" do
         user = create :user, roles: []
         setup_user(user)
 

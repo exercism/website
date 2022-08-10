@@ -1,8 +1,21 @@
 require 'http_authentication_token'
 
 class Rack::Attack::Request
+  extend Mandate::Memoize
+
   def auth_token
     HttpAuthenticationToken.from_header(env['HTTP_AUTHORIZATION'])
+  end
+
+  memoize
+  def route_name
+    name = nil
+
+    Rails.application.routes.router.recognize(self) do |route|
+      name = route.name if route.name.present?
+    end
+
+    name
   end
 end
 
@@ -24,29 +37,13 @@ Rack::Attack.throttle("API - POST/PATCH/PUT/DELETE", limit: api_non_get_limit_pr
   next unless req.post? || req.patch? || req.put? || req.delete?
   next unless req.path.starts_with?('/api')
 
-  # We want to throttle on the route name, not the path as
-  # calls to the same API method with different IDs has the same
-  # route name, but different paths
-  route_name = nil
-  Rails.application.routes.router.recognize(req) do |route, _|
-    route_name = route.name
-  end
-
-  "#{route_name}|#{req.request_method}|#{req.auth_token || req.ip}"
+  # Throttle on the route name to prevent calls to the same route
+  # but with different params being counted separately
+  "#{req.route_name}|#{req.request_method}|#{req.auth_token || req.ip}"
 end
 
 Rack::Attack.throttle("API - export solutions", limit: 10, period: 1.week) do |req|
-  next unless req.get?
-
-  # We want to throttle on the route name, not the path as
-  # calls to the same API method with different params have
-  # the same route name, but different paths
-  route_name = nil
-  Rails.application.routes.router.recognize(req) do |route, _|
-    route_name = route.name if route.name.present?
-  end
-
-  next unless route_name == 'api_track_exercise_export_solutions'
+  next unless req.get? && req.route_name == 'api_track_exercise_export_solutions'
 
   req.auth_token || req.ip
 end

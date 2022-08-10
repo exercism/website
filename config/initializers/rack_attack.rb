@@ -9,26 +9,24 @@ class Rack::Attack::Request
 
   memoize
   def route_name
-    name = nil
-
+    route_name = nil
     Rails.application.routes.router.recognize(self) do |route|
-      name = route.name if route.name.present?
+      route_name = route.name if route.name.present?
     end
-
-    name
+    route_name
   end
 end
 
 Rack::Attack.throttled_response_retry_after_header = true
 
 api_non_get_limit_proc = proc do |req|
-  next 4 if req.post? && req.path =~ %r{^/api/v2/solutions/[^/]+/iterations}
-  next 12 if req.post? && req.path =~ %r{^/api/v2/solutions/[^/]+/submissions}
-  next 30 if req.post? && req.path =~ %r{^/api/v2/markdown/parse}
-  next 30 if req.patch? && req.path =~ %r{^/api/v2/mentoring/testimonials/[^/]+/reveal}
-  next 20 if req.patch? && req.path =~ %r{^/api/v2/reputation/[^/]+/mark_as_seen}
-  next 8 if req.patch? && req.path == '/api/v2/settings/communication_preferences'
-  next 8 if req.patch? && req.path == '/api/v2/settings/sudo_update'
+  next 4 if req.post? && req.route_name == 'api_solution_iterations'
+  next 12 if req.post? && req.route_name == 'api_solution_submissions'
+  next 30 if req.post? && req.route_name == 'api_parse_markdown'
+  next 30 if req.patch? && req.route_name == 'reveal_api_mentoring_testimonial'
+  next 20 if req.patch? && req.route_name == 'mark_as_seen_api_reputation'
+  next 8 if req.patch? && req.route_name == 'api_settings_communication_preferences'
+  next 8 if req.patch? && req.route_name == 'sudo_update_api_settings'
 
   5
 end

@@ -1,3 +1,5 @@
+require 'zip'
+
 class Exercise::ExportSolutionsToZipFile
   include Mandate
 

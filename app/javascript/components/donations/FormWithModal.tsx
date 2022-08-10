@@ -22,6 +22,8 @@ export default function FormWithModal({
   links,
 }: FormWithModalProps): JSX.Element {
   const [paymentMade, setPaymentMade] = useState(false)
+
+  // TODO: Remove this as this seems to be unused
   const [, setPaymentType] = useState<PaymentIntentType | undefined>()
   const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
 

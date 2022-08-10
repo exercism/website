@@ -4,8 +4,8 @@ module API
       before_action :use_exercise
 
       def index
-        file = Exercise::ExportSolutionsToZipFile.(@exercise)
-        send_file file
+        zip_file = Exercise::ExportSolutionsToZipFile.(@exercise)
+        send_file(zip_file)
       end
 
       private

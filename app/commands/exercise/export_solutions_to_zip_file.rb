@@ -17,11 +17,13 @@ class Exercise::ExportSolutionsToZipFile
 
     solutions.each.with_index do |solution, idx|
       solution_dir = dir / idx.to_s
-      FileUtils.mkdir(solution_dir)
+      FileUtils.mkdir_p(solution_dir)
 
       solution.latest_iteration.files.each do |iteration_file|
-        filename = iteration_file.filename.split("/").last
-        File.open(solution_dir / filename, "w+") do |file|
+        file_dir = solution_dir / iteration_file.filename.split('/').tap(&:pop).join('/')
+
+        FileUtils.mkdir_p(file_dir) unless Dir.exist?(file_dir)
+        File.open(solution_dir / iteration_file.filename, "w+") do |file|
           file << iteration_file.content.force_encoding("utf-8")
         end
       end

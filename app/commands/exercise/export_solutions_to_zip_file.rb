@@ -14,17 +14,17 @@ class Exercise::ExportSolutionsToZipFile
       end
     end
 
-    zip_file_path
+    zip_file_path.tap
   end
 
   private
+  # We need to memoize this as there is randomness in the file path
   memoize
   def zip_file_path = Rails.root / "tmp" / "export_solutions_data" / "#{Time.now.to_i}-#{SecureRandom.uuid}.zip"
 
   def solutions
     exercise.solutions.includes(iterations: :files).
       where(status: %i[iterated completed published]).
-      order('id DESC').
-      limit(500)
+      last(500)
   end
 end

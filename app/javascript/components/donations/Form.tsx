@@ -52,7 +52,7 @@ export const Form = ({
   onProcessing?: () => void
   onSettled?: () => void
   links: Links
-  id: string
+  id?: string
 }): JSX.Element => {
   const queryCache = useQueryCache()
   const { data, status, error } = useRequestQuery<{

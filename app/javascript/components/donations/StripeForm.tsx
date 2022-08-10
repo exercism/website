@@ -32,6 +32,15 @@ type PaymentIntent = {
 }
 export type PaymentIntentType = 'payment' | 'subscription'
 
+type StripeFormProps = {
+  paymentIntentType: PaymentIntentType
+  onSuccess: (type: PaymentIntentType, amount: currency) => void
+  onProcessing?: () => void
+  onSettled?: () => void
+  userSignedIn: boolean
+  amount: currency
+}
+
 export function StripeForm({
   paymentIntentType,
   amount,
@@ -39,14 +48,7 @@ export function StripeForm({
   onProcessing = () => null,
   userSignedIn,
   onSettled = () => null,
-}: {
-  paymentIntentType: PaymentIntentType
-  onSuccess: (type: PaymentIntentType, amount: currency) => void
-  onProcessing?: () => void
-  onSettled?: () => void
-  userSignedIn: boolean
-  amount: currency
-}) {
+}: StripeFormProps): JSX.Element {
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState<string | undefined>()
   const [processing, setProcessing] = useState(false)

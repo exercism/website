@@ -125,7 +125,7 @@ export const Inbox = ({
         </StatusTab>
       </div>
       <div className="container">
-        <header className="c-search-bar">
+        <header className="c-search-bar inbox-header">
           <TrackFilter
             request={{
               ...tracksRequest,

@@ -14,6 +14,7 @@ import { Sorter } from './Sorter'
 import { SortOption } from './Inbox'
 import { MOCK_DEFAULT_TRACK, MOCK_TRACKS } from './automation/mock-data'
 import { StatusTab } from './inbox/StatusTab'
+import { GraphicalIcon, Introducer } from '../common'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
@@ -37,6 +38,8 @@ export function Automation({
 }: AutomationProps): JSX.Element {
   const [selectedTrack, setSelectedTrack] =
     useState<MentoredTrack>(MOCK_DEFAULT_TRACK)
+
+  const [checked, setChecked] = useState(false)
 
   const [status, setStatus] = useState<AutomationStatus>('need_feedback')
   const [selectedExercise] = useState<MentoredTrackExercise | null>(
@@ -72,26 +75,45 @@ export function Automation({
 
   return (
     <div className="c-mentor-inbox">
-      <div className="tabs">
-        <StatusTab<AutomationStatus>
-          status="need_feedback"
-          currentStatus={status}
-          setStatus={() => setStatus('need_feedback')}
-        >
-          Need feedback
-          {resolvedData ? <div className="count">{12}</div> : null}
-        </StatusTab>
-        <StatusTab<AutomationStatus>
-          status="feedback_submitted"
-          currentStatus={status}
-          setStatus={() => setStatus('feedback_submitted')}
-        >
-          Feedback submitted
-          {resolvedData ? <div className="count">{15}</div> : null}
-        </StatusTab>
+      <Introducer
+        endpoint="some string"
+        additionalClassNames="mb-24"
+        icon="automation"
+      >
+        <h2>Initiate feedback automation...Beep boop bop...</h2>
+        <p>
+          Automation is a space that allows you to see common solutions to
+          exercises and write feedback once for all students with that
+          particular solution.
+        </p>
+      </Introducer>
+      <div className="flex justify-between">
+        <div className="tabs">
+          <StatusTab<AutomationStatus>
+            status="need_feedback"
+            currentStatus={status}
+            setStatus={() => setStatus('need_feedback')}
+          >
+            Need feedback
+            {resolvedData ? <div className="count">{12}</div> : null}
+          </StatusTab>
+          <StatusTab<AutomationStatus>
+            status="feedback_submitted"
+            currentStatus={status}
+            setStatus={() => setStatus('feedback_submitted')}
+          >
+            Feedback submitted
+            {resolvedData ? <div className="count">{15}</div> : null}
+          </StatusTab>
+        </div>
+        <Checkbox
+          onCheck={() => setChecked((c) => !c)}
+          text="Only show solutions I've mentored before"
+          checked={checked}
+        />
       </div>
       <div className="container">
-        <header className="c-search-bar">
+        <header className="c-search-bar automation-header">
           <TrackFilterList
             status={trackListStatus}
             error={trackListError}
@@ -116,5 +138,25 @@ export function Automation({
         </footer>
       </div>
     </div>
+  )
+}
+
+type CheckboxProps = {
+  checked: boolean
+  onCheck: () => void
+  text: string
+}
+
+function Checkbox({ text, checked, onCheck }: CheckboxProps): JSX.Element {
+  return (
+    <label className="c-checkbox-wrapper filter mb-20">
+      <input type="checkbox" checked={checked} onChange={onCheck} />
+      <div className="row">
+        <div className="c-checkbox">
+          <GraphicalIcon icon="checkmark" />
+        </div>
+        {text}
+      </div>
+    </label>
   )
 }

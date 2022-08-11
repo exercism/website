@@ -135,4 +135,13 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
     assert_equal [representation_1, representation_2, representation_3], Exercise::Representation.feedback_submitted.order(:id)
   end
+
+  test "track" do
+    track = create :track
+    exercise = create :concept_exercise, track: track
+
+    representation = create :exercise_representation, exercise:, ast: 'def', ast_digest: 'def'
+
+    assert_equal track, representation.track
+  end
 end

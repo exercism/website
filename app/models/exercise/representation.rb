@@ -6,6 +6,7 @@ class Exercise::Representation < ApplicationRecord
   belongs_to :source_submission, class_name: "Submission"
   belongs_to :feedback_author, optional: true, class_name: "User"
   belongs_to :feedback_editor, optional: true, class_name: "User"
+  has_one :track, through: :exercise
 
   enum feedback_type: { essential: 0, actionable: 1, non_actionable: 2 }, _prefix: :feedback
 

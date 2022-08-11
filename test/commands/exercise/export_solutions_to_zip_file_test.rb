@@ -24,7 +24,7 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
 
     Zip::File.open_buffer(zip_file_stream) do |zip_file|
       num_solutions.times do |idx|
-        assert "Stub #{idx}", zip_file.read("#{idx}/stub.rb")
+        assert_equal "Stub #{idx}", zip_file.read("#{idx}/stub.rb")
       end
     end
   end
@@ -40,9 +40,9 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
     zip_file_stream = Exercise::ExportSolutionsToZipFile.(exercise)
 
     Zip::File.open_buffer(zip_file_stream) do |zip_file|
-      assert 500, zip_file.size
-      assert "Stub 1", zip_file.read("0/stub.rb")
-      assert "Stub 499", zip_file.read("499/stub.rb")
+      assert_equal 500, zip_file.size
+      assert_equal "Stub 1", zip_file.read("0/stub.rb")
+      assert_equal "Stub 500", zip_file.read("499/stub.rb")
     end
   end
 
@@ -53,7 +53,7 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
     zip_file_stream = Exercise::ExportSolutionsToZipFile.(iteration.exercise)
 
     Zip::File.open_buffer(zip_file_stream) do |zip_file|
-      assert "Stub", zip_file.read("0/src/stub.rb")
+      assert_equal "Stub", zip_file.read("0/src/stub.rb")
     end
   end
 
@@ -66,9 +66,22 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
     zip_file_stream = Exercise::ExportSolutionsToZipFile.(iteration.exercise)
 
     Zip::File.open_buffer(zip_file_stream) do |zip_file|
-      assert "Stub", zip_file.read("0/src/stub.rb")
-      assert "Test", zip_file.read("0/test/test.rb")
-      assert "Helper", zip_file.read("0/helper.rb")
+      assert_equal "Stub", zip_file.read("0/src/stub.rb")
+      assert_equal "Test", zip_file.read("0/test/test.rb")
+      assert_equal "Helper", zip_file.read("0/helper.rb")
+    end
+  end
+
+  test "uses first iteration's files" do
+    solution = create :practice_solution
+    iteration_1 = create :iteration, solution: solution, idx: 1
+    iteration_2 = create :iteration, solution: solution, idx: 2
+    create :submission_file, submission: iteration_1.submission, filename: "src/stub.rb", content: "Stub v1"
+    create :submission_file, submission: iteration_2.submission, filename: "src/stub.rb", content: "Stub v2"
+    zip_file_stream = Exercise::ExportSolutionsToZipFile.(solution.reload.exercise)
+
+    Zip::File.open_buffer(zip_file_stream) do |zip_file|
+      assert_equal "Stub v1", zip_file.read("0/src/stub.rb")
     end
   end
 end

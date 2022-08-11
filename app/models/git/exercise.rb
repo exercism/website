@@ -234,9 +234,7 @@ module Git
       mapped[filepath] ? repo.read_blob(mapped[filepath]) : nil
     end
 
-    def dir
-      "exercises/#{exercise_type}/#{exercise_slug}"
-    end
+    def dir = "exercises/#{exercise_type}/#{exercise_slug}"
 
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha

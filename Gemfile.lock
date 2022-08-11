@@ -253,13 +253,13 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
-    kramdown (2.3.2)
+    kramdown (2.4.0)
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
-    listen (3.0.8)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
+    listen (3.7.1)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.16.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -454,7 +454,7 @@ GEM
       tilt (>= 1.4.0)
     skylight (5.3.2)
       activesupport (>= 5.2.0)
-    solargraph (0.44.3)
+    solargraph (0.45.0)
       backport (~> 1.2)
       benchmark
       bundler (>= 1.17.2)
@@ -510,7 +510,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yard (0.9.27)
+    yard (0.9.28)
       webrick (~> 1.7.0)
     zeitwerk (2.5.4)
 
@@ -541,7 +541,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jsbundling-rails
   kaminari
-  listen (>= 3.0.5, < 3.2)
+  listen (>= 3.0.5, < 4.0)
   mandate (= 2.0.0)
   maxminddb (~> 0.1.22)
   mini_magick

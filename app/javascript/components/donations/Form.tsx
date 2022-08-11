@@ -12,7 +12,7 @@ import { useQueryCache } from 'react-query'
 
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 type Links = {
@@ -42,6 +42,7 @@ export const Form = ({
   userSignedIn,
   onProcessing = () => null,
   onSettled = () => null,
+  id,
 }: {
   request: Request
   defaultAmount?: Partial<FormAmount>
@@ -51,6 +52,7 @@ export const Form = ({
   onProcessing?: () => void
   onSettled?: () => void
   links: Links
+  id?: string
 }): JSX.Element => {
   const queryCache = useQueryCache()
   const { data, status, error } = useRequestQuery<{
@@ -126,7 +128,7 @@ export const Form = ({
         switchToTab: (id) => setTransactionType(id as PaymentIntentType),
       }}
     >
-      <div className="c-donations-form">
+      <div id={id} className="c-donations-form">
         <div className="--tabs">
           <Tab id="subscription" context={TabsContext}>
             💙 Monthly

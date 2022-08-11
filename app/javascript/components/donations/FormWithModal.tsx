@@ -10,19 +10,21 @@ type Links = {
   settings: string
 }
 
-export default ({
-  request,
-  userSignedIn,
-  links,
-}: {
+type FormWithModalProps = {
   request: Request
   userSignedIn: boolean
   links: Links
-}) => {
+}
+
+export default function FormWithModal({
+  request,
+  userSignedIn,
+  links,
+}: FormWithModalProps): JSX.Element {
   const [paymentMade, setPaymentMade] = useState(false)
-  const [paymentType, setPaymentType] = useState<
-    PaymentIntentType | undefined
-  >()
+
+  // TODO: Remove this as this seems to be unused
+  const [, setPaymentType] = useState<PaymentIntentType | undefined>()
   const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
 
   const handleSuccess = useCallback(

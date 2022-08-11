@@ -7,7 +7,7 @@ import { ExerciseUpdateForm } from './exercise-update-modal/ExerciseUpdateForm'
 import { Exercise } from '../types'
 
 type ExerciseDiffFile = {
-  filename: string
+  relativePath: string
   diff: string
 }
 export type ExerciseDiff = {

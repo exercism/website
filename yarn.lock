@@ -2959,9 +2959,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001286, caniuse-lite@^1.0.30001297, caniuse-lite@^1.0.30001312:
-  version "1.0.30001368"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001368.tgz"
-  integrity sha512-wgfRYa9DenEomLG/SdWgQxpIyvdtH3NW8Vq+tB6AwR9e56iOIcu1im5F/wNdDf04XlKHXqIx4N8Jo0PemeBenQ==
+  version "1.0.30001374"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001374.tgz"
+  integrity sha512-mWvzatRx3w+j5wx/mpFN5v5twlPrabG8NqX2c6e45LCpymdoGqNvRkRutFUqpRTXKFQFNQJasvK0YT7suW6/Hw==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -5065,10 +5065,10 @@ highlight.js@^11.5.1:
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.5.1.tgz#027c24e4509e2f4dcd00b4a6dda542ce0a1f7aea"
   integrity sha512-LKzHqnxr4CrD2YsNoIf/o5nJ09j4yi/GcH5BnYz9UnVpZdS4ucMgvP61TDty5xJcFGRjnH4DpujkS9bHT3hq0Q==
 
-highlightjs-cobol@^0.2.13:
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/highlightjs-cobol/-/highlightjs-cobol-0.2.13.tgz#66680131c0d4b1397b77fffbe9d1331bc850f32b"
-  integrity sha512-JCg365jfzK1zxZ0MTpoMT6mIKtY2lrm6GNw1H88hEzxR8BFbaKgKnmJ/CrtODHfnhaa6pmW5FX7wfaOWm23tjg==
+highlightjs-cobol@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/highlightjs-cobol/-/highlightjs-cobol-0.3.1.tgz#22ee6ca0f32f075b10bf768b4898523bf1af7764"
+  integrity sha512-BcAHY2v3IhY0pRD4bQUHi9jicWZE93SjeVDXiO53vjNtWWiBMeDlG9yA+a/2IjCBvCMqLLa8aEiZj3hTcTKOSg==
   dependencies:
     minimist ">=1.2.6"
     mkdirp "^1.0.4"

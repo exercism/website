@@ -17,7 +17,7 @@ class Exercise::ExportSolutionsToZipFile
           zip.print iteration_file.content.force_encoding("utf-8")
         end
 
-        # Export the tooling files
+        # Export the other (exercise) files
         submission.exercise_files.each do |filepath, contents|
           zip.put_next_entry "#{idx}/#{filepath}"
           zip.print contents.force_encoding("utf-8")

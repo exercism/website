@@ -1,6 +1,9 @@
 require 'http_authentication_token'
 
 class Rack::Attack::Request
+  extend Mandate::Memoize
+
+  memoize
   def routed_to
     route = Rails.application.routes.recognize_path(path, { method: request_method })
     "#{route[:controller]}##{route[:action]}"

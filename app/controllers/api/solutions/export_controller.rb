@@ -1,6 +1,7 @@
 module API
   module Solutions
     class ExportController < BaseController
+      before_action :use_track
       before_action :use_exercise
 
       def index
@@ -12,10 +13,12 @@ module API
       end
 
       private
-      def use_exercise
+      def use_track
         @track = Track.find_by(slug: params[:track_slug])
         return render_track_not_found if @track.blank?
+      end
 
+      def use_exercise
         @exercise = @track.exercises.find_by(slug: params[:exercise_slug])
         return render_exercise_not_found if @exercise.blank?
       end

@@ -81,7 +81,7 @@ namespace :api do
           patch :start
         end
 
-        resources :export_solutions, only: [:index], controller: "solutions/export"
+        resources :export_solutions, only: [:index], controller: "export_solutions"
         resources :makers, only: [:index], controller: "exercises/makers"
         resources :community_solutions, only: [:index], controller: "community_solutions", param: :handle do
           resource :star, only: %i[create destroy], controller: "community_solution_stars"

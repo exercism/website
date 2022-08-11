@@ -1,47 +1,46 @@
-# require 'http_authentication_token'
+require 'http_authentication_token'
 
-# class Rack::Attack::Request
-#   extend Mandate::Memoize
+class Rack::Attack::Request
+  def routed_to
+    route = Rails.application.routes.recognize_path(path, { method: request_method })
+    "#{route[:controller]}##{route[:action]}"
+  rescue ActionController::RoutingError
+    nil
+  end
 
-#   def auth_token
-#     HttpAuthenticationToken.from_header(env['HTTP_AUTHORIZATION'])
-#   end
+  def throttle_key
+    # Throttle on the route name to prevent calls to the same route
+    # but with different params being counted separately
+    "#{routed_to}|#{request_method}|#{http_auth_token || ip}"
+  end
 
-#   memoize
-#   def route_name
-#     route_name = nil
-#     Rails.application.routes.router.recognize(self) do |route|
-#       route_name = route.name if route.name.present?
-#     end
-#     route_name
-#   end
-# end
+  def http_auth_token = HttpAuthenticationToken.from_header(env['HTTP_AUTHORIZATION'])
+end
 
-# Rack::Attack.throttled_response_retry_after_header = true
+Rack::Attack.throttled_response_retry_after_header = true
 
-# api_non_get_limit_proc = proc do |req|
-#   next 4 if req.post? && req.route_name == 'api_solution_iterations'
-#   next 12 if req.post? && req.route_name == 'api_solution_submissions'
-#   next 30 if req.post? && req.route_name == 'api_parse_markdown'
-#   next 30 if req.patch? && req.route_name == 'reveal_api_mentoring_testimonial'
-#   next 20 if req.patch? && req.route_name == 'mark_as_seen_api_reputation'
-#   next 8 if req.patch? && req.route_name == 'api_settings_communication_preferences'
-#   next 8 if req.patch? && req.route_name == 'sudo_update_api_settings'
+api_non_get_limit_proc = proc do |req|
+  next 4 if req.post? && req.routed_to == 'api/iterations#create'
+  next 12 if req.post? && req.routed_to == 'api/solutions/submissions#create'
+  next 30 if req.post? && req.routed_to == 'api/markdown#parse'
+  next 30 if req.patch? && req.routed_to == 'api/mentoring/testimonials#index'
+  next 20 if req.patch? && req.routed_to == 'api/reputation#mark_as_seen'
+  next 8 if req.patch? && req.routed_to == 'api/settings/communication_preferences#update'
+  next 8 if req.patch? && req.routed_to == 'api/settings#sudo_update'
 
-#   5
-# end
+  5
+end
 
-# Rack::Attack.throttle("API - POST/PATCH/PUT/DELETE", limit: api_non_get_limit_proc, period: 1.minute) do |req|
-#   next unless req.post? || req.patch? || req.put? || req.delete?
-#   next unless req.path.starts_with?('/api')
+Rack::Attack.throttle("API - POST/PATCH/PUT/DELETE", limit: api_non_get_limit_proc, period: 1.minute) do |req|
+  next unless req.post? || req.patch? || req.put? || req.delete?
+  next unless req.path.starts_with?('/api')
 
-#   # Throttle on the route name to prevent calls to the same route
-#   # but with different params being counted separately
-#   "#{req.route_name}|#{req.request_method}|#{req.auth_token || req.ip}"
-# end
+  req.throttle_key
+end
 
-# Rack::Attack.throttle("API - export solutions", limit: 10, period: 1.week) do |req|
-#   next unless req.get? && req.route_name == 'api_track_exercise_export_solutions'
+Rack::Attack.throttle("API - export solutions", limit: 10, period: 1.week) do |req|
+  next unless req.get?
+  next unless req.routed_to == 'api/export_solutions#index'
 
-#   req.auth_token || req.ip
-# end
+  req.throttle_key
+end

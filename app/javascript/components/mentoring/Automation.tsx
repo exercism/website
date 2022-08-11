@@ -4,12 +4,20 @@ import { TrackFilterList } from './queue/TrackFilterList'
 import { useTrackList } from './queue/useTrackList'
 import { Request } from '../../hooks/request-query'
 import { Links } from './Queue'
-import { MentoredTrack, MentoredTrackExercise } from '../types'
+import {
+  AutomationStatus,
+  MentoredTrack,
+  MentoredTrackExercise,
+} from '../types'
 import { useMentoringQueue } from './queue/useMentoringQueue'
 import { Sorter } from './Sorter'
 import { SortOption } from './Inbox'
+import { MOCK_DEFAULT_TRACK, MOCK_TRACKS } from './automation/mock-data'
+import { StatusTab } from './inbox/StatusTab'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
+
+const resolvedData = true
 
 type AutomationProps = {
   tracksRequest: Request
@@ -29,24 +37,13 @@ export function Automation({
   queueRequest,
 }: AutomationProps): JSX.Element {
   const [selectedTrack, setSelectedTrack] =
-    useState<MentoredTrack>(defaultTrack)
+    useState<MentoredTrack>(MOCK_DEFAULT_TRACK)
 
+  const [status, setStatus] = useState<AutomationStatus>('need_feedback')
   const [selectedExercise, setSelectedExercise] =
     useState<MentoredTrackExercise | null>(defaultExercise)
 
-  const {
-    resolvedData,
-    latestData,
-    isFetching,
-    criteria,
-    setCriteria,
-    order,
-    setOrder,
-    page,
-    setPage,
-    status,
-    error,
-  } = useMentoringQueue({
+  const { setCriteria, order, setOrder, setPage } = useMentoringQueue({
     request: queueRequest,
     track: selectedTrack,
     exercise: selectedExercise,
@@ -72,13 +69,31 @@ export function Automation({
   })
 
   return (
-    <div className="lg-container">
-      <article className="content">
+    <div className="c-mentor-inbox">
+      <div className="tabs">
+        <StatusTab<AutomationStatus>
+          status="need_feedback"
+          currentStatus={status}
+          setStatus={() => setStatus('need_feedback')}
+        >
+          Need feedback
+          {resolvedData ? <div className="count">{12}</div> : null}
+        </StatusTab>
+        <StatusTab<AutomationStatus>
+          status="feedback_submitted"
+          currentStatus={status}
+          setStatus={() => setStatus('feedback_submitted')}
+        >
+          Feedback submitted
+          {resolvedData ? <div className="count">{15}</div> : null}
+        </StatusTab>
+      </div>
+      <div className="container">
         <div className="c-search-bar">
           <TrackFilterList
             status={trackListStatus}
             error={trackListError}
-            tracks={tracks}
+            tracks={MOCK_TRACKS}
             isFetching={isTrackListFetching}
             cacheKey={TRACKS_LIST_CACHE_KEY}
             links={links}
@@ -94,7 +109,7 @@ export function Automation({
           total={10}
           current={2}
         />
-      </article>
+      </div>
     </div>
   )
 }

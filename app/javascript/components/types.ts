@@ -145,6 +145,8 @@ export type DiscussionStatus =
   | 'awaiting_student'
   | 'finished'
 
+export type AutomationStatus = 'need_feedback' | 'feedback_submitted'
+
 export type CommunitySolution = {
   uuid: string
   snippet: string
@@ -531,6 +533,11 @@ export type CommunicationPreference = {
   key: string
   label: string
   value: boolean
+}
+
+export type CommunicationPreferences = {
+  mentoring: readonly CommunicationPreference[]
+  product: readonly CommunicationPreference[]
 }
 
 export type ContributionCategoryId =

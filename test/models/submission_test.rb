@@ -476,4 +476,36 @@ class SubmissionTest < ActiveSupport::TestCase
     # Check the file is allowed
     assert_equal ["source/bob.d"], submission.valid_filepaths
   end
+
+  test "exercise_filepaths" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Exclude solution file
+    create :submission_file, submission: submission, filename: "subdir/new_file.rb" # Exclude new file
+    create :submission_file, submission: submission, filename: "log_line_parser_test.rb" # Include tests
+    create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
+    create :submission_file, submission: submission, filename: ".meta/config.json" # Include .meta files
+    create :submission_file, submission: submission, filename: ".docs/something.md" # Exclude .docs
+    create :submission_file, submission: submission, filename: ".exercism/config.json" # Exclude .exercism
+
+    expected = [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
+    assert_equal expected, submission.exercise_filepaths
+  end
+
+  # The "d" track has both source and tests in the same file.
+  # The config tells us this by having solution and test be the same
+  test "exercise_filepaths when test is same as solution file" do
+    exercise = create :practice_exercise, slug: "d-like"
+    solution = create :practice_solution, exercise: exercise
+    submission = create :submission, solution: solution
+
+    create :submission_file, submission: submission, filename: "source/bob.d"
+
+    # Sanity
+    repo = Git::Exercise.for_solution(solution)
+    assert_equal repo.solution_filepaths, repo.test_filepaths
+
+    # Check the file is allowed
+    refute_includes submission.exercise_filepaths, "source/bob.d"
+  end
 end

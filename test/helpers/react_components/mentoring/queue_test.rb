@@ -1,6 +1,6 @@
 require_relative "../react_component_test_case"
 
-class MentoringQueueTest < ReactComponentTestCase
+class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
   test "mentoring queue rendered correctly" do
     user = create :user
 

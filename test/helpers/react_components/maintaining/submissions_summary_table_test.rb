@@ -1,6 +1,6 @@
 require_relative "../react_component_test_case"
 
-class MaintainingSubmissionsSummaryTableTest < ReactComponentTestCase
+class ReactComponents::Maintaining::SubmissionsSummaryTableTest < ReactComponentTestCase
   test "maintaining submissions summary table rendered correctly" do
     user = create(:user)
     track = create(:track)

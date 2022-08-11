@@ -127,7 +127,12 @@ export function Automation({
           />
 
           <input className="--search" placeholder="Filter by exercise" />
-          <Sorter sortOptions={sortOptions} order={order} setOrder={setOrder} />
+          <Sorter
+            componentClassName="ml-auto"
+            sortOptions={sortOptions}
+            order={order}
+            setOrder={setOrder}
+          />
         </header>
         <footer>
           <Pagination

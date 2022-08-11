@@ -65,9 +65,11 @@ type Props = {
     tracks: string
     updateTracks: string
   }
+  sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
 }
 
 const Component = ({
+  sizeVariant = 'large',
   tracks,
   isFetching,
   value,
@@ -114,7 +116,7 @@ const Component = ({
   }
 
   return (
-    <div className="c-single-select c-track-select --size-large">
+    <div className={`c-single-select c-track-select --size-${sizeVariant}`}>
       <ResultsZone isFetching={isFetching}>
         <button
           className="current-track"

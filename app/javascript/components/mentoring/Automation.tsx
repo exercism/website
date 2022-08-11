@@ -22,7 +22,7 @@ const resolvedData = true
 type AutomationProps = {
   tracksRequest: Request
   links: Links
-  defaultTrack: MentoredTrack
+  // defaultTrack: MentoredTrack
   queueRequest: Request
   defaultExercise: MentoredTrackExercise | null
   sortOptions: SortOption[]
@@ -32,7 +32,6 @@ export function Automation({
   tracksRequest,
   sortOptions,
   links,
-  defaultTrack,
   defaultExercise,
   queueRequest,
 }: AutomationProps): JSX.Element {
@@ -40,8 +39,9 @@ export function Automation({
     useState<MentoredTrack>(MOCK_DEFAULT_TRACK)
 
   const [status, setStatus] = useState<AutomationStatus>('need_feedback')
-  const [selectedExercise, setSelectedExercise] =
-    useState<MentoredTrackExercise | null>(defaultExercise)
+  const [selectedExercise] = useState<MentoredTrackExercise | null>(
+    defaultExercise
+  )
 
   const { setCriteria, order, setOrder, setPage } = useMentoringQueue({
     request: queueRequest,
@@ -68,6 +68,8 @@ export function Automation({
     request: tracksRequest,
   })
 
+  console.log(tracks)
+
   return (
     <div className="c-mentor-inbox">
       <div className="tabs">
@@ -89,7 +91,7 @@ export function Automation({
         </StatusTab>
       </div>
       <div className="container">
-        <div className="c-search-bar">
+        <header className="c-search-bar">
           <TrackFilterList
             status={trackListStatus}
             error={trackListError}
@@ -99,16 +101,19 @@ export function Automation({
             links={links}
             value={selectedTrack}
             setValue={handleTrackChange}
+            sizeVariant={'automation'}
           />
 
           <input className="--search" placeholder="Filter by exercise" />
           <Sorter sortOptions={sortOptions} order={order} setOrder={setOrder} />
-        </div>
-        <Pagination
-          setPage={() => console.log('page is set')}
-          total={10}
-          current={2}
-        />
+        </header>
+        <footer>
+          <Pagination
+            setPage={() => console.log('page is set')}
+            total={10}
+            current={2}
+          />
+        </footer>
       </div>
     </div>
   )

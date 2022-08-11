@@ -163,7 +163,7 @@ initReact({
         data.default_exercise
       )}
       queueRequest={camelizeKeysAs<Request>(data.queue_request)}
-      defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
+      // defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
       tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
       sortOptions={data.sort_options}
       links={data.links}

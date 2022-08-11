@@ -49,6 +49,29 @@
             }
         }
     }
+
+    &.--size-automation {
+        & button,
+        & > .c-results-zone > button {
+            & .c-icon.all,
+            & .c-track-icon {
+                height: 32px;
+                width: 32px;
+                @apply mr-12;
+            }
+        }
+        & label.c-radio-wrapper {
+            & .row {
+                & .c-icon,
+                & .c-track-icon {
+                    width: 32px;
+                    height: 32px;
+                    @apply mr-12;
+                }
+            }
+        }
+    }
+
     &.--size-multi {
         & button,
         & > .c-results-zone > button {

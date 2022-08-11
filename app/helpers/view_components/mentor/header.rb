@@ -82,7 +82,7 @@ module ViewComponents
           ) do
             graphical_icon(:automation) +
               tag.span("Automation") +
-              tag.span(number_with_delimiter(0), class: 'count') # TODO: consider which count to use
+              tag.span(number_with_delimiter(num_feedback_needed), class: 'count')
           end
         ]
       end
@@ -115,6 +115,14 @@ module ViewComponents
       memoize
       def num_testimonials
         current_user.mentor_testimonials.count
+      end
+
+      memoize
+      def num_feedback_needed
+        ::Exercise::Representation.feedback_needed.
+          joins(exercise: :track).
+          where(exercises: { track: current_user.mentored_tracks }).
+          count
       end
     end
   end

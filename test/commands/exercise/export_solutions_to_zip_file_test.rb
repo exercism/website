@@ -40,9 +40,9 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
     zip_file_stream = Exercise::ExportSolutionsToZipFile.(exercise)
 
     Zip::File.open_buffer(zip_file_stream) do |zip_file|
-      assert_equal 500, zip_file.size
       assert_equal "Stub 1", zip_file.read("0/stub.rb")
       assert_equal "Stub 500", zip_file.read("499/stub.rb")
+      refute zip_file.find_entry("500/stub.rb")
     end
   end
 
@@ -74,14 +74,35 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
 
   test "uses first iteration's files" do
     solution = create :practice_solution
-    iteration_1 = create :iteration, solution: solution, idx: 1
-    iteration_2 = create :iteration, solution: solution, idx: 2
-    create :submission_file, submission: iteration_1.submission, filename: "src/stub.rb", content: "Stub v1"
-    create :submission_file, submission: iteration_2.submission, filename: "src/stub.rb", content: "Stub v2"
+    submission_1 = create :submission, solution: solution
+    submission_2 = create :submission, solution: solution
+    create :iteration, solution: solution, idx: 1, submission: submission_1
+    create :iteration, solution: solution, idx: 2, submission: submission_2
+    create :submission_file, submission: submission_1, filename: "src/stub.rb", content: "Stub v1"
+    create :submission_file, submission: submission_2, filename: "src/stub.rb", content: "Stub v2"
     zip_file_stream = Exercise::ExportSolutionsToZipFile.(solution.reload.exercise)
 
     Zip::File.open_buffer(zip_file_stream) do |zip_file|
       assert_equal "Stub v1", zip_file.read("0/src/stub.rb")
+    end
+  end
+
+  test "includes exercise files" do
+    exercise = create :practice_exercise, slug: 'hamming'
+    iteration = create :iteration, exercise: exercise
+    create :submission_file, submission: iteration.submission, filename: "src/stub.rb", content: "Stub"
+    create :submission_file, submission: iteration.submission, filename: "test/test.rb", content: "Test"
+    create :submission_file, submission: iteration.submission, filename: "helper.rb", content: "Helper"
+
+    zip_file_stream = Exercise::ExportSolutionsToZipFile.(iteration.exercise)
+
+    Zip::File.open_buffer(zip_file_stream) do |zip_file|
+      assert_equal "Stub", zip_file.read("0/src/stub.rb")
+      assert_equal "Test", zip_file.read("0/test/test.rb")
+      assert_equal "Helper", zip_file.read("0/helper.rb")
+      assert_equal "AllCops:\n  NewCops: disable\n", zip_file.read("0/rubocop.yml")
+      assert_equal "example content for hamming\n", zip_file.read("0/.meta/example.rb")
+      assert zip_file.find_entry("0/.meta/config.json")
     end
   end
 end

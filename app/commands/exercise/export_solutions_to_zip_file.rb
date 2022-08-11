@@ -8,6 +8,12 @@ class Exercise::ExportSolutionsToZipFile
   def call
     file_stream = Zip::OutputStream.write_buffer do |zip|
       solutions.each.with_index do |solution, idx|
+        # Export the tooling files
+        exercise.tooling_files.each do |filepath, contents|
+          zip.put_next_entry "#{idx}/#{filepath}"
+          zip.print contents.force_encoding("utf-8")
+        end
+
         # Export the first iteration's files as that iteration won't have
         # had any mentor/analyzer/representer comments applied to them
         solution.iterations.first.files.each do |iteration_file|

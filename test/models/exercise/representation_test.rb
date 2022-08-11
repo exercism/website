@@ -140,7 +140,7 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :concept_exercise, track: track
 
-    representation = create :exercise_representation, exercise:, ast: 'def', ast_digest: 'def'
+    representation = create :exercise_representation, exercise: exercise
 
     assert_equal track, representation.track
   end

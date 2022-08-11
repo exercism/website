@@ -1,162 +1,100 @@
-import React, { useState, useEffect } from 'react'
-import { DiscussionList } from './inbox/DiscussionList'
-import { StatusTab } from './inbox/StatusTab'
-import { TextFilter } from './TextFilter'
+import React, { useCallback, useState } from 'react'
+import { Pagination } from '../common/Pagination'
+import { TrackFilterList } from './queue/TrackFilterList'
+import { useTrackList } from './queue/useTrackList'
+import { Request } from '../../hooks/request-query'
+import { Links } from './Queue'
+import { MentoredTrack, MentoredTrackExercise } from '../types'
+import { useMentoringQueue } from './queue/useMentoringQueue'
 import { Sorter } from './Sorter'
-import { TrackFilter } from './inbox/TrackFilter'
-import { useList } from '../../hooks/use-list'
-import {
-  usePaginatedRequestQuery,
-  Request as BaseRequest,
-} from '../../hooks/request-query'
-import { ResultsZone } from '../ResultsZone'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
-import { MentorDiscussion, DiscussionStatus } from '../types'
+import { SortOption } from './Inbox'
 
-export type SortOption = {
-  value: string
-  label: string
+const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
+
+type AutomationProps = {
+  tracksRequest: Request
+  links: Links
+  defaultTrack: MentoredTrack
+  queueRequest: Request
+  defaultExercise: MentoredTrackExercise | null
+  sortOptions: SortOption[]
 }
 
-export type APIResponse = {
-  results: readonly MentorDiscussion[]
-  meta: {
-    currentPage: number
-    totalPages: number
-    awaitingMentorTotal: number
-    awaitingStudentTotal: number
-    finishedTotal: number
-  }
-}
-
-export type Request = BaseRequest<{
-  status: DiscussionStatus
-  order?: string
-  criteria?: string
-  page?: number
-  trackSlug?: string
-}>
-
-type Links = {
-  queue: string
-}
-
-export const Automation = ({
+export function Automation({
   tracksRequest,
   sortOptions,
-  discussionsRequest,
   links,
-}: {
-  tracksRequest: Request
-  discussionsRequest: Request
-  sortOptions: readonly SortOption[]
-  links: Links
-}): JSX.Element => {
-  const [criteria, setCriteria] = useState(
-    discussionsRequest.query?.criteria || ''
-  )
+  defaultTrack,
+  defaultExercise,
+  queueRequest,
+}: AutomationProps): JSX.Element {
+  const [selectedTrack, setSelectedTrack] =
+    useState<MentoredTrack>(defaultTrack)
+
+  const [selectedExercise, setSelectedExercise] =
+    useState<MentoredTrackExercise | null>(defaultExercise)
+
   const {
-    request,
-    setCriteria: setRequestCriteria,
+    resolvedData,
+    latestData,
+    isFetching,
+    criteria,
+    setCriteria,
+    order,
     setOrder,
+    page,
     setPage,
-    setQuery,
-  } = useList(discussionsRequest)
-  const { status, resolvedData, latestData, isFetching, refetch } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['mentor-discussion-list', request.endpoint, request.query],
-      request
-    )
+    status,
+    error,
+  } = useMentoringQueue({
+    request: queueRequest,
+    track: selectedTrack,
+    exercise: selectedExercise,
+  })
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setRequestCriteria(criteria)
-    }, 200)
+  const handleTrackChange = useCallback(
+    (track) => {
+      setPage(1)
+      setCriteria('')
+      setSelectedTrack(track)
+    },
+    [setPage, setCriteria]
+  )
 
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [setRequestCriteria, criteria])
-
-  useHistory({ pushOn: removeEmpty(request.query) })
-
-  const setTrack = (trackSlug: string | null) => {
-    setQuery({ ...request.query, trackSlug: trackSlug, page: undefined })
-  }
-
-  const setStatus = (status: string) => {
-    setQuery({ ...request.query, status: status, page: undefined })
-  }
+  const {
+    tracks,
+    status: trackListStatus,
+    error: trackListError,
+    isFetching: isTrackListFetching,
+  } = useTrackList({
+    cacheKey: TRACKS_LIST_CACHE_KEY,
+    request: tracksRequest,
+  })
 
   return (
-    <div className="c-mentor-inbox">
-      <div className="tabs">
-        <StatusTab
-          status="awaiting_mentor"
-          currentStatus={request.query.status}
-          setStatus={setStatus}
-        >
-          Inbox
-          {resolvedData ? (
-            <div className="count">{resolvedData.meta.awaitingMentorTotal}</div>
-          ) : null}
-        </StatusTab>
-        <StatusTab
-          status="awaiting_student"
-          currentStatus={request.query.status}
-          setStatus={setStatus}
-        >
-          Awaiting student
-          {resolvedData ? (
-            <div className="count">
-              {resolvedData.meta.awaitingStudentTotal}
-            </div>
-          ) : null}
-        </StatusTab>
-        <StatusTab
-          status="finished"
-          currentStatus={request.query.status}
-          setStatus={setStatus}
-        >
-          Finished
-          {resolvedData ? (
-            <div className="count">{resolvedData.meta.finishedTotal}</div>
-          ) : null}
-        </StatusTab>
-      </div>
-      <div className="container">
-        <header className="c-search-bar">
-          <TrackFilter
-            request={{
-              ...tracksRequest,
-              query: { status: request.query.status },
-            }}
-            value={request.query.trackSlug || null}
-            setTrack={setTrack}
-          />
-          <TextFilter
-            filter={criteria}
-            setFilter={setCriteria}
-            id="discussion-filter"
-            placeholder="Filter by student or exercise name"
-          />
-          <Sorter
-            sortOptions={sortOptions}
-            order={request.query.order}
-            setOrder={setOrder}
-          />
-        </header>
-        <ResultsZone isFetching={isFetching}>
-          <DiscussionList
-            latestData={latestData}
-            resolvedData={resolvedData}
-            status={status}
-            refetch={refetch}
-            setPage={setPage}
+    <div className="lg-container">
+      <article className="content">
+        <div className="c-search-bar">
+          <TrackFilterList
+            status={trackListStatus}
+            error={trackListError}
+            tracks={tracks}
+            isFetching={isTrackListFetching}
+            cacheKey={TRACKS_LIST_CACHE_KEY}
             links={links}
+            value={selectedTrack}
+            setValue={handleTrackChange}
           />
-        </ResultsZone>
-      </div>
+
+          <input className="--search" placeholder="Filter by exercise" />
+          <Sorter sortOptions={sortOptions} order={order} setOrder={setOrder} />
+        </div>
+        <Pagination
+          setPage={() => console.log('page is set')}
+          total={10}
+          current={2}
+        />
+      </article>
     </div>
   )
 }

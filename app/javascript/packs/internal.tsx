@@ -156,9 +156,14 @@ initReact({
   ),
   'mentoring-automation': (data: any) => (
     <Mentoring.Automation
-      discussionsRequest={camelizeKeysAs<MentoringInboxRequest>(
-        data.discussions_request
+      // discussionsRequest={camelizeKeysAs<MentoringInboxRequest>(
+      //   data.discussions_request
+      // )}
+      defaultExercise={camelizeKeysAs<MentoredTrackExercise>(
+        data.default_exercise
       )}
+      queueRequest={camelizeKeysAs<Request>(data.queue_request)}
+      defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
       tracksRequest={camelizeKeysAs<MentoringInboxRequest>(data.tracks_request)}
       sortOptions={data.sort_options}
       links={data.links}

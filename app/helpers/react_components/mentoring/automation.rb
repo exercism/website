@@ -1,11 +1,11 @@
 module ReactComponents
   module Mentoring
-    class Inbox < ReactComponent
+    class Automation < ReactComponent
       initialize_with :params
 
       def to_s
         super(
-          "mentoring-automation",
+          "mentoring-inbox",
           {
             discussions_request:,
             tracks_request:,

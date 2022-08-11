@@ -1,7 +1,7 @@
 module ViewComponents
   module Mentor
     class Header < ViewComponent
-      TABS = %i[workspace queue testimonials guides].freeze
+      TABS = %i[workspace queue testimonials guides automation].freeze
 
       initialize_with :selected_tab
 
@@ -76,12 +76,13 @@ module ViewComponents
               tag.span(number_with_delimiter(num_testimonials), class: 'count')
           end,
 
-          tag.div(
-            class: "#{tab_class(:automation)} locked",
-            'aria-label': "This tab is locked"
+          link_to(
+            Exercism::Routes.mentoring_automation_index_path,
+            class: tab_class(:automation)
           ) do
             graphical_icon(:automation) +
-              tag.span("Automation")
+              tag.span("Automation") +
+              tag.span(number_with_delimiter(0), class: 'count') # TODO: consider which count to use
           end
         ]
       end

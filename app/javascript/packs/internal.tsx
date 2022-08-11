@@ -85,7 +85,7 @@ import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
-  return (camelizeKeys(object) as unknown) as T
+  return camelizeKeys(object) as unknown as T
 }
 
 // Add all react components here.
@@ -152,6 +152,16 @@ initReact({
       notes={data.notes}
       outOfDate={data.out_of_date}
       downloadCommand={data.download_command}
+    />
+  ),
+  'mentoring-automation': (data: any) => (
+    <Mentoring.Automation
+      discussionsRequest={camelizeKeysAs<MentoringInboxRequest>(
+        data.discussions_request
+      )}
+      tracksRequest={camelizeKeysAs<MentoringInboxRequest>(data.tracks_request)}
+      sortOptions={data.sort_options}
+      links={data.links}
     />
   ),
   'mentoring-try-mentoring-button': (data: any) => (

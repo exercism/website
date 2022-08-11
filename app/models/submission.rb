@@ -136,7 +136,11 @@ class Submission < ApplicationRecord
   end
 
   memoize
-  def exercise_filepaths = exercise_repo.tooling_filepaths - valid_filepaths
+  def exercise_files
+    exercise_repo.tooling_files.reject do |filepath, _|
+      valid_filepaths.include?(filepath)
+    end
+  end
 
   memoize
   def exercise_repo = Git::Exercise.for_solution(solution)

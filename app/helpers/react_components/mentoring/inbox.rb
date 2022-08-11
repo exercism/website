@@ -5,7 +5,7 @@ module ReactComponents
 
       def to_s
         super(
-          "mentoring-automation",
+          "mentoring-inbox",
           {
             discussions_request:,
             tracks_request:,

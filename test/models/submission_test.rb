@@ -477,7 +477,7 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal ["source/bob.d"], submission.valid_filepaths
   end
 
-  test "exercise_filepaths" do
+  test "exercise_files" do
     solution = create :concept_solution
     submission = create :submission, solution: solution
     create :submission_file, submission: submission, filename: "log_line_parser.rb" # Exclude solution file
@@ -488,13 +488,18 @@ class SubmissionTest < ActiveSupport::TestCase
     create :submission_file, submission: submission, filename: ".docs/something.md" # Exclude .docs
     create :submission_file, submission: submission, filename: ".exercism/config.json" # Exclude .exercism
 
-    expected = [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-    assert_equal expected, submission.exercise_filepaths
+    expected = {
+      ".meta/config.json" => "{\n  \"blurb\": \"Like puppets on a...\",\n  \"authors\": [\"pvcarrera\"],\n  \"files\": {\n    \"solution\": [\"log_line_parser.rb\"],\n    \"test\": [\"log_line_parser_test.rb\"],\n    \"exemplar\": [\".meta/exemplar.rb\"]\n  }\n}\n", # rubocop:disable Layout/LineLength
+      ".meta/design.md" => "## Goal\n\nThe goal of this exercise is to teach the student the basics of the Concept of Strings in [Ruby][ruby-doc.org-string].\n\n## Learning objectives\n\n- Know of the existence of the `String` object.\n- Know how to create a string.\n- Know of some basic string methods (like finding the index of a character at a position, or returning a part the string).\n- Know how to do basic string interpolation.\n\n## Out of scope\n\n- Using standard or custom format strings.\n- Memory and performance characteristics.\n- Strings can be a collection.\n\n## Concepts\n\nThe Concepts this exercise unlocks are:\n\n- `strings-basic`: know of the existence of the `String` object; know of some basic functions (like looking up a character at a position, or slicing the string); know how to do basic string interpolation.\n\n## Prerequisites\n\nThere are no prerequisites.\n\n## Representer\n\nThis exercise does not require any specific representation logic to be added to the [representer][representer].\n\n## Analyzer\n\nThis exercise does not require any specific logic to be added to the [analyzer][analyzer].\n\n[analyzer]: https://github.com/exercism/ruby-analyzer\n[representer]: https://github.com/exercism/ruby-representer\n[ruby-doc.org-string]: https://ruby-doc.org/core-2.7.0/String.html\n", # rubocop:disable Layout/LineLength
+      ".meta/exemplar.rb" => "# frozen_string_literal: true\n\nmodule LogLineParser\n  def self.message(line)\n    line.slice(line.index(':') + 1, line.size).strip\n  end\n\n  def self.log_level(line)\n    line.slice(1, line.index(']') - 1).downcase\n  end\n\n  def self.reformat(line)\n    \"\#{self.message(line)} (\#{self.log_level(line)})\"\n  end\nend\n", # rubocop:disable Layout/LineLength
+      "log_line_parser_test.rb" => "# frozen_string_literal: true\n\nrequire 'minitest/autorun'\nrequire_relative 'log_line_parser'\n\nclass LogLineParserTest < Minitest::Test\n  def test_error_message\n    assert_equal 'Stack overflow', LogLineParser.message('[ERROR]: Stack overflow')\n  end\n\n  def test_warning_message\n    assert_equal 'Disk almost full', LogLineParser.message('[WARNING]: Disk almost full')\n  end\n\n  def test_info_message\n    assert_equal 'File moved', LogLineParser.message('[INFO]: File moved')\n  end\n\n  def test_message_with_leading_and_trailing_space\n    assert_equal 'Timezone not set', LogLineParser.message(\"[WARNING]:   \\tTimezone not set  \\r\\n\")\n  end\n\n  def test_error_log_level\n    assert_equal 'error', LogLineParser.log_level('[ERROR]: Disk full')\n  end\n\n  def test_warning_log_level\n    assert_equal 'warning', LogLineParser.log_level('[WARNING]: Unsafe password')\n  end\n\n  def test_info_log_level\n    assert_equal 'info', LogLineParser.log_level('[INFO]: Timezone changed')\n  end\n\n  def test_erro_reformat\n    assert_equal 'Segmentation fault (error)', LogLineParser.reformat('[ERROR]: Segmentation fault')\n  end\n\n  def test_warning_reformat\n    assert_equal 'Decreased performance (warning)', LogLineParser.reformat('[WARNING]: Decreased performance')\n  end\n\n  def test_info_reformat\n    assert_equal 'Disk defragmented (info)', LogLineParser.reformat('[INFO]: Disk defragmented')\n  end\n\n  def rest_reformat_with_leading_and_trailing_space\n    assert_equal 'Corrupt disk (error)', LogLineParser.reformat(\"[ERROR]: \\t Corrupt disk\\t \\t \\r\\n\")\n  end\n\n  def test_new_test_for_diffs\n    assert_equal 'Corrupt disk (error)', LogLineParser.reformat(\"[ERROR]: \\t Corrupt disk\\t \\t \\r\\n\")\n  end\nend\n" # rubocop:disable Layout/LineLength
+    }
+    assert_equal expected, submission.exercise_files
   end
 
   # The "d" track has both source and tests in the same file.
   # The config tells us this by having solution and test be the same
-  test "exercise_filepaths when test is same as solution file" do
+  test "exercise_files when test is same as solution file" do
     exercise = create :practice_exercise, slug: "d-like"
     solution = create :practice_solution, exercise: exercise
     submission = create :submission, solution: solution
@@ -506,6 +511,6 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal repo.solution_filepaths, repo.test_filepaths
 
     # Check the file is allowed
-    refute_includes submission.exercise_filepaths, "source/bob.d"
+    refute_includes submission.exercise_files, "source/bob.d"
   end
 end

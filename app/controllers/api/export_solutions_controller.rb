@@ -24,7 +24,7 @@ module API
     end
 
     def use_exercise
-      @exercise = @track.exercises.find_by!(slug: params[:exercise_slug])
+      @exercise = @track.exercises.find(params[:exercise_slug])
     rescue ActiveRecord::RecordNotFound
       render_exercise_not_found
     end

@@ -8,6 +8,20 @@ class Exercise::Representations::SearchTest < ActiveSupport::TestCase
     assert_equal [representation_1, representation_2], Exercise::Representations::Search.()
   end
 
+  test "filter: criteria" do
+    exercise_1 = create :practice_exercise, slug: 'anagram', title: 'Annie'
+    exercise_2 = create :practice_exercise, slug: 'another', title: 'Another'
+    exercise_3 = create :practice_exercise, slug: 'leap', title: 'Frog'
+    representation_1 = create :exercise_representation, exercise: exercise_1
+    representation_2 = create :exercise_representation, exercise: exercise_2
+    representation_3 = create :exercise_representation, exercise: exercise_3
+
+    assert_equal [representation_1, representation_2, representation_3], Exercise::Representations::Search.(criteria: 'a')
+    assert_equal [representation_1, representation_2], Exercise::Representations::Search.(criteria: 'an')
+    assert_equal [representation_3], Exercise::Representations::Search.(criteria: 'leap')
+    assert_equal [representation_3], Exercise::Representations::Search.(criteria: 'frog')
+  end
+
   test "filter: status" do
     representation_1 = create :exercise_representation, feedback_type: nil
     representation_2 = create :exercise_representation, feedback_type: :actionable
@@ -15,6 +29,33 @@ class Exercise::Representations::SearchTest < ActiveSupport::TestCase
 
     assert_equal [representation_1], Exercise::Representations::Search.(status: :feedback_needed)
     assert_equal [representation_2, representation_3], Exercise::Representations::Search.(status: :feedback_submitted)
+  end
+
+  test "filter: user" do
+    user_1 = create :user
+    user_2 = create :user
+    user_3 = create :user
+    representation_1 = create :exercise_representation, feedback_author: user_1
+    representation_2 = create :exercise_representation, feedback_author: user_2, feedback_editor: user_1
+    representation_3 = create :exercise_representation, feedback_editor: user_3
+
+    assert_equal [representation_1, representation_2], Exercise::Representations::Search.(user: user_1)
+    assert_equal [representation_2], Exercise::Representations::Search.(user: user_2)
+    assert_equal [representation_3], Exercise::Representations::Search.(user: user_3)
+  end
+
+  test "filter: track" do
+    track_1 = create :track, :random_slug
+    track_2 = create :track, :random_slug
+    exercise_1 = create :practice_exercise, track: track_1
+    exercise_2 = create :practice_exercise, track: track_2
+    representation_1 = create :exercise_representation, exercise: exercise_1
+    representation_2 = create :exercise_representation, exercise: exercise_1
+    representation_3 = create :exercise_representation, exercise: exercise_2
+
+    assert_equal [representation_1, representation_2], Exercise::Representations::Search.(track: track_1)
+    assert_equal [representation_3], Exercise::Representations::Search.(track: track_2)
+    assert_equal [representation_1, representation_2, representation_3], Exercise::Representations::Search.(track: [track_1, track_2])
   end
 
   test "paginates" do

@@ -14,11 +14,11 @@ class Exercise::Representations::Search
   end
 
   def call
-    @representations = Exercise::Representation
-    filter_criteria!
+    @representations = Exercise::Representation.joins(exercise: :track)
     filter_status!
     filter_user!
     filter_track!
+    filter_criteria!
     sort!
     paginate!
     @representations
@@ -26,13 +26,6 @@ class Exercise::Representations::Search
 
   private
   attr_reader :criteria, :status, :user, :track, :order, :page
-
-  def filter_criteria!
-    # return if criteria.blank?
-
-    # @tracks = tracks.where("title like ?", "%#{criteria}%").
-    #   or(tracks.where("slug like ?", "%#{criteria}%"))
-  end
 
   def filter_status!
     # TODO: raise if status is incorrect
@@ -45,9 +38,24 @@ class Exercise::Representations::Search
     end
   end
 
-  def filter_user!; end
+  def filter_user!
+    return if user.blank?
 
-  def filter_track!; end
+    @representations = @representations.where(feedback_author: user).or(@representations.where(feedback_editor: user))
+  end
+
+  def filter_track!
+    return if track.blank?
+
+    @representations = @representations.where(exercises: { track: })
+  end
+
+  def filter_criteria!
+    return if criteria.blank?
+
+    @representations = @representations.where('exercises.title LIKE ?', "%#{criteria}%").
+      or(@representations.where('exercises.slug LIKE ?', "%#{criteria}%"))
+  end
 
   def sort!
     # TODO: raise if sorting is incorrect

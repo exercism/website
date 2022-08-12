@@ -18,7 +18,7 @@ module API
     end
 
     def use_track
-      @track = Track.find_by!(slug: params[:track_slug])
+      @track = Track.find(params[:track_slug])
     rescue ActiveRecord::RecordNotFound
       render_track_not_found
     end

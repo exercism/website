@@ -18,13 +18,15 @@ module API
     end
 
     def use_track
-      @track = Track.find_by(slug: params[:track_slug])
-      render_track_not_found if @track.blank?
+      @track = Track.find_by!(slug: params[:track_slug])
+    rescue ActiveRecord::RecordNotFound
+      render_track_not_found
     end
 
     def use_exercise
-      @exercise = @track.exercises.find_by(slug: params[:exercise_slug])
-      render_exercise_not_found if @exercise.blank?
+      @exercise = @track.exercises.find_by!(slug: params[:exercise_slug])
+    rescue ActiveRecord::RecordNotFound
+      render_exercise_not_found
     end
   end
 end

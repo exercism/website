@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_many :auth_tokens, dependent: :destroy
 
   has_one :profile, dependent: :destroy
+  has_one :preferences, dependent: :destroy
   has_one :communication_preferences, dependent: :destroy
 
   has_many :user_tracks, dependent: :destroy
@@ -100,6 +101,7 @@ class User < ApplicationRecord
   end
 
   after_create_commit do
+    create_preferences
     create_communication_preferences
 
     after_confirmation if confirmed?

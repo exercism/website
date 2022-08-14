@@ -111,7 +111,7 @@ class Solution < ApplicationRecord
 
     update_column(:latest_iteration_head_tests_status, status)
     Solution::SyncToSearchIndex.defer(self)
-    Solution::AutoUpdateToLatestExerciseVersion.(self) if status == :passed
+    Solution::AutoUpdateToLatestExerciseVersion.(self)
   end
 
   memoize

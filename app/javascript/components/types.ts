@@ -527,6 +527,12 @@ export type PullRequest = {
   mergedBy: string
 }
 
+export type UserPreference = {
+  key: string
+  label: string
+  value: boolean
+}
+
 export type CommunicationPreference = {
   key: string
   label: string

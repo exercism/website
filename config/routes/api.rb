@@ -51,6 +51,7 @@ namespace :api do
       patch :sudo_update
     end
     namespace :settings do
+      resource :user_preferences, only: [:update]
       resource :communication_preferences, only: [:update]
 
       resources :introducers, only: [], param: :slug do

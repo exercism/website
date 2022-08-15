@@ -79,7 +79,7 @@
 
         & .--feedback-glimpse {
             @apply text-right truncate mr-60 leading-150;
-            width: 400px;
+            width: 25rem;
         }
 
         & .action-icon {

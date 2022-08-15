@@ -11,7 +11,7 @@ export function GraphicalIcon({
   className?: string
   category?: string
   hex?: boolean
-}) {
+}): JSX.Element {
   const classNames = ['c-icon', className, hex ? '--hex' : ''].filter(
     (className) => className.length > 0
   )

@@ -20,6 +20,7 @@ import {
 import { StatusTab } from './inbox/StatusTab'
 import { GraphicalIcon, Introducer } from '../common'
 import { AutomationListElement } from './automation/AutomationListElement'
+import SearchInput from '../common/SearchInput'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
@@ -122,6 +123,7 @@ export function Automation({
           />
 
           <input className="--search" placeholder="Filter by exercise" />
+          <SearchInput placeholder="Search something" />
           <Sorter
             componentClassName="ml-auto"
             sortOptions={sortOptions}

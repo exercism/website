@@ -312,7 +312,12 @@ module.exports = {
       redirect: '150',
     },
   },
-  variants: {},
+  variants: {
+    extend: {
+      borderColor: ['focus-within', 'focus', 'hover'],
+      backgroundColor: ['focus-within'],
+    },
+  },
   plugins: [],
   corePlugins: {
     container: false,

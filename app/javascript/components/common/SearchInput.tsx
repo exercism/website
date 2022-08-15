@@ -8,17 +8,16 @@ type SearchInputProps = {
   placeholder: string
 }
 
+const FW = 'focus-within:border-lightBlue focus-within:bg-white'
+const WRAPPER_CLASSNAMES = `${FW} bg-unnamed15 border-1 border-transparent flex flex-row rounded-[5px] py-[12px] px-[21px] text-16 `
+const INPUT_CLASSNAMES = 'border-none bg-inherit'
+const ICON_CLASSNAMES = 'w-[24px] h-[24px] my-auto mr-[16px]'
+
 export default function SearchInput({
   value,
   onChange,
   placeholder,
 }: SearchInputProps): JSX.Element {
-  const WRAPPER_CLASSNAMES = `bg-unnamed15 border-1 border-transparent flex flex-row rounded-[5px] py-[12px] px-[21px] text-16 ${twModifier(
-    'focus',
-    'ring-1 ring-lightBlue'
-  )}`
-  const INPUT_CLASSNAMES = 'border-none bg-inherit'
-  const ICON_CLASSNAMES = 'w-[24px] h-[24px] my-auto mr-[16px]'
   return (
     <div className={WRAPPER_CLASSNAMES}>
       <GraphicalIcon className={ICON_CLASSNAMES} icon="search" />

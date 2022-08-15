@@ -24,20 +24,22 @@ export const TaskHintsModal = ({
       className="m-editor-hints"
       {...props}
     >
-      <div id="a11y-task-hints-description" role="document">
+      <div>
         <header>
           <GraphicalIcon icon="hints" category="graphics" />
           <h2 id="a11y-task-hints-label">Hints and Tips</h2>
         </header>
-        <div className="single-task-hints">
+        <div id="a11y-task-hints-description" className="single-task-hints">
           <h3>{task.title}</h3>
-          {task.hints.map((hint, idx) => (
-            <div
-              className="c-textual-content --large"
-              key={idx}
-              dangerouslySetInnerHTML={{ __html: hint }}
-            ></div>
-          ))}
+          {task.hints.map((hint, idx) => {
+            return (
+              <p
+                className="c-textual-content --large"
+                key={idx}
+                dangerouslySetInnerHTML={{ __html: hint }}
+              ></p>
+            )
+          })}
         </div>
       </div>
     </Modal>

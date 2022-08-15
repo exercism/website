@@ -1,4 +1,4 @@
-import { MentoredTrack } from '../../types'
+import { MentorDiscussion, MentoredTrack } from '../../types'
 
 export const MOCK_DEFAULT_TRACK = {
   slug: 'ruby',
@@ -941,3 +941,46 @@ export const MOCK_TRACKS: MentoredTrack[] | undefined = [
     },
   },
 ]
+
+export const MOCK_LIST_ELEMENT: MentorDiscussion = {
+  uuid: '63b2c29073304a00b453c6d0e3dd0d31',
+  status: 'awaiting_student',
+  finishedAt: null,
+  finishedBy: null,
+  track: {
+    title: 'Ruby',
+    iconUrl:
+      'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg',
+  },
+  exercise: {
+    title: 'Lasagna',
+    iconUrl:
+      'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/lasagna.svg',
+  },
+  student: {
+    handle: 'alice',
+    avatarUrl:
+      'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg',
+    isFavorited: false,
+  },
+  mentor: {
+    handle: 'erikSchierboom',
+    avatarUrl:
+      'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg',
+  },
+  createdAt: '2022-08-10T12:43:45Z',
+  updatedAt: '2022-08-10T12:43:45Z',
+  isFinished: false,
+  isUnread: true,
+  postsCount: 3,
+  iterationsCount: 1,
+  links: {
+    self: 'http://local.exercism.io:3020/mentoring/discussions/63b2c29073304a00b453c6d0e3dd0d31',
+    posts:
+      'http://local.exercism.io:3020/api/v2/mentoring/discussions/63b2c29073304a00b453c6d0e3dd0d31/posts',
+    finish:
+      'http://local.exercism.io:3020/api/v2/mentoring/discussions/63b2c29073304a00b453c6d0e3dd0d31/finish',
+    markAsNothingToDo:
+      'http://local.exercism.io:3020/api/v2/mentoring/discussions/63b2c29073304a00b453c6d0e3dd0d31/mark_as_nothing_to_do',
+  },
+}

@@ -12,13 +12,20 @@ import {
 import { useMentoringQueue } from './queue/useMentoringQueue'
 import { Sorter } from './Sorter'
 import { SortOption } from './Inbox'
-import { MOCK_DEFAULT_TRACK, MOCK_TRACKS } from './automation/mock-data'
+import {
+  MOCK_DEFAULT_TRACK,
+  MOCK_TRACKS,
+  MOCK_LIST_ELEMENT,
+} from './automation/mock-data'
 import { StatusTab } from './inbox/StatusTab'
 import { GraphicalIcon, Introducer } from '../common'
+import { AutomationListElement } from './automation/AutomationListElement'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
 const resolvedData = true
+
+const MOCK_LIST = new Array(24).fill(MOCK_LIST_ELEMENT)
 
 type AutomationProps = {
   tracksRequest: Request
@@ -62,7 +69,7 @@ export function Automation({
   )
 
   const {
-    tracks,
+    // tracks,
     status: trackListStatus,
     error: trackListError,
     isFetching: isTrackListFetching,
@@ -71,22 +78,9 @@ export function Automation({
     request: tracksRequest,
   })
 
-  console.log(tracks)
-
   return (
     <div className="c-mentor-inbox">
-      <Introducer
-        endpoint="some string"
-        additionalClassNames="mb-24"
-        icon="automation"
-      >
-        <h2>Initiate feedback automation...Beep boop bop...</h2>
-        <p>
-          Automation is a space that allows you to see common solutions to
-          exercises and write feedback once for all students with that
-          particular solution.
-        </p>
-      </Introducer>
+      <AutomationIntroducer />
       <div className="flex justify-between">
         <div className="tabs">
           <StatusTab<AutomationStatus>
@@ -134,6 +128,7 @@ export function Automation({
             setOrder={setOrder}
           />
         </header>
+        <AutomationList />
         <footer>
           <Pagination
             setPage={() => console.log('page is set')}
@@ -163,5 +158,32 @@ function Checkbox({ text, checked, onCheck }: CheckboxProps): JSX.Element {
         {text}
       </div>
     </label>
+  )
+}
+
+function AutomationIntroducer(): JSX.Element {
+  return (
+    <Introducer
+      endpoint="some string"
+      additionalClassNames="mb-24"
+      icon="automation"
+    >
+      <h2>Initiate feedback automation...Beep boop bop...</h2>
+      <p>
+        Automation is a space that allows you to see common solutions to
+        exercises and write feedback once for all students with that particular
+        solution.
+      </p>
+    </Introducer>
+  )
+}
+
+function AutomationList() {
+  return (
+    <>
+      {MOCK_LIST.map((i, k) => {
+        return <AutomationListElement representer={i} key={k} />
+      })}
+    </>
   )
 }

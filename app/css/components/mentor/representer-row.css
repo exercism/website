@@ -70,8 +70,16 @@
         & time,
         .--occurencies {
             @apply font-medium text-14 text-textColor6 leading-code;
-            @apply ml-32 text-right;
+            @apply text-right;
             width: 140px;
+        }
+        & time {
+            @apply ml-32;
+        }
+
+        & .--feedback-glimpse {
+            @apply text-right truncate mr-60 leading-150;
+            width: 400px;
         }
 
         & .action-icon {

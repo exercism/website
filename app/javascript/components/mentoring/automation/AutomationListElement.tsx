@@ -25,8 +25,16 @@ export const AutomationListElement = ({
         </div>
         <div className="--track-title">in {representer.track.title} (#520)</div>
       </div>
+      <div className="--feedback-glimpse">
+        Nice use of `input` - I think that’s really great. Let’s exercise this
+        more and make this text overflow a bit, so I handle this case
+      </div>
       <div className="--occurencies">2534 occurencies</div>
-      <time>{fromNow(representer.updatedAt)}</time>
+      <time>
+        Last shown
+        <br />
+        {fromNow(representer.updatedAt)}
+      </time>
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
   )

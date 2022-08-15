@@ -66,6 +66,7 @@ type Props = {
     updateTracks: string
   }
   sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
+  countText?: string
 }
 
 const Component = ({
@@ -73,6 +74,7 @@ const Component = ({
   tracks,
   isFetching,
   value,
+  countText,
   setValue,
   cacheKey,
   links,
@@ -125,7 +127,9 @@ const Component = ({
         >
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
           <div className="track-title">{value.title}</div>
-          <div className="count">{value.numSolutionsQueued}</div>
+          <div className="count">
+            {value.numSolutionsQueued} {countText}
+          </div>
           <Icon
             icon="chevron-down"
             alt="Click to change"

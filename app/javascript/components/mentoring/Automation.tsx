@@ -109,6 +109,7 @@ export function Automation({
       <div className="container">
         <header className="c-search-bar automation-header">
           <TrackFilterList
+            countText={'requests'}
             status={trackListStatus}
             error={trackListError}
             tracks={MOCK_TRACKS}

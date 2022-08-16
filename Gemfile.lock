@@ -566,6 +566,7 @@ DEPENDENCIES
   rubocop-minitest
   rubocop-performance
   rubocop-rails
+  rubyzip (~> 2.3)
   rugged
   selenium-webdriver
   show_me_the_cookies

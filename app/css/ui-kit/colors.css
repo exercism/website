@@ -243,8 +243,8 @@
 }
 
 @layer base {
-    .magnifier-filter {
-        filter: var(--filter-76709F);
+    .textColor6-filter {
+        filter: var(--textColor6-filter);
     }
 }
 

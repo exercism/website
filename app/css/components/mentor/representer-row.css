@@ -78,7 +78,7 @@
         }
 
         & .--feedback-glimpse {
-            @apply text-right truncate mr-60 leading-150;
+            @apply text-right truncate mr-60 leading-150 text-textColor6;
             width: 25rem;
         }
 

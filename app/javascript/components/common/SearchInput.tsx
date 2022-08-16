@@ -1,5 +1,4 @@
 import React, { ChangeEventHandler, useRef, useState } from 'react'
-// import { Modifier } from '../types'
 import { GraphicalIcon } from './GraphicalIcon'
 
 type SearchInputProps = {
@@ -9,10 +8,10 @@ type SearchInputProps = {
 }
 
 const WRAPPER_CLASSNAMES =
-  'bg-unnamed15 flex flex-row rounded-[5px] border-1 border-transparent py-[11px] px-[21px] text-16 w-[420px] focus-within:focused-input hover:cursor-text'
+  'bg-unnamed15 text-textColor6 flex flex-row rounded-[5px] border-1 border-transparent py-[11px] px-[21px] text-16 w-[420px] focus-within:focused-input hover:cursor-text'
 
-const INPUT_CLASSNAMES = 'border-none bg-inherit !w-[100%]'
-const ICON_CLASSNAMES = 'w-[24px] h-[24px] my-auto mr-[16px] magnifier-filter'
+const INPUT_CLASSNAMES = 'border-none bg-inherit !w-[100%] portable-input'
+const ICON_CLASSNAMES = 'w-[24px] h-[24px] my-auto mr-[16px] textColor6-filter'
 
 export default function SearchInput({
   value,
@@ -46,11 +45,3 @@ export default function SearchInput({
     </div>
   )
 }
-
-// function twModifier(modifier: Modifier, string: string): string {
-//   return `${modifier}:${string.split(' ').join(` ${modifier}:`)}`
-// }
-
-// const focusWithin = twModifier.bind(null, 'focus-within');
-// const hover = twModifier.bind(null, 'hover');
-// const WRAPPER_CLASSNAMES = ['bg-unnamed15 border-1 border-transparent flex flex-row rounded-[5px] py-[12px] px-[21px] text-16 w-[420px]', focusWithin('bg-white border-lightBlue shadow-inputSelected'),hover('bg-lightBrown') ].join(' ')

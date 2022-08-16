@@ -35,7 +35,10 @@ export const AutomationListElement = ({
         <br />
         {fromNow(representer.updatedAt)}
       </time>
-      <GraphicalIcon icon="chevron-right" className="action-icon" />
+      <GraphicalIcon
+        icon="chevron-right"
+        className="action-icon textColor6-filter"
+      />
     </a>
   )
 }

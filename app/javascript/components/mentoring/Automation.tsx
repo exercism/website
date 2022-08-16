@@ -123,14 +123,13 @@ export function Automation({
             sizeVariant={'automation'}
           />
 
-          {/* <input className="--search" placeholder="Filter by exercise" /> */}
           <SearchInput
             onChange={(e) => setSearchText(e.target.value)}
             value={searchText}
-            placeholder="Search something"
+            placeholder="Filter by exercise"
           />
           <Sorter
-            componentClassName="ml-auto"
+            componentClassName="ml-auto automation-sorter"
             sortOptions={sortOptions}
             order={order}
             setOrder={setOrder}
@@ -157,7 +156,7 @@ type CheckboxProps = {
 
 function Checkbox({ text, checked, onCheck }: CheckboxProps): JSX.Element {
   return (
-    <label className="c-checkbox-wrapper filter mb-20">
+    <label className="c-checkbox-wrapper text-textColor6 filter mb-20">
       <input type="checkbox" checked={checked} onChange={onCheck} />
       <div className="row">
         <div className="c-checkbox">

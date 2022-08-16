@@ -85,7 +85,7 @@ import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
-  return (camelizeKeys(object) as unknown) as T
+  return camelizeKeys(object) as unknown as T
 }
 
 // Add all react components here.
@@ -170,6 +170,7 @@ initReact({
       platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
+  'mentoring-representation': (data: any) => <Mentoring.Representation />,
   'student-mentoring-session': (data: any) => (
     <StudentMentoringSession
       userHandle={data.user_handle}

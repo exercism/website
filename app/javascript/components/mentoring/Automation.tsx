@@ -53,6 +53,7 @@ export function Automation({
   const [selectedExercise] = useState<MentoredTrackExercise | null>(
     defaultExercise
   )
+  const [searchText, setSearchText] = useState('')
 
   const { setCriteria, order, setOrder, setPage } = useMentoringQueue({
     request: queueRequest,
@@ -122,8 +123,12 @@ export function Automation({
             sizeVariant={'automation'}
           />
 
-          <input className="--search" placeholder="Filter by exercise" />
-          <SearchInput placeholder="Search something" />
+          {/* <input className="--search" placeholder="Filter by exercise" /> */}
+          <SearchInput
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+            placeholder="Search something"
+          />
           <Sorter
             componentClassName="ml-auto"
             sortOptions={sortOptions}

@@ -229,6 +229,9 @@
     --mid-gray-filter: invert(72%) sepia(16%) saturate(458%) hue-rotate(181deg)
         brightness(101%) contrast(84%);
     --linkColor-filter: var(--filter-2E57E8);
+    /* Light / Label Tertiary - #76709F */
+    --filter-76709F: invert(47%) sepia(10%) saturate(1306%) hue-rotate(208deg)
+        brightness(94%) contrast(89%);
 
     --exercise-header-gradient: linear-gradient(
         180deg,
@@ -237,6 +240,12 @@
     );
 
     @apply text-textColor5 bg-backgroundColorB;
+}
+
+@layer base {
+    .magnifier-filter {
+        filter: var(--filter-76709F);
+    }
 }
 
 .theme-dark {

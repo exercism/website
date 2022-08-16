@@ -166,7 +166,12 @@ class UserTrack < ApplicationRecord
     return @summary if @summary
 
     digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
-    track_updated_at = association(:track).loaded? ? track.updated_at : Track.where(id: track_id).pick(:updated_at)
+
+    # A note on `Track.find(track_id).updated_at`
+    # Although we only use updated_at, so it feels like we should use `pick()`, we're almost
+    # certainly already getting the track from the database during this request, so it's better
+    # to use the cached version than to hit the database again to "efficiently" pluck this one record.
+    track_updated_at = association(:track).loaded? ? track.updated_at : Track.find(track_id).updated_at
     expected_key = "#{track_updated_at.to_f}:#{updated_at.to_f}:#{digest}"
 
     if summary_key != expected_key

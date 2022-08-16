@@ -513,7 +513,6 @@ GEM
     yard (0.9.28)
       webrick (~> 1.7.0)
     zeitwerk (2.5.4)
-    zip (2.0.2)
 
 PLATFORMS
   ruby
@@ -567,6 +566,7 @@ DEPENDENCIES
   rubocop-minitest
   rubocop-performance
   rubocop-rails
+  rubyzip (~> 2.3)
   rugged
   selenium-webdriver
   show_me_the_cookies
@@ -581,7 +581,6 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webdrivers
   webmock
-  zip (~> 2.0)
 
 RUBY VERSION
    ruby 3.1.0p0

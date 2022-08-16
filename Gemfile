@@ -119,4 +119,4 @@ gem "rack-attack", "~> 6.6"
 gem 'geocoder', '~> 1.8'
 gem "maxminddb", "~> 0.1.22"
 
-gem "zip", "~> 2.0"
+gem "rubyzip", "~> 2.3"

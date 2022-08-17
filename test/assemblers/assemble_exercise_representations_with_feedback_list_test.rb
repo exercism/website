@@ -12,11 +12,7 @@ class AssembleExerciseRepresentationsWithFeedbackListTest < ActiveSupport::TestC
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
       meta: {
-        unscoped_total: 25,
-        links: {
-          self: Exercism::Routes.with_feedback_api_mentoring_representations_path,
-          without_feedback: Exercism::Routes.without_feedback_api_mentoring_representations_path
-        }
+        unscoped_total: 25
       }
     )
 

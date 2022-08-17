@@ -11,7 +11,8 @@ module ReactComponents
             tracks_request:,
             sort_options: SORT_OPTIONS,
             links: {
-              queue: Exercism::Routes.mentoring_queue_path
+              without_feedback: Exercism::Routes.without_feedback_api_mentoring_representations_path,
+              with_feedback: Exercism::Routes.with_feedback_api_mentoring_representations_path
             }
           }
         )

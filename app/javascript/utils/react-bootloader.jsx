@@ -54,27 +54,35 @@ document.addEventListener('turbo:before-render', () => {
 })
 
 export const initReact = (mappings) => {
-  console.log('Init React')
+  // console.log(Date.now(), 'initReact')
   const renderThings = (parentElement) => {
     renderComponents(parentElement, mappings)
     renderTooltips(parentElement, mappings)
   }
 
+  // document.addEventListener('turbo:before-fetch-response', (e) => {
+  //   console.log(Date.now(), 'turbo:before-fetch-response')
+  // })
+  // document.addEventListener('turbo:render', (e) => {
+  //   console.log(Date.now(), 'turbo:render')
+  // })
+
   // This adds rendering for all future turbo clicks
   document.addEventListener('turbo:load', (e) => {
-    console.log('Loading React from Turbo Load')
+    // console.log(Date.now(), 'turbo:load')
     renderThings()
   })
 
   // This renders if turbo has already finished at the
   // point at which this calls. See packs/core.tsx
   if (window.turboLoaded) {
-    console.log('Loading React from DOM Load')
+    // console.log('Loading React from DOM Load')
     renderThings()
   }
 }
 
 const render = (elem, component) => {
+  // console.log(Date.now(), 'rendering')
   ReactDOM.render(
     <React.StrictMode>
       <ReactQueryCacheProvider queryCache={window.queryCache}>
@@ -83,9 +91,8 @@ const render = (elem, component) => {
     </React.StrictMode>,
     elem,
     () => {
-      setTimeout(() => {
-        elem.classList.add('--hydrated')
-      }, 1)
+      // console.log(Date.now(), 'rendered')
+      elem.classList.add('--hydrated')
     }
   )
 
@@ -93,24 +100,55 @@ const render = (elem, component) => {
     ReactDOM.unmountComponentAtNode(elem)
     document.removeEventListener('turbo:before-render', unloadOnce)
   }
-  document.addEventListener('turbo:before-render', unloadOnce)
+  // document.addEventListener('turbo:before-render', unloadOnce)
 }
 
-const renderComponents = (parentElement, mappings) => {
+function renderComponent(elem, generator) {
+  // console.log(Date.now(), elem.dataset['reactId'])
+  const data = JSON.parse(elem.dataset.reactData)
+  render(elem, generator(data, elem))
+}
+
+function renderComponents(parentElement, mappings) {
+  // console.log(Date.now(), 'renderComponents()')
   if (!parentElement) {
     parentElement = document.body
   }
 
+  const possibleElements = Array.from(
+    parentElement.getElementsByClassName('c-react-component')
+  )
+  const mappedElements = {}
+  for (let elem of possibleElements) {
+    mappedElements[elem.dataset['reactId']] = elem
+  }
+  // console.log(Date.now(), 'mapped')
   for (const [name, generator] of Object.entries(mappings)) {
-    const selector = '[data-react-' + name + ']'
-    parentElement.querySelectorAll(selector).forEach((elem) => {
+    const elem = mappedElements[name]
+    if (elem) {
+      // console.log(Date.now(), name)
       const data = JSON.parse(elem.dataset.reactData)
       render(elem, generator(data, elem))
-    })
+    }
   }
 }
 
-const renderTooltips = (parentElement, mappings) => {
+function renderTooltip(mappings, elem) {
+  const name = elem.dataset['tooltipType'] + '-tooltip'
+  const generator = mappings[name]
+
+  if (!generator) {
+    return
+  }
+  const component = generator(elem.dataset, elem)
+
+  const tooltipElem = document.createElement('span')
+  elem.insertAdjacentElement('afterend', tooltipElem)
+
+  render(tooltipElem, <ExercismTippy content={component} reference={elem} />)
+}
+
+function renderTooltips(parentElement, mappings) {
   if (!parentElement) {
     parentElement = document.body
   }
@@ -118,20 +156,6 @@ const renderTooltips = (parentElement, mappings) => {
   parentElement
     .querySelectorAll('[data-tooltip-type][data-endpoint]')
     .forEach((elem) => {
-      const name = elem.dataset['tooltipType'] + '-tooltip'
-      const generator = mappings[name]
-
-      if (!generator) {
-        return
-      }
-      const component = generator(elem.dataset, elem)
-
-      const tooltipElem = document.createElement('span')
-      elem.insertAdjacentElement('afterend', tooltipElem)
-
-      render(
-        tooltipElem,
-        <ExercismTippy content={component} reference={elem} />
-      )
+      renderTooltip(mappings, elem)
     })
 }

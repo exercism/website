@@ -10,7 +10,11 @@ class AssembleExerciseRepresentationsWithFeedbackList
       representations,
       serializer: SerializeExerciseRepresentations,
       meta: {
-        unscoped_total: Exercise::Representation.with_feedback.count
+        unscoped_total: Exercise::Representation.with_feedback.count,
+        links: {
+          self: Exercism::Routes.with_feedback_api_mentoring_representations_path,
+          without_feedback: Exercism::Routes.without_feedback_api_mentoring_representations_path
+        }
       }
     )
   end

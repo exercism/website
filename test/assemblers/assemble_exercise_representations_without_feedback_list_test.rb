@@ -15,10 +15,11 @@ class AssembleExerciseRepresentationsWithoutFeedbackListTest < ActiveSupport::Te
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
       meta: {
-        current_page: 1,
-        total_count: 25,
-        total_pages: 2,
-        unscoped_total: 25
+        unscoped_total: 25,
+        links: {
+          self: Exercism::Routes.without_feedback_api_mentoring_representations_path,
+          with_feedback: Exercism::Routes.with_feedback_api_mentoring_representations_path
+        }
       }
     )
 

@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   include Turbo::CustomFrameRequest
   include BodyClassConcern
 
-  before_action :turbo_frame_request_variant
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
@@ -64,10 +63,6 @@ class ApplicationController < ActionController::Base
   private
   def set_body_class_header
     response.set_header("Exercism-Body-Class", body_class)
-  end
-
-  def turbo_frame_request_variant
-    request.variant = :turbo_frame if turbo_frame_request?
   end
 
   def storable_location?

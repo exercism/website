@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { GraphicalIcon, Icon, SplitPane } from '../common'
+import { GraphicalIcon, SplitPane } from '../common'
 import { Accordion } from '../common/Accordion'
 
 export function Representation(): JSX.Element {
@@ -11,8 +11,17 @@ export function Representation(): JSX.Element {
         rightMinWidth={625}
         id="mentoring-session"
         left={<div>left</div>}
-        right={<AutomationRules />}
+        right={<RightPane />}
       />
+    </div>
+  )
+}
+
+function RightPane() {
+  return (
+    <div>
+      <AutomationRules />
+      <MentoringConversation />
     </div>
   )
 }
@@ -81,7 +90,7 @@ function AutomationRules() {
   )
 
   return (
-    <div className="px-24 py-16">
+    <div className="p-24 pt-16 shadow-xsZ1v2 mb-24">
       <AlertText text="Important rules when giving feedback" />
       <Accordion id="global" isOpen={isOpen('global')} onClick={handleClick}>
         <AccordionHeader isOpen={isOpen('global')} title="Global" />
@@ -123,10 +132,11 @@ function AutomationRules() {
         />
         <Accordion.Panel>
           <div className="c-textual-content --small">
-            <p>
-              Try and guide the student towards this solution. It is the best
-              place for them to reach at this point during the Track.
-            </p>
+            <ul>
+              <li>Do not give feedback on the order of imports</li>
+              <li>Do not give feedback on the naming</li>
+              <li>Do not give feedback on namespaces</li>
+            </ul>
           </div>
         </Accordion.Panel>
       </Accordion>
@@ -136,12 +146,28 @@ function AutomationRules() {
 
 function AlertText({ text }: { text: string }): JSX.Element {
   return (
-    <div className="font-semibold text-16 text-alert flex flex-row items-center">
+    <div className="font-semibold text-16 text-alert flex flex-row items-center mb-[12px]">
       <GraphicalIcon
-        className="w-[24px] h-[24px] mr-[16px] magnifier-filter"
+        className="w-[24px] h-[24px] mr-[16px] alert-filter"
         icon="alert-circle"
       />
       {text}
+    </div>
+  )
+}
+
+function MentoringConversation() {
+  return (
+    <div>
+      <HowImportant />
+    </div>
+  )
+}
+
+function HowImportant() {
+  return (
+    <div>
+      <h1>How important is this?</h1>
     </div>
   )
 }

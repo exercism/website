@@ -43,6 +43,7 @@ end
 module Exercism
   class ActiveRecordCache
     include Singleton
+    def self.enable! = instance.enable!
     def self.reset! = instance.reset!
     def self.get_or_set(...) = instance.get_or_set(...)
 
@@ -52,9 +53,17 @@ module Exercism
 
     def reset!
       @cache = {}
+      @enabled = false
+    end
+
+    def enable!
+      @enabled = true
     end
 
     def get_or_set(sql, binds = [])
+      # Yield and get out of here unless this is enabled
+      return yield unless @enabled
+
       return @cache[sql][binds] if @cache.key?(sql) && @cache[sql].key?(binds)
 
       @cache[sql] ||= {}

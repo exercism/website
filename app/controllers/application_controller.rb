@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
 
   def reset_active_record_cache!
     Exercism::ActiveRecordCache.reset!
+    Exercism::ActiveRecordCache.enable! if request.get?
   end
 
   def process_action(*args)

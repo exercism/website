@@ -145,6 +145,7 @@ class ActiveSupport::TestCase
     reset_opensearch!
     reset_redis!
     reset_rack_attack!
+    Exercism::ActiveRecordCache.reset!
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's

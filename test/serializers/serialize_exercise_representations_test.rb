@@ -12,34 +12,36 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
     representation_2 = create :exercise_representation, feedback_markdown: 'Jip', exercise: exercise_2, num_submissions: 3,
       last_submitted_at: current_time - 2.days
 
-    expected = [{
-      exercise: {
-        icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bob.svg',
-        title: 'Bob'
+    expected = [
+      {
+        exercise: {
+          icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bob.svg',
+          title: 'Bob'
+        },
+        track: {
+          icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg',
+          title: 'Ruby'
+        },
+        num_submissions: 5,
+        feedback_html: "<p>Yay</p>\n",
+        last_submitted_at: current_time - 5.days,
+        links: {}
       },
-      track: {
-        icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg',
-        title: 'Ruby'
-      },
-      num_submissions: 5,
-      feedback_html: "<p>Yay</p>\n",
-      last_submitted_at: current_time - 5.days,
-      links: {}
-    },
-                {
-                  exercise: {
-                    icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/leap.svg',
-                    title: 'Leap'
-                  },
-                  track: {
-                    icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/csharp.svg',
-                    title: 'C#'
-                  },
-                  num_submissions: 3,
-                  feedback_html: "<p>Jip</p>\n",
-                  last_submitted_at: current_time - 2.days,
-                  links: {}
-                }]
+      {
+        exercise: {
+          icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/leap.svg',
+          title: 'Leap'
+        },
+        track: {
+          icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/csharp.svg',
+          title: 'C#'
+        },
+        num_submissions: 3,
+        feedback_html: "<p>Jip</p>\n",
+        last_submitted_at: current_time - 2.days,
+        links: {}
+      }
+    ]
 
     assert_equal expected, SerializeExerciseRepresentations.([representation_1, representation_2])
   end

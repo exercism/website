@@ -1,6 +1,8 @@
 class Exercise::Representation::UpdateNumSubmissions
   include Mandate
 
+  queue_as :default
+
   initialize_with :representation
 
   def call

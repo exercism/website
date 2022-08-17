@@ -45,7 +45,9 @@ class Submission
       end
 
       def create_exercise_representation!
-        @exercise_representation = Exercise::Representation::Create.(submission, ast, ast_digest, mapping)
+        @exercise_representation = Exercise::Representation::CreateOrUpdate.(
+          submission, ast, ast_digest, mapping, @submission_representation.created_at
+        )
       end
 
       def handle_ops_error!

@@ -4,7 +4,7 @@ class Exercise::Representation::Search
   # Use class method rather than constant for easier stubbing during testing
   def self.requests_per_page = 20
 
-  def initialize(criteria: nil, status: nil, user: nil, track: nil, order: :num_occurances, page: 1)
+  def initialize(criteria: nil, status: nil, user: nil, track: nil, order: :num_submissions, page: 1)
     @criteria = criteria
     @status = status.try(&:to_sym)
     @user = user
@@ -28,7 +28,7 @@ class Exercise::Representation::Search
   attr_reader :criteria, :status, :user, :track, :order, :page
 
   def filter_status!
-    # TODO: raise if status is incorrect
+    return if status.blank?
 
     case status
     when :without_feedback
@@ -58,17 +58,12 @@ class Exercise::Representation::Search
   end
 
   def sort!
-    # TODO: raise if sorting is incorrect
-
-    # TODO: implement
-    # case order
-    # when :recent
-    #   @representations = @representations.order(opened_at: :asc)
-    # when :num_occurances
-    #   @representations = @representations
-    # else
-    @representations = @representations.order(id: :asc)
-    # end
+    case order
+    when :last_submitted_at
+      @representations = @representations.order(last_submitted_at: :desc)
+    when :num_submissions
+      @representations = @representations.order(num_submissions: :desc)
+    end
   end
 
   def paginate!

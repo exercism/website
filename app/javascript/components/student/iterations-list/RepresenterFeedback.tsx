@@ -3,7 +3,6 @@ import { Avatar } from '../../common'
 import { RepresenterFeedback as Props } from '../../types'
 
 export const RepresenterFeedback = ({ html, author }: Props): JSX.Element => {
-  // TODO: call API to update last_shown_at value
   return (
     <div className="c-automated-feedback representer-feedback">
       <div className="feedback-header">

@@ -213,7 +213,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_17_075919) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "num_submissions", default: 0, null: false
-    t.datetime "last_shown_at"
     t.datetime "last_submitted_at", default: "2022-08-17 08:10:01", null: false
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"

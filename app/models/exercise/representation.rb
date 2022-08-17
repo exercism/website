@@ -35,10 +35,6 @@ class Exercise::Representation < ApplicationRecord
       select("exercise_representations.*, COUNT(submission_representations.id) as submission_representations_count")
   }
 
-  after_create_commit do
-    Exercise::Representation::UpdateNumSubmissions.defer(self)
-  end
-
   def num_times_used
     submission_representations.count
   end

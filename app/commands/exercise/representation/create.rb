@@ -10,6 +10,8 @@ class Exercise
           rep.source_submission = submission
           rep.ast = ast
           rep.mapping = mapping
+        end.tap do |rep| # rubocop:disable Style/MultilineBlockChain
+          Exercise::Representation::UpdateNumSubmissions.defer(rep)
         end
       end
 

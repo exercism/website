@@ -20,6 +20,8 @@ class Exercise::Representation < ApplicationRecord
 
   scope :without_feedback, -> { where(feedback_type: nil) }
   scope :with_feedback, -> { where.not(feedback_type: nil) }
+  scope :for_user, ->(user) { where(feedback_author: user).or(where(feedback_editor: user)) }
+  scope :for_track, ->(track) { joins(:exercise).where(exercises: { track: }) }
 
   def num_times_used
     submission_representations.count

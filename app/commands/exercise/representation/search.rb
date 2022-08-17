@@ -41,13 +41,13 @@ class Exercise::Representation::Search
   def filter_user!
     return if user.blank?
 
-    @representations = @representations.where(feedback_author: user).or(@representations.where(feedback_editor: user))
+    @representations = @representations.for_user(user)
   end
 
   def filter_track!
     return if track.blank?
 
-    @representations = @representations.where(exercises: { track: })
+    @representations = @representations.for_track(track)
   end
 
   def filter_criteria!

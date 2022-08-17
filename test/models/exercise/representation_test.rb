@@ -108,6 +108,33 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     assert_equal [representation_1, representation_2, representation_3], Exercise::Representation.with_feedback.order(:id)
   end
 
+  test "scope: for_user" do
+    user_1 = create :user
+    user_2 = create :user
+
+    representation_1 = create :exercise_representation, feedback_author: user_1
+    representation_2 = create :exercise_representation, feedback_author: user_2
+    representation_3 = create :exercise_representation, feedback_editor: user_1
+
+    assert_equal [representation_1, representation_3], Exercise::Representation.for_user(user_1).order(:id)
+    assert_equal [representation_2], Exercise::Representation.for_user(user_2)
+  end
+
+  test "scope: for_track" do
+    track_1 = create :track, :random_slug
+    track_2 = create :track, :random_slug
+    exercise_1 = create :practice_exercise, track: track_1
+    exercise_2 = create :practice_exercise, track: track_1
+    exercise_3 = create :practice_exercise, track: track_2
+
+    representation_1 = create :exercise_representation, exercise: exercise_1
+    representation_2 = create :exercise_representation, exercise: exercise_2
+    representation_3 = create :exercise_representation, exercise: exercise_3
+
+    assert_equal [representation_1, representation_2], Exercise::Representation.for_track(track_1).order(:id)
+    assert_equal [representation_3], Exercise::Representation.for_track(track_2)
+  end
+
   test "track" do
     track = create :track
     exercise = create :concept_exercise, track: track

@@ -57,34 +57,6 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     assert_equal 2, exercise_representation.num_times_used
   end
 
-  test "self.order_by_frequency" do
-    exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
-    submission = create :submission, solution: solution
-
-    rare_ast_digest = SecureRandom.uuid
-    medium_ast_digest = SecureRandom.uuid
-    frequent_ast_digest = SecureRandom.uuid
-
-    exercise_representation_medium = create(:exercise_representation, ast_digest: medium_ast_digest, exercise:)
-    exercise_representation_rare = create(:exercise_representation, ast_digest: rare_ast_digest, exercise:)
-    exercise_representation_frequent = create(:exercise_representation, ast_digest: frequent_ast_digest, exercise:)
-
-    2.times { create :submission_representation, ast_digest: medium_ast_digest, submission: }
-    create :submission_representation, ast_digest: rare_ast_digest, submission: submission
-    3.times { create :submission_representation, ast_digest: frequent_ast_digest, submission: }
-
-    expected = [
-      exercise_representation_frequent,
-      exercise_representation_medium,
-      exercise_representation_rare
-    ]
-    assert_equal expected, Exercise::Representation.order_by_frequency
-
-    # Sanity check this is changing the order.
-    refute_equal expected, Exercise::Representation.all
-  end
-
   test "submission_representation" do
     exercise = create :concept_exercise
     ast = "My AST"

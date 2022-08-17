@@ -21,20 +21,6 @@ class Exercise::Representation < ApplicationRecord
   scope :without_feedback, -> { where(feedback_type: nil) }
   scope :with_feedback, -> { where.not(feedback_type: nil) }
 
-  # TODO: We're going to need some indexes here!
-  scope :order_by_frequency, lambda {
-    joins("
-      LEFT JOIN submission_representations
-      ON submission_representations.ast_digest = exercise_representations.ast_digest
-      JOIN submissions ON submission_representations.submission_id = submissions.id
-      JOIN solutions ON submissions.solution_id = solutions.id
-    ").
-      where("solutions.exercise_id = exercise_representations.exercise_id").
-      order("submission_representations_count DESC").
-      group("submission_representations.ast_digest").
-      select("exercise_representations.*, COUNT(submission_representations.id) as submission_representations_count")
-  }
-
   def num_times_used
     submission_representations.count
   end

@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
 
+  before_action :turbo_frame_request_variant
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
@@ -76,6 +77,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  def turbo_frame_request_variant
+    request.variant = :turbo_frame if turbo_frame_request?
+  end
+
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr? &&
       request.fullpath != '/site.webmanifest'

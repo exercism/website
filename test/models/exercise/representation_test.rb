@@ -116,24 +116,24 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     assert_equal [submission_representation], representation.reload.submission_representations
   end
 
-  test "scope: feedback_needed" do
+  test "scope: without_feedback" do
     representation_1 = create :exercise_representation, feedback_type: nil
     representation_2 = create :exercise_representation, feedback_type: nil
     create :exercise_representation, feedback_type: :non_actionable
     create :exercise_representation, feedback_type: :essential
     create :exercise_representation, feedback_type: :actionable
 
-    assert_equal [representation_1, representation_2], Exercise::Representation.feedback_needed.order(:id)
+    assert_equal [representation_1, representation_2], Exercise::Representation.without_feedback.order(:id)
   end
 
-  test "scope: feedback_submitted" do
+  test "scope: with_feedback" do
     representation_1 = create :exercise_representation, feedback_type: :non_actionable
     representation_2 = create :exercise_representation, feedback_type: :essential
     representation_3 = create :exercise_representation, feedback_type: :actionable
     create :exercise_representation, feedback_type: nil
     create :exercise_representation, feedback_type: nil
 
-    assert_equal [representation_1, representation_2, representation_3], Exercise::Representation.feedback_submitted.order(:id)
+    assert_equal [representation_1, representation_2, representation_3], Exercise::Representation.with_feedback.order(:id)
   end
 
   test "track" do

@@ -27,8 +27,8 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_2 = create :exercise_representation, feedback_type: :actionable
     representation_3 = create :exercise_representation, feedback_type: :essential
 
-    assert_equal [representation_1], Exercise::Representation::Search.(status: :feedback_needed)
-    assert_equal [representation_2, representation_3], Exercise::Representation::Search.(status: :feedback_submitted)
+    assert_equal [representation_1], Exercise::Representation::Search.(status: :without_feedback)
+    assert_equal [representation_2, representation_3], Exercise::Representation::Search.(status: :with_feedback)
   end
 
   test "filter: user" do

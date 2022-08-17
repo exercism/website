@@ -31,10 +31,10 @@ class Exercise::Representation::Search
     # TODO: raise if status is incorrect
 
     case status
-    when :feedback_needed
-      @representations = @representations.feedback_needed
-    when :feedback_submitted
-      @representations = @representations.feedback_submitted
+    when :without_feedback
+      @representations = @representations.without_feedback
+    when :with_feedback
+      @representations = @representations.with_feedback
     end
   end
 

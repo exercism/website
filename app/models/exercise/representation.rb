@@ -18,8 +18,8 @@ class Exercise::Representation < ApplicationRecord
     primary_key: :ast_digest,
     inverse_of: :exercise_representation
 
-  scope :feedback_needed, -> { where(feedback_type: nil) }
-  scope :feedback_submitted, -> { where.not(feedback_type: nil) }
+  scope :without_feedback, -> { where(feedback_type: nil) }
+  scope :with_feedback, -> { where.not(feedback_type: nil) }
 
   # TODO: We're going to need some indexes here!
   scope :order_by_frequency, lambda {

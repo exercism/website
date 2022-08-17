@@ -3,11 +3,7 @@ class SerializeUserPreferences
 
   initialize_with :preferences
 
-  def call
-    {
-      automation: serialize(User::Preferences.automation_keys)
-    }
-  end
+  def call = { automation: serialize(User::Preferences.automation_keys) }
 
   private
   def serialize(keys)

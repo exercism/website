@@ -20,7 +20,7 @@ class AboutController < ApplicationController
 
   private
   def use_num_individual_supporters
-    @num_individual_supporters = User::AcquiredBadge.joins(:user).includes(:user).
+    @num_individual_supporters = User::AcquiredBadge.includes(:user).
       where(badge_id: Badge.find_by_slug!("supporter")). # rubocop:disable Rails/DynamicFindBy
       count
   end

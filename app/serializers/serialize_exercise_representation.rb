@@ -17,6 +17,7 @@ class SerializeExerciseRepresentation
       },
       num_submissions: representation.num_submissions,
       feedback_html: representation.feedback_html,
+      last_submitted_at: representation.last_submitted_at,
       links: {
         # TODO: link to edit page
         # self: Exercism::Routes.track_exercise_path(exercise.track, exercise)

@@ -2,12 +2,15 @@ require 'test_helper'
 
 class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
   test "serialize representations" do
+    current_time = Time.zone.now
     track_1 = create :track, slug: 'ruby', title: 'Ruby'
     track_2 = create :track, slug: 'csharp', title: 'C#'
     exercise_1 = create :practice_exercise, slug: 'bob', title: 'Bob', icon_name: 'bob', track: track_1
     exercise_2 = create :practice_exercise, slug: 'leap', title: 'Leap', icon_name: 'leap', track: track_2
-    representation_1 = create :exercise_representation, feedback_markdown: 'Yay', exercise: exercise_1, num_submissions: 5
-    representation_2 = create :exercise_representation, feedback_markdown: 'Jip', exercise: exercise_2, num_submissions: 3
+    representation_1 = create :exercise_representation, feedback_markdown: 'Yay', exercise: exercise_1, num_submissions: 5,
+      last_submitted_at: current_time - 5.days
+    representation_2 = create :exercise_representation, feedback_markdown: 'Jip', exercise: exercise_2, num_submissions: 3,
+      last_submitted_at: current_time - 2.days
 
     expected = [{
       exercise: {
@@ -20,6 +23,7 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
       },
       num_submissions: 5,
       feedback_html: "<p>Yay</p>\n",
+      last_submitted_at: current_time - 5.days,
       links: {}
     },
                 {
@@ -33,6 +37,7 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
                   },
                   num_submissions: 3,
                   feedback_html: "<p>Jip</p>\n",
+                  last_submitted_at: current_time - 2.days,
                   links: {}
                 }]
 

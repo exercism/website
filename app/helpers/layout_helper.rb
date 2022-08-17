@@ -2,7 +2,7 @@ module LayoutHelper
   def js_packs
     [
       ('application' unless landing_page?),
-      ('internal' if controller.user_signed_in?),
+      ('internal' if user_signed_in?),
       ('test' if render_test_js_pack?)
     ].compact
   end

@@ -1,5 +1,4 @@
 class Tracks::MentorRequestsController < ApplicationController
-  before_action :disable_site_header!, except: [:no_slots_remaining]
   before_action :use_solution
 
   def new

@@ -5,7 +5,6 @@ class Tracks::ExercisesController < ApplicationController
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
   skip_before_action :verify_authenticity_token, only: :start
-  disable_site_header! only: [:edit]
 
   def index
     @num_completed = @user_track.num_completed_exercises

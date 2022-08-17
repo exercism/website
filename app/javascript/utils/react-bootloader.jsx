@@ -24,14 +24,44 @@ Bugsnag.start({
 
 const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React)
 
+// This changes any extra things that need changing from the
+// turbo frame, such as body class or page title
+document.addEventListener('turbo:frame-render', (e) => {
+  const bodyClass = e.detail.fetchResponse.response.headers.get(
+    'exercism-body-class'
+  )
+  document.querySelector('body').className = bodyClass
+})
+
+/********************************************************/
+/** Add a loading cursor when a turbo-frame is loading **/
+/********************************************************/
+const setTurboStyle = (style) => {
+  const styleElemId = 'turbo-style'
+  if (!document.querySelector(`#${styleElemId}`)) {
+    const elem = document.createElement('style')
+    elem.id = styleElemId
+    document.head.appendChild(elem)
+  }
+
+  document.querySelector(`#${styleElemId}`).textContent = style
+}
+document.addEventListener('turbo:before-fetch-request', () => {
+  setTurboStyle('* { cursor:wait !important }')
+})
+document.addEventListener('turbo:before-render', () => {
+  setTurboStyle('')
+})
+
 export const initReact = (mappings) => {
+  console.log('Init React')
   const renderThings = (parentElement) => {
     renderComponents(parentElement, mappings)
     renderTooltips(parentElement, mappings)
   }
 
   // This adds rendering for all future turbo clicks
-  document.addEventListener('turbo:load', () => {
+  document.addEventListener('turbo:load', (e) => {
     console.log('Loading React from Turbo Load')
     renderThings()
   })

@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   extend Mandate::Memoize
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
+  include BodyClassConcern
 
   before_action :turbo_frame_request_variant
   before_action :store_user_location!, if: :storable_location?
@@ -9,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :ensure_onboarded!
   before_action :mark_notifications_as_read!
   before_action :set_request_context
+  after_action :set_body_class_header
 
   def process_action(*args)
     super
@@ -59,24 +61,11 @@ class ApplicationController < ActionController::Base
     Exercism.request_context = { remote_ip: request.remote_ip }
   end
 
-  #############################
-  # Site Header Functionality #
-  #############################
-  def render_site_header?
-    iv = "@__render_site_header__"
-    instance_variable_defined?(iv) ? instance_variable_get(iv) : true
-  end
-  helper_method :render_site_header?
-
-  def disable_site_header!
-    @__render_site_header__ = false
-  end
-
-  def self.disable_site_header!(*args)
-    before_action :disable_site_header!, *args
-  end
-
   private
+  def set_body_class_header
+    response.set_header("Exercism-Body-Class", body_class)
+  end
+
   def turbo_frame_request_variant
     request.variant = :turbo_frame if turbo_frame_request?
   end
@@ -93,13 +82,6 @@ class ApplicationController < ActionController::Base
   def store_user_location!
     store_location_for(:user, request.fullpath)
   end
-
-  memoize
-  def namespace_name
-    controller_parts = self.class.name.underscore.split("/")
-    controller_parts.size > 1 ? controller_parts[0] : nil
-  end
-  helper_method :namespace_name
 
   def render_template_as_json
     respond_to do |format|

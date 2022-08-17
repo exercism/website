@@ -3,16 +3,18 @@ class ApplicationController < ActionController::Base
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
 
-  before_action :reset_active_record_cache!
+  around_action :enable_active_record_cache!
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
   before_action :mark_notifications_as_read!
   before_action :set_request_context
 
-  def reset_active_record_cache!
-    Exercism::ActiveRecordCache.reset!
+  def enable_active_record_cache!
     Exercism::ActiveRecordCache.enable! if request.get?
+    yield
+  ensure
+    Exercism::ActiveRecordCache.disable!
   end
 
   def process_action(*args)

@@ -22,6 +22,7 @@ module Flows
 
         assert_page "editor"
 
+        Exercism::ActiveRecordCache.reset!
         assert Solution.for(user, exercise)
       end
     end

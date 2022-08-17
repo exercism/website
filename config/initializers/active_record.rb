@@ -44,6 +44,7 @@ module Exercism
   class ActiveRecordCache
     include Singleton
     def self.enable! = instance.enable!
+    def self.disable! = instance.disable!
     def self.reset! = instance.reset!
     def self.get_or_set(...) = instance.get_or_set(...)
 
@@ -51,13 +52,18 @@ module Exercism
       reset!
     end
 
-    def reset!
-      @cache = {}
+    def enable!
+      reset!
+      @enabled = true
+    end
+
+    def disable!
+      reset!
       @enabled = false
     end
 
-    def enable!
-      @enabled = true
+    def reset!
+      @cache = {}
     end
 
     def get_or_set(sql, binds = [])

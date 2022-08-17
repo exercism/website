@@ -81,7 +81,7 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
 
     # Default: order by num_submissions
     assert_equal [representation_3, representation_1, representation_2], Exercise::Representation::Search.()
-    assert_equal [representation_3, representation_1, representation_2], Exercise::Representation::Search.(order: :num_submissions)
-    assert_equal [representation_1, representation_3, representation_2], Exercise::Representation::Search.(order: :last_submitted_at)
+    assert_equal [representation_3, representation_1, representation_2], Exercise::Representation::Search.(order: :most_submissions)
+    assert_equal [representation_1, representation_3, representation_2], Exercise::Representation::Search.(order: :most_recent)
   end
 end

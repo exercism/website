@@ -4,7 +4,7 @@ class Exercise::Representation::Search
   # Use class method rather than constant for easier stubbing during testing
   def self.requests_per_page = 20
 
-  def initialize(criteria: nil, status: nil, user: nil, track: nil, order: :num_submissions, page: 1)
+  def initialize(criteria: nil, status: nil, user: nil, track: nil, order: :most_submissions, page: 1)
     @criteria = criteria
     @status = status.try(&:to_sym)
     @user = user
@@ -59,9 +59,9 @@ class Exercise::Representation::Search
 
   def sort!
     case order
-    when :last_submitted_at
+    when :most_recent
       @representations = @representations.order(last_submitted_at: :desc)
-    when :num_submissions
+    when :most_submissions
       @representations = @representations.order(num_submissions: :desc)
     end
   end

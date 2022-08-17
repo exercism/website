@@ -45,14 +45,7 @@ class Submission
       end
 
       def create_exercise_representation!
-        @exercise_representation = Exercise::Representation.create_or_find_by!(
-          exercise: submission.exercise,
-          ast_digest:
-        ) do |rep|
-          rep.source_submission = submission
-          rep.ast = ast
-          rep.mapping = mapping
-        end
+        @exercise_representation = Exercise::Representation::Create.(submission, ast, ast_digest, mapping)
       end
 
       def handle_ops_error!

@@ -10,7 +10,7 @@ class UserTrack
       @track = track
     end
 
-    delegate :concepts, :num_concepts, :updated_at,
+    delegate :concepts, :num_exercises, :num_concepts, :updated_at,
       to: :track
     delegate :title, to: :track, prefix: true
 
@@ -127,10 +127,6 @@ class UserTrack
     ###############################
     # Exercises aggregate methods #
     ###############################
-
-    def num_exercises
-      exercises.size
-    end
 
     def num_completed_exercises
       0

@@ -3,32 +3,33 @@ class AssembleExerciseRepresentationsWithoutFeedbackList
 
   initialize_with :user, :params
 
-  def self.keys = %i[page order criteria track]
+  def self.keys = %i[page order criteria track_slug]
 
   def call
     SerializePaginatedCollection.(
       representations,
-      serializer: SerializeExerciseRepresentation,
+      serializer: SerializeExerciseRepresentations,
       meta: {
-        unscoped_total: 0 # TODO: implement
+        unscoped_total: Exercise::Representation.without_feedback.count
       }
     )
   end
 
+  private
   memoize
   def representations
     Exercise::Representation::Search.(
-      # TODO
-      # exercise,
-      # page: params[:page],
-      # order: params[:order],
-      # criteria: params[:criteria],
-      # sync_status: params[:up_to_date].present? ? :up_to_date : nil,
-      # tests_status: params[:passed_tests].present? ? :passed : nil,
-      # head_tests_status: params[:not_passed_head_tests].present? ? nil : %i[not_queued queued passed]
+      track:,
+      status: :without_feedback,
+      page: params[:page],
+      order: params[:order],
+      criteria: params[:criteria]
     )
   end
 
-  memoize
-  delegate :mentored_tracks, to: :user
+  def track
+    return user.mentored_tracks if params[:track_slug].blank?
+
+    Track.find(params[:track_slug])
+  end
 end

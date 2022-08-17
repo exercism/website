@@ -178,6 +178,11 @@ namespace :api do
         get :mentored
       end
 
+      resource :representations, only: [] do
+        get :with_feedback
+        get :without_feedback
+      end
+
       resources :requests, only: %i[index], param: :uuid do
         collection do
           get :tracks

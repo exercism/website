@@ -103,33 +103,24 @@ const render = (elem, component) => {
   // document.addEventListener('turbo:before-render', unloadOnce)
 }
 
-function renderComponent(elem, generator) {
-  // console.log(Date.now(), elem.dataset['reactId'])
-  const data = JSON.parse(elem.dataset.reactData)
-  render(elem, generator(data, elem))
-}
-
 function renderComponents(parentElement, mappings) {
   // console.log(Date.now(), 'renderComponents()')
   if (!parentElement) {
     parentElement = document.body
   }
 
-  const possibleElements = Array.from(
+  const elems = Array.from(
     parentElement.getElementsByClassName('c-react-component')
   )
-  const mappedElements = {}
-  for (let elem of possibleElements) {
-    mappedElements[elem.dataset['reactId']] = elem
-  }
-  // console.log(Date.now(), 'mapped')
-  for (const [name, generator] of Object.entries(mappings)) {
-    const elem = mappedElements[name]
-    if (elem) {
-      // console.log(Date.now(), name)
-      const data = JSON.parse(elem.dataset.reactData)
-      render(elem, generator(data, elem))
+  for (let elem of elems) {
+    const reactId = elem.dataset['reactId']
+    const generator = mappings[reactId]
+    if (!generator) {
+      continue
     }
+
+    const data = JSON.parse(elem.dataset.reactData)
+    render(elem, generator(data, elem))
   }
 }
 

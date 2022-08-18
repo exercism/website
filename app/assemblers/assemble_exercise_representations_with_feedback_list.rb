@@ -22,9 +22,9 @@ class AssembleExerciseRepresentationsWithFeedbackList
       user:,
       track:,
       status: :with_feedback,
-      page: params[:page],
-      order: params[:order],
-      criteria: params[:criteria]
+      criteria: params[:criteria],
+      page: params.fetch(:page, 1),
+      order: params.fetch(:order, :most_submissions)
     )
   end
 

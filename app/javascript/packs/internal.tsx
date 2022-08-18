@@ -18,6 +18,7 @@ import {
   MentoredTrackExercise,
   // User,
   // SiteUpdate,
+  UserPreferences,
   CommunicationPreferences,
   User,
   MentoringSessionExemplarFile,
@@ -85,7 +86,7 @@ import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 function camelizeKeysAs<T>(object: any): T {
-  return (camelizeKeys(object) as unknown) as T
+  return camelizeKeys(object) as unknown as T
 }
 
 // Add all react components here.
@@ -234,6 +235,14 @@ initReact({
   ),
   'settings-token-form': (data: any) => (
     <Settings.TokenForm defaultToken={data.token} links={data.links} />
+  ),
+  'settings-user-preferences-form': (data: any) => (
+    <Settings.UserPreferencesForm
+      defaultPreferences={camelizeKeysAs<readonly UserPreferences[]>(
+        data.preferences
+      )}
+      links={data.links}
+    />
   ),
   'settings-communication-preferences-form': (data: any) => (
     <Settings.CommunicationPreferencesForm

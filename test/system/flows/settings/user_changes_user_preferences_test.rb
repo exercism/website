@@ -3,17 +3,17 @@ require_relative "../../../support/capybara_helpers"
 
 module Flows
   module Settings
-    class UserChangesCommunicationPrefrencesTest < ApplicationSystemTestCase
+    class UserChangesUserPrefrencesTest < ApplicationSystemTestCase
       include CapybaraHelpers
 
-      test "user updates communication preferences" do
+      test "user updates user preferences" do
         user = create :user
 
         use_capybara_host do
           sign_in!(user)
 
-          visit communication_preferences_settings_path
-          find('label', text: I18n.t('communication_preferences.email_on_mentor_started_discussion_notification')).click
+          visit user_preferences_settings_path
+          find('label', text: I18n.t('user_preferences.auto_update_exercises')).click
           click_on "Change preferences"
 
           assert_text "Your preferences have been updated"

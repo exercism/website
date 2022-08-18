@@ -16,9 +16,8 @@ class Solution::SyncLatestIterationHeadTestsStatus
       status = :errored
     end
 
-    return true if solution.latest_iteration_head_tests_status == status
-
-    solution.update_latest_iteration_head_tests_status!(status)
+    # Only update it if we need to.
+    solution.update_latest_iteration_head_tests_status!(status) unless solution.latest_iteration_head_tests_status == status
 
     true
   end

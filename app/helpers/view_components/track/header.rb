@@ -14,9 +14,9 @@ module ViewComponents
           render(
             "tracks/header",
             track:,
-            user_track:,
+            tags:,
             tabs:,
-            tags:
+            selected_tab:
           )
         end
       end

@@ -327,7 +327,6 @@ body.devise {
     }
 }
 
-body.action-about,
 body.controller-docs,
 body.namespace-docs {
     @apply bg-backgroundColorA;

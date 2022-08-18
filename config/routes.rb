@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   # ############ #
   resource :settings, only: %i[show] do
     get :api_cli
+    get :user_preferences
     get :communication_preferences
     get :donations
     patch :reset_account

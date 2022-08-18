@@ -16,6 +16,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user, User.for!(user.handle)
   end
 
+  test "creates preferences" do
+    user = create :user
+    assert user.preferences
+  end
+
   test "creates communication_preferences" do
     user = create :user
     assert user.communication_preferences

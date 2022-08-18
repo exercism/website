@@ -50,6 +50,11 @@ document.addEventListener('turbo:before-fetch-request', () => {
   setTurboStyle('* { cursor:wait !important }')
 })
 document.addEventListener('turbo:before-render', () => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'auto',
+  })
   setTurboStyle('')
 })
 

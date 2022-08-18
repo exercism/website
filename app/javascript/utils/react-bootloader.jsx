@@ -37,7 +37,7 @@ document.addEventListener('turbo:frame-render', (e) => {
 /** Add a loading cursor when a turbo-frame is loading **/
 /********************************************************/
 const styleElemId = 'turbo-style'
-const setTurboStyle = (style) => {  
+const setTurboStyle = (style) => {
   if (!document.querySelector(`#${styleElemId}`)) {
     const elem = document.createElement('style')
     elem.id = styleElemId
@@ -76,7 +76,7 @@ export const initReact = (mappings) => {
   // This renders if turbo has already finished at the
   // point at which this calls. See packs/core.tsx
   if (window.turboLoaded) {
-    // console.log('Loading React from DOM Load')
+    // console.log(Date.now(), 'Loading React from DOM Load')
     renderThings()
   }
 }
@@ -148,7 +148,5 @@ function renderTooltips(parentElement, mappings) {
 
   parentElement
     .querySelectorAll('[data-tooltip-type][data-endpoint]')
-    .forEach((elem) => {
-      renderTooltip(mappings, elem)
-    })
+    .forEach((elem) => renderTooltip(mappings, elem))
 }

@@ -15,6 +15,8 @@ module API
     end
 
     def tracks_without_feedback
+      # TODO: consider how to fetch this here _and_ in the react component
+      # without duplicating code
       track_representation_counts = Exercise::Representation::Search.(
         track: current_user.mentored_tracks,
         status: :without_feedback,
@@ -40,6 +42,7 @@ module API
 
     private
     def render_tracks(tracks, track_representation_counts)
+      # TODO: make this a special serializer
       data = tracks.order(:title).map do |track|
         SerializeTrackForSelect.(track).merge(num_submissions: track_representation_counts[track.id])
       end

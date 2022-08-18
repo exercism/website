@@ -1,26 +1,22 @@
 import React, { useCallback, useState } from 'react'
-import { Pagination } from '../common/Pagination'
-import { TrackFilterList } from './queue/TrackFilterList'
-import { useTrackList } from './queue/useTrackList'
-import { Request } from '../../hooks/request-query'
-import { Links } from './Queue'
+import { Pagination } from '../../common/Pagination'
+import { TrackFilterList } from '../queue/TrackFilterList'
+import { useTrackList } from '../queue/useTrackList'
+import { Request } from '../../../hooks/request-query'
+import { Links } from '../Queue'
 import {
   AutomationStatus,
   MentoredTrack,
   MentoredTrackExercise,
-} from '../types'
-import { useMentoringQueue } from './queue/useMentoringQueue'
-import { Sorter } from './Sorter'
-import { SortOption } from './Inbox'
-import {
-  MOCK_DEFAULT_TRACK,
-  MOCK_TRACKS,
-  MOCK_LIST_ELEMENT,
-} from './automation/mock-data'
-import { StatusTab } from './inbox/StatusTab'
-import { GraphicalIcon, Introducer } from '../common'
-import { AutomationListElement } from './automation/AutomationListElement'
-import SearchInput from '../common/SearchInput'
+} from '../../types'
+import { useMentoringQueue } from '../queue/useMentoringQueue'
+import { Sorter } from '../Sorter'
+import { SortOption } from '../Inbox'
+import { MOCK_DEFAULT_TRACK, MOCK_TRACKS, MOCK_LIST_ELEMENT } from './mock-data'
+import { StatusTab } from '../inbox/StatusTab'
+import { GraphicalIcon, Introducer } from '../../common'
+import { AutomationListElement } from './AutomationListElement'
+import SearchInput from '../../common/SearchInput'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
@@ -37,7 +33,7 @@ type AutomationProps = {
   sortOptions: SortOption[]
 }
 
-export function Automation({
+export function WithFeedback({
   tracksRequest,
   sortOptions,
   links,

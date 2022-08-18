@@ -154,8 +154,23 @@ initReact({
       downloadCommand={data.download_command}
     />
   ),
-  'mentoring-automation': (data: any) => (
-    <Mentoring.Automation
+  'mentoring-automation-with-feedback': (data: any) => (
+    <Mentoring.WithFeedback
+      // discussionsRequest={camelizeKeysAs<MentoringInboxRequest>(
+      //   data.discussions_request
+      // )}
+      defaultExercise={camelizeKeysAs<MentoredTrackExercise>(
+        data.default_exercise
+      )}
+      queueRequest={camelizeKeysAs<Request>(data.queue_request)}
+      // defaultTrack={camelizeKeysAs<MentoredTrack>(data.default_track)}
+      tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
+      sortOptions={data.sort_options}
+      links={data.links}
+    />
+  ),
+  'mentoring-automation-without-feedback': (data: any) => (
+    <Mentoring.WithoutFeedback
       // discussionsRequest={camelizeKeysAs<MentoringInboxRequest>(
       //   data.discussions_request
       // )}

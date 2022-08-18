@@ -2,7 +2,10 @@ class Mentoring::AutomationController < ApplicationController
   before_action :ensure_mentor!
 
   def index
-    # TODO: use the actual correct parameters for automation
-    @automation_params = params.permit(:status, :order, :criteria, :page, :track_slug)
+    @automation_params = params.permit(:order, :criteria, :page, :track_slug)
+  end
+
+  def without_feedback
+    @automation_params = params.permit(:order, :criteria, :page, :track_slug)
   end
 end

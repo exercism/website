@@ -17,7 +17,7 @@ class API::Mentoring::AutomationControllerTest < API::BaseTestCase
     setup_user(user)
 
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: idx, feedback_type: nil, exercise: exercise
+      create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise
     end
 
     get without_feedback_api_mentoring_automation_path, headers: @headers, as: :json
@@ -42,7 +42,7 @@ class API::Mentoring::AutomationControllerTest < API::BaseTestCase
     setup_user(user)
 
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: idx, feedback_type: :actionable, feedback_author: user
+      create :exercise_representation, num_submissions: 25 - idx, feedback_type: :actionable, feedback_author: user
     end
 
     get with_feedback_api_mentoring_automation_path, headers: @headers, as: :json
@@ -56,6 +56,71 @@ class API::Mentoring::AutomationControllerTest < API::BaseTestCase
         unscoped_total: 25
       }
     )
+
+    assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
+  end
+
+  ###
+  # tracks_with_feedback
+  ###
+  test "tracks_without_feedback retrieves all tracks the user has given feedback on" do
+    user = create :user
+    setup_user(user)
+
+    ruby = create :track, title: "Ruby", slug: "ruby"
+    go = create :track, title: "Go", slug: "go"
+
+    create :user_track_mentorship, user: user, track: ruby
+    create :user_track_mentorship, user: user, track: go
+
+    series = create :concept_exercise, title: "Series", track: ruby
+    tournament = create :concept_exercise, title: "Tournament", track: go
+
+    create :exercise_representation, exercise: series, feedback_type: nil
+    create :exercise_representation, exercise: series, feedback_type: nil
+    create :exercise_representation, exercise: tournament, feedback_type: nil
+    create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user # Sanity check
+
+    get tracks_without_feedback_api_mentoring_automation_path, headers: @headers, as: :json
+    assert_response :ok
+
+    expected = [
+      { slug: nil, title: 'All Tracks', icon_url: "ICON", num_submissions: 3 },
+      { slug: go.slug, title: go.title, icon_url: go.icon_url, num_submissions: 1 },
+      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
+    ]
+    assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
+  end
+
+  ###
+  # tracks_with_feedback
+  ###
+  test "tracks_with_feedback retrieves all tracks the user has given feedback on" do
+    user = create :user
+    setup_user(user)
+
+    ruby = create :track, title: "Ruby", slug: "ruby"
+    go = create :track, title: "Go", slug: "go"
+
+    create :user_track_mentorship, user: user, track: ruby
+    create :user_track_mentorship, user: user, track: go
+
+    series = create :concept_exercise, title: "Series", track: ruby
+    tournament = create :concept_exercise, title: "Tournament", track: go
+
+    create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user
+    create :exercise_representation, exercise: series, feedback_type: :essential, feedback_editor: user
+    create :exercise_representation, exercise: tournament, feedback_type: :essential, feedback_author: user
+    create :exercise_representation, exercise: tournament, feedback_type: nil # Sanity check
+
+    get tracks_with_feedback_api_mentoring_automation_path, headers: @headers, as: :json
+    assert_response :ok
+
+    expected = [
+      { slug: nil, title: 'All Tracks', icon_url: "ICON", num_submissions: 3 },
+      { slug: go.slug, title: go.title, icon_url: go.icon_url, num_submissions: 1 },
+      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
+    ]
     assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
   end
 end

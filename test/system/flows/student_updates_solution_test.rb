@@ -1,5 +1,6 @@
 require "application_system_test_case"
 require_relative "../../support/capybara_helpers"
+require 'sidekiq/testing'
 
 module Flows
   class StudentUpdatesSolutionTest < ApplicationSystemTestCase
@@ -80,6 +81,12 @@ module Flows
       solution = create :concept_solution, exercise: exercise, user: user
       submission = create :submission, solution: solution
       create :iteration, submission: submission, solution: solution
+
+      # Make sure we're in a state that means we don't just work through
+      # because the tests pass for the first time
+      solution.update!(latest_iteration_head_tests_status: :passed)
+
+      Sidekiq::Queues.clear_all
 
       exercise.update(git_sha: new_git_sha)
       3.times { perform_enqueued_jobs }

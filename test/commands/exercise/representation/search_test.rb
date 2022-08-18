@@ -63,7 +63,6 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
 
     first_page = Exercise::Representation::Search.()
     assert_equal 20, first_page.limit_value # Sanity
-
     assert_equal 20, first_page.length
     assert_equal 1, first_page.current_page
     assert_equal 25, first_page.total_count
@@ -72,6 +71,9 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     assert_equal 5, second_page.length
     assert_equal 2, second_page.current_page
     assert_equal 25, second_page.total_count
+
+    page = Exercise::Representation::Search.(paginated: false)
+    assert_equal 25, page.length
   end
 
   test "sorts" do
@@ -83,5 +85,6 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     assert_equal [representation_3, representation_1, representation_2], Exercise::Representation::Search.()
     assert_equal [representation_3, representation_1, representation_2], Exercise::Representation::Search.(order: :most_submissions)
     assert_equal [representation_1, representation_3, representation_2], Exercise::Representation::Search.(order: :most_recent)
+    assert_equal [representation_1, representation_2, representation_3], Exercise::Representation::Search.(sorted: false)
   end
 end

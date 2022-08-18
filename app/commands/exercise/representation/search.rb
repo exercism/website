@@ -4,13 +4,16 @@ class Exercise::Representation::Search
   # Use class method rather than constant for easier stubbing during testing
   def self.requests_per_page = 20
 
-  def initialize(criteria: nil, status: nil, user: nil, track: nil, order: :most_submissions, page: 1)
+  def initialize(criteria: nil, status: nil, user: nil, track: nil, order: :most_submissions,
+                 page: 1, paginated: true, sorted: true)
     @criteria = criteria
     @status = status.try(&:to_sym)
     @user = user
     @track = track
     @order = order.try(&:to_sym)
     @page = page
+    @paginated = paginated
+    @sorted = sorted
   end
 
   def call
@@ -19,13 +22,13 @@ class Exercise::Representation::Search
     filter_user!
     filter_track!
     filter_criteria!
-    sort!
-    paginate!
+    sort! if sorted
+    paginate! if paginated
     @representations
   end
 
   private
-  attr_reader :criteria, :status, :user, :track, :order, :page
+  attr_reader :criteria, :status, :user, :track, :order, :page, :paginated, :sorted
 
   def filter_status!
     return if status.blank?

@@ -108,16 +108,40 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     assert_equal [representation_1, representation_2, representation_3], Exercise::Representation.with_feedback.order(:id)
   end
 
-  test "scope: for_user" do
+  test "scope: edited_by_user" do
     user_1 = create :user
     user_2 = create :user
+    user_3 = create :user
 
     representation_1 = create :exercise_representation, feedback_author: user_1
     representation_2 = create :exercise_representation, feedback_author: user_2
     representation_3 = create :exercise_representation, feedback_editor: user_1
 
-    assert_equal [representation_1, representation_3], Exercise::Representation.for_user(user_1).order(:id)
-    assert_equal [representation_2], Exercise::Representation.for_user(user_2)
+    assert_equal [representation_1, representation_3], Exercise::Representation.edited_by_user(user_1).order(:id)
+    assert_equal [representation_2], Exercise::Representation.edited_by_user(user_2)
+    assert_empty Exercise::Representation.edited_by_user(user_3)
+  end
+
+  test "scope: mentored_by_user" do
+    track_1 = create :track, :random_slug
+    track_2 = create :track, :random_slug
+
+    user_1 = create :user
+    user_2 = create :user
+    user_3 = create :user
+
+    create :user_track_mentorship, user: user_1, track: track_1
+    create :user_track_mentorship, user: user_1, track: track_2
+    create :user_track_mentorship, user: user_2, track: track_2
+
+    representation_1 = create :exercise_representation, exercise: create(:practice_exercise, track: track_1)
+    representation_2 = create :exercise_representation, exercise: create(:practice_exercise, track: track_2)
+    representation_3 = create :exercise_representation, exercise: create(:practice_exercise, track: track_2)
+
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation.mentored_by_user(user_1.reload).order(:id)
+    assert_equal [representation_2, representation_3], Exercise::Representation.mentored_by_user(user_2.reload)
+    assert_empty Exercise::Representation.mentored_by_user(user_3.reload)
   end
 
   test "scope: for_track" do

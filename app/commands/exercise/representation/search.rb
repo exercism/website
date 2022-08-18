@@ -44,7 +44,12 @@ class Exercise::Representation::Search
   def filter_user!
     return if user.blank?
 
-    @representations = @representations.for_user(user)
+    case status
+    when :without_feedback
+      @representations = @representations.mentored_by_user(user)
+    when :with_feedback
+      @representations = @representations.edited_by_user(user)
+    end
   end
 
   def filter_track!

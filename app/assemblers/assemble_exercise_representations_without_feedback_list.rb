@@ -19,6 +19,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackList
   memoize
   def representations
     Exercise::Representation::Search.(
+      user:,
       track:,
       status: :without_feedback,
       criteria: params[:criteria],
@@ -28,7 +29,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackList
   end
 
   def track
-    return user.mentored_tracks if params[:track_slug].blank?
+    return if params[:track_slug].blank?
 
     Track.find(params[:track_slug])
   end

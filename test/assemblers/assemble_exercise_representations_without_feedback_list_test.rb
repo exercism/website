@@ -7,7 +7,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackListTest < ActiveSupport::Te
     create :user_track_mentorship, user: user, track: track
     exercise = create :practice_exercise, track: track
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: idx, feedback_type: nil, exercise: exercise
+      create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise
     end
 
     paginated_representations = Kaminari.paginate_array(representations, total_count: 25).page(1).per(20)
@@ -30,8 +30,9 @@ class AssembleExerciseRepresentationsWithoutFeedbackListTest < ActiveSupport::Te
     page = '1'
 
     Exercise::Representation::Search.expects(:call).with(
-      track:,
       status: :without_feedback,
+      user:,
+      track:,
       page:,
       order:,
       criteria:
@@ -41,21 +42,18 @@ class AssembleExerciseRepresentationsWithoutFeedbackListTest < ActiveSupport::Te
   end
 
   test "should proxy correctly when track_slug is not specified" do
-    track_1 = create :track, :random_slug
-    track_2 = create :track, :random_slug
     user = create :user
-    create :user_track_mentorship, user: user, track: track_1
-    create :user_track_mentorship, user: user, track: track_2
     criteria = 'bob'
     order = 'num_submissions'
     page = '1'
 
     Exercise::Representation::Search.expects(:call).with(
-      track: [track_1, track_2],
       status: :without_feedback,
+      user:,
       page:,
       order:,
-      criteria:
+      criteria:,
+      track: nil
     ).returns(Exercise::Representation.page(1).per(20))
 
     AssembleExerciseRepresentationsWithoutFeedbackList.(user, criteria:, order:, page:)

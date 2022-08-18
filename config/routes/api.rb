@@ -179,7 +179,7 @@ namespace :api do
         get :mentored
       end
 
-      resource :representations, only: [] do
+      resource :automation, only: [], controller: 'automation' do
         get :with_feedback
         get :without_feedback
       end

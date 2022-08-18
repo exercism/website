@@ -1,5 +1,5 @@
 module API
-  class Mentoring::RepresentationsController < BaseController
+  class Mentoring::AutomationController < BaseController
     def with_feedback
       render json: AssembleExerciseRepresentationsWithFeedbackList.(
         current_user,

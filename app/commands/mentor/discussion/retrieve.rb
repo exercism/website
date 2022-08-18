@@ -59,7 +59,6 @@ module Mentor
 
       def setup!
         @discussions = Mentor::Discussion.
-          joins(solution: :exercise).
           includes(solution: [:user, { exercise: :track }]).
           where(mentor:)
       end
@@ -88,7 +87,7 @@ module Mentor
         student_id = User.where(handle: student_handle.strip).pick(:id)
         return unless student_id
 
-        @discussions = @discussions.where(solutions: { user_id: student_id })
+        @discussions = @discussions.joins(:solution).where(solutions: { user_id: student_id })
       end
 
       def filter_exclude_uuid!
@@ -100,14 +99,14 @@ module Mentor
       def search!
         return if criteria.blank?
 
-        @discussions = @discussions.joins(solution: :user).
+        @discussions = @discussions.joins(solution: %i[exercise user]).
           where("exercises.title LIKE ? OR users.handle LIKE ?", "%#{criteria}%", "%#{criteria}%")
       end
 
       def sort!
         case order
         when :exercise
-          @discussions = @discussions.order("exercises.title": :asc, id: :asc)
+          @discussions = @discussions.joins(solution: :exercise).order("exercises.title": :asc, id: :asc)
         when :student
           @discussions = @discussions.joins(solution: :user).order("users.handle": :asc, id: :asc)
         when :oldest

@@ -40,7 +40,7 @@ module API
         current_user,
         params[:status],
         sorted: false, paginated: false
-      ).group(:track_id).count
+      ).joins(solution: { exercise: :track }).group(:track_id).count
 
       tracks = Track.where(id: track_counts.keys).order(:title)
       data = tracks.map do |track|

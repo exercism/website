@@ -10,7 +10,7 @@ module BodyClassConcern
     classes << "controller-#{controller_name || 'none'}"
     classes << "action-#{action_name}"
     classes << "theme-light"
-    user_signed_in? ? classes << "user-signed_in" : classes << "user-signed_out"
+    classes << (user_signed_in? ? "user-signed_in" : "user-signed_out")
     classes.join(" ")
   end
 

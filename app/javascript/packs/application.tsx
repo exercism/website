@@ -113,15 +113,6 @@ initReact({
       <Editor {...camelizeKeysAs<EditorProps>(data)} />
     </Suspense>
   ),
-  'donations-footer-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFooterForm
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-      />
-    </Suspense>
-  ),
   'common-concept-widget': (data: any) => (
     <Common.ConceptWidget concept={data.concept} />
   ),
@@ -378,6 +369,16 @@ initReact({
       height={data.height}
       width={data.width}
     />
+  ),
+  // Slow things at the end
+  'donations-footer-form': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <DonationsFooterForm
+        request={camelizeKeysAs<Request>(data.request)}
+        links={data.links}
+        userSignedIn={data.user_signed_in}
+      />
+    </Suspense>
   ),
 })
 

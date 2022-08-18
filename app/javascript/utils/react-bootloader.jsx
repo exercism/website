@@ -36,8 +36,8 @@ document.addEventListener('turbo:frame-render', (e) => {
 /********************************************************/
 /** Add a loading cursor when a turbo-frame is loading **/
 /********************************************************/
-const setTurboStyle = (style) => {
-  const styleElemId = 'turbo-style'
+const styleElemId = 'turbo-style'
+const setTurboStyle = (style) => {  
   if (!document.querySelector(`#${styleElemId}`)) {
     const elem = document.createElement('style')
     elem.id = styleElemId
@@ -68,7 +68,7 @@ export const initReact = (mappings) => {
   // })
 
   // This adds rendering for all future turbo clicks
-  document.addEventListener('turbo:load', (e) => {
+  document.addEventListener('turbo:load', () => {
     // console.log(Date.now(), 'turbo:load')
     renderThings()
   })
@@ -109,6 +109,8 @@ function renderComponents(parentElement, mappings) {
     parentElement = document.body
   }
 
+  // As getElementsByClassName returns a live collection, it is recommended to use Array.from
+  // when iterating through it, otherwise the number of elements may change mid-loop.
   const elems = Array.from(
     parentElement.getElementsByClassName('c-react-component')
   )

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
-  before_action :mark_notifications_as_read!
+  around_action :mark_notifications_as_read!
   before_action :set_request_context
 
   def process_action(*args)
@@ -30,16 +30,28 @@ class ApplicationController < ActionController::Base
     redirect_to maintaining_root_path
   end
 
+  # We want to mark relevant notifications as read, but we don't
+  # care about doing this before the rest of the action is run, so we
+  # use a promise to kick it off async. However, we do want it to finish
+  # before we send the response (which loads notifications async) so we
+  # wait for the promise to finish before leaving this block.
   def mark_notifications_as_read!
-    return if devise_controller?
-    return unless user_signed_in?
-    return unless request.get?
-    return unless is_navigational_format?
-    return if request.xhr?
+    future = Concurrent::Promises.future do
+      Rails.application.executor.wrap do
+        next if devise_controller?
+        next unless user_signed_in?
+        next unless request.get?
+        next unless is_navigational_format?
+        next if request.xhr?
 
-    User::Notification::MarkRelevantAsRead.(current_user, request.path)
+        User::Notification::MarkRelevantAsRead.(current_user, request.path)
+        User::Notification::MarkBatchAsRead.(current_user, [params[:notification_uuid]]) if params[:notification_uuid].present?
+      end
+    end
 
-    User::Notification::MarkBatchAsRead.(current_user, [params[:notification_uuid]]) if params[:notification_uuid].present?
+    yield
+  ensure
+    future.value
   end
 
   def ensure_mentor!

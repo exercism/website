@@ -16,6 +16,7 @@ en:
       solution_comment_not_found: "This solution comment could not be found"
       solution_without_iterations: "This solution does not have any iterations"
       solution_comment_not_accessible: "This comment is not accessible"
+      solutions_export_not_accessible: "You do not have permission to export solutions"
       submission_not_found: "This submission could not be found"
       submission_not_accessible: "You do not have permission to view this submission"
       team_not_found: "The team could not be found"

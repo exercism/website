@@ -65,7 +65,7 @@ gem 'stripe'
 # Reporting
 gem 'skylight'
 
-gem 'listen', '>= 3.0.5', '< 3.2'
+gem 'listen', '>= 3.0.5', '< 4.0'
 
 # Let's be nice to Windows users
 platforms :mingw, :mswin, :x64_mingw, :jruby do
@@ -118,3 +118,5 @@ gem "rack-attack", "~> 6.6"
 
 gem 'geocoder', '~> 1.8'
 gem "maxminddb", "~> 0.1.22"
+
+gem "rubyzip", "~> 2.3"

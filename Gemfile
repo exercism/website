@@ -32,7 +32,7 @@ gem 'rest-client' # http
 gem 'octokit' # GitHub
 
 # General-purpose gems
-gem 'mandate', '2.0.0'
+gem 'mandate', '~> 2.0'
 gem 'kaminari'
 gem 'oj'
 

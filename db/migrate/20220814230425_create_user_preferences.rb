@@ -9,7 +9,10 @@ class CreateUserPreferences < ActiveRecord::Migration[7.0]
 
     # Run on Bastion in production
     unless Rails.env.production?
-      User.find_each(&:create_preferences)
+      User.includes(:preferences).find_each do |user|
+        next if user.preferences
+        user.create_preferences
+      end
     end
   end
 end

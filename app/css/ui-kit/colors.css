@@ -247,6 +247,10 @@
     .alert-filter {
         filter: var(--filter-D85050);
     }
+
+    .textColor6-filter {
+        filter: var(--textColor6-filter);
+    }
 }
 
 .theme-dark {

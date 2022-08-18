@@ -88,6 +88,10 @@
         @apply text-13 leading-150 text-textColor2 font-mono font-bold uppercase;
     }
 
+    .text-radio-essential {
+        @apply text-16 font-semibold text-biggerBolderAndMorePurpleThanEver;
+    }
+
     .text-gradient {
         color: #6a01ff;
         background: -webkit-linear-gradient(#2200ff, #9e00ff);

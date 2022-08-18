@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { GraphicalIcon, SplitPane } from '../common'
+import { GraphicalIcon, Icon, SplitPane } from '../common'
 import { Accordion } from '../common/Accordion'
 
 export function Representation(): JSX.Element {
@@ -158,16 +158,60 @@ function AlertText({ text }: { text: string }): JSX.Element {
 
 function MentoringConversation() {
   return (
-    <div>
-      <HowImportant />
+    <div className="p-[24px] pt-[0px]">
+      <h2 className="text-h4 mb-[10.5px]">How important is this?</h2>
+      <RadioGroup />
     </div>
   )
 }
 
-function HowImportant() {
+function RadioGroup() {
+  const RADIO_DATA = [
+    {
+      label: 'Essential',
+      tooltip: {
+        title: 'If you mark this as Essential',
+        body: 'Student is prompted heavily to action this before proceeding. Essential enhancement.',
+      },
+    },
+    {
+      label: 'Recommended',
+      tooltip: {
+        title: 'If you mark this as Recommended',
+        body: 'Student is prompted to action this before proceeding, but not considered essential. High-value enhancement.',
+      },
+    },
+    {
+      label: 'Optional',
+      tooltip: {
+        title: 'If you mark this as Optional',
+        body: 'Student is not prompted to action this before proceeding, entirely a low-value enhancement.',
+      },
+    },
+  ]
+
   return (
     <div>
-      <h1>How important is this?</h1>
+      {RADIO_DATA.map((i) => (
+        <RadioEssential key={i.label} label={i.label} />
+      ))}
     </div>
+  )
+}
+
+function RadioEssential({ label }: { label: string }) {
+  return (
+    <label className="c-radio-wrapper mb-[13px]">
+      <input type="radio" />
+      <div className="row text-radio-essential">
+        <div className="c-radio mr-16" />
+        <div className="mr-[8.5px]">{label}</div>
+        <Icon
+          className="w-[15px] h-[15px] textColor6-filter"
+          icon="info-circle"
+          alt="Info"
+        />
+      </div>
+    </label>
   )
 }

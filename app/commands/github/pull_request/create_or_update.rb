@@ -3,7 +3,7 @@ module Github
     class CreateOrUpdate
       include Mandate
 
-      initialize_with :node_id, :attributes
+      initialize_with :node_id, attributes: Mandate::KWARGS
 
       def call
         pull_request = ::Github::PullRequest.create_or_find_by!(node_id:) do |pr|

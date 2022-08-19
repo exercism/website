@@ -2,7 +2,7 @@ class Track
   class Create
     include Mandate
 
-    initialize_with :slug, :attributes
+    initialize_with :slug, attributes: Mandate::KWARGS
 
     def call
       Track.create!(slug:, **attributes).tap do |track|

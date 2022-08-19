@@ -2,7 +2,7 @@ class ContributorTeam
   class Create
     include Mandate
 
-    initialize_with :github_name, :attributes
+    initialize_with :github_name, attributes: Mandate::KWARGS
 
     def call
       ContributorTeam.create!(github_name:, **attributes)

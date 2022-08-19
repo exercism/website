@@ -2,13 +2,13 @@ module ReactComponents
   module Mentoring
     module Representations
       class WithoutFeedback < ReactComponent
-        initialize_with :params
+        initialize_with :mentor, :params
 
         def to_s
           super(
             "mentoring-representations-without-feedback",
             {
-              discussions_request:,
+              representations_request:,
               tracks_request:,
               sort_options: SORT_OPTIONS
             }
@@ -21,31 +21,36 @@ module ReactComponents
         ].freeze
         private_constant :SORT_OPTIONS
 
-        DEFAULT_STATUS = "awaiting_mentor".freeze
-        private_constant :DEFAULT_STATUS
-
         private
-        def discussions_request
+        def representations_request
           {
-            # endpoint: Exercism::Routes.api_mentoring_discussions_path(sideload: [:all_discussion_counts]),
-            # query: {
-            #   status: params[:status] || DEFAULT_STATUS,
-            #   order: params[:order],
-            #   criteria: params[:criteria],
-            #   page: params[:page] ? params[:page].to_i : 1,
-            #   track_slug: params[:track_slug]
-            # }.compact,
-            # options: { stale_time: 0 }
+            endpoint: Exercism::Routes.without_feedback_api_mentoring_representations_url,
+            query: {
+              criteria: params[:criteria],
+              track_slug: params[:track_slug],
+              order: params[:order],
+              page: params[:page]
+            }.compact,
+            options: {
+              initial_data: { representations: },
+              stale_time: 5000 # milliseconds
+            }
           }
         end
+
+        def representations = AssembleExerciseRepresentationsWithoutFeedback.(mentor, params)
 
         def tracks_request
           {
-            # endpoint: Exercism::Routes.tracks_api_mentoring_discussions_path,
-            # query: { status: params[:status] || DEFAULT_STATUS },
-            # options: { stale_time: 0 }
+            endpoint: Exercism::Routes.tracks_without_feedback_api_mentoring_representations_url,
+            options: {
+              initial_data: { tracks: },
+              stale_time: 5000 # milliseconds
+            }
           }
         end
+
+        def tracks = AssembleRepresentationTracksForSelect.(mentor, :without_feedback)
       end
     end
   end

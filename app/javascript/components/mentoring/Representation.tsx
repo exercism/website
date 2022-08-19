@@ -183,7 +183,7 @@ function MentoringConversation() {
         value={value}
         onChange={handleChange}
         onCancel={handleCancel}
-        expanded={false}
+        expanded
         action="edit"
         defaultError={new Error('ERROR!')}
         error="Error"
@@ -264,7 +264,6 @@ function LeftPane() {
   return (
     <header className="discussion-header">
       <CloseButton url={'somewhere'} />
-
       <RepresentationInfo exercise={mockData.exercise} track={mockData.track} />
     </header>
   )
@@ -274,7 +273,9 @@ function RepresentationInfo({
   track,
   exercise,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   track: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   exercise: any
 }): JSX.Element {
   return (

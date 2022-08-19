@@ -1,10 +1,12 @@
 require_relative '../base_test_case'
 
-class API::Mentoring::AutomationControllerTest < API::BaseTestCase
+class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   include Propshaft::Helper
 
-  guard_incorrect_token! :with_feedback_api_mentoring_automation_path
-  guard_incorrect_token! :without_feedback_api_mentoring_automation_path
+  guard_incorrect_token! :with_feedback_api_mentoring_representations_path
+  guard_incorrect_token! :without_feedback_api_mentoring_representations_path
+  guard_incorrect_token! :tracks_with_feedback_api_mentoring_representations_path
+  guard_incorrect_token! :tracks_without_feedback_api_mentoring_representations_path
 
   ###
   # without_feedback
@@ -20,7 +22,7 @@ class API::Mentoring::AutomationControllerTest < API::BaseTestCase
       create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise
     end
 
-    get without_feedback_api_mentoring_automation_path, headers: @headers, as: :json
+    get without_feedback_api_mentoring_representations_path, headers: @headers, as: :json
     assert_response :ok
 
     paginated_representations = Kaminari.paginate_array(representations, total_count: 25).page(1).per(20)
@@ -45,7 +47,7 @@ class API::Mentoring::AutomationControllerTest < API::BaseTestCase
       create :exercise_representation, num_submissions: 25 - idx, feedback_type: :actionable, feedback_author: user
     end
 
-    get with_feedback_api_mentoring_automation_path, headers: @headers, as: :json
+    get with_feedback_api_mentoring_representations_path, headers: @headers, as: :json
     assert_response :ok
 
     paginated_representations = Kaminari.paginate_array(representations, total_count: 25).page(1).per(20)
@@ -81,7 +83,7 @@ class API::Mentoring::AutomationControllerTest < API::BaseTestCase
     create :exercise_representation, exercise: tournament, feedback_type: nil
     create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user # Sanity check
 
-    get tracks_without_feedback_api_mentoring_automation_path, headers: @headers, as: :json
+    get tracks_without_feedback_api_mentoring_representations_path, headers: @headers, as: :json
     assert_response :ok
 
     expected = [
@@ -113,7 +115,7 @@ class API::Mentoring::AutomationControllerTest < API::BaseTestCase
     create :exercise_representation, exercise: tournament, feedback_type: :essential, feedback_author: user
     create :exercise_representation, exercise: tournament, feedback_type: nil # Sanity check
 
-    get tracks_with_feedback_api_mentoring_automation_path, headers: @headers, as: :json
+    get tracks_with_feedback_api_mentoring_representations_path, headers: @headers, as: :json
     assert_response :ok
 
     expected = [

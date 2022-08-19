@@ -155,8 +155,8 @@ initReact({
       downloadCommand={data.download_command}
     />
   ),
-  'mentoring-automation-with-feedback': (data: any) => (
-    <Mentoring.WithFeedback
+  'mentoring-representations-with-feedback': (data: any) => (
+    <Mentoring.RepresentationsWithFeedback
       // discussionsRequest={camelizeKeysAs<MentoringInboxRequest>(
       //   data.discussions_request
       // )}
@@ -170,8 +170,8 @@ initReact({
       links={data.links}
     />
   ),
-  'mentoring-automation-without-feedback': (data: any) => (
-    <Mentoring.WithoutFeedback
+  'mentoring-representations-without-feedback': (data: any) => (
+    <Mentoring.RepresentationsWithoutFeedback
       // discussionsRequest={camelizeKeysAs<MentoringInboxRequest>(
       //   data.discussions_request
       // )}

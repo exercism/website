@@ -31,30 +31,30 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     assert_equal [representation_2, representation_3], Exercise::Representation::Search.(status: :with_feedback)
   end
 
-  test "filter: user when status is :without_feedback returns representations for mentored tracks" do
-    user_1 = create :user
-    user_2 = create :user
-    user_3 = create :user
-    representation_1 = create :exercise_representation, feedback_author: user_1, num_submissions: 3
-    representation_2 = create :exercise_representation, feedback_author: user_2, feedback_editor: user_1, num_submissions: 2
-    representation_3 = create :exercise_representation, feedback_editor: user_3, num_submissions: 1
+  test "filter: mentor when status is :without_feedback returns representations for mentored tracks" do
+    mentor_1 = create :user
+    mentor_2 = create :user
+    mentor_3 = create :user
+    representation_1 = create :exercise_representation, feedback_author: mentor_1, num_submissions: 3
+    representation_2 = create :exercise_representation, feedback_author: mentor_2, feedback_editor: mentor_1, num_submissions: 2
+    representation_3 = create :exercise_representation, feedback_editor: mentor_3, num_submissions: 1
 
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(user: user_1)
-    assert_equal [representation_2], Exercise::Representation::Search.(user: user_2)
-    assert_equal [representation_3], Exercise::Representation::Search.(user: user_3)
+    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(mentor: mentor_1)
+    assert_equal [representation_2], Exercise::Representation::Search.(mentor: mentor_2)
+    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_3)
   end
 
-  test "filter: user when status is :with_feedback returns representations where user is author or editor" do
-    user_1 = create :user
-    user_2 = create :user
-    user_3 = create :user
-    representation_1 = create :exercise_representation, feedback_author: user_1, num_submissions: 3
-    representation_2 = create :exercise_representation, feedback_author: user_2, feedback_editor: user_1, num_submissions: 2
-    representation_3 = create :exercise_representation, feedback_editor: user_3, num_submissions: 1
+  test "filter: mentor when status is :with_feedback returns representations where mentor is author or editor" do
+    mentor_1 = create :user
+    mentor_2 = create :user
+    mentor_3 = create :user
+    representation_1 = create :exercise_representation, feedback_author: mentor_1, num_submissions: 3
+    representation_2 = create :exercise_representation, feedback_author: mentor_2, feedback_editor: mentor_1, num_submissions: 2
+    representation_3 = create :exercise_representation, feedback_editor: mentor_3, num_submissions: 1
 
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(user: user_1)
-    assert_equal [representation_2], Exercise::Representation::Search.(user: user_2)
-    assert_equal [representation_3], Exercise::Representation::Search.(user: user_3)
+    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(mentor: mentor_1)
+    assert_equal [representation_2], Exercise::Representation::Search.(mentor: mentor_2)
+    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_3)
   end
 
   test "filter: track" do

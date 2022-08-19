@@ -10,7 +10,7 @@ class Exercise::ExportSolutionsToZipFile
   def call
     file_stream = Zip::OutputStream.write_buffer do |zip|
       solutions.each.with_index do |solution, idx|
-        submission = solution.iterations.first.submission
+        submission = solution.iterations.first&.submission
         next unless submission
 
         # Export the first iteration's files as that iteration won't have

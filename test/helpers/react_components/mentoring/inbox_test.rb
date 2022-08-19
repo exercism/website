@@ -2,9 +2,9 @@ require_relative "../react_component_test_case"
 
 class MentoringInboxTest < ReactComponentTestCase
   test "mentoring inbox rendered correctly" do
-    component = ReactComponents::Mentoring::Inbox.new(
+    component = ReactComponents::Mentoring::Inbox.new({
       criteria: "Ruby"
-    )
+    })
 
     assert_component component,
       "mentoring-inbox",

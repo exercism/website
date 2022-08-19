@@ -15,10 +15,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     assert User::ReputationTokens::CodeContributionToken.where(user:).exists?
   end
@@ -45,10 +45,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
         merged_at:
       }
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     assert_equal 1, User::ReputationTokens::CodeContributionToken.where(user:).size
   end
@@ -66,10 +66,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     refute User::ReputationTokens::CodeContributionToken.exists?
   end
@@ -89,10 +89,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     create :user, :system
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     refute User::ReputationTokens::CodeContributionToken.exists?
   end
@@ -112,10 +112,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
 
     create :user, :ghost
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     refute User::ReputationTokens::CodeContributionToken.exists?
   end
@@ -133,10 +133,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:
-    )
+    })
 
     assert_empty User::ReputationTokens::CodeContributionToken.where(user:)
   end
@@ -155,10 +155,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     assert_equal 12, user.reputation_tokens.last.value
   end
@@ -189,10 +189,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
       labels = [label]
       user = create :user, handle: "User-22", github_username: "user22"
 
-      User::ReputationToken::AwardForPullRequestAuthor.(
+      User::ReputationToken::AwardForPullRequestAuthor.({
         action:, author_username: author, url:, html_url:, labels:,
         repo:, node_id:, number:, title:, merged:, merged_at:
-      )
+      })
 
       assert_equal reputation, user.reputation_tokens.last.value
     end
@@ -212,10 +212,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['x:size/small', 'x:size/large']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     assert_equal 30, user.reputation_tokens.last.value
   end
@@ -234,10 +234,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['x:rep/small', 'x:rep/large']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     assert_equal 30, user.reputation_tokens.last.value
   end
@@ -256,10 +256,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = %w[bug duplicate]
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     assert_equal 12, user.reputation_tokens.last.value
   end
@@ -289,10 +289,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     assert_equal :medium, reputation_token.level # Sanity
     assert_equal 12, reputation_token.value # Sanity
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     assert_equal 1, user.reputation_tokens.size
     assert_equal :small, reputation_token.reload.level
@@ -315,10 +315,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     reputation_token = create :user_code_contribution_reputation_token,
       user: user, level: :small, params: { repo:, pr_node_id: node_id, merged_at: }
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     assert_equal 1, user.reputation_tokens.size
     assert_equal 30, reputation_token.reload.value
@@ -340,10 +340,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     reputation_token = create :user_code_contribution_reputation_token,
       user: user, level: :small, params: { repo:, pr_node_id: node_id, merged_at: }
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     assert_equal 1, user.reputation_tokens.size
     assert_equal 12, reputation_token.reload.value
@@ -362,10 +362,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['x:rep/large']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:
-    )
+    })
 
     assert_empty User::ReputationTokens::CodeContributionToken.where(user:)
   end
@@ -383,10 +383,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:
-    )
+    })
 
     assert_empty User::ReputationTokens::CodeContributionToken.where(user:)
   end
@@ -405,10 +405,10 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestAuthor.(
+    User::ReputationToken::AwardForPullRequestAuthor.({
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:
-    )
+    })
 
     token = User::ReputationTokens::CodeContributionToken.find { |t| t.params["pr_node_id"] == node_id }
     assert_equal merged_at.to_date, token.earned_on

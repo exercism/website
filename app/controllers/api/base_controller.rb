@@ -40,15 +40,15 @@ module API
     end
 
     def ensure_supermentor!
-      return unless user_signed_in?
-      return if current_user.supermentor?
+      return if current_user&.supermentor?
+      return if current_user&.admin? # Admins have supermentor permissions
 
       render_403(:no_supermentor)
     end
 
     def ensure_maintainer!
-      return unless user_signed_in?
-      return if current_user.maintainer?
+      return if current_user&.maintainer?
+      return if current_user&.admin? # Admins have maintainer permissions
 
       render_403(:no_maintainer)
     end

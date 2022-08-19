@@ -3,7 +3,7 @@ class Metric::Create
 
   queue_as :metrics
 
-  def initialize(type, occurred_at, params)
+  def initialize(type, occurred_at, **params)
     @type = type
     @occurred_at = occurred_at
     @request_context = params.delete(:request_context) || {}

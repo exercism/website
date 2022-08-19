@@ -46,9 +46,9 @@ class Exercise::Representation::Search
 
     case status
     when :without_feedback
-      @representations = @representations.mentored_by_mentor(mentor)
+      @representations = @representations.mentored_by(mentor)
     when :with_feedback
-      @representations = @representations.edited_by_mentor(mentor)
+      @representations = @representations.edited_by(mentor)
     end
   end
 

@@ -108,7 +108,7 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     assert_equal [representation_1, representation_2, representation_3], Exercise::Representation.with_feedback.order(:id)
   end
 
-  test "scope: edited_by_user" do
+  test "scope: edited_by" do
     user_1 = create :user
     user_2 = create :user
     user_3 = create :user
@@ -117,12 +117,12 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     representation_2 = create :exercise_representation, feedback_author: user_2
     representation_3 = create :exercise_representation, feedback_editor: user_1
 
-    assert_equal [representation_1, representation_3], Exercise::Representation.edited_by_user(user_1).order(:id)
-    assert_equal [representation_2], Exercise::Representation.edited_by_user(user_2)
-    assert_empty Exercise::Representation.edited_by_user(user_3)
+    assert_equal [representation_1, representation_3], Exercise::Representation.edited_by(user_1).order(:id)
+    assert_equal [representation_2], Exercise::Representation.edited_by(user_2)
+    assert_empty Exercise::Representation.edited_by(user_3)
   end
 
-  test "scope: mentored_by_user" do
+  test "scope: mentored_by" do
     track_1 = create :track, :random_slug
     track_2 = create :track, :random_slug
 
@@ -139,9 +139,9 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     representation_3 = create :exercise_representation, exercise: create(:practice_exercise, track: track_2)
 
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation.mentored_by_user(user_1.reload).order(:id)
-    assert_equal [representation_2, representation_3], Exercise::Representation.mentored_by_user(user_2.reload)
-    assert_empty Exercise::Representation.mentored_by_user(user_3.reload)
+      Exercise::Representation.mentored_by(user_1.reload).order(:id)
+    assert_equal [representation_2, representation_3], Exercise::Representation.mentored_by(user_2.reload)
+    assert_empty Exercise::Representation.mentored_by(user_3.reload)
   end
 
   test "scope: for_track" do

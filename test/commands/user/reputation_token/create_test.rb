@@ -10,9 +10,8 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     2.times do
       User::ReputationToken::Create.(
         user,
-        :exercise_contribution, {
-          contributorship:
-        }
+        :exercise_contribution,
+        contributorship:
       )
     end
   end
@@ -23,9 +22,8 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
 
     User::ReputationToken::Create.(
       user,
-      :exercise_contribution, {
-        contributorship:
-      }
+      :exercise_contribution,
+      contributorship:
     )
 
     refute User::ReputationToken.exists?
@@ -37,9 +35,8 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
 
     User::ReputationToken::Create.(
       user,
-      :exercise_contribution, {
-        contributorship:
-      }
+      :exercise_contribution,
+      contributorship:
     )
 
     refute User::ReputationToken.exists?
@@ -52,9 +49,8 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     assert_idempotent_command do
       User::ReputationToken::Create.(
         user,
-        :exercise_contribution, {
-          contributorship:
-        }
+        :exercise_contribution,
+        contributorship:
       )
     end
   end
@@ -64,7 +60,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     contributorship = create :exercise_contributorship, contributor: user
 
     # The exercise contribution reputation token's category is authoring
-    User::ReputationToken::Create.(user, :exercise_contribution, { contributorship: })
+    User::ReputationToken::Create.(user, :exercise_contribution, contributorship:)
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::ContributorBadge

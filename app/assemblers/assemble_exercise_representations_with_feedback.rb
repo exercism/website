@@ -1,7 +1,7 @@
 class AssembleExerciseRepresentationsWithFeedback
   include Mandate
 
-  initialize_with :user, :params
+  initialize_with :mentor, :params
 
   def self.keys = %i[page order criteria track_slug]
 
@@ -19,7 +19,7 @@ class AssembleExerciseRepresentationsWithFeedback
   memoize
   def representations
     Exercise::Representation::Search.(
-      user:,
+      mentor:,
       track:,
       status: :with_feedback,
       criteria: params[:criteria],

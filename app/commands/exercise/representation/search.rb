@@ -4,11 +4,11 @@ class Exercise::Representation::Search
   # Use class method rather than constant for easier stubbing during testing
   def self.requests_per_page = 20
 
-  def initialize(criteria: nil, status: nil, user: nil, track: nil, order: :most_submissions,
+  def initialize(criteria: nil, status: nil, mentor: nil, track: nil, order: :most_submissions,
                  page: 1, paginated: true, sorted: true)
     @criteria = criteria
     @status = status.try(&:to_sym)
-    @user = user
+    @mentor = mentor
     @track = track
     @order = order.try(&:to_sym)
     @page = page
@@ -19,7 +19,7 @@ class Exercise::Representation::Search
   def call
     @representations = Exercise::Representation.joins(exercise: :track)
     filter_status!
-    filter_user!
+    filter_mentor!
     filter_track!
     filter_criteria!
     sort! if sorted
@@ -28,7 +28,7 @@ class Exercise::Representation::Search
   end
 
   private
-  attr_reader :criteria, :status, :user, :track, :order, :page, :paginated, :sorted
+  attr_reader :criteria, :status, :mentor, :track, :order, :page, :paginated, :sorted
 
   def filter_status!
     return if status.blank?
@@ -41,14 +41,14 @@ class Exercise::Representation::Search
     end
   end
 
-  def filter_user!
-    return if user.blank?
+  def filter_mentor!
+    return if mentor.blank?
 
     case status
     when :without_feedback
-      @representations = @representations.mentored_by_user(user)
+      @representations = @representations.mentored_by_mentor(mentor)
     when :with_feedback
-      @representations = @representations.edited_by_user(user)
+      @representations = @representations.edited_by_mentor(mentor)
     end
   end
 

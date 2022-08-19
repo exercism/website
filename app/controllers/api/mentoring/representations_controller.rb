@@ -13,19 +13,11 @@ module API
     end
 
     def tracks_without_feedback
-      representations = Exercise::Representation::Search.(
-        user: current_user, status: :without_feedback, sorted: false, paginated: false
-      )
-
-      render json: AssembleRepresentationTracksForSelect.(representations)
+      render json: AssembleRepresentationTracksForSelect.(current_user, :without_feedback)
     end
 
     def tracks_with_feedback
-      representations = Exercise::Representation::Search.(
-        user: current_user, status: :with_feedback, sorted: false, paginated: false
-      )
-
-      render json: AssembleRepresentationTracksForSelect.(representations)
+      render json: AssembleRepresentationTracksForSelect.(current_user, :with_feedback)
     end
   end
 end

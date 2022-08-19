@@ -45,5 +45,10 @@ FactoryBot.define do
     trait :maintainer do
       roles { [:maintainer] }
     end
+
+    trait :supermentor do
+      reputation { 707 }
+      mentor_satisfaction_percentage { 98 }
+    end
   end
 end

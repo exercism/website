@@ -62,6 +62,12 @@ class ApplicationController < ActionController::Base
     redirect_to mentoring_path
   end
 
+  def ensure_supermentor!
+    return if current_user&.supermentor?
+
+    redirect_to mentoring_path
+  end
+
   def ensure_not_mentor!
     return unless current_user&.mentor?
 

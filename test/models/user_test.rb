@@ -182,6 +182,20 @@ class UserTest < ActiveSupport::TestCase
     assert user.mentor?
   end
 
+  test "supermentor?" do
+    user = create :user, became_mentor_at: nil
+    refute user.supermentor?
+
+    user.update(became_mentor_at: Time.current)
+    refute user.supermentor?
+
+    user.update(reputation: 499, mentor_satisfaction_percentage: 94)
+    refute user.supermentor?
+
+    user.update(reputation: 500, mentor_satisfaction_percentage: 95)
+    assert user.supermentor?
+  end
+
   test "recently_used_cli?" do
     freeze_time do
       user = create :user

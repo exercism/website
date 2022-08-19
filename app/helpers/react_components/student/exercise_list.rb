@@ -12,18 +12,20 @@ module ReactComponents
 
       private
       def request
-        query = {
-          criteria: params[:criteria],
-          sideload: ["solutions"]
-        }.compact
-
         {
           endpoint: Exercism::Routes.api_track_exercises_path(track),
           options: {
-            initial_data: AssembleExerciseList.(current_user, track, query),
-            stale_time: 0
+            initial_data: AssembleExerciseList.(current_user, track, query)
           },
           query:
+        }
+      end
+
+      memoize
+      def query
+        {
+          criteria: params.fetch(:criteria, ''),
+          sideload: ["solutions"]
         }
       end
     end

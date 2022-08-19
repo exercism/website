@@ -20,7 +20,7 @@ class Exercise::Representation::UpdateNumSubmissions
     Arel.sql(
       Submission::Representation.
         joins(submission: :solution).
-        where(submissions: { solutions: { exercise: representation.exercise } }).
+        where(submissions: { solutions: { exercise_id: representation.exercise_id } }).
         where(ast_digest: representation.ast_digest).
         select("COUNT(*)").
         to_sql

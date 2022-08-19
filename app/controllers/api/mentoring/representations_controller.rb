@@ -1,5 +1,7 @@
 module API
   class Mentoring::RepresentationsController < BaseController
+    before_action :ensure_supermentor!
+
     def without_feedback
       render json: AssembleExerciseRepresentationsWithoutFeedback.(
         current_user, params.permit(*AssembleExerciseRepresentationsWithoutFeedback.keys)

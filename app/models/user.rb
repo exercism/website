@@ -249,7 +249,7 @@ class User < ApplicationRecord
   def supermentor?
     mentor? &&
       reputation >= SUPERMENTOR_MIN_REP &&
-      mentor_satisfaction_percentage >= SUPERMENTOR_MIN_SATISFACTION_PERCENTAGE
+      mentor_satisfaction_percentage.to_i >= SUPERMENTOR_MIN_SATISFACTION_PERCENTAGE
   end
 
   def system?

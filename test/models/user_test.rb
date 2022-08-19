@@ -189,7 +189,16 @@ class UserTest < ActiveSupport::TestCase
     user.update(became_mentor_at: Time.current)
     refute user.supermentor?
 
+    # Reputation and satisfaction percentage are too low
     user.update(reputation: 499, mentor_satisfaction_percentage: 94)
+    refute user.supermentor?
+
+    # Satisfaction percentage is not set
+    user.update(reputation: 500, mentor_satisfaction_percentage: nil)
+    refute user.supermentor?
+
+    # Reputation is too low
+    user.update(reputation: 499, mentor_satisfaction_percentage: 95)
     refute user.supermentor?
 
     user.update(reputation: 500, mentor_satisfaction_percentage: 95)

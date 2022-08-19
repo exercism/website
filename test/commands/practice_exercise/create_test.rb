@@ -66,7 +66,7 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
     PracticeExercise::Create.(
       SecureRandom.uuid,
       create(:track),
-      build(:practice_exercise).attributes.symbolize_keys
+      **build(:practice_exercise).attributes.symbolize_keys
     )
   end
 end

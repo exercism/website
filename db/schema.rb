@@ -847,6 +847,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_17_075919) do
     t.index ["uuid"], name: "index_user_notifications_on_uuid", unique: true
   end
 
+  create_table "user_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.boolean "auto_update_exercises", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_preferences_on_user_id", unique: true
+  end
+
   create_table "user_profiles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "twitter"
@@ -1062,6 +1070,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_17_075919) do
   add_foreign_key "user_notifications", "exercises"
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"
+  add_foreign_key "user_preferences", "users"
   add_foreign_key "user_profiles", "users"
   add_foreign_key "user_reputation_periods", "users"
   add_foreign_key "user_reputation_tokens", "exercises"

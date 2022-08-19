@@ -179,4 +179,20 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.tests_passed?
     assert submission.solution.reload.published_iteration_head_tests_status_passed?
   end
+
+  test "auto updates version if applicable" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, :published, exercise: exercise, git_sha: "foobar"
+    submission = create :submission, solution: solution
+    create :iteration, solution: solution, submission: submission
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
+    job = create_test_runner_job!(submission, execution_status: 200, results:, git_sha: exercise.git_sha)
+
+    # Sanity check
+    refute_equal exercise.git_sha, solution.reload.git_sha
+
+    Submission::TestRun::Process.(job)
+
+    assert_equal exercise.git_sha, solution.reload.git_sha
+  end
 end

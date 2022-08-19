@@ -11,7 +11,7 @@ module ReactComponents
         "",
         class: css_classes.join(" "),
         style:,
-        "data-react-#{id}": true,
+        "data-react-id": id,
         "data-react-data": data.to_json
       )
     end

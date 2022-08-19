@@ -15,18 +15,19 @@ class SerializeSolutions
   end
 
   private
+  memoize
   def solutions_with_includes
     # Some upstream callers pass in a manually constructed kaminari array that already
     # includes the exercise and track. For the other callers, we include it here
     return solutions unless solutions.is_a?(ActiveRecord::Relation)
 
-    solutions.includes(*NP1_INCLUDES)
+    solutions.includes(*NP1_INCLUDES).to_a
   end
 
   memoize
   def notification_counts_by_exercise_id
     user.notifications.unread.
-      where(exercise_id: solutions.map(&:exercise_id)).
+      where(exercise_id: solutions_with_includes.map(&:exercise_id)).
       group(:exercise_id).count
   end
 end

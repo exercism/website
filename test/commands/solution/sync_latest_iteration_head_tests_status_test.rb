@@ -24,11 +24,29 @@ class Solution::SyncLatestIterationHeadTestsStatusTest < ActiveSupport::TestCase
     create :submission_test_run, submission: submission
     user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
 
+    Solution::AutoUpdateToLatestExerciseVersion.stubs(:call) # Stop an unrelated sync
     Solution::SyncToSearchIndex.expects(:defer).with(submission.solution)
 
     assert Solution::SyncLatestIterationHeadTestsStatus.(solution)
 
     assert_equal time.to_i, user_track.reload.last_touched_at.to_i
     assert_equal :passed, solution.latest_iteration_head_tests_status
+  end
+
+  test "auto updates git_sha if passes" do
+    exercise = create :practice_exercise
+    solution = create :practice_solution, exercise: exercise
+    submission = create :submission, solution: solution
+    create :iteration, submission: submission
+    create :submission_test_run, submission: submission
+
+    solution.update!(git_sha: "foobar")
+
+    # Sanity check
+    refute_equal exercise.git_sha, solution.reload.git_sha
+
+    Solution::SyncLatestIterationHeadTestsStatus.(solution)
+
+    assert_equal exercise.git_sha, solution.reload.git_sha
   end
 end

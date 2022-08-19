@@ -1,7 +1,5 @@
 class Mentoring::DiscussionsController < ApplicationController
   before_action :ensure_mentor!
-  before_action :disable_site_header!
-
   before_action :use_mentor_discussion
 
   def show

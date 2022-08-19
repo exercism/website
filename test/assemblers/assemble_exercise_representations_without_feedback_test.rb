@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AssembleExerciseRepresentationsWithoutFeedbackListTest < ActiveSupport::TestCase
+class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCase
   test "index should return top 20 serialized correctly" do
     track = create :track
     user = create :user
@@ -19,7 +19,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackListTest < ActiveSupport::Te
       }
     )
 
-    assert_equal expected, AssembleExerciseRepresentationsWithoutFeedbackList.(user, {})
+    assert_equal expected, AssembleExerciseRepresentationsWithoutFeedback.(user, {})
   end
 
   test "should proxy correctly" do
@@ -38,7 +38,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackListTest < ActiveSupport::Te
       criteria:
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsWithoutFeedbackList.(user, track_slug: track.slug, criteria:, order:, page:)
+    AssembleExerciseRepresentationsWithoutFeedback.(user, track_slug: track.slug, criteria:, order:, page:)
   end
 
   test "should proxy correctly when track_slug is not specified" do
@@ -56,6 +56,6 @@ class AssembleExerciseRepresentationsWithoutFeedbackListTest < ActiveSupport::Te
       track: nil
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsWithoutFeedbackList.(user, criteria:, order:, page:)
+    AssembleExerciseRepresentationsWithoutFeedback.(user, criteria:, order:, page:)
   end
 end

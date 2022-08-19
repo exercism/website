@@ -48,7 +48,7 @@ class Concept::CreateTest < ActiveSupport::TestCase
     concept = Concept::Create.(
       SecureRandom.uuid,
       track,
-      build(:concept).attributes.symbolize_keys
+      **build(:concept).attributes.symbolize_keys
     )
 
     update = SiteUpdate.first

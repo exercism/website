@@ -1,12 +1,12 @@
 module ReactComponents
   module Mentoring
-    module Automation
+    module Representations
       class WithoutFeedback < ReactComponent
         initialize_with :params
 
         def to_s
           super(
-            "mentoring-automation-without-feedback",
+            "mentoring-representations-without-feedback",
             {
               discussions_request:,
               tracks_request:,

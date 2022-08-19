@@ -33,7 +33,7 @@ type AutomationProps = {
   sortOptions: SortOption[]
 }
 
-export function WithFeedback({
+export function RepresentationsWithoutFeedback({
   tracksRequest,
   sortOptions,
   links,

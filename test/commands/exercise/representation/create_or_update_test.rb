@@ -27,7 +27,8 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     mapping = { 'a' => 'test' }
     last_submitted_at = Time.zone.now
 
-    representation = create(:exercise_representation, exercise:, source_submission: submission, ast:, ast_digest:, mapping:, last_submitted_at: Time.zone.now - 2.days)
+    representation = create(:exercise_representation, exercise:, source_submission: submission, ast:, ast_digest:, mapping:,
+      last_submitted_at: Time.zone.now - 2.days)
 
     Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, last_submitted_at)
 
@@ -68,7 +69,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
 
   test "idempotent" do
     submission = create :submission
-    last_submitted_at = Time.now
+    last_submitted_at = Time.zone.now
 
     assert_idempotent_command do
       Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, last_submitted_at)

@@ -1,7 +1,7 @@
 class AssembleRepresentationTracksForSelect
   include Mandate
 
-  initialize_with :representations
+  initialize_with :user, :status
 
   def call
     [
@@ -16,4 +16,9 @@ class AssembleRepresentationTracksForSelect
 
   memoize
   def tracks = Track.where(id: track_counts.keys).order(title: :asc)
+
+  memoize
+  def representations
+    Exercise::Representation::Search.(user:, status:, sorted: false, paginated: false)
+  end
 end

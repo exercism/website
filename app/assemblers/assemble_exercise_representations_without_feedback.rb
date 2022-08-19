@@ -1,4 +1,4 @@
-class AssembleExerciseRepresentationsWithoutFeedbackList
+class AssembleExerciseRepresentationsWithoutFeedback
   include Mandate
 
   initialize_with :user, :params

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AssembleExerciseRepresentationsWithFeedbackListTest < ActiveSupport::TestCase
+class AssembleExerciseRepresentationsWithFeedbackTest < ActiveSupport::TestCase
   test "index should return top 20 serialized correctly" do
     user = create :user
     representations = Array.new(25) do |idx|
@@ -16,7 +16,7 @@ class AssembleExerciseRepresentationsWithFeedbackListTest < ActiveSupport::TestC
       }
     )
 
-    assert_equal expected, AssembleExerciseRepresentationsWithFeedbackList.(user, {})
+    assert_equal expected, AssembleExerciseRepresentationsWithFeedback.(user, {})
   end
 
   test "should proxy correctly" do
@@ -35,6 +35,6 @@ class AssembleExerciseRepresentationsWithFeedbackListTest < ActiveSupport::TestC
       criteria:
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsWithFeedbackList.(user, track_slug: track.slug, criteria:, order:, page:)
+    AssembleExerciseRepresentationsWithFeedback.(user, track_slug: track.slug, criteria:, order:, page:)
   end
 end

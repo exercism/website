@@ -1,16 +1,16 @@
 module API
   class Mentoring::RepresentationsController < BaseController
     def without_feedback
-      render json: AssembleExerciseRepresentationsWithoutFeedbackList.(
+      render json: AssembleExerciseRepresentationsWithoutFeedback.(
         current_user,
-        params.permit(*AssembleExerciseRepresentationsWithoutFeedbackList.keys)
+        params.permit(*AssembleExerciseRepresentationsWithoutFeedback.keys)
       )
     end
 
     def with_feedback
-      render json: AssembleExerciseRepresentationsWithFeedbackList.(
+      render json: AssembleExerciseRepresentationsWithFeedback.(
         current_user,
-        params.permit(*AssembleExerciseRepresentationsWithFeedbackList.keys)
+        params.permit(*AssembleExerciseRepresentationsWithFeedback.keys)
       )
     end
 

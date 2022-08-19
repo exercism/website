@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react'
 import { QueryStatus } from 'react-query'
-import { GraphicalIcon, Icon, SplitPane } from '../common'
+import { Avatar, GraphicalIcon, Icon, SplitPane, TrackIcon } from '../common'
 import { Accordion } from '../common/Accordion'
-// import { MarkdownEditor } from '../common/MarkdownEditor'
 import { MarkdownEditorForm } from '../common/MarkdownEditorForm'
+import { CloseButton } from './session/CloseButton'
+import { MOCK_REPRESENTATION_DATA as mockData } from './representation/mock-data'
 
 export function Representation(): JSX.Element {
   return (
@@ -13,7 +14,7 @@ export function Representation(): JSX.Element {
         leftMinWidth={550}
         rightMinWidth={625}
         id="mentoring-session"
-        left={<div>left</div>}
+        left={<LeftPane />}
         right={<RightPane />}
       />
     </div>
@@ -22,8 +23,11 @@ export function Representation(): JSX.Element {
 
 function RightPane() {
   return (
-    <div>
-      <AutomationRules />
+    <div className="!h-100 py-16 flex flex-col justify-between">
+      <div className="flex flex-col">
+        <AutomationRules />
+        <HowImportant />
+      </div>
       <MentoringConversation />
     </div>
   )
@@ -93,7 +97,7 @@ function AutomationRules() {
   )
 
   return (
-    <div className="p-24 pt-16 shadow-xsZ1v2 mb-24">
+    <div className="px-24 shadow-xsZ1v2 mb-24">
       <AlertText text="Important rules when giving feedback" />
       <Accordion id="global" isOpen={isOpen('global')} onClick={handleClick}>
         <AccordionHeader isOpen={isOpen('global')} title="Global" />
@@ -159,20 +163,27 @@ function AlertText({ text }: { text: string }): JSX.Element {
   )
 }
 
+function HowImportant() {
+  return (
+    <div className="px-24">
+      <h2 className="text-h4 mb-[10.5px]">How important is this?</h2>
+      <RadioGroup />
+    </div>
+  )
+}
+
 function MentoringConversation() {
   const [value, setValue] = useState('')
 
   const handleCancel = useCallback(() => console.log('Cancelled!'), [])
   const handleChange = useCallback((value) => setValue(value), [setValue])
   return (
-    <div className="p-[24px] pt-[0px]">
-      <h2 className="text-h4 mb-[10.5px]">How important is this?</h2>
-      <RadioGroup />
+    <div className="px-24">
       <MarkdownEditorForm
         value={value}
         onChange={handleChange}
         onCancel={handleCancel}
-        expanded
+        expanded={false}
         action="edit"
         defaultError={new Error('ERROR!')}
         error="Error"
@@ -246,5 +257,44 @@ function RadioEssential({ label }: { label: string }) {
         />
       </div>
     </label>
+  )
+}
+
+function LeftPane() {
+  return (
+    <header className="discussion-header">
+      <CloseButton url={'somewhere'} />
+
+      <RepresentationInfo exercise={mockData.exercise} track={mockData.track} />
+    </header>
+  )
+}
+
+function RepresentationInfo({
+  track,
+  exercise,
+}: {
+  track: any
+  exercise: any
+}): JSX.Element {
+  return (
+    <>
+      <TrackIcon
+        title={track.title}
+        className={'!w-[32px] !h-[32px]'}
+        iconUrl={track.iconUrl}
+      />
+      <div className="student">
+        <Avatar src={exercise.iconUrl} />
+        <div className="info">
+          <div className="exercise">
+            You’re giving feedback on a solution set for
+          </div>
+          <div className="handle">
+            {exercise.title} in {track.title}
+          </div>
+        </div>
+      </div>
+    </>
   )
 }

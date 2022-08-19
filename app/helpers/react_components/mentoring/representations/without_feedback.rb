@@ -10,6 +10,7 @@ module ReactComponents
             {
               representations_request:,
               tracks_request:,
+              links:,
               sort_options: SORT_OPTIONS
             }
           )
@@ -51,6 +52,10 @@ module ReactComponents
         end
 
         def tracks = AssembleRepresentationTracksForSelect.(mentor, :without_feedback)
+
+        def links
+          { with_feedback: Exercism::Routes.with_feedback_mentoring_automation_index_url }
+        end
       end
     end
   end

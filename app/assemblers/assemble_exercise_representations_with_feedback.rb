@@ -1,9 +1,9 @@
 class AssembleExerciseRepresentationsWithFeedback
   include Mandate
 
-  initialize_with :mentor, :params
-
   def self.keys = %i[page order criteria track_slug]
+
+  initialize_with :mentor, :params
 
   def call
     SerializePaginatedCollection.(

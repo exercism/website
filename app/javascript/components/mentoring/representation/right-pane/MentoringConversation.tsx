@@ -33,6 +33,7 @@ export default function MentoringConversation(): JSX.Element {
 
 function Button() {
   return (
+    // there could be an alias/class for this
     <button className="border-1 border-primaryBtnBorder shadow-xsZ1v3 mb-16 bg-purple text-white text-16 font-semibold px-[68px] py-[12px] rounded-8">
       Preview & Submit
     </button>

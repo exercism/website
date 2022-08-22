@@ -9,7 +9,7 @@ export type MarkdownEditorHandle = {
 
 export const MarkdownEditor = ({
   contextId,
-  onChange = () => {},
+  onChange = () => null,
   editorDidMount,
   url = document.querySelector<HTMLMetaElement>(
     'meta[name="parse-markdown-url"]'

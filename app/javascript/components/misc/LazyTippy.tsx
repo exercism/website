@@ -19,7 +19,7 @@ export const LazyTippy = (props: LazyTippyProps) => {
   computedProps.plugins = [lazyPlugin, ...(props.plugins || [])]
 
   if (props.render) {
-    const render = props.render // let TypeScript safely derive that render is not undefined
+    const { render } = props // let TypeScript safely derive that render is not undefined
     computedProps.render = (...args) => (mounted ? render(...args) : '')
   } else {
     computedProps.content = mounted ? props.content : ''

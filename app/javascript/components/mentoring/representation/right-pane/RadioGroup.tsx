@@ -1,5 +1,5 @@
-import React, { ChangeEventHandler, useCallback, useState } from 'react'
-import { Icon } from '../../../common'
+import React, { useCallback, useState } from 'react'
+import RadioButton from './RadioButton'
 
 export default function RadioGroup(): JSX.Element {
   const RADIO_DATA = [
@@ -38,38 +38,14 @@ export default function RadioGroup(): JSX.Element {
   return (
     <div>
       {RADIO_DATA.map((i) => (
-        <RadioEssential
+        <RadioButton
           key={i.label}
           checked={selected == i.label}
           onChange={handleRadioCheck}
           label={i.label}
+          tooltip={i.tooltip}
         />
       ))}
     </div>
-  )
-}
-
-function RadioEssential({
-  label,
-  checked,
-  onChange,
-}: {
-  label: string
-  checked: boolean
-  onChange: ChangeEventHandler<HTMLInputElement>
-}) {
-  return (
-    <label className="c-radio-wrapper mb-[13px]">
-      <input checked={checked} onChange={onChange} value={label} type="radio" />
-      <div className="row text-radio-essential">
-        <div className="c-radio mr-16" />
-        <div className="mr-[8.5px]">{label}</div>
-        <Icon
-          className="w-[15px] h-[15px] textColor6-filter"
-          icon="info-circle"
-          alt="Info"
-        />
-      </div>
-    </label>
   )
 }

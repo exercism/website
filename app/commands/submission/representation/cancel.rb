@@ -3,9 +3,7 @@ class Submission
     class Cancel
       include Mandate
 
-      def initialize(submission_uuid)
-        @submission_uuid = submission_uuid
-      end
+      initialize_with :submission_uuid
 
       def call
         RestClient.post "#{orchestrator_url}/submissions/cancel", {
@@ -14,8 +12,6 @@ class Submission
       end
 
       private
-      attr_reader :submission_uuid
-
       def orchestrator_url
         Exercism.config.tooling_orchestrator_url
       end

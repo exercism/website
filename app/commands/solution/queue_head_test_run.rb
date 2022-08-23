@@ -6,10 +6,7 @@ class Solution::QueueHeadTestRun
 
   queue_as :default
 
-  def initialize(solution, force: false)
-    @solution = solution
-    @force = force
-  end
+  initialize_with :solution, force: false
 
   def call
     handle_latest!
@@ -17,8 +14,6 @@ class Solution::QueueHeadTestRun
   end
 
   private
-  attr_reader :solution, :force
-
   delegate :exercise, to: :solution
 
   def handle_latest!

@@ -2,7 +2,7 @@ class ConceptExercise
   class Create
     include Mandate
 
-    initialize_with :uuid, :track, :attributes
+    initialize_with :uuid, :track, attributes: Mandate::KWARGS
 
     def call
       ConceptExercise.create!(

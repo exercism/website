@@ -1,9 +1,9 @@
 class AssembleExerciseRepresentationsWithoutFeedback
   include Mandate
 
-  def self.keys = %i[page order criteria track_slug]
+  def self.keys = %i[page order criteria track_slug only_mentored_solutions]
 
-  initialize_with :mentor, :params
+  initialize_with :mentor, params: Mandate::KWARGS
 
   def call
     SerializePaginatedCollection.(
@@ -22,7 +22,8 @@ class AssembleExerciseRepresentationsWithoutFeedback
       mentor:,
       track:,
       status: :without_feedback,
-      criteria: params[:criteria],
+      only_mentored_solutions: !!params[:only_mentored_solutions],
+      criteria: params.fetch(:criteria, ''),
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_submissions)
     )

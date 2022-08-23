@@ -7,6 +7,7 @@ class Exercise::Representation < ApplicationRecord
   belongs_to :feedback_author, optional: true, class_name: "User"
   belongs_to :feedback_editor, optional: true, class_name: "User"
   has_one :track, through: :exercise
+  has_one :solution, through: :source_submission
 
   enum feedback_type: { essential: 0, actionable: 1, non_actionable: 2 }, _prefix: :feedback
 
@@ -20,8 +21,9 @@ class Exercise::Representation < ApplicationRecord
 
   scope :without_feedback, -> { where(feedback_type: nil) }
   scope :with_feedback, -> { where.not(feedback_type: nil) }
-  scope :mentored_by, ->(user) { joins(:exercise).where(exercises: { track: user.mentored_tracks }) }
-  scope :edited_by, ->(user) { where(feedback_author: user).or(where(feedback_editor: user)) }
+  scope :mentored_by, ->(mentor) { joins(:solution).where(solutions: mentor.mentor_discussion_solutions) }
+  scope :track_mentored_by, ->(mentor) { joins(:exercise).where(exercises: { track: mentor.mentored_tracks }) }
+  scope :edited_by, ->(mentor) { where(feedback_author: mentor).or(where(feedback_editor: mentor)) }
   scope :for_track, ->(track) { joins(:exercise).where(exercises: { track: }) }
 
   def num_times_used

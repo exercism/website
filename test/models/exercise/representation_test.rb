@@ -125,6 +125,37 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
   test "scope: mentored_by" do
     track_1 = create :track, :random_slug
     track_2 = create :track, :random_slug
+    user_1 = create :user
+    user_2 = create :user
+    user_3 = create :user
+    create :user_track_mentorship, user: user_1, track: track_1
+    create :user_track_mentorship, user: user_1, track: track_2
+    create :user_track_mentorship, user: user_2, track: track_2
+    exercise_1 = create :practice_exercise, track: track_1
+    exercise_2 = create :practice_exercise, track: track_2
+    exercise_3 = create :practice_exercise, track: track_2
+    solution_1 = create :practice_solution, exercise: exercise_1, track: track_1
+    solution_2 = create :practice_solution, exercise: exercise_2, track: track_2
+    solution_3 = create :practice_solution, exercise: exercise_3, track: track_2
+    submission_1 = create :submission, solution: solution_1
+    submission_2 = create :submission, solution: solution_2
+    submission_3 = create :submission, solution: solution_3
+    create :mentor_discussion, mentor: user_1, solution: solution_1
+    create :mentor_discussion, mentor: user_2, solution: solution_2
+    create :mentor_discussion, mentor: user_1, solution: solution_3
+    representation_1 = create :exercise_representation, source_submission: submission_1, exercise: exercise_1
+    representation_2 = create :exercise_representation, source_submission: submission_2, exercise: exercise_2
+    representation_3 = create :exercise_representation, source_submission: submission_3, exercise: exercise_3
+
+    assert_equal [representation_1, representation_3],
+      Exercise::Representation.mentored_by(user_1.reload).order(:id)
+    assert_equal [representation_2], Exercise::Representation.mentored_by(user_2.reload)
+    assert_empty Exercise::Representation.mentored_by(user_3.reload)
+  end
+
+  test "scope: track_mentored_by" do
+    track_1 = create :track, :random_slug
+    track_2 = create :track, :random_slug
 
     user_1 = create :user
     user_2 = create :user
@@ -139,9 +170,9 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     representation_3 = create :exercise_representation, exercise: create(:practice_exercise, track: track_2)
 
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation.mentored_by(user_1.reload).order(:id)
-    assert_equal [representation_2, representation_3], Exercise::Representation.mentored_by(user_2.reload)
-    assert_empty Exercise::Representation.mentored_by(user_3.reload)
+      Exercise::Representation.track_mentored_by(user_1.reload).order(:id)
+    assert_equal [representation_2, representation_3], Exercise::Representation.track_mentored_by(user_2.reload)
+    assert_empty Exercise::Representation.track_mentored_by(user_3.reload)
   end
 
   test "scope: for_track" do

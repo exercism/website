@@ -85,6 +85,44 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     assert_equal [representation_1, representation_2, representation_3], Exercise::Representation::Search.(track: [track_1, track_2])
   end
 
+  test "filter: only_mentored_solutions" do
+    mentor_1 = create :user
+    mentor_2 = create :user
+    mentor_3 = create :user
+    track_1 = create :track, :random_slug
+    track_2 = create :track, :random_slug
+    create :user_track_mentorship, user: mentor_1, track: track_1
+    create :user_track_mentorship, user: mentor_1, track: track_2
+    create :user_track_mentorship, user: mentor_2, track: track_2
+    exercise_1 = create :practice_exercise, track: track_1
+    exercise_2 = create :practice_exercise, track: track_2
+    exercise_3 = create :practice_exercise, track: track_2
+    solution_1 = create :practice_solution, exercise: exercise_1, track: track_1
+    solution_2 = create :practice_solution, exercise: exercise_2, track: track_2
+    solution_3 = create :practice_solution, exercise: exercise_3, track: track_2
+    submission_1 = create :submission, solution: solution_1
+    submission_2 = create :submission, solution: solution_2
+    submission_3 = create :submission, solution: solution_3
+    create :mentor_discussion, mentor: mentor_1, solution: solution_1
+    create :mentor_discussion, mentor: mentor_1, solution: solution_3
+    representation_1 = create :exercise_representation, feedback_type: nil, num_submissions: 3, source_submission: submission_1,
+      exercise: exercise_1
+    representation_2 = create :exercise_representation, feedback_type: nil, num_submissions: 2, source_submission: submission_2,
+      exercise: exercise_2
+    representation_3 = create :exercise_representation, feedback_type: nil, num_submissions: 1, source_submission: submission_3,
+      exercise: exercise_3
+
+    assert_equal [representation_1, representation_3],
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, status: :without_feedback)
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: false, status: :without_feedback)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: true, status: :without_feedback)
+    assert_equal [representation_2, representation_3],
+      Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: false, status: :without_feedback)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: true, status: :without_feedback)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: false, status: :without_feedback)
+  end
+
   test "paginates" do
     25.times { create :exercise_representation }
 

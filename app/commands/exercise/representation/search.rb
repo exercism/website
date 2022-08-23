@@ -5,7 +5,7 @@ class Exercise::Representation::Search
   def self.requests_per_page = 20
 
   initialize_with criteria: nil, status: nil, mentor: nil, track: nil, order: :most_submissions,
-    page: 1, paginated: true, sorted: true do
+    page: 1, paginated: true, sorted: true, only_mentored_solutions: false do
     @status = status.try(&:to_sym)
     @order = order.try(&:to_sym)
   end
@@ -16,6 +16,7 @@ class Exercise::Representation::Search
     filter_mentor!
     filter_track!
     filter_criteria!
+    filter_only_mentored_solutions!
     sort! if sorted
     paginate! if paginated
     @representations
@@ -38,7 +39,7 @@ class Exercise::Representation::Search
 
     case status
     when :without_feedback
-      @representations = @representations.mentored_by(mentor)
+      @representations = @representations.track_mentored_by(mentor)
     when :with_feedback
       @representations = @representations.edited_by(mentor)
     end
@@ -55,6 +56,12 @@ class Exercise::Representation::Search
 
     @representations = @representations.where('exercises.title LIKE ?', "%#{criteria}%").
       or(@representations.where('exercises.slug LIKE ?', "%#{criteria}%"))
+  end
+
+  def filter_only_mentored_solutions!
+    return unless only_mentored_solutions
+
+    @representations = @representations.mentored_by(mentor)
   end
 
   def sort!

@@ -22,7 +22,7 @@ class AssembleExerciseRepresentationsWithFeedback
       mentor:,
       track:,
       status: :with_feedback,
-      criteria: params[:criteria],
+      criteria: params.fetch(:criteria, ''),
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_submissions)
     )

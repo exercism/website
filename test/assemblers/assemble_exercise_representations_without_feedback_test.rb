@@ -19,43 +19,47 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
       }
     )
 
-    assert_equal expected, AssembleExerciseRepresentationsWithoutFeedback.(user, {})
+    assert_equal expected, AssembleExerciseRepresentationsWithoutFeedback.(user)
   end
 
   test "should proxy correctly" do
     track = create :track
-    user = create :user
+    mentor = create :user
     criteria = 'bob'
     order = 'num_submissions'
     page = '1'
+    only_mentored_solutions = true
 
     Exercise::Representation::Search.expects(:call).with(
       status: :without_feedback,
-      user:,
+      mentor:,
       track:,
       page:,
       order:,
-      criteria:
+      criteria:,
+      only_mentored_solutions:
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsWithoutFeedback.(user, track_slug: track.slug, criteria:, order:, page:)
+    AssembleExerciseRepresentationsWithoutFeedback.(mentor, track_slug: track.slug, criteria:, order:, page:, only_mentored_solutions:)
   end
 
   test "should proxy correctly when track_slug is not specified" do
-    user = create :user
+    mentor = create :user
     criteria = 'bob'
     order = 'num_submissions'
     page = '1'
+    only_mentored_solutions = false
 
     Exercise::Representation::Search.expects(:call).with(
       status: :without_feedback,
-      user:,
+      mentor:,
       page:,
       order:,
       criteria:,
+      only_mentored_solutions:,
       track: nil
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsWithoutFeedback.(user, criteria:, order:, page:)
+    AssembleExerciseRepresentationsWithoutFeedback.(mentor, criteria:, order:, page:, only_mentored_solutions:)
   end
 end

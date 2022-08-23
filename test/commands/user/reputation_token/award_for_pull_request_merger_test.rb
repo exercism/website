@@ -16,11 +16,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "Merger-22", github_username: "merger22"
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, merged_by_username: merged_by
-    })
+    )
 
     assert User::ReputationTokens::CodeMergeToken.where(user:).exists?
   end
@@ -48,11 +48,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
         merged_at:
       }
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, merged_by_username: merged_by
-    })
+    )
 
     assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user:).size
   end
@@ -73,11 +73,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
 
     create :user, :system
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, merged_by_username: merged_by
-    })
+    )
 
     refute User::ReputationTokens::CodeMergeToken.exists?
   end
@@ -98,11 +98,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
 
     create :user, :ghost
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, merged_by_username: merged_by
-    })
+    )
 
     refute User::ReputationTokens::CodeMergeToken.exists?
   end
@@ -121,11 +121,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     html_url = 'https://github.com/exercism/v3/pull/1347'
     labels = []
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, merged_by_username: merged_by
-    })
+    )
 
     refute User::ReputationTokens::CodeMergeToken.exists?
   end
@@ -144,11 +144,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "Merger-22", github_username: "merger22"
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:,
       merged:, merged_by_username: merged_by
-    })
+    )
 
     refute User::ReputationTokens::CodeMergeToken.where(user:).exists?
   end
@@ -168,11 +168,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, merged_by_username: merged_by
-    })
+    )
 
     refute User::ReputationTokens::CodeMergeToken.where(user:).exists?
   end
@@ -193,11 +193,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     user = create :user, handle: "Merger-22", github_username: "merger22"
     reviews = [{ reviewer_username: "reviewer71" }]
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:, reviews:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, merged_by_username: merged_by
-    })
+    )
 
     token = user.reputation_tokens.last
     assert_equal 1, token.value
@@ -220,11 +220,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     user = create :user, handle: "Merger-22", github_username: "merger22"
     reviews = []
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:, reviews:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, merged_by_username: merged_by
-    })
+    )
 
     token = user.reputation_tokens.last
     assert_equal 5, token.value
@@ -246,11 +246,11 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     labels = []
     create :user, handle: "Merger-22", github_username: "merger22"
 
-    User::ReputationToken::AwardForPullRequestMerger.({
+    User::ReputationToken::AwardForPullRequestMerger.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, merged_by_username: merged_by
-    })
+    )
 
     token = User::ReputationTokens::CodeMergeToken.find { |t| t.params["pr_node_id"] == node_id }
     assert_equal merged_at.to_date, token.earned_on

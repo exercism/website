@@ -22,10 +22,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { reviewer_username: "reviewer13" }
     ]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
     assert_equal 5, reputation_token_1.value
@@ -55,10 +55,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { reviewer_username: "reviewer13" }
     ]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
     assert_equal 5, reputation_token_1.value
@@ -83,10 +83,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_empty reviewer.reputation_tokens
   end
@@ -107,10 +107,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_empty reviewer.reputation_tokens
   end
@@ -131,10 +131,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     create :github_organization_member, username: "user22"
     reviews = [{ reviewer_username: "user22" }]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     refute User::ReputationTokens::CodeReviewToken.where(user:).exists?
   end
@@ -163,10 +163,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { reviewer_username: "reviewer13" }
     ]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_equal 1, reviewer_1.reputation_tokens.size
     assert_equal 1, reviewer_2.reputation_tokens.size
@@ -194,10 +194,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { reviewer_username: "reviewer13" }
     ]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_equal 2, User::ReputationTokens::CodeReviewToken.find_each.size
   end
@@ -223,10 +223,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { reviewer_username: "reviewer71" }
     ]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_empty User::ReputationTokens::CodeReviewToken.where(user: system_user)
   end
@@ -252,10 +252,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { reviewer_username: "reviewer71" }
     ]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_empty User::ReputationTokens::CodeReviewToken.where(user: ghost_user)
   end
@@ -280,10 +280,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { reviewer_username: "reviewer13" }
     ]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     refute_empty reviewer_1.reputation_tokens
     assert_empty reviewer_2.reputation_tokens
@@ -317,10 +317,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       create :github_organization_member, username: "reviewer71"
       reviews = [{ reviewer_username: "reviewer71" }]
 
-      User::ReputationToken::AwardForPullRequestReviewers.({
+      User::ReputationToken::AwardForPullRequestReviewers.(
         action:, author_username: author, url:, html_url:, labels:,
         repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-      })
+      )
 
       assert_equal reputation, reviewer.reputation_tokens.last.value
     end
@@ -342,10 +342,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_equal 10, reviewer.reputation_tokens.last.value
   end
@@ -366,10 +366,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     create :github_organization_member, username: "reviewer71"
     reviews = [{ reviewer_username: "reviewer71" }]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_equal 5, reviewer.reputation_tokens.last.value
   end
@@ -402,10 +402,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     assert_equal :medium, reputation_token.level # Sanity
     assert_equal 5, reputation_token.value # Sanity
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_equal 1, reviewer.reputation_tokens.size
     assert_equal :small, reputation_token.reload.level
@@ -440,10 +440,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     assert_equal :small, reputation_token.level # Sanity
     assert_equal 2, reputation_token.value # Sanity
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_equal 1, reviewer.reputation_tokens.size
     assert_equal :large, reputation_token.reload.level
@@ -478,10 +478,10 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
     assert_equal :small, reputation_token.level # Sanity
     assert_equal 2, reputation_token.value # Sanity
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:, merged_at:, reviews:
-    })
+    )
 
     assert_equal 1, reviewer.reputation_tokens.size
     assert_equal :medium, reputation_token.reload.level
@@ -509,11 +509,11 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { reviewer_username: "reviewer13" }
     ]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:,
       merged:, merged_at:, reviews:
-    })
+    )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
     assert_equal merged_at.to_date, reputation_token_1.earned_on
@@ -543,11 +543,11 @@ class User::ReputationToken::AwardForPullRequestReviewersTest < ActiveSupport::T
       { reviewer_username: "reviewer13" }
     ]
 
-    User::ReputationToken::AwardForPullRequestReviewers.({
+    User::ReputationToken::AwardForPullRequestReviewers.(
       action:, author_username: author, url:, html_url:, labels:,
       repo:, node_id:, number:, title:, merged:,
       closed_at:, reviews:
-    })
+    )
 
     reputation_token_1 = reviewer_1.reputation_tokens.last
     assert_equal closed_at.to_date, reputation_token_1.earned_on

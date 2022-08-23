@@ -3,9 +3,7 @@ class Submission
     class Process
       include Mandate
 
-      def initialize(tooling_job)
-        @tooling_job = tooling_job
-      end
+      initialize_with :tooling_job
 
       def call
         create_submission_representation!
@@ -32,7 +30,7 @@ class Submission
         submission.iteration&.broadcast!
       end
 
-      attr_reader :tooling_job, :exercise_representation, :submission_representation
+      attr_reader :exercise_representation, :submission_representation
 
       def create_submission_representation!
         # return unless ast_digest

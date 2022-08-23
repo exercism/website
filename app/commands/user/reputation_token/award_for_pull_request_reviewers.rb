@@ -3,7 +3,7 @@ class User
     class AwardForPullRequestReviewers
       include Mandate
 
-      initialize_with :params
+      initialize_with params: Mandate::KWARGS
 
       def call
         return unless has_reviews?

@@ -29,10 +29,31 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
     end
   end
 
-  test "exports last 500 solutions" do
+  test "only exports iterations" do
+    exercise = create :practice_exercise
+    solution_1 = create :practice_solution, exercise: exercise
+    iteration = create :iteration, solution: solution_1
+    create :submission_file, submission: iteration.submission, filename: "stub.rb", content: "Stub 1"
+
+    solution_2 = create :practice_solution
+    submission = create :submission, solution: solution_2
+    create :submission_file, submission: submission, filename: "stub.rb", content: "Stub 2"
+
+    zip_file_stream = Exercise::ExportSolutionsToZipFile.(exercise)
+
+    Zip::File.open_buffer(zip_file_stream) do |zip_file|
+      assert_equal "Stub 1", zip_file.read("0/stub.rb")
+      refute zip_file.find_entry("1/stub.rb")
+    end
+  end
+
+  test "only exports last x solutions" do
     exercise = create :practice_exercise
 
-    501.times do |idx|
+    num_submissions = 5
+    Exercise::ExportSolutionsToZipFile.stubs(num_submissions:)
+
+    (num_submissions + 1).times do |idx|
       iteration = create :iteration, exercise: exercise
       create :submission_file, submission: iteration.submission, filename: "stub.rb", content: "Stub #{idx}"
     end
@@ -41,8 +62,8 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
 
     Zip::File.open_buffer(zip_file_stream) do |zip_file|
       assert_equal "Stub 1", zip_file.read("0/stub.rb")
-      assert_equal "Stub 500", zip_file.read("499/stub.rb")
-      refute zip_file.find_entry("500/stub.rb")
+      assert_equal "Stub #{num_submissions}", zip_file.read("#{num_submissions - 1}/stub.rb")
+      refute zip_file.find_entry("#{num_submissions}/stub.rb")
     end
   end
 

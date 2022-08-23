@@ -76,9 +76,9 @@ class Submission::TestRun < ApplicationRecord
   end
 
   class TestResult
-    def initialize(test)
-      @test = test
-    end
+    include Mandate
+
+    initialize_with :test
 
     def to_h
       {
@@ -101,9 +101,6 @@ class Submission::TestRun < ApplicationRecord
     def as_json(*_args)
       to_h
     end
-
-    private
-    attr_reader :test
   end
   private_constant :TestResult
 end

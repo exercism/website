@@ -113,7 +113,7 @@ class User < ApplicationRecord
   end
 
   def after_confirmation
-    User::Notification::CreateEmailOnly.(self, :joined_exercism, {})
+    User::Notification::CreateEmailOnly.(self, :joined_exercism)
   end
 
   def self.for!(param)

@@ -4,7 +4,7 @@ module API
     before_action :authenticate_user
 
     def index
-      render json: AssembleContributors.(params)
+      render json: AssembleContributors.(**params)
     end
   end
 end

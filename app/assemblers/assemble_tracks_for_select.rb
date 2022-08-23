@@ -1,9 +1,7 @@
 class AssembleTracksForSelect
   include Mandate
 
-  def initialize(tracks = default_tracks)
-    @tracks = tracks
-  end
+  initialize_with tracks: ::Track.active
 
   def call
     [
@@ -11,9 +9,4 @@ class AssembleTracksForSelect
       *tracks.order(title: :asc).map { |track| SerializeTrackForSelect.(track) }
     ]
   end
-
-  private
-  attr_reader :tracks
-
-  def default_tracks = ::Track.active
 end

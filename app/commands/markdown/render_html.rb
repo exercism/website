@@ -1,19 +1,12 @@
 class Markdown::RenderHTML
   include Mandate
 
-  def initialize(doc, nofollow_links: false, heading_ids: false)
-    @doc = doc
-    @nofollow_links = nofollow_links
-    @heading_ids = heading_ids
-  end
+  initialize_with :doc, nofollow_links: false, heading_ids: false
 
   def call
     renderer = Renderer.new(options: %i[UNSAFE FOOTNOTES], nofollow_links:, heading_ids:)
     renderer.render(doc)
   end
-
-  private
-  attr_reader :doc, :nofollow_links, :heading_ids
 
   class Renderer < CommonMarker::HtmlRenderer
     def initialize(options:, nofollow_links: false, heading_ids: false)

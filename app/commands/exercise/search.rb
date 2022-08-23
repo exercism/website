@@ -2,10 +2,7 @@ class Exercise
   class Search
     include Mandate
 
-    def initialize(user_track, criteria: nil)
-      @user_track = user_track
-      @criteria = criteria
-    end
+    initialize_with :user_track, criteria: nil
 
     def call
       @exercises = user_track.exercises
@@ -14,6 +11,7 @@ class Exercise
       @exercises
     end
 
+    private
     def filter_criteria!
       return if criteria.blank?
 
@@ -43,8 +41,5 @@ class Exercise
         "#{status_modifier}#{type_modifier}#{exercise.position.to_s.rjust(5, '0')}".to_i
       end
     end
-
-    private
-    attr_reader :user_track, :criteria
   end
 end

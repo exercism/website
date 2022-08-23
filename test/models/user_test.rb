@@ -301,7 +301,7 @@ class UserTest < ActiveSupport::TestCase
   test "welcome email is sent after confirmation" do
     user = create :user
 
-    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism, {})
+    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism)
 
     user.confirm
   end
@@ -310,7 +310,7 @@ class UserTest < ActiveSupport::TestCase
     user = build :user
     user.skip_confirmation!
 
-    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism, {})
+    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism)
 
     user.save!
   end

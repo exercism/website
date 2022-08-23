@@ -19,6 +19,6 @@ class ProcessIssueUpdateJob < ApplicationJob
       opened_by_username: issue_data[:opened_by_username]
     )
     Github::Task::SyncTask.(issue)
-    User::ReputationToken::AwardForIssue.(issue_data)
+    User::ReputationToken::AwardForIssue.(**issue_data)
   end
 end

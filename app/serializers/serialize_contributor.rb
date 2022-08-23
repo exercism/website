@@ -1,16 +1,7 @@
 class SerializeContributor
   include Mandate
 
-  # TODO: figure out why mandate doesn't work for this class
-  def self.call(...)
-    new(...).()
-  end
-
-  def initialize(user, rank:, contextual_data:)
-    @user = user
-    @rank = rank
-    @contextual_data = contextual_data
-  end
+  initialize_with :user, rank: Mandate::NO_DEFAULT, contextual_data: Mandate::NO_DEFAULT
 
   def call
     {
@@ -26,8 +17,6 @@ class SerializeContributor
   end
 
   private
-  attr_reader :user, :rank, :contextual_data
-
   def activity
     contextual_data.activity
   end

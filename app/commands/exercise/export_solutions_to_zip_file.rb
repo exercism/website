@@ -3,12 +3,15 @@ require 'zip'
 class Exercise::ExportSolutionsToZipFile
   include Mandate
 
+  def self.num_submissions = 500
+
   initialize_with :exercise
 
   def call
     file_stream = Zip::OutputStream.write_buffer do |zip|
       solutions.each.with_index do |solution, idx|
-        submission = solution.submissions.first
+        submission = solution.iterations.first&.submission
+        next unless submission
 
         # Export the first iteration's files as that iteration won't have
         # had any mentor/analyzer/representer comments applied to them
@@ -31,8 +34,8 @@ class Exercise::ExportSolutionsToZipFile
 
   private
   def solutions
-    exercise.solutions.includes(iterations: :files).
+    exercise.solutions.includes(iterations: { submission: :files }).
       where(status: %i[iterated completed published]).
-      last(500)
+      last(self.class.num_submissions)
   end
 end

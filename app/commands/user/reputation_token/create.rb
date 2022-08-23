@@ -5,7 +5,7 @@ class User
 
       queue_as :reputation
 
-      initialize_with :user, :type, :params
+      initialize_with :user, :type, params: Mandate::KWARGS
 
       def call
         return if user.system? || user.ghost?

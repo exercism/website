@@ -1,16 +1,7 @@
 class SerializeContributors
   include Mandate
 
-  # TODO: figure out why mandate doesn't work for this class
-  def self.call(...)
-    new(...).()
-  end
-
-  def initialize(users, starting_rank:, contextual_data:)
-    @users = users
-    @starting_rank = starting_rank
-    @contextual_data = contextual_data
-  end
+  initialize_with :users, starting_rank: Mandate::NO_DEFAULT, contextual_data: Mandate::NO_DEFAULT
 
   def call
     users.map.with_index do |user, idx|
@@ -21,7 +12,4 @@ class SerializeContributors
       )
     end
   end
-
-  private
-  attr_reader :users, :starting_rank, :contextual_data
 end

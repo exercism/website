@@ -2,15 +2,7 @@ class AssembleContributionsSummary
   include Mandate
   include ActionView::Helpers::NumberHelper
 
-  # TODO: figure out why mandate doesn't work for this class
-  def self.call(...)
-    new(...).()
-  end
-
-  def initialize(user, for_self:)
-    @user = user
-    @for_self = for_self
-  end
+  initialize_with :user, for_self: Mandate::NO_DEFAULT
 
   def call
     {
@@ -76,8 +68,6 @@ class AssembleContributionsSummary
   end
 
   private
-  attr_reader :user, :for_self
-
   def publishing_metrics(track_id = nil)
     c = track_id ? published_solutions[track_id] : published_solutions.values.sum
 

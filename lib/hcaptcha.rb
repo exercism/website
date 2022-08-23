@@ -24,9 +24,9 @@ class HCaptcha
   end
 
   class Verification
-    def initialize(success:)
-      @success = success
-    end
+    include Mandate
+
+    initialize_with success: Mandate::NO_DEFAULT
 
     def succeeded?
       success
@@ -35,8 +35,5 @@ class HCaptcha
     def failed?
       !success
     end
-
-    private
-    attr_reader :success
   end
 end

@@ -28,7 +28,7 @@ class ProcessPullRequestUpdateJob < ApplicationJob
       data: pull_request_update
     )
 
-    User::ReputationToken::AwardForPullRequest.(pull_request_update) if award_reputation_tokens?(pull_request_update)
+    User::ReputationToken::AwardForPullRequest.(**pull_request_update) if award_reputation_tokens?(pull_request_update)
   end
 
   private

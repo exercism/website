@@ -3,7 +3,7 @@ class User
     class AwardForIssue
       include Mandate
 
-      initialize_with :params
+      initialize_with params: Mandate::KWARGS
 
       def call
         return unless label_change?

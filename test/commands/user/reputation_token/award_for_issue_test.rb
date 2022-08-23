@@ -14,9 +14,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       labels = ['x:rep/large']
       user = create :user, handle: "User-22", github_username: "user22"
 
-      User::ReputationToken::AwardForIssue.({
+      User::ReputationToken::AwardForIssue.(
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-      })
+      )
 
       assert_equal 1, User::ReputationTokens::IssueAuthorToken.where(user:).count
       token = User::ReputationTokens::IssueAuthorToken.where(user:).first
@@ -37,9 +37,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       labels = ['x:rep/large']
       user = create :user, handle: "User-22", github_username: "user22"
 
-      User::ReputationToken::AwardForIssue.({
+      User::ReputationToken::AwardForIssue.(
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-      })
+      )
 
       refute User::ReputationTokens::IssueAuthorToken.where(user:).exists?
     end
@@ -59,9 +59,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       labels = [label]
       user = create :user, handle: "User-22", github_username: "user22"
 
-      User::ReputationToken::AwardForIssue.({
+      User::ReputationToken::AwardForIssue.(
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-      })
+      )
 
       refute User::ReputationTokens::IssueAuthorToken.where(user:).exists?
     end
@@ -81,9 +81,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       labels = [label]
       user = create :user, handle: "User-22", github_username: "user22", roles: [:admin]
 
-      User::ReputationToken::AwardForIssue.({
+      User::ReputationToken::AwardForIssue.(
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-      })
+      )
 
       refute User::ReputationTokens::IssueAuthorToken.where(user:).exists?
     end
@@ -101,9 +101,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = ['x:rep/large']
 
-    User::ReputationToken::AwardForIssue.({
+    User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-    })
+    )
 
     refute User::ReputationTokens::IssueAuthorToken.exists?
   end
@@ -121,9 +121,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     labels = ['bug']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForIssue.({
+    User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-    })
+    )
 
     refute User::ReputationTokens::IssueAuthorToken.where(user:).exists?
   end
@@ -147,9 +147,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
         opened_at:
       }
 
-    User::ReputationToken::AwardForIssue.({
+    User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-    })
+    )
 
     assert_equal 1, User::ReputationTokens::IssueAuthorToken.where(user:).size
   end
@@ -169,9 +169,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       user = create :user, handle: "User-22", github_username: "user22"
       track = create :track, repo_url: 'https://github.com/exercism/ruby'
 
-      User::ReputationToken::AwardForIssue.({
+      User::ReputationToken::AwardForIssue.(
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-      })
+      )
 
       token = User::ReputationTokens::IssueAuthorToken.where(user:).first
       assert_equal track, token.track
@@ -190,9 +190,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = []
 
-    User::ReputationToken::AwardForIssue.({
+    User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-    })
+    )
 
     refute User::ReputationTokens::IssueAuthorToken.exists?
   end
@@ -210,9 +210,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     labels = ['x:rep/large', 'x:rep/massive']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForIssue.({
+    User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-    })
+    )
 
     assert_equal 100, user.reputation_tokens.last.value
   end
@@ -230,9 +230,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     labels = ['duplicate', 'x:rep/large', 'bug']
     user = create :user, handle: "User-22", github_username: "user22"
 
-    User::ReputationToken::AwardForIssue.({
+    User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-    })
+    )
 
     assert_equal 30, user.reputation_tokens.last.value
   end
@@ -257,9 +257,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
         opened_at:
       }
 
-    User::ReputationToken::AwardForIssue.({
+    User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-    })
+    )
 
     user.reload
     assert_equal 1, user.reputation_tokens.size
@@ -291,9 +291,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       # Sanity check
       assert_equal 100, user.reload.reputation
 
-      User::ReputationToken::AwardForIssue.({
+      User::ReputationToken::AwardForIssue.(
         action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-      })
+      )
 
       assert_empty user.reload.reputation_tokens
       assert_equal 0, user.reload.reputation
@@ -323,9 +323,9 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     # Sanity check
     assert_equal 100, user.reload.reputation
 
-    User::ReputationToken::AwardForIssue.({
+    User::ReputationToken::AwardForIssue.(
       action:, opened_by_username:, url:, html_url:, labels:, repo:, node_id:, number:, title:, opened_at:
-    })
+    )
 
     assert_empty user.reload.reputation_tokens
     assert_equal 0, user.reload.reputation

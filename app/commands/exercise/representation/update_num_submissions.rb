@@ -17,13 +17,6 @@ class Exercise::Representation::UpdateNumSubmissions
 
   private
   def num_submissions_sql
-    Arel.sql(
-      Submission::Representation.
-        joins(submission: :solution).
-        where(submissions: { solutions: { exercise_id: representation.exercise_id } }).
-        where(ast_digest: representation.ast_digest).
-        select("COUNT(*)").
-        to_sql
-    )
+    Arel.sql(representation.submission_representations.select("COUNT(*)").to_sql)
   end
 end

@@ -7,13 +7,14 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
     track_2 = create :track, slug: 'csharp', title: 'C#'
     exercise_1 = create :practice_exercise, slug: 'bob', title: 'Bob', icon_name: 'bob', track: track_1
     exercise_2 = create :practice_exercise, slug: 'leap', title: 'Leap', icon_name: 'leap', track: track_2
-    representation_1 = create :exercise_representation, feedback_markdown: 'Yay', exercise: exercise_1, num_submissions: 5,
+    representation_1 = create :exercise_representation, id: 3, feedback_markdown: 'Yay', exercise: exercise_1, num_submissions: 5,
       last_submitted_at: current_time - 5.days
-    representation_2 = create :exercise_representation, feedback_markdown: 'Jip', exercise: exercise_2, num_submissions: 3,
+    representation_2 = create :exercise_representation, id: 7, feedback_markdown: 'Jip', exercise: exercise_2, num_submissions: 3,
       last_submitted_at: current_time - 2.days
 
     expected = [
       {
+        id: 3,
         exercise: {
           icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bob.svg',
           title: 'Bob'
@@ -28,6 +29,7 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
         links: {}
       },
       {
+        id: 7,
         exercise: {
           icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/leap.svg',
           title: 'Leap'

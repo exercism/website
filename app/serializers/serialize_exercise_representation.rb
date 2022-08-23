@@ -7,6 +7,7 @@ class SerializeExerciseRepresentation
 
   def call
     {
+      id: representation.id,
       exercise: {
         icon_url: exercise.icon_url,
         title: exercise.title

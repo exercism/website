@@ -48,9 +48,6 @@ module Donations
           raise SubscriptionNotCreatedError
         end
       end
-
-      private
-      attr_reader :user, :stripe_data
     end
   end
 end

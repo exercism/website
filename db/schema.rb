@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_17_075919) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_23_134044) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -215,6 +215,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_17_075919) do
     t.integer "num_submissions", default: 0, null: false
     t.datetime "last_submitted_at", default: "2022-08-17 08:10:01", null: false
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
+    t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
@@ -646,6 +647,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_17_075919) do
     t.string "ast_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["submission_id", "ast_digest"], name: "index_submission_representations_on_submission_id_and_ast_digest"
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
   end
 

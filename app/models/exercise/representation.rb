@@ -11,7 +11,6 @@ class Exercise::Representation < ApplicationRecord
 
   enum feedback_type: { essential: 0, actionable: 1, non_actionable: 2 }, _prefix: :feedback
 
-  # TODO: We're going to need some indexes here!
   has_many :submission_representations,
     ->(er) { joins(:solution).where("solutions.exercise_id": er.exercise_id) },
     class_name: "Submission::Representation",

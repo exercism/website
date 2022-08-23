@@ -1,5 +1,4 @@
-import React, { useCallback, useState } from 'react'
-import { Pagination } from '../../common/Pagination'
+import React, { useCallback, useEffect, useState } from 'react'
 import { TrackFilterList } from '../queue/TrackFilterList'
 import { useTrackList } from '../queue/useTrackList'
 import { Request } from '../../../hooks/request-query'
@@ -12,25 +11,27 @@ import {
 import { useMentoringQueue } from '../queue/useMentoringQueue'
 import { Sorter } from '../Sorter'
 import { SortOption } from '../Inbox'
-import { MOCK_DEFAULT_TRACK, MOCK_TRACKS, MOCK_LIST_ELEMENT } from './mock-data'
+import { MOCK_DEFAULT_TRACK, MOCK_LIST_ELEMENT } from './mock-data'
 import { StatusTab } from '../inbox/StatusTab'
-import { GraphicalIcon, Introducer } from '../../common'
-import { AutomationListElement } from './AutomationListElement'
+import { Checkbox } from '../../common'
+import { AutomationIntroducer } from './AutomationIntroducer'
 import SearchInput from '../../common/SearchInput'
+import { ResultsZone } from '../../ResultsZone'
+import { RepresentationList } from './RepresentationList'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
-const resolvedData = true
-
-const MOCK_LIST = new Array(24).fill(MOCK_LIST_ELEMENT)
+// const MOCK_LIST = new Array(24).fill(MOCK_LIST_ELEMENT)
 
 type AutomationProps = {
   tracksRequest: Request
   links: Links
   // defaultTrack: MentoredTrack
-  queueRequest: Request
+  representationsRequest: Request
   defaultExercise: MentoredTrackExercise | null
   sortOptions: SortOption[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any
 }
 
 export function RepresentationsWithFeedback({
@@ -38,24 +39,44 @@ export function RepresentationsWithFeedback({
   sortOptions,
   links,
   defaultExercise,
-  queueRequest,
+  representationsRequest,
+  data,
 }: AutomationProps): JSX.Element {
   const [selectedTrack, setSelectedTrack] =
     useState<MentoredTrack>(MOCK_DEFAULT_TRACK)
 
   const [checked, setChecked] = useState(false)
 
-  const [status, setStatus] = useState<AutomationStatus>('need_feedback')
+  const [autoStatus, setStatus] = useState<AutomationStatus>('need_feedback')
   const [selectedExercise] = useState<MentoredTrackExercise | null>(
     defaultExercise
   )
-  const [searchText, setSearchText] = useState('')
 
-  const { setCriteria, order, setOrder, setPage } = useMentoringQueue({
-    request: queueRequest,
+  console.log('REP REQ', representationsRequest)
+
+  const {
+    resolvedData,
+    isFetching,
+    criteria,
+    setCriteria,
+    error,
+    latestData,
+    order,
+    setOrder,
+    page,
+    setPage,
+    status,
+  } = useMentoringQueue({
+    request: representationsRequest,
     track: selectedTrack,
     exercise: selectedExercise,
   })
+
+  useEffect(() => {
+    console.log('RESOLVED_DATA:', resolvedData)
+  }, [resolvedData])
+
+  console.log('DATA:', data)
 
   const handleTrackChange = useCallback(
     (track) => {
@@ -67,7 +88,7 @@ export function RepresentationsWithFeedback({
   )
 
   const {
-    // tracks,
+    tracks,
     status: trackListStatus,
     error: trackListError,
     isFetching: isTrackListFetching,
@@ -83,7 +104,7 @@ export function RepresentationsWithFeedback({
         <div className="tabs">
           <StatusTab<AutomationStatus>
             status="need_feedback"
-            currentStatus={status}
+            currentStatus={autoStatus}
             setStatus={() => setStatus('need_feedback')}
           >
             Need feedback
@@ -91,18 +112,16 @@ export function RepresentationsWithFeedback({
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="feedback_submitted"
-            currentStatus={status}
+            currentStatus={autoStatus}
             setStatus={() => setStatus('feedback_submitted')}
           >
             Feedback submitted
             {resolvedData ? <div className="count">{15}</div> : null}
           </StatusTab>
         </div>
-        <Checkbox
-          onCheck={() => setChecked((c) => !c)}
-          text="Only show solutions I've mentored before"
-          checked={checked}
-        />
+        <Checkbox checked={checked} setChecked={() => setChecked((c) => !c)}>
+          Only show solutions I&apos;ve mentored before
+        </Checkbox>
       </div>
       <div className="container">
         <header className="c-search-bar automation-header">
@@ -110,7 +129,7 @@ export function RepresentationsWithFeedback({
             countText={'requests'}
             status={trackListStatus}
             error={trackListError}
-            tracks={MOCK_TRACKS}
+            tracks={tracks}
             isFetching={isTrackListFetching}
             cacheKey={TRACKS_LIST_CACHE_KEY}
             links={links}
@@ -120,8 +139,8 @@ export function RepresentationsWithFeedback({
           />
 
           <SearchInput
-            onChange={(e) => setSearchText(e.target.value)}
-            value={searchText}
+            setFilter={setCriteria}
+            filter={criteria}
             placeholder="Filter by exercise"
           />
           <Sorter
@@ -131,62 +150,17 @@ export function RepresentationsWithFeedback({
             setOrder={setOrder}
           />
         </header>
-        <AutomationList />
-        <footer>
-          <Pagination
-            setPage={() => console.log('page is set')}
-            total={10}
-            current={2}
+        <ResultsZone isFetching={isFetching}>
+          <RepresentationList
+            error={error}
+            latestData={latestData}
+            page={page}
+            setPage={setPage}
+            resolvedData={resolvedData}
+            status={status}
           />
-        </footer>
+        </ResultsZone>
       </div>
     </div>
-  )
-}
-
-type CheckboxProps = {
-  checked: boolean
-  onCheck: () => void
-  text: string
-}
-
-function Checkbox({ text, checked, onCheck }: CheckboxProps): JSX.Element {
-  return (
-    <label className="c-checkbox-wrapper text-textColor6 filter mb-20">
-      <input type="checkbox" checked={checked} onChange={onCheck} />
-      <div className="row">
-        <div className="c-checkbox">
-          <GraphicalIcon icon="checkmark" />
-        </div>
-        {text}
-      </div>
-    </label>
-  )
-}
-
-function AutomationIntroducer(): JSX.Element {
-  return (
-    <Introducer
-      endpoint="some string"
-      additionalClassNames="mb-24"
-      icon="automation"
-    >
-      <h2>Initiate feedback automation...Beep boop bop...</h2>
-      <p>
-        Automation is a space that allows you to see common solutions to
-        exercises and write feedback once for all students with that particular
-        solution.
-      </p>
-    </Introducer>
-  )
-}
-
-function AutomationList() {
-  return (
-    <>
-      {MOCK_LIST.map((i, k) => {
-        return <AutomationListElement representer={i} key={k} />
-      })}
-    </>
   )
 }

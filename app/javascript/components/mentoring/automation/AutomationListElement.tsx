@@ -4,26 +4,28 @@ import { TrackIcon, ExerciseIcon, GraphicalIcon } from '../../common'
 import { MentorDiscussion } from '../../types'
 
 export const AutomationListElement = ({
-  representer,
+  representation,
 }: {
-  representer: MentorDiscussion
+  representation: MentorDiscussion
 }): JSX.Element => {
   return (
-    <a className="--representer" href={representer.links.self}>
+    <a className="--representation" href={'string'}>
       <TrackIcon
-        title={representer.track.title}
-        iconUrl={representer.track.iconUrl}
+        title={representation.track.title}
+        iconUrl={representation.track.iconUrl}
       />
       <ExerciseIcon
-        title={representer.exercise.title}
-        iconUrl={representer.exercise.iconUrl}
+        title={representation.exercise.title}
+        iconUrl={representation.exercise.iconUrl}
       />
       <div className="--info">
         <div className="--exercise-title">
-          <div>{representer.exercise.title}</div>{' '}
+          <div>{representation.exercise.title}</div>{' '}
           <div className="--most-popular">Most Popular</div>
         </div>
-        <div className="--track-title">in {representer.track.title} (#520)</div>
+        <div className="--track-title">
+          in {representation.track.title} (#520)
+        </div>
       </div>
       <div className="--feedback-glimpse">
         Nice use of `input` - I think that’s really great. Let’s exercise this
@@ -33,7 +35,7 @@ export const AutomationListElement = ({
       <time>
         Last shown
         <br />
-        {fromNow(representer.updatedAt)}
+        {fromNow(representation.lastSubmittedAt)}
       </time>
       <GraphicalIcon
         icon="chevron-right"

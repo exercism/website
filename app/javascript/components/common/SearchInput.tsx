@@ -1,9 +1,9 @@
-import React, { ChangeEventHandler, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { GraphicalIcon } from './GraphicalIcon'
 
 type SearchInputProps = {
-  value: string
-  onChange: ChangeEventHandler<HTMLInputElement>
+  filter: string | undefined
+  setFilter: (filter: string) => void
   placeholder: string
 }
 
@@ -14,8 +14,8 @@ const INPUT_CLASSNAMES = 'border-none bg-inherit !w-[100%] portable-input'
 const ICON_CLASSNAMES = 'w-[24px] h-[24px] my-auto mr-[16px] textColor6-filter'
 
 export default function SearchInput({
-  value,
-  onChange,
+  filter,
+  setFilter,
   placeholder,
 }: SearchInputProps): JSX.Element {
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -38,8 +38,8 @@ export default function SearchInput({
         type="text"
         className={INPUT_CLASSNAMES}
         style={{ all: 'unset' }}
-        value={value}
-        onChange={onChange}
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
         placeholder={placeholder}
       />
     </div>

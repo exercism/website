@@ -1,11 +1,7 @@
 class SerializeSolution
   include Mandate
 
-  def initialize(solution, user_track: nil, has_notifications: nil)
-    @solution = solution
-    @user_track = user_track
-    @has_notifications = has_notifications
-  end
+  initialize_with :solution, user_track: nil, has_notifications: nil
 
   def call
     {
@@ -43,8 +39,6 @@ class SerializeSolution
   end
 
   private
-  attr_reader :solution
-
   def has_notifications?
     return @has_notifications unless @has_notifications.nil?
 

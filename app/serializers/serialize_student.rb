@@ -1,19 +1,8 @@
 class SerializeStudent
   include Mandate
 
-  # TODO: figure out why mandate doesn't work for this class
-  def self.call(...)
-    new(...).()
-  end
-
-  def initialize(student, mentor, user_track:, relationship:, anonymous_mode:, discussion: nil)
-    @student = student
-    @mentor = mentor
-    @user_track = user_track
-    @relationship = relationship
-    @anonymous_mode = anonymous_mode
-    @discussion = discussion
-  end
+  initialize_with :student, :mentor, user_track: Mandate::NO_DEFAULT, relationship: Mandate::NO_DEFAULT,
+    anonymous_mode: Mandate::NO_DEFAULT, discussion: nil
 
   def call
     return anonymous_details if anonymous_mode
@@ -36,8 +25,6 @@ class SerializeStudent
   end
 
   private
-  attr_reader :student, :mentor, :user_track, :relationship, :anonymous_mode, :discussion
-
   def anonymous_details
     {
       name: "User in Anonymous mode",

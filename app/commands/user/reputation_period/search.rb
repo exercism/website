@@ -8,15 +8,7 @@ class User::ReputationPeriod
       20
     end
 
-    def initialize(period: nil, category: nil, track_id: 0, user_handle: nil, page: 1)
-      @period = period
-      @category = category
-
-      @track_id = track_id
-      @user_handle = user_handle
-
-      @page = page
-    end
+    initialize_with period: nil, category: nil, track_id: 0, user_handle: nil, page: 1
 
     def call
       @rows = User::ReputationPeriod.where.not(reputation: 0)
@@ -81,8 +73,5 @@ class User::ReputationPeriod
 
       @rows = @rows.where('user_handle LIKE ?', "#{user_handle}%")
     end
-
-    private
-    attr_reader :period, :category, :track_id, :user_handle, :page
   end
 end

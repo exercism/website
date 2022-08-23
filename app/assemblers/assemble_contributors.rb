@@ -1,7 +1,7 @@
 class AssembleContributors
   include Mandate
 
-  initialize_with :params
+  initialize_with params: Mandate::KWARGS
 
   def call
     SerializePaginatedCollection.(

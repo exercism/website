@@ -507,7 +507,7 @@
             & > .c-introducer {
                 @apply mb-20;
             }
-            & > .title {
+            & .title {
                 @apply flex items-center mb-12;
                 @apply leading-160;
 

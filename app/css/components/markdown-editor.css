@@ -1,5 +1,8 @@
 @import "../styles";
 
+/* editor toolbar height = 49px */
+/* 30x30[px] button + 9[px] top-bot padding + 1[px] top border = 49px */
+
 .c-markdown-editor {
     @screen md {
         min-width: 520px;
@@ -116,14 +119,11 @@
             @apply ml-12;
             animation: fadeIn 0.2s forwards;
         }
-
-        & .--warning {
-            @apply flex-grow;
-            @apply text-red font-medium;
-            @apply mr-12;
-        }
     }
     & .editor-preview {
         @apply bg-backgroundColorA;
+    }
+    & .scratchpad-footer {
+        @apply py-[4.5px] px-8;
     }
 }

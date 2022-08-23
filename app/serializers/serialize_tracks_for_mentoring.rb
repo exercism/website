@@ -1,10 +1,7 @@
 class SerializeTracksForMentoring
   include Mandate
 
-  def initialize(tracks, mentor: nil)
-    @tracks = tracks
-    @mentor = mentor
-  end
+  initialize_with :tracks, mentor: nil
 
   def call
     tracks.order(title: :asc).map do |track|
@@ -26,8 +23,6 @@ class SerializeTracksForMentoring
   end
 
   private
-  attr_reader :tracks, :mentor
-
   memoize
   def request_counts
     mentor ? request_counts_with_mentor : request_counts_without_mentor

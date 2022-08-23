@@ -1,10 +1,7 @@
 class SerializeTracks
   include Mandate
 
-  def initialize(tracks, user = nil)
-    @tracks = tracks
-    @user = user
-  end
+  initialize_with :tracks, :user
 
   def call
     sorted_tracks.map do |track|
@@ -17,8 +14,6 @@ class SerializeTracks
   end
 
   private
-  attr_reader :tracks, :user
-
   def sorted_tracks
     tracks.sort_by do |track|
       "#{joined?(track) ? 0 : 1} | #{track.title.downcase}"

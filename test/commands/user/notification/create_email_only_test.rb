@@ -11,7 +11,7 @@ class User::Notifications::CreateEmailOnlyTest < ActiveSupport::TestCase
 
     User::Notification::SendEmail.expects(:call).with { |n| assert n.is_a?(User::Notification) }
 
-    notification = User::Notification::CreateEmailOnly.(user, type, params)
+    notification = User::Notification::CreateEmailOnly.(user, type, **params)
 
     assert_equal 1, User::Notification.count
     assert notification.email_only?
@@ -32,8 +32,8 @@ class User::Notifications::CreateEmailOnlyTest < ActiveSupport::TestCase
     discussion = create(:mentor_discussion)
     params = { discussion: }
 
-    n_1 = User::Notification::CreateEmailOnly.(user, type, params)
-    n_2 = User::Notification::CreateEmailOnly.(user, type, params)
+    n_1 = User::Notification::CreateEmailOnly.(user, type, **params)
+    n_2 = User::Notification::CreateEmailOnly.(user, type, **params)
     assert_equal n_1, n_2
   end
 end

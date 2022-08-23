@@ -30,7 +30,7 @@ module ReactComponents
 
       memoize
       def initial_data
-        AssembleContributors.(params)
+        AssembleContributors.(**params)
       end
 
       memoize

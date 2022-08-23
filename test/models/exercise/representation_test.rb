@@ -86,6 +86,13 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
       ast_digest: ast_digest
 
     assert_equal [submission_representation], representation.reload.submission_representations
+
+    # Multiple matching submission representations
+    submission_representation_2 = create :submission_representation,
+      submission: create(:submission, exercise:),
+      ast_digest: ast_digest
+
+    assert_equal [submission_representation, submission_representation_2], representation.reload.submission_representations.order(:id)
   end
 
   test "scope: without_feedback" do

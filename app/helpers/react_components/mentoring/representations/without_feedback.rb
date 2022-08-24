@@ -27,7 +27,7 @@ module ReactComponents
               page: params[:page]
             }.compact,
             options: {
-              initial_data: { representations: },
+              initial_data: representations,
               stale_time: 5000 # milliseconds
             }
           }
@@ -39,7 +39,7 @@ module ReactComponents
           {
             endpoint: Exercism::Routes.tracks_without_feedback_api_mentoring_representations_url,
             options: {
-              initial_data: { tracks: },
+              initial_data: tracks,
               stale_time: 5000 # milliseconds
             }
           }

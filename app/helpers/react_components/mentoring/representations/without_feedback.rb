@@ -21,7 +21,7 @@ module ReactComponents
           {
             endpoint: Exercism::Routes.without_feedback_api_mentoring_representations_url,
             query: {
-              criteria: params[:criteria],
+              criteria: params.fetch(:criteria, ''),
               track_slug: params[:track_slug],
               order: params[:order],
               page: params[:page]

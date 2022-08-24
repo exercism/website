@@ -1,5 +1,6 @@
 class Metric < ApplicationRecord
   serialize :params, JSON
+  serialize :coordinates, JSON # Stored as [latitude, longitude]
 
   belongs_to :track, optional: true
   belongs_to :user, optional: true

@@ -26,6 +26,8 @@ const CLIWalkthroughButton = lazy(
   () => import('../components/common/CLIWalkthroughButton')
 )
 
+const ImpactStat = lazy(() => import('../components/impact/stat'))
+
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
 
@@ -369,6 +371,12 @@ initReact({
       height={data.height}
       width={data.width}
     />
+  ),
+
+  'impact-stat': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <ImpactStat metric={data.metric} initialValue={data.value} />
+    </Suspense>
   ),
   // Slow things at the end
   'donations-footer-form': (data: any) => (

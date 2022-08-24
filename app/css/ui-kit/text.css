@@ -58,7 +58,7 @@
     }
     .text-p-large {
         @apply text--p;
-        @apply text-18;
+        @apply text-18 leading-150;
     }
     .text-p-xlarge {
         @apply text--p;

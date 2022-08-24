@@ -8,8 +8,10 @@
 @import "./ui-kit/effects";
 @import "./ui-kit/inputs";
 @import "./ui-kit/shapes";
+@import "./ui-kit/label";
 @import "./ui-kit/text";
 @import "./ui-kit/tracks";
+@import "./ui-kit/filters";
 
 @import "./tooltips/generic";
 @import "./tooltips/base";

@@ -46,3 +46,6 @@ app/javascript/.config/*
 
 # Redis Database Backup
 dump.rdb
+
+# Ignore vendored local databases
+/vendor/*mmdb

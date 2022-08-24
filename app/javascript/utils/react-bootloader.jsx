@@ -87,19 +87,26 @@ export const initReact = (mappings) => {
 }
 
 const render = (elem, component) => {
+  const callback = () => {
+    // console.log(Date.now(), 'rendered')
+    elem.classList.add('--hydrated')
+  }
   // console.log(Date.now(), 'rendering')
-  ReactDOM.render(
-    <React.StrictMode>
-      <ReactQueryCacheProvider queryCache={window.queryCache}>
-        <ErrorBoundary>{component}</ErrorBoundary>
-      </ReactQueryCacheProvider>
-    </React.StrictMode>,
-    elem,
-    () => {
-      // console.log(Date.now(), 'rendered')
-      elem.classList.add('--hydrated')
-    }
-  )
+  const hydrate = elem.dataset['reactHydrate'] == 'true'
+  if (hydrate) {
+    console.log('hydrating')
+    ReactDOM.hydrate(<>{component}</>, elem, callback)
+  } else {
+    ReactDOM.render(
+      <React.StrictMode>
+        <ReactQueryCacheProvider queryCache={window.queryCache}>
+          <ErrorBoundary>{component}</ErrorBoundary>
+        </ReactQueryCacheProvider>
+      </React.StrictMode>,
+      elem,
+      callback
+    )
+  }
 
   const unloadOnce = () => {
     ReactDOM.unmountComponentAtNode(elem)

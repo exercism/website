@@ -16,6 +16,7 @@ import { SortOption } from '../Inbox'
 import { useList } from '../../../hooks/use-list'
 import { error } from 'jquery'
 import { useHistory, removeEmpty } from '../../../hooks/use-history'
+import useLogger from '../../../hooks/use-logger'
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
 export type AutomationLinks = {
@@ -43,6 +44,7 @@ export function Representations({
   const [selectedTrack, setSelectedTrack] =
     useState<MentoredTrack>(MOCK_DEFAULT_TRACK)
 
+  // TODO: Move these into a separate hook
   const {
     request,
     setCriteria: setRequestCriteria,
@@ -63,10 +65,6 @@ export function Representations({
     )
 
   useEffect(() => {
-    console.log('request:', request)
-  }, [request])
-
-  useEffect(() => {
     const handler = setTimeout(() => {
       setRequestCriteria(criteria)
     }, 1000)
@@ -78,10 +76,6 @@ export function Representations({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  // const setTrack = (trackSlug: string | null) => {
-  //   setQuery({ ...request.query, trackSlug: trackSlug, page: undefined })
-  // }
-
   const handleTrackChange = useCallback(
     (track) => {
       setPage(1)
@@ -90,13 +84,11 @@ export function Representations({
 
       setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
     },
-    [setPage, setCriteria]
+    [setPage, setQuery, request.query]
   )
-  useEffect(() => {
-    console.log('RESOLVED_DATA', resolvedData)
-  }, [resolvedData])
+
   const {
-    tracks,
+    resolvedData: tracks,
     status: trackListStatus,
     error: trackListError,
     isFetching: isTrackListFetching,
@@ -104,6 +96,8 @@ export function Representations({
     cacheKey: TRACKS_LIST_CACHE_KEY,
     request: tracksRequest,
   })
+
+  useLogger('TRACKS', tracks)
 
   return (
     <div className="c-mentor-inbox">
@@ -118,10 +112,7 @@ export function Representations({
             <a href={links.withoutFeedback}>Need feedback</a>
 
             {resolvedData ? (
-              <div className="count">
-                {resolvedData.representations?.results?.length ??
-                  resolvedData?.results?.length}
-              </div>
+              <div className="count">{resolvedData.results?.length}</div>
             ) : null}
           </StatusTab>
           <StatusTab<AutomationStatus>
@@ -129,12 +120,10 @@ export function Representations({
             currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
             setStatus={() => null}
           >
+            {/* TODO: this routing is really/really bad.. */}
             <a href={links.withFeedback}>Feedback submitted</a>
             {resolvedData ? (
-              <div className="count">
-                {resolvedData.representations?.results?.length ??
-                  resolvedData?.results?.length}
-              </div>
+              <div className="count">{resolvedData.results.length}</div>
             ) : null}
           </StatusTab>
         </div>
@@ -156,6 +145,7 @@ export function Representations({
             links={links}
             value={selectedTrack}
             setValue={handleTrackChange}
+            // TODO: work more on the responsivity of this style
             sizeVariant={'automation'}
           />
 
@@ -174,10 +164,10 @@ export function Representations({
         <ResultsZone isFetching={isFetching}>
           <RepresentationList
             error={error}
-            latestData={latestData?.representations ?? latestData}
+            latestData={latestData}
             page={request.query.page}
             setPage={setPage}
-            resolvedData={resolvedData?.representations ?? resolvedData}
+            resolvedData={resolvedData}
             status={status}
           />
         </ResultsZone>

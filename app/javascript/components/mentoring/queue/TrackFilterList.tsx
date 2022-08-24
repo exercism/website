@@ -128,7 +128,8 @@ const Component = ({
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
           <div className="track-title">{value.title}</div>
           <div className="count">
-            {value.numSolutionsQueued} {countText}
+            {/* TODO handle different environments/types depending on where component is placed */}
+            {value.numSolutionsQueued ?? value.numSubmissions} {countText}
           </div>
           <Icon
             icon="chevron-down"

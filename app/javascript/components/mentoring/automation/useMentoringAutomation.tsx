@@ -22,7 +22,7 @@ export type RepresentationsRequest = {
   url: string
 }
 
-export type RepresentationsResponse = {
+export type APIResponse = {
   results: Representation[]
   meta: {
     currentPage: number
@@ -32,9 +32,9 @@ export type RepresentationsResponse = {
   }
 }
 
-export type APIResponse = {
-  representations: RepresentationsResponse
-}
+// export type APIResponse = {
+//   representations: RepresentationsResponse
+// }
 
 export const useMentoringAutomation = ({
   request: initialRequest,

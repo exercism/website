@@ -16,7 +16,7 @@ class AssembleContributorsTest < ActiveSupport::TestCase
       serializer_kwargs: { starting_rank: 1, contextual_data: }
     )
 
-    assert_equal expected, AssembleContributors.()
+    assert_equal expected, AssembleContributors.({})
   end
 
   test "index should proxy correctly" do

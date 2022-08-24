@@ -145,7 +145,7 @@ export type DiscussionStatus =
   | 'awaiting_student'
   | 'finished'
 
-export type AutomationStatus = 'need_feedback' | 'feedback_submitted'
+export type AutomationStatus = 'with_feedback' | 'without_feedback'
 
 export type CommunitySolution = {
   uuid: string

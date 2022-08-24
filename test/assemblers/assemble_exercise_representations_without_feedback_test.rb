@@ -19,7 +19,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
       }
     )
 
-    assert_equal expected, AssembleExerciseRepresentationsWithoutFeedback.(user)
+    assert_equal expected, AssembleExerciseRepresentationsWithoutFeedback.(user, {})
   end
 
   test "should proxy correctly" do
@@ -40,7 +40,8 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
       only_mentored_solutions:
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsWithoutFeedback.(mentor, track_slug: track.slug, criteria:, order:, page:, only_mentored_solutions:)
+    AssembleExerciseRepresentationsWithoutFeedback.(mentor,
+      { track_slug: track.slug, criteria:, order:, page:, only_mentored_solutions: })
   end
 
   test "should proxy correctly when track_slug is not specified" do
@@ -60,6 +61,6 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
       track: nil
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsWithoutFeedback.(mentor, criteria:, order:, page:, only_mentored_solutions:)
+    AssembleExerciseRepresentationsWithoutFeedback.(mentor, { criteria:, order:, page:, only_mentored_solutions: })
   end
 end

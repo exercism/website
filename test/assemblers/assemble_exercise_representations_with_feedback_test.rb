@@ -21,13 +21,13 @@ class AssembleExerciseRepresentationsWithFeedbackTest < ActiveSupport::TestCase
 
   test "should proxy correctly" do
     track = create :track
-    user = create :user
+    mentor = create :user
     criteria = 'bob'
     order = 'num_submissions'
     page = '1'
 
     Exercise::Representation::Search.expects(:call).with(
-      user:,
+      mentor:,
       track:,
       status: :with_feedback,
       page:,
@@ -35,6 +35,6 @@ class AssembleExerciseRepresentationsWithFeedbackTest < ActiveSupport::TestCase
       criteria:
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsWithFeedback.(user, track_slug: track.slug, criteria:, order:, page:)
+    AssembleExerciseRepresentationsWithFeedback.(mentor, { track_slug: track.slug, criteria:, order:, page: })
   end
 end

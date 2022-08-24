@@ -45,7 +45,7 @@ module ReactComponents
           }
         end
 
-        def tracks = AssembleRepresentationTracksForSelect.(mentor, :with_feedback)
+        def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: true)
 
         def links
           { without_feedback: Exercism::Routes.mentoring_automation_index_url }

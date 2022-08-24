@@ -21,7 +21,7 @@ class AssembleExerciseRepresentationsWithFeedback
     Exercise::Representation::Search.(
       mentor:,
       track:,
-      status: :with_feedback,
+      with_feedback: true,
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_submissions)

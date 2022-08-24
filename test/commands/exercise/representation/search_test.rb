@@ -5,7 +5,7 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_1 = create :exercise_representation, num_submissions: 3
     representation_2 = create :exercise_representation, num_submissions: 2
 
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.()
+    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(with_feedback: false)
   end
 
   test "filter: criteria" do
@@ -16,19 +16,20 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_2 = create :exercise_representation, exercise: exercise_2, num_submissions: 2
     representation_3 = create :exercise_representation, exercise: exercise_3, num_submissions: 1
 
-    assert_equal [representation_1, representation_2, representation_3], Exercise::Representation::Search.(criteria: 'a')
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(criteria: 'an')
-    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'leap')
-    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'frog')
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(criteria: 'a', with_feedback: false)
+    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(criteria: 'an', with_feedback: false)
+    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'leap', with_feedback: false)
+    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'frog', with_feedback: false)
   end
 
-  test "filter: status" do
+  test "filter: with_feedback" do
     representation_1 = create :exercise_representation, feedback_type: nil
     representation_2 = create :exercise_representation, feedback_type: :actionable, num_submissions: 3
     representation_3 = create :exercise_representation, feedback_type: :essential, num_submissions: 2
 
-    assert_equal [representation_1], Exercise::Representation::Search.(status: :without_feedback)
-    assert_equal [representation_2, representation_3], Exercise::Representation::Search.(status: :with_feedback)
+    assert_equal [representation_1], Exercise::Representation::Search.(with_feedback: false)
+    assert_equal [representation_2, representation_3], Exercise::Representation::Search.(with_feedback: true)
   end
 
   test "filter: mentor when status is :without_feedback returns representations for mentored tracks" do
@@ -52,12 +53,12 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
       exercise: create(:practice_exercise, track: track_3)
 
     assert_equal [representation_1, representation_2],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, status: :without_feedback)
-    assert_equal [representation_2], Exercise::Representation::Search.(mentor: mentor_2, status: :without_feedback)
-    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_3, status: :without_feedback)
+      Exercise::Representation::Search.(mentor: mentor_1.reload, with_feedback: false)
+    assert_equal [representation_2], Exercise::Representation::Search.(mentor: mentor_2, with_feedback: false)
+    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_3, with_feedback: false)
   end
 
-  test "filter: mentor when status is :with_feedback returns representations where mentor is author or editor" do
+  test "filter: mentor when with_feedback is true returns representations where mentor is author or editor" do
     mentor_1 = create :user
     mentor_2 = create :user
     mentor_3 = create :user
@@ -66,9 +67,9 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
       feedback_editor: mentor_1, num_submissions: 2
     representation_3 = create :exercise_representation, feedback_type: :actionable, feedback_editor: mentor_3, num_submissions: 1
 
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(mentor: mentor_1, status: :with_feedback)
-    assert_equal [representation_2], Exercise::Representation::Search.(mentor: mentor_2, status: :with_feedback)
-    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_3, status: :with_feedback)
+    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(mentor: mentor_1, with_feedback: true)
+    assert_equal [representation_2], Exercise::Representation::Search.(mentor: mentor_2, with_feedback: true)
+    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_3, with_feedback: true)
   end
 
   test "filter: track" do
@@ -80,9 +81,10 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_2 = create :exercise_representation, exercise: exercise_1, num_submissions: 2
     representation_3 = create :exercise_representation, exercise: exercise_2, num_submissions: 1
 
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(track: track_1)
-    assert_equal [representation_3], Exercise::Representation::Search.(track: track_2)
-    assert_equal [representation_1, representation_2, representation_3], Exercise::Representation::Search.(track: [track_1, track_2])
+    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(track: track_1, with_feedback: false)
+    assert_equal [representation_3], Exercise::Representation::Search.(track: track_2, with_feedback: false)
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(track: [track_1, track_2], with_feedback: false)
   end
 
   test "filter: only_mentored_solutions" do
@@ -113,31 +115,31 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
       exercise: exercise_3
 
     assert_equal [representation_1, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, status: :without_feedback)
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, with_feedback: false)
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: false, status: :without_feedback)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: true, status: :without_feedback)
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: false, with_feedback: false)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: true, with_feedback: false)
     assert_equal [representation_2, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: false, status: :without_feedback)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: true, status: :without_feedback)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: false, status: :without_feedback)
+      Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: false, with_feedback: false)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: true, with_feedback: false)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: false, with_feedback: false)
   end
 
   test "paginates" do
     25.times { create :exercise_representation }
 
-    first_page = Exercise::Representation::Search.()
+    first_page = Exercise::Representation::Search.(with_feedback: false)
     assert_equal 20, first_page.limit_value # Sanity
     assert_equal 20, first_page.length
     assert_equal 1, first_page.current_page
     assert_equal 25, first_page.total_count
 
-    second_page = Exercise::Representation::Search.(page: 2)
+    second_page = Exercise::Representation::Search.(page: 2, with_feedback: false)
     assert_equal 5, second_page.length
     assert_equal 2, second_page.current_page
     assert_equal 25, second_page.total_count
 
-    page = Exercise::Representation::Search.(paginated: false)
+    page = Exercise::Representation::Search.(paginated: false, with_feedback: false)
     assert_equal 25, page.length
   end
 
@@ -147,9 +149,12 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_3 = create :exercise_representation, num_submissions: 8, last_submitted_at: Time.zone.now - 4.days
 
     # Default: order by num_submissions
-    assert_equal [representation_3, representation_1, representation_2], Exercise::Representation::Search.()
-    assert_equal [representation_3, representation_1, representation_2], Exercise::Representation::Search.(order: :most_submissions)
-    assert_equal [representation_1, representation_3, representation_2], Exercise::Representation::Search.(order: :most_recent)
-    assert_equal [representation_1, representation_2, representation_3], Exercise::Representation::Search.(sorted: false)
+    assert_equal [representation_3, representation_1, representation_2], Exercise::Representation::Search.(with_feedback: false)
+    assert_equal [representation_3, representation_1, representation_2],
+      Exercise::Representation::Search.(order: :most_submissions, with_feedback: false)
+    assert_equal [representation_1, representation_3, representation_2],
+      Exercise::Representation::Search.(order: :most_recent, with_feedback: false)
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(sorted: false, with_feedback: false)
   end
 end

@@ -31,7 +31,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
     only_mentored_solutions = true
 
     Exercise::Representation::Search.expects(:call).with(
-      status: :without_feedback,
+      with_feedback: false,
       mentor:,
       track:,
       page:,
@@ -52,7 +52,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
     only_mentored_solutions = false
 
     Exercise::Representation::Search.expects(:call).with(
-      status: :without_feedback,
+      with_feedback: false,
       mentor:,
       page:,
       order:,

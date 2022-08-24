@@ -15,11 +15,11 @@ module API
     end
 
     def tracks_without_feedback
-      render json: AssembleRepresentationTracksForSelect.(current_user, :without_feedback)
+      render json: AssembleRepresentationTracksForSelect.(current_user, with_feedback: false)
     end
 
     def tracks_with_feedback
-      render json: AssembleRepresentationTracksForSelect.(current_user, :with_feedback)
+      render json: AssembleRepresentationTracksForSelect.(current_user, with_feedback: true)
     end
   end
 end

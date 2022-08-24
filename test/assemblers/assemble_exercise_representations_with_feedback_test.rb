@@ -27,9 +27,9 @@ class AssembleExerciseRepresentationsWithFeedbackTest < ActiveSupport::TestCase
     page = '1'
 
     Exercise::Representation::Search.expects(:call).with(
+      with_feedback: true,
       mentor:,
       track:,
-      status: :with_feedback,
       page:,
       order:,
       criteria:

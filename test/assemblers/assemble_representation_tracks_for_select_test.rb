@@ -30,7 +30,7 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
       { slug: javascript.slug, title: javascript.title, icon_url: javascript.icon_url, num_submissions: 1 },
       { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(user, :with_feedback)
+    assert_equal expected, AssembleRepresentationTracksForSelect.(user, with_feedback: true)
   end
 
   test "status is without_feedback" do
@@ -47,7 +47,7 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
       { slug: nil, title: 'All Tracks', icon_url: "ICON", num_submissions: 2 },
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(user, :without_feedback)
+    assert_equal expected, AssembleRepresentationTracksForSelect.(user, with_feedback: false)
   end
 
   test "status is with_feedback" do
@@ -65,6 +65,6 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
       { slug: nil, title: 'All Tracks', icon_url: "ICON", num_submissions: 2 },
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(user_1, :with_feedback)
+    assert_equal expected, AssembleRepresentationTracksForSelect.(user_1, with_feedback: true)
   end
 end

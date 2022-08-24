@@ -1,7 +1,7 @@
 class AssembleRepresentationTracksForSelect
   include Mandate
 
-  initialize_with :mentor, :status
+  initialize_with :mentor, with_feedback: Mandate::NO_DEFAULT
 
   def call
     [
@@ -19,6 +19,6 @@ class AssembleRepresentationTracksForSelect
 
   memoize
   def representations
-    Exercise::Representation::Search.(mentor:, status:, sorted: false, paginated: false)
+    Exercise::Representation::Search.(mentor:, with_feedback:, sorted: false, paginated: false)
   end
 end

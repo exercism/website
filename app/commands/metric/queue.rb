@@ -1,7 +1,7 @@
 class Metric::Queue
   include Mandate
 
-  initialize_with :type, :occurred_at, :attributes
+  initialize_with :type, :occurred_at, attributes: Mandate::KWARGS
 
   def call
     return if user&.ghost?

@@ -14,11 +14,7 @@ module Donations
 
       include Mandate
 
-      def initialize(user, stripe_data, subscription: nil)
-        @user = user
-        @stripe_data = stripe_data
-        @subscription = subscription
-      end
+      initialize_with :user, :stripe_data, subscription: nil
 
       def call
         charge = stripe_data.charges.first
@@ -52,9 +48,6 @@ module Donations
           raise SubscriptionNotCreatedError
         end
       end
-
-      private
-      attr_reader :user, :stripe_data
     end
   end
 end

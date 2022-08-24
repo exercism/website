@@ -2,7 +2,7 @@ class User::Notification
   class CreateEmailOnly
     include Mandate
 
-    initialize_with :user, :type, :params
+    initialize_with :user, :type, params: Mandate::KWARGS
 
     def call
       exercise = params.delete(:exercise)

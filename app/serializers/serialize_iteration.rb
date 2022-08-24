@@ -1,10 +1,7 @@
 class SerializeIteration
   include Mandate
 
-  def initialize(iteration, sideload: [])
-    @iteration = iteration
-    @sideload = sideload
-  end
+  initialize_with :iteration, sideload: []
 
   def call
     return if iteration.blank?
@@ -44,8 +41,6 @@ class SerializeIteration
   end
 
   private
-  attr_reader :iteration, :sideload
-
   def deleted_version
     {
       uuid: iteration.uuid,

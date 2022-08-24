@@ -11,7 +11,7 @@ class User
         return if user.github_username.blank?
 
         pull_requests.find_each do |pr|
-          User::ReputationToken::AwardForPullRequest.(pr.data)
+          User::ReputationToken::AwardForPullRequest.(**pr.data)
         rescue StandardError => e
           Rails.logger.error "Error syncing pull request reputation for user #{user.handle} and pr #{pr.repo}/#{pr.number}: #{e}" # rubocop:disable Layout/LineLength
         end

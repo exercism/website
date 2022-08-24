@@ -2,15 +2,7 @@ class User::ReputationPeriod
   class MarkOutdated
     include Mandate
 
-    # TODO: figure out why mandate doesn't work for this class
-    def self.call(...)
-      new(...).()
-    end
-
-    def initialize(period:, earned_on:)
-      @period = period
-      @earned_on = earned_on
-    end
+    initialize_with period: Mandate::NO_DEFAULT, earned_on: Mandate::NO_DEFAULT
 
     def call
       rows = User::ReputationToken.where(earned_on:).find_each.flat_map do |token|
@@ -30,8 +22,5 @@ class User::ReputationPeriod
 
       rows.uniq.each { |row| User::ReputationPeriod.where(row).update_all(dirty: true) }
     end
-
-    private
-    attr_reader :earned_on, :period
   end
 end

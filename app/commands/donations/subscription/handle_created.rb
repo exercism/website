@@ -3,10 +3,7 @@ module Donations
     class HandleCreated
       include Mandate
 
-      def initialize(subscription_id:, payment_intent_id:)
-        @subscription_id = subscription_id
-        @payment_intent_id = payment_intent_id
-      end
+      initialize_with subscription_id: Mandate::NO_DEFAULT, payment_intent_id: Mandate::NO_DEFAULT
 
       def call
         # Retrieve the payment intent used to pay the subscription
@@ -18,9 +15,6 @@ module Donations
           default_payment_method: payment_intent.payment_method
         )
       end
-
-      private
-      attr_reader :subscription_id, :payment_intent_id
     end
   end
 end

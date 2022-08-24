@@ -49,12 +49,12 @@ class AssembleContributorsTest < ActiveSupport::TestCase
       user_2.id => mock(reputation: 1, activity: "")
     )
 
-    AssembleContributors.(
+    AssembleContributors.({
       period:,
       category:,
       track_slug: track.slug,
       user_handle:,
       page:
-    )
+    })
   end
 end

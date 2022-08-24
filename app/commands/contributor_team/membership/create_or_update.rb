@@ -2,7 +2,7 @@ class ContributorTeam::Membership
   class CreateOrUpdate
     include Mandate
 
-    initialize_with :user, :team, :attributes
+    initialize_with :user, :team, attributes: Mandate::KWARGS
 
     def call
       ContributorTeam::Membership.create!(user:, team:, **attributes).tap do

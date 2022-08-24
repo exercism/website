@@ -4,7 +4,7 @@ module API
       tracks = Track::Search.(criteria: params[:criteria], user: current_user)
 
       render json: {
-        tracks: SerializeTracksForMentoring.(tracks, mentor: current_user)
+        tracks: SerializeTracksForMentoring.(tracks, current_user)
       }
     end
 
@@ -12,7 +12,7 @@ module API
       tracks = Track::Search.(criteria: params[:criteria], user: current_user)
       tracks = current_user.mentored_tracks.where(id: tracks)
       render json: {
-        tracks: SerializeTracksForMentoring.(tracks, mentor: current_user)
+        tracks: SerializeTracksForMentoring.(tracks, current_user)
       }
     end
 
@@ -22,7 +22,7 @@ module API
       current_user.update!(mentored_tracks: tracks)
 
       render json: {
-        tracks: SerializeTracksForMentoring.(current_user.mentored_tracks, mentor: current_user)
+        tracks: SerializeTracksForMentoring.(current_user.mentored_tracks, current_user)
       }
     end
   end

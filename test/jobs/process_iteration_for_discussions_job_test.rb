@@ -10,7 +10,8 @@ class ProcessIterationForDiscussionsJobTest < ActiveJob::TestCase
     User::Notification::Create.expects(:call).with(
       discussion.mentor,
       :student_added_iteration,
-      { discussion:, iteration: }
+      discussion:,
+      iteration:
     )
 
     ProcessIterationForDiscussionsJob.perform_now(iteration)

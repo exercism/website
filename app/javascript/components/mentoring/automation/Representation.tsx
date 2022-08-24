@@ -3,7 +3,7 @@ import { TrackFilterList } from '../queue/TrackFilterList'
 import { useTrackList } from '../queue/useTrackList'
 import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { AutomationStatus, MentoredTrack } from '../../types'
-import { APIResponse, useMentoringAutomation } from './useMentoringAutomation'
+import { APIResponse } from './useMentoringAutomation'
 import { Sorter } from '../Sorter'
 import { MOCK_DEFAULT_TRACK } from './mock-data'
 import { StatusTab } from '../inbox/StatusTab'
@@ -38,7 +38,6 @@ export function Representations({
   sortOptions,
   links,
   representationsRequest,
-  // data,
   withFeedback,
 }: AutomationProps): JSX.Element {
   const [selectedTrack, setSelectedTrack] =
@@ -64,13 +63,13 @@ export function Representations({
     )
 
   useEffect(() => {
-    console.log('isFetching:', isFetching)
-  }, [isFetching])
+    console.log('request:', request)
+  }, [request])
 
   useEffect(() => {
     const handler = setTimeout(() => {
       setRequestCriteria(criteria)
-    }, 200)
+    }, 1000)
 
     return () => {
       clearTimeout(handler)
@@ -93,7 +92,9 @@ export function Representations({
     },
     [setPage, setCriteria]
   )
-
+  useEffect(() => {
+    console.log('RESOLVED_DATA', resolvedData)
+  }, [resolvedData])
   const {
     tracks,
     status: trackListStatus,
@@ -118,7 +119,8 @@ export function Representations({
 
             {resolvedData ? (
               <div className="count">
-                {resolvedData.representations?.results?.length}
+                {resolvedData.representations?.results?.length ??
+                  resolvedData?.results?.length}
               </div>
             ) : null}
           </StatusTab>
@@ -130,7 +132,8 @@ export function Representations({
             <a href={links.withFeedback}>Feedback submitted</a>
             {resolvedData ? (
               <div className="count">
-                {resolvedData.representations?.results?.length}
+                {resolvedData.representations?.results?.length ??
+                  resolvedData?.results?.length}
               </div>
             ) : null}
           </StatusTab>
@@ -171,10 +174,10 @@ export function Representations({
         <ResultsZone isFetching={isFetching}>
           <RepresentationList
             error={error}
-            latestData={latestData?.representations}
+            latestData={latestData?.representations ?? latestData}
             page={request.query.page}
             setPage={setPage}
-            resolvedData={resolvedData?.representations}
+            resolvedData={resolvedData?.representations ?? resolvedData}
             status={status}
           />
         </ResultsZone>

@@ -91,7 +91,7 @@ module ReactComponents
         # TODO: It might be better to redirect to a different onboarding
         # page in this situation
         tracks = mentor.mentored_tracks.presence || ::Track.where(id: ::Track.active.pick(:id))
-        SerializeTracksForMentoring.(tracks, mentor:)
+        SerializeTracksForMentoring.(tracks, mentor)
       end
     end
   end

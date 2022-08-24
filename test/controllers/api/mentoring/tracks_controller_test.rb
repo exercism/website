@@ -19,7 +19,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     assert_response :ok
 
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.all, mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.all, user)
     }
     assert_equal expected.to_json, response.body
   end
@@ -35,7 +35,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     assert_response :ok
 
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), user)
     }
     assert_equal expected.to_json, response.body
   end
@@ -54,7 +54,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     assert_response :ok
 
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.where(id: track.id), mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.where(id: track.id), user)
     }
     assert_equal expected.to_json, response.body
   end
@@ -72,7 +72,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     assert_response :ok
 
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), user)
     }
     assert_equal expected.to_json, response.body
   end
@@ -94,7 +94,7 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
 
     assert_equal [javascript], user.reload.mentored_tracks
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.where(id: javascript.id), mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.where(id: javascript.id), user)
     }
     assert_equal expected.to_json, response.body
   end

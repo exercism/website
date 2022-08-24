@@ -13,7 +13,7 @@ class Exercise
           rep.last_submitted_at = last_submitted_at
         end
 
-        representation.update!(last_submitted_at:) unless representation.new_record?
+        representation.update!(last_submitted_at:)
         Exercise::Representation::UpdateNumSubmissions.defer(representation)
 
         representation

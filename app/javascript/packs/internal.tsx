@@ -156,15 +156,7 @@ initReact({
     />
   ),
   'mentoring-representations-with-feedback': (data: any) => (
-    <Mentoring.RepresentationsWithFeedback
-      data={data}
-      representationsRequest={camelizeKeysAs<Request>(
-        data.representations_request
-      )}
-      tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
-      sortOptions={data.sort_options}
-      links={data.links}
-    />
+    <Mentoring.RepresentationsWithFeedback data={camelizeKeys(data)} />
   ),
   'mentoring-representations-without-feedback': (data: any) => (
     <Mentoring.RepresentationsWithoutFeedback

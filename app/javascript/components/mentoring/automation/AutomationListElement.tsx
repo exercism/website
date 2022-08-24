@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { fromNow } from '../../../utils/time'
 import { TrackIcon, ExerciseIcon, GraphicalIcon } from '../../common'
-import { MentorDiscussion } from '../../types'
+import { Representation } from '../../types'
 
 export const AutomationListElement = ({
   representation,
 }: {
-  representation: MentorDiscussion
+  representation: Representation
 }): JSX.Element => {
+  useEffect(() => {
+    console.log('REPRESENTATIONL')
+  }, [representation])
+
   return (
-    <a className="--representation" href={'string'}>
+    <a className="--representer" href={'string'}>
       <TrackIcon
         title={representation.track.title}
         iconUrl={representation.track.iconUrl}

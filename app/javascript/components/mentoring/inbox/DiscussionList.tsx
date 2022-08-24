@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Pagination, Loading, GraphicalIcon } from '../../common'
 import { Discussion } from './Discussion'
 import { APIResponse } from '../Inbox'
@@ -24,6 +24,10 @@ export const DiscussionList = ({
   refetch: (options?: RefetchOptions) => Promise<APIResponse | undefined>
   links: Links
 }): JSX.Element => {
+  useEffect(() => {
+    console.log('LATEST_DATA:', latestData)
+  }, [latestData])
+
   return (
     <div>
       {status === 'loading' && <Loading />}

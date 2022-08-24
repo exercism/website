@@ -431,6 +431,17 @@ export type MentoredTrack = {
   }
 }
 
+export type Representation = {
+  id: number
+  exercise: { title: string; iconUrl: string }
+  track: { title: string; iconUrl: string }
+  numSubmissions: number
+  feedbackHtml: string
+  lastSubmittedAt: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  links: any
+}
+
 export type Contributor = {
   rank: number
   avatarUrl: string

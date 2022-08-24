@@ -3,7 +3,7 @@ import { TrackFilterList } from '../queue/TrackFilterList'
 import { useTrackList } from '../queue/useTrackList'
 import { Request } from '../../../hooks/request-query'
 import { AutomationStatus, MentoredTrack } from '../../types'
-import { useMentoringQueue } from '../queue/useMentoringQueue'
+import { useMentoringAutomation } from './useMentoringAutomation'
 import { Sorter } from '../Sorter'
 import { MOCK_DEFAULT_TRACK } from './mock-data'
 import { StatusTab } from '../inbox/StatusTab'
@@ -13,26 +13,29 @@ import SearchInput from '../../common/SearchInput'
 import { ResultsZone } from '../../ResultsZone'
 import { RepresentationList } from './RepresentationList'
 import { SortOption } from '../Inbox'
-import { Links } from '../Queue'
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
+export type AutomationLinks = {
+  withFeedback: string
+  withoutFeedback: string
+}
+
 export type AutomationProps = {
-  tracks_request: Request
-  links: Links
-  // defaultTrack: MentoredTrack
-  representations_request: Request
-  sort_options: SortOption[]
+  tracksRequest: Request
+  links: AutomationLinks
+  representationsRequest: Request
+  sortOptions: SortOption[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any
+  // data: any
   withFeedback: boolean
 }
 
 export function Representations({
-  tracks_request,
-  sort_options,
+  tracksRequest,
+  sortOptions,
   links,
-  representations_request,
-  data,
+  representationsRequest,
+  // data,
   withFeedback,
 }: AutomationProps): JSX.Element {
   const [selectedTrack, setSelectedTrack] =
@@ -40,7 +43,9 @@ export function Representations({
 
   const [checked, setChecked] = useState(false)
 
-  console.log('tracks REQ', tracks_request)
+  useEffect(() => {
+    console.log('LINKS:', tracksRequest)
+  }, [tracksRequest])
 
   const {
     resolvedData,
@@ -54,17 +59,15 @@ export function Representations({
     page,
     setPage,
     status,
-  } = useMentoringQueue({
-    request: representations_request,
+  } = useMentoringAutomation({
+    request: representationsRequest,
     exercise: null,
     track: null,
   })
 
   useEffect(() => {
-    console.log('SELECTED_TRACK', resolvedData)
+    console.log('RESOLVED_DATA', resolvedData)
   }, [resolvedData])
-
-  console.log('DATA:', data)
 
   const handleTrackChange = useCallback(
     (track) => {
@@ -82,7 +85,7 @@ export function Representations({
     isFetching: isTrackListFetching,
   } = useTrackList({
     cacheKey: TRACKS_LIST_CACHE_KEY,
-    request: tracks_request,
+    request: tracksRequest,
   })
 
   return (
@@ -95,17 +98,21 @@ export function Representations({
             currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
             setStatus={() => null}
           >
-            <a href={links.without_feedback}>Need feedback</a>
+            <a href={links.withoutFeedback}>Need feedback</a>
 
-            {resolvedData ? <div className="count">{12}</div> : null}
+            {resolvedData ? <div className="count">{0}</div> : null}
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="with_feedback"
             currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
             setStatus={() => null}
           >
-            <a href={links.with_feedback}>Feedback submitted</a>
-            {resolvedData ? <div className="count">{15}</div> : null}
+            <a href={links.withFeedback}>Feedback submitted</a>
+            {resolvedData ? (
+              <div className="count">
+                {resolvedData.representations.results.length}
+              </div>
+            ) : null}
           </StatusTab>
         </div>
         {!withFeedback && (
@@ -136,7 +143,7 @@ export function Representations({
           />
           <Sorter
             componentClassName="ml-auto automation-sorter"
-            sortOptions={sort_options}
+            sortOptions={sortOptions}
             order={order}
             setOrder={setOrder}
           />
@@ -144,10 +151,10 @@ export function Representations({
         <ResultsZone isFetching={isFetching}>
           <RepresentationList
             error={error}
-            latestData={latestData}
+            latestData={latestData?.representations}
             page={page}
             setPage={setPage}
-            resolvedData={resolvedData}
+            resolvedData={resolvedData?.representations}
             status={status}
           />
         </ResultsZone>

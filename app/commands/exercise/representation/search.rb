@@ -49,8 +49,11 @@ class Exercise::Representation::Search
   def filter_criteria!
     return if criteria.blank?
 
-    @representations = @representations.where('exercises.title LIKE ?', "%#{criteria}%").
-      or(@representations.where('exercises.slug LIKE ?', "%#{criteria}%"))
+    exercise_ids = Exercise.where('title LIKE ?', "%#{criteria}%").
+      or(Exercise.where('slug LIKE ?', "%#{criteria}%")).
+      pluck(:id)
+
+    @representations = @representations.where(exercise_id: exercise_ids)
   end
 
   def filter_only_mentored_solutions!

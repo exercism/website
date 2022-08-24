@@ -1,7 +1,7 @@
 class SerializeTracksForMentoring
   include Mandate
 
-  initialize_with :tracks, mentor: nil
+  initialize_with :tracks, :mentor
 
   def call
     tracks.order(title: :asc).map do |track|

@@ -22,8 +22,8 @@ class AssembleExerciseRepresentationsWithoutFeedback
       mentor:,
       track:,
       status: :without_feedback,
-      only_mentored_solutions: !!params[:only_mentored_solutions],
-      criteria: params[:criteria],
+      only_mentored_solutions: params[:only_mentored_solutions],
+      criteria: params.fetch(:criteria, ''),
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_submissions)
     )

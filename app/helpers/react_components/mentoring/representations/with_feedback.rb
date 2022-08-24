@@ -16,18 +16,12 @@ module ReactComponents
           )
         end
 
-        SORT_OPTIONS = [
-          { value: :num_occurances, label: 'Sort by highest occurance' },
-          { value: :recent, label: 'Sort by recent first' }
-        ].freeze
-        private_constant :SORT_OPTIONS
-
         private
         def representations_request
           {
             endpoint: Exercism::Routes.with_feedback_api_mentoring_representations_url,
             query: {
-              criteria: params[:criteria],
+              criteria: params.fetch(:criteria, ''),
               track_slug: params[:track_slug],
               order: params[:order],
               page: params[:page]
@@ -39,7 +33,7 @@ module ReactComponents
           }
         end
 
-        def representations = AssembleExerciseRepresentationsWithoutFeedback.(mentor, params)
+        def representations = AssembleExerciseRepresentationsWithFeedback.(mentor, params)
 
         def tracks_request
           {
@@ -56,6 +50,12 @@ module ReactComponents
         def links
           { without_feedback: Exercism::Routes.mentoring_automation_index_url }
         end
+
+        SORT_OPTIONS = [
+          { value: :num_occurances, label: 'Sort by highest occurance' },
+          { value: :recent, label: 'Sort by recent first' }
+        ].freeze
+        private_constant :SORT_OPTIONS
       end
     end
   end

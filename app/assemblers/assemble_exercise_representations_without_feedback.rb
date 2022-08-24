@@ -23,7 +23,7 @@ class AssembleExerciseRepresentationsWithoutFeedback
       track:,
       status: :without_feedback,
       only_mentored_solutions: params[:only_mentored_solutions],
-      criteria: params.fetch(:criteria, ''),
+      criteria: params[:criteria],
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_submissions)
     )

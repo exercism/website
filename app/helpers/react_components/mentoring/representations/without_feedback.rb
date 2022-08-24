@@ -16,12 +16,6 @@ module ReactComponents
           )
         end
 
-        SORT_OPTIONS = [
-          { value: :num_occurances, label: 'Sort by highest occurance' },
-          { value: :recent, label: 'Sort by recent first' }
-        ].freeze
-        private_constant :SORT_OPTIONS
-
         private
         def representations_request
           {
@@ -56,6 +50,12 @@ module ReactComponents
         def links
           { with_feedback: Exercism::Routes.with_feedback_mentoring_automation_index_url }
         end
+
+        SORT_OPTIONS = [
+          { value: :num_occurances, label: 'Sort by highest occurance' },
+          { value: :recent, label: 'Sort by recent first' }
+        ].freeze
+        private_constant :SORT_OPTIONS
       end
     end
   end

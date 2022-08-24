@@ -47,44 +47,50 @@ module ViewComponents
         end
       end
 
-      def tabs
-        [
-          link_to(
-            Exercism::Routes.mentoring_inbox_path,
-            class: tab_class(:workspace)
-          ) do
-            graphical_icon(:overview) +
-              tag.span("Your Workspace") +
-              tag.span(number_with_delimiter(inbox_size), class: 'count')
-          end,
+      def tabs = [workspace_tab, queue_tab, testimonials_tab, automation_tab]
 
-          link_to(
-            Exercism::Routes.mentoring_queue_path,
-            class: tab_class(:queue)
-          ) do
-            graphical_icon(:queue) +
-              tag.span("Queue") +
-              tag.span(number_with_delimiter(queue_size), class: 'count')
-          end,
+      def workspace_tab
+        link_to(
+          Exercism::Routes.mentoring_inbox_path,
+          class: tab_class(:workspace)
+        ) do
+          graphical_icon(:overview) +
+            tag.span("Your Workspace") +
+            tag.span(number_with_delimiter(inbox_size), class: 'count')
+        end
+      end
 
-          link_to(
-            Exercism::Routes.mentoring_testimonials_path,
-            class: tab_class(:testimonials)
-          ) do
-            graphical_icon(:testimonials) +
-              tag.span("Testimonials") +
-              tag.span(number_with_delimiter(num_testimonials), class: 'count')
-          end,
+      def queue_tab
+        link_to(
+          Exercism::Routes.mentoring_queue_path,
+          class: tab_class(:queue)
+        ) do
+          graphical_icon(:queue) +
+            tag.span("Queue") +
+            tag.span(number_with_delimiter(queue_size), class: 'count')
+        end
+      end
 
-          link_to(
-            Exercism::Routes.mentoring_automation_index_path,
-            class: tab_class(:automation)
-          ) do
-            graphical_icon(:automation) +
-              tag.span("Automation") +
-              tag.span(number_with_delimiter(num_representations_without_feedback), class: 'count')
-          end
-        ]
+      def testimonials_tab
+        link_to(
+          Exercism::Routes.mentoring_testimonials_path,
+          class: tab_class(:testimonials)
+        ) do
+          graphical_icon(:testimonials) +
+            tag.span("Testimonials") +
+            tag.span(number_with_delimiter(num_testimonials), class: 'count')
+        end
+      end
+
+      def automation_tab
+        link_to(
+          Exercism::Routes.mentoring_automation_index_path,
+          class: tab_class(:automation)
+        ) do
+          graphical_icon(:automation) +
+            tag.span("Automation") +
+            tag.span(number_with_delimiter(num_representations_without_feedback), class: 'count')
+        end
       end
 
       def tab_class(tab)

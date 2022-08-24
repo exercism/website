@@ -1,11 +1,7 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { useList } from '../../../hooks/use-list'
-import {
-  MentoredTrack,
-  MentoredTrackExercise,
-  Representation,
-} from '../../types'
+import { MentoredTrack, Representation } from '../../types'
 import { QueryStatus } from 'react-query'
 import { useDebounce } from '../../../hooks/use-debounce'
 import { useHistory } from '../../../hooks/use-history'
@@ -43,11 +39,9 @@ export type APIResponse = {
 export const useMentoringAutomation = ({
   request: initialRequest,
   track,
-  exercise,
 }: {
   request: Request
   track: MentoredTrack | null
-  exercise: MentoredTrackExercise | null
 }): {
   criteria?: string
   setCriteria: (criteria: string) => void
@@ -63,14 +57,12 @@ export const useMentoringAutomation = ({
 } => {
   const { request, setCriteria, setOrder, setPage } = useList(initialRequest)
   const trackSlug = track?.slug
-  const exerciseSlug = exercise?.slug
   const query = useMemo(() => {
     return {
       ...request.query,
       trackSlug: trackSlug,
-      exerciseSlug: exerciseSlug,
     }
-  }, [exerciseSlug, request.query, trackSlug])
+  }, [request.query, trackSlug])
   const debouncedQuery = useDebounce(query, 500)
   const { resolvedData, latestData, isFetching, status, error } =
     usePaginatedRequestQuery<APIResponse>(
@@ -85,6 +77,9 @@ export const useMentoringAutomation = ({
       }
     )
 
+  useEffect(() => {
+    console.log('REQ IN HOOK', query)
+  }, [query])
   useHistory({ pushOn: debouncedQuery })
 
   return {

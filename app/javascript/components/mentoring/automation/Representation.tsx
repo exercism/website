@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { TrackFilterList } from '../queue/TrackFilterList'
 import { useTrackList } from '../queue/useTrackList'
-import { Request } from '../../../hooks/request-query'
+import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { AutomationStatus, MentoredTrack } from '../../types'
-import { useMentoringAutomation } from './useMentoringAutomation'
+import { APIResponse, useMentoringAutomation } from './useMentoringAutomation'
 import { Sorter } from '../Sorter'
 import { MOCK_DEFAULT_TRACK } from './mock-data'
 import { StatusTab } from '../inbox/StatusTab'
@@ -13,6 +13,9 @@ import SearchInput from '../../common/SearchInput'
 import { ResultsZone } from '../../ResultsZone'
 import { RepresentationList } from './RepresentationList'
 import { SortOption } from '../Inbox'
+import { useList } from '../../../hooks/use-list'
+import { error } from 'jquery'
+import { useHistory, removeEmpty } from '../../../hooks/use-history'
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
 export type AutomationLinks = {
@@ -41,39 +44,52 @@ export function Representations({
   const [selectedTrack, setSelectedTrack] =
     useState<MentoredTrack>(MOCK_DEFAULT_TRACK)
 
-  const [checked, setChecked] = useState(false)
-
-  useEffect(() => {
-    console.log('LINKS:', tracksRequest)
-  }, [tracksRequest])
-
   const {
-    resolvedData,
-    isFetching,
-    criteria,
-    setCriteria,
-    error,
-    latestData,
-    order,
+    request,
+    setCriteria: setRequestCriteria,
     setOrder,
-    page,
     setPage,
-    status,
-  } = useMentoringAutomation({
-    request: representationsRequest,
-    exercise: null,
-    track: null,
-  })
+    setQuery,
+  } = useList(representationsRequest)
+
+  const [checked, setChecked] = useState(false)
+  const [criteria, setCriteria] = useState(
+    representationsRequest.query?.criteria || ''
+  )
+
+  const { status, resolvedData, latestData, isFetching } =
+    usePaginatedRequestQuery<APIResponse>(
+      ['mentor-representations-list', request.endpoint, request.query],
+      request
+    )
 
   useEffect(() => {
-    console.log('RESOLVED_DATA', resolvedData)
-  }, [resolvedData])
+    console.log('isFetching:', isFetching)
+  }, [isFetching])
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setRequestCriteria(criteria)
+    }, 200)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [setRequestCriteria, criteria])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
+
+  // const setTrack = (trackSlug: string | null) => {
+  //   setQuery({ ...request.query, trackSlug: trackSlug, page: undefined })
+  // }
 
   const handleTrackChange = useCallback(
     (track) => {
       setPage(1)
       setCriteria('')
       setSelectedTrack(track)
+
+      setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
     },
     [setPage, setCriteria]
   )
@@ -100,7 +116,11 @@ export function Representations({
           >
             <a href={links.withoutFeedback}>Need feedback</a>
 
-            {resolvedData ? <div className="count">{0}</div> : null}
+            {resolvedData ? (
+              <div className="count">
+                {resolvedData.representations?.results?.length}
+              </div>
+            ) : null}
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="with_feedback"
@@ -110,7 +130,7 @@ export function Representations({
             <a href={links.withFeedback}>Feedback submitted</a>
             {resolvedData ? (
               <div className="count">
-                {resolvedData.representations.results.length}
+                {resolvedData.representations?.results?.length}
               </div>
             ) : null}
           </StatusTab>
@@ -124,7 +144,7 @@ export function Representations({
       <div className="container">
         <header className="c-search-bar automation-header">
           <TrackFilterList
-            countText={'requests'}
+            countText={'results'}
             status={trackListStatus}
             error={trackListError}
             tracks={tracks}
@@ -144,7 +164,7 @@ export function Representations({
           <Sorter
             componentClassName="ml-auto automation-sorter"
             sortOptions={sortOptions}
-            order={order}
+            order={request.query.order}
             setOrder={setOrder}
           />
         </header>
@@ -152,7 +172,7 @@ export function Representations({
           <RepresentationList
             error={error}
             latestData={latestData?.representations}
-            page={page}
+            page={request.query.page}
             setPage={setPage}
             resolvedData={resolvedData?.representations}
             status={status}

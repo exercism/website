@@ -31,11 +31,11 @@ export const AutomationListElement = ({
           in {representation.track.title} (#520)
         </div>
       </div>
-      <div className="--feedback-glimpse">
-        Nice use of `input` - I think that’s really great. Let’s exercise this
-        more and make this text overflow a bit, so I handle this case
-      </div>
-      <div className="--occurencies">2534 occurencies</div>
+      <div
+        className="--feedback-glimpse"
+        dangerouslySetInnerHTML={{ __html: representation.feedbackHtml }}
+      ></div>
+      <div className="--occurencies">{representation.numSubmissions}</div>
       <time>
         Last shown
         <br />

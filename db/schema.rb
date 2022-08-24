@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_23_134044) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_24_135136) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -213,12 +213,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_23_134044) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "num_submissions", default: 0, null: false
+    t.datetime "last_shown_at"
     t.datetime "last_submitted_at", default: "2022-08-17 08:10:01", null: false
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
+    t.index ["feedback_type", "num_submissions"], name: "test", order: { num_submissions: :desc }
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
   end
 
@@ -609,7 +611,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_23_134044) do
     t.datetime "updated_at", null: false
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
-    t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
@@ -647,6 +648,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_23_134044) do
     t.string "ast_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "mentor_id"
+    t.index ["mentor_id"], name: "index_submission_representations_on_mentor_id"
     t.index ["submission_id", "ast_digest"], name: "index_submission_representations_on_submission_id_and_ast_digest"
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
   end
@@ -1053,6 +1056,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_23_134044) do
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_files", "submissions"
   add_foreign_key "submission_representations", "submissions"
+  add_foreign_key "submission_representations", "users", column: "mentor_id"
   add_foreign_key "submission_test_runs", "submissions"
   add_foreign_key "submissions", "solutions"
   add_foreign_key "track_concept_authorships", "track_concepts"

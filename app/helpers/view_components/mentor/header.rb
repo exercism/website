@@ -83,6 +83,16 @@ module ViewComponents
       end
 
       def automation_tab
+        unless current_user.supermentor?
+          return tag.div(
+            class: "#{tab_class(:automation)} locked",
+            'aria-label': "This tab is locked"
+          ) do
+            graphical_icon(:automation) +
+            tag.span("Automation")
+          end
+        end
+
         link_to(
           Exercism::Routes.mentoring_automation_index_path,
           class: tab_class(:automation)

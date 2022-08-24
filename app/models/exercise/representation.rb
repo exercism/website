@@ -20,8 +20,10 @@ class Exercise::Representation < ApplicationRecord
 
   scope :without_feedback, -> { where(feedback_type: nil) }
   scope :with_feedback, -> { where.not(feedback_type: nil) }
-  scope :mentored_by, ->(mentor) { joins(:solution).where(solutions: mentor.mentor_discussion_solutions) }
-  scope :track_mentored_by, ->(mentor) { joins(:exercise).where(exercises: { track: mentor.mentored_tracks }) }
+  scope :mentored_by, lambda { |mentor|
+                        joins(:source_submission).where(source_submission: { solution_id: mentor.mentor_discussions.select(:solution_id) }) # rubocop:disable Layout/LineLength
+                      }
+  scope :track_mentored_by, ->(mentor) { joins(:exercise).where(exercises: { track_id: mentor.track_mentorships.select(:track_id) }) }
   scope :edited_by, ->(mentor) { where(feedback_author: mentor).or(where(feedback_editor: mentor)) }
   scope :for_track, ->(track) { joins(:exercise).where(exercises: { track: }) }
 

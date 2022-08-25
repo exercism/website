@@ -5,11 +5,15 @@ export function GraphicalIcon({
   icon,
   className = '',
   category,
+  width = null,
+  height = null,
   hex = false,
 }: {
   icon: string
   className?: string
   category?: string
+  width?: number
+  height?: number
   hex?: boolean
 }) {
   const classNames = ['c-icon', className, hex ? '--hex' : ''].filter(
@@ -26,6 +30,8 @@ export function GraphicalIcon({
     <img
       src={iconFile}
       alt=""
+      width={width}
+      height={height}
       role="presentation"
       className={classNames.join(' ')}
     />

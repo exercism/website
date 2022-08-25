@@ -2,15 +2,23 @@
     .map-point {
         transform-origin: left top;
 
-        &.metric-sign_up_metric,
+        &.metric-sign_up_metric {
+            opacity: 0;
+            animation: zoomIn 0.2s linear 0.05s forwards,
+                zoomOut 0.3s linear 2s forwards;
+        }
         &.metric-start_solution_metric {
-            animation: zoomIn 0.4s, zoomOut 0.3s linear 3s forwards;
+            opacity: 0;
+            animation: zoomIn 0.2s linear 0.05s forwards,
+                zoomOut 0.3s linear 3s forwards;
         }
         &.metric-publish_solution_metric,
         &.metric-open_issue_metric,
         &.metric-open_pull_request_metric,
         &.metric-merge_pull_request_metric {
-            animation: zoomIn 0.3s, zoomOut 0.3s linear 6s forwards;
+            opacity: 0;
+            animation: zoomIn 0.2s linear 0.05s forwards,
+                zoomOut 0.3s linear 6s forwards;
         }
     }
 }

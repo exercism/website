@@ -20,12 +20,16 @@ const coordinatesToPosition = (latitude, longitude) => {
   return [left, top]
 }
 
-const MetricPointUserWithTooltip = ({
+const MetricPointWithTooltip = ({
   metric,
   text,
+  duration,
+  content,
 }: {
   metric: Metric
   text: String
+  duration: Number
+  content: JSX.Element
 }): JSX.Element => {
   const avatarRef = useRef(null)
   return (
@@ -36,34 +40,69 @@ const MetricPointUserWithTooltip = ({
       followCursor={false}
       hideOnClick={false}
       trigger="manual"
-      delay={[300, 0]}
+      delay={[0, 0]}
       onShow={(i) => {
         setTimeout(() => {
           i.hide()
-        }, 5700) // Make sure this aligns to the CSS animation.
+        }, duration - 50) // Make sure this aligns to the CSS animation.
       }}
     >
-      <div
-        ref={avatarRef}
-        className="relative border-2 border-gradient shadow-smZ1 rounded-circle translate-y-[-50%] translate-x-[-50%]"
-      >
-        <Avatar
-          src={metric.user.avatarUrl}
-          handle={metric.user.handle}
-          className=" w-[32px] h-[32px]"
-        />
-      </div>
+      {content}
     </GenericTooltip>
+  )
+}
+
+const MetricPointUserWithTooltip = ({
+  metric,
+  text,
+}: {
+  metric: Metric
+  text: String
+}): JSX.Element => {
+  const avatarRef = useRef(null)
+  const content = (
+    <div
+      ref={avatarRef}
+      className="relative border-2 border-gradient shadow-smZ1 rounded-circle translate-y-[-50%] translate-x-[-50%]"
+    >
+      <Avatar
+        src={metric.user.avatarUrl}
+        handle={metric.user.handle}
+        className=" w-[32px] h-[32px]"
+      />
+    </div>
+  )
+  return (
+    <MetricPointWithTooltip
+      metric={metric}
+      text={text}
+      duration={6000}
+      content={content}
+    />
   )
 }
 
 const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
   switch (metric.type) {
     case 'sign_up_metric':
+      const iconRef = useRef(null)
+      const content = (
+        <div
+          ref={iconRef}
+          className="relative border-2 border-gradient shadow-smZ1 rounded-circle translate-y-[-50%] translate-x-[-50%]"
+        >
+          <GraphicalIcon
+            icon="avatar-placeholder"
+            className="w-[32px] h-[32px]"
+          />
+        </div>
+      )
       return (
-        <GraphicalIcon
-          icon="avatar-placeholder"
-          className="shadow-smZ1 rounded-circle w-[32px] h-[32px] translate-y-[-50%] translate-x-[-50%] border-2 border-gradient"
+        <MetricPointWithTooltip
+          metric={metric}
+          text={`Someone joined Exercism`}
+          duration={2000}
+          content={content}
         />
       )
     case 'start_solution_metric':
@@ -72,6 +111,14 @@ const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
           iconUrl={metric.track.iconUrl}
           title={metric.track.title}
           className="shadow-smZ1 w-[32px] h-[32px] translate-y-[-50%] translate-x-[-50%]"
+        />
+      )
+    case 'submit_submission_metric':
+      return (
+        <TrackIcon
+          iconUrl={metric.track.iconUrl}
+          title={metric.track.title}
+          className="shadow-smZ1 w-[24px] h-[24px] translate-y-[-50%] translate-x-[-50%]"
         />
       )
     case 'publish_solution_metric':
@@ -146,7 +193,9 @@ export default ({
       <GraphicalIcon
         icon="world-map"
         category="graphics"
-        className="w-fill w-[680px] h-[400px]"
+        width="680"
+        height="400"
+        className="w-fill"
       />
       {metrics.map((metric) => (
         <MetricPoint key={metric.id} metric={metric} />

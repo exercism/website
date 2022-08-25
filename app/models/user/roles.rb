@@ -3,5 +3,6 @@ module User::Roles
   def admin? = roles.include?(:admin)
   def staff? = roles.include?(:staff)
   def maintainer? = roles.include?(:maintainer)
+  def supermentor? = roles.include?(:supermentor)
   def roles = super.to_a.map(&:to_sym)
 end

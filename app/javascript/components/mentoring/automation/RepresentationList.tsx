@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Pagination } from '../../common/Pagination'
 import { FetchingBoundary } from '../../FetchingBoundary'
-import { RepresentationsResponse } from './useMentoringAutomation'
+import { APIResponse } from './useMentoringAutomation'
 import { QueryStatus } from 'react-query'
 import { AutomationListElement } from './AutomationListElement'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
 type Props = {
-  resolvedData: RepresentationsResponse | undefined
-  latestData: RepresentationsResponse | undefined
+  resolvedData: APIResponse | undefined
+  latestData: APIResponse | undefined
   page: number
   setPage: (page: number) => void
 }
@@ -31,10 +31,6 @@ export const RepresentationList = ({
 }
 
 function Component({ resolvedData, latestData, page, setPage }: Props) {
-  useEffect(() => {
-    console.log('RESOLVED IN COMPONENT:', resolvedData)
-  }, [resolvedData])
-
   return (
     <>
       {resolvedData && resolvedData.results && (

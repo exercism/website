@@ -8,10 +8,6 @@ export const AutomationListElement = ({
 }: {
   representation: Representation
 }): JSX.Element => {
-  useEffect(() => {
-    console.log('REPRESENTATIONL')
-  }, [representation])
-
   return (
     <a className="--representer" href={'string'}>
       <TrackIcon

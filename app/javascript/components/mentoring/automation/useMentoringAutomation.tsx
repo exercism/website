@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { useList } from '../../../hooks/use-list'
 import { MentoredTrack, Representation } from '../../types'
@@ -77,9 +77,6 @@ export const useMentoringAutomation = ({
       }
     )
 
-  useEffect(() => {
-    console.log('REQ IN HOOK', query)
-  }, [query])
   useHistory({ pushOn: debouncedQuery })
 
   return {

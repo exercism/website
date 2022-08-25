@@ -1,12 +1,16 @@
 import consumer from '../utils/action-cable-consumer'
 
-export class StatsChannel {
+export type MetricsChannelResponse = {
+  metric: Metric
+}
+
+export class MetricsChannel {
   subscription: ActionCable.Channel
 
   constructor(onReceive: () => void) {
     this.subscription = consumer.subscriptions.create(
       {
-        channel: 'StatsChannel',
+        channel: 'MetricsChannel',
       },
       {
         received: onReceive,

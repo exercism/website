@@ -16,12 +16,13 @@
         .py-12.px-32
           %h3.label-large Students
           .text-purple.font-semibold.text-40.leading-150
-            = render ReactComponents::Impact::Stat.new(:students, 1_008_385)
+            = render ReactComponents::Impact::Stat.new(:sign_up_metric, 1_008_385)
           .text-successColor.font-bold +939 per day
 
         .py-12.px-32.bg-bgGray
           %h3.label-large Exercise Submissions
-          .text-purple.font-semibold.text-40.leading-150 3,640,000
+          .text-purple.font-semibold.text-40.leading-150
+            = render ReactComponents::Impact::Stat.new(:submit_solution_metric, 1_008_385)
           .text-successColor.font-bold +1,842 per day
 
         .py-12.px-32

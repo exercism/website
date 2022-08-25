@@ -19,6 +19,8 @@ class Metric::Create
         metric.coordinates = coordinates
       end
       metric.save!
+
+      MetricsChannel.broadcast!(metric)
     rescue ActiveRecord::RecordNotUnique
       return klass.find_by!(uniqueness_key: metric.uniqueness_key)
     end

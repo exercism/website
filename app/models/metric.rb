@@ -16,6 +16,13 @@ class Metric < ApplicationRecord
   # Metrics can opt-out by overriding this method and returning nil.
   def store_country_code? = true
 
+  def to_broadcast_hash
+    {
+      type: type.underscore.split('/').last,
+      coordinates:
+    }
+  end
+
   # This maps
   # {discussion: Mentor::Discussion.find(186)}
   # to

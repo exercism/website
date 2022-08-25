@@ -676,3 +676,8 @@ export type SharePlatform =
   | 'reddit'
   | 'linkedin'
   | 'devto'
+
+export type Metric = {
+  type: string
+  coordinates: number[]
+}

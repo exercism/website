@@ -1,4 +1,4 @@
-module  Mentor
+module Mentor
   class Discussion
     class ReplyByMentor
       include Mandate

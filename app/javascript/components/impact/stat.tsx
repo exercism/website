@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { StatsChannel } from '../../channels/statsChannel'
+import {
+  MetricsChannel,
+  MetricsChannelResponse,
+} from '../../channels/metricsChannel'
 
 export default ({
   metric,
@@ -11,8 +14,8 @@ export default ({
   const [value, setValue] = useState(initialValue)
 
   useEffect(() => {
-    const connection = new StatsChannel((data) => {
-      if (metric != data.metric) {
+    const connection = new MetricsChannel((data: MetricsChannelResponse) => {
+      if (metric != data.metric.type) {
         return
       }
 

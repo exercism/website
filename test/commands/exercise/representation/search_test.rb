@@ -91,41 +91,25 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     mentor_1 = create :user
     mentor_2 = create :user
     mentor_3 = create :user
-    track_1 = create :track, :random_slug
-    track_2 = create :track, :random_slug
-    create :user_track_mentorship, user: mentor_1, track: track_1
-    create :user_track_mentorship, user: mentor_1, track: track_2
-    create :user_track_mentorship, user: mentor_2, track: track_2
-    exercise_1 = create :practice_exercise, track: track_1
-    exercise_2 = create :practice_exercise, track: track_2
-    exercise_3 = create :practice_exercise, track: track_2
-    solution_1 = create :practice_solution, exercise: exercise_1, track: track_1
-    solution_2 = create :practice_solution, exercise: exercise_2, track: track_2
-    solution_3 = create :practice_solution, exercise: exercise_3, track: track_2
-    submission_1 = create :submission, solution: solution_1
-    submission_2 = create :submission, solution: solution_2
-    submission_3 = create :submission, solution: solution_3
-    create :mentor_discussion, mentor: mentor_1, solution: solution_1
-    create :mentor_discussion, mentor: mentor_1, solution: solution_3
-    representation_1 = create :exercise_representation, exercise: exercise_1, feedback_type: nil, num_submissions: 3,
+    representation_1 = create :exercise_representation, feedback_editor: mentor_1, feedback_type: :actionable, num_submissions: 3,
       ast_digest: 'digest_1'
-    representation_2 = create :exercise_representation, exercise: exercise_2, feedback_type: nil, num_submissions: 2,
+    representation_2 = create :exercise_representation, feedback_editor: mentor_2, feedback_type: :actionable, num_submissions: 2,
       ast_digest: 'digest_2'
-    representation_3 = create :exercise_representation, exercise: exercise_3, feedback_type: nil, num_submissions: 1,
+    representation_3 = create :exercise_representation, feedback_editor: mentor_1, feedback_type: :actionable, num_submissions: 1,
       ast_digest: 'digest_3'
-    create :submission_representation, submission: submission_1, ast_digest: representation_1.ast_digest, mentor: mentor_1
-    create :submission_representation, submission: submission_2, ast_digest: representation_2.ast_digest, mentor: mentor_2
-    create :submission_representation, submission: submission_3, ast_digest: representation_3.ast_digest, mentor: mentor_1
+    create :submission_representation, ast_digest: representation_1.ast_digest, mentor: mentor_1
+    create :submission_representation, ast_digest: representation_2.ast_digest
+    create :submission_representation, ast_digest: representation_3.ast_digest
 
+    assert_equal [representation_1],
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, with_feedback: true)
     assert_equal [representation_1, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, with_feedback: false)
-    assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: false, with_feedback: false)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: true, with_feedback: false)
-    assert_equal [representation_2, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: false, with_feedback: false)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: true, with_feedback: false)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: false, with_feedback: false)
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: false, with_feedback: true)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: true, with_feedback: true)
+    assert_equal [representation_2],
+      Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: false, with_feedback: true)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: true, with_feedback: true)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: false, with_feedback: true)
   end
 
   test "paginates" do
@@ -158,6 +142,6 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     assert_equal [representation_1, representation_3, representation_2],
       Exercise::Representation::Search.(order: :most_recent, with_feedback: false)
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(sorted: false, with_feedback: false)
+      Exercise::Representation::Search.(sorted: false, with_feedback: false).order(:id)
   end
 end

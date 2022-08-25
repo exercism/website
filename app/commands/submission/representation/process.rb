@@ -35,10 +35,8 @@ class Submission
       def create_submission_representation!
         # return unless ast_digest
 
-        @submission_representation = submission.create_submission_representation!(
-          tooling_job_id: tooling_job.id,
-          ops_status: tooling_job.execution_status.to_i,
-          ast_digest:
+        @submission_representation = Submission::Representation::Create.(
+          submission, tooling_job, ast_digest
         )
       end
 

@@ -32,6 +32,8 @@ export type AutomationProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // data: any
   withFeedback: boolean
+  representationsWithoutFeedbackCount?: number
+  representationsWithFeedbackCount?: number
 }
 
 export function Representations({
@@ -40,6 +42,8 @@ export function Representations({
   links,
   representationsRequest,
   withFeedback,
+  representationsWithoutFeedbackCount,
+  representationsWithFeedbackCount,
 }: AutomationProps): JSX.Element {
   const [selectedTrack, setSelectedTrack] =
     useState<MentoredTrack>(MOCK_DEFAULT_TRACK)
@@ -87,6 +91,27 @@ export function Representations({
     [setPage, setQuery, request.query]
   )
 
+  const feedbackCount = useCallback(
+    (withFeedback) => {
+      if (withFeedback) {
+        return {
+          with_feedback: resolvedData?.results.length,
+          without_feedback: representationsWithoutFeedbackCount,
+        }
+      } else {
+        return {
+          with_feedback: representationsWithFeedbackCount,
+          without_feedback: resolvedData?.results.length,
+        }
+      }
+    },
+    [
+      representationsWithFeedbackCount,
+      representationsWithoutFeedbackCount,
+      resolvedData?.results.length,
+    ]
+  )
+
   const {
     resolvedData: tracks,
     status: trackListStatus,
@@ -97,7 +122,7 @@ export function Representations({
     request: tracksRequest,
   })
 
-  useLogger('TRACKS', tracks)
+  useLogger('resolvedData:', links)
 
   return (
     <div className="c-mentor-inbox">
@@ -112,7 +137,9 @@ export function Representations({
             <a href={links.withoutFeedback}>Need feedback</a>
 
             {resolvedData ? (
-              <div className="count">{resolvedData.results?.length}</div>
+              <div className="count">
+                {feedbackCount(withFeedback)['without_feedback']}
+              </div>
             ) : null}
           </StatusTab>
           <StatusTab<AutomationStatus>
@@ -120,10 +147,12 @@ export function Representations({
             currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
             setStatus={() => null}
           >
-            {/* TODO: this routing is really-really bad.. */}
+            {/* TODO: this routing is pretty bad.. */}
             <a href={links.withFeedback}>Feedback submitted</a>
             {resolvedData ? (
-              <div className="count">{resolvedData.results.length}</div>
+              <div className="count">
+                {feedbackCount(withFeedback)['with_feedback']}
+              </div>
             ) : null}
           </StatusTab>
         </div>

@@ -54,7 +54,7 @@ function Component({
               ))
             ) : (
               // TODO write logic finding difference between wrong query and no solutions yet
-              <NoResultsYet />
+              <NoResultsOfQuery />
             )}
           </div>
           <footer>
@@ -100,8 +100,8 @@ function NoResultsOfQuery() {
   return (
     <TableFallbackComponent
       icon="no-result-magnifier"
-      title="No discussions found."
-      description="Try changing your filters to find discussions that need feedback."
+      title="No solutions found."
+      description="Try changing your filters to find solutions that need feedback."
     />
   )
 }
@@ -111,7 +111,7 @@ function NoResultsYet() {
     <TableFallbackComponent
       icon="automation"
       svgFilter="textColor6-filter"
-      title="There are currently no discussions that need feedback."
+      title="There are currently no solutions that need feedback."
       description="Check back here later for more!"
     />
   )

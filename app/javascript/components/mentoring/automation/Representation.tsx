@@ -16,8 +16,8 @@ import { SortOption } from '../Inbox'
 import { useList } from '../../../hooks/use-list'
 import { error } from 'jquery'
 import { useHistory, removeEmpty } from '../../../hooks/use-history'
-import useLogger from '../../../hooks/use-logger'
-const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
+
+const AUTOMATION_TRACKS_CACHE_KEY = 'automation-tracks-list-cache'
 
 export type AutomationLinks = {
   withFeedback: string
@@ -118,11 +118,9 @@ export function Representations({
     error: trackListError,
     isFetching: isTrackListFetching,
   } = useTrackList({
-    cacheKey: TRACKS_LIST_CACHE_KEY,
+    cacheKey: AUTOMATION_TRACKS_CACHE_KEY,
     request: tracksRequest,
   })
-
-  useLogger('resolvedData:', links)
 
   return (
     <div className="c-mentor-inbox">
@@ -174,7 +172,7 @@ export function Representations({
             error={trackListError}
             tracks={tracks}
             isFetching={isTrackListFetching}
-            cacheKey={TRACKS_LIST_CACHE_KEY}
+            cacheKey={AUTOMATION_TRACKS_CACHE_KEY}
             links={links}
             value={selectedTrack}
             setValue={handleTrackChange}

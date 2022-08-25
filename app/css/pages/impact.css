@@ -1,3 +1,24 @@
+@keyframes impactZoomIn {
+    from {
+        transform: scale(0, 0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+}
+@keyframes impactFadeOut {
+    from {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0, 0);
+        opacity: 0;
+    }
+}
+
 #impact-page {
     .map-point {
         transform-origin: left top;
@@ -5,8 +26,8 @@
         &.metric-start_solution_metric {
             z-index: 1;
             opacity: 0;
-            animation: zoomIn 0.2s linear 0.05s forwards,
-                zoomOut 0.3s linear 3s forwards;
+            animation: impactZoomIn 0.2s linear 0.05s forwards,
+                impactFadeOut 30s linear 3s forwards;
         }
 
         &.metric-sign_up_metric,
@@ -16,8 +37,8 @@
         &.metric-merge_pull_request_metric {
             z-index: 2;
             opacity: 0;
-            animation: zoomIn 0.2s linear 0.05s forwards,
-                zoomOut 0.3s linear 6s forwards;
+            animation: impactZoomIn 0.2s linear 0.05s forwards,
+                impactFadeOut 0.3s linear 6s forwards;
 
             img {
                 filter: drop-shadow(0px 0px 10px rgba(79, 114, 205, 0.3));

@@ -19,8 +19,16 @@ class Metric < ApplicationRecord
   def to_broadcast_hash
     {
       type: type.underscore.split('/').last,
+      id:,
       coordinates:
-    }
+    }.tap do |hash|
+      if track
+        hash[:track] = {
+          title: track.title,
+          icon_url: track.icon_url
+        }
+      end
+    end
   end
 
   # This maps

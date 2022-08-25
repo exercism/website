@@ -1,0 +1,5 @@
+#impact-page {
+    .map-point {
+        animation: fadeIn 0.5s, fadeOut 0.5s linear 3s forwards;
+    }
+}

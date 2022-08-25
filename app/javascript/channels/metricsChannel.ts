@@ -1,5 +1,8 @@
 import consumer from '../utils/action-cable-consumer'
-
+import { camelizeKeys } from 'humps'
+function camelizeKeysAs<T>(object: any): T {
+  return camelizeKeys(object) as unknown as T
+}
 export type MetricsChannelResponse = {
   metric: Metric
 }
@@ -13,7 +16,13 @@ export class MetricsChannel {
         channel: 'MetricsChannel',
       },
       {
-        received: onReceive,
+        received: (data) => {
+          if (!onReceive) {
+            return
+          }
+
+          onReceive(camelizeKeysAs<Metric>(data.metric))
+        },
       }
     )
   }

@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import {
-  MetricsChannel,
-  MetricsChannelResponse,
-} from '../../channels/metricsChannel'
-
+import { MetricsChannel } from '../../channels/metricsChannel'
+import { Metric } from '../../types'
 export default ({
-  metric,
+  metricType,
   initialValue,
 }: {
-  metric: string
+  metricType: string
   initialValue: number
 }): JSX.Element => {
   const [value, setValue] = useState(initialValue)
 
   useEffect(() => {
-    const connection = new MetricsChannel((data: MetricsChannelResponse) => {
-      if (metric != data.metric.type) {
+    const connection = new MetricsChannel((metric: Metric) => {
+      if (metricType != metric.type) {
         return
       }
 

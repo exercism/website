@@ -205,4 +205,19 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
     assert_equal track, representation.track
   end
+
+  test "appears_frequently?" do
+    representation = create :exercise_representation, num_submissions: 0
+
+    refute representation.appears_frequently?
+
+    representation.update(num_submissions: 4)
+    refute representation.appears_frequently?
+
+    representation.update(num_submissions: 5)
+    assert representation.appears_frequently?
+
+    representation.update(num_submissions: 29)
+    assert representation.appears_frequently?
+  end
 end

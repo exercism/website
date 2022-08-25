@@ -24,6 +24,7 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
           title: 'Ruby'
         },
         num_submissions: 5,
+        appears_frequently: true,
         feedback_html: "<p>Yay</p>\n",
         last_submitted_at: current_time - 5.days,
         links: {}
@@ -39,6 +40,7 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
           title: 'C#'
         },
         num_submissions: 3,
+        appears_frequently: false,
         feedback_html: "<p>Jip</p>\n",
         last_submitted_at: current_time - 2.days,
         links: {}

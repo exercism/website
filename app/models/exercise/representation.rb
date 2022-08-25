@@ -46,4 +46,11 @@ class Exercise::Representation < ApplicationRecord
   def has_feedback?
     [feedback_markdown, feedback_author_id, feedback_type].all?(&:present?)
   end
+
+  def appears_frequently?
+    num_submissions >= APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS
+  end
+
+  APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS = 5
+  private_constant :APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS
 end

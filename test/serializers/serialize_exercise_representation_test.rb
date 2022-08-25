@@ -19,6 +19,7 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
         title: 'Ruby'
       },
       num_submissions: 5,
+      appears_frequently: true,
       feedback_html: "<p>Yay</p>\n",
       last_submitted_at:,
       links: {}

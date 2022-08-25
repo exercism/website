@@ -11,7 +11,8 @@ module ReactComponents
               representations_request:,
               tracks_request:,
               links:,
-              sort_options: SORT_OPTIONS
+              sort_options: SORT_OPTIONS,
+              representations_without_feedback_count:
             }
           )
         end
@@ -34,6 +35,10 @@ module ReactComponents
         end
 
         def representations = AssembleExerciseRepresentationsWithFeedback.(mentor, params)
+
+        def representations_without_feedback_count
+          Exercise::Representation::Search.(mentor:, with_feedback: false, sorted: false, paginated: false).count
+        end
 
         def tracks_request
           {

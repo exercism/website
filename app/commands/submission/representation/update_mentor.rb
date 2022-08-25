@@ -5,8 +5,8 @@ class Submission
 
       initialize_with :submission
 
-      # TODO: call from reply_by_mentor
-      # TODO: call when Exercise::Representation::CreateOrUpdate
+      queue_as :default
+
       def call
         return unless iteration
         return unless submission_representation

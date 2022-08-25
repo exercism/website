@@ -23,7 +23,7 @@
           .py-12.px-32.bg-bgGray
             %h3.label-large Exercise Submissions
             .text-purple.font-semibold.text-40.leading-150
-              = render ReactComponents::Impact::Stat.new(:submit_solution_metric, 1_008_385)
+              = render ReactComponents::Impact::Stat.new(:start_solution_metric, 1_008_385)
             .text-successColor.font-bold +1,842 per day
 
           .py-12.px-32
@@ -35,7 +35,7 @@
           %p.text-p-large Using a unique blend of learning, practicing, and mentoring. Everything on Exercism is 100% free.
 
       .shadow-lg.flex-grow.bg-white.rounded-16.p-24
-        = ReactComponents::Impact::Map.new(Metrics::SubmitSolutionMetric.last(1))
+        = ReactComponents::Impact::Map.new(Metrics::StartSolutionMetric.last(1))
 
   .md-container.mb-64
     .grid.grid-cols-3.gap-20

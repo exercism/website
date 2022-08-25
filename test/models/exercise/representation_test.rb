@@ -147,12 +147,12 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     submission_1 = create :submission, solution: solution_1
     submission_2 = create :submission, solution: solution_2
     submission_3 = create :submission, solution: solution_3
-    create :mentor_discussion, mentor: user_1, solution: solution_1
-    create :mentor_discussion, mentor: user_2, solution: solution_2
-    create :mentor_discussion, mentor: user_1, solution: solution_3
     representation_1 = create :exercise_representation, source_submission: submission_1, exercise: exercise_1
     representation_2 = create :exercise_representation, source_submission: submission_2, exercise: exercise_2
     representation_3 = create :exercise_representation, source_submission: submission_3, exercise: exercise_3
+    create :submission_representation, submission: submission_1, ast_digest: representation_1.ast_digest, mentor: user_1
+    create :submission_representation, submission: submission_2, ast_digest: representation_2.ast_digest, mentor: user_2
+    create :submission_representation, submission: submission_3, ast_digest: representation_3.ast_digest, mentor: user_1
 
     assert_equal [representation_1, representation_3],
       Exercise::Representation.mentored_by(user_1.reload).order(:id)

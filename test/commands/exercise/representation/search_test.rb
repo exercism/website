@@ -107,12 +107,15 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     submission_3 = create :submission, solution: solution_3
     create :mentor_discussion, mentor: mentor_1, solution: solution_1
     create :mentor_discussion, mentor: mentor_1, solution: solution_3
-    representation_1 = create :exercise_representation, feedback_type: nil, num_submissions: 3, source_submission: submission_1,
-      exercise: exercise_1
-    representation_2 = create :exercise_representation, feedback_type: nil, num_submissions: 2, source_submission: submission_2,
-      exercise: exercise_2
-    representation_3 = create :exercise_representation, feedback_type: nil, num_submissions: 1, source_submission: submission_3,
-      exercise: exercise_3
+    representation_1 = create :exercise_representation, exercise: exercise_1, feedback_type: nil, num_submissions: 3,
+      ast_digest: 'digest_1'
+    representation_2 = create :exercise_representation, exercise: exercise_2, feedback_type: nil, num_submissions: 2,
+      ast_digest: 'digest_2'
+    representation_3 = create :exercise_representation, exercise: exercise_3, feedback_type: nil, num_submissions: 1,
+      ast_digest: 'digest_3'
+    create :submission_representation, submission: submission_1, ast_digest: representation_1.ast_digest, mentor: mentor_1
+    create :submission_representation, submission: submission_2, ast_digest: representation_2.ast_digest, mentor: mentor_2
+    create :submission_representation, submission: submission_3, ast_digest: representation_3.ast_digest, mentor: mentor_1
 
     assert_equal [representation_1, representation_3],
       Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, with_feedback: false)

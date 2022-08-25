@@ -24,6 +24,10 @@ class Exercise::Representation < ApplicationRecord
   scope :edited_by, ->(mentor) { where(feedback_author: mentor).or(where(feedback_editor: mentor)) }
   scope :for_track, ->(track) { joins(:exercise).where(exercises: { track: }) }
 
+  before_create do
+    self.uuid = SecureRandom.compact_uuid
+  end
+
   def num_times_used
     submission_representations.count
   end

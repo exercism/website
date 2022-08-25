@@ -20,6 +20,7 @@ en:
       solution_comment_not_accessible: "This comment is not accessible"
       submission_not_found: "This submission could not be found"
       submission_not_accessible: "You do not have permission to view this submission"
+      representation_not_found: "This representation could not be found"
       team_not_found: "The team could not be found"
       track_ambiguous: "Please specify a track ID"
       track_not_found: "The track you specified does not exist"

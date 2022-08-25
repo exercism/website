@@ -20,7 +20,7 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
       },
       num_submissions: 5,
       appears_frequently: true,
-      feedback_html: "<p>Yay</p>\n",
+      feedback_markdown: "Yay",
       last_submitted_at:,
       links: {}
     }

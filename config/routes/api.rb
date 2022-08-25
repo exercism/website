@@ -180,11 +180,13 @@ namespace :api do
         get :mentored
       end
 
-      resource :representations, only: [] do
-        get :with_feedback
-        get :without_feedback
-        get :tracks_with_feedback
-        get :tracks_without_feedback
+      resources :representations, only: %i[show update], param: :uuid do
+        collection do
+          get :with_feedback
+          get :without_feedback
+          get :tracks_with_feedback
+          get :tracks_without_feedback
+        end
       end
 
       resources :requests, only: %i[index], param: :uuid do

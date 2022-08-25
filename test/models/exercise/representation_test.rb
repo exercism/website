@@ -202,4 +202,10 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     representation.update(num_submissions: 29)
     assert representation.appears_frequently?
   end
+
+  test "uuid is created for new record" do
+    representation = create :exercise_representation
+
+    refute_empty representation.uuid
+  end
 end

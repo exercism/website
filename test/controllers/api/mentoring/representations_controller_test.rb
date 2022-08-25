@@ -3,14 +3,162 @@ require_relative '../base_test_case'
 class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   include Propshaft::Helper
 
+  guard_incorrect_token! :api_mentoring_representation_path, args: 1, method: :patch
+  guard_incorrect_token! :api_mentoring_representation_path, args: 1, method: :get
   guard_incorrect_token! :with_feedback_api_mentoring_representations_path
   guard_incorrect_token! :without_feedback_api_mentoring_representations_path
   guard_incorrect_token! :tracks_with_feedback_api_mentoring_representations_path
   guard_incorrect_token! :tracks_without_feedback_api_mentoring_representations_path
 
-  ###
-  # without_feedback
-  ###
+  ########
+  # show #
+  ########
+  test "show renders 404 when representation not found" do
+    user = create :user, :supermentor
+    setup_user(user)
+
+    get api_mentoring_representation_path('xxx'), headers: @headers, as: :json
+
+    assert_response :not_found
+    expected = {
+      error: {
+        type: "representation_not_found",
+        message: "This representation could not be found"
+      }
+    }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "show renders 403 if the user is not a supermentor" do
+    setup_user
+
+    representation = create :exercise_representation
+
+    get api_mentoring_representation_path(representation.uuid), headers: @headers, as: :json
+
+    assert_response :forbidden
+    expected = {
+      error: {
+        type: "no_supermentor",
+        message: "You do not have supermentor permissions"
+      }
+    }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "show should return representation" do
+    user = create :user, :supermentor
+    setup_user(user)
+
+    representation = create :exercise_representation, feedback_markdown: '_great_ work', last_submitted_at: Time.utc(2012, 6, 20)
+
+    get api_mentoring_representation_path(representation.uuid), headers: @headers, as: :json
+
+    assert_response :ok
+    expected = {
+      representation: {
+        id: representation.id,
+        exercise: {
+          icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/strings.svg",
+          title: "Strings"
+        },
+        track: {
+          icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg",
+          title: "Ruby"
+        },
+        num_submissions: 0,
+        appears_frequently: false,
+        feedback_markdown: "_great_ work",
+        last_submitted_at: "2012-06-20T00:00:00.000Z",
+        links: {}
+      }
+    }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  ##########
+  # update #
+  ##########
+  test "update renders 404 when representation not found" do
+    user = create :user, :supermentor
+    setup_user(user)
+
+    patch api_mentoring_representation_path('xxx'), headers: @headers, as: :json
+
+    assert_response :not_found
+    expected = {
+      error: {
+        type: "representation_not_found",
+        message: "This representation could not be found"
+      }
+    }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "update renders 403 if the user is not a supermentor" do
+    setup_user
+
+    representation = create :exercise_representation
+
+    patch api_mentoring_representation_path(representation.uuid), headers: @headers, as: :json
+
+    assert_response :forbidden
+    expected = {
+      error: {
+        type: "no_supermentor",
+        message: "You do not have supermentor permissions"
+      }
+    }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "updates a representation" do
+    user = create :user, :supermentor
+    setup_user(user)
+
+    representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20)
+
+    patch api_mentoring_representation_path(representation.uuid),
+      params: {
+        representation: {
+          feedback_markdown: "_great_ work",
+          feedback_type: :actionable
+        }
+      },
+      headers: @headers,
+      as: :json
+
+    assert_response :ok
+    expected = {
+      representation: {
+        id: representation.id,
+        exercise: {
+          icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/strings.svg",
+          title: "Strings"
+        },
+        track: {
+          icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg",
+          title: "Ruby"
+        },
+        num_submissions: 0,
+        appears_frequently: false,
+        feedback_markdown: "_great_ work",
+        last_submitted_at: "2012-06-20T00:00:00.000Z",
+        links: {}
+      }
+    }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  ####################
+  # without_feedback #
+  ####################
   test "without_feedback retrieves representations" do
     track = create :track
     user = create :user, :supermentor
@@ -53,9 +201,9 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     )
   end
 
-  ###
-  # with_feedback
-  ###
+  #################
+  # with_feedback #
+  #################
   test "with_feedback retrieves representations" do
     user = create :user, :supermentor
     setup_user(user)
@@ -96,9 +244,9 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     )
   end
 
-  ###
-  # tracks_with_feedback
-  ###
+  ########################
+  # tracks_with_feedback #
+  ########################
   test "tracks_without_feedback retrieves all tracks the user has given feedback on" do
     user = create :user, :supermentor
     setup_user(user)
@@ -145,9 +293,9 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     )
   end
 
-  ###
-  # tracks_with_feedback
-  ###
+  ########################
+  # tracks_with_feedback #
+  ########################
   test "tracks_with_feedback retrieves all tracks the user has given feedback on" do
     user = create :user, :supermentor
     setup_user(user)

@@ -47,8 +47,7 @@ FactoryBot.define do
     end
 
     trait :supermentor do
-      reputation { 707 }
-      mentor_satisfaction_percentage { 98 }
+      roles { [:supermentor] }
     end
   end
 end

@@ -18,7 +18,7 @@ class SerializeExerciseRepresentation
       },
       num_submissions: representation.num_submissions,
       appears_frequently: representation.appears_frequently?,
-      feedback_html: representation.feedback_html,
+      feedback_markdown: representation.feedback_markdown,
       last_submitted_at: representation.last_submitted_at,
       links: {
         # TODO: link to edit page

@@ -6,7 +6,12 @@
             opacity: 0;
             animation: zoomIn 0.2s linear 0.05s forwards,
                 zoomOut 0.3s linear 2s forwards;
+
+            img {
+                filter: drop-shadow(0px 0px 10px rgba(79, 114, 205, 0.3));
+            }
         }
+        &.metric-submit_submission_metric,
         &.metric-start_solution_metric {
             opacity: 0;
             animation: zoomIn 0.2s linear 0.05s forwards,
@@ -19,6 +24,10 @@
             opacity: 0;
             animation: zoomIn 0.2s linear 0.05s forwards,
                 zoomOut 0.3s linear 6s forwards;
+
+            img {
+                filter: drop-shadow(0px 0px 10px rgba(79, 114, 205, 0.3));
+            }
         }
     }
 }

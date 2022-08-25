@@ -63,7 +63,7 @@ const MetricPointUserWithTooltip = ({
   const content = (
     <div
       ref={avatarRef}
-      className="relative border-2 border-gradient shadow-smZ1 rounded-circle translate-y-[-50%] translate-x-[-50%]"
+      className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
     >
       <Avatar
         src={metric.user.avatarUrl}
@@ -83,13 +83,14 @@ const MetricPointUserWithTooltip = ({
 }
 
 const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
+  console.log(metric)
   switch (metric.type) {
     case 'sign_up_metric':
       const iconRef = useRef(null)
       const content = (
         <div
           ref={iconRef}
-          className="relative border-2 border-gradient shadow-smZ1 rounded-circle translate-y-[-50%] translate-x-[-50%]"
+          className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
         >
           <GraphicalIcon
             icon="avatar-placeholder"
@@ -110,7 +111,7 @@ const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
         <TrackIcon
           iconUrl={metric.track.iconUrl}
           title={metric.track.title}
-          className="shadow-smZ1 w-[32px] h-[32px] translate-y-[-50%] translate-x-[-50%]"
+          className="w-[32px] h-[32px] translate-y-[-50%] translate-x-[-50%]"
         />
       )
     case 'submit_submission_metric':
@@ -118,7 +119,7 @@ const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
         <TrackIcon
           iconUrl={metric.track.iconUrl}
           title={metric.track.title}
-          className="shadow-smZ1 w-[24px] h-[24px] translate-y-[-50%] translate-x-[-50%]"
+          className="w-[24px] h-[24px] translate-y-[-50%] translate-x-[-50%]"
         />
       )
     case 'publish_solution_metric':

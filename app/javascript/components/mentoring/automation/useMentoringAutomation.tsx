@@ -32,10 +32,6 @@ export type APIResponse = {
   }
 }
 
-// export type APIResponse = {
-//   representations: RepresentationsResponse
-// }
-
 export const useMentoringAutomation = ({
   request: initialRequest,
   track,

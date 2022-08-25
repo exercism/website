@@ -273,6 +273,10 @@ export type Track = {
   }
 }
 
+export type AutomationTrack =
+  | Pick<Track, 'slug' | 'iconUrl' | 'title'>
+  | { numSubmissions: number }
+
 export type Iteration = {
   uuid: string
   idx: number

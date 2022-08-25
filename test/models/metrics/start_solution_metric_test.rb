@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Metrics::SubmitSolutionTest < ActiveSupport::TestCase
+class Metrics::StartSolutionTest < ActiveSupport::TestCase
   test "create metric" do
     freeze_time do
       track = create :track, id: 2
@@ -11,12 +11,12 @@ class Metrics::SubmitSolutionTest < ActiveSupport::TestCase
 
       metric = Metric::Create.(:start_solution, occurred_at, solution:, track:, user:, request_context:)
 
-      assert_equal Metrics::SubmitSolutionMetric, metric.class
+      assert_equal Metrics::StartSolutionMetric, metric.class
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track
       assert_equal 'US', metric.country_code
-      assert_equal "SubmitSolutionMetric|4", metric.uniqueness_key
+      assert_equal "StartSolutionMetric|4", metric.uniqueness_key
     end
   end
 

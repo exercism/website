@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_14_230425) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_24_161914) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -496,6 +496,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_230425) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "country_code", limit: 2
+    t.string "coordinates"
     t.index ["track_id"], name: "index_metrics_on_track_id"
     t.index ["type", "track_id", "occurred_at"], name: "index_metrics_on_type_and_track_id_and_occurred_at"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true

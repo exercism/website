@@ -1,5 +1,6 @@
 class Metric < ApplicationRecord
   serialize :params, JSON
+  serialize :coordinates, JSON # Stored as [latitude, longitude]
 
   belongs_to :track, optional: true
   belongs_to :user, optional: true
@@ -14,6 +15,21 @@ class Metric < ApplicationRecord
   # By default, use the request's remote IP to determine the country code.
   # Metrics can opt-out by overriding this method and returning nil.
   def store_country_code? = true
+
+  def to_broadcast_hash
+    {
+      type: type.underscore.split('/').last,
+      id:,
+      coordinates:
+    }.tap do |hash|
+      if track
+        hash[:track] = {
+          title: track.title,
+          icon_url: track.icon_url
+        }
+      end
+    end
+  end
 
   # This maps
   # {discussion: Mentor::Discussion.find(186)}

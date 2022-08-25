@@ -26,6 +26,9 @@ const CLIWalkthroughButton = lazy(
   () => import('../components/common/CLIWalkthroughButton')
 )
 
+const ImpactStat = lazy(() => import('../components/impact/stat'))
+const ImpactMap = lazy(() => import('../components/impact/map'))
+
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
 
@@ -47,6 +50,7 @@ import {
   SiteUpdate,
   TrackContribution,
   SharePlatform,
+  Metric,
 } from '../components/types'
 
 import * as Blog from '../components/blog'
@@ -370,6 +374,23 @@ initReact({
       width={data.width}
     />
   ),
+
+  'impact-stat': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <ImpactStat metricType={data.type} initialValue={data.value} />
+    </Suspense>
+  ),
+  'impact-map': (data: any) => {
+    const metrics = data.metrics.map((metric: any) =>
+      camelizeKeysAs<Metric>(metric)
+    )
+
+    return (
+      <Suspense fallback={renderLoader()}>
+        <ImpactMap initialMetrics={metrics} />
+      </Suspense>
+    )
+  },
   // Slow things at the end
   'donations-footer-form': (data: any) => (
     <Suspense fallback={renderLoader()}>

@@ -45,10 +45,8 @@ module Mentor
         User::Notification::Create.(
           student,
           :mentor_started_discussion,
-          {
-            discussion:,
-            discussion_post:
-          }
+          discussion:,
+          discussion_post:
         )
       end
 

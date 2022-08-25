@@ -24,6 +24,7 @@ module ReactComponents
             query: {
               criteria: params.fetch(:criteria, ''),
               track_slug: params[:track_slug],
+              only_mentored_solutions: params[:only_mentored_solutions],
               order: params[:order],
               page: params[:page]
             }.compact,

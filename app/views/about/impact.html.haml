@@ -4,11 +4,14 @@
     %h1.text-h5.text-textColor6.mb-16.flex.items-center
       = graphical_icon "report", css_class: 'h-[26px] w-[26px] filter-textColor6 mr-16'
       Exercism Impact Report
-    %h2.text-h0.mb-12.text-center{ class: 'max-w-[800px]' } We’ve supported 82,045,205  minutes of free code learning.
+    %h2.text-h0.mb-12.text-center{ class: 'max-w-[800px]' }
+      We’ve provided
+      %strong{ class: 'pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]' } 82,045,205
+      minutes of free education.
     %p.font-medium.text-textColor6.text-24.leading-160.text-center{ class: 'max-w-[780px]' }
-      And counting — by 600,000 minutes per day! 
+      And increasing — by 600,000 minutes per day! 
       %br
-      All on a free, open source project funded by the community.
+      All on a free, open source project funded by people like you.
 
   .md-container.mb-48
     .flex.items-stretch
@@ -23,7 +26,7 @@
           .py-12.px-32.bg-bgGray
             %h3.label-large Exercise Submissions
             .text-purple.font-semibold.text-40.leading-150
-              = render ReactComponents::Impact::Stat.new(:start_solution_metric, 1_008_385)
+              = render ReactComponents::Impact::Stat.new(:submit_iteration_metric, 1_008_385)
             .text-successColor.font-bold +1,842 per day
 
           .py-12.px-32

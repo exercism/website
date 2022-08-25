@@ -37,7 +37,7 @@ class User::AcquiredBadge::CreateTest < ActiveSupport::TestCase
     create :contributor_badge
     notification_key = :some_key
     Badges::ContributorBadge.any_instance.stubs(notification_key:)
-    User::Notification::Create.expects(:call).with(user, notification_key, {})
+    User::Notification::Create.expects(:call).with(user, notification_key)
 
     User::AcquiredBadge::Create.(user, :contributor)
   end

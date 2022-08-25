@@ -1,22 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { TrackFilterList } from '../queue/TrackFilterList'
-import { useTrackList } from '../queue/useTrackList'
-import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
-import { AutomationStatus, MentoredTrack } from '../../types'
-import { APIResponse } from './useMentoringAutomation'
+import { Request } from '../../../hooks/request-query'
+import { AutomationStatus } from '../../types'
 import { Sorter } from '../Sorter'
-import { MOCK_DEFAULT_TRACK } from './mock-data'
 import { StatusTab } from '../inbox/StatusTab'
-import { Checkbox } from '../../common'
+import { Checkbox, SearchInput } from '../../common'
 import { AutomationIntroducer } from './AutomationIntroducer'
-import SearchInput from '../../common/SearchInput'
 import { ResultsZone } from '../../ResultsZone'
 import { RepresentationList } from './RepresentationList'
 import { SortOption } from '../Inbox'
-import { useList } from '../../../hooks/use-list'
 import { error } from 'jquery'
-import { useHistory, removeEmpty } from '../../../hooks/use-history'
-import useLogger from '../../../hooks/use-logger'
 import { useAutomation } from './useAutomation'
 
 const AUTOMATION_TRACKS_CACHE_KEY = 'automation-tracks-list-cache'
@@ -47,77 +40,7 @@ export function Representations({
   representationsWithoutFeedbackCount,
   representationsWithFeedbackCount,
 }: AutomationProps): JSX.Element {
-  // const [selectedTrack, setSelectedTrack] =
-  //   useState<MentoredTrack>(MOCK_DEFAULT_TRACK)
-
-  // TODO: Move these into a separate hook
-  // const {
-  //   request,
-  //   setCriteria: setRequestCriteria,
-  //   setOrder,
-  //   setPage,
-  //   setQuery,
-  // } = useList(representationsRequest)
-
-  // const [checked, setChecked] = useState(false)
-  // const [criteria, setCriteria] = useState(
-  //   representationsRequest.query?.criteria || ''
-  // )
-
-  // useLogger('request', request)
-
-  // const { status, resolvedData, latestData, isFetching } =
-  //   usePaginatedRequestQuery<APIResponse>(
-  //     ['mentor-representations-list', request.endpoint, request.query],
-  //     request
-  //   )
-
-  // useEffect(() => {
-  //   const handler = setTimeout(() => {
-  //     setRequestCriteria(criteria)
-  //   }, 1000)
-
-  //   return () => {
-  //     clearTimeout(handler)
-  //   }
-  // }, [setRequestCriteria, criteria])
-
-  // useHistory({ pushOn: removeEmpty(request.query) })
-
-  // const handleTrackChange = useCallback(
-  //   (track) => {
-  //     setPage(1)
-  //     setCriteria('')
-  //     setSelectedTrack(track)
-
-  //     setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
-  //   },
-  //   [setPage, setQuery, request.query]
-  // )
-
-  // const feedbackCount = useCallback(
-  //   (withFeedback) => {
-  //     if (withFeedback) {
-  //       return {
-  //         with_feedback: resolvedData?.results.length,
-  //         without_feedback: representationsWithoutFeedbackCount,
-  //       }
-  //     } else {
-  //       return {
-  //         with_feedback: representationsWithFeedbackCount,
-  //         without_feedback: resolvedData?.results.length,
-  //       }
-  //     }
-  //   },
-  //   [
-  //     representationsWithFeedbackCount,
-  //     representationsWithoutFeedbackCount,
-  //     resolvedData?.results.length,
-  //   ]
-  // )
-
   const {
-    request,
     feedbackCount,
     checked,
     handleTrackChange,
@@ -145,20 +68,6 @@ export function Representations({
     AUTOMATION_TRACKS_CACHE_KEY,
     withFeedback
   )
-
-  useLogger('FEEDBACK_COUNT', feedbackCount)
-
-  // const {
-  //   resolvedData: tracks,
-  //   status: trackListStatus,
-  //   error: trackListError,
-  //   isFetching: isTrackListFetching,
-  // } = useTrackList({
-  //   cacheKey: AUTOMATION_TRACKS_CACHE_KEY,
-  //   request: tracksRequest,
-  // })
-
-  useLogger('tracks:', tracks)
 
   return (
     <div className="c-mentor-inbox">
@@ -224,16 +133,17 @@ export function Representations({
             <Sorter
               componentClassName="automation-sorter"
               sortOptions={sortOptions}
-              order={request.query.order}
+              order={order}
               setOrder={setOrder}
             />
           </div>
         </header>
         <ResultsZone isFetching={isFetching}>
           <RepresentationList
+            withFeedback={withFeedback}
             error={error}
             latestData={latestData}
-            page={request.query.page}
+            page={page}
             setPage={setPage}
             resolvedData={resolvedData}
             status={status}

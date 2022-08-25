@@ -14,7 +14,7 @@ const WRAPPER_CLASSNAMES =
 const INPUT_CLASSNAMES = 'border-none bg-inherit !w-[100%] portable-input'
 const ICON_CLASSNAMES = 'w-[24px] h-[24px] my-auto mr-[16px] textColor6-filter'
 
-export default function SearchInput({
+export function SearchInput({
   filter,
   setFilter,
   placeholder,

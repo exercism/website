@@ -9,7 +9,6 @@ import { QueryStatus } from 'react-query'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { useHistory, removeEmpty } from '../../../hooks/use-history'
 import { ListState, useList } from '../../../hooks/use-list'
-import useLogger from '../../../hooks/use-logger'
 import { AutomationTrack, MentoredTrack, Representation } from '../../types'
 import { useTrackList } from '../queue/useTrackList'
 import { MOCK_DEFAULT_TRACK } from './mock-data'
@@ -32,7 +31,7 @@ type returnMentoringAutomation = {
   setOrder: (order: string) => void
   page: number
   setPage: (page: number) => void
-  handleTrackChange: (track: any) => void
+  handleTrackChange: (track: AutomationTrack) => void
   selectedTrack: MentoredTrack
   status: QueryStatus
   resolvedData: APIResponse | undefined
@@ -74,8 +73,6 @@ export function useAutomation(
     representationsRequest.query?.criteria || ''
   )
 
-  useLogger('request', request)
-
   const { status, resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
       ['mentor-representations-list', request.endpoint, request.query],
@@ -85,7 +82,7 @@ export function useAutomation(
   useEffect(() => {
     const handler = setTimeout(() => {
       setRequestCriteria(criteria)
-    }, 1000)
+    }, 300)
 
     return () => {
       clearTimeout(handler)
@@ -128,7 +125,7 @@ export function useAutomation(
 
   const feedbackCount = useMemo(
     () => getFeedbackCount(withFeedback),
-    [withFeedback]
+    [getFeedbackCount, withFeedback]
   )
 
   const {

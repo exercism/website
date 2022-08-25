@@ -110,6 +110,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     metric = Metric.last
     assert_equal Metrics::StartSolutionMetric, metric.class
     assert_equal solution.created_at, metric.occurred_at
+    assert_equal solution, metric.solution
     assert_equal track, metric.track
     assert_equal user, metric.user
   end

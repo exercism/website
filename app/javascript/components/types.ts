@@ -680,6 +680,10 @@ export type SharePlatform =
 export type Metric = {
   type: string
   coordinates: number[]
+  user?: {
+    handle: string
+    avatarUrl: string
+  }
   track?: {
     title: string
     iconUrl: string

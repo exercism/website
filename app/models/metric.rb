@@ -16,11 +16,16 @@ class Metric < ApplicationRecord
   # Metrics can opt-out by overriding this method and returning nil.
   def store_country_code? = true
 
+  # Should a user be publically doxed as part of this action.
+  # The guide should be whether this action is publically associated
+  # with them already on the website (e.g. publishing a solution)
+  def user_public? = false
+
   def to_broadcast_hash
     {
       type: type.underscore.split('/').last,
       id:,
-      coordinates:
+      coordinates: broadcast_coordinates
     }.tap do |hash|
       if track
         hash[:track] = {
@@ -28,7 +33,30 @@ class Metric < ApplicationRecord
           icon_url: track.icon_url
         }
       end
+
+      if user_public? && user
+        hash[:user] = {
+          handle: user.handle,
+          avatar_url: user.avatar_url
+        }
+      end
     end
+  end
+
+  def broadcast_coordinates
+    return coordinates if coordinates.present?
+
+    # Otherwise we just return some sane coordinate for the map
+    # This is for things like GitHub where we don't know where
+    # things are actually happening.
+    [
+      [41.6919, -73.8642],
+      [35.6897, 139.6895],
+      [53.4809, -2.2374],
+      [-29.0, 24.0],
+      [-35.6535, 137.6262],
+      [30.4032, -97.753]
+    ].sample
   end
 
   # This maps

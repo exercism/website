@@ -106,4 +106,20 @@ class Submission::CreateTest < ActiveSupport::TestCase
 
     assert :not_queued, submission.tests_status
   end
+
+  test "adds metric" do
+    files = [{ filename: "file1", content: "contents" }]
+    solution = create :concept_solution
+
+    submission = Submission::Create.(solution, files, :cli)
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_equal Metrics::SubmitSubmissionMetric, metric.class
+    assert_equal submission.created_at, metric.occurred_at
+    assert_equal submission, metric.submission
+    assert_equal solution.track, metric.track
+    assert_equal solution.user, metric.user
+  end
 end

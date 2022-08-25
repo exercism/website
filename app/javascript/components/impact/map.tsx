@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { GraphicalIcon, TrackIcon } from '../../components/common'
+import React, { useEffect, useState, useRef } from 'react'
+import { GraphicalIcon, TrackIcon, Avatar } from '../../components/common'
+import { GenericTooltip } from '../../components/misc/ExercismTippy'
 import { MetricsChannel } from '../../channels/metricsChannel'
 import { Metric } from '../../types'
 
@@ -19,17 +20,90 @@ const coordinatesToPosition = (latitude, longitude) => {
   return [left, top]
 }
 
+const MetricPointUserWithTooltip = ({
+  metric,
+  text,
+}: {
+  metric: Metric
+  text: String
+}): JSX.Element => {
+  const avatarRef = useRef(null)
+  return (
+    <GenericTooltip
+      content={<strong className="font-semibold">{text}</strong>}
+      placement="top"
+      showOnCreate={true}
+      followCursor={false}
+      hideOnClick={false}
+      trigger="manual"
+      delay={[300, 0]}
+      onShow={(i) => {
+        setTimeout(() => {
+          i.hide()
+        }, 5700) // Make sure this aligns to the CSS animation.
+      }}
+    >
+      <div
+        ref={avatarRef}
+        className="relative border-2 border-gradient shadow-smZ1 rounded-circle translate-y-[-50%] translate-x-[-50%]"
+      >
+        <Avatar
+          src={metric.user.avatarUrl}
+          handle={metric.user.handle}
+          className=" w-[32px] h-[32px]"
+        />
+      </div>
+    </GenericTooltip>
+  )
+}
+
 const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
-  if (metric.track) {
-    return (
-      <TrackIcon
-        iconUrl={metric.track.iconUrl}
-        title={metric.track.title}
-        className="w-[32px] h-[32px] translate-y-[-50%] translate-x-[-50%]"
-      />
-    )
-  } else {
-    return <>Wut</>
+  switch (metric.type) {
+    case 'sign_up_metric':
+      return (
+        <GraphicalIcon
+          icon="avatar-placeholder"
+          className="shadow-smZ1 rounded-circle w-[32px] h-[32px] translate-y-[-50%] translate-x-[-50%] border-2 border-gradient"
+        />
+      )
+    case 'start_solution_metric':
+      return (
+        <TrackIcon
+          iconUrl={metric.track.iconUrl}
+          title={metric.track.title}
+          className="shadow-smZ1 w-[32px] h-[32px] translate-y-[-50%] translate-x-[-50%]"
+        />
+      )
+    case 'publish_solution_metric':
+      return (
+        <MetricPointUserWithTooltip
+          metric={metric}
+          text={`@${metric.user.handle} published a new solution`}
+        />
+      )
+    case 'open_issue_metric':
+      return (
+        <MetricPointUserWithTooltip
+          metric={metric}
+          text={`@${metric.user.handle} opened an issue on Exercism's GitHub`}
+        />
+      )
+    case 'open_pull_request_metric':
+      return (
+        <MetricPointUserWithTooltip
+          metric={metric}
+          text={`@${metric.user.handle} submitted a Pull Request on Exercism's GitHub`}
+        />
+      )
+    case 'merge_pull_request_metric':
+      return (
+        <MetricPointUserWithTooltip
+          metric={metric}
+          text={`@${metric.user.handle} had a Pull Request merged on Exercism's GitHub`}
+        />
+      )
+    default:
+      return <></>
   }
 }
 
@@ -42,7 +116,7 @@ const MetricPoint = ({ metric }: { metric: Metric }): JSX.Element => {
   return (
     <div
       style={{ left: `${left}%`, top: `${top}%` }}
-      className="map-point absolute"
+      className={`map-point absolute metric-${metric.type}`}
     >
       <MetricPointInner metric={metric} />
     </div>
@@ -67,8 +141,13 @@ export default ({
   }, [metrics])
 
   return (
+    /* TODO: Remove this height */
     <div className="relative">
-      <GraphicalIcon icon="world-map" category="graphics" class_name="w-fill" />
+      <GraphicalIcon
+        icon="world-map"
+        category="graphics"
+        className="w-fill w-[680px] h-[400px]"
+      />
       {metrics.map((metric) => (
         <MetricPoint key={metric.id} metric={metric} />
       ))}

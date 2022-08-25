@@ -109,4 +109,16 @@ class Metric::CreateTest < ActiveSupport::TestCase
     assert_nil metric.track
     assert_nil metric.user
   end
+
+  test "broadcasts metric" do
+    action = :start_solution
+    solution = create :concept_solution
+    occurred_at = Time.current - 2.seconds
+
+    MetricsChannel.expects(:broadcast!).with do |metric|
+      assert metric.is_a?(Metrics::StartSolutionMetric)
+    end
+
+    Metric::Create.(action, occurred_at, solution:)
+  end
 end

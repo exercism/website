@@ -1,21 +1,7 @@
 module User::Roles
-  def founder?
-    roles.include?(:founder)
-  end
-
-  def admin?
-    roles.include?(:admin)
-  end
-
-  def staff?
-    roles.include?(:staff)
-  end
-
-  def maintainer?
-    roles.include?(:maintainer)
-  end
-
-  def roles
-    super.to_a.map(&:to_sym)
-  end
+  def founder? = roles.include?(:founder)
+  def admin? = roles.include?(:admin)
+  def staff? = roles.include?(:staff)
+  def maintainer? = roles.include?(:maintainer)
+  def roles = super.to_a.map(&:to_sym)
 end

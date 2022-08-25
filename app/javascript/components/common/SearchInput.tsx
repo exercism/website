@@ -5,10 +5,11 @@ type SearchInputProps = {
   filter: string | undefined
   setFilter: (filter: string) => void
   placeholder: string
+  className?: string
 }
 
 const WRAPPER_CLASSNAMES =
-  'bg-unnamed15 text-textColor6 flex flex-row rounded-[5px] border-1 border-transparent py-[11px] px-[21px] text-16 w-[420px] focus-within:focused-input hover:cursor-text'
+  'bg-unnamed15 text-textColor6 flex flex-row flex-grow rounded-[5px] border-1 border-transparent py-[11px] px-[21px] text-16 max-w-[420px] focus-within:focused-input hover:cursor-text'
 
 const INPUT_CLASSNAMES = 'border-none bg-inherit !w-[100%] portable-input'
 const ICON_CLASSNAMES = 'w-[24px] h-[24px] my-auto mr-[16px] textColor6-filter'
@@ -17,6 +18,7 @@ export default function SearchInput({
   filter,
   setFilter,
   placeholder,
+  className,
 }: SearchInputProps): JSX.Element {
   const searchInputRef = useRef<HTMLInputElement>(null)
   const [focused, setFocused] = useState<boolean>(false)
@@ -26,7 +28,10 @@ export default function SearchInput({
   }
 
   return (
-    <div className={WRAPPER_CLASSNAMES} onClick={focusInputElement}>
+    <div
+      className={`${WRAPPER_CLASSNAMES} ${className}`}
+      onClick={focusInputElement}
+    >
       <GraphicalIcon
         className={ICON_CLASSNAMES + (focused ? 'filter-none' : '')}
         icon="search"

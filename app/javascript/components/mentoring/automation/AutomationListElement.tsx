@@ -36,7 +36,7 @@ export const AutomationListElement = ({
         dangerouslySetInnerHTML={{ __html: representation.feedbackHtml }}
       ></div>
       <div className="--occurencies">{representation.numSubmissions}</div>
-      <time>
+      <time className="whitespace-nowrap">
         Last shown
         <br />
         {fromNow(representation.lastSubmittedAt)}

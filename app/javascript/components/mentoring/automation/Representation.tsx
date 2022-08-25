@@ -102,7 +102,7 @@ export function Representations({
   return (
     <div className="c-mentor-inbox">
       <AutomationIntroducer />
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <div className="tabs">
           <StatusTab<AutomationStatus>
             status="without_feedback"
@@ -120,7 +120,7 @@ export function Representations({
             currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
             setStatus={() => null}
           >
-            {/* TODO: this routing is really/really bad.. */}
+            {/* TODO: this routing is really-really bad.. */}
             <a href={links.withFeedback}>Feedback submitted</a>
             {resolvedData ? (
               <div className="count">{resolvedData.results.length}</div>
@@ -149,17 +149,20 @@ export function Representations({
             sizeVariant={'automation'}
           />
 
-          <SearchInput
-            setFilter={setCriteria}
-            filter={criteria}
-            placeholder="Filter by exercise"
-          />
-          <Sorter
-            componentClassName="ml-auto automation-sorter"
-            sortOptions={sortOptions}
-            order={request.query.order}
-            setOrder={setOrder}
-          />
+          <div className="flex flex-row flex-grow justify-between">
+            <SearchInput
+              className="mr-24"
+              setFilter={setCriteria}
+              filter={criteria}
+              placeholder="Filter by exercise"
+            />
+            <Sorter
+              componentClassName="automation-sorter"
+              sortOptions={sortOptions}
+              order={request.query.order}
+              setOrder={setOrder}
+            />
+          </div>
         </header>
         <ResultsZone isFetching={isFetching}>
           <RepresentationList

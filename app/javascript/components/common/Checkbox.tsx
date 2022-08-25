@@ -5,13 +5,15 @@ export const Checkbox = ({
   checked,
   setChecked,
   children,
+  className,
 }: {
   checked: boolean
   setChecked: (value: boolean) => void
   children: React.ReactNode
+  className?: string
 }): JSX.Element => {
   return (
-    <label className="c-checkbox-wrapper filter">
+    <label className={`c-checkbox-wrapper filter ${className}`}>
       <input
         type="checkbox"
         checked={checked || false}

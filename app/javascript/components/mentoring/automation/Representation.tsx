@@ -128,7 +128,11 @@ export function Representations({
           </StatusTab>
         </div>
         {!withFeedback && (
-          <Checkbox checked={checked} setChecked={() => setChecked((c) => !c)}>
+          <Checkbox
+            className="mb-20"
+            checked={checked}
+            setChecked={() => setChecked((c) => !c)}
+          >
             Only show solutions I&apos;ve mentored before
           </Checkbox>
         )}

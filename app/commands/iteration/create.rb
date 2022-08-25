@@ -26,6 +26,7 @@ class Iteration
         AwardBadgeJob.perform_later(user, :die_unendliche_geschichte, context: iteration)
         AwardBadgeJob.perform_later(user, :growth_mindset)
         record_activity!(iteration)
+        log_metric!(iteration)
       end
     rescue ActiveRecord::RecordNotUnique
       Iteration.find_by!(solution:, submission:)
@@ -50,6 +51,10 @@ class Iteration
       #   Rails.logger.error e.message
     end
 
-    delegate :user, to: :solution
+    def log_metric!(iteration)
+      Metric::Queue.(:submit_iteration, iteration.created_at, iteration:, track:, user:)
+    end
+
+    delegate :track, :user, to: :solution
   end
 end

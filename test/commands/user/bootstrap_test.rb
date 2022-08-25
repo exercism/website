@@ -17,4 +17,17 @@ class User::BootstrapTest < ActiveSupport::TestCase
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::MemberBadge
   end
+
+  test "adds metric" do
+    user = create :user
+
+    User::Bootstrap.(user)
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_equal Metrics::SignUpMetric, metric.class
+    assert_equal user.created_at, metric.occurred_at
+    assert_equal user, metric.user
+  end
 end

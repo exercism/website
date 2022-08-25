@@ -1,5 +1,24 @@
 #impact-page {
     .map-point {
-        animation: fadeIn 0.5s, fadeOut 0.5s linear 3s forwards;
+        transform-origin: left top;
+
+        &.metric-sign_up_metric {
+            opacity: 0;
+            animation: zoomIn 0.2s linear 0.05s forwards,
+                zoomOut 0.3s linear 2s forwards;
+        }
+        &.metric-start_solution_metric {
+            opacity: 0;
+            animation: zoomIn 0.2s linear 0.05s forwards,
+                zoomOut 0.3s linear 3s forwards;
+        }
+        &.metric-publish_solution_metric,
+        &.metric-open_issue_metric,
+        &.metric-open_pull_request_metric,
+        &.metric-merge_pull_request_metric {
+            opacity: 0;
+            animation: zoomIn 0.2s linear 0.05s forwards,
+                zoomOut 0.3s linear 6s forwards;
+        }
     }
 }

@@ -12,7 +12,6 @@ class Exercise::Representation < ApplicationRecord
   enum feedback_type: { essential: 0, actionable: 1, non_actionable: 2 }, _prefix: :feedback
 
   has_many :submission_representations,
-    ->(er) { joins(:solution).where("solutions.exercise_id": er.exercise_id) },
     class_name: "Submission::Representation",
     foreign_key: :ast_digest,
     primary_key: :ast_digest,

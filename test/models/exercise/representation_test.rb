@@ -66,28 +66,23 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
       exercise: exercise,
       ast_digest: ast_digest
 
-    # Wrong exercise
-    create :submission_representation,
-      submission: create(:submission),
-      ast_digest: Submission::Representation.digest_ast(ast)
-
     assert_empty representation.reload.submission_representations
 
-    # Wrong ast
+    # Different ast_digest
     create :submission_representation,
       submission: create(:submission, exercise:),
       ast_digest: "something"
 
     assert_empty representation.reload.submission_representations
 
-    # Correct everything!
+    # One matching ast_digest
     submission_representation = create :submission_representation,
       submission: create(:submission, exercise:),
       ast_digest: ast_digest
 
     assert_equal [submission_representation], representation.reload.submission_representations
 
-    # Multiple matching submission representations
+    # Multiple matching ast_digests
     submission_representation_2 = create :submission_representation,
       submission: create(:submission, exercise:),
       ast_digest: ast_digest

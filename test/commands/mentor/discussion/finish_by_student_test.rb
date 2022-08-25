@@ -190,4 +190,19 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
     ActionMailer::Base.deliveries.clear
   end
+
+  test "updates supermentor role" do
+    mentor = create :user, mentor_satisfaction_percentage: 95
+
+    99.times do
+      create :mentor_discussion, :finished, mentor:
+    end
+
+    discussion = create :mentor_discussion, mentor: mentor
+
+    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+
+    perform_enqueued_jobs
+    assert mentor.reload.supermentor?
+  end
 end

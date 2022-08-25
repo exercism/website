@@ -4,5 +4,5 @@ module User::Roles
   def staff? = roles.include?(:staff)
   def maintainer? = roles.include?(:maintainer)
   def supermentor? = roles.include?(:supermentor)
-  def roles = super.to_a.map(&:to_sym)
+  def roles = super.to_a.map(&:to_sym).to_set
 end

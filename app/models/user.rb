@@ -4,8 +4,6 @@ class User < ApplicationRecord
 
   SYSTEM_USER_ID = 1
   GHOST_USER_ID = 720_036
-  SUPERMENTOR_MIN_REP = 500
-  SUPERMENTOR_MIN_SATISFACTION_PERCENTAGE = 95
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
@@ -250,12 +248,6 @@ class User < ApplicationRecord
 
   def mentor?
     became_mentor_at.present?
-  end
-
-  def supermentor?
-    mentor? &&
-      reputation >= SUPERMENTOR_MIN_REP &&
-      mentor_satisfaction_percentage.to_i >= SUPERMENTOR_MIN_SATISFACTION_PERCENTAGE
   end
 
   def system?

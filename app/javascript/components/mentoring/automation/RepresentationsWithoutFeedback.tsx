@@ -2,10 +2,10 @@ import React from 'react'
 import { AutomationProps, Representations } from './Representation'
 
 type RepresentationsWithoutFeedbackProps = {
-  data: Omit<AutomationProps, 'withFeedback'>
+  data: AutomationProps
 }
 export function RepresentationsWithoutFeedback({
   data,
 }: RepresentationsWithoutFeedbackProps): JSX.Element {
-  return <Representations withFeedback={false} {...data} />
+  return <Representations {...data} withFeedback={false} />
 }

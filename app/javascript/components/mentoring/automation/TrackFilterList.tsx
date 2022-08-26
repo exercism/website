@@ -1,22 +1,23 @@
-import React, { useCallback, useRef, useState } from 'react'
-import { TrackIcon, Icon, GraphicalIcon } from '../../common'
+import React, { useCallback, useRef } from 'react'
+import { TrackIcon, Icon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
-import { MentoredTrack } from '../../types'
+import { AutomationTrack } from '../../types'
 import { QueryStatus } from 'react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ResultsZone } from '../../ResultsZone'
-import { MentorChangeTracksModal } from '../../modals/MentorChangeTracksModal'
+
+type TrackFilterProps = AutomationTrack & {
+  checked: boolean
+  onChange: (e: React.ChangeEvent) => void
+}
 
 const TrackFilter = ({
   title,
   iconUrl,
-  numSolutionsQueued,
+  numSubmissions,
   checked,
   onChange,
-}: MentoredTrack & {
-  checked: boolean
-  onChange: (e: React.ChangeEvent) => void
-}): JSX.Element => {
+}: TrackFilterProps): JSX.Element => {
   return (
     <label className="c-radio-wrapper">
       <input
@@ -28,7 +29,7 @@ const TrackFilter = ({
       <div className="row">
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
-        <div className="count">{numSolutionsQueued}</div>
+        <div className="count">{numSubmissions}</div>
       </div>
     </label>
   )
@@ -56,15 +57,11 @@ export const TrackFilterList = ({
 }
 
 type Props = {
-  tracks: MentoredTrack[] | undefined
+  tracks: AutomationTrack[] | undefined
   isFetching: boolean
-  value: MentoredTrack
-  setValue: (value: MentoredTrack) => void
+  value: AutomationTrack
+  setValue: (value: AutomationTrack) => void
   cacheKey: string
-  links: {
-    tracks: string
-    updateTracks: string
-  }
   sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
   countText?: string
 }
@@ -76,11 +73,8 @@ const Component = ({
   value,
   countText,
   setValue,
-  cacheKey,
-  links,
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const {
     buttonAttributes,
     panelAttributes,
@@ -128,7 +122,7 @@ const Component = ({
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
           <div className="track-title">{value.title}</div>
           <div className="count">
-            {value.numSolutionsQueued} {countText}
+            {value.numSubmissions} {countText}
           </div>
           <Icon
             icon="chevron-down"
@@ -154,33 +148,9 @@ const Component = ({
                 </li>
               )
             })}
-            <li key="change-tracks" {...itemAttributes(tracks.length)}>
-              <button
-                ref={changeTracksRef}
-                type="button"
-                onClick={() => {
-                  setIsModalOpen(true)
-                  setOpen(false)
-                }}
-              >
-                <GraphicalIcon icon="reset" />
-                Change the tracks you mentor
-              </button>
-            </li>
           </ul>
         </div>
       ) : null}
-      <MentorChangeTracksModal
-        open={isModalOpen}
-        tracks={tracks}
-        cacheKey={cacheKey}
-        links={links}
-        onClose={() => setIsModalOpen(false)}
-        onSuccess={() => {
-          setIsModalOpen(false)
-          setOpen(false)
-        }}
-      />
     </div>
   )
 }

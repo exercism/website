@@ -9,7 +9,7 @@ import { QueryStatus } from 'react-query'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { useHistory, removeEmpty } from '../../../hooks/use-history'
 import { ListState, useList } from '../../../hooks/use-list'
-import { AutomationTrack, MentoredTrack, Representation } from '../../types'
+import { AutomationTrack, Representation } from '../../types'
 import { useTrackList } from '../queue/useTrackList'
 import { MOCK_DEFAULT_TRACK } from './mock-data'
 
@@ -33,7 +33,7 @@ type returnMentoringAutomation = {
   setPage: (page: number) => void
   handleTrackChange: (track: AutomationTrack) => void
   handleOnlyMentoredSolutions: (checked: boolean) => void
-  selectedTrack: MentoredTrack
+  selectedTrack: AutomationTrack
   status: QueryStatus
   resolvedData: APIResponse | undefined
   latestData: APIResponse | undefined
@@ -59,7 +59,7 @@ export function useAutomation(
   withFeedback: boolean
 ): returnMentoringAutomation {
   const [selectedTrack, setSelectedTrack] =
-    useState<MentoredTrack>(MOCK_DEFAULT_TRACK)
+    useState<AutomationTrack>(MOCK_DEFAULT_TRACK)
 
   const {
     request,

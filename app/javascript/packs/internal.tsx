@@ -85,6 +85,7 @@ import * as Modals from '../components/modals'
 import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
+import { AutomationProps } from '../components/mentoring/automation/Representation.js'
 function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
@@ -156,10 +157,14 @@ initReact({
     />
   ),
   'mentoring-representations-with-feedback': (data: any) => (
-    <Mentoring.RepresentationsWithFeedback data={camelizeKeys(data)} />
+    <Mentoring.RepresentationsWithFeedback
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
   ),
   'mentoring-representations-without-feedback': (data: any) => (
-    <Mentoring.RepresentationsWithoutFeedback data={camelizeKeys(data)} />
+    <Mentoring.RepresentationsWithoutFeedback
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
   ),
   'mentoring-try-mentoring-button': (data: any) => (
     <Mentoring.TryMentoringButton

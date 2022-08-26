@@ -1,5 +1,5 @@
 import React from 'react'
-import { TrackFilterList } from '../queue/TrackFilterList'
+import { TrackFilterList } from './TrackFilterList'
 import { Request } from '../../../hooks/request-query'
 import { AutomationStatus } from '../../types'
 import { Sorter } from '../Sorter'
@@ -115,7 +115,6 @@ export function Representations({
             tracks={tracks}
             isFetching={isTrackListFetching}
             cacheKey={AUTOMATION_TRACKS_CACHE_KEY}
-            links={links}
             value={selectedTrack}
             setValue={handleTrackChange}
             // TODO: work more on the responsivity of this style

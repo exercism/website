@@ -24,8 +24,6 @@ export type AutomationProps = {
   links: AutomationLinks
   representationsRequest: Request
   sortOptions: SortOption[]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // data: any
   withFeedback: boolean
   representationsWithoutFeedbackCount?: number
   representationsWithFeedbackCount?: number
@@ -109,15 +107,14 @@ export function Representations({
       <div className="container">
         <header className="c-search-bar automation-header">
           <TrackFilterList
-            countText={'results'}
             status={trackListStatus}
             error={trackListError}
             tracks={tracks}
+            countText={withFeedback ? 'submission' : 'request'}
             isFetching={isTrackListFetching}
             cacheKey={AUTOMATION_TRACKS_CACHE_KEY}
             value={selectedTrack}
             setValue={handleTrackChange}
-            // TODO: work more on the responsivity of this style
             sizeVariant={'automation'}
           />
 

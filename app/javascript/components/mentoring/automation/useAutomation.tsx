@@ -11,7 +11,6 @@ import { useHistory, removeEmpty } from '../../../hooks/use-history'
 import { ListState, useList } from '../../../hooks/use-list'
 import { AutomationTrack, Representation } from '../../types'
 import { useTrackList } from '../queue/useTrackList'
-import { MOCK_DEFAULT_TRACK } from './mock-data'
 
 export type APIResponse = {
   results: Representation[]
@@ -50,6 +49,13 @@ type returnMentoringAutomation = {
   }
 }
 
+const initialTrackData: AutomationTrack = {
+  slug: '',
+  title: '',
+  iconUrl: '',
+  numSubmissions: 0,
+}
+
 export function useAutomation(
   representationsRequest: Request,
   representationsWithFeedbackCount: number | undefined,
@@ -59,7 +65,11 @@ export function useAutomation(
   withFeedback: boolean
 ): returnMentoringAutomation {
   const [selectedTrack, setSelectedTrack] =
-    useState<AutomationTrack>(MOCK_DEFAULT_TRACK)
+    useState<AutomationTrack>(initialTrackData)
+  const [checked, setChecked] = useState(false)
+  const [criteria, setCriteria] = useState(
+    representationsRequest.query?.criteria || ''
+  )
 
   const {
     request,
@@ -69,10 +79,15 @@ export function useAutomation(
     setQuery,
   } = useList(representationsRequest)
 
-  const [checked, setChecked] = useState(false)
-  const [criteria, setCriteria] = useState(
-    representationsRequest.query?.criteria || ''
-  )
+  const {
+    resolvedData: tracks,
+    status: trackListStatus,
+    error: trackListError,
+    isFetching: isTrackListFetching,
+  } = useTrackList({
+    cacheKey: cacheKey,
+    request: tracksRequest,
+  })
 
   const { status, resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
@@ -103,6 +118,12 @@ export function useAutomation(
     [setPage, setQuery, request.query]
   )
 
+  useEffect(() => {
+    if (tracks.length > 0) {
+      setSelectedTrack(tracks[0])
+    }
+  }, [tracks])
+
   const handleOnlyMentoredSolutions = useCallback(
     (checked) => {
       const queryObject: { onlyMentoredSolutions?: true } = {}
@@ -118,7 +139,7 @@ export function useAutomation(
       setPage(1)
       setChecked((checked) => !checked)
     },
-    [request.query, setQuery]
+    [request.query, setPage, setQuery]
   )
 
   const getFeedbackCount = useCallback(
@@ -146,16 +167,6 @@ export function useAutomation(
     () => getFeedbackCount(withFeedback),
     [getFeedbackCount, withFeedback]
   )
-
-  const {
-    resolvedData: tracks,
-    status: trackListStatus,
-    error: trackListError,
-    isFetching: isTrackListFetching,
-  } = useTrackList({
-    cacheKey: cacheKey,
-    request: tracksRequest,
-  })
 
   return {
     handleTrackChange,

@@ -5,10 +5,12 @@ import { AutomationTrack } from '../../types'
 import { QueryStatus } from 'react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ResultsZone } from '../../ResultsZone'
+import { pluralizeWithNumber } from '../../../utils/pluralizeWithNumber'
 
 type TrackFilterProps = AutomationTrack & {
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
+  countText: string
 }
 
 const TrackFilter = ({
@@ -17,6 +19,7 @@ const TrackFilter = ({
   numSubmissions,
   checked,
   onChange,
+  countText,
 }: TrackFilterProps): JSX.Element => {
   return (
     <label className="c-radio-wrapper">
@@ -29,7 +32,9 @@ const TrackFilter = ({
       <div className="row">
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
-        <div className="count">{numSubmissions}</div>
+        <div className="count">
+          {pluralizeWithNumber(numSubmissions, countText)}
+        </div>
       </div>
     </label>
   )
@@ -63,7 +68,7 @@ type Props = {
   setValue: (value: AutomationTrack) => void
   cacheKey: string
   sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
-  countText?: string
+  countText: string
 }
 
 const Component = ({
@@ -71,8 +76,8 @@ const Component = ({
   tracks,
   isFetching,
   value,
-  countText,
   setValue,
+  countText,
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)
   const {
@@ -122,7 +127,7 @@ const Component = ({
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
           <div className="track-title">{value.title}</div>
           <div className="count">
-            {value.numSubmissions} {countText}
+            {pluralizeWithNumber(value.numSubmissions, countText)}
           </div>
           <Icon
             icon="chevron-down"
@@ -138,6 +143,7 @@ const Component = ({
               return (
                 <li key={track.slug} {...itemAttributes(i)}>
                   <TrackFilter
+                    countText={countText}
                     onChange={() => {
                       setValue(track)
                       setOpen(false)

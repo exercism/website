@@ -1,11 +1,7 @@
 module API
   class Mentoring::RepresentationsController < BaseController
     before_action :ensure_supermentor!
-    before_action :use_representation, only: %i[show update]
-
-    def show
-      render json: { representation: SerializeExerciseRepresentation.(@representation) }
-    end
+    before_action :use_representation, only: :update
 
     def update
       if @representation.update(update_params)

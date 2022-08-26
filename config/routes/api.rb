@@ -180,7 +180,7 @@ namespace :api do
         get :mentored
       end
 
-      resources :representations, only: %i[show update], param: :uuid do
+      resources :representations, only: %i[update], param: :uuid do
         collection do
           get :with_feedback
           get :without_feedback

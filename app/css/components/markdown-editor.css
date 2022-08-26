@@ -2,11 +2,9 @@
 
 /* editor toolbar height = 49px */
 /* 30x30[px] button + 9[px] top-bot padding + 1[px] top border = 49px */
-:root {
-    --editor-toolbar-height: 49px;
-}
 
 .c-markdown-editor {
+    --editor-toolbar-height: 49px;
     @screen md {
         min-width: 520px;
     }

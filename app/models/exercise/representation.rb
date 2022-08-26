@@ -16,6 +16,7 @@ class Exercise::Representation < ApplicationRecord
     foreign_key: :ast_digest,
     primary_key: :ast_digest,
     inverse_of: :exercise_representation
+  has_many :submission_representation_submissions, through: :submission_representations, source: :submission
 
   scope :without_feedback, -> { where(feedback_type: nil) }
   scope :with_feedback, -> { where.not(feedback_type: nil) }

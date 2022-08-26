@@ -58,8 +58,8 @@ module ReactComponents
         end
 
         SORT_OPTIONS = [
-          { value: :num_occurances, label: 'Sort by highest occurance' },
-          { value: :recent, label: 'Sort by recent first' }
+          { value: :most_submissions, label: 'Sort by highest occurance' },
+          { value: :most_recent, label: 'Sort by recent first' }
         ].freeze
         private_constant :SORT_OPTIONS
       end

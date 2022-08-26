@@ -10,7 +10,7 @@ class Exercise::Representation::Search
   end
 
   def call
-    @representations = Exercise::Representation.joins(exercise: :track)
+    @representations = Exercise::Representation.includes(exercise: :track)
     filter_with_feedback!
     filter_mentor!
     filter_track!

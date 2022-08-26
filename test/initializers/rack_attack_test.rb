@@ -167,6 +167,16 @@ class RackAttackTest < Webhooks::BaseTestCase
     end
   end
 
+  test "sidekiq is not blocked" do
+    user = create :user, :admin
+    setup_user(user)
+
+    50.times do
+      get sidekiq_web_path
+      assert_response :redirect
+    end
+  end
+
   def setup_user(user = nil)
     @current_user = user || create(:user)
     @current_user.confirm

@@ -27,7 +27,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bugsnag'
 
 # Interaction gems
-gem 'rugged' # Git
+gem 'rugged', '1.4.2' # Git
 gem 'rest-client' # http
 gem 'octokit' # GitHub
 

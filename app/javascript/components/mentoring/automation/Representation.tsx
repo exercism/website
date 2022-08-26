@@ -51,7 +51,7 @@ export function Representations({
     page,
     resolvedData,
     selectedTrack,
-    setChecked,
+    handleOnlyMentoredSolutions,
     setCriteria,
     setOrder,
     setPage,
@@ -90,7 +90,6 @@ export function Representations({
             currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
             setStatus={() => null}
           >
-            {/* TODO: this routing is pretty bad.. */}
             <a href={links.withFeedback}>Feedback submitted</a>
             {resolvedData ? (
               <div className="count">{feedbackCount['with_feedback']}</div>
@@ -101,7 +100,7 @@ export function Representations({
           <Checkbox
             className="mb-20"
             checked={checked}
-            setChecked={() => setChecked((c) => !c)}
+            setChecked={handleOnlyMentoredSolutions}
           >
             Only show solutions I&apos;ve mentored before
           </Checkbox>

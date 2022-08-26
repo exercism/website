@@ -32,6 +32,7 @@ type returnMentoringAutomation = {
   page: number
   setPage: (page: number) => void
   handleTrackChange: (track: AutomationTrack) => void
+  handleOnlyMentoredSolutions: (checked: boolean) => void
   selectedTrack: MentoredTrack
   status: QueryStatus
   resolvedData: APIResponse | undefined
@@ -102,6 +103,24 @@ export function useAutomation(
     [setPage, setQuery, request.query]
   )
 
+  const handleOnlyMentoredSolutions = useCallback(
+    (checked) => {
+      const queryObject: { onlyMentoredSolutions?: true } = {}
+      if (checked) {
+        Object.assign(queryObject, {
+          ...request.query,
+          onlyMentoredSolutions: true,
+        })
+      } else {
+        delete queryObject.onlyMentoredSolutions
+      }
+      setQuery(queryObject)
+      setPage(1)
+      setChecked((checked) => !checked)
+    },
+    [request.query, setQuery]
+  )
+
   const getFeedbackCount = useCallback(
     (withFeedback) => {
       if (withFeedback) {
@@ -140,6 +159,7 @@ export function useAutomation(
 
   return {
     handleTrackChange,
+    handleOnlyMentoredSolutions,
     selectedTrack,
     status,
     resolvedData,

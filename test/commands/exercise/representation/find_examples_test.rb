@@ -30,7 +30,7 @@ class Exercise::Representation::FindExamplesTest < ActiveSupport::TestCase
     create :submission_file, submission: submission_5, filename: "impl.rb", content: "Impl // Dez"
     create :submission_representation, submission: submission_5, ast_digest: 'different digest'
 
-    assert_equal [submission_5, submission_3, submission_2], Exercise::Representation::FindExamples.(representation)
+    assert_equal [submission_4, submission_3, submission_2], Exercise::Representation::FindExamples.(representation)
   end
 
   test "returns three submissions with unique solution files but same digest" do
@@ -52,11 +52,17 @@ class Exercise::Representation::FindExamplesTest < ActiveSupport::TestCase
     create :submission_file, submission: submission_3, filename: "impl.rb", content: "Impl // Bar"
     create :submission_representation, submission: submission_3, ast_digest: representation.ast_digest
 
+    # Different submission but with same content
     submission_4 = create :submission
     create :iteration, submission: submission_4
     create :submission_file, submission: submission_4, filename: "impl.rb", content: "Impl // Baz"
     create :submission_representation, submission: submission_4, ast_digest: representation.ast_digest
 
-    assert_equal [submission_4, submission_3, submission_2], Exercise::Representation::FindExamples.(representation)
+    submission_5 = create :submission
+    create :iteration, submission: submission_5
+    create :submission_file, submission: submission_5, filename: "impl.rb", content: "Impl // Baz"
+    create :submission_representation, submission: submission_5, ast_digest: representation.ast_digest
+
+    assert_equal [submission_5, submission_3, submission_2], Exercise::Representation::FindExamples.(representation)
   end
 end

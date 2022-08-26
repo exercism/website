@@ -442,6 +442,7 @@ export type Representation = {
   numSubmissions: number
   feedbackHtml: string
   lastSubmittedAt: string
+  appearsFrequently: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   links: any
 }

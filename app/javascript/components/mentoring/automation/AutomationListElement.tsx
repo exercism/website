@@ -1,3 +1,4 @@
+import { pluralizeWithNumber } from '../../../utils/pluralizeWithNumber'
 import React, { useMemo } from 'react'
 import { fromNow } from '../../../utils/time'
 import { TrackIcon, ExerciseIcon, GraphicalIcon } from '../../common'
@@ -11,10 +12,14 @@ export const AutomationListElement = ({
   withFeedback: boolean
 }): JSX.Element => {
   const ELEMENT_LABELS = useMemo(() => {
+    const plurNumSubmissions = pluralizeWithNumber.bind(
+      null,
+      representation.numSubmissions
+    )
     return {
       counterElement: withFeedback
-        ? `Shown ${representation.numSubmissions} times`
-        : `${representation.numSubmissions} occurences`,
+        ? `Shown ${plurNumSubmissions('time')}`
+        : `${plurNumSubmissions('occurrence')}`,
       dateElement: withFeedback ? (
         <>
           Last shown
@@ -23,7 +28,7 @@ export const AutomationListElement = ({
         </>
       ) : (
         <>
-          Last occurence
+          Last occurrence
           <br />
           {fromNow(representation.lastSubmittedAt)}
         </>
@@ -44,7 +49,7 @@ export const AutomationListElement = ({
       <div className="--info">
         <div className="--exercise-title whitespace-nowrap">
           <div>{representation.exercise.title}</div>{' '}
-          <div className="--most-popular">Most Popular</div>
+          {<div className="--most-popular">Most Popular</div>}
         </div>
         <div className="--track-title">
           in {representation.track.title} (#520)

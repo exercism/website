@@ -27,7 +27,7 @@
             z-index: 1;
             opacity: 0;
             animation: impactZoomIn 0.2s linear 0.05s forwards,
-                impactFadeOut 30s linear 3s forwards;
+                impactFadeOut 50s linear 3s forwards;
         }
 
         &.metric-sign_up_metric,

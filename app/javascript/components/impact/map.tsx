@@ -83,7 +83,6 @@ const MetricPointUserWithTooltip = ({
 }
 
 const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
-  console.log(metric)
   switch (metric.type) {
     case 'sign_up_metric':
       const iconRef = useRef(null)
@@ -183,6 +182,11 @@ export default ({
   useEffect(() => {
     const connection = new MetricsChannel((metric: Metric) => {
       setMetrics((oldMetrics) => [...oldMetrics, metric])
+
+      // Remove the metric again after 1 minute
+      setTimeout(() => {
+        setMetrics((oldMetrics) => oldMetrics.filter((m) => m !== metric))
+      }, 60000)
     })
 
     return () => connection.disconnect()

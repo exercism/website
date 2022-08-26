@@ -4,18 +4,14 @@ module API
     before_action :use_representation, only: %i[show update]
 
     def show
-      render json: {
-        representation: SerializeExerciseRepresentation.(@representation)
-      }
+      render json: { representation: SerializeExerciseRepresentation.(@representation) }
     end
 
     def update
       if @representation.update(update_params)
-        render json: {
-          representation: SerializeExerciseRepresentation.(@representation)
-        }
+        render json: { representation: SerializeExerciseRepresentation.(@representation) }
       else
-        render json: {}, status: :unprocessable_entity
+        render_400(:failed_validations, errors: @representation.errors)
       end
     end
 
@@ -55,7 +51,10 @@ module API
     end
 
     def update_params
-      params.require(:representation).permit(:feedback_markdown, :feedback_type)
+      params.
+        require(:representation).
+        permit(:feedback_markdown, :feedback_type).
+        merge(@representation.feedback_author.present? ? { feedback_editor: current_user } : { feedback_author: current_user })
     end
   end
 end

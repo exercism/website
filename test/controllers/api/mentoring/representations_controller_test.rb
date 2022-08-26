@@ -156,6 +156,53 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "updates sets current user to editor if representation already had author" do
+    user = create :user, :supermentor
+    author = create :user
+    setup_user(user)
+
+    representation = create :exercise_representation, feedback_author: author, feedback_editor: nil,
+      last_submitted_at: Time.utc(2012, 6, 20)
+
+    patch api_mentoring_representation_path(representation.uuid),
+      params: {
+        representation: {
+          feedback_markdown: "_great_ work",
+          feedback_type: :actionable
+        }
+      },
+      headers: @headers,
+      as: :json
+
+    representation.reload
+    assert_response :ok
+    assert_equal user, representation.feedback_editor
+    assert_equal author, representation.feedback_author
+  end
+
+  test "updates sets current user to author if representation doesn't have author" do
+    user = create :user, :supermentor
+    setup_user(user)
+
+    representation = create :exercise_representation, feedback_author: nil, feedback_editor: nil,
+      last_submitted_at: Time.utc(2012, 6, 20)
+
+    patch api_mentoring_representation_path(representation.uuid),
+      params: {
+        representation: {
+          feedback_markdown: "_great_ work",
+          feedback_type: :actionable
+        }
+      },
+      headers: @headers,
+      as: :json
+
+    representation.reload
+    assert_response :ok
+    assert_equal user, representation.feedback_author
+    assert_nil representation.feedback_editor
+  end
+
   ####################
   # without_feedback #
   ####################

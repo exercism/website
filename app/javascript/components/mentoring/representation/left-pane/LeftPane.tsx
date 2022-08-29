@@ -1,41 +1,50 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import React, { useState } from 'react'
+import React from 'react'
+import { Iteration } from '../../../types'
 import { CloseButton } from '../../session/CloseButton'
 import { IterationView } from '../../session/IterationView'
-import { useIterationScrolling } from '../../session/useIterationScrolling'
-import { RAW_SESSION_DATA } from '../mock-data'
 import RepresentationInfo from './RepresentationInfo'
 
-export function LeftPane(): JSX.Element {
-  const [isLinked, setIsLinked] = useState(false)
+export type PanesProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  exerciseData: any
+  currentIteration: Iteration
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleIterationClick: (iteration: any) => void
+  isLinked: boolean
+  setIsLinked: () => void
+}
 
-  const { currentIteration, handleIterationClick } = useIterationScrolling({
-    iterations: RAW_SESSION_DATA.iterations,
-    on: isLinked,
-  })
+export function LeftPane({
+  exerciseData,
+  currentIteration,
+  handleIterationClick,
+  isLinked,
+  setIsLinked,
+}: PanesProps): JSX.Element {
   return (
     <>
       <header className="discussion-header">
         <CloseButton url={'somewhere'} />
         <RepresentationInfo
-          exercise={RAW_SESSION_DATA.exercise}
-          track={RAW_SESSION_DATA.track}
+          exercise={exerciseData.exercise}
+          track={exerciseData.track}
         />
       </header>
       <IterationView
-        iterations={RAW_SESSION_DATA.iterations}
-        instructions={RAW_SESSION_DATA.instructions}
-        tests={RAW_SESSION_DATA.tests}
+        iterations={exerciseData.iterations}
+        instructions={exerciseData.instructions}
+        tests={exerciseData.tests}
         currentIteration={currentIteration}
         onClick={handleIterationClick}
-        isOutOfDate={RAW_SESSION_DATA.outOfDate}
-        language={RAW_SESSION_DATA.track.highlightjsLanguage}
-        indentSize={RAW_SESSION_DATA.track.indentSize}
+        isOutOfDate={exerciseData.outOfDate}
+        language={exerciseData.track.highlightjsLanguage}
+        indentSize={exerciseData.track.indentSize}
         isLinked={isLinked}
-        setIsLinked={() => setIsLinked((t) => !t)}
-        discussion={RAW_SESSION_DATA.discussion}
-        downloadCommand={RAW_SESSION_DATA.downloadCommand}
+        setIsLinked={setIsLinked}
+        discussion={exerciseData.discussion}
+        downloadCommand={exerciseData.downloadCommand}
       />
     </>
   )

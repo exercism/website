@@ -3,14 +3,14 @@ import { Modal } from '../../../../components/modals/Modal'
 import { GraphicalIcon, Icon, Reputation } from '../../../common'
 import { PrimaryButton } from '../right-pane/MentoringConversation'
 
-type SubmittedAutomationModalProps = {
+export type AutomationModalProps = {
   isOpen: boolean
   onClose: () => void
 }
 export function SubmittedAutomationModal({
   isOpen,
   onClose,
-}: SubmittedAutomationModalProps): JSX.Element {
+}: AutomationModalProps): JSX.Element {
   return (
     <Modal ReactModalClassName="!rounded-24" open={isOpen} onClose={onClose}>
       <div className="flex flex-col items-center rounded-24">
@@ -29,7 +29,7 @@ export function SubmittedAutomationModal({
           Reputation for this, thanks 😊
         </div>
         <PrimaryButton
-          className="!w-[100%] py-[16px] px-[24px]"
+          className="!w-[100%] py-[16px] px-[24px] mb-16"
           onClick={() => console.log('clicked')}
         >
           <div className="flex flex-row justify-center text-18">

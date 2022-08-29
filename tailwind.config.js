@@ -125,6 +125,7 @@ module.exports = {
       bgGray: '#FBFCFE',
       lightGray: '#EAECF3',
       borderLight: '#CBC9D9',
+      borderLight2: '#D5D8E4',
 
       lightBlue: '#2E57E8',
       darkBlue: '#6A93FF',

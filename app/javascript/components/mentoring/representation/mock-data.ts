@@ -270,14 +270,16 @@ export const GENERAL_ITERATION = {
   downloadCommand: 'exercism download --uuid=c2a1818af2944372b35752385dc6082c',
 }
 
-export const RESOLVED_ITERATION_DATA = [
-  {
-    filename: 'meetup.rb',
-    content:
-      "=begin\nWrite your code for the 'Meetup' exercise in this file. Make the tests in\n`meetup_test.rb` pass.\n\nTo get started with TDD, see the `README.md` file in your\n`ruby/meetup` directory.\n=end\n\nrequire 'date'\n\nclass Meetup\n  def self.days_of_week\n    [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]\n  end\n\n  def self.weekday_number(weekday)\n    days_of_week.index(weekday)\n  end\n\n  attr_reader :year, :number\n  def initialize(number, year)\n    @year = year\n    @number = number\n    @first = Date.new(year, number, 1)\n    @eighth = Date.new(year, number, 8)\n    @thirteenth = Date.new(year, number, 13)\n    @fifteenth = Date.new(year, number, 15)\n    @twenty_second = Date.new(year, number, 22)\n    @last = Date.new(year, number, -1)\n  end\n\n  def day(weekday, schedule)\n    case schedule\n    when :teenth then\n      @thirteenth + days_til(weekday, @thirteenth)\n    when :first then\n      @first + days_til(weekday, @first)\n    when :second then\n      @eighth + days_til(weekday, @eighth)\n    when :third then\n      @fifteenth + days_til(weekday, @fifteenth)\n    when :fourth then\n      @twenty_second + days_til(weekday, @twenty_second)\n    when :last then\n      @last - (7 - (self.class.weekday_number(weekday) - @last.wday)) % 7\n    end\n  end\n\n  private\n\n  def days_til(weekday, day)\n    (self.class.weekday_number(weekday) - day.wday) % 7\n  end\nend",
-    digest: '43f7e96eaba49d455b8533a9008fe5f087fca96a',
-  },
-]
+export const RESOLVED_ITERATION_DATA = {
+  files: [
+    {
+      filename: 'meetup.rb',
+      content:
+        "=begin\nWrite your code for the 'Meetup' exercise in this file. Make the tests in\n`meetup_test.rb` pass.\n\nTo get started with TDD, see the `README.md` file in your\n`ruby/meetup` directory.\n=end\n\nrequire 'date'\n\nclass Meetup\n  def self.days_of_week\n    [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]\n  end\n\n  def self.weekday_number(weekday)\n    days_of_week.index(weekday)\n  end\n\n  attr_reader :year, :number\n  def initialize(number, year)\n    @year = year\n    @number = number\n    @first = Date.new(year, number, 1)\n    @eighth = Date.new(year, number, 8)\n    @thirteenth = Date.new(year, number, 13)\n    @fifteenth = Date.new(year, number, 15)\n    @twenty_second = Date.new(year, number, 22)\n    @last = Date.new(year, number, -1)\n  end\n\n  def day(weekday, schedule)\n    case schedule\n    when :teenth then\n      @thirteenth + days_til(weekday, @thirteenth)\n    when :first then\n      @first + days_til(weekday, @first)\n    when :second then\n      @eighth + days_til(weekday, @eighth)\n    when :third then\n      @fifteenth + days_til(weekday, @fifteenth)\n    when :fourth then\n      @twenty_second + days_til(weekday, @twenty_second)\n    when :last then\n      @last - (7 - (self.class.weekday_number(weekday) - @last.wday)) % 7\n    end\n  end\n\n  private\n\n  def days_til(weekday, day)\n    (self.class.weekday_number(weekday) - day.wday) % 7\n  end\nend",
+      digest: '43f7e96eaba49d455b8533a9008fe5f087fca96a',
+    },
+  ],
+}
 
 export const RAW_SESSION_DATA = {
   student: {

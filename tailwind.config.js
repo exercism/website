@@ -29,6 +29,7 @@ module.exports = {
       5: '5px',
       8: '8px',
       12: '12px',
+      24: '24px',
       100: '100px',
       circle: '100%',
     },
@@ -315,7 +316,11 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    function ({ addVariant }) {
+      addVariant('child', '& > *')
+    },
+  ],
   corePlugins: {
     container: false,
   },

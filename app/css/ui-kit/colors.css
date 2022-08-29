@@ -251,6 +251,10 @@
     .textColor6-filter {
         filter: var(--textColor6-filter);
     }
+
+    .white-filter {
+        filter: var(--white-filter);
+    }
 }
 
 .theme-dark {

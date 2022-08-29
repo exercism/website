@@ -7,4 +7,12 @@
         background-origin: border-box;
         background-clip: padding-box, border-box;
     }
+    .border-gradient-primary {
+        border-style: solid;
+        border-color: transparent;
+        background-image: linear-gradient(#130b43, #130b43),
+            linear-gradient(#2200ff, #9e00ff);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+    }
 }

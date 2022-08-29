@@ -1,9 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { QueryStatus } from 'react-query'
 import { MarkdownEditorForm } from '../../../common/MarkdownEditorForm'
+import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
 
 export default function MentoringConversation(): JSX.Element {
   const [value, setValue] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleCancel = useCallback(() => console.log('Cancelled!'), [])
   const handleChange = useCallback((value) => setValue(value), [setValue])
@@ -23,19 +25,41 @@ export default function MentoringConversation(): JSX.Element {
       <div className="mt-12 mb-20 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5">
         We imported your last mentoring feedback to this solution above
       </div>
-      <Button />
-      <div className="text-textColor6">
+      <PrimaryButton
+        className="px-[18px] py-[12px]"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Preview & Submit
+      </PrimaryButton>
+      <div className="text-textColor6 ">
         Remember, you can edit this feedback anytime after submission.
       </div>
+      {
+        <SubmittedAutomationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      }
     </div>
   )
 }
 
-function Button() {
+export function PrimaryButton({
+  onClick,
+  children,
+  className,
+}: {
+  onClick: () => void
+  children: React.ReactChild
+  className?: string
+}): JSX.Element {
   return (
     // there could be an alias/class for this
-    <button className="border-1 border-primaryBtnBorder shadow-xsZ1v3 mb-16 bg-purple text-white text-16 font-semibold px-[68px] py-[12px] rounded-8">
-      Preview & Submit
+    <button
+      onClick={onClick}
+      className={`border-1 border-primaryBtnBorder shadow-xsZ1v3 mb-16 bg-purple text-white text-16 font-semibold rounded-8 ${className}`}
+    >
+      {children}
     </button>
   )
 }

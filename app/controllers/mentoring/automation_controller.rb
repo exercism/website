@@ -8,4 +8,6 @@ class Mentoring::AutomationController < ApplicationController
   def with_feedback
     @automation_params = params.permit(:order, :criteria, :page, :track_slug)
   end
+
+  def new; end
 end

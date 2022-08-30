@@ -29,11 +29,8 @@ module.exports = {
       5: '5px',
       8: '8px',
       12: '12px',
-<<<<<<< HEAD
-      24: '24px',
-=======
       16: '16px',
->>>>>>> representers
+      24: '24px',
       100: '100px',
       circle: '100%',
     },

@@ -9,7 +9,7 @@ class ImpactController < ApplicationController
 
   private
   METRICS = {
-    num_solutions_submitted: Metrics::SubmitSolutionMetric.name,
+    num_solutions_submitted: Metrics::StartSolutionMetric.name,
     num_solutions_completed: Metrics::CompleteSolutionMetric.name,
     num_opened_pull_requests: Metrics::OpenPullRequestMetric.name
   }.freeze

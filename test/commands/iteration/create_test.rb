@@ -326,4 +326,20 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     assert_equal published_iteration.num_loc, solution.reload.num_loc
   end
+
+  test "adds metric" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+
+    iteration = Iteration::Create.(solution, submission)
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_equal Metrics::SubmitIterationMetric, metric.class
+    assert_equal iteration.created_at, metric.occurred_at
+    assert_equal iteration, metric.iteration
+    assert_equal iteration.track, metric.track
+    assert_equal solution.user, metric.user
+  end
 end

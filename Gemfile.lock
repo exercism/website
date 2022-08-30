@@ -568,7 +568,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubyzip (~> 2.3)
-  rugged
+  rugged (= 1.4.2)
   selenium-webdriver
   show_me_the_cookies
   sidekiq (~> 6.3)

@@ -26,7 +26,7 @@ class User
                 user_acquired_badge: uab)
             end
 
-            User::Notification::Create.(user, badge.notification_key, {}) if badge.notification_key.present?
+            User::Notification::Create.(user, badge.notification_key) if badge.notification_key.present?
           end
 
         # Guard against the race condition

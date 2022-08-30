@@ -8,8 +8,10 @@
 @import "./ui-kit/effects";
 @import "./ui-kit/inputs";
 @import "./ui-kit/shapes";
+@import "./ui-kit/label";
 @import "./ui-kit/text";
 @import "./ui-kit/tracks";
+@import "./ui-kit/filters";
 
 @import "./tooltips/generic";
 @import "./tooltips/base";
@@ -217,6 +219,7 @@
 @import "./pages/journey/solutions";
 @import "./pages/journey/reputation";
 @import "./pages/journey/badges";
+@import "./pages/impact";
 
 @import "./highlighters/highlightjs-light";
 @import "./highlighters/highlightjs-dark";

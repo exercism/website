@@ -502,6 +502,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_134619) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "country_code", limit: 2
+    t.string "coordinates"
     t.index ["track_id"], name: "index_metrics_on_track_id"
     t.index ["type", "track_id", "occurred_at"], name: "index_metrics_on_type_and_track_id_and_occurred_at"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true

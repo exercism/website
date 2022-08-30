@@ -8,7 +8,7 @@ class Metric::CreateTest < ActiveSupport::TestCase
       track = solution.track
       user = solution.user
 
-      Metric::Create.(:submit_solution, occurred_at, track:, user:, solution:)
+      Metric::Create.(:start_solution, occurred_at, track:, user:, solution:)
 
       assert_equal 1, Metric.count
       metric = Metric.last
@@ -31,7 +31,7 @@ class Metric::CreateTest < ActiveSupport::TestCase
     request_context = { remote_ip: }
     Geocoder::Lookup::Test.add_stub(remote_ip, [{ 'country_code' => country_code }])
 
-    Metric::Create.(:submit_solution, Time.current, track:, user:, solution:, request_context:)
+    Metric::Create.(:start_solution, Time.current, track:, user:, solution:, request_context:)
 
     assert_equal 1, Metric.count
     assert_equal country_code, Metric.last.country_code
@@ -45,14 +45,14 @@ class Metric::CreateTest < ActiveSupport::TestCase
 
     Geocoder::Lookup::Test.add_stub(remote_ip, [])
 
-    Metric::Create.(:submit_solution, Time.current, track:, user:, solution:)
+    Metric::Create.(:start_solution, Time.current, track:, user:, solution:)
 
     assert_equal 1, Metric.count
     assert_nil Metric.last.country_code
   end
 
   test "creates metric with remote ip is nil" do
-    action = :submit_solution
+    action = :start_solution
     solution = create :concept_solution
     occurred_at = Time.current - 2.seconds
     Exercism.request_context = { remote_ip: nil }
@@ -89,14 +89,14 @@ class Metric::CreateTest < ActiveSupport::TestCase
     request_context = { remote_ip: }
     Geocoder::Lookup::Test.add_stub(remote_ip, [{ 'country_code' => '' }])
 
-    Metric::Create.(:submit_solution, Time.current, track:, user:, solution:, request_context:)
+    Metric::Create.(:start_solution, Time.current, track:, user:, solution:, request_context:)
 
     assert_equal 1, Metric.count
     assert_nil Metric.last.country_code
   end
 
   test "creates metric without track or user" do
-    action = :submit_solution
+    action = :start_solution
     solution = create :concept_solution
     occurred_at = Time.current - 2.seconds
 
@@ -108,5 +108,17 @@ class Metric::CreateTest < ActiveSupport::TestCase
     assert_equal occurred_at, metric.occurred_at
     assert_nil metric.track
     assert_nil metric.user
+  end
+
+  test "broadcasts metric" do
+    action = :start_solution
+    solution = create :concept_solution
+    occurred_at = Time.current - 2.seconds
+
+    MetricsChannel.expects(:broadcast!).with do |metric|
+      assert metric.is_a?(Metrics::StartSolutionMetric)
+    end
+
+    Metric::Create.(action, occurred_at, solution:)
   end
 end

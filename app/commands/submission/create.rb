@@ -24,6 +24,7 @@ class Submission
       create_files!
       init_test_run!
       schedule_jobs!
+      log_metric!
 
       # End by returning the new submission
       submission
@@ -31,6 +32,8 @@ class Submission
 
     private
     attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via, :submission
+
+    delegate :track, :user, to: :solution
 
     # In this guard we check the last submission that wasn't
     # cancelled or exceptioned.
@@ -67,6 +70,10 @@ class Submission
 
     def schedule_jobs!
       AwardBadgeJob.perform_later(solution.user, :rookie)
+    end
+
+    def log_metric!
+      Metric::Queue.(:submit_submission, submission.created_at, submission:, track:, user:)
     end
   end
 end

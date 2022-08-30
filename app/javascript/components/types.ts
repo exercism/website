@@ -700,6 +700,19 @@ export type SharePlatform =
   | 'linkedin'
   | 'devto'
 
+export type Metric = {
+  type: string
+  coordinates: number[]
+  user?: {
+    handle: string
+    avatarUrl: string
+  }
+  track?: {
+    title: string
+    iconUrl: string
+  }
+}
+
 export type Modifier =
   | 'hover'
   | 'active'

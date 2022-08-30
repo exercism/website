@@ -1,5 +1,6 @@
 class Metric < ApplicationRecord
   serialize :params, JSON
+  serialize :coordinates, JSON # Stored as [latitude, longitude]
 
   belongs_to :track, optional: true
   belongs_to :user, optional: true
@@ -14,6 +15,49 @@ class Metric < ApplicationRecord
   # By default, use the request's remote IP to determine the country code.
   # Metrics can opt-out by overriding this method and returning nil.
   def store_country_code? = true
+
+  # Should a user be publically doxed as part of this action.
+  # The guide should be whether this action is publically associated
+  # with them already on the website (e.g. publishing a solution)
+  def user_public? = false
+
+  def to_broadcast_hash
+    {
+      type: type.underscore.split('/').last,
+      id:,
+      coordinates: broadcast_coordinates
+    }.tap do |hash|
+      if track
+        hash[:track] = {
+          title: track.title,
+          icon_url: track.icon_url
+        }
+      end
+
+      if user_public? && user
+        hash[:user] = {
+          handle: user.handle,
+          avatar_url: user.avatar_url
+        }
+      end
+    end
+  end
+
+  def broadcast_coordinates
+    return coordinates if coordinates.present?
+
+    # Otherwise we just return some sane coordinate for the map
+    # This is for things like GitHub where we don't know where
+    # things are actually happening.
+    [
+      [41.6919, -73.8642],
+      [35.6897, 139.6895],
+      [53.4809, -2.2374],
+      [-29.0, 24.0],
+      [-35.6535, 137.6262],
+      [30.4032, -97.753]
+    ].sample
+  end
 
   # This maps
   # {discussion: Mentor::Discussion.find(186)}

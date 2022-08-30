@@ -43,7 +43,9 @@ export const AutomationListElement = ({
       <div className="--info">
         <div className="--exercise-title whitespace-nowrap">
           <div>{representation.exercise.title}</div>{' '}
-          {<div className="--most-popular">Most Popular</div>}
+          {representation.appearsFrequently && (
+            <div className="--most-popular">Most Popular</div>
+          )}
         </div>
         <div className="--track-title">
           in {representation.track.title} (#{representation.id})

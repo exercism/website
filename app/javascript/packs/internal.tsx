@@ -85,7 +85,7 @@ import * as Modals from '../components/modals'
 import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
-import { AutomationProps } from '../components/mentoring/automation/Representation.js'
+import { AutomationProps } from '../components/mentoring/automation/Representation'
 function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }

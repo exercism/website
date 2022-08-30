@@ -44,7 +44,7 @@ export default function MentoringConversation({
         Remember, you can edit this feedback anytime after submission.
       </div>
       <PreviewAutomationModal
-        isOpen={true}
+        isOpen={isPreviewModalOpen}
         onClose={() => setIsPreviewModalOpen(false)}
         currentIteration={currentIteration}
         exerciseData={exerciseData}

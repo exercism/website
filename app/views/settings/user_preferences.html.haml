@@ -1,0 +1,10 @@
+#page-settings-preferences.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:preferences)
+
+    %article
+      %h1 General Preferences
+
+      %section
+        = render ReactComponents::Settings::UserPreferencesForm.new
+

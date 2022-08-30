@@ -8,13 +8,7 @@ class Markdown::Parse
     new(*args, **kwargs).()
   end
 
-  def initialize(text, nofollow_links: false, strip_h1: true, lower_heading_levels_by: 1, heading_ids: false)
-    @text = text
-    @nofollow_links = nofollow_links
-    @strip_h1 = strip_h1
-    @lower_heading_levels_by = lower_heading_levels_by
-    @heading_ids = heading_ids
-  end
+  initialize_with :text, nofollow_links: false, strip_h1: true, lower_heading_levels_by: 1, heading_ids: false
 
   def call
     return "" if text.blank?
@@ -23,8 +17,6 @@ class Markdown::Parse
   end
 
   private
-  attr_reader :text, :nofollow_links, :strip_h1, :lower_heading_levels_by, :heading_ids
-
   memoize
   def sanitized_html
     remove_comments = Loofah::Scrubber.new do |node|

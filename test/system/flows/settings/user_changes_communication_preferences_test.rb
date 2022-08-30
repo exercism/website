@@ -8,7 +8,6 @@ module Flows
 
       test "user updates communication preferences" do
         user = create :user
-        create :user_communication_preferences, user: user
 
         use_capybara_host do
           sign_in!(user)

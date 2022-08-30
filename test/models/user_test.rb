@@ -16,6 +16,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user, User.for!(user.handle)
   end
 
+  test "creates preferences" do
+    user = create :user
+    assert user.preferences
+  end
+
   test "creates communication_preferences" do
     user = create :user
     assert user.communication_preferences
@@ -273,7 +278,7 @@ class UserTest < ActiveSupport::TestCase
   test "welcome email is sent after confirmation" do
     user = create :user
 
-    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism, {})
+    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism)
 
     user.confirm
   end
@@ -282,7 +287,7 @@ class UserTest < ActiveSupport::TestCase
     user = build :user
     user.skip_confirmation!
 
-    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism, {})
+    User::Notification::CreateEmailOnly.expects(:call).with(user, :joined_exercism)
 
     user.save!
   end

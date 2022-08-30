@@ -9,8 +9,10 @@ class ReactComponentTestCase < ActionView::TestCase
       %(
        <div
          class="#{css_classes.join(' ')}"
-         data-react-#{id}="true"
-         data-react-data="#{ERB::Util.unwrapped_html_escape(data.to_json)}"></div>
+         data-react-id="#{id}"
+         data-react-data="#{ERB::Util.unwrapped_html_escape(data.to_json)}"
+         data-react-hydrate="false"
+       ></div>
       ).split("\n").map(&:strip).join(" ").strip,
       component.to_s
     )

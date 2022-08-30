@@ -71,7 +71,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
     ConceptExercise::Create.(
       SecureRandom.uuid,
       create(:track),
-      build(:concept_exercise).attributes.symbolize_keys
+      **build(:concept_exercise).attributes.symbolize_keys
     )
   end
 end

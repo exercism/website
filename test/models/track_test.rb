@@ -175,4 +175,19 @@ class TrackTest < ActiveSupport::TestCase
   test ".for_repo with non-track or track tooling repo" do
     assert_nil Track.for_repo("exercism/configlet")
   end
+
+  test "recache_num_exercises!" do
+    track = create :track
+    track.recache_num_exercises!
+    assert_equal 0, track.num_exercises
+
+    create :practice_exercise, track: track, status: :beta
+    assert_equal 1, track.num_exercises
+
+    create :concept_exercise, track: track, status: :active
+    assert_equal 2, track.num_exercises
+
+    create :practice_exercise, track: track, status: :wip
+    assert_equal 2, track.num_exercises
+  end
 end

@@ -1,6 +1,12 @@
 class SitemapsController < ApplicationController
   skip_before_action :authenticate_user!
 
+  around_action do |_, action|
+    ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
+      action.()
+    end
+  end
+
   def robots_txt
     render html: "User-agent: * Allow: /"
   end

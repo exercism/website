@@ -1,9 +1,7 @@
 class Document::SyncAllToSearchIndex
   include Mandate
 
-  def initialize(since: nil)
-    @since = since
-  end
+  initialize_with since: nil
 
   def call
     documents = Document.includes(:track)
@@ -24,9 +22,6 @@ class Document::SyncAllToSearchIndex
       Exercism.opensearch_client.bulk(body:)
     end
   end
-
-  private
-  attr_reader :since
 
   BATCH_SIZE = 1000
   private_constant :BATCH_SIZE

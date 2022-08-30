@@ -6,7 +6,7 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
   test "metrics are counted per action" do
     freeze_time do
       track = create :track
-      create :submit_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month, track: track
+      create :start_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month, track: track
       create :finish_mentoring_metric, occurred_at: Time.current.beginning_of_month.prev_month + 13.days, track: track
       create :finish_mentoring_metric, occurred_at: Time.current.beginning_of_month.prev_month + 8.days, track: track
       create :open_issue_metric, occurred_at: Time.current.beginning_of_month.prev_month + 5.days, track: track
@@ -14,7 +14,7 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
       MetricPeriod::UpdateMonthMetrics.()
 
       assert_equal 1,
-        MetricPeriod::Month.find_by(metric_type: Metrics::SubmitSolutionMetric.name, month: Time.current.prev_month.month,
+        MetricPeriod::Month.find_by(metric_type: Metrics::StartSolutionMetric.name, month: Time.current.prev_month.month,
           track:).count
       assert_equal 2,
         MetricPeriod::Month.find_by(metric_type: Metrics::FinishMentoringMetric.name, month: Time.current.prev_month.month,
@@ -27,21 +27,21 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
   test "metrics are counted per month" do
     freeze_time do
       track = create :track
-      create :submit_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month, track: track
-      create :submit_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 1.day, track: track
-      create :submit_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 10.days, track: track
-      create :submit_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 5.days, track: track
+      create :start_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month, track: track
+      create :start_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 1.day, track: track
+      create :start_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 10.days, track: track
+      create :start_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 5.days, track: track
 
       # Sanity check: two months ago should be ignored
-      create :submit_solution_metric, occurred_at: Time.current - 2.months, track: track
+      create :start_solution_metric, occurred_at: Time.current - 2.months, track: track
 
       # Sanity check: current month should be ignored
-      create :submit_solution_metric, occurred_at: Time.current, track: track
+      create :start_solution_metric, occurred_at: Time.current, track: track
 
       MetricPeriod::UpdateMonthMetrics.()
 
       assert_equal 4,
-        MetricPeriod::Month.find_by(month: Time.current.prev_month.month, metric_type: Metrics::SubmitSolutionMetric.name,
+        MetricPeriod::Month.find_by(month: Time.current.prev_month.month, metric_type: Metrics::StartSolutionMetric.name,
           track:).count
     end
   end
@@ -79,22 +79,22 @@ class MetricPeriod::UpdateMonthMetricsTest < ActiveSupport::TestCase
       track = create :track
 
       # Normally these would be counted, but they'll be ignored in this test
-      create :submit_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month, track: track
-      create :submit_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 1.day, track: track
-      create :submit_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 10.days, track: track
-      create :submit_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 5.days, track: track
+      create :start_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month, track: track
+      create :start_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 1.day, track: track
+      create :start_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 10.days, track: track
+      create :start_solution_metric, occurred_at: Time.current.beginning_of_month.prev_month + 5.days, track: track
 
-      create :submit_solution_metric, occurred_at: Time.current - 2.months, track: track
-      create :submit_solution_metric, occurred_at: Time.current - 2.months, track: track
+      create :start_solution_metric, occurred_at: Time.current - 2.months, track: track
+      create :start_solution_metric, occurred_at: Time.current - 2.months, track: track
 
       # Sanity check: current month should be ignored
-      create :submit_solution_metric, occurred_at: Time.current, track: track
+      create :start_solution_metric, occurred_at: Time.current, track: track
 
       MetricPeriod::UpdateMonthMetrics.(Time.current - 2.months)
 
       assert_equal 2,
         MetricPeriod::Month.find_by(month: (Time.current - 2.months).month, track:,
-          metric_type: Metrics::SubmitSolutionMetric.name).count
+          metric_type: Metrics::StartSolutionMetric.name).count
     end
   end
 

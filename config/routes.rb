@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   # ############ #
   resource :settings, only: %i[show] do
     get :api_cli
+    get :user_preferences
     get :communication_preferences
     get :donations
     patch :reset_account
@@ -194,6 +195,7 @@ Rails.application.routes.draw do
   # About Pages #
   ###############
   resource :about, controller: 'about', only: [:show] do
+    get :impact
     get :team
     get :hiring
     get :hiring_content, path: "hiring/content-2", as: :hiring_2

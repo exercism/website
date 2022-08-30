@@ -527,6 +527,12 @@ export type PullRequest = {
   mergedBy: string
 }
 
+export type UserPreference = {
+  key: string
+  label: string
+  value: boolean
+}
+
 export type CommunicationPreference = {
   key: string
   label: string
@@ -670,3 +676,16 @@ export type SharePlatform =
   | 'reddit'
   | 'linkedin'
   | 'devto'
+
+export type Metric = {
+  type: string
+  coordinates: number[]
+  user?: {
+    handle: string
+    avatarUrl: string
+  }
+  track?: {
+    title: string
+    iconUrl: string
+  }
+}

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :metric, class: 'Metrics::SubmitSolutionMetric' do
+  factory :metric, class: 'Metrics::StartSolutionMetric' do
     params { { solution: create(:practice_solution, track:) } }
     occurred_at { Time.current }
     user { create :user }
@@ -9,7 +9,7 @@ FactoryBot.define do
     end
   end
 
-  factory :submit_solution_metric, parent: :metric, class: 'Metrics::SubmitSolutionMetric' do
+  factory :start_solution_metric, parent: :metric, class: 'Metrics::StartSolutionMetric' do
     params { { solution: create(:practice_solution, track:) } }
   end
 

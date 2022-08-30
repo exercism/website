@@ -55,12 +55,12 @@ class MetricPeriod::SearchTest < ActiveSupport::TestCase
   test "filter: metric_type" do
     period_1 = create :metric_period_day, metric_type: Metrics::OpenIssueMetric.name, day: 1
     period_2 = create :metric_period_day, metric_type: Metrics::RequestMentoringMetric.name, day: 2
-    period_3 = create :metric_period_day, metric_type: Metrics::SubmitSolutionMetric.name, day: 3
-    period_4 = create :metric_period_day, metric_type: Metrics::SubmitSolutionMetric.name, day: 4
+    period_3 = create :metric_period_day, metric_type: Metrics::StartSolutionMetric.name, day: 3
+    period_4 = create :metric_period_day, metric_type: Metrics::StartSolutionMetric.name, day: 4
 
     assert_empty MetricPeriod::Search.(:day, { metric_type: 'complete_solution_metric' }).order(:day)
     assert_equal [period_1], MetricPeriod::Search.(:day, { metric_type: 'open_issue_metric' }).order(:day)
     assert_equal [period_2], MetricPeriod::Search.(:day, { metric_type: 'request_mentoring_metric' })
-    assert_equal [period_3, period_4], MetricPeriod::Search.(:day, { metric_type: 'submit_solution_metric' })
+    assert_equal [period_3, period_4], MetricPeriod::Search.(:day, { metric_type: 'start_solution_metric' })
   end
 end

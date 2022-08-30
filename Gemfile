@@ -27,12 +27,12 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bugsnag'
 
 # Interaction gems
-gem 'rugged' # Git
+gem 'rugged', '1.4.2' # Git - upgrading will break in production but not dev due to EFS issue.
 gem 'rest-client' # http
 gem 'octokit' # GitHub
 
 # General-purpose gems
-gem 'mandate', '2.0.0'
+gem 'mandate', '~> 2.0'
 gem 'kaminari'
 gem 'oj'
 
@@ -65,7 +65,7 @@ gem 'stripe'
 # Reporting
 gem 'skylight'
 
-gem 'listen', '>= 3.0.5', '< 3.2'
+gem 'listen', '>= 3.0.5', '< 4.0'
 
 # Let's be nice to Windows users
 platforms :mingw, :mswin, :x64_mingw, :jruby do
@@ -118,3 +118,5 @@ gem "rack-attack", "~> 6.6"
 
 gem 'geocoder', '~> 1.8'
 gem "maxminddb", "~> 0.1.22"
+
+gem "rubyzip", "~> 2.3"

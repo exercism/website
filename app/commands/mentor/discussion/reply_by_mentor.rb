@@ -19,7 +19,7 @@ module Mentor
         User::Notification::Create.(
           iteration.solution.user,
           :mentor_replied_to_discussion,
-          { discussion_post: }
+          discussion_post:
         )
 
         discussion_post

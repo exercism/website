@@ -54,14 +54,6 @@ body.devise {
             }
         }
     }
-    & .ukraine-link {
-        @apply sm:mr-56;
-        @apply hidden sm:block;
-        & .c-icon {
-            height: 20px;
-            width: 20px;
-        }
-    }
 
     & .docs-search {
         @apply hidden;
@@ -328,7 +320,6 @@ body.devise {
     }
 }
 
-body.action-about,
 body.controller-docs,
 body.namespace-docs {
     @apply bg-backgroundColorA;

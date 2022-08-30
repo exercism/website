@@ -3,7 +3,7 @@ module Github
     class CreateOrUpdate
       include Mandate
 
-      initialize_with :username, :attributes
+      initialize_with :username, attributes: Mandate::KWARGS
 
       def call
         ::Github::OrganizationMember.create!(username:)

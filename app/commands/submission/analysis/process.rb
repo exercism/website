@@ -3,9 +3,7 @@ class Submission
     class Process
       include Mandate
 
-      def initialize(tooling_job)
-        @tooling_job = tooling_job
-      end
+      initialize_with :tooling_job
 
       def call
         # Firstly create a record for debugging and to give
@@ -37,8 +35,6 @@ class Submission
       end
 
       private
-      attr_reader :tooling_job
-
       def handle_ops_error!
         submission.analysis_exceptioned!
       end

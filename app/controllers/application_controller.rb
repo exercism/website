@@ -2,12 +2,14 @@ class ApplicationController < ActionController::Base
   extend Mandate::Memoize
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
+  include BodyClassConcern
 
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
-  before_action :mark_notifications_as_read!
+  around_action :mark_notifications_as_read!
   before_action :set_request_context
+  after_action :set_body_class_header
 
   def process_action(*args)
     super
@@ -30,16 +32,28 @@ class ApplicationController < ActionController::Base
     redirect_to maintaining_root_path
   end
 
+  # We want to mark relevant notifications as read, but we don't
+  # care about doing this before the rest of the action is run, so we
+  # use a promise to kick it off async. However, we do want it to finish
+  # before we send the response (which loads notifications async) so we
+  # wait for the promise to finish before leaving this block.
   def mark_notifications_as_read!
-    return if devise_controller?
-    return unless user_signed_in?
-    return unless request.get?
-    return unless is_navigational_format?
-    return if request.xhr?
+    future = Concurrent::Promises.future do
+      Rails.application.executor.wrap do
+        next if devise_controller?
+        next unless user_signed_in?
+        next unless request.get?
+        next unless is_navigational_format?
+        next if request.xhr?
 
-    User::Notification::MarkRelevantAsRead.(current_user, request.path)
+        User::Notification::MarkRelevantAsRead.(current_user, request.path)
+        User::Notification::MarkBatchAsRead.(current_user, [params[:notification_uuid]]) if params[:notification_uuid].present?
+      end
+    end
 
-    User::Notification::MarkBatchAsRead.(current_user, [params[:notification_uuid]]) if params[:notification_uuid].present?
+    yield
+  ensure
+    future.value
   end
 
   def ensure_mentor!
@@ -58,24 +72,11 @@ class ApplicationController < ActionController::Base
     Exercism.request_context = { remote_ip: request.remote_ip }
   end
 
-  #############################
-  # Site Header Functionality #
-  #############################
-  def render_site_header?
-    iv = "@__render_site_header__"
-    instance_variable_defined?(iv) ? instance_variable_get(iv) : true
-  end
-  helper_method :render_site_header?
-
-  def disable_site_header!
-    @__render_site_header__ = false
-  end
-
-  def self.disable_site_header!(*args)
-    before_action :disable_site_header!, *args
-  end
-
   private
+  def set_body_class_header
+    response.set_header("Exercism-Body-Class", body_class)
+  end
+
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr? &&
       request.fullpath != '/site.webmanifest'
@@ -88,13 +89,6 @@ class ApplicationController < ActionController::Base
   def store_user_location!
     store_location_for(:user, request.fullpath)
   end
-
-  memoize
-  def namespace_name
-    controller_parts = self.class.name.underscore.split("/")
-    controller_parts.size > 1 ? controller_parts[0] : nil
-  end
-  helper_method :namespace_name
 
   def render_template_as_json
     respond_to do |format|

@@ -11,7 +11,7 @@ class Exercise < ApplicationRecord
     deprecated: 3
   }
 
-  belongs_to :track, counter_cache: :num_exercises
+  belongs_to :track
 
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions
@@ -68,6 +68,10 @@ class Exercise < ApplicationRecord
       Exercise::MarkSolutionsAsOutOfDateInIndex.defer(self)
       Exercise::QueueSolutionHeadTestRuns.defer(self)
     end
+  end
+
+  after_commit do
+    track.recache_num_exercises! if (saved_changes.keys & %w[id status]).present?
   end
 
   def status

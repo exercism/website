@@ -7,6 +7,7 @@
 module API
   class BaseController < ApplicationController
     skip_before_action :verify_authenticity_token
+    skip_after_action :set_body_class_header
 
     rescue_from ActionController::RoutingError, with: -> { render_404 }
 
@@ -70,6 +71,14 @@ module API
 
     def render_submission_not_found
       render_404(:submission_not_found)
+    end
+
+    def render_exercise_not_found
+      render_404(:exercise_not_found)
+    end
+
+    def render_track_not_found
+      render_404(:track_not_found)
     end
 
     def render_solution_not_accessible

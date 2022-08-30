@@ -18,6 +18,7 @@ import {
   MentoredTrackExercise,
   // User,
   // SiteUpdate,
+  UserPreferences,
   CommunicationPreferences,
   User,
   MentoringSessionExemplarFile,
@@ -235,6 +236,14 @@ initReact({
   ),
   'settings-token-form': (data: any) => (
     <Settings.TokenForm defaultToken={data.token} links={data.links} />
+  ),
+  'settings-user-preferences-form': (data: any) => (
+    <Settings.UserPreferencesForm
+      defaultPreferences={camelizeKeysAs<readonly UserPreferences[]>(
+        data.preferences
+      )}
+      links={data.links}
+    />
   ),
   'settings-communication-preferences-form': (data: any) => (
     <Settings.CommunicationPreferencesForm

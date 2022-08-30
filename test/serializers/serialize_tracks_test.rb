@@ -9,7 +9,8 @@ class SerializeTracksTest < ActiveSupport::TestCase
 
     expected = %w[Assembly Javascript Ruby Rust]
     actual = SerializeTracks.(
-      [ruby, javascript, assembly, rust]
+      [ruby, javascript, assembly, rust],
+      nil
     ).map { |t| t[:title] }
     assert_equal expected, actual
   end

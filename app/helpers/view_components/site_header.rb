@@ -9,7 +9,7 @@ module ViewComponents
       tag.header(id: "site-header") do
         # announcement_bar +
         tag.div(class: "lg-container container") do
-          logo + ukraine + docs_nav + contextual_section
+          logo + docs_nav + contextual_section
         end
       end
     end
@@ -26,15 +26,8 @@ module ViewComponents
     end
 
     def logo
-      link_to Exercism::Routes.root_path, class: "exercism-link xl:block" do
+      link_to Exercism::Routes.root_path, class: "exercism-link xl:block", "data-turbo-frame": "tf-main" do
         icon("exercism-with-logo-black", "Exercism")
-      end
-    end
-
-    def ukraine
-      link_to "https://donate.redcross.org.uk/appeal/ukraine-crisis-appeal", class: "ukraine-link", target: "_blank",
-        rel: 'noopener' do
-        icon("ukraine", "Ukraine-coloured heart")
       end
     end
 
@@ -72,7 +65,7 @@ module ViewComponents
     def si_nav_li(title, icon_name, url, selected)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
       tag.li attrs do
-        link_to(graphical_icon(icon_name) + tag.span(title), url)
+        link_to(graphical_icon(icon_name) + tag.span(title), url, "data-turbo-frame": "tf-main")
       end
     end
 
@@ -97,11 +90,12 @@ module ViewComponents
         html: safe_join([graphical_icon("hamburger"), tag.span("Explore")])
       }
       items = [
-        { html: link_to("Home", Exercism::Routes.root_path), className: "opt site-link" },
-        { html: link_to("Language Tracks", Exercism::Routes.tracks_path), className: "opt site-link" },
-        { html: link_to("Contribute", Exercism::Routes.contributing_root_path), className: "opt site-link" },
-        { html: link_to("Mentoring", Exercism::Routes.mentoring_path), className: "opt site-link" },
-        { html: link_to("Donate 💜", Exercism::Routes.donate_path), className: "opt site-link donate" }
+        { html: link_to("Home", Exercism::Routes.root_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
+        { html: link_to("Language Tracks", Exercism::Routes.tracks_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
+        { html: link_to("Contribute", Exercism::Routes.contributing_root_path, "data-turbo-frame": "tf-main"),
+          className: "opt site-link" },
+        { html: link_to("Mentoring", Exercism::Routes.mentoring_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
+        { html: link_to("Donate 💜", Exercism::Routes.donate_path, "data-turbo-frame": "tf-main"), className: "opt site-link donate" }
       ]
       render(ReactComponents::Dropdowns::Dropdown.new(menu_button: button, menu_items: items))
     end

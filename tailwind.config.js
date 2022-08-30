@@ -29,7 +29,11 @@ module.exports = {
       5: '5px',
       8: '8px',
       12: '12px',
+<<<<<<< HEAD
       24: '24px',
+=======
+      16: '16px',
+>>>>>>> representers
       100: '100px',
       circle: '100%',
     },
@@ -149,6 +153,7 @@ module.exports = {
       purpleForever: '#5042AD',
       darkPlaceholder: '#9D94DA',
       lightLavender: 'rgba(35, 0, 255, 0.3)',
+      purpleHover: '#F2F0FC',
 
       gray: '#A9A6BD',
       darkGray: '#26282D',
@@ -292,6 +297,7 @@ module.exports = {
       // to then respond to flex-grow. This is used for that.
       auto: 'auto',
       arbitary: '1px',
+      fill: '100%',
       '5-7': '41.6%',
       '1-3': '33.3%',
       '1-2': '50%',

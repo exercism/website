@@ -27,6 +27,7 @@ import { ResetButton } from './tasks-list/ResetButton'
 import { Sorter } from './tasks-list/Sorter'
 import pluralize from 'pluralize'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
+import useLogger from '../../hooks/use-logger'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 const DEFAULT_ORDER = 'newest'
@@ -63,18 +64,14 @@ export const TasksList = ({
   tracks: readonly Track[]
 }): JSX.Element => {
   const { request, setPage, setQuery, setOrder } = useList(initialRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['contributing-tasks', request.endpoint, request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+      ['contributing-tasks', request.endpoint, request.query],
+      request
+    )
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
+  useLogger('TRACK IN TRACKLIST', track)
   const isFiltering =
     request.query.trackSlug ||
     request.query.actions.length > 0 ||

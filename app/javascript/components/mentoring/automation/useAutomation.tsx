@@ -64,8 +64,6 @@ export function useAutomation(
   cacheKey: string,
   withFeedback: boolean
 ): returnMentoringAutomation {
-  const [selectedTrack, setSelectedTrack] =
-    useState<AutomationTrack>(initialTrackData)
   const [checked, setChecked] = useState(false)
   const [criteria, setCriteria] = useState(
     representationsRequest.query?.criteria || ''
@@ -89,12 +87,16 @@ export function useAutomation(
     request: tracksRequest,
   })
 
+  const [selectedTrack, setSelectedTrack] =
+    useState<AutomationTrack>(initialTrackData)
+
   const { status, resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
       ['mentor-representations-list', request.endpoint, request.query],
       request
     )
 
+  // TODO: refactor this and probably all query with the debounce hook
   useEffect(() => {
     const handler = setTimeout(() => {
       setRequestCriteria(criteria)
@@ -118,12 +120,18 @@ export function useAutomation(
     [setPage, setQuery, request.query]
   )
 
+  // Automatically set a selected track based on query or the lack of it
   useEffect(() => {
-    if (tracks.length > 0) {
-      setSelectedTrack(tracks[0])
+    // don't repeat 'find' on track change, only when page loads
+    if (tracks.length > 0 && selectedTrack === initialTrackData) {
+      const foundTrack = tracks.find(
+        (t: AutomationTrack) => t.slug == request.query.trackSlug
+      )
+      setSelectedTrack(foundTrack || tracks[0])
     }
-  }, [tracks])
+  }, [request.query.trackSlug, selectedTrack, tracks])
 
+  // If only_mentored_solutions === null or undefined remove it completely from query obj and query string
   const handleOnlyMentoredSolutions = useCallback(
     (checked) => {
       const queryObject: { onlyMentoredSolutions?: true } = {}
@@ -142,6 +150,7 @@ export function useAutomation(
     [request.query, setPage, setQuery]
   )
 
+  // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(
     (withFeedback) => {
       if (withFeedback && resolvedData) {

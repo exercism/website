@@ -6,6 +6,7 @@ export type ListState = Request & {
     page: number
     criteria?: string
     tags?: string[]
+    trackSlug?: string
   }
 }
 

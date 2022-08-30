@@ -3,8 +3,16 @@ import { SplitPane } from '../../../common'
 import { Modal } from '../../../modals/Modal'
 import { IterationView } from '../../session/IterationView'
 import { PanesProps } from '../left-pane/LeftPane'
+import {
+  PreviewFeedbackComment,
+  PreviewFeedbackCommentProps,
+} from './PreviewFeedbackComment'
 import { PreviewFooter } from './PreviewFooter'
 import { AutomationModalProps } from './SubmittedAutomationModal'
+
+type PreviewAutomationModalProps = AutomationModalProps &
+  PanesProps &
+  PreviewFeedbackCommentProps
 
 export function PreviewAutomationModal({
   onClose,
@@ -14,7 +22,8 @@ export function PreviewAutomationModal({
   handleIterationClick,
   isLinked,
   setIsLinked,
-}: AutomationModalProps & PanesProps): JSX.Element {
+  markdown,
+}: PreviewAutomationModalProps): JSX.Element {
   return (
     <Modal
       ReactModalClassName="c-mentor-discussion !p-0 !w-[80%] flex flex-col"
@@ -39,7 +48,7 @@ export function PreviewAutomationModal({
             downloadCommand={exerciseData.downloadCommand}
           />
         }
-        right={<div>hello</div>}
+        right={<PreviewFeedbackComment markdown={markdown} />}
         rightMinWidth={400}
       />
       <PreviewFooter numOfSolutions={2170} />

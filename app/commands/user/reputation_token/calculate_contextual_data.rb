@@ -7,7 +7,7 @@ class User::ReputationToken
     # This does n queries (where n is number of users).
     # This is theoretically terrible but actually works out to be much more performant for two reasons:
     # 1. MySQL's index performance ranges from 0.05s to 33s (!!) depending on how dispersed the indexes pages
-    # are. First page load therefore takes 33s and subsequent ones are pretty instant. 
+    # are. First website page load therefore takes 33s and subsequent ones are pretty instant. 
     # By reducing it down to n queries, we have a steady performance that's at the very low
     # end of the range (~0.5s sum for all the queries)
     # 2. We cache the values per user and invalidate the cache when a new reputation token is

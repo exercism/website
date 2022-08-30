@@ -27,6 +27,7 @@ export type AutomationProps = {
   withFeedback: boolean
   representationsWithoutFeedbackCount?: number
   representationsWithFeedbackCount?: number
+  trackCacheKey: string
 }
 
 export function Representations({
@@ -37,6 +38,7 @@ export function Representations({
   withFeedback,
   representationsWithoutFeedbackCount,
   representationsWithFeedbackCount,
+  trackCacheKey,
 }: AutomationProps): JSX.Element {
   const {
     feedbackCount,
@@ -63,7 +65,7 @@ export function Representations({
     representationsWithFeedbackCount,
     representationsWithoutFeedbackCount,
     tracksRequest,
-    AUTOMATION_TRACKS_CACHE_KEY,
+    trackCacheKey,
     withFeedback
   )
 

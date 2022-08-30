@@ -7,5 +7,11 @@ type RepresentationsWithoutFeedbackProps = {
 export function RepresentationsWithoutFeedback({
   data,
 }: RepresentationsWithoutFeedbackProps): JSX.Element {
-  return <Representations {...data} withFeedback={false} />
+  return (
+    <Representations
+      {...data}
+      trackCacheKey="automation-without-feedback-track-cache-key"
+      withFeedback={false}
+    />
+  )
 }

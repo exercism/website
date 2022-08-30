@@ -7,5 +7,11 @@ export type RepresentationsWithFeedbackProps = {
 export function RepresentationsWithFeedback({
   data,
 }: RepresentationsWithFeedbackProps): JSX.Element {
-  return <Representations {...data} withFeedback={true} />
+  return (
+    <Representations
+      {...data}
+      trackCacheKey="automation-with-feedback-track-cache-key"
+      withFeedback={true}
+    />
+  )
 }

@@ -45,6 +45,7 @@ export default function MentoringConversation({
       </div>
       <PreviewAutomationModal
         isOpen={isPreviewModalOpen}
+        markdown={value}
         onClose={() => setIsPreviewModalOpen(false)}
         currentIteration={currentIteration}
         exerciseData={exerciseData}

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Exercise::Representation::FindExamplesTest < ActiveSupport::TestCase
+class Exercise::Representation::FindExampleSubmissionsTest < ActiveSupport::TestCase
   test "returns latest three submission with same digest" do
     representation = create :exercise_representation, ast_digest: 'digest'
 
@@ -30,7 +30,7 @@ class Exercise::Representation::FindExamplesTest < ActiveSupport::TestCase
     create :submission_file, submission: submission_5, filename: "impl.rb", content: "Impl // Dez"
     create :submission_representation, submission: submission_5, ast_digest: 'different digest'
 
-    assert_equal [submission_4, submission_3, submission_2], Exercise::Representation::FindExamples.(representation)
+    assert_equal [submission_4, submission_3, submission_2], Exercise::Representation::FindExampleSubmissions.(representation)
   end
 
   test "returns three submissions with unique solution files but same digest" do
@@ -63,6 +63,6 @@ class Exercise::Representation::FindExamplesTest < ActiveSupport::TestCase
     create :submission_file, submission: submission_5, filename: "impl.rb", content: "Impl // Baz"
     create :submission_representation, submission: submission_5, ast_digest: representation.ast_digest
 
-    assert_equal [submission_5, submission_3, submission_2], Exercise::Representation::FindExamples.(representation)
+    assert_equal [submission_5, submission_3, submission_2], Exercise::Representation::FindExampleSubmissions.(representation)
   end
 end

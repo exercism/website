@@ -1,4 +1,4 @@
-class Exercise::Representation::FindExamples
+class Exercise::Representation::FindExampleSubmissions
   include Mandate
 
   initialize_with :representation
@@ -26,8 +26,9 @@ class Exercise::Representation::FindExamples
       end
 
       break example_submissions if submissions.last_page?
+      break example_submissions if page == MAX_PAGES_FETCHED
 
-      page = submissions.next_page
+      page += 1
     end
   end
 
@@ -37,5 +38,6 @@ class Exercise::Representation::FindExamples
   end
 
   NUM_EXAMPLES = 3
-  private_constant :NUM_EXAMPLES
+  MAX_PAGES_FETCHED = 3
+  private_constant :NUM_EXAMPLES, :MAX_PAGES_FETCHED
 end

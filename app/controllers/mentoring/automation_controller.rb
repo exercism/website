@@ -9,5 +9,8 @@ class Mentoring::AutomationController < ApplicationController
     @automation_params = params.permit(:order, :criteria, :page, :track_slug)
   end
 
-  def new; end
+  def edit
+    @representation = Exercise::Representation.find(params[:id])
+    @examples = Exercise::Representation::FindExampleSubmissions.(@representation)
+  end
 end

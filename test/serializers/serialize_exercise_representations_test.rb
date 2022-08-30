@@ -27,7 +27,9 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
         appears_frequently: true,
         feedback_html: "<p>Yay</p>\n",
         last_submitted_at: current_time - 5.days,
-        links: {}
+        links: {
+          edit: '/mentoring/automation/3/edit'
+        }
       },
       {
         id: 7,
@@ -43,7 +45,9 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
         appears_frequently: false,
         feedback_html: "<p>Jip</p>\n",
         last_submitted_at: current_time - 2.days,
-        links: {}
+        links: {
+          edit: '/mentoring/automation/7/edit'
+        }
       }
     ]
 

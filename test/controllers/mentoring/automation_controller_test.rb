@@ -34,4 +34,33 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
     get with_feedback_mentoring_automation_index_path
     assert_redirected_to mentoring_path
   end
+
+  test "edit: renders correct for supermentors" do
+    user = create :user, :supermentor
+    sign_in!(user)
+
+    representation = create :exercise_representation
+    get edit_mentoring_automation_path(representation)
+
+    assert_template "mentoring/automation/edit"
+  end
+
+  test "edit: raises when representation could not be found" do
+    user = create :user, :supermentor
+    sign_in!(user)
+
+    assert_raises ActiveRecord::RecordNotFound do
+      get edit_mentoring_automation_path(-1)
+    end
+  end
+
+  test "edit: redirects non supermentors" do
+    user = create :user
+    sign_in!(user)
+
+    representation = create :exercise_representation
+
+    get edit_mentoring_automation_path(representation)
+    assert_redirected_to mentoring_path
+  end
 end

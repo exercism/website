@@ -22,7 +22,9 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
       appears_frequently: true,
       feedback_markdown: "Yay",
       last_submitted_at:,
-      links: {}
+      links: {
+        edit: '/mentoring/automation/3/edit'
+      }
     }
 
     assert_equal expected, SerializeExerciseRepresentation.(representation)

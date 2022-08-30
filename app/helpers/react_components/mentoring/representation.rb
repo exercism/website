@@ -1,15 +1,13 @@
 module ReactComponents
   module Mentoring
     class Representation < ReactComponent
-      # rubocop:disable Lint/UselessMethodDefinition
-      def initialize
-        # TODO: do stuff
-        super
-      end
-      # rubocop:enable Lint/UselessMethodDefinition
+      initialize_with :representation, :example_submissions
 
       def to_s
-        super("mentoring-representation", {})
+        super("mentoring-representation", {
+          representation: SerializeExerciseRepresentation.(representation),
+          examples: example_submissions.map { |submission| SerializeFiles.(submission.files_for_editor) }
+        })
       end
     end
   end

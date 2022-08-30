@@ -96,7 +96,7 @@ Rails.application.routes.draw do
     end
     resources :discussions, only: [:show]
     resources :testimonials, only: [:index]
-    resources :automation, only: %i[index new] do
+    resources :automation, only: %i[index edit] do
       collection do
         get :with_feedback
       end

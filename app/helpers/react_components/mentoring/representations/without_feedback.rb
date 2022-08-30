@@ -57,17 +57,18 @@ module ReactComponents
         def links
           {
             with_feedback: Exercism::Routes.with_feedback_mentoring_automation_index_url,
-            hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("feedback-automation")
+            hide_introducer: Exercism::Routes.hide_api_settings_introducer_path(INTRODUCER_SLUG)
           }
         end
 
-        def is_introducer_hidden = mentor.introducer_dismissed?("feedback-automation")
+        def is_introducer_hidden = mentor.introducer_dismissed?(INTRODUCER_SLUG)
 
         SORT_OPTIONS = [
           { value: :most_submissions, label: 'Sort by highest occurance' },
           { value: :most_recent, label: 'Sort by recent first' }
         ].freeze
-        private_constant :SORT_OPTIONS
+        INTRODUCER_SLUG = 'feedback_automation'.freeze
+        private_constant :SORT_OPTIONS, :INTRODUCER_SLUG
       end
     end
   end

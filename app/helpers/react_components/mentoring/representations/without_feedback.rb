@@ -12,7 +12,8 @@ module ReactComponents
               tracks_request:,
               links:,
               sort_options: SORT_OPTIONS,
-              representations_with_feedback_count:
+              representations_with_feedback_count:,
+              is_introducer_hidden:
             }
           )
         end
@@ -54,8 +55,13 @@ module ReactComponents
         def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: false)
 
         def links
-          { with_feedback: Exercism::Routes.with_feedback_mentoring_automation_index_url }
+          {
+            with_feedback: Exercism::Routes.with_feedback_mentoring_automation_index_url,
+            hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("feedback-automation")
+          }
         end
+
+        def is_introducer_hidden = mentor.introducer_dismissed?("feedback-automation")
 
         SORT_OPTIONS = [
           { value: :most_submissions, label: 'Sort by highest occurance' },

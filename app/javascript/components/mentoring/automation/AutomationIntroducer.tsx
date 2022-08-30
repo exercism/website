@@ -1,10 +1,14 @@
 import React from 'react'
 import { Introducer } from '../../common'
 
-export function AutomationIntroducer(): JSX.Element {
+export function AutomationIntroducer({
+  hideEndpoint,
+}: {
+  hideEndpoint: string
+}): JSX.Element {
   return (
     <Introducer
-      endpoint="some string"
+      endpoint={hideEndpoint}
       additionalClassNames="mb-24"
       icon="automation"
     >

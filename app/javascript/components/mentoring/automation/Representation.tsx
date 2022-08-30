@@ -13,8 +13,9 @@ import { error } from 'jquery'
 import { useAutomation } from './useAutomation'
 
 export type AutomationLinks = {
-  withFeedback: string
-  withoutFeedback: string
+  withFeedback?: string
+  withoutFeedback?: string
+  hideIntroducer: string
 }
 
 export type AutomationProps = {
@@ -26,6 +27,7 @@ export type AutomationProps = {
   representationsWithoutFeedbackCount?: number
   representationsWithFeedbackCount?: number
   trackCacheKey: string
+  isIntroducerHidden: boolean
 }
 
 export function Representations({
@@ -37,6 +39,7 @@ export function Representations({
   representationsWithoutFeedbackCount,
   representationsWithFeedbackCount,
   trackCacheKey,
+  isIntroducerHidden,
 }: AutomationProps): JSX.Element {
   const {
     feedbackCount,
@@ -69,7 +72,9 @@ export function Representations({
 
   return (
     <div className="c-mentor-inbox">
-      <AutomationIntroducer />
+      {!isIntroducerHidden && (
+        <AutomationIntroducer hideEndpoint={links.hideIntroducer} />
+      )}
       <div className="flex justify-between items-center">
         <div className="tabs">
           <StatusTab<AutomationStatus>

@@ -11,7 +11,7 @@ class User::ReputationToken
     # By reducing it down to n queries, we have a steady performance that's at the very low
     # end of the range (~0.5s sum for all the queries)
     # 2. We cache the values per user and invalidate the cache when a new reputation token is
-    # added, so although this is n+1 in the worst case - we're never really actually there.
+    # added, so although this is n queries in the worst case - we're never really actually there.
     def initialize(user_ids, period: nil, earned_since: nil, track_id: nil, category: nil)
       @single_user = user_ids.is_a?(Integer)
       @user_ids = Array(user_ids)

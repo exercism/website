@@ -12,8 +12,6 @@ import { SortOption } from '../Inbox'
 import { error } from 'jquery'
 import { useAutomation } from './useAutomation'
 
-const AUTOMATION_TRACKS_CACHE_KEY = 'automation-tracks-list-cache'
-
 export type AutomationLinks = {
   withFeedback: string
   withoutFeedback: string
@@ -114,7 +112,7 @@ export function Representations({
             tracks={tracks}
             countText={withFeedback ? 'submission' : 'request'}
             isFetching={isTrackListFetching}
-            cacheKey={AUTOMATION_TRACKS_CACHE_KEY}
+            cacheKey={trackCacheKey}
             value={selectedTrack}
             setValue={handleTrackChange}
             sizeVariant={'automation'}

@@ -231,10 +231,6 @@
         brightness(101%) contrast(84%);
     --linkColor-filter: var(--filter-2E57E8);
 
-    /*  from #D85050, loss is 2.7 - this is the best I could get after 5 mins */
-    --filter-D85050: invert(57%) sepia(68%) saturate(5428%) hue-rotate(331deg)
-        brightness(91%) contrast(85%);
-
     --exercise-header-gradient: linear-gradient(
         180deg,
         #e1ebff 0%,

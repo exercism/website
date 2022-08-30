@@ -96,7 +96,11 @@ Rails.application.routes.draw do
     end
     resources :discussions, only: [:show]
     resources :testimonials, only: [:index]
-    resources :representations, only: %i[new]
+    resources :automation, only: %i[index new] do
+      collection do
+        get :with_feedback
+      end
+    end
   end
 
   namespace :maintaining do

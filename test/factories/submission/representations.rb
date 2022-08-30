@@ -5,5 +5,6 @@ FactoryBot.define do
 
     ops_status { 200 }
     ast_digest { SecureRandom.uuid }
+    mentor { nil }
   end
 end

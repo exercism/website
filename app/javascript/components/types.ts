@@ -145,6 +145,8 @@ export type DiscussionStatus =
   | 'awaiting_student'
   | 'finished'
 
+export type AutomationStatus = 'with_feedback' | 'without_feedback'
+
 export type CommunitySolution = {
   uuid: string
   snippet: string
@@ -269,6 +271,10 @@ export type Track = {
     exercises: string
     concepts: string
   }
+}
+
+export type AutomationTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
+  numSubmissions: number
 }
 
 export type Iteration = {
@@ -429,6 +435,18 @@ export type MentoredTrack = {
   }
 }
 
+export type Representation = {
+  id: number
+  exercise: { title: string; iconUrl: string }
+  track: { title: string; iconUrl: string }
+  numSubmissions: number
+  feedbackHtml: string
+  lastSubmittedAt: string
+  appearsFrequently: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  links: any
+}
+
 export type Contributor = {
   rank: number
   avatarUrl: string
@@ -537,6 +555,11 @@ export type CommunicationPreference = {
   key: string
   label: string
   value: boolean
+}
+
+export type CommunicationPreferences = {
+  mentoring: readonly CommunicationPreference[]
+  product: readonly CommunicationPreference[]
 }
 
 export type ContributionCategoryId =
@@ -689,3 +712,34 @@ export type Metric = {
     iconUrl: string
   }
 }
+
+export type Modifier =
+  | 'hover'
+  | 'active'
+  | 'focus'
+  | 'focus-within'
+  | 'focus-visible'
+  | 'visited'
+  | 'target'
+  | 'first'
+  | 'last'
+  | 'only'
+  | 'odd'
+  | 'even'
+  | 'first-of-type'
+  | 'last-of-type'
+  | 'only-of-type'
+  | 'empty'
+  | 'disabled'
+  | 'enabled'
+  | 'checked'
+  | 'intermediate'
+  | 'default'
+  | 'required'
+  | 'valid'
+  | 'invalid'
+  | 'in-range'
+  | 'out-of-range'
+  | 'placeholder-shown'
+  | 'autofill'
+  | 'read-only'

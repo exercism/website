@@ -17,15 +17,16 @@ export const useTrackList = ({
   status: QueryStatus
   error: unknown
   isFetching: boolean
+  resolvedData: any
 } => {
-  const { resolvedData, isFetching, status, error } = usePaginatedRequestQuery<
-    APIResponse
-  >(cacheKey, request)
+  const { resolvedData, isFetching, status, error } =
+    usePaginatedRequestQuery<APIResponse>(cacheKey, request)
 
   return {
     tracks: resolvedData ? resolvedData.tracks : [],
     status,
     error,
     isFetching,
+    resolvedData,
   }
 }

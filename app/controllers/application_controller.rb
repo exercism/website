@@ -58,6 +58,14 @@ class ApplicationController < ActionController::Base
 
   def ensure_mentor!
     return if current_user&.mentor?
+    return if current_user&.admin? # Admins have mentor permissions
+
+    redirect_to mentoring_path
+  end
+
+  def ensure_supermentor!
+    return if current_user&.supermentor?
+    return if current_user&.admin? # Admins have supermentor permissions
 
     redirect_to mentoring_path
   end

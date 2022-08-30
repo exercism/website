@@ -1,0 +1,5 @@
+#mentor-inbox-page
+  = render ViewComponents::Mentor::Header.new(:automation)
+
+  .lg-container
+    = ReactComponents::Mentoring::Representations::WithFeedback.new(current_user, @automation_params)

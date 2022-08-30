@@ -45,5 +45,9 @@ FactoryBot.define do
     trait :maintainer do
       roles { [:maintainer] }
     end
+
+    trait :supermentor do
+      roles { [:supermentor] }
+    end
   end
 end

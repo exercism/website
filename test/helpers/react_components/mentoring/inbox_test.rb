@@ -1,6 +1,6 @@
 require_relative "../react_component_test_case"
 
-class MentoringInboxTest < ReactComponentTestCase
+class ReactComponents::Mentoring::InboxTest < ReactComponentTestCase
   test "mentoring inbox rendered correctly" do
     component = ReactComponents::Mentoring::Inbox.new({
       criteria: "Ruby"

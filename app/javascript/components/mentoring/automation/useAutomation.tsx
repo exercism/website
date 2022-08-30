@@ -144,22 +144,27 @@ export function useAutomation(
 
   const getFeedbackCount = useCallback(
     (withFeedback) => {
-      if (withFeedback) {
+      if (withFeedback && resolvedData) {
         return {
-          with_feedback: resolvedData?.results.length,
+          with_feedback: resolvedData.meta.unscopedTotal - 1,
           without_feedback: representationsWithoutFeedbackCount,
+        }
+      } else if (resolvedData) {
+        return {
+          with_feedback: representationsWithFeedbackCount,
+          without_feedback: resolvedData.meta.unscopedTotal - 1,
         }
       } else {
         return {
-          with_feedback: representationsWithFeedbackCount,
-          without_feedback: resolvedData?.results.length,
+          with_feedback: 0,
+          without_feedback: 0,
         }
       }
     },
     [
       representationsWithFeedbackCount,
       representationsWithoutFeedbackCount,
-      resolvedData?.results.length,
+      resolvedData,
     ]
   )
 

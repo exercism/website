@@ -12,23 +12,17 @@ export const AutomationListElement = ({
   withFeedback: boolean
 }): JSX.Element => {
   const ELEMENT_LABELS = useMemo(() => {
-    const plurNumSubmissions = pluralizeWithNumber.bind(
+    const pluralizeNumSubmissions = pluralizeWithNumber.bind(
       null,
       representation.numSubmissions
     )
     return {
       counterElement: withFeedback
-        ? `Shown ${plurNumSubmissions('time')}`
-        : `${plurNumSubmissions('occurrence')}`,
-      dateElement: withFeedback ? (
+        ? `Shown ${pluralizeNumSubmissions('time')}`
+        : `${pluralizeNumSubmissions('occurrence')}`,
+      dateElement: (
         <>
-          Last shown
-          <br />
-          {fromNow(representation.lastSubmittedAt)}
-        </>
-      ) : (
-        <>
-          Last occurrence
+          Last {withFeedback ? 'shown' : 'occurrence'}
           <br />
           {fromNow(representation.lastSubmittedAt)}
         </>

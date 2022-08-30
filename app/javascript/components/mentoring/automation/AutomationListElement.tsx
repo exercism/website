@@ -52,7 +52,7 @@ export const AutomationListElement = ({
           {<div className="--most-popular">Most Popular</div>}
         </div>
         <div className="--track-title">
-          in {representation.track.title} (#520)
+          in {representation.track.title} (#{representation.id})
         </div>
       </div>
       <div

@@ -170,6 +170,7 @@
     --paginationCurrentBorderColor: var(--c-6E82AA);
     --paginationCurrentBackgroundColor: var(--c-E1EBFF);
     --chartBorderColor: var(--c-D5D8E4);
+    --successColor: #3db591;
 
     --box-shadow-sm: 0px 4px 16px 0px rgb(79, 114, 205, 0.1);
     --box-shadow-base: 0px 4px 24px 0px rgba(79, 114, 205, 0.15);

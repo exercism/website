@@ -1,0 +1,5 @@
+@layer components {
+    .label-large {
+        @apply text-18 leading-150 text-textColor2 font-semibold;
+    }
+}

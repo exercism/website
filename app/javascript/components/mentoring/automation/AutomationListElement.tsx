@@ -31,7 +31,7 @@ export const AutomationListElement = ({
   }, [representation, withFeedback])
 
   return (
-    <a className="--representer" href={'string'}>
+    <a className="--representer" href={`automation/${representation.id}/edit`}>
       <TrackIcon
         title={representation.track.title}
         iconUrl={representation.track.iconUrl}

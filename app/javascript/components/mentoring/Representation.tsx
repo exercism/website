@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SplitPane } from '../common'
 import { LeftPane } from './representation/left-pane'
 import { RightPane } from './representation/right-pane'
 import { RAW_SESSION_DATA } from './representation/mock-data'
 import { useIterationScrolling } from './session/useIterationScrolling'
 
-export function Representation(): JSX.Element {
+export function Representation({ data }): JSX.Element {
   const [isLinked, setIsLinked] = useState(false)
 
   const { currentIteration, handleIterationClick } = useIterationScrolling({
@@ -22,6 +22,7 @@ export function Representation(): JSX.Element {
         id="mentoring-session"
         left={
           <LeftPane
+            data={data}
             exerciseData={RAW_SESSION_DATA}
             currentIteration={currentIteration}
             handleIterationClick={handleIterationClick}

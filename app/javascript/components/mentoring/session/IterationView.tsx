@@ -8,7 +8,6 @@ import { FetchingBoundary } from '../../FetchingBoundary'
 import { File } from '../../types'
 import { ResultsZone } from '../../ResultsZone'
 import { LinkButton } from './LinkButton'
-import { RESOLVED_ITERATION_DATA as resolvedData } from '../representation/mock-data'
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
@@ -40,7 +39,7 @@ export const IterationView = ({
   downloadCommand: string
 }): JSX.Element => {
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
-  const { error, status, isFetching } = usePaginatedRequestQuery<{
+  const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
     files: readonly File[]
   }>(currentIteration.links.files, {
     endpoint: currentIteration.links.files,

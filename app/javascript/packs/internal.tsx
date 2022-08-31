@@ -182,7 +182,9 @@ initReact({
       platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
-  'mentoring-representation': (data: any) => <Mentoring.Representation />,
+  'mentoring-representation': (data: any) => (
+    <Mentoring.Representation data={data} />
+  ),
   'student-mentoring-session': (data: any) => (
     <StudentMentoringSession
       userHandle={data.user_handle}

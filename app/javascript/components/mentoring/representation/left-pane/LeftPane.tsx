@@ -14,9 +14,12 @@ export type PanesProps = {
   handleIterationClick: (iteration: any) => void
   isLinked: boolean
   setIsLinked: () => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any
 }
 
 export function LeftPane({
+  data,
   exerciseData,
   currentIteration,
   handleIterationClick,
@@ -26,7 +29,7 @@ export function LeftPane({
   return (
     <>
       <header className="discussion-header">
-        <CloseButton url={'somewhere'} />
+        <CloseButton url={''} />
         <RepresentationInfo
           exercise={exerciseData.exercise}
           track={exerciseData.track}

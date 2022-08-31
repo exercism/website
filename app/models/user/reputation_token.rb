@@ -1,9 +1,7 @@
 class User::ReputationToken < ApplicationRecord
   include IsParamaterisedSTI
 
-  def self.cache_hash_for(user_id)
-    "users/#{user_id}/reputation"
-  end
+  def self.cache_hash_for(user_id) = "users/#{user_id}/reputation"
 
   self.class_suffix = :token
   self.i18n_category = :user_reputation_tokens

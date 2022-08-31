@@ -1,12 +1,10 @@
 import React, { useCallback, useState } from 'react'
-import { QueryStatus } from 'react-query'
-import { MarkdownEditorForm } from '../../../common/MarkdownEditorForm'
-import { MarkdownEditorForm } from './MarkdownEditorForm'
 import { PanesProps } from '../left-pane/LeftPane'
 import { PreviewAutomationModal } from '../modals/PreviewAutomationModal'
 import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
 import { PrimaryButton } from '../common/PrimaryButton'
 import { CancelButton } from '../common/CancelButton'
+import { MarkdownEditor } from '../../../common/MarkdownEditor'
 
 export default function MentoringConversation({
   exerciseData,
@@ -24,17 +22,9 @@ export default function MentoringConversation({
   const handleChange = useCallback((value) => setValue(value), [setValue])
   return (
     <div className="px-24">
-      <MarkdownEditorForm
-        value={value}
-        onChange={handleChange}
-        action="edit"
-        onSubmit={() => setIsPreviewModalOpen(true)}
-        onCancel={handleCancel}
-        expanded
-        defaultError={new Error('ERROR!')}
-        error="Error"
-        status={'success' as QueryStatus}
-      />
+      <div id="markdown-editor" className="c-markdown-editor --expanded">
+        <MarkdownEditor onChange={handleChange} value={value} />
+      </div>
       <div className="mt-12 mb-20 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5">
         We imported your last mentoring feedback to this solution above
       </div>

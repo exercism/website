@@ -94,12 +94,15 @@ class User::ReputationToken
     private_constant :Data
 
     def with_cache(user)
+      redis = Exercism.redis_tooling_client
       user_key = User::ReputationToken.cache_hash_for(user)
       value_key = ["contextual", earned_since, track_id, category].join("|")
-      redis = Exercism.redis_tooling_client
-      val = redis.hget(user_key, value_key)
-      return JSON.parse(val) if val
 
+      # Check for a cached version
+      cached = redis.hget(user_key, value_key)
+      return JSON.parse(cached) if cached
+
+      # Or yield and cache a new one
       yield.tap do |val|
         redis.hset(user_key, value_key, val.to_json)
       end

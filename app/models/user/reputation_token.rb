@@ -1,6 +1,8 @@
 class User::ReputationToken < ApplicationRecord
   include IsParamaterisedSTI
 
+  def self.cache_hash_for(user_id) = "users/#{user_id}/reputation"
+
   self.class_suffix = :token
   self.i18n_category = :user_reputation_tokens
 
@@ -41,6 +43,9 @@ class User::ReputationToken < ApplicationRecord
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
       User.where(id: user.id).update_all(reputation: summing_sql)
     end
+
+    # Invalidate reputation cache for this user
+    Exercism.redis_tooling_client.del(self.class.cache_hash_for(user_id))
   end
 
   def params=(hash)

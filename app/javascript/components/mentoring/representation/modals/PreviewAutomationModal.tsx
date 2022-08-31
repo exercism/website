@@ -20,9 +20,6 @@ export function PreviewAutomationModal({
   isOpen,
   exerciseData,
   currentIteration,
-  handleIterationClick,
-  isLinked,
-  setIsLinked,
   markdown,
 }: PreviewAutomationModalProps): JSX.Element {
   return (
@@ -36,17 +33,8 @@ export function PreviewAutomationModal({
         left={
           <IterationView
             testData={data}
-            iterations={exerciseData.iterations}
-            instructions={exerciseData.instructions}
-            tests={exerciseData.tests}
             currentIteration={currentIteration}
-            onClick={handleIterationClick}
             isOutOfDate={exerciseData.outOfDate}
-            language={exerciseData.track.highlightjsLanguage}
-            indentSize={exerciseData.track.indentSize}
-            isLinked={isLinked}
-            setIsLinked={setIsLinked}
-            discussion={exerciseData.discussion}
             downloadCommand={exerciseData.downloadCommand}
           />
         }
@@ -55,7 +43,7 @@ export function PreviewAutomationModal({
         }
         rightMinWidth={400}
       />
-      <PreviewFooter numOfSolutions={2170} />
+      <PreviewFooter examples={data.examples} numOfSolutions={2170} />
     </Modal>
   )
 }

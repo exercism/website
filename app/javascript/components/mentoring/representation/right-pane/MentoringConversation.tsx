@@ -9,16 +9,14 @@ import { MarkdownEditor } from '../../../common/MarkdownEditor'
 export default function MentoringConversation({
   exerciseData,
   currentIteration,
-  handleIterationClick,
-  isLinked,
-  setIsLinked,
   data,
 }: PanesProps): JSX.Element {
   const [value, setValue] = useState(data.representation.feedbackMarkdown || '')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
 
-  const handleCancel = useCallback(() => console.log('Cancelled!'), [])
+  // something to do here
+  // const handleCancel = useCallback(() => console.log('Cancelled!'), [])
   const handleChange = useCallback((value) => setValue(value), [setValue])
   return (
     <div className="px-24">
@@ -48,9 +46,6 @@ export default function MentoringConversation({
         onClose={() => setIsPreviewModalOpen(false)}
         currentIteration={currentIteration}
         exerciseData={exerciseData}
-        handleIterationClick={handleIterationClick}
-        isLinked={isLinked}
-        setIsLinked={setIsLinked}
       />
       <SubmittedAutomationModal
         isOpen={isModalOpen}

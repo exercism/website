@@ -7,6 +7,7 @@ import { PrimaryButton } from '../common/PrimaryButton'
 
 export function PreviewFooter({
   numOfSolutions,
+  examples,
 }: {
   numOfSolutions: string | number
 }): JSX.Element {
@@ -15,27 +16,18 @@ export function PreviewFooter({
   return (
     <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderLight2 px-24">
       <div className="tabs flex flex-row child:px-12 child:py-10 child:text-14">
-        <StatusTab
-          currentStatus={exampleStatus}
-          status="example-1"
-          setStatus={setExampleStatus}
-        >
-          Example 1
-        </StatusTab>
-        <StatusTab
-          currentStatus={exampleStatus}
-          status="example-2"
-          setStatus={setExampleStatus}
-        >
-          Example 2
-        </StatusTab>
-        <StatusTab
-          currentStatus={exampleStatus}
-          status="example-3"
-          setStatus={setExampleStatus}
-        >
-          Example 3
-        </StatusTab>
+        {examples.map((_, k) => {
+          return (
+            <StatusTab
+              key={`example-tab-${k}`}
+              currentStatus={exampleStatus}
+              status={`example-${k}`}
+              setStatus={setExampleStatus}
+            >
+              Example {k + 1}
+            </StatusTab>
+          )
+        })}
       </div>
 
       <div className="flex flex-row items-center">

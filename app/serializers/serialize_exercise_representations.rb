@@ -4,7 +4,7 @@ class SerializeExerciseRepresentations
   initialize_with :representations
 
   def call
-    representations.map { |representation| SerializeInstance.(representation) }
+    representations.includes(:exercise, :track).map { |representation| SerializeInstance.(representation) }
   end
 
   class SerializeInstance

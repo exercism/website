@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { fromNow } from '../../../utils/time'
 import { TrackIcon, ExerciseIcon, GraphicalIcon } from '../../common'
 import { Representation } from '../../types'
+import { MostPopularTag } from './MostPopularTag'
 
 export const AutomationListElement = ({
   representation,
@@ -43,9 +44,7 @@ export const AutomationListElement = ({
       <div className="--info">
         <div className="--exercise-title whitespace-nowrap">
           <div>{representation.exercise.title}</div>{' '}
-          {representation.appearsFrequently && (
-            <div className="--most-popular">Most Popular</div>
-          )}
+          {representation.appearsFrequently && <MostPopularTag />}
         </div>
         <div className="--track-title">
           in {representation.track.title} (#{representation.id})

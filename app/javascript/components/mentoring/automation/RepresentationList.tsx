@@ -5,7 +5,6 @@ import { APIResponse } from './useMentoringAutomation'
 import { QueryStatus } from 'react-query'
 import { AutomationListElement } from './AutomationListElement'
 import { GraphicalIcon } from '../../common'
-import useLogger from '../../../hooks/use-logger'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 

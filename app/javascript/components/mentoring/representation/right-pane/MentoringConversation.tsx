@@ -1,16 +1,15 @@
 import React, { useCallback, useState } from 'react'
-import { PanesProps } from '../left-pane/LeftPane'
 import { PreviewAutomationModal } from '../modals/PreviewAutomationModal'
 import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
 import { PrimaryButton } from '../common/PrimaryButton'
-import { CancelButton } from '../common/CancelButton'
 import { MarkdownEditor } from '../../../common/MarkdownEditor'
+import { CompleteRepresentationData } from '../../../types'
 
 export default function MentoringConversation({
-  exerciseData,
-  currentIteration,
   data,
-}: PanesProps): JSX.Element {
+}: {
+  data: CompleteRepresentationData
+}): JSX.Element {
   const [value, setValue] = useState(data.representation.feedbackMarkdown || '')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
@@ -34,7 +33,6 @@ export default function MentoringConversation({
         >
           Preview & Submit
         </PrimaryButton>
-        <CancelButton />
       </div>
       <div className="text-textColor6 ">
         Remember, you can edit this feedback anytime after submission.
@@ -44,8 +42,6 @@ export default function MentoringConversation({
         isOpen={isPreviewModalOpen}
         markdown={value}
         onClose={() => setIsPreviewModalOpen(false)}
-        currentIteration={currentIteration}
-        exerciseData={exerciseData}
       />
       <SubmittedAutomationModal
         isOpen={isModalOpen}

@@ -23,6 +23,7 @@ import {
   User,
   MentoringSessionExemplarFile,
   SharePlatform,
+  CompleteRepresentationData,
   // TrackContribution,
 } from '../components/types'
 
@@ -183,7 +184,9 @@ initReact({
     />
   ),
   'mentoring-representation': (data: any) => (
-    <Mentoring.Representation data={camelizeKeys(data)} />
+    <Mentoring.Representation
+      data={camelizeKeysAs<CompleteRepresentationData>(data)}
+    />
   ),
   'student-mentoring-session': (data: any) => (
     <StudentMentoringSession

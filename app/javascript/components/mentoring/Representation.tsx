@@ -1,17 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { SplitPane } from '../common'
+import { CompleteRepresentationData } from '../types'
 import { LeftPane } from './representation/left-pane'
 import { RightPane } from './representation/right-pane'
-import { RAW_SESSION_DATA } from './representation/mock-data'
-import { useIterationScrolling } from './session/useIterationScrolling'
 
-export function Representation({ data }): JSX.Element {
-  const [isLinked, setIsLinked] = useState(false)
-
-  const { currentIteration, handleIterationClick } = useIterationScrolling({
-    iterations: RAW_SESSION_DATA.iterations,
-    on: isLinked,
-  })
+export function Representation({
+  data,
+}: {
+  data: CompleteRepresentationData
+}): JSX.Element {
+  console.log('data in representaiton:', data)
 
   return (
     <div className="c-mentor-discussion">
@@ -20,26 +18,8 @@ export function Representation({ data }): JSX.Element {
         leftMinWidth={550}
         rightMinWidth={625}
         id="mentoring-session"
-        left={
-          <LeftPane
-            data={data}
-            exerciseData={RAW_SESSION_DATA}
-            currentIteration={currentIteration}
-            handleIterationClick={handleIterationClick}
-            isLinked={isLinked}
-            setIsLinked={() => setIsLinked((l) => !l)}
-          />
-        }
-        right={
-          <RightPane
-            data={data}
-            exerciseData={RAW_SESSION_DATA}
-            currentIteration={currentIteration}
-            handleIterationClick={handleIterationClick}
-            isLinked={isLinked}
-            setIsLinked={() => setIsLinked((l) => !l)}
-          />
-        }
+        left={<LeftPane data={data.representation} />}
+        right={<RightPane data={data} />}
       />
     </div>
   )

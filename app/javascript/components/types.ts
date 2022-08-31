@@ -440,11 +440,24 @@ export type Representation = {
   exercise: { title: string; iconUrl: string }
   track: { title: string; iconUrl: string }
   numSubmissions: number
-  feedbackHtml: string
+  feedbackHtml?: string
+  feedbackMarkdown: string | null
   lastSubmittedAt: string
   appearsFrequently: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   links: any
+}
+
+export type RepresentationData = Representation & {
+  files: readonly File[]
+  instructions: string
+  tests: string
+}
+
+export type CompleteRepresentationData = {
+  representation: RepresentationData
+  examples: Pick<RepresentationData, 'files' | 'instructions' | 'tests'>[]
+  mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
 }
 
 export type Contributor = {

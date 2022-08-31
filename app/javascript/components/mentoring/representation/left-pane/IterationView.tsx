@@ -28,6 +28,8 @@ export const IterationView = ({
   setIsLinked,
   discussion,
   downloadCommand,
+  // todo clean this up
+  testData,
 }: {
   iterations: readonly Iteration[]
   instructions?: string
@@ -41,6 +43,8 @@ export const IterationView = ({
   setIsLinked: (linked: boolean) => void
   discussion?: MentorDiscussion
   downloadCommand: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  testData: any
 }): JSX.Element => {
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
@@ -69,7 +73,7 @@ export const IterationView = ({
           >
             {resolvedData ? (
               <FilePanel
-                files={resolvedData.files}
+                files={testData.examples[0]}
                 language={language}
                 indentSize={indentSize}
                 instructions={instructions}

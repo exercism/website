@@ -36,6 +36,7 @@ export function LeftPane({
         />
       </header>
       <IterationView
+        testData={data}
         iterations={exerciseData.iterations}
         instructions={exerciseData.instructions}
         tests={exerciseData.tests}

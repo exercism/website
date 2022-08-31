@@ -222,7 +222,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_065513) do
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
-    t.index ["feedback_type", "num_submissions"], name: "test"
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
     t.index ["track_id"], name: "index_exercise_representations_on_track_id"
   end

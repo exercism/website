@@ -21,7 +21,8 @@ class SerializeExerciseRepresentation
       feedback_markdown: representation.feedback_markdown,
       last_submitted_at: representation.last_submitted_at,
       links: {
-        edit: Exercism::Routes.edit_mentoring_automation_path(representation)
+        self: Exercism::Routes.edit_mentoring_automation_path(representation),
+        update: Exercism::Routes.api_mentoring_representation_path(representation)
       }
     }
   end

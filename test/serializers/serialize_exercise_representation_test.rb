@@ -23,7 +23,8 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
       feedback_markdown: "Yay",
       last_submitted_at:,
       links: {
-        edit: '/mentoring/automation/3/edit'
+        self: '/mentoring/automation/3/edit',
+        update: '/api/v2/mentoring/representations/3'
       }
     }
 

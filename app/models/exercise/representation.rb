@@ -23,11 +23,11 @@ class Exercise::Representation < ApplicationRecord
   scope :mentored_by, ->(mentor) { where(submission_representations: mentor.submission_representations) }
   scope :track_mentored_by, ->(mentor) { joins(:exercise).where(exercises: { track_id: mentor.track_mentorships.select(:track_id) }) }
   scope :edited_by, ->(mentor) { where(feedback_author: mentor).or(where(feedback_editor: mentor)) }
-  scope :for_track, ->(track) { joins(:exercise).where(exercises: { track: }) }
+  scope :for_track, ->(track) { where(track:) }
 
   before_create do
     self.uuid = SecureRandom.compact_uuid
-    self.track_id = exercise.track_id unless self.track_id
+    self.track_id = exercise.track_id
   end
 
   def num_times_used

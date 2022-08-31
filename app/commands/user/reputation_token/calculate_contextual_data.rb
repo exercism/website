@@ -89,6 +89,7 @@ class User::ReputationToken
 
     private
     attr_reader :user_ids, :single_user, :earned_since, :track_id, :category
+    
 
     Data = Struct.new(:activity, :reputation)
     private_constant :Data

@@ -3,7 +3,7 @@
 import React from 'react'
 import { Iteration } from '../../../types'
 import { CloseButton } from '../../session/CloseButton'
-import { IterationView } from '../../session/IterationView'
+import { IterationView } from './IterationView'
 import RepresentationInfo from './RepresentationInfo'
 
 export type PanesProps = {

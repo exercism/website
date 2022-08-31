@@ -10,7 +10,7 @@ class Exercise::Representation::Search
   end
 
   def call
-    @representations = Exercise::Representation.includes(exercise: :track)
+    @representations = Exercise::Representation.includes(:exercise, :track)
     filter_with_feedback!
     filter_mentor!
     filter_track!
@@ -32,12 +32,9 @@ class Exercise::Representation::Search
 
   def filter_mentor!
     return if mentor.blank?
+    return unless with_feedback
 
-    if with_feedback
-      @representations = @representations.edited_by(mentor)
-    else
-      @representations = @representations.track_mentored_by(mentor)
-    end
+    @representations = @representations.edited_by(mentor)
   end
 
   def filter_track!

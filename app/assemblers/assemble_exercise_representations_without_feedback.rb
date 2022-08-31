@@ -19,7 +19,6 @@ class AssembleExerciseRepresentationsWithoutFeedback
   memoize
   def representations
     Exercise::Representation::Search.(
-      mentor:,
       track:,
       with_feedback: false,
       only_mentored_solutions: params[:only_mentored_solutions],

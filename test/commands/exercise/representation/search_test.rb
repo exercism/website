@@ -52,10 +52,12 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_3 = create :exercise_representation, feedback_type: nil, num_submissions: 1,
       exercise: create(:practice_exercise, track: track_3)
 
-    assert_equal [representation_1, representation_2],
+    assert_equal [representation_1, representation_2, representation_3],
       Exercise::Representation::Search.(mentor: mentor_1.reload, with_feedback: false)
-    assert_equal [representation_2], Exercise::Representation::Search.(mentor: mentor_2, with_feedback: false)
-    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_3, with_feedback: false)
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(mentor: mentor_2, with_feedback: false)
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(mentor: mentor_3, with_feedback: false)
   end
 
   test "filter: mentor when with_feedback is true returns representations where mentor is author or editor" do

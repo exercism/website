@@ -39,7 +39,7 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
       links: {
         self: '/mentoring/automation/3/edit',
         update: '/api/v2/mentoring/representations/3',
-        success: 'https://test.exercism.org/mentoring/automation/with_feedback'
+        success: 'https://test.exercism.org/mentoring/automation'
       }
     }
 

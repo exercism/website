@@ -26,7 +26,7 @@ class SerializeExerciseRepresentation
       links: {
         self: Exercism::Routes.edit_mentoring_automation_path(representation),
         update: Exercism::Routes.api_mentoring_representation_path(representation),
-        success: Exercism::Routes.with_feedback_mentoring_automation_index_url
+        success: Exercism::Routes.mentoring_automation_index_url
       }
     }
   end

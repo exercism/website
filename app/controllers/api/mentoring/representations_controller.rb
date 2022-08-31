@@ -5,6 +5,7 @@ module API
 
     def update
       if @representation.update(update_params)
+        # TODO: award reputation to user
         render json: { representation: SerializeExerciseRepresentation.(@representation) }
       else
         render_400(:failed_validations, errors: @representation.errors)

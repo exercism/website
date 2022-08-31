@@ -17,7 +17,13 @@ module ReactComponents
         end
 
         def examples_data
-          example_submissions.map { |submission| SerializeFiles.(submission.files_for_editor) }
+          example_submissions.map do |submission|
+            {
+              files: SerializeFiles.(submission.files_for_editor),
+              instructions: Markdown::Parse.(submission.solution.instructions),
+              tests: submission.solution.tests
+            }
+          end
         end
 
         def mentor_data

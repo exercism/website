@@ -21,7 +21,7 @@ class Exercise::Representation < ApplicationRecord
   scope :without_feedback, -> { where(feedback_type: nil) }
   scope :with_feedback, -> { where.not(feedback_type: nil) }
   scope :mentored_by, ->(mentor) { where(submission_representations: mentor.submission_representations) }
-  scope :track_mentored_by, ->(mentor) { joins(:exercise).where(exercises: { track_id: mentor.track_mentorships.select(:track_id) }) }
+  scope :track_mentored_by, ->(mentor) { where(track_id: mentor.track_mentorships.select(:track_id)) }
   scope :edited_by, ->(mentor) { where(feedback_author: mentor).or(where(feedback_editor: mentor)) }
   scope :for_track, ->(track) { where(track:) }
 

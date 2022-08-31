@@ -4,10 +4,7 @@ class AssembleRepresentationTracksForSelect
   initialize_with :mentor, with_feedback: Mandate::NO_DEFAULT
 
   def call
-    [
-      SerializeTrackForSelect::ALL_TRACK.merge(num_submissions: track_counts.values.sum),
-      *tracks.map { |track| SerializeTrackForSelect.(track).merge(num_submissions: track_counts[track.id]) }
-    ]
+    tracks.map { |track| SerializeTrackForSelect.(track).merge(num_submissions: track_counts[track.id]) }
   end
 
   private

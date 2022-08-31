@@ -22,12 +22,7 @@ module ReactComponents
         def representations_request
           {
             endpoint: Exercism::Routes.with_feedback_api_mentoring_representations_url,
-            query: {
-              criteria: params.fetch(:criteria, ''),
-              track_slug: params[:track_slug],
-              order: params[:order],
-              page: params[:page]
-            }.compact,
+            query: representations_request_params,
             options: {
               initial_data: representations,
               stale_time: 5000 # milliseconds
@@ -35,7 +30,17 @@ module ReactComponents
           }
         end
 
-        def representations = AssembleExerciseRepresentationsWithFeedback.(mentor, params)
+        memoize
+        def representations_request_params
+          {
+            criteria: params.fetch(:criteria, ''),
+            track_slug: params.fetch(:track_slug, track_slug),
+            order: params[:order],
+            page: params[:page]
+          }.compact
+        end
+
+        def representations = AssembleExerciseRepresentationsWithFeedback.(mentor, representations_request_params)
 
         def representations_without_feedback_count
           Exercise::Representation::Search.(mentor:, with_feedback: false, sorted: false, paginated: false).count
@@ -51,7 +56,11 @@ module ReactComponents
           }
         end
 
+        memoize
         def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: true)
+
+        memoize
+        def track_slug = tracks.first.try(:slug)
 
         def links
           {

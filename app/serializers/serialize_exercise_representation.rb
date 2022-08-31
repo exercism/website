@@ -21,6 +21,8 @@ class SerializeExerciseRepresentation
       feedback_markdown: representation.feedback_markdown,
       last_submitted_at: representation.last_submitted_at,
       files: SerializeFiles.(representation.source_submission.files_for_editor),
+      instructions: Markdown::Parse.(representation.solution.instructions),
+      tests: representation.solution.tests,
       links: {
         self: Exercism::Routes.edit_mentoring_automation_path(representation),
         update: Exercism::Routes.api_mentoring_representation_path(representation)

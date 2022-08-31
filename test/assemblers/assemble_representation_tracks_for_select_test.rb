@@ -24,7 +24,6 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
       feedback_author: user
 
     expected = [
-      { slug: nil, title: 'All Tracks', icon_url: "ICON", num_submissions: 7 },
       { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
       { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 },
       { slug: javascript.slug, title: javascript.title, icon_url: javascript.icon_url, num_submissions: 1 },
@@ -44,7 +43,6 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     create :exercise_representation, exercise: exercise, feedback_type: nil
 
     expected = [
-      { slug: nil, title: 'All Tracks', icon_url: "ICON", num_submissions: 2 },
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
     ]
     assert_equal expected, AssembleRepresentationTracksForSelect.(user, with_feedback: false)
@@ -62,7 +60,6 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_2
 
     expected = [
-      { slug: nil, title: 'All Tracks', icon_url: "ICON", num_submissions: 2 },
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
     ]
     assert_equal expected, AssembleRepresentationTracksForSelect.(user_1, with_feedback: true)

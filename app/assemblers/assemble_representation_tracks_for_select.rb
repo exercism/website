@@ -9,7 +9,7 @@ class AssembleRepresentationTracksForSelect
 
   private
   memoize
-  def track_counts = representations.joins(exercise: :track).group(:track_id).count
+  def track_counts = representations.group(:track_id).count
 
   memoize
   def tracks = Track.where(id: track_counts.keys).order(title: :asc)

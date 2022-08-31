@@ -1,7 +1,7 @@
 import React from 'react'
 import { SplitPane } from '../../../common'
 import { Modal } from '../../../modals/Modal'
-import { IterationView } from '../../session/IterationView'
+import { IterationView } from '../left-pane/IterationView'
 import { PanesProps } from '../left-pane/LeftPane'
 import {
   PreviewFeedbackComment,
@@ -15,6 +15,7 @@ type PreviewAutomationModalProps = AutomationModalProps &
   PreviewFeedbackCommentProps
 
 export function PreviewAutomationModal({
+  data,
   onClose,
   isOpen,
   exerciseData,
@@ -34,6 +35,7 @@ export function PreviewAutomationModal({
         id="automation-preview"
         left={
           <IterationView
+            testData={data}
             iterations={exerciseData.iterations}
             instructions={exerciseData.instructions}
             tests={exerciseData.tests}
@@ -48,7 +50,9 @@ export function PreviewAutomationModal({
             downloadCommand={exerciseData.downloadCommand}
           />
         }
-        right={<PreviewFeedbackComment markdown={markdown} />}
+        right={
+          <PreviewFeedbackComment mentor={data.mentor} markdown={markdown} />
+        }
         rightMinWidth={400}
       />
       <PreviewFooter numOfSolutions={2170} />

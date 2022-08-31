@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { sendRequest } from '../../../../utils/send-request'
 import { Avatar } from '../../../common'
+import { User } from '../../../types'
 
 export type PreviewFeedbackCommentProps = {
   markdown: string
+  mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
 }
 
 export function PreviewFeedbackComment({
   markdown,
+  mentor,
 }: PreviewFeedbackCommentProps): JSX.Element {
   const [html, setHtml] = useState('<p>Loading</p>')
 
@@ -33,13 +36,10 @@ export function PreviewFeedbackComment({
   return (
     <div className="px-24 py-16 leading-160">
       <div className="flex flex-row items-center mb-12">
-        <Avatar
-          className="w-[32px] h-[32px] mr-16"
-          src="https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg"
-        />
+        <Avatar className="w-[32px] h-[32px] mr-16" src={mentor.avatarUrl} />
         <div className="text-15 text-btnBorder font-medium">
-          <span className="text-primaryBtnBorder">ErikSchierboom</span> gave
-          this feedback on a solution exactly like yours:
+          <span className="text-primaryBtnBorder">{mentor.name}</span> gave this
+          feedback on a solution exactly like yours:
         </div>{' '}
       </div>
 

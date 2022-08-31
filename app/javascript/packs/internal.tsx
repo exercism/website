@@ -183,7 +183,7 @@ initReact({
     />
   ),
   'mentoring-representation': (data: any) => (
-    <Mentoring.Representation data={data} />
+    <Mentoring.Representation data={camelizeKeys(data)} />
   ),
   'student-mentoring-session': (data: any) => (
     <StudentMentoringSession

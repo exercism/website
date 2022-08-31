@@ -26,13 +26,14 @@ export function LeftPane({
   isLinked,
   setIsLinked,
 }: PanesProps): JSX.Element {
+  console.log(data)
   return (
     <>
       <header className="discussion-header">
         <CloseButton url={''} />
         <RepresentationInfo
-          exercise={exerciseData.exercise}
-          track={exerciseData.track}
+          exercise={data.representation.exercise}
+          track={data.representation.track}
         />
       </header>
       <IterationView

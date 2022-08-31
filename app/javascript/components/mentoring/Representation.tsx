@@ -32,6 +32,7 @@ export function Representation({ data }): JSX.Element {
         }
         right={
           <RightPane
+            data={data}
             exerciseData={RAW_SESSION_DATA}
             currentIteration={currentIteration}
             handleIterationClick={handleIterationClick}

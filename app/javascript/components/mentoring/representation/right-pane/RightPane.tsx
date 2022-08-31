@@ -10,6 +10,7 @@ export function RightPane({
   handleIterationClick,
   isLinked,
   setIsLinked,
+  data,
 }: PanesProps): JSX.Element {
   return (
     <div className="!h-100 py-16 flex flex-col justify-between">
@@ -18,6 +19,7 @@ export function RightPane({
         <HowImportant />
       </div>
       <MentoringConversation
+        data={data}
         currentIteration={currentIteration}
         exerciseData={exerciseData}
         handleIterationClick={handleIterationClick}

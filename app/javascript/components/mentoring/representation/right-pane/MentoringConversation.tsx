@@ -11,6 +11,7 @@ export default function MentoringConversation({
   handleIterationClick,
   isLinked,
   setIsLinked,
+  data,
 }: PanesProps): JSX.Element {
   const [value, setValue] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -44,6 +45,7 @@ export default function MentoringConversation({
         Remember, you can edit this feedback anytime after submission.
       </div>
       <PreviewAutomationModal
+        data={data}
         isOpen={isPreviewModalOpen}
         markdown={value}
         onClose={() => setIsPreviewModalOpen(false)}

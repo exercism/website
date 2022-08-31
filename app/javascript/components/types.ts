@@ -440,7 +440,7 @@ export type Representation = {
   exercise: { title: string; iconUrl: string }
   track: { title: string; iconUrl: string }
   numSubmissions: number
-  feedbackHtml?: string
+  feedbackHtml: string
   feedbackMarkdown: string | null
   lastSubmittedAt: string
   appearsFrequently: boolean

@@ -2,7 +2,8 @@
 // @ts-nocheck
 import React, { useState } from 'react'
 import { StatusTab } from '../../inbox/StatusTab'
-import { PrimaryButton } from '../right-pane/MentoringConversation'
+import { CancelButton } from '../common/CancelButton'
+import { PrimaryButton } from '../common/PrimaryButton'
 
 export function PreviewFooter({
   numOfSolutions,
@@ -46,11 +47,8 @@ export function PreviewFooter({
             {numOfSolutions} solutions
           </strong>
         </div>
-        <button className="mr-16 px-[18px] py-12 border border-1 border-primaryBtnBorder text-primaryBtnBorder rounded-8 font-semibold shadow-xsZ1v2">
-          Cancel
-        </button>
+        <CancelButton />
         <PrimaryButton className="px-[18px] py-12 !m-0">Submit</PrimaryButton>
-        {/* <button className="btn-primary !px-18 py-12">Submit</button> */}
       </div>
     </div>
   )

@@ -1,4 +1,5 @@
 import React from 'react'
+import { ResultsZone } from '../../../ResultsZone'
 import { Iteration, MentorDiscussion } from '../../../types'
 import { FilePanel } from '../../session/FilePanel'
 import { IterationHeader } from '../../session/iteration-view/IterationHeader'
@@ -29,23 +30,23 @@ export const IterationView = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   testData: any
 }): JSX.Element => {
-  const resolvedData = testData.representation
-
   return (
     <React.Fragment>
       <IterationHeader
         iteration={currentIteration}
         isOutOfDate={isOutOfDate}
         downloadCommand={downloadCommand}
-        files={resolvedData?.files}
-      />
-      <FilePanel
         files={testData.representation.files}
-        language={language}
-        indentSize={indentSize}
-        instructions={instructions}
-        tests={tests}
       />
+      <ResultsZone isFetching={false}>
+        <FilePanel
+          files={testData.representation.files}
+          language={testData.representation.track.title.toLowerCase()}
+          indentSize={2}
+          instructions={testData.representation.instructions}
+          tests={testData.representation.tests}
+        />
+      </ResultsZone>
     </React.Fragment>
   )
 }

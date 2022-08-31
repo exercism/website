@@ -12,7 +12,7 @@ import { AutomationModalProps } from './SubmittedAutomationModal'
 
 type PreviewAutomationModalProps = AutomationModalProps &
   PanesProps &
-  PreviewFeedbackCommentProps
+  Omit<PreviewFeedbackCommentProps, 'mentor'>
 
 export function PreviewAutomationModal({
   data,

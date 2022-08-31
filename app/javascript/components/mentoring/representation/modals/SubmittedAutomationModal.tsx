@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal } from '../../../../components/modals/Modal'
 import { GraphicalIcon, Icon, Reputation } from '../../../common'
-import { PrimaryButton } from '../right-pane/MentoringConversation'
+import { PrimaryButton } from '../common/PrimaryButton'
 
 export type AutomationModalProps = {
   isOpen: boolean

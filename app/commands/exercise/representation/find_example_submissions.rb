@@ -4,13 +4,14 @@ class Exercise::Representation::FindExampleSubmissions
   initialize_with :representation
 
   def call
-    example_submissions = []
-    example_submission_hashes = Set.new
+    example_submissions = [representation.source_submission]
+    example_submission_hashes = Set.new([solution_files_hash(representation.source_submission)])
     page = 1
 
     loop do
       submissions = representation.
         submission_representation_submissions.
+        where.not(id: representation.source_submission.id).
         order(created_at: :desc).
         page(page).
         per(NUM_EXAMPLES)

@@ -153,5 +153,4 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
       assert_equal 24, data.reputation
     end
   end
-
 end

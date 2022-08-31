@@ -64,7 +64,7 @@ module ReactComponents
 
         def links
           {
-            without_feedback: Exercism::Routes.mentoring_automation_index_url,
+            without_feedback: Exercism::Routes.mentoring_automation_index_path,
             hide_introducer: Exercism::Routes.hide_api_settings_introducer_path(INTRODUCER_SLUG)
           }
         end

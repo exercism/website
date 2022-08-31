@@ -1,7 +1,7 @@
 class SerializeExerciseRepresentation
   include Mandate
 
-  initialize_with :representation
+  initialize_with :representation, with_feedback: false
 
   delegate :exercise, :track, to: :representation
 
@@ -25,8 +25,7 @@ class SerializeExerciseRepresentation
       tests: representation.solution.tests,
       links: {
         self: Exercism::Routes.edit_mentoring_automation_path(representation),
-        update: Exercism::Routes.api_mentoring_representation_path(representation),
-        success: Exercism::Routes.mentoring_automation_index_url
+        update: Exercism::Routes.api_mentoring_representation_path(representation)
       }
     }
   end

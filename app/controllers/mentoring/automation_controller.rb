@@ -12,5 +12,6 @@ class Mentoring::AutomationController < ApplicationController
   def edit
     @representation = Exercise::Representation.find(params[:id])
     @examples = Exercise::Representation::FindExampleSubmissions.(@representation)
+    @with_feedback = params[:with_feedback]
   end
 end

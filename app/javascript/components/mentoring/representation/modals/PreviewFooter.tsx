@@ -9,11 +9,13 @@ export function PreviewFooter({
   examples,
   selectedExample,
   setSelectedExample,
+  onClose,
 }: {
   numOfSolutions: string | number
   examples: Pick<RepresentationData, 'files' | 'instructions' | 'tests'>[]
   selectedExample: number
   setSelectedExample: React.Dispatch<SetStateAction<number>>
+  onClose: () => void
 }): JSX.Element {
   return (
     <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderLight2 px-24">
@@ -46,7 +48,7 @@ export function PreviewFooter({
             {numOfSolutions} solutions
           </strong>
         </div>
-        <CancelButton />
+        <CancelButton onClick={onClose} />
         <PrimaryButton
           onClick={() => console.log('clicked')}
           className="px-[18px] py-12 !m-0"

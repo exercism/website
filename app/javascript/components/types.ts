@@ -458,6 +458,7 @@ export type CompleteRepresentationData = {
   representation: RepresentationData
   examples: Pick<RepresentationData, 'files' | 'instructions' | 'tests'>[]
   mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
+  links: { back: string; success: string }
 }
 
 export type Contributor = {

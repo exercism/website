@@ -46,6 +46,7 @@ export function PreviewAutomationModal({
         selectedExample={selectedExample}
         setSelectedExample={setSelectedExample}
         numOfSolutions={2170}
+        onClose={onClose}
       />
     </Modal>
   )

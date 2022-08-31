@@ -6,7 +6,7 @@ class Exercise::Representation < ApplicationRecord
   belongs_to :source_submission, class_name: "Submission"
   belongs_to :feedback_author, optional: true, class_name: "User"
   belongs_to :feedback_editor, optional: true, class_name: "User"
-  has_one :track, through: :exercise
+  belongs_to :track, optional: true
   has_one :solution, through: :source_submission
 
   enum feedback_type: { essential: 0, actionable: 1, non_actionable: 2 }, _prefix: :feedback
@@ -27,6 +27,7 @@ class Exercise::Representation < ApplicationRecord
 
   before_create do
     self.uuid = SecureRandom.compact_uuid
+    self.track_id = exercise.track_id unless self.track_id
   end
 
   def num_times_used

@@ -243,4 +243,12 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
     refute_empty representation.uuid
   end
+
+  test "track is inferred from exercise" do
+    track = create :track
+    exercise = create :practice_exercise, track: track
+    representation = create :exercise_representation, exercise: exercise, track: nil
+
+    assert_equal track, representation.track
+  end
 end

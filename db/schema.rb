@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_25_134619) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_31_065513) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -216,13 +216,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_134619) do
     t.datetime "last_shown_at"
     t.datetime "last_submitted_at", default: "2022-08-17 08:10:01", null: false
     t.string "uuid", null: false
+    t.bigint "track_id"
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
-    t.index ["feedback_type", "num_submissions"], name: "test", order: { num_submissions: :desc }
+    t.index ["feedback_type", "num_submissions"], name: "test"
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
+    t.index ["track_id"], name: "index_exercise_representations_on_track_id"
   end
 
   create_table "exercise_taught_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1017,6 +1019,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_134619) do
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"
   add_foreign_key "exercise_representations", "submissions", column: "source_submission_id"
+  add_foreign_key "exercise_representations", "tracks"
   add_foreign_key "exercise_representations", "users", column: "feedback_author_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
   add_foreign_key "exercise_taught_concepts", "exercises"

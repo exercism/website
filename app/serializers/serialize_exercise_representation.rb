@@ -20,6 +20,7 @@ class SerializeExerciseRepresentation
       appears_frequently: representation.appears_frequently?,
       feedback_markdown: representation.feedback_markdown,
       last_submitted_at: representation.last_submitted_at,
+      files: SerializeFiles.(representation.source_submission.files_for_editor),
       links: {
         self: Exercism::Routes.edit_mentoring_automation_path(representation),
         update: Exercism::Routes.api_mentoring_representation_path(representation)

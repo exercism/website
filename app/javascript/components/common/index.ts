@@ -30,3 +30,5 @@ export {
 } from './imageErrorHandler'
 export { MedianWaitTime } from './MedianWaitTime'
 export { Checkbox } from './Checkbox'
+export { AlertTag } from './AlertTag'
+export { MarkdownEditor } from './MarkdownEditor'

@@ -49,7 +49,7 @@ class User < ApplicationRecord
   has_many :mentor_request_solutions, through: :mentor_requests, source: :solution
 
   has_many :submission_representations, class_name: "Submission::Representation",
-    foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy
+    foreign_key: :mentored_by_id, inverse_of: :mentored_by, dependent: :destroy
 
   has_many :student_relationships, class_name: "Mentor::StudentRelationship",
     foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy

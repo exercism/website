@@ -9,7 +9,7 @@ class Submission::Representation < ApplicationRecord
   end
 
   belongs_to :submission
-  belongs_to :mentor, optional: true, class_name: "User"
+  belongs_to :mentored_by, optional: true, class_name: "User"
 
   has_one :solution, through: :submission
   has_one :exercise, through: :solution

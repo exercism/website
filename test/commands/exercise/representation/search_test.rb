@@ -99,7 +99,7 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
       ast_digest: 'digest_2'
     representation_3 = create :exercise_representation, feedback_editor: mentor_1, feedback_type: :actionable, num_submissions: 1,
       ast_digest: 'digest_3'
-    create :submission_representation, ast_digest: representation_1.ast_digest, mentor: mentor_1
+    create :submission_representation, ast_digest: representation_1.ast_digest, mentored_by: mentor_1
     create :submission_representation, ast_digest: representation_2.ast_digest
     create :submission_representation, ast_digest: representation_3.ast_digest
 

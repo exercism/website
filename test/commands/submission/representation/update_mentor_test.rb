@@ -1,30 +1,30 @@
 require 'test_helper'
 
 class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
-  test "sets mentor when a mentor has commented on the iteration" do
+  test "sets mentored_by when a mentor has commented on the iteration" do
     mentor = create :user
     submission = create :submission
-    submission_representation = create :submission_representation, submission: submission, mentor: nil
+    submission_representation = create :submission_representation, submission: submission, mentored_by: nil
     iteration = create :iteration, submission: submission
     discussion = create :mentor_discussion, solution: submission.solution, mentor: mentor
     create :mentor_discussion_post, discussion: discussion, iteration: iteration
 
     Submission::Representation::UpdateMentor.(submission)
 
-    assert_equal mentor, submission_representation.reload.mentor
+    assert_equal mentor, submission_representation.reload.mentored_by
   end
 
-  test "sets mentor to nil when no there is no mentoring discussion on the iteration" do
+  test "sets mentored_by to nil when no there is no mentoring discussion on the iteration" do
     submission = create :submission
     submission_representation = create :submission_representation, submission: submission
     create :iteration, submission: submission
 
     Submission::Representation::UpdateMentor.(submission)
 
-    assert_nil submission_representation.reload.mentor
+    assert_nil submission_representation.reload.mentored_by
   end
 
-  test "sets mentor to nil when the mentor has not yet commented on the iteration's mentoring discussion" do
+  test "sets mentored_by to nil when the mentor has not yet commented on the iteration's mentoring discussion" do
     mentor = create :user
     submission = create :submission
     submission_representation = create :submission_representation, submission: submission
@@ -33,7 +33,7 @@ class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
 
     Submission::Representation::UpdateMentor.(submission)
 
-    assert_nil submission_representation.reload.mentor
+    assert_nil submission_representation.reload.mentored_by
   end
 
   test "don't update mentor when the submission has no iteration" do
@@ -42,7 +42,7 @@ class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
 
     Submission::Representation::UpdateMentor.(submission)
 
-    assert_nil submission_representation.reload.mentor
+    assert_nil submission_representation.reload.mentored_by
   end
 
   test "don't update mentor when the submission has no representation" do
@@ -67,6 +67,6 @@ class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
 
     Submission::Representation::UpdateMentor.(submission)
 
-    assert_nil submission_representation.reload.mentor
+    assert_nil submission_representation.reload.mentored_by
   end
 end

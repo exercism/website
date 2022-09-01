@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_31_065513) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_01_055045) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -213,8 +213,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_065513) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "num_submissions", default: 0, null: false
-    t.datetime "last_shown_at"
-    t.datetime "last_submitted_at", default: "2022-08-17 08:10:01", null: false
+    t.datetime "last_submitted_at", default: "2022-09-01 04:56:16", null: false
     t.string "uuid", null: false
     t.bigint "track_id"
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
@@ -462,40 +461,42 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_065513) do
 
   create_table "metric_period_days", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "day", limit: 1, default: 0, null: false
-    t.string "metric_type", null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["metric_type", "track_id", "day"], name: "uniq", unique: true
+    t.index ["created_at"], name: "index_metric_period_days_on_created_at"
+    t.index ["day", "metric_action", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_days_on_track_id"
   end
 
   create_table "metric_period_minutes", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "minute", limit: 2, default: 0, null: false
-    t.string "metric_type", null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["metric_type", "track_id", "minute"], name: "uniq", unique: true
+    t.index ["created_at"], name: "index_metric_period_minutes_on_created_at"
+    t.index ["minute", "metric_action", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_minutes_on_track_id"
   end
 
   create_table "metric_period_months", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "month", limit: 1, default: 0, null: false
-    t.string "metric_type", null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["metric_type", "track_id", "month"], name: "uniq", unique: true
+    t.index ["created_at"], name: "index_metric_period_months_on_created_at"
+    t.index ["month", "metric_action", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_months_on_track_id"
   end
 
   create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "type", null: false
-    t.text "params", null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.bigint "user_id"
     t.string "uniqueness_key", null: false
@@ -504,8 +505,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_065513) do
     t.datetime "updated_at", null: false
     t.string "country_code", limit: 2
     t.string "coordinates"
+    t.index ["occurred_at"], name: "index_metrics_on_occurred_at"
     t.index ["track_id"], name: "index_metrics_on_track_id"
-    t.index ["type", "track_id", "occurred_at"], name: "index_metrics_on_type_and_track_id_and_occurred_at"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true
     t.index ["user_id"], name: "index_metrics_on_user_id"
   end
@@ -651,8 +652,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_065513) do
     t.string "ast_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "mentor_id"
-    t.index ["mentor_id"], name: "index_submission_representations_on_mentor_id"
+    t.bigint "mentored_by_id"
+    t.index ["mentored_by_id"], name: "index_submission_representations_on_mentored_by_id"
     t.index ["submission_id", "ast_digest"], name: "index_submission_representations_on_submission_id_and_ast_digest"
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
   end
@@ -1060,7 +1061,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_065513) do
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_files", "submissions"
   add_foreign_key "submission_representations", "submissions"
-  add_foreign_key "submission_representations", "users", column: "mentor_id"
+  add_foreign_key "submission_representations", "users", column: "mentored_by_id"
   add_foreign_key "submission_test_runs", "submissions"
   add_foreign_key "submissions", "solutions"
   add_foreign_key "track_concept_authorships", "track_concepts"

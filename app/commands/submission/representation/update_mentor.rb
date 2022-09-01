@@ -12,7 +12,7 @@ class Submission
         return unless submission_representation
         return unless first_mentor_comment
 
-        submission_representation.update(mentor_id: first_mentor_comment.user_id)
+        submission_representation.update(mentored_by_id: first_mentor_comment.user_id)
       end
 
       delegate :solution, :iteration, :submission_representation, to: :submission

@@ -86,7 +86,10 @@ module ViewComponents
         unless current_user.supermentor? || current_user.admin?
           return tag.div(
             class: "#{tab_class(:automation)} locked",
-            'aria-label': "This tab is locked"
+            'aria-label': 'This tab is locked',
+            'data-tooltip-type': 'automation-locked',
+            'data-endpoint': Exercism::Routes.tooltip_locked_mentoring_automation_index_path,
+            'data-placement': 'bottom'
           ) do
             graphical_icon(:automation) +
             tag.span("Automation")

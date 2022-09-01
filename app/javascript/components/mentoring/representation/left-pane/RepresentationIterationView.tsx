@@ -11,12 +11,13 @@ export const IterationView = ({
 }: {
   representationData: RepresentationData
 }): JSX.Element => {
-  console.log(representationData)
+  console.log('in iteration header:', representationData)
 
   return (
     <React.Fragment>
       <SimpleIterationHeader
         solutionNumber={representationData.id}
+        appearsFrequently={representationData.appearsFrequently}
         lastOccurred={fromNow(representationData.lastSubmittedAt)}
         occurrenceNumber={representationData.numSubmissions}
       />
@@ -37,16 +38,18 @@ export function SimpleIterationHeader({
   solutionNumber,
   occurrenceNumber,
   lastOccurred,
+  appearsFrequently,
 }: {
   solutionNumber: number
   occurrenceNumber: number
   lastOccurred: string
+  appearsFrequently: boolean
 }): JSX.Element {
   return (
     <header className="iteration-header">
       <div>
         <div className="flex flex-row items-center text-15 text-primaryBtnBorder font-semibold leading-170">
-          Solution #{solutionNumber} <MostPopularTag />
+          Solution #{solutionNumber} {appearsFrequently && <MostPopularTag />}
         </div>
         <div className="text-14 text-btnBorder font-medium leading-160">
           {pluralizeWithNumber(occurrenceNumber, 'occurrence')} · Last occurred{' '}

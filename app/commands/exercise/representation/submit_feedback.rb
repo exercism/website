@@ -13,6 +13,8 @@ class Exercise
           representation.update(feedback_markdown:, feedback_type:, feedback_author: mentor)
           award_reputation_token!(:automation_feedback_author)
         end
+
+        representation
       end
 
       private
@@ -20,7 +22,9 @@ class Exercise
         User::ReputationToken::Create.defer(mentor, token_type, representation:)
       end
 
-      def mentor_is_author? = mentor == representation.feedback_author
+      def mentor_is_author?
+        mentor == representation.feedback_author
+      end
     end
   end
 end

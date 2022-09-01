@@ -9,6 +9,9 @@ module ReactComponents
             representation: SerializeExerciseRepresentation.(representation),
             examples: examples_data,
             mentor: mentor_data,
+            rules: {
+              global_html: Markdown::Parse.(I18n.t("mentoring.rules.global"))
+            },
             links: {
               success: Exercism::Routes.mentoring_automation_index_url,
               back: representation.feedback_type.nil? ?

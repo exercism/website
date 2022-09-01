@@ -124,7 +124,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-testing-library": "^4.1.2",
     "flush-promises": "^1.0.2",
-    "husky": "^4.2.5",
+    "husky": "^8.0.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "27",
     "msw": "^0.21.2",
@@ -137,11 +137,7 @@
     "test": "jest",
     "test-watch": "jest --watchAll",
     "build:css": "postcss ./app/css/application.postcss.css -o .built-assets/website.css",
-    "build": "./app/javascript/esbuild.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged && bin/rubocop-quick && bin/haml-lint-quick && bin/eslint-quick"
-    }
+    "build": "./app/javascript/esbuild.js",
+    "prepare": "husky install"
   }
 }

@@ -108,4 +108,49 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
     assert_equal "3 solutions mentored", data.activity
     assert_equal 15, data.reputation
   end
+
+  test "check we use activerecord select_all (for cache check below)" do
+    freeze_time do
+      user = create :user
+      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
+
+      ActiveRecord::Base.connection.expects(:select_all).once.returns([])
+      User::ReputationToken::CalculateContextualData.(user.id, period: :week)
+    end
+  end
+
+  test "check we use cache" do
+    freeze_time do
+      user = create :user
+      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
+
+      data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
+      assert_equal "1 PR created", data.activity
+      assert_equal 12, data.reputation
+
+      ActiveRecord::Base.connection.expects(:select_all).never
+
+      data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
+      assert_equal "1 PR created", data.activity
+      assert_equal 12, data.reputation
+    end
+  end
+
+  test "check cache is invalidated when a new token is created" do
+    freeze_time do
+      user = create :user
+      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
+
+      data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
+      assert_equal "1 PR created", data.activity
+      assert_equal 12, data.reputation
+
+      # Create a second token
+      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
+
+      data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
+      assert_equal "2 PRs created", data.activity
+      assert_equal 24, data.reputation
+    end
+  end
 end

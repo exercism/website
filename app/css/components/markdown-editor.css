@@ -1,6 +1,10 @@
 @import "../styles";
 
+/* editor toolbar height = 49px */
+/* 30x30[px] button + 9[px] top-bot padding + 1[px] top border = 49px */
+
 .c-markdown-editor {
+    --editor-toolbar-height: 49px;
     @screen md {
         min-width: 520px;
     }
@@ -109,18 +113,12 @@
         @apply absolute;
         bottom: 0;
         right: 0;
-        @apply p-8;
-        @apply flex items-center justify-end;
+        height: var(--editor-toolbar-height);
+        @apply flex items-center justify-end mr-8;
 
         & button {
             @apply ml-12;
             animation: fadeIn 0.2s forwards;
-        }
-
-        & .--warning {
-            @apply flex-grow;
-            @apply text-red font-medium;
-            @apply mr-12;
         }
     }
     & .editor-preview {

@@ -1,11 +1,14 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { MarkdownEditor } from '../../common/MarkdownEditor'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { camelizeKeys } from 'humps'
-import { Loading } from '../../common/Loading'
-import { TrackIcon } from '../../common/TrackIcon'
-import { Introducer } from '../../common'
+import {
+  Loading,
+  TrackIcon,
+  Introducer,
+  AlertTag,
+  MarkdownEditor,
+} from '../../common'
 import {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
@@ -138,10 +141,14 @@ export const Scratchpad = ({
           </p>
         </Introducer>
       )}
-      <div className="title">
-        Your notes for <strong>{exercise.title}</strong> in
-        <TrackIcon iconUrl={track.iconUrl} title={track.title} />
-        <strong>{track.title}</strong>
+      <div className="flex flex-row justify-between">
+        <div className="title">
+          Your notes for <strong>{exercise.title}</strong> in
+          <TrackIcon iconUrl={track.iconUrl} title={track.title} />
+          <strong>{track.title}</strong>
+        </div>
+
+        {content === page.contentMarkdown ? null : <AlertTag>Unsaved</AlertTag>}
       </div>
 
       <form
@@ -155,11 +162,7 @@ export const Scratchpad = ({
           options={{ status: [] }}
           value={content}
         />
-        <footer className="editor-footer">
-          {content === page.contentMarkdown ? null : (
-            <div className="--warning">Unsaved</div>
-          )}
-
+        <footer className="editor-footer scratchpad-footer">
           {content === page.contentMarkdown ? null : (
             <button
               className="btn-small-discourage"

@@ -22,6 +22,9 @@ module.exports = {
       boxShadow: {
         lavenderFocus: '0px 0px 0px 3px rgba(35, 0, 255, 0.3)',
       },
+      animation: {
+        fadeIn: 'fadeIn 0.2s forwards',
+      },
     },
     borderRadius: {
       none: '0',

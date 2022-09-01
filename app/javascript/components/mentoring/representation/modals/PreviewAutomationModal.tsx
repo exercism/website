@@ -42,6 +42,7 @@ export function PreviewAutomationModal({
         rightMinWidth={400}
       />
       <PreviewFooter
+        onSubmit={() => console.log('clicked again')}
         examples={data.examples}
         selectedExample={selectedExample}
         setSelectedExample={setSelectedExample}

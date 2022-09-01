@@ -17,6 +17,6 @@ class Exercise::Representation::UpdateNumSubmissions
 
   private
   def num_submissions_sql
-    Arel.sql(representation.submission_representations.select("COUNT(*)").to_sql)
+    Arel.sql(representation.submission_representations.select("COUNT(DISTINCT(submission_id))").to_sql)
   end
 end

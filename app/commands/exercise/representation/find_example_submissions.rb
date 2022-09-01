@@ -11,12 +11,12 @@ class Exercise::Representation::FindExampleSubmissions
     loop do
       submissions = representation.
         submission_representation_submissions.
-        where.not(id: representation.source_submission.id).
         order(created_at: :desc).
         page(page).
         per(NUM_EXAMPLES)
 
       submissions.each do |submission|
+        next if submission == representation.source_submission
         return example_submissions.values if example_submissions.size == NUM_EXAMPLES
 
         hash = solution_files_hash(submission)

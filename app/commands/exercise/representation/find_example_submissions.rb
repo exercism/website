@@ -11,13 +11,13 @@ class Exercise::Representation::FindExampleSubmissions
     loop do
       submissions = representation.
         submission_representation_submissions.
-        order(created_at: :desc).
+        order(id: :desc).
         page(page).
-        per(NUM_EXAMPLES)
+        per(NUM_EXAMPLES * 2)
 
       submissions.each do |submission|
-        next if submission == representation.source_submission
         return example_submissions.values if example_submissions.size == NUM_EXAMPLES
+        next if submission == representation.source_submission
 
         hash = solution_files_hash(submission)
         next if example_submissions.key?(hash)
@@ -25,8 +25,8 @@ class Exercise::Representation::FindExampleSubmissions
         example_submissions[hash] = submission
       end
 
-      break example_submissions.values if submissions.last_page?
-      break example_submissions.values if page == MAX_PAGES_FETCHED
+      return example_submissions.values if submissions.last_page?
+      return example_submissions.values if page == MAX_PAGES_FETCHED
 
       page += 1
     end

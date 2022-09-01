@@ -43,7 +43,6 @@ export default function MentoringConversation({
     })
     return fetch.then((res) => {
       setHtml(`<div class="c-textual-content --small">${res.html}</div>`)
-      console.log(res)
     })
   })
 

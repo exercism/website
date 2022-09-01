@@ -20,9 +20,27 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
 
     assert_equal [representation_1, representation_2, representation_3],
       Exercise::Representation::Search.(criteria: 'a', with_feedback: false, mentor:)
+
     assert_equal [representation_1, representation_2], Exercise::Representation::Search.(criteria: 'an', with_feedback: false, mentor:)
     assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'leap', with_feedback: false, mentor:)
     assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'frog', with_feedback: false, mentor:)
+  end
+
+  test "filter: criteria and track" do
+    mentor = create :user
+    ruby = create :track, slug: :ruby
+    javascript = create :track, slug: :javascript
+    ruby_anagram = create :practice_exercise, slug: 'anagram', title: 'Anagram Ruby', track: ruby
+    js_anagram = create :practice_exercise, slug: 'anagram', title: 'Anagram JS', track: javascript
+    ruby_representation = create :exercise_representation, exercise: ruby_anagram
+    js_representation = create :exercise_representation, exercise: js_anagram
+
+    assert_equal [ruby_representation, js_representation],
+      Exercise::Representation::Search.(criteria: 'anagram', with_feedback: false, mentor:)
+    assert_equal [ruby_representation],
+      Exercise::Representation::Search.(track: ruby, criteria: 'anagram', with_feedback: false, mentor:)
+    assert_equal [js_representation],
+      Exercise::Representation::Search.(track: javascript, criteria: 'anagram', with_feedback: false, mentor:)
   end
 
   test "filter: with_feedback" do

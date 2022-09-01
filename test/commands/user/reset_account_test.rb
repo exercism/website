@@ -61,7 +61,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     discussion_post = create :mentor_discussion_post, author: user
     testimonial = create :mentor_testimonial, mentor: user
     provided_testimonial = create :mentor_testimonial, student: user
-    submission_representation = create :submission_representation, mentor: user
+    submission_representation = create :submission_representation, mentored_by: user
 
     User::ResetAccount.(user)
 
@@ -69,7 +69,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     assert_equal ghost_user, discussion_post.reload.author
     assert_equal ghost_user, testimonial.reload.mentor
     assert_equal ghost_user, provided_testimonial.reload.student
-    assert_equal ghost_user, submission_representation.reload.mentor
+    assert_nil submission_representation.reload.mentored_by
   end
 
   test "cleans up profile" do

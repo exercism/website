@@ -7,7 +7,8 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
     create :user_track_mentorship, user: user, track: track
     exercise = create :practice_exercise, track: track
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise
+      create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise,
+        last_submitted_at: Time.utc(2022, 3, 15) - idx.days
     end
 
     paginated_representations = Kaminari.paginate_array(representations, total_count: 25).page(1).per(20)

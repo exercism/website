@@ -18,7 +18,7 @@ class Exercise::Representation::UpdateNumSubmissionsTest < ActiveSupport::TestCa
       submission: create(:submission, solution: (create :practice_solution, exercise:))
 
     # Sanity check
-    assert_equal 0, representation.num_submissions
+    assert_equal 1, representation.num_submissions
 
     Exercise::Representation::UpdateNumSubmissions.(representation)
 

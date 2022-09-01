@@ -90,41 +90,6 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     assert_equal [submission_representation, submission_representation_2], representation.reload.submission_representations.order(:id)
   end
 
-  test "submission_representation_submissions" do
-    exercise = create :concept_exercise
-    ast = "My AST"
-    ast_digest = Submission::Representation.digest_ast(ast)
-
-    representation = create :exercise_representation,
-      exercise: exercise,
-      ast_digest: ast_digest
-
-    assert_empty representation.reload.submission_representation_submissions
-
-    # Different ast_digest
-    create :submission_representation,
-      submission: create(:submission, exercise:),
-      ast_digest: "something"
-
-    assert_empty representation.reload.submission_representation_submissions
-
-    # One matching ast_digest
-    submission_representation = create :submission_representation,
-      submission: create(:submission, exercise:),
-      ast_digest: ast_digest
-
-    expected = [submission_representation.submission]
-    assert_equal expected, representation.reload.submission_representation_submissions
-
-    # Multiple matching ast_digests
-    submission_representation_2 = create :submission_representation,
-      submission: create(:submission, exercise:),
-      ast_digest: ast_digest
-
-    expected = [submission_representation.submission, submission_representation_2.submission]
-    assert_equal expected, representation.reload.submission_representation_submissions.order(:id)
-  end
-
   test "scope: without_feedback" do
     representation_1 = create :exercise_representation, feedback_type: nil
     representation_2 = create :exercise_representation, feedback_type: nil

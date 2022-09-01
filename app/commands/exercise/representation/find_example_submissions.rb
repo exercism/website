@@ -10,10 +10,11 @@ class Exercise::Representation::FindExampleSubmissions
 
     loop do
       submissions = representation.
-        submission_representation_submissions.
+        submission_representations.
+        includes(:submission).
         order(id: :desc).
         page(page).
-        per(NUM_EXAMPLES * 2)
+        per(NUM_EXAMPLES * 2).map(&:submission)
 
       submissions.each do |submission|
         return example_submissions.values if example_submissions.size == NUM_EXAMPLES

@@ -1,6 +1,6 @@
 class AddTrackToExerciseRepresentations < ActiveRecord::Migration[7.0]
   def change
-    # add_reference :exercise_representations, :track, null: true, foreign_key: true, if_not_exists: true
+    add_reference :exercise_representations, :track, null: true, foreign_key: true, if_not_exists: true
 
     unless Rails.env.production?
       ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do

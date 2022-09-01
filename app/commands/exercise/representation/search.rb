@@ -40,7 +40,7 @@ class Exercise::Representation::Search
 
     exercise_ids = Exercise.where('title LIKE ?', "%#{criteria}%").
       or(Exercise.where('slug LIKE ?', "%#{criteria}%")).
-      pluck(:id)
+      select(:id)
 
     @representations = @representations.where(exercise_id: exercise_ids)
   end

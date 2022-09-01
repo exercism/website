@@ -109,6 +109,9 @@ module.exports = {
       easy: '#5FB268',
       easyLight: '#EFFFF1',
 
+      disabledLight: '#E0DFEA',
+      disabledLabel: '#76709F',
+
       medium: '#A5A256',
       mediumLight: '#F7F5E0',
 

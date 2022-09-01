@@ -63,6 +63,7 @@ export default function MentoringConversation({
 
       <div>
         <PrimaryButton
+          disabled={!/[a-zA-Z0-9]/.test(value)}
           className="px-[64px] py-[12px] mb-16 mr-24"
           onClick={handlePreviewClick}
         >

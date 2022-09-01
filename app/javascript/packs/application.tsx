@@ -273,6 +273,9 @@ initReact({
   'concept-tooltip': (data: any) => (
     <Tooltips.ConceptTooltip endpoint={data.endpoint} />
   ),
+  'automation-locked-tooltip': (data: AutomationLockedTooltipProps) => (
+    <Tooltips.AutomationLockedTooltip endpoint={data.endpoint} />
+  ),
   'dropdowns-dropdown': (data: any) => (
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
@@ -409,6 +412,7 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
+import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

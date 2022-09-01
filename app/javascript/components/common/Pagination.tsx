@@ -14,7 +14,7 @@ export function Pagination({
   total,
   setPage,
   around = 2,
-}: PaginationProps) {
+}: PaginationProps): JSX.Element | null {
   if (total <= 1) {
     return null
   }

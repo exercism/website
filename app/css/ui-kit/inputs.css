@@ -20,6 +20,13 @@ textarea {
     }
 }
 
+/* maybe make this default for all inputs */
+.portable-input {
+    &::placeholder {
+        @apply text-textColor6 !important;
+    }
+}
+
 .c-faux-input {
     @apply flex items-center;
     @apply overflow-hidden;

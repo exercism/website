@@ -1,11 +1,12 @@
 import { useReducer, useCallback, Reducer } from 'react'
 import { Request } from './request-query'
 
-type ListState = Request & {
+export type ListState = Request & {
   query: {
     page: number
     criteria?: string
     tags?: string[]
+    trackSlug?: string
   }
 }
 
@@ -55,9 +56,7 @@ const reducer: Reducer<ListState, ListAction> = (
   }
 }
 
-export function useList(
-  initialRequest: Request
-): {
+export function useList(initialRequest: Request): {
   request: ListState
   setCriteria: (criteria: string) => void
   setOrder: (order: string) => void

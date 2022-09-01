@@ -35,22 +35,15 @@ class Submission
       def create_submission_representation!
         # return unless ast_digest
 
-        @submission_representation = submission.create_submission_representation!(
-          tooling_job_id: tooling_job.id,
-          ops_status: tooling_job.execution_status.to_i,
-          ast_digest:
+        @submission_representation = Submission::Representation::Create.(
+          submission, tooling_job, ast_digest
         )
       end
 
       def create_exercise_representation!
-        @exercise_representation = Exercise::Representation.create_or_find_by!(
-          exercise: submission.exercise,
-          ast_digest:
-        ) do |rep|
-          rep.source_submission = submission
-          rep.ast = ast
-          rep.mapping = mapping
-        end
+        @exercise_representation = Exercise::Representation::CreateOrUpdate.(
+          submission, ast, ast_digest, mapping, @submission_representation.created_at
+        )
       end
 
       def handle_ops_error!

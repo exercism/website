@@ -71,8 +71,8 @@ module API
       assert_equal(
         {
           "error" => {
-            "type" => "solutions_export_not_accessible",
-            "message" => "You do not have permission to export solutions"
+            "type" => "not_maintainer",
+            "message" => "You do not have maintainer permissions"
           }
         },
         JSON.parse(response.body)

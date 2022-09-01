@@ -7,7 +7,11 @@ type TrackIconProps = {
   className?: string
 }
 
-export function TrackIcon({ iconUrl, title, className }: TrackIconProps) {
+export function TrackIcon({
+  iconUrl,
+  title,
+  className,
+}: TrackIconProps): JSX.Element {
   const classNames = ['c-icon c-track-icon']
   if (className !== undefined) {
     classNames.push(className)

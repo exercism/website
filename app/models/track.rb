@@ -8,6 +8,7 @@ class Track < ApplicationRecord
   has_many :concepts, class_name: "::Concept", dependent: :destroy
   has_many :exercises, dependent: :destroy
   has_many :solutions, through: :exercises
+  has_many :representations, class_name: "Exercise::Representation", dependent: :destroy
   has_many :user_tracks, dependent: :destroy
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent

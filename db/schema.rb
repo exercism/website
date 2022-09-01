@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_24_161914) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -212,11 +212,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_161914) do
     t.bigint "feedback_editor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "num_submissions", default: 1, null: false
+    t.datetime "last_submitted_at", default: -> { "CURRENT_TIMESTAMP(6)" }, null: false
+    t.string "uuid", null: false
+    t.bigint "track_id"
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
+    t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
+    t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
+    t.index ["feedback_author_id", "track_id", "num_submissions"], name: "index_exercise_representation_author_track_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
+    t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at", order: { last_submitted_at: :desc }
+    t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions", order: { num_submissions: :desc }
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
+    t.index ["track_id"], name: "index_exercise_representations_on_track_id"
   end
 
   create_table "exercise_taught_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -645,6 +655,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_161914) do
     t.string "ast_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "mentored_by_id"
+    t.index ["mentored_by_id"], name: "index_submission_representations_on_mentored_by_id"
+    t.index ["submission_id", "ast_digest"], name: "index_submission_representations_on_submission_id_and_ast_digest"
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
   end
 
@@ -1009,6 +1022,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_161914) do
   add_foreign_key "exercise_prerequisites", "track_concepts"
   add_foreign_key "exercise_representations", "exercises"
   add_foreign_key "exercise_representations", "submissions", column: "source_submission_id"
+  add_foreign_key "exercise_representations", "tracks"
   add_foreign_key "exercise_representations", "users", column: "feedback_author_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
   add_foreign_key "exercise_taught_concepts", "exercises"
@@ -1050,6 +1064,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_161914) do
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_files", "submissions"
   add_foreign_key "submission_representations", "submissions"
+  add_foreign_key "submission_representations", "users", column: "mentored_by_id"
   add_foreign_key "submission_test_runs", "submissions"
   add_foreign_key "submissions", "solutions"
   add_foreign_key "track_concept_authorships", "track_concepts"

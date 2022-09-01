@@ -2,15 +2,10 @@ import React, { useState, useCallback } from 'react'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormButton, Icon, GraphicalIcon } from '../common'
 import { FormMessage } from './FormMessage'
-import { CommunicationPreference } from '../types'
+import { CommunicationPreferences } from '../types'
 
 type Links = {
   update: string
-}
-
-type CommunicationPreferences = {
-  mentoring: readonly CommunicationPreference[]
-  product: readonly CommunicationPreference[]
 }
 
 const DEFAULT_ERROR = new Error('Unable to change preferences')

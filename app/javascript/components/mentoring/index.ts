@@ -1,5 +1,8 @@
 export { Inbox } from './Inbox'
 export { Queue } from './Queue'
 export { Session } from './Session'
+export { RepresentationsWithFeedback } from './automation/RepresentationsWithFeedback'
+export { RepresentationsWithoutFeedback } from './automation/RepresentationsWithoutFeedback'
 export { TryMentoringButton } from './TryMentoringButton'
 export { TestimonialsList } from './TestimonialsList'
+export { Representation } from './Representation'

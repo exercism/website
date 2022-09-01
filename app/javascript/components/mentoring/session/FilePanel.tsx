@@ -5,7 +5,7 @@ import { File } from '../../types'
 
 const TabsContext = createContext<TabContext>({
   current: '',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 export const FilePanel = ({

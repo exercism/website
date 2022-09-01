@@ -13,6 +13,10 @@ class Submission::RepresentationTest < ActiveSupport::TestCase
     assert create(:submission_representation, ops_status: 201).ops_errored?
   end
 
+  test "ops_errored? if no ast was set" do
+    assert create(:submission_representation, ast: '', ast_digest: nil).ops_errored?
+  end
+
   test "exercise_representation" do
     exercise = create :concept_exercise
     ast = "My AST"

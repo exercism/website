@@ -1,0 +1,5 @@
+@layer base {
+    .focused-input {
+        @apply bg-white border-lightBlue shadow-inputSelected;
+    }
+}

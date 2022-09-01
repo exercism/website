@@ -45,6 +45,12 @@ class User < ApplicationRecord
     dependent: :destroy,
     class_name: "Mentor::Testimonial"
 
+  has_many :mentor_discussion_solutions, through: :mentor_discussions, source: :solution
+  has_many :mentor_request_solutions, through: :mentor_requests, source: :solution
+
+  has_many :submission_representations, class_name: "Submission::Representation",
+    foreign_key: :mentored_by_id, inverse_of: :mentored_by, dependent: :destroy
+
   has_many :student_relationships, class_name: "Mentor::StudentRelationship",
     foreign_key: :mentor_id, inverse_of: :mentor, dependent: :destroy
   has_many :mentor_relationships, class_name: "Mentor::StudentRelationship",

@@ -32,6 +32,20 @@ class Mentor::UpdateSatisfactionRatingTest < ActiveSupport::TestCase
     assert_equal 34, mentor.reload.mentor_satisfaction_percentage
   end
 
+  test "updates supermentor role" do
+    mentor = create :user
+
+    99.times do
+      create :mentor_discussion, :finished, mentor:, rating: :great
+    end
+
+    create :mentor_discussion, :finished, mentor: mentor, rating: :great
+
+    Mentor::UpdateSatisfactionRating.(mentor)
+
+    assert mentor.reload.supermentor?
+  end
+
   test "copes with zero" do
     mentor = create :user
     assert_nil mentor.mentor_satisfaction_percentage # Sanity check

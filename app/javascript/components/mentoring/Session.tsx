@@ -71,7 +71,7 @@ export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
 
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 export const Session = (props: SessionProps): JSX.Element => {
@@ -109,11 +109,8 @@ export const Session = (props: SessionProps): JSX.Element => {
   })
 
   const [isLinked, setIsLinked] = useState(false)
-  const {
-    currentIteration,
-    handleIterationClick,
-    handleIterationScroll,
-  } = useIterationScrolling({ iterations: iterations, on: isLinked })
+  const { currentIteration, handleIterationClick, handleIterationScroll } =
+    useIterationScrolling({ iterations: iterations, on: isLinked })
 
   return (
     <div className="c-mentor-discussion">

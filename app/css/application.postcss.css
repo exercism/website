@@ -95,6 +95,7 @@
 @import "./components/mentor/header";
 @import "./components/mentor/solution-row";
 @import "./components/mentor/discussion";
+@import "./components/mentor/representer-row";
 
 @import "./components/track/header";
 @import "./components/track/concept-nav";
@@ -117,6 +118,7 @@
 @import "./components/track-filter";
 @import "./components/mentor-discussion-widget";
 @import "./components/completed-exercise-progress";
+@import "./components/search-input";
 
 @import "./components/widgets/exercise";
 @import "./components/mentor-discussion-post-editor";
@@ -207,6 +209,7 @@
 @import "./pages/mentoring/external-request";
 @import "./pages/mentoring/external";
 @import "./pages/mentoring/inbox";
+@import "./pages/mentoring/automation";
 @import "./pages/mentoring/queue";
 @import "./pages/mentoring/testimonials";
 @import "./pages/maintaining/dashboard";

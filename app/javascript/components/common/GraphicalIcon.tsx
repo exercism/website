@@ -15,7 +15,7 @@ export function GraphicalIcon({
   width?: number
   height?: number
   hex?: boolean
-}) {
+}): JSX.Element {
   const classNames = ['c-icon', className, hex ? '--hex' : ''].filter(
     (className) => className.length > 0
   )

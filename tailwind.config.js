@@ -33,6 +33,7 @@ module.exports = {
       8: '8px',
       12: '12px',
       16: '16px',
+      24: '24px',
       100: '100px',
       circle: '100%',
     },
@@ -49,6 +50,8 @@ module.exports = {
       none: 'none',
       buttonS: '0px 4px 8px rgba(79, 114, 205, 0.4)',
       xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
+      xsZ1v2: '0px 2px 4px 0px rgba(79, 114, 205, 0.15)',
+      xsZ1v3: '0px 2px 4px 0px rgba(79, 114, 205, 0.4)',
       sm: 'var(--box-shadow-sm)',
       smZ1: '0px 4px 16px 0px rgba(79, 114, 205, 0.3)',
       base: 'var(--box-shadow-base)',
@@ -109,6 +112,9 @@ module.exports = {
       easy: '#5FB268',
       easyLight: '#EFFFF1',
 
+      disabledLight: '#E0DFEA',
+      disabledLabel: '#76709F',
+
       medium: '#A5A256',
       mediumLight: '#F7F5E0',
 
@@ -126,6 +132,7 @@ module.exports = {
       bgGray: '#FBFCFE',
       lightGray: '#EAECF3',
       borderLight: '#CBC9D9',
+      borderLight2: '#D5D8E4',
 
       lightBlue: '#2E57E8',
       darkBlue: '#6A93FF',
@@ -318,8 +325,17 @@ module.exports = {
       redirect: '150',
     },
   },
-  variants: {},
-  plugins: [],
+  variants: {
+    extend: {
+      borderColor: ['focus-within', 'focus', 'hover'],
+      backgroundColor: ['focus-within'],
+    },
+  },
+  plugins: [
+    function ({ addVariant }) {
+      addVariant('child', '& > *')
+    },
+  ],
   corePlugins: {
     container: false,
   },

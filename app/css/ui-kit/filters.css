@@ -2,4 +2,12 @@
     .filter-twitter {
         filter: var(--filter-twitter);
     }
+
+    .filter-textColor6 {
+        filter: var(--textColor6-filter);
+    }
+
+    .white-filter {
+        filter: var(--white-filter);
+    }
 }

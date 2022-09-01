@@ -24,4 +24,10 @@ class User::RolesTest < ActiveSupport::TestCase
     assert create(:user, roles: %i[maintainer misc]).maintainer?
     refute create(:user, roles: [:misc]).maintainer?
   end
+
+  test "supermentor?" do
+    assert create(:user, roles: [:supermentor]).supermentor?
+    assert create(:user, roles: %i[supermentor misc]).supermentor?
+    refute create(:user, roles: [:misc]).supermentor?
+  end
 end

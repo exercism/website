@@ -23,6 +23,7 @@ import {
   User,
   MentoringSessionExemplarFile,
   SharePlatform,
+  CompleteRepresentationData,
   // TrackContribution,
 } from '../components/types'
 
@@ -85,6 +86,7 @@ import * as Modals from '../components/modals'
 import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
+import { AutomationProps } from '../components/mentoring/automation/Representation'
 function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
@@ -155,6 +157,16 @@ initReact({
       downloadCommand={data.download_command}
     />
   ),
+  'mentoring-representations-with-feedback': (data: any) => (
+    <Mentoring.RepresentationsWithFeedback
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
+  ),
+  'mentoring-representations-without-feedback': (data: any) => (
+    <Mentoring.RepresentationsWithoutFeedback
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
+  ),
   'mentoring-try-mentoring-button': (data: any) => (
     <Mentoring.TryMentoringButton
       text={data.text}
@@ -169,6 +181,11 @@ initReact({
         data.tracks
       )}
       platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
+    />
+  ),
+  'mentoring-representation': (data: any) => (
+    <Mentoring.Representation
+      data={camelizeKeysAs<CompleteRepresentationData>(data)}
     />
   ),
   'student-mentoring-session': (data: any) => (
@@ -246,7 +263,7 @@ initReact({
   ),
   'settings-communication-preferences-form': (data: any) => (
     <Settings.CommunicationPreferencesForm
-      defaultPreferences={camelizeKeysAs<readonly CommunicationPreferences[]>(
+      defaultPreferences={camelizeKeysAs<CommunicationPreferences>(
         data.preferences
       )}
       links={data.links}

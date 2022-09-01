@@ -190,4 +190,19 @@ class TrackTest < ActiveSupport::TestCase
     create :practice_exercise, track: track, status: :wip
     assert_equal 2, track.num_exercises
   end
+
+  test "representations" do
+    track = create :track
+    exercise_1 = create :practice_exercise, track: track
+    exercise_2 = create :practice_exercise, track: track
+    exercise_3 = create :practice_exercise, track: (create :track, :random_slug)
+
+    representation_1 = create :exercise_representation, exercise: exercise_1
+    representation_2 = create :exercise_representation, exercise: exercise_2
+
+    # Sanity check: representation for exercise of different track
+    create :exercise_representation, exercise: exercise_3
+
+    assert_equal [representation_1, representation_2], track.representations
+  end
 end

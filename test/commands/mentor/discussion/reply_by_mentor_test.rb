@@ -45,4 +45,17 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
       notification.send(:params)
     )
   end
+
+  test "sets mentor of submission representation" do
+    iteration = create :iteration
+    mentor = create :user
+    discussion = create :mentor_discussion, mentor: mentor, solution: iteration.solution
+    submission_representation = create :submission_representation, submission: iteration.submission, mentored_by: nil
+
+    perform_enqueued_jobs do
+      Mentor::Discussion::ReplyByMentor.(discussion, iteration, "foobar")
+    end
+
+    assert_equal mentor, submission_representation.reload.mentored_by
+  end
 end

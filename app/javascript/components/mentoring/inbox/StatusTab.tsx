@@ -1,16 +1,17 @@
 import React, { useCallback } from 'react'
-import { DiscussionStatus } from '../../types'
 
-export const StatusTab = ({
+type StatusTabProps<S> = React.PropsWithChildren<{
+  status: S
+  currentStatus: S
+  setStatus: (status: S) => void
+}>
+
+export function StatusTab<T>({
   status,
   currentStatus,
   setStatus,
   children,
-}: React.PropsWithChildren<{
-  status: DiscussionStatus
-  currentStatus: DiscussionStatus
-  setStatus: (status: DiscussionStatus) => void
-}>): JSX.Element => {
+}: StatusTabProps<T>): JSX.Element {
   const handleClick = useCallback(() => {
     setStatus(status)
   }, [setStatus, status])

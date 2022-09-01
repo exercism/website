@@ -26,6 +26,8 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     job = create_representer_job!(submission, execution_status: 200, ast:, mapping:)
     Submission::Representation::Process.(job)
 
+    perform_enqueued_jobs
+
     assert_equal 1, Exercise::Representation.count
     representation = Exercise::Representation.first
 
@@ -33,6 +35,8 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     assert_equal ast, representation.ast
     assert_equal ast_digest, representation.ast_digest
     assert_equal mapping, representation.mapping
+    assert_equal 1, representation.num_submissions
+    assert_equal submission.submission_representation.created_at, representation.last_submitted_at
   end
 
   test "test exercise representations are reused" do

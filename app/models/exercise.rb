@@ -15,6 +15,7 @@ class Exercise < ApplicationRecord
 
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions
+  has_many :representations, dependent: :destroy
 
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",

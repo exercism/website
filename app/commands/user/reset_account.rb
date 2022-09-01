@@ -46,6 +46,7 @@ class User
       user.mentor_discussion_posts.update_all(user_id: User::GHOST_USER_ID)
       user.mentor_testimonials.update_all(mentor_id: User::GHOST_USER_ID)
       user.provided_testimonials.update_all(student_id: User::GHOST_USER_ID)
+      user.submission_representations.update_all(mentored_by_id: nil)
     end
 
     def reassign_to_ghost!

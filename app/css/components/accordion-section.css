@@ -6,7 +6,7 @@
         & > .c-icon {
             height: 24px;
             width: 24px;
-            @apply mr-24;
+            @apply mr-16;
         }
         & > .--title {
             @apply text-16 font-semibold leading-paragraph;

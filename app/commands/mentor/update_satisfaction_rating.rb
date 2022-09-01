@@ -10,6 +10,8 @@ module Mentor
       ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
         User.where(id: mentor.id).update_all("mentor_satisfaction_percentage = #{mentor_satisfaction_percentage_sql}")
       end
+
+      User::UpdateMentorRoles.(mentor.reload)
     end
 
     private

@@ -10,6 +10,9 @@
         opacity: 0;
         width: 1em;
         height: 1em;
+        &:hover {
+            @apply cursor-pointer;
+        }
     }
     & .row {
         @apply flex items-center flex-grow;

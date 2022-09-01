@@ -31,6 +31,7 @@ module Mentor
         create_testimonial!
         award_reputation!
         award_badge!
+        update_roles!
         notify!
         log_metric!
       end
@@ -88,6 +89,10 @@ module Mentor
 
       def award_badge!
         AwardBadgeJob.perform_later(discussion.mentor, :mentor)
+      end
+
+      def update_roles!
+        User::UpdateMentorRoles.defer(discussion.mentor)
       end
 
       def log_metric!

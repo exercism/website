@@ -10,13 +10,6 @@ module API
     end
 
     private
-    def ensure_maintainer!
-      return if current_user&.maintainer?
-      return if current_user&.admin? # Admins have maintainer permissions
-
-      render_403(:solutions_export_not_accessible)
-    end
-
     def use_track
       @track = Track.find(params[:track_slug])
     rescue ActiveRecord::RecordNotFound

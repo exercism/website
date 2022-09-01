@@ -16,6 +16,8 @@ module Mentor
 
         discussion.awaiting_student!
 
+        Submission::Representation::UpdateMentor.defer(iteration.submission)
+
         User::Notification::Create.(
           iteration.solution.user,
           :mentor_replied_to_discussion,

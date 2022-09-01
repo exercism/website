@@ -6,7 +6,7 @@ import { ActiveBackground, Confetti } from '@exercism/active-background'
 
 type Theme = 'light' | 'dark'
 export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
-  className: string
+  className?: string
   closeButton?: boolean
   open: boolean
   onClose: () => void
@@ -14,6 +14,7 @@ export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   celebratory?: boolean
   theme?: Theme
   aria?: Pick<Aria, 'describedby' | 'labelledby'>
+  ReactModalClassName?: string
 }
 
 export const Modal = ({
@@ -26,6 +27,7 @@ export const Modal = ({
   theme = 'light',
   children,
   aria,
+  ReactModalClassName,
   ...props
 }: React.PropsWithChildren<ModalProps>): JSX.Element => {
   const overlayClassNames = [
@@ -41,7 +43,7 @@ export const Modal = ({
       ariaHideApp={process.env.NODE_ENV !== 'test'}
       isOpen={open}
       onRequestClose={onClose}
-      className={'--modal-content'}
+      className={`--modal-content ${ReactModalClassName}`}
       overlayClassName={overlayClassNames.join(' ')}
       appElement={document.querySelector('body') as HTMLElement}
       overlayElement={(props, contentElement) => (

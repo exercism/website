@@ -2,6 +2,8 @@ en:
   api:
     errors:
       not_onboarded: "You have not yet onboarded on the website"
+      not_supermentor: "You do not have supermentor permissions"
+      not_maintainer: "You do not have maintainer permissions"
       duplicate_submission: "No files you submitted have changed since your last submission"
       exercise_not_found: "The exercise you specified could not be found"
       invalid_auth_token: "The auth token provided is invalid"
@@ -16,9 +18,9 @@ en:
       solution_comment_not_found: "This solution comment could not be found"
       solution_without_iterations: "This solution does not have any iterations"
       solution_comment_not_accessible: "This comment is not accessible"
-      solutions_export_not_accessible: "You do not have permission to export solutions"
       submission_not_found: "This submission could not be found"
       submission_not_accessible: "You do not have permission to view this submission"
+      representation_not_found: "This representation could not be found"
       team_not_found: "The team could not be found"
       track_ambiguous: "Please specify a track ID"
       track_not_found: "The track you specified does not exist"

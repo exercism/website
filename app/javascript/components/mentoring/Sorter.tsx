@@ -10,10 +10,12 @@ export const Sorter = ({
   setOrder,
   order,
   sortOptions,
+  componentClassName,
 }: {
   setOrder: (order: string) => void
   order: string
   sortOptions: readonly SortOption[]
+  componentClassName?: string
 }): JSX.Element => {
   const value = sortOptions.find((o) => o.value === order) || sortOptions[0]
   const setValue = useCallback(
@@ -30,6 +32,7 @@ export const Sorter = ({
       setValue={setValue}
       SelectedComponent={OptionComponent}
       OptionComponent={OptionComponent}
+      componentClassName={componentClassName}
     />
   )
 }

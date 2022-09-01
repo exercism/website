@@ -6,30 +6,30 @@ class Exercise::Representation < ApplicationRecord
   belongs_to :source_submission, class_name: "Submission"
   belongs_to :feedback_author, optional: true, class_name: "User"
   belongs_to :feedback_editor, optional: true, class_name: "User"
+  belongs_to :track, optional: true
+  has_one :solution, through: :source_submission
 
   enum feedback_type: { essential: 0, actionable: 1, non_actionable: 2 }, _prefix: :feedback
 
-  # TODO: We're going to need some indexes here!
   has_many :submission_representations,
-    ->(er) { joins(:solution).where("solutions.exercise_id": er.exercise_id) },
     class_name: "Submission::Representation",
     foreign_key: :ast_digest,
     primary_key: :ast_digest,
     inverse_of: :exercise_representation
+  has_many :submission_representation_submissions, through: :submission_representations, source: :submission
 
-  # TODO: We're going to need some indexes here!
-  scope :order_by_frequency, lambda {
-    joins("
-      LEFT JOIN submission_representations
-      ON submission_representations.ast_digest = exercise_representations.ast_digest
-      JOIN submissions ON submission_representations.submission_id = submissions.id
-      JOIN solutions ON submissions.solution_id = solutions.id
-    ").
-      where("solutions.exercise_id = exercise_representations.exercise_id").
-      order("submission_representations_count DESC").
-      group("submission_representations.ast_digest").
-      select("exercise_representations.*, COUNT(submission_representations.id) as submission_representations_count")
-  }
+  scope :without_feedback, -> { where(feedback_type: nil) }
+  scope :with_feedback_by, ->(mentor) { where(feedback_author: mentor) }
+  scope :mentored_by, ->(mentor) { where(submission_representations: mentor.submission_representations) }
+  scope :for_track, ->(track) { where(track:) }
+
+  before_create do
+    self.uuid = SecureRandom.compact_uuid
+    self.track_id = exercise.track_id
+  end
+
+  def to_param = uuid
+  def feedback_type = super&.to_sym
 
   def num_times_used
     submission_representations.count
@@ -50,4 +50,11 @@ class Exercise::Representation < ApplicationRecord
   def has_feedback?
     [feedback_markdown, feedback_author_id, feedback_type].all?(&:present?)
   end
+
+  def appears_frequently?
+    num_submissions >= APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS
+  end
+
+  APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS = 5
+  private_constant :APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS
 end

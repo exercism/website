@@ -10,7 +10,7 @@ export function removeEmpty<TParams extends Record<string, unknown>>(
       if (typeof v === 'string') {
         return v.length > 0
       } else {
-        return v !== null
+        return v !== null && v !== false
       }
     })
     .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {})

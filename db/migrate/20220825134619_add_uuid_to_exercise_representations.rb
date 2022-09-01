@@ -7,7 +7,7 @@ class AddUuidToExerciseRepresentations < ActiveRecord::Migration[7.0]
       Exercise::Representation.find_each do |representation|
         Exercise::Representation
           .where(id: representation.id)
-          .update_all(uuid: SecureRandom.compact_uuid)
+          .update_all('`uuid` = UUID()')
       end
     end
 

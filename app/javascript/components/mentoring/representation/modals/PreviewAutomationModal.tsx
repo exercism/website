@@ -14,6 +14,7 @@ type PreviewAutomationModalProps = AutomationModalProps & {
   html: string
   markdown: string
   feedbackType: string
+  onSuccessfulSubmit: () => void
 }
 
 export function PreviewAutomationModal({
@@ -23,6 +24,7 @@ export function PreviewAutomationModal({
   html,
   markdown,
   feedbackType,
+  onSuccessfulSubmit,
 }: PreviewAutomationModalProps): JSX.Element {
   const [selectedExample, setSelectedExample] = useState<number>(0)
 
@@ -43,7 +45,7 @@ export function PreviewAutomationModal({
   }
 
   const [submitFeedback] = useMutation(SubmitFeedback, {
-    onSuccess: () => console.log('SUCCESS'),
+    onSuccess: onSuccessfulSubmit,
   })
 
   const handleSubmit = useCallback(() => {
@@ -52,12 +54,15 @@ export function PreviewAutomationModal({
 
   return (
     <Modal
-      ReactModalClassName="c-mentor-discussion !p-0 !w-[80%] flex flex-col"
+      ReactModalClassName="c-mentor-discussion !p-0 !w-[80%] !h-[65vh] flex flex-col"
       onClose={onClose}
       open={isOpen}
     >
       <SplitPane
         id="automation-preview"
+        rightMinWidth={350}
+        leftMinWidth={550}
+        defaultLeftWidth="100%"
         left={
           <IterationView
             representationData={{
@@ -67,7 +72,6 @@ export function PreviewAutomationModal({
           />
         }
         right={<PreviewFeedbackComment mentor={data.mentor} html={html} />}
-        rightMinWidth={400}
       />
       <PreviewFooter
         onSubmit={handleSubmit}

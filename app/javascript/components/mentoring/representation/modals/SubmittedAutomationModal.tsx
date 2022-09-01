@@ -10,7 +10,8 @@ export type AutomationModalProps = {
 export function SubmittedAutomationModal({
   isOpen,
   onClose,
-}: AutomationModalProps): JSX.Element {
+  goBackLink,
+}: AutomationModalProps & { goBackLink: string }): JSX.Element {
   return (
     <Modal ReactModalClassName="!rounded-24" open={isOpen} onClose={onClose}>
       <div className="flex flex-col items-center rounded-24">
@@ -28,19 +29,22 @@ export function SubmittedAutomationModal({
           You earned <Reputation value="+3" type="primary" size="small" />{' '}
           Reputation for this, thanks 😊
         </div>
-        <PrimaryButton
-          className="!w-[100%] py-[16px] px-[24px] mb-16"
-          onClick={() => console.log('clicked')}
-        >
-          <div className="flex flex-row justify-center text-18">
-            Continue to solutions requiring feedback{' '}
-            <Icon
-              alt="right"
-              icon="arrow-right"
-              className="w-[16px] h-[16px] white-filter ml-12"
-            />
-          </div>
-        </PrimaryButton>
+
+        <a href={goBackLink}>
+          <PrimaryButton
+            className="!w-[100%] py-[16px] px-[24px] mb-16"
+            onClick={() => console.log('clicked')}
+          >
+            <div className="flex flex-row justify-center text-18">
+              Continue to solutions requiring feedback{' '}
+              <Icon
+                alt="right"
+                icon="arrow-right"
+                className="w-[16px] h-[16px] white-filter ml-12"
+              />
+            </div>
+          </PrimaryButton>
+        </a>
       </div>
     </Modal>
   )

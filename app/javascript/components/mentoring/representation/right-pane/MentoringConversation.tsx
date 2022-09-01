@@ -18,7 +18,7 @@ export default function MentoringConversation({
   feedbackType: RepresentationFeedbackType
 }): JSX.Element {
   const [value, setValue] = useState(data.representation.feedbackMarkdown || '')
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
   const [html, setHtml] = useState('<p>Loading..</p>')
 
@@ -80,10 +80,15 @@ export default function MentoringConversation({
         isOpen={isPreviewModalOpen}
         html={html}
         onClose={() => setIsPreviewModalOpen(false)}
+        onSuccessfulSubmit={() => {
+          setIsPreviewModalOpen(false)
+          setIsSuccessModalOpen(true)
+        }}
       />
       <SubmittedAutomationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        goBackLink={data.links.success}
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
       />
     </div>
   )

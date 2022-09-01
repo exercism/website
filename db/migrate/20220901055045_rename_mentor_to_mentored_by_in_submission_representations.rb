@@ -1,6 +1,6 @@
 class RenameMentorToMentoredByInSubmissionRepresentations < ActiveRecord::Migration[7.0]
   def change
-    rename_column :submission_representations, :mentor_id, :mentored_by_id
+    # rename_column :submission_representations, :mentor_id, :mentored_by_id
 
     unless Rails.env.production?
       ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do

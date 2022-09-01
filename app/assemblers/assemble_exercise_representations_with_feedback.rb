@@ -9,7 +9,6 @@ class AssembleExerciseRepresentationsWithFeedback
     SerializePaginatedCollection.(
       representations,
       serializer: SerializeExerciseRepresentations,
-      serializer_kwargs: { with_feedback: true },
       meta: {
         unscoped_total: Exercise::Representation.with_feedback.count
       }

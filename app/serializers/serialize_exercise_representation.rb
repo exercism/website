@@ -1,7 +1,7 @@
 class SerializeExerciseRepresentation
   include Mandate
 
-  initialize_with :representation, with_feedback: false
+  initialize_with :representation
 
   delegate :exercise, :track, to: :representation
 

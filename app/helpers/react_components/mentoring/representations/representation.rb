@@ -2,24 +2,20 @@ module ReactComponents
   module Mentoring
     module Representations
       class Representation < ReactComponent
-        initialize_with :mentor, :representation, :example_submissions, :with_feedback
+        initialize_with :mentor, :representation, :example_submissions
 
         def to_s
           super("mentoring-representation", {
-            representation: representation_data,
+            representation: SerializeExerciseRepresentation.(representation),
             examples: examples_data,
             mentor: mentor_data,
             links: {
               success: Exercism::Routes.mentoring_automation_index_url,
-              back: with_feedback ?
-                Exercism::Routes.with_feedback_mentoring_automation_index_path :
-                Exercism::Routes.mentoring_automation_index_path
+              back: representation.feedback_type.nil? ?
+                Exercism::Routes.mentoring_automation_index_path :
+                Exercism::Routes.with_feedback_mentoring_automation_index_path
             }
           })
-        end
-
-        def representation_data
-          SerializeExerciseRepresentation.(representation, with_feedback:)
         end
 
         def examples_data

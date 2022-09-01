@@ -12,6 +12,8 @@ import { sendRequest } from '../../../../utils/send-request'
 type PreviewAutomationModalProps = AutomationModalProps & {
   data: CompleteRepresentationData
   html: string
+  markdown: string
+  feedbackType: string
 }
 
 export function PreviewAutomationModal({
@@ -19,6 +21,8 @@ export function PreviewAutomationModal({
   onClose,
   isOpen,
   html,
+  markdown,
+  feedbackType,
 }: PreviewAutomationModalProps): JSX.Element {
   const [selectedExample, setSelectedExample] = useState<number>(0)
 
@@ -27,7 +31,10 @@ export function PreviewAutomationModal({
       endpoint: data.representation.links.update!,
       method: 'PATCH',
       body: JSON.stringify({
-        // BODY HERE
+        representation: {
+          feedback_type: feedbackType,
+          feedback_markdown: markdown,
+        },
       }),
     })
     return fetch.then((res) => {

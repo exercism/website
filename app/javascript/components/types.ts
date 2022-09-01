@@ -454,6 +454,11 @@ export type RepresentationData = Representation & {
   tests: string
 }
 
+export type RepresentationFeedbackType =
+  | 'essential'
+  | 'recommended'
+  | 'optional'
+
 export type CompleteRepresentationData = {
   representation: RepresentationData
   examples: Pick<RepresentationData, 'files' | 'instructions' | 'tests'>[]

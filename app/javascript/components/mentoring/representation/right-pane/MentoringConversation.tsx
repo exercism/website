@@ -3,14 +3,19 @@ import { PreviewAutomationModal } from '../modals/PreviewAutomationModal'
 import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
 import { PrimaryButton } from '../common/PrimaryButton'
 import { MarkdownEditor } from '../../../common/MarkdownEditor'
-import { CompleteRepresentationData } from '../../../types'
+import {
+  CompleteRepresentationData,
+  RepresentationFeedbackType,
+} from '../../../types'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 
 export default function MentoringConversation({
   data,
+  feedbackType,
 }: {
   data: CompleteRepresentationData
+  feedbackType: RepresentationFeedbackType
 }): JSX.Element {
   const [value, setValue] = useState(data.representation.feedbackMarkdown || '')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -68,6 +73,8 @@ export default function MentoringConversation({
         Remember, you can edit this feedback anytime after submission.
       </div>
       <PreviewAutomationModal
+        feedbackType={feedbackType}
+        markdown={value}
         data={data}
         isOpen={isPreviewModalOpen}
         html={html}

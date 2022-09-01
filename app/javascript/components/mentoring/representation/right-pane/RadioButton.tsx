@@ -5,6 +5,7 @@ import InfoTooltip, { Tooltip } from './InfoTooltip'
 
 export default function RadioButton({
   label,
+  value,
   checked,
   onChange,
   tooltip,
@@ -13,10 +14,11 @@ export default function RadioButton({
   checked: boolean
   onChange: ChangeEventHandler<HTMLInputElement>
   tooltip: Tooltip
+  value: string
 }): JSX.Element {
   return (
     <label className="c-radio-wrapper mb-[13px] hover:cursor-pointer">
-      <input checked={checked} onChange={onChange} value={label} type="radio" />
+      <input checked={checked} onChange={onChange} value={value} type="radio" />
       <div className="row text-radio-essential">
         <div className="c-radio mr-16" />
         <div className="mr-[8.5px]">{label}</div>

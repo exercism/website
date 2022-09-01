@@ -28,6 +28,7 @@ class Exercise::Representation < ApplicationRecord
     self.track_id = exercise.track_id
   end
 
+  def to_param = uuid
   def feedback_type = super&.to_sym
 
   def num_times_used

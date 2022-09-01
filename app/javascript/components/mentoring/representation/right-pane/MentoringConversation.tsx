@@ -4,6 +4,8 @@ import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
 import { PrimaryButton } from '../common/PrimaryButton'
 import { MarkdownEditor } from '../../../common/MarkdownEditor'
 import { CompleteRepresentationData } from '../../../types'
+import { useMutation } from 'react-query'
+import { sendRequest } from '../../../../utils/send-request'
 
 export default function MentoringConversation({
   data,
@@ -13,10 +15,38 @@ export default function MentoringConversation({
   const [value, setValue] = useState(data.representation.feedbackMarkdown || '')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
+  const [html, setHtml] = useState('<p>Loading..</p>')
 
-  // something to do here
-  // const handleCancel = useCallback(() => console.log('Cancelled!'), [])
   const handleChange = useCallback((value) => setValue(value), [setValue])
+  const [generateHTML] = useMutation(async (markdown: string) => {
+    const { fetch } = sendRequest<{ html: string }>({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      // querySelector _may_ return undefined, but not in this case.
+      // probably there is a better way doing this
+      endpoint: document.querySelector<HTMLMetaElement>(
+        'meta[name="parse-markdown-url"]'
+      )?.content,
+      method: 'POST',
+      body: JSON.stringify({
+        parse_options: {
+          strip_h1: false,
+          lower_heading_levels_by: 2,
+        },
+        markdown,
+      }),
+    })
+    return fetch.then((res) => {
+      setHtml(`<div class="c-textual-content --small">${res.html}</div>`)
+      console.log(res)
+    })
+  })
+
+  const handlePreviewClick = useCallback(() => {
+    setIsPreviewModalOpen(true)
+    generateHTML(value)
+  }, [generateHTML, value])
+
   return (
     <div className="px-24">
       <div id="markdown-editor" className="c-markdown-editor --expanded">
@@ -29,7 +59,7 @@ export default function MentoringConversation({
       <div>
         <PrimaryButton
           className="px-[64px] py-[12px] mb-16 mr-24"
-          onClick={() => setIsPreviewModalOpen(true)}
+          onClick={handlePreviewClick}
         >
           Preview & Submit
         </PrimaryButton>
@@ -40,7 +70,7 @@ export default function MentoringConversation({
       <PreviewAutomationModal
         data={data}
         isOpen={isPreviewModalOpen}
-        markdown={value}
+        html={html}
         onClose={() => setIsPreviewModalOpen(false)}
       />
       <SubmittedAutomationModal

@@ -9,14 +9,14 @@ import { CompleteRepresentationData } from '../../../types'
 
 type PreviewAutomationModalProps = AutomationModalProps & {
   data: CompleteRepresentationData
-  markdown: string
+  html: string
 }
 
 export function PreviewAutomationModal({
   data,
   onClose,
   isOpen,
-  markdown,
+  html,
 }: PreviewAutomationModalProps): JSX.Element {
   const [selectedExample, setSelectedExample] = useState<number>(0)
 
@@ -36,9 +36,7 @@ export function PreviewAutomationModal({
             }}
           />
         }
-        right={
-          <PreviewFeedbackComment mentor={data.mentor} markdown={markdown} />
-        }
+        right={<PreviewFeedbackComment mentor={data.mentor} html={html} />}
         rightMinWidth={400}
       />
       <PreviewFooter

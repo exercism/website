@@ -34,7 +34,7 @@ class Exercise::Representation::FindExampleSubmissions
 
   private
   def solution_files_hash(submission)
-    Digest::SHA1.hexdigest(submission.files.map(&:content).join)
+    submission.files.map(&:digest).join
   end
 
   NUM_EXAMPLES = 3

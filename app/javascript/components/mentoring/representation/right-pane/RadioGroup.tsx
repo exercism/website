@@ -13,7 +13,7 @@ const RADIO_DATA = [
   },
   {
     label: 'Recommended',
-    value: 'recommended',
+    value: 'actionable',
     tooltip: {
       title: 'If you mark this as Recommended',
       body: 'Student is prompted to action this before proceeding, but not considered essential. High-value enhancement.',
@@ -21,7 +21,7 @@ const RADIO_DATA = [
   },
   {
     label: 'Optional',
-    value: 'optional',
+    value: 'non_actionable',
     tooltip: {
       title: 'If you mark this as Optional',
       body: 'Student is not prompted to action this before proceeding, entirely a low-value enhancement.',

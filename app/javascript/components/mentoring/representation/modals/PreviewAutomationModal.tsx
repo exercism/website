@@ -48,7 +48,7 @@ export function PreviewAutomationModal({
 
   const handleSubmit = useCallback(() => {
     submitFeedback()
-  }, [])
+  }, [submitFeedback])
 
   return (
     <Modal
@@ -70,7 +70,7 @@ export function PreviewAutomationModal({
         rightMinWidth={400}
       />
       <PreviewFooter
-        onSubmit={() => console.log('clicked again')}
+        onSubmit={handleSubmit}
         examples={data.examples}
         selectedExample={selectedExample}
         setSelectedExample={setSelectedExample}

@@ -456,8 +456,8 @@ export type RepresentationData = Representation & {
 
 export type RepresentationFeedbackType =
   | 'essential'
-  | 'recommended'
-  | 'optional'
+  | 'actionable'
+  | 'non_actionable'
 
 export type CompleteRepresentationData = {
   representation: RepresentationData

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Avatar } from '../../../common'
 import { User } from '../../../types'
+import dayjs from 'dayjs'
 
 export type PreviewFeedbackCommentProps = {
   html: string
@@ -23,7 +24,7 @@ export function PreviewFeedbackComment({
 
       <div className="mb-4" dangerouslySetInnerHTML={{ __html: html }}></div>
       <div className="text-btnBorder font-medium">
-        Commented on {Date.now()}
+        Commented on {`${dayjs(Date.now()).format('D MMM YYYY')}`}
       </div>
     </div>
   )

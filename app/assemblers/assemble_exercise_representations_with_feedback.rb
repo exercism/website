@@ -10,7 +10,7 @@ class AssembleExerciseRepresentationsWithFeedback
       representations,
       serializer: SerializeExerciseRepresentations,
       meta: {
-        unscoped_total: Exercise::Representation.with_feedback.count
+        unscoped_total: Exercise::Representation.with_feedback_by(mentor).count
       }
     )
   end

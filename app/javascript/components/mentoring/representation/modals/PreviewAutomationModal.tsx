@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { SplitPane } from '../../../common'
 import { Modal } from '../../../modals/Modal'
 import { IterationView } from '../left-pane/RepresentationIterationView'
@@ -6,6 +6,8 @@ import { PreviewFeedbackComment } from './PreviewFeedbackComment'
 import { PreviewFooter } from './PreviewFooter'
 import { AutomationModalProps } from './SubmittedAutomationModal'
 import { CompleteRepresentationData } from '../../../types'
+import { useMutation } from 'react-query'
+import { sendRequest } from '../../../../utils/send-request'
 
 type PreviewAutomationModalProps = AutomationModalProps & {
   data: CompleteRepresentationData
@@ -19,6 +21,27 @@ export function PreviewAutomationModal({
   html,
 }: PreviewAutomationModalProps): JSX.Element {
   const [selectedExample, setSelectedExample] = useState<number>(0)
+
+  async function SubmitFeedback() {
+    const { fetch } = sendRequest<{ html: string }>({
+      endpoint: data.representation.links.update!,
+      method: 'PATCH',
+      body: JSON.stringify({
+        // BODY HERE
+      }),
+    })
+    return fetch.then((res) => {
+      console.log(res)
+    })
+  }
+
+  const [submitFeedback] = useMutation(SubmitFeedback, {
+    onSuccess: () => console.log('SUCCESS'),
+  })
+
+  const handleSubmit = useCallback(() => {
+    submitFeedback()
+  }, [])
 
   return (
     <Modal

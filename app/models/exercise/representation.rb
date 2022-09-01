@@ -30,6 +30,8 @@ class Exercise::Representation < ApplicationRecord
     self.track_id = exercise.track_id
   end
 
+  def feedback_type = super&.to_sym
+
   def num_times_used
     submission_representations.count
   end

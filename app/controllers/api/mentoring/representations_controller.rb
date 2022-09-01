@@ -4,8 +4,8 @@ module API
     before_action :use_representation, only: :update
 
     def update
-      if @representation.update(update_params)
-        # TODO: award reputation to user
+      if Exercise::Representation::SubmitFeedback.(@current_user, @representation, update_params[:feedback_markdown],
+        update_params[:feedback_type])
         render json: { representation: SerializeExerciseRepresentation.(@representation) }
       else
         render_400(:failed_validations, errors: @representation.errors)
@@ -43,15 +43,8 @@ module API
       params.permit(*AssembleExerciseRepresentationsWithFeedback.keys)
     end
 
-    def create_params
-      params.require(:representation).permit(:feedback_markdown, :feedback_type)
-    end
-
     def update_params
-      params.
-        require(:representation).
-        permit(:feedback_markdown, :feedback_type).
-        merge(@representation.feedback_author.present? ? { feedback_editor: current_user } : { feedback_author: current_user })
+      params.require(:representation).permit(:feedback_markdown, :feedback_type)
     end
   end
 end

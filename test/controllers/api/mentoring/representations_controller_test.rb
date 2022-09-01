@@ -51,7 +51,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     user = create :user, :supermentor
     setup_user(user)
 
-    representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20)
+    representation = create :exercise_representation, id: 271, last_submitted_at: Time.utc(2012, 6, 20)
 
     patch api_mentoring_representation_path(representation.uuid),
       params: {
@@ -79,7 +79,17 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
         appears_frequently: false,
         feedback_markdown: "_great_ work",
         last_submitted_at: "2012-06-20T00:00:00.000Z",
-        links: {}
+        files:
+      [{ filename: "log_line_parser.rb",
+         type: "exercise",
+         digest: nil,
+         content: "module LogLineParser\n  def self.message(line)\n    raise NotImplementedError, 'Please implement the LogLineParser.message method'\n  end\n\n  def self.log_level(line)\n    raise NotImplementedError, 'Please implement the LogLineParser.log_level method'\n  end\n\n  def self.reformat(line)\n    raise NotImplementedError, 'Please implement the LogLineParser.reformat method'\n  end\nend\n" }], # rubocop:disable Layout/LineLength,
+        instructions: "<p>In this exercise you'll be processing log-lines.</p>\n<p>Each log line is a string formatted as follows: <code>\"[&lt;LEVEL&gt;]: &lt;MESSAGE&gt;\"</code>.</p>\n<p>There are three different log levels:</p>\n<ul>\n<li><code>INFO</code></li>\n<li><code>WARNING</code></li>\n<li><code>ERROR</code></li>\n</ul>\n<p>You have three tasks, each of which will take a log line and ask you to do something with it.</p>\n<h3>1. Get message from a log line</h3>\n<p>Implement the <code>LogLineParser.message</code> method to return a log line's message:</p>\n<pre><code class=\"language-ruby\">LogLineParser.message('[ERROR]: Invalid operation')\n// Returns: \"Invalid operation\"\n</code></pre>\n<p>Any leading or trailing white space should be removed:</p>\n<pre><code class=\"language-ruby\">LogLineParser.message('[WARNING]:  Disk almost full\\r\\n')\n// Returns: \"Disk almost full\"\n</code></pre>\n<h3>2. Get log level from a log line</h3>\n<p>Implement the <code>LogLineParser.log_level</code> method to return a log line's log level, which should be returned in lowercase:</p>\n<pre><code class=\"language-ruby\">LogLineParser.log_level('[ERROR]: Invalid operation')\n// Returns: \"error\"\n</code></pre>\n<h3>3. Reformat a log line</h3>\n<p>Implement the <code>LogLineParser.reformat</code> method that reformats the log line, putting the message first and the log level after it in parentheses:</p>\n<pre><code class=\"language-ruby\">LogLineParser.reformat('[INFO]: Operation completed')\n// Returns: \"Operation completed (info)\"\n</code></pre>\n", # rubocop:disable Layout/LineLength
+        tests: "# frozen_string_literal: true\n\nrequire 'minitest/autorun'\nrequire_relative 'log_line_parser'\n\nclass LogLineParserTest < Minitest::Test\n  def test_error_message\n    assert_equal 'Stack overflow', LogLineParser.message('[ERROR]: Stack overflow')\n  end\n\n  def test_warning_message\n    assert_equal 'Disk almost full', LogLineParser.message('[WARNING]: Disk almost full')\n  end\n\n  def test_info_message\n    assert_equal 'File moved', LogLineParser.message('[INFO]: File moved')\n  end\n\n  def test_message_with_leading_and_trailing_space\n    assert_equal 'Timezone not set', LogLineParser.message(\"[WARNING]:   \\tTimezone not set  \\r\\n\")\n  end\n\n  def test_error_log_level\n    assert_equal 'error', LogLineParser.log_level('[ERROR]: Disk full')\n  end\n\n  def test_warning_log_level\n    assert_equal 'warning', LogLineParser.log_level('[WARNING]: Unsafe password')\n  end\n\n  def test_info_log_level\n    assert_equal 'info', LogLineParser.log_level('[INFO]: Timezone changed')\n  end\n\n  def test_erro_reformat\n    assert_equal 'Segmentation fault (error)', LogLineParser.reformat('[ERROR]: Segmentation fault')\n  end\n\n  def test_warning_reformat\n    assert_equal 'Decreased performance (warning)', LogLineParser.reformat('[WARNING]: Decreased performance')\n  end\n\n  def test_info_reformat\n    assert_equal 'Disk defragmented (info)', LogLineParser.reformat('[INFO]: Disk defragmented')\n  end\n\n  def rest_reformat_with_leading_and_trailing_space\n    assert_equal 'Corrupt disk (error)', LogLineParser.reformat(\"[ERROR]: \\t Corrupt disk\\t \\t \\r\\n\")\n  end\n\n  def test_new_test_for_diffs\n    assert_equal 'Corrupt disk (error)', LogLineParser.reformat(\"[ERROR]: \\t Corrupt disk\\t \\t \\r\\n\")\n  end\nend\n", # rubocop:disable Layout/LineLength
+        links: {
+          self: '/mentoring/automation/271/edit',
+          update: '/api/v2/mentoring/representations/271'
+        }
       }
     }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -91,8 +101,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     author = create :user
     setup_user(user)
 
-    representation = create :exercise_representation, feedback_author: author, feedback_editor: nil,
-      last_submitted_at: Time.utc(2012, 6, 20)
+    representation = create :exercise_representation, feedback_author: author, feedback_markdown: 'Try _this_',
+      feedback_type: :essential, feedback_editor: nil, last_submitted_at: Time.utc(2012, 6, 20)
 
     patch api_mentoring_representation_path(representation.uuid),
       params: {
@@ -246,7 +256,6 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_response :ok
 
     expected = [
-      { slug: nil, title: 'All Tracks', icon_url: "ICON", num_submissions: 3 },
       { slug: go.slug, title: go.title, icon_url: go.icon_url, num_submissions: 1 },
       { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
     ]
@@ -295,7 +304,6 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_response :ok
 
     expected = [
-      { slug: nil, title: 'All Tracks', icon_url: "ICON", num_submissions: 3 },
       { slug: go.slug, title: go.title, icon_url: go.icon_url, num_submissions: 1 },
       { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
     ]

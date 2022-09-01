@@ -99,6 +99,7 @@ Rails.application.routes.draw do
     resources :automation, only: %i[index edit] do
       collection do
         get :with_feedback
+        get :tooltip_locked
       end
     end
   end

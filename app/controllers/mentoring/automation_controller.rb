@@ -1,5 +1,5 @@
 class Mentoring::AutomationController < ApplicationController
-  before_action :ensure_supermentor!
+  before_action :ensure_supermentor!, except: :tooltip_locked
 
   def index
     @automation_params = params.permit(:order, :criteria, :page, :track_slug, :only_mentored_solutions)
@@ -13,5 +13,14 @@ class Mentoring::AutomationController < ApplicationController
     @representation = Exercise::Representation.find(params[:id])
     @examples = Exercise::Representation::FindExampleSubmissions.(@representation)
     @with_feedback = params[:with_feedback]
+  end
+
+  def tooltip_locked
+    @finished_mentoring_sessions = @current_user.mentor_discussions.finished.count
+    @satisfaction_percentage = @current_user.mentor_satisfaction_percentage.to_i
+    @min_finished_mentoring_sessions = Mentor::Supermentor::MIN_FINISHED_MENTORING_SESSIONS
+    @min_satisfaction_percentage = Mentor::Supermentor::MIN_SATISFACTION_PERCENTAGE
+
+    render_template_as_json
   end
 end

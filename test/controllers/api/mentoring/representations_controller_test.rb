@@ -198,7 +198,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     setup_user(user)
 
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: 25 - idx, feedback_type: :actionable, feedback_author: user
+      create :exercise_representation, num_submissions: 25 - idx, feedback_type: :actionable, feedback_author: user,
+        last_submitted_at: Time.utc(2022, 3, 15) - idx.days
     end
 
     get with_feedback_api_mentoring_representations_path, headers: @headers, as: :json

@@ -29,12 +29,16 @@ class Exercise::Representation::UpdateNumSubmissionsTest < ActiveSupport::TestCa
     exercise = create :practice_exercise
     submission = create :submission, solution: (create :practice_solution, exercise: exercise)
     representation = create :exercise_representation, ast_digest: 'foo', exercise: exercise, source_submission: submission
+    
+    # Sanity check
+    assert_equal 1, representation.num_submissions
+
     create :submission_representation, ast_digest: representation.ast_digest, submission: submission
     create :submission_representation, ast_digest: representation.ast_digest, submission: submission
     create :submission_representation, ast_digest: representation.ast_digest, submission: submission
 
     # Sanity check
-    assert_equal 0, representation.num_submissions
+    assert_equal 1, representation.num_submissions
 
     Exercise::Representation::UpdateNumSubmissions.(representation)
 

@@ -1,6 +1,6 @@
 class AddUuidToExerciseRepresentations < ActiveRecord::Migration[7.0]
   def change
-    add_column :exercise_representations, :uuid, :string, null: true, index: { unique: true }
+    add_column :exercise_representations, :uuid, :string, null: true, index: { unique: true }, if_not_exists: true
 
     # TODO: consider if we can run this in production
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do

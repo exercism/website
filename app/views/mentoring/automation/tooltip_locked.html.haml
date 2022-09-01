@@ -1,19 +1,21 @@
-.heading
-  %h4 What is automation?
+.heading.c-generic-tooltip.text-14.w-413
+  %h4.font-semibold.mx-24.mt-20.mb-4 What is automation?
 
-  %p
+  -# %p.mx-24
+    = ReactComponent::
     Requires a satisfaction percentage of
     %strong= @min_satisfaction_percentage.to_s
     (current: #{@satisfaction_percentage})
 
-  %p
+  -# %p.mx-24
     Requires
     %strong= @min_finished_mentoring_sessions.to_s
     finished mentoring sessions
     (current: #{@finished_mentoring_sessions})
 
-  %p
+  %p.mx-24.mb-4
     Automation allows you to submit standardised responses to code submissions that get shared as part of automated feedback on solutions.
 
   = link_to doc_path(:using, "feedback/automated"), class: 'external-link' do
-    Find out more on Automation
+    .mx-24.mb-20.font-semibold.text-lightGold.text-14 Find out more on Automation
+

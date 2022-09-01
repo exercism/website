@@ -39,9 +39,7 @@ export function PreviewAutomationModal({
         },
       }),
     })
-    return fetch.then((res) => {
-      console.log(res)
-    })
+    return fetch
   }
 
   const [submitFeedback] = useMutation(SubmitFeedback, {

@@ -9,8 +9,6 @@ export function Representation({
 }: {
   data: CompleteRepresentationData
 }): JSX.Element {
-  console.log('data in representaiton:', data)
-
   return (
     <div className="c-mentor-discussion">
       <SplitPane

@@ -33,7 +33,7 @@ export function SubmittedAutomationModal({
         <a href={goBackLink}>
           <PrimaryButton
             className="!w-[100%] py-[16px] px-[24px] mb-16"
-            onClick={() => console.log('clicked')}
+            onClick={() => null}
           >
             <div className="flex flex-row justify-center text-18">
               Continue to solutions requiring feedback{' '}

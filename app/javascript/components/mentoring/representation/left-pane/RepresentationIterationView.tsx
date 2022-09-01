@@ -11,8 +11,6 @@ export const IterationView = ({
 }: {
   representationData: RepresentationData
 }): JSX.Element => {
-  console.log('in iteration header:', representationData)
-
   return (
     <React.Fragment>
       <SimpleIterationHeader

@@ -9,7 +9,6 @@ export type PanesProps = {
 } & Pick<CompleteRepresentationData, 'links'>
 
 export function LeftPane({ data, links }: PanesProps): JSX.Element {
-  console.log(data)
   return (
     <>
       <header className="discussion-header">

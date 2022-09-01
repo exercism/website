@@ -38,9 +38,10 @@ class Exercise::Representation::Search
   def filter_criteria!
     return if criteria.blank?
 
+    # Pluck is a 4 OOM faster than the inner query here.
     exercise_ids = Exercise.where('title LIKE ?', "%#{criteria}%").
       or(Exercise.where('slug LIKE ?', "%#{criteria}%")).
-      select(:id)
+      pluck(:id)
 
     @representations = @representations.where(exercise_id: exercise_ids)
   end

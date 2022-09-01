@@ -34,7 +34,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
     representation = create :exercise_representation
 
-    patch api_mentoring_representation_path(representation), headers: @headers, as: :json
+    patch api_mentoring_representation_path(representation.uuid), headers: @headers, as: :json
 
     assert_response :forbidden
     expected = {
@@ -53,7 +53,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
     representation = create :exercise_representation, id: 271, last_submitted_at: Time.utc(2012, 6, 20)
 
-    patch api_mentoring_representation_path(representation),
+    patch api_mentoring_representation_path(representation.uuid),
       params: {
         representation: {
           feedback_markdown: "_great_ work",
@@ -104,7 +104,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     representation = create :exercise_representation, feedback_author: author, feedback_markdown: 'Try _this_',
       feedback_type: :essential, feedback_editor: nil, last_submitted_at: Time.utc(2012, 6, 20)
 
-    patch api_mentoring_representation_path(representation),
+    patch api_mentoring_representation_path(representation.uuid),
       params: {
         representation: {
           feedback_markdown: "_great_ work",
@@ -127,7 +127,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     representation = create :exercise_representation, feedback_author: nil, feedback_editor: nil,
       last_submitted_at: Time.utc(2012, 6, 20)
 
-    patch api_mentoring_representation_path(representation),
+    patch api_mentoring_representation_path(representation.uuid),
       params: {
         representation: {
           feedback_markdown: "_great_ work",

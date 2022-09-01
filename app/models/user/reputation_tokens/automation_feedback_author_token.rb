@@ -11,5 +11,5 @@ class User::ReputationTokens::AutomationFeedbackAuthorToken < User::ReputationTo
 
   def i18n_params =  { exercise_title: representation.exercise.title }
   def guard_params = "Representation##{representation.id}"
-  def internal_url = Exercism::Routes.edit_mentoring_automation_path(representation)
+  def internal_url = Exercism::Routes.edit_mentoring_automation_path(representation.uuid)
 end

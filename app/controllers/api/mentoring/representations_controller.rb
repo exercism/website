@@ -30,7 +30,7 @@ module API
 
     private
     def use_representation
-      @representation = Exercise::Representation.find(params[:id])
+      @representation = Exercise::Representation.find!(uuid: params[:uuid])
     rescue ActiveRecord::RecordNotFound
       render_404(:representation_not_found)
     end

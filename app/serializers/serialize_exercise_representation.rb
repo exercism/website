@@ -24,8 +24,8 @@ class SerializeExerciseRepresentation
       instructions: Markdown::Parse.(representation.solution.instructions),
       tests: representation.solution.tests,
       links: {
-        self: Exercism::Routes.edit_mentoring_automation_path(representation),
-        update: Exercism::Routes.api_mentoring_representation_path(representation)
+        self: Exercism::Routes.edit_mentoring_automation_path(representation.uuid),
+        update: Exercism::Routes.api_mentoring_representation_path(representation.uuid)
       }
     }
   end

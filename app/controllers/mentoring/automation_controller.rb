@@ -10,7 +10,7 @@ class Mentoring::AutomationController < ApplicationController
   end
 
   def edit
-    @representation = Exercise::Representation.find(params[:id])
+    @representation = Exercise::Representation.find_by(uuid: params[:uuid])
     @examples = Exercise::Representation::FindExampleSubmissions.(@representation)
   end
 

@@ -33,3 +33,9 @@ en:
     arbitrary:
       1: >
         %{reason}
+    automation_feedback_author:
+      1: >
+        You wrote automation feedback for <strong>%{exercise_title}</strong>
+    automation_feedback_editor:
+      1: >
+        You edited automation feedback for <strong>%{exercise_title}</strong>

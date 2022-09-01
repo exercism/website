@@ -145,4 +145,14 @@ FactoryBot.define do
       }
     end
   end
+
+  factory :user_automation_feedback_author_reputation_token, class: 'User::ReputationTokens::AutomationFeedbackAuthorToken' do
+    user
+
+    params do
+      {
+        representation: create(:exercise_representation, :with_feedback, feedback_author: user)
+      }
+    end
+  end
 end

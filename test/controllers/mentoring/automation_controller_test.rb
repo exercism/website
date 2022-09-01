@@ -50,7 +50,7 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     assert_raises ActiveRecord::RecordNotFound do
-      get edit_mentoring_automation_path(-1)
+      get edit_mentoring_automation_path('XXX')
     end
   end
 

@@ -26,6 +26,6 @@ class Submission::Representation::CreateTest < ActiveSupport::TestCase
     representation = Submission::Representation::Create.(submission, job, "the_digest")
     perform_enqueued_jobs
 
-    assert_equal mentor, representation.reload.mentor
+    assert_equal mentor, representation.reload.mentored_by
   end
 end

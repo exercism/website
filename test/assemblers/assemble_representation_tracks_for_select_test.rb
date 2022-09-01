@@ -56,7 +56,7 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     create :exercise_representation, exercise: exercise, feedback_type: nil
     create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1
     create :exercise_representation, exercise: exercise, feedback_type: nil
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_editor: user_1
+    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1
     create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_2
 
     expected = [

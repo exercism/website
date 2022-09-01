@@ -4,6 +4,7 @@ FactoryBot.define do
     track { exercise.track }
     source_submission { create :submission }
     mapping { { foo: 'bar' } }
+    uuid { SecureRandom.uuid }
     ast { SecureRandom.uuid }
     ast_digest { SecureRandom.uuid }
 

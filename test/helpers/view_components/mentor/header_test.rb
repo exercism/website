@@ -24,14 +24,14 @@ class ViewComponents::Mentor::HeaderTest < ActionView::TestCase
     sign_in! user
 
     html = render(ViewComponents::Mentor::Header.new(:automation))
-    assert_includes html, "/mentoring/automation"
+    assert_includes html, 'href="/mentoring/automation"'
   end
 
   test "automation tab is locked if user not a supermentor" do
-    user = create :user, reputation: 0
+    user = create :user, roles: []
     sign_in! user
 
     html = render(ViewComponents::Mentor::Header.new(:workspace))
-    refute_includes html, "/mentoring/automation"
+    refute_includes html, 'href="/mentoring/automation"'
   end
 end

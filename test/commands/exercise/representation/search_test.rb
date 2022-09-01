@@ -27,9 +27,9 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
 
   test "filter: with_feedback" do
     mentor = create :user
-    representation_1 = create :exercise_representation, feedback_author: nil, feedback_type: nil
-    representation_2 = create :exercise_representation, feedback_author: mentor, feedback_type: :actionable
-    representation_3 = create :exercise_representation, feedback_editor: mentor, feedback_type: :essential
+    representation_1 = create :exercise_representation, feedback_author: nil, feedback_type: nil, num_submissions: 3
+    representation_2 = create :exercise_representation, feedback_author: mentor, feedback_type: :actionable, num_submissions: 2
+    representation_3 = create :exercise_representation, feedback_author: mentor, feedback_type: :essential, num_submissions: 1
 
     assert_equal [representation_1], Exercise::Representation::Search.(with_feedback: false, mentor:)
     assert_equal [representation_2, representation_3], Exercise::Representation::Search.(with_feedback: true, mentor:)
@@ -68,13 +68,12 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     mentor_2 = create :user
     mentor_3 = create :user
     representation_1 = create :exercise_representation, feedback_type: :actionable, feedback_author: mentor_1, num_submissions: 3
-    representation_2 = create :exercise_representation, feedback_type: :actionable, feedback_author: mentor_2,
-      feedback_editor: mentor_1, num_submissions: 2
-    representation_3 = create :exercise_representation, feedback_type: :actionable, feedback_editor: mentor_3, num_submissions: 1
+    representation_2 = create :exercise_representation, feedback_type: :actionable, feedback_author: mentor_1, num_submissions: 2
+    representation_3 = create :exercise_representation, feedback_type: :actionable, feedback_author: mentor_2, num_submissions: 1
 
     assert_equal [representation_1, representation_2], Exercise::Representation::Search.(mentor: mentor_1, with_feedback: true)
-    assert_equal [representation_2], Exercise::Representation::Search.(mentor: mentor_2, with_feedback: true)
-    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_3, with_feedback: true)
+    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_2, with_feedback: true)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, with_feedback: true)
   end
 
   test "filter: track" do
@@ -97,11 +96,11 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     mentor_1 = create :user
     mentor_2 = create :user
     mentor_3 = create :user
-    representation_1 = create :exercise_representation, feedback_editor: mentor_1, feedback_type: :actionable, num_submissions: 3,
+    representation_1 = create :exercise_representation, feedback_author: mentor_1, feedback_type: :actionable, num_submissions: 3,
       ast_digest: 'digest_1'
-    representation_2 = create :exercise_representation, feedback_editor: mentor_2, feedback_type: :actionable, num_submissions: 2,
+    representation_2 = create :exercise_representation, feedback_author: mentor_2, feedback_type: :actionable, num_submissions: 2,
       ast_digest: 'digest_2'
-    representation_3 = create :exercise_representation, feedback_editor: mentor_1, feedback_type: :actionable, num_submissions: 1,
+    representation_3 = create :exercise_representation, feedback_author: mentor_1, feedback_type: :actionable, num_submissions: 1,
       ast_digest: 'digest_3'
     create :submission_representation, ast_digest: representation_1.ast_digest, mentored_by: mentor_1
     create :submission_representation, ast_digest: representation_2.ast_digest

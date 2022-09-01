@@ -32,6 +32,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
 
     Exercise::Representation::Search.expects(:call).with(
       with_feedback: false,
+      mentor:,
       track:,
       page:,
       order:,

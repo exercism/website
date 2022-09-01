@@ -28,7 +28,7 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
         feedback_html: "<p>Yay</p>\n",
         last_submitted_at: current_time - 5.days,
         links: {
-          edit: '/mentoring/automation/3/edit'
+          edit: "/mentoring/automation/#{representation_1.uuid}/edit"
         }
       },
       {
@@ -46,7 +46,7 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
         feedback_html: "<p>Jip</p>\n",
         last_submitted_at: current_time - 2.days,
         links: {
-          edit: '/mentoring/automation/7/edit'
+          edit: "/mentoring/automation/#{representation_2.uuid}/edit"
         }
       }
     ]

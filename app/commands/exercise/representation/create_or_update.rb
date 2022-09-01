@@ -6,7 +6,7 @@ class Exercise
       initialize_with :submission, :ast, :ast_digest, :mapping, :last_submitted_at
 
       def call
-        representation = Exercise::Representation.create_or_find_by!(exercise:, ast_digest:) do |rep|
+        representation = Exercise::Representation.find_create_or_find_by!(exercise:, ast_digest:) do |rep|
           rep.source_submission = submission
           rep.ast = ast
           rep.mapping = mapping

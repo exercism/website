@@ -4,8 +4,8 @@ class Exercise::Representation::FindExampleSubmissions
   initialize_with :representation
 
   def call
-    example_submissions = [representation.source_submission]
-    example_submission_hashes = Set.new([solution_files_hash(representation.source_submission)])
+    source_submission_hash = solution_files_hash(representation.source_submission)
+    example_submissions = { source_submission_hash => representation.source_submission }
     page = 1
 
     loop do
@@ -17,17 +17,16 @@ class Exercise::Representation::FindExampleSubmissions
         per(NUM_EXAMPLES)
 
       submissions.each do |submission|
-        return example_submissions if example_submissions.size == NUM_EXAMPLES
+        return example_submissions.values if example_submissions.size == NUM_EXAMPLES
 
         hash = solution_files_hash(submission)
-        next if example_submission_hashes.include?(hash)
+        next if example_submissions.key?(hash)
 
-        example_submissions << submission
-        example_submission_hashes << hash
+        example_submissions[hash] = submission
       end
 
-      break example_submissions if submissions.last_page?
-      break example_submissions if page == MAX_PAGES_FETCHED
+      break example_submissions.values if submissions.last_page?
+      break example_submissions.values if page == MAX_PAGES_FETCHED
 
       page += 1
     end

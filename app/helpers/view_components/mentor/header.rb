@@ -101,8 +101,8 @@ module ViewComponents
           class: tab_class(:automation)
         ) do
           graphical_icon(:automation) +
-            tag.span("Automation") +
-            tag.span(number_with_delimiter(num_representations_without_feedback), class: 'count')
+            tag.span("Automation") #+
+          # tag.span(number_with_delimiter(num_representations_without_feedback), class: 'count')
         end
       end
 

@@ -39,7 +39,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_response :forbidden
     expected = {
       error: {
-        type: "no_supermentor",
+        type: "not_supermentor",
         message: "You do not have supermentor permissions"
       }
     }
@@ -170,7 +170,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal(
       {
         "error" => {
-          "type" => "no_supermentor",
+          "type" => "not_supermentor",
           "message" => "You do not have supermentor permissions"
         }
       },
@@ -213,7 +213,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal(
       {
         "error" => {
-          "type" => "no_supermentor",
+          "type" => "not_supermentor",
           "message" => "You do not have supermentor permissions"
         }
       },
@@ -262,7 +262,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal(
       {
         "error" => {
-          "type" => "no_supermentor",
+          "type" => "not_supermentor",
           "message" => "You do not have supermentor permissions"
         }
       },
@@ -311,7 +311,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal(
       {
         "error" => {
-          "type" => "no_supermentor",
+          "type" => "not_supermentor",
           "message" => "You do not have supermentor permissions"
         }
       },

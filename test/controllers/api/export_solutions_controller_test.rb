@@ -71,7 +71,7 @@ module API
       assert_equal(
         {
           "error" => {
-            "type" => "no_maintainer",
+            "type" => "not_maintainer",
             "message" => "You do not have maintainer permissions"
           }
         },

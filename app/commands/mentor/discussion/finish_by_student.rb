@@ -92,7 +92,7 @@ module Mentor
       end
 
       def update_roles!
-        Mentor::UpdateRoles.defer(discussion.mentor)
+        User::UpdateMentorRoles.defer(discussion.mentor)
       end
 
       def log_metric!

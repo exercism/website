@@ -11,7 +11,7 @@ module Mentor
         User.where(id: mentor.id).update_all("mentor_satisfaction_percentage = #{mentor_satisfaction_percentage_sql}")
       end
 
-      Mentor::UpdateRoles.(mentor.reload)
+      User::UpdateMentorRoles.(mentor.reload)
     end
 
     private

@@ -111,7 +111,7 @@ function NoResultsYet() {
   return (
     <TableFallbackComponent
       icon="automation"
-      svgFilter="textColor6-filter"
+      svgFilter="filter-textColor6"
       title="There are currently no solutions that need feedback."
       description="Check back here later for more!"
     />

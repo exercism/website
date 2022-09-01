@@ -58,7 +58,7 @@ export const AutomationListElement = ({
       <time className="whitespace-nowrap">{ELEMENT_LABELS['dateElement']}</time>
       <GraphicalIcon
         icon="chevron-right"
-        className="action-icon textColor6-filter"
+        className="action-icon filter-textColor6"
       />
     </a>
   )

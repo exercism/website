@@ -240,20 +240,6 @@
     @apply text-textColor5 bg-backgroundColorB;
 }
 
-@layer base {
-    .alert-filter {
-        filter: var(--filter-D85050);
-    }
-
-    .textColor6-filter {
-        filter: var(--textColor6-filter);
-    }
-
-    .white-filter {
-        filter: var(--white-filter);
-    }
-}
-
 .theme-dark {
     --backgroundColorA: var(--c-282339);
     --backgroundColorA-RGB: 40, 35, 57;

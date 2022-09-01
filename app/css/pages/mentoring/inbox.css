@@ -49,7 +49,7 @@
                     }
                 }
                 & .action-icon {
-                    @apply textColor6-filter;
+                    @apply filter-textColor6;
                 }
             }
 

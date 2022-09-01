@@ -27,7 +27,7 @@ export default function RadioButton({
         >
           <div>
             <Icon
-              className="w-[15px] h-[15px] textColor6-filter"
+              className="w-[15px] h-[15px] filter-textColor6"
               icon="info-circle"
               alt="Info"
             />

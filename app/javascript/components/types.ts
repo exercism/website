@@ -445,7 +445,7 @@ export type Representation = {
   lastSubmittedAt: string
   appearsFrequently: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  links: any
+  links: { edit: string }
 }
 
 export type RepresentationData = Representation & {

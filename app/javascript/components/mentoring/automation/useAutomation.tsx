@@ -99,7 +99,9 @@ export function useAutomation(
   // TODO: refactor this and probably all query with the debounce hook
   useEffect(() => {
     const handler = setTimeout(() => {
-      setRequestCriteria(criteria)
+      if (criteria.length > 2 || criteria === '') {
+        setRequestCriteria(criteria)
+      }
     }, 300)
 
     return () => {

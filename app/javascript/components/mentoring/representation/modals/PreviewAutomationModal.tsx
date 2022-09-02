@@ -5,7 +5,7 @@ import { IterationView } from '../left-pane/RepresentationIterationView'
 import { PreviewFeedbackComment } from './PreviewFeedbackComment'
 import { PreviewFooter } from './PreviewFooter'
 import { AutomationModalProps } from './SubmittedAutomationModal'
-import { CompleteRepresentationData } from '../../../types'
+import { CompleteRepresentationData, RepresentationFeedbackType } from '../../../types'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 
@@ -13,7 +13,7 @@ type PreviewAutomationModalProps = AutomationModalProps & {
   data: CompleteRepresentationData
   html: string
   markdown: string
-  feedbackType: string
+  feedbackType: RepresentationFeedbackType
   onSuccessfulSubmit: () => void
 }
 
@@ -69,7 +69,13 @@ export function PreviewAutomationModal({
             }}
           />
         }
-        right={<PreviewFeedbackComment mentor={data.mentor} html={html} />}
+        right={
+          <PreviewFeedbackComment
+            feedbackType={feedbackType}
+            mentor={data.mentor}
+            html={html}
+          />
+        }
       />
       <PreviewFooter
         onSubmit={handleSubmit}

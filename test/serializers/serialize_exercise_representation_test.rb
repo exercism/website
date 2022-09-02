@@ -50,7 +50,8 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
     last_submitted_at = Time.zone.now - 2.days
     track = create :track, title: 'Ruby'
     exercise = create :practice_exercise, title: 'Bob', track: track
-    representation = create :exercise_representation, id: 3, exercise: exercise, num_submissions: 5, last_submitted_at: last_submitted_at
+    representation = create :exercise_representation, id: 3, exercise: exercise, num_submissions: 5,
+      last_submitted_at: last_submitted_at
     create :submission_file, submission: representation.source_submission, filename: "impl.rb", content: "Impl // Foo",
       digest: "fd4aee90ec004b1dab8a7baccd67b12e"
     create :submission_representation, submission: representation.source_submission, ast_digest: representation.ast_digest

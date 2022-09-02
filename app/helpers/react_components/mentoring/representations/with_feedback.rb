@@ -43,7 +43,8 @@ module ReactComponents
         def representations = AssembleExerciseRepresentationsWithFeedback.(mentor, representations_request_params)
 
         def representations_without_feedback_count
-          Exercise::Representation::Search.(mentor:, with_feedback: false, sorted: false, paginated: false).count
+          0 # TODO: fix performance
+          # Exercise::Representation::Search.(mentor:, with_feedback: false, sorted: false, paginated: false).count
         end
 
         def tracks_request

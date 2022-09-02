@@ -16,7 +16,9 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
       meta: {
-        unscoped_total: 25
+        # TODO: fix performance
+        unscoped_total: 0
+        # unscoped_total: 25
       }
     )
 

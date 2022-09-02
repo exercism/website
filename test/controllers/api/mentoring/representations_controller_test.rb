@@ -168,7 +168,9 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
       meta: {
-        unscoped_total: 25
+        # TODO: enable when performance is fixed
+        unscoped_total: 0
+        # unscoped_total: 25
       }
     )
 

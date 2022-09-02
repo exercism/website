@@ -27,6 +27,7 @@ class Track < ApplicationRecord
   delegate :head_sha, to: :git, prefix: :git
   delegate :representations, to: :git, prefix: :mentoring
   delegate :debugging_instructions, :representer_normalizations, to: :git
+  delegate :content, to: :mentoring_notes, prefix: :mentoring_notes
 
   def self.for!(param)
     return param if param.is_a?(Track)

@@ -63,7 +63,7 @@ module ReactComponents
         def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: false)
 
         memoize
-        def track_slug = tracks.first.try(:slug)
+        def track_slug = tracks.first&.dig(:slug)
 
         def links
           {

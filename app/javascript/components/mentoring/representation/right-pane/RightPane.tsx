@@ -12,12 +12,15 @@ export function RightPane({
 }: {
   data: CompleteRepresentationData
 }): JSX.Element {
-  const [feedbackType, setFeedbackType] =
-    useState<RepresentationFeedbackType>('essential')
+  const [feedbackType, setFeedbackType] = useState<RepresentationFeedbackType>(
+    data.representation.feedbackType !== null
+      ? data.representation.feedbackType
+      : 'essential'
+  )
 
   return (
     <div className="!h-100 py-16 flex flex-col justify-between">
-      <div className="flex flex-col">
+      <div className="flex flex-col overflow-auto">
         <AutomationRules rules={data.rules} />
         <HowImportant
           feedbackType={feedbackType}

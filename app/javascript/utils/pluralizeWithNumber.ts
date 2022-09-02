@@ -5,5 +5,5 @@ export function pluralizeWithNumber(
   word: string,
   isUncountable = false
 ): string {
-  return `${number} ${pluralize(word, number, isUncountable)}`
+  return `${number.toLocaleString()} ${pluralize(word, number, isUncountable)}`
 }

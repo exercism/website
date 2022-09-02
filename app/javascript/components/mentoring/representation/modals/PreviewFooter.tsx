@@ -1,4 +1,5 @@
 import React, { SetStateAction } from 'react'
+import { pluralizeWithNumber } from '../../../../utils/pluralizeWithNumber'
 import { RepresentationData } from '../../../types'
 import { StatusTab } from '../../inbox/StatusTab'
 import { CancelButton } from '../common/CancelButton'
@@ -12,7 +13,7 @@ export function PreviewFooter({
   onClose,
   onSubmit,
 }: {
-  numOfSolutions: string | number
+  numOfSolutions: number
   examples: Pick<RepresentationData, 'files' | 'instructions' | 'tests'>[]
   selectedExample: number
   setSelectedExample: React.Dispatch<SetStateAction<number>>
@@ -47,7 +48,7 @@ export function PreviewFooter({
           <br />
           Your feedback will appear on{' '}
           <strong className="font-medium text-primaryBtnBorder">
-            {numOfSolutions} solutions
+            {pluralizeWithNumber(numOfSolutions, "solution")}
           </strong>
         </div>
         <CancelButton onClick={onClose} />

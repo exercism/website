@@ -14,11 +14,13 @@ class SerializeExerciseRepresentation
       },
       track: {
         icon_url: track.icon_url,
-        title: track.title
+        title: track.title,
+        highlightjs_language: track.highlightjs_language
       },
       num_submissions: representation.num_submissions,
       appears_frequently: representation.appears_frequently?,
       feedback_markdown: representation.feedback_markdown,
+      feedback_type: representation.feedback_type,
       last_submitted_at: representation.last_submitted_at,
       files: SerializeFiles.(representation.source_submission.files_for_editor),
       instructions: Markdown::Parse.(representation.solution.instructions),

@@ -22,7 +22,7 @@ export const IterationView = ({
       <ResultsZone isFetching={false}>
         <FilePanel
           files={representationData.files}
-          language={representationData.track.title.toLowerCase()}
+          language={representationData.track.highlightjsLanguage}
           indentSize={2}
           instructions={representationData.instructions}
           tests={representationData.tests}

@@ -438,9 +438,10 @@ export type MentoredTrack = {
 export type Representation = {
   id: number
   exercise: { title: string; iconUrl: string }
-  track: { title: string; iconUrl: string }
+  track: { title: string; iconUrl: string; highlightjsLanguage:string }
   numSubmissions: number
   feedbackHtml: string
+  feedbackType: RepresentationFeedbackType | null
   feedbackMarkdown: string | null
   lastSubmittedAt: string
   appearsFrequently: boolean

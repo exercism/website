@@ -85,9 +85,3 @@
         }
     }
 }
-.--most-popular {
-    @apply flex items-center justify-center;
-    @apply font-semibold text-12 leading-code;
-    @apply py-2 px-8 border-orange border-1 rounded-5 bg-lightOrange;
-    @apply ml-8 text-lightBrown whitespace-nowrap;
-}

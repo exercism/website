@@ -13,6 +13,16 @@ export default function AutomationRules({
           __html: `<div class="c-textual-content --base">${rules.globalHtml}</div>`,
         }}
       />
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<div class="c-textual-content --base">${rules.trackHtml}</div>`,
+        }}
+      />
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<div class="c-textual-content --base">${rules.exerciseHtml}</div>`,
+        }}
+      />
     </div>
   )
 }

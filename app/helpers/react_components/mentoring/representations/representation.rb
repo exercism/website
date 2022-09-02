@@ -10,7 +10,9 @@ module ReactComponents
             examples: examples_data,
             mentor: mentor_data,
             rules: {
-              global_html: Markdown::Parse.(I18n.t("mentoring.rules.global"))
+              global_html: Markdown::Parse.(I18n.t("mentoring.rules.global")),
+              track_html: Markdown::Parse.(track.representer_mentoring),
+              exercise_html: exercise.mentoring_notes.content
             },
             links: {
               success: Exercism::Routes.mentoring_automation_index_url,
@@ -38,6 +40,8 @@ module ReactComponents
             avatar_url: mentor.avatar_url
           }
         end
+
+        delegate :track, :exercise, to: :representation
       end
     end
   end

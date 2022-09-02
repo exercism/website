@@ -28,6 +28,7 @@ export function PreviewAutomationModal({
 }: PreviewAutomationModalProps): JSX.Element {
   const [selectedExample, setSelectedExample] = useState<number>(0)
 
+
   async function SubmitFeedback() {
     const { fetch } = sendRequest<{ html: string }>({
       endpoint: data.representation.links.update!,
@@ -76,7 +77,7 @@ export function PreviewAutomationModal({
         examples={data.examples}
         selectedExample={selectedExample}
         setSelectedExample={setSelectedExample}
-        numOfSolutions={2170}
+        numOfSolutions={data.representation.numSubmissions}
         onClose={onClose}
       />
     </Modal>

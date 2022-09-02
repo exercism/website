@@ -10,7 +10,8 @@ class AssembleExerciseRepresentationsWithoutFeedback
       representations,
       serializer: SerializeExerciseRepresentations,
       meta: {
-        unscoped_total: Exercise::Representation.without_feedback.count
+        unscoped_total: 0 # TODO: fix performance
+        # unscoped_total: Exercise::Representation.without_feedback.count
       }
     )
   end

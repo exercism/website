@@ -84,9 +84,10 @@ export function Representations({
           >
             <a href={links.withoutFeedback}>Need feedback</a>
 
-            {resolvedData ? (
+            {/* TODO: re-enable once we've fixed performance */}
+            {/* {resolvedData ? (
               <div className="count">{feedbackCount['without_feedback']}</div>
-            ) : null}
+            ) : null} */}
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="with_feedback"

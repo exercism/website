@@ -12,9 +12,8 @@ export function RightPane({
 }: {
   data: CompleteRepresentationData
 }): JSX.Element {
-
   const [feedbackType, setFeedbackType] = useState<RepresentationFeedbackType>(
-    data.representation.feedbackType !== ''
+    data.representation.feedbackType !== null
       ? data.representation.feedbackType
       : 'essential'
   )

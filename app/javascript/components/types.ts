@@ -441,7 +441,7 @@ export type Representation = {
   track: { title: string; iconUrl: string }
   numSubmissions: number
   feedbackHtml: string
-  feedbackType:RepresentationFeedbackType|""
+  feedbackType: RepresentationFeedbackType | null
   feedbackMarkdown: string | null
   lastSubmittedAt: string
   appearsFrequently: boolean

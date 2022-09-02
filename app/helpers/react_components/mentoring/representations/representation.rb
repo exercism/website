@@ -9,14 +9,14 @@ module ReactComponents
             representation: SerializeExerciseRepresentation.(representation),
             examples: examples_data,
             mentor: mentor_data,
-            rules: {
-              global_html: Markdown::Parse.(I18n.t("mentoring.rules.global"))
+            guidance: {
+              representations_html: Markdown::Parse.(track.mentoring_representations).presence,
+              track_mentoring_notes_html: track.mentoring_notes_content.presence,
+              exercise_mentoring_notes_html: exercise.mentoring_notes_content.presence
             },
             links: {
-              success: Exercism::Routes.mentoring_automation_index_url,
-              back: representation.feedback_type.nil? ?
-                Exercism::Routes.mentoring_automation_index_path :
-                Exercism::Routes.with_feedback_mentoring_automation_index_path
+              success: Exercism::Routes.mentoring_automation_index_path,
+              back: back_link
             }
           })
         end
@@ -38,6 +38,14 @@ module ReactComponents
             avatar_url: mentor.avatar_url
           }
         end
+
+        def back_link
+          representation.feedback_type.nil? ?
+              Exercism::Routes.mentoring_automation_index_path :
+              Exercism::Routes.with_feedback_mentoring_automation_index_path
+        end
+
+        delegate :track, :exercise, to: :representation
       end
     end
   end

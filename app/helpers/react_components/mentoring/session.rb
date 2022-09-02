@@ -34,6 +34,7 @@ module ReactComponents
             mentor_solution:,
             exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
             notes: exercise.mentoring_notes_content,
+            track_notes: track.mentoring_notes_content,
             out_of_date: solution.out_of_date?,
             download_command: solution.mentor_download_cmd,
             scratchpad: {

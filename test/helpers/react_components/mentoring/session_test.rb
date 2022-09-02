@@ -43,6 +43,7 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         mentor_solution: nil,
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
         notes: "<p>These are notes for lasagna.</p>\n",
+        track_notes: "<p>Use Ruby wisely</p>\n",
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
         scratchpad: {
@@ -115,6 +116,7 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
           }
         ],
         notes: "<p>These are notes for lasagna.</p>\n",
+        track_notes: "<p>Use Ruby wisely</p>\n",
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
         scratchpad: {
@@ -179,6 +181,7 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         mentor_solution: nil,
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
         notes: "<p>These are notes for lasagna.</p>\n",
+        track_notes: "<p>Use Ruby wisely</p>\n",
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
         scratchpad: {

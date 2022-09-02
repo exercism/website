@@ -12,9 +12,9 @@ module Git
       assert_equal expected, actual
     end
 
-    test "mentor_notes_for" do
+    test "mentor_notes_for_exercise" do
       expected = "Clock introduces students to the concept of value objects and modular arithmetic.\n\nNote: This exercise changes a lot depending on which version the person has solved.\n" # rubocop:disable Layout/LineLength
-      actual = Git::WebsiteCopy.new.mentor_notes_for('ruby', 'clock')
+      actual = Git::WebsiteCopy.new.mentor_notes_for_exercise('ruby', 'clock')
       assert_equal expected, actual
     end
   end

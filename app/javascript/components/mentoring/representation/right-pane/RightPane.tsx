@@ -21,7 +21,7 @@ export function RightPane({
   return (
     <div className="!h-100 py-16 flex flex-col justify-between">
       <div className="flex flex-col overflow-auto">
-        <AutomationRules rules={data.rules} />
+        <AutomationRules guidance={data.guidance} />
         <HowImportant
           feedbackType={feedbackType}
           setFeedbackType={setFeedbackType}

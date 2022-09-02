@@ -14,7 +14,8 @@ class SerializeExerciseRepresentation
       },
       track: {
         icon_url: track.icon_url,
-        title: track.title
+        title: track.title,
+        highlightjs_language: track.highlightjs_language
       },
       num_submissions: representation.num_submissions,
       appears_frequently: representation.appears_frequently?,

@@ -121,6 +121,26 @@ module Git
       assert_equal('config.json', track.config_absolute_filepath)
     end
 
+    test "representer_mentoring file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/representer/MENTORING.md', track.representer_mentoring_filepath)
+    end
+
+    test "representer_mentoring absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/representer/MENTORING.md', track.representer_mentoring_absolute_filepath)
+    end
+
+    test "representer_normalizations file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/representer/NORMALIZATIONS.md', track.representer_normalizations_filepath)
+    end
+
+    test "representer_normalizations absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/representer/NORMALIZATIONS.md', track.representer_normalizations_absolute_filepath)
+    end
+
     test "has_concept_exercises?" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert track.has_concept_exercises?

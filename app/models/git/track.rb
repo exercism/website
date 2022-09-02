@@ -7,6 +7,8 @@ module Git
 
     git_filepath :about, file: "docs/ABOUT.md"
     git_filepath :snippet, file: "docs/SNIPPET.txt"
+    git_filepath :representer_mentoring, file: "docs/representer/MENTORING.md"
+    git_filepath :representer_normalizations, file: "docs/representer/NORMALIZATIONS.md"
     git_filepath :debugging_instructions, file: "exercises/shared/.docs/debug.md"
     git_filepath :help, file: "exercises/shared/.docs/help.md"
     git_filepath :tests, file: "exercises/shared/.docs/tests.md"

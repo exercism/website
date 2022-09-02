@@ -20,7 +20,7 @@ export default function MentoringConversation({
   const [value, setValue] = useState(data.representation.feedbackMarkdown || '')
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
-  const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(!!data.representation.feedbackMarkdown || false)
   const [html, setHtml] = useState('<p>Loading..</p>')
 
   const handleChange = useCallback((value) => setValue(value), [setValue])

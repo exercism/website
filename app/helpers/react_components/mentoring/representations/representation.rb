@@ -10,7 +10,7 @@ module ReactComponents
             examples: examples_data,
             mentor: mentor_data,
             guidance: {
-              representations_html: Markdown::Parse.(track.representations),
+              representations_html: Markdown::Parse.(track.mentoring_representations),
               track_mentoring_notes_html: track.mentoring_notes.content,
               exercise_mentoring_notes_html: exercise.mentoring_notes.content
             },

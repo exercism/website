@@ -12,6 +12,22 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
   test "filter: criteria" do
     mentor = create :user
     exercise_1 = create :practice_exercise, slug: 'anagram', title: 'Annie'
+    exercise_2 = create :practice_exercise, slug: 'isogram', title: 'Isogram'
+    exercise_3 = create :practice_exercise, slug: 'leap', title: 'Frog'
+    representation_1 = create :exercise_representation, exercise: exercise_1, num_submissions: 3
+    representation_2 = create :exercise_representation, exercise: exercise_2, num_submissions: 2
+    representation_3 = create :exercise_representation, exercise: exercise_3, num_submissions: 1
+
+    assert_equal [representation_1, representation_2],
+      Exercise::Representation::Search.(criteria: 'gram', with_feedback: false, mentor:)
+    assert_equal [representation_1], Exercise::Representation::Search.(criteria: 'agram', with_feedback: false, mentor:)
+    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'leap', with_feedback: false, mentor:)
+    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'fro', with_feedback: false, mentor:)
+  end
+
+  test "filter: criteria does not filter if < 3 characters long (when trimmed)" do
+    mentor = create :user
+    exercise_1 = create :practice_exercise, slug: 'anagram', title: 'Annie'
     exercise_2 = create :practice_exercise, slug: 'another', title: 'Another'
     exercise_3 = create :practice_exercise, slug: 'leap', title: 'Frog'
     representation_1 = create :exercise_representation, exercise: exercise_1, num_submissions: 3
@@ -19,11 +35,16 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_3 = create :exercise_representation, exercise: exercise_3, num_submissions: 1
 
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(criteria: 'a', with_feedback: false, mentor:)
-
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(criteria: 'an', with_feedback: false, mentor:)
-    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'leap', with_feedback: false, mentor:)
-    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'frog', with_feedback: false, mentor:)
+      Exercise::Representation::Search.(criteria: nil, with_feedback: false, mentor:)
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(criteria: '', with_feedback: false, mentor:)
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(criteria: 'p', with_feedback: false, mentor:)
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(criteria: '  p  ', with_feedback: false, mentor:)
+    assert_equal [representation_1, representation_2, representation_3],
+      Exercise::Representation::Search.(criteria: 'an', with_feedback: false, mentor:)
+    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'lea', with_feedback: false, mentor:)
   end
 
   test "filter: criteria and track" do

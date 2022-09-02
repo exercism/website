@@ -73,10 +73,12 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
         },
         track: {
           icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg",
-          title: "Ruby"
+          title: "Ruby",
+          highlightjs_language: 'ruby'
         },
         num_submissions: 1,
         appears_frequently: false,
+        feedback_type: "actionable",
         feedback_markdown: "_great_ work",
         last_submitted_at: "2012-06-20T00:00:00.000Z",
         files:

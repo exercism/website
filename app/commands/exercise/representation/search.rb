@@ -32,16 +32,15 @@ class Exercise::Representation::Search
   def filter_track!
     return if track.blank?
 
-    # Don't filter on both track and exercise else it kills MySQL performance
-    return if criteria.present?
+    # If we're filtering on exercises, we'll apply the track filter on the exercises
+    # and not on the representations, as the latter kills MySQL performance
+    return if filter_exercises?
 
     @representations = @representations.for_track(track)
   end
 
   def filter_exercises!
-    # Check criteria here, not exercise_ids. If we check exercise_ids
-    # then we'll get everything back if no exercises match the criteria
-    return if criteria.blank?
+    return unless filter_exercises?
 
     @representations = @representations.where(exercise_id: exercise_ids)
   end
@@ -67,11 +66,19 @@ class Exercise::Representation::Search
 
   memoize
   def exercise_ids
-    return if criteria.blank?
-
     relation = Exercise.where('title LIKE ?', "%#{criteria}%").
       or(Exercise.where('slug LIKE ?', "%#{criteria}%"))
     relation = relation.where(track_id: track) if track
     relation.pluck(:id)
   end
+
+  memoize
+  def filter_exercises?
+    # Check criteria here, not exercise_ids. If we check exercise_ids
+    # then we'll get everything back if no exercises match the criteria
+    criteria.present? && criteria.strip.length >= MIN_CRITERIA_LENGTH
+  end
+
+  MIN_CRITERIA_LENGTH = 3
+  private_constant :MIN_CRITERIA_LENGTH
 end

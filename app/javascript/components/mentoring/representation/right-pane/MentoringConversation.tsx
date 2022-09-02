@@ -2,13 +2,13 @@ import React, { useCallback, useState } from 'react'
 import { PreviewAutomationModal } from '../modals/PreviewAutomationModal'
 import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
 import { PrimaryButton } from '../common/PrimaryButton'
-import { MarkdownEditor } from '../../../common/MarkdownEditor'
 import {
   CompleteRepresentationData,
   RepresentationFeedbackType,
 } from '../../../types'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
+import { RepresentationFeedbackEditor } from './RepresentationFeedbackEditor'
 
 export default function MentoringConversation({
   data,
@@ -20,9 +20,23 @@ export default function MentoringConversation({
   const [value, setValue] = useState(data.representation.feedbackMarkdown || '')
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
+  const [expanded, setExpanded] = useState(!!data.representation.feedbackMarkdown || false)
   const [html, setHtml] = useState('<p>Loading..</p>')
 
   const handleChange = useCallback((value) => setValue(value), [setValue])
+
+  const handleExpansion = useCallback((expanded) => {
+    if (!expanded) {
+      setExpanded(true)
+    }
+  }, [])
+
+  const handleCompression = useCallback((value) => {
+    if (!value) {
+      setExpanded(false)
+    }
+  }, [])
+
   const [generateHTML] = useMutation(async (markdown: string) => {
     const { fetch } = sendRequest<{ html: string }>({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -53,10 +67,15 @@ export default function MentoringConversation({
 
   return (
     <div className="px-24">
-      <div id="markdown-editor" className="c-markdown-editor --expanded">
-        <MarkdownEditor onChange={handleChange} value={value} />
-      </div>
-      <div className="mt-12 mb-20 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5">
+      <RepresentationFeedbackEditor
+        onChange={handleChange}
+        value={value}
+        expanded={expanded}
+        onFocus={() => handleExpansion(expanded)}
+        onBlur={() => handleCompression(value)}
+      />
+
+      <div className="mt-12 mb-20 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5 leading-150">
         We imported your last mentoring feedback to this solution above
       </div>
 

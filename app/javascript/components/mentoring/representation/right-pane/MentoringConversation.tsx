@@ -75,7 +75,7 @@ export default function MentoringConversation({
         onBlur={() => handleCompression(value)}
       />
 
-      <div className="mt-12 mb-20 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5">
+      <div className="mt-12 mb-20 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5 leading-150">
         We imported your last mentoring feedback to this solution above
       </div>
 

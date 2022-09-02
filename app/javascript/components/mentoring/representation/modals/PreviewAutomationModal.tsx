@@ -28,7 +28,6 @@ export function PreviewAutomationModal({
 }: PreviewAutomationModalProps): JSX.Element {
   const [selectedExample, setSelectedExample] = useState<number>(0)
 
-
   async function SubmitFeedback() {
     const { fetch } = sendRequest<{ html: string }>({
       endpoint: data.representation.links.update!,

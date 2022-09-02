@@ -1,7 +1,12 @@
-import React, { FocusEventHandler, MouseEventHandler, useCallback, useEffect, useState } from 'react'
+import React, {
+  FocusEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { MarkdownEditor } from '../../../common'
 import { MarkdownEditorHandle } from '../../../common/MarkdownEditor'
-
 
 export function RepresentationFeedbackEditor({
   onChange,
@@ -15,8 +20,8 @@ export function RepresentationFeedbackEditor({
   onBlur: FocusEventHandler<HTMLDivElement>
   value: string
   expanded: boolean
-}):JSX.Element {
-  const [editor, setEditor] = useState<MarkdownEditorHandle|null>(null)
+}): JSX.Element {
+  const [editor, setEditor] = useState<MarkdownEditorHandle | null>(null)
 
   const handleEditorDidMount = useCallback((editor) => {
     setEditor(editor)

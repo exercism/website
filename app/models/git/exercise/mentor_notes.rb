@@ -6,7 +6,7 @@ module Git
       initialize_with :track_slug, :exercise_slug
 
       def content
-        markdown = copy_repo.mentor_notes_for(track_slug, exercise_slug).strip
+        markdown = copy_repo.mentor_notes_for_exercise(track_slug, exercise_slug).strip
         Markdown::Parse.(markdown)
       end
 

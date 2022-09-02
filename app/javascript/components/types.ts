@@ -464,10 +464,10 @@ export type CompleteRepresentationData = {
   examples: Pick<RepresentationData, 'files' | 'instructions' | 'tests'>[]
   mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
   links: { back: string; success: string }
-  rules: { 
-    globalHtml: string
-    trackHtml?: string
-    exerciseHtml?: string
+  guidance: {
+    representationsHtml?: string
+    trackMentoringNotesHtml?: string
+    exerciseMentoringNotesHtml?: string
   }
 }
 

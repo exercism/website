@@ -9,13 +9,13 @@ module ReactComponents
             representation: SerializeExerciseRepresentation.(representation),
             examples: examples_data,
             mentor: mentor_data,
-            rules: {
-              global_html: Markdown::Parse.(I18n.t("mentoring.rules.global")),
-              track_html: Markdown::Parse.(track.representer_mentoring),
-              exercise_html: exercise.mentoring_notes.content
+            guidance: {     
+              representations_html: Markdown::Parse.(track.representations),
+              track_mentoring_notes_html: track.mentoring_notes.content,
+              exercise_mentoring_notes_html: exercise.mentoring_notes.content,
             },
             links: {
-              success: Exercism::Routes.mentoring_automation_index_url,
+              success: Exercism::Routes.mentoring_automation_index_path,
               back: representation.feedback_type.nil? ?
                 Exercism::Routes.mentoring_automation_index_path :
                 Exercism::Routes.with_feedback_mentoring_automation_index_path

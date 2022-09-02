@@ -25,7 +25,7 @@ class Track < ApplicationRecord
     to: :git
 
   delegate :head_sha, to: :git, prefix: :git
-  delegate :debugging_instructions, :representer_mentoring, to: :git
+  delegate :debugging_instructions, :representer_normalizations, :representations, to: :git
 
   def self.for!(param)
     return param if param.is_a?(Track)
@@ -106,6 +106,9 @@ class Track < ApplicationRecord
   def accessible_by?(user)
     active || user&.maintainer? || user&.admin?
   end
+
+  memoize
+  def mentoring_notes = Git::Track::MentorNotes.new(slug)
 
   CATGEORIES = {
     paradigm: "Paradigm",

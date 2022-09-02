@@ -128,7 +128,7 @@ export function Representations({
               className="mr-24"
               setFilter={setCriteria}
               filter={criteria}
-              placeholder="Filter by exercise"
+              placeholder="Filter by exercise (min 3 chars)"
             />
             <Sorter
               componentClassName="automation-sorter"

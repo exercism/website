@@ -1,27 +1,34 @@
-.heading.c-generic-tooltip.text-14.w-413
+.p.heading.c-generic-tooltip.text-14.some{style:'padding:24px;width:413px;'}
 
-  %p.mx-24
+  - mock_1 = 25
+  - mock_2 = 47
+  %p.text-16.text-white.font-semibold.leading-170.mb-12
     Requires a satisfaction percentage of
     %strong= @min_satisfaction_percentage.to_s
-    (current: #{@satisfaction_percentage})
+    -# current: #{mock_1}
+    -# current: #{@satisfaction_percentage}
 
-  .bg-veryLightBlue.flex.flex-row.rounded-8.mb-16.mx-24.some{style: 'height:16px;'}
-    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +(@finished_mentoring_sessions+25).to_s+'%'}
+  .bg-veryLightBlue.flex.flex-row.rounded-8.mb-6.some{style: 'height:16px;'}
+    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +mock_1.to_s+'%'}
+  .mb-16 #{mock_1}/100
 
-  %p.mx-24
+
+
+  %p.text-16.text-white.font-semibold.leading-170.mb-12
     Requires
     %strong= @min_finished_mentoring_sessions.to_s
     finished mentoring sessions
-    (current: #{@finished_mentoring_sessions})
+    -# current: #{@finished_mentoring_sessions}
     
-  .bg-veryLightBlue.flex.flex-row.rounded-8.mb-16.mx-24.some{style: 'height:16px;'}
-    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +(@finished_mentoring_sessions+25).to_s+'%'}
+  .bg-veryLightBlue.flex.flex-row.rounded-8.mb-6.some{style: 'height:16px;'}
+    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +mock_2.to_s+'%'}
+  .mb-16 #{mock_2}/100
 
-  %h4.font-semibold.mx-24.mt-20.mb-4 What is automation?
+  %h4.font-semibold.mt-20.mb-4 What is automation?
 
-  %p.mx-24.mb-4
+  %p.mb-4
     Automation allows you to submit standardised responses to code submissions that get shared as part of automated feedback on solutions.
 
   = link_to doc_path(:using, "feedback/automated"), class: 'external-link' do
-    .mx-24.mb-20.font-semibold.text-lightGold.text-14 Find out more on Automation
+    .mb-20.font-semibold.text-lightGold.text-14.leading-170 Find out more on Automation
 

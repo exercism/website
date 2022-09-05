@@ -1,17 +1,23 @@
 .heading.c-generic-tooltip.text-14.w-413
-  %h4.font-semibold.mx-24.mt-20.mb-4 What is automation?
 
-  -# %p.mx-24
-    = ReactComponent::
+  %p.mx-24
     Requires a satisfaction percentage of
     %strong= @min_satisfaction_percentage.to_s
     (current: #{@satisfaction_percentage})
 
-  -# %p.mx-24
+  .bg-veryLightBlue.flex.flex-row.rounded-8.mb-16.mx-24.some{style: 'height:16px;'}
+    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +(@finished_mentoring_sessions+25).to_s+'%'}
+
+  %p.mx-24
     Requires
     %strong= @min_finished_mentoring_sessions.to_s
     finished mentoring sessions
     (current: #{@finished_mentoring_sessions})
+    
+  .bg-veryLightBlue.flex.flex-row.rounded-8.mb-16.mx-24.some{style: 'height:16px;'}
+    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +(@finished_mentoring_sessions+25).to_s+'%'}
+
+  %h4.font-semibold.mx-24.mt-20.mb-4 What is automation?
 
   %p.mx-24.mb-4
     Automation allows you to submit standardised responses to code submissions that get shared as part of automated feedback on solutions.

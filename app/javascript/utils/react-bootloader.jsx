@@ -150,7 +150,17 @@ function renderTooltip(mappings, elem) {
   const tooltipElem = document.createElement('span')
   elem.insertAdjacentElement('afterend', tooltipElem)
 
-  render(tooltipElem, <ExercismTippy content={component} reference={elem} />)
+  render(
+    tooltipElem,
+    <ExercismTippy
+      interactive={
+        component?.props?.endpoint ===
+        '/mentoring/automation/tooltip_locked'
+      }
+      content={component}
+      reference={elem}
+    />
+  )
 }
 
 function renderTooltips(parentElement, mappings) {

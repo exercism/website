@@ -55,9 +55,9 @@
             - else
               = raw Markdown::Parse.(@concept.introduction)
 
-          .links
-            %h3 Learn More
-            - if @concept.links.present?
+          - if @concept.links.present?
+            .links
+              %h3 Learn More
               %ul
                 - @concept.links.each do |link|
                   %li

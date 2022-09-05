@@ -1,28 +1,13 @@
 .p.heading.c-generic-tooltip.text-14.some{style:'padding:24px;width:413px;'}
-
-  - mock_1 = 25
-  - mock_2 = 47
-  %p.text-16.text-white.font-semibold.leading-170.mb-12
-    Requires a satisfaction percentage of
-    %strong= @min_satisfaction_percentage.to_s
-    -# current: #{mock_1}
-    -# current: #{@satisfaction_percentage}
-
-  .bg-veryLightBlue.flex.flex-row.rounded-8.mb-6.some{style: 'height:16px;'}
-    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +mock_1.to_s+'%'}
-  .mb-16 #{mock_1}/100
-
-
-
   %p.text-16.text-white.font-semibold.leading-170.mb-12
     Requires
-    %strong= @min_finished_mentoring_sessions.to_s
-    finished mentoring sessions
-    -# current: #{@finished_mentoring_sessions}
+    %strong.font-bold= @min_finished_mentoring_sessions.to_s
+    finished mentoring sessions and a satisfaction rating of #{@min_satisfaction_percentage.to_s}% 
+    %br (current rating is #{@satisfaction_percentage}%)
     
-  .bg-veryLightBlue.flex.flex-row.rounded-8.mb-6.some{style: 'height:16px;'}
-    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +mock_2.to_s+'%'}
-  .mb-16 #{mock_2}/100
+  .bg-darkThemeBackgroundColor.flex.flex-row.rounded-8.mb-6.overflow-hidden.some{style: 'height:16px;'}
+    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +(@finished_mentoring_sessions.to_s)+'%'}
+  .mb-16 #{@finished_mentoring_sessions}/100
 
   %h4.font-semibold.mt-20.mb-4 What is automation?
 
@@ -30,5 +15,6 @@
     Automation allows you to submit standardised responses to code submissions that get shared as part of automated feedback on solutions.
 
   = link_to doc_path(:using, "feedback/automated"), class: 'external-link' do
-    .mb-20.font-semibold.text-lightGold.text-14.leading-170 Find out more on Automation
-
+    .font-semibold.text-lightGold.text-14.leading-170.flex.flex-row.items-center
+      Find out more on Automation 
+      = graphical_icon :"arrow-right", css_class: "w-[14px] h-[14px] ml-[8px] filter-lightGold" 

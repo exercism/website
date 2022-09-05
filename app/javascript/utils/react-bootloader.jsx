@@ -153,10 +153,7 @@ function renderTooltip(mappings, elem) {
   render(
     tooltipElem,
     <ExercismTippy
-      interactive={
-        component?.props?.endpoint ===
-        '/mentoring/automation/tooltip_locked'
-      }
+      interactive={elem.dataset.interactive}
       content={component}
       reference={elem}
     />

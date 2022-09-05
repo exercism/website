@@ -229,6 +229,8 @@
     /* #A7B7D6 */
     --mid-gray-filter: invert(72%) sepia(16%) saturate(458%) hue-rotate(181deg)
         brightness(101%) contrast(84%);
+    --lightGold-filter: invert(87%) sepia(66%) saturate(518%) hue-rotate(308deg)
+        brightness(102%) contrast(101%);
     --linkColor-filter: var(--filter-2E57E8);
 
     --exercise-header-gradient: linear-gradient(

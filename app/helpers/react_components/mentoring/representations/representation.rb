@@ -10,9 +10,17 @@ module ReactComponents
             examples: examples_data,
             mentor: mentor_data,
             guidance: {
-              representations_html: Markdown::Parse.(track.mentoring_representations).presence,
-              track_mentoring_notes_html: track.mentoring_notes_content.presence,
-              exercise_mentoring_notes_html: exercise.mentoring_notes_content.presence
+              representations: Markdown::Parse.(track.mentoring_representations).presence,
+              exercise: exercise.mentoring_notes_content,
+              track: track.mentoring_notes_content
+            },
+            scratchpad: {
+              is_introducer_hidden: current_user&.introducer_dismissed?("scratchpad"),
+              links: {
+                markdown: Exercism::Routes.doc_url(:mentoring, "markdown"),
+                hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
+                self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+              }
             },
             links: {
               success: Exercism::Routes.mentoring_automation_index_path,

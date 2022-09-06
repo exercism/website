@@ -42,8 +42,7 @@ export default function MentoringConversation({
     const { fetch } = sendRequest<{ html: string }>({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      // querySelector _may_ return undefined, but not in this case.
-      // probably there is a better way doing this
+      // querySelector may return undefined, but not in this case.
       endpoint: document.querySelector<HTMLMetaElement>(
         'meta[name="parse-markdown-url"]'
       )?.content,
@@ -67,7 +66,7 @@ export default function MentoringConversation({
   }, [generateHTML, value])
 
   return (
-    <div className="px-24">
+    <div>
       <RepresentationFeedbackEditor
         onChange={handleChange}
         value={value}

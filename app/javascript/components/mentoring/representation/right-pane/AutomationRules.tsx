@@ -4,7 +4,7 @@ import { CompleteRepresentationData } from '../../../types'
 export default function AutomationRules({
   guidance,
 }: Pick<CompleteRepresentationData, 'guidance'>): JSX.Element | null {
-  if (guidance.representationsHtml === null) {
+  if (!guidance.representationsHtml) {
     return null
   }
 

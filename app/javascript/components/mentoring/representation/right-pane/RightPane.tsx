@@ -21,13 +21,15 @@ export function RightPane({
   console.log(data)
 
   return (
-    <div className="!h-100 py-16 flex flex-col justify-between">
+    <div className="!h-100 flex flex-col justify-between">
       <UtilityTabs data={data} />
-      <HowImportant
-        feedbackType={feedbackType}
-        setFeedbackType={setFeedbackType}
-      />
-      <MentoringConversation feedbackType={feedbackType} data={data} />
+      <div className="comment-section --comment">
+        <HowImportant
+          feedbackType={feedbackType}
+          setFeedbackType={setFeedbackType}
+        />
+        <MentoringConversation feedbackType={feedbackType} data={data} />
+      </div>
     </div>
   )
 }

@@ -12,7 +12,7 @@ export default function HowImportant({
   setFeedbackType,
 }: HowImportantProps): JSX.Element {
   return (
-    <div className="px-24 overflow-auto">
+    <div>
       <h2 className="text-h4 mb-[10px]">How important is this?</h2>
       <RadioGroup
         feedbackType={feedbackType}

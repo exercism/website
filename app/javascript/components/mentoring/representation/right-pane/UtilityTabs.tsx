@@ -25,7 +25,7 @@ export function UtilityTabs({
       <div className="tabs" role="tablist">
         <Tab id="information" context={TabsContext}>
           <GraphicalIcon icon="comment" />
-          <Tab.Title text="information" />
+          <Tab.Title text="Information" />
         </Tab>
         <Tab id="scratchpad" context={TabsContext}>
           <GraphicalIcon icon="scratchpad" />

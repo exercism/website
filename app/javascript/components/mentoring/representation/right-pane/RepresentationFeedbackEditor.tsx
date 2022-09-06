@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import { MarkdownEditor } from '../../../common'
 import { MarkdownEditorHandle } from '../../../common/MarkdownEditor'
+import { PrimaryButton } from '../common/PrimaryButton'
 
 export function RepresentationFeedbackEditor({
   onChange,
@@ -14,12 +15,14 @@ export function RepresentationFeedbackEditor({
   expanded,
   onFocus,
   onBlur,
+  onPreviewClick,
 }: {
   onChange: (value: string) => void
   onFocus: MouseEventHandler<HTMLDivElement>
   onBlur: FocusEventHandler<HTMLDivElement>
   value: string
   expanded: boolean
+  onPreviewClick: () => void
 }): JSX.Element {
   const [editor, setEditor] = useState<MarkdownEditorHandle | null>(null)
 
@@ -49,6 +52,16 @@ export function RepresentationFeedbackEditor({
         editorDidMount={handleEditorDidMount}
         value={value}
       />
+
+      <div className="editor-footer">
+        <PrimaryButton
+          disabled={!/[a-zA-Z0-9]/.test(value)}
+          className="px-[18px] py-[12px] "
+          onClick={onPreviewClick}
+        >
+          Preview & Submit
+        </PrimaryButton>
+      </div>
     </div>
   )
 }

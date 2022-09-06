@@ -22,13 +22,11 @@ export function RightPane({
 
   return (
     <div className="!h-100 py-16 flex flex-col justify-between">
-      <div className="flex flex-col overflow-auto">
-        <UtilityTabs data={data} />
-        <HowImportant
-          feedbackType={feedbackType}
-          setFeedbackType={setFeedbackType}
-        />
-      </div>
+      <UtilityTabs data={data} />
+      <HowImportant
+        feedbackType={feedbackType}
+        setFeedbackType={setFeedbackType}
+      />
       <MentoringConversation feedbackType={feedbackType} data={data} />
     </div>
   )

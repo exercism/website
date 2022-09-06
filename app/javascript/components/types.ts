@@ -1,6 +1,7 @@
 import { Props as ConceptWidgetProps } from './common/ConceptWidget'
 import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
 import { DiscussionPostProps } from './mentoring/discussion/DiscussionPost'
+import { Scratchpad } from './mentoring/Session'
 
 export type Size = 'small' | 'large'
 
@@ -435,10 +436,18 @@ export type MentoredTrack = {
   }
 }
 
+export type RepresentationExercise = Pick<
+  MentorSessionExercise,
+  'title' | 'iconUrl'
+>
+export type RepresentationTrack = Pick<
+  MentorSessionTrack,
+  'title' | 'iconUrl' | 'highlightjsLanguage'
+>
 export type Representation = {
   id: number
-  exercise: { title: string; iconUrl: string }
-  track: { title: string; iconUrl: string; highlightjsLanguage:string }
+  exercise: RepresentationExercise
+  track: RepresentationTrack
   numSubmissions: number
   feedbackHtml: string
   feedbackType: RepresentationFeedbackType | null
@@ -470,6 +479,7 @@ export type CompleteRepresentationData = {
     trackMentoringNotesHtml?: string
     exerciseMentoringNotesHtml?: string
   }
+  scratchpad: Scratchpad
 }
 
 export type Contributor = {

@@ -1,12 +1,13 @@
-.p.heading.c-generic-tooltip.text-14.some{style:'padding:16px 24px;width:413px;'}
+.heading.c-generic-tooltip.text-14{class:"!py-16 !px-24 w-[413px]"}
   %p.text-16.text-white.font-semibold.leading-170.mb-12
     Requires
-    %strong.font-bold= @min_finished_mentoring_sessions.to_s
-    finished mentoring sessions and a satisfaction rating of #{@min_satisfaction_percentage.to_s}% 
-    %br (current rating is #{@satisfaction_percentage}%)
-    
-  .bg-darkThemeBackgroundColor.flex.flex-row.rounded-8.mb-6.overflow-hidden.some{style: 'height:16px;'}
-    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.some{style:'min-width:6px; height:100%; width:' +(@finished_mentoring_sessions.to_s)+'%'}
+    %strong.font-bold= @min_finished_mentoring_sessions
+    finished mentoring sessions and a satisfaction rating of #{@min_satisfaction_percentage}% 
+    (current rating is #{@satisfaction_percentage}%)
+  .bg-darkThemeBackgroundColor.flex.flex-row.rounded-8.mb-6.overflow-hidden{class: 'h-[16px]'}
+    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.h-100{class:"min-w-[6px]", style: "width:"+@finished_mentoring_sessions.to_s+"%"}
+
+
   .mb-16 #{@finished_mentoring_sessions}/100
 
   %h4.font-semibold.mb-4 What is automation?

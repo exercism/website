@@ -53,6 +53,11 @@ module ReactComponents
               Exercism::Routes.with_feedback_mentoring_automation_index_path
         end
 
+        memoize
+        def scratchpad
+          ScratchpadPage.new(about: exercise)
+        end
+
         delegate :track, :exercise, to: :representation
       end
     end

@@ -17,9 +17,6 @@ export function RightPane({
       ? data.representation.feedbackType
       : 'essential'
   )
-
-  console.log(data)
-
   return (
     <div className="!h-100 flex flex-col justify-between">
       <UtilityTabs data={data} />

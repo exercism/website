@@ -39,7 +39,7 @@ body.devise {
     }
 
     & .exercism-link {
-        @apply mr-8 flex-shrink-0;
+        @apply mr-32 flex-shrink-0;
         @apply max-w-[45px] sm:max-w-[unset] lg:max-w-[32px] xl:max-w-[unset];
         overflow: hidden;
 

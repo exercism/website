@@ -15,7 +15,7 @@ module ReactComponents
               track: track.mentoring_notes_content
             },
             scratchpad: {
-              is_introducer_hidden: current_user&.introducer_dismissed?("scratchpad"),
+              is_introducer_hidden: true,
               links: {
                 markdown: Exercism::Routes.doc_url(:mentoring, "markdown"),
                 hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),

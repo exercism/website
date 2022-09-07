@@ -33,12 +33,12 @@ module ReactComponents
             ),
             mentor_solution:,
             exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
-            out_of_date: solution.out_of_date?,
-            download_command: solution.mentor_download_cmd,
             guidance: {
               exercise: exercise.mentoring_notes_content,
               track: track.mentoring_notes_content
             },
+            out_of_date: solution.out_of_date?,
+            download_command: solution.mentor_download_cmd,
             scratchpad: {
               is_introducer_hidden: current_user&.introducer_dismissed?("scratchpad"),
               links: {

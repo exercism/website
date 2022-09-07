@@ -473,8 +473,6 @@ module Components
           click_on "Exercise notes"
           assert_text "These are notes for lasagna"
           assert_link "Pull Request on GitHub", href: exercise.mentoring_notes_edit_url
-          click_on "Track notes"
-          assert_link "Pull Request on GitHub", href: exercise.mentoring_notes_edit_url
         end
       end
 

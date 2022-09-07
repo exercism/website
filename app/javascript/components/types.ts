@@ -481,7 +481,7 @@ export type CompleteRepresentationData = {
 }
 
 export type Guidance = {
-  representationsHtml: string
+  representations: string
   exercise: string
   track: string
   exemplarFiles: MentoringSessionExemplarFile[]

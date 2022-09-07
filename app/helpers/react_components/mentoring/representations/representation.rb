@@ -11,7 +11,7 @@ module ReactComponents
             mentor: mentor_data,
             mentor_solution:,
             guidance: {
-              representationsHtml: Markdown::Parse.(track.mentoring_representations).presence,
+              representations: Markdown::Parse.(track.mentoring_representations).presence,
               exercise: exercise.mentoring_notes_content,
               track: track.mentoring_notes_content,
               exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),

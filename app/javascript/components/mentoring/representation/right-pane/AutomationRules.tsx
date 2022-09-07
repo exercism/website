@@ -4,7 +4,7 @@ import { CompleteRepresentationData } from '../../../types'
 export default function AutomationRules({
   guidance,
 }: Pick<CompleteRepresentationData, 'guidance'>): JSX.Element | null {
-  if (!guidance.representationsHtml) {
+  if (!guidance.representations) {
     return null
   }
 
@@ -13,7 +13,7 @@ export default function AutomationRules({
       <h2 className="text-h4 mb-12">Please read before giving feedback</h2>
       <div
         dangerouslySetInnerHTML={{
-          __html: `<div class="c-textual-content --base">${guidance.representationsHtml}</div>`,
+          __html: `<div class="c-textual-content --base">${guidance.representations}</div>`,
         }}
       />
     </div>

@@ -9,19 +9,15 @@ module ReactComponents
             representation: SerializeExerciseRepresentation.(representation),
             examples: examples_data,
             mentor: mentor_data,
+            mentor_solution:,
             guidance: {
+              representationsHtml: Markdown::Parse.(track.mentoring_representations).presence,
               exercise: exercise.mentoring_notes_content,
               track: track.mentoring_notes_content,
               exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
               links: {
                 improve_notes: exercise.mentoring_notes_edit_url
               }
-            },
-            mentor_solution:,
-            information: {
-              representations: Markdown::Parse.(track.mentoring_representations).presence,
-              exercise: exercise.mentoring_notes_content,
-              track: track.mentoring_notes_content
             },
             scratchpad: {
               is_introducer_hidden: true,

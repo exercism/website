@@ -2,9 +2,9 @@ import React from 'react'
 import { CompleteRepresentationData } from '../../../types'
 
 export default function AutomationRules({
-  information,
-}: Pick<CompleteRepresentationData, 'information'>): JSX.Element | null {
-  if (!information.representationsHtml) {
+  guidance,
+}: Pick<CompleteRepresentationData, 'guidance'>): JSX.Element | null {
+  if (!guidance.representationsHtml) {
     return null
   }
 
@@ -13,7 +13,7 @@ export default function AutomationRules({
       <h2 className="text-h4 mb-12">Please read before giving feedback</h2>
       <div
         dangerouslySetInnerHTML={{
-          __html: `<div class="c-textual-content --base">${information.representationsHtml}</div>`,
+          __html: `<div class="c-textual-content --base">${guidance.representationsHtml}</div>`,
         }}
       />
     </div>

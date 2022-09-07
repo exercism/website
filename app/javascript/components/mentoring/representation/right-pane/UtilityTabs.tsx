@@ -38,7 +38,7 @@ export function UtilityTabs({
         </Tab>
       </div>
       <Tab.Panel id="information" context={TabsContext}>
-        <AutomationRules information={data.information} />
+        <AutomationRules guidance={data.guidance} />
       </Tab.Panel>
       <Tab.Panel id="scratchpad" context={TabsContext}>
         <Scratchpad
@@ -49,7 +49,7 @@ export function UtilityTabs({
       </Tab.Panel>
       <Tab.Panel id="guidance" context={TabsContext}>
         <Guidance
-          notes={''}
+          notes={data.guidance.exercise}
           mentorSolution={data.mentorSolution}
           exemplarFiles={data.guidance.exemplarFiles}
           language={data.representation.track.highlightjsLanguage}

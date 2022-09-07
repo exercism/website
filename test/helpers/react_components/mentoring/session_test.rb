@@ -42,8 +42,10 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
         mentor_solution: nil,
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
-        notes: "<p>These are notes for lasagna.</p>\n",
-        track_notes: "<p>Use Ruby wisely</p>\n",
+        guidance: {
+          exercise: "<p>These are notes for lasagna.</p>\n",
+          track: "<p>Use Ruby wisely</p>\n"
+        },
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
         scratchpad: {
@@ -115,8 +117,10 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
             content: exercise.exemplar_files.values.first
           }
         ],
-        notes: "<p>These are notes for lasagna.</p>\n",
-        track_notes: "<p>Use Ruby wisely</p>\n",
+        guidance: {
+          exercise: "<p>These are notes for lasagna.</p>\n",
+          track: "<p>Use Ruby wisely</p>\n"
+        },
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
         scratchpad: {
@@ -180,8 +184,10 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
         mentor_solution: nil,
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
-        notes: "<p>These are notes for lasagna.</p>\n",
-        track_notes: "<p>Use Ruby wisely</p>\n",
+        guidance: {
+          exercise: "<p>These are notes for lasagna.</p>\n",
+          track: "<p>Use Ruby wisely</p>\n"
+        },
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
         scratchpad: {

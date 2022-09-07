@@ -476,18 +476,16 @@ export type CompleteRepresentationData = {
   mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
   mentorSolution: CommunitySolution
   links: { back: string; success: string }
-  information: {
-    representationsHtml?: string
-    trackMentoringNotesHtml?: string
-    exerciseMentoringNotesHtml?: string
-  }
-  guidance: {
-    exercise: any
-    track: any
-    exemplarFiles: any
-    links: GuidanceLinks
-  }
+  guidance: Guidance
   scratchpad: Scratchpad
+}
+
+export type Guidance = {
+  representationsHtml: string
+  exercise: string
+  track: string
+  exemplarFiles: MentoringSessionExemplarFile[]
+  links: GuidanceLinks
 }
 
 export type Contributor = {

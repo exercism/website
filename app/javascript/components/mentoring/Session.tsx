@@ -1,6 +1,6 @@
 import React, { useState, createContext, useCallback } from 'react'
 
-import { CommunitySolution, Student } from '../types'
+import { CommunitySolution, Guidance as GuidanceTypes, Student } from '../types'
 import { CloseButton } from './session/CloseButton'
 import { SessionInfo } from './session/SessionInfo'
 import { Guidance } from './session/Guidance'
@@ -58,7 +58,7 @@ export type SessionProps = {
   instructions: string
   tests: string
   userHandle: string
-  notes: string
+  guidance: Pick<GuidanceTypes, 'exercise'>
   outOfDate: boolean
   mentorSolution: CommunitySolution
   exemplarFiles: readonly MentoringSessionExemplarFile[]
@@ -85,7 +85,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     instructions,
     tests,
     discussion,
-    notes,
+    guidance,
     mentorSolution,
     exemplarFiles,
     outOfDate,
@@ -203,7 +203,7 @@ export const Session = (props: SessionProps): JSX.Element => {
                 </Tab.Panel>
                 <Tab.Panel id="guidance" context={TabsContext}>
                   <Guidance
-                    notes={notes}
+                    notes={guidance.exercise}
                     mentorSolution={mentorSolution}
                     exemplarFiles={exemplarFiles}
                     language={track.highlightjsLanguage}

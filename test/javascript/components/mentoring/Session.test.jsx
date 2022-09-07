@@ -22,6 +22,11 @@ stubIntersectionObserver()
 
 const guidance = {
   exercise: '<p>These are notes for lasagna.</p>\n',
+  links: {
+    improveExerciseGuidance: 'https://exercism.org',
+    improveTrackGuidance: 'https://exercism.org',
+    improveRepresenterGuidance: 'https://exercism.org',
+  },
 }
 
 test('highlights currently selected iteration', async () => {

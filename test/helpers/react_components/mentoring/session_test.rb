@@ -44,7 +44,11 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
         guidance: {
           exercise: "<p>These are notes for lasagna.</p>\n",
-          track: "<p>Use Ruby wisely</p>\n"
+          track: "<p>Use Ruby wisely</p>\n",
+          links: {
+            improve_exercise_guidance: exercise.mentoring_notes_edit_url,
+            improve_track_guidance: track.mentoring_notes_edit_url
+          }
         },
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
@@ -119,7 +123,11 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         ],
         guidance: {
           exercise: "<p>These are notes for lasagna.</p>\n",
-          track: "<p>Use Ruby wisely</p>\n"
+          track: "<p>Use Ruby wisely</p>\n",
+          links: {
+            improve_exercise_guidance: exercise.mentoring_notes_edit_url,
+            improve_track_guidance: track.mentoring_notes_edit_url
+          }
         },
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
@@ -186,7 +194,11 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
         guidance: {
           exercise: "<p>These are notes for lasagna.</p>\n",
-          track: "<p>Use Ruby wisely</p>\n"
+          track: "<p>Use Ruby wisely</p>\n",
+          links: {
+            improve_exercise_guidance: exercise.mentoring_notes_edit_url,
+            improve_track_guidance: track.mentoring_notes_edit_url
+          }
         },
         out_of_date: false,
         download_command: solution.mentor_download_cmd,

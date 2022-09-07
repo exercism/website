@@ -7,7 +7,11 @@
         filter: var(--textColor6-filter);
     }
 
-    .white-filter {
+    .filter-white {
         filter: var(--white-filter);
+    }
+
+    .filter-lightGold {
+        filter: var(--lightGold-filter);
     }
 }

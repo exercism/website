@@ -40,7 +40,7 @@ export function SubmittedAutomationModal({
               <Icon
                 alt="right"
                 icon="arrow-right"
-                className="w-[16px] h-[16px] white-filter ml-12"
+                className="w-[16px] h-[16px] filter-white ml-12"
               />
             </div>
           </PrimaryButton>

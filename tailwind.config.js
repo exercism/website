@@ -187,6 +187,9 @@ module.exports = {
       brown: '#47300C',
       lightBrown: '#955D09',
 
+      gradientProgressBarA: '#2200FF',
+      gradientProgressBarB: '#9E00FF',
+
       warning: '#E48900',
       warningBtnBorder: '#573C13',
 

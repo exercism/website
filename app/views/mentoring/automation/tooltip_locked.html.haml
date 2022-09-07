@@ -1,10 +1,9 @@
-.c-generic-tooltip.text-14{ class: "!py-16 !px-24 md:w-[413px] w-auto" }
+.c-generic-tooltip.text-14{ class: "!py-16 !px-24 !max-w-[420px]" }
   %p.text-16.text-white.font-semibold.leading-170.mb-12
     Requires
     %strong.font-bold= @min_finished_mentoring_sessions
     finished mentoring sessions and a satisfaction rating of #{@min_satisfaction_percentage}%
-    %br.hidden.md:block
-    (current rating is #{@satisfaction_percentage}%)
+    (currently #{@satisfaction_percentage}%)
   .bg-darkThemeBackgroundColor.flex.flex-row.rounded-8.mb-6.overflow-hidden{ class: 'h-[16px]' }
     .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.h-100{ class: "min-w-[6px]", style: "width:#{@finished_mentoring_sessions}%" }
 

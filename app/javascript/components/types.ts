@@ -2,7 +2,6 @@ import { Props as ConceptWidgetProps } from './common/ConceptWidget'
 import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
 import { DiscussionPostProps } from './mentoring/discussion/DiscussionPost'
 import { Scratchpad } from './mentoring/Session'
-import { Links as GuidanceLinks } from './mentoring/session/Guidance'
 
 export type Size = 'small' | 'large'
 
@@ -486,6 +485,12 @@ export type Guidance = {
   track: string
   exemplarFiles: MentoringSessionExemplarFile[]
   links: GuidanceLinks
+}
+
+export type GuidanceLinks = {
+  improveExerciseGuidance: string
+  improveTrackGuidance: string
+  improveRepresenterGuidance?: string
 }
 
 export type Contributor = {

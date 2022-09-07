@@ -49,7 +49,7 @@ export function UtilityTabs({
       </Tab.Panel>
       <Tab.Panel id="guidance" context={TabsContext}>
         <Guidance
-          notes={data.guidance.exercise}
+          guidance={data.guidance}
           mentorSolution={data.mentorSolution}
           exemplarFiles={data.guidance.exemplarFiles}
           language={data.representation.track.highlightjsLanguage}

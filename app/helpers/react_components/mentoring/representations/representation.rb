@@ -16,7 +16,8 @@ module ReactComponents
               track: track.mentoring_notes_content,
               exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
               links: {
-                improve_notes: exercise.mentoring_notes_edit_url,
+                improve_exercise_guidance: exercise.mentoring_notes_edit_url,
+                improve_track_guidance: track.mentoring_notes_edit_url,
                 improve_representer_guidance: 'https://github.com/exercism/website-copy'
               }
             },

@@ -58,7 +58,7 @@ export type SessionProps = {
   instructions: string
   tests: string
   userHandle: string
-  guidance: Pick<GuidanceTypes, 'exercise'>
+  guidance: SessionGuidance
   outOfDate: boolean
   mentorSolution: CommunitySolution
   exemplarFiles: readonly MentoringSessionExemplarFile[]
@@ -66,6 +66,11 @@ export type SessionProps = {
   scratchpad: Scratchpad
   downloadCommand: string
 }
+
+export type SessionGuidance = Pick<
+  GuidanceTypes,
+  'exercise' | 'track' | 'links'
+>
 
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
 
@@ -203,11 +208,11 @@ export const Session = (props: SessionProps): JSX.Element => {
                 </Tab.Panel>
                 <Tab.Panel id="guidance" context={TabsContext}>
                   <Guidance
-                    notes={guidance.exercise}
+                    guidance={guidance}
                     mentorSolution={mentorSolution}
                     exemplarFiles={exemplarFiles}
                     language={track.highlightjsLanguage}
-                    links={links}
+                    links={guidance.links}
                   />
                 </Tab.Panel>
                 {discussion ? (

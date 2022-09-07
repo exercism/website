@@ -20,6 +20,10 @@ import { expectConsoleError } from '../../support/silence-console'
 stubRange()
 stubIntersectionObserver()
 
+const guidance = {
+  exercise: '<p>These are notes for lasagna.</p>\n',
+}
+
 test('highlights currently selected iteration', async () => {
   const scratchpad = {
     links: {
@@ -73,6 +77,7 @@ test('highlights currently selected iteration', async () => {
         discussion={discussion}
         exemplarFiles={[]}
         links={{}}
+        guidance={guidance}
       />
     )
     userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
@@ -136,6 +141,7 @@ test('shows back button', async () => {
       discussion={discussion}
       scratchpad={scratchpad}
       exemplarFiles={[]}
+      guidance={guidance}
     />
   )
   queryCache.cancelQueries()
@@ -203,6 +209,7 @@ test('hides latest label if on old iteration', async () => {
       discussion={discussion}
       scratchpad={scratchpad}
       exemplarFiles={[]}
+      guidance={guidance}
     />
   )
   await awaitPopper()
@@ -272,6 +279,7 @@ test('switches to posts tab when comment success', async () => {
       discussion={discussion}
       scratchpad={scratchpad}
       exemplarFiles={[]}
+      guidance={guidance}
     />
   )
 
@@ -351,6 +359,7 @@ test('switches tabs', async () => {
       discussion={discussion}
       scratchpad={scratchpad}
       exemplarFiles={[]}
+      guidance={guidance}
     />
   )
   userEvent.click(screen.getByRole('tab', { name: 'Scratchpad' }))
@@ -426,6 +435,7 @@ test('go to previous iteration', async () => {
         discussion={discussion}
         scratchpad={scratchpad}
         exemplarFiles={[]}
+        guidance={guidance}
       />
     )
   })
@@ -497,6 +507,7 @@ test('go to next iteration', async () => {
       discussion={discussion}
       scratchpad={scratchpad}
       exemplarFiles={[]}
+      guidance={guidance}
     />
   )
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))

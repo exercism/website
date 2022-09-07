@@ -10,6 +10,15 @@ module ReactComponents
             examples: examples_data,
             mentor: mentor_data,
             guidance: {
+              exercise: exercise.mentoring_notes_content,
+              track: track.mentoring_notes_content,
+              exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
+              links: {
+                improve_notes: exercise.mentoring_notes_edit_url
+              }
+            },
+            mentor_solution:,
+            information: {
               representations: Markdown::Parse.(track.mentoring_representations).presence,
               exercise: exercise.mentoring_notes_content,
               track: track.mentoring_notes_content
@@ -58,7 +67,27 @@ module ReactComponents
           ScratchpadPage.new(about: exercise)
         end
 
+        def mentor_solution
+          ms = ::Solution.for(current_user, exercise)
+          ms ? SerializeCommunitySolution.(ms) : nil
+        end
+
         delegate :track, :exercise, to: :representation
+
+        class SerializeExemplarFiles
+          include Mandate
+
+          initialize_with :files
+
+          def call
+            files.map do |filename, content|
+              {
+                filename: filename.gsub(%r{^\.meta/}, ''),
+                content:
+              }
+            end
+          end
+        end
       end
     end
   end

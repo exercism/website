@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Tab, GraphicalIcon } from '../../../common'
 import { CompleteRepresentationData } from '../../../types'
 import { TabsContext } from '../../Session'
+import { Guidance } from '../../session/Guidance'
 // import { Guidance } from '../../session/Guidance'
 import { Scratchpad } from '../../session/Scratchpad'
 import AutomationRules from './AutomationRules'
@@ -37,7 +38,7 @@ export function UtilityTabs({
         </Tab>
       </div>
       <Tab.Panel id="information" context={TabsContext}>
-        <AutomationRules guidance={data.guidance} />
+        <AutomationRules information={data.information} />
       </Tab.Panel>
       <Tab.Panel id="scratchpad" context={TabsContext}>
         <Scratchpad
@@ -47,14 +48,13 @@ export function UtilityTabs({
         />
       </Tab.Panel>
       <Tab.Panel id="guidance" context={TabsContext}>
-        <div>Guidance is coming soon!</div>
-        {/* <Guidance
-          notes={notes}
-          mentorSolution={mentorSolution}
-          exemplarFiles={exemplarFiles}
-          language={track.highlightjsLanguage}
-          links={links}
-        /> */}
+        <Guidance
+          notes={''}
+          mentorSolution={data.mentorSolution}
+          exemplarFiles={data.guidance.exemplarFiles}
+          language={data.representation.track.highlightjsLanguage}
+          links={data.guidance.links}
+        />
       </Tab.Panel>
     </TabsContext.Provider>
   )

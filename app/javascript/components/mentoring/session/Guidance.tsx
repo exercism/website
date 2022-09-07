@@ -28,7 +28,7 @@ const AccordionHeader = ({
   )
 }
 
-type Links = {
+export type Links = {
   improveNotes: string
 }
 

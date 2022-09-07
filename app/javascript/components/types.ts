@@ -2,6 +2,7 @@ import { Props as ConceptWidgetProps } from './common/ConceptWidget'
 import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
 import { DiscussionPostProps } from './mentoring/discussion/DiscussionPost'
 import { Scratchpad } from './mentoring/Session'
+import { Links as GuidanceLinks } from './mentoring/session/Guidance'
 
 export type Size = 'small' | 'large'
 
@@ -473,11 +474,18 @@ export type CompleteRepresentationData = {
   representation: RepresentationData
   examples: Pick<RepresentationData, 'files' | 'instructions' | 'tests'>[]
   mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
+  mentorSolution: CommunitySolution
   links: { back: string; success: string }
-  guidance: {
+  information: {
     representationsHtml?: string
     trackMentoringNotesHtml?: string
     exerciseMentoringNotesHtml?: string
+  }
+  guidance: {
+    exercise: any
+    track: any
+    exemplarFiles: any
+    links: GuidanceLinks
   }
   scratchpad: Scratchpad
 }

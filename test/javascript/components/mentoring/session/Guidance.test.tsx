@@ -7,10 +7,14 @@ import {
   Props,
 } from '../../../../../app/javascript/components/mentoring/session/Guidance'
 import { build } from '@jackfranklin/test-data-bot'
+import { SessionGuidance } from '../../../../../app/javascript/components/mentoring/Session'
 
 const buildProps = build<Props>({
   fields: {
-    notes: '<h1>Notes</h1>',
+    guidance: {
+      exercise: 'Helpful notes for a good lasagna',
+      track: 'Guidance for good Ruby mentoring',
+    },
     exemplarFiles: [],
     language: 'ruby',
     links: {},
@@ -20,10 +24,9 @@ const buildProps = build<Props>({
 test('how you solved the exercise is open by default', async () => {
   render(<Guidance {...buildProps()} feedback={{}} />)
 
-  expect(screen.getByRole('button', { name: 'Mentor notes' })).toHaveAttribute(
-    'aria-expanded',
-    'true'
-  )
+  expect(
+    screen.getByRole('button', { name: 'Exercise notes' })
+  ).toHaveAttribute('aria-expanded', 'true')
   expect(
     screen.getByRole('button', { name: 'Automated feedback' })
   ).toHaveAttribute('aria-expanded', 'false')
@@ -32,10 +35,10 @@ test('how you solved the exercise is open by default', async () => {
 test('open and close same accordion', async () => {
   render(<Guidance {...buildProps()} />)
 
-  userEvent.click(screen.getByRole('button', { name: 'Mentor notes' }))
+  userEvent.click(screen.getByRole('button', { name: 'Track notes' }))
 
   expect(
-    await screen.findByRole('button', { name: 'Mentor notes' })
+    await screen.findByRole('button', { name: 'Track notes' })
   ).toHaveAttribute('aria-expanded', 'false')
 })
 
@@ -44,25 +47,32 @@ test('only one accordion is open at a time', async () => {
 
   userEvent.click(screen.getByRole('button', { name: 'Automated feedback' }))
 
-  expect(screen.getByRole('button', { name: 'Mentor notes' })).toHaveAttribute(
-    'aria-expanded',
-    'false'
-  )
+  expect(
+    screen.getByRole('button', { name: 'Exercise notes' })
+  ).toHaveAttribute('aria-expanded', 'false')
   expect(
     screen.getByRole('button', { name: 'Automated feedback' })
   ).toHaveAttribute('aria-expanded', 'true')
 })
 
 test('displays notes', async () => {
-  const notes = '<h2>Notes</h2>'
-  render(<Guidance {...buildProps()} notes={notes} />)
+  const guidance: SessionGuidance = {
+    exercise: '<h2>Notes</h2>',
+    track: '',
+    links: { improveExerciseGuidance: '', improveTrackGuidance: '' },
+  }
+  render(<Guidance {...buildProps()} guidance={guidance} />)
 
   expect(screen.getByRole('heading', { name: 'Notes' })).toBeInTheDocument()
 })
 
 test('hides how you solved the solution if mentor solution is null', async () => {
-  const notes = '<h2>Notes</h2>'
-  render(<Guidance {...buildProps()} notes={notes} />)
+  const guidance: SessionGuidance = {
+    exercise: '<h2>Notes</h2>',
+    track: '',
+    links: { improveExerciseGuidance: '', improveTrackGuidance: '' },
+  }
+  render(<Guidance {...buildProps()} guidance={guidance} />)
 
   expect(
     screen.queryByRole('button', { name: 'How you solved the exercise' })

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { MetricsChannel } from '../../channels/metricsChannel'
-import { Metric } from '../../types'
+import { Metric } from '../types'
 export default ({
   metricType,
   initialValue,

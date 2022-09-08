@@ -2,16 +2,16 @@ import React, { useEffect, useState, useRef } from 'react'
 import { GraphicalIcon, TrackIcon, Avatar } from '../../components/common'
 import { GenericTooltip } from '../../components/misc/ExercismTippy'
 import { MetricsChannel } from '../../channels/metricsChannel'
-import { Metric } from '../../types'
+import { Metric } from '../types'
 
-const coordinatesToPosition = (latitude, longitude) => {
+const coordinatesToPosition = (latitude: number, longitude: number) => {
   const map_width = 724
   const map_height = 421
 
-  let x = (longitude + 180) * (map_width / 360)
-  let last_rad = (latitude * Math.PI) / 180
-  let merc_north = Math.log(Math.tan(Math.PI / 4 + last_rad / 2))
-  let y = map_height / 2 - (map_width * merc_north) / (2 * Math.PI)
+  const x = (longitude + 180) * (map_width / 360)
+  const last_rad = (latitude * Math.PI) / 180
+  const merc_north = Math.log(Math.tan(Math.PI / 4 + last_rad / 2))
+  const y = map_height / 2 - (map_width * merc_north) / (2 * Math.PI)
 
   // First bit is because we have a terrible map.
   // Second bit scales it to a percentage
@@ -27,8 +27,8 @@ const MetricPointWithTooltip = ({
   content,
 }: {
   metric: Metric
-  text: String
-  duration: Number
+  text: string
+  duration: number
   content: JSX.Element
 }): JSX.Element => {
   const avatarRef = useRef(null)
@@ -57,7 +57,7 @@ const MetricPointUserWithTooltip = ({
   text,
 }: {
   metric: Metric
-  text: String
+  text: string
 }): JSX.Element => {
   const avatarRef = useRef(null)
   const content = (
@@ -82,27 +82,27 @@ const MetricPointUserWithTooltip = ({
   )
 }
 
+function Content(): JSX.Element {
+  const iconRef = useRef(null)
+  return (
+    <div
+      ref={iconRef}
+      className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
+    >
+      <GraphicalIcon icon="avatar-placeholder" className="w-[32px] h-[32px]" />
+    </div>
+  )
+}
+
 const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
   switch (metric.type) {
     case 'sign_up_metric':
-      const iconRef = useRef(null)
-      const content = (
-        <div
-          ref={iconRef}
-          className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
-        >
-          <GraphicalIcon
-            icon="avatar-placeholder"
-            className="w-[32px] h-[32px]"
-          />
-        </div>
-      )
       return (
         <MetricPointWithTooltip
           metric={metric}
           text={`Someone joined Exercism`}
           duration={2000}
-          content={content}
+          content={<Content />}
         />
       )
     case 'start_solution_metric':
@@ -201,8 +201,8 @@ export default ({
       <GraphicalIcon
         icon="world-map"
         category="graphics"
-        width="680"
-        height="400"
+        width={680}
+        height={400}
         className="w-fill"
       />
       {metrics.map((metric) => (

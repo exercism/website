@@ -3,7 +3,6 @@ import { Chart } from 'chart.js'
 import {
   WeHaveGrown,
   NumberOfStudentsLabel,
-  BecomeRocketFuel,
   CONFIG,
   CANVAS_BACKGROUND,
 } from './chart-elements'
@@ -35,10 +34,9 @@ export default function ImpactChart({ data }: { data: any }): JSX.Element {
   }, [chart])
 
   return (
-    <div className="relative mb-[200px]">
+    <div className="relative">
       <WeHaveGrown />
       <NumberOfStudentsLabel />
-      <BecomeRocketFuel />
       <canvas ref={setCanvas} />
     </div>
   )

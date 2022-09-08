@@ -1,9 +1,9 @@
 import React from 'react'
-import { GraphicalIcon, Icon } from '../../common'
+import { GraphicalIcon, Icon } from '../common'
 
-export function BecomeRocketFuel(): JSX.Element {
+export default function BecomeRocketFuel({ data }: { data: any }): JSX.Element {
   return (
-    <div className="absolute w-[76%] left-[12%] bottom-[-400px] bg-white flex flex-col text-center justify-center rounded-[32px] py-24 px-48 shadow-lgv2">
+    <div className="bg-white flex flex-col text-center justify-center rounded-[32px] py-24 px-48 shadow-lgv2">
       <span className="text-48 mb-8">🚀</span>
       <h2 className="text-h1 mb-12">Become rocket fuel for our mission</h2>
       <p className="text-p-2xlarge mb-36 text-center">

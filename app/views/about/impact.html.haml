@@ -79,9 +79,10 @@
         .btn.btn-base.btn-secondary
           See how you can support us
           = graphical_icon "arrow-right"
-  .mb-64
-    = ReactComponents::Impact::Chart.new([])
 
+  = ReactComponents::Impact::Chart.new([])
+  .md-container.mb-64.relative{ class: 'mt-[-64px]' }
+    = ReactComponents::Impact::Rocket.new([])
   .md-container.mb-64
     = ReactComponents::Impact::Testimonials.new([])
 

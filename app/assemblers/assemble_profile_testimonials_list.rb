@@ -1,10 +1,20 @@
 class AssembleProfileTestimonialsList
   include Mandate
 
-  initialize_with :user
+  initialize_with :user, :params
+
+  def self.keys
+    %i[page]
+  end
 
   def call
-    { testimonials: SerializeMentorTestimonials.(testimonials).sort_by { rand } }
+    SerializePaginatedCollection.(
+      testimonials.page(params[:page]).per(4),
+      serializer: SerializeMentorTestimonials,
+      meta: {
+        unscoped_total: testimonials.count
+      }
+    )
   end
 
   memoize

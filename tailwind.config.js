@@ -57,6 +57,7 @@ module.exports = {
       base: 'var(--box-shadow-base)',
       baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
       lg: 'var(--box-shadow-lg)',
+      lgv2: '0px 4px 42px rgba(79, 114, 205, 0.6)',
       lgZ1: 'var(--box-shadow-lgZ1)',
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
       keystroke: '0px 1px 0px 1px rgba(203, 201, 217, 0.6)',

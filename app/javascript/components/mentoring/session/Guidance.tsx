@@ -59,7 +59,7 @@ export const Guidance = ({
     },
     {
       id: 'track-guidance',
-      isOpen: exemplarFiles.length === 0,
+      isOpen: false,
     },
     {
       id: 'mentor-solution',

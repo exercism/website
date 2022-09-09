@@ -2,11 +2,11 @@ import { ChartConfiguration, ChartData } from 'chart.js'
 
 const GRID_COLOR = '#3c364a'
 const CANVAS_BACKGROUND_COLOR = '#221E31'
-const BACKGROUND_GRADIENT_A = '#6F29C8' // purpleish - this is in figma css
+// const BACKGROUND_GRADIENT_A = '#6F29C8' // purpleish - this is in figma css
 const BACKGROUND_GRADIENT_B = '#604FCD' // blueish
-const FIGMA_BACKGROUND_GRADIENT_A = 'rgb(112, 41, 200)' // purpleish - this is color-picked from figma design
+const FIGMA_BACKGROUND_GRADIENT_A = '#7029c8' //'rgb(112, 41, 200)' // purpleish - this is color-picked from figma design
 const data = [65, 59, 80, 96, 56, 45, 30, 15].sort((a, b) => a - b)
-const Y_AXIS_OFFSET = 1.5
+const Y_AXIS_OFFSET = 2
 const Y_AXIS_MAX = data[data.length - 1] * Y_AXIS_OFFSET
 
 const FILL_COLOR = function (context: any) {
@@ -76,6 +76,7 @@ export const CONFIG: ChartConfiguration<'line'> = {
     animation: false,
     borderColor: GRID_COLOR,
     responsive: true,
+    aspectRatio: 3 / 2, //width/height
     layout: {
       padding: -10,
     },

@@ -4,7 +4,7 @@ import {
   WeHaveGrown,
   NumberOfStudentsLabel,
   CONFIG,
-  CANVAS_BACKGROUND,
+  // CANVAS_BACKGROUND,
 } from './chart-elements'
 
 export default function ImpactChart({ data }: { data: any }): JSX.Element {
@@ -25,7 +25,7 @@ export default function ImpactChart({ data }: { data: any }): JSX.Element {
     if (!chart) {
       return
     }
-    Chart.register(CANVAS_BACKGROUND)
+    // Chart.register(CANVAS_BACKGROUND)
 
     chart.data.labels = CONFIG.data.labels
     chart.data.datasets = CONFIG.data.datasets
@@ -34,10 +34,9 @@ export default function ImpactChart({ data }: { data: any }): JSX.Element {
   }, [chart])
 
   return (
-    <div className="relative">
-      <WeHaveGrown />
+    <>
       <NumberOfStudentsLabel />
       <canvas ref={setCanvas} />
-    </div>
+    </>
   )
 }

@@ -46,17 +46,17 @@ function getGradient(ctx: any, chartArea: any) {
   return gradient
 }
 
-export const CANVAS_BACKGROUND = {
-  id: 'custom_canvas_background_color',
-  beforeDraw: (chart: any) => {
-    const { ctx } = chart
-    ctx.save()
-    ctx.globalCompositeOperation = 'destination-over'
-    ctx.fillStyle = CANVAS_BACKGROUND_COLOR
-    ctx.fillRect(0, 0, chart.width, chart.height)
-    ctx.restore()
-  },
-}
+// export const CANVAS_BACKGROUND = {
+//   id: 'custom_canvas_background_color',
+//   beforeDraw: (chart: any) => {
+//     const { ctx } = chart
+//     ctx.save()
+//     ctx.globalCompositeOperation = 'destination-over'
+//     ctx.fillStyle = CANVAS_BACKGROUND_COLOR
+//     ctx.fillRect(0, 0, chart.width, chart.height)
+//     ctx.restore()
+//   },
+// }
 
 const img = new Image()
 img.src =
@@ -96,7 +96,8 @@ export const CONFIG: ChartConfiguration<'line'> = {
     animation: false,
     borderColor: GRID_COLOR,
     responsive: true,
-    aspectRatio: 3 / 2, //width/height
+    // aspectRatio: 3 / 2, //width/height
+    height: 400,
     layout: {
       padding: -10,
     },

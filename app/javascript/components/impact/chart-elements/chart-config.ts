@@ -21,7 +21,6 @@ const FILL_COLOR = function (context: any) {
 }
 
 function getGradient(ctx: any, chartArea: any) {
-  console.log(chartArea)
   let width, height, gradient
   const chartWidth = chartArea.right - chartArea.left
   const chartHeight = chartArea.bottom - chartArea.top
@@ -47,7 +46,6 @@ export const CANVAS_BACKGROUND = {
   id: 'custom_canvas_background_color',
   beforeDraw: (chart: any) => {
     const { ctx } = chart
-    console.log(chart)
     ctx.save()
     ctx.globalCompositeOperation = 'destination-over'
     ctx.fillStyle = CANVAS_BACKGROUND_COLOR

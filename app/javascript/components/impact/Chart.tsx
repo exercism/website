@@ -34,10 +34,9 @@ export default function ImpactChart({ data }: { data: any }): JSX.Element {
   }, [chart])
 
   return (
-    <div className="relative">
-      <WeHaveGrown />
+    <>
       <NumberOfStudentsLabel />
       <canvas ref={setCanvas} />
-    </div>
+    </>
   )
 }

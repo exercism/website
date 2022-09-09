@@ -4,7 +4,7 @@ import { useList } from '../../hooks'
 import { Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
-import { Testimonial as TestimonialProps } from '../types'
+import { PaginatedResult, Testimonial as TestimonialProps } from '../types'
 import { Testimonial } from './testimonials-list/Testimonial'
 
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
@@ -20,9 +20,10 @@ export const TestimonialsList = ({
 
   const { request, setPage } = useList(initialRequest)
   const { resolvedData, isFetching, status, error, latestData } =
-    usePaginatedRequestQuery<{
-      testimonials: readonly TestimonialProps[]
-    }>(request.endpoint, request)
+    usePaginatedRequestQuery<PaginatedResult<TestimonialProps[]>>(
+      request.endpoint,
+      request
+    )
 
   const handleTestimonialOpen = useCallback(
     (uuid: string) => {

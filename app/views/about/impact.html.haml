@@ -92,13 +92,12 @@
       %a.underline{ href: '#', title: 'Individual donors' } 700 individuals donors!
 
   = ReactComponents::Impact::Chart.new([])
-  .md-container.mb-64.relative{ class: 'mt-[-64px]' }
+  .sm-container.mb-64.relative{ class: 'mt-[-64px]' }
     = ReactComponents::Impact::Rocket.new([])
-  .md-container.mb-64
-    = ReactComponents::Impact::Testimonials.new([])
+.c-shapes-impact.c-shapes-1
+  .sm-container.mb-64
+    %h2.text-h1.text-center.mx-40
+      87,305 people testified to the impact Exercism has had on their learning.
 
-
-
-
-
-
+-# I think we can import this here, without the user constraint
+  . = ReactComponents::Profile::TestimonialsList.new(@user, params)

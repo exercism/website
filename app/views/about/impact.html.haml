@@ -136,5 +136,4 @@
     %h2.text-h1.text-center.mx-40
       87,305 people testified to the impact Exercism has had on their learning.
 
--# I think we can import this here, without the user constraint
-  . = ReactComponents::Profile::TestimonialsList.new(@user, params)
+  = ReactComponents::Profile::TestimonialsList.new(User.for!("iHiD"), params)

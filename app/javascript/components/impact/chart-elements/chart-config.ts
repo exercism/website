@@ -1,5 +1,14 @@
 import { ChartConfiguration, ChartData } from 'chart.js'
 
+const GRID_COLOR = '#3c364a'
+const CANVAS_BACKGROUND_COLOR = '#221E31'
+const BACKGROUND_GRADIENT_A = '#6F29C8' // purpleish - this is in figma css
+const BACKGROUND_GRADIENT_B = '#604FCD' // blueish
+const FIGMA_BACKGROUND_GRADIENT_A = 'rgb(112, 41, 200)' // purpleish - this is color-picked from figma design
+const data = [65, 59, 80, 96, 56, 45, 30, 15].sort((a, b) => a - b)
+const Y_AXIS_OFFSET = 1.5
+const Y_AXIS_MAX = data[data.length - 1] * Y_AXIS_OFFSET
+
 const FILL_COLOR = function (context: any) {
   const chart = context.chart
   const { ctx, chartArea } = chart
@@ -12,6 +21,7 @@ const FILL_COLOR = function (context: any) {
 }
 
 function getGradient(ctx: any, chartArea: any) {
+  console.log(chartArea)
   let width, height, gradient
   const chartWidth = chartArea.right - chartArea.left
   const chartHeight = chartArea.bottom - chartArea.top
@@ -20,30 +30,32 @@ function getGradient(ctx: any, chartArea: any) {
     // or the size of the chart has changed
     width = chartWidth
     height = chartHeight
-    gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
-    gradient.addColorStop(0, '#6F29C8')
-    gradient.addColorStop(0.4, '#604FCD')
+    gradient = ctx.createLinearGradient(
+      0,
+      chartArea.bottom,
+      0,
+      chartArea.top + chartArea.bottom / 3
+    ) // xStart, yStart, xEnd, yEnd
+    gradient.addColorStop(0, FIGMA_BACKGROUND_GRADIENT_A)
+    gradient.addColorStop(1, BACKGROUND_GRADIENT_B)
   }
 
   return gradient
 }
 
-const GRID_COLOR = '#3c364a'
-
 export const CANVAS_BACKGROUND = {
   id: 'custom_canvas_background_color',
   beforeDraw: (chart: any) => {
     const { ctx } = chart
+    console.log(chart)
     ctx.save()
     ctx.globalCompositeOperation = 'destination-over'
-    ctx.fillStyle = '#221E31'
+    ctx.fillStyle = CANVAS_BACKGROUND_COLOR
     ctx.fillRect(0, 0, chart.width, chart.height)
     ctx.restore()
   },
 }
 
-const data = [65, 59, 80, 96, 56, 45, 30, 15].sort((a, b) => a - b)
-const Y_AXIS_MAX = data[data.length - 1] * 2
 const DATA: ChartData<'line'> = {
   labels: new Array(data.length).fill(' '),
   datasets: [
@@ -66,8 +78,6 @@ export const CONFIG: ChartConfiguration<'line'> = {
     animation: false,
     borderColor: GRID_COLOR,
     responsive: true,
-    maintainAspectRatio: true,
-    aspectRatio: 3 / 2,
     layout: {
       padding: -10,
     },

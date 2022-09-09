@@ -35,10 +35,10 @@ test('how you solved the exercise is open by default', async () => {
 test('open and close same accordion', async () => {
   render(<Guidance {...buildProps()} />)
 
-  userEvent.click(screen.getByRole('button', { name: 'Track notes' }))
+  userEvent.click(screen.getByRole('button', { name: 'Exercise notes' }))
 
   expect(
-    await screen.findByRole('button', { name: 'Track notes' })
+    await screen.findByRole('button', { name: 'Exercise notes' })
   ).toHaveAttribute('aria-expanded', 'false')
 })
 

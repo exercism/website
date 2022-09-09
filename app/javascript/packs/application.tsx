@@ -29,9 +29,6 @@ const CLIWalkthroughButton = lazy(
 const ImpactStat = lazy(() => import('../components/impact/stat'))
 const ImpactMap = lazy(() => import('../components/impact/map'))
 const ImpactChart = lazy(() => import('../components/impact/Chart'))
-const ImpactBecomeFuel = lazy(
-  () => import('../components/impact/BecomeRocketFuel')
-)
 const ImpactTestimonials = lazy(
   () => import('../components/impact/Testimonials')
 )
@@ -393,11 +390,6 @@ initReact({
   'impact-chart': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <ImpactChart data={data} />
-    </Suspense>
-  ),
-  'impact-become-fuel': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <ImpactBecomeFuel data={data} />
     </Suspense>
   ),
   'impact-testimonials': (data: any) => (

@@ -1,6 +1,7 @@
 import { ChartConfiguration, ChartData } from 'chart.js'
 
 const GRID_COLOR = '#3c364a'
+const POINT_BACKGROUND_COLOR = '#FFD38F'
 const CANVAS_BACKGROUND_COLOR = '#221E31'
 // const BACKGROUND_GRADIENT_A = '#6F29C8' // purpleish - this is in figma css
 const BACKGROUND_GRADIENT_B = '#604FCD' // blueish
@@ -64,7 +65,8 @@ const DATA: ChartData<'line'> = {
       backgroundColor: FILL_COLOR,
       tension: 0.3,
       fill: true,
-      pointRadius: [0, 0, 0, 12, 0, 0, 0, 0],
+      pointRadius: [0, 0, 0, 32, 0, 0, 32, 0],
+      pointBackgroundColor: POINT_BACKGROUND_COLOR,
     },
   ],
 }

@@ -453,7 +453,7 @@ module Components
         assert_no_text "Remove from Inbox"
       end
 
-      test "mentor sees mentor notes" do
+      test "mentor sees exercise guidance" do
         TestHelpers.use_website_copy_test_repo!
 
         mentor = create :user, handle: "author"
@@ -470,7 +470,7 @@ module Components
           sign_in!(mentor)
           visit mentoring_discussion_path(discussion)
           click_on "Guidance"
-          click_on "Mentor notes"
+          click_on "Exercise notes"
           assert_text "These are notes for lasagna"
           assert_link "Pull Request on GitHub", href: exercise.mentoring_notes_edit_url
         end

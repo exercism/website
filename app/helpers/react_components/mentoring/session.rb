@@ -33,8 +33,14 @@ module ReactComponents
             ),
             mentor_solution:,
             exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
-            notes: exercise.mentoring_notes_content,
-            track_notes: track.mentoring_notes_content,
+            guidance: {
+              exercise: exercise.mentoring_notes_content,
+              track: track.mentoring_notes_content,
+              links: {
+                improve_exercise_guidance: exercise.mentoring_notes_edit_url,
+                improve_track_guidance: track.mentoring_notes_edit_url
+              }
+            },
             out_of_date: solution.out_of_date?,
             download_command: solution.mentor_download_cmd,
             scratchpad: {
@@ -62,7 +68,6 @@ module ReactComponents
         {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
-          improve_notes: exercise.mentoring_notes_edit_url,
           mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
         }
       end

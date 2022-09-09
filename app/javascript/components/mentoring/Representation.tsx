@@ -16,7 +16,9 @@ export function Representation({
         leftMinWidth={550}
         rightMinWidth={625}
         id="mentoring-session"
-        left={<LeftPane links={data.links} data={data.representation} />}
+        left={
+          <LeftPane links={data.links} representation={data.representation} />
+        }
         right={<RightPane data={data} />}
       />
     </div>

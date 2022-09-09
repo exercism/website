@@ -12,6 +12,8 @@ import {
 import {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
+  RepresentationTrack,
+  RepresentationExercise,
 } from '../../types'
 import { Scratchpad as ScratchpadProps } from '../Session'
 import { useMutation } from 'react-query'
@@ -26,8 +28,8 @@ export const Scratchpad = ({
   exercise,
 }: {
   scratchpad: ScratchpadProps
-  track: Track
-  exercise: Exercise
+  track: Track | RepresentationTrack
+  exercise: Exercise | RepresentationExercise
 }): JSX.Element => {
   const [content, setContent] = useState('')
   const [error, setError] = useState('')

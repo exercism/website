@@ -42,8 +42,14 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
         mentor_solution: nil,
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
-        notes: "<p>These are notes for lasagna.</p>\n",
-        track_notes: "<p>Use Ruby wisely</p>\n",
+        guidance: {
+          exercise: exercise.mentoring_notes_content,
+          track: track.mentoring_notes_content,
+          links: {
+            improve_exercise_guidance: exercise.mentoring_notes_edit_url,
+            improve_track_guidance: track.mentoring_notes_edit_url
+          }
+        },
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
         scratchpad: {
@@ -57,7 +63,6 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         links: {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
-          improve_notes: exercise.mentoring_notes_edit_url,
           mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
         }
       }
@@ -115,8 +120,14 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
             content: exercise.exemplar_files.values.first
           }
         ],
-        notes: "<p>These are notes for lasagna.</p>\n",
-        track_notes: "<p>Use Ruby wisely</p>\n",
+        guidance: {
+          exercise: exercise.mentoring_notes_content,
+          track: track.mentoring_notes_content,
+          links: {
+            improve_exercise_guidance: exercise.mentoring_notes_edit_url,
+            improve_track_guidance: track.mentoring_notes_edit_url
+          }
+        },
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
         scratchpad: {
@@ -130,7 +141,6 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         links: {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
-          improve_notes: exercise.mentoring_notes_edit_url,
           mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
         }
       }
@@ -180,8 +190,14 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         student: SerializeStudent.(student, mentor, relationship: nil, anonymous_mode: false, user_track:),
         mentor_solution: nil,
         exemplar_files: Session::SerializeExemplarFiles.(exercise.exemplar_files),
-        notes: "<p>These are notes for lasagna.</p>\n",
-        track_notes: "<p>Use Ruby wisely</p>\n",
+        guidance: {
+          exercise: exercise.mentoring_notes_content,
+          track: track.mentoring_notes_content,
+          links: {
+            improve_exercise_guidance: exercise.mentoring_notes_edit_url,
+            improve_track_guidance: track.mentoring_notes_edit_url
+          }
+        },
         out_of_date: false,
         download_command: solution.mentor_download_cmd,
         scratchpad: {
@@ -195,7 +211,6 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
         links: {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
-          improve_notes: exercise.mentoring_notes_edit_url,
           mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
         }
       }

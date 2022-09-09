@@ -24,6 +24,7 @@ import {
   MentoringSessionExemplarFile,
   SharePlatform,
   CompleteRepresentationData,
+  Guidance,
   // TrackContribution,
 } from '../components/types'
 
@@ -152,7 +153,9 @@ initReact({
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
-      notes={data.notes}
+      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track'>>(
+        data.guidance
+      )}
       outOfDate={data.out_of_date}
       downloadCommand={data.download_command}
     />

@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { PreviewAutomationModal } from '../modals/PreviewAutomationModal'
 import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
-import { PrimaryButton } from '../common/PrimaryButton'
 import {
   CompleteRepresentationData,
   RepresentationFeedbackType,
@@ -20,7 +19,9 @@ export default function MentoringConversation({
   const [value, setValue] = useState(data.representation.feedbackMarkdown || '')
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
-  const [expanded, setExpanded] = useState(!!data.representation.feedbackMarkdown || false)
+  const [expanded, setExpanded] = useState(
+    !!data.representation.feedbackMarkdown || false
+  )
   const [html, setHtml] = useState('<p>Loading..</p>')
 
   const handleChange = useCallback((value) => setValue(value), [setValue])
@@ -41,8 +42,7 @@ export default function MentoringConversation({
     const { fetch } = sendRequest<{ html: string }>({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      // querySelector _may_ return undefined, but not in this case.
-      // probably there is a better way doing this
+      // querySelector may return undefined, but not in this case.
       endpoint: document.querySelector<HTMLMetaElement>(
         'meta[name="parse-markdown-url"]'
       )?.content,
@@ -66,31 +66,20 @@ export default function MentoringConversation({
   }, [generateHTML, value])
 
   return (
-    <div className="px-24">
+    <div>
       <RepresentationFeedbackEditor
         onChange={handleChange}
         value={value}
         expanded={expanded}
         onFocus={() => handleExpansion(expanded)}
         onBlur={() => handleCompression(value)}
+        onPreviewClick={handlePreviewClick}
       />
 
-      <div className="mt-12 mb-20 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5 leading-150">
+      {/*<div className="mt-12 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5 leading-150">
         We imported your last mentoring feedback to this solution above
-      </div>
+      </div>*/}
 
-      <div>
-        <PrimaryButton
-          disabled={!/[a-zA-Z0-9]/.test(value)}
-          className="px-[64px] py-[12px] mb-16 mr-24"
-          onClick={handlePreviewClick}
-        >
-          Preview & Submit
-        </PrimaryButton>
-      </div>
-      <div className="text-textColor6 ">
-        Remember, you can edit this feedback anytime after submission.
-      </div>
       <PreviewAutomationModal
         feedbackType={feedbackType}
         markdown={value}

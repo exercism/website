@@ -9,10 +9,25 @@ module ReactComponents
             representation: SerializeExerciseRepresentation.(representation),
             examples: examples_data,
             mentor: mentor_data,
+            mentor_solution:,
             guidance: {
-              representations_html: Markdown::Parse.(track.mentoring_representations).presence,
-              track_mentoring_notes_html: track.mentoring_notes_content.presence,
-              exercise_mentoring_notes_html: exercise.mentoring_notes_content.presence
+              representations: Markdown::Parse.(track.mentoring_representations).presence,
+              exercise: exercise.mentoring_notes_content,
+              track: track.mentoring_notes_content,
+              exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
+              links: {
+                improve_exercise_guidance: exercise.mentoring_notes_edit_url,
+                improve_track_guidance: track.mentoring_notes_edit_url,
+                improve_representer_guidance: "https://github.com/exercism/#{track.slug}/new/main?filename=exercises/shared/.docs/representations.md"
+              }
+            },
+            scratchpad: {
+              is_introducer_hidden: true,
+              links: {
+                markdown: Exercism::Routes.doc_url(:mentoring, "markdown"),
+                hide_introducer: Exercism::Routes.hide_api_settings_introducer_path("scratchpad"),
+                self: Exercism::Routes.api_scratchpad_page_path(scratchpad.category, scratchpad.title)
+              }
             },
             links: {
               success: Exercism::Routes.mentoring_automation_index_path,
@@ -45,7 +60,32 @@ module ReactComponents
               Exercism::Routes.with_feedback_mentoring_automation_index_path
         end
 
+        memoize
+        def scratchpad
+          ScratchpadPage.new(about: exercise)
+        end
+
+        def mentor_solution
+          ms = ::Solution.for(current_user, exercise)
+          ms ? SerializeCommunitySolution.(ms) : nil
+        end
+
         delegate :track, :exercise, to: :representation
+
+        class SerializeExemplarFiles
+          include Mandate
+
+          initialize_with :files
+
+          def call
+            files.map do |filename, content|
+              {
+                filename: filename.gsub(%r{^\.meta/}, ''),
+                content:
+              }
+            end
+          end
+        end
       end
     end
   end

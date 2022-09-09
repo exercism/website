@@ -3,9 +3,9 @@ import {
   CompleteRepresentationData,
   RepresentationFeedbackType,
 } from '../../../types'
-import AutomationRules from './AutomationRules'
 import HowImportant from './HowImportant'
 import MentoringConversation from './MentoringConversation'
+import { UtilityTabs } from './UtilityTabs'
 
 export function RightPane({
   data,
@@ -17,17 +17,16 @@ export function RightPane({
       ? data.representation.feedbackType
       : 'essential'
   )
-
   return (
-    <div className="!h-100 py-16 flex flex-col justify-between">
-      <div className="flex flex-col overflow-auto">
-        <AutomationRules guidance={data.guidance} />
+    <div className="!h-100 flex flex-col justify-between">
+      <UtilityTabs data={data} />
+      <div className="comment-section --comment">
         <HowImportant
           feedbackType={feedbackType}
           setFeedbackType={setFeedbackType}
         />
+        <MentoringConversation feedbackType={feedbackType} data={data} />
       </div>
-      <MentoringConversation feedbackType={feedbackType} data={data} />
     </div>
   )
 }

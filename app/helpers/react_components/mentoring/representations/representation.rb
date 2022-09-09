@@ -18,7 +18,7 @@ module ReactComponents
               links: {
                 improve_exercise_guidance: exercise.mentoring_notes_edit_url,
                 improve_track_guidance: track.mentoring_notes_edit_url,
-                improve_representer_guidance: 'https://github.com/exercism/website-copy'
+                improve_representer_guidance: "https://github.com/exercism/#{track.slug}/new/main?filename=exercises/shared/.docs/representations.md"
               }
             },
             scratchpad: {

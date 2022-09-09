@@ -94,14 +94,14 @@
   = ReactComponents::Impact::Chart.new([])
   .sm-container.mb-64.relative{ class: 'mt-[-64px]' }
     -# = ReactComponents::Impact::Rocket.new([])
-    .bg-white.flex.flex-col.text-center.justify-center.rounded-32.py-24.px-48.shadow-lgv2
-      .text-48.mb-8 🚀
+    .bg-white.flex.flex-col.text-center.justify-center.rounded-32.pt-24.pb-40.px-48.shadow-lgv2
+      .text-48.leading-130.mb-8 🚀
       %h2.text-h1.mb-12 Become rocket fuel for our mission
-      %p.text-p-2xlarge.mb-36.text-center
+      %p.text-p-2xlarge.mb-36.text-center.text-textColor6.font-medium
         We’ve built everything for under $500,000. Imagine what we could do with
         serious funding! Could you be the one to make it happen?
-      .flex.flex-col.border.border-2.border-gradient.rounded-16.px-24.py-40
-        .flex.flex-row.mx-auto.mb-24
+      .flex.flex-col.border.border-2.border-gradient.rounded-16.px-40.py-24.shadow-smZ1
+        .flex.flex-row.items-center.mx-auto.mb-24
           = image_tag "team/loretta.jpg", alt: "A photo of Loretta Bresciani Murray", class: 'w-[64px] h-[64px] mr-24 rounded-circle'
           .flex.flex-col.text-left
             .text-h4.mb-4
@@ -109,9 +109,10 @@
             .leading-regular.text-textColor5{ class: 'text-[19px]' }
               Get in touch with
               = succeed(',') do
-                %span.text-primaryBtnBorder Loretta Murray
+                %span.text-textColor2.font-medium Loretta Murray
               our Head of Fundraising.
-        = link_to "mailto:loretta@exercism.org", class: "py-12 px-18 border-1 border-primaryBtnBorder shadow-xsZ1v3 bg-purple text-white text-16 font-semibold rounded-8 flex flex-row justify-center" do
+        -# = link_to "mailto:loretta@exercism.org", class: "py-12 px-18 border-1 border-primaryBtnBorder shadow-xsZ1v3 bg-purple text-white text-16 font-semibold rounded-8 flex flex-row justify-center" do
+        = link_to "mailto:loretta@exercism.org", class: "btn btn-primary btn-large" do
           = graphical_icon "envelope", css_class: "mr-16"
           %span loretta@exercism.org
 

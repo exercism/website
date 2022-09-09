@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChartConfiguration, ChartData } from 'chart.js'
 
 const GRID_COLOR = '#3c364a'
 const POINT_BACKGROUND_COLOR = '#FFD38F'
 const CANVAS_BACKGROUND_COLOR = '#221E31'
+const TOOLTIP_BACKGROUND_COLOR = '#302B42'
 // const BACKGROUND_GRADIENT_A = '#6F29C8' // purpleish - this is in figma css
 const BACKGROUND_GRADIENT_B = '#604FCD' // blueish
 const FIGMA_BACKGROUND_GRADIENT_A = '#7029c8' //'rgb(112, 41, 200)' // purpleish - this is color-picked from figma design
@@ -55,8 +58,19 @@ export const CANVAS_BACKGROUND = {
   },
 }
 
+const img = new Image()
+img.src =
+  'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/calendar.svg'
+img.width = 64
+img.height = 64
+
+const label_a = 'Launch of Exercism V3'
+const label_b = 'We hit 1M students!'
+const POINT_RADIUS = [0, 0, 0, 32, 0, 0, 32, 0]
+// const POINT_LABELS = ['', '', '', label_a, '', '', label_b, '']
 const DATA: ChartData<'line'> = {
-  labels: new Array(data.length).fill(' '),
+  labels: new Array(data.length).fill(''),
+  // labels: POINT_LABELS,
   datasets: [
     {
       label: '',
@@ -65,7 +79,10 @@ const DATA: ChartData<'line'> = {
       backgroundColor: FILL_COLOR,
       tension: 0.3,
       fill: true,
-      pointRadius: [0, 0, 0, 32, 0, 0, 32, 0],
+      pointRadius: POINT_RADIUS,
+      pointStyle: ['', '', '', img, '', '', '', ''],
+      pointHoverRadius: POINT_RADIUS,
+      pointHoverBackgroundColor: POINT_BACKGROUND_COLOR,
       pointBackgroundColor: POINT_BACKGROUND_COLOR,
     },
   ],
@@ -116,12 +133,47 @@ export const CONFIG: ChartConfiguration<'line'> = {
     },
 
     plugins: {
+      tooltip: {
+        position: 'average',
+        displayColors: false,
+        padding: 12,
+        bodyAlign: 'center',
+        caretPadding: 12,
+        callbacks: {
+          label: renderLabels,
+          footer: () => '',
+        },
+        yAlign: 'bottom',
+        backgroundColor: TOOLTIP_BACKGROUND_COLOR,
+
+        bodyFont: {
+          family: 'Poppins',
+          size: 18,
+          weight: '600',
+          lineHeight: '153%',
+        },
+      },
       legend: {
         display: false,
       },
+
       title: {
         display: false,
       },
     },
   },
+}
+
+function renderLabels(ctx: any) {
+  console.log(ctx)
+  let label = ctx.label || ''
+  switch (ctx.raw) {
+    case 56:
+      label = label_a
+      break
+    case 80:
+      label = label_b
+      break
+  }
+  return label
 }

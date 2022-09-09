@@ -80,6 +80,17 @@
           See how you can support us
           = graphical_icon "arrow-right"
 
+  .md-container.mb-64
+    %h3.text-h3.text-center.mb-16 A special thanks to these organisations...
+    .logos.flex.items-center.justify-center.flex-wrap.gap-64.mb-24
+      = icon "mozilla", "Mozilla", category: :partners, css_class: "mozilla"
+      = icon "gobridge", "GoBridge", category: :partners, css_class: "gobridge"
+      = icon "chicago", "University of Chicago", category: :partners, css_class: "chicago"
+      = icon "thalamus", "Thalamus AI", category: :partners
+    .text-center.text-18.leading-150.text-textColor6.font-semibold
+      And over
+      %a.underline{ href: '#', title: 'Individual donors' } 700 individuals donors!
+
   = ReactComponents::Impact::Chart.new([])
   .md-container.mb-64.relative{ class: 'mt-[-64px]' }
     = ReactComponents::Impact::Rocket.new([])
@@ -91,8 +102,3 @@
 
 
 
-  -# A special thanks to these organisations...
-    And over 700 individuals donors!
-    We've grown to over 1M students entirely by word of mouth.
-    We work closely with our community to understand how to evolve Exercism to be the best it can be, and they reward us by sharing with their friends. .
-    .

@@ -64,6 +64,7 @@ const DATA: ChartData<'line'> = {
       backgroundColor: FILL_COLOR,
       tension: 0.3,
       fill: true,
+      pointRadius: [0, 0, 0, 12, 0, 0, 0, 0],
     },
   ],
 }

@@ -76,9 +76,9 @@ export default function MentoringConversation({
         onPreviewClick={handlePreviewClick}
       />
 
-      <div className="mt-12 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5 leading-150">
+      {/*<div className="mt-12 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5 leading-150">
         We imported your last mentoring feedback to this solution above
-      </div>
+      </div>*/}
 
       <PreviewAutomationModal
         feedbackType={feedbackType}

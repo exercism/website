@@ -12,8 +12,8 @@ export default function HowImportant({
   setFeedbackType,
 }: HowImportantProps): JSX.Element {
   return (
-    <div>
-      <h2 className="text-h4 mb-[10px]">How important is this?</h2>
+    <div class="mb-4">
+      <h2 className="text-h6 mb-8">How important is this?</h2>
       <RadioGroup
         feedbackType={feedbackType}
         setFeedbackType={setFeedbackType}

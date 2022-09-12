@@ -21,7 +21,7 @@ export const TestimonialsList = ({
   const { request, setPage } = useList(initialRequest)
   const { resolvedData, isFetching, status, error, latestData } =
     usePaginatedRequestQuery<PaginatedResult<TestimonialProps[]>>(
-      request.endpoint,
+      ['profile-testimonials-list-key', request.endpoint, request.query],
       request
     )
 

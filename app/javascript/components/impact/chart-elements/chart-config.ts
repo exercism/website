@@ -67,7 +67,7 @@ export const CANVAS_CUSTOM_POINTS = {
     const { x, y } = points[1]
     const radius = 32
     const fontSize = 40
-    const tooltipBotMargin = 20
+    const tooltipBotMargin = 16
     const borderRadius = 8
     const tooltipText = 'Launch of exercism v3!'
     const customTooltipOptions: CustomTooltipOptions = {
@@ -75,7 +75,6 @@ export const CANVAS_CUSTOM_POINTS = {
       y: y - radius,
       font: '600 18px Poppins',
       radius: borderRadius,
-      fill: true,
       fillColor: TOOLTIP_BACKGROUND_COLOR,
       text: tooltipText,
       bottomMargin: tooltipBotMargin,

@@ -92,9 +92,10 @@
       %a.underline{ href: '#', title: 'Individual donors' } 700 individuals donors!
 
 
-  .bg-repeat{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
-    .md-container
-      .pt-48.flex.flex-col.items-center
+  .relative
+    = ReactComponents::Impact::Chart.new([])
+    .absolute{ class: 'top-[50px] left-0 right-0' }
+      .flex.flex-col.items-center
         .flex.flex-col.text-center{ class: "max-w-[927px]" }
           = graphical_icon "graph-stats-ascend", css_class: "mb-16 mx-auto h-[67px] w-[64px]"
           %h2.text-h1.leading-128.text-white.mb-16
@@ -104,11 +105,7 @@
             to be the best it can be, and they reward us by sharing with their
             friends.
 
-    .relative{ class: 'h-[400px]' }
-      = ReactComponents::Impact::Chart.new([])
-
   .sm-container.mb-64.relative{ class: 'mt-[-64px]' }
-    -# = ReactComponents::Impact::Rocket.new([])
     .bg-white.flex.flex-col.text-center.justify-center.rounded-32.pt-24.pb-40.px-48.shadow-lgv2
       .text-48.leading-130.mb-8 🚀
       %h2.text-h1.mb-12 Become rocket fuel for our mission

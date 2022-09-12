@@ -46,31 +46,57 @@ function getGradient(ctx: any, chartArea: any) {
   return gradient
 }
 
-// export const CANVAS_BACKGROUND = {
-//   id: 'custom_canvas_background_color',
-//   beforeDraw: (chart: any) => {
-//     const { ctx } = chart
-//     ctx.save()
-//     ctx.globalCompositeOperation = 'destination-over'
-//     ctx.fillStyle = CANVAS_BACKGROUND_COLOR
-//     ctx.fillRect(0, 0, chart.width, chart.height)
-//     ctx.restore()
-//   },
-// }
+export const CANVAS_BACKGROUND = {
+  id: 'custom_canvas_background_color',
+  beforeDraw: (chart: any) => {
+    const { ctx } = chart
+    ctx.save()
+    ctx.globalCompositeOperation = 'destination-over'
+    ctx.fillStyle = CANVAS_BACKGROUND_COLOR
+    ctx.fillRect(0, 0, chart.width, chart.height)
+    ctx.restore()
+  },
+}
 
-const img = new Image()
-img.src =
-  'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/calendar.svg'
-img.width = 64
-img.height = 64
+export const CANVAS_CUSTOM_POINTS = {
+  id: 'custom_canvas_points',
+  afterDraw: (chart: any) => {
+    const { ctx } = chart
+    // 0 - index of our dataset, since we only draw one line, this is 0
+    const points = chart.getDatasetMeta(0).data
+    console.log('POINTS:', points)
+    const { x, y } = points[1]
+    const radius = 32
+    const fontSize = 40
+    const topMargin = 20
+    drawBoxWithBorderRadius(ctx, x, y + topMargin, 50, 30, 8)
+    drawCircleWithEmoji(ctx, x, y, radius, fontSize, '🚀')
+  },
+}
+
+function drawCircleWithEmoji(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  radius: number,
+  fontSize: number,
+  emoji: string
+) {
+  ctx.beginPath()
+  ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
+  ctx.fillStyle = POINT_BACKGROUND_COLOR
+  ctx.fill()
+  ctx.font = `${fontSize}px Arial`
+  ctx.textAlign = 'center'
+  // aww this is nice... _so centered_!
+  ctx.textBaseline = 'alphabetic'
+  ctx.strokeText(emoji, x, y + radius / 2)
+}
 
 const label_a = 'Launch of Exercism V3'
 const label_b = 'We hit 1M students!'
-const POINT_RADIUS = [0, 0, 0, 32, 0, 0, 32, 0]
-// const POINT_LABELS = ['', '', '', label_a, '', '', label_b, '']
 const DATA: ChartData<'line'> = {
   labels: new Array(data.length).fill(''),
-  // labels: POINT_LABELS,
   datasets: [
     {
       label: '',
@@ -79,25 +105,48 @@ const DATA: ChartData<'line'> = {
       backgroundColor: FILL_COLOR,
       tension: 0.3,
       fill: true,
-      pointRadius: POINT_RADIUS,
-      pointStyle: ['', '', '', img, '', '', '', ''],
-      pointHoverRadius: POINT_RADIUS,
-      pointHoverBackgroundColor: POINT_BACKGROUND_COLOR,
-      pointBackgroundColor: POINT_BACKGROUND_COLOR,
     },
   ],
+}
+
+function drawBoxWithBorderRadius(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  radius = 5,
+  fill = false,
+  stroke = true
+) {
+  ctx.beginPath()
+  ctx.moveTo(x + radius, y)
+  ctx.lineTo(x + width - radius, y)
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius)
+  ctx.lineTo(x + width, y + height - radius)
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
+  ctx.lineTo(x + radius, y + height)
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius)
+  ctx.lineTo(x, y + radius)
+  ctx.quadraticCurveTo(x, y, x + radius, y)
+  ctx.closePath()
+  if (fill) {
+    ctx.fill()
+  }
+  if (stroke) {
+    ctx.stroke()
+  }
 }
 
 export const CONFIG: ChartConfiguration<'line'> = {
   type: 'line',
   data: DATA,
-
   options: {
     animation: false,
     borderColor: GRID_COLOR,
     responsive: true,
-    // aspectRatio: 3 / 2, //width/height
-    height: 400,
+    maintainAspectRatio: false,
+
     layout: {
       padding: -10,
     },
@@ -132,7 +181,6 @@ export const CONFIG: ChartConfiguration<'line'> = {
         radius: 0,
       },
     },
-
     plugins: {
       tooltip: {
         position: 'average',

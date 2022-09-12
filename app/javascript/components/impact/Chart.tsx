@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Chart } from 'chart.js'
 import {
-  WeHaveGrown,
   NumberOfStudentsLabel,
   CONFIG,
-  // CANVAS_BACKGROUND,
+  CANVAS_BACKGROUND,
 } from './chart-elements'
+import { CANVAS_CUSTOM_POINTS } from './chart-elements/chart-config'
 
 export default function ImpactChart({ data }: { data: any }): JSX.Element {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
@@ -15,7 +15,6 @@ export default function ImpactChart({ data }: { data: any }): JSX.Element {
       return
     }
     const chart = new Chart<'line'>(canvas, CONFIG)
-
     setChart(chart)
 
     return () => chart.destroy()
@@ -25,10 +24,14 @@ export default function ImpactChart({ data }: { data: any }): JSX.Element {
     if (!chart) {
       return
     }
-    // Chart.register(CANVAS_BACKGROUND)
+    Chart.register(CANVAS_BACKGROUND)
+    Chart.register(CANVAS_CUSTOM_POINTS)
+
+    const customPointStyle = ['', '', '', '', '', '', '', '']
 
     chart.data.labels = CONFIG.data.labels
     chart.data.datasets = CONFIG.data.datasets
+    chart.data.datasets[0].pointStyle = customPointStyle
 
     chart.update()
   }, [chart])
@@ -36,7 +39,7 @@ export default function ImpactChart({ data }: { data: any }): JSX.Element {
   return (
     <>
       <NumberOfStudentsLabel />
-      <canvas ref={setCanvas} />
+      <canvas height={900} ref={setCanvas} />
     </>
   )
 }

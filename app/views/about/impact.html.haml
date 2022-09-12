@@ -9,7 +9,7 @@
       %strong{ class: 'pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]' } 82,045,205
       minutes of free education.
     %p.font-medium.text-textColor6.text-24.leading-160.text-center{ class: 'max-w-[780px]' }
-      And increasing — by 600,000 minutes per day! 
+      And increasing — by 600,000 minutes per day!
       %br
       All on a free, open source project funded by people like you.
 
@@ -92,10 +92,10 @@
       %a.underline{ href: '#', title: 'Individual donors' } 700 individuals donors!
 
 
-  .bg-repeat{class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]'}
+  .bg-repeat{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
     .md-container
       .pt-48.flex.flex-col.items-center
-        .flex.flex-col.text-center{class: "max-w-[927px]"}
+        .flex.flex-col.text-center{ class: "max-w-[927px]" }
           = graphical_icon "graph-stats-ascend", css_class: "mb-16 mx-auto h-[67px] w-[64px]"
           %h2.text-h1.leading-128.text-white.mb-16
             We&apos;ve grown to over 1M students entirely by word of mouth.
@@ -104,7 +104,7 @@
             to be the best it can be, and they reward us by sharing with their
             friends.
 
-    .relative{class: 'h-[400px]'}
+    .relative{ class: 'h-[400px]' }
       = ReactComponents::Impact::Chart.new([])
 
   .sm-container.mb-64.relative{ class: 'mt-[-64px]' }
@@ -136,4 +136,7 @@
     %h2.text-h1.text-center.mx-40
       87,305 people testified to the impact Exercism has had on their learning.
 
-  = ReactComponents::Profile::TestimonialsList.new(User.for!("iHiD"), params)
+  .md-container
+    #page-impact-testimonials
+      %article
+        = ReactComponents::Profile::TestimonialsList.new(User.for!("iHiD"), params)

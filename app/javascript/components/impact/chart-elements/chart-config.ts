@@ -61,15 +61,29 @@ export const CANVAS_BACKGROUND = {
 export const CANVAS_CUSTOM_POINTS = {
   id: 'custom_canvas_points',
   afterDraw: (chart: any) => {
-    const { ctx } = chart
-    // 0 - index of our dataset, since we only draw one line, this is 0
+    const ctx: CanvasRenderingContext2D = chart.ctx
+    // 0 = index of our dataset, since we only draw one line, this is 0
     const points = chart.getDatasetMeta(0).data
-    console.log('POINTS:', points)
     const { x, y } = points[1]
     const radius = 32
     const fontSize = 40
-    const topMargin = 20
-    drawBoxWithBorderRadius(ctx, x, y + topMargin, 50, 30, 8)
+    const tooltipBotMargin = 20
+    const borderRadius = 8
+    const tooltipText = 'Launch of exercism v3!'
+    const customTooltipOptions: CustomTooltipOptions = {
+      x,
+      y: y - radius,
+      font: '600 18px Poppins',
+      radius: borderRadius,
+      fill: true,
+      fillColor: TOOLTIP_BACKGROUND_COLOR,
+      text: tooltipText,
+      bottomMargin: tooltipBotMargin,
+      lineHeight: 160,
+      paddingX: 12,
+      paddingY: 6,
+    }
+    drawCustomTooltip(ctx, customTooltipOptions)
     drawCircleWithEmoji(ctx, x, y, radius, fontSize, '🚀')
   },
 }
@@ -88,9 +102,9 @@ function drawCircleWithEmoji(
   ctx.fill()
   ctx.font = `${fontSize}px Arial`
   ctx.textAlign = 'center'
-  // aww this is nice... _so centered_!
   ctx.textBaseline = 'alphabetic'
   ctx.strokeText(emoji, x, y + radius / 2)
+  ctx.closePath()
 }
 
 const label_a = 'Launch of Exercism V3'
@@ -109,17 +123,59 @@ const DATA: ChartData<'line'> = {
   ],
 }
 
-function drawBoxWithBorderRadius(
+type CustomTooltipOptions = {
+  x: number
+  y: number
+  paddingX?: number
+  paddingY?: number
+  lineHeight?: number
+  radius: number
+  fill?: boolean
+  fillColor?: string | CanvasPattern | CanvasGradient
+  stroke?: boolean
+  text: string
+  font: string
+  bottomMargin: number
+}
+
+function drawCustomTooltip(
   ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  radius = 5,
-  fill = false,
-  stroke = true
+  options: CustomTooltipOptions
 ) {
+  const {
+    x: rawX,
+    y: rawY,
+    paddingX = 0,
+    paddingY = 0,
+    lineHeight = 100,
+    bottomMargin,
+    radius,
+    fillColor = 'black',
+    text,
+    font,
+  } = options
+
   ctx.beginPath()
+
+  ctx.font = font
+  const metrics = ctx.measureText(text)
+  const rawWidth =
+    Math.abs(metrics.actualBoundingBoxLeft) +
+    Math.abs(metrics.actualBoundingBoxRight)
+  const rawHeight =
+    Math.abs(metrics.actualBoundingBoxAscent) +
+    Math.abs(metrics.actualBoundingBoxDescent)
+
+  const heightWithLineHeight = rawHeight * (Math.max(lineHeight, 100) / 100)
+  const yOffsetCausedByLineHeight = (heightWithLineHeight - rawHeight) / 2
+
+  const width = rawWidth + paddingX * 2
+  const height = heightWithLineHeight + paddingY * 2
+  // for now this will be always centered
+  const x = rawX - width / 2
+  const y = rawY - height - bottomMargin
+
+  // draw a box with borderRadius
   ctx.moveTo(x + radius, y)
   ctx.lineTo(x + width - radius, y)
   ctx.quadraticCurveTo(x + width, y, x + width, y + radius)
@@ -129,13 +185,23 @@ function drawBoxWithBorderRadius(
   ctx.quadraticCurveTo(x, y + height, x, y + height - radius)
   ctx.lineTo(x, y + radius)
   ctx.quadraticCurveTo(x, y, x + radius, y)
+  ctx.fillStyle = fillColor
+  ctx.fill()
+
+  // draw lil triangle
+  const center = x + width / 2
+  const bottom = y + height
+  ctx.moveTo(center, bottom + 10)
+  ctx.lineTo(center - 10, bottom)
+  ctx.lineTo(center + 10, bottom)
+  ctx.fillStyle = fillColor
+  ctx.fill()
+
+  // text
+  ctx.fillStyle = 'white'
+  ctx.textBaseline = 'top'
+  ctx.fillText(text, x + paddingX, y + yOffsetCausedByLineHeight + paddingY)
   ctx.closePath()
-  if (fill) {
-    ctx.fill()
-  }
-  if (stroke) {
-    ctx.stroke()
-  }
 }
 
 export const CONFIG: ChartConfiguration<'line'> = {

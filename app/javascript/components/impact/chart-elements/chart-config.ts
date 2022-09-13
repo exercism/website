@@ -10,8 +10,9 @@ export function createChartConfig(
   dateMap: { [key: string]: number }
 ): ChartConfiguration<'line'> & { milestones: Milestone[] } {
   const GRID_COLOR = '#3c364a'
-  const Y_AXIS_OFFSET = 1.3
-  const Y_AXIS_MAX = data[data.length - 1] * Y_AXIS_OFFSET
+  // const Y_AXIS_OFFSET = 2.5
+  const HIGHEST_VALUE = data[data.length - 1]
+  // const Y_AXIS_MAX = HIGHEST_VALUE * Y_AXIS_OFFSET
 
   const DATA: ChartData<'line'> = {
     // labels: new Array(data.length).fill(''),
@@ -65,7 +66,7 @@ export function createChartConfig(
         y: {
           offset: false,
           beginAtZero: true,
-          max: Y_AXIS_MAX,
+          max: (ctx) => HIGHEST_VALUE * (1 / (ctx.chart.width / 1800)),
           ticks: {
             display: false,
           },

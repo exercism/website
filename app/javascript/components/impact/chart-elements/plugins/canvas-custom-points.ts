@@ -9,6 +9,9 @@ export const CANVAS_CUSTOM_POINTS = {
     const ctx: CanvasRenderingContext2D = chart.ctx
     // 0 = index of our dataset, since we only draw one line, this is 0
     const points = chart.getDatasetMeta(0).data
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // this is a meta key, so it isn't present on the type signature
     const { milestones, dateMap } = chart.config._config
     const radius = 32
     const fontSize = 40
@@ -29,8 +32,8 @@ export const CANVAS_CUSTOM_POINTS = {
         paddingX: 12,
         paddingY: 6,
       }
-      drawCustomTooltip(ctx, customTooltipOptions)
       drawCircleWithEmoji(ctx, x, y, radius, fontSize, milestone.emoji)
+      drawCustomTooltip(ctx, customTooltipOptions)
     }
   },
 }
@@ -48,8 +51,8 @@ function drawCircleWithEmoji(
   ctx.fillStyle = POINT_BACKGROUND_COLOR
   setShadow(ctx, '#0F0923', 0, 2, 4)
   ctx.fill()
-  // clear it up, so won't be applied to emoji
-  clearShadow(ctx)
+  // clean it up, so won't be applied to emoji
+  cleanUpShadow(ctx)
   ctx.font = `${fontSize}px Arial`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'alphabetic'
@@ -57,12 +60,9 @@ function drawCircleWithEmoji(
   ctx.closePath()
 }
 
-function clearShadow(ctx: CanvasRenderingContext2D) {
+function cleanUpShadow(ctx: CanvasRenderingContext2D) {
   // initially the shadowColor is set to transparent black
-  ctx.shadowColor = 'rgba(0, 0, 0, 0)'
-  ctx.shadowOffsetX = 0
-  ctx.shadowOffsetY = 0
-  ctx.shadowBlur = 0
+  setShadow(ctx, 'rgba(0,0,0,0)', 0, 0, 0)
 }
 
 function setShadow(

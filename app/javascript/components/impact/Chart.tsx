@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Chart } from 'chart.js'
+import { generateAccumulatedData, MOCK_DATA } from './chart-elements/data'
 import {
   NumberOfStudentsLabel,
-  CONFIG,
   CANVAS_BACKGROUND,
+  CANVAS_CUSTOM_POINTS,
 } from './chart-elements'
-import { CANVAS_CUSTOM_POINTS } from './chart-elements/chart-config'
+import { createChartConfig } from './chart-elements/chart-config'
+
+const MILESTONES = [
+  { date: '201907', text: 'Exercism V2 launched', emoji: '🚀' },
+  { date: '202206', text: 'Reached 1M users!!', emoji: '⭐' },
+  { date: '202006', text: 'Mind blown', emoji: '🤯' },
+]
 
 export default function ImpactChart({ data }: { data: any }): JSX.Element {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
@@ -14,7 +21,12 @@ export default function ImpactChart({ data }: { data: any }): JSX.Element {
     if (!canvas) {
       return
     }
-    const chart = new Chart<'line'>(canvas, CONFIG)
+
+    const { dataArray: data, keys } = generateAccumulatedData(MOCK_DATA)
+    const chart = new Chart<'line'>(
+      canvas,
+      createChartConfig(data, keys, MILESTONES)
+    )
     setChart(chart)
 
     return () => chart.destroy()
@@ -26,12 +38,6 @@ export default function ImpactChart({ data }: { data: any }): JSX.Element {
     }
     Chart.register(CANVAS_BACKGROUND)
     Chart.register(CANVAS_CUSTOM_POINTS)
-
-    const customPointStyle = ['', '', '', '', '', '', '', '']
-
-    chart.data.labels = CONFIG.data.labels
-    chart.data.datasets = CONFIG.data.datasets
-    chart.data.datasets[0].pointStyle = customPointStyle
 
     chart.update()
   }, [chart])

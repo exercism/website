@@ -6,13 +6,13 @@ type Milestone = { date: string; text: string; emoji: string }
 export function createChartConfig(
   data: number[],
   labels: string[],
-  milestones: Milestone[]
+  milestones: Milestone[],
+  dateMap: { [key: string]: number }
 ): ChartConfiguration<'line'> & { milestones: Milestone[] } {
   const GRID_COLOR = '#3c364a'
   const Y_AXIS_OFFSET = 1.3
   const Y_AXIS_MAX = data[data.length - 1] * Y_AXIS_OFFSET
 
-  console.log('DATA:', data)
   const DATA: ChartData<'line'> = {
     // labels: new Array(data.length).fill(''),
     labels,
@@ -28,10 +28,14 @@ export function createChartConfig(
     ],
   }
 
-  const CONFIG: ChartConfiguration<'line'> & { milestones: Milestone[] } = {
+  const CONFIG: ChartConfiguration<'line'> & {
+    milestones: Milestone[]
+    dateMap: { [key: string]: number }
+  } = {
     type: 'line',
     data: DATA,
     milestones: milestones,
+    dateMap,
     options: {
       onHover: () => null,
       animation: false,

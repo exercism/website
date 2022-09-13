@@ -9,21 +9,18 @@ export const CANVAS_CUSTOM_POINTS = {
     const ctx: CanvasRenderingContext2D = chart.ctx
     // 0 = index of our dataset, since we only draw one line, this is 0
     const points = chart.getDatasetMeta(0).data
-    const { labels } = chart.config.data
-    const milestones = chart.config._config.milestones
-    console.log('milestones:', milestones)
+    const { milestones, dateMap } = chart.config._config
     const radius = 32
     const fontSize = 40
-    const tooltipBotMargin = 16
+    const tooltipBotMargin = 26
     const borderRadius = 8
 
     for (const milestone of milestones) {
-      const index = labels!.findIndex((e) => e === milestone.date)
-      const { x, y } = points[index]
+      const { x, y } = points[dateMap[milestone.date]]
       const customTooltipOptions: CustomTooltipOptions = {
         x,
         y: y - radius,
-        font: '600 18px Poppins',
+        font: { weight: 600, size: 18, family: 'Poppins' },
         radius: borderRadius,
         fillColor: TOOLTIP_BACKGROUND_COLOR,
         text: milestone.text,
@@ -81,6 +78,12 @@ function setShadow(
   ctx.shadowBlur = blur
 }
 
+type TooltipFont = {
+  size: number
+  family: string
+  weight: number
+}
+
 type CustomTooltipOptions = {
   x: number
   y: number
@@ -92,7 +95,7 @@ type CustomTooltipOptions = {
   fillColor?: string | CanvasPattern | CanvasGradient
   stroke?: boolean
   text: string
-  font: string
+  font: TooltipFont
   bottomMargin: number
 }
 
@@ -106,29 +109,24 @@ function drawCustomTooltip(
     paddingX = 0,
     paddingY = 0,
     lineHeight = 100,
-    bottomMargin,
-    radius,
+    bottomMargin = 0,
+    radius = 0,
     fillColor = 'black',
-    text,
-    font,
+    text = '',
+    font = { weight: 500, size: 12, family: 'Arial' },
   } = options
 
   ctx.beginPath()
 
-  ctx.font = font
+  ctx.font = `${font.weight} ${font.size}px ${font.family}`
   const metrics = ctx.measureText(text)
   const rawWidth =
     Math.abs(metrics.actualBoundingBoxLeft) +
     Math.abs(metrics.actualBoundingBoxRight)
-  const rawHeight =
-    Math.abs(metrics.actualBoundingBoxAscent) +
-    Math.abs(metrics.actualBoundingBoxDescent)
 
-  const heightWithLineHeight = rawHeight * (Math.max(lineHeight, 100) / 100)
-  const yOffsetCausedByLineHeight = (heightWithLineHeight - rawHeight) / 2
-
+  const lineHeightCent = lineHeight / 100
   const width = rawWidth + paddingX * 2
-  const height = heightWithLineHeight + paddingY * 2
+  const height = lineHeightCent * font.size + paddingY * 2
   // for now this will be always centered
   const x = rawX - width / 2
   const y = rawY - height - bottomMargin
@@ -157,8 +155,8 @@ function drawCustomTooltip(
 
   // text
   ctx.fillStyle = 'white'
-  ctx.textBaseline = 'top'
+  ctx.textBaseline = 'alphabetic'
   ctx.textAlign = 'left'
-  ctx.fillText(text, x + paddingX, y + yOffsetCausedByLineHeight + paddingY)
+  ctx.fillText(text, x + paddingX, y + height / 2 + paddingY)
   ctx.closePath()
 }

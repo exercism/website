@@ -20,6 +20,27 @@
 }
 
 #impact-page {
+    header {
+        width: 100%;
+        height: 501px;
+        left: 0px;
+        top: 64px;
+
+        background: linear-gradient(
+                180deg,
+                rgba(251, 251, 255, 0) 79.36%,
+                #f4f4fd 100%
+            ),
+            linear-gradient(
+                180deg,
+                #fafaff 0%,
+                rgba(250, 250, 255, 0.677852) 24.48%,
+                rgba(250, 250, 255, 0) 77.6%,
+                #fafaff 100%
+            ),
+            url("bg-tracks-header@2x.jpg"), #fafaff;
+        background-size: 100%;
+    }
     .map-point {
         transform-origin: left top;
         &.metric-submit_submission_metric,

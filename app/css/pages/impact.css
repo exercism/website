@@ -70,7 +70,8 @@
         }
 
         & .testimonials {
-            column-count: 3;
+            column-count: auto;
+            column-width: 350px;
             column-gap: 24px;
         }
         & .testimonial {

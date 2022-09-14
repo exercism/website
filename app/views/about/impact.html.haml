@@ -37,11 +37,14 @@
           %h3.text-h5.mb-4 Exercism teaches #{Track.active.count} programming languages, from #{Track.active.order('title ASC').first.title} to #{Track.active.order('title ASC').last.title}.
           %p.text-p-large Using a unique blend of learning, practicing, and mentoring. Everything on Exercism is 100% free.
 
-      .shadow-lg.flex-grow.bg-white.rounded-16.p-24
+      .shadow-lg.flex-grow.bg-white.rounded-16.p-24.relative
+        .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-white.flex.flex-row.items-center{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }
+          = graphical_icon "graph-stats", css_class: 'h-[24px] w-[24px] mr-12'
+          Live activity on Exercism.org
         = ReactComponents::Impact::Map.new([])
 
   .md-container.mb-64
-    .grid.grid-cols-3.gap-20
+    .grid.grid-cols-1.gap-20.md:grid-cols-2.lg:grid-cols-3
       - 3.times do
         .flex.flex-col.py-20.px-24
           .flex.items-center.mb-12
@@ -113,8 +116,8 @@
         We’ve built everything for under $500,000. Imagine what we could do with
         serious funding! Could you be the one to make it happen?
       .flex.flex-col.border.border-2.border-gradient.rounded-16.px-40.py-24.shadow-smZ1
-        .flex.flex-row.items-center.mx-auto.mb-24
-          = image_tag "team/loretta.jpg", alt: "A photo of Loretta Bresciani Murray", class: 'w-[64px] h-[64px] mr-24 rounded-circle'
+        .flex.flex-col.items-center.mx-auto.mb-24.md:flex-row
+          = image_tag "team/loretta.jpg", alt: "A photo of Loretta Bresciani Murray", class: 'w-[64px] h-[64px] md:mr-24 md:mb-4 rounded-circle'
           .flex.flex-col.text-left
             .text-h4.mb-4
               Interested in supporting Exercism as an organisation?

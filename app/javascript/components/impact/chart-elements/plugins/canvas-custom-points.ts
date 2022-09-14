@@ -15,25 +15,27 @@ export const CANVAS_CUSTOM_POINTS = {
     const { milestones, dateMap } = chart.config._config
     const radius = 32
     const fontSize = 40
-    const tooltipBotMargin = 26
     const borderRadius = 8
 
     for (const milestone of milestones) {
-      const { x, y } = points[dateMap[milestone.date]]
-      const customTooltipOptions: CustomTooltipOptions = {
-        x,
-        y: y - radius,
-        font: { weight: 600, size: 18, family: 'Poppins' },
-        radius: borderRadius,
-        fillColor: TOOLTIP_BACKGROUND_COLOR,
-        text: milestone.text,
-        bottomMargin: tooltipBotMargin,
-        lineHeight: 160,
-        paddingX: 12,
-        paddingY: 6,
-      }
-      drawCircleWithEmoji(ctx, x, y, radius, fontSize, milestone.emoji)
-      drawCustomTooltip(ctx, customTooltipOptions)
+      if (dateMap[milestone.date]) {
+        const { x, y } = points[dateMap[milestone.date]]
+        const customTooltipOptions: CustomTooltipOptions = {
+          x,
+          y: y - radius,
+          font: { weight: 600, size: 18, family: 'Poppins' },
+          radius: borderRadius,
+          fillColor: TOOLTIP_BACKGROUND_COLOR,
+          text: milestone.text,
+          bottomMargin: 12,
+          lineHeight: 160,
+          paddingX: 12,
+          paddingY: 6,
+          chartWidth: chart.width,
+        }
+        drawCircleWithEmoji(ctx, x, y, radius, fontSize, milestone.emoji)
+        drawCustomTooltip(ctx, customTooltipOptions)
+      } else continue
     }
   },
 }
@@ -97,6 +99,7 @@ type CustomTooltipOptions = {
   text: string
   font: TooltipFont
   bottomMargin: number
+  chartWidth: number
 }
 
 function drawCustomTooltip(
@@ -113,6 +116,7 @@ function drawCustomTooltip(
     radius = 0,
     fillColor = 'black',
     text = '',
+    chartWidth,
     font = { weight: 500, size: 12, family: 'Arial' },
   } = options
 
@@ -124,12 +128,19 @@ function drawCustomTooltip(
     Math.abs(metrics.actualBoundingBoxLeft) +
     Math.abs(metrics.actualBoundingBoxRight)
 
+  const tipHeight = 10
   const lineHeightCent = lineHeight / 100
   const width = rawWidth + paddingX * 2
   const height = lineHeightCent * font.size + paddingY * 2
-  // for now this will be always centered
-  const x = rawX - width / 2
-  const y = rawY - height - bottomMargin
+
+  const MARGIN_X = 10
+  const centeredX = rawX - width / 2
+  // Make sure tooltip stays on screen on both ends
+  const x = Math.max(
+    MARGIN_X,
+    centeredX - Math.max(0, centeredX + width - chartWidth + MARGIN_X)
+  )
+  const y = rawY - height - bottomMargin - tipHeight
 
   // draw a box with borderRadius
   ctx.moveTo(x + radius, y)
@@ -144,10 +155,10 @@ function drawCustomTooltip(
   ctx.fillStyle = fillColor
   ctx.fill()
 
-  // draw lil triangle
-  const center = x + width / 2
+  // draw a lil triangle a.k.a. "tip" that points towards the center of custom point
+  const center = rawX
   const bottom = y + height
-  ctx.moveTo(center, bottom + 10)
+  ctx.moveTo(center, bottom + tipHeight)
   ctx.lineTo(center - 10, bottom)
   ctx.lineTo(center + 10, bottom)
   ctx.fillStyle = fillColor

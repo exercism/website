@@ -10,9 +10,11 @@ export function createChartConfig(
   dateMap: { [key: string]: number }
 ): ChartConfiguration<'line'> & { milestones: Milestone[] } {
   const GRID_COLOR = '#3c364a'
-  // const Y_AXIS_OFFSET = 2.5
+
+  // constants for responsive grid
+  const Y_AXIS_MIN_OFFSET = 1.5
+  const SCREEN_BREAKPOINT = 1400 // plus the width of scrollbar, which is 15px on a mac by default, so the real breakpoint is 1415px
   const HIGHEST_VALUE = data[data.length - 1]
-  // const Y_AXIS_MAX = HIGHEST_VALUE * Y_AXIS_OFFSET
 
   const DATA: ChartData<'line'> = {
     // labels: new Array(data.length).fill(''),
@@ -66,7 +68,21 @@ export function createChartConfig(
         y: {
           offset: false,
           beginAtZero: true,
-          max: (ctx) => HIGHEST_VALUE * (1 / (ctx.chart.width / 1800)),
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          max: (ctx) => {
+            /* 
+            make sure the chart doesn't go out of the screen, 
+            so there is a minimum fixed offset 1.5 offset, which makes sure the chart will at most take 2/3 of the canvas. 
+            */
+            return (
+              HIGHEST_VALUE *
+              Math.max(
+                Y_AXIS_MIN_OFFSET,
+                1 / (ctx.chart.width / (SCREEN_BREAKPOINT * Y_AXIS_MIN_OFFSET))
+              )
+            )
+          },
           ticks: {
             display: false,
           },
@@ -75,7 +91,6 @@ export function createChartConfig(
             color: GRID_COLOR,
             borderWidth: 0,
           },
-          labels: [],
         },
       },
       elements: {

@@ -62,11 +62,6 @@ function drawCircleWithEmoji(
   ctx.closePath()
 }
 
-function cleanUpShadow(ctx: CanvasRenderingContext2D) {
-  // initially the shadowColor is set to transparent black
-  setShadow(ctx, 'rgba(0,0,0,0)', 0, 0, 0)
-}
-
 function setShadow(
   ctx: CanvasRenderingContext2D,
   color: string,
@@ -78,6 +73,11 @@ function setShadow(
   ctx.shadowOffsetX = offsetX
   ctx.shadowOffsetY = offsetY
   ctx.shadowBlur = blur
+}
+
+function cleanUpShadow(ctx: CanvasRenderingContext2D) {
+  // initially the shadowColor is set to transparent black
+  setShadow(ctx, 'rgba(0,0,0,0)', 0, 0, 0)
 }
 
 type TooltipFont = {
@@ -129,12 +129,15 @@ function drawCustomTooltip(
     Math.abs(metrics.actualBoundingBoxRight)
 
   const tipHeight = 10
+  const tipWidth = 10 //x2
   const lineHeightCent = lineHeight / 100
   const width = rawWidth + paddingX * 2
   const height = lineHeightCent * font.size + paddingY * 2
 
-  const MARGIN_X = 10
+  // we need this, so tooltip won't disattach itself from rect
+  const DYNAMIC_MARGIN = chartWidth - rawX - tipWidth
   const centeredX = rawX - width / 2
+  const MARGIN_X = Math.min(10, DYNAMIC_MARGIN)
   // Make sure tooltip stays on screen on both ends
   const x = Math.max(
     MARGIN_X,
@@ -159,8 +162,8 @@ function drawCustomTooltip(
   const center = rawX
   const bottom = y + height
   ctx.moveTo(center, bottom + tipHeight)
-  ctx.lineTo(center - 10, bottom)
-  ctx.lineTo(center + 10, bottom)
+  ctx.lineTo(center - tipWidth, bottom)
+  ctx.lineTo(center + tipWidth, bottom)
   ctx.fillStyle = fillColor
   ctx.fill()
 

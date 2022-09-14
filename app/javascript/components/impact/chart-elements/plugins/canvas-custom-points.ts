@@ -135,7 +135,8 @@ function drawCustomTooltip(
   const height = lineHeightCent * font.size + paddingY * 2
 
   // we need this, so tooltip won't disattach itself from rect
-  const DYNAMIC_MARGIN = chartWidth - rawX - tipWidth
+  // either left side or right side is below the margin, distance will decrease
+  const DYNAMIC_MARGIN = Math.min(chartWidth - rawX - tipWidth, rawX - tipWidth)
   const centeredX = rawX - width / 2
   const MARGIN_X = Math.min(10, DYNAMIC_MARGIN)
   // Make sure tooltip stays on screen on both ends

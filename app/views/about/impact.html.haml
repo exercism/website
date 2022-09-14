@@ -38,7 +38,7 @@
           %p.text-p-large Using a unique blend of learning, practicing, and mentoring. Everything on Exercism is 100% free.
 
       .shadow-lg.flex-grow.bg-white.rounded-16.p-24.relative
-        .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-white.flex.flex-row.items-center{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }
+        .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-white.flex.flex-row.items-center.whitespace-nowrap{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }
           = graphical_icon "graph-stats", css_class: 'h-[24px] w-[24px] mr-12'
           Live activity on Exercism.org
         = ReactComponents::Impact::Map.new([])
@@ -74,7 +74,8 @@
             .label-large Full-time Staff
 
       %div{ class: 'w-fill max-w-[374px]' }
-        .p-24.shadow-base.mb-32.bg-bgGray
+        .p-24.shadow-base.mb-32.bg-bgGray.relative
+          .absolute.bg-lightGold.rounded-circle.w-48.text-24.p-12{ class: 'top-0 -translate-y-1/2' } 🙌
           %h3.text-h4.mb-8 Has Exercism helped you become a better developer?
           %p.text-p-large.mb-16 If Exercism has helped your career prospects or given you joy, please consider financially supporting us.
           %p.text-p-large Only 1% of people that use Exercism support us. Please be one of them.

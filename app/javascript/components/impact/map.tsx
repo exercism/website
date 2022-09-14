@@ -3,6 +3,7 @@ import { GraphicalIcon, TrackIcon, Avatar } from '../../components/common'
 import { GenericTooltip } from '../../components/misc/ExercismTippy'
 import { MetricsChannel } from '../../channels/metricsChannel'
 import { Metric } from '../types'
+import { TopLearningCountries } from './TopLearningCountries'
 
 const coordinatesToPosition = (latitude: number, longitude: number) => {
   const map_width = 724
@@ -19,6 +20,18 @@ const coordinatesToPosition = (latitude: number, longitude: number) => {
   const top = ((y + 62) / map_height) * 100
   return [left, top]
 }
+
+const TOP_LEARNING_DATA = [
+  { country: 'Germany', flag: '🇩🇪', percent: 10 },
+  { country: 'USA', flag: '\u{1f1fa}\u{1f1f8}', percent: 7 },
+  { country: 'India', flag: '\u{1f1ee}\u{1f1f3}', percent: 4 },
+  { country: 'Brazil', flag: '🇧🇷', percent: 2.4 },
+  { country: 'UK', flag: '\u{1f1ec}\u{1f1e7}', percent: 1.2 },
+  { country: 'Poland', flag: '🇵🇱', percent: 0.5 },
+  { country: 'Russia', flag: '🇷🇺', percent: 0.3 },
+  { country: 'Canada', flag: '🇨🇦', percent: 0.1 },
+  { country: 'Spain', flag: '🇪🇸', percent: 0.05 },
+]
 
 const MetricPointWithTooltip = ({
   metric,
@@ -203,11 +216,13 @@ export default ({
         category="graphics"
         width={680}
         height={400}
-        className="w-fill"
+        className="w-fill mb-36 "
       />
       {metrics.map((metric) => (
         <MetricPoint key={metric.id} metric={metric} />
       ))}
+
+      <TopLearningCountries data={TOP_LEARNING_DATA} />
     </div>
   )
 }

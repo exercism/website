@@ -145,25 +145,41 @@ function drawCustomTooltip(
   )
   const y = rawY - height - bottomMargin - tipHeight
 
+  // triangle constants
+  const center = rawX
+  const bottom = y + height
+  const tipTopLeft = center - tipWidth
+  const tipTopRight = center + tipWidth
+  const tipRightToBoxEnd = x + width - tipTopRight
+  const tipLeftToBoxStart = tipTopLeft - x
+  const brBorderRadius = Math.min(radius, tipRightToBoxEnd)
+  const blBorderRadius = Math.min(radius, tipLeftToBoxStart)
   // draw a box with borderRadius
   ctx.moveTo(x + radius, y)
   ctx.lineTo(x + width - radius, y)
+  // tr
   ctx.quadraticCurveTo(x + width, y, x + width, y + radius)
   ctx.lineTo(x + width, y + height - radius)
-  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
+  // br
+  ctx.quadraticCurveTo(
+    x + width,
+    y + height,
+    x + width - brBorderRadius,
+    y + height
+  )
   ctx.lineTo(x + radius, y + height)
-  ctx.quadraticCurveTo(x, y + height, x, y + height - radius)
+  // bl
+  ctx.quadraticCurveTo(x, y + height, x, y + height - blBorderRadius)
   ctx.lineTo(x, y + radius)
+  // tl
   ctx.quadraticCurveTo(x, y, x + radius, y)
   ctx.fillStyle = fillColor
   ctx.fill()
 
   // draw a lil triangle a.k.a. "tip" that points towards the center of custom point
-  const center = rawX
-  const bottom = y + height
   ctx.moveTo(center, bottom + tipHeight)
-  ctx.lineTo(center - tipWidth, bottom)
-  ctx.lineTo(center + tipWidth, bottom)
+  ctx.lineTo(tipTopLeft, bottom)
+  ctx.lineTo(tipTopRight, bottom)
   ctx.fillStyle = fillColor
   ctx.fill()
 

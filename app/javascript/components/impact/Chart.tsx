@@ -10,6 +10,8 @@ import { createChartConfig } from './chart-elements/chart-config'
 
 const MILESTONES = [
   // send it probably in this format
+
+  { date: '201309', text: 'Check tooltip radius', emoji: '\u{1f600}' },
   { date: '202006', text: 'See if this emoji is centered', emoji: '\u{1f600}' },
   { date: '202206', text: 'Reached 1M users!!', emoji: '⭐' },
   { date: '201907', text: 'Exercism V2 launched', emoji: '🚀' },

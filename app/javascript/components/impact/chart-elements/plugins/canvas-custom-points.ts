@@ -107,8 +107,8 @@ function drawCustomTooltip(
   options: CustomTooltipOptions
 ) {
   const {
-    x: rawX,
-    y: rawY,
+    x: origoX,
+    y: origoY,
     paddingX = 0,
     paddingY = 0,
     lineHeight = 100,
@@ -134,28 +134,34 @@ function drawCustomTooltip(
   const width = rawWidth + paddingX * 2
   const height = lineHeightCent * font.size + paddingY * 2
 
-  // we need this, so tooltip won't disattach itself from rect
-  // either left side or right side is below the margin, distance will decrease
-  const DYNAMIC_MARGIN = Math.min(chartWidth - rawX - tipWidth, rawX - tipWidth)
-  const centeredX = rawX - width / 2
-  const MARGIN_X = Math.min(10, DYNAMIC_MARGIN)
+  // center tooltip
+  const centeredX = origoX - width / 2
+
+  // we need this, so the tip won't disattach itself from rect on screen width change
+  const RESPONSIVE_MARGIN = Math.min(
+    chartWidth - origoX - tipWidth,
+    origoX - tipWidth
+  )
+  const MARGIN_X = Math.min(10, RESPONSIVE_MARGIN)
+
   // Make sure tooltip stays on screen on both ends
   const x = Math.max(
     MARGIN_X,
     centeredX - Math.max(0, centeredX + width - chartWidth + MARGIN_X)
   )
-  const y = rawY - height - bottomMargin - tipHeight
+  const y = origoY - height - bottomMargin - tipHeight
 
   // triangle constants
-  const center = rawX
   const bottom = y + height
-  const tipTopLeft = center - tipWidth
-  const tipTopRight = center + tipWidth
-  const tipRightToBoxEnd = x + width - tipTopRight
-  const tipLeftToBoxStart = tipTopLeft - x
-  const brBorderRadius = Math.min(radius, tipRightToBoxEnd)
-  const blBorderRadius = Math.min(radius, tipLeftToBoxStart)
-  // draw a box with borderRadius
+  const tipTopLeft = origoX - tipWidth
+  const tipTopRight = origoX + tipWidth
+  const tipRightToRectEnd = x + width - tipTopRight
+  const tipLeftToRectStart = tipTopLeft - x
+  // adaptive border radius, that changes when tooltip is nearer to the end of rectangle
+  const brBorderRadius = Math.min(radius, tipRightToRectEnd)
+  const blBorderRadius = Math.min(radius, tipLeftToRectStart)
+
+  // draw a rectangle with borderRadius
   ctx.moveTo(x + radius, y)
   ctx.lineTo(x + width - radius, y)
   // tr
@@ -177,8 +183,8 @@ function drawCustomTooltip(
   ctx.fillStyle = fillColor
   ctx.fill()
 
-  // draw a lil triangle a.k.a. "tip" that points towards the center of custom point
-  ctx.moveTo(center, bottom + tipHeight)
+  // draw a lil triangle a.k.a. "tip" that points towards the origo of custom point
+  ctx.moveTo(origoX, bottom + tipHeight)
   ctx.lineTo(tipTopLeft, bottom)
   ctx.lineTo(tipTopRight, bottom)
   ctx.fillStyle = fillColor

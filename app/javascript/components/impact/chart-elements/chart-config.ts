@@ -13,6 +13,8 @@ export function createChartConfig(
 
   // constants for responsive grid
   const Y_AXIS_MIN_OFFSET = 1.5
+  // this can be set as a max offset if needed
+  const Y_AXIS_MAX_OFFSET = Number.MAX_SAFE_INTEGER
   const SCREEN_BREAKPOINT = 1400 // plus the width of scrollbar, which is 15px on a mac by default, so the real breakpoint is 1415px
   const HIGHEST_VALUE = data[data.length - 1]
 
@@ -77,9 +79,13 @@ export function createChartConfig(
             */
             return (
               HIGHEST_VALUE *
-              Math.max(
-                Y_AXIS_MIN_OFFSET,
-                1 / (ctx.chart.width / (SCREEN_BREAKPOINT * Y_AXIS_MIN_OFFSET))
+              Math.min(
+                Y_AXIS_MAX_OFFSET,
+                Math.max(
+                  Y_AXIS_MIN_OFFSET,
+                  1 /
+                    (ctx.chart.width / (SCREEN_BREAKPOINT * Y_AXIS_MIN_OFFSET))
+                )
               )
             )
           },

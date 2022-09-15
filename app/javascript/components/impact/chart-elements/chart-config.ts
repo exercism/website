@@ -12,6 +12,8 @@ export function createChartConfig(
   const GRID_COLOR = '#3c364a'
 
   // constants for responsive grid
+  // offsets are the reciprocal of the height of graphicon.
+  // eg. 3/2 offset -> graphicon takes the 2/3 of canvas height
   const Y_AXIS_MIN_OFFSET = 1.5
   // this can be set as a max offset if needed
   const Y_AXIS_MAX_OFFSET = Number.MAX_SAFE_INTEGER
@@ -73,10 +75,7 @@ export function createChartConfig(
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           max: (ctx) => {
-            /* 
-            make sure the chart doesn't go out of the screen, 
-            so there is a minimum fixed offset 1.5 offset, which makes sure the chart will at most take 2/3 of the canvas. 
-            */
+            // max height of linechart
             return (
               HIGHEST_VALUE *
               Math.min(

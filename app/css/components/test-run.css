@@ -200,6 +200,7 @@
             & .--summary-inner {
                 @apply flex items-center;
                 @apply py-10 px-24;
+                @apply overflow-y-scroll;
             }
 
             & .--status {
@@ -231,7 +232,7 @@
                     @apply font-bold text-darkGray uppercase leading-huge mb-8;
                 }
                 & pre {
-                    @apply bg-backgroundColorB py-16 px-20 whitespace-pre-wrap rounded-8;
+                    @apply bg-backgroundColorB py-16 px-20 whitespace-pre-wrap overflow-y-auto rounded-8;
                 }
             }
         }

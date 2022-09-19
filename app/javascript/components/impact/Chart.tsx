@@ -39,16 +39,16 @@ export default function ImpactChart({
     if (!chart) {
       return
     }
-    Chart.register(CANVAS_BACKGROUND)
+    // Chart.register(CANVAS_BACKGROUND)
     Chart.register(CANVAS_CUSTOM_POINTS)
 
     chart.update()
   }, [chart])
 
   return (
-    <div className="h-[900px]">
+    <>
       <NumberOfStudentsLabel />
-      <canvas ref={setCanvas}></canvas>
-    </div>
+      <canvas height={900} ref={setCanvas}></canvas>
+    </>
   )
 }

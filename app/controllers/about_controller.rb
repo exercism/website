@@ -34,28 +34,36 @@ class AboutController < ApplicationController
   #     end
 
   def impact
-    map_width  = 724
-    map_height = 421
-
-    @submission_coords = Metrics::StartSolutionMetric.includes(:track).last(6).map do |metric|
-      latitude = metric.coordinates[0]
-      longitude = metric.coordinates[1]
-
-      x = (longitude + 180) * (map_width / 360)
-      last_rad = latitude * Math::PI / 180
-      merc_north = Math.log(Math.tan((Math::PI / 4) + (last_rad / 2)))
-      y = (map_height / 2) - (map_width * merc_north / (2 * Math::PI))
-
-      # First bit is because we have a terrible map.
-      # Second bit scales it to a percentage
-      x = (x - 15) / map_width * 100
-      y = (y + 62) / map_height * 100
-
-      {
-        track: metric.track,
-        coords: { left: x, top: y }
-      }
-    end
+    # This is the calculation for the average first iteration time.
+    # It comes out at 1450 (seconds) at the time of writing
+    #
+    # SELECT AVG(dd.val) as median_val
+    # FROM (
+    #   SELECT d.val, @rownum:=@rownum+1 as `row_number`, @total_rows:=@rownum
+    #     FROM (
+    #       SELECT iterations.created_at - solutions.created_at as val
+    #       FROM `solutions`
+    #       INNER JOIN iterations ON iterations.id = (
+    #         SELECT id from iterations WHERE solutions.id = solution_id order by id ASC LIMIT 1
+    #       )
+    #       INNER JOIN exercises ON solutions.exercise_id = exercises.id
+    #       WHERE exercises.slug != "hello-world"
+    #       HAVING val < 7200
+    #       ORDER BY solutions.id desc LIMIT 100000
+    #     ) d, (SELECT @rownum:=0) r
+    #   ORDER BY d.val
+    # ) as dd
+    # WHERE dd.row_number IN ( FLOOR((@total_rows+1)/2), FLOOR((@total_rows+2)/2) );
+    #
+    # There are 4,312,556 iteratiions at the time of writing.
+    # I am presuming each iteration has roughly the same amount of time
+    # go into it based on learning/mentoring but this bit is the most
+    # sketchy, but we have no other way to measure it currently.
+    #
+    # So (1_450 * 4_312_556) / 60.0 = 104_220_130
+    #
+    # There are 5,500 iterations per day, so
+    # (1_450 * 5_500) / 60.0 = 132_916
   end
 
   private

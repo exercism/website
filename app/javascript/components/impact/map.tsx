@@ -210,19 +210,20 @@ export default ({
 
   return (
     /* TODO: Remove this height */
-    <div className="relative">
-      <GraphicalIcon
-        icon="world-map"
-        category="graphics"
-        width={680}
-        height={400}
-        className="w-fill mb-36 "
-      />
-      {metrics.map((metric) => (
-        <MetricPoint key={metric.id} metric={metric} />
-      ))}
-
-      <TopLearningCountries data={TOP_LEARNING_DATA} />
+    <div>
+      <div className="relative">
+        <GraphicalIcon
+          icon="world-map"
+          category="graphics"
+          width={680}
+          height={400}
+          className="w-fill mb-36 "
+        />
+        {metrics.map((metric) => (
+          <MetricPoint key={metric.id} metric={metric} />
+        ))}
+      </div>
+      {/*<TopLearningCountries data={TOP_LEARNING_DATA} />*/}
     </div>
   )
 }

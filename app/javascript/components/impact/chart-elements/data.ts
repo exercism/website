@@ -8,7 +8,7 @@ export function generateAccumulatedData(rawData: { [key: string]: number }): {
   const dateMap: DateMap = {}
   const values = Object.values(rawData)
   const keys = Object.keys(rawData)
-  let base = 300000 // bottom offset
+  let base = 400000 // bottom offset
   for (let i = 0; i < values.length; i++) {
     base += values[i]
     array.push(base)

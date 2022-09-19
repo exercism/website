@@ -66,12 +66,8 @@
             }
         }
     }
-}
 
-#page-impact-testimonials {
-    @apply bg-backgroundColorA;
-    & article {
-        @apply pt-32;
+    & article.testimonials {
         & .stats {
             @apply grid grid-cols-3;
             @apply mx-auto mb-48;

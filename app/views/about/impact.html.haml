@@ -6,61 +6,88 @@
       Exercism Impact Report
     %h2.text-h0.mb-12.text-center{ class: 'max-w-[800px]' }
       We’ve provided
-      %strong{ class: 'pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]' } 82,045,205
-      minutes of free education.
+      %strong{ class: 'pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]' } 104,220,130
+      %strong{ class: 'pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]' } minutes
+      of free education.
     %p.font-medium.text-textColor6.text-24.leading-160.text-center{ class: 'max-w-[780px]' }
-      And increasing — by 600,000 minutes per day!
+      And provide another 132,916 minutes per day!
       %br
       All on a free, open source project funded by people like you.
 
   .md-container.mb-48
-    .flex.items-stretch
-      .mr-32{ class: 'w-fill max-w-[380px]' }
+    .flex.flex-col.md:flex-row.md:items-stretch
+      .md:mr-32.mb-40.md:mb-0{ class: 'w-fill md:max-w-[380px]' }
         .shadow-lgZ1.py-8.rounded-16.mb-32
           .py-12.px-32.bg-purpleHover
             %h3.label-large Students
-            .text-purple.font-semibold.text-40.leading-150
-              = render ReactComponents::Impact::Stat.new(:sign_up_metric, 1_008_385)
-            .text-successColor.font-bold +939 per day
+            .text-purple.font-semibold.text-40.leading-150{ class: 'h-[60px]' }
+              = render ReactComponents::Impact::Stat.new(:sign_up_metric, Metrics.num_users)
+            .text-successColor.font-bold +1,342 per day
 
           .py-12.px-32.bg-bgGray
             %h3.label-large Exercises Practiced
-            .text-purple.font-semibold.text-40.leading-150
-              = render ReactComponents::Impact::Stat.new(:start_solution_metric, 3_800_957)
-            .text-successColor.font-bold +1,842 per day
+            .text-purple.font-semibold.text-40.leading-150{ class: 'h-[60px]' }
+              = render ReactComponents::Impact::Stat.new(:start_solution_metric, Metrics.num_solutions)
+            .text-successColor.font-bold +5,742 per day
 
           .py-12.px-32
             %h3.label-large Mentoring Discussions
-            .text-purple.font-semibold.text-40.leading-150 268,000
+            .text-purple.font-semibold.text-40.leading-150= Metrics.num_discussions
 
         .bg-bgGray.shadow-base.py-16.px-24
-          %h3.text-h5.mb-4 Exercism teaches #{Track.active.count} programming languages, from #{Track.active.order('title ASC').first.title} to #{Track.active.order('title ASC').last.title}.
-          %p.text-p-large Using a unique blend of learning, practicing, and mentoring. Everything on Exercism is 100% free.
+          %p.text-p-large.mb-8
+            %span.text-h5 Exercism teaches #{Track.active.count} programming languages, from #{Track.active.order('title ASC').first.title} to #{Track.active.order('title ASC').last.title},
+            using a unique blend of learning, practicing, and mentoring.
+          %p.text-p-large
+            Everything on Exercism is 100% free.
 
-      .shadow-lg.flex-grow.bg-white.rounded-16.p-24.relative
+      .shadow-lg.flex-grow.bg-white.rounded-16.py-48.px-24.relative
         .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-white.flex.flex-row.items-center.whitespace-nowrap{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }
           = graphical_icon "graph-stats", css_class: 'h-[24px] w-[24px] mr-12'
-          Live activity on Exercism.org
-        = ReactComponents::Impact::Map.new([])
+          Live activity on Exercism
+        = ReactComponents::Impact::Map.new
 
   .md-container.mb-64
     .grid.grid-cols-1.gap-20.md:grid-cols-2.lg:grid-cols-3
-      - 3.times do
-        .flex.flex-col.py-20.px-24
-          .flex.items-center.mb-12
-            = image_tag "photos/twitter-zippkode.jpg", class: 'w-[40px] h-[40px] rounded-circle mr-12'
-            .flex.flex-col
-              .label-large Karl 🇺🇦
-              .text-p-base.text-textColor6 @zippcode
-            = link_to icon('external-site-twitter', 'Twitter', css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/zippkode/status/1561075536834838530", class: 'ml-auto p-8'
-          %p.text-p-large
-            “...I worked on the Ruby strings exercises at
-            %em.not-italic.font-medium.text-purple @exercism_io
-            This platform forces me to slow down and actually logically solve the tasks...”
+      .flex.flex-col.py-20.px-24
+        .flex.items-center.mb-12
+          = image_tag "photos/twitter-dapritchard_.jpg", class: 'w-[40px] h-[40px] rounded-circle mr-12'
+          .flex.flex-col
+            .label-large David Pritchard
+            .text-p-base.text-textColor6 @dapritchard_
+          = link_to icon('external-site-twitter', 'Twitter', css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/dapritchard_/status/1549978935995338753", class: 'ml-auto p-8'
+        %p.text-p-large
+          %em.not-italic.font-medium.text-purple @exercism_io
+          is really incredible. My submission was failing it's tests...I asked for mentoring to help straighten things out, and within 15 minutes someone had messaged me explaining my error.
+
+      .flex.flex-col.py-20.px-24
+        .flex.items-center.mb-12
+          = image_tag "photos/twitter-zippkode.jpg", class: 'w-[40px] h-[40px] rounded-circle mr-12'
+          .flex.flex-col
+            .label-large Karl 🇺🇦
+            .text-p-base.text-textColor6 @zippcode
+          = link_to icon('external-site-twitter', 'Twitter', css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/zippkode/status/1561075536834838530", class: 'ml-auto p-8'
+        %p.text-p-large
+          \...I worked on the Ruby strings exercises at
+          %em.not-italic.font-medium.text-purple @exercism_io
+          This platform forces me to slow down and actually logically solve the tasks...
+
+
+      .flex.flex-col.py-20.px-24
+        .flex.items-center.mb-12
+          = image_tag "photos/twitter-alebaffa.jpg", class: 'w-[40px] h-[40px] rounded-circle mr-12'
+          .flex.flex-col
+            .label-large Alessandro Baffa
+            .text-p-base.text-textColor6 @alebaffa
+          = link_to icon('external-site-twitter', 'Twitter', css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/alebaffa/status/1545972418497302528", class: 'ml-auto p-8'
+        %p.text-p-large
+          I've always loved
+          %em.not-italic.font-medium.text-purple @exercism_io
+          because you learn not only the syntax of a language, but also its dev environment: how to setup tests, packaging and build. Fantastic resource!
 
   .md-container.mb-64
-    .flex
-      .mr-32.shadow-lg.flex-grow.bg-white.rounded-16.py-40.px-48
+    .flex.flex-col.md:flex-row
+      .md:mr-32.mb-48.md:mb-0.shadow-lg.flex-grow.bg-white.rounded-16.py-40.px-48
         %h2.text-h1.mb-32 Exercism is powered by huge team of wonderful volunteers.
         .grid.grid-cols-1.gap-20.lg:grid-cols-3
           .flex.flex-col
@@ -73,15 +100,15 @@
             .text-40.leading-150.font-semibold.text-purple 6
             .label-large Full-time Staff
 
-      %div{ class: 'w-fill max-w-[374px]' }
-        .p-24.shadow-base.mb-32.bg-bgGray.relative
+      %div{ class: 'w-fill md:max-w-[374px]' }
+        .py-24.px-24.pt-60.shadow-base.mb-32.bg-white.relative
           .absolute.bg-lightGold.rounded-circle.w-48.text-24.p-12{ class: 'top-0 -translate-y-1/2' } 🙌
           %h3.text-h4.mb-8 Has Exercism helped you become a better developer?
           %p.text-p-large.mb-16 If Exercism has helped your career prospects or given you joy, please consider financially supporting us.
           %p.text-p-large Only 1% of people that use Exercism support us. Please be one of them.
 
-        .btn.btn-base.btn-secondary
-          See how you can support us
+        = link_to donate_path, class: "btn btn-base btn-secondary" do
+          %span See how you can support us
           = graphical_icon "arrow-right"
 
   .md-container.mb-64
@@ -90,12 +117,12 @@
       = icon "mozilla", "Mozilla", category: :partners, css_class: "mozilla h-48"
       = icon "gobridge", "GoBridge", category: :partners, css_class: "gobridge h-[80px]"
       = icon "chicago", "University of Chicago", category: :partners, css_class: "chicago h-48"
-      = icon "thalamus", "Thalamus AI", category: :partners, css_class: 'h-48'
+      = icon "packt", "Packt Publishing", category: :partners, css_class: 'h-48'
     .text-center.text-18.leading-150.text-textColor6.font-semibold
       And over
       %a.underline{ href: '#', title: 'Individual donors' } 700 individuals donors!
 
-  .bg-repeat.overflow-hidden{ class: 'h-[900px] bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
+  .bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
     .md-container
       .pt-48.flex.flex-col.items-center
         .flex.flex-col.text-center{ class: "max-w-[927px]" }
@@ -107,8 +134,8 @@
             to be the best it can be, and they reward us by sharing with their
             friends.
 
-    %div{ class: 'lg:mt-[-320px] md:mt-[-305px] mt-[-310px]' }
-      = ReactComponents::Impact::Chart.new
+    %div{ class: 'h-[480px]' }
+      = render ReactComponents::Impact::Chart.new
 
   -# .relative{ class: 'h-[900px]' }
     = ReactComponents::Impact::Chart.new
@@ -129,7 +156,7 @@
       %h2.text-h1.mb-12 Become rocket fuel for our mission
       %p.text-p-2xlarge.mb-36.text-center.text-textColor6.font-medium
         We’ve built everything for under $500,000. Imagine what we could do with
-        serious funding! Could you be the one to make it happen?
+        more significant funding! Could you be the one to make it happen?
       .flex.flex-col.border.border-2.border-gradient.rounded-16.px-40.py-24.shadow-smZ1
         .flex.flex-col.items-center.mx-auto.mb-24.md:flex-row
           = image_tag "team/loretta.jpg", alt: "A photo of Loretta Bresciani Murray", class: 'w-[64px] h-[64px] md:mr-24 md:mb-4 rounded-circle'
@@ -146,12 +173,11 @@
           = graphical_icon "envelope", css_class: "mr-16"
           %span loretta@exercism.org
 
-.c-shapes-impact.c-shapes-1
-  .sm-container.mb-64
-    %h2.text-h1.text-center.mx-40
-      87,305 people testified to the impact Exercism has had on their learning.
+  .lg-container.mb-64
+    .c-shapes-impact.c-shapes-1
+      %h2.text-h1.text-center{ class: "max-w-[840px] mx-auto" }
+        87,305 people testified to the impact Exercism has had on their learning.
 
-  .md-container
-    #page-impact-testimonials
-      %article
-        = ReactComponents::Profile::TestimonialsList.new(User.for!("iHiD"), params)
+    .md-container.bg-backgroundColorA
+      %article.testimonials.pt-40
+        = ReactComponents::Impact::TestimonialsList.new(params)

@@ -15,7 +15,7 @@ export const CANVAS_CUSTOM_POINTS = {
     // this is a meta key, so it isn't present on the type signature
     const { milestones, dateMap } = chart.config._config
     const radius = 32
-    const fontSize = 40
+    const fontSize = 32
     const borderRadius = 8
 
     for (const milestone of milestones) {
@@ -61,7 +61,7 @@ function drawCircleWithEmoji(
   ctx.font = `${fontSize}px Arial`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'alphabetic'
-  ctx.strokeText(emoji, x, y + radius / 2)
+  ctx.strokeText(emoji, x, y + 12)
   ctx.closePath()
 }
 

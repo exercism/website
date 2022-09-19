@@ -46,9 +46,9 @@ export default function ImpactChart({
   }, [chart])
 
   return (
-    <>
-      <NumberOfStudentsLabel />
-      <canvas height={900} ref={setCanvas}></canvas>
-    </>
+    <div class="relative">
+      {/* <NumberOfStudentsLabel /> */}
+      <canvas height={480} ref={setCanvas}></canvas>
+    </div>
   )
 }

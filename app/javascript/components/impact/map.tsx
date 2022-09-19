@@ -2,16 +2,17 @@ import React, { useEffect, useState, useRef } from 'react'
 import { GraphicalIcon, TrackIcon, Avatar } from '../../components/common'
 import { GenericTooltip } from '../../components/misc/ExercismTippy'
 import { MetricsChannel } from '../../channels/metricsChannel'
-import { Metric } from '../../types'
+import { Metric } from '../types'
+import { TopLearningCountries } from './TopLearningCountries'
 
-const coordinatesToPosition = (latitude, longitude) => {
+const coordinatesToPosition = (latitude: number, longitude: number) => {
   const map_width = 724
   const map_height = 421
 
-  let x = (longitude + 180) * (map_width / 360)
-  let last_rad = (latitude * Math.PI) / 180
-  let merc_north = Math.log(Math.tan(Math.PI / 4 + last_rad / 2))
-  let y = map_height / 2 - (map_width * merc_north) / (2 * Math.PI)
+  const x = (longitude + 180) * (map_width / 360)
+  const last_rad = (latitude * Math.PI) / 180
+  const merc_north = Math.log(Math.tan(Math.PI / 4 + last_rad / 2))
+  const y = map_height / 2 - (map_width * merc_north) / (2 * Math.PI)
 
   // First bit is because we have a terrible map.
   // Second bit scales it to a percentage
@@ -20,6 +21,18 @@ const coordinatesToPosition = (latitude, longitude) => {
   return [left, top]
 }
 
+const TOP_LEARNING_DATA = [
+  { country: 'Germany', flag: '🇩🇪', percent: 10 },
+  { country: 'USA', flag: '\u{1f1fa}\u{1f1f8}', percent: 7 },
+  { country: 'India', flag: '\u{1f1ee}\u{1f1f3}', percent: 4 },
+  { country: 'Brazil', flag: '🇧🇷', percent: 2.4 },
+  { country: 'UK', flag: '\u{1f1ec}\u{1f1e7}', percent: 1.2 },
+  { country: 'Poland', flag: '🇵🇱', percent: 0.5 },
+  { country: 'Russia', flag: '🇷🇺', percent: 0.3 },
+  { country: 'Canada', flag: '🇨🇦', percent: 0.1 },
+  { country: 'Spain', flag: '🇪🇸', percent: 0.05 },
+]
+
 const MetricPointWithTooltip = ({
   metric,
   text,
@@ -27,8 +40,8 @@ const MetricPointWithTooltip = ({
   content,
 }: {
   metric: Metric
-  text: String
-  duration: Number
+  text: string
+  duration: number
   content: JSX.Element
 }): JSX.Element => {
   const avatarRef = useRef(null)
@@ -57,7 +70,7 @@ const MetricPointUserWithTooltip = ({
   text,
 }: {
   metric: Metric
-  text: String
+  text: string
 }): JSX.Element => {
   const avatarRef = useRef(null)
   const content = (
@@ -82,27 +95,27 @@ const MetricPointUserWithTooltip = ({
   )
 }
 
+function Content(): JSX.Element {
+  const iconRef = useRef(null)
+  return (
+    <div
+      ref={iconRef}
+      className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
+    >
+      <GraphicalIcon icon="avatar-placeholder" className="w-[32px] h-[32px]" />
+    </div>
+  )
+}
+
 const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
   switch (metric.type) {
     case 'sign_up_metric':
-      const iconRef = useRef(null)
-      const content = (
-        <div
-          ref={iconRef}
-          className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
-        >
-          <GraphicalIcon
-            icon="avatar-placeholder"
-            className="w-[32px] h-[32px]"
-          />
-        </div>
-      )
       return (
         <MetricPointWithTooltip
           metric={metric}
           text={`Someone joined Exercism`}
           duration={2000}
-          content={content}
+          content={<Content />}
         />
       )
     case 'start_solution_metric':
@@ -197,17 +210,20 @@ export default ({
 
   return (
     /* TODO: Remove this height */
-    <div className="relative">
-      <GraphicalIcon
-        icon="world-map"
-        category="graphics"
-        width="680"
-        height="400"
-        className="w-fill"
-      />
-      {metrics.map((metric) => (
-        <MetricPoint key={metric.id} metric={metric} />
-      ))}
+    <div>
+      <div className="relative">
+        <GraphicalIcon
+          icon="world-map"
+          category="graphics"
+          width={680}
+          height={400}
+          className="w-fill mb-36 "
+        />
+        {metrics.map((metric) => (
+          <MetricPoint key={metric.id} metric={metric} />
+        ))}
+      </div>
+      {/*<TopLearningCountries data={TOP_LEARNING_DATA} />*/}
     </div>
   )
 }

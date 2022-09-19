@@ -20,6 +20,27 @@
 }
 
 #impact-page {
+    header {
+        width: 100%;
+        height: 501px;
+        left: 0px;
+        top: 64px;
+
+        background: linear-gradient(
+                180deg,
+                rgba(251, 251, 255, 0) 79.36%,
+                #f4f4fd 100%
+            ),
+            linear-gradient(
+                180deg,
+                #fafaff 0%,
+                rgba(250, 250, 255, 0.677852) 24.48%,
+                rgba(250, 250, 255, 0) 77.6%,
+                #fafaff 100%
+            ),
+            url("bg-tracks-header@2x.jpg"), #fafaff;
+        background-size: 100%;
+    }
     .map-point {
         transform-origin: left top;
         &.metric-submit_submission_metric,
@@ -42,6 +63,74 @@
 
             img {
                 filter: drop-shadow(0px 0px 10px rgba(79, 114, 205, 0.3));
+            }
+        }
+    }
+
+    & article.testimonials {
+        & .stats {
+            @apply grid grid-cols-3;
+            @apply mx-auto mb-48;
+            max-width: 690px;
+            & .stat {
+                max-width: 230px;
+                @apply px-24;
+                & .number {
+                    @apply text-24 leading-160 font-medium text-textColor2;
+                    @apply text-center;
+                }
+                & .metric {
+                    @apply text-16 leading-160 text-textColor2;
+                    @apply text-center;
+                }
+            }
+        }
+
+        & .testimonials {
+            column-count: auto;
+            column-width: 350px;
+            column-gap: 24px;
+        }
+        & .testimonial {
+            display: inline-block;
+            margin: 24px 0;
+            width: 100%;
+
+            @apply pt-36 pb-24 px-24;
+            @apply border-1 border-borderColor6;
+            @apply shadow-sm;
+            @apply rounded-8;
+            @apply relative;
+            @apply text-left;
+
+            & .c-avatar {
+                @apply absolute;
+                top: -24px;
+                height: 48px;
+                width: 48px;
+            }
+            & .content {
+                @apply text-20 leading-130 font-medium;
+                @apply mb-8;
+            }
+            & .student-name {
+                @apply text-16 text-textColor2 font-medium leading-160;
+                @apply mb-2;
+            }
+            & .exercise {
+                @apply flex items-center mb-8;
+                @apply text-16 text-textColor6 leading-160;
+                & .c-track-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply mx-8;
+                }
+                & .track-title {
+                    @apply text-textColor3 font-medium;
+                }
+            }
+            & time {
+                @apply text-textColor6 leading-140 font-medium;
             }
         }
     }

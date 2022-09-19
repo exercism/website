@@ -28,6 +28,10 @@ const CLIWalkthroughButton = lazy(
 
 const ImpactStat = lazy(() => import('../components/impact/stat'))
 const ImpactMap = lazy(() => import('../components/impact/map'))
+const ImpactChart = lazy(() => import('../components/impact/Chart'))
+const ImpactTestimonials = lazy(
+  () => import('../components/impact/Testimonials')
+)
 
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
@@ -381,6 +385,16 @@ initReact({
   'impact-stat': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <ImpactStat metricType={data.type} initialValue={data.value} />
+    </Suspense>
+  ),
+  'impact-chart': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <ImpactChart data={camelizeKeys(data)} />
+    </Suspense>
+  ),
+  'impact-testimonials': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <ImpactTestimonials data={data} />
     </Suspense>
   ),
   'impact-map': (data: any) => {

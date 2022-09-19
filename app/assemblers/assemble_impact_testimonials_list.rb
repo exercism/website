@@ -1,7 +1,7 @@
-class AssembleProfileTestimonialsList
+class AssembleImpactTestimonialsList
   include Mandate
 
-  initialize_with :user, :params
+  initialize_with :params
 
   def self.keys
     %i[page]
@@ -19,6 +19,6 @@ class AssembleProfileTestimonialsList
 
   memoize
   def testimonials
-    user.mentor_testimonials.published
+    Mentor::Testimonial.published.order('id desc')
   end
 end

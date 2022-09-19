@@ -389,7 +389,7 @@ initReact({
   ),
   'impact-chart': (data: any) => (
     <Suspense fallback={renderLoader()}>
-      <ImpactChart data={data} />
+      <ImpactChart data={camelizeKeys(data)} />
     </Suspense>
   ),
   'impact-testimonials': (data: any) => (

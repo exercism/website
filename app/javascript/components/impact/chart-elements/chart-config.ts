@@ -16,7 +16,7 @@ export function createChartConfig(
   // eg. 3/2 offset -> graphicon takes the 2/3 of canvas height
   const Y_AXIS_MIN_OFFSET = 1.5
   // this can be set as a max offset if needed
-  const Y_AXIS_MAX_OFFSET = Number.MAX_SAFE_INTEGER
+  const Y_AXIS_MAX_OFFSET = 2.2
   const SCREEN_BREAKPOINT = 1400 // plus the width of scrollbar, which is 15px on a mac by default, so the real breakpoint is 1415px
   const HIGHEST_VALUE = data[data.length - 1]
 

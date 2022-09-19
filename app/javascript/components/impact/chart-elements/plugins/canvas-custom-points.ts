@@ -2,6 +2,7 @@ import { Chart } from 'chart.js'
 
 const POINT_BACKGROUND_COLOR = '#FFD38F'
 const TOOLTIP_BACKGROUND_COLOR = '#302B42'
+const TW_MD = 768
 
 export const CANVAS_CUSTOM_POINTS = {
   id: 'custom_canvas_points',
@@ -34,7 +35,9 @@ export const CANVAS_CUSTOM_POINTS = {
           chartWidth: chart.width,
         }
         drawCircleWithEmoji(ctx, x, y, radius, fontSize, milestone.emoji)
-        drawCustomTooltip(ctx, customTooltipOptions)
+        if (chart.width > TW_MD - 16) {
+          drawCustomTooltip(ctx, customTooltipOptions)
+        }
       } else continue
     }
   },

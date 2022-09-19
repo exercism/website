@@ -19,6 +19,7 @@ module ViewComponents
         safe_join(
           [
             li_link("About Exercism"),
+            li_link("Our Impact", :impact),
             li_link("Team", :team),
             # li_link("Jobs", :hiring),
             li_link("Supporters", :individual_supporters),

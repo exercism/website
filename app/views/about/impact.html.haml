@@ -1,3 +1,8 @@
+- content_for :meta_title, "Exercism's Impact Report".html_safe
+- content_for :meta_description, "We've provided over 100 million minutes of free learning to over a million people. Learn more in our impact report!"
+
+= render ViewComponents::AboutNav.new(:impact)
+
 #impact-page
   %header.pt-48.flex.flex-col.items-center{ class: 'mb-[-130px]' }
     .md-container.c-shapes-impact.c-shapes-1
@@ -10,7 +15,7 @@
       %strong{ class: 'pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]' } minutes
       of free education.
     %p.font-medium.text-textColor6.text-24.leading-160.text-center{ class: 'max-w-[780px]' }
-      And provide another 132,916 minutes per day!
+      And provide another 132,916 minutes every day!
       %br
       All on a free, open source project funded by people like you.
 
@@ -36,10 +41,10 @@
 
         .bg-bgGray.shadow-base.py-16.px-24
           %p.text-p-large.mb-8
-            %span.text-h5 Exercism teaches #{Track.active.count} programming languages, from #{Track.active.order('title ASC').first.title} to #{Track.active.order('title ASC').last.title},
+            %span.text-h5 Exercism teaches #{Track.active.count} programming languages
+            from #{Track.active.order('title ASC').first.title} to #{Track.active.order('title ASC').last.title},
             using a unique blend of learning, practicing, and mentoring.
-          %p.text-p-large
-            Everything on Exercism is 100% free.
+          %p.text-h5 Everything on Exercism is 100% free.
 
       .shadow-lg.flex-grow.bg-white.rounded-16.py-48.px-24.relative
         .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-white.flex.flex-row.items-center.whitespace-nowrap{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }

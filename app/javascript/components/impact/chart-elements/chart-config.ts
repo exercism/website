@@ -1,5 +1,5 @@
 import { ChartConfiguration, ChartData } from 'chart.js'
-import { FILL_COLOR } from './plugins'
+import { FILL_COLOR, GRID_COLOR } from './plugins'
 
 type Milestone = { date: string; text: string; emoji: string }
 
@@ -9,8 +9,6 @@ export function createChartConfig(
   milestones: Milestone[],
   dateMap: { [key: string]: number }
 ): ChartConfiguration<'line'> & { milestones: Milestone[] } {
-  const GRID_COLOR = '#3c364a'
-
   // constants for responsive grid
   // offsets are the reciprocal of the height of graphicon.
   // eg. 3/2 offset -> graphicon takes the 2/3 of canvas height
@@ -60,13 +58,7 @@ export function createChartConfig(
             display: false,
           },
           grid: {
-            lineWidth(ctx) {
-              const lineWidth = ctx.index % 12 === 0 ? 1 : 0
-              return lineWidth
-            },
-            color: GRID_COLOR,
-            drawBorder: false,
-            borderWidth: 0,
+            display: false,
           },
         },
         y: {
@@ -92,9 +84,7 @@ export function createChartConfig(
             display: false,
           },
           grid: {
-            display: true,
-            color: GRID_COLOR,
-            borderWidth: 0,
+            display: false,
           },
         },
       },

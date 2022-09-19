@@ -95,9 +95,8 @@
       And over
       %a.underline{ href: '#', title: 'Individual donors' } 700 individuals donors!
 
-
   .relative
-    = ReactComponents::Impact::Chart.new([])
+    = ReactComponents::Impact::Chart.new
     .absolute{ class: 'top-[50px] left-0 right-0' }
       .flex.flex-col.items-center
         .flex.flex-col.text-center{ class: "max-w-[927px]" }

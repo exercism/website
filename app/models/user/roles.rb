@@ -9,7 +9,7 @@ module User::Roles
     # rubocop:disable Style/IfUnlessModifier
     # rubocop:disable Style/NumericLiterals
     if Rails.env.production?
-      return [38366, 56500, 76721, 88486, 91576, 757288].include?(id)
+      return [3256, 38366, 56500, 76721, 88486, 91576, 757288].include?(id)
     end
     # rubocop:enable Style/IfUnlessModifier
 

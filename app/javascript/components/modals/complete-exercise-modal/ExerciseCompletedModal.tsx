@@ -95,7 +95,7 @@ export const ExerciseCompletedModal = ({
           </>
         ) : (
           <div className="info">
-            Once youv&apos;e practiced some more {track.title}, come back to
+            Once you&apos;ve practiced some more {track.title}, come back to
             this exercise and see if you can make it even better.
           </div>
         )}

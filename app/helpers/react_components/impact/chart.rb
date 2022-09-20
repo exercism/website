@@ -12,10 +12,10 @@ module ReactComponents
       end
 
       MILESTONES = [
-        { date: '202206', text: 'Reached 1M users!', emoji: '⭐' },
+        { date: '202207', text: 'Reached 1M users!', emoji: '⭐' },
         { date: '202109', text: 'Exercism v3', emoji: '3️⃣' },
         { date: '202006', text: 'Automated feedback!', emoji: '🤖' },
-        { date: '201907', text: 'Exercism v2', emoji: '2️⃣' },
+        { date: '201807', text: 'Exercism v2', emoji: '2️⃣' },
         { date: '201312', text: 'Exercism launched', emoji: '🚀' }
       ].to_json
 

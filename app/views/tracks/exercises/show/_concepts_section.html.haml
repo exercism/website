@@ -4,14 +4,15 @@
   %h2 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
   .progressed-concepts
     - exercise.taught_concepts.includes(:concept_exercises, :practice_exercises).each do |concept|
-      .concept
-        = render ViewComponents::ConceptIcon.new(concept, :medium)
-        .name= concept.name
-        .exercises
-          - user_track.concept_exercises_for_concept(concept).each do |exercise|
-            = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
-          - user_track.practice_exercises_for_concept(concept).each do |exercise|
-            = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
+      = link_to(Exercism::Routes.track_concept_path(track, concept)) do
+        .concept
+          = render ViewComponents::ConceptIcon.new(concept, :medium)
+          .name= concept.name
+          .exercises
+            - user_track.concept_exercises_for_concept(concept).each do |exercise|
+              = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
+            - user_track.practice_exercises_for_concept(concept).each do |exercise|
+              = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
 
   = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track), with_bg: true)
 

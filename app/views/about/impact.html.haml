@@ -1,3 +1,4 @@
+
 - content_for :meta_title, "Exercism's Impact Report".html_safe
 - content_for :meta_description, "We've provided over 100 million minutes of free learning to over a million people. Learn more in our impact report!"
 
@@ -96,14 +97,18 @@
         %h2.text-h1.mb-32 Exercism is powered by huge team of wonderful volunteers.
         .grid.grid-cols-1.gap-20.lg:grid-cols-3
           .flex.flex-col
-            .text-40.leading-150.font-semibold.text-purple 11,375
+            .text-40.leading-150.font-semibold.text-purple 11,513
             .label-large Mentors
           .flex.flex-col
-            .text-40.leading-150.font-semibold.text-purple 4,696
+            .text-40.leading-150.font-semibold.text-purple 3,567
             .label-large Code Contributors
           .flex.flex-col
             .text-40.leading-150.font-semibold.text-purple 6
             .label-large Full-time Staff
+
+        .flex.flex-wrap.mt-32.overflow-y-hidden{ class: 'h-[76px]' }
+          - @contributor_avatars.each do |avatar|
+            = image_tag avatar, class: 'bg-white h-[32px] w-[32px] mr-[-14px] mb-12 rounded-circle'
 
       %div{ class: 'w-fill md:max-w-[374px]' }
         .py-24.px-24.pt-60.shadow-base.mb-32.bg-white.relative

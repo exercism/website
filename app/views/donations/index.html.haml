@@ -1,4 +1,5 @@
 #page-donate
+  - link_class = "underline hover:text-lightBlue"
   %header.pt-24.pd:mt-40.md:shadow-lgZ1
     .lg-container.flex.flex-col.items-center.c-shapes
       = graphical_icon "community-with-exercism-logo", category: :graphics
@@ -10,8 +11,11 @@
         We care about social mobility and bringing underrepresented communities into tech.
         %br
         %span.font-medium
-          You can learn more about Our Mission, Roadmap and Team.
-
+          You can learn more about
+          = link_to 'Our Mission,', about_path, class: link_class
+          = link_to 'Roadmap', contributing_root_path, class: link_class
+          and
+          = link_to 'Team', team_about_path, class: link_class
 
 
       .summary.lg-container.hidden.md:flex.items-center
@@ -57,27 +61,38 @@
         .flex.flex-row.shadow-base.p-24.rounded-16.bg-white.mb-16
           = graphical_icon "money-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
           .flex.flex-col
-            .text-h4 Donate
-            .text-prose.text-textColor1
+            .text-h4.mb-4 Donate
+            .text-prose.text-textColor5{ class: 'mr-[80px]' }
               Use the donation box on this page to make a cash donation to Exercism. Every bit matters. We’ve already got to where we are with less than $500,000 total.
 
-        .flex.flex-row.shadow-base.p-24.rounded-16.bg-white.mb-16
-          = graphical_icon "code-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
-          .flex.flex-col
-            .text-h4 Code Contribution
-            .text-prose.text-textColor1
-              Exercism is open source, and takes code contributions from the community. There are 768 tasks waiting for help. Browse through them by language, task type, and a whole lot more to see if you can help build Exercism.
+        = link_to(contributing_root_path) do
+          .flex.flex-row.shadow-base.p-24.rounded-16.bg-white.mb-16
+            = graphical_icon "code-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
+            .flex.flex-col.mr-32
+              .text-h4.mb-4 Code Contribution
+              .text-prose.text-textColor5
+                Exercism is open source, and takes code contributions from the community. There are 768 tasks waiting for help. Browse through them by language, task type, and a whole lot more to see if you can help build Exercism.
+            .flex.items-center.p-12
+              = graphical_icon "chevron-right", css_class: 'h-[24px] w-[24px]'
 
         .flex.flex-row.shadow-base.p-24.rounded-16.bg-white.mb-16
           = graphical_icon "organisation-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
           .flex.flex-col
-            .text-h4 Get your company involved
-            .text-prose.text-textColor1
-              Does your company support not-for-profit organisations? Do you have a matched giving scheme at work? We’d love to chat to you to understand how your company could support us. Drop Loretta an email at fundraising@exercism.org
+            .text-h4.mb-4 Get your company involved
+            .text-prose.text-textColor5{ class: 'mr-[80px]' }
+              Does your company support not-for-profit organisations? Do you have a matched giving scheme at work? We’d love to chat to you to understand how your company could support us.
+              %br
+              Drop Loretta an email at
+              = link_to "fundraising@exercism.org.", "mailto:fundraising@exercism.org", class: link_class
 
         .flex.flex-row.shadow-base.p-24.rounded-16.bg-white.mb-16
           = graphical_icon "social-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
           .flex.flex-col
-            .text-h4 Love Exercism? Tell others about us!
-            .text-prose.text-textColor1
-              Follow us on Twitter, GitHub and LinkedIn. Tweet and post about us.
+            .text-h4.mb-4 Love Exercism? Tell others about us!
+            .text-prose.text-textColor5{ class: 'mr-[80px]' }
+              Follow us on
+              = link_to 'Twitter,', 'https://twitter.com/exercism_io', target: "_blank", rel: 'noopener', class: link_class
+              = link_to 'GitHub', 'https://github.com/exercism', target: "_blank", rel: 'noopener', class: link_class
+              and
+              = link_to 'LinkedIn.', 'https://www.linkedin.com/company/exercism/', target: "_blank", rel: 'noopener', class: link_class
+              Tweet and post about us.

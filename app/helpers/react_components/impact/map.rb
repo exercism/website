@@ -12,7 +12,7 @@ module ReactComponents
 
       private
       def metrics
-        Metric.last(40)
+        Metrics::StartSolutionMetric.last(40)
       end
     end
   end

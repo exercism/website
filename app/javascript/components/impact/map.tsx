@@ -194,9 +194,9 @@ export default ({
 
   useEffect(() => {
     const connection = new MetricsChannel((metric: Metric) => {
-      if (metric.type == 'submit_submission_metric') {
-        console.log(metric.track.title)
-      }
+      // if (metric.type == 'submit_submission_metric') {
+      //   console.log(metric.track.title)
+      // }
       setMetrics((oldMetrics) => [...oldMetrics, metric])
 
       // Remove the metric again after 1 minute

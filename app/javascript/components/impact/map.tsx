@@ -95,27 +95,27 @@ const MetricPointUserWithTooltip = ({
   )
 }
 
-function Content(): JSX.Element {
-  const iconRef = useRef(null)
-  return (
-    <div
-      ref={iconRef}
-      className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
-    >
-      <GraphicalIcon icon="avatar-placeholder" className="w-[32px] h-[32px]" />
-    </div>
-  )
-}
-
 const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
   switch (metric.type) {
     case 'sign_up_metric':
+      const iconRef = useRef(null)
+      const content = (
+        <div
+          ref={iconRef}
+          className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
+        >
+          <GraphicalIcon
+            icon="avatar-placeholder"
+            className="w-[32px] h-[32px]"
+          />
+        </div>
+      )
       return (
         <MetricPointWithTooltip
           metric={metric}
           text={`Someone joined Exercism`}
           duration={2000}
-          content={<Content />}
+          content={content}
         />
       )
     case 'start_solution_metric':

@@ -95,8 +95,8 @@ export const ExerciseCompletedModal = ({
           </>
         ) : (
           <div className="info">
-            Once you've practiced some more {track.title}, come back to this
-            exercise and see if you can make it even better.
+            Once youv&apos;e practiced some more {track.title}, come back to
+            this exercise and see if you can make it even better.
           </div>
         )}
 
@@ -115,7 +115,7 @@ export const ExerciseCompletedModal = ({
       cover={true}
       open={open}
       className="m-completed-exercise c-completed-exercise-progress"
-      onClose={() => {}}
+      onClose={() => null}
       {...props}
     >
       <>

@@ -200,7 +200,6 @@
             & .--summary-inner {
                 @apply flex items-center;
                 @apply py-10 px-24;
-                @apply overflow-y-scroll;
             }
 
             & .--status {

@@ -11,6 +11,7 @@ import { ReportStep } from './finish-mentor-discussion-modal/ReportStep'
 import { useMachine } from '@xstate/react'
 import { Machine } from 'xstate'
 import { redirectTo } from '../../../utils/redirect-to'
+import { DonationStep } from './finish-mentor-discussion-modal/DonationStep'
 
 export type Links = {
   exercise: string
@@ -63,12 +64,13 @@ const Inner = ({
   switch (currentStep.value) {
     case 'rateMentor':
       return (
-        <RateMentorStep
-          discussion={discussion}
-          onHappy={() => send('HAPPY')}
-          onSatisfied={() => send('SATISFIED')}
-          onUnhappy={() => send('UNHAPPY')}
-        />
+        <DonationStep mentorHandle={discussion.mentor.handle} />
+        // <RateMentorStep
+        //   discussion={discussion}
+        //   onHappy={() => send('HAPPY')}
+        //   onSatisfied={() => send('SATISFIED')}
+        //   onUnhappy={() => send('UNHAPPY')}
+        // />
       )
     case 'addTestimonial':
       return (
@@ -81,10 +83,11 @@ const Inner = ({
       )
     case 'celebration':
       return (
-        <CelebrationStep
-          mentorHandle={discussion.mentor.handle}
-          links={links}
-        />
+        <DonationStep mentorHandle={discussion.mentor.handle} />
+        // <CelebrationStep
+        //   mentorHandle={discussion.mentor.handle}
+        //   links={links}
+        // />
       )
     case 'satisfied':
       return (
@@ -132,7 +135,12 @@ export const FinishMentorDiscussionModal = ({
   onCancel: () => void
 }): JSX.Element => {
   return (
-    <Modal cover className="m-finish-student-mentor-discussion" {...props}>
+    <Modal
+      cover
+      className="m-finish-student-mentor-discussion !w-full"
+      ReactModalClassName="!bg-unnamed15"
+      {...props}
+    >
       <Inner links={links} discussion={discussion} />
     </Modal>
   )

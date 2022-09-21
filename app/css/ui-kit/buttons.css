@@ -231,4 +231,10 @@
             @apply text-15;
         }
     }
+
+    .btn-casual {
+        @apply text-textColor1 font-semibold text-18;
+        @apply border-1 border-textColor1 bg-white rounded-8;
+        @apply shadow-xsZ1v3;
+    }
 }

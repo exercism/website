@@ -130,7 +130,7 @@
       = icon "packt", "Packt Publishing", category: :partners, css_class: 'h-48'
     .text-center.text-18.leading-150.text-textColor6.font-semibold
       And over
-      %a.underline{ href: '#', title: 'Individual donors' } 700 individuals donors!
+      = link_to "700 individuals donors!", individual_supporters_about_path, class: 'underline hover:text-lightBlue'
 
   .bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
     .md-container
@@ -178,7 +178,6 @@
               = succeed(',') do
                 %span.text-textColor2.font-medium Loretta Murray
               our Head of Fundraising.
-        -# = link_to "mailto:loretta@exercism.org", class: "py-12 px-18 border-1 border-primaryBtnBorder shadow-xsZ1v3 bg-purple text-white text-16 font-semibold rounded-8 flex flex-row justify-center" do
         = link_to "mailto:loretta@exercism.org", class: "btn btn-primary btn-large" do
           = graphical_icon "envelope", css_class: "mr-16"
           %span loretta@exercism.org

@@ -21,14 +21,14 @@
 
       .summary.lg-container.hidden.md:flex.items-center
         .item
-          .value= Donations::Payment.total_supporters
+          .value= number_with_delimiter(Donations::Payment.total_supporters)
           .metric Supporters
 
         .item
           - parts = Donations::Subscription.active_total_per_month_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
-            .dollars.text-32.leading-130= parts[0]
+            .dollars.text-32.leading-130= number_with_delimiter(parts[0])
             .cents.text-20.leading-100 .#{parts[1].to_s.ljust(2, '0')}
           .metric Total Monthly Pledges
 
@@ -36,7 +36,7 @@
           - parts = Donations::Payment.total_donated_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
-            .dollars.text-32.leading-130= parts[0]
+            .dollars.text-32.leading-130= number_with_delimiter(parts[0])
             .cents.text-20.leading-100 .#{parts[1].to_s.ljust(2, '0')}
           .metric Total Raised (since Sept 2021)
 

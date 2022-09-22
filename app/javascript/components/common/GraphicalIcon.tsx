@@ -6,8 +6,7 @@ type GraphicalIconProps = {
   className?: string
   category?: string
   hex?: boolean
-} & Pick<React.ImgHTMLAttributes<HTMLImageElement>, 'width'> &
-  Pick<React.ImgHTMLAttributes<HTMLImageElement>, 'height'>
+} & Pick<React.ImgHTMLAttributes<HTMLImageElement>, 'width' | 'height'>
 
 export function GraphicalIcon({
   icon,

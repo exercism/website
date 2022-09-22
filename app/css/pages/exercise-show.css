@@ -38,6 +38,9 @@
 
         & .progressed-concepts {
             @apply mb-16;
+            & .c-react-wrapper-student-exercise-status-dot {
+                @apply ml-8;
+            }
         }
         & .c-prominent-link {
             @apply mb-24;

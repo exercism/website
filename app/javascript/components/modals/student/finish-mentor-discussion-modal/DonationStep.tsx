@@ -60,8 +60,6 @@ export function DonationStep({
         <GraphicalIcon
           className="mb-40 mr-[53px] !drop-shadow-[0_4px_128px_rgba(79, 114, 205, 0.8)]"
           icon="wizard-hat"
-          width={111}
-          height={87}
           category="graphics"
         />
 

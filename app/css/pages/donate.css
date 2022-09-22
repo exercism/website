@@ -11,14 +11,18 @@
             }
         }
 
+        & .c-shapes:before {
+            max-width: 7%;
+        }
+
         & .c-icon {
-            height: 128px;
-            width: 128px;
+            height: 160px;
+            width: 160px;
             @apply mb-8;
         }
         & h1 {
-            @apply text-center;
-            max-width: 790px;
+            @apply text-center mb-16;
+            max-width: 940px;
             & strong {
                 @apply font-bold;
             }

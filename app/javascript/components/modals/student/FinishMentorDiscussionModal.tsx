@@ -64,13 +64,12 @@ const Inner = ({
   switch (currentStep.value) {
     case 'rateMentor':
       return (
-        <DonationStep mentorHandle={discussion.mentor.handle} />
-        // <RateMentorStep
-        //   discussion={discussion}
-        //   onHappy={() => send('HAPPY')}
-        //   onSatisfied={() => send('SATISFIED')}
-        //   onUnhappy={() => send('UNHAPPY')}
-        // />
+        <RateMentorStep
+          discussion={discussion}
+          onHappy={() => send('HAPPY')}
+          onSatisfied={() => send('SATISFIED')}
+          onUnhappy={() => send('UNHAPPY')}
+        />
       )
     case 'addTestimonial':
       return (
@@ -136,8 +135,10 @@ export const FinishMentorDiscussionModal = ({
 }): JSX.Element => {
   return (
     <Modal
+      style={{ content: { maxWidth: '100%' } }}
       cover
-      className="m-finish-student-mentor-discussion !w-full"
+      aria={{ modal: true, describedby: 'a11y-finish-mentor-discussion' }}
+      className="m-finish-student-mentor-discussion"
       ReactModalClassName="!bg-unnamed15"
       {...props}
     >

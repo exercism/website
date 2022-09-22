@@ -60,7 +60,7 @@ export const AddTestimonialStep = ({
 
   return (
     <section className="testimonial-step">
-      <h2>We're glad you had a good discussion!</h2>
+      <h2>We&apos;re glad you had a good discussion!</h2>
       <div className="container">
         <div className="lhs">
           <p className="explanation">

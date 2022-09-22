@@ -15,4 +15,9 @@
     .filter-lightGold {
         filter: var(--lightGold-filter);
     }
+
+    .filter-shadow-huge {
+        -webkit-filter: drop-shadow(0px 4px 128px rgba(79, 114, 205, 0.8));
+        filter: drop-shadow(0px 4px 128px rgba(79, 114, 205, 0.8));
+    }
 }

@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { GraphicalIcon } from '../../../common'
-import FormWithModal from '../../../donations/FormWithModal'
+const DonationsFormWithModal = lazy(
+  () => import('../../../donations/FormWithModal')
+)
 export function DonationStep({
   mentorHandle,
 }: {
   mentorHandle: string
 }): JSX.Element {
   return (
-    <div className="flex flex-row !w-full">
+    <div id="a11y-finish-mentor-discussion" className="flex flex-row">
       <div className="mr-64">
         <h1 className="text-h1 mb-24">
           Thank you for leaving a testimonial for {mentorHandle}! ✨
         </h1>
         <h3 className="text-h2 mb-12">
-          One more ask... We need your help to keep Exercism substainable.
+          One more ask... We need your help to keep Exercism sustainable.
         </h3>
         <p className="text-p-large leading-170 mb-24">
           <strong className="font-medium">
@@ -53,20 +55,25 @@ export function DonationStep({
           Don’t worry, we won’t show you this again for a while.
         </div>
       </div>
-      <div className="flex flex-col items-end">
+      <div className="flex flex-col items-end bg-transparent">
         <GraphicalIcon
-          className="mb-40"
+          className="mb-40 mr-[53px] filter-shadow-huge"
           icon="wizard-hat"
           width={111}
           height={87}
           category="graphics"
         />
         {/* load this lazily */}
-        <FormWithModal
-          links={{ donate: 'asdf', settings: 'asdf' }}
-          request={'asdfad'}
-          userSignedIn
-        />
+
+        <div className="w-[564px]">
+          <Suspense fallback={<div className="c-loading-suspense" />}>
+            <DonationsFormWithModal
+              request={{ endpoint: 'asdasd', options: {} }}
+              links={{ donate: 'ssdfg', settings: 'asdf' }}
+              userSignedIn={true}
+            />
+          </Suspense>
+        </div>
       </div>
     </div>
   )

@@ -15,7 +15,7 @@ export const RateMentorStep = ({
   onUnhappy: () => void
 }): JSX.Element => {
   return (
-    <section className="rate-step">
+    <section id="a11y-finish-mentor-discussion" className="rate-step">
       <h2>It&apos;s time to review this discussion</h2>
       <div className="container">
         <div className="lhs">
@@ -40,8 +40,8 @@ export const RateMentorStep = ({
             </div>
           ) : null}
           <p className="explanation">
-            To help us and our mentors understand how well we're doing, we’d
-            love some feedback on your discussion with{' '}
+            To help us and our mentors understand how well we&apos;re doing,
+            we&apos;d love some feedback on your discussion with{' '}
             {discussion.mentor.handle}. Good mentors will answer your questions,
             introduce you to new ideas, or encourage you to try new things.
           </p>

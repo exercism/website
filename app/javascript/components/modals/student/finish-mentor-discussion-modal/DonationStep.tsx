@@ -19,10 +19,11 @@ export function DonationStep({
         </h3>
         <p className="text-p-large leading-170 mb-24">
           <strong className="font-medium">
-            We’re just scratching the surface of what’s possible with Exercism.
+            We&apos;re just scratching the surface of what&apos;s possible with
+            Exercism.
           </strong>{' '}
           But we need your help to keep the lights on and enable us to grow and
-          expand what we’re doing.{' '}
+          expand what we&apos;re doing.{' '}
           {/* probably remove text-p-large because it doesn't do much heavy lifting, and must force semibold because of that */}
           <strong className="!font-semibold">
             Only 1% of people give to Exercism - please be one of them!
@@ -33,7 +34,7 @@ export function DonationStep({
           <p className="text-gradient font-semibold leading-160 text-17">
             Please help fund Exercism to make it financially sustainable and
             empower us with the creative freedom to build something even more
-            amazing than what’s here today!
+            amazing than what&apos;s here today!
           </p>
         </div>
 
@@ -47,23 +48,22 @@ export function DonationStep({
 
         <h3 className="text-h3 mb-12">Not for now?</h3>
 
-        <button className="btn-casual py-16 px-24 mb-16">
+        <button className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24 mb-16">
           Continue to exercise...
         </button>
 
         <div className="text-15 text-btnBorder leading-160 font-normal">
-          Don’t worry, we won’t show you this again for a while.
+          Don&apos;t worry, we won&apos;t show you this again for a while.
         </div>
       </div>
       <div className="flex flex-col items-end bg-transparent">
         <GraphicalIcon
-          className="mb-40 mr-[53px] filter-shadow-huge"
+          className="mb-40 mr-[53px] !drop-shadow-[0_4px_128px_rgba(79, 114, 205, 0.8)]"
           icon="wizard-hat"
           width={111}
           height={87}
           category="graphics"
         />
-        {/* load this lazily */}
 
         <div className="w-[564px]">
           <Suspense fallback={<div className="c-loading-suspense" />}>

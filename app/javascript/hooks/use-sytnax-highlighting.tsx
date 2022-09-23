@@ -1,16 +1,16 @@
 import { useRef, useEffect, RefObject } from 'react'
-import { highlightAll } from '../utils/highlight'
+import { highlightAll } from '@/utils'
 
-export function useSyntaxHighlighting(html: string): RefObject<HTMLDivElement> {
-  const contentRef = useRef<HTMLDivElement>(null)
+export function useHighlighting<T>(html: string): RefObject<T> {
+  const parentRef = useRef<T | null>(null)
 
   useEffect(() => {
-    if (!contentRef.current) {
+    if (!parentRef.current) {
       return
     }
 
-    highlightAll(contentRef.current)
+    highlightAll(parentRef.current as unknown as ParentNode)
   }, [html])
 
-  return contentRef
+  return parentRef
 }

@@ -3,7 +3,7 @@ import { Avatar } from '../../../common'
 import { RepresentationFeedbackType, User } from '../../../types'
 import dayjs from 'dayjs'
 import { CommentTag } from '../common/CommentTag'
-import { useSyntaxHighlighting } from '@/hooks'
+import { useHighlighting } from '@/hooks'
 
 export type PreviewFeedbackCommentProps = {
   html: string
@@ -16,7 +16,7 @@ export function PreviewFeedbackComment({
   mentor,
   feedbackType,
 }: PreviewFeedbackCommentProps): JSX.Element {
-  const htmlRef = useSyntaxHighlighting(html)
+  const htmlRef = useHighlighting<HTMLDivElement>(html)
 
   return (
     <div className="px-24 py-16 leading-160">

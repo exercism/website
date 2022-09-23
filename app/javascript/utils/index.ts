@@ -1,0 +1,1 @@
+export { highlightAll } from './highlight'

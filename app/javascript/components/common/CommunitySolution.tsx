@@ -138,7 +138,9 @@ export const CommunitySolution = ({
             </>
           ) : (
             <>
-              <div className="--title">{solution.author.handle}'s solution</div>
+              <div className="--title">
+                {solution.author.handle}&apos;s solution
+              </div>
               <div className="--subtitle">
                 to {solution.exercise.title} in {solution.track.title}
               </div>

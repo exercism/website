@@ -417,6 +417,19 @@ export type MentorDiscussion = {
   }
 }
 
+export type DonationLinks = {
+  request: {
+    endpoint: string
+    options: {
+      initialData: string
+    }
+  }
+  userSignedIn: string
+  links: {
+    settings: string
+    donate: string
+  }
+}
 export type MentoredTrackExercise = {
   slug: string
   title: string

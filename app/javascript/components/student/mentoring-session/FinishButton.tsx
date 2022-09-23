@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/student/FinishMentorDiscussionModal'
 import { ConfirmFinishMentorDiscussionModal } from '../../modals/student/ConfirmFinishMentorDiscussionModal'
 import { MentorDiscussion } from '../../types'
-import Mousetrap from 'mousetrap'
 
 type Links = {
   exercise: string

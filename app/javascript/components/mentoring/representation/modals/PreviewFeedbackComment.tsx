@@ -3,6 +3,7 @@ import { Avatar } from '../../../common'
 import { RepresentationFeedbackType, User } from '../../../types'
 import dayjs from 'dayjs'
 import { CommentTag } from '../common/CommentTag'
+import { useSyntaxHighlighting } from '@/hooks'
 
 export type PreviewFeedbackCommentProps = {
   html: string
@@ -15,6 +16,8 @@ export function PreviewFeedbackComment({
   mentor,
   feedbackType,
 }: PreviewFeedbackCommentProps): JSX.Element {
+  const htmlRef = useSyntaxHighlighting(html)
+
   return (
     <div className="px-24 py-16 leading-160">
       <div className="flex flex-row items-center mb-12">
@@ -28,13 +31,14 @@ export function PreviewFeedbackComment({
       <div className="flex flex-start">
         <CommentTag type={feedbackType} />
       </div>
-      <div className="mb-4" dangerouslySetInnerHTML={{ __html: html }}></div>
+      <div
+        className="mb-4"
+        ref={htmlRef}
+        dangerouslySetInnerHTML={{ __html: html }}
+      ></div>
       <div className="text-btnBorder font-medium">
         Commented on {`${dayjs(Date.now()).format('D MMM YYYY')}`}
       </div>
     </div>
   )
 }
-
-
-

@@ -1,9 +1,9 @@
 import React from 'react'
-import { Avatar } from '../../../common'
-import { RepresentationFeedbackType, User } from '../../../types'
 import dayjs from 'dayjs'
-import { CommentTag } from '../common/CommentTag'
+import { Avatar } from '@/components/common'
+import { RepresentationFeedbackType, User } from '@/components/types'
 import { useHighlighting } from '@/hooks'
+import { CommentTag } from '../common/CommentTag'
 
 export type PreviewFeedbackCommentProps = {
   html: string

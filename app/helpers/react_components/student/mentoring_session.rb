@@ -22,7 +22,20 @@ module ReactComponents
               create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
               learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
               private_mentoring: solution.external_mentoring_request_url,
-              mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored")
+              mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
+              donation_links: {
+                request: {
+                  endpoint: Exercism::Routes.api_donations_active_subscription_url,
+                  options: {
+                    initial_data: AssembleActiveSubscription.(current_user)
+                  }
+                },
+                user_signed_in: user_signed_in?,
+                links: {
+                  settings: Exercism::Routes.donations_settings_url,
+                  donate: Exercism::Routes.donate_url
+                }
+              }
             }
           }
         )

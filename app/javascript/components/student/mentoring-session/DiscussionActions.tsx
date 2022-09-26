@@ -1,10 +1,11 @@
 import React from 'react'
 import { FinishButton } from './FinishButton'
-import { MentorDiscussion } from '../../types'
+import { DonationLinks, MentorDiscussion } from '../../types'
 import { GraphicalIcon } from '../../common'
 
-type Links = {
+export type DiscussionLinks = {
   exercise: string
+  donation: DonationLinks
 }
 
 export const DiscussionActions = ({
@@ -12,7 +13,7 @@ export const DiscussionActions = ({
   links,
 }: {
   discussion: MentorDiscussion
-  links: Links
+  links: DiscussionLinks
 }): JSX.Element => {
   return discussion.isFinished || discussion.status === 'mentor_finished' ? (
     <div className="finished">

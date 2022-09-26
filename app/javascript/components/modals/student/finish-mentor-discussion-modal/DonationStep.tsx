@@ -1,12 +1,15 @@
 import React, { lazy, Suspense } from 'react'
 import { GraphicalIcon } from '../../../common'
+import { DonationLinks } from '../../../types'
 const DonationsFormWithModal = lazy(
   () => import('../../../donations/FormWithModal')
 )
 export function DonationStep({
   mentorHandle,
+  donationLinks,
 }: {
   mentorHandle: string
+  donationLinks: DonationLinks
 }): JSX.Element {
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
@@ -66,9 +69,9 @@ export function DonationStep({
         <div className="w-[564px]">
           <Suspense fallback={<div className="c-loading-suspense" />}>
             <DonationsFormWithModal
-              request={{ endpoint: 'asdasd', options: {} }}
-              links={{ donate: 'ssdfg', settings: 'asdf' }}
-              userSignedIn={true}
+              request={donationLinks.request}
+              links={donationLinks.links}
+              userSignedIn={donationLinks.userSignedIn}
             />
           </Suspense>
         </div>
@@ -76,3 +79,19 @@ export function DonationStep({
     </div>
   )
 }
+
+// {
+//   "request": {
+//       "endpoint": "http://local.exercism.io:3020/api/v2/donations/active_subscription",
+//       "options": {
+//           "initialData": {
+//               "subscription": null
+//           }
+//       }
+//   },
+//   "userSignedIn": true,
+//   "links": {
+//       "settings": "http://local.exercism.io:3020/settings/donations",
+//       "donate": "http://local.exercism.io:3020/donate"
+//   }
+// }

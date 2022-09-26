@@ -15,6 +15,7 @@ import {
   MentorSessionRequest as Request,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
+  DonationLinks,
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
 import { SplitPane } from '../common/SplitPane'
@@ -26,6 +27,7 @@ export type Links = {
   privateMentoring: string
   mentoringGuide: string
   createMentorRequest: string
+  donationLinks: DonationLinks
 }
 
 export type Video = {
@@ -105,7 +107,10 @@ export default function MentoringSession({
               {discussion ? (
                 <DiscussionActions
                   discussion={discussion}
-                  links={{ exercise: exercise.links.self }}
+                  links={{
+                    exercise: exercise.links.self,
+                    donation: links.donationLinks,
+                  }}
                 />
               ) : null}
             </header>

@@ -23,6 +23,8 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
 
     component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, discussion)
 
+    current_user = User.find_by!(handle: 'iHiD')
+
     assert_component component,
       "student-mentoring-session",
       {
@@ -55,7 +57,20 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
           private_mentoring: solution.external_mentoring_request_url,
-          mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored")
+          mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
+          donation_links: {
+            request: {
+              endpoint: Exercism::Routes.api_donations_active_subscription_url,
+              options: {
+                initial_data: AssembleActiveSubscription.(current_user)
+              }
+            },
+            user_signed_in: user_signed_in?,
+            links: {
+              settings: Exercism::Routes.donations_settings_url,
+              donate: Exercism::Routes.donate_url
+            }
+          }
         }
       }
   end
@@ -70,7 +85,8 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
       comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
 
-    iteration = create(:iteration, solution:)
+    iteration = create :iteration, solution: solution
+    current_user = User.find_by!(handle: 'dem4ron')
 
     component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, nil)
 
@@ -101,7 +117,20 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
           private_mentoring: solution.external_mentoring_request_url,
-          mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored")
+          mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
+          donation_links: {
+            request: {
+              endpoint: Exercism::Routes.api_donations_active_subscription_url,
+              options: {
+                initial_data: AssembleActiveSubscription.(current_user)
+              }
+            },
+            user_signed_in: user_signed_in?,
+            links: {
+              settings: Exercism::Routes.donations_settings_url,
+              donate: Exercism::Routes.donate_url
+            }
+          }
         }
       }
   end

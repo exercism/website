@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
 
 export const Expander = ({
+  data,
   content,
   buttonTextCompressed,
   buttonTextExpanded,
   className,
+  contentIsSafe,
 }: {
+  data: any
   content: string
   buttonTextCompressed: string
   buttonTextExpanded: string
   className?: string
+  contentIsSafe: boolean
 }): JSX.Element => {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -23,7 +27,14 @@ export const Expander = ({
 
   return (
     <div className={classNames.join(' ')}>
-      <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
+      {contentIsSafe ? (
+        <div
+          className="content"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      ) : (
+        <div>{content}</div>
+      )}
       <button
         type="button"
         onClick={() => {

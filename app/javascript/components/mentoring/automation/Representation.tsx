@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TrackFilterList } from './TrackFilterList'
 import { Request } from '../../../hooks/request-query'
 import { AutomationStatus } from '../../types'
@@ -11,6 +11,7 @@ import { RepresentationList } from './RepresentationList'
 import { SortOption } from '../Inbox'
 import { error } from 'jquery'
 import { useAutomation } from './useAutomation'
+import { useStoredRepresentationQueries } from '../../../hooks/use-stored-queries'
 
 export type AutomationLinks = {
   withFeedback?: string
@@ -61,6 +62,7 @@ export function Representations({
     trackListStatus,
     tracks,
     criteria,
+    parsedQueries,
   } = useAutomation(
     representationsRequest,
     representationsWithFeedbackCount,
@@ -82,7 +84,15 @@ export function Representations({
             currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
             setStatus={() => null}
           >
-            <a href={links.withoutFeedback}>Need feedback</a>
+            <a
+              href={
+                links.withoutFeedback !== undefined
+                  ? links.withoutFeedback + '?' + parsedQueries
+                  : undefined
+              }
+            >
+              Need feedback
+            </a>
 
             {/* TODO: re-enable once we've fixed performance */}
             {/* {resolvedData ? (
@@ -94,7 +104,15 @@ export function Representations({
             currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
             setStatus={() => null}
           >
-            <a href={links.withFeedback}>Feedback submitted</a>
+            <a
+              href={
+                links.withFeedback !== undefined
+                  ? links.withFeedback + '?' + parsedQueries
+                  : undefined
+              }
+            >
+              Feedback submitted
+            </a>
             {resolvedData ? (
               <div className="count">{feedbackCount['with_feedback']}</div>
             ) : null}

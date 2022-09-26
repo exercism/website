@@ -6,9 +6,14 @@ import {
   useState,
 } from 'react'
 import { QueryStatus } from 'react-query'
+import { useLogger } from '../../../hooks'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { useHistory, removeEmpty } from '../../../hooks/use-history'
 import { ListState, useList } from '../../../hooks/use-list'
+import {
+  RepresentationParsedQueries,
+  useStoredRepresentationQueries,
+} from '../../../hooks/use-stored-queries'
 import { AutomationTrack, Representation } from '../../types'
 import { useTrackList } from '../queue/useTrackList'
 
@@ -47,6 +52,7 @@ type returnMentoringAutomation = {
     with_feedback: number | undefined
     without_feedback: number | undefined
   }
+  parsedQueries: RepresentationParsedQueries
 }
 
 const initialTrackData: AutomationTrack = {
@@ -87,6 +93,10 @@ export function useAutomation(
     request: tracksRequest,
   })
 
+  const { parsedQueries, setLocalQueries } = useStoredRepresentationQueries(
+    withFeedback,
+    { ...request.query }
+  )
   const [selectedTrack, setSelectedTrack] =
     useState<AutomationTrack>(initialTrackData)
 
@@ -118,6 +128,11 @@ export function useAutomation(
       setSelectedTrack(track)
 
       setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
+      setLocalQueries({
+        ...request.query,
+        trackSlug: track.slug,
+        page: undefined,
+      })
     },
     [setPage, setQuery, request.query]
   )
@@ -151,6 +166,13 @@ export function useAutomation(
     },
     [request.query, setPage, setQuery]
   )
+
+  useLogger('default query', { ...request.query })
+
+  useEffect(() => {
+    setLocalQueries({ ...request.query })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [request, withFeedback, tracks])
 
   // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(
@@ -206,5 +228,6 @@ export function useAutomation(
     setCriteria,
     feedbackCount,
     request,
+    parsedQueries,
   }
 }

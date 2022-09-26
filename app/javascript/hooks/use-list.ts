@@ -2,12 +2,14 @@ import { useReducer, useCallback, Reducer } from 'react'
 import { Request } from './request-query'
 
 export type ListState = Request & {
-  query: {
-    page: number
-    criteria?: string
-    tags?: string[]
-    trackSlug?: string
-  }
+  query: ListQuery
+}
+
+export type ListQuery = {
+  page: number
+  criteria?: string
+  tags?: string[]
+  trackSlug?: string
 }
 
 type ListAction =

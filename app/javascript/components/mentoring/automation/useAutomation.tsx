@@ -127,12 +127,7 @@ export function useAutomation(
       setCriteria('')
       setSelectedTrack(track)
 
-      setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
-      setLocalQueries({
-        ...request.query,
-        trackSlug: track.slug,
-        page: undefined,
-      })
+      setQuery({ ...request.query, trackSlug: track.slug, page: 1 })
     },
     [setPage, setQuery, request.query]
   )
@@ -170,9 +165,9 @@ export function useAutomation(
   useLogger('default query', { ...request.query })
 
   useEffect(() => {
-    setLocalQueries({ ...request.query })
+    setLocalQueries({ ...request.query, trackSlug: tracks.slug })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [request, withFeedback, tracks])
+  }, [request])
 
   // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(

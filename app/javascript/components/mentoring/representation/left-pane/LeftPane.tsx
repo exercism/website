@@ -3,46 +3,40 @@ import { CloseButton } from '../../session/CloseButton'
 import { IterationView } from './RepresentationIterationView'
 import RepresentationInfo from './RepresentationInfo'
 import { CompleteRepresentationData, RepresentationData } from '../../../types'
-import { useLogger } from '../../../../hooks'
-import { useLocalStorage } from '../../../../utils/use-storage'
-import { decamelize, decamelizeKeys } from 'humps'
+import { useStoredRepresentationQueries } from '../../../../hooks/use-stored-queries'
 
 export type PanesProps = {
   representation: RepresentationData
 } & Pick<CompleteRepresentationData, 'links'>
 
 export function LeftPane({ representation, links }: PanesProps): JSX.Element {
+  const backLinkArray = links.back.split('/')
+  const withFeedback = backLinkArray.pop() === 'with_feedback'
+  const initData = {
+    page: 1,
+    criteria: '',
+    trackSlug: 'csharp',
+  }
+  const { parsedQueries } = useStoredRepresentationQueries(
+    withFeedback,
+    initData
+  )
+
   const backlink = useMemo(() => {
-    const backLinkArray = links.back.split('/')
-    const withoutFeedback = backLinkArray[backLinkArray.length - 1]
-
-    const storedItem =
-      localStorage.getItem(
-        `representation-${
-          withoutFeedback === 'without_feedback'
-            ? 'without_feedback'
-            : 'with_feedback'
-        }-queries`
-      ) || ''
-
-    let parsed
-    try {
-      parsed = JSON.parse(storedItem)
-    } catch {
-      parsed = {}
-    }
-
-    const decamelized = decamelizeKeys(parsed)
-    const storedQuery = new URLSearchParams(
-      decamelized as unknown as URLSearchParams
+    return (
+      links.back +
+      '?' +
+      (withFeedback
+        ? parsedQueries.withFeedback
+        : parsedQueries.withoutFeedback)
     )
+  }, [
+    links.back,
+    parsedQueries.withFeedback,
+    parsedQueries.withoutFeedback,
+    withFeedback,
+  ])
 
-    console.log('STORED Q:', storedQuery)
-
-    return `${links.back}${
-      storedQuery.getAll.length > 0 ? `?${storedQuery}` : ''
-    }`
-  }, [links])
   return (
     <>
       <header className="discussion-header">
@@ -56,3 +50,33 @@ export function LeftPane({ representation, links }: PanesProps): JSX.Element {
     </>
   )
 }
+
+// const backlink = useMemo(() => {
+//   const storedItem =
+//     localStorage.getItem(
+//       `representation-${
+//         withoutFeedback === 'without_feedback'
+//           ? 'without_feedback'
+//           : 'with_feedback'
+//       }-queries`
+//     ) || ''
+
+// let parsed
+// try {
+//   parsed = JSON.parse(storedItem)
+// } catch {
+//   parsed = {}
+// }
+
+// console.log("")
+// const decamelized = decamelizeKeys(parsed)
+// const storedQuery = new URLSearchParams(
+//   decamelized as unknown as URLSearchParams
+// )
+
+// console.log('STORED Q:', storedQuery)
+
+// return `${links.back}${
+//   storedQuery.getAll.length > 0 ? `?${storedQuery}` : ''
+// }`
+// }, [links])

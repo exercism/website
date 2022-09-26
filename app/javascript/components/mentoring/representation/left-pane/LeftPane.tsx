@@ -9,17 +9,20 @@ export type PanesProps = {
   representation: RepresentationData
 } & Pick<CompleteRepresentationData, 'links'>
 
+const INIT_DATA = {
+  page: 1,
+  criteria: '',
+}
+
 export function LeftPane({ representation, links }: PanesProps): JSX.Element {
-  const backLinkArray = links.back.split('/')
-  const withFeedback = backLinkArray.pop() === 'with_feedback'
-  const initData = {
-    page: 1,
-    criteria: '',
-    trackSlug: 'csharp',
-  }
+  const withFeedback = useMemo(() => {
+    const backLinkArray = links.back.split('/')
+    return backLinkArray.pop() === 'with_feedback'
+  }, [links])
+
   const { parsedQueries } = useStoredRepresentationQueries(
     withFeedback,
-    initData
+    INIT_DATA
   )
 
   const backlink = useMemo(() => {

@@ -2,10 +2,7 @@ import React, { useState } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/student/FinishMentorDiscussionModal'
 import { ConfirmFinishMentorDiscussionModal } from '../../modals/student/ConfirmFinishMentorDiscussionModal'
 import { MentorDiscussion } from '../../types'
-
-type Links = {
-  exercise: string
-}
+import { DiscussionLinks } from './DiscussionActions'
 
 type Status = 'initialized' | 'confirming' | 'finishing'
 
@@ -17,7 +14,7 @@ export const FinishButton = ({
 }: React.PropsWithChildren<{
   className: string
   discussion: MentorDiscussion
-  links: Links
+  links: DiscussionLinks
 }>): JSX.Element => {
   const [status, setStatus] = useState<Status>('initialized')
 

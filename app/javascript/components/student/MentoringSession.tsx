@@ -15,6 +15,7 @@ import {
   MentorSessionRequest as Request,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
+  DonationLinks,
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
 import { SplitPane } from '../common'
@@ -25,6 +26,7 @@ export type Links = {
   privateMentoring: string
   mentoringGuide: string
   createMentorRequest: string
+  donationLinks: DonationLinks
 }
 
 export type Video = {
@@ -81,14 +83,11 @@ export const MentoringSession = ({
   })
 
   const [isLinked, setIsLinked] = useState(false)
-  const {
-    currentIteration,
-    handleIterationClick,
-    handleIterationScroll,
-  } = useIterationScrolling({
-    iterations: iterations,
-    on: isLinked,
-  })
+  const { currentIteration, handleIterationClick, handleIterationScroll } =
+    useIterationScrolling({
+      iterations: iterations,
+      on: isLinked,
+    })
 
   return (
     <div className="c-mentor-discussion">
@@ -105,7 +104,10 @@ export const MentoringSession = ({
               {discussion ? (
                 <DiscussionActions
                   discussion={discussion}
-                  links={{ exercise: exercise.links.self }}
+                  links={{
+                    exercise: exercise.links.self,
+                    donation: links.donationLinks,
+                  }}
                 />
               ) : null}
             </header>

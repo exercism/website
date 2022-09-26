@@ -12,6 +12,7 @@ import { useMachine } from '@xstate/react'
 import { Machine } from 'xstate'
 import { redirectTo } from '../../../utils/redirect-to'
 import { DonationStep } from './finish-mentor-discussion-modal/DonationStep'
+import { DiscussionLinks } from '../../student/mentoring-session/DiscussionActions'
 
 export type Links = {
   exercise: string
@@ -56,7 +57,7 @@ const Inner = ({
   links,
 }: {
   discussion: MentorDiscussion
-  links: Links
+  links: DiscussionLinks
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
   const [report, setReport] = useState<MentorReport | null>(null)
@@ -64,6 +65,10 @@ const Inner = ({
   switch (currentStep.value) {
     case 'rateMentor':
       return (
+        // <DonationStep
+        //   donationLinks={links.donation}
+        //   mentorHandle={discussion.mentor.handle}
+        // />
         <RateMentorStep
           discussion={discussion}
           onHappy={() => send('HAPPY')}
@@ -82,7 +87,10 @@ const Inner = ({
       )
     case 'celebration':
       return (
-        <DonationStep mentorHandle={discussion.mentor.handle} />
+        <DonationStep
+          donationLinks={links.donation}
+          mentorHandle={discussion.mentor.handle}
+        />
         // <CelebrationStep
         //   mentorHandle={discussion.mentor.handle}
         //   links={links}
@@ -129,7 +137,7 @@ export const FinishMentorDiscussionModal = ({
   discussion,
   ...props
 }: Omit<ModalProps, 'className'> & {
-  links: Links
+  links: DiscussionLinks
   discussion: MentorDiscussion
   onCancel: () => void
 }): JSX.Element => {

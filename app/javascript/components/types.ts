@@ -424,7 +424,7 @@ export type DonationLinks = {
       initialData: string
     }
   }
-  userSignedIn: string
+  userSignedIn: boolean
   links: {
     settings: string
     donate: string

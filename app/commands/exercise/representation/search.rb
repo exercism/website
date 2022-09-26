@@ -10,7 +10,9 @@ class Exercise::Representation::Search
   end
 
   def call
-    @representations = Exercise::Representation.where('num_submissions > 1')
+    @representations = Exercise::Representation.
+      includes(:exercise, :track).
+      where('num_submissions > 1')
     filter_with_feedback!
     filter_track!
     filter_exercises!

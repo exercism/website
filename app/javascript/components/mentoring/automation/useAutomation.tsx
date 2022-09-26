@@ -6,7 +6,6 @@ import {
   useState,
 } from 'react'
 import { QueryStatus } from 'react-query'
-import { useLogger } from '../../../hooks'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { useHistory, removeEmpty } from '../../../hooks/use-history'
 import { ListState, useList } from '../../../hooks/use-list'
@@ -70,7 +69,9 @@ export function useAutomation(
   cacheKey: string,
   withFeedback: boolean
 ): returnMentoringAutomation {
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(
+    representationsRequest.query?.onlyMentoredSolutions
+  )
   const [criteria, setCriteria] = useState(
     representationsRequest.query?.criteria || ''
   )
@@ -95,7 +96,7 @@ export function useAutomation(
 
   const { parsedQueries, setLocalQueries } = useStoredRepresentationQueries(
     withFeedback,
-    { ...request.query }
+    { criteria: '', page: 1 }
   )
   const [selectedTrack, setSelectedTrack] =
     useState<AutomationTrack>(initialTrackData)
@@ -128,8 +129,9 @@ export function useAutomation(
       setSelectedTrack(track)
 
       setQuery({ ...request.query, trackSlug: track.slug, page: 1 })
+      setLocalQueries({ ...request.query, trackSlug: track.slug })
     },
-    [setPage, setQuery, request.query]
+    [setPage, setQuery, request.query, setLocalQueries]
   )
 
   // Automatically set a selected track based on query or the lack of it
@@ -157,17 +159,15 @@ export function useAutomation(
       }
       setQuery(queryObject)
       setPage(1)
-      setChecked((checked) => !checked)
+      setChecked((checked: boolean) => !checked)
     },
     [request.query, setPage, setQuery]
   )
 
-  useLogger('default query', { ...request.query })
-
   useEffect(() => {
-    setLocalQueries({ ...request.query, trackSlug: tracks.slug })
+    setLocalQueries({ ...request.query })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [request])
+  }, [request, tracks])
 
   // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(

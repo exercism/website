@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { TrackFilterList } from './TrackFilterList'
 import { Request } from '../../../hooks/request-query'
 import { AutomationStatus } from '../../types'
@@ -11,7 +11,6 @@ import { RepresentationList } from './RepresentationList'
 import { SortOption } from '../Inbox'
 import { error } from 'jquery'
 import { useAutomation } from './useAutomation'
-import { useStoredRepresentationQueries } from '../../../hooks/use-stored-queries'
 
 export type AutomationLinks = {
   withFeedback?: string
@@ -87,7 +86,7 @@ export function Representations({
             <a
               href={
                 links.withoutFeedback !== undefined
-                  ? links.withoutFeedback + '?' + parsedQueries
+                  ? links.withoutFeedback + '?' + parsedQueries.withoutFeedback
                   : undefined
               }
             >
@@ -107,7 +106,7 @@ export function Representations({
             <a
               href={
                 links.withFeedback !== undefined
-                  ? links.withFeedback + '?' + parsedQueries
+                  ? links.withFeedback + '?' + parsedQueries.withFeedback
                   : undefined
               }
             >

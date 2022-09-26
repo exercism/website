@@ -5,11 +5,13 @@ export const Expander = ({
   buttonTextCompressed,
   buttonTextExpanded,
   className,
+  contentIsSafe,
 }: {
   content: string
   buttonTextCompressed: string
   buttonTextExpanded: string
   className?: string
+  contentIsSafe: boolean
 }): JSX.Element => {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -23,7 +25,14 @@ export const Expander = ({
 
   return (
     <div className={classNames.join(' ')}>
-      <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
+      {contentIsSafe ? (
+        <div
+          className="content"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      ) : (
+        <div className="content">{content}</div>
+      )}
       <button
         type="button"
         onClick={() => {

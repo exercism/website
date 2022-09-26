@@ -164,10 +164,17 @@ export function useAutomation(
     [request.query, setPage, setQuery]
   )
 
+
   useEffect(() => {
     setLocalQueries({ ...request.query })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request, tracks])
+
+
+  useEffect(() => {
+    setPage(1)
+  }, [request.query.criteria, request.query.order, setPage])
+
 
   // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(

@@ -117,7 +117,7 @@ export function useAutomation(
       setCriteria('')
       setSelectedTrack(track)
 
-      setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
+      setQuery({ ...request.query, trackSlug: track.slug, page: 1 })
     },
     [setPage, setQuery, request.query]
   )
@@ -151,6 +151,10 @@ export function useAutomation(
     },
     [request.query, setPage, setQuery]
   )
+
+  useEffect(() => {
+    setPage(1)
+  }, [request.query.criteria, request.query.order, setPage])
 
   // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(

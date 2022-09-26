@@ -4,10 +4,11 @@ class SerializeExerciseRepresentations
   initialize_with :representations
 
   def call
-    representations.map { |representation| SerializeInstance.(representation) }
+    representations.includes(:exercise, :track).
+      map { |representation| SerializeRepresentation.(representation) }
   end
 
-  class SerializeInstance
+  class SerializeRepresentation
     include Mandate
 
     initialize_with :representation

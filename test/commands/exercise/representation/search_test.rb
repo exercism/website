@@ -1,10 +1,12 @@
 require "test_helper"
 
 class Exercise::Representation::SearchTest < ActiveSupport::TestCase
-  test "no options returns everything" do
+  test "no options returns feedback with > 1 submission" do
     mentor = create :user
     representation_1 = create :exercise_representation, num_submissions: 3
     representation_2 = create :exercise_representation, num_submissions: 2
+    create :exercise_representation, num_submissions: 1
+    create :exercise_representation, num_submissions: 0
 
     assert_equal [representation_1, representation_2], Exercise::Representation::Search.(with_feedback: false, mentor:)
   end

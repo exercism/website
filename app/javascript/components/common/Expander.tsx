@@ -31,7 +31,7 @@ export const Expander = ({
           dangerouslySetInnerHTML={{ __html: content }}
         />
       ) : (
-        <div>{content}</div>
+        <div className="content">{content}</div>
       )}
       <button
         type="button"

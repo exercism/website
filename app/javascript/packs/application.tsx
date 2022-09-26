@@ -138,6 +138,7 @@ initReact({
   ),
   'common-expander': (data: any) => (
     <Common.Expander
+      contentIsSafe={data.content_is_safe}
       content={data.content}
       buttonTextCompressed={data.button_text_compressed}
       buttonTextExpanded={data.button_text_expanded}

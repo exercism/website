@@ -7,7 +7,7 @@ require 'generate_js_config'
 GenerateJSConfig.generate!
 
 if Rails.env.development?
-  listener = Listen.to(Rails.root / 'app' / 'images') { GenerateJSConfig.write_files }
+  listener = Listen.to(Rails.root / 'app' / 'images') { GenerateJSConfig.generate! }
   listener.start
   sleep
 end

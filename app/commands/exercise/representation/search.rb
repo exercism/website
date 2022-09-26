@@ -2,7 +2,7 @@ class Exercise::Representation::Search
   include Mandate
 
   # Use class method rather than constant for easier stubbing during testing
-  def self.requests_per_page = 20
+  def self.requests_per_page = 21
 
   initialize_with with_feedback: Mandate::NO_DEFAULT, mentor: Mandate::NO_DEFAULT, criteria: nil, track: nil,
     order: :most_submissions, page: 1, paginated: true, sorted: true, only_mentored_solutions: false do

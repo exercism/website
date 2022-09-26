@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 
 export const Expander = ({
-  data,
   content,
   buttonTextCompressed,
   buttonTextExpanded,
   className,
   contentIsSafe,
 }: {
-  data: any
   content: string
   buttonTextCompressed: string
   buttonTextExpanded: string

@@ -92,7 +92,7 @@ export function useAutomation(
 
   const { status, resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
-      ['mentor-representations-list', request.endpoint, request.query],
+      ['mentor-representations-list', request],
       request
     )
 
@@ -124,7 +124,7 @@ export function useAutomation(
 
   // Automatically set a selected track based on query or the lack of it
   useEffect(() => {
-    // don't repeat 'find' on track change, only when page loads
+    // don't repeat `find` on track change, only when page loads
     if (tracks.length > 0 && selectedTrack === initialTrackData) {
       const foundTrack = tracks.find(
         (t: AutomationTrack) => t.slug == request.query.trackSlug

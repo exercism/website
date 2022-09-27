@@ -12,7 +12,7 @@ import {
 import { ResultsZone } from '../ResultsZone'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { MentorDiscussion, DiscussionStatus } from '../types'
-import { UploadVideoModal } from '../modals/UploadVideoModal'
+import { UploadVideoModal } from '../modals/upload-video/UploadVideoModal'
 
 export type SortOption = {
   value: string

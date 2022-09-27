@@ -7,7 +7,7 @@ export function UploadVideoModal(): JSX.Element {
     <Modal
       open
       onClose={() => console.log('hello')}
-      ReactModalClassName="w-1-2"
+      ReactModalClassName="max-w-[780px]"
     >
       <h2 className="text-h2 mb-8">Submit a community workthrough</h2>
       <p className="text-prose mb-24">

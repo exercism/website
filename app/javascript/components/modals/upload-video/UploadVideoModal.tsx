@@ -11,7 +11,7 @@ type UploadVideoModalProps = {
 }
 
 export function UploadVideoModal({
-  videoSubmitted = true,
+  videoSubmitted = false,
 }: UploadVideoModalProps): JSX.Element {
   return (
     <Modal

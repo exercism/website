@@ -53,33 +53,3 @@ export function LeftPane({ representation, links }: PanesProps): JSX.Element {
     </>
   )
 }
-
-// const backlink = useMemo(() => {
-//   const storedItem =
-//     localStorage.getItem(
-//       `representation-${
-//         withoutFeedback === 'without_feedback'
-//           ? 'without_feedback'
-//           : 'with_feedback'
-//       }-queries`
-//     ) || ''
-
-// let parsed
-// try {
-//   parsed = JSON.parse(storedItem)
-// } catch {
-//   parsed = {}
-// }
-
-// console.log("")
-// const decamelized = decamelizeKeys(parsed)
-// const storedQuery = new URLSearchParams(
-//   decamelized as unknown as URLSearchParams
-// )
-
-// console.log('STORED Q:', storedQuery)
-
-// return `${links.back}${
-//   storedQuery.getAll.length > 0 ? `?${storedQuery}` : ''
-// }`
-// }, [links])

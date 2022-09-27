@@ -34,20 +34,33 @@ export function UploadVideoModal({
         exerciseIconUrl="https://dg8krxphbh767.cloudfront.net/exercises/amusement-park.svg"
         track="Rust"
         trackIconUrl="https://dg8krxphbh767.cloudfront.net/tracks/rust.svg"
+        videoSubmitted={videoSubmitted}
       />
+
+      {/* TODO: Componentize this */}
+      {videoSubmitted && (
+        <iframe
+          src="https://www.youtube.com/watch?v=VJ5XkzbG-BI&ab_channel=Exercism"
+          height="360"
+          width="100%"
+          className="rounded-16 mb-16"
+        ></iframe>
+      )}
 
       <UploadVideoTextInput
         label="PASTE YOUR VIDEO URL (YOUTUBE / VIMEO)"
         disabled={videoSubmitted}
       />
 
-      <UploadVideoControl />
-
-      <div className="flex">
-        <button className="w-full btn-primary btn-l grow">
-          Retrieve video
-        </button>
-      </div>
+      {videoSubmitted ? (
+        <UploadVideoControl />
+      ) : (
+        <div className="flex">
+          <button className="w-full btn-primary btn-l grow">
+            Retrieve video
+          </button>
+        </div>
+      )}
     </Modal>
   )
 }

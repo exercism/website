@@ -38,6 +38,9 @@ export function UploadVideoControl(): JSX.Element {
         Please ensure you have full rights to take credit for the video before
         submitting.
       </div>
+      <div className="flex">
+        <button className="w-full btn-primary btn-l grow">Submit video</button>
+      </div>
     </div>
   )
 }

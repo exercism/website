@@ -1,5 +1,4 @@
 import { useLocalStorage } from '../utils/use-storage'
-import { ListQuery } from './use-list'
 import { decamelizeKeys } from 'humps'
 
 export type RepresentationParsedQueries = {
@@ -9,10 +8,10 @@ export type RepresentationParsedQueries = {
 
 export function useStoredRepresentationQueries(
   withFeedback: boolean,
-  initData: ListQuery
+  initData: Record<string, unknown>
 ): {
   parsedQueries: RepresentationParsedQueries
-  setLocalQueries: (value: ListQuery) => void
+  setLocalQueries: (value: Record<string, unknown>) => void
 } {
   const [, setLocalQueries] = useLocalStorage(
     withFeedback

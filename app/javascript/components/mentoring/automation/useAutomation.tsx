@@ -96,7 +96,7 @@ export function useAutomation(
 
   const { parsedQueries, setLocalQueries } = useStoredRepresentationQueries(
     withFeedback,
-    { criteria: '', page: 1 }
+    { page: 1 }
   )
   const [selectedTrack, setSelectedTrack] =
     useState<AutomationTrack>(initialTrackData)
@@ -164,7 +164,7 @@ export function useAutomation(
   )
 
   useEffect(() => {
-    setLocalQueries({ ...request.query })
+    setLocalQueries(removeEmpty(request.query))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request, tracks])
 

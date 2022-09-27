@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_26_231612) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -92,6 +92,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_cohorts_on_slug", unique: true
     t.index ["track_id"], name: "index_cohorts_on_track_id"
+  end
+
+  create_table "community_videos", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "track_id"
+    t.bigint "exercise_id"
+    t.bigint "author_id"
+    t.bigint "submitted_by_id", null: false
+    t.string "title", null: false
+    t.string "url", null: false
+    t.integer "platform", null: false
+    t.string "watch_id", null: false
+    t.string "embed_id", null: false
+    t.string "channel_name", null: false
+    t.string "thumbnail_url", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_community_videos_on_author_id"
+    t.index ["exercise_id"], name: "index_community_videos_on_exercise_id"
+    t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"
+    t.index ["track_id"], name: "index_community_videos_on_track_id"
   end
 
   create_table "contributor_team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -219,14 +239,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
-    t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at", order: { last_submitted_at: :desc }
-    t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_author_id", "track_id", "num_submissions"], name: "index_exercise_representation_author_track_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
-    t.index ["feedback_type", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_type_exercise_last_submitted_at", order: { last_submitted_at: :desc }
-    t.index ["feedback_type", "exercise_id", "num_submissions"], name: "index_exercise_representation_type_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions", order: { num_submissions: :desc }
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
@@ -1009,6 +1025,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
   add_foreign_key "cohorts", "tracks"
+  add_foreign_key "community_videos", "users", column: "author_id"
+  add_foreign_key "community_videos", "users", column: "submitted_by_id"
   add_foreign_key "contributor_team_memberships", "contributor_teams"
   add_foreign_key "contributor_team_memberships", "users"
   add_foreign_key "contributor_teams", "tracks"

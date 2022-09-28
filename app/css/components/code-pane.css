@@ -2,7 +2,7 @@
     @apply overflow-auto;
 
     & code {
-        @apply block;
+        @apply flex;
         @apply py-8;
         & li {
             @apply flex;

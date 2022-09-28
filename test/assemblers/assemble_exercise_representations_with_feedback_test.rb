@@ -8,7 +8,7 @@ class AssembleExerciseRepresentationsWithFeedbackTest < ActiveSupport::TestCase
         last_submitted_at: Time.utc(2022, 3, 15) - idx.days
     end
 
-    paginated_representations = Kaminari.paginate_array(representations, total_count: 25).page(1).per(20)
+    paginated_representations = Kaminari.paginate_array(representations, total_count: 24).page(1).per(20)
     expected = SerializePaginatedCollection.(
       paginated_representations,
       serializer: SerializeExerciseRepresentations,

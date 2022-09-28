@@ -5,6 +5,8 @@ class CommunityVideo
     initialize_with :url
 
     def call
+      raise InvalidCommunityVideoUrl unless url.present?
+
       if youtube?
         CommunityVideo::RetrieveFromYoutube.(url)
       elsif vimeo?

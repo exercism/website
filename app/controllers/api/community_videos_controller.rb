@@ -2,7 +2,28 @@ module API
   class CommunityVideosController < BaseController
     def lookup
       video = CommunityVideo::Retrieve.(params[:video_url])
-      render json: { community_video: video }.to_json
+      serialized = video.attributes.slice(*%w[title platform channel_name thumbnail_url])
+      render json: { community_video: serialized }.to_json
+    rescue InvalidCommunityVideoUrl
+      render_400(:invalid_community_video_url)
+    end
+
+    def create
+      if params[:track_slug].present?
+        track = Track.find(params[:track_slug])
+        exercise = track.exercises.find(params[:exercise_slug]) if params[:exercise_slug].present?
+      end
+
+      CommunityVideo::Create.(
+        params[:video_url],
+        current_user,
+        title: params[:title],
+        author: (params[:submitter_is_author] ? current_user : nil),
+        track:,
+        exercise:
+      )
+
+      render json: {}
     end
   end
 end

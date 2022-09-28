@@ -9,19 +9,19 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     clojure = create :track, slug: :clojure, title: 'Clojure'
 
     create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: csharp), feedback_type: :actionable,
-      feedback_author: user
+      feedback_author: user, num_submissions: 3
     create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: ruby), feedback_type: :actionable,
-      feedback_author: user
+      feedback_author: user, num_submissions: 3
     create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: ruby), feedback_type: :actionable,
-      feedback_author: user
+      feedback_author: user, num_submissions: 3
     create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: javascript),
-      feedback_type: :actionable, feedback_author: user
+      feedback_type: :actionable, feedback_author: user, num_submissions: 3
     create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: clojure), feedback_type: :actionable,
-      feedback_author: user
+      feedback_author: user, num_submissions: 3
     create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: clojure), feedback_type: :actionable,
-      feedback_author: user
+      feedback_author: user, num_submissions: 3
     create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: clojure), feedback_type: :actionable,
-      feedback_author: user
+      feedback_author: user, num_submissions: 3
 
     expected = [
       { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
@@ -38,9 +38,9 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     create :user_track_mentorship, user: user, track: track
     exercise = create :practice_exercise, track: track
 
-    create :exercise_representation, exercise: exercise, feedback_type: nil
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable
-    create :exercise_representation, exercise: exercise, feedback_type: nil
+    create :exercise_representation, exercise: exercise, feedback_type: nil, num_submissions: 3
+    create :exercise_representation, exercise: exercise, feedback_type: :actionable, num_submissions: 3
+    create :exercise_representation, exercise: exercise, feedback_type: nil, num_submissions: 3
 
     expected = [
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
@@ -53,11 +53,11 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     user_2 = create :user
     track = create :track, :random_slug
     exercise = create :practice_exercise, track: track
-    create :exercise_representation, exercise: exercise, feedback_type: nil
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1
-    create :exercise_representation, exercise: exercise, feedback_type: nil
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_2
+    create :exercise_representation, exercise: exercise, feedback_type: nil, num_submissions: 3
+    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
+    create :exercise_representation, exercise: exercise, feedback_type: nil, num_submissions: 3
+    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
+    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_2, num_submissions: 3
 
     expected = [
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }

@@ -14,7 +14,11 @@
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "types": ["app/javascript/declarations"]
+    "types": ["app/javascript/declarations"],
+    "baseUrl": "app/javascript",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "exclude": [
     "**/*.spec.ts",

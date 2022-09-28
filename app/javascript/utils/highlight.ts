@@ -108,7 +108,8 @@ export const highlightAll = (parent: ParentNode = document): void => {
     highlightBlock(block)
   })
 }
-
+// this will be replaced by the one in @/hooks. after all conflicts are resolved
+// and is missing 'html' dependency which is needed so it actually highlights code block when parsed html arrives
 export const useHighlighting = <T>() => {
   const parentRef = useRef<T | null>(null)
 

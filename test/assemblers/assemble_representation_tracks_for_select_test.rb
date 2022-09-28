@@ -64,4 +64,20 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     ]
     assert_equal expected, AssembleRepresentationTracksForSelect.(user_1, with_feedback: true)
   end
+
+  test "only considers representations with > 1 submissions" do
+    user_1 = create :user
+    user_2 = create :user
+    track = create :track, :random_slug
+    exercise = create :practice_exercise, track: track
+    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1, num_submissions: 4
+    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
+    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_2, num_submissions: 2
+    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_2, num_submissions: 1
+
+    expected = [
+      { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
+    ]
+    assert_equal expected, AssembleRepresentationTracksForSelect.(user_1, with_feedback: true)
+  end
 end

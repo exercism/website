@@ -10,16 +10,20 @@ export default function RadioButton({
   onChange,
   tooltip,
   name,
+  labelClassName,
+  className,
 }: {
   label: string
-  checked: boolean
-  onChange: ChangeEventHandler<HTMLInputElement>
+  checked?: boolean
+  onChange?: ChangeEventHandler<HTMLInputElement>
   tooltip?: Tooltip
   value: string
   name?: string
+  labelClassName?: string
+  className?: string
 }): JSX.Element {
   return (
-    <label className="c-radio-wrapper mb-8 hover:cursor-pointer">
+    <label className={`c-radio-wrapper mb-8 hover:cursor-pointer ${className}`}>
       <input
         name={name}
         checked={checked}
@@ -27,8 +31,8 @@ export default function RadioButton({
         value={value}
         type="radio"
       />
-      <div className="row text-radio-essential">
-        <div className="c-radio mr-16" />
+      <div className={`row text-radio-essential ${labelClassName}`}>
+        <div className="c-radio mr-16 " />
         <div className="mr-8">{label}</div>
         {tooltip && (
           <ExercismTippy

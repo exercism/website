@@ -3,12 +3,19 @@ type UploadVideoInputProps = {
   label: string
   disabled?: boolean
   className?: string
+  defaultValue?: string
+  onChange?: React.ChangeEventHandler<HTMLInputElement>
+  name: string
+  error?: boolean
 }
 
 export function UploadVideoTextInput({
   label,
   disabled = false,
   className = '',
+  name,
+  defaultValue,
+  error,
 }: UploadVideoInputProps): JSX.Element {
   return (
     <label
@@ -17,10 +24,14 @@ export function UploadVideoTextInput({
       <span className="mb-8">{label}</span>
       <input
         type="text"
+        name={name}
+        defaultValue={defaultValue}
+        required
         disabled={disabled}
         placeholder="This is placeholder text"
-        className={`font-body ${disabled ? '!bg-disabledLight' : ''}`}
+        className={`font-body ${disabled ? '!bg-disabledLight' : ''} `}
       />
+      {error && <span className="text-red">ERROR!!</span>}
     </label>
   )
 }

@@ -167,6 +167,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     expected = SerializePaginatedCollection.(
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
+      serializer_kwargs: { params: {} },
       meta: {
         # TODO: enable when performance is fixed
         unscoped_total: 0

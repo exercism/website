@@ -102,7 +102,7 @@ export function useAutomation(
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
       }
-    }, 300)
+    }, 500)
 
     return () => {
       clearTimeout(handler)

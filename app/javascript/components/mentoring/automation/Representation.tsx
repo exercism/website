@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { TrackFilterList } from './TrackFilterList'
 import { Request } from '../../../hooks/request-query'
 import { AutomationStatus } from '../../types'
@@ -70,12 +70,19 @@ export function Representations({
     withFeedback
   )
 
+  // timeout is stored in a useRef, so it can be cancelled
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const timer = useRef<any>()
+
   const handlePageResetOnInputChange = useCallback(
     (input: string) => {
-      if (input.length === 3 || (criteria && input.length < criteria.length)) {
-        setPage(1)
+      //clears it on any input
+      clearTimeout(timer.current)
+      if (criteria && (input.length > 2 || input.length === 0)) {
+        timer.current = setTimeout(() => setPage(1), 500)
       }
     },
+
     [criteria, setPage]
   )
 

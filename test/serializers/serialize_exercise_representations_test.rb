@@ -77,7 +77,7 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
         feedback_html: "<p>Yay</p>\n",
         last_submitted_at: current_time - 5.days,
         links: {
-          edit: "/mentoring/automation/#{representation.uuid}/edit?page=5&track_slug=ruby"
+          edit: "/mentoring/automation/#{representation.uuid}/edit?source%5Bpage%5D=5&source%5Btrack_slug%5D=ruby"
         }
       }
     ]

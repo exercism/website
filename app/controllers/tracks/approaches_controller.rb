@@ -5,6 +5,7 @@ class Tracks::ApproachesController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
+    #  TODO: Erik - only approved
     @videos = CommunityVideo.for_exercise(@exercise)
   end
 

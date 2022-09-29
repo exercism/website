@@ -10,8 +10,17 @@ module API
 
     def create
       if params[:track_slug].present?
-        track = Track.find(params[:track_slug])
-        exercise = track.exercises.find(params[:exercise_slug]) if params[:exercise_slug].present?
+        begin
+          track = Track.find(params[:track_slug])
+        rescue ActiveRecord::RecordNotFound
+          return render_track_not_found
+        end
+
+        begin
+          exercise = track.exercises.find(params[:exercise_slug]) if params[:exercise_slug].present?
+        rescue ActiveRecord::RecordNotFound
+          return render_exercise_not_found
+        end
       end
 
       CommunityVideo::Create.(
@@ -24,6 +33,8 @@ module API
       )
 
       render json: {}
+    rescue InvalidCommunityVideoUrl
+      render_400(:invalid_community_video_url)
     end
   end
 end

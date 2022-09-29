@@ -1,6 +1,6 @@
 require_relative './base_test_case'
 
-class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
+class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
   guard_incorrect_token! :lookup_api_community_videos_path, method: :get
   guard_incorrect_token! :api_community_videos_path, method: :post
 
@@ -43,37 +43,51 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
   ###
   # Create
   ###
-  # test "create should 404 if the solution doesn't exist" do
-  #   setup_user
-  #   solution = create :practice_solution
-  #   post api_community_solution_comments_path(
-  #     solution.track, solution.exercise, "foobar123"
-  #   ), headers: @headers, as: :json
-  #   assert_response :not_found
-  #   expected = { error: {
-  #     type: "solution_not_found",
-  #     message: I18n.t('api.errors.solution_not_found')
-  #   } }
-  #   actual = JSON.parse(response.body, symbolize_names: true)
-  #   assert_equal expected, actual
-  # end
+  test "create should 404 if the track doesn't exist" do
+    setup_user
 
-  # test "create should return 403 when solution is not published" do
-  #   setup_user
-  #   solution = create :practice_solution
+    post api_community_videos_path,
+      params: { video_url: "foo", track_slug: "bar" },
+      headers: @headers, as: :json
+    assert_response :not_found
+    expected = { error: {
+      type: "track_not_found",
+      message: I18n.t('api.errors.track_not_found')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
 
-  #   post api_community_solution_comments_path(
-  #     solution.track, solution.exercise, solution.user.handle
-  #   ), headers: @headers, as: :json
+  test "create should 404 if the exercise doesn't exist" do
+    setup_user
 
-  #   assert_response :forbidden
-  #   expected = { error: {
-  #     type: "solution_comments_not_allowed",
-  #     message: I18n.t('api.errors.solution_comments_not_allowed')
-  #   } }
-  #   actual = JSON.parse(response.body, symbolize_names: true)
-  #   assert_equal expected, actual
-  # end
+    post api_community_videos_path,
+      params: { video_url: "foo", track_slug: create(:track).slug, exercise_slug: "bar" },
+      headers: @headers, as: :json
+    assert_response :not_found
+    expected = { error: {
+      type: "exercise_not_found",
+      message: I18n.t('api.errors.exercise_not_found')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "create should return 400 when video url is incorrect" do
+    setup_user
+
+    post api_community_videos_path,
+      params: { video_url: "https://example.com/..." },
+      headers: @headers, as: :json
+
+    assert_response 400
+    expected = { error: {
+      type: "invalid_community_video_url",
+      message: I18n.t('api.errors.invalid_community_video_url')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
 
   test "create should create correctly for user" do
     user = create :user

@@ -38,4 +38,11 @@ class Tracks::ExercisesController < ApplicationController
   def no_test_runner
     return redirect_to(action: :edit) if @exercise.has_test_runner?
   end
+
+  private
+  def use_exercise!
+    @exercise = @track.exercises.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
 end

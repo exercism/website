@@ -17,6 +17,7 @@ export function RightPane({
       ? data.representation.feedbackType
       : 'essential'
   )
+
   return (
     <div className="!h-100 flex flex-col justify-between">
       <UtilityTabs data={data} />
@@ -25,6 +26,7 @@ export function RightPane({
           feedbackType={feedbackType}
           setFeedbackType={setFeedbackType}
         />
+
         <MentoringConversation feedbackType={feedbackType} data={data} />
       </div>
     </div>

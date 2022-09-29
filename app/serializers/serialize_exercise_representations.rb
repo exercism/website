@@ -30,7 +30,7 @@ class SerializeExerciseRepresentations
         feedback_html: representation.feedback_html,
         last_submitted_at: representation.last_submitted_at,
         links: {
-          edit: Exercism::Routes.edit_mentoring_automation_path(representation, **params)
+          edit: Exercism::Routes.edit_mentoring_automation_path(representation, source: params)
         }
       }
     end

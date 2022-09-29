@@ -2,7 +2,7 @@ module ReactComponents
   module Mentoring
     module Representations
       class Representation < ReactComponent
-        initialize_with :mentor, :representation, :example_submissions, :params
+        initialize_with :mentor, :representation, :example_submissions, :source_params
 
         def to_s
           super("mentoring-representation", {
@@ -56,8 +56,8 @@ module ReactComponents
 
         def back_link
           representation.feedback_type.nil? ?
-              Exercism::Routes.mentoring_automation_index_path(**params) :
-              Exercism::Routes.with_feedback_mentoring_automation_index_path(**params)
+              Exercism::Routes.mentoring_automation_index_path(**source_params.fetch(:source)) :
+              Exercism::Routes.with_feedback_mentoring_automation_index_path(**source_params.fetch(:source))
         end
 
         memoize

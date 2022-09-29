@@ -1,24 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
 import { UploadVideoTextInput } from '.'
 import { sendRequest } from '../../../../utils/send-request'
 
 export type CommunityVideo = {
-  id: any
-  trackId: any
-  exerciseId: any
-  authorId: any
-  submittedById: any
   title: string
   url: string
   platform: string
-  watchId: string
-  embedId: string
   channelName: string
   thumbnailUrl: string
-  createdAt: any
-  updatedAt: any
 }
 
 export type VideoDataResponse =

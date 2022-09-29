@@ -181,4 +181,18 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
     assert_equal track, representation.track
   end
+
+  test "analyzer_feedback" do
+    exercise = create :concept_exercise
+    solution = create :concept_solution, exercise: exercise
+    submission = create :submission, solution: solution, analysis_status: :completed
+    create :submission_analysis, submission: submission, data: {
+      summary: "Some summary",
+      comments: ["ruby.two-fer.incorrect_default_param"]
+    }
+
+    representation = create :exercise_representation, exercise: exercise, source_submission: submission
+
+    assert_equal submission.analyzer_feedback, representation.analyzer_feedback
+  end
 end

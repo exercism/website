@@ -24,6 +24,8 @@ class Exercise::Representation < ApplicationRecord
   scope :mentored_by, ->(mentor) { where(submission_representations: mentor.submission_representations) }
   scope :for_track, ->(track) { where(track:) }
 
+  delegate :analyzer_feedback, to: :source_submission
+
   before_create do
     self.uuid = SecureRandom.compact_uuid
     self.track_id = exercise.track_id

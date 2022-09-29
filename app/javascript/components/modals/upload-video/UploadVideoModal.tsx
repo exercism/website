@@ -35,6 +35,8 @@ export function UploadVideoModal({
 
       {videoRetrievalSuccess && videoData ? (
         <UploadVideoForm
+          onError={() => console.log('error')}
+          onSuccess={() => console.log('SUCCESS!!')}
           onUseDifferentVideoClick={handleClearRetrievedVideo}
           data={videoData.communityVideo}
         />

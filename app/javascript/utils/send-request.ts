@@ -11,7 +11,7 @@ export const sendRequest = <T extends any = any>({
   method,
 }: {
   endpoint: string
-  body: string | null
+  body: string | null | FormData
   method: string
 }): { fetch: Promise<T>; cancel: () => void } => {
   const cancel = new AbortController()

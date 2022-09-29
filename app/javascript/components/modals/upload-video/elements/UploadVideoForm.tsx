@@ -1,15 +1,34 @@
 import React, { useCallback } from 'react'
+import { useMutation } from 'react-query'
 import { UploadVideoTextInput, CommunityVideo } from '.'
+import { sendRequest } from '../../../../utils/send-request'
 import { Icon } from '../../../common'
 import RadioButton from '../../../mentoring/representation/right-pane/RadioButton'
+
+type UploadVideoFormProps = {
+  data: CommunityVideo
+  onUseDifferentVideoClick: () => void
+  onSuccess: () => void
+  onError: () => void
+}
 
 export function UploadVideoForm({
   data,
   onUseDifferentVideoClick,
-}: {
-  data: CommunityVideo
-  onUseDifferentVideoClick: () => void
-}): JSX.Element {
+  onSuccess,
+  onError,
+}: UploadVideoFormProps): JSX.Element {
+  async function UploadVideo(body: FormData) {
+    const URL = 'http://local.exercism.io:3020/api/v2/community_videos'
+    const { fetch } = sendRequest({ endpoint: URL, body, method: 'POST' })
+    return fetch
+  }
+
+  const [uploadVideo] = useMutation((body: FormData) => UploadVideo(body), {
+    onSuccess: () => onSuccess(),
+    onError: () => onError(),
+  })
+
   const handleSubmitVideo = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -18,14 +37,12 @@ export function UploadVideoForm({
         data.delete('submitter_is_author')
       }
       console.log(Object.fromEntries(data.entries()))
+      uploadVideo(data)
     },
-    []
+    [uploadVideo]
   )
   return (
-    <form
-      onSubmit={handleSubmitVideo}
-      onChange={(e) => console.log(e.currentTarget)}
-    >
+    <form onSubmit={handleSubmitVideo}>
       <img
         src={data.thumbnailUrl}
         alt="video thumbnail"
@@ -62,11 +79,11 @@ export function UploadVideoForm({
           IS THE VIDEO YOURS OR SOMEONE ELSES?
         </legend>
         <RadioButton
+          className="mr-24"
+          labelClassName="text-16"
           name="submitter_is_author"
           label="Mine"
           value="true"
-          labelClassName="text-16"
-          className="mr-24"
           defaultChecked
         />
         <RadioButton

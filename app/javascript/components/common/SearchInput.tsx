@@ -44,7 +44,9 @@ export function SearchInput({
         className={INPUT_CLASSNAMES}
         style={{ all: 'unset' }}
         value={filter}
-        onChange={(e) => setFilter(e.target.value)}
+        onChange={(e) => {
+          setFilter(e.target.value)
+        }}
         placeholder={placeholder}
       />
     </div>

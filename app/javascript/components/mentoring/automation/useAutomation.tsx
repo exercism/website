@@ -108,17 +108,19 @@ export function useAutomation(
     )
 
   // TODO: refactor this and probably all query with the debounce hook
+
   useEffect(() => {
     const handler = setTimeout(() => {
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
+        setPage(1)
       }
     }, 300)
 
     return () => {
       clearTimeout(handler)
     }
-  }, [setRequestCriteria, criteria])
+  }, [setRequestCriteria, criteria, setPage])
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
@@ -167,10 +169,6 @@ export function useAutomation(
     setLocalQueries(removeEmpty(request.query))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request, tracks])
-
-  useEffect(() => {
-    setPage(1)
-  }, [request.query.criteria, request.query.order, setPage])
 
   // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(

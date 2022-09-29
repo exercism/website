@@ -153,6 +153,7 @@ export function Representations({
               sortOptions={sortOptions}
               order={order}
               setOrder={setOrder}
+              setPage={setPage}
             />
           </div>
         </header>

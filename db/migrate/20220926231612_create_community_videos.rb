@@ -7,9 +7,11 @@ class CreateCommunityVideos < ActiveRecord::Migration[7.0]
 
       t.belongs_to :submitted_by, foreign_key: { to_table: "users" }, null: false
 
+      t.integer :status, size: 1, null: false, default: 0
+      t.integer :platform, size: 1, null: false
+
       t.string :title, null: false
       t.string :url, null: false
-      t.integer :platform, size: 1, null: false
       t.string :watch_id, null: false
       t.string :embed_id, null: false
 

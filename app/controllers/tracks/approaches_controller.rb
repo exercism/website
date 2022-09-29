@@ -6,7 +6,7 @@ class Tracks::ApproachesController < ApplicationController
 
   def index
     #  TODO: Erik - only approved
-    @videos = CommunityVideo.for_exercise(@exercise)
+    @videos = CommunityVideo.approved.for_exercise(@exercise)
   end
 
   def show; end

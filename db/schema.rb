@@ -99,9 +99,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_231612) do
     t.bigint "exercise_id"
     t.bigint "author_id"
     t.bigint "submitted_by_id", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "platform", null: false
     t.string "title", null: false
     t.string "url", null: false
-    t.integer "platform", null: false
     t.string "watch_id", null: false
     t.string "embed_id", null: false
     t.string "channel_name", null: false
@@ -637,6 +638,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_231612) do
     t.datetime "updated_at", null: false
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
+    t.boolean "unlocked_help", default: false, null: false
     t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc

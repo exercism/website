@@ -18,13 +18,13 @@ export function UploadVideoForm({
   onSuccess,
   onError,
 }: UploadVideoFormProps): JSX.Element {
-  async function UploadVideo(body: FormData) {
+  async function UploadVideo(body: string) {
     const URL = 'http://local.exercism.io:3020/api/v2/community_videos'
     const { fetch } = sendRequest({ endpoint: URL, body, method: 'POST' })
     return fetch
   }
 
-  const [uploadVideo] = useMutation((body: FormData) => UploadVideo(body), {
+  const [uploadVideo] = useMutation((body: string) => UploadVideo(body), {
     onSuccess: () => onSuccess(),
     onError: () => onError(),
   })

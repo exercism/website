@@ -10,6 +10,8 @@ module Git
     git_filepath :introduction, file: ".docs/introduction.md", append_file: ".docs/introduction.append.md"
     git_filepath :instructions_append, file: ".docs/instructions.append.md"
     git_filepath :introduction_append, file: ".docs/introduction.append.md"
+    git_filepath :approaches_introduction, file: ".approaches/introduction.md"
+    git_filepath :approaches_config, file: ".approaches/config.json"
     git_filepath :hints, file: ".docs/hints.md"
     git_filepath :config, file: ".meta/config.json"
 
@@ -220,6 +222,7 @@ module Git
       filtered_filepaths = filepaths.select do |filepath|
         next if filepath.start_with?('.docs/')
         next if filepath.start_with?('.meta/')
+        next if filepath.start_with?('.approaches/')
         next if example_filepaths.include?(filepath)
         next if exemplar_filepaths.include?(filepath)
 

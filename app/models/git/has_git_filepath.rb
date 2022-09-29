@@ -35,6 +35,11 @@ module Git
       define_method "#{field}_absolute_filepath" do
         absolute_filepath(file)
       end
+
+      # Define a <field>? method to allow checking if the file exists in git
+      define_method "#{field}?" do
+        repo.file_exists?(commit, absolute_filepath(file))
+      end
     end
   end
 end

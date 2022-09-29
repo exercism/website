@@ -233,8 +233,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_29_134810) do
     t.bigint "feedback_editor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "num_submissions", default: 1, null: false
-    t.datetime "last_submitted_at", default: -> { "CURRENT_TIMESTAMP(6)" }, null: false
+    t.integer "num_submissions", default: 0, null: false
+    t.datetime "last_shown_at"
+    t.datetime "last_submitted_at", default: "2022-08-17 08:10:01", null: false
     t.string "uuid", null: false
     t.bigint "track_id"
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
@@ -279,6 +280,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_29_134810) do
     t.datetime "updated_at", null: false
     t.boolean "has_test_runner", default: false, null: false
     t.integer "num_published_solutions", default: 0, null: false
+    t.boolean "has_approaches", default: false, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
@@ -639,7 +641,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_29_134810) do
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
-    t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true

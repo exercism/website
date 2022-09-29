@@ -67,6 +67,13 @@ module Git
       lookup_commit(sha, update_on_failure: false)
     end
 
+    def file_exists?(commit, path)
+      commit.tree.path(path)
+      true
+    rescue Rugged::TreeError
+      false
+    end
+
     def find_file_oid(commit, path)
       entry = commit.tree.path(path)
       raise "Not a blob" if entry[:type] != :blob

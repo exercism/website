@@ -73,6 +73,8 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
+        ".approaches/config.json",
+        ".approaches/introduction.md",
         ".meta/config.json",
         ".meta/example.rb",
         "bob.rb",
@@ -408,6 +410,30 @@ module Git
       exercise = Git::Exercise.new(:strings, "concept", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal('exercises/concept/strings/.meta/config.json', exercise.config_absolute_filepath)
+    end
+
+    test "approaches_config file path" do
+      exercise = Git::Exercise.new("bob", "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('.approaches/config.json', exercise.approaches_config_filepath)
+    end
+
+    test "approaches_config absolute file path" do
+      exercise = Git::Exercise.new("bob", "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/practice/bob/.approaches/config.json', exercise.approaches_config_absolute_filepath)
+    end
+
+    test "approaches_introduction file path" do
+      exercise = Git::Exercise.new("bob", "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('.approaches/introduction.md', exercise.approaches_introduction_filepath)
+    end
+
+    test "approaches_introduction absolute file path" do
+      exercise = Git::Exercise.new("bob", "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/practice/bob/.approaches/introduction.md', exercise.approaches_introduction_absolute_filepath)
     end
   end
 end

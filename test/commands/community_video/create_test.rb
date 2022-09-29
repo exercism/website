@@ -39,4 +39,19 @@ class CommunityVideo::CreateTest < ActiveSupport::TestCase
     assert video.persisted?
     assert_equal title, video.title
   end
+
+  test "updates has_approaches if exercise is provided" do
+    url = mock
+    submitter = create :user
+    title = "Something"
+    exercise = create :practice_exercise
+    retrieved_video = build :community_video
+    CommunityVideo::Retrieve.expects(:call).with(url).returns(retrieved_video)
+
+    perform_enqueued_jobs do
+      CommunityVideo::Create.(url, submitter, exercise:)
+    end
+
+    assert exercise.reload.has_approaches?
+  end
 end

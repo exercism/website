@@ -354,4 +354,11 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     Git::SyncPracticeExercise.(exercise, force_sync: true)
   end
+
+  test "updates has_approaches" do
+    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3'
+    Exercise::UpdateHasApproaches.expects(:call).with(exercise)
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+  end
 end

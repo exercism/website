@@ -342,4 +342,16 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal iteration.track, metric.track
     assert_equal solution.user, metric.user
   end
+
+  test "unlocks help for solution" do
+    solution = create :concept_solution
+    submission = create :submission, solution: solution
+
+    # Sanity check
+    refute solution.unlocked_help?
+
+    Iteration::Create.(solution, submission)
+    
+    assert solution.reload.unlocked_help?
+  end
 end

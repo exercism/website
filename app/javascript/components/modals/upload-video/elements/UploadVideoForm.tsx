@@ -1,8 +1,7 @@
-import React from 'react'
-import { UploadVideoTextInput } from '.'
+import React, { useCallback } from 'react'
+import { UploadVideoTextInput, CommunityVideo } from '.'
 import { Icon } from '../../../common'
 import RadioButton from '../../../mentoring/representation/right-pane/RadioButton'
-import { CommunityVideo } from '../UploadVideoModal'
 
 export function UploadVideoForm({
   data,
@@ -11,8 +10,22 @@ export function UploadVideoForm({
   data: CommunityVideo
   onUseDifferentVideoClick: () => void
 }): JSX.Element {
+  const handleSubmitVideo = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      const data = new FormData(e.currentTarget)
+      if (data.get('submitter_is_author') === 'false') {
+        data.delete('submitter_is_author')
+      }
+      console.log(Object.fromEntries(data.entries()))
+    },
+    []
+  )
   return (
-    <form>
+    <form
+      onSubmit={handleSubmitVideo}
+      onChange={(e) => console.log(e.currentTarget)}
+    >
       <img
         src={data.thumbnailUrl}
         alt="video thumbnail"
@@ -31,14 +44,14 @@ export function UploadVideoForm({
       </button>
 
       <UploadVideoTextInput
-        name="videoUrl"
+        name="video_url"
         label="PASTE YOUR VIDEO URL (YOUTUBE / VIMEO)"
         defaultValue={data.url}
-        disabled
+        readOnly
       />
 
       <UploadVideoTextInput
-        name="videoTitle"
+        name="title"
         label="Video title"
         className="mb-24"
         defaultValue={data.title}
@@ -54,6 +67,7 @@ export function UploadVideoForm({
           value="true"
           labelClassName="text-16"
           className="mr-24"
+          defaultChecked
         />
         <RadioButton
           name="submitter_is_author"
@@ -68,7 +82,9 @@ export function UploadVideoForm({
         submitting.
       </div> */}
       <div className="flex">
-        <button className="w-full btn-primary btn-l grow">Submit video</button>
+        <button type="submit" className="w-full btn-primary btn-l grow">
+          Submit video
+        </button>
       </div>
     </form>
   )

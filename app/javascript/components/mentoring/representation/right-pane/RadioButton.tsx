@@ -7,6 +7,7 @@ export default function RadioButton({
   label,
   value,
   checked,
+  defaultChecked,
   onChange,
   tooltip,
   name,
@@ -15,6 +16,7 @@ export default function RadioButton({
 }: {
   label: string
   checked?: boolean
+  defaultChecked?: boolean
   onChange?: ChangeEventHandler<HTMLInputElement>
   tooltip?: Tooltip
   value: string
@@ -27,6 +29,7 @@ export default function RadioButton({
       <input
         name={name}
         checked={checked}
+        defaultChecked={defaultChecked}
         onChange={onChange}
         value={value}
         type="radio"

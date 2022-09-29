@@ -37,7 +37,7 @@ export function UploadVideoForm({
         data.delete('submitter_is_author')
       }
       console.log(Object.fromEntries(data.entries()))
-      uploadVideo(data)
+      uploadVideo(JSON.stringify(Object.fromEntries(data.entries())))
     },
     [uploadVideo]
   )
@@ -63,7 +63,8 @@ export function UploadVideoForm({
       <UploadVideoTextInput
         name="video_url"
         label="PASTE YOUR VIDEO URL (YOUTUBE / VIMEO)"
-        defaultValue={data.url}
+        defaultValue="https://www.youtube.com/watch?v=hFZFjoX2cGg&list=PPSV&ab_channel=MarkRober"
+        // defaultValue={data.url}
         readOnly
       />
 

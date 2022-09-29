@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TrackFilterList } from './TrackFilterList'
 import { Request } from '../../../hooks/request-query'
 import { AutomationStatus } from '../../types'
@@ -70,6 +70,15 @@ export function Representations({
     withFeedback
   )
 
+  const handlePageResetOnInputChange = useCallback(
+    (input: string) => {
+      if (input.length === 3 || (criteria && input.length < criteria.length)) {
+        setPage(1)
+      }
+    },
+    [criteria, setPage]
+  )
+
   return (
     <div className="c-mentor-inbox">
       {!isIntroducerHidden && (
@@ -127,7 +136,10 @@ export function Representations({
           <div className="flex flex-row flex-grow justify-between">
             <SearchInput
               className="mr-24"
-              setFilter={setCriteria}
+              setFilter={(input) => {
+                setCriteria(input)
+                handlePageResetOnInputChange(input)
+              }}
               filter={criteria}
               placeholder="Filter by exercise (min 3 chars)"
             />

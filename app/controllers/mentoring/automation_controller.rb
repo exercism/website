@@ -12,7 +12,7 @@ class Mentoring::AutomationController < ApplicationController
   def edit
     @representation = Exercise::Representation.find_by!(uuid: params[:uuid])
     @examples = Exercise::Representation::FindExampleSubmissions.(@representation)
-    @source_params = params.permit(source: [:order, :criteria, :page, :track_slug, :only_mentored_solutions])
+    @source_params = params.permit(source: [:order, :criteria, :page, :track_slug, :only_mentored_solutions]).fetch(:source)
   end
 
   def tooltip_locked

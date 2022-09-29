@@ -56,8 +56,8 @@ module ReactComponents
 
         def back_link
           representation.feedback_type.nil? ?
-              Exercism::Routes.mentoring_automation_index_path(**source_params.fetch(:source)) :
-              Exercism::Routes.with_feedback_mentoring_automation_index_path(**source_params.fetch(:source))
+              Exercism::Routes.mentoring_automation_index_path(**source_params) :
+              Exercism::Routes.with_feedback_mentoring_automation_index_path(**source_params)
         end
 
         memoize

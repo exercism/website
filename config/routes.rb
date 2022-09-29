@@ -144,6 +144,7 @@ Rails.application.routes.draw do
       resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions"
 
       resources :solutions, only: %i[index show], controller: "tracks/community_solutions"
+      resources :approaches, only: %i[index show], controller: "tracks/approaches"
     end
 
     member do

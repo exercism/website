@@ -28,6 +28,7 @@ module ViewComponents
                 ),
 
                 (iterations_tab unless user_track.external?),
+                (approaches_tab if show_approaches_tab?),
                 (community_solutions_tab unless exercise.tutorial?),
                 (mentoring_tab unless user_track.external? || exercise.tutorial?)
               ]
@@ -52,6 +53,19 @@ module ViewComponents
           safe_join(parts),
           Exercism::Routes.track_exercise_iterations_path(track, exercise),
           class: tab_class(:iterations)
+        )
+      end
+
+      def approaches_tab
+        parts = [
+          graphical_icon('community-solutions'), # TODO: Aron
+          tag.span("Dig Deeper", "data-text": "Dig Deeper")
+        ]
+        lockable_tab(
+          safe_join(parts),
+          Exercism::Routes.track_exercise_approaches_path(track, exercise),
+          :approaches,
+          approaches_tab_locked?
         )
       end
 
@@ -107,9 +121,20 @@ module ViewComponents
       end
 
       memoize
+      def show_approaches_tab?
+        true # TODO: @erikschierboom
+      end
+
+      memoize
+      def approaches_tab_locked?
+        solutions_tab_locked?
+      end
+
+      memoize
       def solutions_tab_locked?
         return false if user_track.external?
 
+        # TODO: @erikschierboom
         mentoring_tab_locked?
       end
 

@@ -6,5 +6,7 @@ class CommunityVideo < ApplicationRecord
 
   belongs_to :submitted_by, class_name: "User"
 
+  scope :for_exercise, ->(exercise) { where(exercise:) }
+
   def platform = super.to_sym
 end

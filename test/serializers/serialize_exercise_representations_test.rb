@@ -83,6 +83,6 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
     ]
 
     params = { track_slug: 'ruby', page: 5 }
-    assert_equal expected, SerializeExerciseRepresentations.([representation, ], params:)
+    assert_equal expected, SerializeExerciseRepresentations.([representation], params:)
   end
 end

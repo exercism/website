@@ -113,7 +113,6 @@ export function useAutomation(
     const handler = setTimeout(() => {
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
-        setPage(1)
       }
     }, 300)
 

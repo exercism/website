@@ -25,7 +25,7 @@ export const Sorter = ({
       setOrder(option.value)
       setPage(1)
     },
-    [setOrder]
+    [setOrder, setPage]
   )
 
   return (

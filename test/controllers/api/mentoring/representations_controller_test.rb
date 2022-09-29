@@ -32,7 +32,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   test "update renders 403 if the user is not a supermentor" do
     setup_user
 
-    representation = create :exercise_representation
+    representation = create :exercise_representation, num_submissions: 2
 
     patch api_mentoring_representation_path(representation), headers: @headers, as: :json
 
@@ -51,7 +51,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     user = create :user, :supermentor
     setup_user(user)
 
-    representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20)
+    representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
 
     patch api_mentoring_representation_path(representation),
       params: {
@@ -76,7 +76,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
           title: "Ruby",
           highlightjs_language: 'ruby'
         },
-        num_submissions: 1,
+        num_submissions: 2,
         appears_frequently: false,
         feedback_type: "actionable",
         feedback_markdown: "_great_ work",
@@ -104,7 +104,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     setup_user(user)
 
     representation = create :exercise_representation, feedback_author: author, feedback_markdown: 'Try _this_',
-      feedback_type: :essential, feedback_editor: nil, last_submitted_at: Time.utc(2012, 6, 20)
+      feedback_type: :essential, feedback_editor: nil, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
 
     patch api_mentoring_representation_path(representation),
       params: {
@@ -127,7 +127,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     setup_user(user)
 
     representation = create :exercise_representation, feedback_author: nil, feedback_editor: nil,
-      last_submitted_at: Time.utc(2012, 6, 20)
+      last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
 
     patch api_mentoring_representation_path(representation),
       params: {
@@ -163,7 +163,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     get without_feedback_api_mentoring_representations_path, headers: @headers, as: :json
     assert_response :ok
 
-    paginated_representations = Kaminari.paginate_array(representations, total_count: 25).page(1).per(20)
+    paginated_representations = Kaminari.paginate_array(representations, total_count: 24).page(1).per(20)
     expected = SerializePaginatedCollection.(
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
@@ -209,7 +209,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     get with_feedback_api_mentoring_representations_path, headers: @headers, as: :json
     assert_response :ok
 
-    paginated_representations = Kaminari.paginate_array(representations, total_count: 25).page(1).per(20)
+    paginated_representations = Kaminari.paginate_array(representations, total_count: 24).page(1).per(20)
     expected = SerializePaginatedCollection.(
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
@@ -254,10 +254,12 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     series = create :concept_exercise, title: "Series", track: ruby
     tournament = create :concept_exercise, title: "Tournament", track: go
 
-    create :exercise_representation, exercise: series, feedback_type: nil
-    create :exercise_representation, exercise: series, feedback_type: nil
-    create :exercise_representation, exercise: tournament, feedback_type: nil
-    create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user # Sanity check
+    create :exercise_representation, exercise: series, feedback_type: nil, num_submissions: 2
+    create :exercise_representation, exercise: series, feedback_type: nil, num_submissions: 2
+    create :exercise_representation, exercise: tournament, feedback_type: nil, num_submissions: 2
+
+    # Sanity check
+    create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user, num_submissions: 2 # rubocop:disable Layout/LineLength
 
     get tracks_without_feedback_api_mentoring_representations_path, headers: @headers, as: :json
     assert_response :ok
@@ -302,10 +304,10 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     series = create :concept_exercise, title: "Series", track: ruby
     tournament = create :concept_exercise, title: "Tournament", track: go
 
-    create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user
-    create :exercise_representation, exercise: series, feedback_type: :essential, feedback_author: user
-    create :exercise_representation, exercise: tournament, feedback_type: :essential, feedback_author: user
-    create :exercise_representation, exercise: tournament, feedback_type: nil # Sanity check
+    create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user, num_submissions: 2
+    create :exercise_representation, exercise: series, feedback_type: :essential, feedback_author: user, num_submissions: 2
+    create :exercise_representation, exercise: tournament, feedback_type: :essential, feedback_author: user, num_submissions: 2
+    create :exercise_representation, exercise: tournament, feedback_type: nil, num_submissions: 2 # Sanity check
 
     get tracks_with_feedback_api_mentoring_representations_path, headers: @headers, as: :json
     assert_response :ok

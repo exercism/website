@@ -4,10 +4,10 @@ class SerializeExerciseRepresentations
   initialize_with :representations, params: Mandate::NO_DEFAULT
 
   def call
-    representations.map { |representation| SerializeInstance.(representation, params) }
+    representations.map { |representation| SerializeRepresentation.(representation, params) }
   end
 
-  class SerializeInstance
+  class SerializeRepresentation
     include Mandate
 
     initialize_with :representation, :params

@@ -213,6 +213,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     expected = SerializePaginatedCollection.(
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
+      serializer_kwargs: { params: {} },
       meta: {
         unscoped_total: 25
       }

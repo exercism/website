@@ -51,6 +51,38 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
       }
     ]
 
-    assert_equal expected, SerializeExerciseRepresentations.([representation_1, representation_2])
+    assert_equal expected, SerializeExerciseRepresentations.([representation_1, representation_2], params: {})
+  end
+
+  test "edit links uses params" do
+    current_time = Time.zone.now
+    track = create :track, slug: 'ruby', title: 'Ruby'
+    exercise = create :practice_exercise, slug: 'bob', title: 'Bob', icon_name: 'bob', track: track
+    representation = create :exercise_representation, id: 3, feedback_markdown: 'Yay', exercise: exercise, num_submissions: 5,
+      last_submitted_at: current_time - 5.days
+    
+    expected = [
+      {
+        id: 3,
+        exercise: {
+          icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bob.svg',
+          title: 'Bob'
+        },
+        track: {
+          icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg',
+          title: 'Ruby'
+        },
+        num_submissions: 5,
+        appears_frequently: true,
+        feedback_html: "<p>Yay</p>\n",
+        last_submitted_at: current_time - 5.days,
+        links: {
+          edit: "/mentoring/automation/#{representation.uuid}/edit?page=5&track_slug=ruby"
+        }
+      }
+    ]
+
+    params = { track_slug: 'ruby', page: 5 }
+    assert_equal expected, SerializeExerciseRepresentations.([representation, ], params:)
   end
 end

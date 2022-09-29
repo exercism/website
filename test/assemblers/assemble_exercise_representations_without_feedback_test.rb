@@ -10,11 +10,13 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
       create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise,
         last_submitted_at: Time.utc(2022, 3, 15) - idx.days
     end
+    params = {}
 
     paginated_representations = Kaminari.paginate_array(representations, total_count: 24).page(1).per(20)
     expected = SerializePaginatedCollection.(
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
+      serializer_kwargs: { params: },
       meta: {
         # TODO: fix performance
         unscoped_total: 0
@@ -22,7 +24,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
       }
     )
 
-    assert_equal expected, AssembleExerciseRepresentationsWithoutFeedback.(user, {})
+    assert_equal expected, AssembleExerciseRepresentationsWithoutFeedback.(user, params)
   end
 
   test "should proxy correctly" do

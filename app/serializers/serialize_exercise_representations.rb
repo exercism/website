@@ -1,16 +1,16 @@
 class SerializeExerciseRepresentations
   include Mandate
 
-  initialize_with :representations
+  initialize_with :representations, params: Mandate::NO_DEFAULT
 
   def call
-    representations.map { |representation| SerializeInstance.(representation) }
+    representations.map { |representation| SerializeInstance.(representation, params) }
   end
 
   class SerializeInstance
     include Mandate
 
-    initialize_with :representation
+    initialize_with :representation, :params
 
     delegate :exercise, :track, to: :representation
 
@@ -30,7 +30,7 @@ class SerializeExerciseRepresentations
         feedback_html: representation.feedback_html,
         last_submitted_at: representation.last_submitted_at,
         links: {
-          edit: Exercism::Routes.edit_mentoring_automation_path(representation)
+          edit: Exercism::Routes.edit_mentoring_automation_path(representation, **params)
         }
       }
     end

@@ -8,11 +8,13 @@ const OptionComponent = ({ option }: { option: SortOption }) => {
 
 export const Sorter = ({
   setOrder,
+  setPage,
   order,
   sortOptions,
   componentClassName,
 }: {
   setOrder: (order: string) => void
+  setPage: (page: number) => void
   order: string
   sortOptions: readonly SortOption[]
   componentClassName?: string
@@ -21,6 +23,7 @@ export const Sorter = ({
   const setValue = useCallback(
     (option) => {
       setOrder(option.value)
+      setPage(1)
     },
     [setOrder]
   )

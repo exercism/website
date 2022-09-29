@@ -477,6 +477,7 @@ export type CompleteRepresentationData = {
   links: { back: string; success: string }
   guidance: Guidance
   scratchpad: Scratchpad
+  analyzerFeedback?: AnalyzerFeedback
 }
 
 export type Guidance = {

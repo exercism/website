@@ -10,7 +10,7 @@ export const AnalyzerFeedback = ({
   track,
   automatedFeedbackInfoLink,
 }: Props & {
-  track: Track
+  track: Pick<Track, 'title' | 'iconUrl'>
   automatedFeedbackInfoLink: string
 }): JSX.Element => {
   return (

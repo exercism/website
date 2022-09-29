@@ -1,3 +1,4 @@
+import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
 import React, { useState } from 'react'
 import { Tab, GraphicalIcon } from '../../../common'
 import { CompleteRepresentationData } from '../../../types'
@@ -39,6 +40,17 @@ export function UtilityTabs({
       </div>
       <Tab.Panel id="information" context={TabsContext}>
         <AutomationRules guidance={data.guidance} />
+
+        {data.analyzerFeedback && (
+          <div className="mx-24 my-16 border-t-2 border-borderColor6 pt-16 ">
+            <AnalyzerFeedback
+              summary={data.analyzerFeedback.summary}
+              comments={data.analyzerFeedback.comments}
+              automatedFeedbackInfoLink={'???'}
+              track={data.representation.track}
+            />
+          </div>
+        )}
       </Tab.Panel>
       <Tab.Panel id="scratchpad" context={TabsContext}>
         <Scratchpad

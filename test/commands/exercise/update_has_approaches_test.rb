@@ -1,13 +1,23 @@
 require "test_helper"
 
 class Exercise::UpdateHasApproachesTest < ActiveSupport::TestCase
-  test "has_approaches set to true when the exercise has at least one community video" do
-    exercise = create :practice_exercise
+  test "has_approaches set to true when the exercise has at least one approved community video" do
+    exercise = create :practice_exercise, slug: 'leap'
+
+    Exercise::UpdateHasApproaches.(exercise)
 
     # Sanity check
     refute exercise.reload.has_approaches?
     
-    create :community_video, exercise: exercise
+    # Non-approved videos don't count
+    create :community_video, exercise: exercise, status: :pending
+    create :community_video, exercise: exercise, status: :rejected
+
+    Exercise::UpdateHasApproaches.(exercise)
+
+    refute exercise.reload.has_approaches?
+
+    create :community_video, exercise: exercise, status: :approved
 
     Exercise::UpdateHasApproaches.(exercise)
 
@@ -25,7 +35,7 @@ class Exercise::UpdateHasApproachesTest < ActiveSupport::TestCase
     assert exercise.reload.has_approaches?
   end
 
-  test "has_approaches set to false when the exercise does not have an approaches introduction nor community videos" do
+  test "has_approaches set to false when the exercise does not have an approaches introduction nor an approved community videos" do
     exercise = create :practice_exercise, slug: 'leap'
 
     # Sanity check

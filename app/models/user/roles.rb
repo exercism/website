@@ -19,4 +19,5 @@ module User::Roles
   end
 
   def roles = super.to_a.map(&:to_sym).to_set
+  def can_view_approaches? = admin? || staff? || maintainer? || supermentor?
 end

@@ -104,7 +104,7 @@ module ViewComponents
       end
 
       def show_iterations_tab? = !user_track.external?
-      def show_approaches_tab? = !exercise.tutorial? && exercise.has_approaches?
+      def show_approaches_tab? = !exercise.tutorial? && !!user&.can_view_approaches?
       def show_community_solutions_tab? = !exercise.tutorial?
       def show_mentoring_tab? = !user_track.external? && !exercise.tutorial?
 
@@ -135,7 +135,12 @@ module ViewComponents
       memoize
       def track = user_track.track
 
-      def approaches_tab_locked? = !user_track.external? && !solution&.unlocked_help?
+      memoize
+      def user = user_track.user
+
+      def approaches_tab_locked? = false
+      # TODO: re-enable: !user_track.external? && !solution&.unlocked_help?
+
       def solutions_tab_locked? = !user_track.external? && !solution&.unlocked_help?
       def mentoring_tab_locked? = !user_track.external? && !solution&.iterated?
     end

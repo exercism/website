@@ -113,6 +113,16 @@ As we recommend using WSL, see the Unix-specific instructions listed above.
 
 For information on setting up WSL, check [the installation instructions](https://docs.microsoft.com/en-us/windows/wsl/install).
 
+## Rails Console
+
+The Rails 7 console has autocomplete that can be very frustrating. 
+To disable it, do the following:
+
+```
+echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc
+```
+
+
 ## Code Standards
 
 Rubocop is enforced on Pull Requests. To run it locally:

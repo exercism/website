@@ -372,32 +372,44 @@ module Git
       assert_equal("allergies", exercise.icon_name)
     end
 
-    test "retrieves authors" do
+    test "authors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal(["erikschierboom"], exercise.authors)
     end
 
-    test "retrieves contributors" do
+    test "contributors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal(["ihid"], exercise.contributors)
     end
 
-    test "retrieves contributors for exercise without contributors" do
+    test "contributors for exercise without contributors" do
       exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_empty(exercise.contributors)
     end
 
-    test "retrieves example files" do
+    test "approaches_introduction_authors" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal(["erikschierboom"], exercise.approaches_introduction_authors)
+    end
+
+    test "approaches_introduction_authors for exercise without authors" do
+      exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_empty(exercise.approaches_introduction_authors)
+    end
+
+    test "example files" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = { ".meta/example.rb" => "example content for bob\n" }
       assert_equal(expected, exercise.example_files)
     end
 
-    test "retrieves exemplar files" do
+    test "exemplar files" do
       exercise = Git::Exercise.new(:lasagna, "concept", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = { ".meta/exemplar.rb" => "class Lasagna\n  EXPECTED_MINUTES_IN_OVEN = 40\n  PREPARATION_MINUTES_PER_LAYER = 2\n\n  def remaining_minutes_in_oven(actual_minutes_in_oven)\n    EXPECTED_MINUTES_IN_OVEN - actual_minutes_in_oven\n  end\n\n  def preparation_time_in_minutes(layers)\n    layers * PREPARATION_MINUTES_PER_LAYER\n  end\n\n  def total_time_in_minutes(number_of_layers:, actual_minutes_in_oven:)\n    preparation_time_in_minutes(number_of_layers) + actual_minutes_in_oven\n  end\nend\n" } # rubocop:disable Layout/LineLength

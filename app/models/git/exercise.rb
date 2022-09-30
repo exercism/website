@@ -124,6 +124,16 @@ module Git
     end
 
     memoize
+    def approaches_config_introduction
+      approaches_config[:introduction].to_h
+    end
+
+    memoize
+    def approaches_introduction_authors
+      approaches_config_introduction[:authors].to_a
+    end
+
+    memoize
     def exemplar_files
       exemplar_filepaths.index_with do |filepath|
         read_file_blob(filepath)

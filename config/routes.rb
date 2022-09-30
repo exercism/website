@@ -43,6 +43,13 @@ Rails.application.routes.draw do
     resource :organization_updates, only: [:create]
   end
 
+  # ##### #
+  # Admin #
+  # ##### #
+  namespace :admin do
+    resources :community_videos
+  end
+
   # ############ #
   # Normal pages #
   # ############ #

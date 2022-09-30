@@ -10,4 +10,8 @@ class CommunityVideo < ApplicationRecord
   scope :for_exercise, ->(exercise) { where(exercise:) }
 
   def platform = super.to_sym
+
+  after_save_commit do
+    Rails.logger.info "STATUS CHANGED" if previous_changes.key?("status")
+  end
 end

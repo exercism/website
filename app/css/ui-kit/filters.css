@@ -15,4 +15,8 @@
     .filter-lightGold {
         filter: var(--lightGold-filter);
     }
+
+    .filter-orange {
+        filter: var(--orange-filter);
+    }
 }

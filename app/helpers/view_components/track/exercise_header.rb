@@ -28,8 +28,8 @@ module ViewComponents
                 ),
 
                 (iterations_tab unless user_track.external?),
-                (approaches_tab if show_approaches_tab?),
-                (community_solutions_tab unless exercise.tutorial?),
+                (approaches_tab unless user_track.external? || exercise.tutorial?),
+                (community_solutions_tab unless user_track.external? || exercise.tutorial?),
                 (mentoring_tab unless user_track.external? || exercise.tutorial?)
               ]
             )
@@ -116,32 +116,11 @@ module ViewComponents
       end
 
       memoize
-      def track
-        user_track.track
-      end
+      def track = user_track.track
 
-      memoize
-      def show_approaches_tab?
-        true # TODO: @erikschierboom
-      end
-
-      memoize
-      def approaches_tab_locked?
-        solutions_tab_locked?
-      end
-
-      memoize
-      def solutions_tab_locked?
-        return false if user_track.external?
-
-        # TODO: @erikschierboom
-        mentoring_tab_locked?
-      end
-
-      memoize
-      def mentoring_tab_locked?
-        !@solution&.iterated?
-      end
+      def approaches_tab_locked? = !solution&.unlocked_help?
+      def solutions_tab_locked? = !solution&.unlocked_help?
+      def mentoring_tab_locked? = !solution&.unlocked_help?
     end
   end
 end

@@ -13,7 +13,7 @@ class Exercise::UpdateHasApproaches
 
   private
   def has_approaches
-    CommunityVideo.for_exercise(exercise).exists? ||
+    CommunityVideo.approved.for_exercise(exercise).exists? ||
       exercise.git.approaches_introduction?
   end
 end

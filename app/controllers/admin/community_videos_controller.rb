@@ -1,9 +1,10 @@
 class Admin::CommunityVideosController < ApplicationController
   before_action :set_community_video, only: %i[show edit update destroy]
+  before_action :ensure_admin!
 
   # GET /admin/community_videos
   def index
-    @community_videos = CommunityVideo.all
+    @community_videos = CommunityVideo.order(status: :asc)
   end
 
   # GET /admin/community_videos/1
@@ -22,7 +23,7 @@ class Admin::CommunityVideosController < ApplicationController
     @community_video = CommunityVideo.new(community_video_params)
 
     if @community_video.save
-      redirect_to @community_video, notice: "Community video was successfully created."
+      redirect_to [:admin, @community_video], notice: "Community video was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +32,7 @@ class Admin::CommunityVideosController < ApplicationController
   # PATCH/PUT /admin/community_videos/1
   def update
     if @community_video.update(community_video_params)
-      redirect_to @community_video, notice: "Community video was successfully updated."
+      redirect_to [:admin, @community_video], notice: "Community video was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -51,6 +52,6 @@ class Admin::CommunityVideosController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def community_video_params
-    params.fetch(:community_video, {})
+    params.require(:community_video).permit(:title, :status)
   end
 end

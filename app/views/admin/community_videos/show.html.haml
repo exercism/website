@@ -1,0 +1,21 @@
+.lg-container
+  %h1.text-h1= @community_video.title
+
+  .text-h6.mb-8 Title: #{@community_video.title}
+  .text-h6.mb-8 Status: #{@community_video.status.to_s.titleize}
+  .text-h6.mb-8 Track: #{@community_video.track&.name}
+  .text-h6.mb-8 Exercise: #{@community_video.exercise&.title}
+  - submitted_by = @community_video.submitted_by
+  .text-h6.mb-8 Submitted By: #{submitted_by.name} | @#{submitted_by.handle} | ##{submitted_by.id}
+
+  - author = @community_video.author
+  .text-h6.mb-8 Author: #{author.name} | @#{author.handle} | ##{author.id}
+
+  %p Aron - put the other things on this model here...
+
+  .flex
+    = link_to "Edit this community video", edit_admin_community_video_path(@community_video), class: 'btn btn-standard btn-base'
+    |
+    = link_to "Back to community videos", admin_community_videos_path, class: 'btn btn-standard btn-base'
+
+    -# \#{button_to "Destroy this community video", [:admin, @community_video, method: :delete}

@@ -6,51 +6,76 @@ import {
   UploadVideoModalHeader,
   VideoDataResponse,
 } from './elements'
+import { ThanksForSubmitting } from './ThanksForSubmitting'
 
 type UploadVideoModalProps = {
   isOpen: boolean
+  onClose: () => void
 }
+
+enum UploadSteps {
+  RETRIEVE,
+  UPLOAD,
+  SUCCESS,
+}
+
+type UploadStatus = keyof typeof UploadSteps
 
 export function UploadVideoModal({
   isOpen,
+  onClose = () => console.log('closed'),
 }: UploadVideoModalProps): JSX.Element {
   const [videoData, setVideoData] = useState<VideoDataResponse>(null)
-  // TODO: change these into one enum state e.g. videoState === 'success' || 'failure' || 'submitted'
-  const [videoRetrievalSuccess, setVideoRetrievalSuccess] = useState(false)
+  const [videoUploadStep, setVideoUploadStep] =
+    useState<UploadStatus>('RETRIEVE')
   const [videoRetrievalFailure, setVideoRetrievalFailure] = useState(false)
 
   const handleClearRetrievedVideo = useCallback(() => {
-    setVideoRetrievalSuccess(false)
+    setVideoUploadStep('RETRIEVE')
     setVideoRetrievalFailure(false)
     setVideoData(null)
   }, [])
 
-  return (
-    <Modal
-      open={isOpen}
-      onClose={() => console.log('hello')}
-      ReactModalClassName="max-w-[780px]"
-    >
-      <UploadVideoModalHeader videoSubmitted={videoRetrievalSuccess} />
+  function renderUploadSteps() {
+    switch (videoUploadStep) {
+      case 'RETRIEVE':
+        return (
+          <>
+            <UploadVideoModalHeader videoSubmitted={false} />
+            <RetrieveVideoForm
+              isError={videoRetrievalFailure}
+              onSuccess={(data) => {
+                setVideoData(data)
+                setVideoUploadStep('UPLOAD')
+                setVideoRetrievalFailure(false)
+              }}
+              onError={() => setVideoRetrievalFailure(true)}
+            />
+          </>
+        )
+      case 'UPLOAD':
+        return (
+          <>
+            <UploadVideoModalHeader videoSubmitted={true} />
+            {videoData && (
+              <UploadVideoForm
+                onError={() => console.log('error')}
+                onSuccess={() => setVideoUploadStep('SUCCESS')}
+                onUseDifferentVideoClick={handleClearRetrievedVideo}
+                data={videoData.communityVideo}
+              />
+            )}
+          </>
+        )
 
-      {videoRetrievalSuccess && videoData ? (
-        <UploadVideoForm
-          onError={() => console.log('error')}
-          onSuccess={() => console.log('SUCCESS!!')}
-          onUseDifferentVideoClick={handleClearRetrievedVideo}
-          data={videoData.communityVideo}
-        />
-      ) : (
-        <RetrieveVideoForm
-          isError={videoRetrievalFailure}
-          onSuccess={(data) => {
-            setVideoData(data)
-            setVideoRetrievalSuccess(true)
-            setVideoRetrievalFailure(false)
-          }}
-          onError={() => setVideoRetrievalFailure(true)}
-        />
-      )}
+      case 'SUCCESS':
+        return <ThanksForSubmitting onClick={onClose} />
+    }
+  }
+
+  return (
+    <Modal open={isOpen} onClose={onClose} ReactModalClassName="max-w-[780px]">
+      {renderUploadSteps()}
     </Modal>
   )
 }

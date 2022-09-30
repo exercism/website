@@ -69,17 +69,14 @@ module Git
     end
 
     test "tooling_filepaths" do
-      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+      exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
-        ".approaches/config.json",
-        ".approaches/introduction.md",
         ".meta/config.json",
         ".meta/example.rb",
-        "bob.rb",
-        "bob_test.rb",
-        "subdir/more_bob.rb"
+        "allergies.rb",
+        "allergies_test.rb"
       ]
       assert_equal expected_filepaths, exercise.tooling_filepaths
     end
@@ -108,6 +105,20 @@ module Git
         "hamming.rb",
         "hamming_test.rb",
         "rubocop.yml"
+      ]
+      assert_equal expected_filepaths, exercise.tooling_filepaths
+    end
+
+    test "tooling_filepaths with approaches files" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".meta/config.json",
+        ".meta/example.rb",
+        "bob.rb",
+        "bob_test.rb",
+        "subdir/more_bob.rb"
       ]
       assert_equal expected_filepaths, exercise.tooling_filepaths
     end

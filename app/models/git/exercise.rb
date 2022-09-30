@@ -176,7 +176,8 @@ module Git
     memoize
     def tooling_filepaths
       filepaths.reject do |filepath|
-        filepath.starts_with?(".docs/")
+        filepath.starts_with?(".docs/") ||
+        filepath.starts_with?(".approaches/")
       end
     end
 

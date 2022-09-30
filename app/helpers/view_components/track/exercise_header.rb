@@ -27,10 +27,10 @@ module ViewComponents
                   class: tab_class(:overview)
                 ),
 
-                (iterations_tab unless user_track.external?),
-                (approaches_tab unless user_track.external? || exercise.tutorial?),
-                (community_solutions_tab unless user_track.external? || exercise.tutorial?),
-                (mentoring_tab unless user_track.external? || exercise.tutorial?)
+                (iterations_tab if show_iterations_tab?),
+                (approaches_tab if show_approaches_tab?),
+                (community_solutions_tab if show_community_solutions_tab?),
+                (mentoring_tab if show_mentoring_tab?)
               ]
             )
           end + editor_btn
@@ -101,6 +101,26 @@ module ViewComponents
           mentoring_tab_locked?,
           locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_mentor_discussions_path(track, exercise))
         )
+      end
+
+      def show_iterations_tab? = !user_track.external?
+
+      def show_approaches_tab?
+        return false if user_track.external? || exercise.tutorial?
+
+        !!solution&.unlocked_help?
+      end
+
+      def show_community_solutions_tab?
+        return false if user_track.external? || exercise.tutorial?
+
+        !!solution&.unlocked_help?
+      end
+
+      def show_mentoring_tab?
+        return false if user_track.external? || exercise.tutorial?
+
+        !!solution&.iterated?
       end
 
       def lockable_tab(html, href, class_name, locked, locked_attrs = {})

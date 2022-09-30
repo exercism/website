@@ -1,5 +1,5 @@
 import { useHighlighting } from '@/hooks'
-import React, { useState } from 'react'
+import React from 'react'
 import { GraphicalIcon, Icon } from '../common'
 
 const solution = {
@@ -29,38 +29,40 @@ const solution = {
 
 export function Approaches(): JSX.Element {
   return (
-    <div className="lg-container flex flex-row">
+    <div className="flex flex-row">
       <LeftSide />
-      <RightSide />
+      {/* <RightSide /> */}
     </div>
   )
 }
 
 function LeftSide(): JSX.Element {
   return (
-    <div className="mr-40 flex-grow lg:w-arbitrary">
+    <div className="mr-40 lg-container flex-grow-2">
       <DiggingDeeper />
-      <Authors />
+
+      <CommunityVideos />
     </div>
   )
 }
 
 function RightSide(): JSX.Element {
   return (
-    <div className="flex-shrink-0">
+    <div className="flex-grow-1">
       <ApproachExamples />
     </div>
   )
 }
 
 function DiggingDeeper(): JSX.Element {
-  const codeBlockRef = useHighlighting<HTMLPreElement>()
+  // const codeBlockRef = useHighlighting<HTMLPreElement>()
 
   return (
-    <section className="instructions c-textual-content --large shadow-lgZ1 !py-[18px] mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24">
-      <h2 className="mb-8">Digging deeper</h2>
-      {/* below will probably be MD */}
-      <div>An exploration of Asteroid Space Exploration in Ruby.</div>
+    <div className="mb-48">
+      <section className="shadow-lgZ1 !py-[18px] mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24">
+        <h2 className="mb-8 text-h2">Digging deeper</h2>
+        {/* below will probably be MD */}
+        {/* <div>An exploration of Asteroid Space Exploration in Ruby.</div>
 
       <pre
         className="md-container bg-bgGray overflow-auto shadow-baseZ1"
@@ -79,26 +81,46 @@ function DiggingDeeper(): JSX.Element {
         eu rhoncus libero. Donec vehicula augue ut nunc faucibus, euismod
         venenatis dui egestas. Integer id aliquam dui, ac vulputate dolor. Ut
         fringilla sapien semper elit luctus dignissim.
-      </p>
-    </section>
+      </p> */}
+      </section>
+
+      <Authors />
+    </div>
   )
 }
 
 function Authors(): JSX.Element {
   return (
+    // maybe rework this using grid, because this way it looks very bad.
     <div className="flex items-center justify-between text-textColor6">
-      <div>
-        <GraphicalIcon height={32} width={32} icon="avatar-placeholder" />
-        <span>3 authors</span>
-        <span>57 authors</span>
+      <div className="flex items-center">
+        <div className="flex mr-24">
+          <GraphicalIcon
+            height={32}
+            width={32}
+            icon="avatar-placeholder"
+            className="avatars mr-12"
+          />
+          <div className="flex flex-col leading-150 text-textColor1">
+            <span className="font-semibold">3 authors</span>
+            <span className="editors">57 editors</span>
+          </div>
+        </div>
+        <div className="pl-24 border-l-1 border-borderLight2 font-medium">
+          Last updated 8 October 2020
+        </div>
       </div>
-      <div>Last updated 8 October 2020</div>
-      <div>
-        <GraphicalIcon height={24} width={24} icon={'external-site-github'} />
+      <div className="flex items-center text-black filter-textColor6 leading-160 font-medium">
+        <GraphicalIcon
+          height={24}
+          width={24}
+          icon="external-site-github"
+          className="mr-12"
+        />
         Edit via GitHub
         <Icon
-          className="action-icon h-[13px]"
-          icon="external-link"
+          className="action-icon h-[13px] ml-12"
+          icon="new-tab"
           alt="The link opens in a new window or tab"
         />
       </div>
@@ -108,7 +130,7 @@ function Authors(): JSX.Element {
 
 function ApproachExamples(): JSX.Element {
   return (
-    <div className="action-box flex flex-col">
+    <div className="flex flex-col">
       <div className="flex flex-row items-top">
         <GraphicalIcon className="mr-24" icon="dig-deeper" />
         <div>
@@ -119,7 +141,7 @@ function ApproachExamples(): JSX.Element {
         </div>
       </div>
 
-      <Approach />
+      {/* <Approach /> */}
     </div>
   )
 }
@@ -128,10 +150,7 @@ function Approach(): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>()
 
   return (
-    <div
-      className="c-community-solution block"
-      style={{ width: 'calc(100%/3)' }}
-    >
+    <div className="">
       <pre
         // className="border-1 border-borderColor-7 rounded-8"
         ref={codeBlockRef}
@@ -144,5 +163,70 @@ function Approach(): JSX.Element {
         </code>
       </pre>
     </div>
+  )
+}
+
+function CommunityVideos(): JSX.Element {
+  return (
+    <div>
+      <div className="flex flex-row mb-24">
+        <GraphicalIcon className="mr-24" icon="community-video" />
+        <div>
+          <h3 className="text-h3">Community Videos</h3>
+          <div className="text-p-base">
+            Walkthroughs from people using Exercism
+          </div>
+        </div>
+      </div>
+      <CommunityVideo />
+      <CommunityVideo />
+
+      <CommunityVideoFooter />
+    </div>
+  )
+}
+
+function CommunityVideo(): JSX.Element {
+  return (
+    <div className="flex items-center justify-between bg-white shadow-sm rounded-8 px-20 py-16 mb-16">
+      <div className="flex items-center">
+        <img
+          style={{ objectFit: 'cover', height: '80px', width: '143px' }}
+          className="mr-20 rounded-8"
+          src="https://i.ytimg.com/vi/hFZFjoX2cGg/sddefault.jpg"
+          alt="thumbnail"
+        />
+        <div className="flex flex-col">
+          <h5 className="text-h5 mb-8">
+            Exercism Elixir Track: Community Garden (Agent)
+          </h5>
+          <div className="flex flex-row items-center">
+            <GraphicalIcon
+              height={24}
+              width={24}
+              icon="avatar-placeholder"
+              className="mr-8"
+            />
+            <span className="font-semibold text-textColor6 leading-150 text-14">
+              Erik
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <Icon
+        className="filter-textColor6 h-[24px] w-[24px]"
+        icon={'expand'}
+        alt={'see video'}
+      />
+    </div>
+  )
+}
+
+function CommunityVideoFooter() {
+  return (
+    <p className="text-p-small text-textColor6">
+      Want your video featured here? Submit it here.
+    </p>
   )
 }

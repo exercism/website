@@ -233,6 +233,19 @@ module Git
       special_filepaths.concat(filtered_filepaths)
     end
 
+    memoize
+    def approaches_filepaths
+      [ 
+        approaches_introduction_filepath,
+        approaches_config_filepath
+      ]
+    end
+
+    memoize
+    def approaches_absolute_filepaths
+      approaches_filepaths.map { |filepath| absolute_filepath(filepath) }
+    end
+
     def read_file_blob(filepath)
       mapped = file_entries.map { |f| [f[:full], f[:oid]] }.to_h
       mapped[filepath] ? repo.read_blob(mapped[filepath]) : nil

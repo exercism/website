@@ -17,7 +17,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     git_sha = repo.head_commit.parents.first.oid
     strings = create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
-    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', position: 9, difficulty: 7, git_sha: git_sha, synced_to_git_sha: git_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
+    exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', slug: 'anagram', title: 'Anagram', position: 9, difficulty: 7, git_sha: git_sha, synced_to_git_sha: git_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
     exercise.prerequisites << (create :concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca')
     exercise.prerequisites << strings
     exercise.practiced_concepts << strings

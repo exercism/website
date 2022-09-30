@@ -27,7 +27,7 @@ module Git
 
       SyncExerciseAuthors.(exercise)
       SyncExerciseContributors.(exercise)
-      SiteUpdates::ProcessNewExerciseUpdate.(exercise)      
+      SiteUpdates::ProcessNewExerciseUpdate.(exercise)
       ::Exercise::UpdateHasApproaches.(exercise)
     end
 
@@ -60,7 +60,9 @@ module Git
     end
 
     def exercise_files_modified?
-      filepaths = head_git_exercise.tooling_absolute_filepaths + head_git_exercise.important_absolute_filepaths
+      filepaths = head_git_exercise.tooling_absolute_filepaths + 
+        head_git_exercise.important_absolute_filepaths +
+        head_git_exercise.approaches_absolute_filepaths
       filepaths.any? { |filepath| filepath_in_diff?(filepath) }
     end
 

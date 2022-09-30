@@ -183,6 +183,22 @@ module Git
       assert_equal expected_filepaths, exercise.cli_filepaths
     end
 
+    test "cli_filepaths with approaches" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".exercism/config.json",
+        "README.md",
+        "HELP.md",
+        "HINTS.md",
+        "bob.rb",
+        "bob_test.rb",
+        "subdir/more_bob.rb"
+      ]
+      assert_equal expected_filepaths, exercise.cli_filepaths
+    end
+
     test "important_filepaths without appends" do
       exercise = Git::Exercise.new(:anagram, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
@@ -233,6 +249,21 @@ module Git
       assert_equal expected_filepaths, exercise.important_filepaths
     end
 
+    test "important_filepaths with approaches" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".docs/instructions.md",
+        ".docs/instructions.append.md",
+        ".docs/introduction.md",
+        ".docs/introduction.append.md",
+        ".docs/hints.md",
+        "bob_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.important_filepaths
+    end
+
     test "valid_filepaths" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
@@ -256,6 +287,28 @@ module Git
       refute exercise.valid_submission_filepath?('.meta/config.json')
       refute exercise.valid_submission_filepath?('.meta/example.rb')
       refute exercise.valid_submission_filepath?('.docs/instructions.md')
+    end
+
+    test "approaches_filepaths" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".approaches/introduction.md",
+        ".approaches/config.json"
+      ]
+      assert_equal expected_filepaths, exercise.approaches_filepaths
+    end
+
+    test "approaches_absolute_filepaths" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        "exercises/practice/bob/.approaches/introduction.md",
+        "exercises/practice/bob/.approaches/config.json"
+      ]
+      assert_equal expected_filepaths, exercise.approaches_absolute_filepaths
     end
 
     test "retrieves instructions" do

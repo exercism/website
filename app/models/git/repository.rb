@@ -68,8 +68,7 @@ module Git
     end
 
     def file_exists?(commit, path)
-      commit.tree.path(path)
-      true
+      !!commit.tree.path(path)
     rescue Rugged::TreeError
       false
     end

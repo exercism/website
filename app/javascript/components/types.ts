@@ -492,6 +492,7 @@ export type GuidanceLinks = {
   improveExerciseGuidance: string
   improveTrackGuidance: string
   improveRepresenterGuidance?: string
+  representationFeedbackGuide: string
 }
 
 export type Contributor = {

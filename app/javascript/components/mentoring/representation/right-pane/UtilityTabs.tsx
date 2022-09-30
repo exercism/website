@@ -7,6 +7,7 @@ import { Guidance } from '../../session/Guidance'
 // import { Guidance } from '../../session/Guidance'
 import { Scratchpad } from '../../session/Scratchpad'
 import AutomationRules from './AutomationRules'
+import Considerations from './Considerations'
 
 type RepresentationTabIndex = 'information' | 'scratchpad' | 'guidance'
 
@@ -39,6 +40,7 @@ export function UtilityTabs({
         </Tab>
       </div>
       <Tab.Panel id="information" context={TabsContext}>
+        <Considerations guidance={data.guidance} />
         <AutomationRules guidance={data.guidance} />
 
         {data.analyzerFeedback && (

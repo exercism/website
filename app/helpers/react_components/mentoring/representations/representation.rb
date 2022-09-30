@@ -19,7 +19,8 @@ module ReactComponents
               links: {
                 improve_exercise_guidance: exercise.mentoring_notes_edit_url,
                 improve_track_guidance: track.mentoring_notes_edit_url,
-                improve_representer_guidance: "https://github.com/exercism/#{track.slug}/new/main?filename=exercises/shared/.docs/representations.md"
+                improve_representer_guidance: "https://github.com/exercism/#{track.slug}/new/main?filename=exercises/shared/.docs/representations.md",
+                representation_feedback_guide: Exercism::Routes.doc_url(:mentoring, "how-to-give-feedback-on-representations")
               }
             },
             scratchpad: {

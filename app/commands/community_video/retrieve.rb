@@ -18,7 +18,7 @@ class CommunityVideo
 
     def youtube?
       return true if url.starts_with?('https://youtu.be/')
-      return true if url.starts_with?('https://youtube.com')
+      return true if url.starts_with?('https://youtube.com/')
       return true if url.starts_with?(%r{https://[a-z]*\.?youtube.com/})
 
       false

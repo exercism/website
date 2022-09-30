@@ -9,6 +9,8 @@ class Tracks::MentorDiscussionsController < ApplicationController
 
   def show; end
 
+  def tooltip_locked = render_template_as_json
+
   private
   def use_discussion
     raise ActiveRecord::RecordNotFound unless @solution

@@ -65,7 +65,8 @@ module ViewComponents
           safe_join(parts),
           Exercism::Routes.track_exercise_approaches_path(track, exercise),
           :approaches,
-          approaches_tab_locked?
+          approaches_tab_locked?,
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_approaches_path(track, exercise))
         )
       end
 
@@ -78,7 +79,8 @@ module ViewComponents
           safe_join(parts),
           Exercism::Routes.track_exercise_solutions_path(track, exercise),
           :community_solutions,
-          solutions_tab_locked?
+          solutions_tab_locked?,
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_solutions_path(track, exercise))
         )
       end
 
@@ -96,15 +98,25 @@ module ViewComponents
           safe_join(parts),
           Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
           :mentoring,
-          mentoring_tab_locked?
+          mentoring_tab_locked?,
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_mentor_discussions_path(track, exercise))
         )
       end
 
-      def lockable_tab(html, href, class_name, locked)
+      def lockable_tab(html, href, class_name, locked, locked_attrs = {})
         css_class = tab_class(class_name, locked:)
 
-        locked ? tag.div(html, class: css_class) :
+        locked ? tag.div(html, class: css_class, 'aria-label': 'This tab is locked', **locked_attrs) :
           link_to(html, href, class: css_class)
+      end
+
+      def locked_tab_tooltip_attrs(endpoint)
+        {
+          'data-tooltip-type': 'automation-locked',
+          'data-endpoint': endpoint,
+          'data-placement': 'bottom',
+          'data-interactive': true
+        }
       end
 
       def tab_class(tab, locked: false)

@@ -10,6 +10,8 @@ class Tracks::ApproachesController < ApplicationController
 
   def show; end
 
+  def tooltip_locked = render_template_as_json
+
   private
   def use_solution
     @track = Track.find(params[:track_id])

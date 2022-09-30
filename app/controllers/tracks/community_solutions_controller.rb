@@ -34,4 +34,6 @@ class Tracks::CommunitySolutionsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
+  def tooltip_locked = render_template_as_json
 end

@@ -351,7 +351,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     refute solution.unlocked_help?
 
     Iteration::Create.(solution, submission)
-    
+
     assert solution.reload.unlocked_help?
   end
 end

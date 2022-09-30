@@ -388,7 +388,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   test "updates has_approaches" do
     exercise = create :concept_exercise, uuid: 'f4f7de13-a9ee-4251-8796-006ed85b3f70', slug: 'logs'
     Exercise::UpdateHasApproaches.expects(:call).with(exercise)
-    
+
     Git::SyncConceptExercise.(exercise, force_sync: true)
   end
 end

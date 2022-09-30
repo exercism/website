@@ -6,7 +6,7 @@ class Exercise::UpdateHasApproaches
   initialize_with :exercise
 
   def call
-    ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do    
+    ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
       exercise.update(has_approaches:)
     end
   end

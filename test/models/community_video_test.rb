@@ -5,7 +5,7 @@ class CommunityVideoTest < ActiveSupport::TestCase
     exercise = create :practice_exercise, slug: 'leap'
 
     perform_enqueued_jobs do
-      create :community_video, exercise: exercise, status: :pending
+      create :community_video, exercise:, status: :pending
     end
 
     refute exercise.reload.has_approaches?

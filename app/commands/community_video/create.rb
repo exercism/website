@@ -15,8 +15,6 @@ class CommunityVideo
           exercise:
         }
         video.save!
-
-        Exercise::UpdateHasApproaches.defer(exercise) if exercise.present?
       end
     end
   end

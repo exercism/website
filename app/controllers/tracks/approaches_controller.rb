@@ -6,6 +6,7 @@ class Tracks::ApproachesController < ApplicationController
 
   def index
     @videos = CommunityVideo.approved.for_exercise(@exercise)
+    @introduction_html = Markdown::Parse.(@exercise.approaches_introduction)
   end
 
   def show; end

@@ -1,10 +1,10 @@
 import { useHighlighting } from '@/hooks'
 import React from 'react'
 import { GraphicalIcon, Icon } from '../common'
+import { ConceptMakersButton } from './ConceptMakersButton'
 
 const solution = {
-  snippet: `
-    class BeerSong
+  snippet: ` class BeerSong
     def self.recite(start_verse, take_down)
       lower_bound = start_verse - take_down + 1
       start_verse.downto(lower_bound).map { |i| verse(i) }.join("\\n")
@@ -29,17 +29,17 @@ const solution = {
 
 export function Approaches(): JSX.Element {
   return (
-    <div className="flex flex-row">
+    <div className="lg-container grid grid-cols-3 gap-40">
       <LeftSide />
-      {/* <RightSide /> */}
+      <RightSide />
     </div>
   )
 }
 
 function LeftSide(): JSX.Element {
   return (
-    <div className="mr-40 lg-container flex-grow-2">
-      <DiggingDeeper />
+    <div className="col-span-2">
+      <DiggingDeeper html="" />
 
       <CommunityVideos />
     </div>
@@ -48,65 +48,60 @@ function LeftSide(): JSX.Element {
 
 function RightSide(): JSX.Element {
   return (
-    <div className="flex-grow-1">
+    <div className="col-span-1">
       <ApproachExamples />
     </div>
   )
 }
 
-function DiggingDeeper(): JSX.Element {
-  // const codeBlockRef = useHighlighting<HTMLPreElement>()
+function DiggingDeeper({ html }: { html: string }): JSX.Element {
+  const codeBlockRef = useHighlighting<HTMLPreElement>()
 
   return (
     <div className="mb-48">
       <section className="shadow-lgZ1 !py-[18px] mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24">
         <h2 className="mb-8 text-h2">Digging deeper</h2>
-        {/* below will probably be MD */}
-        {/* <div>An exploration of Asteroid Space Exploration in Ruby.</div>
+        <div>An exploration of Asteroid Space Exploration in Ruby.</div>
 
-      <pre
-        className="md-container bg-bgGray overflow-auto shadow-baseZ1"
-        ref={codeBlockRef}
-      >
-        <code className={solution.track.highlightjsLanguage}>
-          {solution.snippet}
-        </code>
-      </pre>
+        <pre
+          className="md-container bg-bgGray overflow-auto shadow-baseZ1"
+          ref={codeBlockRef}
+        >
+          <code className={solution.track.highlightjsLanguage}>
+            {solution.snippet}
+          </code>
+        </pre>
 
-      <p>
-        Duis placerat ac sem in suscipit. Aliquam accumsan nibh vitae ante
-        pharetra pretium. Lorem ipsum dolor sit amet, consectetur adipiscing
-        elit. Nunc gravida molestie magna, aliquam dapibus tellus luctus id.
-        Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas
-        eu rhoncus libero. Donec vehicula augue ut nunc faucibus, euismod
-        venenatis dui egestas. Integer id aliquam dui, ac vulputate dolor. Ut
-        fringilla sapien semper elit luctus dignissim.
-      </p> */}
+        <p>
+          Duis placerat ac sem in suscipit. Aliquam accumsan nibh vitae ante
+          pharetra pretium. Lorem ipsum dolor sit amet, consectetur adipiscing
+          elit. Nunc gravida molestie magna, aliquam dapibus tellus luctus id.
+          Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas
+          eu rhoncus libero. Donec vehicula augue ut nunc faucibus, euismod
+          venenatis dui egestas. Integer id aliquam dui, ac vulputate dolor. Ut
+          fringilla sapien semper elit luctus dignissim.
+        </p>
+        <div dangerouslySetInnerHTML={{ __html: html }} />
       </section>
 
-      <Authors />
+      <DiggingDeeperFooter />
     </div>
   )
 }
 
-function Authors(): JSX.Element {
+function DiggingDeeperFooter(): JSX.Element {
   return (
-    // maybe rework this using grid, because this way it looks very bad.
-    <div className="flex items-center justify-between text-textColor6">
+    <footer className="flex items-center justify-between text-textColor6">
       <div className="flex items-center">
-        <div className="flex mr-24">
-          <GraphicalIcon
-            height={32}
-            width={32}
-            icon="avatar-placeholder"
-            className="avatars mr-12"
-          />
-          <div className="flex flex-col leading-150 text-textColor1">
-            <span className="font-semibold">3 authors</span>
-            <span className="editors">57 editors</span>
-          </div>
-        </div>
-        <div className="pl-24 border-l-1 border-borderLight2 font-medium">
+        <ConceptMakersButton
+          links={{ makers: 'exercism.org' }}
+          numAuthors={5}
+          numContributors={3}
+          avatarUrls={new Array(3).fill(
+            'https://avatars.githubusercontent.com/u/135246?v=4'
+          )}
+        />
+        <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium">
           Last updated 8 October 2020
         </div>
       </div>
@@ -124,24 +119,20 @@ function Authors(): JSX.Element {
           alt="The link opens in a new window or tab"
         />
       </div>
-    </div>
+    </footer>
   )
 }
 
 function ApproachExamples(): JSX.Element {
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row items-top">
-        <GraphicalIcon className="mr-24" icon="dig-deeper" />
-        <div>
-          <h3 className="text-h3">Approaches</h3>
-          <div className="text-p-base">
-            Other ways our community solved this exercise
-          </div>
-        </div>
-      </div>
+      <SectionHeader
+        title="Approaches"
+        description="Other ways our community solved this exercise"
+        icon="dig-deeper"
+      />
 
-      {/* <Approach /> */}
+      <Approach />
     </div>
   )
 }
@@ -150,18 +141,31 @@ function Approach(): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>()
 
   return (
-    <div className="">
+    <div className="bg-white shadow-base rounded-8 px-20 py-16">
       <pre
-        // className="border-1 border-borderColor-7 rounded-8"
+        className="border-1 border-lightGray rounded-8 p-16"
         ref={codeBlockRef}
       >
         <code
-          className={solution.track.highlightjsLanguage}
-          // className={`${solution.track.highlightjsLanguage} p-16 block h-[134px] overflow-hidden truncate`}
+          className={`${solution.track.highlightjsLanguage} block h-[134px] overflow-hidden `}
+          style={{ textOverflow: 'ellipsis' }}
         >
           {solution.snippet}
         </code>
       </pre>
+      <h5>Using Forwardable</h5>
+      <p>
+        Explore how to use the Forwardable module and its def_delegator and
+        def_delegators methods to use delegation to solve Bob
+      </p>
+      <ConceptMakersButton
+        links={{ makers: 'exercism.org' }}
+        numAuthors={5}
+        numContributors={3}
+        avatarUrls={new Array(3).fill(
+          'https://avatars.githubusercontent.com/u/135246?v=4'
+        )}
+      />
     </div>
   )
 }
@@ -169,19 +173,14 @@ function Approach(): JSX.Element {
 function CommunityVideos(): JSX.Element {
   return (
     <div>
-      <div className="flex flex-row mb-24">
-        <GraphicalIcon className="mr-24" icon="community-video" />
-        <div>
-          <h3 className="text-h3">Community Videos</h3>
-          <div className="text-p-base">
-            Walkthroughs from people using Exercism
-          </div>
-        </div>
-      </div>
+      <SectionHeader
+        title="Community Videos"
+        description=" Walkthroughs from people using Exercism "
+        icon="community-video"
+      />
       <CommunityVideo />
       <CommunityVideo />
-
-      <CommunityVideoFooter />
+      <CommunityVideosFooter />
     </div>
   )
 }
@@ -223,10 +222,30 @@ function CommunityVideo(): JSX.Element {
   )
 }
 
-function CommunityVideoFooter() {
+function CommunityVideosFooter() {
   return (
-    <p className="text-p-small text-textColor6">
+    <footer className="text-p-small text-textColor6">
       Want your video featured here? Submit it here.
-    </p>
+    </footer>
+  )
+}
+
+function SectionHeader({
+  title,
+  description,
+  icon,
+}: {
+  title: string
+  description: string
+  icon: string
+}) {
+  return (
+    <div className="flex flex-row items-top">
+      <GraphicalIcon className="mr-24" icon={icon} />
+      <div>
+        <h3 className="text-h3">{title}</h3>
+        <div className="text-p-base">{description}</div>
+      </div>
+    </div>
   )
 }

@@ -1,5 +1,5 @@
-import { GraphicalIcon } from '@/components/common'
 import React from 'react'
+import { GraphicalIcon } from '@/components/common'
 
 export function SectionHeader({
   title,

@@ -1,6 +1,6 @@
 import React from 'react'
-import { GraphicalIcon, Icon } from '@/components/common'
 import { useHighlighting } from '@/hooks'
+import { GraphicalIcon, Icon } from '@/components/common'
 import { ConceptMakersButton } from '../ConceptMakersButton'
 import { solution } from './mock-snippet'
 

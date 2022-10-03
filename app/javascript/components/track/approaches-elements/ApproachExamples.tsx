@@ -1,5 +1,5 @@
-import { useHighlighting } from '@/hooks'
 import React from 'react'
+import { useHighlighting } from '@/hooks'
 import { SectionHeader } from '.'
 import { ConceptMakersButton } from '../ConceptMakersButton'
 import { solution } from './mock-snippet'

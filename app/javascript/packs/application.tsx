@@ -175,6 +175,7 @@ initReact({
   ),
 
   'track-approaches': (data: any) => <TrackComponents.Approaches />,
+  'track-approach': (data: any) => <TrackComponents.Approach />,
 
   'track-exercise-makers-button': (data: any) => (
     <TrackComponents.ExerciseMakersButton

@@ -1,0 +1,80 @@
+@import "../styles";
+
+#page-approaches-show {
+    & header {
+        @apply bg-backgroundColorA shadow-lgZ1;
+
+        & .c-shapes:before {
+            top: 0px;
+            left: -100px;
+        }
+        & .c-shapes:after {
+            top: 0px;
+            right: -100px;
+        }
+        & .c-avatar {
+            height: 48px;
+            width: 48px;
+            @apply mb-8;
+
+            @apply md:ml-48;
+            @screen md {
+                height: 96px;
+                width: 96px;
+            }
+        }
+        & .info-bar {
+            @apply text-borderLight;
+            & .video img {
+                height: 24px;
+                width: 24px;
+                filter: var(--filter-CBC9D9);
+            }
+        }
+    }
+    & article {
+        @apply shadow-lg;
+
+        margin-top: -35px;
+        @screen md {
+            margin-top: -96px;
+        }
+
+        & .c-react-wrapper-common-share-button {
+            @apply ml-auto;
+        }
+        & .share-bar {
+            & .main-graphic {
+                height: 64px;
+                width: 64px;
+                @apply mr-24;
+            }
+        }
+        & .video-container {
+            @apply relative rounded-8 overflow-hidden mb-32;
+            padding-bottom: 56.25%;
+            padding-top: 30px;
+            height: 0;
+
+            & iframe,
+            & object,
+            & embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+        & .published-at {
+            @apply mb-24;
+        }
+        & .byline {
+            & .c-avatar {
+                height: 64px;
+                width: 64px;
+                @apply mr-12 md:mr-24;
+            }
+        }
+    }
+}

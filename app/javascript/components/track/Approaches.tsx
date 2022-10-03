@@ -129,9 +129,12 @@ function ApproachExamples(): JSX.Element {
       <SectionHeader
         title="Approaches"
         description="Other ways our community solved this exercise"
-        icon="dig-deeper"
+        icon="dig-deeper-gradient"
+        className="mb-16"
       />
 
+      <Approach />
+      <Approach />
       <Approach />
     </div>
   )
@@ -141,9 +144,9 @@ function Approach(): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>()
 
   return (
-    <div className="bg-white shadow-base rounded-8 px-20 py-16">
+    <div className="bg-white shadow-base rounded-8 px-20 py-16 mb-16">
       <pre
-        className="border-1 border-lightGray rounded-8 p-16"
+        className="border-1 border-lightGray rounded-8 p-16 mb-16"
         ref={codeBlockRef}
       >
         <code
@@ -153,8 +156,8 @@ function Approach(): JSX.Element {
           {solution.snippet}
         </code>
       </pre>
-      <h5>Using Forwardable</h5>
-      <p>
+      <h5 className="text-h5 mb-2">Using Forwardable</h5>
+      <p className="text-p-base text-textColor6 mb-12">
         Explore how to use the Forwardable module and its def_delegator and
         def_delegators methods to use delegation to solve Bob
       </p>
@@ -176,7 +179,8 @@ function CommunityVideos(): JSX.Element {
       <SectionHeader
         title="Community Videos"
         description=" Walkthroughs from people using Exercism "
-        icon="community-video"
+        icon="community-video-gradient"
+        className="mb-24"
       />
       <CommunityVideo />
       <CommunityVideo />
@@ -234,17 +238,21 @@ function SectionHeader({
   title,
   description,
   icon,
+  className,
 }: {
   title: string
+  className?: string
   description: string
   icon: string
 }) {
   return (
-    <div className="flex flex-row items-top">
-      <GraphicalIcon className="mr-24" icon={icon} />
+    <div className={`flex flex-row items-start ${className}`}>
+      <div className="p-8 mr-16">
+        <GraphicalIcon height={32} width={32} icon={icon} />
+      </div>
       <div>
-        <h3 className="text-h3">{title}</h3>
-        <div className="text-p-base">{description}</div>
+        <h3 className="text-h3 font-bold">{title}</h3>
+        <div className="text-p-base text-textColor6">{description}</div>
       </div>
     </div>
   )

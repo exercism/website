@@ -41,7 +41,7 @@ export function DiggingDeeper({ html }: { html: string }): JSX.Element {
 
 function DiggingDeeperFooter(): JSX.Element {
   return (
-    <footer className="flex items-center justify-between text-textColor6">
+    <footer className="flex items-center justify-between text-textColor6 py-12 mb-48">
       <div className="flex items-center">
         <ConceptMakersButton
           links={{ makers: 'exercism.org' }}

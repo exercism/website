@@ -5,7 +5,7 @@ type ExerciseTrackIndicatorProps = {
   exerciseIconUrl: string
   track: string
   trackIconUrl: string
-  videoSubmitted: boolean
+  videoRetrieved: boolean
 }
 
 export function ExerciseTrackIndicator({
@@ -13,12 +13,12 @@ export function ExerciseTrackIndicator({
   exerciseIconUrl,
   track,
   trackIconUrl,
-  videoSubmitted,
+  videoRetrieved,
 }: ExerciseTrackIndicatorProps): JSX.Element {
   return (
     <div
       className={`py-8 px-24 bg-gray border-2 border-gradient rounded-100 flex flex-row items-center mb-${
-        videoSubmitted ? 16 : 32
+        videoRetrieved ? 16 : 32
       }`}
     >
       <TrackIcon

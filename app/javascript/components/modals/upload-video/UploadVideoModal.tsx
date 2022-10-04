@@ -5,6 +5,7 @@ import {
   RetrieveVideoForm,
   UploadVideoModalHeader,
   VideoDataResponse,
+  ExerciseTrackIndicator,
 } from './elements'
 import { ThanksForSubmitting } from './ThanksForSubmitting'
 
@@ -41,7 +42,14 @@ export function UploadVideoModal({
       case 'RETRIEVE':
         return (
           <>
-            <UploadVideoModalHeader videoRetrieved={false} />
+            <UploadVideoModalHeader />
+            <ExerciseTrackIndicator
+              exercise="Amusement Park"
+              exerciseIconUrl="https://dg8krxphbh767.cloudfront.net/exercises/amusement-park.svg"
+              track="Rust"
+              trackIconUrl="https://dg8krxphbh767.cloudfront.net/tracks/rust.svg"
+              videoRetrieved={false}
+            />
             <RetrieveVideoForm
               isError={videoRetrievalFailure}
               onSuccess={(data) => {
@@ -56,7 +64,14 @@ export function UploadVideoModal({
       case 'UPLOAD':
         return (
           <>
-            <UploadVideoModalHeader videoSubmitted={true} />
+            <UploadVideoModalHeader />
+            <ExerciseTrackIndicator
+              exercise="Amusement Park"
+              exerciseIconUrl="https://dg8krxphbh767.cloudfront.net/exercises/amusement-park.svg"
+              track="Rust"
+              trackIconUrl="https://dg8krxphbh767.cloudfront.net/tracks/rust.svg"
+              videoRetrieved={true}
+            />
             {videoData && (
               <UploadVideoForm
                 onError={() => console.log('error')}

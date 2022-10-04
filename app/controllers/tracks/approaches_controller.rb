@@ -46,15 +46,31 @@ class Tracks::ApproachesController < ApplicationController
   def introduction
     {
       html: Markdown::Parse.(@exercise.approaches_introduction),
-      authors: @exercise.approach_introduction_authors.order("RAND()").limit(3).select(:avatar_url).to_a.map(&:avatar_url),
-      # TODO: combine authors and contributors
-      num_authors: @exercise.approach_introduction_authors.count,
-      num_contributors: @exercise.approach_introduction_contributors.count,
+      avatar_urls: introduction_avatar_urls,
+      num_authors: introduction_num_authors,
+      num_contributors: introduction_num_contributors,
       updated_at: nil, # TODO: figure out last updated date from Git
       links: {
         edit: "https://github.com/exercism/#{@track.slug}/edit/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md"
       }
     }
+  end
+
+  memoize
+  def introduction_num_authors = @exercise.approach_introduction_authors.count
+
+  memoize
+  def introduction_num_contributors = @exercise.approach_introduction_contributors.count
+
+  def introduction_avatar_urls
+    avatar_urls = proc { |users, limit| users.order("RAND()").limit(limit).select(:avatar_url).to_a.map(&:avatar_url) }
+
+    target = 3
+    urls = avatar_urls.(@exercise.approach_introduction_authors, target)
+    if urls.size < 3 && introduction_num_contributors.positive?
+      urls += avatar_urls.(@exercise.approach_introduction_contributors, target - urls.size)
+    end
+    urls.compact
   end
 
   def links

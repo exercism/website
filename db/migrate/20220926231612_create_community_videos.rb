@@ -1,8 +1,8 @@
 class CreateCommunityVideos < ActiveRecord::Migration[7.0]
   def change
     create_table :community_videos do |t|
-      t.belongs_to :track, null: true
-      t.belongs_to :exercise, null: true
+      t.belongs_to :track, foreign_key: true, null: true
+      t.belongs_to :exercise, foreign_key: true, null: true
       t.belongs_to :author, foreign_key: { to_table: "users" }, null: true
 
       t.belongs_to :submitted_by, foreign_key: { to_table: "users" }, null: false

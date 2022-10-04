@@ -2,7 +2,7 @@ require "test_helper"
 
 class CommunityVideo::RetrieveTest < ActiveSupport::TestCase
   %w[
-    youtu.be youtube www.youtube
+    youtu.be youtube.com www.youtube.com
   ].each do |base|
     test "retrieves #{base} video" do
       url = "https://#{base}/asd"

@@ -146,6 +146,7 @@ export const Inbox = ({
             sortOptions={sortOptions}
             order={request.query.order}
             setOrder={setOrder}
+            setPage={setPage}
           />
         </header>
         <ResultsZone isFetching={isFetching}>

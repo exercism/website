@@ -19,7 +19,7 @@ export function UploadVideoForm({
   onError,
 }: UploadVideoFormProps): JSX.Element {
   async function UploadVideo(body: string) {
-    const URL = 'http://local.exercism.io:3020/api/v2/community_videos'
+    const URL = '/api/v2/community_videos'
     const { fetch } = sendRequest({ endpoint: URL, body, method: 'POST' })
     return fetch
   }
@@ -63,8 +63,7 @@ export function UploadVideoForm({
       <UploadVideoTextInput
         name="video_url"
         label="PASTE YOUR VIDEO URL (YOUTUBE / VIMEO)"
-        defaultValue="https://www.youtube.com/watch?v=hFZFjoX2cGg&list=PPSV&ab_channel=MarkRober"
-        // defaultValue={data.url}
+        defaultValue={data.url}
         readOnly
       />
 

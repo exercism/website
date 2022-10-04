@@ -2,7 +2,7 @@ module ReactComponents
   module Mentoring
     module Representations
       class Representation < ReactComponent
-        initialize_with :mentor, :representation, :example_submissions
+        initialize_with :mentor, :representation, :example_submissions, :source_params
 
         def to_s
           super("mentoring-representation", {
@@ -19,7 +19,8 @@ module ReactComponents
               links: {
                 improve_exercise_guidance: exercise.mentoring_notes_edit_url,
                 improve_track_guidance: track.mentoring_notes_edit_url,
-                improve_representer_guidance: "https://github.com/exercism/#{track.slug}/new/main?filename=exercises/shared/.docs/representations.md"
+                improve_representer_guidance: "https://github.com/exercism/#{track.slug}/new/main?filename=exercises/shared/.docs/representations.md",
+                representation_feedback_guide: Exercism::Routes.doc_url(:mentoring, "how-to-give-feedback-on-representations")
               }
             },
             scratchpad: {
@@ -57,8 +58,8 @@ module ReactComponents
 
         def back_link
           representation.feedback_type.nil? ?
-              Exercism::Routes.mentoring_automation_index_path :
-              Exercism::Routes.with_feedback_mentoring_automation_index_path
+              Exercism::Routes.mentoring_automation_index_path(**source_params) :
+              Exercism::Routes.with_feedback_mentoring_automation_index_path(**source_params)
         end
 
         memoize

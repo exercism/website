@@ -20,7 +20,11 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
     assert_response :ok
     expected = {
       community_video: {
-        title: video.title, platform: video.platform.to_s, channel_name: video.channel_name, thumbnail_url: video.thumbnail_url
+        title: video.title,
+        platform: video.platform.to_s,
+        channel_name: video.channel_name,
+        thumbnail_url: video.thumbnail_url,
+        url: video.url
       }
     }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)

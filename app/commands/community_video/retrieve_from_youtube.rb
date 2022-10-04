@@ -18,8 +18,8 @@ class CommunityVideo
         channel_name: snippet["channelTitle"],
         thumbnail_url: snippet["thumbnails"]["standard"]["url"]
       )
-      # rescue
-      #   raise InvalidCommunityVideoUrl
+    rescue StandardError
+      raise InvalidCommunityVideoUrl
     end
 
     memoize

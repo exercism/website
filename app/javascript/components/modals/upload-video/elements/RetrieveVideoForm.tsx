@@ -28,7 +28,7 @@ export function RetrieveVideoForm({
   isError,
 }: RetrieveVideoForm): JSX.Element {
   async function VerifyVideo(link: string) {
-    const URL = `http://local.exercism.io:3020/api/v2/community_videos/lookup?video_url=${link}`
+    const URL = `/api/v2/community_videos/lookup?video_url=${link}`
     const { fetch } = sendRequest({ endpoint: URL, body: null, method: 'GET' })
     return fetch
   }

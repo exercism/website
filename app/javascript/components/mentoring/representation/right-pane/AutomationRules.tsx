@@ -4,8 +4,6 @@ import { CompleteRepresentationData } from '../../../types'
 export default function AutomationRules({
   guidance,
 }: Pick<CompleteRepresentationData, 'guidance'>): JSX.Element | null {
-  console.log(guidance)
-
   const prLink = (
     <a
       href={guidance.links.improveRepresenterGuidance}

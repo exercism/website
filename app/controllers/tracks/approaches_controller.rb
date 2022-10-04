@@ -7,6 +7,7 @@ class Tracks::ApproachesController < ApplicationController
   def index
     @videos = CommunityVideo.approved.for_exercise(@exercise)
     @introduction = introduction
+    @links = links
   end
 
   def show
@@ -46,6 +47,15 @@ class Tracks::ApproachesController < ApplicationController
       updated_at: nil, # TODO: figure out last updated date from Git
       links: {
         edit: "https://github.com/exercism/#{@track.slug}/edit/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md"
+      }
+    }
+  end
+
+  def links
+    {
+      video: {
+        lookup: Exercism::Routes.lookup_api_community_videos_path,
+        create: Exercism::Routes.api_community_videos_path
       }
     }
   end

@@ -19,7 +19,7 @@ export function UploadVideoForm({
   onError,
 }: UploadVideoFormProps): JSX.Element {
   async function UploadVideo(body: string) {
-    const URL = 'http://local.exercism.io:3020/api/v2/community_videos'
+    const URL = '/api/v2/community_videos'
     const { fetch } = sendRequest({ endpoint: URL, body, method: 'POST' })
     return fetch
   }

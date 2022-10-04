@@ -174,7 +174,9 @@ initReact({
     />
   ),
 
-  'track-approaches': (data: any) => <TrackComponents.Approaches />,
+  'track-approaches': (data: any) => (
+    <TrackComponents.Approaches data={camelizeKeys(data)} />
+  ),
   'track-approach': (data: any) => <TrackComponents.Approach />,
 
   'track-exercise-makers-button': (data: any) => (

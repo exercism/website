@@ -8,6 +8,7 @@ type UploadVideoInputProps = {
   name: string
   error?: boolean
   errorMessage?: string
+  placeholder?: string
 }
 
 export function UploadVideoTextInput({
@@ -18,6 +19,7 @@ export function UploadVideoTextInput({
   defaultValue,
   error,
   errorMessage,
+  placeholder,
 }: UploadVideoInputProps): JSX.Element {
   return (
     <label
@@ -30,10 +32,14 @@ export function UploadVideoTextInput({
         defaultValue={defaultValue}
         readOnly={readOnly}
         required
-        placeholder="This is placeholder text"
+        placeholder={placeholder}
         className={`font-body ${readOnly ? '!bg-disabledLight' : ''} `}
       />
-      {error && <span className="text-red">{errorMessage}</span>}
+      {error && (
+        <span className="c-alert--danger text-16 font-body mt-16 normal-case">
+          {errorMessage}
+        </span>
+      )}
     </label>
   )
 }

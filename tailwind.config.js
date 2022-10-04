@@ -195,7 +195,9 @@ module.exports = {
       warning: '#E48900',
       warningBtnBorder: '#573C13',
 
+      // I think this should be called danger, as it is a variant of alert
       alert: '#D85050',
+      danger: '#D85050',
       alertBtnBorder: '#873333',
 
       anotherGold: '#FAE54D',

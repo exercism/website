@@ -62,7 +62,7 @@ export function UploadVideoForm({
 
       <UploadVideoTextInput
         name="video_url"
-        label="PASTE YOUR VIDEO URL (YOUTUBE / VIMEO)"
+        label="PASTE YOUR VIDEO URL (YOUTUBE)"
         defaultValue={data.url}
         readOnly
       />
@@ -70,6 +70,7 @@ export function UploadVideoForm({
       <UploadVideoTextInput
         name="title"
         label="Video title"
+        placeholder="Enter the video title"
         className="mb-24"
         defaultValue={data.title}
       />

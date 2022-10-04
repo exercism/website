@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { GraphicalIcon, Icon } from '@/components/common'
 import { SectionHeader } from '.'
 import { Modal } from '@/components/modals'
+import { UploadVideoModal } from '@/components/modals/upload-video'
 
 export function CommunityVideos(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
+  const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
   return (
     <div>
@@ -16,9 +18,13 @@ export function CommunityVideos(): JSX.Element {
       />
       <CommunityVideo onClick={() => setIsOpen(true)} />
       <CommunityVideo onClick={() => setIsOpen(true)} />
-      <CommunityVideosFooter />
+      <CommunityVideosFooter onClick={() => setUploadModalOpen(true)} />
 
       <CommunityVideoModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <UploadVideoModal
+        isOpen={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
+      />
     </div>
   )
 }
@@ -65,10 +71,14 @@ function CommunityVideo({ onClick }: { onClick: () => void }): JSX.Element {
   )
 }
 
-function CommunityVideosFooter() {
+function CommunityVideosFooter({ onClick }: { onClick: () => void }) {
   return (
     <footer className="text-p-small text-textColor6">
-      Want your video featured here? Submit it here.
+      Want your video featured here?{' '}
+      <button onClick={onClick} className="underline">
+        Submit it here
+      </button>
+      .
     </footer>
   )
 }

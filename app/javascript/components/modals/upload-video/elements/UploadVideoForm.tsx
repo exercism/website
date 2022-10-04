@@ -63,8 +63,7 @@ export function UploadVideoForm({
       <UploadVideoTextInput
         name="video_url"
         label="PASTE YOUR VIDEO URL (YOUTUBE / VIMEO)"
-        defaultValue="https://www.youtube.com/watch?v=hFZFjoX2cGg&list=PPSV&ab_channel=MarkRober"
-        // defaultValue={data.url}
+        defaultValue={data.url}
         readOnly
       />
 

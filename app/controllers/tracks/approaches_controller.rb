@@ -10,6 +10,7 @@ class Tracks::ApproachesController < ApplicationController
   end
 
   def show
+    # TODO: - ERIK - data comes here
     @approach = OpenStruct.new(
       author: OpenStruct.new(
         avatar_url: "https://avatars.githubusercontent.com/u/135246?v=4",

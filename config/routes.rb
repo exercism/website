@@ -43,6 +43,13 @@ Rails.application.routes.draw do
     resource :organization_updates, only: [:create]
   end
 
+  # ##### #
+  # Admin #
+  # ##### #
+  namespace :admin do
+    resources :community_videos
+  end
+
   # ############ #
   # Normal pages #
   # ############ #
@@ -144,6 +151,7 @@ Rails.application.routes.draw do
       resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions"
 
       resources :solutions, only: %i[index show], controller: "tracks/community_solutions"
+      resources :approaches, only: %i[index show], controller: "tracks/approaches"
     end
 
     member do

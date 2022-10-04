@@ -1,6 +1,7 @@
 class Tracks::ExercisesController < ApplicationController
-  before_action :use_track
-  before_action :use_exercise, only: %i[show start edit complete tooltip no_test_runner]
+  include UseTrackExerciseSolutionConcern
+  before_action :use_track!
+  before_action :use_exercise!, only: %i[show start edit complete tooltip no_test_runner]
   before_action :use_solution, only: %i[show edit complete tooltip]
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
@@ -39,22 +40,9 @@ class Tracks::ExercisesController < ApplicationController
   end
 
   private
-  def use_track
-    @track = Track.find(params[:track_id])
-    @user_track = UserTrack.for(current_user, @track)
-
-    render_404 unless @track.accessible_by?(current_user)
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def use_exercise
+  def use_exercise!
     @exercise = @track.exercises.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def use_solution
-    @solution = Solution.for(current_user, @exercise)
   end
 end

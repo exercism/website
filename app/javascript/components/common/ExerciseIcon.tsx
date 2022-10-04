@@ -7,7 +7,11 @@ type ExerciseIconProps = {
   className?: string
 }
 
-export function ExerciseIcon({ iconUrl, title, className }: ExerciseIconProps) {
+export function ExerciseIcon({
+  iconUrl,
+  title,
+  className,
+}: ExerciseIconProps): JSX.Element {
   const classNames = ['c-icon c-exercise-icon']
   if (className !== undefined) {
     classNames.push(className)

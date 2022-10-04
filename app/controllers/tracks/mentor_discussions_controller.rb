@@ -1,4 +1,5 @@
 class Tracks::MentorDiscussionsController < ApplicationController
+  include UseTrackExerciseSolutionConcern
   before_action :use_solution
   before_action :use_discussion, only: :show
 
@@ -9,13 +10,6 @@ class Tracks::MentorDiscussionsController < ApplicationController
   def show; end
 
   private
-  def use_solution
-    @track = Track.find(params[:track_id])
-    @user_track = UserTrack.for(current_user, @track)
-    @exercise = @track.exercises.find(params[:exercise_id])
-    @solution = Solution.for(current_user, @exercise)
-  end
-
   def use_discussion
     raise ActiveRecord::RecordNotFound unless @solution
 

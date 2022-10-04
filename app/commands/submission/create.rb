@@ -25,6 +25,7 @@ class Submission
       init_test_run!
       schedule_jobs!
       log_metric!
+      unlock_help!
 
       # End by returning the new submission
       submission
@@ -75,5 +76,7 @@ class Submission
     def log_metric!
       Metric::Queue.(:submit_submission, submission.created_at, submission:, track:, user:)
     end
+
+    def unlock_help! = solution.update(unlocked_help: true)
   end
 end

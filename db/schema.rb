@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_30_110535) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_04_133449) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -188,6 +188,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_30_110535) do
     t.index ["exercise_id", "user_id"], name: "index_exercise_approach_intro_authors_on_exercise_and_user", unique: true
     t.index ["exercise_id"], name: "index_exercise_approach_introduction_authorships_on_exercise_id"
     t.index ["user_id"], name: "index_exercise_approach_introduction_authorships_on_user_id"
+  end
+
+  create_table "exercise_approach_introduction_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "user_id"], name: "index_exercise_approach_intro_contris_on_exercise_and_user", unique: true
+    t.index ["exercise_id"], name: "index_exercise_approach_intro_contributorships_on_exercise_id"
+    t.index ["user_id"], name: "index_exercise_approach_introduction_contributorships_on_user_id"
   end
 
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1051,6 +1061,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_30_110535) do
   add_foreign_key "donations_subscriptions", "users"
   add_foreign_key "exercise_approach_introduction_authorships", "exercises"
   add_foreign_key "exercise_approach_introduction_authorships", "users"
+  add_foreign_key "exercise_approach_introduction_contributorships", "exercises"
+  add_foreign_key "exercise_approach_introduction_contributorships", "users"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"

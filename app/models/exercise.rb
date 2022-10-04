@@ -49,6 +49,14 @@ class Exercise < ApplicationRecord
     through: :approach_introduction_authorships,
     source: :author
 
+  has_many :approach_introduction_contributorships,
+    class_name: "Exercise::Approaches::IntroductionContributorship",
+    inverse_of: :exercise,
+    dependent: :destroy
+  has_many :approach_introduction_contributors,
+    through: :approach_introduction_contributorships,
+    source: :contributor
+
   scope :sorted, -> { order(:position) }
 
   scope :without_prerequisites, lambda {

@@ -277,7 +277,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     end
 
     new_contributorship = exercise.contributorships.find_by(contributor: new_contributor)
-    new_contributor_rep_token = new_contributor.reputation_tokens.last
+    new_contributor_rep_token = User::ReputationTokens::ExerciseContributionToken.where(user: new_contributor).last
     assert_equal :contributed_to_exercise, new_contributor_rep_token.reason
     assert_equal :authoring, new_contributor_rep_token.category
     assert_equal 10, new_contributor_rep_token.value
@@ -296,7 +296,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
       Git::SyncPracticeExercise.(exercise)
     end
 
-    assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
+    assert_equal 1, User::ReputationTokens::ExerciseContributionToken.where(user: existing_contributor).count
   end
 
   test "syncs with nil prerequisites" do
@@ -360,5 +360,30 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     Exercise::UpdateHasApproaches.expects(:call).with(exercise)
 
     Git::SyncPracticeExercise.(exercise, force_sync: true)
+  end
+
+  test "syncs introduction authors" do
+    author = create :user, github_username: 'erikschierboom'
+    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3'
+
+    # Sanity check
+    assert_empty exercise.approach_introduction_authors
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal [author], exercise.reload.approach_introduction_authors
+  end
+
+  test "syncs introduction contributors" do
+    contributor_1 = create :user, github_username: 'ihid'
+    contributor_2 = create :user, github_username: 'jane'
+    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3'
+
+    # Sanity check
+    assert_empty exercise.approach_introduction_contributors
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal [contributor_1, contributor_2], exercise.reload.approach_introduction_contributors
   end
 end

@@ -9,9 +9,8 @@ module Git
 
     def call
       ::Exercise::UpdateHasApproaches.(exercise)
-
-      # TODO: fix
-      # sync_introduction_authors!
+      sync_introduction_authors!
+      sync_introduction_contributors!
     end
 
     private
@@ -23,7 +22,7 @@ module Git
         authors.find_each { |author| ::Exercise::Approaches::IntroductionAuthorship::Create.(exercise, author) }
 
         # This is required to remove authors that were already added
-        exercise.reload.update!(approach_introduction_authors:)
+        exercise.reload.update!(approach_introduction_authors: authors)
 
         # TODO: (Optional) consider what to do with missing authors
         missing_authors = authors_config - authors.pluck(:github_username)
@@ -31,10 +30,25 @@ module Git
       end
     end
 
-    memoize
-    def authors_config
-      head_git_exercise.approaches_introduction_authors.to_a
+    def sync_introduction_contributors!
+      ActiveRecord::Base.transaction do
+        contributors = ::User.where(github_username: contributors_config)
+        contributors.find_each { |contributor| ::Exercise::Approaches::IntroductionContributorship::Create.(exercise, contributor) }
+
+        # This is required to remove contributors that were already added
+        exercise.reload.update!(approach_introduction_contributors: contributors)
+
+        # TODO: (Optional) consider what to do with missing contributors
+        missing_contributors = contributors_config - contributors.pluck(:github_username)
+        Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?
+      end
     end
+
+    memoize
+    def authors_config = head_git_exercise.approaches_introduction_authors.to_a
+
+    memoize
+    def contributors_config = head_git_exercise.approaches_introduction_contributors.to_a
 
     memoize
     def head_git_exercise

@@ -2,7 +2,7 @@ class User::ReputationTokens::ExerciseApproachIntroductionAuthorToken < User::Re
   params :authorship
   category :authoring
   reason :authored_exercise_approach_introduction
-  value 20 # TODO: determine value
+  value 12 # TODO: determine value
 
   before_validation on: :create do
     self.track = authorship.exercise.track unless track

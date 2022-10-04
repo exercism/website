@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useHighlighting } from '@/hooks'
 import { SectionHeader } from '.'
 import { ConceptMakersButton } from '../ConceptMakersButton'
 import { solution } from './mock-snippet'
 import { GraphicalIcon, Icon } from '@/components/common'
+import { ExerciseTrackContext } from '../Approaches'
 
 export function ApproachExamples(): JSX.Element {
   return (
@@ -16,9 +17,6 @@ export function ApproachExamples(): JSX.Element {
       />
 
       <NoApproachYet />
-      <Approach />
-      <Approach />
-      <Approach />
     </div>
   )
 }
@@ -57,6 +55,7 @@ function Approach(): JSX.Element {
 }
 
 function NoApproachYet(): JSX.Element {
+  const { exercise } = useContext(ExerciseTrackContext)
   return (
     <div className="text-textColor6 flex flex-col items-center bg-bgGray p-24 rounded-8">
       <GraphicalIcon
@@ -66,7 +65,7 @@ function NoApproachYet(): JSX.Element {
         className="filter-textColor6 mb-8"
       />
       <div className="text-label-timestamp text-16 mb-4 font-semibold text-center">
-        There are no Approaches for Asteroid Space Exploration.
+        There are no Approaches for {exercise.title}.
       </div>
       <div className="flex flex-row text-15 leading-150">
         Got one in mind?&nbsp;

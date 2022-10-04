@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { Modal, UploadVideoModal } from '@/components/modals'
 import { GraphicalIcon, Icon } from '@/components/common'
 import { SectionHeader } from '.'
-import { Modal } from '@/components/modals'
-import { UploadVideoModal } from '@/components/modals/upload-video'
 
-export function CommunityVideos(): JSX.Element {
+export type CommunityVideosProps = {
+  videos: any[]
+}
+
+export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
@@ -16,11 +19,18 @@ export function CommunityVideos(): JSX.Element {
         icon="community-video-gradient"
         className="mb-24"
       />
-      <CommunityVideo onClick={() => setIsOpen(true)} />
-      <CommunityVideo onClick={() => setIsOpen(true)} />
+      {videos.length > 0 ? (
+        videos.map((i) => (
+          // TODO: Provide proper key once there are videos
+          <CommunityVideo key={i} onClick={() => setIsOpen(true)} />
+        ))
+      ) : (
+        <div>no videos yet ;(</div>
+      )}
       <CommunityVideosFooter onClick={() => setUploadModalOpen(true)} />
 
       <CommunityVideoModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+
       <UploadVideoModal
         isOpen={uploadModalOpen}
         onClose={() => setUploadModalOpen(false)}

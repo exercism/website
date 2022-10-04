@@ -47,7 +47,9 @@ class Tracks::ApproachesController < ApplicationController
     {
       html: Markdown::Parse.(@exercise.approaches_introduction),
       authors: @exercise.approach_introduction_authors.order("RAND()").limit(3).select(:avatar_url).to_a.map(&:avatar_url),
+      # TODO: combine authors and contributors
       num_authors: @exercise.approach_introduction_authors.count,
+      num_contributors: @exercise.approach_introduction_contributors.count,
       updated_at: nil, # TODO: figure out last updated date from Git
       links: {
         edit: "https://github.com/exercism/#{@track.slug}/edit/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md"

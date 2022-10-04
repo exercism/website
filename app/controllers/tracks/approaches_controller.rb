@@ -6,9 +6,7 @@ class Tracks::ApproachesController < ApplicationController
 
   def index
     @videos = CommunityVideo.approved.for_exercise(@exercise)
-    @introduction_html = Markdown::Parse.(@exercise.approaches_introduction)
-    @introduction_authors = @exercise.approach_introduction_authors.order("RAND()").limit(3).select(:avatar_url).to_a.map(&:avatar_url)
-    @num_introduction_authors = @exercise.approach_introduction_authors.count
+    @introduction = introduction
   end
 
   def show
@@ -38,5 +36,17 @@ class Tracks::ApproachesController < ApplicationController
     @user_track = UserTrack.for(current_user, @track)
     @exercise = @track.exercises.find(params[:exercise_id])
     @solution = Solution.for(current_user, @exercise)
+  end
+
+  def introduction
+    {
+      html: Markdown::Parse.(@exercise.approaches_introduction),
+      authors: @exercise.approach_introduction_authors.order("RAND()").limit(3).select(:avatar_url).to_a.map(&:avatar_url),
+      num_authors: @exercise.approach_introduction_authors.count,
+      updated_at: nil, # TODO: figure out last updated date from Git
+      links: {
+        edit: "https://github.com/exercism/#{@track.slug}/edit/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md"
+      }
+    }
   end
 end

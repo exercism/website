@@ -58,7 +58,7 @@ module ViewComponents
 
       def approaches_tab
         parts = [
-          graphical_icon('community-solutions'), # TODO: Aron
+          graphical_icon('dig-deeper'),
           tag.span("Dig Deeper", "data-text": "Dig Deeper")
         ]
         lockable_tab(

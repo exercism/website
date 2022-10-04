@@ -9,7 +9,24 @@ class Tracks::ApproachesController < ApplicationController
     @introduction_html = Markdown::Parse.(@exercise.approaches_introduction)
   end
 
-  def show; end
+  def show
+    # TODO: - ERIK - data comes here
+    @approach = OpenStruct.new(
+      author: OpenStruct.new(
+        avatar_url: "https://avatars.githubusercontent.com/u/135246?v=4",
+        handle: "Erik",
+        formatted_reputation: 999
+      ),
+      title: "Utilising In-built Date Functions for Consistency",
+      published_at: DateTime.now
+    )
+    @other_approaches = Array.new(3)
+    @contributors = OpenStruct.new(
+      num_authors: 3,
+      num_contributors: 5,
+      avatar_urls: Array.new(3).fill('https://avatars.githubusercontent.com/u/135246?v=4')
+    )
+  end
 
   def tooltip_locked = render_template_as_json
 

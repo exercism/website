@@ -1,7 +1,7 @@
 import { useRef, useEffect, RefObject } from 'react'
 import { highlightAll } from '@/utils'
 
-export function useHighlighting<T>(html: string): RefObject<T> {
+export function useHighlighting<T>(html?: string): RefObject<T> {
   const parentRef = useRef<T | null>(null)
 
   useEffect(() => {

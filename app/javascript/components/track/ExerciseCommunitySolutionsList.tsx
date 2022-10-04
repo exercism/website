@@ -9,8 +9,6 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
-import { SyncStatusCheckbox } from './exercise-community-solutions-list/SyncStatusCheckbox'
-import { TestsStatusCheckbox } from './exercise-community-solutions-list/TestsStatusCheckbox'
 import { GenericTooltip } from '../misc/ExercismTippy'
 
 type PaginatedResult = {
@@ -51,16 +49,11 @@ export const ExerciseCommunitySolutionsList = ({
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['exercise-community-solution-list', request.endpoint, request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+      ['exercise-community-solution-list', request.endpoint, request.query],
+      request
+    )
 
   useEffect(() => {
     const handler = setTimeout(() => {

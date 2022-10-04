@@ -173,6 +173,10 @@ initReact({
       request={camelizeKeysAs<Request>(data.request)}
     />
   ),
+
+  'track-approaches': (data: any) => <TrackComponents.Approaches />,
+  'track-approach': (data: any) => <TrackComponents.Approach />,
+
   'track-exercise-makers-button': (data: any) => (
     <TrackComponents.ExerciseMakersButton
       avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}

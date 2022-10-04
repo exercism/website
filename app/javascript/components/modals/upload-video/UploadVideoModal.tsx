@@ -41,7 +41,7 @@ export function UploadVideoModal({
       case 'RETRIEVE':
         return (
           <>
-            <UploadVideoModalHeader videoSubmitted={false} />
+            <UploadVideoModalHeader videoRetrieved={false} />
             <RetrieveVideoForm
               isError={videoRetrievalFailure}
               onSuccess={(data) => {

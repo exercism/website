@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Modal, UploadVideoModal } from '@/components/modals'
 import { GraphicalIcon, Icon } from '@/components/common'
-import { SectionHeader } from '.'
+import { NoContentYet, SectionHeader } from '.'
+import { ExerciseTrackContext } from '../Approaches'
 
 export type CommunityVideosProps = {
   videos: any[]
@@ -11,6 +12,7 @@ export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
+  const { exercise } = useContext(ExerciseTrackContext)
   return (
     <div>
       <SectionHeader
@@ -25,7 +27,10 @@ export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
           <CommunityVideo key={i} onClick={() => setIsOpen(true)} />
         ))
       ) : (
-        <div>no videos yet ;(</div>
+        <NoContentYet
+          exerciseTitle={exercise.title}
+          contentType="Community Videos"
+        />
       )}
       <CommunityVideosFooter onClick={() => setUploadModalOpen(true)} />
 

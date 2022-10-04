@@ -5,7 +5,7 @@ import {
   DiggingDeeper,
 } from './approaches-elements'
 
-export function Approaches(): JSX.Element {
+export function Approaches({ data }: { data: any }): JSX.Element {
   return (
     <div className="lg-container grid grid-cols-3 gap-40">
       <LeftSide />

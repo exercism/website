@@ -51,10 +51,11 @@ export function RetrieveVideoForm({
   return (
     <form onSubmit={handleRetrieveVideo}>
       <UploadVideoTextInput
-        label="PASTE YOUR VIDEO URL (YOUTUBE / VIMEO)"
+        label="PASTE YOUR VIDEO URL (YOUTUBE)"
         name="videoUrl"
         error={isError}
-        errorMessage="This ain't no Youtube video!"
+        errorMessage="This link is invalid, please check it again!"
+        placeholder="Paste your video here"
       />
       <div className="flex">
         <button type="submit" className="w-full btn-primary btn-l grow">

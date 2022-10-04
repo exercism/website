@@ -1,3 +1,12 @@
+/*  
+
+this could be turned into one alert, with common props, then have variants below
+- success
+- caution
+- danger
+
+this is alert--caution
+*/
 .c-alert {
     @apply border-2 border-orange rounded-8;
     @apply bg-lightOrange;
@@ -6,4 +15,9 @@
     & strong {
         @apply font-semibold text-textColor2;
     }
+}
+
+.c-alert--danger {
+    @apply c-alert;
+    @apply bg-veryLightRed text-danger border-danger;
 }

@@ -78,4 +78,6 @@ class Tracks::CommunitySolutionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
   end
+
+  # TODO: add tests to verify redirect when viewing tutorial exercise
 end

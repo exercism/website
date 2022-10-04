@@ -5,12 +5,16 @@ class Tracks::ApproachesController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
+    return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
+
     @videos = CommunityVideo.approved.for_exercise(@exercise)
     @introduction = introduction
     @links = links
   end
 
   def show
+    return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
+
     # TODO: - ERIK - data comes here
     @approach = OpenStruct.new(
       author: OpenStruct.new(

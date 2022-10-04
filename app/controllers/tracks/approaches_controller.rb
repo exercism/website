@@ -7,6 +7,8 @@ class Tracks::ApproachesController < ApplicationController
   def index
     @videos = CommunityVideo.approved.for_exercise(@exercise)
     @introduction_html = Markdown::Parse.(@exercise.approaches_introduction)
+    @introduction_authors = @exercise.approach_introduction_authors.order("RAND()").limit(3).select(:avatar_url).to_a.map(&:avatar_url)
+    @num_introduction_authors = @exercise.approach_introduction_authors.count
   end
 
   def show

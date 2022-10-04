@@ -14,6 +14,8 @@ class UserTrack
       to: :track
     delegate :title, to: :track, prefix: true
 
+    def user = nil
+
     def tutorial_exercise_completed?
       false
     end

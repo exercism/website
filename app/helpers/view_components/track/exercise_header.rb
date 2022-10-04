@@ -122,7 +122,7 @@ module ViewComponents
 
       memoize
       def show_approaches_tab?
-        true # TODO: @erikschierboom
+        false # TODO: @erikschierboom
       end
 
       memoize

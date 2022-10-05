@@ -256,17 +256,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_115713) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "num_submissions", default: 0, null: false
-    t.datetime "last_shown_at"
-    t.datetime "last_submitted_at", default: "2022-08-17 08:10:01", null: false
+    t.datetime "last_submitted_at", default: "2022-09-01 04:56:16", null: false
     t.string "uuid", null: false
     t.bigint "track_id"
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
+    t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at", order: { last_submitted_at: :desc }
+    t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_author_id", "track_id", "num_submissions"], name: "index_exercise_representation_author_track_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
+    t.index ["feedback_type", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_type_exercise_last_submitted_at", order: { last_submitted_at: :desc }
+    t.index ["feedback_type", "exercise_id", "num_submissions"], name: "index_exercise_representation_type_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions", order: { num_submissions: :desc }
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
@@ -510,40 +513,42 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_115713) do
 
   create_table "metric_period_days", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "day", limit: 1, default: 0, null: false
-    t.string "metric_type", null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["metric_type", "track_id", "day"], name: "uniq", unique: true
+    t.index ["created_at"], name: "index_metric_period_days_on_created_at"
+    t.index ["day", "metric_action", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_days_on_track_id"
   end
 
   create_table "metric_period_minutes", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "minute", limit: 2, default: 0, null: false
-    t.string "metric_type", null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["metric_type", "track_id", "minute"], name: "uniq", unique: true
+    t.index ["created_at"], name: "index_metric_period_minutes_on_created_at"
+    t.index ["minute", "metric_action", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_minutes_on_track_id"
   end
 
   create_table "metric_period_months", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "month", limit: 1, default: 0, null: false
-    t.string "metric_type", null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.integer "count", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["metric_type", "track_id", "month"], name: "uniq", unique: true
+    t.index ["created_at"], name: "index_metric_period_months_on_created_at"
+    t.index ["month", "metric_action", "track_id"], name: "uniq", unique: true
     t.index ["track_id"], name: "index_metric_period_months_on_track_id"
   end
 
   create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "type", null: false
-    t.text "params", null: false
+    t.integer "metric_action", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.bigint "user_id"
     t.string "uniqueness_key", null: false
@@ -552,8 +557,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_115713) do
     t.datetime "updated_at", null: false
     t.string "country_code", limit: 2
     t.string "coordinates"
+    t.index ["occurred_at"], name: "index_metrics_on_occurred_at"
     t.index ["track_id"], name: "index_metrics_on_track_id"
-    t.index ["type", "track_id", "occurred_at"], name: "index_metrics_on_type_and_track_id_and_occurred_at"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true
     t.index ["user_id"], name: "index_metrics_on_user_id"
   end

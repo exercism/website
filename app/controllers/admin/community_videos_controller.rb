@@ -13,6 +13,7 @@ class Admin::CommunityVideosController < ApplicationController
   # GET /admin/community_videos/new
   def new
     @community_video = CommunityVideo.new
+    @community_video.submitted_by = current_user
   end
 
   # GET /admin/community_videos/1/edit

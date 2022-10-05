@@ -185,13 +185,15 @@ function VideoCredits({ author }: Pick<CommunityVideo, 'author'>): JSX.Element {
           height={48}
           width={48}
         />
-        <div className="font-semibold text-textColor1 text-18 leading-160 col-span-1 row-span-1 self-center">
+        <div className="font-semibold text-textColor1 text-18 leading-160 col-span-1 row-span-2 self-center">
           {author && author.name}{' '}
-          <span className="text-14">@{author && author.handle}</span>
+          <span className="text-14 text-textColor6">
+            @{author && author.handle}
+          </span>
         </div>
-        <div className="text-18 row-span-1 col-span-1 self-center">
+        {/* <div className="text-18 row-span-1 col-span-1 self-center">
           405 subscribers
-        </div>
+        </div> */}
       </div>
 
       <div className="underline font-semibold leading-150 text-14 flex items-center">

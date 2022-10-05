@@ -255,8 +255,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_115713) do
     t.bigint "feedback_editor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "num_submissions", default: 0, null: false
-    t.datetime "last_submitted_at", default: "2022-09-01 04:56:16", null: false
+    t.integer "num_submissions", default: 1, null: false
+    t.datetime "last_submitted_at", default: -> { "CURRENT_TIMESTAMP(6)" }, null: false
     t.string "uuid", null: false
     t.bigint "track_id"
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true

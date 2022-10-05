@@ -17,15 +17,11 @@ export function ExerciseTrackIndicator({
       }`}
     >
       <TrackIcon
-        iconUrl={`https://dg8krxphbh767.cloudfront.net/tracks/${track.slug}.svg`}
+        iconUrl={track.iconUrl}
         title={track.title}
         className="h-[40px], w-[40px] mr-12"
       />
-      <ExerciseIcon
-        // TODO: fix this type, and this whole object
-        iconUrl={`https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/${exercise.iconName}.svg`}
-        className="h-48 mr-12"
-      />
+      <ExerciseIcon iconUrl={exercise.iconUrl} className="h-48 mr-12" />
       <div className="flex flex-col">
         <div className="text-h5">{exercise.title}</div>
         <div className="textColor-6 font-normal leading-150 text-16">

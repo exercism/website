@@ -25,6 +25,8 @@ export const ExerciseTrackContext = createContext<ExerciseTrackContext>(
 )
 
 export function Approaches({ data }: ApproachesProps): JSX.Element {
+  console.log(data)
+
   return (
     <div className="lg-container grid grid-cols-3 gap-40">
       <ExerciseTrackContext.Provider

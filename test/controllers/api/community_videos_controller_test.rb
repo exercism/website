@@ -23,6 +23,7 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
         title: video.title,
         platform: video.platform.to_s,
         channel_name: video.channel_name,
+        channel_url: video.channel_url,
         thumbnail_url: video.thumbnail_url,
         url: video.url
       }

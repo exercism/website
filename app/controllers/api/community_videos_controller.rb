@@ -2,7 +2,7 @@ module API
   class CommunityVideosController < BaseController
     def lookup
       video = CommunityVideo::Retrieve.(params[:video_url])
-      serialized = video.attributes.slice(*%w[title platform channel_name thumbnail_url url])
+      serialized = video.attributes.slice(*%w[title platform channel_name channel_url thumbnail_url url])
       render json: { community_video: serialized }.to_json
     rescue InvalidCommunityVideoUrl
       render_400(:invalid_community_video_url)

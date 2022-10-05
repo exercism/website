@@ -4,8 +4,31 @@ import { GraphicalIcon, Icon } from '@/components/common'
 import { NoContentYet, SectionHeader } from '.'
 import { ApproachesDataContext } from '../Approaches'
 
+export type CommunityVideoUserLinks = {
+  profile?: string
+}
+
+export type CommunityVideoUser = {
+  name: string
+  handle: string
+  avatarUrl: string
+  links: CommunityVideoUserLinks
+}
+
+export type CommunityVideoPlatform = 'youtube' | 'vimeo'
+
+export type CommunityVideo = {
+  author?: CommunityVideoUser
+  submitted_by: CommunityVideoUser
+  platform: CommunityVideoPlatform
+  title: string
+  url: string
+  thumbnailUrl: string
+  createdAt: string
+}
+
 export type CommunityVideosProps = {
-  videos: any[]
+  videos: CommunityVideo[]
 }
 
 export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {

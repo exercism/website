@@ -1,6 +1,7 @@
 import React from 'react'
 import { GraphicalIcon, Icon } from '@/components/common'
 import { ConceptMakersButton } from '../ConceptMakersButton'
+import dayjs from 'dayjs'
 
 export type ApproachIntroduction = {
   html: string
@@ -48,9 +49,11 @@ function DiggingDeeperFooter({
           numContributors={introduction.numContributors}
           avatarUrls={introduction.avatarUrls}
         />
-        <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium">
-          Last updated 8 October 2020
-        </div>
+        {introduction.updatedAt && (
+          <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium">
+            Last updated {dayjs(introduction.updatedAt).format('D MMM YYYY')}
+          </div>
+        )}
       </div>
       <a
         href={introduction.links.edit}

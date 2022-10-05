@@ -11,23 +11,24 @@ import {
 export type ApproachesProps = {
   data: {
     introduction: ApproachIntroduction
-  } & ExerciseTrackContext &
+  } & ApproachesDataContext &
     CommunityVideosProps
 }
 
-type ExerciseTrackContext = {
+type ApproachesDataContext = {
   track: Track
   exercise: Exercise
 }
 
-export const ExerciseTrackContext = createContext<ExerciseTrackContext>(
-  {} as ExerciseTrackContext
+export const ApproachesDataContext = createContext<ApproachesDataContext>(
+  {} as ApproachesDataContext
 )
 
 export function Approaches({ data }: ApproachesProps): JSX.Element {
+  console.log(data)
   return (
     <div className="lg-container grid grid-cols-3 gap-40">
-      <ExerciseTrackContext.Provider
+      <ApproachesDataContext.Provider
         value={{ exercise: data.exercise, track: data.track }}
       >
         <div className="col-span-2">
@@ -37,7 +38,7 @@ export function Approaches({ data }: ApproachesProps): JSX.Element {
         <div className="col-span-1">
           <ApproachExamples />
         </div>
-      </ExerciseTrackContext.Provider>
+      </ApproachesDataContext.Provider>
     </div>
   )
 }

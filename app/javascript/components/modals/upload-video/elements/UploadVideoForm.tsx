@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
 import { UploadVideoTextInput, CommunityVideo } from '.'
-import { sendRequest } from '../../../../utils/send-request'
-import { Icon } from '../../../common'
-import RadioButton from '../../../mentoring/representation/right-pane/RadioButton'
+import { sendRequest } from '@/utils/send-request'
+import { Icon } from '@/components/common'
+import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
 
 type UploadVideoFormProps = {
   data: CommunityVideo

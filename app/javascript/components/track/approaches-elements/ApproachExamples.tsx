@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { NoContentYet, SectionHeader } from '.'
-import { ExerciseTrackContext } from '../Approaches'
+import { ApproachesDataContext } from '../Approaches'
 
 export function ApproachExamples(): JSX.Element {
-  const { exercise } = useContext(ExerciseTrackContext)
+  const { exercise } = useContext(ApproachesDataContext)
   return (
     <div className="flex flex-col">
       <SectionHeader

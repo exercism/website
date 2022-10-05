@@ -1,4 +1,4 @@
-import { ExerciseTrackContext } from '@/components/track/Approaches'
+import { ApproachesDataContext } from '@/components/track/Approaches'
 import React, { useContext } from 'react'
 import { TrackIcon, ExerciseIcon } from '../../../common'
 type ExerciseTrackIndicatorProps = {
@@ -8,7 +8,7 @@ type ExerciseTrackIndicatorProps = {
 export function ExerciseTrackIndicator({
   videoRetrieved,
 }: ExerciseTrackIndicatorProps): JSX.Element {
-  const { exercise, track } = useContext(ExerciseTrackContext)
+  const { exercise, track } = useContext(ApproachesDataContext)
 
   return (
     <div

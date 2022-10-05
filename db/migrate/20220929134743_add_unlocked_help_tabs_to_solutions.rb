@@ -3,8 +3,8 @@ class AddUnlockedHelpTabsToSolutions < ActiveRecord::Migration[7.0]
     add_column :solutions, :unlocked_help, :boolean, null: false, default: false
 
     unless Rails.env.production?
-      Solution.find_each do |solution|
-        solution.update(unlocked_help: solution.iterated?)
+      Submission.includes(:solution).find_each do |submission|
+        submission.solution.update(unlocked_help: true)
       end
     end
   end

@@ -1,5 +1,4 @@
 import React, { createContext } from 'react'
-import { Icon } from '../common'
 import { Track, Exercise } from '../types'
 import {
   ApproachExamples,
@@ -7,7 +6,7 @@ import {
   CommunityVideos,
   CommunityVideosProps,
   DiggingDeeper,
-  NoContentYet,
+  NoIntroductionYet,
 } from './approaches-elements'
 
 export type ApproachesProps = {
@@ -28,7 +27,6 @@ export const ApproachesDataContext = createContext<ApproachesDataContext>(
 )
 
 export function Approaches({ data }: ApproachesProps): JSX.Element {
-  console.log(data)
   return (
     <div className="lg-container grid grid-cols-3 gap-40">
       <ApproachesDataContext.Provider
@@ -42,20 +40,10 @@ export function Approaches({ data }: ApproachesProps): JSX.Element {
           {data.introduction.html.length > 0 ? (
             <DiggingDeeper introduction={data.introduction} />
           ) : (
-            <NoContentYet
-              exerciseTitle={data.exercise.title}
-              contentType={'Introduction notes'}
-            >
-              Want to contribute?&nbsp;
-              <a className="flex" href={data.introduction.links.new}>
-                <span className="underline">You can do it here.</span>&nbsp;
-                <Icon
-                  className="filter-textColor6"
-                  icon={'new-tab'}
-                  alt={'open in a new tab'}
-                />
-              </a>
-            </NoContentYet>
+            <NoIntroductionYet
+              exercise={data.exercise}
+              introduction={data.introduction}
+            />
           )}
           <CommunityVideos videos={data.videos} />
         </div>

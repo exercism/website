@@ -3,6 +3,7 @@ import { Modal, UploadVideoModal } from '@/components/modals'
 import { GraphicalIcon, Icon } from '@/components/common'
 import { NoContentYet, SectionHeader } from '.'
 import { ApproachesDataContext } from '../Approaches'
+import dayjs from 'dayjs'
 
 export type CommunityVideoUserLinks = {
   profile?: string
@@ -155,10 +156,10 @@ function CommunityVideoModal({
       <h2 className="text-h2 mb-24 text-center">{video.title}</h2>
       <iframe
         src={video.links.embed}
-        height={360}
+        height={432}
         width={768}
         frameBorder="0"
-        className="rounded-16 mb-24"
+        className="rounded-16 mb-24 mx-auto"
       ></iframe>
 
       <VideoCredits author={video.author} />
@@ -167,7 +168,7 @@ function CommunityVideoModal({
         <a href={video.submittedBy.links.profile} className="underline">
           @{video.submittedBy.handle}
         </a>{' '}
-        &middot; {video.createdAt}
+        &middot; {dayjs(video.createdAt).format('D MMM YYYY')}
       </div>
     </Modal>
   )

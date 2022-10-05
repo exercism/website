@@ -17,14 +17,19 @@ export type CommunityVideoUser = {
 
 export type CommunityVideoPlatform = 'youtube' | 'vimeo'
 
+export type CommunityVideoLinks = {
+  video: string
+  // channel: string # TODO
+  thumbnail: string
+}
+
 export type CommunityVideo = {
   author?: CommunityVideoUser
   submitted_by: CommunityVideoUser
   platform: CommunityVideoPlatform
   title: string
-  url: string
-  thumbnailUrl: string
   createdAt: string
+  links: CommunityVideoLinks
 }
 
 export type CommunityVideosProps = {

@@ -49,11 +49,11 @@ module ReactComponents
             },
             platform: video.platform,
             title: video.title,
-            url: video.url,
-            thumbnail_url: video.thumbnail_url,
             created_at: video.created_at,
             links: {
-              # TODO: add channel URL
+              video: video.url,
+              # channel: video.channel_url, # TODO
+              thumbnail: video.thumbnail_url
             }
           }
         end

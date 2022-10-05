@@ -55,6 +55,7 @@ class Tracks::ApproachesController < ApplicationController
       num_contributors: introduction_num_contributors,
       updated_at: nil, # TODO: figure out last updated date from Git
       links: {
+        new: "https://github.com/exercism/#{@track.slug}/new/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md",
         edit: "https://github.com/exercism/#{@track.slug}/edit/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md"
       }
     }

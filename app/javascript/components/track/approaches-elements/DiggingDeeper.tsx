@@ -5,7 +5,10 @@ import { ConceptMakersButton } from '../ConceptMakersButton'
 export type ApproachIntroduction = {
   html: string
   avatarUrls: string[]
-  links: { edit: string }
+  links: {
+    new: string
+    edit: string
+  }
   numAuthors: number
   numContributors: number
   updatedAt: string

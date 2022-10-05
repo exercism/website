@@ -85,7 +85,7 @@ function CommunityVideo({ video }: { video: CommunityVideo }): JSX.Element {
           <img
             style={{ objectFit: 'cover', height: '80px', width: '143px' }}
             className="mr-20 rounded-8"
-            src={video.thumbnailUrl}
+            src={video.links.thumbnail}
             alt="thumbnail"
           />
           <div className="flex flex-col">
@@ -144,7 +144,7 @@ function CommunityVideoModal({
     <Modal open={isOpen} onClose={onClose} className="items-center">
       <h2 className="text-h2 mb-24 text-center">{video.title}</h2>
       <iframe
-        src={video.url}
+        src={video.links.video}
         height={360}
         width={768}
         frameBorder="0"

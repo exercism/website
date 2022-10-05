@@ -4,9 +4,10 @@ import { ConceptMakersButton } from '../ConceptMakersButton'
 
 export type ApproachIntroduction = {
   html: string
-  authors: string[]
+  avatarUrls: string[]
   links: { edit: string }
   numAuthors: number
+  numContributors: number
   updatedAt: string
 }
 
@@ -41,8 +42,8 @@ function DiggingDeeperFooter({
         <ConceptMakersButton
           links={{ makers: 'exercism.org' }}
           numAuthors={introduction.numAuthors}
-          numContributors={0}
-          avatarUrls={introduction.authors}
+          numContributors={introduction.numContributors}
+          avatarUrls={introduction.avatarUrls}
         />
         <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium">
           Last updated 8 October 2020

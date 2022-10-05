@@ -40,7 +40,7 @@ class CommunityVideo
 
     memoize
     def api_url
-      api_key = Exercism.secrets.google_api_key
+      api_key = ENV.fetch('GOOGLE_API_KEY', Exercism.secrets.google_api_key)
       "https://www.googleapis.com/youtube/v3/videos?id=#{youtube_id}&part=snippet&key=#{api_key}"
     end
   end

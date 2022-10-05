@@ -7,6 +7,8 @@ class Tracks::ApproachesController < ApplicationController
   def index
     return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
 
+    # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
+
     @videos = CommunityVideo.approved.for_exercise(@exercise)
     @introduction = introduction
     @links = links
@@ -14,6 +16,8 @@ class Tracks::ApproachesController < ApplicationController
 
   def show
     return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
+
+    # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
 
     # TODO: - ERIK - data comes here
     @approach = OpenStruct.new(

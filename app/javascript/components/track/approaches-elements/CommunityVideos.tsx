@@ -26,7 +26,7 @@ export type CommunityVideoLinks = {
 
 export type CommunityVideo = {
   author?: CommunityVideoUser
-  submitted_by: CommunityVideoUser
+  submittedBy: CommunityVideoUser
   platform: CommunityVideoPlatform
   title: string
   createdAt: string
@@ -52,7 +52,7 @@ export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
       {videos.length > 0 ? (
         videos.map((video) => (
           <CommunityVideo
-            key={video.createdAt + video.submitted_by.handle}
+            key={video.createdAt + video.submittedBy.handle}
             video={video}
           />
         ))
@@ -154,8 +154,8 @@ function CommunityVideoModal({
       <VideoCredits author={video.author} />
       <div className="text-center text-textColor6 leading-160 text-16">
         Posted by{' '}
-        <a href={video.submitted_by.links.profile} className="underline">
-          @{video.submitted_by.handle}
+        <a href={video.submittedBy.links.profile} className="underline">
+          @{video.submittedBy.handle}
         </a>{' '}
         &middot; {video.createdAt}
       </div>

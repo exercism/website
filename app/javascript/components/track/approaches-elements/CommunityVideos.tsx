@@ -152,7 +152,7 @@ function CommunityVideoModal({
   video: CommunityVideo
 }): JSX.Element {
   return (
-    <Modal open={isOpen} onClose={onClose} className="items-center">
+    <Modal open={isOpen} closeButton onClose={onClose} className="items-center">
       <h2 className="text-h2 mb-24 text-center">{video.title}</h2>
       <iframe
         src={video.links.embed}

@@ -76,7 +76,15 @@ export function UploadVideoModal({
   }
 
   return (
-    <Modal open={isOpen} onClose={onClose} ReactModalClassName="max-w-[780px]">
+    <Modal
+      open={isOpen}
+      onClose={() => {
+        onClose()
+        handleClearRetrievedVideo()
+      }}
+      closeButton
+      ReactModalClassName="max-w-[780px]"
+    >
       {renderUploadSteps()}
     </Modal>
   )

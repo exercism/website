@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_29_134810) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_05_100207) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -109,6 +109,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_29_134810) do
     t.string "thumbnail_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "channel_url", null: false
     t.index ["author_id"], name: "index_community_videos_on_author_id"
     t.index ["exercise_id"], name: "index_community_videos_on_exercise_id"
     t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"

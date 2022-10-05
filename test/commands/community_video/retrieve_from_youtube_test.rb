@@ -3,7 +3,7 @@ require "test_helper"
 class CommunityVideo::RetrieveFromYoutubeTest < ActiveSupport::TestCase
   test "gets the data" do
     url = "https://www.youtube.com/watch?v=hFZFjoX2cGg&ab_channel=MarkRober"
-    key = ENV['GOOGLE_API_KEY'] || Exercism.secrets.google_api_key
+    key = ENV.fetch('GOOGLE_API_KEY', Exercism.secrets.google_api_key)
 
     stub_request(:get, "https://www.googleapis.com/youtube/v3/videos?id=hFZFjoX2cGg&part=snippet&key=#{key}").
       to_return(status: 200, body: SUCCESSFUL_RESPONSE, headers: {})

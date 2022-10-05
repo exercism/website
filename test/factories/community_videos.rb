@@ -6,6 +6,7 @@ FactoryBot.define do
     platform { :youtube }
     title { "something interesting" }
     thumbnail_url { "http://the.internet.com" }
+    channel_url { "https://youtube.com/watch/abcdefg" }
     channel_name { "a cool place for squirrels" }
     watch_id { "me-them" }
     embed_id { "me&them" }

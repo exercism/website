@@ -204,6 +204,7 @@ module.exports = {
 
       muddy: '#6E82AA',
       caution: '#955D09',
+      cautionLabel: '#3E2705',
       color22: '#C8D5EF',
 
       commonBadge: 'rgb(var(--commonBadge-RGB))',

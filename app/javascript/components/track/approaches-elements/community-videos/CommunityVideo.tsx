@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { GraphicalIcon, Icon } from '@/components/common'
+import { Avatar, Icon } from '@/components/common'
 import { CommunityVideo } from './types'
 import { CommunityVideoModal } from './CommunityVideoModal'
 
@@ -26,12 +26,12 @@ export function CommunityVideo({
           <div className="flex flex-col">
             <h5 className="text-h5 mb-8">{video.title}</h5>
             <div className="flex flex-row items-center">
-              <GraphicalIcon
-                height={24}
-                width={24}
-                icon="avatar-placeholder"
-                className="mr-8"
-              />
+              {video.author && (
+                <Avatar
+                  src={video.author.avatarUrl}
+                  className="mr-8 h-[24px] w-[24px]"
+                />
+              )}
               <span className="font-semibold text-textColor6 leading-150 text-14">
                 {video.author && video.author.name}
               </span>

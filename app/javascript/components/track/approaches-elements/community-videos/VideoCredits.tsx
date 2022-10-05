@@ -1,4 +1,4 @@
-import { GraphicalIcon, Icon } from '@/components/common'
+import { Avatar, Icon } from '@/components/common'
 import React from 'react'
 import { CommunityVideo } from './types'
 
@@ -7,14 +7,13 @@ export function VideoCredits({
 }: Pick<CommunityVideo, 'author'>): JSX.Element {
   return (
     <div className="mb-24 py-16 px-32 text-textColor6 flex justify-between items-center border-1 border-borderLight2 rounded-16 shadow-sm">
-      {/* <Avatar/> */}
       <div className="grid grid-rows-[24px_24px] grid-cols-[48px_auto] place-items-start gap-x-16">
-        <GraphicalIcon
-          className="row-span-2 col-span-1"
-          icon={'avatar-placeholder'}
-          height={48}
-          width={48}
-        />
+        {author && (
+          <Avatar
+            className="row-span-2 col-span-1 h-[48px] w-[48px]"
+            src={author.avatarUrl}
+          />
+        )}
         <div className="font-semibold text-textColor1 text-18 leading-160 col-span-1 row-span-2 self-center">
           {author && author.name}{' '}
           <span className="text-14 text-textColor6">

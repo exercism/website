@@ -8,7 +8,7 @@
         - community_video.errors.each do |error|
           %li= error.full_message
   %div
-    .text-h6.mb-8 Track: #{community_video.track&.name}
+    .text-h6.mb-8 Track: #{community_video.track&.title}
     .text-h6.mb-8 Exercise: #{community_video.exercise&.title}
     - submitted_by = community_video.submitted_by
     .text-h6.mb-8 Submitted By: #{submitted_by.name} | @#{submitted_by.handle} | ##{submitted_by.id}

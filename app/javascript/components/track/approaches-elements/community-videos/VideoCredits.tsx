@@ -15,12 +15,12 @@ export function VideoCredits({
             src={author.avatarUrl}
           />
         )}
-        <div className="font-semibold text-textColor1 text-18 leading-160 col-span-1 row-span-2 self-center whitespace-nowrap">
-          {author && author.name}{' '}
-          <span className="text-14 text-textColor6">
-            @{author && author.handle}
-          </span>
-        </div>
+        {author && (
+          <div className="font-semibold text-textColor1 text-18 leading-160 col-span-1 row-span-2 self-center whitespace-nowrap">
+            {author.name}&nbsp;
+            <span className="text-14 text-textColor6">@{author.handle}</span>
+          </div>
+        )}
         {/* <div className="text-18 row-span-1 col-span-1 self-center">
           405 subscribers
         </div> */}

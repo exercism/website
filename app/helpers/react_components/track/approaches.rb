@@ -51,7 +51,8 @@ module ReactComponents
             title: video.title,
             created_at: video.created_at,
             links: {
-              video: video.url,
+              watch: video.url,
+              embed: video.embed_url,
               channel: video.channel_url,
               thumbnail: video.thumbnail_url
             }

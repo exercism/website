@@ -9,6 +9,7 @@ class CommunityVideo
     def call
       CommunityVideo.new(
         url:,
+        embed_url:,
         platform: :youtube,
 
         title: snippet["title"],
@@ -23,6 +24,8 @@ class CommunityVideo
     rescue StandardError
       raise InvalidCommunityVideoUrl
     end
+
+    def embed_url = "https://www.youtube.com/embed/#{youtube_id}"
 
     memoize
     def snippet

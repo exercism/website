@@ -19,7 +19,8 @@ export type CommunityVideoUser = {
 export type CommunityVideoPlatform = 'youtube' | 'vimeo'
 
 export type CommunityVideoLinks = {
-  video: string
+  watch: string
+  embed: string
   channel: string
   thumbnail: string
 }
@@ -144,7 +145,7 @@ function CommunityVideoModal({
     <Modal open={isOpen} onClose={onClose} className="items-center">
       <h2 className="text-h2 mb-24 text-center">{video.title}</h2>
       <iframe
-        src={video.links.video}
+        src={video.links.embed}
         height={360}
         width={768}
         frameBorder="0"

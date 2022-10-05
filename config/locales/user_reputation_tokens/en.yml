@@ -17,7 +17,7 @@ en:
         You authored the approach to <strong>%{exercise_title}</strong>
     exercise_approach_introduction_contribution:
       1: >
-        You contributed the approach to <strong>%{exercise_title}</strong>
+        You contributed to the approach to <strong>%{exercise_title}</strong>
     code_contribution:
       1: >
         You created <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>: %{pr_title}

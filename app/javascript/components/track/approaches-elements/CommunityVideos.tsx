@@ -51,19 +51,28 @@ export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
         className="mb-24"
       />
       {videos.length > 0 ? (
-        videos.map((video) => (
-          <CommunityVideo
-            key={video.createdAt + video.submittedBy.handle}
-            video={video}
-          />
-        ))
+        <>
+          {videos.map((video) => (
+            <CommunityVideo
+              key={video.createdAt + video.submittedBy.handle}
+              video={video}
+            />
+          ))}
+          <CommunityVideosFooter onClick={() => setUploadModalOpen(true)} />
+        </>
       ) : (
-        <NoContentYet
-          exerciseTitle={exercise.title}
-          contentType="Community Videos"
-        />
+        <div className="flex items-start">
+          <NoContentYet
+            exerciseTitle={exercise.title}
+            contentType="Community Videos"
+          >
+            Want your video featured here?&nbsp;
+            <button onClick={() => setUploadModalOpen(true)} className="flex">
+              <span className="underline">Submit it here.</span>&nbsp;
+            </button>
+          </NoContentYet>
+        </div>
       )}
-      <CommunityVideosFooter onClick={() => setUploadModalOpen(true)} />
 
       <UploadVideoModal
         isOpen={uploadModalOpen}

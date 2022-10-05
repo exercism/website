@@ -1,4 +1,5 @@
 import React, { createContext } from 'react'
+import { Icon } from '../common'
 import { Track, Exercise } from '../types'
 import {
   ApproachExamples,
@@ -6,6 +7,7 @@ import {
   CommunityVideos,
   CommunityVideosProps,
   DiggingDeeper,
+  NoContentYet,
 } from './approaches-elements'
 
 export type ApproachesProps = {
@@ -37,7 +39,24 @@ export function Approaches({ data }: ApproachesProps): JSX.Element {
         }}
       >
         <div className="col-span-2">
-          <DiggingDeeper introduction={data.introduction} />
+          {data.introduction.html.length > 0 ? (
+            <DiggingDeeper introduction={data.introduction} />
+          ) : (
+            <NoContentYet
+              exerciseTitle={data.exercise.title}
+              contentType={'Introduction notes'}
+            >
+              Want to contribute?&nbsp;
+              <a className="flex" href={data.introduction.links.new}>
+                <span className="underline">You can do it here.</span>&nbsp;
+                <Icon
+                  className="filter-textColor6"
+                  icon={'new-tab'}
+                  alt={'open in a new tab'}
+                />
+              </a>
+            </NoContentYet>
+          )}
           <CommunityVideos videos={data.videos} />
         </div>
         <div className="col-span-1">

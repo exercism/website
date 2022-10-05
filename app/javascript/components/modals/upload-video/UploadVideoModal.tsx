@@ -59,7 +59,9 @@ export function UploadVideoModal({
             <UploadVideoModalHeader videoRetrieved />
             {videoData && (
               <UploadVideoForm
-                onError={() => console.log('error')}
+                onError={() =>
+                  alert('There was an error uploading this video!')
+                }
                 onSuccess={() => setVideoUploadStep('SUCCESS')}
                 onUseDifferentVideoClick={handleClearRetrievedVideo}
                 data={videoData.communityVideo}

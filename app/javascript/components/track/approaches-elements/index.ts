@@ -1,4 +1,6 @@
-export { DiggingDeeper } from './DiggingDeeper'
+export { DiggingDeeper, ApproachIntroduction } from './DiggingDeeper'
 export { ApproachExamples } from './ApproachExamples'
 export { SectionHeader } from './SectionHeader'
-export { CommunityVideos } from './CommunityVideos'
+export { CommunityVideos, CommunityVideosProps } from './CommunityVideos'
+export { NoContentYet } from './NoContentYet'
+export { ApproachSnippet } from './ApproachSnippet'

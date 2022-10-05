@@ -1,20 +1,15 @@
-import React from 'react'
+import { ExerciseTrackContext } from '@/components/track/Approaches'
+import React, { useContext } from 'react'
 import { TrackIcon, ExerciseIcon } from '../../../common'
 type ExerciseTrackIndicatorProps = {
-  exercise: string
-  exerciseIconUrl: string
-  track: string
-  trackIconUrl: string
   videoRetrieved: boolean
 }
 
 export function ExerciseTrackIndicator({
-  exercise,
-  exerciseIconUrl,
-  track,
-  trackIconUrl,
   videoRetrieved,
 }: ExerciseTrackIndicatorProps): JSX.Element {
+  const { exercise, track } = useContext(ExerciseTrackContext)
+
   return (
     <div
       className={`py-8 px-24 bg-gray border-2 border-gradient rounded-100 flex flex-row items-center mb-${
@@ -22,14 +17,16 @@ export function ExerciseTrackIndicator({
       }`}
     >
       <TrackIcon
-        iconUrl={trackIconUrl}
-        title={track}
+        iconUrl={track.iconUrl}
+        title={track.title}
         className="h-[40px], w-[40px] mr-12"
       />
-      <ExerciseIcon iconUrl={exerciseIconUrl} className="h-48 mr-12" />
+      <ExerciseIcon iconUrl={exercise.iconUrl} className="h-48 mr-12" />
       <div className="flex flex-col">
-        <div className="text-h5">{exercise}</div>
-        <div className="textColor-6 font-normal leading-150 text-16">Rust</div>
+        <div className="text-h5">{exercise.title}</div>
+        <div className="textColor-6 font-normal leading-150 text-16">
+          {track.title}
+        </div>
       </div>
     </div>
   )

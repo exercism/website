@@ -19,7 +19,10 @@ export function DiggingDeeper({
     <div className="mb-48">
       <section className="shadow-lgZ1 !py-[18px] mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24">
         <h2 className="mb-8 text-h2">Digging deeper</h2>
-        <div dangerouslySetInnerHTML={{ __html: introduction.html }} />
+        <div
+          className="c-textual-content --small"
+          dangerouslySetInnerHTML={{ __html: introduction.html }}
+        />
       </section>
 
       <DiggingDeeperFooter introduction={introduction} />

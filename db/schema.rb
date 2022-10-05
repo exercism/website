@@ -664,6 +664,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_100207) do
     t.datetime "updated_at", null: false
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
+    t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
     t.boolean "unlocked_help", default: false, null: false
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
@@ -1052,6 +1053,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_100207) do
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
   add_foreign_key "cohorts", "tracks"
+  add_foreign_key "community_videos", "exercises"
+  add_foreign_key "community_videos", "tracks"
   add_foreign_key "community_videos", "users", column: "author_id"
   add_foreign_key "community_videos", "users", column: "submitted_by_id"
   add_foreign_key "contributor_team_memberships", "contributor_teams"

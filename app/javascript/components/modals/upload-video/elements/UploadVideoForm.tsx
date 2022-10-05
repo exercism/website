@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useMutation } from 'react-query'
 import { UploadVideoTextInput, CommunityVideo } from '.'
 import { sendRequest } from '@/utils/send-request'
@@ -10,14 +10,12 @@ type UploadVideoFormProps = {
   data: CommunityVideo
   onUseDifferentVideoClick: () => void
   onSuccess: () => void
-  onError: () => void
 }
 
 export function UploadVideoForm({
   data,
   onUseDifferentVideoClick,
   onSuccess,
-  onError,
 }: UploadVideoFormProps): JSX.Element {
   const { links, track, exercise } = useContext(ApproachesDataContext)
   async function UploadVideo(body: string) {
@@ -29,9 +27,13 @@ export function UploadVideoForm({
     return fetch
   }
 
+  const [uploadError, setUploadError] = useState(false)
+
   const [uploadVideo] = useMutation((body: string) => UploadVideo(body), {
-    onSuccess: () => onSuccess(),
-    onError: () => onError(),
+    onSuccess: () => {
+      onSuccess()
+    },
+    onError: () => setUploadError(true),
   })
 
   const handleSubmitVideo = useCallback(
@@ -88,7 +90,7 @@ export function UploadVideoForm({
 
       <fieldset className="flex flex-row font-body mb-32">
         <legend className="text-label text-btnBorder mb-16">
-          IS THE VIDEO YOURS OR SOMEONE ELSES?
+          IS THE VIDEO YOURS OR SOMEONE ELSE&apos;S?
         </legend>
         <RadioButton
           className="mr-24"
@@ -110,6 +112,12 @@ export function UploadVideoForm({
         Please ensure you have full rights to take credit for the video before
         submitting.
       </div> */}
+
+      {uploadError && (
+        <span className="c-alert--danger text-16 font-body my-16 normal-case">
+          There was an error uploading this video. Please try again!
+        </span>
+      )}
       <div className="flex">
         <button type="submit" className="w-full btn-primary btn-l grow">
           Submit video

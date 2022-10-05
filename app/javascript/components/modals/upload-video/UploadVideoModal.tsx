@@ -28,11 +28,9 @@ export function UploadVideoModal({
   const [videoData, setVideoData] = useState<VideoDataResponse>(null)
   const [videoUploadStep, setVideoUploadStep] =
     useState<UploadStatus>('RETRIEVE')
-  const [videoRetrievalFailure, setVideoRetrievalFailure] = useState(false)
 
   const handleClearRetrievedVideo = useCallback(() => {
     setVideoUploadStep('RETRIEVE')
-    setVideoRetrievalFailure(false)
     setVideoData(null)
   }, [])
 
@@ -43,13 +41,10 @@ export function UploadVideoModal({
           <>
             <UploadVideoModalHeader />
             <RetrieveVideoForm
-              isError={videoRetrievalFailure}
               onSuccess={(data) => {
                 setVideoData(data)
                 setVideoUploadStep('UPLOAD')
-                setVideoRetrievalFailure(false)
               }}
-              onError={() => setVideoRetrievalFailure(true)}
             />
           </>
         )
@@ -59,9 +54,6 @@ export function UploadVideoModal({
             <UploadVideoModalHeader videoRetrieved />
             {videoData && (
               <UploadVideoForm
-                onError={() =>
-                  alert('There was an error uploading this video!')
-                }
                 onSuccess={() => setVideoUploadStep('SUCCESS')}
                 onUseDifferentVideoClick={handleClearRetrievedVideo}
                 data={videoData.communityVideo}

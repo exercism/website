@@ -1,5 +1,5 @@
 import { ApproachesDataContext } from '@/components/track/Approaches'
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useMutation } from 'react-query'
 import { UploadVideoTextInput } from '.'
 import { sendRequest } from '../../../../utils/send-request'
@@ -18,15 +18,11 @@ export type VideoDataResponse =
   | null
 
 type RetrieveVideoForm = {
-  isError: boolean
-  onError: () => void
   onSuccess: (data: VideoDataResponse) => void
 }
 
 export function RetrieveVideoForm({
   onSuccess,
-  onError,
-  isError,
 }: RetrieveVideoForm): JSX.Element {
   const { links } = useContext(ApproachesDataContext)
   async function VerifyVideo(link: string) {
@@ -35,9 +31,11 @@ export function RetrieveVideoForm({
     return fetch
   }
 
+  const [retrievalError, setRetrievalError] = useState(false)
+
   const [verifyVideo] = useMutation((url: any) => VerifyVideo(url), {
     onSuccess: (data: VideoDataResponse) => onSuccess(data),
-    onError: () => onError(),
+    onError: () => setRetrievalError(true),
   })
 
   const handleRetrieveVideo = useCallback(
@@ -55,7 +53,7 @@ export function RetrieveVideoForm({
       <UploadVideoTextInput
         label="PASTE YOUR VIDEO URL (YOUTUBE)"
         name="videoUrl"
-        error={isError}
+        error={retrievalError}
         errorMessage="This link is invalid, please check it again!"
         placeholder="Paste your video here"
       />

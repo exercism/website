@@ -311,6 +311,20 @@ module Git
       assert_equal expected_filepaths, exercise.approaches_absolute_filepaths
     end
 
+    test "approaches_introduction_last_modified_at with approaches introduction" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert_equal Time.zone.utc_to_local(Time.utc(2022, 9, 29, 13, 46, 54)), exercise.approaches_introduction_last_modified_at
+    end
+
+    test "approaches_introduction_last_modified_at without approaches introduction" do
+      exercise = Git::Exercise.new(:leap, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert_nil exercise.approaches_introduction_last_modified_at
+    end
+
     test "retrieves instructions" do
       exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))

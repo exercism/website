@@ -139,6 +139,13 @@ module Git
     end
 
     memoize
+    def approaches_introduction_last_modified_at
+      return unless approaches_introduction_exists?
+
+      repo.file_last_modified_at(approaches_introduction_absolute_filepath)
+    end
+
+    memoize
     def exemplar_files
       exemplar_filepaths.index_with do |filepath|
         read_file_blob(filepath)

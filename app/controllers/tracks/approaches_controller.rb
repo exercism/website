@@ -48,12 +48,13 @@ class Tracks::ApproachesController < ApplicationController
   end
 
   def introduction
+    # TODO: introduce model for approach introduction
     {
       html: Markdown::Parse.(@exercise.approaches_introduction),
       avatar_urls: introduction_avatar_urls,
       num_authors: introduction_num_authors,
       num_contributors: introduction_num_contributors,
-      updated_at: nil, # TODO: figure out last updated date from Git
+      updated_at: @exercise.approaches_introduction_last_modified_at,
       links: {
         new: "https://github.com/exercism/#{@track.slug}/new/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md?filename=introduction.md",
         edit: "https://github.com/exercism/#{@track.slug}/edit/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md"

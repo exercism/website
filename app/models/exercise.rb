@@ -67,7 +67,8 @@ class Exercise < ApplicationRecord
     joins(:track).find_by('tracks.slug': track_slug, slug: exercise_slug)
   end
 
-  delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :approaches_introduction, :source, :source_url, to: :git
+  delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url,
+    :approaches_introduction, :approaches_introduction_last_modified_at, to: :git
   delegate :dir, to: :git, prefix: true
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 

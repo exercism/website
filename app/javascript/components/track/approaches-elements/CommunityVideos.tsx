@@ -6,6 +6,7 @@ import { ApproachesDataContext } from '../Approaches'
 
 export type CommunityVideoUserLinks = {
   profile?: string
+  channel_url?: string
 }
 
 export type CommunityVideoUser = {
@@ -37,7 +38,6 @@ export type CommunityVideosProps = {
 }
 
 export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
-  const [isOpen, setIsOpen] = useState(false)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
   const { exercise } = useContext(ApproachesDataContext)
@@ -50,9 +50,11 @@ export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
         className="mb-24"
       />
       {videos.length > 0 ? (
-        videos.map((i) => (
-          // TODO: Provide proper key once there are videos
-          <CommunityVideo key={i} onClick={() => setIsOpen(true)} />
+        videos.map((video) => (
+          <CommunityVideo
+            key={video.createdAt + video.submitted_by.handle}
+            video={video}
+          />
         ))
       ) : (
         <NoContentYet
@@ -62,8 +64,6 @@ export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
       )}
       <CommunityVideosFooter onClick={() => setUploadModalOpen(true)} />
 
-      <CommunityVideoModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
-
       <UploadVideoModal
         isOpen={uploadModalOpen}
         onClose={() => setUploadModalOpen(false)}
@@ -72,24 +72,24 @@ export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
   )
 }
 
-function CommunityVideo({ onClick }: { onClick: () => void }): JSX.Element {
+function CommunityVideo({ video }: { video: CommunityVideo }): JSX.Element {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <div className="flex">
       <button
-        onClick={onClick}
+        onClick={() => setIsOpen(true)}
         className="flex items-center justify-between bg-white shadow-sm rounded-8 px-20 py-16 mb-16 grow"
       >
         <div className="flex items-center">
           <img
             style={{ objectFit: 'cover', height: '80px', width: '143px' }}
             className="mr-20 rounded-8"
-            src="https://i.ytimg.com/vi/hFZFjoX2cGg/sddefault.jpg"
+            src={video.thumbnailUrl}
             alt="thumbnail"
           />
           <div className="flex flex-col">
-            <h5 className="text-h5 mb-8">
-              Exercism Elixir Track: Community Garden (Agent)
-            </h5>
+            <h5 className="text-h5 mb-8">{video.title}</h5>
             <div className="flex flex-row items-center">
               <GraphicalIcon
                 height={24}
@@ -98,7 +98,7 @@ function CommunityVideo({ onClick }: { onClick: () => void }): JSX.Element {
                 className="mr-8"
               />
               <span className="font-semibold text-textColor6 leading-150 text-14">
-                Erik
+                {video.author && video.author.name}
               </span>
             </div>
           </div>
@@ -110,6 +110,11 @@ function CommunityVideo({ onClick }: { onClick: () => void }): JSX.Element {
           alt={'see video'}
         />
       </button>
+      <CommunityVideoModal
+        isOpen={isOpen}
+        video={video}
+        onClose={() => setIsOpen(false)}
+      />
     </div>
   )
 }
@@ -129,30 +134,36 @@ function CommunityVideosFooter({ onClick }: { onClick: () => void }) {
 function CommunityVideoModal({
   isOpen,
   onClose,
+  video,
 }: {
   isOpen: boolean
   onClose: () => void
+  video: CommunityVideo
 }): JSX.Element {
   return (
     <Modal open={isOpen} onClose={onClose} className="items-center">
-      <h2 className="text-h2 mb-24 text-center">How I Solved TwoFer in Go!</h2>
+      <h2 className="text-h2 mb-24 text-center">{video.title}</h2>
       <iframe
-        src="https://www.youtube.com/watch?v=3elGSZSWTbM&ab_channel=KevinPowell"
+        src={video.url}
         height={360}
         width={768}
         frameBorder="0"
         className="rounded-16 mb-24"
       ></iframe>
 
-      <VideoCredits />
+      <VideoCredits author={video.author} />
       <div className="text-center text-textColor6 leading-160 text-16">
-        Posted by <span className="underline">@ihid</span> &middot; 25 Sep 2022
+        Posted by{' '}
+        <a href={video.submitted_by.links.profile} className="underline">
+          @{video.submitted_by.handle}
+        </a>{' '}
+        &middot; {video.createdAt}
       </div>
     </Modal>
   )
 }
 
-function VideoCredits(): JSX.Element {
+function VideoCredits({ author }: Pick<CommunityVideo, 'author'>): JSX.Element {
   return (
     <div className="mb-24 py-16 px-32 text-textColor6 flex justify-between items-center border-1 border-borderLight2 rounded-16 shadow-sm">
       {/* <Avatar/> */}
@@ -164,7 +175,8 @@ function VideoCredits(): JSX.Element {
           width={48}
         />
         <div className="font-semibold text-textColor1 text-18 leading-160 col-span-1 row-span-1 self-center">
-          Mike Zornek <span className="text-14">@mike</span>
+          {author && author.name}{' '}
+          <span className="text-14">@{author && author.handle}</span>
         </div>
         <div className="text-18 row-span-1 col-span-1 self-center">
           405 subscribers
@@ -172,17 +184,27 @@ function VideoCredits(): JSX.Element {
       </div>
 
       <div className="underline font-semibold leading-150 text-14 flex items-center">
-        <a href="" className="mr-32">
-          Exercism Profile
-        </a>
-        <a href="" className="flex">
-          YouTube Channel&nbsp;
-          <Icon
-            className="filter-textColor6 ml-12"
-            icon={'new-tab'}
-            alt={'open in new tab'}
-          />
-        </a>
+        {author && author.links.profile && (
+          <a href={author.links.profile} className="mr-32">
+            Exercism Profile
+          </a>
+        )}
+
+        {author && author.links.channel_url && (
+          <a
+            href={author.links.channel_url}
+            target="_blank"
+            rel="noreferrer"
+            className="flex"
+          >
+            YouTube Channel&nbsp;
+            <Icon
+              className="filter-textColor6 ml-12"
+              icon={'new-tab'}
+              alt={'open in new tab'}
+            />
+          </a>
+        )}
       </div>
     </div>
   )

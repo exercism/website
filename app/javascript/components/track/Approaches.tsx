@@ -27,7 +27,6 @@ export const ApproachesDataContext = createContext<ApproachesDataContext>(
 )
 
 export function Approaches({ data }: ApproachesProps): JSX.Element {
-  console.log(data)
   return (
     <div className="lg-container grid grid-cols-3 gap-40">
       <ApproachesDataContext.Provider

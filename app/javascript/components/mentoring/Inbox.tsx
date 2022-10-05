@@ -12,7 +12,6 @@ import {
 import { ResultsZone } from '../ResultsZone'
 import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { MentorDiscussion, DiscussionStatus } from '../types'
-import { UploadVideoModal } from '../modals/upload-video'
 
 export type SortOption = {
   value: string
@@ -91,7 +90,6 @@ export const Inbox = ({
 
   return (
     <div className="c-mentor-inbox">
-      <UploadVideoModal isOpen={true} />
       <div className="tabs">
         <StatusTab<DiscussionStatus>
           status="awaiting_mentor"

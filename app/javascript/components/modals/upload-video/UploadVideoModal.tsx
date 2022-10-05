@@ -23,7 +23,7 @@ type UploadStatus = keyof typeof UploadSteps
 
 export function UploadVideoModal({
   isOpen,
-  onClose = () => console.log('closed'),
+  onClose,
 }: UploadVideoModalProps): JSX.Element {
   const [videoData, setVideoData] = useState<VideoDataResponse>(null)
   const [videoUploadStep, setVideoUploadStep] =

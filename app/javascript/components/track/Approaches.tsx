@@ -18,6 +18,7 @@ export type ApproachesProps = {
 type ApproachesDataContext = {
   track: Track
   exercise: Exercise
+  links: { video: { create: string; lookup: string } }
 }
 
 export const ApproachesDataContext = createContext<ApproachesDataContext>(
@@ -29,7 +30,11 @@ export function Approaches({ data }: ApproachesProps): JSX.Element {
   return (
     <div className="lg-container grid grid-cols-3 gap-40">
       <ApproachesDataContext.Provider
-        value={{ exercise: data.exercise, track: data.track }}
+        value={{
+          exercise: data.exercise,
+          track: data.track,
+          links: data.links,
+        }}
       >
         <div className="col-span-2">
           <DiggingDeeper introduction={data.introduction} />

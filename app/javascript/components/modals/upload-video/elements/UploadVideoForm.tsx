@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { useMutation } from 'react-query'
 import { UploadVideoTextInput, CommunityVideo } from '.'
 import { sendRequest } from '@/utils/send-request'
 import { Icon } from '@/components/common'
 import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
+import { ApproachesDataContext } from '@/components/track/Approaches'
 
 type UploadVideoFormProps = {
   data: CommunityVideo
@@ -18,9 +19,13 @@ export function UploadVideoForm({
   onSuccess,
   onError,
 }: UploadVideoFormProps): JSX.Element {
+  const { links, track, exercise } = useContext(ApproachesDataContext)
   async function UploadVideo(body: string) {
-    const URL = '/api/v2/community_videos'
-    const { fetch } = sendRequest({ endpoint: URL, body, method: 'POST' })
+    const { fetch } = sendRequest({
+      endpoint: links.video.create,
+      body,
+      method: 'POST',
+    })
     return fetch
   }
 
@@ -36,10 +41,16 @@ export function UploadVideoForm({
       if (data.get('submitter_is_author') === 'false') {
         data.delete('submitter_is_author')
       }
-      console.log(Object.fromEntries(data.entries()))
-      uploadVideo(JSON.stringify(Object.fromEntries(data.entries())))
+
+      uploadVideo(
+        JSON.stringify({
+          ...Object.fromEntries(data.entries()),
+          track_slug: track.slug,
+          exercise_slug: exercise.slug,
+        })
+      )
     },
-    [uploadVideo]
+    [exercise.slug, track.slug, uploadVideo]
   )
   return (
     <form onSubmit={handleSubmitVideo}>

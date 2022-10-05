@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import { ApproachesDataContext } from '@/components/track/Approaches'
+import React, { useCallback, useContext } from 'react'
 import { useMutation } from 'react-query'
 import { UploadVideoTextInput } from '.'
 import { sendRequest } from '../../../../utils/send-request'
@@ -27,8 +28,9 @@ export function RetrieveVideoForm({
   onError,
   isError,
 }: RetrieveVideoForm): JSX.Element {
+  const { links } = useContext(ApproachesDataContext)
   async function VerifyVideo(link: string) {
-    const URL = `/api/v2/community_videos/lookup?video_url=${link}`
+    const URL = `${links.video.lookup}?video_url=${link}`
     const { fetch } = sendRequest({ endpoint: URL, body: null, method: 'GET' })
     return fetch
   }

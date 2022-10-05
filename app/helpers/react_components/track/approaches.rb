@@ -23,7 +23,8 @@ module ReactComponents
       def exercise_data
         {
           icon_url: exercise.icon_url,
-          title: exercise.title
+          title: exercise.title,
+          slug: exercise.slug
         }
       end
 

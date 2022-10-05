@@ -6,7 +6,7 @@ export function VideoCredits({
   author,
 }: Pick<CommunityVideo, 'author'>): JSX.Element {
   return (
-    <div className="mb-24 py-16 px-32 text-textColor6 flex justify-between items-center border-1 border-borderLight2 rounded-16 shadow-sm">
+    <div className="mb-24 py-16 px-32 text-textColor6 flex justify-between items-center border-1 border-borderLight2 rounded-16 shadow-sm md:flex-row flex-col">
       <div className="grid grid-rows-[24px_24px] grid-cols-[48px_auto] place-items-start gap-x-16">
         {author && (
           <Avatar
@@ -14,7 +14,7 @@ export function VideoCredits({
             src={author.avatarUrl}
           />
         )}
-        <div className="font-semibold text-textColor1 text-18 leading-160 col-span-1 row-span-2 self-center">
+        <div className="font-semibold text-textColor1 text-18 leading-160 col-span-1 row-span-2 self-center whitespace-nowrap">
           {author && author.name}{' '}
           <span className="text-14 text-textColor6">
             @{author && author.handle}
@@ -25,7 +25,7 @@ export function VideoCredits({
         </div> */}
       </div>
 
-      <div className="underline font-semibold leading-150 text-14 flex items-center">
+      <div className="underline font-semibold leading-150 text-14 flex items-center mt-8 md:mt-0">
         {author && author.links.profile && (
           <a href={author.links.profile} className="mr-32">
             Exercism Profile

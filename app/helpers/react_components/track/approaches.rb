@@ -52,7 +52,7 @@ module ReactComponents
             created_at: video.created_at,
             links: {
               video: video.url,
-              # channel: video.channel_url, # TODO
+              channel: video.channel_url,
               thumbnail: video.thumbnail_url
             }
           }

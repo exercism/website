@@ -20,7 +20,7 @@ export type CommunityVideoPlatform = 'youtube' | 'vimeo'
 
 export type CommunityVideoLinks = {
   video: string
-  // channel: string # TODO
+  channel: string
   thumbnail: string
 }
 

@@ -110,13 +110,13 @@ FactoryBot.define do
     end
   end
 
-  factory :user_exercise_approach_introduction_contributor_reputation_token,
-    class: 'User::ReputationTokens::ExerciseApproachIntroductionContributorToken' do
+  factory :user_exercise_approach_introduction_contribution_reputation_token,
+    class: 'User::ReputationTokens::ExerciseApproachIntroductionContributionToken' do
     user
 
     params do
       {
-        authorship: create(:exercise_approach_introduction_contributorship, author: user)
+        contributorship: create(:exercise_approach_introduction_contributorship, contributor: user)
       }
     end
   end

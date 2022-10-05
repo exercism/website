@@ -16,6 +16,8 @@ class CommunityVideo
         embed_id: youtube_id,
 
         channel_name: snippet["channelTitle"],
+        channel_url: "https://www.youtube.com/channel/#{snippet['channelId']}",
+
         thumbnail_url: snippet["thumbnails"]["standard"]["url"]
       )
     rescue StandardError

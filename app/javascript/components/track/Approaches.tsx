@@ -4,10 +4,10 @@ import {
   ApproachExamples,
   ApproachIntroduction,
   CommunityVideos,
-  CommunityVideosProps,
   DiggingDeeper,
   NoIntroductionYet,
 } from './approaches-elements'
+import { CommunityVideosProps } from './approaches-elements/community-videos/types'
 
 export type ApproachesProps = {
   data: {
@@ -27,6 +27,7 @@ export const ApproachesDataContext = createContext<ApproachesDataContext>(
 )
 
 export function Approaches({ data }: ApproachesProps): JSX.Element {
+  console.log(data)
   return (
     <div className="lg-container grid grid-cols-3 gap-40">
       <ApproachesDataContext.Provider

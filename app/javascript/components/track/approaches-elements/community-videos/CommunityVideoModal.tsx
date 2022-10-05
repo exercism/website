@@ -29,7 +29,7 @@ export function CommunityVideoModal({
         ></iframe>
       </div>
 
-      <VideoCredits author={video.author} />
+      <VideoCredits links={video.links} author={video.author} />
       <div className="text-center text-textColor6 leading-160 text-16">
         Posted by{' '}
         <a href={video.submittedBy.links.profile} className="underline">

@@ -4,7 +4,8 @@ import { CommunityVideo } from './types'
 
 export function VideoCredits({
   author,
-}: Pick<CommunityVideo, 'author'>): JSX.Element {
+  links,
+}: Pick<CommunityVideo, 'author' | 'links'>): JSX.Element {
   return (
     <div className="mb-24 py-16 px-32 text-textColor6 flex justify-between items-center border-1 border-borderLight2 rounded-16 shadow-sm md:flex-row flex-col">
       <div className="grid grid-rows-[24px_24px] grid-cols-[48px_auto] place-items-start gap-x-16">
@@ -32,9 +33,9 @@ export function VideoCredits({
           </a>
         )}
 
-        {author && author.links.channel_url && (
+        {links.channel.length > 0 && (
           <a
-            href={author.links.channel_url}
+            href={links.channel}
             target="_blank"
             rel="noreferrer"
             className="flex"

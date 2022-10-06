@@ -207,6 +207,7 @@
 @import "./pages/track-index";
 @import "./pages/track-show";
 @import "./pages/track-about";
+@import "./pages/track-build";
 @import "./pages/mentoring/external-request";
 @import "./pages/mentoring/external";
 @import "./pages/mentoring/inbox";

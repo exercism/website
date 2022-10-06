@@ -12,6 +12,12 @@ en:
     concept_contribution:
       1: >
         You contributed to <strong>%{concept_name}</strong>
+    exercise_approach_introduction_author:
+      1: >
+        You authored the approach to <strong>%{exercise_title}</strong>
+    exercise_approach_introduction_contribution:
+      1: >
+        You contributed to the approach to <strong>%{exercise_title}</strong>
     code_contribution:
       1: >
         You created <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>: %{pr_title}

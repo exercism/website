@@ -27,10 +27,10 @@ module ViewComponents
                   class: tab_class(:overview)
                 ),
 
-                (iterations_tab unless user_track.external?),
+                (iterations_tab if show_iterations_tab?),
                 (approaches_tab if show_approaches_tab?),
-                (community_solutions_tab unless exercise.tutorial?),
-                (mentoring_tab unless user_track.external? || exercise.tutorial?)
+                (community_solutions_tab if show_community_solutions_tab?),
+                (mentoring_tab if show_mentoring_tab?)
               ]
             )
           end + editor_btn
@@ -58,14 +58,15 @@ module ViewComponents
 
       def approaches_tab
         parts = [
-          graphical_icon('community-solutions'), # TODO: Aron
+          graphical_icon('dig-deeper'),
           tag.span("Dig Deeper", "data-text": "Dig Deeper")
         ]
         lockable_tab(
           safe_join(parts),
           Exercism::Routes.track_exercise_approaches_path(track, exercise),
           :approaches,
-          approaches_tab_locked?
+          approaches_tab_locked?,
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_approaches_path(track, exercise))
         )
       end
 
@@ -78,7 +79,8 @@ module ViewComponents
           safe_join(parts),
           Exercism::Routes.track_exercise_solutions_path(track, exercise),
           :community_solutions,
-          solutions_tab_locked?
+          solutions_tab_locked?,
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_solutions_path(track, exercise))
         )
       end
 
@@ -96,15 +98,30 @@ module ViewComponents
           safe_join(parts),
           Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
           :mentoring,
-          mentoring_tab_locked?
+          mentoring_tab_locked?,
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_mentor_discussions_path(track, exercise))
         )
       end
 
-      def lockable_tab(html, href, class_name, locked)
+      def show_iterations_tab? = !user_track.external?
+      def show_approaches_tab? = !exercise.tutorial? && !!user&.can_view_approaches?
+      def show_community_solutions_tab? = !exercise.tutorial?
+      def show_mentoring_tab? = !user_track.external? && !exercise.tutorial?
+
+      def lockable_tab(html, href, class_name, locked, locked_attrs = {})
         css_class = tab_class(class_name, locked:)
 
-        locked ? tag.div(html, class: css_class) :
+        locked ? tag.div(html, class: css_class, 'aria-label': 'This tab is locked', **locked_attrs) :
           link_to(html, href, class: css_class)
+      end
+
+      def locked_tab_tooltip_attrs(endpoint)
+        {
+          'data-tooltip-type': 'automation-locked',
+          'data-endpoint': endpoint,
+          'data-placement': 'bottom',
+          'data-interactive': true
+        }
       end
 
       def tab_class(tab, locked: false)
@@ -116,32 +133,20 @@ module ViewComponents
       end
 
       memoize
-      def track
-        user_track.track
-      end
+      def track = user_track.track
 
       memoize
-      def show_approaches_tab?
-        false # TODO: @erikschierboom
-      end
+      def user = user_track.user
 
-      memoize
-      def approaches_tab_locked?
-        solutions_tab_locked?
-      end
+      # TODO: re-enable once unlocked_help is populated
+      # def approaches_tab_locked? = !user_track.external? && !solution&.unlocked_help?
+      def approaches_tab_locked? = !user_track.external? && !solution&.iterated?
 
-      memoize
-      def solutions_tab_locked?
-        return false if user_track.external?
+      # TODO: re-enable once unlocked_help is populated
+      # def solutions_tab_locked? = !user_track.external? && !solution&.unlocked_help?
+      def solutions_tab_locked? = !user_track.external? && !solution&.iterated?
 
-        # TODO: @erikschierboom
-        mentoring_tab_locked?
-      end
-
-      memoize
-      def mentoring_tab_locked?
-        !@solution&.iterated?
-      end
+      def mentoring_tab_locked? = !user_track.external? && !solution&.iterated?
     end
   end
 end

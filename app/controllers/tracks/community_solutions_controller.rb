@@ -6,12 +6,20 @@ class Tracks::CommunitySolutionsController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
+    return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
+
+    # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
+
     @solutions = Solution::SearchCommunitySolutions.(@exercise)
     @endpoint = Exercism::Routes.api_track_exercise_community_solutions_url(@track, @exercise)
     @unscoped_total = @exercise.num_published_solutions
   end
 
   def show
+    return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
+
+    # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
+
     begin
       @solution = User.find_by!(handle: params[:id]).
         solutions.published.find_by!(exercise_id: @exercise.id)
@@ -34,4 +42,6 @@ class Tracks::CommunitySolutionsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
+  def tooltip_locked = render_template_as_json
 end

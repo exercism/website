@@ -99,6 +99,28 @@ FactoryBot.define do
     end
   end
 
+  factory :user_exercise_approach_introduction_author_reputation_token,
+    class: 'User::ReputationTokens::ExerciseApproachIntroductionAuthorToken' do
+    user
+
+    params do
+      {
+        authorship: create(:exercise_approach_introduction_authorship, author: user)
+      }
+    end
+  end
+
+  factory :user_exercise_approach_introduction_contribution_reputation_token,
+    class: 'User::ReputationTokens::ExerciseApproachIntroductionContributionToken' do
+    user
+
+    params do
+      {
+        contributorship: create(:exercise_approach_introduction_contributorship, contributor: user)
+      }
+    end
+  end
+
   factory :user_mentored_reputation_token, class: 'User::ReputationTokens::MentoredToken' do
     user
 

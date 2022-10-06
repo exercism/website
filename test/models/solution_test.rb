@@ -707,4 +707,10 @@ class SolutionTest < ActiveSupport::TestCase
       solution.update!(published_at: Time.current)
     end
   end
+
+  test "unlocked_help is false by default" do
+    solution = create :practice_solution
+
+    refute solution.unlocked_help?
+  end
 end

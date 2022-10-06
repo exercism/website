@@ -12,6 +12,6 @@ class CommunityVideo < ApplicationRecord
   def platform = super.to_sym
 
   after_save_commit do
-    Rails.logger.info "STATUS CHANGED" if previous_changes.key?("status")
+    Exercise::UpdateHasApproaches.defer(exercise) if previous_changes.key?("status") && exercise.present?
   end
 end

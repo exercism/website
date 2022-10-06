@@ -41,6 +41,22 @@ class Exercise < ApplicationRecord
     through: :contributorships,
     source: :contributor
 
+  has_many :approach_introduction_authorships,
+    class_name: "Exercise::Approaches::IntroductionAuthorship",
+    inverse_of: :exercise,
+    dependent: :destroy
+  has_many :approach_introduction_authors,
+    through: :approach_introduction_authorships,
+    source: :author
+
+  has_many :approach_introduction_contributorships,
+    class_name: "Exercise::Approaches::IntroductionContributorship",
+    inverse_of: :exercise,
+    dependent: :destroy
+  has_many :approach_introduction_contributors,
+    through: :approach_introduction_contributorships,
+    source: :contributor
+
   scope :sorted, -> { order(:position) }
 
   scope :without_prerequisites, lambda {
@@ -51,7 +67,8 @@ class Exercise < ApplicationRecord
     joins(:track).find_by('tracks.slug': track_slug, slug: exercise_slug)
   end
 
-  delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url, to: :git
+  delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url,
+    :approaches_introduction, :approaches_introduction_last_modified_at, to: :git
   delegate :dir, to: :git, prefix: true
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 

@@ -10,6 +10,8 @@ module Git
     git_filepath :introduction, file: ".docs/introduction.md", append_file: ".docs/introduction.append.md"
     git_filepath :instructions_append, file: ".docs/instructions.append.md"
     git_filepath :introduction_append, file: ".docs/introduction.append.md"
+    git_filepath :approaches_introduction, file: ".approaches/introduction.md"
+    git_filepath :approaches_config, file: ".approaches/config.json"
     git_filepath :hints, file: ".docs/hints.md"
     git_filepath :config, file: ".meta/config.json"
 
@@ -122,6 +124,28 @@ module Git
     end
 
     memoize
+    def approaches_config_introduction
+      approaches_config[:introduction].to_h
+    end
+
+    memoize
+    def approaches_introduction_authors
+      approaches_config_introduction[:authors].to_a
+    end
+
+    memoize
+    def approaches_introduction_contributors
+      approaches_config_introduction[:contributors].to_a
+    end
+
+    memoize
+    def approaches_introduction_last_modified_at
+      return unless approaches_introduction_exists?
+
+      repo.file_last_modified_at(approaches_introduction_absolute_filepath)
+    end
+
+    memoize
     def exemplar_files
       exemplar_filepaths.index_with do |filepath|
         read_file_blob(filepath)
@@ -174,7 +198,8 @@ module Git
     memoize
     def tooling_filepaths
       filepaths.reject do |filepath|
-        filepath.starts_with?(".docs/")
+        filepath.starts_with?(".docs/") ||
+          filepath.starts_with?(".approaches/")
       end
     end
 
@@ -220,6 +245,7 @@ module Git
       filtered_filepaths = filepaths.select do |filepath|
         next if filepath.start_with?('.docs/')
         next if filepath.start_with?('.meta/')
+        next if filepath.start_with?('.approaches/')
         next if example_filepaths.include?(filepath)
         next if exemplar_filepaths.include?(filepath)
 
@@ -227,6 +253,19 @@ module Git
       end
 
       special_filepaths.concat(filtered_filepaths)
+    end
+
+    memoize
+    def approaches_filepaths
+      [
+        approaches_introduction_filepath,
+        approaches_config_filepath
+      ]
+    end
+
+    memoize
+    def approaches_absolute_filepaths
+      approaches_filepaths.map { |filepath| absolute_filepath(filepath) }
     end
 
     def read_file_blob(filepath)

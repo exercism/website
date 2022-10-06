@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_05_100207) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_05_115713) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -110,6 +110,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_100207) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "channel_url", null: false
+    t.string "embed_url", null: false
     t.index ["author_id"], name: "index_community_videos_on_author_id"
     t.index ["exercise_id"], name: "index_community_videos_on_exercise_id"
     t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"
@@ -179,6 +180,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_100207) do
     t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["stripe_id"], name: "index_donations_subscriptions_on_stripe_id", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
+  end
+
+  create_table "exercise_approach_introduction_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "user_id"], name: "index_exercise_approach_intro_authors_on_exercise_and_user", unique: true
+    t.index ["exercise_id"], name: "index_exercise_approach_introduction_authorships_on_exercise_id"
+    t.index ["user_id"], name: "index_exercise_approach_introduction_authorships_on_user_id"
+  end
+
+  create_table "exercise_approach_introduction_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "user_id"], name: "index_exercise_approach_intro_contris_on_exercise_and_user", unique: true
+    t.index ["exercise_id"], name: "index_exercise_approach_intro_contributorships_on_exercise_id"
+    t.index ["user_id"], name: "index_exercise_approach_introduction_contributorships_on_user_id"
   end
 
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -284,6 +305,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_100207) do
     t.datetime "updated_at", null: false
     t.boolean "has_test_runner", default: false, null: false
     t.integer "num_published_solutions", default: 0, null: false
+    t.boolean "has_approaches", default: false, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
@@ -643,6 +665,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_100207) do
     t.datetime "updated_at", null: false
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
+    t.boolean "unlocked_help", default: false, null: false
     t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
@@ -1042,6 +1065,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_100207) do
   add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
   add_foreign_key "donations_payments", "users"
   add_foreign_key "donations_subscriptions", "users"
+  add_foreign_key "exercise_approach_introduction_authorships", "exercises"
+  add_foreign_key "exercise_approach_introduction_authorships", "users"
+  add_foreign_key "exercise_approach_introduction_contributorships", "exercises"
+  add_foreign_key "exercise_approach_introduction_contributorships", "users"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"

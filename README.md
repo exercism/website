@@ -115,13 +115,12 @@ For information on setting up WSL, check [the installation instructions](https:/
 
 ## Rails Console
 
-The Rails 7 console has autocomplete that can be very frustrating. 
+The Rails 7 console has autocomplete that can be very frustrating.
 To disable it, do the following:
 
 ```
 echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc
 ```
-
 
 ## Code Standards
 

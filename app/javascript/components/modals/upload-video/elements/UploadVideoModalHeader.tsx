@@ -1,6 +1,11 @@
 import React from 'react'
+import { ExerciseTrackIndicator } from './ExerciseTrackIndicator'
 
-export function UploadVideoModalHeader(): JSX.Element {
+export function UploadVideoModalHeader({
+  videoRetrieved = false,
+}: {
+  videoRetrieved?: boolean
+}): JSX.Element {
   return (
     <>
       <h2 className="text-h2 mb-8">Submit a community workthrough</h2>
@@ -12,6 +17,7 @@ export function UploadVideoModalHeader(): JSX.Element {
           and approve it.
         </strong>
       </p>
+      <ExerciseTrackIndicator videoRetrieved={videoRetrieved} />
     </>
   )
 }

@@ -9,6 +9,7 @@ class CommunityVideo
     def call
       CommunityVideo.new(
         url:,
+        embed_url:,
         platform: :youtube,
 
         title: snippet["title"],
@@ -23,6 +24,8 @@ class CommunityVideo
     rescue StandardError
       raise InvalidCommunityVideoUrl
     end
+
+    def embed_url = "https://www.youtube.com/embed/#{youtube_id}"
 
     memoize
     def snippet
@@ -42,7 +45,7 @@ class CommunityVideo
 
     memoize
     def api_url
-      api_key = Exercism.secrets.google_api_key
+      api_key = ENV.fetch('GOOGLE_API_KEY', Exercism.secrets.google_api_key)
       "https://www.googleapis.com/youtube/v3/videos?id=#{youtube_id}&part=snippet&key=#{api_key}"
     end
   end

@@ -3,6 +3,7 @@ FactoryBot.define do
     submitted_by { create :user }
 
     url { "https://youtube.com/watch?v=me" }
+    embed_url { "https://youtube.com/embed/me" }
     platform { :youtube }
     title { "something interesting" }
     thumbnail_url { "http://the.internet.com" }

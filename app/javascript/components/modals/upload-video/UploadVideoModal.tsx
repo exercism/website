@@ -5,7 +5,6 @@ import {
   RetrieveVideoForm,
   UploadVideoModalHeader,
   VideoDataResponse,
-  ExerciseTrackIndicator,
 } from './elements'
 import { ThanksForSubmitting } from './ThanksForSubmitting'
 
@@ -24,16 +23,14 @@ type UploadStatus = keyof typeof UploadSteps
 
 export function UploadVideoModal({
   isOpen,
-  onClose = () => console.log('closed'),
+  onClose,
 }: UploadVideoModalProps): JSX.Element {
   const [videoData, setVideoData] = useState<VideoDataResponse>(null)
   const [videoUploadStep, setVideoUploadStep] =
     useState<UploadStatus>('RETRIEVE')
-  const [videoRetrievalFailure, setVideoRetrievalFailure] = useState(false)
 
   const handleClearRetrievedVideo = useCallback(() => {
     setVideoUploadStep('RETRIEVE')
-    setVideoRetrievalFailure(false)
     setVideoData(null)
   }, [])
 
@@ -43,38 +40,20 @@ export function UploadVideoModal({
         return (
           <>
             <UploadVideoModalHeader />
-            <ExerciseTrackIndicator
-              exercise="Amusement Park"
-              exerciseIconUrl="https://dg8krxphbh767.cloudfront.net/exercises/amusement-park.svg"
-              track="Rust"
-              trackIconUrl="https://dg8krxphbh767.cloudfront.net/tracks/rust.svg"
-              videoRetrieved={false}
-            />
             <RetrieveVideoForm
-              isError={videoRetrievalFailure}
               onSuccess={(data) => {
                 setVideoData(data)
                 setVideoUploadStep('UPLOAD')
-                setVideoRetrievalFailure(false)
               }}
-              onError={() => setVideoRetrievalFailure(true)}
             />
           </>
         )
       case 'UPLOAD':
         return (
           <>
-            <UploadVideoModalHeader />
-            <ExerciseTrackIndicator
-              exercise="Amusement Park"
-              exerciseIconUrl="https://dg8krxphbh767.cloudfront.net/exercises/amusement-park.svg"
-              track="Rust"
-              trackIconUrl="https://dg8krxphbh767.cloudfront.net/tracks/rust.svg"
-              videoRetrieved={true}
-            />
+            <UploadVideoModalHeader videoRetrieved />
             {videoData && (
               <UploadVideoForm
-                onError={() => console.log('error')}
                 onSuccess={() => setVideoUploadStep('SUCCESS')}
                 onUseDifferentVideoClick={handleClearRetrievedVideo}
                 data={videoData.communityVideo}
@@ -89,7 +68,15 @@ export function UploadVideoModal({
   }
 
   return (
-    <Modal open={isOpen} onClose={onClose} ReactModalClassName="max-w-[780px]">
+    <Modal
+      open={isOpen}
+      onClose={() => {
+        onClose()
+        handleClearRetrievedVideo()
+      }}
+      closeButton
+      ReactModalClassName="max-w-[780px]"
+    >
       {renderUploadSteps()}
     </Modal>
   )

@@ -1,32 +1,39 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useMutation } from 'react-query'
 import { UploadVideoTextInput, CommunityVideo } from '.'
-import { sendRequest } from '../../../../utils/send-request'
-import { Icon } from '../../../common'
-import RadioButton from '../../../mentoring/representation/right-pane/RadioButton'
+import { sendRequest } from '@/utils/send-request'
+import { Icon } from '@/components/common'
+import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
+import { ApproachesDataContext } from '@/components/track/Approaches'
 
 type UploadVideoFormProps = {
   data: CommunityVideo
   onUseDifferentVideoClick: () => void
   onSuccess: () => void
-  onError: () => void
 }
 
 export function UploadVideoForm({
   data,
   onUseDifferentVideoClick,
   onSuccess,
-  onError,
 }: UploadVideoFormProps): JSX.Element {
+  const { links, track, exercise } = useContext(ApproachesDataContext)
   async function UploadVideo(body: string) {
-    const URL = '/api/v2/community_videos'
-    const { fetch } = sendRequest({ endpoint: URL, body, method: 'POST' })
+    const { fetch } = sendRequest({
+      endpoint: links.video.create,
+      body,
+      method: 'POST',
+    })
     return fetch
   }
 
+  const [uploadError, setUploadError] = useState(false)
+
   const [uploadVideo] = useMutation((body: string) => UploadVideo(body), {
-    onSuccess: () => onSuccess(),
-    onError: () => onError(),
+    onSuccess: () => {
+      onSuccess()
+    },
+    onError: () => setUploadError(true),
   })
 
   const handleSubmitVideo = useCallback(
@@ -36,10 +43,16 @@ export function UploadVideoForm({
       if (data.get('submitter_is_author') === 'false') {
         data.delete('submitter_is_author')
       }
-      console.log(Object.fromEntries(data.entries()))
-      uploadVideo(JSON.stringify(Object.fromEntries(data.entries())))
+
+      uploadVideo(
+        JSON.stringify({
+          ...Object.fromEntries(data.entries()),
+          track_slug: track.slug,
+          exercise_slug: exercise.slug,
+        })
+      )
     },
-    [uploadVideo]
+    [exercise.slug, track.slug, uploadVideo]
   )
   return (
     <form onSubmit={handleSubmitVideo}>
@@ -62,7 +75,7 @@ export function UploadVideoForm({
 
       <UploadVideoTextInput
         name="video_url"
-        label="PASTE YOUR VIDEO URL (YOUTUBE / VIMEO)"
+        label="PASTE YOUR VIDEO URL (YOUTUBE)"
         defaultValue={data.url}
         readOnly
       />
@@ -70,13 +83,14 @@ export function UploadVideoForm({
       <UploadVideoTextInput
         name="title"
         label="Video title"
+        placeholder="Enter the video title"
         className="mb-24"
         defaultValue={data.title}
       />
 
       <fieldset className="flex flex-row font-body mb-32">
         <legend className="text-label text-btnBorder mb-16">
-          IS THE VIDEO YOURS OR SOMEONE ELSES?
+          IS THE VIDEO YOURS OR SOMEONE ELSE&apos;S?
         </legend>
         <RadioButton
           className="mr-24"
@@ -98,6 +112,12 @@ export function UploadVideoForm({
         Please ensure you have full rights to take credit for the video before
         submitting.
       </div> */}
+
+      {uploadError && (
+        <span className="c-alert--danger text-16 font-body my-16 normal-case">
+          There was an error uploading this video. Please try again!
+        </span>
+      )}
       <div className="flex">
         <button type="submit" className="w-full btn-primary btn-l grow">
           Submit video

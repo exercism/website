@@ -1,6 +1,7 @@
 declare module 'reconnecting-websocket' {
   interface ReconnectingWebsocket extends WebSocket {
     [key: string]: any
+    // eslint-disable-next-line @typescript-eslint/no-misused-new
     new (
       url: string | (() => string),
       protocols?: string | Array<string>,

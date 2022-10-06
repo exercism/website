@@ -2,6 +2,8 @@ class BadgeCriteriaNotFulfilledError < RuntimeError; end
 
 class DuplicateSubmissionError < RuntimeError; end
 
+class DuplicateVideoError < RuntimeError; end
+
 class ExerciseLockedError < RuntimeError; end
 
 class InvalidTrackSlugsError < RuntimeError

@@ -35,6 +35,8 @@ module API
       render json: {}
     rescue InvalidCommunityVideoUrl
       render_400(:invalid_community_video_url)
+    rescue DuplicateVideoError
+      render_400(:duplicate_video)
     end
   end
 end

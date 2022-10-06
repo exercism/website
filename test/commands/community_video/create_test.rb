@@ -39,4 +39,24 @@ class CommunityVideo::CreateTest < ActiveSupport::TestCase
     assert video.persisted?
     assert_equal title, video.title
   end
+
+  test "raises when video already exists" do
+    url = mock
+    exercise = create :practice_exercise
+    video = create :community_video, url: url, exercise: exercise
+    retrieved_video = build :community_video, url: url, exercise: exercise
+
+    CommunityVideo::Retrieve.expects(:call).with(video.url).returns(retrieved_video)
+
+    assert_raises(DuplicateVideoError) do
+      CommunityVideo::Create.(
+        retrieved_video.url,
+        retrieved_video.submitted_by,
+        title: retrieved_video.title,
+        author: retrieved_video.author,
+        track: retrieved_video.exercise.track,
+        exercise: retrieved_video.exercise
+      )
+    end
+  end
 end

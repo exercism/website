@@ -10,8 +10,8 @@ class Exercise::UpdateHasApproachesTest < ActiveSupport::TestCase
     refute exercise.reload.has_approaches?
 
     # Non-approved videos don't count
-    create :community_video, exercise: exercise, status: :pending
-    create :community_video, exercise: exercise, status: :rejected
+    create :community_video, exercise: exercise, watch_id: 'abc', status: :pending
+    create :community_video, exercise: exercise, watch_id: 'bdef', status: :rejected
 
     Exercise::UpdateHasApproaches.(exercise)
 

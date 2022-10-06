@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_06_094545) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_06_115400) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -115,6 +115,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_094545) do
     t.index ["exercise_id"], name: "index_community_videos_on_exercise_id"
     t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"
     t.index ["track_id"], name: "index_community_videos_on_track_id"
+    t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true
   end
 
   create_table "contributor_team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

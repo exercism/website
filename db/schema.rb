@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_05_115713) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_06_094545) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -259,6 +259,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_115713) do
     t.datetime "last_submitted_at", default: -> { "CURRENT_TIMESTAMP(6)" }, null: false
     t.string "uuid", null: false
     t.bigint "track_id"
+    t.datetime "feedback_added_at"
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"

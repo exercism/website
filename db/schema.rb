@@ -260,6 +260,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_115400) do
     t.datetime "last_submitted_at", default: -> { "CURRENT_TIMESTAMP(6)" }, null: false
     t.string "uuid", null: false
     t.bigint "track_id"
+    t.datetime "feedback_added_at"
     t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
     t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
     t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"

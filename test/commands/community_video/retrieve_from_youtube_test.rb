@@ -20,6 +20,17 @@ class CommunityVideo::RetrieveFromYoutubeTest < ActiveSupport::TestCase
     assert_equal "https://i.ytimg.com/vi/hFZFjoX2cGg/sddefault.jpg", video.thumbnail_url
   end
 
+  test "fallback to smaller thumbnail urls" do
+    url = "https://www.youtube.com/watch?v=hFZFjoX2cGg&ab_channel=MarkRober"
+    key = ENV.fetch('GOOGLE_API_KEY', Exercism.secrets.google_api_key)
+
+    stub_request(:get, "https://www.googleapis.com/youtube/v3/videos?id=hFZFjoX2cGg&part=snippet&key=#{key}").
+      to_return(status: 200, body: SMALL_THUMBNAIL_RESPONSE, headers: {})
+
+    video = CommunityVideo::RetrieveFromYoutube.(url)
+    assert_equal "https://i.ytimg.com/vi/hFZFjoX2cGg/sddefault.jpg", video.thumbnail_url
+  end
+
   SUCCESSFUL_RESPONSE = %q(
     {
       "items": [
@@ -31,6 +42,33 @@ class CommunityVideo::RetrieveFromYoutubeTest < ActiveSupport::TestCase
             "description": "Squirrels were stealing my bird seed so I've solved the problem...",
             "thumbnails": {
               "standard": {
+                "url": "https://i.ytimg.com/vi/hFZFjoX2cGg/sddefault.jpg",
+                "width": 640,
+                "height": 480
+              }
+            },
+            "channelTitle": "Mark Rober"
+          }
+        }
+      ],
+      "pageInfo": {
+        "totalResults": 1,
+        "resultsPerPage": 1
+      }
+    }
+  ).freeze
+
+  SMALL_THUMBNAIL_RESPONSE = %q(
+    {
+      "items": [
+        {
+          "snippet": {
+            "publishedAt": "2020-05-24T16:00:58Z",
+            "channelId": "UCY1kMZp36IQSyNx_9h4mpCg",
+            "title": "Backyard Squirrel Maze 1.0- Ninja Warrior Course",
+            "description": "Squirrels were stealing my bird seed so I've solved the problem...",
+            "thumbnails": {
+              "high": {
                 "url": "https://i.ytimg.com/vi/hFZFjoX2cGg/sddefault.jpg",
                 "width": 640,
                 "height": 480

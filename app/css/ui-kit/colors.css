@@ -148,6 +148,7 @@
     --borderColor7: var(--c-EAECF3);
     --borderColor9: var(--c-FFFFFF);
     --textColor1: var(--c-130B43);
+    /* I'm sure there is a story behind this duplication */
     --textColor2: var(--c-130B43);
     --textColor3: var(--c-26282D);
     --textColor5: var(--c-3F3A5A);

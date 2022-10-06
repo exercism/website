@@ -1,5 +1,36 @@
 @import "../styles";
 
-.test {
-    @apply bg-red;
+.contributor-credit-block {
+    @apply flex items-center justify-between mb-8;
+    @apply border-1 border-borderLight rounded-8 px-16 py-8;
+
+    & .contributor {
+        @apply text-16 font-semibold leading-150 text-textColor1;
+        @apply flex items-center;
+
+        & img {
+            width: 32px;
+            height: 32px;
+            @apply rounded-circle mr-12;
+        }
+    }
+}
+
+.report-stat {
+    @apply flex flex-col py-16 px-24 shadow-sm;
+    & .stat-name {
+        @apply flex items-center;
+        @apply label-large;
+        & img {
+            @apply filter-textColor6 ml-12;
+            width: 15px;
+            height: 15px;
+        }
+    }
+    & .current-number {
+        @apply text-32 leading-150 font-semibold text-purple;
+    }
+    & .growth {
+        @apply text-16 font-semibold leading-150 text-healthyGreen;
+    }
 }

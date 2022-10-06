@@ -1,11 +1,11 @@
 #page-tracks-build
 
-  .lg-container.grid.grid-cols-3.gap-48
+  .lg-container.grid.grid-cols-3.gap-48.bg-white
     .col-span-2
       %h1.text-h1.mb-12
         %span{ class: "px-12 bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]" } 25,000
         students have developed their Elixir skills.
-      .grid.grid-cols-3
+      .grid.grid-cols-3.mb-32
         .report-stat
           .stat-name
             Students
@@ -24,6 +24,26 @@
             = graphical_icon "info-circle"
           .current-number 580
           .growth +10 per day
+
+      .rounded-16.px-32.py-24.shadow-lgZ1
+        %h3.text-h3.font-bold.mb-12
+          The Elixir track is
+          %span.text-healthyGreen super healthy ✅
+        .flex
+          .flex.flex-col.mr-40
+            .tooling-status-label Building
+            .tooling-status-group
+              .tooling-status--healthy
+                = graphical_icon "educative-toys-alphabet"
+              .tooling-status--dead
+                = graphical_icon "fitness-weights"
+              .tooling-status--critical
+                = graphical_icon "conversation-chat"
+          .flex.flex-col.pl-40.border-l-1.border-borderLight
+            .tooling-status-label Outreach & Activity
+            .tooling-status-group
+              .tooling-status--needs-attention
+                = graphical_icon "server-refresh"
 
 
 

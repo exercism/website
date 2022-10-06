@@ -140,11 +140,11 @@ module ViewComponents
 
       # TODO: re-enable once unlocked_help is populated
       # def approaches_tab_locked? = !user_track.external? && !solution&.unlocked_help?
-      def approaches_tab_locked? = !user_track.external?
+      def approaches_tab_locked? = !user_track.external? && !solution&.iterated?
 
       # TODO: re-enable once unlocked_help is populated
       # def solutions_tab_locked? = !user_track.external? && !solution&.unlocked_help?
-      def solutions_tab_locked? = !user_track.external?
+      def solutions_tab_locked? = !user_track.external? && !solution&.iterated?
 
       def mentoring_tab_locked? = !user_track.external? && !solution&.iterated?
     end

@@ -1,6 +1,6 @@
+import React from 'react'
 import { Icon } from '@/components/common'
 import { Exercise } from '@/components/types'
-import React from 'react'
 import { ApproachIntroduction } from '../DiggingDeeper'
 import { NoContentYet } from './NoContentYet'
 

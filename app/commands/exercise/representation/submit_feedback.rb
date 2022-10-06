@@ -10,7 +10,7 @@ class Exercise
           representation.update(feedback_markdown:, feedback_type:, feedback_editor: mentor)
           award_reputation_token!(:automation_feedback_editor) unless mentor_is_author?
         else
-          representation.update(feedback_markdown:, feedback_type:, feedback_author: mentor)
+          representation.update(feedback_markdown:, feedback_type:, feedback_author: mentor, feedback_added_at: Time.now.utc)
           award_reputation_token!(:automation_feedback_author)
         end
 

@@ -42,6 +42,10 @@
     @apply flex flex-row;
 }
 
+.track-status {
+    @apply rounded-16 px-32 py-24 shadow-lgZ1 text-textColor1 mb-32;
+}
+
 .tooling-status {
     @apply flex items-center border-2 border-black rounded-circle mr-16;
     @apply bg-lightPurple;
@@ -83,7 +87,7 @@
 
 .tooling-status--critical {
     @apply tooling-status;
-    @apply border-warning;
+    @apply border-danger;
     & img {
         @apply filter-danger;
     }

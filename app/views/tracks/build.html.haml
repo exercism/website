@@ -4,7 +4,7 @@
     .col-span-2
       %h1.text-h1.mb-12
         %span{ class: "px-12 bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]" } 25,000
-        students have developed their Elixir skills.
+        students have developed their #{@track.title} skills.
       .grid.grid-cols-3.mb-32
         .report-stat
           .stat-name
@@ -25,9 +25,9 @@
           .current-number 580
           .growth +10 per day
 
-      .rounded-16.px-32.py-24.shadow-lgZ1
+      .track-status
         %h3.text-h3.font-bold.mb-12
-          The Elixir track is
+          The #{@track.title} track is
           %span.text-healthyGreen super healthy ✅
         .flex
           .flex.flex-col.mr-40
@@ -45,6 +45,22 @@
               .tooling-status--needs-attention
                 = graphical_icon "server-refresh"
 
+
+      .border-2.border-gradient.rounded-12.px-32.py-24.items-center.flex.shadow-smZ1.mb-32
+        = image_tag @track.icon_url, class: "w-[64px] h-[64px] mr-24"
+        .flex.flex-col.mr-48
+          %h5.text-h5 We&apos;re looking for 5 volunteers for the #{@track.title} Track.
+          %p.text-textColor5.text-18.leading-140 Could you commit to 3 hours per week over the next 6 months to get the #{@track.title} track up to scratch?
+        = link_to "", class: "btn btn-primary btn-large border-1 border-textColor1 rounded-8 shadow-xsZ1v3" do
+          Learn more
+
+
+      .flex
+        = graphical_icon "building", css_class: "h-[64px] w-[64px] mr-20", hex: true
+        .flex.flex-col
+          %h2.text-h2 Build
+          %p.text-18.text-textColor1.leading-150 Use your knowledge to build the #{@track.title} track itself
+        -# TODO add React component with authors/contributors here
 
 
     .col-span-1

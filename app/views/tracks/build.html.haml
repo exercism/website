@@ -39,15 +39,21 @@
             .tooling-status-group
               %div{ 'tooling-status': 'healthy' }
                 = graphical_icon "syllabus"
+              %div{ 'tooling-status': 'needs-attention' }
+                = graphical_icon "test-runner"
               %div{ 'tooling-status': 'dead' }
-                = graphical_icon "practice-exercises"
-              %div{ 'tooling-status': 'critical' }
                 = graphical_icon "representer"
+              %div{ 'tooling-status': 'needs-attention' }
+                = graphical_icon "analyzer"
+              %div{ 'tooling-status': 'healthy' }
+                = graphical_icon "practice-exercises"
           .flex.flex-col.pl-40.border-l-1.border-borderLight
             .tooling-status-label Outreach & Activity
             .tooling-status-group
-              %div{ 'tooling-status': 'needs-attention' }
-                = graphical_icon "test-runner"
+              %div{ 'tooling-status': 'healthy' }
+                = graphical_icon "user-group"
+              %div{ 'tooling-status': 'critical' }
+                = graphical_icon "conversation-chat"
 
 
       .border-2.border-gradient.rounded-12.px-32.py-24.items-center.flex.shadow-smZ1.mb-32

@@ -27,6 +27,14 @@ const RADIO_DATA = [
       body: 'Student is not prompted to action this before proceeding, entirely a low-value enhancement.',
     },
   },
+  {
+    label: 'Celebratory',
+    value: 'celebratory',
+    tooltip: {
+      title: 'If you mark this as Celebratory',
+      body: 'Student is not prompted to action this before proceeding, congratules the student on their solution.',
+    },
+  },
 ]
 export default function RadioGroup({
   feedbackType,

@@ -1,11 +1,11 @@
 import React, { useCallback, useContext } from 'react'
 import { useMutation } from 'react-query'
-import { UploadVideoTextInput, CommunityVideo } from '.'
 import { sendRequest } from '@/utils/send-request'
 import { Icon } from '@/components/common'
 import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
 import { ApproachesDataContext } from '@/components/track/Approaches'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
+import { UploadVideoTextInput, CommunityVideo } from '.'
 
 type UploadVideoFormProps = {
   data: CommunityVideo
@@ -49,9 +49,7 @@ export function UploadVideoForm({
   const [uploadVideo, { error }] = useMutation(
     (body: string) => UploadVideo(body),
     {
-      onSuccess: () => {
-        onSuccess()
-      },
+      onSuccess,
     }
   )
 

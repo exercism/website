@@ -101,7 +101,7 @@ bob.auth_tokens.create!
 
 track_slugs = %w[05ab1e 8th abap ada arm64-assembly awk babashka ballerina bash c ceylon cfml clojure clojurescript cobol coffeescript common-lisp coq cpp crystal csharp d dart delphi elixir elm emacs-lisp erlang factor forth fortran free-pascal fsharp gleam gnu-apl gnucobol go groovy haskell haxe idris io j java javascript javascript-legacy julia kotlin lfe lua mips nim nix objective-c ocaml perl5 pharo-smalltalk php plsql pony powershell prolog purescript python qsharp r racket raku reasonml red research_experiment_1 ruby rust scala scheme shen sml solidity swift system-verilog tcl typescript unison vbnet vimscript vlang wasm wren x86-64-assembly zig]
 track_slugs.each do |track_slug|
-  next unless %w[ruby csharp prolog].include?(track_slug)
+  next unless %w[ruby csharp elixir prolog].include?(track_slug)
 
   begin
     puts "Adding Track: #{track_slug}"

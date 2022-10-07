@@ -468,6 +468,7 @@ export type RepresentationFeedbackType =
   | 'essential'
   | 'actionable'
   | 'non_actionable'
+  | 'celebratory'
 
 export type CompleteRepresentationData = {
   representation: RepresentationData

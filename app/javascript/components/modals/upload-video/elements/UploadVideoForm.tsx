@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { useMutation } from 'react-query'
 import { UploadVideoTextInput, CommunityVideo } from '.'
 import { sendRequest } from '@/utils/send-request'
@@ -11,6 +11,24 @@ type UploadVideoFormProps = {
   data: CommunityVideo
   onUseDifferentVideoClick: () => void
   onSuccess: () => void
+}
+
+const DEFAULT_ERROR = new Error(
+  'There was an error uploading this video. Please try again!'
+)
+
+const ErrorMessage = ({ error }: { error: unknown }) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return null
+}
+
+const ErrorFallback = ({ error }: { error: Error }) => {
+  return (
+    <div className="c-alert--danger text-16 font-body my-16 normal-case">
+      {error.message}
+    </div>
+  )
 }
 
 export function UploadVideoForm({
@@ -28,33 +46,14 @@ export function UploadVideoForm({
     return fetch
   }
 
-  const [uploadError, setUploadError] = useState(false)
-
   const [uploadVideo, { error }] = useMutation(
     (body: string) => UploadVideo(body),
     {
       onSuccess: () => {
         onSuccess()
       },
-      onError: () => {
-        setUploadError(true)
-      },
     }
   )
-
-  const DEFAULT_ERROR = new Error(
-    'There was an error uploading this video. Please try again!'
-  )
-
-  const ErrorMessage = ({ error }: { error: unknown }) => {
-    useErrorHandler(error, { defaultError: DEFAULT_ERROR })
-
-    return null
-  }
-
-  const ErrorFallback = ({ error }: { error: Error }) => {
-    return <p>{error.message}</p>
-  }
 
   const handleSubmitVideo = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -83,7 +82,6 @@ export function UploadVideoForm({
         className="rounded-16 mb-16"
       />
 
-      {/* btn-i-filled has a different shadow than in Figma */}
       <button
         type="button"
         onClick={onUseDifferentVideoClick}
@@ -128,18 +126,9 @@ export function UploadVideoForm({
         />
       </fieldset>
 
-      {/* <div className="mb-24 text-p-base leading-150">
-        Please ensure you have full rights to take credit for the video before
-        submitting.
-      </div> */}
-
-      {uploadError && (
-        <div className="c-alert--danger text-16 font-body my-16 normal-case">
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <ErrorMessage error={error} />
-          </ErrorBoundary>
-        </div>
-      )}
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ErrorMessage error={error} />
+      </ErrorBoundary>
 
       <div className="flex">
         <button type="submit" className="w-full btn-primary btn-l grow">

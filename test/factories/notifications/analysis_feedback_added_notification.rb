@@ -3,7 +3,7 @@ FactoryBot.define do
     user
     params do
       {
-        representation: create(:exercise_representation, user:),
+        representation: create(:exercise_representation),
         iteration: create(:iteration, user:)
       }
     end

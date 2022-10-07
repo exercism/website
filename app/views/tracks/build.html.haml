@@ -91,7 +91,7 @@
           - @dummy_concepts.each do |c|
             .record-row
               .record-name= c
-              .record-value 42,507 views
+              .record-value #{rand(50_000..100_000)} views
         %details.mb-16
           %summary.--lightbulb #{@dummy_exercises.length}/30  learning exercises created
           - @dummy_exercises.each do |c|

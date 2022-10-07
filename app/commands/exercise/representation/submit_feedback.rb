@@ -12,6 +12,7 @@ class Exercise
         else
           representation.update(feedback_markdown:, feedback_type:, feedback_author: mentor, feedback_added_at: Time.now.utc)
           award_reputation_token!(:automation_feedback_author)
+          send_notifications!
         end
 
         representation
@@ -24,6 +25,12 @@ class Exercise
 
       def mentor_is_author?
         mentor == representation.feedback_author
+      end
+
+      def send_notifications!
+        return unless representation.has_essential_feedback? || representation.has_actionable_feedback?
+
+        Exercise::Representation::SendNewFeedbackNotifications.defer(representation)
       end
     end
   end

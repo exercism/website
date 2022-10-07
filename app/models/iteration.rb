@@ -7,6 +7,7 @@ class Iteration < ApplicationRecord
 
   has_one :exercise, through: :solution
   has_one :track, through: :exercise
+  has_one :user, through: :solution
   has_one :test_run, through: :iteration
 
   scope :not_deleted, -> { where(deleted_at: nil) }

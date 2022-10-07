@@ -267,7 +267,8 @@
 }
 
 .usage-summary {
-    @apply label-large leading-130 flex items-center text-center;
+    @apply label-large leading-150 flex items-center text-center;
+    @apply cursor-pointer;
     @apply before-icon;
     &:after {
         content: url("icons/chevron-down.svg");

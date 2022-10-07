@@ -83,4 +83,20 @@ class NotificationsMailerTest < ActionMailer::TestCase
     subject = "You've unlocked a new badge"
     assert_email(email, user.email, subject, "acquired_badge")
   end
+
+  test "analysis_feedback_added" do
+    user = create :user
+    track = create :track, title: "Ruby"
+    exercise = create :concept_exercise, title: "Lasagna", track: track
+    solution = create :concept_solution, exercise: exercise, user: user
+    iteration = create :iteration, solution: solution, idx: 1
+    representation = create :exercise_representation, :with_feedback, feedback_type: :actionable, exercise: exercise
+
+    notification = create :analysis_feedback_added_notification,
+      status: :unread, user: user, params: { representation:, iteration: }
+
+    email = NotificationsMailer.with(notification:).analysis_feedback_added
+    subject = "[Mentoring] New feedback is added to your solution on Ruby/Lasagna"
+    assert_email(email, user.email, subject, "analysis_feedback_added")
+  end
 end

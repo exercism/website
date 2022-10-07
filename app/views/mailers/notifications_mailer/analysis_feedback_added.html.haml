@@ -1,0 +1,5 @@
+%p Hi #{@user.handle},
+%p New feedback is added to iteration (##{@iteration.idx}) of your solution to #{@exercise.title} on the #{@track.title} track. We strongly recommend taking a look.
+
+= email_button_to "Go to the iteration", track_exercise_iterations_url(@track, @exercise)
+

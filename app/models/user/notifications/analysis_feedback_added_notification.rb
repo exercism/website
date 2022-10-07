@@ -19,11 +19,11 @@ class User
         }
       end
 
-      delegate :track, :exercise, to: :iteration
-
       def emphasis
         representation.has_essential_feedback? ? 'strongly ' : nil
       end
+
+      delegate :track, :exercise, to: :iteration
     end
   end
 end

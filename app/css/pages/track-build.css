@@ -5,6 +5,11 @@
         content: url("icons/syllabus.svg");
     }
 }
+.--lightbulb {
+    &:before {
+        content: url("icons/lightbulb-idea.svg");
+    }
+}
 
 .--practice-exercises {
     &:before {
@@ -49,7 +54,7 @@
         @apply text-16 font-semibold leading-150 text-textColor1;
         @apply flex items-center;
 
-        & img {
+        img {
             width: 32px;
             height: 32px;
             @apply rounded-circle mr-12;
@@ -62,7 +67,7 @@
     & .stat-name {
         @apply flex items-center;
         @apply label-large;
-        & img {
+        img {
             @apply filter-textColor6 ml-12;
             width: 15px;
             height: 15px;
@@ -93,7 +98,7 @@
     height: 48px;
     width: 48px;
 
-    & img {
+    img {
         height: 20px;
         width: 20px;
         @apply mx-auto;
@@ -104,7 +109,7 @@
     @apply tooling-status relative;
     @apply border-healthyGreen;
 
-    & img {
+    img {
         @apply filter-healthyGreen;
     }
 
@@ -121,7 +126,7 @@
 .tooling-status--needs-attention {
     @apply tooling-status;
     @apply border-warning;
-    & img {
+    img {
         @apply filter-warning;
     }
 }
@@ -129,7 +134,7 @@
 .tooling-status--critical {
     @apply tooling-status;
     @apply border-danger;
-    & img {
+    img {
         @apply filter-danger;
     }
 }
@@ -137,13 +142,33 @@
 .tooling-status--dead {
     @apply tooling-status;
     @apply border-textColor6;
-    & img {
+    img {
         @apply filter-textColor6;
     }
 }
 
 .track-team-group {
+    @apply mb-24;
     @apply flex flex-col shadow-base px-24 py-16 rounded-8;
+
+    details {
+        & .record-row {
+            @apply first-of-type:mt-20 last-of-type:mb-6 mb-16;
+        }
+        @apply select-none;
+        @apply stats-container;
+        summary {
+            @apply usage-summary;
+        }
+    }
+
+    details[open] {
+        summary {
+            &:after {
+                content: url("icons/chevron-right.svg");
+            }
+        }
+    }
 }
 
 .track-header {
@@ -154,11 +179,11 @@
         "b c";
     @apply self-center;
 
-    & h3 {
+    h3 {
         grid-area: a;
         @apply track-leader;
     }
-    & p {
+    p {
         grid-area: b;
         @apply text-16 text-textColor5 leading-150;
     }
@@ -195,13 +220,13 @@
     @apply label-large text-16 bg-lightPurple;
     @apply border-1 border-gradient rounded-16;
 
-    & a {
+    a {
         @apply underline;
     }
 }
 
 .usage-stats-header {
-    & h4 {
+    h4 {
         @apply text-h4 mb-8;
         @apply before-icon;
         &:before {
@@ -232,19 +257,20 @@
     }
 }
 
-.usage-details {
-    @apply flex items-center;
+.stats-container {
+    @apply flex flex-col;
     @apply py-12 px-24;
     @apply border-1 border-borderLight2 rounded-8;
 }
 
-.detail-row {
-    @apply flex justify-between;
-    & > .record-name {
+.record-row {
+    @apply flex justify-between items-center;
+    @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
+    & .record-name {
         @apply label-large text-16;
     }
 
-    & > .record-value {
+    & .record-value {
         @apply text-label-timestamp font-semibold;
     }
 }

@@ -1,6 +1,9 @@
-#page-tracks-build
+- @dummy_concepts = %w[Basics Structs Booleans Enums]
+- @dummy_exercises = %w[Lasagna Moviegoer]
+- @dummy_practice = ['Asteroid Exploration Co.']
+#page-tracks-build.bg-white
 
-  .lg-container.grid.grid-cols-3.gap-48.bg-white
+  .lg-container.grid.grid-cols-3.gap-48
     .col-span-2
       %h1.text-h1.mb-12
         %span{ class: "px-12 bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]" } 25,000
@@ -76,14 +79,97 @@
 
         .usage-stats-header
           %h4 Usage statistics
-        %details.usage-details
-          %summary.usage-summary.--syllabus 3/30  concepts created
-          .detail-row
-            .record-name Basics
-            .record-value 42,507 views
+        %details.mb-10
+          %summary.--syllabus #{@dummy_concepts.length}/30  concepts created
+          - @dummy_concepts.each do |c|
+            .record-row
+              .record-name= c
+              .record-value 42,507 views
+        %details.mb-16
+          %summary.--lightbulb #{@dummy_exercises.length}/30  learning exercises created
+          - @dummy_exercises.each do |c|
+            .record-row
+              .record-name= c
 
 
+      .track-team-group
+        .track-header
+          %h3.--test-runner-gradient Build Test Runners
+          %p Create Test Runners that have the single responsibility of taking a solution, running all tests and returning a standardized output.
+          = link_to "", class: "learn-more-new-tab" do
+            Learn More
 
+        .action-required
+          Action required: Get Test Runners to Level 3. #{@track.title} is currently utilising a Level 2 Test Runner. Find out more.
+          = link_to "" do
+            Find out more.
+
+        .usage-stats-header
+          %h4 Usage statistics
+        .stats-container
+          .record-row
+            .record-name Total Test Runs
+            .record-value 518,506
+          .record-row
+            .record-name Outcome Breakdown
+            .record-value 24% pass (127,602) 55% fail (248,011) 21% unknown (109,477)
+          .record-row
+            .record-name Mean Runtime
+            .record-value 2.84s
+
+
+      .track-team-group
+        .track-header
+          %h3.--analyzer-gradient Build Analyzers
+          %p Build an Analyzer for #{@track.title}: Exercism's analyzers automatically assess student's submissions and provide mentor-style commentary.
+          = link_to "", class: "learn-more-new-tab" do
+            Learn More
+
+        .usage-stats-header
+          %h4 Usage statistics
+        .stats-container
+          .record-row
+            .record-name Total Analysis Comments Made
+            .record-value 85,602
+          .record-row
+            .record-name Analysis Display Rate
+            .record-value 48%
+
+      .track-team-group
+        .track-header
+          %h3.--representer-gradient Build Representers
+          %p Build a Representer: a bit of code that has the single responsibility of taking a solution and returning a normalized representation of it.
+          = link_to "", class: "learn-more-new-tab" do
+            Learn More
+
+        .usage-stats-header
+          %h4 Usage statistics
+        .stats-container
+          .record-row
+            .record-name Total Representations Created
+            .record-value 814
+          .record-row
+            .record-name Total Representation Comments Made
+            .record-value 24% pass (127,602)
+          .record-row
+            .record-name Representation Display Rate
+            .record-value 58%
+
+      .track-team-group
+        .track-header
+          %h3.--practice-exercises-gradient Create Practice Exercises
+          %p Practice Exercises are exercises designed to allow students to solve an arbitrary problem, with the aim of them making use of the concepts they have learned so far.
+          = link_to "", class: "learn-more-new-tab" do
+            Learn More
+
+        .usage-stats-header
+          %h4 Usage statistics
+        %details.mb-10
+          %summary.--practice-exercises #{@dummy_practice.length}/30  practice exercise created
+          - @dummy_practice.each do |c|
+            .record-row
+              .record-name= c
+              .record-value 80,831 completions (30% of attempts)
 
     .col-span-1
       .rounded-8.p-24.shadow-baseZ1
@@ -105,5 +191,3 @@
           = link_to "https://github.com", class: "text-lightBlue font-semibold flex items-center" do
             %span.mr-8 Become an Exercism Volunteer
             = graphical_icon "arrow-right", css_class: "h-[14px] w-[14px] filter-lightBlue"
-
-

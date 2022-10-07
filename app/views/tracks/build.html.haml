@@ -55,12 +55,34 @@
           Learn more
 
 
-      .flex
+      .flex.mb-16
         = graphical_icon "building", css_class: "h-[64px] w-[64px] mr-20", hex: true
         .flex.flex-col
           %h2.text-h2 Build
           %p.text-18.text-textColor1.leading-150 Use your knowledge to build the #{@track.title} track itself
         -# TODO add React component with authors/contributors here
+
+      .track-team-group
+        .track-header
+          %h3.--syllabus-gradient Create the #{@track.title} syllabus
+          %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
+          = link_to "", class: "learn-more-new-tab" do
+            Learn More
+
+        .action-required
+          Action required: Create a complete syllabus with at least 30 concepts and learning exercises.
+          = link_to "" do
+            Find out more.
+
+        .usage-stats-header
+          %h4 Usage statistics
+        %details.usage-details
+          %summary.usage-summary.--syllabus 3/30  concepts created
+          .detail-row
+            .record-name Basics
+            .record-value 42,507 views
+
+
 
 
     .col-span-1

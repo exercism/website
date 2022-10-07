@@ -1,5 +1,46 @@
 @import "../styles";
 
+.--syllabus {
+    &:before {
+        content: url("icons/syllabus.svg");
+    }
+}
+
+.--practice-exercises {
+    &:before {
+        content: url("icons/practice-exercises.svg");
+    }
+}
+
+.--syllabus-gradient {
+    &:before {
+        content: url("icons/syllabus-gradient.svg");
+    }
+}
+
+.--test-runner-gradient {
+    &:before {
+        content: url("icons/test-runner-gradient.svg");
+    }
+}
+.--analyzer-gradient {
+    &:before {
+        content: url("icons/analyzer-gradient.svg");
+    }
+}
+.--representer-gradient {
+    &:before {
+        content: url("icons/representer-gradient.svg");
+    }
+}
+.--practice-exercises-gradient {
+    &:before {
+        content: url("icons/practice-exercises-gradient.svg");
+    }
+}
+
+/* --------------------------------------------------------------------- */
+
 .contributor-credit-block {
     @apply flex items-center justify-between mb-8;
     @apply border-1 border-borderLight rounded-8 px-16 py-8;
@@ -98,5 +139,112 @@
     @apply border-textColor6;
     & img {
         @apply filter-textColor6;
+    }
+}
+
+.track-team-group {
+    @apply flex flex-col shadow-base px-24 py-16 rounded-8;
+}
+
+.track-header {
+    display: grid;
+    @apply gap-x-48 gap-y-8 mb-16;
+    grid-template-areas:
+        "a c"
+        "b c";
+    @apply self-center;
+
+    & h3 {
+        grid-area: a;
+        @apply track-leader;
+    }
+    & p {
+        grid-area: b;
+        @apply text-16 text-textColor5 leading-150;
+    }
+
+    & .learn-more-new-tab {
+        grid-area: c;
+        place-self: center;
+    }
+}
+
+.track-leader {
+    @apply text-h3 font-bold flex text-center items-center;
+
+    &:before {
+        @apply block mr-16;
+        height: 32px;
+        width: 32px;
+    }
+}
+
+.learn-more-new-tab {
+    @apply text-16 text-textColor6 font-semibold whitespace-nowrap leading-150 items-center;
+
+    &:after {
+        content: url("icons/new-tab.svg");
+        @apply filter-textColor6 ml-12;
+        width: 12px;
+        height: 12px;
+    }
+}
+
+.action-required {
+    @apply py-8 px-16 mb-24;
+    @apply label-large text-16 bg-lightPurple;
+    @apply border-1 border-gradient rounded-16;
+
+    & a {
+        @apply underline;
+    }
+}
+
+.usage-stats-header {
+    & h4 {
+        @apply text-h4 mb-8;
+        @apply before-icon;
+        &:before {
+            content: url("icons/graph-stats.svg");
+        }
+    }
+}
+
+.usage-summary {
+    @apply label-large leading-130 flex items-center text-center;
+    @apply before-icon;
+    &:after {
+        content: url("icons/chevron-down.svg");
+        @apply filter-textColor6;
+        height: 16px;
+        width: 16px;
+        @apply block ml-auto;
+    }
+}
+
+.before-icon {
+    @apply flex items-center;
+    &:before {
+        height: 24px;
+        width: 24px;
+        @apply block mr-16;
+        @apply filter-textColor1;
+    }
+}
+
+.usage-details {
+    @apply flex items-center;
+    @apply py-12 px-24;
+    @apply border-1 border-borderLight2 rounded-8;
+}
+
+.detail-row {
+    @apply flex justify-between;
+    & > .record-name {
+        @apply label-large text-16;
+    }
+
+    & > .record-value {
+        @apply text-label-timestamp font-semibold;
     }
 }

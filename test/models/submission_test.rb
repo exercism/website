@@ -77,12 +77,12 @@ class SubmissionTest < ActiveSupport::TestCase
     submission = Submission.find(submission.id)
     assert_nil submission.exercise_representation
 
-    # Missing exercise_reprsentation
+    # Missing exercise_representation
     sr.update!(ops_status: 200)
     submission = Submission.find(submission.id)
     assert_nil submission.exercise_representation
 
-    # er present
+    # exercise_representation present
     er = create :exercise_representation, exercise: submission.exercise, ast_digest: sr.ast_digest
     submission = Submission.find(submission.id)
     assert_equal er, submission.exercise_representation
@@ -125,6 +125,13 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission.has_essential_automated_feedback?
     refute submission.has_actionable_automated_feedback?
     refute submission.has_non_actionable_automated_feedback?
+
+    er.update!(feedback_type: :celebratory)
+    submission = Submission.find(submission.id)
+    refute submission.automated_feedback_pending?
+    refute submission.has_essential_automated_feedback?
+    refute submission.has_actionable_automated_feedback?
+    assert submission.has_non_actionable_automated_feedback?
 
     # Present only if there is actual feedback on analysis
     submission = create :submission, representation_status: :queued, analysis_status: :completed

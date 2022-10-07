@@ -107,6 +107,8 @@
     }
 }
 
+/* TOOLING STATUS INDICATORS */
+
 .tooling-status-label {
     @apply label-large text-16 mb-8;
 }
@@ -131,7 +133,7 @@
     }
 }
 
-.tooling-status--healthy {
+[tooling-status="healthy"] {
     @apply tooling-status relative;
     @apply border-healthyGreen;
 
@@ -149,7 +151,7 @@
     }
 }
 
-.tooling-status--needs-attention {
+[tooling-status="needs-attention"] {
     @apply tooling-status;
     @apply border-warning;
     img {
@@ -157,7 +159,7 @@
     }
 }
 
-.tooling-status--critical {
+[tooling-status="critical"] {
     @apply tooling-status;
     @apply border-danger;
     img {
@@ -165,13 +167,15 @@
     }
 }
 
-.tooling-status--dead {
+[tooling-status="dead"] {
     @apply tooling-status;
     @apply border-textColor6;
     img {
         @apply filter-textColor6;
     }
 }
+
+/* TOOLING STATUS DETAILS */
 
 .track-team-group {
     @apply mb-24;

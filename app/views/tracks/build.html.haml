@@ -37,16 +37,16 @@
           .flex.flex-col.mr-40
             .tooling-status-label Building
             .tooling-status-group
-              .tooling-status--healthy
+              %div{ 'tooling-status': 'healthy' }
                 = graphical_icon "syllabus"
-              .tooling-status--dead
+              %div{ 'tooling-status': 'dead' }
                 = graphical_icon "practice-exercises"
-              .tooling-status--critical
+              %div{ 'tooling-status': 'critical' }
                 = graphical_icon "representer"
           .flex.flex-col.pl-40.border-l-1.border-borderLight
             .tooling-status-label Outreach & Activity
             .tooling-status-group
-              .tooling-status--needs-attention
+              %div{ 'tooling-status': 'needs-attention' }
                 = graphical_icon "test-runner"
 
 

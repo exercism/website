@@ -3,12 +3,13 @@
 - @dummy_practice = ['Asteroid Exploration Co.']
 #page-tracks-build.bg-white
 
-  .lg-container.grid.grid-cols-3.gap-48
+  %header.absolute.top-0
+  .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
     .col-span-2
-      %h1.text-h1.mb-12
-        %span{ class: "px-12 bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%]" } 25,000
+      %h1.text-h1.mb-12.text-48.font-bold.z-1
+        .highlight-text 25,000
         students have developed their #{@track.title} skills.
-      .grid.grid-cols-3.mb-32
+      .grid.grid-cols-3.mb-32.gap-16
         .report-stat
           .stat-name
             Students
@@ -172,7 +173,7 @@
               .record-value 80,831 completions (30% of attempts)
 
     .col-span-1
-      .rounded-8.p-24.shadow-baseZ1
+      .rounded-8.p-24.shadow-baseZ1.bg-white
         .flex.items-center.mb-12
           = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
           .label-large.mr-16 Volunteers

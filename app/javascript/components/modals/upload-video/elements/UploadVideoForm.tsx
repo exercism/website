@@ -5,6 +5,7 @@ import { sendRequest } from '@/utils/send-request'
 import { Icon } from '@/components/common'
 import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
 import { ApproachesDataContext } from '@/components/track/Approaches'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 
 type UploadVideoFormProps = {
   data: CommunityVideo
@@ -29,12 +30,31 @@ export function UploadVideoForm({
 
   const [uploadError, setUploadError] = useState(false)
 
-  const [uploadVideo] = useMutation((body: string) => UploadVideo(body), {
-    onSuccess: () => {
-      onSuccess()
-    },
-    onError: () => setUploadError(true),
-  })
+  const [uploadVideo, { error }] = useMutation(
+    (body: string) => UploadVideo(body),
+    {
+      onSuccess: () => {
+        onSuccess()
+      },
+      onError: () => {
+        setUploadError(true)
+      },
+    }
+  )
+
+  const DEFAULT_ERROR = new Error(
+    'There was an error uploading this video. Please try again!'
+  )
+
+  const ErrorMessage = ({ error }: { error: unknown }) => {
+    useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+    return null
+  }
+
+  const ErrorFallback = ({ error }: { error: Error }) => {
+    return <p>{error.message}</p>
+  }
 
   const handleSubmitVideo = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -114,10 +134,13 @@ export function UploadVideoForm({
       </div> */}
 
       {uploadError && (
-        <span className="c-alert--danger text-16 font-body my-16 normal-case">
-          There was an error uploading this video. Please try again!
-        </span>
+        <div className="c-alert--danger text-16 font-body my-16 normal-case">
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <ErrorMessage error={error} />
+          </ErrorBoundary>
+        </div>
       )}
+
       <div className="flex">
         <button type="submit" className="w-full btn-primary btn-l grow">
           Submit video

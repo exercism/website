@@ -1,6 +1,5 @@
 import React from 'react'
-import { GraphicalIcon, Icon } from '@/components/common'
-import { ConceptMakersButton } from '../ConceptMakersButton'
+import { GraphicalIcon, Icon, Credits } from '@/components/common'
 import dayjs from 'dayjs'
 
 export type ApproachIntroduction = {
@@ -43,10 +42,12 @@ function DiggingDeeperFooter({
   return (
     <footer className="flex items-center justify-between text-textColor6 py-12 mb-48">
       <div className="flex items-center">
-        <ConceptMakersButton
-          links={{ makers: 'exercism.org' }}
-          numAuthors={introduction.numAuthors}
-          numContributors={introduction.numContributors}
+        <Credits
+          topCount={introduction.numAuthors}
+          topLabel="author"
+          bottomCount={introduction.numContributors}
+          bottomLabel="contributor"
+          max={2}
           avatarUrls={introduction.avatarUrls}
         />
         {introduction.updatedAt && (

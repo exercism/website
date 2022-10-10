@@ -7,8 +7,10 @@
   .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
     .col-span-2
       %h1.text-h1.mb-12.text-48.font-bold.z-1
-        -# TODO provide proper highlighting for different length numbers
-        .highlight-text{ "num-length": @track.num_students.to_s.length }= @track.num_students
+        - @max = 7
+        - @test_num = 123_456
+        - @len = @test_num.to_s.length
+        .highlight-text{ style: "--transform-y: 2" }= @track.num_students
         students have developed their #{@track.title} skills.
       .grid.grid-cols-3.mb-32.gap-16
         .report-stat
@@ -88,13 +90,13 @@
         .usage-stats-header
           %h4 Usage statistics
         %details.mb-10
-          %summary.--syllabus #{@dummy_concepts.length}/30  concepts created
+          %summary.--syllabus #{@dummy_concepts.length}/#{@track.num_concepts} concepts created
           - @dummy_concepts.each do |c|
             .record-row
               .record-name= c
               .record-value #{rand(50_000..100_000).to_s.gsub(/\B(?=(...)*\b)/, ',')} views
         %details.mb-16
-          %summary.--lightbulb #{@dummy_exercises.length}/30  learning exercises created
+          %summary.--lightbulb #{@dummy_exercises.length}/#{@track.num_exercises} learning exercises created
           - @dummy_exercises.each do |c|
             .record-row
               .record-name= c

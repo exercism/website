@@ -5,7 +5,6 @@ import {
   ApproachIntroduction,
   CommunityVideos,
   DiggingDeeper,
-  NoIntroductionYet,
 } from './approaches-elements'
 import { CommunityVideosProps } from './approaches-elements/community-videos/types'
 

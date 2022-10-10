@@ -28,9 +28,12 @@ export function Credits({
         <div className="font-semibold">
           {pluralizeWithNumber(topCount, topLabel)}
         </div>
-        {bottomCount && bottomLabel && (
+        {bottomCount &&
+        bottomLabel &&
+        bottomCount > 0 &&
+        bottomLabel.length > 0 ? (
           <div>{pluralizeWithNumber(bottomCount, bottomLabel)}</div>
-        )}
+        ) : null}
       </div>
     </div>
   )

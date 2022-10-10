@@ -37,14 +37,7 @@ export function Approaches({ data }: ApproachesProps): JSX.Element {
         }}
       >
         <div className="col-span-2">
-          {data.introduction.html.length > 0 ? (
-            <DiggingDeeper introduction={data.introduction} />
-          ) : (
-            <NoIntroductionYet
-              exercise={data.exercise}
-              introduction={data.introduction}
-            />
-          )}
+          <DiggingDeeper introduction={data.introduction} />
           <CommunityVideos videos={data.videos} />
         </div>
         <div className="col-span-1">

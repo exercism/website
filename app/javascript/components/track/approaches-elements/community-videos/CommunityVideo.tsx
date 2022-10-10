@@ -24,7 +24,7 @@ export function CommunityVideo({
             alt="thumbnail"
           />
           <div className="flex flex-col">
-            <h5 className="text-h5 mb-8">{video.title}</h5>
+            <h5 className="text-h5 mb-8 text-left">{video.title}</h5>
             <div className="flex flex-row items-center">
               {video.author && (
                 <Avatar

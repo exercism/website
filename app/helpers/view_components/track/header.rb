@@ -16,7 +16,8 @@ module ViewComponents
             track:,
             tags:,
             tabs:,
-            selected_tab:
+            selected_tab:,
+            practice_mode:
           )
         end
       end
@@ -83,6 +84,8 @@ module ViewComponents
       def guard!
         raise "Incorrect track nav tab" unless TABS.include?(selected_tab)
       end
+
+      def practice_mode = !!user_track&.practice_mode?
 
       memoize
       def user_track

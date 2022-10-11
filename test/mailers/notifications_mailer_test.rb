@@ -85,7 +85,7 @@ class NotificationsMailerTest < ActionMailer::TestCase
   end
 
   test "automated_feedback_added" do
-    user = create :user
+    user = create :user, handle: "handle-6b48cf20"
     track = create :track, title: "Ruby"
     exercise = create :concept_exercise, title: "Lasagna", track: track
     solution = create :concept_solution, exercise: exercise, user: user

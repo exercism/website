@@ -5,7 +5,11 @@ class Exercise::Representation::SendNewFeedbackNotifications
 
   initialize_with :representation
 
-  def call = iterations.each { |iteration| send_notification(iteration) }
+  def call
+    return unless representation.has_essential_feedback? || representation.has_actionable_feedback?
+
+    iterations.each { |iteration| send_notification(iteration) }
+  end
 
   private
   def iterations
@@ -13,8 +17,6 @@ class Exercise::Representation::SendNewFeedbackNotifications
       latest_active_iterations
     elsif representation.has_actionable_feedback?
       latest_recent_active_iterations
-    else
-      raise "Incorrect feedback type"
     end
   end
 

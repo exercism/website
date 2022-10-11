@@ -2,7 +2,7 @@ require "test_helper"
 
 class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport::TestCase
   test "send notifications for latest active iterations matching ast digest" do
-    representation = create :exercise_representation, :with_feedback
+    representation = create :exercise_representation, :with_feedback, feedback_type: :essential
 
     user = create :user
     solution = create :practice_solution, user: user
@@ -17,6 +17,26 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     assert_equal user, notification.user
     assert_equal representation, notification.representation
     assert_equal iteration, notification.iteration
+  end
+
+  %i[essential actionable].each do |feedback_type|
+    test "send notifications when feedback type is #{feedback_type}" do
+      representation = create :exercise_representation, :with_feedback, feedback_type: feedback_type
+
+      user = create :user
+      solution = create :practice_solution, user: user
+      submission = create :submission, exercise: representation.exercise, solution: solution
+      iteration = create :iteration, submission: submission, idx: 1
+      create :submission_representation, submission: submission, ast_digest: representation.ast_digest
+
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+
+      assert_equal 1, User::Notifications::AnalysisFeedbackAddedNotification.where(user:).count
+      notification = User::Notifications::AnalysisFeedbackAddedNotification.where(user:).first
+      assert_equal user, notification.user
+      assert_equal representation, notification.representation
+      assert_equal iteration, notification.iteration
+    end
   end
 
   test "send notifications for latest active iterations matching ast digest for essential feedback" do
@@ -59,7 +79,7 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     assert_equal 0, User::Notifications::AnalysisFeedbackAddedNotification.where(user: user_2).count
   end
 
-  test "don't send notification to iterations matching ast digest that are not latest" do
+  test "does not send notification to iterations matching ast digest that are not latest" do
     representation = create :exercise_representation, :with_feedback
 
     user = create :user
@@ -76,7 +96,7 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     refute User::Notifications::AnalysisFeedbackAddedNotification.where(user:).exists?
   end
 
-  test "don't send notification to latest iterations matching ast digest that are inactive" do
+  test "does not send notification to latest iterations matching ast digest that are inactive" do
     representation = create :exercise_representation, :with_feedback
 
     user = create :user
@@ -90,7 +110,7 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     refute User::Notifications::AnalysisFeedbackAddedNotification.where(user:).exists?
   end
 
-  test "don't send notification to iterations with no matching ast digest" do
+  test "does not send notification to iterations with no matching ast digest" do
     representation = create :exercise_representation, :with_feedback
 
     user = create :user
@@ -102,5 +122,21 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     Exercise::Representation::SendNewFeedbackNotifications.(representation)
 
     refute User::Notifications::AnalysisFeedbackAddedNotification.where(user:).exists?
+  end
+
+  %i[non_actionable celebratory].each do |feedback_type|
+    test "does not send notification when feedback type is #{feedback_type}" do
+      representation = create :exercise_representation, :with_feedback, feedback_type: feedback_type
+
+      user = create :user
+      solution = create :practice_solution, user: user
+      submission = create :submission, exercise: representation.exercise, solution: solution
+      create :iteration, submission: submission, idx: 1
+      create :submission_representation, submission: submission, ast_digest: representation.ast_digest
+
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+
+      refute User::Notifications::AnalysisFeedbackAddedNotification.where(user:).exists?
+    end
   end
 end

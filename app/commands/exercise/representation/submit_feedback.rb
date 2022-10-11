@@ -28,8 +28,6 @@ class Exercise
       end
 
       def send_notifications!
-        return unless representation.has_essential_feedback? || representation.has_actionable_feedback?
-
         Exercise::Representation::SendNewFeedbackNotifications.defer(representation)
       end
     end

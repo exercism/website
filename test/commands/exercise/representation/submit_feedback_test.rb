@@ -37,23 +37,12 @@ class Exercise::Representation::SubmitFeedbackTest < ActiveSupport::TestCase
     refute User::ReputationTokens::AutomationFeedbackEditorToken.where(user: mentor).exists?
   end
 
-  %i[essential actionable].each do |feedback_type|
+  %i[essential actionable non_actionable celebratory].each do |feedback_type|
     test "adding #{feedback_type} feedback sends notifications" do
       mentor = create :user
       representation = create :exercise_representation
 
       Exercise::Representation::SendNewFeedbackNotifications.expects(:defer).with(representation).once
-
-      Exercise::Representation::SubmitFeedback.(mentor, representation, 'Try this', feedback_type)
-    end
-  end
-
-  %i[non_actionable celebratory].each do |feedback_type|
-    test "adding #{feedback_type} feedback does not send notifications" do
-      mentor = create :user
-      representation = create :exercise_representation
-
-      Exercise::Representation::SendNewFeedbackNotifications.expects(:defer).with(representation).never
 
       Exercise::Representation::SubmitFeedback.(mentor, representation, 'Try this', feedback_type)
     end

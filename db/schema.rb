@@ -862,7 +862,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_091420) do
     t.boolean "email_on_nudge_notification", default: true, null: false
     t.boolean "email_on_student_finished_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_finished_discussion_notification", default: true, null: false
-    t.boolean "email_on_analysis_feedback_added_notification", default: true, null: false
+    t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end

@@ -80,6 +80,7 @@
             Learn More
 
         .action-required
+          -# this will probably be a dynamic text?
           Action required: Create a complete syllabus with at least 30 concepts and learning exercises.
           = link_to "" do
             Find out more.
@@ -186,6 +187,7 @@
               .record-value #{exercise.num_published_solutions} completions (30% of attempts)
 
     .col-span-1
+      = ReactComponents::Impact::Map.new
       .rounded-8.p-24.shadow-baseZ1.bg-white
         .flex.items-center.mb-12
           = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"

@@ -18,7 +18,7 @@ en:
         You now appear on our Contributors page. Thank you for contributing to Exercism!
     analysis_feedback_added:
       1: >
-        New feedback is added to iteration (#%{iteration_idx}) of your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>.
+        New feedback has been added to iteration (#%{iteration_idx}) of your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>.
         We %{emphasis}recommend taking a look.
 
     # Not actually used

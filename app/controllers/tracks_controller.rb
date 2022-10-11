@@ -22,6 +22,22 @@ class TracksController < ApplicationController
     setup_about
   end
 
+  def build
+    percent = ->(num, denom) { (num.to_f / denom * 100).round(1) }
+
+    # All testruns
+    # Submission::TestRun.group(:status).count
+    @test_runner_status_count = @track.submissions.group(:tests_status).count
+    @num_test_runs = @test_runner_status_count.values.sum
+    @num_submissions = @track.submissions.count
+    @num_tests_passed = @test_runner_status_count['passed']
+    @num_tests_failed = @test_runner_status_count['failed']
+    @num_tests_unknown = @num_test_runs - @num_tests_passed - @num_tests_failed
+    @percent_tests_passed = percent.(@num_tests_passed, @num_test_runs)
+    @percent_tests_failed = percent.(@num_tests_failed, @num_test_runs)
+    @percent_tests_unknown = (100 - @percent_tests_passed - @percent_tests_failed).round(1)
+  end
+
   def show
     if @user_track.external?
       setup_about

@@ -1,6 +1,3 @@
-- @dummy_concepts = %w[Basics Structs Booleans Enums]
-- @dummy_exercises = %w[Lasagna Moviegoer]
-- @dummy_practice = ['Asteroid Exploration Co.']
 #page-tracks-build.bg-white
 
   %header.absolute.top-0
@@ -23,7 +20,7 @@
           .stat-name
             Submissions
             = graphical_icon "info-circle"
-          .current-number 89,501
+          .current-number= @num_submissions
           .growth +2,569 per day
         .report-stat
           .stat-name
@@ -44,7 +41,7 @@
                 = graphical_icon "syllabus"
               %div{ 'tooling-status': 'needs-attention' }
                 = graphical_icon "test-runner"
-              %div{ 'tooling-status': 'dead' }
+              %div{ 'tooling-status': 'healthy' }
                 = graphical_icon "representer"
               %div{ 'tooling-status': 'needs-attention' }
                 = graphical_icon "analyzer"
@@ -90,16 +87,21 @@
         .usage-stats-header
           %h4 Usage statistics
         %details.mb-10
-          %summary.--syllabus #{@dummy_concepts.length}/#{@track.num_concepts} concepts created
-          - @dummy_concepts.each do |c|
+          %summary.--syllabus #{@track.num_concepts}/#{@track.concepts.size} concepts created
+          - @track.concepts.each do |concept|
             .record-row
-              .record-name= c
+              .record-name
+                = render ViewComponents::ConceptIcon.new(concept, :small)
+                = concept.name.to_s
               .record-value #{rand(50_000..100_000).to_s.gsub(/\B(?=(...)*\b)/, ',')} views
         %details.mb-16
-          %summary.--lightbulb #{@dummy_exercises.length}/#{@track.num_exercises} learning exercises created
-          - @dummy_exercises.each do |c|
+          %summary.--lightbulb #{@user_track.concept_exercises.size}/#{@track.num_exercises} learning exercises created
+          - @user_track.concept_exercises.each do |exercise|
             .record-row
-              .record-name= c
+              .record-name
+                = exercise_icon exercise
+                = exercise.title
+              .record-value #{exercise.num_published_solutions} completions (30% of attempts)
 
 
       .track-team-group
@@ -119,10 +121,10 @@
         .stats-container
           .record-row
             .record-name Total Test Runs
-            .record-value 518,506
+            .record-value= @num_test_runs
           .record-row
             .record-name Outcome Breakdown
-            .record-value 24% pass (127,602) 55% fail (248,011) 21% unknown (109,477)
+            .record-value #{@percent_tests_passed}% pass (#{@num_tests_passed}) #{@percent_tests_failed}% fail (#{@num_tests_failed}) #{@percent_tests_unknown}% unknown (#{@num_tests_unknown})
           .record-row
             .record-name Mean Runtime
             .record-value 2.84s
@@ -157,7 +159,7 @@
         .stats-container
           .record-row
             .record-name Total Representations Created
-            .record-value 814
+            .record-value= @track.representations.count
           .record-row
             .record-name Total Representation Comments Made
             .record-value 24% pass (127,602)
@@ -175,11 +177,13 @@
         .usage-stats-header
           %h4 Usage statistics
         %details.mb-10
-          %summary.--practice-exercises #{@dummy_practice.length}/30  practice exercise created
-          - @dummy_practice.each do |c|
+          %summary.--practice-exercises #{@user_track.practice_exercises.size}/30  practice exercise created
+          - @user_track.practice_exercises.each do |exercise|
             .record-row
-              .record-name= c
-              .record-value 80,831 completions (30% of attempts)
+              .record-name
+                = exercise_icon exercise
+                = exercise.title
+              .record-value #{exercise.num_published_solutions} completions (30% of attempts)
 
     .col-span-1
       .rounded-8.p-24.shadow-baseZ1.bg-white

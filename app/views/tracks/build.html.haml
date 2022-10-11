@@ -65,12 +65,19 @@
           Learn more
 
 
-      .flex.mb-16
+      .flex.mb-16.items-center
         = graphical_icon "building", css_class: "h-[64px] w-[64px] mr-20", hex: true
-        .flex.flex-col
+        .flex.flex-col.mr-auto
           %h2.text-h2 Build
           %p.text-18.text-textColor1.leading-150 Use your knowledge to build the #{@track.title} track itself
-        -# TODO add React component with authors/contributors here
+
+        = link_to(Exercism::Routes.contributing_contributors_path(track_slug: @track.slug), class: "people hidden lg:flex ") do
+          .c-faces.mr-16
+            - @track.top_contributors[0, 3].map do |author|
+              .face= avatar(author)
+          .stats.text-16
+            .contributors.text-textColor1.font-medium.mb-2= pluralize(@track.num_code_contributors, "maintainer")
+            .mentors= pluralize(@track.num_mentors, "contributor")
 
       .track-team-group
         .track-header
@@ -192,14 +199,14 @@
         .flex.items-center.mb-12
           = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
           .label-large.mr-16 Volunteers
-          .count-bubble 172
+          .count-bubble= @track.num_contributors
 
-        - 2.times do
+        - @track.top_contributors[0, 3].map do |contributor|
           .contributor-credit-block
             .contributor
-              = image_tag "team/erik.jpg", alt: "A photo of Erik"
-              ErikSchierboom
-            = render ViewComponents::Reputation.new(300, flashy: true, size: :small)
+              = avatar(contributor)
+              = contributor.name
+            = render ViewComponents::Reputation.new(contributor.reputation, flashy: true, size: :small)
         .rounded-8.py-16.px-20.bg-backgroundColorG
           %h6.text-h6.leading-150.mb-4 We 💙 our volunteers
           %p.text-textColor5.leading-150.text-14.mb-4

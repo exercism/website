@@ -24,7 +24,7 @@ export function DiggingDeeper({
     <div className="mb-48">
       {introduction.html.length > 0 ? (
         <>
-          <section className="shadow-lgZ1 !py-[18px] mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24">
+          <section className="shadow-lgZ1 py-20 mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24 bg-white">
             <h2 className="mb-8 text-h2">Dig deeper</h2>
             <div
               className="c-textual-content --small"

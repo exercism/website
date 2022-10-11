@@ -175,7 +175,7 @@ initReact({
   ),
 
   'track-approaches': (data: any) => (
-    <TrackComponents.Approaches data={camelizeKeys(data)} />
+    <TrackComponents.Approaches data={camelizeKeysAs<ApproachesProps>(data)} />
   ),
   'track-approach': (data: any) => <TrackComponents.Approach />,
 
@@ -193,6 +193,13 @@ initReact({
       numAuthors={data.num_authors}
       numContributors={data.num_contributors}
       links={data.links}
+    />
+  ),
+  'track-credits': (data: any) => (
+    <Common.Credits
+      avatarUrls={data.avatar_urls}
+      topCount={data.top_count}
+      topLabel={data.top_label}
     />
   ),
   'common-exercise-widget': (data: any) => (
@@ -396,7 +403,7 @@ initReact({
   ),
   'impact-chart': (data: any) => (
     <Suspense fallback={renderLoader()}>
-      <ImpactChart data={camelizeKeys(data)} />
+      <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
     </Suspense>
   ),
   'impact-testimonials': (data: any) => (
@@ -434,6 +441,8 @@ document.addEventListener(
 
 import { highlightAll } from '../utils/highlight'
 import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import { ApproachesProps } from '@/components/track/Approaches.js'
+import { ChartData } from 'chart.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

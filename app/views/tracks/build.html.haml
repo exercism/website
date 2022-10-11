@@ -102,7 +102,7 @@
                 = render ViewComponents::ConceptIcon.new(concept, :small)
                 = concept.name.to_s
               .record-value #{rand(50_000..100_000).to_s.gsub(/\B(?=(...)*\b)/, ',')} views
-        %details.mb-16
+        %details
           %summary.--lightbulb #{@user_track.concept_exercises.size}/#{@track.num_exercises} learning exercises created
           - @user_track.concept_exercises.each do |exercise|
             .record-row
@@ -110,6 +110,7 @@
                 = exercise_icon exercise
                 = exercise.title
               .record-value #{exercise.num_published_solutions} completions (30% of attempts)
+        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
 
 
       .track-team-group
@@ -136,6 +137,7 @@
           .record-row
             .record-name Mean Runtime
             .record-value 2.84s
+        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
 
 
       .track-team-group
@@ -154,6 +156,7 @@
           .record-row
             .record-name Analysis Display Rate
             .record-value 48%
+        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
 
       .track-team-group
         .track-header
@@ -174,6 +177,7 @@
           .record-row
             .record-name Representation Display Rate
             .record-value 58%
+        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
 
       .track-team-group
         .track-header
@@ -192,6 +196,7 @@
                 = exercise_icon exercise
                 = exercise.title
               .record-value #{exercise.num_published_solutions} completions (30% of attempts)
+        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
 
     .col-span-1
       = ReactComponents::Impact::Map.new

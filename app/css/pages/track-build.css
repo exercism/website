@@ -295,6 +295,10 @@
     @apply border-1 border-borderLight2 rounded-8;
 }
 
+.stats-container + .c-react-component {
+    @apply mt-16;
+}
+
 .record-row {
     @apply flex justify-between items-center;
     @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;

@@ -12,8 +12,8 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
     Exercise::Representation::SendNewFeedbackNotifications.(representation)
 
-    assert_equal 1, User::Notifications::AnalysisFeedbackAddedNotification.where(user:).count
-    notification = User::Notifications::AnalysisFeedbackAddedNotification.where(user:).first
+    assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user:).count
+    notification = User::Notifications::AutomatedFeedbackAddedNotification.where(user:).first
     assert_equal user, notification.user
     assert_equal representation, notification.representation
     assert_equal iteration, notification.iteration
@@ -31,8 +31,8 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
       Exercise::Representation::SendNewFeedbackNotifications.(representation)
 
-      assert_equal 1, User::Notifications::AnalysisFeedbackAddedNotification.where(user:).count
-      notification = User::Notifications::AnalysisFeedbackAddedNotification.where(user:).first
+      assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user:).count
+      notification = User::Notifications::AutomatedFeedbackAddedNotification.where(user:).first
       assert_equal user, notification.user
       assert_equal representation, notification.representation
       assert_equal iteration, notification.iteration
@@ -55,8 +55,8 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
     Exercise::Representation::SendNewFeedbackNotifications.(representation)
 
-    assert_equal 1, User::Notifications::AnalysisFeedbackAddedNotification.where(user: user_1).count
-    assert_equal 1, User::Notifications::AnalysisFeedbackAddedNotification.where(user: user_2).count
+    assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user: user_1).count
+    assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user: user_2).count
   end
 
   test "send notifications for latest active iterations with matching digest created in last two weeks for actionable feedback" do
@@ -75,8 +75,8 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
     Exercise::Representation::SendNewFeedbackNotifications.(representation)
 
-    assert_equal 1, User::Notifications::AnalysisFeedbackAddedNotification.where(user: user_1).count
-    assert_equal 0, User::Notifications::AnalysisFeedbackAddedNotification.where(user: user_2).count
+    assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user: user_1).count
+    assert_equal 0, User::Notifications::AutomatedFeedbackAddedNotification.where(user: user_2).count
   end
 
   test "does not send notification to iterations matching ast digest that are not latest" do
@@ -93,7 +93,7 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
     Exercise::Representation::SendNewFeedbackNotifications.(representation)
 
-    refute User::Notifications::AnalysisFeedbackAddedNotification.where(user:).exists?
+    refute User::Notifications::AutomatedFeedbackAddedNotification.where(user:).exists?
   end
 
   test "does not send notification to latest iterations matching ast digest that are inactive" do
@@ -107,7 +107,7 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
     Exercise::Representation::SendNewFeedbackNotifications.(representation)
 
-    refute User::Notifications::AnalysisFeedbackAddedNotification.where(user:).exists?
+    refute User::Notifications::AutomatedFeedbackAddedNotification.where(user:).exists?
   end
 
   test "does not send notification to iterations with no matching ast digest" do
@@ -121,7 +121,7 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
     Exercise::Representation::SendNewFeedbackNotifications.(representation)
 
-    refute User::Notifications::AnalysisFeedbackAddedNotification.where(user:).exists?
+    refute User::Notifications::AutomatedFeedbackAddedNotification.where(user:).exists?
   end
 
   %i[non_actionable celebratory].each do |feedback_type|
@@ -136,7 +136,7 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
       Exercise::Representation::SendNewFeedbackNotifications.(representation)
 
-      refute User::Notifications::AnalysisFeedbackAddedNotification.where(user:).exists?
+      refute User::Notifications::AutomatedFeedbackAddedNotification.where(user:).exists?
     end
   end
 end

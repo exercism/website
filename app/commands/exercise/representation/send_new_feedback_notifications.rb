@@ -30,7 +30,7 @@ class Exercise::Representation::SendNewFeedbackNotifications
   def send_notification(iteration)
     User::Notification::Create.(
       iteration.user,
-      :analysis_feedback_added,
+      :automated_feedback_added,
       iteration:,
       representation:
     )

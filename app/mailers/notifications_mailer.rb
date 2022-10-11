@@ -119,7 +119,7 @@ class NotificationsMailer < ApplicationMailer
     mail_to_user(@user, subject)
   end
 
-  def analysis_feedback_added
+  def automated_feedback_added
     notification = params[:notification]
     @user = notification.user
     @iteration = notification.iteration

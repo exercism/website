@@ -22,7 +22,7 @@ class CommunityVideo
         thumbnail_url:
       )
     rescue StandardError
-      raise InvalidCommunityVideoUrl
+      raise InvalidCommunityVideoUrlError
     end
 
     def embed_url = "https://www.youtube.com/embed/#{youtube_id}"
@@ -32,7 +32,7 @@ class CommunityVideo
       resp = JSON.parse(RestClient.get(api_url).body)
 
       items = resp['items']
-      raise InvalidCommunityVideoUrl if items.blank?
+      raise InvalidCommunityVideoUrlError if items.blank?
 
       items.first['snippet']
     end

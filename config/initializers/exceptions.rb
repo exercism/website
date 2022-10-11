@@ -55,4 +55,4 @@ class InvalidMetricPeriodError < RuntimeError; end
 
 class InvalidMetricTypeError < RuntimeError; end
 
-class InvalidCommunityVideoUrl < RuntimeError; end
+class InvalidCommunityVideoUrlError < RuntimeError; end

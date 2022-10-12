@@ -1,13 +1,15 @@
 require "test_helper"
 
 class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
-  test "index: renders correctly for supermentor" do
-    user = create :user, :supermentor
-    sign_in!(user)
+  %i[admin staff supermentor].each do |role|
+    test "index: renders correctly for #{role}" do
+      user = create :user, role
+      sign_in!(user)
 
-    get mentoring_automation_index_path
+      get mentoring_automation_index_path
 
-    assert_template "mentoring/automation/index"
+      assert_template "mentoring/automation/index"
+    end
   end
 
   test "index: redirects non supermentors" do

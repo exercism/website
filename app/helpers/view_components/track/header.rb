@@ -24,7 +24,7 @@ module ViewComponents
 
       def tags
         ts = []
-        if user_track&.practice_mode?
+        if practice_mode
           ts << tag.div(class: 'c-tag --practice-mode --compact') do
             graphical_icon("practice-mode") +
               tag.span("Practice Mode")

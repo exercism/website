@@ -151,6 +151,7 @@ namespace :api do
         patch :unpublish
         patch :published_iteration
         patch :sync
+        patch :unlock_help
       end
 
       resources :submissions, only: %i[create], controller: "solutions/submissions", param: :uuid do

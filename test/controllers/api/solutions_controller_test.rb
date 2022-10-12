@@ -601,4 +601,75 @@ class API::SolutionsControllerTest < API::BaseTestCase
       assert_equal :completed, solution.status
     end
   end
+
+  ###############
+  # Unlock help #
+  ###############
+  test "unlock_help renders 404 when solution not found" do
+    setup_user
+
+    patch unlock_help_api_solution_path("xxx"), headers: @headers, as: :json
+
+    assert_response :not_found
+    expected = {
+      error: {
+        type: "solution_not_found",
+        message: I18n.t("api.errors.solution_not_found")
+      }
+    }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "unlock_help should 403 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    patch unlock_help_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response :forbidden
+    expected = {
+      error: {
+        type: "solution_not_accessible",
+        message: I18n.t('api.errors.solution_not_accessible')
+      }
+    }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "unlock_help renders 400 when solution has no iterations" do
+    setup_user
+
+    exercise = create :concept_exercise
+    create :user_track, track: exercise.track, user: @current_user
+    solution = create :concept_solution, exercise: exercise, user: @current_user, completed_at: nil
+
+    patch unlock_help_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response :bad_request
+    expected = {
+      error: {
+        type: "solution_without_iterations",
+        message: I18n.t("api.errors.solution_without_iterations")
+      }
+    }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "unlock_help unlocks help for the solution" do
+    freeze_time do
+      setup_user
+
+      exercise = create :concept_exercise
+      create :user_track, track: exercise.track, user: @current_user
+      solution = create :concept_solution, exercise: exercise, user: @current_user, completed_at: Time.current
+      create :iteration, solution: solution
+
+      # Sanity check
+      refute solution.unlocked_help?
+
+      patch unlock_help_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+      assert_response :ok
+      assert solution.reload.unlocked_help?
+    end
+  end
 end

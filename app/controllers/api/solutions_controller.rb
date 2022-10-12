@@ -125,6 +125,16 @@ module API
       render json: { solution: SerializeSolution.(@solution) }
     end
 
+    def unlock_help
+      begin
+        Solution::UnlockHelp.(@solution)
+      rescue SolutionHasNoIterationsError
+        return render_400(:solution_without_iterations)
+      end
+
+      render json: {}
+    end
+
     private
     def use_solution
       @solution = Solution.find_by!(uuid: params[:uuid])

@@ -1,6 +1,7 @@
 module API
   class SolutionsController < BaseController
     before_action :use_solution, except: :index
+    before_action :use_user_track, only: %i[complete publish published_iteration unpublish]
 
     def index
       solutions = Solution::SearchUserSolutions.(
@@ -33,21 +34,18 @@ module API
     end
 
     def complete
-      user_track = UserTrack.for(current_user, @solution.track)
-      return render_404(:track_not_joined) if user_track.external?
-
-      changes = UserTrack::MonitorChanges.(user_track) do
-        Solution::Complete.(@solution, user_track)
-        Solution::Publish.(@solution, user_track, params[:iteration_idx]) if params[:publish]
+      changes = UserTrack::MonitorChanges.(@user_track) do
+        Solution::Complete.(@solution, @user_track)
+        Solution::Publish.(@solution, @user_track, params[:iteration_idx]) if params[:publish]
       rescue SolutionHasNoIterationsError
         return render_400(:solution_without_iterations)
       end
 
       output = {
-        track: SerializeTrack.(@solution.track, user_track),
-        exercise: SerializeExercise.(@solution.exercise, user_track:),
+        track: SerializeTrack.(@solution.track, @user_track),
+        exercise: SerializeExercise.(@solution.exercise, user_track: @user_track),
         unlocked_exercises: changes[:unlocked_exercises].map do |exercise|
-          SerializeExercise.(exercise, user_track:)
+          SerializeExercise.(exercise, user_track: @user_track)
         end,
         unlocked_concepts: changes[:unlocked_concepts].map do |concept|
           {
@@ -69,11 +67,8 @@ module API
     end
 
     def publish
-      user_track = UserTrack.for(current_user, @solution.track)
-      return render_404(:track_not_joined) if user_track.external?
-
       begin
-        Solution::Publish.(@solution, user_track, params[:iteration_idx])
+        Solution::Publish.(@solution, @user_track, params[:iteration_idx])
       rescue SolutionHasNoIterationsError
         return render_400(:solution_without_iterations)
       end
@@ -84,9 +79,6 @@ module API
     end
 
     def published_iteration
-      user_track = UserTrack.for(current_user, @solution.track)
-      return render_404(:track_not_joined) if user_track.external?
-
       Solution::PublishIteration.(@solution, params[:published_iteration_idx])
 
       render json: {
@@ -95,9 +87,6 @@ module API
     end
 
     def unpublish
-      user_track = UserTrack.for(current_user, @solution.track)
-      return render_404(:track_not_joined) if user_track.external?
-
       @solution.update!(published_at: nil, published_iteration_id: nil)
 
       render json: {
@@ -145,6 +134,11 @@ module API
       end
 
       return render_solution_not_accessible unless @solution.user_id == current_user.id
+    end
+
+    def use_user_track
+      @user_track = UserTrack.for(current_user, @solution.track)
+      return render_404(:track_not_joined) if @user_track.external?
     end
 
     def respond_with_authored_solution(solution)

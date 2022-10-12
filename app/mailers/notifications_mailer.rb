@@ -128,8 +128,8 @@ class NotificationsMailer < ApplicationMailer
     @emphasis = notification.emphasis
 
     @unsubscribe_key = :email_on_automated_feedback_added_notification
-    @title = "New feedback added to your solution on #{@track.title}/#{@exercise.title}"
-    subject = "[Mentoring] New feedback has been added to your solution on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
+    @title = "New automated feedback is available"
+    subject = "There's new feedback on your solution to #{@track.title}/#{@exercise.title}"
     mail_to_user(@user, subject)
   end
 end

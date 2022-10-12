@@ -96,7 +96,7 @@ class NotificationsMailerTest < ActionMailer::TestCase
       status: :unread, user: user, params: { representation:, iteration: }
 
     email = NotificationsMailer.with(notification:).automated_feedback_added
-    subject = "[Mentoring] New feedback has been added to your solution on Ruby/Lasagna"
+    subject = "There's new feedback on your solution to Ruby/Lasagna"
     assert_email(email, user.email, subject, "automated_feedback_added")
   end
 end

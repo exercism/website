@@ -1,52 +1,120 @@
 @import "../styles";
 
-.--syllabus {
-    &:before {
-        content: url("icons/syllabus.svg");
-    }
-}
-.--lightbulb {
-    &:before {
-        content: url("icons/lightbulb-idea.svg");
-    }
-}
-
-.--practice-exercises {
-    &:before {
-        content: url("icons/practice-exercises.svg");
-    }
-}
-
-.--syllabus-gradient {
-    &:before {
-        content: url("icons/syllabus-gradient.svg");
-    }
-}
-
-.--test-runner-gradient {
-    &:before {
-        content: url("icons/test-runner-gradient.svg");
-    }
-}
-.--analyzer-gradient {
-    &:before {
-        content: url("icons/analyzer-gradient.svg");
-    }
-}
-.--representer-gradient {
-    &:before {
-        content: url("icons/representer-gradient.svg");
-    }
-}
-.--practice-exercises-gradient {
-    &:before {
-        content: url("icons/practice-exercises-gradient.svg");
-    }
-}
-
-/* --------------------------------------------------------------------- */
-
 #page-tracks-build {
+    .--syllabus {
+        &:before {
+            content: url("icons/syllabus.svg");
+        }
+    }
+    .--lightbulb {
+        &:before {
+            content: url("icons/lightbulb-idea.svg");
+        }
+    }
+
+    .--practice-exercises {
+        &:before {
+            content: url("icons/practice-exercises.svg");
+        }
+    }
+
+    .--syllabus-gradient {
+        &:before {
+            content: url("icons/syllabus-gradient.svg");
+        }
+    }
+
+    .--test-runner-gradient {
+        &:before {
+            content: url("icons/test-runner-gradient.svg");
+        }
+    }
+    .--analyzer-gradient {
+        &:before {
+            content: url("icons/analyzer-gradient.svg");
+        }
+    }
+    .--representer-gradient {
+        &:before {
+            content: url("icons/representer-gradient.svg");
+        }
+    }
+    .--practice-exercises-gradient {
+        &:before {
+            content: url("icons/practice-exercises-gradient.svg");
+        }
+    }
+
+    @layer components {
+        .tooling-status {
+            @apply flex items-center border-2 border-black rounded-circle mr-16;
+            @apply bg-lightPurple;
+            height: 48px;
+            width: 48px;
+
+            img {
+                height: 20px;
+                width: 20px;
+                @apply mx-auto;
+            }
+        }
+
+        .usage-summary {
+            @apply label-large leading-150 flex items-center text-center;
+            @apply cursor-pointer;
+            @apply before-icon;
+            &:after {
+                content: url("icons/chevron-down.svg");
+                @apply transition-all;
+                @apply filter-textColor6;
+                height: 16px;
+                width: 16px;
+                @apply block ml-auto;
+            }
+        }
+
+        .stats-container {
+            @apply flex flex-col;
+            @apply py-12 px-24;
+            @apply border-1 border-borderLight2 rounded-8;
+        }
+
+        .stats-container + .c-react-component {
+            @apply mt-16;
+        }
+
+        .track-leader {
+            @apply text-h3 font-bold flex text-center items-center;
+
+            &:before {
+                @apply block mr-16;
+                height: 32px;
+                width: 32px;
+            }
+        }
+
+        .usage-stats-header {
+            h4 {
+                @apply text-h4 mb-8;
+                @apply before-icon;
+                &:before {
+                    content: url("icons/graph-stats.svg");
+                }
+            }
+        }
+        .before-icon {
+            @apply flex items-center;
+            &:before {
+                height: 24px;
+                width: 24px;
+                @apply block mr-16;
+                @apply filter-textColor1;
+            }
+        }
+    }
+
+    /* --------------------------------------------------------------------- */
+
     @apply bg-white;
     header {
         z-index: 0;
@@ -70,271 +138,204 @@
             url("bg-tracks-header@2x.jpg"), #fafaff;
         background-size: cover;
     }
-}
 
-.contributor-credit-block {
-    @apply flex items-center justify-between mb-8;
-    @apply border-1 border-borderLight rounded-8 px-16 py-8;
+    .contributor-credit-block {
+        @apply flex items-center justify-between mb-8;
+        @apply border-1 border-borderLight rounded-8 px-16 py-8;
 
-    & .contributor {
-        @apply text-16 font-semibold leading-150 text-textColor1;
-        @apply flex items-center;
+        & .contributor {
+            @apply text-16 font-semibold leading-150 text-textColor1;
+            @apply flex items-center;
 
-        img {
-            width: 32px;
-            height: 32px;
-            @apply rounded-circle mr-12;
-        }
-    }
-}
-
-.report-stat {
-    @apply flex flex-col py-16 px-24 shadow-sm bg-white rounded-8;
-    & .stat-name {
-        @apply flex items-center;
-        @apply label-large;
-        img {
-            @apply filter-textColor6 ml-12;
-            width: 15px;
-            height: 15px;
-        }
-    }
-    & .current-number {
-        @apply text-32 leading-150 font-semibold text-purple;
-    }
-    & .growth {
-        @apply text-16 font-semibold leading-150 text-healthyGreen;
-    }
-}
-
-/* TOOLING STATUS INDICATORS */
-
-.tooling-status-label {
-    @apply label-large text-16 mb-8;
-}
-.tooling-status-group {
-    @apply flex flex-row;
-}
-
-.track-status {
-    @apply rounded-16 px-32 py-24 shadow-lgZ1 text-textColor1 mb-32 bg-white;
-}
-
-.tooling-status {
-    @apply flex items-center border-2 border-black rounded-circle mr-16;
-    @apply bg-lightPurple;
-    height: 48px;
-    width: 48px;
-
-    img {
-        height: 20px;
-        width: 20px;
-        @apply mx-auto;
-    }
-}
-
-[tooling-status="healthy"] {
-    @apply tooling-status relative;
-    @apply border-healthyGreen;
-
-    img {
-        @apply filter-healthyGreen;
-    }
-
-    &:after {
-        content: url("icons/healthy-green-check.svg");
-        @apply absolute;
-        @apply right-0 translate-x-1/4;
-        @apply top-0 -translate-y-1/4;
-        width: 24px;
-        height: 24px;
-    }
-}
-
-[tooling-status="needs-attention"] {
-    @apply tooling-status;
-    @apply border-warning;
-    img {
-        @apply filter-warning;
-    }
-}
-
-[tooling-status="critical"] {
-    @apply tooling-status;
-    @apply border-danger;
-    img {
-        @apply filter-danger;
-    }
-}
-
-[tooling-status="dead"] {
-    @apply tooling-status;
-    @apply border-textColor6;
-    img {
-        @apply filter-textColor6;
-    }
-}
-
-/* TOOLING STATUS DETAILS */
-
-.track-team-group {
-    @apply mb-24;
-    @apply flex flex-col shadow-base px-24 py-16 rounded-8;
-
-    details {
-        & .record-row {
-            @apply first-of-type:mt-20 last-of-type:mb-6 mb-16;
-        }
-        @apply select-none;
-        @apply stats-container;
-        summary {
-            @apply usage-summary;
-        }
-    }
-
-    details[open] {
-        summary {
-            &:after {
-                @apply -rotate-90 transition-all;
+            img {
+                width: 32px;
+                height: 32px;
+                @apply rounded-circle mr-12;
             }
         }
     }
-}
 
-.track-header {
-    display: grid;
-    @apply gap-x-48 gap-y-8 mb-16;
-    grid-template-areas:
-        "a c"
-        "b c";
-    @apply self-center;
-
-    h3 {
-        grid-area: a;
-        @apply track-leader;
-    }
-    p {
-        grid-area: b;
-        @apply text-16 text-textColor5 leading-150;
-    }
-
-    & .learn-more-new-tab {
-        grid-area: c;
-        place-self: center;
-    }
-}
-
-.track-leader {
-    @apply text-h3 font-bold flex text-center items-center;
-
-    &:before {
-        @apply block mr-16;
-        height: 32px;
-        width: 32px;
-    }
-}
-
-.learn-more-new-tab {
-    @apply text-16 text-textColor6 font-semibold whitespace-nowrap leading-150 items-center;
-
-    &:after {
-        content: url("icons/new-tab.svg");
-        @apply filter-textColor6 ml-12;
-        width: 12px;
-        height: 12px;
-    }
-}
-
-.action-required {
-    @apply py-8 px-16 mb-24;
-    @apply label-large text-16;
-    @apply border-1 border-gradient-lightPurple rounded-16;
-
-    a {
-        @apply underline;
-    }
-}
-
-.usage-stats-header {
-    h4 {
-        @apply text-h4 mb-8;
-        @apply before-icon;
-        &:before {
-            content: url("icons/graph-stats.svg");
+    .report-stat {
+        @apply flex flex-col py-16 px-24 shadow-sm bg-white rounded-8;
+        & .stat-name {
+            @apply flex items-center;
+            @apply label-large;
+            img {
+                @apply filter-textColor6 ml-12;
+                width: 15px;
+                height: 15px;
+            }
+        }
+        & .current-number {
+            @apply text-32 leading-150 font-semibold text-purple;
+        }
+        & .growth {
+            @apply text-16 font-semibold leading-150 text-healthyGreen;
         }
     }
-}
 
-.usage-summary {
-    @apply label-large leading-150 flex items-center text-center;
-    @apply cursor-pointer;
-    @apply before-icon;
-    &:after {
-        content: url("icons/chevron-down.svg");
-        @apply transition-all;
-        @apply filter-textColor6;
-        height: 16px;
-        width: 16px;
-        @apply block ml-auto;
+    /* TOOLING STATUS INDICATORS */
+
+    .tooling-status-label {
+        @apply label-large text-16 mb-8;
     }
-}
-
-.before-icon {
-    @apply flex items-center;
-    &:before {
-        height: 24px;
-        width: 24px;
-        @apply block mr-16;
-        @apply filter-textColor1;
+    .tooling-status-group {
+        @apply flex flex-row;
     }
-}
 
-.stats-container {
-    @apply flex flex-col;
-    @apply py-12 px-24;
-    @apply border-1 border-borderLight2 rounded-8;
-}
+    .track-status {
+        @apply rounded-16 px-32 py-24 shadow-lgZ1 text-textColor1 mb-32 bg-white;
+    }
 
-.stats-container + .c-react-component {
-    @apply mt-16;
-}
+    [tooling-status="healthy"] {
+        @apply tooling-status relative;
+        @apply border-healthyGreen;
 
-.record-row {
-    @apply flex justify-between items-center;
-    @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
-    & .record-name {
-        @apply label-large text-16;
-        @apply flex items-center;
-        & .c-concept-icon,
         img {
-            @apply mr-12;
+            @apply filter-healthyGreen;
         }
 
-        & img {
-            width: 32px;
-            height: 32px;
+        &:after {
+            content: url("icons/healthy-green-check.svg");
+            @apply absolute;
+            @apply right-0 translate-x-1/4;
+            @apply top-0 -translate-y-1/4;
+            width: 24px;
+            height: 24px;
         }
     }
 
-    & .record-value {
-        @apply text-label-timestamp font-semibold;
+    [tooling-status="needs-attention"] {
+        @apply tooling-status;
+        @apply border-warning;
+        img {
+            @apply filter-warning;
+        }
     }
-}
 
-/* .highlight-text{
+    [tooling-status="critical"] {
+        @apply tooling-status;
+        @apply border-danger;
+        img {
+            @apply filter-danger;
+        }
+    }
+
+    [tooling-status="dead"] {
+        @apply tooling-status;
+        @apply border-textColor6;
+        img {
+            @apply filter-textColor6;
+        }
+    }
+
+    /* TOOLING STATUS DETAILS */
+
+    .track-team-group {
+        @apply mb-24;
+        @apply flex flex-col shadow-base px-24 py-16 rounded-8;
+
+        details {
+            & .record-row {
+                @apply first-of-type:mt-20 last-of-type:mb-6 mb-16;
+            }
+            @apply select-none;
+            @apply stats-container;
+            summary {
+                @apply usage-summary;
+            }
+        }
+
+        details[open] {
+            summary {
+                &:after {
+                    @apply -rotate-90 transition-all;
+                }
+            }
+        }
+    }
+
+    .track-header {
+        display: grid;
+        @apply gap-x-48 gap-y-8 mb-16;
+        grid-template-areas:
+            "a c"
+            "b c";
+        @apply self-center;
+
+        h3 {
+            grid-area: a;
+            @apply track-leader;
+        }
+        p {
+            grid-area: b;
+            @apply text-16 text-textColor5 leading-150;
+        }
+
+        & .learn-more-new-tab {
+            grid-area: c;
+            place-self: center;
+        }
+    }
+
+    .learn-more-new-tab {
+        @apply text-16 text-textColor6 font-semibold whitespace-nowrap leading-150 items-center;
+
+        &:after {
+            content: url("icons/new-tab.svg");
+            @apply filter-textColor6 ml-12;
+            width: 12px;
+            height: 12px;
+        }
+    }
+
+    .action-required {
+        @apply py-8 px-16 mb-24;
+        @apply label-large text-16;
+        @apply border-1 border-gradient-lightPurple rounded-16;
+
+        a {
+            @apply underline;
+        }
+    }
+
+    .record-row {
+        @apply flex justify-between items-center;
+        @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
+        & .record-name {
+            @apply label-large text-16;
+            @apply flex items-center;
+            & .c-concept-icon,
+            img {
+                @apply mr-12;
+            }
+
+            & img {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        & .record-value {
+            @apply text-label-timestamp font-semibold;
+        }
+    }
+
+    /* .highlight-text{
     @apply inline-block p-12;
     @apply font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%];
 } */
 
-.highlight-text {
-    @apply inline relative z-1;
+    .highlight-text {
+        @apply inline relative z-1;
 
-    background-color: transparent;
-    &:before {
-        content: "";
-        @apply absolute -z-1;
-        width: 100%;
-        height: 1.2em;
-        background-image: url("graphics/impact-highlight.svg");
+        background-color: transparent;
+        &:before {
+            content: "";
+            @apply absolute -z-1;
+            width: 100%;
+            height: 1.2em;
+            background-image: url("graphics/impact-highlight.svg");
+        }
     }
 }

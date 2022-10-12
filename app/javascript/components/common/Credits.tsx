@@ -1,5 +1,5 @@
-import { AvatarGroup, AvatarGroupProps } from '@/components/common'
-import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
+import { AvatarGroup, AvatarGroupProps } from '.'
+import { pluralizeWithNumber } from '@/utils'
 import React from 'react'
 
 type CreditsProps = {

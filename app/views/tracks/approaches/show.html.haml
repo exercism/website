@@ -6,12 +6,19 @@
         = graphical_icon "building", category: :graphics, css_class: "h-48 mr-12"
         -# = track_icon css_class: "h-[40px] w-[40px] mr-12"
           . = exercise_icon "amusement-park", css_class: "h-48 mr-12"
-        .flex.flex-col
+        .flex.flex-col.mr-24
           .text-h5.whitespace-nowrap Amusement park
           .textColor-6.font-normal.leading-150.text-16 Csharp
+        = graphical_icon "new-tab", css_class: "filter-textColor6 w-[16px] h-[16px]"
 
       .block.flex-grow
         %h1.text-h0.mb-12.md:mb-18= @approach.title
+        .flex.items-center.text-16.font-semibold.leading-150
+          = avatar(@approach.author)
+          .text-textColor1
+            by #{@approach.author.name}&nbsp;
+          .text-textColor6
+            &middot; Published #{format_date(@approach.published_at)}
   .md-container.mb-32.md:mb-48
     %article.shadow-lgZ1.bg-backgroundColorA.rounded-8
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center

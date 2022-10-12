@@ -24,6 +24,7 @@ class Tracks::ApproachesController < ApplicationController
       author: OpenStruct.new(
         avatar_url: "https://avatars.githubusercontent.com/u/135246?v=4",
         handle: "Erik",
+        name: "Erik Schierboom",
         formatted_reputation: 999
       ),
       title: "Utilising In-built Date Functions for Consistency",

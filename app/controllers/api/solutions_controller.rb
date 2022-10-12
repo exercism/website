@@ -138,14 +138,5 @@ module API
       @user_track = UserTrack.for(current_user, @solution.track)
       render_404(:track_not_joined) if @user_track.external?
     end
-
-    def respond_with_authored_solution(solution)
-      solution.sync_git! unless solution.downloaded?
-
-      render json: SerializeSolutionForCLI.(solution, current_user)
-
-      # Only set this if we've not 500'd
-      solution.update(downloaded_at: Time.current)
-    end
   end
 end

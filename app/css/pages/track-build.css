@@ -143,7 +143,7 @@
         @apply flex items-center justify-between mb-8;
         @apply border-1 border-borderLight rounded-8 px-16 py-8;
 
-        & .contributor {
+        .contributor {
             @apply text-16 font-semibold leading-150 text-textColor1;
             @apply flex items-center;
 
@@ -157,7 +157,7 @@
 
     .report-stat {
         @apply flex flex-col py-16 px-24 shadow-sm bg-white rounded-8;
-        & .stat-name {
+        .stat-name {
             @apply flex items-center;
             @apply label-large;
             img {
@@ -166,10 +166,10 @@
                 height: 15px;
             }
         }
-        & .current-number {
+        .current-number {
             @apply text-32 leading-150 font-semibold text-purple;
         }
-        & .growth {
+        .growth {
             @apply text-16 font-semibold leading-150 text-healthyGreen;
         }
     }
@@ -236,7 +236,7 @@
         @apply flex flex-col shadow-base px-24 py-16 rounded-8;
 
         details {
-            & .record-row {
+            .record-row {
                 @apply first-of-type:mt-20 last-of-type:mb-6 mb-16;
             }
             @apply select-none;
@@ -272,7 +272,7 @@
             @apply text-16 text-textColor5 leading-150;
         }
 
-        & .learn-more-new-tab {
+        .learn-more-new-tab {
             grid-area: c;
             place-self: center;
         }
@@ -302,21 +302,21 @@
     .record-row {
         @apply flex justify-between items-center;
         @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
-        & .record-name {
+        .record-name {
             @apply label-large text-16;
             @apply flex items-center;
-            & .c-concept-icon,
+            .c-concept-icon,
             img {
                 @apply mr-12;
             }
 
-            & img {
+            img {
                 width: 32px;
                 height: 32px;
             }
         }
 
-        & .record-value {
+        .record-value {
             @apply text-label-timestamp font-semibold;
         }
     }

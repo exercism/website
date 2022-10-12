@@ -20,11 +20,23 @@ class Exercise::Representation::SendNewFeedbackNotifications
     end
   end
 
-  def submission_representations = representation.submission_representations
-  def latest_active_iterations = submission_representations.map(&:iteration).select(&:latest?)
+  def latest_active_iterations
+    Iteration.
+      not_deleted.
+      joins("LEFT JOIN `iterations` AS `i` ON `i`.`solution_id` = `iterations`.`solution_id` AND `i`.`deleted_at` IS NULL AND `i`.`idx` > `iterations`.`idx`"). # rubocop:disable Layout/LineLength
+      where('`i`.`id` IS NULL').
+      where(id: iterations_with_matching_ast_digest)
+  end
 
   def latest_recent_active_iterations
-    latest_active_iterations.select { |iteration| iteration.created_at >= Time.zone.now - 2.weeks }
+    latest_active_iterations.where('iterations.created_at >= ?', Time.zone.now - 2.weeks)
+  end
+
+  def iterations_with_matching_ast_digest
+    Submission::Representation.
+      joins(submission: :iteration).
+      where(ast_digest: representation.ast_digest).
+      select('iterations.id')
   end
 
   def send_notification(iteration)

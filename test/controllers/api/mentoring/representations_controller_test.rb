@@ -145,6 +145,38 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_nil representation.feedback_editor
   end
 
+  test "update is rate limited" do
+    setup_user
+
+    beginning_of_minute = Time.current.beginning_of_minute
+    travel_to beginning_of_minute
+
+    user = create :user, :supermentor
+    setup_user(user)
+
+    representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
+    params = {
+      representation: {
+        feedback_markdown: "_great_ work",
+        feedback_type: :actionable
+      }
+    }
+
+    10.times do
+      patch api_mentoring_representation_path(representation), params:, headers: @headers, as: :json
+      assert_response :ok
+    end
+
+    patch api_mentoring_representation_path(representation), params:, headers: @headers, as: :json
+    assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to beginning_of_minute + 1.minute
+
+    patch api_mentoring_representation_path(representation), params:, headers: @headers, as: :json
+    assert_response :ok
+  end
+
   ####################
   # without_feedback #
   ####################

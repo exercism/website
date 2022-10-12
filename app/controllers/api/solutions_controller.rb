@@ -127,18 +127,16 @@ module API
 
     private
     def use_solution
-      begin
-        @solution = Solution.find_by!(uuid: params[:uuid])
-      rescue ActiveRecord::RecordNotFound
-        return render_solution_not_found
-      end
+      @solution = Solution.find_by!(uuid: params[:uuid])
 
-      return render_solution_not_accessible unless @solution.user_id == current_user.id
+      render_solution_not_accessible unless @solution.user_id == current_user.id
+    rescue ActiveRecord::RecordNotFound
+      render_solution_not_found
     end
 
     def use_user_track
       @user_track = UserTrack.for(current_user, @solution.track)
-      return render_404(:track_not_joined) if @user_track.external?
+      render_404(:track_not_joined) if @user_track.external?
     end
 
     def respond_with_authored_solution(solution)

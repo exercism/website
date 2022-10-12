@@ -40,7 +40,7 @@ class Exercise::Representation::SendNewFeedbackNotifications
   end
 
   def send_notification(iteration)
-    User::Notification::Create.(
+    User::Notification::Create.defer(
       iteration.user,
       :automated_feedback_added,
       iteration:,

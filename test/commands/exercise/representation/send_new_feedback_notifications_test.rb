@@ -10,7 +10,9 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     iteration = create :iteration, submission: submission, idx: 1
     create :submission_representation, submission: submission, ast_digest: representation.ast_digest
 
-    Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    perform_enqueued_jobs do
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    end
 
     assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user:).count
     notification = User::Notifications::AutomatedFeedbackAddedNotification.where(user:).first
@@ -29,7 +31,9 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
       iteration = create :iteration, submission: submission, idx: 1
       create :submission_representation, submission: submission, ast_digest: representation.ast_digest
 
-      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+      perform_enqueued_jobs do
+        Exercise::Representation::SendNewFeedbackNotifications.(representation)
+      end
 
       assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user:).count
       notification = User::Notifications::AutomatedFeedbackAddedNotification.where(user:).first
@@ -53,7 +57,9 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     create :submission_representation, submission: submission_1, ast_digest: representation.ast_digest
     create :submission_representation, submission: submission_2, ast_digest: representation.ast_digest
 
-    Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    perform_enqueued_jobs do
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    end
 
     assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user: user_1).count
     assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user: user_2).count
@@ -73,7 +79,9 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     create :submission_representation, submission: submission_1, ast_digest: representation.ast_digest
     create :submission_representation, submission: submission_2, ast_digest: representation.ast_digest
 
-    Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    perform_enqueued_jobs do
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    end
 
     assert_equal 1, User::Notifications::AutomatedFeedbackAddedNotification.where(user: user_1).count
     assert_equal 0, User::Notifications::AutomatedFeedbackAddedNotification.where(user: user_2).count
@@ -91,7 +99,9 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     create :iteration, :deleted, submission: submission_2, idx: 2
     create :submission_representation, submission: submission_2, ast_digest: 'different'
 
-    Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    perform_enqueued_jobs do
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    end
 
     refute User::Notifications::AutomatedFeedbackAddedNotification.where(user:).exists?
   end
@@ -105,7 +115,9 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     create :iteration, :deleted, submission: submission, idx: 1
     create :submission_representation, submission: submission, ast_digest: representation.ast_digest
 
-    Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    perform_enqueued_jobs do
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    end
 
     refute User::Notifications::AutomatedFeedbackAddedNotification.where(user:).exists?
   end
@@ -119,7 +131,9 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     create :iteration, submission: submission, idx: 1
     create :submission_representation, submission: submission, ast_digest: 'different_digest'
 
-    Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    perform_enqueued_jobs do
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    end
 
     refute User::Notifications::AutomatedFeedbackAddedNotification.where(user:).exists?
   end
@@ -134,7 +148,9 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
       create :iteration, submission: submission, idx: 1
       create :submission_representation, submission: submission, ast_digest: representation.ast_digest
 
-      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+      perform_enqueued_jobs do
+        Exercise::Representation::SendNewFeedbackNotifications.(representation)
+      end
 
       refute User::Notifications::AutomatedFeedbackAddedNotification.where(user:).exists?
     end

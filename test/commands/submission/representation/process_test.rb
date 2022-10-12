@@ -111,6 +111,10 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     job = create_representer_job!(submission, execution_status: 200, ast:)
     cmd = Submission::Representation::Process.new(job)
     cmd.expects(:handle_generated!).raises
+
+    # We have a guard to reraise in dev/test here, so
+    # stimulate production for this step
+    Rails.env.expects(:production?).returns(true)
     cmd.()
 
     assert submission.reload.representation_exceptioned?

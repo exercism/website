@@ -25,8 +25,6 @@ class TracksController < ApplicationController
   def build
     percent = ->(num, denom) { (num.to_f / denom * 100).round(1) }
 
-    # All testruns
-    # Submission::TestRun.group(:status).count
     @test_runner_status_count = @track.submissions.group(:tests_status).count
     @num_test_runs = @test_runner_status_count.values.sum
     @num_submissions = @track.submissions.count

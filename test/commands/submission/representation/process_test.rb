@@ -58,6 +58,9 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     Submission::Representation::Process.(job_3)
     assert_equal 3, Submission::Representation.count
     assert_equal 2, Exercise::Representation.count
+
+    assert_equal submission_1.exercise_representation, submission_2.exercise_representation
+    refute_equal submission_2.exercise_representation, submission_3.exercise_representation
   end
 
   test "handle ops error" do

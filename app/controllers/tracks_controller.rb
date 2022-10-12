@@ -1,6 +1,7 @@
 class TracksController < ApplicationController
   before_action :use_track, except: :index
   skip_before_action :authenticate_user!, only: %i[index show about]
+  # skip_before_action :authenticate_user!, only: %i[index show about]
 
   def index
     @tracks = Track::Search.(

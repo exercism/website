@@ -21,6 +21,8 @@ class Submission
             handle_generated!
           end
         rescue StandardError
+          raise unless Rails.env.production?
+
           # Reload the record here to ensure # that it hasn't got
           # in a bad state in the transaction above.
           submission.reload.representation_exceptioned!
@@ -33,8 +35,6 @@ class Submission
       attr_reader :exercise_representation, :submission_representation
 
       def create_submission_representation!
-        # return unless ast_digest
-
         @submission_representation = Submission::Representation::Create.(
           submission, tooling_job, ast_digest
         )

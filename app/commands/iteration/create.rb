@@ -18,6 +18,7 @@ class Iteration
 
         solution.update_status!
         solution.update_iteration_status!
+        solution.update(unlocked_help: true)
         Solution.reset_counters(solution.id, :iterations)
 
         GenerateIterationSnippetJob.perform_later(iteration)

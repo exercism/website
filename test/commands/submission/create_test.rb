@@ -122,19 +122,4 @@ class Submission::CreateTest < ActiveSupport::TestCase
     assert_equal solution.track, metric.track
     assert_equal solution.user, metric.user
   end
-
-  %i[api cli].each do |submitted_via|
-    test "unlocks help for solution when submitted via #{submitted_via}" do
-      solution = create :concept_solution
-
-      # Sanity check
-      refute solution.unlocked_help?
-
-      perform_enqueued_jobs do
-        Submission::Create.(solution, [{ filename: "file1", content: "contents" }], :api)
-      end
-
-      assert solution.reload.unlocked_help?
-    end
-  end
 end

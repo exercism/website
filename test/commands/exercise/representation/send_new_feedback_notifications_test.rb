@@ -155,4 +155,38 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
       refute User::Notifications::AutomatedFeedbackAddedNotification.where(user:).exists?
     end
   end
+
+  test "does not send email notification when created before 2022-10-13" do
+    representation = create :exercise_representation, :with_feedback, feedback_type: :essential
+
+    user = create :user
+    solution = create :practice_solution, user: user
+    submission = create :submission, exercise: representation.exercise, solution: solution
+    create :iteration, submission: submission, idx: 1
+    create :submission_representation, submission: submission, ast_digest: representation.ast_digest
+
+    travel_to(Time.utc(2022, 10, 12, 0, 0, 0))
+    NotificationsMailer.expects(:send).never
+
+    perform_enqueued_jobs do
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    end
+  end
+
+  test "sends email notification when created after 2022-10-12" do
+    representation = create :exercise_representation, :with_feedback, feedback_type: :essential
+
+    user = create :user
+    solution = create :practice_solution, user: user
+    submission = create :submission, exercise: representation.exercise, solution: solution
+    create :iteration, submission: submission, idx: 1
+    create :submission_representation, submission: submission, ast_digest: representation.ast_digest
+
+    travel_to(Time.utc(2022, 10, 13, 0, 0, 0))
+    NotificationsMailer.expects(:send).never
+
+    perform_enqueued_jobs do
+      Exercise::Representation::SendNewFeedbackNotifications.(representation)
+    end
+  end
 end

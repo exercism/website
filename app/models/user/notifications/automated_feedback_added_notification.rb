@@ -23,6 +23,10 @@ class User
         representation.has_essential_feedback? ? 'strongly ' : nil
       end
 
+      def email_should_send?
+        super && representation.created_at >= "2022-10-13"
+      end
+
       delegate :track, :exercise, to: :iteration
     end
   end

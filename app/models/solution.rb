@@ -213,9 +213,7 @@ class Solution < ApplicationRecord
     !!published_at
   end
 
-  def iterated?
-    iterations.exists?
-  end
+  def iterated? = status != :started
 
   def has_unlocked_pending_mentoring_request?
     mentor_requests.pending.unlocked.exists?
@@ -295,7 +293,7 @@ class Solution < ApplicationRecord
   def determine_status
     return :published if published?
     return :completed if completed?
-    return :iterated if iterated?
+    return :iterated if iterations.exists? # We're not using iterated? to avoid circular logic
 
     :started
   end

@@ -14,11 +14,17 @@ export function CommunityVideoModal({
   video: CommunityVideo
 }): JSX.Element {
   return (
-    <Modal open={isOpen} closeButton onClose={onClose} className="items-center">
+    <Modal
+      open={isOpen}
+      closeButton
+      onClose={onClose}
+      className="items-center"
+      ReactModalClassName="max-w-[800px]"
+    >
       <h2 className="text-h2 mb-24 text-center">{video.title}</h2>
       {/* reponsive top-padding for 16:9 videos */}
       <div
-        className="relative overflow-hidden pt-[56.25%] mb-24"
+        className="relative overflow-hidden pb-[56.25%] mb-24"
         style={{ width: '100%' }}
       >
         <iframe

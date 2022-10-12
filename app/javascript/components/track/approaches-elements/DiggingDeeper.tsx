@@ -1,7 +1,7 @@
 import React from 'react'
-import { GraphicalIcon, Icon } from '@/components/common'
-import { ConceptMakersButton } from '../ConceptMakersButton'
+import { GraphicalIcon, Icon, Credits } from '@/components/common'
 import dayjs from 'dayjs'
+import { NoIntroductionYet } from '.'
 
 export type ApproachIntroduction = {
   html: string
@@ -22,15 +22,21 @@ export function DiggingDeeper({
 }): JSX.Element {
   return (
     <div className="mb-48">
-      <section className="shadow-lgZ1 !py-[18px] mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24">
-        <h2 className="mb-8 text-h2">Digging deeper</h2>
-        <div
-          className="c-textual-content --small"
-          dangerouslySetInnerHTML={{ __html: introduction.html }}
-        />
-      </section>
+      {introduction.html.length > 0 ? (
+        <>
+          <section className="shadow-lgZ1 py-20 mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24 bg-white">
+            <h2 className="mb-8 text-h2">Dig deeper</h2>
+            <div
+              className="c-textual-content --small"
+              dangerouslySetInnerHTML={{ __html: introduction.html }}
+            />
+          </section>
 
-      <DiggingDeeperFooter introduction={introduction} />
+          <DiggingDeeperFooter introduction={introduction} />
+        </>
+      ) : (
+        <NoIntroductionYet introduction={introduction} />
+      )}
     </div>
   )
 }
@@ -43,10 +49,12 @@ function DiggingDeeperFooter({
   return (
     <footer className="flex items-center justify-between text-textColor6 py-12 mb-48">
       <div className="flex items-center">
-        <ConceptMakersButton
-          links={{ makers: 'exercism.org' }}
-          numAuthors={introduction.numAuthors}
-          numContributors={introduction.numContributors}
+        <Credits
+          topCount={introduction.numAuthors}
+          topLabel="author"
+          bottomCount={introduction.numContributors}
+          bottomLabel="contributor"
+          max={2}
           avatarUrls={introduction.avatarUrls}
         />
         {introduction.updatedAt && (

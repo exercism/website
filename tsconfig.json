@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "app/javascript",
     "allowJs": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
@@ -14,8 +15,7 @@
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "types": ["app/javascript/declarations"],
-    "baseUrl": "app/javascript",
+    "types": ["./app/javascript/declarations"],
     "paths": {
       "@/*": ["./*"]
     }

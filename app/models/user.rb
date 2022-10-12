@@ -252,10 +252,6 @@ class User < ApplicationRecord
     %w[english spanish]
   end
 
-  def mentor?
-    became_mentor_at.present?
-  end
-
   def system?
     id == SYSTEM_USER_ID
   end

@@ -16,18 +16,34 @@ class User::RolesTest < ActiveSupport::TestCase
   test "staff?" do
     assert create(:user, roles: [:staff]).staff?
     assert create(:user, roles: %i[staff misc]).staff?
+    assert create(:user, roles: [:admin]).staff?
     refute create(:user, roles: [:misc]).staff?
   end
 
   test "maintainer?" do
     assert create(:user, roles: [:maintainer]).maintainer?
     assert create(:user, roles: %i[maintainer misc]).maintainer?
+    assert create(:user, roles: [:admin]).maintainer?
     refute create(:user, roles: [:misc]).maintainer?
   end
 
   test "supermentor?" do
     assert create(:user, roles: [:supermentor]).supermentor?
     assert create(:user, roles: %i[supermentor misc]).supermentor?
+    assert create(:user, roles: [:admin]).supermentor?
+    assert create(:user, roles: [:staff]).supermentor?
+    refute create(:user, roles: [:misc]).supermentor?
+  end
+
+  test "mentor?" do
+    user = create :user, became_mentor_at: nil
+    refute user.mentor?
+
+    user.update(became_mentor_at: Time.current)
+    assert user.mentor?
+
+    assert create(:user, roles: [:admin]).supermentor?
+    assert create(:user, roles: [:staff]).supermentor?
     refute create(:user, roles: [:misc]).supermentor?
   end
 end

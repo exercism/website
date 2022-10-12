@@ -23,7 +23,7 @@ class Tracks::ApproachesController < ApplicationController
     @approach = OpenStruct.new(
       author: OpenStruct.new(
         avatar_url: "https://avatars.githubusercontent.com/u/135246?v=4",
-        handle: "Erik",
+        handle: "ErikSchierboom",
         name: "Erik Schierboom",
         formatted_reputation: 999
       ),

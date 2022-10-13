@@ -1,10 +1,8 @@
 class User::Notifications::AddedToContributorsPageNotification < User::Notification
   def url = Exercism::Routes.contributing_contributors_url
-
   def i18n_params = {}
 
   def image_type = :icon
-
   def image_path = "icons/contributors.svg"
 
   def guard_params

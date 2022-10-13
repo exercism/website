@@ -5,7 +5,6 @@ module User::Activities
     end
 
     def url = Exercism::Routes.track_exercise_path(track, solution.exercise)
-
     def guard_params = "Solution##{solution.id}"
 
     def i18n_params

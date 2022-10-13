@@ -48,11 +48,9 @@ class Badge < ApplicationRecord
 
   # Stub to allow badges to short-circuit queueing
   def self.worth_queuing?(**_context) = true
-
   def award_to?(_user) = raise "Implement this method in the child class"
 
   def rarity = super.to_sym
-
   def icon = super.to_sym
 
   # TODO: Cache number of users

@@ -78,7 +78,6 @@ class Submission::Analysis < ApplicationRecord
   end
 
   def ops_success? = ops_status == 200
-
   def ops_errored? = !ops_success?
 
   private

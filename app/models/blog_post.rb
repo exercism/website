@@ -19,9 +19,7 @@ class BlogPost < ApplicationRecord
   end
 
   def new? = published_at > 7.days.ago
-
   def video? = youtube_id.present?
-
   def to_param = slug
 
   def image_url

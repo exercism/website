@@ -122,7 +122,6 @@ class Solution < ApplicationRecord
 
   memoize
   def latest_iteration_submission = latest_iteration&.submission
-
   def mentor_download_cmd = "exercism download --uuid=#{uuid}"
 
   def viewable_by?(viewer)
@@ -186,17 +185,13 @@ class Solution < ApplicationRecord
   end
 
   def to_param = raise "We almost never want to auto-generate solution urls. Use the solution_url helper method or use uuid if you're sure you want to do this." # rubocop:disable Layout/LineLength
-
   def downloaded? = !!downloaded_at
 
   def completed? = !!completed_at
-
   def published? = !!published_at
 
   def iterated? = status != :started
-
   def has_unlocked_pending_mentoring_request? = mentor_requests.pending.unlocked.exists?
-
   def has_locked_pending_mentoring_request? = mentor_requests.pending.locked.exists?
 
   memoize

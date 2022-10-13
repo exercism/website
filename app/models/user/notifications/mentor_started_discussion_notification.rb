@@ -17,9 +17,7 @@ class User::Notifications::MentorStartedDiscussionNotification < User::Notificat
   end
 
   def image_type = :avatar
-
   def image_url = mentor.avatar_url
-
   def guard_params = "Discussion##{discussion.id}"
 
   private

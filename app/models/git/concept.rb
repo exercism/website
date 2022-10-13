@@ -42,7 +42,6 @@ module Git
     attr_reader :repo, :concept_slug, :git_sha
 
     def absolute_filepath(filepath) = "#{dir}/#{filepath}"
-
     def dir = "concepts/#{concept_slug}"
 
     memoize

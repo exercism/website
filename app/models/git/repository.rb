@@ -26,7 +26,6 @@ module Git
     end
 
     def head_commit = active_branch.target
-
     def head_sha = head_commit.oid
 
     def read_json_blob(commit, path)

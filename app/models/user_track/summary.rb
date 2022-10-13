@@ -131,7 +131,6 @@ class UserTrack::Summary
   end
 
   def num_started_exercises = num_in_progress_exercises + num_completed_exercises
-
   def num_in_progress_exercises = in_progress_exercise_ids.size
 
   def unlocked_exercise_ids
@@ -272,9 +271,7 @@ class UserTrack::Summary
     keyword_init: true
   ) do
     def num_exercises = num_concept_exercises + num_practice_exercises
-
     def num_completed_exercises = num_completed_concept_exercises + num_completed_practice_exercises
-
     def unlocked? = unlocked
 
     def learnt?

@@ -99,7 +99,6 @@ class Exercise < ApplicationRecord
   end
 
   def concept_exercise? = is_a?(ConceptExercise)
-
   def practice_exercise? = is_a?(PracticeExercise)
 
   def tutorial?
@@ -111,7 +110,6 @@ class Exercise < ApplicationRecord
   end
 
   def to_param = slug
-
   def download_cmd = "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
 
   def difficulty_category

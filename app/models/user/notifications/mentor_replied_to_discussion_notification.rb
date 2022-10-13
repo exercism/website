@@ -17,9 +17,7 @@ class User::Notifications::MentorRepliedToDiscussionNotification < User::Notific
   end
 
   def image_type = :avatar
-
   def image_url = mentor.avatar_url
-
   def guard_params = "DiscussionPost##{discussion_post.id}"
 
   delegate :discussion, to: :discussion_post

@@ -243,7 +243,6 @@ class User < ApplicationRecord
   end
 
   def system? = id == SYSTEM_USER_ID
-
   def ghost? = id == GHOST_USER_ID
 
   def dismiss_introducer!(slug)

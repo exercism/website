@@ -33,7 +33,6 @@ class Exercise::Representation < ApplicationRecord
 
   def to_param = uuid
   def feedback_type = super&.to_sym
-
   def num_times_used = submission_representations.count
 
   def has_essential_feedback? = has_feedback? && feedback_essential?

@@ -7,7 +7,6 @@ module User::Activities
     end
 
     def url = Exercism::Routes.track_exercise_iteration_path(track, solution.exercise, iteration)
-
     def icon_name = "iteration"
 
     def i18n_params

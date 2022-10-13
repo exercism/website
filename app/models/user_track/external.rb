@@ -15,9 +15,7 @@ class UserTrack
     delegate :title, to: :track, prefix: true
 
     def user = nil
-
     def tutorial_exercise_completed? = false
-
     def anonymous_during_mentoring? = true
 
     memoize
@@ -57,9 +55,7 @@ class UserTrack
     # Non-summary methods #
     #######################
     def external? = true
-
     def practice_mode? = false
-
     def last_touched_at = nil
 
     memoize
@@ -93,11 +89,9 @@ class UserTrack
     # Exercise methods #
     ####################
     def exercise_unlocked?(_) = true
-
     def exercise_completed?(_) = false
 
     def exercise_status(_) = :external
-
     def exercise_has_notifications?(_) = false
 
     def exercise_position(slug)
@@ -118,9 +112,7 @@ class UserTrack
     # Concept methods #
     ###################
     def concept_unlocked?(_) = false
-
     def concept_learnt?(_) = false
-
     def concept_mastered?(_) = false
 
     def num_exercises_for_concept(obj)
@@ -138,7 +130,6 @@ class UserTrack
     end
 
     def num_concepts_learnt = 0
-
     def num_concepts_mastered = 0
 
     ###################

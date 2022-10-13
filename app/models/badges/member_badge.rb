@@ -6,7 +6,6 @@ module Badges
       "Joined Exercism"
 
     def award_to?(_user) = true
-
     def send_email_on_acquisition? = false
 
     def percentage_awardees = 100

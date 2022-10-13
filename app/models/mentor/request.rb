@@ -61,9 +61,7 @@ class Mentor::Request < ApplicationRecord
   end
 
   def to_param = uuid
-
   def status = super.to_sym
-
   def type = super.to_sym
 
   # If this request is locked by someone else then

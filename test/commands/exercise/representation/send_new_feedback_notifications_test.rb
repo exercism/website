@@ -157,6 +157,8 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
   end
 
   test "does not send email notification when created before 2022-10-13" do
+    travel_to(Time.utc(2022, 10, 12, 0, 0, 0))
+
     representation = create :exercise_representation, :with_feedback, feedback_type: :essential
 
     user = create :user
@@ -165,15 +167,16 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     create :iteration, submission: submission, idx: 1
     create :submission_representation, submission: submission, ast_digest: representation.ast_digest
 
-    travel_to(Time.utc(2022, 10, 12, 0, 0, 0))
-    NotificationsMailer.expects(:send).never
-
     perform_enqueued_jobs do
       Exercise::Representation::SendNewFeedbackNotifications.(representation)
     end
+
+    assert_empty ActionMailer::Base.deliveries
   end
 
   test "sends email notification when created after 2022-10-12" do
+    travel_to(Time.utc(2022, 10, 13, 0, 0, 0))
+
     representation = create :exercise_representation, :with_feedback, feedback_type: :essential
 
     user = create :user
@@ -182,11 +185,12 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     create :iteration, submission: submission, idx: 1
     create :submission_representation, submission: submission, ast_digest: representation.ast_digest
 
-    travel_to(Time.utc(2022, 10, 13, 0, 0, 0))
-    NotificationsMailer.expects(:send).never
-
     perform_enqueued_jobs do
       Exercise::Representation::SendNewFeedbackNotifications.(representation)
     end
+
+    assert ActionMailer::Base.deliveries.size.positive?
+    mail = ActionMailer::Base.deliveries.first
+    assert_equal "There's new feedback on your solution to Ruby/Strings", mail.subject
   end
 end

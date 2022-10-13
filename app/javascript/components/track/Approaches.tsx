@@ -9,11 +9,9 @@ import {
 import { CommunityVideosProps } from './approaches-elements/community-videos/types'
 
 export type ApproachesProps = {
-  data: {
-    introduction: ApproachIntroduction
-  } & ApproachesDataContext &
-    CommunityVideosProps
-}
+  introduction: ApproachIntroduction
+} & ApproachesDataContext &
+  CommunityVideosProps
 
 type ApproachesDataContext = {
   track: Track
@@ -25,7 +23,7 @@ export const ApproachesDataContext = createContext<ApproachesDataContext>(
   {} as ApproachesDataContext
 )
 
-export function Approaches({ data }: ApproachesProps): JSX.Element {
+export function Approaches({ data }: { data: ApproachesProps }): JSX.Element {
   return (
     <div className="lg-container grid grid-cols-3 gap-40">
       <ApproachesDataContext.Provider

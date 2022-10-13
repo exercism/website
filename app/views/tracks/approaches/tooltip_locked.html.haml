@@ -2,10 +2,14 @@
   %p.text-16.text-white.font-semibold.leading-170.mb-12
     Struggling with this exercise?
 
-  %p.mb-4.leading-150
-    Unlock the Dig Deeper tab to see how the community approached and solved #{@exercise.title}.
+  - if @solution.downloaded? || @solution.submitted?
+    %p.mb-4.leading-150
+      Unlock the Dig Deeper tab to see how the community approached and solved #{@exercise.title}.
 
-  = button_to "Unlock this tab", unlock_help_api_solution_url(@solution.uuid), method: :patch, class: 'btn-primary btn-l'
+    = button_to "Unlock this tab", unlock_help_api_solution_url(@solution.uuid), method: :patch, class: 'btn-primary btn-l'
+  - else
+    %p.mb-4.leading-150
+      You can only view Approaches for this exercise if you've downloaded or submitted a solution to this exercise.
 
   .font-semibold.text-lightGold.text-14.leading-170.flex.flex-row.items-center
     Warning! We highly recommend you try your best without revealing Approaches first.

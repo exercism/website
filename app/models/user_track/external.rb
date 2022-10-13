@@ -70,9 +70,7 @@ class UserTrack
       false
     end
 
-    def last_touched_at
-      nil
-    end
+    def last_touched_at = nil
 
     memoize
     def concept_slugs
@@ -83,9 +81,7 @@ class UserTrack
       []
     end
 
-    def objectives
-      nil
-    end
+    def objectives = nil
 
     def exercise_type(obj)
       return obj.git_type if obj.is_a?(Exercise)

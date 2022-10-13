@@ -124,7 +124,5 @@ class User::ReputationToken < ApplicationRecord
   end
 
   # To be overriden in children classes
-  def internal_url
-    nil
-  end
+  def internal_url = nil
 end

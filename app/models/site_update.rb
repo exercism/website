@@ -81,7 +81,5 @@ class SiteUpdate < ApplicationRecord
   end
 
   # Should be overriden in children
-  def icon_url
-    nil
-  end
+  def icon_url = nil
 end

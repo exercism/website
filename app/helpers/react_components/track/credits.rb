@@ -1,7 +1,7 @@
 module ReactComponents
   module Track
     class Credits < ReactComponent
-      initialize_with :avatar_urls, :top_count, :top_label, :bottom_count, :bottom_label
+      initialize_with :avatar_urls, :top_count, :top_label, :bottom_count, :bottom_label, max: 2
 
       def to_s
         super("track-credits", {
@@ -9,7 +9,8 @@ module ReactComponents
           top_count:,
           top_label:,
           bottom_count:,
-          bottom_label:
+          bottom_label:,
+          max:
         }
         )
       end

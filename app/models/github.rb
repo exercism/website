@@ -1,5 +1,3 @@
 module Github
-  def self.table_name_prefix
-    'github_'
-  end
+  def self.table_name_prefix = 'github_'
 end

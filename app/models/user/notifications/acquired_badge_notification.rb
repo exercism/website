@@ -3,9 +3,7 @@ class User
     class AcquiredBadgeNotification < Notification
       params :user_acquired_badge
 
-      def url
-        Exercism::Routes.badges_journey_url
-      end
+      def url = Exercism::Routes.badges_journey_url
 
       def image_type; end
 

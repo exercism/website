@@ -1,9 +1,7 @@
 class User
   module Notifications
     class JoinedExercismNotification < Notification
-      def url
-        Exercism::Routes.dashboard_url
-      end
+      def url = Exercism::Routes.dashboard_url
 
       def image_type; end
 

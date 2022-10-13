@@ -3,9 +3,7 @@ class User
     class StudentAddedIterationNotification < Notification
       params :discussion, :iteration
 
-      def url
-        discussion.mentor_url
-      end
+      def url = discussion.mentor_url
 
       def i18n_params
         {

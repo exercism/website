@@ -1,9 +1,7 @@
 class User
   module Notifications
     class AddedToContributorsPageNotification < Notification
-      def url
-        Exercism::Routes.contributing_contributors_url
-      end
+      def url = Exercism::Routes.contributing_contributors_url
 
       def i18n_params
         {}

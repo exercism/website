@@ -4,9 +4,7 @@ module User::Activities
       self.occurred_at = solution.created_at
     end
 
-    def url
-      Exercism::Routes.track_exercise_path(track, solution.exercise)
-    end
+    def url = Exercism::Routes.track_exercise_path(track, solution.exercise)
 
     def icon_name = "editor"
 

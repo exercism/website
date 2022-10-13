@@ -3,9 +3,7 @@ class User
     class StudentRepliedToDiscussionNotification < Notification
       params :discussion_post
 
-      def url
-        discussion.mentor_url
-      end
+      def url = discussion.mentor_url
 
       def i18n_params
         {

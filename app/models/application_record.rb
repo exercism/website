@@ -5,7 +5,5 @@ class ApplicationRecord < ActiveRecord::Base
 
   extend HasMarkdownField
 
-  def just_created?
-    id_previously_changed?
-  end
+  def just_created? = id_previously_changed?
 end

@@ -138,8 +138,8 @@ module ViewComponents
       memoize
       def user = user_track.user
 
-      def approaches_tab_locked? = !user_track.external? && !solution&.unlocked_help? && !solution.iterated?
-      def solutions_tab_locked? = !user_track.external? && !solution&.unlocked_help? && !solution.iterated?
+      def approaches_tab_locked? = !user_track.external? && !solution&.unlocked_help? && !solution&.iterated?
+      def solutions_tab_locked? = !user_track.external? && !solution&.unlocked_help? && !solution&.iterated?
       def mentoring_tab_locked? = !user_track.external? && !solution&.iterated?
     end
   end

@@ -444,8 +444,8 @@ document.addEventListener(
 
 import { highlightAll } from '../utils/highlight'
 import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
-import { ApproachesProps } from '@/components/track/Approaches.js'
-import { ChartData } from 'chart.js'
+import { ApproachesProps } from '@/components/track/Approaches'
+import { ChartData } from '@/components/impact/Chart'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

@@ -229,9 +229,7 @@ class Solution < ApplicationRecord
     update(mentoring_status: new_status) if mentoring_status != new_status
   end
 
-  def out_of_date?
-    git_important_files_hash != exercise.git_important_files_hash
-  end
+  def out_of_date? = git_important_files_hash != exercise.git_important_files_hash
 
   def external_mentoring_request_url
     Exercism::Routes.mentoring_external_request_url(public_uuid)

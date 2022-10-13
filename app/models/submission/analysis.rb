@@ -77,9 +77,7 @@ class Submission::Analysis < ApplicationRecord
     comments.compact.sort_by { |c| TYPES.index(c[:type]) }
   end
 
-  def ops_success?
-    ops_status == 200
-  end
+  def ops_success? = ops_status == 200
 
   def ops_errored? = !ops_success?
 

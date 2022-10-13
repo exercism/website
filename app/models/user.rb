@@ -246,13 +246,9 @@ class User < ApplicationRecord
     %w[english spanish]
   end
 
-  def system?
-    id == SYSTEM_USER_ID
-  end
+  def system? = id == SYSTEM_USER_ID
 
-  def ghost?
-    id == GHOST_USER_ID
-  end
+  def ghost? = id == GHOST_USER_ID
 
   def dismiss_introducer!(slug)
     dismissed_introducers.create_or_find_by!(slug:)

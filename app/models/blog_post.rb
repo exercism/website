@@ -18,9 +18,7 @@ class BlogPost < ApplicationRecord
     BlogPost.published.group(:category).count.sort_by(&:first)
   end
 
-  def new?
-    published_at > 7.days.ago
-  end
+  def new? = published_at > 7.days.ago
 
   def video? = youtube_id.present?
 

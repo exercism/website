@@ -2,8 +2,7 @@ require "test_helper"
 
 class Solution::UnlockHelpTest < ActiveSupport::TestCase
   test "unlocks help when solution has been downloaded" do
-    solution = create :practice_solution
-    create :iteration, solution: solution
+    solution = create :practice_solution, :downloaded
 
     # Sanity check
     refute solution.unlocked_help?
@@ -15,7 +14,7 @@ class Solution::UnlockHelpTest < ActiveSupport::TestCase
 
   test "unlocks help when solution has been submitted" do
     solution = create :practice_solution
-    create :iteration, solution: solution
+    create :submission, solution: solution
 
     # Sanity check
     refute solution.unlocked_help?

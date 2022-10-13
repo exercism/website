@@ -306,9 +306,7 @@ class UserTrack
     ) do
       def unlocked? = unlocked
 
-      def locked?
-        !unlocked
-      end
+      def locked? = !unlocked
     end
   end
 end

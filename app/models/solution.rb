@@ -195,17 +195,11 @@ class Solution < ApplicationRecord
 
   def to_param = raise "We almost never want to auto-generate solution urls. Use the solution_url helper method or use uuid if you're sure you want to do this." # rubocop:disable Layout/LineLength
 
-  def downloaded?
-    !!downloaded_at
-  end
+  def downloaded? = !!downloaded_at
 
-  def completed?
-    !!completed_at
-  end
+  def completed? = !!completed_at
 
-  def published?
-    !!published_at
-  end
+  def published? = !!published_at
 
   def iterated? = status != :started
 

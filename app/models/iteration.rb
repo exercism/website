@@ -51,9 +51,7 @@ class Iteration < ApplicationRecord
     solution.latest_iteration == self
   end
 
-  def deleted?
-    !!deleted_at
-  end
+  def deleted? = !!deleted_at
 
   def published?
     solution.published? && (

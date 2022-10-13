@@ -1,7 +1,7 @@
 require "test_helper"
 
 class Solution::UnlockHelpTest < ActiveSupport::TestCase
-  test "unlocks help" do
+  test "unlocks help when solution has been downloaded" do
     solution = create :practice_solution
     create :iteration, solution: solution
 
@@ -13,13 +13,25 @@ class Solution::UnlockHelpTest < ActiveSupport::TestCase
     assert solution.unlocked_help?
   end
 
-  test "does not unlock help if solution has no iterations" do
+  test "unlocks help when solution has been submitted" do
+    solution = create :practice_solution
+    create :iteration, solution: solution
+
+    # Sanity check
+    refute solution.unlocked_help?
+
+    Solution::UnlockHelp.(solution)
+
+    assert solution.unlocked_help?
+  end
+
+  test "does not unlock help if solution has not been downloaded or submitted" do
     solution = create :practice_solution
 
     # Sanity check
     refute solution.unlocked_help?
 
-    assert_raises SolutionHasNoIterationsError do
+    assert_raises SolutionCannotBeUnlockedError do
       Solution::UnlockHelp.(solution)
     end
 

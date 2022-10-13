@@ -5,7 +5,7 @@ class Solution
     initialize_with :solution
 
     def call
-      raise SolutionHasNoIterationsError unless solution.iterated?
+      raise SolutionCannotBeUnlockedError unless solution.iterated?
 
       @solution.update(unlocked_help: true)
     end

@@ -18,6 +18,7 @@ en:
       solution_comments_not_allowed: "Comments may not be retrieved or posted on this solution"
       solution_comment_not_found: "This solution comment could not be found"
       solution_without_iterations: "This solution does not have any iterations"
+      solution_unlock_help_not_accessible: "You do not have permission to unlock help for this solution"
       solution_comment_not_accessible: "This comment is not accessible"
       submission_not_found: "This submission could not be found"
       submission_not_accessible: "You do not have permission to view this submission"

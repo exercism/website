@@ -635,7 +635,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
-  test "unlock_help renders 400 when solution has no iterations" do
+  test "unlock_help renders 400 when solution has not been downloaded nor submitted" do
     setup_user
 
     exercise = create :concept_exercise
@@ -647,8 +647,8 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :bad_request
     expected = {
       error: {
-        type: "solution_without_iterations",
-        message: I18n.t("api.errors.solution_without_iterations")
+        type: "solution_unlock_help_not_accessible",
+        message: I18n.t("api.errors.solution_unlock_help_not_accessible")
       }
     }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)

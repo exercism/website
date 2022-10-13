@@ -128,8 +128,8 @@ module API
     def unlock_help
       begin
         Solution::UnlockHelp.(@solution)
-      rescue SolutionHasNoIterationsError
-        return render_400(:solution_without_iterations)
+      rescue SolutionCannotBeUnlockedError
+        return render_400(:solution_unlock_help_not_accessible)
       end
 
       render json: {}

@@ -11,6 +11,11 @@ class Iteration < ApplicationRecord
   has_one :test_run, through: :iteration
 
   scope :not_deleted, -> { where(deleted_at: nil) }
+  scope :latest, lambda {
+    not_deleted.
+      joins("LEFT JOIN `iterations` AS `i` ON `i`.`solution_id` = `iterations`.`solution_id` AND `i`.`deleted_at` IS NULL AND `i`.`idx` > `iterations`.`idx`"). # rubocop:disable Layout/LineLength
+      where('`i`.`id` IS NULL')
+  }
 
   delegate :tests_status,
     :files_for_editor,

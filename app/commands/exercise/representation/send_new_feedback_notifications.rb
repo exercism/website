@@ -14,22 +14,18 @@ class Exercise::Representation::SendNewFeedbackNotifications
   private
   def iterations
     if representation.has_essential_feedback?
-      latest_active_iterations
+      latest_matching_iterations
     elsif representation.has_actionable_feedback?
-      latest_recent_active_iterations
+      latest_recent_matching_iterations
     end
   end
 
-  def latest_active_iterations
-    Iteration.
-      not_deleted.
-      joins("LEFT JOIN `iterations` AS `i` ON `i`.`solution_id` = `iterations`.`solution_id` AND `i`.`deleted_at` IS NULL AND `i`.`idx` > `iterations`.`idx`"). # rubocop:disable Layout/LineLength
-      where('`i`.`id` IS NULL').
-      where(id: iterations_with_matching_ast_digest)
+  def latest_matching_iterations
+    Iteration.latest.where(id: iterations_with_matching_ast_digest)
   end
 
-  def latest_recent_active_iterations
-    latest_active_iterations.where('iterations.created_at >= ?', Time.zone.now - 2.weeks)
+  def latest_recent_matching_iterations
+    latest_matching_iterations.where('iterations.created_at >= ?', Time.zone.now - 2.weeks)
   end
 
   def iterations_with_matching_ast_digest

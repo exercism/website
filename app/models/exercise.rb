@@ -114,9 +114,7 @@ class Exercise < ApplicationRecord
     slug
   end
 
-  def download_cmd
-    "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
-  end
+  def download_cmd = "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
 
   def difficulty_category
     case difficulty

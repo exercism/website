@@ -3,9 +3,7 @@ class User
     class AddedToContributorsPageNotification < Notification
       def url = Exercism::Routes.contributing_contributors_url
 
-      def i18n_params
-        {}
-      end
+      def i18n_params = {}
 
       def image_type = :icon
 

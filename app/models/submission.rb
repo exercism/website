@@ -78,9 +78,7 @@ class Submission < ApplicationRecord
     false
   end
 
-  def has_automated_feedback?
-    num_automated_comments_by_type.values.sum.positive?
-  end
+  def has_automated_feedback? = num_automated_comments_by_type.values.sum.positive?
 
   %i[essential actionable non_actionable].each do |type|
     define_method "num_#{type}_automated_comments" do

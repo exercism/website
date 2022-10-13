@@ -13,9 +13,7 @@ class User::Profile < ApplicationRecord
   end
 
   memoize
-  def testimonials_tab?
-    user.mentor_testimonials.published.count.positive?
-  end
+  def testimonials_tab? = user.mentor_testimonials.published.count.positive?
 
   memoize
   def contributions_tab?
@@ -23,7 +21,5 @@ class User::Profile < ApplicationRecord
   end
 
   memoize
-  def badges_tab?
-    user.revealed_badges.exists?
-  end
+  def badges_tab? = user.revealed_badges.exists?
 end

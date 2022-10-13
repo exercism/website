@@ -118,14 +118,10 @@ class Solution < ApplicationRecord
   def latest_published_iteration = published_iterations.last
 
   memoize
-  def latest_published_iteration_submission
-    latest_published_iteration&.submission
-  end
+  def latest_published_iteration_submission = latest_published_iteration&.submission
 
   memoize
-  def latest_iteration_submission
-    latest_iteration&.submission
-  end
+  def latest_iteration_submission = latest_iteration&.submission
 
   def mentor_download_cmd = "exercism download --uuid=#{uuid}"
 
@@ -180,9 +176,7 @@ class Solution < ApplicationRecord
     end
   end
 
-  def iteration_status
-    super&.to_sym
-  end
+  def iteration_status = super&.to_sym
 
   # TODO: Karlo
   def has_unsubmitted_code? = false
@@ -201,18 +195,12 @@ class Solution < ApplicationRecord
 
   def iterated? = status != :started
 
-  def has_unlocked_pending_mentoring_request?
-    mentor_requests.pending.unlocked.exists?
-  end
+  def has_unlocked_pending_mentoring_request? = mentor_requests.pending.unlocked.exists?
 
-  def has_locked_pending_mentoring_request?
-    mentor_requests.pending.locked.exists?
-  end
+  def has_locked_pending_mentoring_request? = mentor_requests.pending.locked.exists?
 
   memoize
-  def in_progress_mentor_discussion
-    mentor_discussions.in_progress_for_student.first
-  end
+  def in_progress_mentor_discussion = mentor_discussions.in_progress_for_student.first
 
   def update_status!
     new_status = determine_status

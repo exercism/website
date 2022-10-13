@@ -34,9 +34,7 @@ class SiteUpdate < ApplicationRecord
     )
   end
 
-  def pull_request_number
-    pull_request&.number
-  end
+  def pull_request_number = pull_request&.number
 
   def cacheable_rendering_data
     d = {

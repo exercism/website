@@ -19,13 +19,9 @@ class User::Notifications::StudentAddedIterationNotification < User::Notificatio
   def guard_params = "Discussion##{discussion.id}|Iteration##{iteration.id}"
 
   private
-  def track
-    iteration.solution.track
-  end
+  def track = iteration.solution.track
 
-  def exercise
-    iteration.solution.exercise
-  end
+  def exercise = iteration.solution.exercise
 
   def student = discussion.student
 end

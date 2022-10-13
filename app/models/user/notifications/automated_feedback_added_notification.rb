@@ -24,7 +24,7 @@ class User
       end
 
       def email_should_send?
-        super && representation.created_at >= "2022-10-13"
+        super && iteration.created_at >= Time.utc(2022, 10, 13)
       end
 
       delegate :track, :exercise, to: :iteration

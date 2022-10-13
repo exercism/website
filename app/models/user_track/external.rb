@@ -98,9 +98,7 @@ class UserTrack
 
     def exercise_completed?(_) = false
 
-    def exercise_status(_)
-      :external
-    end
+    def exercise_status(_) = :external
 
     def exercise_has_notifications?(_) = false
 

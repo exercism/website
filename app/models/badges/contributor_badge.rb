@@ -15,9 +15,7 @@ module Badges
 
     def send_email_on_acquisition? = false
 
-    def notification_key
-      :added_to_contributors_page
-    end
+    def notification_key = :added_to_contributors_page
 
     CATEGORIES = %i[building maintaining mentoring authoring].freeze
     private_constant :CATEGORIES

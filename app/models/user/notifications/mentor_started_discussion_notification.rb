@@ -20,9 +20,7 @@ class User
         }
       end
 
-      def image_type
-        :avatar
-      end
+      def image_type = :avatar
 
       def image_url
         mentor.avatar_url

@@ -9,9 +9,7 @@ class User
         {}
       end
 
-      def image_type
-        :icon
-      end
+      def image_type = :icon
 
       def image_path = "icons/contributors.svg"
 

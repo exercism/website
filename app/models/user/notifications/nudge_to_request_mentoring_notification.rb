@@ -5,9 +5,7 @@ class User
         Exercism::Routes.track_url(track, notification_uuid: uuid, anchor: "mentoring")
       end
 
-      def image_type
-        :icon
-      end
+      def image_type = :icon
 
       def image_path = "icons/mentoring-gradient.svg"
 
@@ -15,9 +13,7 @@ class User
         ""
       end
 
-      def email_communication_preferences_key
-        :email_on_nudge_notification
-      end
+      def email_communication_preferences_key = :email_on_nudge_notification
     end
   end
 end

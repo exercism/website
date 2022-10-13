@@ -115,9 +115,7 @@ class Solution < ApplicationRecord
   end
 
   memoize
-  def latest_published_iteration
-    published_iterations.last
-  end
+  def latest_published_iteration = published_iterations.last
 
   memoize
   def latest_published_iteration_submission

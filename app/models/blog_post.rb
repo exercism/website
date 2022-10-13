@@ -22,9 +22,7 @@ class BlogPost < ApplicationRecord
     published_at > 7.days.ago
   end
 
-  def video?
-    youtube_id.present?
-  end
+  def video? = youtube_id.present?
 
   def to_param = slug
 

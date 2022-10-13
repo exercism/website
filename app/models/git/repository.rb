@@ -25,13 +25,9 @@ module Git
       fetch! if keep_up_to_date?
     end
 
-    def head_commit
-      active_branch.target
-    end
+    def head_commit = active_branch.target
 
-    def head_sha
-      head_commit.oid
-    end
+    def head_sha = head_commit.oid
 
     def read_json_blob(commit, path)
       raw = read_file_blob(commit, path, "{}")

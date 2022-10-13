@@ -90,9 +90,7 @@ class Submission::TestRun < ApplicationRecord
       }
     end
 
-    def to_json(*_args)
-      to_h.to_json
-    end
+    def to_json(*_args) = to_h.to_json
 
     def as_json(*_args) = to_h
   end

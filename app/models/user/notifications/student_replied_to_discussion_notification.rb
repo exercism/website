@@ -13,20 +13,14 @@ class User::Notifications::StudentRepliedToDiscussionNotification < User::Notifi
 
   def image_type = :avatar
 
-  def image_url
-    student.avatar_url
-  end
+  def image_url = student.avatar_url
 
   def guard_params = "DiscussionPost##{discussion_post.id}"
 
   delegate :discussion, to: :discussion_post
 
   private
-  def student
-    solution.user
-  end
+  def student = solution.user
 
-  def solution
-    discussion_post.solution
-  end
+  def solution = discussion_post.solution
 end

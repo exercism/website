@@ -36,9 +36,7 @@ module Git
       config[:blurb]
     end
 
-    def synced_git_sha
-      commit.oid
-    end
+    def synced_git_sha = commit.oid
 
     private
     attr_reader :repo, :concept_slug, :git_sha

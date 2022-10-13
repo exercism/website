@@ -38,9 +38,7 @@ module Git
       @git_sha = git_sha
     end
 
-    def synced_git_sha
-      commit.oid
-    end
+    def synced_git_sha = commit.oid
 
     def valid_submission_filepath?(filepath)
       return false if filepath.match?(%r{[^a-zA-Z0-9_./-]})

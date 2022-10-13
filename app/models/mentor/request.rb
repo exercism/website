@@ -81,9 +81,7 @@ class Mentor::Request < ApplicationRecord
     latest_lock.locked_by == mentor
   end
 
-  def locked?
-    locks.exists?
-  end
+  def locked? = locks.exists?
 
   def comment
     Mentor::RequestComment.from(self)

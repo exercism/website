@@ -7,9 +7,7 @@ class User::ReputationTokens::ArbitraryToken < User::ReputationToken
     self.reason = arbitrary_reason unless reason
   end
 
-  def guard_params
-    SecureRandom.uuid
-  end
+  def guard_params = SecureRandom.uuid
 
   def i18n_params
     { reason: }

@@ -106,9 +106,7 @@ class UserTrack::Summary
   ###############################
   # Exercises aggregate methods #
   ###############################
-  def num_exercises
-    mapped_exercises.count
-  end
+  def num_exercises = mapped_exercises.count
 
   def num_concept_exercises
     mapped_exercises.values.count { |e| e.type == "concept" }
@@ -126,9 +124,7 @@ class UserTrack::Summary
     mapped_exercises.values.select { |e| e.type == "practice" }.count(&:completed_at)
   end
 
-  def num_available_exercises
-    available_exercise_ids.size
-  end
+  def num_available_exercises = available_exercise_ids.size
 
   def num_locked_exercises
     num_exercises - unlocked_exercise_ids.size
@@ -138,9 +134,7 @@ class UserTrack::Summary
     num_in_progress_exercises + num_completed_exercises
   end
 
-  def num_in_progress_exercises
-    in_progress_exercise_ids.size
-  end
+  def num_in_progress_exercises = in_progress_exercise_ids.size
 
   def unlocked_exercise_ids
     mapped_exercises.values.select(&:unlocked?).map(&:id)

@@ -9,9 +9,7 @@ class Submission::Analysis < ApplicationRecord
   scope :ops_successful, -> { where(ops_status: 200) }
 
   memoize
-  def has_comments?
-    comment_blocks.present?
-  end
+  def has_comments? = comment_blocks.present?
 
   memoize
   def num_comments_by_type

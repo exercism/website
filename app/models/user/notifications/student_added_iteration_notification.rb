@@ -14,9 +14,7 @@ class User::Notifications::StudentAddedIterationNotification < User::Notificatio
 
   def image_type = :avatar
 
-  def image_url
-    student.avatar_url
-  end
+  def image_url = student.avatar_url
 
   def guard_params = "Discussion##{discussion.id}|Iteration##{iteration.id}"
 
@@ -29,7 +27,5 @@ class User::Notifications::StudentAddedIterationNotification < User::Notificatio
     iteration.solution.exercise
   end
 
-  def student
-    discussion.student
-  end
+  def student = discussion.student
 end

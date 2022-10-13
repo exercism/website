@@ -174,7 +174,7 @@ initReact({
     />
   ),
 
-  'track-approaches': (data: any) => (
+  'track-approaches': (data: ApproachesProps) => (
     <TrackComponents.Approaches data={camelizeKeysAs<ApproachesProps>(data)} />
   ),
   'track-approach': (data: any) => <TrackComponents.Approach />,
@@ -200,6 +200,9 @@ initReact({
       avatarUrls={data.avatar_urls}
       topCount={data.top_count}
       topLabel={data.top_label}
+      bottomCount={data.bottom_count}
+      bottomLabel={data.bottom_label}
+      max={data.max}
     />
   ),
   'common-exercise-widget': (data: any) => (

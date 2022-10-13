@@ -83,10 +83,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def to_param = uuid
-
-  def finished_for_student?
-    status == :finished
-  end
+  def finished_for_student? = status == :finished
 
   def finished_for_mentor?
     %i[mentor_finished finished].include?(status)

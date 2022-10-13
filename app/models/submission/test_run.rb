@@ -33,21 +33,11 @@ class Submission::TestRun < ApplicationRecord
 
   def status = super.try(&:to_sym)
   def ops_success? = ops_status == 200
-
   def timed_out? = ops_status == 408
   def ops_errored? = !ops_success?
-
-  def passed?
-    status == :pass
-  end
-
-  def errored?
-    status == :error
-  end
-
-  def failed?
-    status == :fail
-  end
+  def passed? = status == :pass
+  def errored? = status == :error
+  def failed? = status == :fail
 
   memoize
   def test_results

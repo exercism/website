@@ -43,9 +43,9 @@ class User::Notifications::AutomatedFeedbackAddedNotificationTest < ActiveSuppor
     assert_equal "/tracks/ruby/exercises/strings/iterations", notification.path
   end
 
-  test "email_should_send? is false when iteration created before 2022-10-13" do
+  test "email_should_send? is false when iteration created before 2022-10-01" do
     representation = create :exercise_representation, :with_feedback, feedback_type: :essential, created_at: Time.utc(2021, 5, 7)
-    iteration = create :iteration, created_at: Time.utc(2022, 10, 12)
+    iteration = create :iteration, created_at: Time.utc(2022, 10, 1) - 1.second
 
     notification = User::Notification::Create.(
       iteration.user,
@@ -58,9 +58,9 @@ class User::Notifications::AutomatedFeedbackAddedNotificationTest < ActiveSuppor
     refute notification.email_should_send?
   end
 
-  test "email_should_send? is true when iteration created after 2022-10-12" do
+  test "email_should_send? is true when iteration created from 2022-10-01" do
     representation = create :exercise_representation, :with_feedback, feedback_type: :essential, created_at: Time.utc(2021, 5, 7)
-    iteration = create :iteration, created_at: Time.utc(2022, 10, 13)
+    iteration = create :iteration, created_at: Time.utc(2022, 10, 1)
 
     notification = User::Notification::Create.(
       iteration.user,

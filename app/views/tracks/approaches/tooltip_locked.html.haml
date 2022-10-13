@@ -6,7 +6,9 @@
     %p.mb-4.leading-150
       Unlock the Dig Deeper tab to see how the community approached and solved #{@exercise.title}.
 
-    = button_to "Unlock this tab", unlock_help_api_solution_url(@solution.uuid), method: :patch, class: 'btn-primary btn-s'
+    = button_to unlock_help_api_solution_url(@solution.uuid), method: :patch, class: 'btn-primary btn-s' do
+      = graphical_icon 'unlock'
+      Unlock this tab
   - else
     %p.mb-4.leading-150
       You can only view Approaches for this exercise if you've downloaded or submitted a solution to this exercise.

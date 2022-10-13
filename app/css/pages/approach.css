@@ -17,14 +17,6 @@
             width: 40px;
             @apply mb-8 mr-8;
         }
-        .info-bar {
-            @apply text-borderLight;
-            .video img {
-                height: 24px;
-                width: 24px;
-                filter: var(--filter-CBC9D9);
-            }
-        }
     }
     article {
         @apply shadow-lg;
@@ -45,7 +37,13 @@
             }
         }
         .published-at {
-            @apply mb-24;
+            @apply flex;
+            @apply mb-24 mt-24 pt-16;
+            @apply border-t-1 border-borderColor6 text-16 text-textColor6 leading-150 md:self-start;
+
+            button {
+                @apply ml-4;
+            }
         }
     }
 }

@@ -32,11 +32,10 @@
         = render ViewComponents::Blog::SharePostButton.new(@approach)
 
       .p-16.md:py-32.md:px-40.flex.flex-col
-
         .c-textual-content.--large
           = raw @approach.content_html
 
-        .published-at.mt-24.pt-16.border-t-1.border-borderColor6.text-16.text-textColor6.leading-150.md:self-start.mb-28
+        .published-at
           = format_date(@approach.published_at)
           &middot;
           Found it useful?

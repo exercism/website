@@ -27,6 +27,7 @@ class Tracks::ApproachesController < ApplicationController
         name: "Erik Schierboom",
         formatted_reputation: 999
       ),
+      content_html: "<h1>Hello</h1>",
       title: "Utilising In-built Date Functions for Consistency",
       published_at: DateTime.now
     )

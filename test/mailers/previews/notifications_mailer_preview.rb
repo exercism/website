@@ -58,4 +58,10 @@ class NotificationsMailerPreview < ActionMailer::Preview
       notification: User::Notifications::NudgeToRequestMentoringNotification.first
     ).nudge_to_request_mentoring
   end
+
+  def automated_feedback_added
+    NotificationsMailer.with(
+      notification: User::Notifications::AutomatedFeedbackAddedNotification.first
+    ).automated_feedback_added
+  end
 end

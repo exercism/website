@@ -2,6 +2,8 @@ class User::Notification
   class Create
     include Mandate
 
+    queue_as :notifications
+
     initialize_with :user, :type, params: Mandate::KWARGS
 
     def call

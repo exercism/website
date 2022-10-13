@@ -118,4 +118,18 @@ class NotificationsMailer < ApplicationMailer
     subject = "[Mentoring] #{@discussion.mentor.handle} has ended your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     mail_to_user(@user, subject)
   end
+
+  def automated_feedback_added
+    notification = params[:notification]
+    @user = notification.user
+    @iteration = notification.iteration
+    @exercise = @iteration.exercise
+    @track = @iteration.track
+    @emphasis = notification.emphasis
+
+    @unsubscribe_key = :email_on_automated_feedback_added_notification
+    @title = "New automated feedback is available"
+    subject = "There's new feedback on your solution to #{@track.title}/#{@exercise.title}"
+    mail_to_user(@user, subject)
+  end
 end

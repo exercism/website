@@ -26,9 +26,7 @@ class BlogPost < ApplicationRecord
     youtube_id.present?
   end
 
-  def to_param
-    slug
-  end
+  def to_param = slug
 
   def image_url
     attributes['image_url'].presence ||

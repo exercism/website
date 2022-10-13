@@ -110,9 +110,7 @@ class Exercise < ApplicationRecord
     super && track.has_test_runner?
   end
 
-  def to_param
-    slug
-  end
+  def to_param = slug
 
   def download_cmd = "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
 

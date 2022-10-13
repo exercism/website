@@ -86,9 +86,7 @@ class Iteration < ApplicationRecord
 
     delegate :to_s, to: :status
 
-    def to_sym
-      status
-    end
+    def to_sym = status
 
     def inspect = "Iteration::Status (#{status})"
 

@@ -96,9 +96,7 @@ class Submission::TestRun < ApplicationRecord
       to_h.to_json
     end
 
-    def as_json(*_args)
-      to_h
-    end
+    def as_json(*_args) = to_h
   end
   private_constant :TestResult
 end

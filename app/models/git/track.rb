@@ -142,9 +142,7 @@ module Git
     private
     attr_reader :repo, :git_sha
 
-    def absolute_filepath(filepath)
-      filepath
-    end
+    def absolute_filepath(filepath) = filepath
 
     memoize
     def online_editor

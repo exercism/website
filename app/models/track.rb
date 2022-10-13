@@ -45,9 +45,7 @@ class Track < ApplicationRecord
     update_column(:num_exercises, exercises.where(status: %i[active beta]).count)
   end
 
-  def to_param
-    slug
-  end
+  def to_param = slug
 
   memoize
   def git

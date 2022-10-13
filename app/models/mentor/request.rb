@@ -60,9 +60,7 @@ class Mentor::Request < ApplicationRecord
     solution.update_mentoring_status! if previous_changes.key?('status')
   end
 
-  def to_param
-    uuid
-  end
+  def to_param = uuid
 
   def status = super.to_sym
 

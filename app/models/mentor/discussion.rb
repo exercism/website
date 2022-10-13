@@ -82,9 +82,7 @@ class Mentor::Discussion < ApplicationRecord
     Exercism::Routes.mentoring_discussion_url(self)
   end
 
-  def to_param
-    uuid
-  end
+  def to_param = uuid
 
   def finished_for_student?
     status == :finished

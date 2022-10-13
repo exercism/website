@@ -288,9 +288,7 @@ class UserTrack
         num_completed_concept_exercises + num_completed_practice_exercises
       end
 
-      def unlocked?
-        unlocked
-      end
+      def unlocked? = unlocked
 
       def learnt?
         num_concept_exercises.positive? && num_concept_exercises == num_completed_concept_exercises
@@ -306,9 +304,7 @@ class UserTrack
       :unlocked, :has_solution, :completed_at,
       keyword_init: true
     ) do
-      def unlocked?
-        unlocked
-      end
+      def unlocked? = unlocked
 
       def locked?
         !unlocked

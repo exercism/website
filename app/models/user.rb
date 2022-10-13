@@ -130,9 +130,7 @@ class User < ApplicationRecord
     find_by!(handle: param)
   end
 
-  def to_param
-    handle
-  end
+  def to_param = handle
 
   def pronoun_parts
     a = pronouns.to_s.split("/")

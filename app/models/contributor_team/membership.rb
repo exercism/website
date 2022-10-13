@@ -13,7 +13,5 @@ class ContributorTeam::Membership < ApplicationRecord
   belongs_to :user,
     inverse_of: :team_memberships
 
-  def seniority
-    super.to_sym
-  end
+  def seniority = super.to_sym
 end

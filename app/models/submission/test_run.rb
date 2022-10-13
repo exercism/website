@@ -31,9 +31,7 @@ class Submission::TestRun < ApplicationRecord
     end
   end
 
-  def status
-    super.try(&:to_sym)
-  end
+  def status = super.try(&:to_sym)
 
   def ops_success?
     ops_status == 200

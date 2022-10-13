@@ -55,13 +55,9 @@ class Badge < ApplicationRecord
     raise "Implement this method in the child class"
   end
 
-  def rarity
-    super.to_sym
-  end
+  def rarity = super.to_sym
 
-  def icon
-    super.to_sym
-  end
+  def icon = super.to_sym
 
   # TODO: Cache number of users
   def percentage_awardees

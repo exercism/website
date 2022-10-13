@@ -38,9 +38,7 @@ class User::Notification < ApplicationRecord
     unread? || email_only?
   end
 
-  def status
-    super.to_sym
-  end
+  def status = super.to_sym
 
   def read!
     update_columns(

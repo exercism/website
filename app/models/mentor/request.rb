@@ -64,13 +64,9 @@ class Mentor::Request < ApplicationRecord
     uuid
   end
 
-  def status
-    super.to_sym
-  end
+  def status = super.to_sym
 
-  def type
-    super.to_sym
-  end
+  def type = super.to_sym
 
   # If this request is locked by someone else then
   # the user has timed out and someone else has started

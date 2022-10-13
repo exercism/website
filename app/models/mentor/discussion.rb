@@ -60,9 +60,7 @@ class Mentor::Discussion < ApplicationRecord
   delegate :title, to: :exercise, prefix: :exercise
   delegate :comment, to: :request, prefix: true, allow_nil: true
 
-  def status
-    super.to_sym
-  end
+  def status = super.to_sym
 
   %i[finished_by rating].each do |meth|
     define_method meth do

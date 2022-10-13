@@ -233,9 +233,7 @@ class User < ApplicationRecord
       accepted_terms_at.present?
   end
 
-  def has_avatar_url?
-    super.presence? || avatar.attached?
-  end
+  def has_avatar_url? = super.presence? || avatar.attached?
 
   def avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?

@@ -36,9 +36,7 @@ class BlogPost < ApplicationRecord
   end
 
   # TODO: Guarantee all posts have descriptions instead
-  def description
-    super.presence || marketing_copy
-  end
+  def description = super.presence || marketing_copy
 
   def content_html
     markdown = Git::Blog.content_for(slug)

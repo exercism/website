@@ -92,9 +92,7 @@ class Exercise < ApplicationRecord
     track.recache_num_exercises! if (saved_changes.keys & %w[id status]).present?
   end
 
-  def status
-    super.to_sym
-  end
+  def status = super.to_sym
 
   def git_type
     self.class.name.sub("Exercise", "").downcase

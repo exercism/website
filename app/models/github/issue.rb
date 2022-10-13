@@ -7,9 +7,7 @@ class Github::Issue < ApplicationRecord
     class_name: "Github::IssueLabel",
     foreign_key: "github_issue_id"
 
-  def status
-    super.to_sym
-  end
+  def status = super.to_sym
 
   def github_url
     "https://github.com/#{repo}/issues/#{number}"

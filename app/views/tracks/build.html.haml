@@ -111,7 +111,7 @@
                 = exercise.title
               .record-value #{exercise.num_published_solutions} completions (30% of attempts)
 
-        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
+        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
 
       .track-team-group
@@ -139,7 +139,7 @@
             .record-name Mean Runtime
             .record-value 2.84s
 
-        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
+        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
 
       .track-team-group
@@ -159,7 +159,7 @@
             .record-name Analysis Display Rate
             .record-value 48%
 
-        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
+        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
       .track-team-group
         .track-header
@@ -181,7 +181,7 @@
             .record-name Representation Display Rate
             .record-value 58%
 
-        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
+        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
       .track-team-group
         .track-header
@@ -201,7 +201,7 @@
                 = exercise.title
               .record-value #{exercise.num_published_solutions} completions (30% of attempts)
 
-        = render ReactComponents::Track::Credits.new(1, "volunteer", ['https://avatars.githubusercontent.com/u/66035744?v=4'])
+        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
     .col-span-1
       = ReactComponents::Impact::Map.new
@@ -229,5 +229,5 @@
           %p.text-textColor5.leading-150.text-14.mb-4
             Exercism relies on open-source volunteers to build our language tracks and mentor students.
           = link_to "https://github.com", class: "text-lightBlue font-semibold flex items-center" do
-            %span.mr-8 Become an Exercism Volunteer
+            %span.mr-8.leading-170 Become an Exercism Volunteer
             = graphical_icon "arrow-right", css_class: "h-[14px] w-[14px] filter-lightBlue"

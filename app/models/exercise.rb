@@ -98,13 +98,9 @@ class Exercise < ApplicationRecord
     self.class.name.sub("Exercise", "").downcase
   end
 
-  def concept_exercise?
-    is_a?(ConceptExercise)
-  end
+  def concept_exercise? = is_a?(ConceptExercise)
 
-  def practice_exercise?
-    is_a?(PracticeExercise)
-  end
+  def practice_exercise? = is_a?(PracticeExercise)
 
   def tutorial?
     slug == "hello-world"

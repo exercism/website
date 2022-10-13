@@ -5,13 +5,9 @@ module Badges
       :logo,
       "Joined Exercism"
 
-    def award_to?(_user)
-      true
-    end
+    def award_to?(_user) = true
 
-    def send_email_on_acquisition?
-      false
-    end
+    def send_email_on_acquisition? = false
 
     def percentage_awardees
       100

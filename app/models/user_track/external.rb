@@ -16,13 +16,9 @@ class UserTrack
 
     def user = nil
 
-    def tutorial_exercise_completed?
-      false
-    end
+    def tutorial_exercise_completed? = false
 
-    def anonymous_during_mentoring?
-      true
-    end
+    def anonymous_during_mentoring? = true
 
     memoize
     def exercises
@@ -62,13 +58,9 @@ class UserTrack
     #######################
     # Non-summary methods #
     #######################
-    def external?
-      true
-    end
+    def external? = true
 
-    def practice_mode?
-      false
-    end
+    def practice_mode? = false
 
     def last_touched_at = nil
 
@@ -102,21 +94,15 @@ class UserTrack
     ####################
     # Exercise methods #
     ####################
-    def exercise_unlocked?(_)
-      true
-    end
+    def exercise_unlocked?(_) = true
 
-    def exercise_completed?(_)
-      false
-    end
+    def exercise_completed?(_) = false
 
     def exercise_status(_)
       :external
     end
 
-    def exercise_has_notifications?(_)
-      false
-    end
+    def exercise_has_notifications?(_) = false
 
     def exercise_position(slug)
       exercise_positions[slug]
@@ -137,17 +123,11 @@ class UserTrack
     ###################
     # Concept methods #
     ###################
-    def concept_unlocked?(_)
-      false
-    end
+    def concept_unlocked?(_) = false
 
-    def concept_learnt?(_)
-      false
-    end
+    def concept_learnt?(_) = false
 
-    def concept_mastered?(_)
-      false
-    end
+    def concept_mastered?(_) = false
 
     def num_exercises_for_concept(obj)
       obj.is_a?(Concept) ? slug = obj.slug : slug = obj.to_s

@@ -49,9 +49,7 @@ class Badge < ApplicationRecord
   def notification_key; end
 
   # Stub to allow badges to short-circuit queueing
-  def self.worth_queuing?(**_context)
-    true
-  end
+  def self.worth_queuing?(**_context) = true
 
   def award_to?(_user)
     raise "Implement this method in the child class"

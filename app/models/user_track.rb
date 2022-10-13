@@ -81,9 +81,7 @@ class UserTrack < ApplicationRecord
     exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 
-  def external?
-    false
-  end
+  def external? = false
 
   memoize
   def has_notifications?

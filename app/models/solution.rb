@@ -189,9 +189,7 @@ class Solution < ApplicationRecord
   end
 
   # TODO: Karlo
-  def has_unsubmitted_code?
-    false
-  end
+  def has_unsubmitted_code? = false
 
   def git_type
     self.class.name.sub("Solution", "").downcase

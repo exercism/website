@@ -13,9 +13,7 @@ module Badges
       User::ReputationToken.where(category: CATEGORIES, user_id: user.id).exists?
     end
 
-    def send_email_on_acquisition?
-      false
-    end
+    def send_email_on_acquisition? = false
 
     def notification_key
       :added_to_contributors_page

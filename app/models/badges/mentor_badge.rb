@@ -13,8 +13,6 @@ module Badges
         count >= 10
     end
 
-    def send_email_on_acquisition?
-      false
-    end
+    def send_email_on_acquisition? = false
   end
 end

@@ -9,8 +9,6 @@ module Badges
       user.iterations.exists?
     end
 
-    def send_email_on_acquisition?
-      false
-    end
+    def send_email_on_acquisition? = false
   end
 end

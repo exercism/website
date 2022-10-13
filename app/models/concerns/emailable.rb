@@ -12,7 +12,5 @@ module Emailable
   # This is a hook that children can use to
   # add custom logic for whether an email should
   # be sent (see User::Notification for example)
-  def email_should_send?
-    true
-  end
+  def email_should_send? = true
 end

@@ -9,8 +9,6 @@ module Badges
 
     def send_email_on_acquisition? = false
 
-    def percentage_awardees
-      100
-    end
+    def percentage_awardees = 100
   end
 end

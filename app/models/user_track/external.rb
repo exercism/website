@@ -110,9 +110,7 @@ class UserTrack
     # Exercises aggregate methods #
     ###############################
 
-    def num_completed_exercises
-      0
-    end
+    def num_completed_exercises = 0
 
     def unlocked_exercise_ids
       []
@@ -132,9 +130,7 @@ class UserTrack
       concept_exercises_counts[slug]
     end
 
-    def num_completed_exercises_for_concept(_)
-      0
-    end
+    def num_completed_exercises_for_concept(_) = 0
 
     #############################
     # Concept aggregate methods #
@@ -143,13 +139,9 @@ class UserTrack
       []
     end
 
-    def num_concepts_learnt
-      0
-    end
+    def num_concepts_learnt = 0
 
-    def num_concepts_mastered
-      0
-    end
+    def num_concepts_mastered = 0
 
     ###################
     # Private methods #

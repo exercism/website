@@ -18,7 +18,7 @@ class User::Notifications::AutomatedFeedbackAddedNotification < User::Notificati
   end
 
   def emphasis = representation.has_essential_feedback? ? 'strongly ' : nil
-  def email_should_send? = super && representation.created_at >= "2022-10-13"
+  def email_should_send? = super && iteration.created_at >= Time.utc(2022, 10, 13)
 
   delegate :track, :exercise, to: :iteration
 end

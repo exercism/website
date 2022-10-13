@@ -2,7 +2,7 @@
   %p.text-16.text-white.font-semibold.leading-170.mb-12
     Struggling with this exercise?
 
-  - if @solution.downloaded? || @solution.submitted?
+  - if @solution&.downloaded? || @solution&.submitted?
     %p.mb-4.leading-150
       Unlock the Dig Deeper tab to see how the community approached and solved #{@exercise.title}.
 

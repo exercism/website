@@ -41,9 +41,7 @@ class Submission::TestRun < ApplicationRecord
     ops_status == 408
   end
 
-  def ops_errored?
-    !ops_success?
-  end
+  def ops_errored? = !ops_success?
 
   def passed?
     status == :pass

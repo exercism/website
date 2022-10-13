@@ -9,9 +9,7 @@ class User
         :icon
       end
 
-      def image_path
-        "icons/mentoring-gradient.svg"
-      end
+      def image_path = "icons/mentoring-gradient.svg"
 
       def guard_params
         ""

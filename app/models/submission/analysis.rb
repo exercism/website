@@ -97,9 +97,7 @@ class Submission::Analysis < ApplicationRecord
     HashWithIndifferentAccess.new(super)
   end
 
-  def analyzer_repo
-    "#{submission.track.slug}-analyzer"
-  end
+  def analyzer_repo = "#{submission.track.slug}-analyzer"
 
   TYPES = %i[essential actionable informative celebratory].freeze
   DEFAULT_TYPE = :informative

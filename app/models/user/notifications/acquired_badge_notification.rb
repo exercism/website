@@ -11,9 +11,7 @@ class User
 
       def image_url; end
 
-      def guard_params
-        "Badge##{user_acquired_badge.badge_id}"
-      end
+      def guard_params = "Badge##{user_acquired_badge.badge_id}"
     end
   end
 end

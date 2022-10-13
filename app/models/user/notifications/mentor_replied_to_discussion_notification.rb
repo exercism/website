@@ -28,9 +28,7 @@ class User
         mentor.avatar_url
       end
 
-      def guard_params
-        "DiscussionPost##{discussion_post.id}"
-      end
+      def guard_params = "DiscussionPost##{discussion_post.id}"
 
       delegate :discussion, to: :discussion_post
 

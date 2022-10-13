@@ -24,9 +24,7 @@ class User
         student.avatar_url
       end
 
-      def guard_params
-        "Discussion##{discussion.id}|Iteration##{iteration.id}"
-      end
+      def guard_params = "Discussion##{discussion.id}|Iteration##{iteration.id}"
 
       private
       def track

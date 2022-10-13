@@ -12,9 +12,7 @@ class User::ReputationTokens::MentoredToken < User::ReputationToken
     self.earned_on = discussion.finished_at unless earned_on
   end
 
-  def guard_params
-    "Discussion##{discussion.id}"
-  end
+  def guard_params = "Discussion##{discussion.id}"
 
   def i18n_params
     {

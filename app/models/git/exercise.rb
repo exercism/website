@@ -278,9 +278,7 @@ module Git
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 
-    def absolute_filepath(filepath)
-      "#{dir}/#{filepath}"
-    end
+    def absolute_filepath(filepath) = "#{dir}/#{filepath}"
 
     def filepaths
       file_entries.map { |defn| defn[:full] }

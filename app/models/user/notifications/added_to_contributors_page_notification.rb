@@ -13,17 +13,13 @@ class User
         :icon
       end
 
-      def image_path
-        "icons/contributors.svg"
-      end
+      def image_path = "icons/contributors.svg"
 
       def guard_params
         "" # Users should only have this badge once
       end
 
-      def email_communication_preferences_key
-        "email_on_general_update_notification"
-      end
+      def email_communication_preferences_key = "email_on_general_update_notification"
     end
   end
 end

@@ -93,9 +93,7 @@ class Track < ApplicationRecord
       count
   end
 
-  def icon_url
-    "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
-  end
+  def icon_url = "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
 
   def highlightjs_language
     git.highlightjs_language || slug

@@ -25,7 +25,5 @@ class User::Activity < ApplicationRecord
 
   private
   # This should be overriden by child-classes
-  def icon_name
-    "editor"
-  end
+  def icon_name = "editor"
 end

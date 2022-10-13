@@ -8,9 +8,7 @@ module User::Activities
       Exercism::Routes.track_exercise_path(track, solution.exercise)
     end
 
-    def guard_params
-      "Solution##{solution.id}"
-    end
+    def guard_params = "Solution##{solution.id}"
 
     def i18n_params
       {

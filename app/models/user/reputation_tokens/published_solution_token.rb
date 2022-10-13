@@ -11,9 +11,7 @@ class User::ReputationTokens::PublishedSolutionToken < User::ReputationToken
     self.earned_on = solution.published_at unless earned_on
   end
 
-  def guard_params
-    "Solution##{solution.id}"
-  end
+  def guard_params = "Solution##{solution.id}"
 
   def i18n_params
     {

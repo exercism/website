@@ -14,9 +14,7 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
     end
   end
 
-  def guard_params
-    "PR##{pr_node_id}"
-  end
+  def guard_params = "PR##{pr_node_id}"
 
   def i18n_params
     {
@@ -26,7 +24,5 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
     }
   end
 
-  def icon_name
-    "pull-request-open"
-  end
+  def icon_name = "pull-request-open"
 end

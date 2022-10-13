@@ -129,9 +129,7 @@ class Solution < ApplicationRecord
     latest_iteration&.submission
   end
 
-  def mentor_download_cmd
-    "exercism download --uuid=#{uuid}"
-  end
+  def mentor_download_cmd = "exercism download --uuid=#{uuid}"
 
   def viewable_by?(viewer)
     # A user can always see their own stuff

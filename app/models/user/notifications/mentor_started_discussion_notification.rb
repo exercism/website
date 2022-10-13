@@ -28,9 +28,7 @@ class User
         mentor.avatar_url
       end
 
-      def guard_params
-        "Discussion##{discussion.id}"
-      end
+      def guard_params = "Discussion##{discussion.id}"
 
       private
       def solution

@@ -30,9 +30,7 @@ class User::Notification < ApplicationRecord
   end
 
   memoize
-  def email_communication_preferences_key
-    "email_on_#{type}"
-  end
+  def email_communication_preferences_key = "email_on_#{type}"
 
   def email_should_send?
     unread? || email_only?
@@ -64,9 +62,7 @@ class User::Notification < ApplicationRecord
     }
   end
 
-  def image_url
-    "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path(image_path)}"
-  end
+  def image_url = "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path(image_path)}"
 
   private
   memoize

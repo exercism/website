@@ -10,9 +10,7 @@ module User::Activities
       Exercism::Routes.track_exercise_iteration_path(track, solution.exercise, iteration)
     end
 
-    def icon_name
-      "iteration"
-    end
+    def icon_name = "iteration"
 
     def i18n_params
       {
@@ -20,8 +18,6 @@ module User::Activities
       }
     end
 
-    def guard_params
-      "Iteration##{iteration.id}"
-    end
+    def guard_params = "Iteration##{iteration.id}"
   end
 end

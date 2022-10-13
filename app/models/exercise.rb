@@ -133,9 +133,7 @@ class Exercise < ApplicationRecord
     end
   end
 
-  def icon_url
-    "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
-  end
+  def icon_url = "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
 
   memoize
   def mentoring_notes

@@ -90,9 +90,7 @@ class Iteration < ApplicationRecord
       status
     end
 
-    def inspect
-      "Iteration::Status (#{status})"
-    end
+    def inspect = "Iteration::Status (#{status})"
 
     %i[
       untested testing tests_failed analyzing

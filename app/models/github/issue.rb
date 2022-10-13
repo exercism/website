@@ -9,7 +9,5 @@ class Github::Issue < ApplicationRecord
 
   def status = super.to_sym
 
-  def github_url
-    "https://github.com/#{repo}/issues/#{number}"
-  end
+  def github_url = "https://github.com/#{repo}/issues/#{number}"
 end

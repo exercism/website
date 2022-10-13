@@ -119,9 +119,7 @@ class User::ReputationToken < ApplicationRecord
   end
 
   # To be overriden in children classes
-  def icon_name
-    "reputation"
-  end
+  def icon_name = "reputation"
 
   # To be overriden in children classes
   def internal_url = nil

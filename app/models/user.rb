@@ -130,9 +130,7 @@ class User < ApplicationRecord
     find_by!(handle: param)
   end
 
-  def to_param
-    handle
-  end
+  def to_param = handle
 
   def pronoun_parts
     a = pronouns.to_s.split("/")
@@ -160,14 +158,10 @@ class User < ApplicationRecord
     User::FormatReputation.(rep)
   end
 
-  def active_subscription
-    donation_subscriptions.active.last
-  end
+  def active_subscription = donation_subscriptions.active.last
 
   memoize
-  def active_donation_subscription_amount_in_cents
-    donation_subscriptions.active.last&.amount_in_cents
-  end
+  def active_donation_subscription_amount_in_cents = donation_subscriptions.active.last&.amount_in_cents
 
   memoize
   def total_subscription_donations_in_dollars
@@ -175,9 +169,7 @@ class User < ApplicationRecord
   end
 
   memoize
-  def total_one_off_donations_in_dollars
-    total_donated_in_dollars - total_subscription_donations_in_dollars
-  end
+  def total_one_off_donations_in_dollars = total_donated_in_dollars - total_subscription_donations_in_dollars
 
   memoize
   def total_donated_in_dollars
@@ -233,9 +225,7 @@ class User < ApplicationRecord
       accepted_terms_at.present?
   end
 
-  def has_avatar_url?
-    super.presence? || avatar.attached?
-  end
+  def has_avatar_url? = super.presence? || avatar.attached?
 
   def avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
@@ -252,13 +242,8 @@ class User < ApplicationRecord
     %w[english spanish]
   end
 
-  def system?
-    id == SYSTEM_USER_ID
-  end
-
-  def ghost?
-    id == GHOST_USER_ID
-  end
+  def system? = id == SYSTEM_USER_ID
+  def ghost? = id == GHOST_USER_ID
 
   def dismiss_introducer!(slug)
     dismissed_introducers.create_or_find_by!(slug:)

@@ -14,9 +14,7 @@ class Document < ApplicationRecord
     Document::SyncToSearchIndex.defer(self)
   end
 
-  def nav_title
-    super.presence || title
-  end
+  def nav_title = super.presence || title
 
   def subsections
     return [] if apex?

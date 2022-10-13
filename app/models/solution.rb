@@ -115,23 +115,14 @@ class Solution < ApplicationRecord
   end
 
   memoize
-  def latest_published_iteration
-    published_iterations.last
-  end
+  def latest_published_iteration = published_iterations.last
 
   memoize
-  def latest_published_iteration_submission
-    latest_published_iteration&.submission
-  end
+  def latest_published_iteration_submission = latest_published_iteration&.submission
 
   memoize
-  def latest_iteration_submission
-    latest_iteration&.submission
-  end
-
-  def mentor_download_cmd
-    "exercism download --uuid=#{uuid}"
-  end
+  def latest_iteration_submission = latest_iteration&.submission
+  def mentor_download_cmd = "exercism download --uuid=#{uuid}"
 
   def viewable_by?(viewer)
     # A user can always see their own stuff
@@ -184,49 +175,27 @@ class Solution < ApplicationRecord
     end
   end
 
-  def iteration_status
-    super&.to_sym
-  end
+  def iteration_status = super&.to_sym
 
   # TODO: Karlo
-  def has_unsubmitted_code?
-    false
-  end
+  def has_unsubmitted_code? = false
 
   def git_type
     self.class.name.sub("Solution", "").downcase
   end
 
-  def to_param
-    raise "We almost never want to auto-generate solution urls. Use the solution_url helper method or use uuid if you're sure you want to do this." # rubocop:disable Layout/LineLength
-  end
+  def to_param = raise "We almost never want to auto-generate solution urls. Use the solution_url helper method or use uuid if you're sure you want to do this." # rubocop:disable Layout/LineLength
+  def downloaded? = !!downloaded_at
 
-  def downloaded?
-    !!downloaded_at
-  end
-
-  def completed?
-    !!completed_at
-  end
-
-  def published?
-    !!published_at
-  end
+  def completed? = !!completed_at
+  def published? = !!published_at
 
   def iterated? = status != :started
-
-  def has_unlocked_pending_mentoring_request?
-    mentor_requests.pending.unlocked.exists?
-  end
-
-  def has_locked_pending_mentoring_request?
-    mentor_requests.pending.locked.exists?
-  end
+  def has_unlocked_pending_mentoring_request? = mentor_requests.pending.unlocked.exists?
+  def has_locked_pending_mentoring_request? = mentor_requests.pending.locked.exists?
 
   memoize
-  def in_progress_mentor_discussion
-    mentor_discussions.in_progress_for_student.first
-  end
+  def in_progress_mentor_discussion = mentor_discussions.in_progress_for_student.first
 
   def update_status!
     new_status = determine_status
@@ -243,9 +212,7 @@ class Solution < ApplicationRecord
     update(mentoring_status: new_status) if mentoring_status != new_status
   end
 
-  def out_of_date?
-    git_important_files_hash != exercise.git_important_files_hash
-  end
+  def out_of_date? = git_important_files_hash != exercise.git_important_files_hash
 
   def external_mentoring_request_url
     Exercism::Routes.mentoring_external_request_url(public_uuid)

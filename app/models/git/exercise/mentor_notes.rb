@@ -17,9 +17,7 @@ module Git
       end
 
       private
-      def exists?
-        content.present?
-      end
+      def exists? = content.present?
 
       memoize
       def copy_repo

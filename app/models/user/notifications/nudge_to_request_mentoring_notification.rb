@@ -1,25 +1,11 @@
-class User
-  module Notifications
-    class NudgeToRequestMentoringNotification < Notification
-      def url
-        Exercism::Routes.track_url(track, notification_uuid: uuid, anchor: "mentoring")
-      end
+class User::Notifications::NudgeToRequestMentoringNotification < User::Notification
+  def url = Exercism::Routes.track_url(track, notification_uuid: uuid, anchor: "mentoring")
+  def image_type = :icon
+  def image_path = "icons/mentoring-gradient.svg"
 
-      def image_type
-        :icon
-      end
-
-      def image_path
-        "icons/mentoring-gradient.svg"
-      end
-
-      def guard_params
-        ""
-      end
-
-      def email_communication_preferences_key
-        :email_on_nudge_notification
-      end
-    end
+  def guard_params
+    ""
   end
+
+  def email_communication_preferences_key = :email_on_nudge_notification
 end

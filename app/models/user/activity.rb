@@ -21,13 +21,9 @@ class User::Activity < ApplicationRecord
     }
   end
 
-  def non_cacheable_rendering_data
-    super.merge(occurred_at:)
-  end
+  def non_cacheable_rendering_data = super.merge(occurred_at:)
 
   private
   # This should be overriden by child-classes
-  def icon_name
-    "editor"
-  end
+  def icon_name = "editor"
 end

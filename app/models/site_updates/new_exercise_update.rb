@@ -1,7 +1,5 @@
 class SiteUpdates::NewExerciseUpdate < SiteUpdate
-  def guard_params
-    "Exercise##{exercise_id}"
-  end
+  def guard_params = "Exercise##{exercise_id}"
 
   def i18n_params
     {

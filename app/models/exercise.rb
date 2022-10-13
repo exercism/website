@@ -92,21 +92,14 @@ class Exercise < ApplicationRecord
     track.recache_num_exercises! if (saved_changes.keys & %w[id status]).present?
   end
 
-  def status
-    super.to_sym
-  end
+  def status = super.to_sym
 
   def git_type
     self.class.name.sub("Exercise", "").downcase
   end
 
-  def concept_exercise?
-    is_a?(ConceptExercise)
-  end
-
-  def practice_exercise?
-    is_a?(PracticeExercise)
-  end
+  def concept_exercise? = is_a?(ConceptExercise)
+  def practice_exercise? = is_a?(PracticeExercise)
 
   def tutorial?
     slug == "hello-world"
@@ -116,13 +109,8 @@ class Exercise < ApplicationRecord
     super && track.has_test_runner?
   end
 
-  def to_param
-    slug
-  end
-
-  def download_cmd
-    "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
-  end
+  def to_param = slug
+  def download_cmd = "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
 
   def difficulty_category
     case difficulty
@@ -135,9 +123,7 @@ class Exercise < ApplicationRecord
     end
   end
 
-  def icon_url
-    "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
-  end
+  def icon_url = "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
 
   memoize
   def mentoring_notes

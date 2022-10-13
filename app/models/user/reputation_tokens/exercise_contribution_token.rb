@@ -16,9 +16,7 @@ class User::ReputationTokens::ExerciseContributionToken < User::ReputationToken
     }
   end
 
-  def guard_params
-    "Exercise##{exercise.id}"
-  end
+  def guard_params = "Exercise##{exercise.id}"
 
   def internal_url
     Exercism::Routes.track_exercise_path(track, exercise)

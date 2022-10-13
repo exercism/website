@@ -51,9 +51,7 @@ class Iteration < ApplicationRecord
     solution.latest_iteration == self
   end
 
-  def deleted?
-    !!deleted_at
-  end
+  def deleted? = !!deleted_at
 
   def published?
     solution.published? && (
@@ -86,13 +84,8 @@ class Iteration < ApplicationRecord
 
     delegate :to_s, to: :status
 
-    def to_sym
-      status
-    end
-
-    def inspect
-      "Iteration::Status (#{status})"
-    end
+    def to_sym = status
+    def inspect = "Iteration::Status (#{status})"
 
     %i[
       untested testing tests_failed analyzing

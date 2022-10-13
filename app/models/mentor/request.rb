@@ -60,17 +60,9 @@ class Mentor::Request < ApplicationRecord
     solution.update_mentoring_status! if previous_changes.key?('status')
   end
 
-  def to_param
-    uuid
-  end
-
-  def status
-    super.to_sym
-  end
-
-  def type
-    super.to_sym
-  end
+  def to_param = uuid
+  def status = super.to_sym
+  def type = super.to_sym
 
   # If this request is locked by someone else then
   # the user has timed out and someone else has started
@@ -87,9 +79,7 @@ class Mentor::Request < ApplicationRecord
     latest_lock.locked_by == mentor
   end
 
-  def locked?
-    locks.exists?
-  end
+  def locked? = locks.exists?
 
   def comment
     Mentor::RequestComment.from(self)

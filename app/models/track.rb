@@ -45,9 +45,7 @@ class Track < ApplicationRecord
     update_column(:num_exercises, exercises.where(status: %i[active beta]).count)
   end
 
-  def to_param
-    slug
-  end
+  def to_param = slug
 
   memoize
   def git
@@ -93,9 +91,7 @@ class Track < ApplicationRecord
       count
   end
 
-  def icon_url
-    "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
-  end
+  def icon_url = "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
 
   def highlightjs_language
     git.highlightjs_language || slug

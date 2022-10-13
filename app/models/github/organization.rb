@@ -8,9 +8,7 @@ class Github::Organization
   end
 
   memoize
-  def active?
-    name.present?
-  end
+  def active? = name.present?
 
   def remove_member(github_username)
     # TODO: remove below line and enable commented line below that

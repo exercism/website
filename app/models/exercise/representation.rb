@@ -33,10 +33,7 @@ class Exercise::Representation < ApplicationRecord
 
   def to_param = uuid
   def feedback_type = super&.to_sym
-
-  def num_times_used
-    submission_representations.count
-  end
+  def num_times_used = submission_representations.count
 
   def has_essential_feedback? = has_feedback? && feedback_essential?
   def has_actionable_feedback? = has_feedback? && feedback_actionable?
@@ -47,9 +44,7 @@ class Exercise::Representation < ApplicationRecord
     [feedback_markdown, feedback_author_id, feedback_type].all?(&:present?)
   end
 
-  def appears_frequently?
-    num_submissions >= APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS
-  end
+  def appears_frequently? = num_submissions >= APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS
 
   APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS = 5
   private_constant :APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS

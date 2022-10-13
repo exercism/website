@@ -60,9 +60,7 @@ class Mentor::Discussion < ApplicationRecord
   delegate :title, to: :exercise, prefix: :exercise
   delegate :comment, to: :request, prefix: true, allow_nil: true
 
-  def status
-    super.to_sym
-  end
+  def status = super.to_sym
 
   %i[finished_by rating].each do |meth|
     define_method meth do
@@ -84,13 +82,8 @@ class Mentor::Discussion < ApplicationRecord
     Exercism::Routes.mentoring_discussion_url(self)
   end
 
-  def to_param
-    uuid
-  end
-
-  def finished_for_student?
-    status == :finished
-  end
+  def to_param = uuid
+  def finished_for_student? = status == :finished
 
   def finished_for_mentor?
     %i[mentor_finished finished].include?(status)

@@ -9,7 +9,5 @@ class Solution::Comment < ApplicationRecord
     self.uuid = SecureRandom.uuid
   end
 
-  def to_param
-    uuid
-  end
+  def to_param = uuid
 end

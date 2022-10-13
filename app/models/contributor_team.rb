@@ -18,9 +18,7 @@ class ContributorTeam < ApplicationRecord
 
   has_many :repos, dependent: :destroy
 
-  def type
-    super.to_sym
-  end
+  def type = super.to_sym
 
   def role_for_members
     MEMBER_ROLE_FOR_TYPES[type]

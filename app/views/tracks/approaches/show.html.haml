@@ -1,14 +1,13 @@
 #page-approaches-show.pb-80
   %header.pt-24.md:pt-48.pb-64.md:pb-128
     .md-container.flex.flex-col.md:flex-row-reverse.items-center.c-shapes.c-shapes-1{ class: 'gap-[48px]' }
-      = link_to Exercism::Routes.track_exercise_path(@track, @exercise) do
-        .py-8.px-24.bg-gray.border-2.border-gradient-bgGray.rounded-100.flex.flex-row.items-center{ class: "h-[68px]" }
-          = track_icon @track, css_class: 'h-[40px] w-[40px] mr-12'
-          = exercise_icon @exercise, css_class: 'h-[48px] w-[48px] mr-12'
-          .flex.flex-col.mr-24
-            .text-h5.whitespace-nowrap= @exercise.title
-            .textColor-6.font-normal.leading-150.text-16= @track.title
-          = graphical_icon "new-tab", css_class: "filter-textColor6 w-[16px] h-[16px]"
+      = link_to Exercism::Routes.track_exercise_path(@track, @exercise), class: " py-8 px-24 bg-gray border-2 border-gradient-bgGray rounded-100 flex flex-row items-center h-[68px]" do
+        = track_icon @track, css_class: 'h-[40px] w-[40px] mr-12'
+        = exercise_icon @exercise, css_class: 'h-[48px] w-[48px] mr-12'
+        .flex.flex-col.mr-24
+          .text-h5.whitespace-nowrap= @exercise.title
+          .textColor-6.font-normal.leading-150.text-16= @track.title
+        = graphical_icon "new-tab", css_class: "filter-textColor6 w-[16px] h-[16px]"
 
       .block.flex-grow
         %h1.text-h0.mb-12.md:mb-18= @approach.title

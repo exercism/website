@@ -11,8 +11,7 @@ module ReactComponents
           bottom_count:,
           bottom_label:,
           max:
-        }
-        )
+        })
       end
     end
   end

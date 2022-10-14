@@ -45,10 +45,10 @@ module Git
     end
 
     memoize
-    def authors_config = head_git_exercise.approaches_introduction_authors.to_a
+    def authors_config = head_git_exercise.approaches.introduction_authors.to_a
 
     memoize
-    def contributors_config = head_git_exercise.approaches_introduction_contributors.to_a
+    def contributors_config = head_git_exercise.approaches.introduction_contributors.to_a
 
     memoize
     def head_git_exercise

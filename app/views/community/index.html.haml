@@ -1,2 +1,49 @@
 #page-community
-  %h1.text-h1 Hello Exism!
+  .lg-container.mt-40
+    .flex.gap-128.mb-28
+      .grid
+        = graphical_icon "community", css_class: "h-[48px] w-[48px]"
+        %h1.text-h1 Join our community!
+        %p
+          %strong
+            Accelerate your learning with Exercism&apos;s community.
+          Ask questions, explore ideas, and get to know millions of other developers upskilling on Exercism.
+
+        = link_to "", class: "btn-primary btn-l" do
+          Explore our forum
+
+        %div New topics
+
+        - 2.times do
+          .flex.items-center.bg-white.px-20.py-12.shadow-smZ1.rounded-8.mb-8
+            Erik
+            .flex.flex-col.mr-auto
+              %strong whats new in ruby
+              Last replied ErikSchierboom
+            .text-textColor6
+              56
+      .grid
+        = image_tag "forum.png"
+
+    .flex.gap-96
+      .grid
+        = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px]"
+        %h2.text-h2.mb-8 Hear our Community Stories
+        %p.mb-24 Listen to the stories of those who have build, contributed to, and learnt from Exercism.
+
+        .flex.gap-16
+          - 3.times do
+            .grid.shadow-sm.p-16.bg-white
+              .bg-borderLight.rounded-8.mb-12{ class: "h-[96px] w-[100%]" }
+              %h5.text-h5.mb-8 How I Saved My Life with 3D Printing
+              .flex.items-center
+                = graphical_icon "avatar-placeholder", css_class: "h-[24px] w-[24px] mr-8"
+                Bobbi Towers
+
+      .inline-flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8
+        %h2.text-h2.mb-8 Help us change lives
+        %p.mb-24 We&apos;re community powered and community funded. We rely on donations from people like you to enable us to exist and thrive. Only 1% of people choose to support us. Please be one of them.
+
+        = link_to "", class: "btn-default btn-l" do
+          See how you can help
+

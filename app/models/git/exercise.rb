@@ -5,7 +5,7 @@ module Git
     extend Git::HasGitFilepath
 
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
-    delegate :introduction, :introduction_last_modified_at, :introduction_exists, to: :approaches, prefix: true
+    delegate :introduction, :introduction_last_modified_at, :introduction_exists, :introduction_edit_url, to: :approaches, prefix: true
 
     git_filepath :instructions, file: ".docs/instructions.md", append_file: ".docs/instructions.append.md"
     git_filepath :introduction, file: ".docs/introduction.md", append_file: ".docs/introduction.append.md"

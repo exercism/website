@@ -40,7 +40,10 @@
                 = graphical_icon "avatar-placeholder", css_class: "h-[24px] w-[24px] mr-8"
                 Bobbi Towers
 
-      .inline-flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8
+      .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8
+        .inline-grid.grid-cols-10.mb-16.gap-0
+          - 40.times do
+            = graphical_icon "avatar-placeholder", css_class: 'h-[32px] w-[32px]'
         %h2.text-h2.mb-8 Help us change lives
         %p.mb-24 We&apos;re community powered and community funded. We rely on donations from people like you to enable us to exist and thrive. Only 1% of people choose to support us. Please be one of them.
 

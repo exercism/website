@@ -33,8 +33,7 @@ class Git::Exercise::Approaches
   def introduction_edit_url
     url = introduction_exists? ? EDIT_GITHUB_URL : NEW_GITHUB_URL
 
-    format(url, track_slug: track.slug, filepath: introduction_absolute_filepath,
-      filename: File.basename(introduction_absolute_filepath))
+    format(url, track_slug: track.slug, filepath: introduction_absolute_filepath)
   end
 
   memoize
@@ -80,7 +79,7 @@ class Git::Exercise::Approaches
   def track = Git::Track.new(repo:)
 
   # Yes, the filename should be duplicated. I think this is a GitHub bug.
-  NEW_GITHUB_URL = "https://github.com/exercism/%<track_slug>s/new/main/%<filepath>s?filename=%<filename>s".freeze
+  NEW_GITHUB_URL = "https://github.com/exercism/%<track_slug>s/new/main/?filename=%<filepath>s".freeze
   EDIT_GITHUB_URL = "https://github.com/exercism/%<track_slug>s/edit/main/%<filepath>s".freeze
   private_constant :NEW_GITHUB_URL, :EDIT_GITHUB_URL
 end

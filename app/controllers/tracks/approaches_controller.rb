@@ -66,7 +66,7 @@ class Tracks::ApproachesController < ApplicationController
 
     target = 3
     urls = avatar_urls.(@exercise.approach_introduction_authors, target)
-    if urls.size < 3 && @exercise.approach_introduction_contributors.count.positive?
+    if urls.size < 3 && @exercise.approach_introduction_contributors.exists?
       urls += avatar_urls.(@exercise.approach_introduction_contributors, target - urls.size)
     end
     urls.compact

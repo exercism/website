@@ -2,15 +2,12 @@
   %p.text-lightPurple.font-semibold.mb-4
     Struggling with this exercise?
 
+
   - if @solution&.downloaded? || @solution&.submitted?
     %p.mb-12{ class: '!mt-0 ' }
       Unlock Community Solutions to see how the community approached and solved #{@exercise.title}.
 
-    .flex.mb-10
-      .grow{ class: "w-[100%]" }
-        = button_to unlock_help_api_solution_url(@solution.uuid), method: :patch, class: 'btn-primary btn-s grow w-[100%] text-14 !py-4 !px-16' do
-          = graphical_icon 'unlock', css_class: "w-[14px] h-[14px]"
-          Unlock this tab
+    = ReactComponents::Track::UnlockButton.new
   - else
     %p.mb-12
       You can only view the Community Solutions tab if you've attempted this exercise at least once.

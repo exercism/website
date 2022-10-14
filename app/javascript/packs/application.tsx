@@ -179,6 +179,10 @@ initReact({
   ),
   'track-approach': (data: any) => <TrackComponents.Approach />,
 
+  'track-tooltip-unlock-button': (data: any) => (
+    <TrackComponents.TooltipUnlockButton unlockUrl={data.unlock_url} />
+  ),
+
   'track-exercise-makers-button': (data: any) => (
     <TrackComponents.ExerciseMakersButton
       avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}

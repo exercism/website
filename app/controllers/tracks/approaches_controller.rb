@@ -56,8 +56,7 @@ class Tracks::ApproachesController < ApplicationController
       num_contributors: @exercise.approach_introduction_contributors.count,
       updated_at: @exercise.approaches_introduction_last_modified_at,
       links: {
-        new: "https://github.com/exercism/#{@track.slug}/new/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md?filename=introduction.md",
-        edit: "https://github.com/exercism/#{@track.slug}/edit/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md"
+        edit: @exercise.approaches_introduction_edit_url
       }
     }
   end

@@ -18,7 +18,7 @@ export function NoIntroductionYet({
       </div>
       <div className="flex text-textColor6 text-14 leading-140">
         Want to contribute?&nbsp;
-        <a className="flex" href={introduction.links.new}>
+        <a className="flex" href={introduction.links.edit}>
           <span className="underline">You can do it here.</span>&nbsp;
           <Icon
             className="filter-textColor6"

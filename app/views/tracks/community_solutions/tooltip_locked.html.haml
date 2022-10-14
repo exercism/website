@@ -7,7 +7,7 @@
     %p.mb-12{ class: '!mt-0 ' }
       Unlock Community Solutions to see how the community approached and solved #{@exercise.title}.
 
-    = ReactComponents::Track::UnlockButton.new
+    = ReactComponents::Track::UnlockButton.new(unlock_help_api_solution_url(@solution.uuid))
   - else
     %p.mb-12
       You can only view the Community Solutions tab if you've attempted this exercise at least once.

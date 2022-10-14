@@ -54,8 +54,8 @@ class Tracks::ApproachesController < ApplicationController
     {
       html: Markdown::Parse.(@exercise.approaches_introduction),
       avatar_urls: introduction_avatar_urls,
-      num_authors: introduction_num_authors,
-      num_contributors: introduction_num_contributors,
+      num_authors: @exercise.approach_introduction_authors.count,
+      num_contributors: @exercise.approach_introduction_contributors.count,
       updated_at: @exercise.approaches_introduction_last_modified_at,
       links: {
         new: "https://github.com/exercism/#{@track.slug}/new/main/exercises/#{@exercise.git_type}/#{@exercise.slug}/.approaches/introduction.md?filename=introduction.md",
@@ -64,18 +64,12 @@ class Tracks::ApproachesController < ApplicationController
     }
   end
 
-  memoize
-  def introduction_num_authors = @exercise.approach_introduction_authors.count
-
-  memoize
-  def introduction_num_contributors = @exercise.approach_introduction_contributors.count
-
   def introduction_avatar_urls
     avatar_urls = proc { |users, limit| users.order("RAND()").limit(limit).select(:avatar_url).to_a.map(&:avatar_url) }
 
     target = 3
     urls = avatar_urls.(@exercise.approach_introduction_authors, target)
-    if urls.size < 3 && introduction_num_contributors.positive?
+    if urls.size < 3 && @exercise.approach_introduction_contributors.count.positive?
       urls += avatar_urls.(@exercise.approach_introduction_contributors, target - urls.size)
     end
     urls.compact

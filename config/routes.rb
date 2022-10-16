@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     get "confirmations/required" => "auth/confirmations#required", as: "auth_confirmation_required"
   end
 
+  get "discourse/sso" => "discourse/sso"
+
   # ### #
   # SPI #
   # ### #

@@ -62,6 +62,9 @@ gem 'omniauth-rails_csrf_protection'
 # Payments
 gem 'stripe'
 
+# Discourse
+gem 'discourse_api'
+
 # Reporting
 gem 'skylight'
 

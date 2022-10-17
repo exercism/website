@@ -118,7 +118,7 @@
     }
 
     & article {
-        @apply flex mb-48;
+        @apply xl:flex mb-48;
     }
 
     & section.actions-section {

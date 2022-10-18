@@ -66,7 +66,8 @@ module ViewComponents
           Exercism::Routes.track_exercise_approaches_path(track, exercise),
           :approaches,
           approaches_tab_locked?,
-          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_approaches_path(track, exercise))
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_approaches_path(track, exercise),
+            render_react_components: true)
         )
       end
 
@@ -80,7 +81,8 @@ module ViewComponents
           Exercism::Routes.track_exercise_solutions_path(track, exercise),
           :community_solutions,
           solutions_tab_locked?,
-          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_solutions_path(track, exercise))
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_solutions_path(track, exercise),
+            render_react_components: true)
         )
       end
 
@@ -115,12 +117,13 @@ module ViewComponents
           link_to(html, href, class: css_class)
       end
 
-      def locked_tab_tooltip_attrs(endpoint)
+      def locked_tab_tooltip_attrs(endpoint, render_react_components: false)
         {
           'data-tooltip-type': 'automation-locked',
           'data-endpoint': endpoint,
           'data-placement': 'bottom',
-          'data-interactive': true
+          'data-interactive': true,
+          'data-render-react-components': render_react_components
         }
       end
 

@@ -115,7 +115,7 @@ const render = (elem, component) => {
   // document.addEventListener('turbo:before-render', unloadOnce)
 }
 
-function renderComponents(parentElement, mappings) {
+export function renderComponents(parentElement, mappings) {
   // console.log(Date.now(), 'renderComponents()')
   if (!parentElement) {
     parentElement = document.body
@@ -154,6 +154,7 @@ function renderTooltip(mappings, elem) {
     tooltipElem,
     <ExercismTippy
       interactive={elem.dataset.interactive}
+      renderReactComponents={elem.dataset.renderReactComponents}
       content={component}
       reference={elem}
     />

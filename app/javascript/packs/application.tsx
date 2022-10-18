@@ -57,7 +57,6 @@ import {
   Metric,
 } from '../components/types'
 
-import * as Blog from '../components/blog'
 import * as Tooltips from '../components/tooltips'
 import { Dropdown } from '../components/dropdowns/Dropdown'
 import * as Profile from '../components/profile'
@@ -88,9 +87,9 @@ declare global {
 import { QueryCache } from 'react-query'
 window.queryCache = new QueryCache()
 
-// // Add all react components here.
-// // Each should map 1-1 to a component in app/helpers/components
-initReact({
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+const mappings = {
   'share-link': (data: any) => (
     <Common.ShareLink
       title={data.title}
@@ -439,7 +438,11 @@ initReact({
       />
     </Suspense>
   ),
-})
+}
+
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+initReact(mappings)
 
 document.addEventListener(
   'turbo:load',

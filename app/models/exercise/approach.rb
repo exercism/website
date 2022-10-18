@@ -18,4 +18,9 @@ class Exercise::Approach < ApplicationRecord
     inverse_of: :approach,
     dependent: :destroy
   has_many :contributors, through: :contributorships, source: :contributor
+
+  # TODO: (Optional): This was memoized but because git_sha can change
+  # this can actually end up being incorrectly memoized. How do we
+  # deal with this?
+  def git = Git::Exercise::Approach.new(slug, exercise.slug, exercise.git_type, synced_to_git_sha, repo_url: exercise.track.repo_url)
 end

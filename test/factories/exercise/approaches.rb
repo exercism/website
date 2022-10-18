@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :exercise_approach, class: 'Exercise::Approach' do
-    exercise { create :practice_exercise }
+    exercise { create :practice_exercise, slug: 'hamming' }
     uuid { SecureRandom.uuid }
     slug { 'performance' }
     blurb { "Learn all about #{slug}" }

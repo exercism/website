@@ -51,6 +51,7 @@ module.exports = {
       none: 'none',
       buttonS: '0px 4px 8px rgba(79, 114, 205, 0.4)',
       xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
+      dark_xsZ1: '0px 2px 4px #0F0923',
       xsZ1v2: '0px 2px 4px 0px rgba(79, 114, 205, 0.15)',
       xsZ1v3: '0px 2px 4px 0px rgba(79, 114, 205, 0.4)',
       sm: 'var(--box-shadow-sm)',

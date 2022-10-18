@@ -3,7 +3,7 @@
   .lg-container.mt-40.relative
     .flex.gap-128.mb-28
       .grid
-        = graphical_icon "community", css_class: "h-[48px] w-[48px]"
+        = graphical_icon "community", css_class: "h-[48px] w-[48px] mb-8"
         %h1.text-h1.mb-8 Join our community!
         %p.text-p-xlarge.leading-150.mb-20
           %strong
@@ -32,29 +32,33 @@
         = image_tag "forum.png"
 
     .flex.gap-96.mb-96
-      .grid
-        = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px]"
+      .grid.py-32
+        = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px] mb-8"
         %h2.text-h2.mb-8 Hear our Community Stories
         %p.mb-24 Listen to the stories of those who have build, contributed to, and learnt from Exercism.
 
         .flex.gap-16
           - 3.times do
             .grid.shadow-sm.p-16.bg-white
-              .bg-borderLight.rounded-8.mb-12{ class: "h-[96px] w-[100%]" }
+              .bg-borderLight.rounded-8.mb-12{ class: "h-[96px] w-[200px]" }
               %h5.text-h5.mb-8 How I Saved My Life with 3D Printing
               .flex.items-center
                 = graphical_icon "avatar-placeholder", css_class: "h-[24px] w-[24px] mr-8"
                 Bobbi Towers
 
       .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8
-        .inline-grid.grid-cols-10.mb-16.gap-0
+        .flex.flex-wrap.pb-16.mb-24{ class: 'w-[320px]' }
           - 40.times do
-            = graphical_icon "avatar-placeholder", css_class: 'h-[32px] w-[32px]'
+            = image_tag "team/erik.jpg", class: 'h-[48px] w-[48px] mb-[-16px] mr-[-16px] rounded-circle'
         %h2.text-h2.mb-8 Help us change lives
-        %p.mb-24 We&apos;re community powered and community funded. We rely on donations from people like you to enable us to exist and thrive. Only 1% of people choose to support us. Please be one of them.
+        %p.mb-24.text-p-large.text-textColor5
+          We&apos;re community powered and community funded. We rely on donations from people like you to enable us to exist and thrive.
+          %strong.text-textColor1 Only 1% of people choose to support us. Please be one of them.
 
-        = link_to "", class: "btn-default btn-l" do
-          See how you can help
+        .flex
+          = link_to "", class: "btn-default btn-m border-textColor1" do
+            See how you can help
+            = graphical_icon "arrow-right", css_class: 'filter-textColor1'
 
   .bg-repeat-round.flex{ class: "h-[576px] bg-[url(photos/mug.png)]" }
     .m-auto.rounded-16.bg-backgroundColorH.pt-32.px-24.pb-48.grid.place-items-center.grow{ class: 'max-w-[640px]' }

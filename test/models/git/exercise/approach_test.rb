@@ -5,9 +5,7 @@ class Git::Exercise::ApproachTest < ActiveSupport::TestCase
     approach = Git::Exercise::Approach.new("performance", "hamming", "practice", "HEAD",
       repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
-    puts approach.head_sha
-    expected = "wqe"
-    assert_equal expected, approach.content
+    assert_equal "# Description\n\nPerformance approach", approach.content
   end
 
   test "content file path" do
@@ -26,8 +24,7 @@ class Git::Exercise::ApproachTest < ActiveSupport::TestCase
     approach = Git::Exercise::Approach.new("performance", "hamming", "practice", "HEAD",
       repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
-    expected = "wqe"
-    assert_equal expected, approach.snippet
+    assert_equal "PERFORMANCE", approach.snippet
   end
 
   test "snippet file path" do

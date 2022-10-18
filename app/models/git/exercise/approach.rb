@@ -47,10 +47,4 @@ class Git::Exercise::Approach
 
   memoize
   def commit = repo.lookup_commit(git_sha)
-
-  memoize
-  def exercise = Git::Exercise.new(exercise_slug, exercise_type, git_sha, repo:)
-
-  memoize
-  def track = Git::Track.new(git_sha, repo:)
 end

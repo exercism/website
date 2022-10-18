@@ -18,6 +18,9 @@ class Git::Exercise::Approaches
   def synced_git_sha = commit.oid
 
   memoize
+  def approaches = config[:approaches].to_a
+
+  memoize
   def introduction_authors = config_introduction[:authors].to_a
 
   memoize

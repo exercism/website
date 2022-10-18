@@ -16,6 +16,7 @@ class Exercise < ApplicationRecord
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions
   has_many :representations, dependent: :destroy
+  has_many :community_videos, dependent: :destroy
 
   has_many :approaches,
     class_name: "Exercise::Approach",

@@ -143,4 +143,10 @@
             }
         }
     }
+
+    .new {
+        @apply bg-lightGold rounded-3;
+        @apply text-12 leading-140 font-mono font-bold uppercase;
+        @apply py-4 px-8;
+    }
 }

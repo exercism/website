@@ -16,7 +16,7 @@ export const LazyTippy = (props: LazyTippyProps) => {
     fn: () => ({
       onMount: () => setMounted(true),
       onHidden: () => setMounted(false),
-      onShown: (instance: Instance) => {
+      onAfterUpdate: (instance: Instance) => {
         if (props.renderReactComponents) {
           renderComponents(instance.popper, mappings)
         }
@@ -34,8 +34,6 @@ export const LazyTippy = (props: LazyTippyProps) => {
   } else {
     computedProps.content = mounted ? props.content : ''
   }
-
-  console.log(computedProps)
 
   return <Tippy {...computedProps} />
 }

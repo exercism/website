@@ -9,7 +9,6 @@ class CreateExerciseApproaches < ActiveRecord::Migration[7.0]
       t.string :title, null: false
       t.string :blurb, null: false, limit: 350
 
-      t.string :git_sha, null: false
       t.string :synced_to_git_sha, null: false
 
       t.timestamps

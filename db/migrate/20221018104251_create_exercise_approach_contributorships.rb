@@ -1,7 +1,7 @@
 class CreateExerciseApproachContributorships < ActiveRecord::Migration[7.0]
   def change
-    create_table :exercise_approaches_contributorships do |t|
-      t.belongs_to :exercise_approaches, foreign_key: true, null: false, index: { name: "index_exercise_approaches_contributorships_on_approach_id" }
+    create_table :exercise_approach_contributorships do |t|
+      t.belongs_to :exercise_approach, foreign_key: true, null: false, index: { name: "index_exercise_approaches_contributorships_on_approach_id" }
       t.belongs_to :user, foreign_key: true, null: false
 
       t.timestamps

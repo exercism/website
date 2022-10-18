@@ -8,10 +8,10 @@ module Git
     end
 
     def call
-      ::Exercise::UpdateHasApproaches.(exercise)
       sync_approaches!
       sync_introduction_authors!
       sync_introduction_contributors!
+      ::Exercise::UpdateHasApproaches.(exercise)
     end
 
     private

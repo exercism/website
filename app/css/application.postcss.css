@@ -221,6 +221,7 @@
 @import "./pages/journey/reputation";
 @import "./pages/journey/badges";
 @import "./pages/impact";
+@import "./pages/community-page";
 
 @import "./highlighters/highlightjs-light";
 @import "./highlighters/highlightjs-dark";

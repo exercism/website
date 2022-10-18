@@ -1,31 +1,37 @@
 #page-community
-  .lg-container.mt-40
+  %header
+  .lg-container.mt-40.relative
     .flex.gap-128.mb-28
       .grid
         = graphical_icon "community", css_class: "h-[48px] w-[48px]"
-        %h1.text-h1 Join our community!
-        %p
+        %h1.text-h1.mb-8 Join our community!
+        %p.text-p-xlarge.leading-150.mb-20
           %strong
             Accelerate your learning with Exercism&apos;s community.
           Ask questions, explore ideas, and get to know millions of other developers upskilling on Exercism.
 
-        = link_to "", class: "btn-primary btn-l" do
-          Explore our forum
+        .flex
+          = link_to "", class: "btn-primary btn-l mb-20" do
+            Explore our forum
 
-        %div New topics
+        .text-warning.font-semibold.leading-150.flex.items-center.mb-16.py-6.px-12
+          = graphical_icon 'sparkle', css_class: 'filter-warning w-[16px] h-[16px] mr-8'
+          New topics
 
         - 2.times do
           .flex.items-center.bg-white.px-20.py-12.shadow-smZ1.rounded-8.mb-8
-            Erik
+            = graphical_icon "avatar-placeholder", css_class: 'w-[32px] h-[32px] mr-8'
             .flex.flex-col.mr-auto
-              %strong whats new in ruby
-              Last replied ErikSchierboom
-            .text-textColor6
+              %h5.text-h5 What&apos;s in Ruby 3.6?
+              .text-textColor6.leading-150
+                Last replied ErikSchierboom
+            .message-count
+              = graphical_icon "message-bubble-square"
               56
       .grid
         = image_tag "forum.png"
 
-    .flex.gap-96
+    .flex.gap-96.mb-96
       .grid
         = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px]"
         %h2.text-h2.mb-8 Hear our Community Stories

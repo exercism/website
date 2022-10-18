@@ -19,4 +19,9 @@
     .filter-orange {
         filter: var(--orange-filter);
     }
+
+    .filter-warning {
+        filter: invert(66%) sepia(97%) saturate(2953%) hue-rotate(4deg)
+            brightness(92%) contrast(103%);
+    }
 }

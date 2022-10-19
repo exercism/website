@@ -265,4 +265,5 @@ class User < ApplicationRecord
   end
 
   def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
+  def profile? = profile.present?
 end

@@ -107,6 +107,8 @@ class User < ApplicationRecord
 
   has_many :cohort_memberships, dependent: :destroy
 
+  scope :random, -> { order('RAND()') }
+
   # TODO: Validate presence of name
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true

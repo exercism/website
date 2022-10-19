@@ -303,4 +303,9 @@ class UserTest < ActiveSupport::TestCase
 
     assert user.reload.profile?
   end
+
+  test "scope: random" do
+    create_list(:user, 100)
+    refute_equal User.all, User.random
+  end
 end

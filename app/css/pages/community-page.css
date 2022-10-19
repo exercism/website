@@ -30,51 +30,63 @@
         }
     }
 
+    .explore-link {
+        @apply flex place-content-center;
+        @apply text-lightBlue text-center font-semibold text-16;
+
+        &:after {
+            content: url("icons/arrow-right.svg");
+            height: 16px;
+            width: 16px;
+            @apply ml-12;
+        }
+    }
+
     .contributors-list {
         @apply mb-80;
 
         & > .container {
-            & .highlights {
+            .highlights {
                 @apply grid gap-16;
                 @apply mb-32;
 
-                & .highlight {
+                .highlight {
                     @apply border-1 border-borderColor6;
                     @apply shadow-xsZ1 rounded-8 bg-backgroundColorA;
                     @apply py-12 px-24;
                     @apply flex items-center;
 
-                    & .emoji {
+                    .emoji {
                         @apply text-24 leading-140;
                         @apply mr-24;
                     }
-                    & .c-avatar {
+                    .c-avatar {
                         height: 48px;
                         width: 48px;
                         @apply mr-20;
                     }
-                    & .new {
+                    .new {
                         @apply bg-lightGold rounded-3;
                         @apply px-8 py-4;
                         @apply text-12 leading-120 uppercase font-bold font-mono;
                         @apply mr-24;
                     }
-                    & .info {
-                        & .title {
+                    .info {
+                        .title {
                             @apply text-16 leading-150 font-medium text-textColor6;
                         }
-                        & .handle {
+                        .handle {
                             @apply text-h5;
                         }
                     }
                 }
             }
 
-            & .c-search-bar {
+            .c-search-bar {
                 @apply flex items-center mb-16;
-                & .tabs {
+                .tabs {
                     @apply flex items-center;
-                    & .c-tab-2 {
+                    .c-tab-2 {
                         @apply text-textColor6 text-16 leading-140 font-medium;
                         @apply py-10 border-b-3;
                         &.selected {
@@ -84,13 +96,13 @@
                 }
             }
 
-            & .c-single-select {
+            .c-single-select {
                 @apply ml-12;
             }
         }
-        & .contributors {
+        .contributors {
             @apply shadow-lg rounded-8 bg-backgroundColorA;
-            & .contributor {
+            .contributor {
                 @apply px-16 py-12;
                 @apply border-b-1 border-borderColor7;
                 @apply flex flex-col;
@@ -98,7 +110,7 @@
                 @apply md:px-24 md:py-8;
                 @apply md:flex-row md:items-center;
 
-                & .rank {
+                .rank {
                     @apply flex-shrink-0;
                     @apply text-textColor6 font-medium leading-150 text-center;
                     @apply mr-24;
@@ -107,22 +119,22 @@
                         width: 60px;
                     }
                 }
-                & .c-avatar {
+                .c-avatar {
                     height: 48px;
                     width: 48px;
                     @apply mr-16;
                 }
-                & .info {
+                .info {
                     max-width: 570px;
                     @apply mr-24;
-                    & h3 {
+                    h3 {
                         @apply text-16 leading-150 font-semibold text-textColor2;
                     }
-                    & p {
+                    p {
                         @apply leading-150 text-textColor6;
                     }
                 }
-                & .c-primary-reputation {
+                .c-primary-reputation {
                     transform: scale(0.8);
                     transform-origin: 0 50%;
 
@@ -131,13 +143,13 @@
                         transform: unset;
                     }
                 }
-                & .c-icon.action-icon {
+                .c-icon.action-icon {
                     height: 16px;
                     width: 16px;
                     @apply ml-96;
                 }
             }
-            & .c-pagination {
+            .c-pagination {
                 @apply mt-32;
                 padding: 8px 24px;
             }

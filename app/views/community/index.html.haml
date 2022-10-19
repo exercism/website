@@ -37,16 +37,19 @@
         %h2.text-h2.mb-8 Hear our Community Stories
         %p.mb-24.text-p-large.text-textColor5 Listen to the stories of those who have build, contributed to, and learnt from Exercism.
 
-        .flex.gap-16
+        .flex.gap-16.mb-32
           - 3.times do
             .grid.shadow-sm.p-16.bg-white
-              .bg-borderLight.rounded-8.mb-12{ class: "h-[96px] w-[200px]" }
+              .self-center.bg-borderLight.rounded-8.mb-12{ class: "w-[100%] pb-[56.25%]" }
               %h5.text-h5.mb-8 How I Saved My Life with 3D Printing
-              .flex.items-center
+              .flex.items-center.text-left
                 = graphical_icon "avatar-placeholder", css_class: "h-[24px] w-[24px] mr-8"
                 Bobbi Towers
 
-      .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8
+        = link_to "", class: 'explore-link' do
+          Explore more Community Stories
+
+      .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8{ class: "shrink-[3]", style: 'height: fit-content' }
         .flex.flex-wrap.pb-16.mb-24{ class: 'w-[360px]' }
           - 40.times do
             = image_tag "team/erik.jpg", class: 'h-[48px] w-[48px] mb-[-16px] mr-[-12px] rounded-circle'

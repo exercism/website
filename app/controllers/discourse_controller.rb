@@ -1,6 +1,7 @@
 class DiscourseController < ApplicationController
   def sso
-    secret = "MY_SECRET_STRING"
+    secret = Exercism.secrets.discourse_oauth_secret
+
     sso = DiscourseApi::SingleSignOn.parse(request.query_string, secret)
     sso.email = current_user.email
     sso.name = current_user.name

@@ -9,7 +9,7 @@ class Tracks::ApproachesController < ApplicationController
 
     # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
 
-    @videos = CommunityVideo.approved.for_exercise(@exercise)
+    @videos = @exercise.community_videos.approved
     @introduction = introduction
     @links = links
   end

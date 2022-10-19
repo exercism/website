@@ -30,20 +30,22 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
   def videos_data
     videos.map do |video|
       {
-        author: video.author.present? ? {
-          name: video.author.name,
-          handle: video.author.handle,
-          avatar_url: video.author.avatar_url,
-          links: {
-            profile: Exercism::Routes.profile_url(video.author)
-          }
-        } : nil,
+        author: if video.author.present?
+                  {
+                    name: video.author.name,
+                    handle: video.author.handle,
+                    avatar_url: video.author.avatar_url,
+                    links: {
+                      profile: video.author.profile? ? Exercism::Routes.profile_url(video.author) : nil
+                    }
+                  }
+                end,
         submitted_by: {
           name: video.submitted_by.name,
           handle: video.submitted_by.handle,
           avatar_url: video.submitted_by.avatar_url,
           links: {
-            profile: Exercism::Routes.profile_url(video.submitted_by)
+            profile: video.submitted_by.profile? ? Exercism::Routes.profile_url(video.submitted_by) : nil
           }
         },
         platform: video.platform,

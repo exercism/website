@@ -4,6 +4,7 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
   def to_s
     super("track-approaches", {
       videos: videos_data,
+      approaches: approaches_data,
       introduction:,
       links:,
       track: track_data,
@@ -42,6 +43,21 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
           channel: video.channel_url,
           thumbnail: video.thumbnail_url
         }
+      }
+    end
+  end
+
+  def approaches_data
+    approaches.map do |approach|
+      {
+        # TODO: combine authors and contributors
+        # authors: approach.authors.map {|author| user_data(author) },
+        # authors: approach.authors.map {|author| user_data(author) },
+        num_authors: approach.authors.count,
+        num_contributors: approach.contributors.count,
+        title: approach.title,
+        blurb: approach.blurb,
+        snippet: approach.snippet
       }
     end
   end

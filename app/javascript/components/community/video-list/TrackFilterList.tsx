@@ -78,7 +78,7 @@ const Component = ({
   value,
   setValue,
   // TODO remove this
-  numVideos = 10,
+  numVideos = 100,
   countText,
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)

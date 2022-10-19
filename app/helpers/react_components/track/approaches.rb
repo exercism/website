@@ -1,7 +1,7 @@
 module ReactComponents
   module Track
     class Approaches < ReactComponent
-      initialize_with :videos, :introduction, :links, :track, :exercise
+      initialize_with :videos, :introduction, :approaches, :links, :track, :exercise
       def to_s
         super("track-approaches", {
           videos: videos_data,

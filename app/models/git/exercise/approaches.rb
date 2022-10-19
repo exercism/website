@@ -27,6 +27,9 @@ class Git::Exercise::Approaches
   def introduction_contributors = config_introduction[:contributors].to_a
 
   memoize
+  def config_introduction = config[:introduction].to_h
+
+  memoize
   def introduction_last_modified_at
     return unless introduction_exists?
 
@@ -56,8 +59,6 @@ class Git::Exercise::Approaches
   private
   attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 
-  memoize
-  def config_introduction = config[:introduction].to_h
   def absolute_filepath(filepath) = "#{dir}/#{filepath}"
 
   memoize

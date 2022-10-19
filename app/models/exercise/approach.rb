@@ -1,4 +1,5 @@
 class Exercise::Approach < ApplicationRecord
+  extend Mandate::Memoize
   extend FriendlyId
 
   belongs_to :exercise
@@ -21,8 +22,8 @@ class Exercise::Approach < ApplicationRecord
 
   has_one :track, through: :exercise
 
-  # TODO: (Optional): This was memoized but because git_sha can change
-  # this can actually end up being incorrectly memoized. How do we
-  # deal with this?
-  def git = Git::Exercise::Approach.new(slug, exercise.slug, exercise.git_type, synced_to_git_sha, repo_url: exercise.track.repo_url)
+  delegate :content, :snippet, to: :git
+
+  memoize
+  def git = Git::Exercise::Approach.new(slug, exercise.slug, exercise.git_type, synced_to_git_sha, repo_url: track.repo_url)
 end

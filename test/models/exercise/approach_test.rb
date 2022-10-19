@@ -34,4 +34,18 @@ class Exercise::ApproachTest < ActiveSupport::TestCase
     assert_equal [approach], contributor_1.contributed_approaches
     assert_equal [approach], contributor_2.contributed_approaches
   end
+
+  test "content" do
+    exercise = create :practice_exercise, slug: 'hamming'
+    approach = create :exercise_approach, exercise: exercise
+
+    assert_equal "# Description\n\nPerformance approach", approach.content
+  end
+
+  test "snippet" do
+    exercise = create :practice_exercise, slug: 'hamming'
+    approach = create :exercise_approach, exercise: exercise
+
+    assert_equal "PERFORMANCE", approach.snippet
+  end
 end

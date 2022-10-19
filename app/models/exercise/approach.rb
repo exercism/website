@@ -19,6 +19,8 @@ class Exercise::Approach < ApplicationRecord
     dependent: :destroy
   has_many :contributors, through: :contributorships, source: :contributor
 
+  has_one :track, through: :exercise
+
   # TODO: (Optional): This was memoized but because git_sha can change
   # this can actually end up being incorrectly memoized. How do we
   # deal with this?

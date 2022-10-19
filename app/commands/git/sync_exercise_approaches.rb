@@ -8,6 +8,7 @@ module Git
     end
 
     def call
+      exercise.update(approaches:)
       Git::SyncExerciseApproachIntroduction.(exercise, introduction_config)
       ::Exercise::UpdateHasApproaches.(exercise)
     end
@@ -15,16 +16,12 @@ module Git
     private
     attr_reader :exercise
 
+    def approaches = approaches_config.map { |approach| Git::SyncExerciseApproach.(exercise, approach) }
+
     def introduction_config = head_git_approaches.config_introduction
 
     memoize
     def approaches_config = head_git_approaches.approaches.to_a
-
-    memoize
-    def authors_config = head_git_approaches.introduction_authors.to_a
-
-    memoize
-    def contributors_config = head_git_approaches.introduction_contributors.to_a
 
     memoize
     def head_git_approaches = head_git_exercise.approaches

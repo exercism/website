@@ -7,7 +7,7 @@ class User::ReputationTokens::ExerciseApproachIntroductionAuthorToken < User::Re
   before_validation on: :create do
     self.track = authorship.exercise.track unless track
     self.exercise = authorship.exercise unless exercise
-    self.earned_on = exercise.created_at unless earned_on
+    self.earned_on = authorship.created_at unless earned_on
   end
 
   def i18n_params = { exercise_title: exercise.title }

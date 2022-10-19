@@ -1,1 +1,1 @@
-export { VideoList } from './VideoList'
+export { VideoList } from './video-list'

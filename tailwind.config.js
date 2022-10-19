@@ -185,6 +185,7 @@ module.exports = {
       red: '#EB5757',
       lightRed: '#FDEAEA',
       veryLightRed: '#FFEDED',
+      youtubeRed: '#D81A1A',
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
       brown: '#47300C',

@@ -1,0 +1,9 @@
+#page-community-show
+  .lg-container
+    %h1.text-h1.mb-12= @title
+    %p.text-p-large.mb-28= @description
+    .flex
+      = link_to "", class: 'youtube-link' do
+        Listen via Youtube
+        = graphical_icon "new-tab", css_class: "h-[16px] w-[16px] filter-white ml-16"
+

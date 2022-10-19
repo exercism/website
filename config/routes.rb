@@ -130,7 +130,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :community, only: [:index]
+  resources :community, only: %i[index show]
 
   resources :tracks, only: %i[index show] do
     get :about, on: :member

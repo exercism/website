@@ -12,5 +12,5 @@ class User::ReputationTokens::ExerciseApproachIntroductionContributionToken < Us
 
   def i18n_params = { exercise_title: exercise.title }
   def guard_params = "Exercise##{exercise.id}"
-  def internal_url = Exercism::Routes.track_exercise_path(track, exercise)
+  def internal_url = Exercism::Routes.track_exercise_approaches_path(track, exercise)
 end

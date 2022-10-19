@@ -150,7 +150,7 @@ body.devise {
             @apply ml-8 mr-48;
         }
         & .c-react-wrapper-dropdowns-reputation {
-            @apply hidden lg:block lg:mr-48;
+            @apply hidden xl:block lg:mr-48;
         }
         & .c-react-wrapper-dropdowns-dropdown {
             min-width: 74px;
@@ -177,7 +177,7 @@ body.devise {
         @apply px-16 pb-20;
 
         & li.site-link {
-            @apply lg:hidden;
+            @apply xl:hidden;
         }
         & li.opt {
             & a {
@@ -247,7 +247,7 @@ body.devise {
             @apply mb-16;
         }
         & li.reputation {
-            @apply mb-20 lg:hidden;
+            @apply mb-20 xl:hidden;
             & .c-primary-reputation {
                 @apply mr-0;
             }

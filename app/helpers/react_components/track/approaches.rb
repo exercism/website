@@ -11,6 +11,7 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
     })
   end
 
+  private
   def track_data
     {
       icon_url: track.icon_url,
@@ -30,24 +31,8 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
   def videos_data
     videos.map do |video|
       {
-        author: if video.author.present?
-                  {
-                    name: video.author.name,
-                    handle: video.author.handle,
-                    avatar_url: video.author.avatar_url,
-                    links: {
-                      profile: video.author.profile? ? Exercism::Routes.profile_url(video.author) : nil
-                    }
-                  }
-                end,
-        submitted_by: {
-          name: video.submitted_by.name,
-          handle: video.submitted_by.handle,
-          avatar_url: video.submitted_by.avatar_url,
-          links: {
-            profile: video.submitted_by.profile? ? Exercism::Routes.profile_url(video.submitted_by) : nil
-          }
-        },
+        author: video.author.present? ? user_data(video.author) : nil,
+        submitted_by: user_data(video.submitted_by),
         platform: video.platform,
         title: video.title,
         created_at: video.created_at,
@@ -59,5 +44,16 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
         }
       }
     end
+  end
+
+  def user_data(user)
+    {
+      name: user.name,
+      handle: user.handle,
+      avatar_url: user.avatar_url,
+      links: {
+        profile: user.profile? ? Exercism::Routes.profile_url(user) : nil
+      }
+    }
   end
 end

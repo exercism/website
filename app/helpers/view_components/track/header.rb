@@ -17,7 +17,8 @@ module ViewComponents
             tags:,
             tabs:,
             selected_tab:,
-            practice_mode:
+            practice_mode:,
+            external: user_track.external?
           )
         end
       end

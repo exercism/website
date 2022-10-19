@@ -39,6 +39,7 @@
             height: 16px;
             width: 16px;
             @apply ml-12;
+            @apply filter-lightBlue;
         }
     }
 

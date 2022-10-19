@@ -45,7 +45,7 @@ type VideoProps = {
 function Video({ title, author, avatarUrl }: VideoProps): JSX.Element {
   return (
     <button className="grid shadow-sm p-16 bg-white rounded-8 text-left">
-      <div className="self-center bg-borderLight rounded-8 mb-12 w-[280px] pb-[56.25%]"></div>
+      <div className="self-center bg-borderLight rounded-8 mb-12 max-w-[280px] pb-[56.25%]"></div>
       <h5 className="text-h5 mb-8">{title}</h5>
       <div className="flex items-center text-left text-textColor6 font-semibold">
         <Avatar className="h-[24px] w-[24px] mr-8" src={avatarUrl} />

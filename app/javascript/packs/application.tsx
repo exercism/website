@@ -178,8 +178,8 @@ const mappings = {
   ),
   'track-approach': (data: any) => <TrackComponents.Approach />,
 
-  'track-tooltip-unlock-button': (data: any) => (
-    <TrackComponents.TooltipUnlockButton unlockUrl={data.unlock_url} />
+  'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
+    <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />
   ),
 
   'track-exercise-makers-button': (data: any) => (

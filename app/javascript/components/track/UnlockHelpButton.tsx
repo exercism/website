@@ -4,7 +4,7 @@ import { sendRequest } from '@/utils'
 import { GraphicalIcon } from '../common'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 
-export function TooltipUnlockButton({
+export function UnlockHelpButton({
   unlockUrl,
 }: {
   unlockUrl: string

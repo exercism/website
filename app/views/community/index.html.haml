@@ -77,6 +77,12 @@
 
 
   .lg-container
+
+
+    = render ReactComponents::Community::VideoList.new
+
+
+
     .flex.items-center.mb-32.justify-between
       %h2.text-h2.flex.items-center
         = graphical_icon "contributors-gradient", css_class: 'mr-24'

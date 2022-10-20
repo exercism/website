@@ -191,6 +191,7 @@ class Solution < ApplicationRecord
   def published? = !!published_at
 
   def iterated? = status != :started
+  # These are ordered this way for db lookup efficiency
   def submitted? = iterated? || completed? || published? || submissions.exists?
   def has_unlocked_pending_mentoring_request? = mentor_requests.pending.unlocked.exists?
   def has_locked_pending_mentoring_request? = mentor_requests.pending.locked.exists?

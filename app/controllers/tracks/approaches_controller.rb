@@ -1,14 +1,12 @@
 class Tracks::ApproachesController < ApplicationController
   include UseTrackExerciseSolutionConcern
   before_action :use_solution
+  before_action :use_approach, only: :show
+  before_action :guard_accessible!
 
   skip_before_action :authenticate_user!
 
   def index
-    return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
-
-    # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
-
     @videos = @exercise.community_videos.approved
     @approaches = @exercise.approaches.random
     @introduction = introduction
@@ -16,11 +14,6 @@ class Tracks::ApproachesController < ApplicationController
   end
 
   def show
-    return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
-
-    # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
-
-    @approach = @exercise.approaches.find_by(slug: params[:id])
     @other_approaches = @exercise.approaches.where.not(id: @approach.id).random
     @num_authors = @approach.authors.count
     @num_contributors = @approach.contributors.count
@@ -36,6 +29,22 @@ class Tracks::ApproachesController < ApplicationController
     @user_track = UserTrack.for(current_user, @track)
     @exercise = @track.exercises.find(params[:exercise_id])
     @solution = Solution.for(current_user, @exercise)
+    render_404 unless @track.accessible_by?(current_user)
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def use_approach
+    @approach = @exercise.approaches.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def guard_accessible!
+    return redirect_to track_exercise_path(@track, @exercise) if @exercise.tutorial?
+    return if @user_track.external? || @solution&.unlocked_help? || @solution&.iterated?
+
+    redirect_to track_exercise_path(@track, @exercise)
   end
 
   def introduction

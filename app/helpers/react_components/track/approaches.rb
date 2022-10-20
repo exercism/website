@@ -50,9 +50,7 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
   def approaches_data
     approaches.map do |approach|
       {
-        # TODO: combine authors and contributors
-        # authors: approach.authors.map {|author| user_data(author) },
-        # authors: approach.authors.map {|author| user_data(author) },
+        users: User::CombineAuthorsAndContributors.(approach.authors, approach.contributors).map { |user| user_data(user) },
         num_authors: approach.authors.count,
         num_contributors: approach.contributors.count,
         title: approach.title,

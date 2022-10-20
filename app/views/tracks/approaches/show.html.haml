@@ -29,7 +29,7 @@
           %h3.text-h5.mb-2 Find the approach interesting or useful?
           %p.text-p-base Share it around and have others benefit too!
 
-        = render ViewComponents::Blog::SharePostButton.new(@approach)
+        = render ViewComponents::Exercise::ShareApproachButton.new(@approach)
 
       .p-16.md:py-32.md:px-40.flex.flex-col
         .c-textual-content.--large
@@ -39,7 +39,7 @@
           = format_date(@approach.updated_at)
           &middot;
           Found it useful?
-          = render ViewComponents::Blog::SharePostLink.new(@approach)
+          = render ViewComponents::Exercise::ShareApproachLink.new(@approach)
 
   .md-container.flex.flex-col
     .flex.justify-center.mb-32

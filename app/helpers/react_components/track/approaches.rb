@@ -55,7 +55,10 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
         num_contributors: approach.contributors.count,
         title: approach.title,
         blurb: approach.blurb,
-        snippet: approach.snippet
+        snippet: approach.snippet,
+        links: {
+          self: Exercism::Routes.track_exercise_approach_path(approach.track, approach.exercise, approach)
+        }
       }
     end
   end

@@ -21,6 +21,9 @@ export type Approach = {
   title: string
   blurb: string
   snippet: string
+  links: {
+    self: string
+  }
 }
 
 export type ApproachesProps = {

@@ -48,7 +48,7 @@
         = link_to Exercism::Routes.track_exercise_approach_path(@track, @exercise, other_approach[:slug]) do
           .bg-white.shadow-base.rounded-8.px-20.py-16.mb-16
             %pre.border-1.border-lightGray.rounded-8.p-16.mb-16
-              %code.block.overflow-hidden{ class: "lang-#{@track.highlightjs_language} h-[134px]", style: "text-overflow:ellipsis" }
+              %code.block.overflow-hidden{ class: "lang-#{@track.highlightjs_language} max-h-[134px]", style: "text-overflow:ellipsis" }
                 = other_approach[:snippet]
             %h5.text-h5.mb-2
               = other_approach[:title]

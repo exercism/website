@@ -25,6 +25,7 @@ class Tracks::ApproachesController < ApplicationController
     @num_authors = @approach.authors.count
     @num_contributors = @approach.contributors.count
     @users = User::CombineAuthorsAndContributors.(@approach.authors, @approach.contributors).map { |user| user_data(user) }
+    @avatar_urls = @users.map { |user| user[:avatar_url] }
   end
 
   def tooltip_locked = render_template_as_json

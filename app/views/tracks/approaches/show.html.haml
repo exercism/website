@@ -12,12 +12,7 @@
       .block.flex-grow
         %h1.text-h0.mb-12.md:mb-18= @approach.title
         .flex.items-center.text-16.font-semibold.leading-150
-          -#
-            = avatar(@approach.author)
-            .text-textColor1
-              by #{@approach.author.handle}&nbsp;
-            .text-textColor6
-              &middot; Published #{format_date(@approach.created_at)}
+          = render ReactComponents::Track::Credits.new(@avatar_urls, @num_authors, "author", @num_contributors, "contributor")
   .md-container.mb-32.md:mb-48
     %article.shadow-lgZ1.bg-backgroundColorA.rounded-8
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
@@ -59,4 +54,5 @@
               = other_approach.title
             %p.text-p-base.text-textColor6.mb-12
               = other_approach.blurb
-            -# = render ReactComponents::Track::Credits.new(Array.new(5, @approach.author.avatar_url), 5, "contributor", 3, "reviewer")
+            -# TODO change this after reworking Credits
+            = render ReactComponents::Track::Credits.new(@avatar_urls, other_approach.authors.count, "author", other_approach.contributors.count, "contributor")

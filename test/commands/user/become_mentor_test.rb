@@ -42,18 +42,4 @@ class User::BecomeMentorTest < ActiveSupport::TestCase
       User::BecomeMentor.(user, [])
     end
   end
-
-  test "invites to Slack" do
-    user = create :user, :not_mentor
-
-    RestClient.expects(:post).with(
-      "https://dev.null.exercism.io",
-      {
-        email: user.email,
-        token: Exercism.secrets.slack_api_token,
-        set_active: 'true'
-      }
-    )
-    User::BecomeMentor.(user, [create(:track).slug])
-  end
 end

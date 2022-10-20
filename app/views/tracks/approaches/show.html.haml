@@ -12,11 +12,12 @@
       .block.flex-grow
         %h1.text-h0.mb-12.md:mb-18= @approach.title
         .flex.items-center.text-16.font-semibold.leading-150
-          = avatar(@approach.author)
-          .text-textColor1
-            by #{@approach.author.handle}&nbsp;
-          .text-textColor6
-            &middot; Published #{format_date(@approach.published_at)}
+          -#
+            = avatar(@approach.author)
+            .text-textColor1
+              by #{@approach.author.handle}&nbsp;
+            .text-textColor6
+              &middot; Published #{format_date(@approach.created_at)}
   .md-container.mb-32.md:mb-48
     %article.shadow-lgZ1.bg-backgroundColorA.rounded-8
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
@@ -35,7 +36,7 @@
           = raw @approach.content_html
 
         .published-at
-          = format_date(@approach.published_at)
+          = format_date(@approach.updated_at)
           &middot;
           Found it useful?
           = render ViewComponents::Blog::SharePostLink.new(@approach)
@@ -48,13 +49,13 @@
         .text-p-base.text-textColor6 Other ways our community solved this exercise
 
     .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.mb-32
-      - 3.times do
+      - @other_approaches.each do |other_approach|
         .bg-white.shadow-base.rounded-8.px-20.py-16.mb-16
           %pre.border-1.border-lightGray.rounded-8.p-16.mb-16
-            %code.block.overflow-hidden.csharp{ class: 'h-[134px]', style: "text-overflow:ellipsis" }
-              string something = "something";
-          %h5.text-h5.mb-2 Using Forwardable
+            %code.block.overflow-hidden{ class: "lang-#{@track.highlightjs_language} h-[134px]", style: "text-overflow:ellipsis" }
+              = other_approach.snippet
+          %h5.text-h5.mb-2
+            = other_approach.title
           %p.text-p-base.text-textColor6.mb-12
-            Explore how to use the Forwardable module and its def_delegator and
-            def_delegators methods to use delegation to solve Bob
-          = render ReactComponents::Track::Credits.new(Array.new(5, @approach.author.avatar_url), 5, "contributor", 3, "reviewer")
+            = other_approach.blurb
+          -# = render ReactComponents::Track::Credits.new(Array.new(5, @approach.author.avatar_url), 5, "contributor", 3, "reviewer")

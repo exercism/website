@@ -20,24 +20,8 @@ class Tracks::ApproachesController < ApplicationController
 
     # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
 
-    # TODO: - ERIK - data comes here
-    @approach = OpenStruct.new(
-      author: OpenStruct.new(
-        avatar_url: "https://avatars.githubusercontent.com/u/135246?v=4",
-        handle: "ErikSchierboom",
-        name: "Erik Schierboom",
-        formatted_reputation: 999
-      ),
-      content_html: "<h1>Hello</h1>",
-      title: "Utilising In-built Date Functions for Consistency",
-      published_at: DateTime.now
-    )
-    @other_approaches = Array.new(3)
-    @contributors = OpenStruct.new(
-      num_authors: 3,
-      num_contributors: 5,
-      avatar_urls: Array.new(3).fill('https://avatars.githubusercontent.com/u/135246?v=4')
-    )
+    @approach = @exercise.approaches.find_by(slug: params[:id])
+    @other_approaches = @exercise.approaches.where.not(id: @approach.id)
   end
 
   def tooltip_locked = render_template_as_json

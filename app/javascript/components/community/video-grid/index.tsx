@@ -3,16 +3,16 @@ import { QueryStatus } from 'react-query'
 import { Avatar, GraphicalIcon, Pagination } from '../../common'
 import { TrackFilterList } from './TrackFilterList'
 
-type VideoListProps = {
+type VideoGridProps = {
   data: any
 }
 
-export function VideoList({ data }: VideoListProps): JSX.Element {
+export function VideoGrid({ data }: VideoGridProps): JSX.Element {
   const [page, setPage] = useState<number>(1)
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
-      <VideoListHeader tracks={data.tracks} />
+      <VideoGridHeader tracks={data.tracks} />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
         {new Array(12).fill(
           <Video
@@ -27,7 +27,7 @@ export function VideoList({ data }: VideoListProps): JSX.Element {
   )
 }
 
-function VideoListHeader({ tracks }: { tracks: any }): JSX.Element {
+function VideoGridHeader({ tracks }: { tracks: any }): JSX.Element {
   return (
     <div className="flex mb-24">
       <GraphicalIcon

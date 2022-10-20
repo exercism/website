@@ -170,8 +170,11 @@ initReact({
     </Suspense>
   ),
 
-  'community-video-list': (data: any) => (
-    <Community.VideoList data={camelizeKeys(data)} />
+  'community-video-grid': (data: any) => (
+    <Community.VideoGrid data={camelizeKeys(data)} />
+  ),
+  'community-podcast-grid': (data: any) => (
+    <Community.PodcastGrid data={camelizeKeys(data)} />
   ),
 
   'track-exercise-community-solutions-list': (data: any) => (

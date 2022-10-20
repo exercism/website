@@ -1,18 +1,27 @@
 #page-community-show
   %header
-  = link_to "", class: "text-lightBlue text-16 font-semibold relative block m-32" do
+  = link_to "", class: "back-link" do
+    = graphical_icon "arrow-left", css_class: "w-[16px] h-[16px] mr-12 filter-lightBlue"
     Back to Community
   .lg-container.relative
-    %h1.text-h1.mb-12.text-white= @title
-    %p.text-p-large.mb-28.theme-dark= @description
-    .flex.items-center.mb-40
-      = link_to "", class: 'youtube-link mr-32' do
-        Listen via Youtube
-        = graphical_icon "new-tab", css_class: "h-[16px] w-[16px] filter-white ml-16"
+    .flex.justify-between
+      .lhs
+        .flex.items-center.mb-20
+          = image_tag @interviewer_icon_url, class: "w-[64px] h-[64px] rounded-circle mr-[-24px]"
+          = image_tag @interviewee_icon_url, class: "w-[64px] h-[64px] rounded-circle mr-24"
+          = graphical_icon "podcast-gradient", css_class: 'h-[32px] w-[32px]'
+        %h1.text-h1.mb-12.text-white= @title
+        %p.text-p-large.mb-28.theme-dark= @description
+        .flex.items-center.mb-40
+          = link_to "", class: 'youtube-link mr-32' do
+            Listen via Youtube
+            = graphical_icon "new-tab", css_class: "h-[16px] w-[16px] filter-white ml-16"
 
-      .text-label-code-caps.text-lightGold LENGTH 01HR 32MINS
+          .text-label-code-caps.text-lightGold LENGTH 01HR 32MINS
+
+      = image_tag @interviewee_icon_url, class: "w-[280px] h-[280px] rounded-circle theme-dark shadow-lg"
 
     %details.theme-dark
-      %summary Read the full description
+      %summary Read the full transcript
       %p= @transcript
     = render ReactComponents::Community::VideoList.new

@@ -170,9 +170,18 @@
         width: 100%;
         left: 0px;
         top: 64px;
-        height: 501px;
+        height: 656px;
         background: linear-gradient(180deg, #130b43 0%, #3c097d 100%);
         background-size: 100%;
+    }
+
+    .back-link {
+        @apply flex items-center relative m-32;
+        @apply text-lightBlue text-16 font-semibold leading-170;
+    }
+
+    .lhs {
+        @apply w-1-2;
     }
 
     .youtube-link {

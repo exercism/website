@@ -13,7 +13,7 @@ export function ApproachSnippet({
   const { track } = useContext(ApproachesDataContext)
 
   return (
-    <div className="bg-white shadow-base rounded-8 px-20 py-16 mb-16">
+    <a href="" className="bg-white shadow-base rounded-8 px-20 py-16 mb-16">
       <pre
         className="border-1 border-lightGray rounded-8 p-16 mb-16"
         ref={codeBlockRef}
@@ -34,6 +34,6 @@ export function ApproachSnippet({
         bottomCount={approach.numContributors}
         avatarUrls={approach.users.map((i) => i.avatarUrl)}
       />
-    </div>
+    </a>
   )
 }

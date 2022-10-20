@@ -1,9 +1,19 @@
 #page-community-show
-  .lg-container
-    %h1.text-h1.mb-12= @title
-    %p.text-p-large.mb-28= @description
-    .flex
-      = link_to "", class: 'youtube-link' do
+  %header
+  = link_to "", class: "text-lightBlue text-16 font-semibold relative block m-32" do
+    Back to Community
+  .lg-container.relative
+    %h1.text-h1.mb-12.text-white= @title
+    %p.text-p-large.mb-28.theme-dark= @description
+    .flex.items-center.mb-40
+      = link_to "", class: 'youtube-link mr-32' do
         Listen via Youtube
         = graphical_icon "new-tab", css_class: "h-[16px] w-[16px] filter-white ml-16"
 
+      .text-label-code-caps.text-lightGold LENGTH 01HR 32MINS
+
+    %details.theme-dark
+      - @transcript = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet nibh odio. Pellentesque eu posuere enim. Fusce in diam quis eros pellentesque imperdiet. Donec eget diam pharetra massa vehicula placerat. Fusce sagittis sem vitae nunc pharetra, at dignissim neque rhoncus. Proin leo leo, fringilla at sapien ac, vestibulum sollicitudin sem. Curabitur sed massa sapien. Maecenas maximus ornare leo, id hendrerit dui rhoncus a.  Morbi tincidunt ullamcorper dolor nec interdum. Nunc sed elit et dui aliquet blandit id sed arcu. Fusce sollicitudin sed mi facilisis vestibulum. Etiam non dapibus arcu. Suspendisse eleifend nunc felis, vel pulvinar quam condimentum in. Sed molestie nibh non est vulputate, nec pharetra ligula congue. Proin luctus elementum pulvinar. Pellentesque lacinia scelerisque nisi, at tincidunt leo lacinia vel. In ultrices blandit libero a pharetra.  Mauris dapibus porta neque. In ullamcorper consequat semper. Curabitur convallis efficitur gravida. Etiam pulvinar, turpis vitae tincidunt pretium, lectus augue luctus erat, sed elementum risus lorem eu quam. Pellentesque vitae aliquam ligula. Nullam cursus orci id dignissim scelerisque. Maecenas eget volutpat eros. Vivamus consequat lacus et lectus pharetra, nec porta magna aliquam. Donec vulputate, sem sed ultrices maximus, tellus purus scelerisque magna, tincidunt tempor quam ex a ex. Fusce efficitur ac lacus sit amet lacinia. Nullam ullamcorper leo a massa volutpat tempor.  Sed tincidunt massa ligula, vitae vehicula nisl mollis nec. Aliquam erat volutpat. In molestie volutpat mattis. Integer condimentum elementum suscipit. Praesent eleifend elit sed quam pulvinar, in iaculis ipsum sodales. In hac habitasse platea dictumst. Donec posuere magna sed suscipit ultricies. Praesent convallis lorem nec odio pulvinar viverra.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet nibh odio. Pellentesque eu posuere enim. Fusce in diam quis eros pellentesque imperdiet. Donec eget diam pharetra massa vehicula placerat. Fusce sagittis sem vitae nunc pharetra, at dignissim neque rhoncus. Proin leo leo, fringilla at sapien ac, vestibulum sollicitudin sem. Curabitur sed massa sapien. Maecenas maximus ornare leo, id hendrerit dui rhoncus a.  Morbi tincidunt ullamcorper dolor nec interdum. Nunc sed elit et dui aliquet blandit id sed arcu. Fusce sollicitudin sed mi facilisis vestibulum. Etiam non dapibus arcu. Suspendisse eleifend nunc felis, vel pulvinar quam condimentum in. Sed molestie nibh non est vulputate, nec pharetra ligula congue. Proin luctus elementum pulvinar. Pellentesque lacinia scelerisque nisi, at tincidunt leo lacinia vel. In ultrices blandit libero a pharetra.  Mauris dapibus porta neque. In ullamcorper consequat semper. Curabitur convallis efficitur gravida. Etiam pulvinar, turpis vitae tincidunt pretium, lectus augue luctus erat, sed elementum risus lorem eu quam. Pellentesque vitae aliquam ligula. Nullam cursus orci id dignissim scelerisque. Maecenas eget volutpat eros. Vivamus consequat lacus et lectus pharetra, nec porta magna aliquam. Donec vulputate, sem sed ultrices maximus, tellus purus scelerisque magna, tincidunt tempor quam ex a ex. Fusce efficitur ac lacus sit amet lacinia. Nullam ullamcorper leo a massa volutpat tempor.  Sed tincidunt massa ligula, vitae vehicula nisl mollis nec. Aliquam erat volutpat. In molestie volutpat mattis. Integer condimentum elementum suscipit. Praesent eleifend elit sed quam pulvinar, in iaculis ipsum sodales. In hac habitasse platea dictumst. Donec posuere magna sed suscipit ultricies. Praesent convallis lorem nec odio pulvinar viverra.'
+      %summary Read the full description
+      %p= @transcript
+    = render ReactComponents::Community::VideoList.new

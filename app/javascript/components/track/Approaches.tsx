@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { Track, Exercise } from '../types'
+import { Track, Exercise, User } from '../types'
 import {
   ApproachExamples,
   ApproachIntroduction,
@@ -8,8 +8,24 @@ import {
 } from './approaches-elements'
 import { CommunityVideosProps } from './approaches-elements/community-videos/types'
 
+type ApproachUser = Pick<User, 'avatarUrl' | 'handle'> & {
+  name: string
+  links: {
+    profile: string | null
+  }
+}
+export type Approach = {
+  users: ApproachUser[]
+  numAuthors: number
+  numContributors: number
+  title: string
+  blurb: string
+  snippet: string
+}
+
 export type ApproachesProps = {
   introduction: ApproachIntroduction
+  approaches: Approach[]
 } & ApproachesDataContext &
   CommunityVideosProps
 
@@ -38,7 +54,7 @@ export function Approaches({ data }: { data: ApproachesProps }): JSX.Element {
           <CommunityVideos videos={data.videos} />
         </div>
         <div className="col-span-1">
-          <ApproachExamples />
+          <ApproachExamples approaches={data.approaches} />
         </div>
       </ApproachesDataContext.Provider>
     </div>

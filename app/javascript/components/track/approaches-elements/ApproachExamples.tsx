@@ -1,17 +1,30 @@
 import React, { useContext } from 'react'
-import { SectionHeader } from '.'
-import { ApproachesDataContext } from '../Approaches'
+import { ApproachSnippet, SectionHeader } from '.'
+import { Approach, ApproachesDataContext } from '../Approaches'
 
-export function ApproachExamples(): JSX.Element {
+export function ApproachExamples({
+  approaches,
+}: {
+  approaches: Approach[]
+}): JSX.Element {
   const { exercise } = useContext(ApproachesDataContext)
   return (
     <div className="flex flex-col">
       <SectionHeader
         title="Approaches"
-        description={`There are no Approaches for ${exercise.title}.`}
+        description={
+          approaches.length > 0
+            ? 'Other ways our community solved this exercise'
+            : `There are no Approaches for ${exercise.title}.`
+        }
         icon="dig-deeper-gradient"
         className="mb-16"
       />
+
+      {approaches.length > 0 &&
+        approaches.map((i) => {
+          return <ApproachSnippet key={i.title} approach={i} />
+        })}
     </div>
   )
 }

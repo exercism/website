@@ -1,4 +1,4 @@
-class AssembleExerciseApproachSharePanel
+class SerializeExerciseApproachForSharing
   include Mandate
 
   initialize_with :approach

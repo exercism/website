@@ -2,5 +2,5 @@ class ViewComponents::Exercise::ShareApproachButton < ViewComponents::ViewCompon
   initialize_with :approach
 
   def to_s = ReactComponents::Common::ShareButton.new(link).to_s
-  def link = AssembleExerciseApproachSharePanel.(approach)
+  def link = SerializeExerciseApproachForSharing.(approach)
 end

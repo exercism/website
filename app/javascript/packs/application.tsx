@@ -91,8 +91,8 @@ window.queryCache = new QueryCache()
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  'blog-share-post-link': (data: any) => (
-    <Blog.SharePostLink
+  'share-link': (data: any) => (
+    <Common.ShareLink
       title={data.title}
       shareTitle={data.share_title}
       shareLink={data.share_link}

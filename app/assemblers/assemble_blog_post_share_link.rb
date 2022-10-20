@@ -1,4 +1,4 @@
-class AssembleBlogPostSharePanel
+class AssembleBlogPostShareLink
   include Mandate
 
   initialize_with :blog_post

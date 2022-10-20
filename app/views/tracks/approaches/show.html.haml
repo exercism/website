@@ -12,7 +12,7 @@
       .block.flex-grow
         %h1.text-h0.mb-12.md:mb-18= @approach.title
         .flex.items-center.text-16.font-semibold.leading-150
-          = render ReactComponents::Track::Credits.new(@avatar_urls, @num_authors, "author", @num_contributors, "contributor")
+          = render ReactComponents::Track::Credits.new(@users.map { |user| user[:avatar_url] }, @num_authors, "author", @num_contributors, "contributor")
   .md-container.mb-32.md:mb-48
     %article.shadow-lgZ1.bg-backgroundColorA.rounded-8
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
@@ -55,4 +55,4 @@
             %p.text-p-base.text-textColor6.mb-12
               = other_approach[:blurb]
             -# TODO change this after reworking Credits
-            = render ReactComponents::Track::Credits.new(@avatar_urls, other_approach[:num_authors], "author", other_approach[:num_contributors], "contributor")
+            = render ReactComponents::Track::Credits.new(other_approach[:users].map { |user| user[:avatar_url] }, other_approach[:num_authors], "author", other_approach[:num_contributors], "contributor")

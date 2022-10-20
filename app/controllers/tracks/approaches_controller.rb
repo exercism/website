@@ -20,7 +20,6 @@ class Tracks::ApproachesController < ApplicationController
     @users = User::CombineAuthorsAndContributors.(@approach.authors, @approach.contributors).map do |user|
       SerializeAuthorOrContributor.(user)
     end
-    @avatar_urls = @users.map { |user| user[:avatar_url] }
   end
 
   def tooltip_locked = render_template_as_json

@@ -19,7 +19,7 @@ export function ApproachSnippet({
         ref={codeBlockRef}
       >
         <code
-          className={`${track.slug} block h-[134px] overflow-hidden `}
+          className={`${track.slug} block max-h-[134px] overflow-hidden `}
           style={{ textOverflow: 'ellipsis' }}
         >
           {approach.snippet}

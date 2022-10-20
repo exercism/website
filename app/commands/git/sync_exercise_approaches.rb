@@ -8,6 +8,7 @@ module Git
     end
 
     def call
+      # This removes any approaches that aren't read from the config below
       exercise.update(approaches:)
       Git::SyncExerciseApproachIntroduction.(exercise, introduction_config)
       ::Exercise::UpdateHasApproaches.(exercise)

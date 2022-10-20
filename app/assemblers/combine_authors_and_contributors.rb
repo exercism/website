@@ -1,4 +1,4 @@
-class User::CombineAuthorsAndContributors
+class CombineAuthorsAndContributors
   include Mandate
 
   initialize_with :authors, :contributors, limit: 3

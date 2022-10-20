@@ -17,7 +17,7 @@ class Tracks::ApproachesController < ApplicationController
     @other_approaches = SerializeApproaches.(@exercise.approaches.where.not(id: @approach.id).random)
     @num_authors = @approach.authors.count
     @num_contributors = @approach.contributors.count
-    @users = User::CombineAuthorsAndContributors.(@approach.authors, @approach.contributors).map do |user|
+    @users = CombineAuthorsAndContributors.(@approach.authors, @approach.contributors).map do |user|
       SerializeAuthorOrContributor.(user)
     end
   end

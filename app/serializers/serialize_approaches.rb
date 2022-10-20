@@ -12,7 +12,7 @@ class SerializeApproaches
 
     def call
       {
-        users: User::CombineAuthorsAndContributors.(approach.authors, approach.contributors).map do |user|
+        users: CombineAuthorsAndContributors.(approach.authors, approach.contributors).map do |user|
           SerializeAuthorOrContributor.(user)
         end,
         num_authors: approach.authors.count,

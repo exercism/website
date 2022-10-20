@@ -32,8 +32,8 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
   def videos_data
     videos.map do |video|
       {
-        author: video.author.present? ? user_data(video.author) : nil,
-        submitted_by: user_data(video.submitted_by),
+        author: video.author.present? ? SerializeAuthorOrContributor.(video.author) : nil,
+        submitted_by: SerializeAuthorOrContributor.(video.submitted_by),
         platform: video.platform,
         title: video.title,
         created_at: video.created_at,
@@ -47,30 +47,5 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
     end
   end
 
-  def approaches_data
-    approaches.map do |approach|
-      {
-        users: User::CombineAuthorsAndContributors.(approach.authors, approach.contributors).map { |user| user_data(user) },
-        num_authors: approach.authors.count,
-        num_contributors: approach.contributors.count,
-        title: approach.title,
-        blurb: approach.blurb,
-        snippet: approach.snippet,
-        links: {
-          self: Exercism::Routes.track_exercise_approach_path(approach.track, approach.exercise, approach)
-        }
-      }
-    end
-  end
-
-  def user_data(user)
-    {
-      name: user.name,
-      handle: user.handle,
-      avatar_url: user.avatar_url,
-      links: {
-        profile: user.profile? ? Exercism::Routes.profile_url(user) : nil
-      }
-    }
-  end
+  def approaches_data = SerializeApproaches.(approaches)
 end

@@ -14,10 +14,12 @@ class Tracks::ApproachesController < ApplicationController
   end
 
   def show
-    @other_approaches = @exercise.approaches.where.not(id: @approach.id).random
+    @other_approaches = SerializeApproaches.(@exercise.approaches.where.not(id: @approach.id).random)
     @num_authors = @approach.authors.count
     @num_contributors = @approach.contributors.count
-    @users = User::CombineAuthorsAndContributors.(@approach.authors, @approach.contributors).map { |user| user_data(user) }
+    @users = User::CombineAuthorsAndContributors.(@approach.authors, @approach.contributors).map do |user|
+      SerializeAuthorOrContributor.(user)
+    end
     @avatar_urls = @users.map { |user| user[:avatar_url] }
   end
 
@@ -77,17 +79,6 @@ class Tracks::ApproachesController < ApplicationController
       video: {
         lookup: Exercism::Routes.lookup_api_community_videos_path,
         create: Exercism::Routes.api_community_videos_path
-      }
-    }
-  end
-
-  def user_data(user)
-    {
-      name: user.name,
-      handle: user.handle,
-      avatar_url: user.avatar_url,
-      links: {
-        profile: user.profile? ? Exercism::Routes.profile_url(user) : nil
       }
     }
   end

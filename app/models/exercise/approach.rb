@@ -22,6 +22,8 @@ class Exercise::Approach < ApplicationRecord
 
   has_one :track, through: :exercise
 
+  scope :random, -> { order('RAND()') }
+
   delegate :content, :snippet, to: :git
 
   memoize

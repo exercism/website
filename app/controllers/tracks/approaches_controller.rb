@@ -10,7 +10,7 @@ class Tracks::ApproachesController < ApplicationController
     # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
 
     @videos = @exercise.community_videos.approved
-    @approaches = @exercise.approaches
+    @approaches = @exercise.approaches.random
     @introduction = introduction
     @links = links
   end
@@ -21,7 +21,7 @@ class Tracks::ApproachesController < ApplicationController
     # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
 
     @approach = @exercise.approaches.find_by(slug: params[:id])
-    @other_approaches = @exercise.approaches.where.not(id: @approach.id)
+    @other_approaches = @exercise.approaches.where.not(id: @approach.id).random
   end
 
   def tooltip_locked = render_template_as_json

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Avatar, Icon } from '@/components/common'
-import { CommunityVideo } from './types'
+import { CommunityVideo as CommunityVideoType } from './types'
 import { CommunityVideoModal } from './CommunityVideoModal'
 
 export function CommunityVideo({
   video,
 }: {
-  video: CommunityVideo
+  video: CommunityVideoType
 }): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
 

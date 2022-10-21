@@ -14,4 +14,7 @@ class CommunityStory < ApplicationRecord
 
   def content_html = Markdown::Parse.(content)
   def content = Git::Blog.story_content_for(slug).to_s
+
+  def youtube_external_url = "https://www.youtube.com/watch?v=#{youtube_id}"
+  def youtube_embed_url = "https://www.youtube.com/embed/#{youtube_id}"
 end

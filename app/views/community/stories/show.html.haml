@@ -13,11 +13,11 @@
         %h1.text-h1.mb-12.text-white= @title
         %p.text-p-large.mb-28.theme-dark= @description
         .flex.items-center.mb-40
-          = link_to "", class: 'youtube-link mr-32' do
+          = link_to @story.youtube_external_url, class: 'youtube-link mr-32' do
             Listen via Youtube
             = graphical_icon "new-tab", css_class: "h-[16px] w-[16px] filter-white ml-16"
 
-          .text-label-code-caps.text-lightGold.whitespace-nowrap 
+          .text-label-code-caps.text-lightGold.whitespace-nowrap
             = render ViewComponents::Community::Stories::VideoLength.new(@story)
 
       = image_tag @story.interviewee.avatar_url, class: "w-[280px] h-[280px] rounded-circle theme-dark shadow-lg"

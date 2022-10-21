@@ -21,8 +21,6 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     setCriteria,
   } = useVideoGrid(data.request, data.tracks)
 
-  console.log(resolvedData)
-
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
       <VideoGridHeader

@@ -25,4 +25,4 @@
     %details.theme-dark
       %summary Read the full transcript
       %p= @story.content_html
-    = render ReactComponents::Community::PodcastGrid.new
+    = render ReactComponents::Community::StoriesGrid.new(params)

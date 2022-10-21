@@ -1,2 +1,2 @@
 export { VideoGrid } from './video-grid'
-export { PodcastGrid } from './podcast-grid'
+export { StoriesGrid } from './stories-grid'

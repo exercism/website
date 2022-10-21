@@ -24,6 +24,7 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
   private
   attr_reader :params
 
+  memoize
   def initial_data = AssembleCommunityVideos.(params)
 
   memoize

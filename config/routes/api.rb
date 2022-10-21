@@ -241,6 +241,8 @@ namespace :api do
       get :lookup, on: :collection
     end
 
+    resources :community_stories, only: %i[index]
+
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"
   end
 end

@@ -173,8 +173,8 @@ initReact({
   'community-video-grid': (data: any) => (
     <Community.VideoGrid data={camelizeKeys(data)} />
   ),
-  'community-podcast-grid': (data: any) => (
-    <Community.PodcastGrid data={camelizeKeys(data)} />
+  'community-stories-grid': (data: any) => (
+    <Community.StoriesGrid data={camelizeKeys(data)} />
   ),
 
   'track-exercise-community-solutions-list': (data: any) => (

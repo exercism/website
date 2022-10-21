@@ -32,7 +32,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
         {resolvedData &&
           resolvedData.results &&
-          resolvedData.results.map((video: VideoProps) => (
+          resolvedData.results.map((video: VideoData) => (
             <Video key={video.embedUrl} video={video} />
           ))}
       </div>
@@ -84,20 +84,19 @@ type VideoProps = {
 function Video({ video }: VideoProps): JSX.Element {
   return (
     <button className="grid shadow-sm p-16 bg-white rounded-8 text-left">
-      <div className="self-center bg-borderLight rounded-8 mb-12 max-w-[100%] pb-[46.25%]"></div>
       <img
-        style={{ objectFit: 'cover', height: '80px', width: '143px' }}
-        className="mr-20 rounded-8"
-        src={video.links.thumbnail}
+        style={{ objectFit: 'cover', width: '100%', height: '96px' }}
+        className="rounded-8 self-center mb-12"
+        src={video.thumbnailUrl}
         alt="thumbnail"
       />
-      <h5 className="text-h5 mb-8">{title}</h5>
+      <h5 className="text-h5 mb-8">{video.title}</h5>
       <div className="flex items-center text-left text-textColor6 font-semibold">
         <Avatar
           className="h-[24px] w-[24px] mr-8"
-          src={author && author.avatarUrl}
+          src={video.author && video.author.avatarUrl}
         />
-        {author && author.name}
+        {video.author && video.author.name}
       </div>
     </button>
   )

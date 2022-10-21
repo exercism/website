@@ -51,8 +51,8 @@
 
       .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8{ class: "shrink-[3]", style: 'height: fit-content' }
         .flex.flex-wrap.pb-16.mb-24{ class: 'w-[360px]' }
-          - 40.times do
-            = image_tag "team/erik.jpg", class: 'h-[48px] w-[48px] mb-[-16px] mr-[-12px] rounded-circle'
+          - @supporter_avatar_urls.each do |supporter_avatar_url|
+            = image_tag supporter_avatar_url, class: 'h-[48px] w-[48px] mb-[-16px] mr-[-12px] rounded-circle'
         %h2.text-h2.mb-8 Help us change lives
         %p.mb-24.text-p-large.text-textColor5
           We&apos;re community powered and community funded. We rely on donations from people like you to enable us to exist and thrive.
@@ -75,13 +75,8 @@
       = link_to "", class: 'btn-primary btn-l' do
         Get swagged up
 
-
   .lg-container
-
-
     = render ReactComponents::Community::VideoGrid.new
-
-
 
     .flex.items-center.mb-32.justify-between
       %h2.text-h2.flex.items-center
@@ -104,8 +99,6 @@
           .text-textColor6.text-16.font-medium.leading-140 New contributor
           %h5.text-h5 jonathandmiddleton
 
-
     .contributors-list
       .container
         = render ReactComponents::Contributing::ContributorsList.new(params)
-

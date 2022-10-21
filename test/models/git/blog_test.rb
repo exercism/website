@@ -6,9 +6,9 @@ module Git
       TestHelpers.use_blog_test_repo!
     end
 
-    test "post_comment" do
+    test "post_content" do
       expected = "This is some great blog content\nFTW!!\n"
-      actual = Git::Blog.content_for('sorry-for-the-wait')
+      actual = Git::Blog.post_content_for('sorry-for-the-wait')
       assert_equal expected, actual
     end
   end

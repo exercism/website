@@ -5,24 +5,28 @@ import BugsnagPluginReact from '@bugsnag/plugin-react'
 import { ExercismTippy } from '../components/misc/ExercismTippy'
 import { ReactQueryCacheProvider } from 'react-query'
 
-Bugsnag.start({
-  apiKey: process.env.BUGSNAG_API_KEY,
-  releaseStage: process.env.NODE_ENV,
-  plugins: [new BugsnagPluginReact()],
-  enabledReleaseStages: ['production'],
-  collectUserIp: false,
-  onError: function (event) {
-    const tag = document.querySelector('meta[name="user-id"]')
+let ErrorBoundary = null
+if (process.env.BUGSNAG_API_KEY) {
+  Bugsnag.start({
+    apiKey: process.env.BUGSNAG_API_KEY,
+    releaseStage: process.env.NODE_ENV,
+    plugins: [new BugsnagPluginReact()],
+    enabledReleaseStages: ['production'],
+    collectUserIp: false,
+    onError: function (event) {
+      const tag = document.querySelector('meta[name="user-id"]')
 
-    if (!tag) {
-      return true
-    }
+      if (!tag) {
+        return true
+      }
 
-    event.setUser(tag.content)
-  },
-})
-
-const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React)
+      event.setUser(tag.content)
+    },
+  })
+  ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React)
+} else {
+  ErrorBoundary = <></>
+}
 
 // This changes any extra things that need changing from the
 // turbo frame, such as body class or page title
@@ -117,25 +121,23 @@ const render = (elem, component) => {
 
 export function renderComponents(parentElement, mappings) {
   // console.log(Date.now(), 'renderComponents()')
-  if (!parentElement) {
-    parentElement = document.body
-  }
-
-  // As getElementsByClassName returns a live collection, it is recommended to use Array.from
-  // when iterating through it, otherwise the number of elements may change mid-loop.
-  const elems = Array.from(
-    parentElement.getElementsByClassName('c-react-component')
-  )
-  for (let elem of elems) {
-    const reactId = elem.dataset['reactId']
-    const generator = mappings[reactId]
-    if (!generator) {
-      continue
-    }
-
-    const data = JSON.parse(elem.dataset.reactData)
-    render(elem, generator(data, elem))
-  }
+  // if (!parentElement) {
+  //   parentElement = document.body
+  // }
+  // // As getElementsByClassName returns a live collection, it is recommended to use Array.from
+  // // when iterating through it, otherwise the number of elements may change mid-loop.
+  // const elems = Array.from(
+  //   parentElement.getElementsByClassName('c-react-component')
+  // )
+  // for (let elem of elems) {
+  //   const reactId = elem.dataset['reactId']
+  //   const generator = mappings[reactId]
+  //   if (!generator) {
+  //     continue
+  //   }
+  //   const data = JSON.parse(elem.dataset.reactData)
+  //   render(elem, generator(data, elem))
+  // }
 }
 
 function renderTooltip(mappings, elem) {

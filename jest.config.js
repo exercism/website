@@ -7,6 +7,7 @@ const config = {
       '<rootDir>/app/javascript/images/GlobalImageStub.js',
     'manifest.json$': '<rootDir>/app/javascript/__mocks__/fileMock.js',
     '@/(.*)': '<rootDir>/app/javascript/$1',
+    '\\.(css)$': 'identity-obj-proxy',
   },
   testEnvironment: 'jsdom',
 }

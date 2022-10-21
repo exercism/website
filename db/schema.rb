@@ -101,9 +101,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_084927) do
     t.string "slug", null: false
     t.string "title", null: false
     t.string "blurb", limit: 280, null: false
-    t.string "thumbnail_url"
-    t.string "image_url"
-    t.string "youtube_id"
+    t.string "thumbnail_url", null: false
+    t.string "image_url", null: false
+    t.string "youtube_id", null: false
     t.integer "length_in_minutes", limit: 2, null: false
     t.datetime "published_at", null: false
     t.datetime "created_at", null: false

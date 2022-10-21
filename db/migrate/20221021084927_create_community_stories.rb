@@ -6,13 +6,12 @@ class CreateCommunityStories < ActiveRecord::Migration[7.0]
 
       t.string :uuid, null: false, index: {unique: true}
       t.string :slug, null: false
-      t.string :title, null: false      
+      t.string :title, null: false
       t.string :blurb, null: false, limit: 280
-      t.string :thumbnail_url
-      t.string :image_url
-      t.string :youtube_id
-      t.integer :length_in_minutes, limit: 2, null: false      
-
+      t.string :thumbnail_url, null: false
+      t.string :image_url, null: false
+      t.string :youtube_id, null: false
+      t.integer :length_in_minutes, limit: 2, null: false
       t.datetime :published_at, null: false
 
       t.timestamps

@@ -7,11 +7,11 @@ module Git
     def call
       repo.update!
 
-      repo.config[:posts].each do |data|
+      repo.config[:posts].to_a.each do |data|
         create_or_update_post(data)
       end
 
-      repo.config[:stories].each do |data|
+      repo.config[:stories].to_a.each do |data|
         create_or_update_story(data)
       end
     end

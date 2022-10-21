@@ -9,6 +9,8 @@ class CommunityController < ApplicationController
         where(users: { show_on_supporters_page: true }).
         last(40).
         map { |b| b.user.avatar_url }
+
+    @community_stories = CommunityStory.includes(:interviewee).ordered_by_recency.first(3)
   end
 
   def show

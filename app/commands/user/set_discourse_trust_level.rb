@@ -8,6 +8,9 @@ class User::SetDiscourseTrustLevel
 
     discourse_user_id = client.by_external_id(user.id)['id']
     client.update_trust_level(discourse_user_id, level: 2)
+  rescue DiscourseApi::NotFoundError
+    # If the external user can't be found, then the
+    # oauth didn't complete so there's nothing to do.
   end
 
   def client

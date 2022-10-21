@@ -15,6 +15,15 @@ class User::SetDiscourseTrustLevelTest < ActiveSupport::TestCase
 
   test "noop with rep of 19" do
     user = create :user, reputation: 19
+
+    User::SetDiscourseTrustLevel.(user)
+  end
+
+  test "noop if external user isn't found" do
+    user = create :user, reputation: 20
+
+    stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_raise(DiscourseApi::NotFoundError)
+
     User::SetDiscourseTrustLevel.(user)
   end
 end

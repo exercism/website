@@ -10,6 +10,10 @@ module Git
       repo.config[:posts].each do |data|
         create_or_update_post(data)
       end
+
+      repo.config[:stories].each do |data|
+        create_or_update_story(data)
+      end
     end
 
     private
@@ -32,6 +36,31 @@ module Git
       ) { |d| d.attributes = attributes }
 
       post.update!(attributes)
+    rescue StandardError => e
+      Github::Issue::OpenForBlogSyncFailure.(e, repo.head_commit.oid)
+    end
+
+    def create_or_update_story(data)
+      interviewer = User.find_by!(handle: data[:interviewer_handle])
+      interviewee = User.find_by!(handle: data[:interviewee_handle])
+      attributes = {
+        interviewer:,
+        interviewee:,
+        slug: data[:slug],
+        title: data[:title],
+        blurb: data[:blurb],
+        published_at: data[:published_at],
+        thumbnail_url: data[:thumbnail_url],
+        image_url: data[:image_url],
+        youtube_id: data[:youtube_id],
+        length_in_minutes: data[:length_in_minutes]
+      }
+
+      story = CommunityStory.create_or_find_by!(uuid: data[:uuid]) do |d|
+        d.attributes = attributes
+      end
+
+      story.update!(attributes)
     rescue StandardError => e
       Github::Issue::OpenForBlogSyncFailure.(e, repo.head_commit.oid)
     end

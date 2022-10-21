@@ -7,9 +7,9 @@ FactoryBot.define do
     title { "Don't be productive" }
     blurb { "Try not to be productive" }
     published_at { Time.current - 1.minute }
-    thumbnail_url { "http://example.org/thubmnail.png" }
+    thumbnail_url { "http://example.org/thumbnail.png" }
     image_url { "http://example.org/image.png" }
-    number_of_minutes { 60 }
+    length_in_minutes { 60 }
     youtube_id { "the-youtu.be-id" }
 
     trait :random do

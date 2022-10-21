@@ -98,7 +98,7 @@ const render = (elem, component) => {
   // console.log(Date.now(), 'rendering')
   const hydrate = elem.dataset['reactHydrate'] == 'true'
   if (hydrate) {
-    console.log('hydrating')
+    //console.log('hydrating')
     ReactDOM.hydrate(<>{component}</>, elem, callback)
   } else {
     ReactDOM.render(
@@ -120,7 +120,7 @@ const render = (elem, component) => {
 }
 
 export function renderComponents(parentElement, mappings) {
-  console.log(Date.now(), 'renderComponents()')
+  //console.log(Date.now(), 'renderComponents()')
   if (!parentElement) {
     parentElement = document.body
   }

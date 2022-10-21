@@ -32,7 +32,8 @@ const TrackFilter = ({
       <div className="row">
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
-        <div className="count">{pluralizeWithNumber(numVideos, countText)}</div>
+        {/* TODO: Add video counts here */}
+        {/* <div className="count">{pluralizeWithNumber(numVideos, countText)}</div> */}
       </div>
     </label>
   )
@@ -130,7 +131,7 @@ const Component = ({
           <div className="track-title">{value.title}</div>
           <div className="count">
             {/* TODO change this back to value.numVideos once data is there */}
-            {pluralizeWithNumber(numVideos, countText)}
+            {/* {pluralizeWithNumber(numVideos, countText)} */}
           </div>
           <Icon
             icon="chevron-down"

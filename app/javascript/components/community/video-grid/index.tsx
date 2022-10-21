@@ -10,15 +10,18 @@ type VideoGridProps = {
 }
 
 export function VideoGrid({ data }: VideoGridProps): JSX.Element {
-  const [page, setPage] = useState<number>(1)
   const [criteria, setCriteria] = useState('')
 
-  const { resolvedData } = useVideoGrid(data.request)
-  console.log('rd', resolvedData)
+  const { resolvedData, page, setPage, handleTrackChange, selectedTrack } =
+    useVideoGrid(data.request, data.tracks)
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
-      <VideoGridHeader tracks={data.tracks} />
+      <VideoGridHeader
+        tracks={data.tracks}
+        handleTrackChange={handleTrackChange}
+        selectedTrack={selectedTrack}
+      />
 
       <div className="flex mb-32 c-search-bar">
         <input
@@ -36,12 +39,24 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
             <Video key={video.embedUrl} video={video} />
           ))}
       </div>
-      <Pagination current={page} total={120} setPage={setPage} />
+      <Pagination
+        current={page}
+        total={resolvedData.meta.totalPages}
+        setPage={setPage}
+      />
     </div>
   )
 }
 
-function VideoGridHeader({ tracks }: { tracks: any }): JSX.Element {
+function VideoGridHeader({
+  tracks,
+  handleTrackChange,
+  selectedTrack,
+}: {
+  tracks: any
+  handleTrackChange: any
+  selectedTrack: any
+}): JSX.Element {
   return (
     <div className="flex mb-24">
       <GraphicalIcon
@@ -59,9 +74,9 @@ function VideoGridHeader({ tracks }: { tracks: any }): JSX.Element {
 
       <TrackFilterList
         isFetching={false}
-        value={tracks[0]}
+        value={selectedTrack}
         tracks={tracks}
-        setValue={() => console.log('yolo')}
+        setValue={handleTrackChange}
         sizeVariant="automation"
         cacheKey={''}
         status={QueryStatus.Success}

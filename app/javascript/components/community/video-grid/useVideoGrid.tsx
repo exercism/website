@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { useHistory, removeEmpty } from '../../../hooks/use-history'
 import { useList } from '../../../hooks/use-list'
@@ -21,8 +21,12 @@ const initialTrackData: AutomationTrack = {
   numSubmissions: 0,
 }
 
-export function useVideoGrid(videoRequest: Request): any {
+export function useVideoGrid(
+  videoRequest: Request,
+  tracks: AutomationTrack[]
+): any {
   const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
+  const [selectedTrack, setSelectedTrack] = useState(tracks[0])
 
   const {
     request,
@@ -52,18 +56,20 @@ export function useVideoGrid(videoRequest: Request): any {
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  //   const handleTrackChange = useCallback(
-  //     (track) => {
-  //       setPage(1)
-  //       setCriteria('')
-  //       setSelectedTrack(track)
+  const handleTrackChange = useCallback(
+    (track) => {
+      setPage(1)
+      setCriteria('')
+      setSelectedTrack(track)
 
-  //       setQuery({ ...request.query, trackSlug: track.slug, page: 1 })
-  //     },
-  //     [setPage, setQuery, request.query]
-  //   )
+      setQuery({ ...request.query, trackSlug: track.slug, page: 1 })
+    },
+    [setPage, setQuery, request.query]
+  )
 
   return {
+    handleTrackChange,
+    selectedTrack,
     resolvedData,
     latestData,
     isFetching,

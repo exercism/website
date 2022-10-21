@@ -9,10 +9,21 @@ type VideoGridProps = {
 
 export function VideoGrid({ data }: VideoGridProps): JSX.Element {
   const [page, setPage] = useState<number>(1)
+  const [criteria, setCriteria] = useState('')
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
       <VideoGridHeader tracks={data.tracks} />
+
+      <div className="flex mb-32 c-search-bar">
+        <input
+          className="grow --search --right"
+          placeholder="Search community walkthroughs"
+          value={criteria}
+          onChange={(e) => setCriteria(e.target.value)}
+        />
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
         {new Array(12).fill(
           <Video

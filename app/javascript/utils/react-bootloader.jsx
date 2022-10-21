@@ -120,24 +120,24 @@ const render = (elem, component) => {
 }
 
 export function renderComponents(parentElement, mappings) {
-  // console.log(Date.now(), 'renderComponents()')
-  // if (!parentElement) {
-  //   parentElement = document.body
-  // }
-  // // As getElementsByClassName returns a live collection, it is recommended to use Array.from
-  // // when iterating through it, otherwise the number of elements may change mid-loop.
-  // const elems = Array.from(
-  //   parentElement.getElementsByClassName('c-react-component')
-  // )
-  // for (let elem of elems) {
-  //   const reactId = elem.dataset['reactId']
-  //   const generator = mappings[reactId]
-  //   if (!generator) {
-  //     continue
-  //   }
-  //   const data = JSON.parse(elem.dataset.reactData)
-  //   render(elem, generator(data, elem))
-  // }
+  console.log(Date.now(), 'renderComponents()')
+  if (!parentElement) {
+    parentElement = document.body
+  }
+  // As getElementsByClassName returns a live collection, it is recommended to use Array.from
+  // when iterating through it, otherwise the number of elements may change mid-loop.
+  const elems = Array.from(
+    parentElement.getElementsByClassName('c-react-component')
+  )
+  for (let elem of elems) {
+    const reactId = elem.dataset['reactId']
+    const generator = mappings[reactId]
+    if (!generator) {
+      continue
+    }
+    const data = JSON.parse(elem.dataset.reactData)
+    render(elem, generator(data, elem))
+  }
 }
 
 function renderTooltip(mappings, elem) {

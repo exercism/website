@@ -31,9 +31,9 @@ module Git
         youtube_id: data[:youtube_id]
       }
 
-      post = BlogPost.create_or_find_by!(
-        uuid: data[:uuid]
-      ) { |d| d.attributes = attributes }
+      post = BlogPost.find_create_or_find_by!(uuid: data[:uuid]) do |d|
+        d.attributes = attributes
+      end
 
       post.update!(attributes)
     rescue StandardError => e
@@ -56,7 +56,7 @@ module Git
         length_in_minutes: data[:length_in_minutes]
       }
 
-      story = CommunityStory.create_or_find_by!(uuid: data[:uuid]) do |d|
+      story = CommunityStory.find_create_or_find_by!(uuid: data[:uuid]) do |d|
         d.attributes = attributes
       end
 

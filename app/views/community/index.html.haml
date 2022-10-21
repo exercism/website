@@ -29,7 +29,8 @@
               = graphical_icon "message-bubble-square"
               56
       .grid
-        = image_tag "forum.png", alt: "", role: :presentation
+        = link_to 'https://forum.exercism.org/' do
+          = image_tag "forum.png", alt: "", role: :presentation
 
     .flex.gap-96.mb-96
       .grid.py-32

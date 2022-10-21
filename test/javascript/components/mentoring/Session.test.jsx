@@ -1,11 +1,5 @@
 import React from 'react'
 
-// jest.mock("react", () => ({
-//   ...jest.requireActual("react"),
-//   lazy: (func) => {func()},
-//   Suspense: (func) => {func()},
-// }))
-
 import userEvent from '@testing-library/user-event'
 import {
   render,

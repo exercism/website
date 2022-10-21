@@ -47,8 +47,9 @@
                 = graphical_icon "avatar-placeholder", css_class: "h-[24px] w-[24px] mr-8"
                 Bobbi Towers
 
-        = link_to "", class: 'explore-link' do
-          Explore more Community Stories
+        -# Temporarily disable this link until we have a separate page
+          = link_to "", class: 'explore-link' do
+            Explore more Community Stories
 
       .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8{ class: "shrink-[3]", style: 'height: fit-content' }
         .flex.flex-wrap.pb-16.mb-24{ class: 'w-[360px]' }

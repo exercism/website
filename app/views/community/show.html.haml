@@ -1,6 +1,6 @@
 #page-community-show
   %header
-  = link_to "", class: "back-link" do
+  = link_to Exercism::Routes.community_index_path, class: "back-link" do
     = graphical_icon "arrow-left", css_class: "w-[16px] h-[16px] mr-12 filter-lightBlue"
     Back to Community
   .lg-container.relative

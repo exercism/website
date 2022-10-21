@@ -11,5 +11,11 @@ module Git
       actual = Git::Blog.post_content_for('sorry-for-the-wait')
       assert_equal expected, actual
     end
+
+    test "story_content" do
+      expected = "Because it's great!\n"
+      actual = Git::Blog.story_content_for('why-i-love-tech')
+      assert_equal expected, actual
+    end
   end
 end

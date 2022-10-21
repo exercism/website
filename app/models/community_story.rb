@@ -13,5 +13,6 @@ class CommunityStory < ApplicationRecord
   def video? = youtube_id.present?
   def to_param = slug
 
-  # TODO: access transcript_html
+  def content_html = Markdown::Parse.(content)
+  def content = Git::Blog.story_content_for(slug).to_s
 end

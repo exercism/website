@@ -89,7 +89,7 @@ window.queryCache = new QueryCache()
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
-const mappings = {
+export const mappings = {
   'share-link': (data: any) => (
     <Common.ShareLink
       title={data.title}

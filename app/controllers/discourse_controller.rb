@@ -11,6 +11,8 @@ class DiscourseController < ApplicationController
     sso.bio = current_user.bio
     sso.sso_secret = secret
 
+    User::SetDiscourseTrustLevel.defer(current_user, wait: 30)
+
     redirect_to sso.to_url("https://forum.exercism.org/session/sso_login"), allow_other_host: true
   end
 end

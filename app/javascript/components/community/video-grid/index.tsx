@@ -10,10 +10,15 @@ type VideoGridProps = {
 }
 
 export function VideoGrid({ data }: VideoGridProps): JSX.Element {
-  const [criteria, setCriteria] = useState('')
-
-  const { resolvedData, page, setPage, handleTrackChange, selectedTrack } =
-    useVideoGrid(data.request, data.tracks)
+  const {
+    resolvedData,
+    page,
+    setPage,
+    handleTrackChange,
+    selectedTrack,
+    criteria,
+    setCriteria,
+  } = useVideoGrid(data.request, data.tracks)
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">

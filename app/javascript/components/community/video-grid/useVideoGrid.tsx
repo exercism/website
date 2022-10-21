@@ -14,13 +14,6 @@ export type APIResponse = {
   }
 }
 
-const initialTrackData: AutomationTrack = {
-  slug: '',
-  title: '',
-  iconUrl: '',
-  numSubmissions: 0,
-}
-
 export function useVideoGrid(
   videoRequest: Request,
   tracks: AutomationTrack[]

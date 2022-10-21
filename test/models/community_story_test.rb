@@ -29,14 +29,6 @@ class CommunityStoryTest < ActiveSupport::TestCase
     assert_equal [story_2, story_3, story_1], CommunityStory.ordered_by_recency
   end
 
-  test "video?" do
-    story = create :community_story, youtube_id: nil
-    refute story.video?
-
-    story.update(youtube_id: "foo")
-    assert story.video?
-  end
-
   test "to_param" do
     story = create :community_story
     assert_equal story.slug, story.to_param

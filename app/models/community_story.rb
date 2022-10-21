@@ -10,7 +10,6 @@ class CommunityStory < ApplicationRecord
   scope :scheduled, -> { where('published_at > ?', Time.current) }
   scope :ordered_by_recency, -> { order('published_at DESC') }
 
-  def video? = youtube_id.present?
   def to_param = slug
 
   def content_html = Markdown::Parse.(content)

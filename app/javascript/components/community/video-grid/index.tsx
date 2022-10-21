@@ -1,3 +1,4 @@
+import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
 import React, { useState } from 'react'
 import { QueryStatus } from 'react-query'
@@ -19,6 +20,8 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     criteria,
     setCriteria,
   } = useVideoGrid(data.request, data.tracks)
+
+  console.log(resolvedData)
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
@@ -102,22 +105,53 @@ type VideoProps = {
   video: VideoData
 }
 function Video({ video }: VideoProps): JSX.Element {
+  const [isOpen, setIsOpen] = useState(false)
   return (
-    <button className="grid shadow-sm p-16 bg-white rounded-8 text-left">
-      <img
-        style={{ objectFit: 'cover', width: '100%', height: '96px' }}
-        className="rounded-8 self-center mb-12"
-        src={video.thumbnailUrl}
-        alt="thumbnail"
-      />
-      <h5 className="text-h5 mb-8">{video.title}</h5>
-      <div className="flex items-center text-left text-textColor6 font-semibold">
-        <Avatar
-          className="h-[24px] w-[24px] mr-8"
-          src={video.author && video.author.avatarUrl}
+    <>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="grid shadow-sm p-16 bg-white rounded-8 text-left"
+      >
+        <img
+          style={{ objectFit: 'cover', width: '100%', height: '96px' }}
+          className="rounded-8 self-center mb-12"
+          src={video.thumbnailUrl}
+          alt="thumbnail"
         />
-        {video.author && video.author.name}
-      </div>
-    </button>
+        <h5 className="text-h5 mb-8">{video.title}</h5>
+        <div className="flex items-center text-left text-textColor6 font-semibold">
+          <Avatar
+            className="h-[24px] w-[24px] mr-8"
+            src={video.author && video.author.avatarUrl}
+          />
+          {video.author && video.author.name}
+        </div>
+      </button>
+      <CommunityVideoModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        video={{
+          author: video.author,
+          submittedBy: {
+            name: '',
+            handle: '',
+            avatarUrl: '',
+            links: {
+              profile: undefined,
+              channel_url: undefined,
+            },
+          },
+          platform: 'youtube',
+          title: video.title,
+          createdAt: '',
+          links: {
+            watch: '',
+            embed: video.embedUrl,
+            channel: '',
+            thumbnail: '',
+          },
+        }}
+      />
+    </>
   )
 }

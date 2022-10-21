@@ -4,7 +4,7 @@ class CreateCommunityStories < ActiveRecord::Migration[7.0]
       t.belongs_to :interviewer, null: false, foreign_key: {to_table: :users}
       t.belongs_to :interviewee, null: false, foreign_key: {to_table: :users}
 
-      t.string :uuid, null: false
+      t.string :uuid, null: false, index: {unique: true}
       t.string :slug, null: false
       t.string :title, null: false      
       t.string :blurb, null: false, limit: 280
@@ -16,8 +16,6 @@ class CreateCommunityStories < ActiveRecord::Migration[7.0]
       t.datetime :published_at, null: false
 
       t.timestamps
-
-      t.index :uuid, unique: true
     end
   end
 end

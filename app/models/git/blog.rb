@@ -18,12 +18,7 @@ module Git
 
     def post_content_for(slug) = content_for("posts", slug)
     def story_content_for(slug) = content_for("stories", slug)
-
-    def content_for(dir, slug)
-      filepath = "#{dir}/#{slug}.md"
-      repo.read_text_blob(head_commit, filepath)
-    end
-
+    def content_for(dir, slug) = repo.read_text_blob(head_commit, "#{dir}/#{slug}.md")
     def update! = repo.fetch!
 
     private

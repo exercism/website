@@ -16,8 +16,10 @@ class DiscourseControllerTest < ActionDispatch::IntegrationTest
 
     sso.expects(:to_url).returns(resulting_url)
     DiscourseApi::SingleSignOn.expects(:parse).with("who=why", Exercism.secrets.discourse_oauth_secret).returns(sso)
+    User::SetDiscourseTrustLevel.expects(:defer).with(user, wait: 30)
 
     sign_in!(user)
+
     get discourse_sso_url(who: "why")
 
     assert_redirected_to resulting_url

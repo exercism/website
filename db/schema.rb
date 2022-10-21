@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_18_104251) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_21_084927) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -92,6 +92,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_18_104251) do
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_cohorts_on_slug", unique: true
     t.index ["track_id"], name: "index_cohorts_on_track_id"
+  end
+
+  create_table "community_stories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "interviewer_id", null: false
+    t.bigint "interviewee_id", null: false
+    t.string "uuid", null: false
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.string "blurb", limit: 280, null: false
+    t.string "thumbnail_url", null: false
+    t.string "image_url", null: false
+    t.string "youtube_id", null: false
+    t.integer "length_in_minutes", limit: 2, null: false
+    t.datetime "published_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["interviewee_id"], name: "index_community_stories_on_interviewee_id"
+    t.index ["interviewer_id"], name: "index_community_stories_on_interviewer_id"
+    t.index ["uuid"], name: "index_community_stories_on_uuid", unique: true
   end
 
   create_table "community_videos", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1091,6 +1110,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_18_104251) do
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
   add_foreign_key "cohorts", "tracks"
+  add_foreign_key "community_stories", "users", column: "interviewee_id"
+  add_foreign_key "community_stories", "users", column: "interviewer_id"
   add_foreign_key "community_videos", "exercises"
   add_foreign_key "community_videos", "tracks"
   add_foreign_key "community_videos", "users", column: "author_id"

@@ -1,13 +1,13 @@
-export type CommunityVideoUserLinks = {
+export type CommunityVideoAuthorLinks = {
   profile?: string
   channel_url?: string
 }
 
-export type CommunityVideoUser = {
+export type CommunityVideoAuthor = {
   name: string
   handle: string
   avatarUrl: string
-  links: CommunityVideoUserLinks
+  links: CommunityVideoAuthorLinks
 }
 
 export type CommunityVideoPlatform = 'youtube' | 'vimeo'
@@ -20,8 +20,8 @@ export type CommunityVideoLinks = {
 }
 
 export type CommunityVideo = {
-  author?: CommunityVideoUser
-  submittedBy: CommunityVideoUser
+  author?: CommunityVideoAuthor
+  submittedBy: CommunityVideoAuthor
   platform: CommunityVideoPlatform
   title: string
   createdAt: string

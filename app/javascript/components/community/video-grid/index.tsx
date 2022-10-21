@@ -1,7 +1,9 @@
+import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
 import React, { useState } from 'react'
 import { QueryStatus } from 'react-query'
 import { Avatar, GraphicalIcon, Pagination } from '../../common'
 import { TrackFilterList } from './TrackFilterList'
+import { useVideoGrid } from './useVideoGrid'
 
 type VideoGridProps = {
   data: any
@@ -10,6 +12,9 @@ type VideoGridProps = {
 export function VideoGrid({ data }: VideoGridProps): JSX.Element {
   const [page, setPage] = useState<number>(1)
   const [criteria, setCriteria] = useState('')
+
+  const { resolvedData } = useVideoGrid(data.request)
+  console.log('rd', resolvedData)
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
@@ -25,13 +30,11 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
-        {new Array(12).fill(
-          <Video
-            title="Exercism Elixir Track: Community Garden (Agent)"
-            author="Bobbi Towers"
-            avatarUrl="https://avatars.githubusercontent.com/u/24420806?v=4"
-          />
-        )}
+        {resolvedData &&
+          resolvedData.results &&
+          resolvedData.results.map((video: VideoProps) => (
+            <Video key={video.embedUrl} video={video} />
+          ))}
       </div>
       <Pagination current={page} total={120} setPage={setPage} />
     </div>
@@ -69,19 +72,32 @@ function VideoGridHeader({ tracks }: { tracks: any }): JSX.Element {
   )
 }
 
-type VideoProps = {
+type VideoData = {
   title: string
-  author: string
-  avatarUrl: string
+  author: CommunityVideoAuthor
+  embedUrl: string
+  thumbnailUrl: string
 }
-function Video({ title, author, avatarUrl }: VideoProps): JSX.Element {
+type VideoProps = {
+  video: VideoData
+}
+function Video({ video }: VideoProps): JSX.Element {
   return (
     <button className="grid shadow-sm p-16 bg-white rounded-8 text-left">
       <div className="self-center bg-borderLight rounded-8 mb-12 max-w-[100%] pb-[46.25%]"></div>
+      <img
+        style={{ objectFit: 'cover', height: '80px', width: '143px' }}
+        className="mr-20 rounded-8"
+        src={video.links.thumbnail}
+        alt="thumbnail"
+      />
       <h5 className="text-h5 mb-8">{title}</h5>
       <div className="flex items-center text-left text-textColor6 font-semibold">
-        <Avatar className="h-[24px] w-[24px] mr-8" src={avatarUrl} />
-        {author}
+        <Avatar
+          className="h-[24px] w-[24px] mr-8"
+          src={author && author.avatarUrl}
+        />
+        {author && author.name}
       </div>
     </button>
   )

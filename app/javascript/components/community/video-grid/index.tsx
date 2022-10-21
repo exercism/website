@@ -113,7 +113,7 @@ function Video({ video }: VideoProps): JSX.Element {
         className="grid shadow-sm p-16 bg-white rounded-8 text-left"
       >
         <img
-          style={{ objectFit: 'cover', width: '100%', height: '96px' }}
+          style={{ objectFit: 'cover', width: '100%', height: '150px' }}
           className="rounded-8 self-center mb-12"
           src={video.thumbnailUrl}
           alt="thumbnail"

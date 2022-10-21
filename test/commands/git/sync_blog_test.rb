@@ -7,6 +7,8 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
 
   test "creates missing posts" do
     create :user, handle: "iHiD"
+    create :user, handle: "jonathandmiddleton"
+    create :user, handle: "porkostumus"
     Git::SyncBlog.()
 
     assert_equal 1, BlogPost.count
@@ -21,6 +23,8 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
 
   test "updates existing posts" do
     create :user, handle: "iHiD"
+    create :user, handle: "jonathandmiddleton"
+    create :user, handle: "porkostumus"
     create :blog_post, uuid: "d925ec36-92dd-4bf6-be1d-969d192a4034",
       slug: "rlly",
       title: "Very wrong",
@@ -91,6 +95,8 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
 
   test "open issue for sync failure when not synced successfully" do
     create :user, handle: "iHiD"
+    create :user, handle: "jonathandmiddleton"
+    create :user, handle: "porkostumus"
     error = StandardError.new "Could not sync Blog"
     BlogPost.any_instance.stubs(:update!).raises(error)
 

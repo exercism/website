@@ -29,19 +29,14 @@ export const ContributorsList = ({
   tracks: readonly Track[]
 }): JSX.Element => {
   const { request, setPage, setQuery } = useList(initialRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
-    ['contributors-list', request.endpoint, request.query],
-    {
-      ...request,
-      options: { ...request.options },
-    }
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
+      ['contributors-list', request.endpoint, request.query],
+      {
+        ...request,
+        options: { ...request.options },
+      }
+    )
 
   const setPeriod = useCallback(
     (period: Period) => {
@@ -77,7 +72,7 @@ export const ContributorsList = ({
             setPeriod={setPeriod}
             current={request.query.period}
           >
-            <span data-text="Last 7 days">Last 7 days</span>
+            <span data-text="This week">This week</span>
           </PeriodButton>
           <PeriodButton
             period="month"

@@ -187,6 +187,7 @@
     .youtube-link {
         @apply bg-youtubeRed py-16 px-32 rounded-100 flex items-center;
         @apply text-18 font-semibold leading-150 text-white;
+        @apply whitespace-nowrap;
     }
     p {
         background: none;

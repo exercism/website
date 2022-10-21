@@ -294,4 +294,18 @@ class UserTest < ActiveSupport::TestCase
     user.update(reputation: 5)
     assert user.may_create_profile?
   end
+
+  test "profile?" do
+    user = create :user
+    refute user.profile?
+
+    create :user_profile, user: user
+
+    assert user.reload.profile?
+  end
+
+  test "scope: random" do
+    create_list(:user, 100)
+    refute_equal User.all, User.random
+  end
 end

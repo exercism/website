@@ -4,16 +4,8 @@ class Exercise::Approaches::IntroductionAuthorship::Create
   initialize_with :exercise, :author
 
   def call
-    begin
-      authorship = exercise.approach_introduction_authorships.create!(author:)
-    rescue ActiveRecord::RecordNotUnique
-      return nil
+    exercise.approach_introduction_authorships.find_create_or_find_by!(author:).tap do |authorship|
+      User::ReputationToken::Create.defer(author, :exercise_approach_introduction_author, authorship:)
     end
-
-    User::ReputationToken::Create.defer(
-      author,
-      :exercise_approach_introduction_author,
-      authorship:
-    )
   end
 end

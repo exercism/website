@@ -38,9 +38,13 @@ export function CommunityVideoModal({
       <VideoCredits links={video.links} author={video.author} />
       <div className="text-center text-textColor6 leading-160 text-16">
         Posted by{' '}
-        <a href={video.submittedBy.links.profile} className="underline">
-          @{video.submittedBy.handle}
-        </a>{' '}
+        {video.submittedBy.links.profile ? (
+          <a href={video.submittedBy.links.profile} className="underline">
+            @{video.submittedBy.handle}
+          </a>
+        ) : (
+          `@${video.submittedBy.handle}`
+        )}{' '}
         &middot; {dayjs(video.createdAt).format('D MMM YYYY')}
       </div>
     </Modal>

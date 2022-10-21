@@ -4,16 +4,8 @@ class Exercise::Approaches::IntroductionContributorship::Create
   initialize_with :exercise, :contributor
 
   def call
-    begin
-      contributorship = exercise.approach_introduction_contributorships.create!(contributor:)
-    rescue ActiveRecord::RecordNotUnique
-      return nil
+    exercise.approach_introduction_contributorships.find_create_or_find_by!(contributor:).tap do |contributorship|
+      User::ReputationToken::Create.defer(contributor, :exercise_approach_introduction_contribution, contributorship:)
     end
-
-    User::ReputationToken::Create.defer(
-      contributor,
-      :exercise_approach_introduction_contribution,
-      contributorship:
-    )
   end
 end

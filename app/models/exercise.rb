@@ -16,6 +16,12 @@ class Exercise < ApplicationRecord
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions
   has_many :representations, dependent: :destroy
+  has_many :community_videos, dependent: :destroy
+
+  has_many :approaches,
+    class_name: "Exercise::Approach",
+    inverse_of: :exercise,
+    dependent: :destroy
 
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",
@@ -68,7 +74,8 @@ class Exercise < ApplicationRecord
   end
 
   delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url,
-    :approaches_introduction, :approaches_introduction_last_modified_at, to: :git
+    :approaches_introduction, :approaches_introduction_last_modified_at, :approaches_introduction_exists?,
+    :approaches_introduction_edit_url, to: :git
   delegate :dir, to: :git, prefix: true
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 

@@ -202,6 +202,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_084927) do
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
 
+  create_table "exercise_approach_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_approach_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_approach_id", "user_id"], name: "index_exercise_approach_author_approach_id_user_id", unique: true
+    t.index ["exercise_approach_id"], name: "index_exercise_approaches_authorships_on_approach_id"
+    t.index ["user_id"], name: "index_exercise_approach_authorships_on_user_id"
+  end
+
+  create_table "exercise_approach_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_approach_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_approach_id", "user_id"], name: "index_exercise_approach_contributor_approach_id_user_id", unique: true
+    t.index ["exercise_approach_id"], name: "index_exercise_approaches_contributorships_on_approach_id"
+    t.index ["user_id"], name: "index_exercise_approach_contributorships_on_user_id"
+  end
+
   create_table "exercise_approach_introduction_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
@@ -220,6 +240,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_084927) do
     t.index ["exercise_id", "user_id"], name: "index_exercise_approach_intro_contris_on_exercise_and_user", unique: true
     t.index ["exercise_id"], name: "index_exercise_approach_intro_contributorships_on_exercise_id"
     t.index ["user_id"], name: "index_exercise_approach_introduction_contributorships_on_user_id"
+  end
+
+  create_table "exercise_approaches", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.string "uuid", null: false
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.string "blurb", limit: 350, null: false
+    t.string "synced_to_git_sha", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "uuid"], name: "index_exercise_approaches_on_exercise_id_and_uuid", unique: true
+    t.index ["exercise_id"], name: "index_exercise_approaches_on_exercise_id"
+    t.index ["uuid"], name: "index_exercise_approaches_on_uuid"
   end
 
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1089,10 +1123,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_084927) do
   add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
   add_foreign_key "donations_payments", "users"
   add_foreign_key "donations_subscriptions", "users"
+  add_foreign_key "exercise_approach_authorships", "exercise_approaches"
+  add_foreign_key "exercise_approach_authorships", "users"
+  add_foreign_key "exercise_approach_contributorships", "exercise_approaches"
+  add_foreign_key "exercise_approach_contributorships", "users"
   add_foreign_key "exercise_approach_introduction_authorships", "exercises"
   add_foreign_key "exercise_approach_introduction_authorships", "users"
   add_foreign_key "exercise_approach_introduction_contributorships", "exercises"
   add_foreign_key "exercise_approach_introduction_contributorships", "users"
+  add_foreign_key "exercise_approaches", "exercises"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"

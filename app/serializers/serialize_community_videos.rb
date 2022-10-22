@@ -4,7 +4,7 @@ class SerializeCommunityVideos
   initialize_with :videos
 
   def call
-    videos.includes(:author).map do |video|
+    videos.includes(author: :profile, submitted_by: :profile).map do |video|
       SerializeCommunityVideo.(video)
     end
   end
@@ -22,7 +22,6 @@ class SerializeCommunityVideos
         author: video.author.present? ? SerializeAuthorOrContributor.(video.author) : nil,
         submitted_by: SerializeAuthorOrContributor.(video.submitted_by),
         platform: video.platform,
-        title: video.title,
         created_at: video.created_at,
         links: {
           watch: video.url,

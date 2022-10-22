@@ -16,7 +16,8 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
             initial_data:
           }
         },
-        tracks:
+        tracks:,
+        selected_track_slug: params[:track_slug]
       }
     )
   end

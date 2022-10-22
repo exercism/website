@@ -19,7 +19,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     selectedTrack,
     criteria,
     setCriteria,
-  } = useVideoGrid(data.request, data.tracks)
+  } = useVideoGrid(data.request, data.tracks, data.selectedTrackSlug)
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
@@ -71,8 +71,8 @@ function VideoGridHeader({
         width={48}
         className="mr-24 self-start"
       />
-      <div className="grid gap-8 mr-auto">
-        <h2 className="text-h2">Learn from our community</h2>
+      <div className="mr-auto">
+        <h2 className="text-h2 mb-4">Learn from our community</h2>
         <p className="text-p-large">
           Walkthroughs from our community using Exercism
         </p>
@@ -108,7 +108,7 @@ function Video({ video }: VideoProps): JSX.Element {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="grid shadow-sm p-16 bg-white rounded-8 text-left"
+        className="grid shadow-smZ1 p-16 bg-white rounded-8 text-left"
       >
         <img
           style={{ objectFit: 'cover', width: '100%', height: '150px' }}
@@ -116,14 +116,16 @@ function Video({ video }: VideoProps): JSX.Element {
           src={video.thumbnailUrl}
           alt="thumbnail"
         />
-        <h5 className="text-h5 mb-8">{video.title}</h5>
-        <div className="flex items-center text-left text-textColor6 font-semibold">
-          <Avatar
-            className="h-[24px] w-[24px] mr-8"
-            src={video.author && video.author.avatarUrl}
-          />
-          {video.author && video.author.name}
-        </div>
+        <h5 className="text-h5">{video.title}</h5>
+        {video.author && (
+          <div className="mt-auto pt-8 flex items-center text-left text-textColor6 font-semibold">
+            <Avatar
+              className="h-[24px] w-[24px] mr-8"
+              src={video.author && video.author.avatarUrl}
+            />
+            {video.author && video.author.name}
+          </div>
+        )}
       </button>
       <CommunityVideoModal
         isOpen={isOpen}

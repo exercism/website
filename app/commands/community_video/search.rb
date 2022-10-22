@@ -2,7 +2,7 @@ class CommunityVideo::Search
   include Mandate
 
   DEFAULT_PAGE = 1
-  DEFAULT_PER = 25
+  DEFAULT_PER = 12
 
   initialize_with track: nil, criteria: nil, page: DEFAULT_PAGE, per: DEFAULT_PER
 
@@ -22,8 +22,8 @@ class CommunityVideo::Search
     return if criteria.blank?
 
     criteria.strip.split(" ").each do |crit|
-      @videos = @videos.joins(:author).where("community_videos.title LIKE ?", "%#{crit}%").
-        or(@videos.joins(:author).where("users.handle LIKE ?", "%#{crit}%"))
+      @videos = @videos.left_joins(:author).where("community_videos.title LIKE ?", "%#{crit}%").
+        or(@videos.left_joins(:author).where("users.handle LIKE ?", "%#{crit}%"))
     end
   end
 

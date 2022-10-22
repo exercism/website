@@ -16,10 +16,13 @@ export type APIResponse = {
 
 export function useVideoGrid(
   videoRequest: Request,
-  tracks: AutomationTrack[]
+  tracks: AutomationTrack[],
+  selectedTrackSlug: string
 ): any {
+  const initialTrack =
+    tracks.find((track) => track.slug == selectedTrackSlug) || tracks[0]
   const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
-  const [selectedTrack, setSelectedTrack] = useState(tracks[0])
+  const [selectedTrack, setSelectedTrack] = useState(initialTrack)
 
   const {
     request,

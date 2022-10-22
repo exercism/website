@@ -289,42 +289,6 @@ module Git
       refute exercise.valid_submission_filepath?('.docs/instructions.md')
     end
 
-    test "approaches_filepaths" do
-      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-
-      expected_filepaths = [
-        ".approaches/introduction.md",
-        ".approaches/config.json"
-      ]
-      assert_equal expected_filepaths, exercise.approaches_filepaths
-    end
-
-    test "approaches_absolute_filepaths" do
-      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-
-      expected_filepaths = [
-        "exercises/practice/bob/.approaches/introduction.md",
-        "exercises/practice/bob/.approaches/config.json"
-      ]
-      assert_equal expected_filepaths, exercise.approaches_absolute_filepaths
-    end
-
-    test "approaches_introduction_last_modified_at with approaches introduction" do
-      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-
-      assert_equal Time.zone.utc_to_local(Time.utc(2022, 9, 29, 13, 46, 54)), exercise.approaches_introduction_last_modified_at
-    end
-
-    test "approaches_introduction_last_modified_at without approaches introduction" do
-      exercise = Git::Exercise.new(:leap, "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-
-      assert_nil exercise.approaches_introduction_last_modified_at
-    end
-
     test "retrieves instructions" do
       exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
@@ -402,18 +366,6 @@ module Git
       exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_empty(exercise.contributors)
-    end
-
-    test "approaches_introduction_authors" do
-      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal(["erikschierboom"], exercise.approaches_introduction_authors)
-    end
-
-    test "approaches_introduction_authors for exercise without authors" do
-      exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_empty(exercise.approaches_introduction_authors)
     end
 
     test "example files" do
@@ -500,30 +452,6 @@ module Git
       exercise = Git::Exercise.new(:strings, "concept", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal('exercises/concept/strings/.meta/config.json', exercise.config_absolute_filepath)
-    end
-
-    test "approaches_config file path" do
-      exercise = Git::Exercise.new("bob", "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal('.approaches/config.json', exercise.approaches_config_filepath)
-    end
-
-    test "approaches_config absolute file path" do
-      exercise = Git::Exercise.new("bob", "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal('exercises/practice/bob/.approaches/config.json', exercise.approaches_config_absolute_filepath)
-    end
-
-    test "approaches_introduction file path" do
-      exercise = Git::Exercise.new("bob", "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal('.approaches/introduction.md', exercise.approaches_introduction_filepath)
-    end
-
-    test "approaches_introduction absolute file path" do
-      exercise = Git::Exercise.new("bob", "practice", "HEAD",
-        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      assert_equal('exercises/practice/bob/.approaches/introduction.md', exercise.approaches_introduction_absolute_filepath)
     end
   end
 end

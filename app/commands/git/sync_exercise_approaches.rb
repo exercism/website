@@ -8,47 +8,24 @@ module Git
     end
 
     def call
+      # This removes any approaches that aren't read from the config below
+      exercise.update(approaches:)
+      Git::SyncExerciseApproachIntroduction.(exercise, introduction_config)
       ::Exercise::UpdateHasApproaches.(exercise)
-      sync_introduction_authors!
-      sync_introduction_contributors!
     end
 
     private
     attr_reader :exercise
 
-    def sync_introduction_authors!
-      ActiveRecord::Base.transaction do
-        authors = ::User.where(github_username: authors_config)
-        authors.find_each { |author| ::Exercise::Approaches::IntroductionAuthorship::Create.(exercise, author) }
+    def approaches = approaches_config.map { |approach| Git::SyncExerciseApproach.(exercise, approach) }
 
-        # This is required to remove authors that were already added
-        exercise.reload.update!(approach_introduction_authors: authors)
-
-        # TODO: (Optional) consider what to do with missing authors
-        missing_authors = authors_config - authors.pluck(:github_username)
-        Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
-      end
-    end
-
-    def sync_introduction_contributors!
-      ActiveRecord::Base.transaction do
-        contributors = ::User.where(github_username: contributors_config)
-        contributors.find_each { |contributor| ::Exercise::Approaches::IntroductionContributorship::Create.(exercise, contributor) }
-
-        # This is required to remove contributors that were already added
-        exercise.reload.update!(approach_introduction_contributors: contributors)
-
-        # TODO: (Optional) consider what to do with missing contributors
-        missing_contributors = contributors_config - contributors.pluck(:github_username)
-        Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?
-      end
-    end
+    def introduction_config = head_git_approaches.config_introduction
 
     memoize
-    def authors_config = head_git_exercise.approaches_introduction_authors.to_a
+    def approaches_config = head_git_approaches.approaches.to_a
 
     memoize
-    def contributors_config = head_git_exercise.approaches_introduction_contributors.to_a
+    def head_git_approaches = head_git_exercise.approaches
 
     memoize
     def head_git_exercise

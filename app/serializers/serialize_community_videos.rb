@@ -19,16 +19,17 @@ class SerializeCommunityVideos
         title: video.title,
         thumbnail_url: video.thumbnail_url,
         embed_url: video.embed_url,
-        author: if video.author.present?
-                  {
-                    name: video.author.name,
-                    handle: video.author.handle,
-                    avatar_url: video.author.avatar_url,
-                    links: {
-                      profile: video.author.profile ? Exercism::Routes.profile_url(video.author) : nil
-                    }
-                  }
-                end
+        author: video.author.present? ? SerializeAuthorOrContributor.(video.author) : nil,
+        submitted_by: SerializeAuthorOrContributor.(video.submitted_by),
+        platform: video.platform,
+        title: video.title,
+        created_at: video.created_at,
+        links: {
+          watch: video.url,
+          embed: video.embed_url,
+          channel: video.channel_url,
+          thumbnail: video.thumbnail_url
+        }
       }
     end
   end

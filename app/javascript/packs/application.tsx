@@ -92,8 +92,8 @@ window.queryCache = new QueryCache()
 // // Add all react components here.
 // // Each should map 1-1 to a component in app/helpers/components
 initReact({
-  'blog-share-post-link': (data: any) => (
-    <Blog.SharePostLink
+  'share-link': (data: any) => (
+    <Common.ShareLink
       title={data.title}
       shareTitle={data.share_title}
       shareLink={data.share_link}
@@ -183,8 +183,8 @@ initReact({
     />
   ),
 
-  'track-approaches': (data: any) => (
-    <TrackComponents.Approaches data={camelizeKeys(data)} />
+  'track-approaches': (data: ApproachesProps) => (
+    <TrackComponents.Approaches data={camelizeKeysAs<ApproachesProps>(data)} />
   ),
   'track-approach': (data: any) => <TrackComponents.Approach />,
 
@@ -202,6 +202,16 @@ initReact({
       numAuthors={data.num_authors}
       numContributors={data.num_contributors}
       links={data.links}
+    />
+  ),
+  'track-credits': (data: any) => (
+    <Common.Credits
+      avatarUrls={data.avatar_urls}
+      topCount={data.top_count}
+      topLabel={data.top_label}
+      bottomCount={data.bottom_count}
+      bottomLabel={data.bottom_label}
+      max={data.max}
     />
   ),
   'common-exercise-widget': (data: any) => (
@@ -405,7 +415,7 @@ initReact({
   ),
   'impact-chart': (data: any) => (
     <Suspense fallback={renderLoader()}>
-      <ImpactChart data={camelizeKeys(data)} />
+      <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
     </Suspense>
   ),
   'impact-testimonials': (data: any) => (
@@ -443,6 +453,8 @@ document.addEventListener(
 
 import { highlightAll } from '../utils/highlight'
 import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import { ApproachesProps } from '@/components/track/Approaches'
+import { ChartData } from '@/components/impact/Chart'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

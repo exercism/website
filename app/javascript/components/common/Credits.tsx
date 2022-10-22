@@ -15,7 +15,7 @@ export function Credits({
   topCount,
   bottomLabel,
   bottomCount,
-  max,
+  max = 2,
   avatarUrls,
   fontSize = 14,
 }: CreditsProps): JSX.Element {

@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Chart } from 'chart.js'
 import { generateAccumulatedData } from './chart-elements/data'
-import {
-  NumberOfStudentsLabel,
-  CANVAS_BACKGROUND,
-  CANVAS_CUSTOM_POINTS,
-} from './chart-elements'
+import { CANVAS_CUSTOM_POINTS } from './chart-elements'
 import { createChartConfig } from './chart-elements/chart-config'
 
-type ChartData = { usersPerMonth: string; milestones: string }
+export type ChartData = { usersPerMonth: string; milestones: string }
 
 export default function ImpactChart({
   data,

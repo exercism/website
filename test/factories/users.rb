@@ -53,5 +53,9 @@ FactoryBot.define do
     trait :staff do
       roles { [:staff] }
     end
+
+    trait :github do
+      github_username { handle }
+    end
   end
 end

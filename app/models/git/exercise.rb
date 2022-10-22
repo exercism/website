@@ -5,13 +5,13 @@ module Git
     extend Git::HasGitFilepath
 
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
+    delegate :introduction, :introduction_last_modified_at, :introduction_exists?, :introduction_edit_url, to: :approaches,
+      prefix: true
 
     git_filepath :instructions, file: ".docs/instructions.md", append_file: ".docs/instructions.append.md"
     git_filepath :introduction, file: ".docs/introduction.md", append_file: ".docs/introduction.append.md"
     git_filepath :instructions_append, file: ".docs/instructions.append.md"
     git_filepath :introduction_append, file: ".docs/introduction.append.md"
-    git_filepath :approaches_introduction, file: ".approaches/introduction.md"
-    git_filepath :approaches_config, file: ".approaches/config.json"
     git_filepath :hints, file: ".docs/hints.md"
     git_filepath :config, file: ".meta/config.json"
 
@@ -119,28 +119,6 @@ module Git
     memoize
     def example_filepaths
       config.dig(:files, :example).to_a
-    end
-
-    memoize
-    def approaches_config_introduction
-      approaches_config[:introduction].to_h
-    end
-
-    memoize
-    def approaches_introduction_authors
-      approaches_config_introduction[:authors].to_a
-    end
-
-    memoize
-    def approaches_introduction_contributors
-      approaches_config_introduction[:contributors].to_a
-    end
-
-    memoize
-    def approaches_introduction_last_modified_at
-      return unless approaches_introduction_exists?
-
-      repo.file_last_modified_at(approaches_introduction_absolute_filepath)
     end
 
     memoize
@@ -253,25 +231,15 @@ module Git
       special_filepaths.concat(filtered_filepaths)
     end
 
-    memoize
-    def approaches_filepaths
-      [
-        approaches_introduction_filepath,
-        approaches_config_filepath
-      ]
-    end
-
-    memoize
-    def approaches_absolute_filepaths
-      approaches_filepaths.map { |filepath| absolute_filepath(filepath) }
-    end
-
     def read_file_blob(filepath)
       mapped = file_entries.map { |f| [f[:full], f[:oid]] }.to_h
       mapped[filepath] ? repo.read_blob(mapped[filepath]) : nil
     end
 
     def dir = "exercises/#{exercise_type}/#{exercise_slug}"
+
+    memoize
+    def approaches = Git::Exercise::Approaches.new(exercise_slug, exercise_type, git_sha, repo:)
 
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
@@ -293,18 +261,12 @@ module Git
     end
 
     memoize
-    def tree
-      repo.fetch_tree(commit, dir)
-    end
+    def tree = repo.fetch_tree(commit, dir)
 
     memoize
-    def commit
-      repo.lookup_commit(git_sha)
-    end
+    def commit = repo.lookup_commit(git_sha)
 
     memoize
-    def track
-      Track.new(repo:)
-    end
+    def track = Track.new(repo:)
   end
 end

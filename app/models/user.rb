@@ -66,14 +66,21 @@ class User < ApplicationRecord
   has_many :authorships, class_name: "Exercise::Authorship", dependent: :destroy
   has_many :authored_exercises, through: :authorships, source: :exercise
 
+  has_many :contributorships, class_name: "Exercise::Contributorship", dependent: :destroy
+  has_many :contributed_exercises, through: :contributorships, source: :exercise
+
+  has_many :approach_authorships, class_name: "Exercise::Approach::Authorship", dependent: :destroy
+  has_many :authored_approaches, through: :approach_authorships, source: :approach
+
+  has_many :approach_contributorships, class_name: "Exercise::Approach::Contributorship", dependent: :destroy
+  has_many :contributed_approaches, through: :approach_contributorships, source: :approach
+
   has_many :approach_introduction_authorships, class_name: "Exercise::Approaches::IntroductionAuthorship", dependent: :destroy
   has_many :authored_approach_introduction_exercises, through: :approach_introduction_authorships, source: :exercise
   has_many :approach_introduction_contributorships, class_name: "Exercise::Approaches::IntroductionContributorship",
     dependent: :destroy
-  has_many :contributored_approach_introduction_exercises, through: :approach_introduction_contributorships, source: :exercise
+  has_many :contributed_approach_introduction_exercises, through: :approach_introduction_contributorships, source: :exercise
 
-  has_many :contributorships, class_name: "Exercise::Contributorship", dependent: :destroy
-  has_many :contributed_exercises, through: :contributorships, source: :exercise
   has_many :scratchpad_pages, dependent: :destroy
 
   has_many :solution_comments, dependent: :destroy, class_name: "Solution::Comment", inverse_of: :author
@@ -99,6 +106,8 @@ class User < ApplicationRecord
   has_many :problem_reports, dependent: :destroy
 
   has_many :cohort_memberships, dependent: :destroy
+
+  scope :random, -> { order('RAND()') }
 
   # TODO: Validate presence of name
 
@@ -258,4 +267,5 @@ class User < ApplicationRecord
   end
 
   def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
+  def profile? = profile.present?
 end

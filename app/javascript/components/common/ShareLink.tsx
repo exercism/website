@@ -1,9 +1,9 @@
 import React from 'react'
 import { usePanel } from '../../hooks/use-panel'
-import { SharePanel } from '../common/SharePanel'
+import { SharePanel } from './SharePanel'
 import { SharePlatform } from '../types'
 
-export const SharePostLink = ({
+export const ShareLink = ({
   title,
   shareTitle,
   shareLink,

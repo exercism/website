@@ -63,7 +63,6 @@ function VideoGridHeader({
   handleTrackChange: any
   selectedTrack: any
 }): JSX.Element {
-  console.log(selectedTrack)
   return (
     <div className="flex mb-24">
       <GraphicalIcon

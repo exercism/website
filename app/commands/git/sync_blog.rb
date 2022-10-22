@@ -61,7 +61,7 @@ module Git
       end
 
       story.update!(attributes)
-      # rescue StandardError => e
+    rescue StandardError => e
       Github::Issue::OpenForBlogSyncFailure.(e, repo.head_commit.oid)
     end
 

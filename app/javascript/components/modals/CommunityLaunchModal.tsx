@@ -2,19 +2,18 @@ import React, { useCallback, useState } from 'react'
 import { Modal, ModalProps } from './Modal'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
-import { Avatar, FormButton, GraphicalIcon } from '../common'
+import { FormButton, GraphicalIcon } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
-import { User } from '../types'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-export const FirstTimeModal = ({
+export const CommunityLaunchModal = ({
   endpoint,
-  contributors,
+  jonathanImageUrl,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
   endpoint: string
-  contributors: readonly User[]
+  jonathanImageUrl: string
 }): JSX.Element => {
   const [open, setOpen] = useState(true)
   const [mutation, { status, error }] = useMutation(
@@ -51,85 +50,70 @@ export const FirstTimeModal = ({
       cover={true}
       open={open}
       {...props}
-      onClose={() => {}}
-      className="m-welcome-to-v3"
+      onClose={() => null}
+      className="m-community-launch"
     >
       <div className="lhs">
         <header>
-          <h1>Welcome to Exercism V3! 🎉</h1>
+          <h1>The new "Community" tab</h1>
+
           <p>
-            Phew! It’s been long in the making, but we’re finally here.
-            <br />
-            <strong>Welcome to version 3 of Exercism.</strong>
+            We think our community is pretty special - thousands of people
+            learning, mentoring and supporting each other in a non-toxic
+            environment. Well from today we're focussing even more on making
+            Exercism a great place for you all to spend time.
           </p>
         </header>
 
-        <h2>So, what’s the big deal?</h2>
+        <h2>So, what’s new?</h2>
         <p>
-          We’ve updated and improved the whole Exercism experience from the
-          ground up. Here are just a few of the excited new things you’ll notice
-          as you use Exercism v3:
+          We’ve added a few new sections to Exercism. Everything is accessible
+          via the new Community tab.
         </p>
 
         <div className="improvements">
           <div className="improvement">
             <GraphicalIcon icon="exercise" category="graphics" />
             <div className="info">
-              <h3>Learning Mode</h3>
+              <h3>Exercism&apos;s Forum</h3>
               <p>
-                Exercism’s not just about practicing - you can now use it to
-                learn too, with our new Concepts and Exercises.
+                Our new forum is a fun space to chat about programming, help
+                guid the future of Exercis, get support if you get stuck, and
+                hang out with each other.
+              </p>
+            </div>
+          </div>
+
+          <div className="improvement">
+            <GraphicalIcon icon="journey" category="graphics" />
+            <div className="info">
+              <h3>Dig Deeper</h3>
+              <p>
+                We&apos;re pulling the thousands of community walkthroughs into
+                one place along with commentry and guidance on exercises. Look
+                out for the new Dig Deeper tab on exercises!
+              </p>
+            </div>
+          </div>
+
+          <div className="improvement">
+            <GraphicalIcon icon="reputation" category="graphics" />
+            <div className="info">
+              <h3>Community Stories</h3>
+              <p>
+                Sit back, get inspired and enjoy inspiring tales from
+                Exercism&apos;s community in our new Community Stories section.
               </p>
             </div>
           </div>
           <div className="improvement">
             <GraphicalIcon icon="editor" category="graphics" />
             <div className="info">
-              <h3>Introducing the Exercism editor</h3>
+              <h3>SWAG</h3>
               <p>
-                Jump in and try new languages straight away in your browser
-                without installing anything locally. And the CLI is still there
-                if you like the original way!
-              </p>
-            </div>
-          </div>
-          <div className="improvement">
-            <GraphicalIcon icon="reputation" category="graphics" />
-            <div className="info">
-              <h3>Reputation &amp; badges</h3>
-              <p>
-                The more you contribute to exercism the faster you get mentored.
-                Unlock badges for achievements. Show them off on your profile.
-              </p>
-            </div>
-          </div>
-          <div className="improvement">
-            <GraphicalIcon icon="journey" category="graphics" />
-            <div className="info">
-              <h3>Your Journey</h3>
-              <p>
-                Explore everything you’ve done on Exercism. From your learning,
-                mentoring and contributions.
-              </p>
-            </div>
-          </div>
-          <div className="improvement">
-            <GraphicalIcon icon="mentoring" category="graphics" />
-            <div className="info">
-              <h3>New mentoring</h3>
-              <p>
-                No more blocking. More automation. Ability to get friends to
-                mentor you.
-              </p>
-            </div>
-          </div>
-          <div className="improvement">
-            <GraphicalIcon icon="ux" category="graphics" />
-            <div className="info">
-              <h3>New look and feel</h3>
-              <p>
-                We’ve taken Exercism to the next level with a whole new user
-                experience, improving every aspect of the website.
+                People have been asking us for SWAG forever. Well now its here!
+                T-shirts, hoodies, bags, jigsaws, even phone cases - show your
+                love for Exercism with some high-quality merch.
               </p>
             </div>
           </div>
@@ -141,7 +125,7 @@ export const FirstTimeModal = ({
           type="button"
           onClick={handleClick}
         >
-          I’m ready to explore the new Exercism!
+          Sounds good! Let&apos;s go.
         </FormButton>
         <ErrorBoundary resetKeys={[status]}>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
@@ -162,22 +146,30 @@ export const FirstTimeModal = ({
         </div>
         <script src="https://player.vimeo.com/api/player.js"></script>
         <div className="thank-you">
-          <h3>
-            The biggest thank you to everyone who helped make v3 a reality 💙
-          </h3>
-          <p>
-            Exercism&apos;s continued evolution would not be possible if not for
-            these wonderful people.
+          <h3>This wouldn&apos;t be possible without your kind donations 💙</h3>
+          <p className="mb-8">
+            Thanks to your kind donations, we&apos;ve been able to hire
+            Jonathan, our new Community Manager, who can now dedicate the time
+            and resource we need to properly nuture our community.
           </p>
-          <ul className="contributors">
-            {contributors.map((c) => {
-              return (
-                <li key={c.handle}>
-                  <Avatar handle={c.handle} src={c.avatarUrl} />
-                </li>
-              )
-            })}
-          </ul>
+          <p className="mb-12">
+            If you see Jonathan around, say hello! He&apos;d love to chat, hear
+            your story, and learn how we can make Exercism even better for you
+            👇
+          </p>
+          <div className="flex flex-row items-center bg-white rounded-100 p-12">
+            <img
+              src={jonathanImageUrl}
+              alt="Photo of Jonathan"
+              className="w-[48px] h-[48px] mr-16 rounded-circle"
+            />
+            <div className="flex flex-col">
+              <div className="text-h6 mb-4">Jonathan Middleton</div>
+              <div className="text-textColor6 font-medium">
+                Community Manager
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Modal>

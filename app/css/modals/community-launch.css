@@ -1,6 +1,6 @@
 @import "../styles";
 
-.m-welcome-to-v3.c-modal.--cover {
+.m-community-launch.c-modal.--cover {
     background: var(--modalBackgroundColor);
 
     & .--modal-container {
@@ -49,7 +49,7 @@
             @apply text-16 leading-huge;
         }
         & .improvements {
-            @apply mt-24 mb-40;
+            @apply mt-24 mb-32;
 
             & .improvement {
                 @apply flex items-start;
@@ -102,16 +102,6 @@
             }
             & p {
                 @apply text-16 leading-paragraph;
-                @apply mb-24;
-            }
-
-            & .contributors {
-                @apply grid gap-16 grid-cols-6;
-
-                & .c-avatar {
-                    width: 48px;
-                    height: 48px;
-                }
             }
         }
     }

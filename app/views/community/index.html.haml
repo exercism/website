@@ -1,4 +1,4 @@
-#page-community-index
+#page-community
   %header
   .lg-container.mt-40.relative
     .flex.gap-128.mb-28
@@ -10,29 +10,37 @@
             Accelerate your learning with Exercism&apos;s community.
           Ask questions, explore ideas, and get to know millions of other developers upskilling on Exercism.
 
-        .flex
-          = link_to 'https://forum.exercism.org/', class: "btn-primary btn-l mb-20" do
-            Explore our forum
+        = link_to 'https://forum.exercism.org/', class: "btn-primary btn-l mb-20 flex" do
+          Explore our forum
 
-        .text-warning.font-semibold.leading-150.flex.items-center.mb-16.py-6.px-12
+        .text-warning.font-semibold.leading-150.flex.items-center.mb-8.py-6.px-12
           = graphical_icon 'sparkle', css_class: 'filter-warning w-[16px] h-[16px] mr-8'
-          Featured topics
+          Recent topics
 
-        - 2.times do
-          .flex.items-center.bg-white.px-20.py-12.shadow-smZ1.rounded-8.mb-8
-            = graphical_icon "avatar-placeholder", css_class: 'w-[32px] h-[32px] mr-8'
-            .flex.flex-col.mr-auto
-              %h5.text-h5 What&apos;s in Ruby 3.6?
-              .text-textColor6.leading-150
-                Last replied ErikSchierboom
-            .message-count
-              = graphical_icon "message-bubble-square"
-              56
+        = link_to "https://forum.exercism.org/t/what-are-your-favorite-books-on-programming/187", class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
+          = image_tag "team/jeremy-walker.jpg", alt: "A photo of Jeremy Walker", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
+          .flex.flex-col.mr-auto
+            %h5.text-h5 What are your favorite books on programming?
+            .text-textColor6.leading-150
+              Last replied Jeremy Walker
+          .message-count
+            = graphical_icon "message-bubble-square"
+            3
+
+        = link_to "https://forum.exercism.org/t/version-3-1-0-of-the-cli-has-been-released/188", class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
+          = image_tag "team/erik.jpg", alt: "A photo of Erik Schierboom", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
+          .flex.flex-col.mr-auto
+            %h5.text-h5 Version 3.1.0 of the CLI has been released
+            .text-textColor6.leading-150
+              Posted by ErikSchierboom
+          .message-count
+            = graphical_icon "message-bubble-square"
+            1
       .grid
         = link_to 'https://forum.exercism.org/' do
           = image_tag "screenshots/forum.png", alt: "", role: :presentation, class: 'w-[620px] shadow-baseZ1 rounded-8'
 
-    .flex.gap-96.mb-96
+    .flex.gap-96.mb-48
       .grid.py-32
         = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px] mb-16"
         %h2.text-h2.mb-8 Hear our Community Stories

@@ -25,7 +25,7 @@ class CommunityVideo
       raise InvalidCommunityVideoUrlError
     end
 
-    def embed_url = "https://www.youtube.com/embed/#{youtube_id}"
+    def embed_url = "https://www.youtube-nocookie.com/embed/#{youtube_id}"
 
     memoize
     def snippet

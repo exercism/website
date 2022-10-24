@@ -64,7 +64,6 @@ type Props = {
   isFetching: boolean
   value: VideoTrack
   setValue: (value: VideoTrack) => void
-  cacheKey: string
   sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
   countText: string
   // TODO remove this

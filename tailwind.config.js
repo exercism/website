@@ -51,6 +51,7 @@ module.exports = {
       none: 'none',
       buttonS: '0px 4px 8px rgba(79, 114, 205, 0.4)',
       xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
+      xsZ1_dark: '0px 2px 4px #0F0923',
       dark_xsZ1: '0px 2px 4px #0F0923',
       xsZ1v2: '0px 2px 4px 0px rgba(79, 114, 205, 0.15)',
       xsZ1v3: '0px 2px 4px 0px rgba(79, 114, 205, 0.4)',
@@ -200,6 +201,8 @@ module.exports = {
       // I think this should be called danger, as it is a variant of alert
       alert: '#D85050',
       danger: '#D85050',
+      danger_dark: '#F17070',
+      bgDanger_dark: '#2F2121',
       alertBtnBorder: '#873333',
 
       anotherGold: '#FAE54D',

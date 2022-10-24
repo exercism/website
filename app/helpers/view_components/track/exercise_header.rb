@@ -66,7 +66,8 @@ module ViewComponents
           Exercism::Routes.track_exercise_approaches_path(track, exercise),
           :approaches,
           approaches_tab_locked?,
-          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_approaches_path(track, exercise))
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_approaches_path(track, exercise),
+            render_react_components: true)
         )
       end
 
@@ -80,7 +81,8 @@ module ViewComponents
           Exercism::Routes.track_exercise_solutions_path(track, exercise),
           :community_solutions,
           solutions_tab_locked?,
-          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_solutions_path(track, exercise))
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_solutions_path(track, exercise),
+            render_react_components: true)
         )
       end
 
@@ -104,7 +106,7 @@ module ViewComponents
       end
 
       def show_iterations_tab? = !user_track.external?
-      def show_approaches_tab? = !exercise.tutorial? && !!user&.can_view_approaches?
+      def show_approaches_tab? = !exercise.tutorial? && exercise.has_approaches?
       def show_community_solutions_tab? = !exercise.tutorial?
       def show_mentoring_tab? = !user_track.external? && !exercise.tutorial?
 
@@ -115,12 +117,13 @@ module ViewComponents
           link_to(html, href, class: css_class)
       end
 
-      def locked_tab_tooltip_attrs(endpoint)
+      def locked_tab_tooltip_attrs(endpoint, render_react_components: false)
         {
           'data-tooltip-type': 'automation-locked',
           'data-endpoint': endpoint,
           'data-placement': 'bottom',
-          'data-interactive': true
+          'data-interactive': true,
+          'data-render-react-components': render_react_components
         }
       end
 
@@ -138,14 +141,8 @@ module ViewComponents
       memoize
       def user = user_track.user
 
-      # TODO: re-enable once unlocked_help is populated
-      # def approaches_tab_locked? = !user_track.external? && !solution&.unlocked_help?
-      def approaches_tab_locked? = !user_track.external? && !solution&.iterated?
-
-      # TODO: re-enable once unlocked_help is populated
-      # def solutions_tab_locked? = !user_track.external? && !solution&.unlocked_help?
-      def solutions_tab_locked? = !user_track.external? && !solution&.iterated?
-
+      def approaches_tab_locked? = !user_track.external? && !solution&.unlocked_help? && !solution&.iterated?
+      def solutions_tab_locked? = !user_track.external? && !solution&.unlocked_help? && !solution&.iterated?
       def mentoring_tab_locked? = !user_track.external? && !solution&.iterated?
     end
   end

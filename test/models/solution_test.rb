@@ -97,6 +97,14 @@ class SolutionTest < ActiveSupport::TestCase
     assert solution.reload.iterated?
   end
 
+  test "submitted?" do
+    solution = create :concept_solution
+    refute solution.submitted?
+
+    create :submission, solution: solution
+    assert solution.submitted?
+  end
+
   test "#completed?" do
     refute create(:concept_solution, completed_at: nil).completed?
     assert create(:concept_solution, completed_at: Time.current).completed?

@@ -34,7 +34,7 @@ class CommunityVideo::Search
   end
 
   def sort!
-    @videos = @videos.order(id: :desc)
+    @videos = @videos.order(title: :asc)
   end
 
   def paginate!

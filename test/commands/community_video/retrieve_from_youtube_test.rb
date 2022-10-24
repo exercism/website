@@ -16,7 +16,7 @@ class CommunityVideo::RetrieveFromYoutubeTest < ActiveSupport::TestCase
     assert_equal "hFZFjoX2cGg", video.embed_id
     assert_equal "Mark Rober", video.channel_name
     assert_equal "https://www.youtube.com/channel/UCY1kMZp36IQSyNx_9h4mpCg", video.channel_url
-    assert_equal "https://www.youtube.com/embed/hFZFjoX2cGg", video.embed_url
+    assert_equal "https://www.youtube-nocookie.com/embed/hFZFjoX2cGg", video.embed_url
     assert_equal "https://i.ytimg.com/vi/hFZFjoX2cGg/sddefault.jpg", video.thumbnail_url
   end
 

@@ -2,7 +2,12 @@ import React, { useCallback, useRef, useState } from 'react'
 import { QueryStatus } from 'react-query'
 import { Request } from '@/hooks'
 import { ResultsZone } from '@/components/ResultsZone'
-import { Avatar, GraphicalIcon, Pagination } from '@/components/common'
+import {
+  Avatar,
+  FilterFallback,
+  GraphicalIcon,
+  Pagination,
+} from '@/components/common'
 import { VideoTrack } from '@/components/types'
 import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
@@ -65,11 +70,15 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
 
       <ResultsZone isFetching={isFetching}>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
-          {resolvedData &&
-            resolvedData.results &&
+          {resolvedData && resolvedData.results.length > 0 ? (
             resolvedData.results.map((video: VideoData) => (
               <Video key={video.embedUrl} video={video} />
-            ))}
+            ))
+          ) : resolvedData?.meta.unscopedTotal === 0 ? (
+            <NoResultsYet />
+          ) : (
+            <NoResultsOfQuery />
+          )}
         </div>
         {resolvedData && (
           <Pagination
@@ -175,5 +184,30 @@ function Video({ video }: VideoProps): JSX.Element {
         }}
       />
     </>
+  )
+}
+
+function NoResultsOfQuery() {
+  return (
+    <div className="col-span-4">
+      <FilterFallback
+        icon="no-result-magnifier"
+        title="No videos found."
+        description="Try changing your filters to find the video you are looking for."
+      />
+    </div>
+  )
+}
+
+function NoResultsYet() {
+  return (
+    <div className="col-span-4">
+      <FilterFallback
+        icon="automation"
+        svgFilter="filter-textColor6"
+        title="There are currently no videos."
+        description="Check back here later for more!"
+      />
+    </div>
   )
 }

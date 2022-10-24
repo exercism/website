@@ -132,7 +132,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :community, only: %i[index]
+  resource :community, only: %i[show], controller: "community"
 
   namespace :community do
     resources :stories, only: %i[index show]

@@ -16,11 +16,11 @@ module ViewComponents
 
     private
     def announcement_bar
-      link_to(Exercism::Routes.hiring_about_path, class: "announcement-bar") do
+      link_to(Exercism::Routes.community_path, class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          tag.span("We’re hiring!") +
-            tag.strong("Come and join the Exercism team") +
-            tag.span("😁")
+          tag.span("Forums, Swag, Stories, Videos...") +
+            tag.strong("Check out the new Community tab!") +
+            tag.span("👪")
         end
       end
     end
@@ -57,16 +57,22 @@ module ViewComponents
             si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
             si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
             si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing) +
-            si_nav_li("Community", :community, Exercism::Routes.community_index_path, selected_tab == :community) +
             si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected_tab == :donate)
         end
       end
     end
 
-    def si_nav_li(title, icon_name, url, selected)
+    def si_nav_li(title, icon_name, url, selected, new: false)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
       tag.li attrs do
-        link_to(graphical_icon(icon_name) + tag.span(title), url, "data-turbo-frame": "tf-main")
+        elems = [graphical_icon(icon_name), tag.span(title)]
+        if new
+          elems << (tag.div(class: 'ml-8 text-warning bg-[#FFF3E1] px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
+            graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !mr-4 !block') +
+            tag.span("New")
+          end)
+        end
+        link_to(safe_join(elems), url, "data-turbo-frame": "tf-main", class: 'relative')
       end
     end
 

@@ -100,10 +100,10 @@ initReact({
     <MarkdownEditor contextId={data.context_id} />
   ),
 
-  'modals-first-time-modal': (data: any) => (
-    <Modals.FirstTimeModal
+  'modals-community-launch-modal': (data: any) => (
+    <Modals.CommunityLaunchModal
       endpoint={data.endpoint}
-      contributors={camelizeKeysAs<readonly User[]>(data.contributors)}
+      jonathanImageUrl={data.jonathan_image_url}
     />
   ),
 

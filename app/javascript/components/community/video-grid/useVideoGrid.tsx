@@ -5,10 +5,15 @@ import {
   useRef,
   useState,
 } from 'react'
-import { usePaginatedRequestQuery, Request, useList, ListState } from '@/hooks'
+import {
+  usePaginatedRequestQuery,
+  Request,
+  useList,
+  ListState,
+  removeEmpty,
+} from '@/hooks'
 import { VideoTrack } from '../../types'
 import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
-import { pushState, removeEmpty } from '@/hooks/use-history'
 
 export type VideoData = {
   title: string
@@ -74,10 +79,10 @@ export function useVideoGrid(
     )
 
   useLayoutEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const trackSlug = params.get('video_track_slug')
-    const page = params.get('video_page')
-    const criteria = params.get('video_criteria')
+    const searchParams = new URLSearchParams(window.location.search)
+    const trackSlug = searchParams.get('video_track_slug')
+    const page = searchParams.get('video_page')
+    const criteria = searchParams.get('video_criteria')
     setQuery({
       trackSlug,
       page,
@@ -110,7 +115,13 @@ export function useVideoGrid(
     const handler = setTimeout(() => {
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
-        pushState(removeEmpty({ videoCriteria: criteria }))
+        const url = new URL(window.location.toString())
+        if (criteria && criteria.length > 0) {
+          url.searchParams.set('video_criteria', criteria)
+        } else {
+          url.searchParams.delete('video_criteria')
+        }
+        window.history.pushState({}, '', url)
       }
     }, 500)
 
@@ -125,7 +136,15 @@ export function useVideoGrid(
       setCriteria('')
       setSelectedTrack(track)
 
-      pushState(removeEmpty({ videoTrackSlug: track.slug }))
+      const url = new URL(window.location.toString())
+
+      if (track.slug && track.slug.length > 0) {
+        url.searchParams.set('video_track_slug', track.slug)
+      } else {
+        url.searchParams.delete('video_track_slug')
+      }
+      window.history.pushState({}, '', url)
+
       setQuery({
         ...request.query,
         trackSlug: track.slug,
@@ -134,6 +153,10 @@ export function useVideoGrid(
     },
     [setPage, setQuery, request.query]
   )
+
+  useEffect(() => {
+    removeEmpty(request.query)
+  }, [request.query])
 
   return {
     handleTrackChange,

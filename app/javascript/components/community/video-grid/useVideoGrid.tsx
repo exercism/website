@@ -5,13 +5,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import {
-  usePaginatedRequestQuery,
-  Request,
-  useList,
-  ListState,
-  removeEmpty,
-} from '@/hooks'
+import { usePaginatedRequestQuery, Request, useList, ListState } from '@/hooks'
 import { VideoTrack } from '../../types'
 import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
 
@@ -51,11 +45,15 @@ export type UseVideoGridReturnType = {
 
 export function useVideoGrid(
   videoRequest: Request,
-  tracks: VideoTrack[],
-  selectedTrackSlug: string | null
+  tracks: VideoTrack[]
 ): UseVideoGridReturnType {
   const initialTrack =
-    tracks.find((track) => track.slug == selectedTrackSlug) || tracks[0]
+    tracks.find(
+      (t) =>
+        t.slug ===
+        new URLSearchParams(window.location.search).get('video_track_slug')
+    ) || tracks[0]
+
   const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
   const [selectedTrack, setSelectedTrack] = useState<VideoTrack>(initialTrack)
 
@@ -115,13 +113,7 @@ export function useVideoGrid(
     const handler = setTimeout(() => {
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
-        const url = new URL(window.location.toString())
-        if (criteria && criteria.length > 0) {
-          url.searchParams.set('video_criteria', criteria)
-        } else {
-          url.searchParams.delete('video_criteria')
-        }
-        window.history.pushState({}, '', url)
+        pushQueryParams('video_criteria', criteria)
       }
     }, 500)
 
@@ -136,14 +128,7 @@ export function useVideoGrid(
       setCriteria('')
       setSelectedTrack(track)
 
-      const url = new URL(window.location.toString())
-
-      if (track.slug && track.slug.length > 0) {
-        url.searchParams.set('video_track_slug', track.slug)
-      } else {
-        url.searchParams.delete('video_track_slug')
-      }
-      window.history.pushState({}, '', url)
+      pushQueryParams('video_track_slug', track.slug)
 
       setQuery({
         ...request.query,
@@ -153,10 +138,6 @@ export function useVideoGrid(
     },
     [setPage, setQuery, request.query]
   )
-
-  useEffect(() => {
-    removeEmpty(request.query)
-  }, [request.query])
 
   return {
     handleTrackChange,
@@ -172,4 +153,15 @@ export function useVideoGrid(
     setCriteria,
     request,
   }
+}
+
+function pushQueryParams(key: string, value: string): void {
+  const url = new URL(window.location.toString())
+
+  if (value && value.length > 0) {
+    url.searchParams.set(key, value)
+  } else {
+    url.searchParams.delete(key)
+  }
+  window.history.pushState({}, '', url)
 }

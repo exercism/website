@@ -26,7 +26,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     selectedTrack,
     criteria,
     setCriteria,
-  } = useVideoGrid(data.request, data.tracks, data.selectedTrackSlug)
+  } = useVideoGrid(data.request, data.tracks)
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">

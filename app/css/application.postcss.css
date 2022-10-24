@@ -148,7 +148,7 @@
 @import "./modals/mentoring-sessions";
 @import "./modals/confirm-finish-student-mentor-discussion";
 @import "./modals/finish-student-mentor-discussion";
-@import "./modals/welcome-to-v3";
+@import "./modals/community-launch";
 @import "./modals/become-mentor";
 @import "./modals/change-mentor-tracks";
 @import "./modals/select-exercise-for-mentoring";
@@ -221,6 +221,8 @@
 @import "./pages/journey/reputation";
 @import "./pages/journey/badges";
 @import "./pages/impact";
+@import "./pages/community";
+@import "./pages/community-story";
 
 @import "./highlighters/highlightjs-light";
 @import "./highlighters/highlightjs-dark";

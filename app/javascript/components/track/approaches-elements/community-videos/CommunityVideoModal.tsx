@@ -35,7 +35,9 @@ export function CommunityVideoModal({
         ></iframe>
       </div>
 
-      <VideoCredits links={video.links} author={video.author} />
+      {video.author && (
+        <VideoCredits links={video.links} author={video.author} />
+      )}
       <div className="text-center text-textColor6 leading-160 text-16">
         Posted by{' '}
         {video.submittedBy.links.profile ? (

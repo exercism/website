@@ -132,6 +132,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :community, only: %i[show], controller: "community"
+
+  namespace :community do
+    resources :stories, only: %i[index show]
+  end
+
   resources :tracks, only: %i[index show] do
     get :about, on: :member
 

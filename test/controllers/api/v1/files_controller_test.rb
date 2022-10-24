@@ -201,7 +201,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
       If you'd like help solving the exercise, check the following pages:
 
       - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
-      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - [Exercism's programming category on the forum](https://forum.exercism.org/c/programming/5)
       - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.

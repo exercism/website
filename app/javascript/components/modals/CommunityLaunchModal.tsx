@@ -73,7 +73,7 @@ export const CommunityLaunchModal = ({
 
         <div className="improvements">
           <div className="improvement">
-            <GraphicalIcon icon="exercise" category="graphics" />
+            <GraphicalIcon icon="forum" category="graphics" />
             <div className="info">
               <h3>Exercism&apos;s Forum</h3>
               <p>
@@ -85,7 +85,7 @@ export const CommunityLaunchModal = ({
           </div>
 
           <div className="improvement">
-            <GraphicalIcon icon="journey" category="graphics" />
+            <GraphicalIcon icon="dig-deeper" category="graphics" />
             <div className="info">
               <h3>Dig Deeper</h3>
               <p>
@@ -97,7 +97,7 @@ export const CommunityLaunchModal = ({
           </div>
 
           <div className="improvement">
-            <GraphicalIcon icon="reputation" category="graphics" />
+            <GraphicalIcon icon="community-stories" category="graphics" />
             <div className="info">
               <h3>Community Stories</h3>
               <p>
@@ -107,11 +107,11 @@ export const CommunityLaunchModal = ({
             </div>
           </div>
           <div className="improvement">
-            <GraphicalIcon icon="editor" category="graphics" />
+            <GraphicalIcon icon="swag" category="graphics" />
             <div className="info">
-              <h3>SWAG</h3>
+              <h3>Swag</h3>
               <p>
-                People have been asking us for SWAG forever. Well now its here!
+                People have been asking us for swag forever. Well now its here!
                 T-shirts, hoodies, bags, jigsaws, even phone cases - show your
                 love for Exercism with some high-quality merch.
               </p>

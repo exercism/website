@@ -39,6 +39,7 @@ import StudentExerciseList from '../components/student/ExerciseList'
 import * as Common from '../components/common'
 
 import * as Student from '../components/student'
+import * as Community from '../components/community'
 
 import * as TrackComponents from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
@@ -168,6 +169,14 @@ initReact({
       <CLIWalkthroughButton html={data.html} />
     </Suspense>
   ),
+
+  'community-video-grid': (data: any) => (
+    <Community.VideoGrid data={camelizeKeys(data)} />
+  ),
+  'community-stories-grid': (data: any) => (
+    <Community.StoriesGrid data={camelizeKeys(data)} />
+  ),
+
   'track-exercise-community-solutions-list': (data: any) => (
     <TrackComponents.ExerciseCommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}

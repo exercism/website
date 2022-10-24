@@ -19,4 +19,14 @@
     .filter-orange {
         filter: var(--orange-filter);
     }
+
+    .filter-lightBlue {
+        filter: invert(25%) sepia(55%) saturate(3687%) hue-rotate(223deg)
+            brightness(94%) contrast(93%);
+    }
+
+    .filter-warning {
+        filter: invert(66%) sepia(97%) saturate(2953%) hue-rotate(4deg)
+            brightness(92%) contrast(103%);
+    }
 }

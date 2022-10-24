@@ -1,0 +1,117 @@
+#page-community
+  %header
+  .lg-container.mt-40.relative
+    .flex.gap-128.mb-28
+      .grid
+        = graphical_icon "community", css_class: "h-[48px] w-[48px] mb-8"
+        %h1.text-h1.mb-8 Join our community!
+        %p.text-p-xlarge.leading-150.mb-20
+          %strong
+            Accelerate your learning with Exercism&apos;s community.
+          Ask questions, explore ideas, and get to know millions of other developers upskilling on Exercism.
+
+        = link_to 'https://forum.exercism.org/', class: "btn-primary btn-l mb-20 flex" do
+          Explore our forum
+
+        .text-warning.font-semibold.leading-150.flex.items-center.mb-8.py-6.px-12
+          = graphical_icon 'sparkle', css_class: 'filter-warning w-[16px] h-[16px] mr-8'
+          Recent topics
+
+        = link_to "https://forum.exercism.org/t/what-are-your-favorite-books-on-programming/187", class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
+          = image_tag "team/jeremy-walker.jpg", alt: "A photo of Jeremy Walker", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
+          .flex.flex-col.mr-auto
+            %h5.text-h5 What are your favorite books on programming?
+            .text-textColor6.leading-150
+              Last replied Jeremy Walker
+          .message-count
+            = graphical_icon "message-bubble-square"
+            3
+
+        = link_to "https://forum.exercism.org/t/version-3-1-0-of-the-cli-has-been-released/188", class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
+          = image_tag "team/erik.jpg", alt: "A photo of Erik Schierboom", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
+          .flex.flex-col.mr-auto
+            %h5.text-h5 Version 3.1.0 of the CLI has been released
+            .text-textColor6.leading-150
+              Posted by ErikSchierboom
+          .message-count
+            = graphical_icon "message-bubble-square"
+            1
+      .grid
+        = link_to 'https://forum.exercism.org/' do
+          = image_tag "screenshots/forum.png", alt: "", role: :presentation, class: 'w-[620px] shadow-baseZ1 rounded-8'
+
+    .flex.gap-96.mb-48
+      .grid.py-32
+        = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px] mb-16"
+        %h2.text-h2.mb-8 Hear our Community Stories
+        %p.mb-24.text-p-large.text-textColor5 Listen to the stories of those who have build, contributed to, and learnt from Exercism.
+
+        .grid.grid-cols-3.gap-16.mb-32
+          - @community_stories.each do |community_story|
+            = link_to community_story_path(community_story), class: 'flex flex-col grid shadow-sm p-16 bg-white rounded-8' do
+              .bg-borderLight.rounded-8.mb-12{ class: "w-[100%] pb-[56.25%]" }
+              %h5.text-h5.mb-8= community_story.title
+              .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
+                = graphical_icon "avatar-placeholder", css_class: "h-[24px] w-[24px] mr-8"
+                - interviewee = community_story.interviewee
+                - if interviewee.profile
+                  = link_to avatar(interviewee), profile_path(interviewee)
+                - else
+                  = avatar(interviewee)
+                  = interviewee.name
+
+        -# Temporarily disable this link until we have a separate page
+          = link_to "", class: 'explore-link' do
+            Explore more Community Stories
+
+      .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8{ class: "shrink-[3]", style: 'height: fit-content' }
+        .flex.flex-wrap.pb-16.mb-24{ class: 'w-[360px]' }
+          - @supporter_avatar_urls.each do |supporter_avatar_url|
+            = image_tag supporter_avatar_url, class: 'h-[48px] w-[48px] mb-[-16px] mr-[-12px] rounded-circle'
+        %h2.text-h2.mb-8 Help us change lives
+        %p.mb-24.text-p-large.text-textColor5
+          We&apos;re community powered and community funded. We rely on donations from people like you to enable us to exist and thrive.
+          %strong.text-textColor1 Only 1% of people choose to support us. Please be one of them.
+
+        .flex
+          = link_to donate_path, class: "btn-default btn-m border-textColor1" do
+            See how you can help
+            = graphical_icon "arrow-right", css_class: 'filter-textColor1'
+
+  .bg-repeat-round.flex.mb-64{ class: "h-[576px] bg-[url(photos/mug.png)]" }
+    .m-auto.rounded-16.bg-backgroundColorH.pt-32.px-24.pb-48.grid.place-items-center.grow{ class: 'max-w-[640px]' }
+      .bg-gotToLoveAPurple.flex.text-white.py-6.px-16.items-center.rounded-100.shadow-dark_xsZ1.font-semibold.mb-32.leading-150
+        = graphical_icon "moon", css_class: "filter-white h-[16px] w-[16px] mr-16"
+        Dark Mode styles available!
+      = graphical_icon "exercism-face", css_class: 'filter-white h-[64px] w-[64px] mb-12'
+      %h2.text-h2.text-white.text-unnamed15.mb-8 Explore our swag
+      .leading-150.text-20.text-borderLight.mb-24
+        Stop looking shit. Buy our shit.
+      = link_to "https://swag.exercism.org", class: 'btn-primary btn-l' do
+        Get swagged up
+
+  .lg-container
+    = render ReactComponents::Community::VideoGrid.new(params)
+
+    .flex.items-center.mb-32.justify-between
+      %h2.text-h2.flex.items-center
+        = graphical_icon "contributors-gradient", css_class: 'mr-24'
+        Contributors
+
+    -# .flex.gap-16.mb-24
+      .border-1.border-borderLight.flex.items-center.py-12.px-24.rounded-8.text-24.grow.shadow-xsZ1v2
+        🚀
+        = graphical_icon "avatar-placeholder", css_class: "w-[48px] h-[48px] ml-24 mr-20"
+        .grid.gap-2
+          .text-textColor6.text-16.font-medium.leading-140 Featured contributor
+          %h5.text-h5 angelikatyborska
+      .border-1.border-borderLight.flex.items-center.py-12.px-24.rounded-8.text-24.grow.shadow-xsZ1v2
+        .new New
+        = graphical_icon "avatar-placeholder", css_class: "w-[48px] h-[48px] ml-24 mr-20"
+        .grid.gap-2
+          .text-textColor6.text-16.font-medium.leading-140 New contributor
+          %h5.text-h5 jonathandmiddleton
+
+    .contributors-list
+      .container
+        = render ReactComponents::Contributing::ContributorsList.new(params)

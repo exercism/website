@@ -67,8 +67,8 @@ module ViewComponents
       tag.li attrs do
         elems = [graphical_icon(icon_name), tag.span(title)]
         if new
-          elems << (tag.div(class: 'absolute text-white bg-warning px-6 py-2 rounded-32 font-bold text-[10px] uppercase leading-150 flex items-center right-[-10px] top-[-7px] rotate-[15deg]') do # rubocop:disable Layout/LineLength
-            graphical_icon('sparkle', css_class: '!filter-white !w-[12px] !h-[12px] !mr-4 !block') +
+          elems << (tag.div(class: 'ml-8 text-warning bg-[#FFF3E1] px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
+            graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !mr-4 !block') +
             tag.span("New")
           end)
         end

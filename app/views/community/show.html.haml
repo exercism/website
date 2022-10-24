@@ -55,7 +55,7 @@
               %h5.text-h5.mb-8= community_story.title
               .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
                 - interviewee = community_story.interviewee
-                = avatar(interviewee)
+                = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8"
                 = interviewee.name
 
         -# Temporarily disable this link until we have a separate page

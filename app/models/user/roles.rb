@@ -6,5 +6,4 @@ module User::Roles
   def supermentor? = roles.include?(:supermentor) || admin? || staff?
   def mentor? = became_mentor_at.present? || admin? || staff?
   def roles = super.to_a.map(&:to_sym).to_set
-  def can_view_approaches? = admin? || staff? || maintainer? || supermentor?
 end

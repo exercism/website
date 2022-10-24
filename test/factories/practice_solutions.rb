@@ -13,6 +13,11 @@ FactoryBot.define do
       published_at { Time.current }
     end
 
+    trait :downloaded do
+      status { :started }
+      downloaded_at { Time.current }
+    end
+
     transient do
       track do
         Track.find_by(slug: 'ruby') || create(:track, slug: 'ruby')

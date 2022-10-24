@@ -58,7 +58,6 @@ import {
   Metric,
 } from '../components/types'
 
-import * as Blog from '../components/blog'
 import * as Tooltips from '../components/tooltips'
 import { Dropdown } from '../components/dropdowns/Dropdown'
 import * as Profile from '../components/profile'
@@ -89,9 +88,9 @@ declare global {
 import { QueryCache } from 'react-query'
 window.queryCache = new QueryCache()
 
-// // Add all react components here.
-// // Each should map 1-1 to a component in app/helpers/components
-initReact({
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+export const mappings = {
   'share-link': (data: any) => (
     <Common.ShareLink
       title={data.title}
@@ -187,6 +186,10 @@ initReact({
     <TrackComponents.Approaches data={camelizeKeysAs<ApproachesProps>(data)} />
   ),
   'track-approach': (data: any) => <TrackComponents.Approach />,
+
+  'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
+    <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />
+  ),
 
   'track-exercise-makers-button': (data: any) => (
     <TrackComponents.ExerciseMakersButton
@@ -444,7 +447,11 @@ initReact({
       />
     </Suspense>
   ),
-})
+}
+
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+initReact(mappings)
 
 document.addEventListener(
   'turbo:load',

@@ -50,8 +50,8 @@
 
         .grid.grid-cols-3.gap-16.mb-32
           - @community_stories.each do |community_story|
-            = link_to community_story_path(community_story), class: 'flex flex-col grid shadow-sm p-16 bg-white rounded-8' do
-              .bg-borderLight.rounded-8.mb-12{ class: "w-[100%] pb-[56.25%]" }
+            = link_to community_story_path(community_story), class: 'flex flex-col shadow-sm p-16 bg-white rounded-8' do
+              = image_tag community_story.thumbnail_url, class: "bg-borderLight rounded-8 mb-12 w-[100%]", width: 243, height: 136
               %h5.text-h5.mb-8= community_story.title
               .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
                 - interviewee = community_story.interviewee
@@ -76,11 +76,7 @@
             See how you can help
             = graphical_icon "arrow-right", css_class: 'filter-textColor1'
 
-  -# .bg-repeat-round.flex.mb-64{ class: "h-[600px] bg-[url(photos/mug.png)]" }
   .flex.mb-64{ class: "h-[600px] bg-[url(photos/swag-andre.jpg)] bg-cover bg-center" }
-    -# .columns-6
-    -#   - 12.times do |idx|
-    -#     = image_tag "photos/swag-#{idx + 1}.jpg", width: 300, height: 300;
     .m-auto.rounded-16.border-solid.border-t-6.border-b-6.border-backgroundColorH.pt-32.px-24.pb-48.grid.place-items-center.grow{ class: 'max-w-[640px] bg-[#130b43dd]' }
       .bg-gotToLoveAPurple.flex.text-white.py-6.px-16.items-center.rounded-100.shadow-dark_xsZ1.font-semibold.mb-32.leading-150
         = graphical_icon "moon", css_class: "filter-white h-[16px] w-[16px] mr-16"

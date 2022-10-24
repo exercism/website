@@ -1,11 +1,24 @@
 import { useCallback, useEffect, useState } from 'react'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-import { useHistory, removeEmpty } from '../../../hooks/use-history'
-import { useList } from '../../../hooks/use-list'
-import { AutomationTrack, Representation } from '../../types'
+import {
+  usePaginatedRequestQuery,
+  Request,
+  useList,
+  useHistory,
+  removeEmpty,
+  ListState,
+} from '@/hooks'
+import { VideoTrack } from '../../types'
+import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
+
+export type VideoData = {
+  title: string
+  author: CommunityVideoAuthor
+  embedUrl: string
+  thumbnailUrl: string
+}
 
 export type APIResponse = {
-  results: Representation[]
+  results: VideoData[]
   meta: {
     currentPage: number
     totalCount: number
@@ -14,11 +27,28 @@ export type APIResponse = {
   }
 }
 
+export type HandleTrackChangeType = (track: VideoTrack) => void
+
+export type UseVideoGridReturnType = {
+  handleTrackChange: HandleTrackChangeType
+  selectedTrack: VideoTrack
+  resolvedData: APIResponse | undefined
+  latestData: APIResponse | undefined
+  isFetching: boolean
+  order: string
+  setOrder: (order: string) => void
+  page: number
+  setPage: (page: number) => void
+  criteria: string
+  setCriteria: (criteria: string) => void
+  request: ListState
+}
+
 export function useVideoGrid(
   videoRequest: Request,
-  tracks: AutomationTrack[],
-  selectedTrackSlug: string
-): any {
+  tracks: VideoTrack[],
+  selectedTrackSlug: string | null
+): UseVideoGridReturnType {
   const initialTrack =
     tracks.find((track) => track.slug == selectedTrackSlug) || tracks[0]
   const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
@@ -32,7 +62,7 @@ export function useVideoGrid(
     setQuery,
   } = useList(videoRequest)
 
-  const { status, resolvedData, latestData, isFetching } =
+  const { resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
       ['community-video-grid-key', request],
       request
@@ -53,7 +83,7 @@ export function useVideoGrid(
   useHistory({ pushOn: removeEmpty(request.query) })
 
   const handleTrackChange = useCallback(
-    (track) => {
+    (track: VideoTrack) => {
       setPage(1)
       setCriteria('')
       setSelectedTrack(track)

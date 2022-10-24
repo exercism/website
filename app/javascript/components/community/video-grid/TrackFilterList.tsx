@@ -1,13 +1,12 @@
 import React, { useCallback, useRef } from 'react'
 import { QueryStatus } from 'react-query'
-import { AutomationTrack, VideosTrack } from '@/components/types'
-import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
+import { VideoTrack } from '@/components/types'
 import { TrackIcon, Icon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ResultsZone } from '../../ResultsZone'
 
-type TrackFilterProps = VideosTrack & {
+type TrackFilterProps = VideoTrack & {
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
   countText: string
@@ -16,11 +15,11 @@ type TrackFilterProps = VideosTrack & {
 const TrackFilter = ({
   title,
   iconUrl,
-  numVideos,
+  // numVideos,
   checked,
   onChange,
-  countText,
-}: TrackFilterProps): JSX.Element => {
+}: // countText,
+TrackFilterProps): JSX.Element => {
   return (
     <label className="c-radio-wrapper">
       <input
@@ -61,10 +60,10 @@ export const TrackFilterList = ({
 }
 
 type Props = {
-  tracks: AutomationTrack[] | undefined
+  tracks: VideoTrack[] | undefined
   isFetching: boolean
-  value: AutomationTrack
-  setValue: (value: AutomationTrack) => void
+  value: VideoTrack
+  setValue: (value: VideoTrack) => void
   cacheKey: string
   sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
   countText: string
@@ -79,7 +78,7 @@ const Component = ({
   value,
   setValue,
   // TODO remove this
-  numVideos = 100,
+  // numVideos = 100,
   countText,
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)

@@ -1,13 +1,18 @@
-import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
-import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
 import React, { useState } from 'react'
 import { QueryStatus } from 'react-query'
+import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
+import { VideoTrack } from '@/components/types'
+import { Request } from '@/hooks/request-query'
 import { Avatar, GraphicalIcon, Pagination } from '../../common'
 import { TrackFilterList } from './TrackFilterList'
-import { useVideoGrid } from './useVideoGrid'
+import { HandleTrackChangeType, useVideoGrid, VideoData } from './useVideoGrid'
 
 type VideoGridProps = {
-  data: any
+  data: {
+    tracks: VideoTrack[]
+    request: Request
+    selectedTrackSlug: string | null
+  }
 }
 
 export function VideoGrid({ data }: VideoGridProps): JSX.Element {
@@ -45,11 +50,13 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
             <Video key={video.embedUrl} video={video} />
           ))}
       </div>
-      <Pagination
-        current={page}
-        total={resolvedData.meta.totalPages}
-        setPage={setPage}
-      />
+      {resolvedData && (
+        <Pagination
+          current={page}
+          total={resolvedData.meta.totalPages}
+          setPage={setPage}
+        />
+      )}
     </div>
   )
 }
@@ -59,9 +66,9 @@ function VideoGridHeader({
   handleTrackChange,
   selectedTrack,
 }: {
-  tracks: any
-  handleTrackChange: any
-  selectedTrack: any
+  tracks: VideoTrack[]
+  handleTrackChange: HandleTrackChangeType
+  selectedTrack: VideoTrack
 }): JSX.Element {
   return (
     <div className="flex mb-24">
@@ -93,12 +100,6 @@ function VideoGridHeader({
   )
 }
 
-type VideoData = {
-  title: string
-  author: CommunityVideoAuthor
-  embedUrl: string
-  thumbnailUrl: string
-}
 type VideoProps = {
   video: VideoData
 }

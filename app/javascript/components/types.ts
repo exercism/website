@@ -277,8 +277,8 @@ export type Track = {
 export type AutomationTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
   numSubmissions: number
 }
-export type VideosTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
-  numVideos: number
+export type VideoTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
+  numVideos?: number
 }
 
 export type Iteration = {

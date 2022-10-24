@@ -1,15 +1,14 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useLayoutEffect, useState } from 'react'
 import {
   usePaginatedRequestQuery,
   Request,
   useList,
-  useHistory,
-  removeEmpty,
   ListState,
   useDidMountEffect,
 } from '@/hooks'
 import { VideoTrack } from '../../types'
 import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
+import { pushState } from '@/hooks/use-history'
 
 export type VideoData = {
   title: string
@@ -53,7 +52,7 @@ export function useVideoGrid(
   const initialTrack =
     tracks.find((track) => track.slug == selectedTrackSlug) || tracks[0]
   const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
-  const [selectedTrack, setSelectedTrack] = useState(initialTrack)
+  const [selectedTrack, setSelectedTrack] = useState<VideoTrack>(initialTrack)
 
   const {
     request,
@@ -74,10 +73,37 @@ export function useVideoGrid(
       request
     )
 
+  useLayoutEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const trackSlug = params.get('video_track_slug')
+    const page = params.get('video_page')
+    const criteria = params.get('video_criteria')
+    setQuery({
+      trackSlug,
+      page,
+      criteria,
+    })
+
+    if (trackSlug && trackSlug.length > 0) {
+      setSelectedTrack(
+        // in case a track would be missing
+        tracks.find((track) => track.slug == trackSlug) || tracks[0]
+      )
+    }
+    if (criteria && criteria.length > 0) {
+      setCriteria(criteria)
+    }
+
+    if (page && Number(page) > 1) {
+      setPage(Number(page))
+    }
+  }, [setPage, setQuery, tracks])
+
   useDidMountEffect(() => {
     const handler = setTimeout(() => {
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
+        pushState({ videoCriteria: criteria })
       }
     }, 500)
 
@@ -86,15 +112,18 @@ export function useVideoGrid(
     }
   }, [setRequestCriteria, criteria])
 
-  useHistory({ pushOn: removeEmpty(request.query) })
-
   const handleTrackChange = useCallback(
     (track: VideoTrack) => {
       setPage(1)
       setCriteria('')
       setSelectedTrack(track)
 
-      setQuery({ ...request.query, trackSlug: track.slug, page: 1 })
+      pushState({ videoTrackSlug: track.slug })
+      setQuery({
+        ...request.query,
+        trackSlug: track.slug,
+        page: 1,
+      })
     },
     [setPage, setQuery, request.query]
   )

@@ -6,7 +6,7 @@ export function removeEmpty<TParams extends Record<string, unknown>>(
   obj: TParams
 ): Record<string, unknown> {
   return Object.entries(obj)
-    .filter(([_, v]) => {
+    .filter(([, v]) => {
       if (typeof v === 'string') {
         return v.length > 0
       } else {
@@ -24,7 +24,9 @@ function toQuery<TParams extends Record<string, unknown>>(
   })}`
 }
 
-function pushState<TParams extends Record<string, unknown>>(params: TParams) {
+export function pushState<TParams extends Record<string, unknown>>(
+  params: TParams
+): void {
   history.pushState(history.state, '', toQuery(params))
 }
 

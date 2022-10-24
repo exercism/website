@@ -6,6 +6,7 @@ module Flows
     include CapybaraHelpers
 
     test "user sees welcome modal" do
+      skip # We've deprecated this for now
       use_capybara_host do
         sign_in!
         visit dashboard_path
@@ -15,6 +16,7 @@ module Flows
     end
 
     test "user dismisses modal" do
+      skip # We've deprecated this for now
       use_capybara_host do
         sign_in!
 

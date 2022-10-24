@@ -54,13 +54,9 @@
               .bg-borderLight.rounded-8.mb-12{ class: "w-[100%] pb-[56.25%]" }
               %h5.text-h5.mb-8= community_story.title
               .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
-                = graphical_icon "avatar-placeholder", css_class: "h-[24px] w-[24px] mr-8"
                 - interviewee = community_story.interviewee
-                - if interviewee.profile
-                  = link_to avatar(interviewee), profile_path(interviewee)
-                - else
-                  = avatar(interviewee)
-                  = interviewee.name
+                = avatar(interviewee)
+                = interviewee.name
 
         -# Temporarily disable this link until we have a separate page
           = link_to "", class: 'explore-link' do

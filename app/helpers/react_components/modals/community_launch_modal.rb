@@ -2,6 +2,7 @@ module ReactComponents
   module Modals
     class CommunityLaunchModal < ReactComponent
       def to_s
+        return
         return if current_user.introducer_dismissed?(slug)
 
         super(

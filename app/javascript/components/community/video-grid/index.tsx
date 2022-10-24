@@ -6,6 +6,7 @@ import { Request } from '@/hooks/request-query'
 import { Avatar, GraphicalIcon, Pagination } from '../../common'
 import { TrackFilterList } from './TrackFilterList'
 import { HandleTrackChangeType, useVideoGrid, VideoData } from './useVideoGrid'
+import { ResultsZone } from '@/components/ResultsZone'
 
 type VideoGridProps = {
   data: {
@@ -21,6 +22,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     page,
     setPage,
     handleTrackChange,
+    isFetching,
     selectedTrack,
     criteria,
     setCriteria,
@@ -43,20 +45,22 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
-        {resolvedData &&
-          resolvedData.results &&
-          resolvedData.results.map((video: VideoData) => (
-            <Video key={video.embedUrl} video={video} />
-          ))}
-      </div>
-      {resolvedData && (
-        <Pagination
-          current={page}
-          total={resolvedData.meta.totalPages}
-          setPage={setPage}
-        />
-      )}
+      <ResultsZone isFetching={isFetching}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
+          {resolvedData &&
+            resolvedData.results &&
+            resolvedData.results.map((video: VideoData) => (
+              <Video key={video.embedUrl} video={video} />
+            ))}
+        </div>
+        {resolvedData && (
+          <Pagination
+            current={page}
+            total={resolvedData.meta.totalPages}
+            setPage={setPage}
+          />
+        )}
+      </ResultsZone>
     </div>
   )
 }

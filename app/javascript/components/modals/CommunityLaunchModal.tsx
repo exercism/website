@@ -146,14 +146,14 @@ export const CommunityLaunchModal = ({
         </div>
         <script src="https://player.vimeo.com/api/player.js"></script>
         <div className="thank-you">
-          <h3>This wouldn't be possible without your kind donations 💙</h3>
+          <h3>This wouldn&apos;t be possible without your kind donations 💙</h3>
           <p className="mb-8">
-            Thanks to your kind donations, we've been able to hire Jonathan, our
+            Thanks to your kind donations, we&apos;ve been able to hire Jonathan, our
             new Community Manager, who can now dedicate the time and resource we
             need to properly nuture our community.
           </p>
           <p className="mb-12">
-            If you see Jonathan around, say hello! He'd love to chat, hear your
+            If you see Jonathan around, say hello! He&apos;d love to chat, hear your
             story, and learn how we can make Exercism even better for you 👇
           </p>
           <div className="flex flex-row items-center bg-white rounded-100 p-12">

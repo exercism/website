@@ -7,10 +7,10 @@ export function useDidMountEffect(func: (...args: any) => any, deps: any[]) {
   const didMount = useRef(false)
 
   useEffect(() => {
-    if (didMount.current) {
-      func()
-    } else {
+    if (!didMount.current) {
       didMount.current = true
+      return
     }
+    func()
   }, deps)
 }

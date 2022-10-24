@@ -1,14 +1,14 @@
-import { useCallback, useLayoutEffect, useState } from 'react'
 import {
-  usePaginatedRequestQuery,
-  Request,
-  useList,
-  ListState,
-  useDidMountEffect,
-} from '@/hooks'
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
+import { usePaginatedRequestQuery, Request, useList, ListState } from '@/hooks'
 import { VideoTrack } from '../../types'
 import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
-import { pushState } from '@/hooks/use-history'
+import { pushState, removeEmpty } from '@/hooks/use-history'
 
 export type VideoData = {
   title: string
@@ -94,16 +94,23 @@ export function useVideoGrid(
       setCriteria(criteria)
     }
 
-    if (page && Number(page) > 1) {
+    if (page) {
       setPage(Number(page))
     }
   }, [setPage, setQuery, tracks])
 
-  useDidMountEffect(() => {
+  // don't refetch everything with an empty criteria after mounting
+  const didMount = useRef(false)
+  useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true
+      return
+    }
+
     const handler = setTimeout(() => {
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
-        pushState({ videoCriteria: criteria })
+        pushState(removeEmpty({ videoCriteria: criteria }))
       }
     }, 500)
 
@@ -118,7 +125,7 @@ export function useVideoGrid(
       setCriteria('')
       setSelectedTrack(track)
 
-      pushState({ videoTrackSlug: track.slug })
+      pushState(removeEmpty({ videoTrackSlug: track.slug }))
       setQuery({
         ...request.query,
         trackSlug: track.slug,

@@ -166,12 +166,12 @@ export function useVideoGrid(
 function pushQueryParams(key: string, value: string | number): void {
   const url = new URL(window.location.toString())
 
-  if (typeof value === 'string') {
+  
     if (value && value.length > 0) {
       url.searchParams.set(key, value)
     } else {
       url.searchParams.delete(key)
     }
-  }
+  
   window.history.pushState({}, '', url)
 }

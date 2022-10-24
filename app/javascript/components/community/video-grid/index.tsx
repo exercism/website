@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { QueryStatus } from 'react-query'
-import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
+import { Request } from '@/hooks'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Avatar, GraphicalIcon, Pagination } from '@/components/common'
 import { VideoTrack } from '@/components/types'
-import { Request } from '@/hooks/request-query'
-import { Avatar, GraphicalIcon, Pagination } from '../../common'
+import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
 import { HandleTrackChangeType, useVideoGrid, VideoData } from './useVideoGrid'
-import { ResultsZone } from '@/components/ResultsZone'
 
 type VideoGridProps = {
   data: {

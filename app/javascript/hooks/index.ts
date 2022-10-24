@@ -7,4 +7,5 @@ export {
   useRequestQuery,
 } from './request-query'
 
+export { useDidMountEffect } from './use-did-mount-effect'
 export { useHistory, removeEmpty } from './use-history'

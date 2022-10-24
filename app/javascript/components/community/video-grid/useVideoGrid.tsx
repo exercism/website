@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import {
   usePaginatedRequestQuery,
   Request,
@@ -6,6 +6,7 @@ import {
   useHistory,
   removeEmpty,
   ListState,
+  useDidMountEffect,
 } from '@/hooks'
 import { VideoTrack } from '../../types'
 import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
@@ -64,11 +65,16 @@ export function useVideoGrid(
 
   const { resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
-      ['community-video-grid-key', request],
+      [
+        'community-video-grid-key',
+        request.query.criteria,
+        request.query.trackSlug,
+        request.query.page,
+      ],
       request
     )
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     const handler = setTimeout(() => {
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)

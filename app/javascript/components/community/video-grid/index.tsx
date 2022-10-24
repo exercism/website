@@ -95,7 +95,7 @@ function VideoGridHeader({
         tracks={tracks}
         setValue={handleTrackChange}
         sizeVariant="automation"
-        cacheKey={''}
+        cacheKey={'video-grid-track-filter-list'}
         status={QueryStatus.Success}
         error={undefined}
         countText={'video'}

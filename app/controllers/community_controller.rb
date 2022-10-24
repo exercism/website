@@ -1,7 +1,7 @@
 class CommunityController < ApplicationController
   skip_before_action :authenticate_user!
 
-  def index
+  def show
     # TODO: add caching
     @supporter_avatar_urls =
       User::AcquiredBadge.joins(:user).

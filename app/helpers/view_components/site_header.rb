@@ -7,20 +7,20 @@ module ViewComponents
 
     def to_s
       tag.header(id: "site-header") do
-        # announcement_bar +
-        tag.div(class: "lg-container container") do
-          logo + docs_nav + contextual_section
-        end
+        announcement_bar +
+          tag.div(class: "lg-container container") do
+            logo + docs_nav + contextual_section
+          end
       end
     end
 
     private
     def announcement_bar
-      link_to(Exercism::Routes.hiring_about_path, class: "announcement-bar") do
+      link_to(Exercism::Routes.community_path, class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          tag.span("We’re hiring!") +
-            tag.strong("Come and join the Exercism team") +
-            tag.span("😁")
+          tag.span("Forums, Swag, Stories, Vides...") +
+            tag.strong("Check out new Community tab!") +
+            tag.span("👪")
         end
       end
     end
@@ -56,17 +56,23 @@ module ViewComponents
           si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
             si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
             si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
-            # si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing) +
-            si_nav_li("Community", :community, Exercism::Routes.community_index_path, selected_tab == :community) +
-            si_nav_li("Donate 💜", :donate, Exercism::Routes.donate_path, selected_tab == :donate)
+            si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community, new: true) +
+            si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected_tab == :donate)
         end
       end
     end
 
-    def si_nav_li(title, icon_name, url, selected)
+    def si_nav_li(title, icon_name, url, selected, new: false)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
       tag.li attrs do
-        link_to(graphical_icon(icon_name) + tag.span(title), url, "data-turbo-frame": "tf-main")
+        elems = [graphical_icon(icon_name), tag.span(title)]
+        if new
+          elems << (tag.div(class: 'absolute text-white bg-warning px-6 py-2 rounded-32 font-bold text-[10px] uppercase leading-150 flex items-center right-[-10px] top-[-7px] rotate-[15deg]') do # rubocop:disable Layout/LineLength
+            graphical_icon('sparkle', css_class: '!filter-white !w-[12px] !h-[12px] !mr-4 !block') +
+            tag.span("New")
+          end)
+        end
+        link_to(safe_join(elems), url, "data-turbo-frame": "tf-main", class: 'relative')
       end
     end
 

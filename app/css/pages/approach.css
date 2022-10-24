@@ -17,13 +17,16 @@
             width: 40px;
             @apply mb-8 mr-8;
         }
+        .c-react-wrapper-track-credits {
+            @apply h-[32px];
+        }
     }
     article {
         @apply shadow-lg;
 
         margin-top: -35px;
         @screen md {
-            margin-top: -96px;
+            margin-top: -128px;
         }
 
         .c-react-wrapper-common-share-button {

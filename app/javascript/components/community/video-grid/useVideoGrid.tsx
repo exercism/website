@@ -139,6 +139,14 @@ export function useVideoGrid(
     [setPage, setQuery, request.query]
   )
 
+  const handlePageTurn = useCallback(
+    (page: number) => {
+      setPage(page)
+      pushQueryParams('video_page', `${page}`)
+    },
+    [setPage]
+  )
+
   return {
     handleTrackChange,
     selectedTrack,
@@ -148,20 +156,22 @@ export function useVideoGrid(
     order: request.query.order,
     setOrder,
     page: request.query.page,
-    setPage,
+    setPage: handlePageTurn,
     criteria,
     setCriteria,
     request,
   }
 }
 
-function pushQueryParams(key: string, value: string): void {
+function pushQueryParams(key: string, value: string | number): void {
   const url = new URL(window.location.toString())
 
-  if (value && value.length > 0) {
-    url.searchParams.set(key, value)
-  } else {
-    url.searchParams.delete(key)
+  if (typeof value === 'string') {
+    if (value && value.length > 0) {
+      url.searchParams.set(key, value)
+    } else {
+      url.searchParams.delete(key)
+    }
   }
   window.history.pushState({}, '', url)
 }

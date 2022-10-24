@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { QueryStatus } from 'react-query'
 import { Request } from '@/hooks'
 import { ResultsZone } from '@/components/ResultsZone'
@@ -28,6 +28,21 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     setCriteria,
   } = useVideoGrid(data.request, data.tracks)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const timer = useRef<any>()
+
+  const handlePageResetOnInputChange = useCallback(
+    (input: string) => {
+      //clears it on any input
+      clearTimeout(timer.current)
+      if (criteria && (input.length > 2 || input.length === 0)) {
+        timer.current = setTimeout(() => setPage(1), 500)
+      }
+    },
+
+    [criteria, setPage]
+  )
+
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
       <VideoGridHeader
@@ -41,7 +56,10 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
           className="grow --search --right"
           placeholder="Search community walkthroughs"
           value={criteria}
-          onChange={(e) => setCriteria(e.target.value)}
+          onChange={(e) => {
+            setCriteria(e.target.value)
+            handlePageResetOnInputChange(e.target.value)
+          }}
         />
       </div>
 

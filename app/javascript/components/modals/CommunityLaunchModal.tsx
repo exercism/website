@@ -137,8 +137,8 @@ export const CommunityLaunchModal = ({
           style={{ padding: '56.25% 0 0 0', position: 'relative' }}
         >
           <iframe
-            src="https://www.youtube-nocookie.com/embed/VJ5XkzbG-BI"
-            title="YouTube video player"
+            src="https://www.youtube-nocookie.com/embed/Oib6eB6968Y"
+            title="Introducing the 'Community' tab"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

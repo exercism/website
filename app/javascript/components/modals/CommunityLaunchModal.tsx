@@ -2,9 +2,8 @@ import React, { useCallback, useState } from 'react'
 import { Modal, ModalProps } from './Modal'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
-import { Avatar, FormButton, GraphicalIcon } from '../common'
+import { FormButton, GraphicalIcon } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
-import { User } from '../types'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -51,19 +50,18 @@ export const CommunityLaunchModal = ({
       cover={true}
       open={open}
       {...props}
-      onClose={() => {}}
+      onClose={() => null}
       className="m-community-launch"
     >
       <div className="lhs">
         <header>
-          <h1>Exercism Community</h1>
+          <h1>The new "Community" tab</h1>
 
           <p>
-            Exercism&apos;s always been about community - the volunteers who
-            create the tracks, the mentors that make learning magic, and
-            everyone using the platform to upskill. Now, for the first time,
-            we&apos;re doubling down on that community - bringing everyone
-            together to learn and support each other.
+            We think our community is pretty special - thousands of people
+            learning, mentoring and supporting each other in a non-toxic
+            environment. Well from today we're focussing even more on making
+            Exercism a great place for you all to spend time.
           </p>
         </header>
 
@@ -79,10 +77,32 @@ export const CommunityLaunchModal = ({
             <div className="info">
               <h3>Exercism&apos;s Forum</h3>
               <p>
-                Want to explore a concept or exercise with others? Want to chat
-                about how Exercism can be improved? Want to discuss programming
-                in general? Or maybe you just want to get to know the community
-                better. Our new forum is the place to go!
+                Our new forum is a fun space to chat about programming, help
+                guid the future of Exercis, get support if you get stuck, and
+                hang out with each other.
+              </p>
+            </div>
+          </div>
+
+          <div className="improvement">
+            <GraphicalIcon icon="journey" category="graphics" />
+            <div className="info">
+              <h3>Dig Deeper</h3>
+              <p>
+                We&apos;re pulling the thousands of community walkthroughs into
+                one place along with commentry and guidance on exercises. Look
+                out for the new Dig Deeper tab on exercises!
+              </p>
+            </div>
+          </div>
+
+          <div className="improvement">
+            <GraphicalIcon icon="reputation" category="graphics" />
+            <div className="info">
+              <h3>Community Stories</h3>
+              <p>
+                Sit back, get inspired and enjoy inspiring tales from
+                Exercism&apos;s community in our new Community Stories section.
               </p>
             </div>
           </div>
@@ -94,31 +114,6 @@ export const CommunityLaunchModal = ({
                 People have been asking us for SWAG forever. Well now its here!
                 T-shirts, hoodies, bags, jigsaws, even phone cases - show your
                 love for Exercism with some high-quality merch.
-              </p>
-            </div>
-          </div>
-          <div className="improvement">
-            <GraphicalIcon icon="reputation" category="graphics" />
-            <div className="info">
-              <h3>Community Stories</h3>
-              <p>
-                When you&apos;re feeling frustrated or want some inspriation,
-                there&apos;s nothing better than hearing other people&apos;s
-                stories. Well now you can sit back and enjoy inspiring tales
-                from Exercism&apos;s community in our new Community Stories
-                section.
-              </p>
-            </div>
-          </div>
-          <div className="improvement">
-            <GraphicalIcon icon="journey" category="graphics" />
-            <div className="info">
-              <h3>Dig Deeper</h3>
-              <p>
-                There are thousands of videos about solving Exercism&apos;s
-                exercises. We&apos;re bringing them all into one place along
-                with commentry and guidance on exercises. Look out for the new
-                Dig Deeper tab when you complete an exercise!
               </p>
             </div>
           </div>
@@ -157,7 +152,7 @@ export const CommunityLaunchModal = ({
             new Community Manager, who can now dedicate the time and resource we
             need to properly nuture our community.
           </p>
-          <p className="mb-8">
+          <p className="mb-12">
             If you see Jonathan around, say hello! He'd love to chat, hear your
             story, and learn how we can make Exercism even better for you 👇
           </p>

@@ -18,8 +18,8 @@ module ViewComponents
     def announcement_bar
       link_to(Exercism::Routes.community_path, class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          tag.span("Forums, Swag, Stories, Vides...") +
-            tag.strong("Check out new Community tab!") +
+          tag.span("Forums, Swag, Stories, Videos...") +
+            tag.strong("Check out the new Community tab!") +
             tag.span("👪")
         end
       end

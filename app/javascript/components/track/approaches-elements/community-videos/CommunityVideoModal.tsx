@@ -38,17 +38,26 @@ export function CommunityVideoModal({
       {video.author && (
         <VideoCredits links={video.links} author={video.author} />
       )}
-      <div className="text-center text-textColor6 leading-160 text-16">
-        Posted by{' '}
-        {video.submittedBy.links.profile ? (
-          <a href={video.submittedBy.links.profile} className="underline">
-            @{video.submittedBy.handle}
-          </a>
-        ) : (
-          `@${video.submittedBy.handle}`
-        )}{' '}
-        &middot; {dayjs(video.createdAt).format('D MMM YYYY')}
-      </div>
+
+      {video.submittedBy.handle.length > 0 ||
+        (video.createdAt.length > 0 && (
+          <div className="text-center text-textColor6 leading-160 text-16">
+            {video.submittedBy.links.profile &&
+              video.submittedBy.handle.length > 0 && (
+                <>
+                  Posted by{' '}
+                  <a
+                    href={video.submittedBy.links.profile}
+                    className="underline"
+                  >
+                    @{video.submittedBy.handle}
+                  </a>
+                </>
+              )}
+            {video.createdAt.length > 0 &&
+              `&middot; ${dayjs(video.createdAt).format('D MMM YYYY')}`}
+          </div>
+        ))}
     </Modal>
   )
 }

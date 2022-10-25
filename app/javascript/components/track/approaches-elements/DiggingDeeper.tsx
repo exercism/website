@@ -52,13 +52,13 @@ function DiggingDeeperFooter({
         <Credits
           topCount={introduction.numAuthors}
           topLabel="author"
-          bottomCount={4}
+          bottomCount={introduction.numContributors}
           bottomLabel="contributor"
           className="text-textColor1 font-semibold leading-150"
-          // TODO: we will need correct data here
-          users={introduction.avatarUrls.map((i) => {
+          // TODO: we will need correct data for users here
+          users={introduction.avatarUrls.map((a) => {
             const user: User = {
-              avatarUrl: i,
+              avatarUrl: a,
               handle: '',
             }
 

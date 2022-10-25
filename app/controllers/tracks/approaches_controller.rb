@@ -2,7 +2,7 @@ class Tracks::ApproachesController < ApplicationController
   include UseTrackExerciseSolutionConcern
   before_action :use_solution
   before_action :use_approach, only: :show
-  before_action :guard_accessible!
+  before_action :guard_accessible!, except: :tooltip_locked
 
   skip_before_action :authenticate_user!
 

@@ -8,14 +8,8 @@ import {
 } from './approaches-elements'
 import { CommunityVideosProps } from './approaches-elements/community-videos/types'
 
-type ApproachUser = Pick<User, 'avatarUrl' | 'handle'> & {
-  name: string
-  links: {
-    profile: string | null
-  }
-}
 export type Approach = {
-  users: ApproachUser[]
+  users: User[]
   numAuthors: number
   numContributors: number
   title: string

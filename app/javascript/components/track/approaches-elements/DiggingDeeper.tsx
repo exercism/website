@@ -2,6 +2,7 @@ import React from 'react'
 import { GraphicalIcon, Icon, Credits } from '@/components/common'
 import dayjs from 'dayjs'
 import { NoIntroductionYet } from '.'
+import { User } from '@/components/types'
 
 export type ApproachIntroduction = {
   html: string
@@ -51,10 +52,18 @@ function DiggingDeeperFooter({
         <Credits
           topCount={introduction.numAuthors}
           topLabel="author"
-          bottomCount={introduction.numContributors}
+          bottomCount={4}
           bottomLabel="contributor"
-          max={2}
-          avatarUrls={introduction.avatarUrls}
+          className="text-textColor1 font-semibold leading-150"
+          // TODO: we will need correct data here
+          users={introduction.avatarUrls.map((i) => {
+            const user: User = {
+              avatarUrl: i,
+              handle: '',
+            }
+
+            return user
+          })}
         />
         {introduction.updatedAt && (
           <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium">

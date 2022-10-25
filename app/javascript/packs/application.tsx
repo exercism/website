@@ -209,12 +209,11 @@ export const mappings = {
   ),
   'track-credits': (data: any) => (
     <Common.Credits
-      avatarUrls={data.avatar_urls}
+      users={camelizeKeysAs<CreditsUsersProp[]>(data.users)}
       topCount={data.top_count}
       topLabel={data.top_label}
       bottomCount={data.bottom_count}
       bottomLabel={data.bottom_label}
-      max={data.max}
     />
   ),
   'common-exercise-widget': (data: any) => (
@@ -462,6 +461,7 @@ import { highlightAll } from '../utils/highlight'
 import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
 import { ApproachesProps } from '@/components/track/Approaches'
 import { ChartData } from '@/components/impact/Chart'
+import { CreditsUsersProp } from '@/components/common/Credits.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

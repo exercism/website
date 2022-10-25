@@ -1,6 +1,7 @@
-import React from 'react'
-import { pluralizeWithNumber } from '../../utils'
-import { AvatarGroup, AvatarGroupProps } from '.'
+import React, { useState } from 'react'
+import { pluralizeWithNumber } from '@/utils'
+import { AvatarGroup } from '.'
+import { User } from '../types'
 
 type CreditsProps = {
   topLabel: string
@@ -8,31 +9,40 @@ type CreditsProps = {
   bottomLabel?: string
   bottomCount?: number
   fontSize?: number
-} & AvatarGroupProps
+  users: User[]
+  className?: string
+}
 
 export function Credits({
   topLabel,
   topCount,
   bottomLabel,
   bottomCount,
-  max = 2,
-  avatarUrls,
-  fontSize = 14,
+  users,
+  className,
 }: CreditsProps): JSX.Element {
+  const [overflow] = useState<number>(
+    topCount + Number(bottomCount) - users.length
+  )
+
   return (
-    <div
-      className={`flex gap-x-16 text-textColor1 leading-150 whitespace-nowrap text-${fontSize} items-center`}
-    >
-      <AvatarGroup max={max} avatarUrls={avatarUrls} />
-      <div className="flex flex-col gap-y-2">
-        <div className="font-semibold">
-          {pluralizeWithNumber(topCount, topLabel)}
-        </div>
+    <div className={`flex items-center ${className}`}>
+      <AvatarGroup
+        className={`mr-${overflow > 0 ? 12 : 8}`}
+        overflow={overflow}
+        users={users}
+      />
+      <div>
+        {topCount + Number(bottomCount) > 1 || users[0]['handle'].length === 0
+          ? pluralizeWithNumber(topCount, topLabel)
+          : `By ${users[0]['handle']}`}
         {bottomCount &&
         bottomLabel &&
         bottomCount > 0 &&
         bottomLabel.length > 0 ? (
-          <div>{pluralizeWithNumber(bottomCount, bottomLabel)}</div>
+          <div className="font-normal">
+            {pluralizeWithNumber(bottomCount, bottomLabel)}
+          </div>
         ) : null}
       </div>
     </div>

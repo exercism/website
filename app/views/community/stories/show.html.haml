@@ -29,19 +29,18 @@
           = raw @story.content_html
 
   .md-container
-    .bg-white.shadow-lg.rounded-16.py-32.px-40{ class: 'mt-[-64px]' }
+    .bg-white.shadow-lg.rounded-16.py-20.md:px-32.px-20.md:px-40{ class: 'mt-[-64px]' }
       .flex.flex-row.mb-24
-        = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px] mb-24"
+        = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px] mr-12"
         .flex.flex-col
           %h2.text-h2.mb-8 More Stories from our community
           %p.text-p-large Listen, learn and be inspired by our community members.
       .grid.grid-cols-1.lg:grid-cols-3.gap-16
         - @other_stories.each do |community_story|
           = link_to community_story_path(community_story), class: 'flex flex-col grid shadow-smZ1 p-16 bg-white rounded-8' do
-            .bg-borderLight.rounded-8.mb-12{ class: "w-[100%] pb-[56.25%]" }
+            = image_tag community_story.thumbnail_url, class: "bg-borderLight rounded-8 mb-12 w-[100%]", width: 243, height: 136
             %h5.text-h5.mb-8= community_story.title
             .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
-              = graphical_icon "avatar-placeholder", css_class: "h-[24px] w-[24px] mr-8"
               - interviewee = community_story.interviewee
               = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8 rounded-circle bg-cover"
               = interviewee.name

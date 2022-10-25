@@ -3,7 +3,7 @@ class SerializeApproaches
 
   initialize_with :approaches
 
-  def call = approaches.map { |approach| SerializeApproach.(approach) }
+  def call = approaches.includes(:track).map { |approach| SerializeApproach.(approach) }
 
   class SerializeApproach
     include Mandate
@@ -12,7 +12,10 @@ class SerializeApproaches
 
     def call
       {
-        users: CombineAuthorsAndContributors.(approach.authors, approach.contributors).map do |user|
+        users: CombineAuthorsAndContributors.(
+          approach.authors.includes(:profile).with_attached_avatar,
+          approach.contributors.includes(:profile).with_attached_avatar
+        ).map do |user|
           SerializeAuthorOrContributor.(user)
         end,
         num_authors: approach.authors.count,

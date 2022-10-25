@@ -12,10 +12,6 @@ body.namespace-community.controller-stories.action-show {
         @apply text-lightBlue text-16 font-semibold leading-170;
     }
 
-    .lhs {
-        @apply w-1-2;
-    }
-
     .youtube-link {
         @apply bg-youtubeRed py-16 px-32 rounded-100 flex items-center;
         @apply text-18 font-semibold leading-150 text-white;

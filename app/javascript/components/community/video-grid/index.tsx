@@ -64,18 +64,20 @@ function VideoGridHeader({
   selectedTrack: any
 }): JSX.Element {
   return (
-    <div className="flex mb-24">
-      <GraphicalIcon
-        icon="community-video-gradient"
-        height={48}
-        width={48}
-        className="mr-24 self-start"
-      />
-      <div className="mr-auto">
-        <h2 className="text-h2 mb-4">Learn from our community</h2>
-        <p className="text-p-large">
-          Walkthroughs from our community using Exercism
-        </p>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-16 mb-24">
+      <div class="flex">
+        <GraphicalIcon
+          icon="community-video-gradient"
+          height={48}
+          width={48}
+          className="mr-24 self-start"
+        />
+        <div>
+          <h2 className="text-h2 mb-4">Learn from our community</h2>
+          <p className="text-p-large">
+            Walkthroughs from our community using Exercism
+          </p>
+        </div>
       </div>
 
       <TrackFilterList

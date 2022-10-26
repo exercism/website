@@ -1,13 +1,8 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { usePaginatedRequestQuery, Request, useList, ListState } from '@/hooks'
 import { VideoTrack } from '../../types'
 import { CommunityVideoType, CommunityVideoAuthor } from '@/components/types'
+import { useQueryParams } from '@/hooks/use-query-params'
 
 export type VideoData = {
   title: string
@@ -70,37 +65,11 @@ export function useVideoGrid(
       [
         'community-video-grid-key',
         request.query.criteria,
-        request.query.trackSlug,
-        request.query.page,
+        request.query.videoTrackSlug,
+        request.query.videoPage,
       ],
       request
     )
-
-  useLayoutEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search)
-    const trackSlug = searchParams.get('video_track_slug')
-    const page = searchParams.get('video_page')
-    const criteria = searchParams.get('video_criteria')
-    setQuery({
-      trackSlug,
-      page,
-      criteria,
-    })
-
-    if (trackSlug && trackSlug.length > 0) {
-      setSelectedTrack(
-        // in case a track would be missing
-        tracks.find((track) => track.slug == trackSlug) || tracks[0]
-      )
-    }
-    if (criteria && criteria.length > 0) {
-      setCriteria(criteria)
-    }
-
-    if (page) {
-      setPage(Number(page))
-    }
-  }, [setPage, setQuery, tracks])
 
   // don't refetch everything with an empty criteria after mounting
   const didMount = useRef(false)
@@ -113,14 +82,14 @@ export function useVideoGrid(
     const handler = setTimeout(() => {
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
-        pushQueryParams('video_criteria', criteria)
+        setQuery({ ...request.query, criteria })
       }
     }, 500)
 
     return () => {
       clearTimeout(handler)
     }
-  }, [setRequestCriteria, criteria])
+  }, [criteria])
 
   const handleTrackChange = useCallback(
     (track: VideoTrack) => {
@@ -128,21 +97,20 @@ export function useVideoGrid(
       setCriteria('')
       setSelectedTrack(track)
 
-      pushQueryParams('video_track_slug', track.slug)
-
       setQuery({
         ...request.query,
-        trackSlug: track.slug,
-        page: 1,
+        videoTrackSlug: track.slug,
+        videoPage: 1,
       })
     },
     [setPage, setQuery, request.query]
   )
 
+  useQueryParams(request.query)
+
   const handlePageTurn = useCallback(
     (page: number) => {
       setPage(page)
-      pushQueryParams('video_page', `${page}`)
     },
     [setPage]
   )
@@ -161,16 +129,4 @@ export function useVideoGrid(
     setCriteria,
     request,
   }
-}
-
-function pushQueryParams(key: string, value: string): void {
-  const url = new URL(window.location.toString())
-
-  if (value && value.length > 0) {
-    url.searchParams.set(key, value)
-  } else {
-    url.searchParams.delete(key)
-  }
-
-  window.history.pushState({}, '', url)
 }

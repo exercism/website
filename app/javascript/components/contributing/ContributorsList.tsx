@@ -8,8 +8,8 @@ import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Pagination } from '../common'
 import { CategorySwitcher } from './contributors-list/CategorySwitcher'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { TrackSelect } from '../common/TrackSelect'
+import { useQueryParams } from '@/hooks/use-query-params'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
@@ -61,7 +61,7 @@ export const ContributorsList = ({
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
 
-  useHistory({ pushOn: removeEmpty(request.query) })
+  useQueryParams(request.query)
 
   return (
     <div>

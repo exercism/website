@@ -39,7 +39,7 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
     {
       page: current_page,
       track_slug: params[:video_video_track_slug],
-      criteria: params[:video_criteria]
+      criteria: params[:criteria]
     }.compact
   end
 

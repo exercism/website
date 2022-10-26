@@ -6,7 +6,7 @@ import {
   CommunityVideos,
   DiggingDeeper,
 } from './approaches-elements'
-import { CommunityVideosProps } from './approaches-elements/community-videos/types'
+import type { CommunityVideosProps } from '@/components/types'
 
 type ApproachUser = Pick<User, 'avatarUrl' | 'handle'> & {
   name: string

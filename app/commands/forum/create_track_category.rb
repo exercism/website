@@ -40,6 +40,7 @@ class Forum::CreateTrackCategory
   memoize
   def track_categories = client.categories({ parent_category_id: PROGRAMMING_CATEGORY_ID })
 
+  memoize
   def client
     DiscourseApi::Client.new("https://forum.exercism.org").tap do |client|
       client.api_key = ENV.fetch("DISCOURSE_API_KEY", Exercism.secrets.discourse_api_key)

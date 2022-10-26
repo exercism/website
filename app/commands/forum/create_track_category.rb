@@ -4,6 +4,12 @@ class Forum::CreateTrackCategory
   initialize_with :track
 
   def call
+    category = create_category!
+    edit_first_post!(category)
+  end
+
+  private
+  def create_category!
     client.create_category({
       name: track.title,
       position:,
@@ -13,19 +19,27 @@ class Forum::CreateTrackCategory
     })
   end
 
+  def edit_first_post!(category)
+    topic_id = category["topic_url"].split("/").last
+    topic = client.topic(topic_id)
+    post = topic.dig("post_stream", "posts").first
+    content = "Welcome to the #{track.title} category. This is a space to ask any #{track.title} questions, discuss exercises from the Exercism #{track.title} track, or explore any other #{track.title}-related conversations!" # rubocop:disable Layout/LineLength
+    client.edit_post(post["id"], content)
+  end
+
   def position
-    next_category = track_categories.
+    return 1 if track_categories.empty?
+    return track_categories.last["position"] + 1 if track_categories.last["name"].casecmp(track.title).negative?
+
+    track_categories.
       sort_by { |c| c["name"] }.
       drop_while { |c| c["name"].casecmp(track.title).negative? }.
-      find { |c| c["position"] }
-
-    next_category ? next_category["position"] : track_categories.last["position"] + 1
+      find { |c| c["position"] }["position"]
   end
 
   memoize
   def track_categories = client.categories({ parent_category_id: PROGRAMMING_CATEGORY_ID })
 
-  private
   def client
     DiscourseApi::Client.new("https://forum.exercism.org").tap do |client|
       client.api_key = ENV.fetch("DISCOURSE_API_KEY", Exercism.secrets.discourse_api_key)

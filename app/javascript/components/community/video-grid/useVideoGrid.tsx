@@ -7,7 +7,7 @@ import {
 } from 'react'
 import { usePaginatedRequestQuery, Request, useList, ListState } from '@/hooks'
 import { VideoTrack } from '../../types'
-import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
+import { CommunityVideoType, CommunityVideoAuthor } from '@/components/types'
 
 export type VideoData = {
   title: string
@@ -17,7 +17,7 @@ export type VideoData = {
 }
 
 export type APIResponse = {
-  results: VideoData[]
+  results: CommunityVideoType[]
   meta: {
     currentPage: number
     totalCount: number
@@ -163,15 +163,14 @@ export function useVideoGrid(
   }
 }
 
-function pushQueryParams(key: string, value: string | number): void {
+function pushQueryParams(key: string, value: string): void {
   const url = new URL(window.location.toString())
 
-  
-    if (value && value.length > 0) {
-      url.searchParams.set(key, value)
-    } else {
-      url.searchParams.delete(key)
-    }
-  
+  if (value && value.length > 0) {
+    url.searchParams.set(key, value)
+  } else {
+    url.searchParams.delete(key)
+  }
+
   window.history.pushState({}, '', url)
 }

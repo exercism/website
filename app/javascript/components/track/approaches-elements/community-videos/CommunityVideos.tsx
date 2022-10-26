@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { UploadVideoModal } from '@/components/modals'
 import { NoContentYet, SectionHeader } from '..'
 import { ApproachesDataContext } from '../../Approaches'
-import { CommunityVideosProps } from './types'
+import { CommunityVideosProps } from '@/components/types'
 import { CommunityVideo, CommunityVideosFooter } from './CommunityVideo'
 
 export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {

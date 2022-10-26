@@ -11,8 +11,8 @@ import {
 import type { VideoTrack } from '@/components/types'
 import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
-import { HandleTrackChangeType, useVideoGrid, VideoData } from './useVideoGrid'
-import type { CommunityVideo } from '@/components/track/approaches-elements/community-videos/types'
+import { HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
+import type { CommunityVideoType } from '@/components/types'
 
 type VideoGridProps = {
   data: {
@@ -49,8 +49,6 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     [criteria, setPage]
   )
 
-  console.log(data)
-
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
       <VideoGridHeader
@@ -74,7 +72,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
       <ResultsZone isFetching={isFetching}>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
           {resolvedData && resolvedData.results.length > 0 ? (
-            resolvedData.results.map((video: VideoData) => (
+            resolvedData.results.map((video) => (
               <Video key={video.embedUrl} video={video} />
             ))
           ) : resolvedData?.meta.unscopedTotal === 0 ? (
@@ -134,7 +132,7 @@ function VideoGridHeader({
 }
 
 type VideoProps = {
-  video: CommunityVideo
+  video: CommunityVideoType
 }
 function Video({ video }: VideoProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)

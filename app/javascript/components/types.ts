@@ -795,3 +795,42 @@ export type Modifier =
   | 'placeholder-shown'
   | 'autofill'
   | 'read-only'
+
+export type CommunityVideoAuthorLinks = {
+  profile?: string
+  channel_url?: string
+}
+
+export type CommunityVideoAuthor = {
+  name: string
+  handle: string
+  avatarUrl: string
+  links: CommunityVideoAuthorLinks
+}
+
+export type CommunityVideoPlatform = 'youtube' | 'vimeo'
+
+export type CommunityVideoLinks = {
+  watch: string
+  embed: string
+  channel: string
+  thumbnail: string
+}
+
+export type CommunityVideoType = {
+  author?: CommunityVideoAuthor
+  // TODO: Revisit this - check data returned by video retrieving on UploadVideoModal
+  url?: string
+  // TODO: revisit video-grid embedUrl
+  embedUrl?: string
+  submittedBy: CommunityVideoAuthor
+  thumbnailUrl?: string
+  platform: CommunityVideoPlatform
+  title: string
+  createdAt: string
+  links: CommunityVideoLinks
+}
+
+export type CommunityVideosProps = {
+  videos: CommunityVideoType[]
+}

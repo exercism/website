@@ -5,10 +5,11 @@ import { Icon } from '@/components/common'
 import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
 import { ApproachesDataContext } from '@/components/track/Approaches'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
-import { UploadVideoTextInput, CommunityVideo } from '.'
+import { UploadVideoTextInput } from '.'
+import { CommunityVideoType } from '@/components/types'
 
 type UploadVideoFormProps = {
-  data: CommunityVideo
+  data: CommunityVideoType
   onUseDifferentVideoClick: () => void
   onSuccess: () => void
 }

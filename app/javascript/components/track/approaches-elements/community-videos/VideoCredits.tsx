@@ -1,11 +1,11 @@
 import { Avatar, Icon } from '@/components/common'
 import React from 'react'
-import { CommunityVideo } from './types'
+import { CommunityVideoType } from '@/components/types'
 
 export function VideoCredits({
   author,
   links,
-}: Pick<CommunityVideo, 'author' | 'links'>): JSX.Element {
+}: Pick<CommunityVideoType, 'author' | 'links'>): JSX.Element {
   return (
     <div className="mb-24 py-16 px-32 text-textColor6 flex justify-between items-center border-1 border-borderLight2 rounded-16 shadow-sm md:flex-row flex-col">
       <div className="grid grid-rows-[24px_24px] grid-cols-[48px_auto] place-items-start gap-x-16">

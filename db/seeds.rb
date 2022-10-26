@@ -105,30 +105,7 @@ track_slugs.each do |track_slug|
 
   begin
     puts "Adding Track: #{track_slug}"
-
-    repo_url = "https://github.com/exercism/#{track_slug}"
-    repo = Git::Repository.new(repo_url: repo_url)
-
-    # Find the first commit in the repo
-    first_commit = repo.head_commit
-    Rugged::Walker.walk(repo.send(:rugged_repo),
-      show: repo.head_commit.oid,
-      sort: Rugged::SORT_DATE | Rugged::SORT_TOPO,
-      simplify: true
-    ) do |commit|
-      first_commit = commit
-    end
-
-    git_track = Git::Track.new(repo.head_commit.oid, repo_url: repo_url)
-    track = Track::Create.(
-      track_slug,
-      title: git_track.title,
-      blurb: git_track.blurb,
-      tags: git_track.tags,
-      repo_url: repo_url,
-      synced_to_git_sha: first_commit.oid
-    )
-    Git::SyncTrack.(track)
+    Track::Create.("https://github.com/exercism/#{track_slug}")
   rescue StandardError => e
     # puts e.message
     # puts e.backtrace

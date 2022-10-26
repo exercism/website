@@ -34,7 +34,7 @@ class Forum::CreateTrackCategory
     track_categories.
       sort_by { |c| c["name"] }.
       drop_while { |c| c["name"].casecmp(track.title).negative? }.
-      find { |c| c["position"] }["position"]
+      first["position"]
   end
 
   memoize

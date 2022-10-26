@@ -22,6 +22,7 @@ export type CommunityVideoLinks = {
 export type CommunityVideo = {
   author?: CommunityVideoAuthor
   submittedBy: CommunityVideoAuthor
+  thumbnailUrl?: string
   platform: CommunityVideoPlatform
   title: string
   createdAt: string

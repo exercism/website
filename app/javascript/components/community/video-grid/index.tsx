@@ -8,10 +8,11 @@ import {
   GraphicalIcon,
   Pagination,
 } from '@/components/common'
-import { VideoTrack } from '@/components/types'
+import type { VideoTrack } from '@/components/types'
 import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
 import { HandleTrackChangeType, useVideoGrid, VideoData } from './useVideoGrid'
+import type { CommunityVideo } from '@/components/track/approaches-elements/community-videos/types'
 
 type VideoGridProps = {
   data: {
@@ -47,6 +48,8 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
 
     [criteria, setPage]
   )
+
+  console.log(data)
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
@@ -131,7 +134,7 @@ function VideoGridHeader({
 }
 
 type VideoProps = {
-  video: VideoData
+  video: CommunityVideo
 }
 function Video({ video }: VideoProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
@@ -161,27 +164,7 @@ function Video({ video }: VideoProps): JSX.Element {
       <CommunityVideoModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        video={{
-          author: video.author,
-          submittedBy: {
-            name: '',
-            handle: '',
-            avatarUrl: '',
-            links: {
-              profile: undefined,
-              channel_url: undefined,
-            },
-          },
-          platform: 'youtube',
-          title: video.title,
-          createdAt: '',
-          links: {
-            watch: '',
-            embed: video.embedUrl,
-            channel: '',
-            thumbnail: '',
-          },
-        }}
+        video={video}
       />
     </>
   )

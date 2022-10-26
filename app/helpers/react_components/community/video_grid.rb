@@ -16,8 +16,7 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
             initial_data:
           }
         },
-        tracks:,
-        selected_track_slug: params[:track_slug]
+        tracks:
       }
     )
   end
@@ -39,7 +38,7 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
   def query
     {
       page: current_page,
-      track_slug: params[:track_slug],
+      track_slug: params[:video_track_slug],
       criteria: params[:criteria]
     }.compact
   end

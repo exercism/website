@@ -1,9 +1,9 @@
-import { ApproachesDataContext } from '@/components/track/Approaches'
-import { CommunityVideoType } from '@/components/types'
 import React, { useCallback, useContext, useState } from 'react'
 import { useMutation } from 'react-query'
+import { ApproachesDataContext } from '@/components/track/Approaches'
+import type { CommunityVideoType } from '@/components/types'
+import { sendRequest } from '@/utils/send-request'
 import { UploadVideoTextInput } from '.'
-import { sendRequest } from '../../../../utils/send-request'
 
 export type VideoDataResponse =
   | { communityVideo: CommunityVideoType }

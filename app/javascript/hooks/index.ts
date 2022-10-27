@@ -9,3 +9,4 @@ export {
 
 export { useDidMountEffect } from './use-did-mount-effect'
 export { useHistory, removeEmpty } from './use-history'
+export { useQueryParams } from './use-query-params'

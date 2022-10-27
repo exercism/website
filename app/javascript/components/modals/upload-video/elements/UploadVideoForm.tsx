@@ -5,8 +5,8 @@ import { Icon } from '@/components/common'
 import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
 import { ApproachesDataContext } from '@/components/track/Approaches'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
+import type { CommunityVideoType } from '@/components/types'
 import { UploadVideoTextInput } from '.'
-import { CommunityVideoType } from '@/components/types'
 
 type UploadVideoFormProps = {
   data: CommunityVideoType

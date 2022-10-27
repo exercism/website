@@ -1,8 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { usePaginatedRequestQuery, Request, useList, ListState } from '@/hooks'
-import { VideoTrack } from '../../types'
-import { CommunityVideoType, CommunityVideoAuthor } from '@/components/types'
-import { useQueryParams } from '@/hooks/use-query-params'
+import {
+  usePaginatedRequestQuery,
+  useList,
+  useQueryParams,
+  type Request,
+  type ListState,
+} from '@/hooks'
+import type {
+  CommunityVideoType,
+  CommunityVideoAuthor,
+  VideoTrack,
+} from '@/components/types'
 
 export type VideoData = {
   title: string
@@ -89,6 +97,8 @@ export function useVideoGrid(
     return () => {
       clearTimeout(handler)
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [criteria])
 
   const handleTrackChange = useCallback(

@@ -1,15 +1,19 @@
 import React, { useCallback } from 'react'
-import { PaginatedResult, Contributor, Track } from '../types'
-import { ContributorRow } from './contributors-list/ContributorRow'
-import { PeriodButton } from './contributors-list/PeriodButton'
-import { useList } from '../../hooks/use-list'
-import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
-import { ResultsZone } from '../ResultsZone'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { Pagination } from '../common'
-import { CategorySwitcher } from './contributors-list/CategorySwitcher'
-import { TrackSelect } from '../common/TrackSelect'
-import { useQueryParams } from '@/hooks/use-query-params'
+import { Pagination, TrackSelect } from '@/components/common'
+import type { PaginatedResult, Contributor, Track } from '@/components/types'
+import { ResultsZone } from '@/components/ResultsZone'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import {
+  usePaginatedRequestQuery,
+  useQueryParams,
+  useList,
+  type Request,
+} from '@/hooks'
+import {
+  ContributorRow,
+  PeriodButton,
+  CategorySwitcher,
+} from './contributors-list'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 

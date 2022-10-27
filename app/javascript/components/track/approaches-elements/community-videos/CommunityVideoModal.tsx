@@ -1,7 +1,7 @@
-import { Modal } from '@/components/modals'
-import { CommunityVideoType } from '@/components/types'
-import dayjs from 'dayjs'
 import React from 'react'
+import dayjs from 'dayjs'
+import { Modal } from '@/components/modals'
+import type { CommunityVideoType } from '@/components/types'
 import { VideoCredits } from './VideoCredits'
 
 export function CommunityVideoModal({

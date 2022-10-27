@@ -1,6 +1,6 @@
-import { Avatar, Icon } from '@/components/common'
 import React from 'react'
-import { CommunityVideoType } from '@/components/types'
+import { Avatar, Icon } from '@/components/common'
+import type { CommunityVideoType } from '@/components/types'
 
 export function VideoCredits({
   author,

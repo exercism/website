@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { QueryStatus } from 'react-query'
-import { Request } from '@/hooks'
 import { ResultsZone } from '@/components/ResultsZone'
 import {
   Avatar,
@@ -8,10 +7,11 @@ import {
   GraphicalIcon,
   Pagination,
 } from '@/components/common'
-import type { VideoTrack } from '@/components/types'
 import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
-import { HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
+import { type HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
+import type { Request } from '@/hooks'
+import type { VideoTrack } from '@/components/types'
 import type { CommunityVideoType } from '@/components/types'
 
 type VideoGridProps = {

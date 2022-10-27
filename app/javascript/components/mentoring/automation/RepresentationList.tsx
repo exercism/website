@@ -1,9 +1,9 @@
 import React from 'react'
+import type { QueryStatus } from 'react-query'
 import { Pagination, FilterFallback } from '@/components/common/'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { APIResponse } from './useMentoringAutomation'
-import { QueryStatus } from 'react-query'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { AutomationListElement } from './AutomationListElement'
+import type { APIResponse } from './useMentoringAutomation'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 

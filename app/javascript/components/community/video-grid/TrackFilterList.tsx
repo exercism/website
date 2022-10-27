@@ -1,10 +1,10 @@
 import React, { useCallback, useRef } from 'react'
 import { QueryStatus } from 'react-query'
-import { VideoTrack } from '@/components/types'
-import { TrackIcon, Icon } from '../../common'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { useDropdown } from '../../dropdowns/useDropdown'
-import { ResultsZone } from '../../ResultsZone'
+import type { VideoTrack } from '@/components/types'
+import { TrackIcon, Icon } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { useDropdown } from '@/components/dropdowns/useDropdown'
+import { ResultsZone } from '@/components/ResultsZone'
 
 type TrackFilterProps = VideoTrack & {
   checked: boolean

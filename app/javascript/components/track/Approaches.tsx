@@ -1,12 +1,16 @@
 import React, { createContext } from 'react'
-import { Track, Exercise, User } from '../types'
+import type {
+  Track,
+  Exercise,
+  User,
+  CommunityVideosProps,
+} from '@/components/types'
 import {
   ApproachExamples,
   ApproachIntroduction,
   CommunityVideos,
   DiggingDeeper,
 } from './approaches-elements'
-import type { CommunityVideosProps } from '@/components/types'
 
 type ApproachUser = Pick<User, 'avatarUrl' | 'handle'> & {
   name: string

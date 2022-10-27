@@ -9,11 +9,7 @@ body.namespace-community.controller-stories.action-show {
 
     .back-link {
         @apply flex items-center relative py-32;
-        @apply text-textColor6 text-16 font-semibold leading-170;
-    }
-
-    .lhs {
-        @apply w-1-2;
+        @apply text-white text-16 font-semibold leading-170;
     }
 
     .youtube-link {

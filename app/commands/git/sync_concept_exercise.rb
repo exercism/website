@@ -28,6 +28,7 @@ module Git
       SyncExerciseAuthors.(exercise)
       SyncExerciseContributors.(exercise)
       SyncExerciseApproaches.(exercise)
+      SyncExerciseArticles.(exercise)
       SiteUpdates::ProcessNewExerciseUpdate.(exercise)
     end
 

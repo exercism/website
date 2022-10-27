@@ -38,7 +38,7 @@ export function useVideoGrid(
   tracks: VideoTrack[]
 ): UseVideoGridReturnType {
   const initialTrack =
-    tracks.find((t) => t.slug === videoRequest.query?.video_track_slug) ||
+    tracks.find((t) => t.slug === videoRequest.query?.videoTrackSlug) ||
     tracks[0]
 
   const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')

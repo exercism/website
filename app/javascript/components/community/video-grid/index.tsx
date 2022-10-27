@@ -18,7 +18,6 @@ type VideoGridProps = {
   data: {
     tracks: VideoTrack[]
     request: Request
-    selectedTrackSlug: string | null
   }
 }
 

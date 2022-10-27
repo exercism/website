@@ -38,7 +38,7 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
   def query
     {
       video_page: current_page,
-      track_slug: params[:video_track_slug],
+      video_track_slug: params[:video_track_slug],
       criteria: params[:criteria]
     }.compact
   end

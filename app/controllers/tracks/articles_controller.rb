@@ -1,7 +1,7 @@
-class Tracks::ApproachesController < ApplicationController
+class Tracks::ArticlesController < ApplicationController
   include UseTrackExerciseSolutionConcern
   before_action :use_solution
-  before_action :use_approach, only: :show
+  before_action :use_article, only: :show
   before_action :guard_accessible!
 
   skip_before_action :authenticate_user!
@@ -11,10 +11,10 @@ class Tracks::ApproachesController < ApplicationController
   end
 
   def show
-    @other_approaches = SerializeApproaches.(@exercise.approaches.where.not(id: @approach.id).random)
-    @num_authors = @approach.authors.count
-    @num_contributors = @approach.contributors.count
-    @users = CombineAuthorsAndContributors.(@approach.authors, @approach.contributors).map do |user|
+    @other_articles = SerializeArticles.(@exercise.articles.where.not(id: @article.id).random)
+    @num_authors = @article.authors.count
+    @num_contributors = @article.contributors.count
+    @users = CombineAuthorsAndContributors.(@article.authors, @article.contributors).map do |user|
       SerializeAuthorOrContributor.(user)
     end
   end
@@ -30,8 +30,8 @@ class Tracks::ApproachesController < ApplicationController
     render_404
   end
 
-  def use_approach
-    @approach = @exercise.approaches.find(params[:id])
+  def use_article
+    @article = @exercise.articles.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

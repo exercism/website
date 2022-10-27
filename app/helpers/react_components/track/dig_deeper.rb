@@ -1,10 +1,11 @@
-class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
-  initialize_with :videos, :introduction, :approaches, :links, :track, :exercise
+class ReactComponents::Track::DigDeeper < ReactComponents::ReactComponent
+  initialize_with :videos, :introduction, :approaches, :articles, :links, :track, :exercise
 
   def to_s
-    super("track-approaches", {
+    super("track-dig-deeper", {
       videos: videos_data,
       approaches: approaches_data,
+      articles: articles_data,
       introduction:,
       links:,
       track: track_data,
@@ -31,4 +32,5 @@ class ReactComponents::Track::Approaches < ReactComponents::ReactComponent
 
   def videos_data = SerializeCommunityVideos.(videos)
   def approaches_data = SerializeApproaches.(approaches)
+  def articles_data = SerializeArticles.(articles)
 end

@@ -1,3 +1,4 @@
+# TODO: consider renaming to UpdateHasDigDeeper due to articles
 class Exercise::UpdateHasApproaches
   include Mandate
 

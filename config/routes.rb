@@ -166,7 +166,11 @@ Rails.application.routes.draw do
           get :tooltip_locked
         end
       end
-      resources :approaches, only: %i[index show], controller: "tracks/approaches" do
+
+      resources :articles, only: %i[index show], controller: "tracks/articles"
+      resources :approaches, only: %i[index show], controller: "tracks/approaches"
+
+      resources :dig_deeper, only: %i[index], controller: "tracks/dig_deeper" do
         collection do
           get :tooltip_locked
         end

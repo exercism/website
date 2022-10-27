@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
 import { Icon } from '@/components/common'
 import { ApproachIntroduction } from '../DiggingDeeper'
-import { ApproachesDataContext } from '../../Approaches'
+import { DigDeeperDataContext } from '../../DigDeeper'
 
 export function NoIntroductionYet({
   introduction,
 }: {
   introduction: ApproachIntroduction
 }): JSX.Element {
-  const { exercise } = useContext(ApproachesDataContext)
+  const { exercise } = useContext(DigDeeperDataContext)
   return (
     <section className="shadow-lgZ1 py-20 mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24 bg-white">
       <h2 className="mb-8 text-h2">Dig deeper</h2>

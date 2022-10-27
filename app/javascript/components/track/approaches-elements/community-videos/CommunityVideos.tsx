@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { UploadVideoModal } from '@/components/modals'
 import { NoContentYet, SectionHeader } from '..'
-import { ApproachesDataContext } from '../../Approaches'
+import { DigDeeperDataContext } from '../../DigDeeper'
 import { CommunityVideosProps } from './types'
 import { CommunityVideo, CommunityVideosFooter } from './CommunityVideo'
 
 export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
-  const { exercise } = useContext(ApproachesDataContext)
+  const { exercise } = useContext(DigDeeperDataContext)
   return (
     <div>
       <SectionHeader

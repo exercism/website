@@ -1,20 +1,15 @@
 import { Credits } from '@/components/common'
 import { useHighlighting } from '@/hooks'
 import React, { useContext } from 'react'
-import { Approach, DigDeeperDataContext } from '../DigDeeper'
+import { Article, DigDeeperDataContext } from '../DigDeeper'
 
-export function ApproachSnippet({
-  approach,
-}: {
-  approach: Approach
-}): JSX.Element {
+export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>()
-
   const { track } = useContext(DigDeeperDataContext)
 
   return (
     <a
-      href={approach.links.self}
+      href={article.links.self}
       className="bg-white shadow-base rounded-8 px-20 py-16 mb-16"
     >
       <pre
@@ -25,17 +20,17 @@ export function ApproachSnippet({
           className={`${track.slug} block max-h-[134px] overflow-hidden `}
           style={{ textOverflow: 'ellipsis' }}
         >
-          {approach.snippet}
+          {article.snippet}
         </code>
       </pre>
-      <h5 className="text-h5 mb-2">{approach.title}</h5>
-      <p className="text-p-base text-textColor6 mb-12">{approach.blurb}</p>
+      <h5 className="text-h5 mb-2">{article.title}</h5>
+      <p className="text-p-base text-textColor6 mb-12">{article.blurb}</p>
       <Credits
         topLabel={'author'}
-        topCount={approach.numAuthors}
+        topCount={article.numAuthors}
         bottomLabel={'contributor'}
-        bottomCount={approach.numContributors}
-        avatarUrls={approach.users.map((i) => i.avatarUrl)}
+        bottomCount={article.numContributors}
+        avatarUrls={article.users.map((i) => i.avatarUrl)}
       />
     </a>
   )

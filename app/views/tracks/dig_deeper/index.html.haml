@@ -2,6 +2,6 @@
 - content_for :meta_description, "Explore different approaches and videos on how to solve #{@exercise.title} in #{@track.title}."
 
 #page-approaches-index
-  = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :approaches)
-  = render ReactComponents::Track::Approaches.new(@videos, @introduction, @approaches, @links, @track, @exercise)
+  = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :dig_deeper)
+  = render ReactComponents::Track::DigDeeper.new(@videos, @introduction, @approaches, @articles, @links, @track, @exercise)
 

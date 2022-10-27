@@ -6,18 +6,7 @@ import {
   type Request,
   type ListState,
 } from '@/hooks'
-import type {
-  CommunityVideoType,
-  CommunityVideoAuthor,
-  VideoTrack,
-} from '@/components/types'
-
-export type VideoData = {
-  title: string
-  author: CommunityVideoAuthor
-  embedUrl: string
-  thumbnailUrl: string
-}
+import type { CommunityVideoType, VideoTrack } from '@/components/types'
 
 export type APIResponse = {
   results: CommunityVideoType[]

@@ -798,7 +798,6 @@ export type Modifier =
 
 export type CommunityVideoAuthorLinks = {
   profile?: string
-  channel_url?: string
 }
 
 export type CommunityVideoAuthor = {

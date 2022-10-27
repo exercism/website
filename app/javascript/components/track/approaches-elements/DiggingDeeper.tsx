@@ -6,7 +6,7 @@ import { User } from '@/components/types'
 
 export type ApproachIntroduction = {
   html: string
-  avatarUrls: string[]
+  users: User[]
   links: {
     edit: string
   }
@@ -55,15 +55,7 @@ function DiggingDeeperFooter({
           bottomCount={introduction.numContributors}
           bottomLabel="contributor"
           className="text-textColor1 font-semibold leading-150"
-          // TODO: we will need correct data for users here
-          users={introduction.avatarUrls.map((a) => {
-            const user: User = {
-              avatarUrl: a,
-              handle: '',
-            }
-
-            return user
-          })}
+          users={introduction.users}
         />
         {introduction.updatedAt && (
           <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium">

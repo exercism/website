@@ -73,6 +73,15 @@ export function useVideoGrid(
       request
     )
 
+  const handlePageChange = useCallback(
+    (page) => {
+      setPage(page, 'videoPage')
+      const queryObject = Object.assign(request.query, { videoPage: page })
+      setQuery(queryObject)
+    },
+    [request.query, setPage, setQuery]
+  )
+
   // don't refetch everything with an empty criteria after mounting
   const didMount = useRef(false)
   useEffect(() => {
@@ -97,7 +106,7 @@ export function useVideoGrid(
 
   const handleTrackChange = useCallback(
     (track: VideoTrack) => {
-      setPage(1)
+      handlePageChange(1)
       setCriteria('')
       setSelectedTrack(track)
 
@@ -107,15 +116,7 @@ export function useVideoGrid(
         videoPage: 1,
       })
     },
-    [setPage, setQuery, request.query]
-  )
-
-  const handlePageChange = useCallback(
-    (page) => {
-      setPage(page)
-      setQuery({ ...request.query, videoPage: page })
-    },
-    [request.query, setPage, setQuery]
+    [handlePageChange, setQuery, request.query]
   )
 
   useQueryParams(request.query)
@@ -126,7 +127,8 @@ export function useVideoGrid(
     resolvedData,
     latestData,
     isFetching,
-    page: request.query.videoPage,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    page: request.query.videoPage!,
     setPage: handlePageChange,
     criteria,
     setCriteria,

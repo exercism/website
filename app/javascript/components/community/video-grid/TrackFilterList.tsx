@@ -15,11 +15,9 @@ type TrackFilterProps = VideoTrack & {
 const TrackFilter = ({
   title,
   iconUrl,
-  // numVideos,
   checked,
   onChange,
-}: // countText,
-TrackFilterProps): JSX.Element => {
+}: TrackFilterProps): JSX.Element => {
   return (
     <label className="c-radio-wrapper">
       <input
@@ -66,7 +64,7 @@ type Props = {
   setValue: (value: VideoTrack) => void
   sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
   countText: string
-  // TODO remove this
+  // TODO this is present in the design but not yet implemented
   numVideos?: number
 }
 
@@ -76,8 +74,6 @@ const Component = ({
   isFetching,
   value,
   setValue,
-  // TODO remove this
-  // numVideos = 100,
   countText,
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)
@@ -128,7 +124,7 @@ const Component = ({
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
           <div className="track-title">{value.title}</div>
           <div className="count">
-            {/* TODO change this back to value.numVideos once data is there */}
+            {/* TODO same as above */}
             {/* {pluralizeWithNumber(numVideos, countText)} */}
           </div>
           <Icon

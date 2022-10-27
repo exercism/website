@@ -18,7 +18,7 @@ class User::ReputationTokens::ExerciseArticleContributionTokenTest < ActiveSuppo
     rt = user.reputation_tokens.first
 
     assert_equal User::ReputationTokens::ExerciseArticleContributionToken, rt.class
-    assert_equal "You contributed to the <strong>Performance</strong> article of <strong>Hamming</strong>", rt.text
+    assert_equal "You contributed to the <strong>Performance</strong> article for <strong>Hamming</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track
     assert_equal "#{user.id}|exercise_article_contribution|Article##{article.id}", rt.uniqueness_key

@@ -18,7 +18,7 @@ class User::ReputationTokens::ExerciseApproachAuthorTokenTest < ActiveSupport::T
     rt = user.reputation_tokens.first
 
     assert_equal User::ReputationTokens::ExerciseApproachAuthorToken, rt.class
-    assert_equal "You authored the <strong>Performance</strong> approach of <strong>Hamming</strong>", rt.text
+    assert_equal "You authored the <strong>Readability</strong> approach of <strong>Hamming</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track
     assert_equal "#{user.id}|exercise_approach_author|Approach##{approach.id}", rt.uniqueness_key

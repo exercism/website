@@ -36,6 +36,20 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
     assert_equal expected_filepaths, approaches.filepaths
   end
 
+  test "filepaths with approaches" do
+    approaches = Git::Exercise::Approaches.new("hamming", "practice", "HEAD",
+      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+    expected_filepaths = [
+      "config.json",
+      "functional/content.md",
+      "functional/snippet.txt",
+      "readability/content.md",
+      "readability/snippet.txt"
+    ]
+    assert_equal expected_filepaths, approaches.filepaths
+  end
+
   test "absolute_filepaths" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
       repo_url: TestHelpers.git_repo_url("track-with-exercises"))
@@ -43,6 +57,20 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
     expected_filepaths = [
       "exercises/practice/bob/.approaches/config.json",
       "exercises/practice/bob/.approaches/introduction.md"
+    ]
+    assert_equal expected_filepaths, approaches.absolute_filepaths
+  end
+
+  test "absolute_filepaths with approaches" do
+    approaches = Git::Exercise::Approaches.new("hamming", "practice", "HEAD",
+      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+    expected_filepaths = [
+      "exercises/practice/hamming/.approaches/config.json",
+      "exercises/practice/hamming/.approaches/functional/content.md",
+      "exercises/practice/hamming/.approaches/functional/snippet.txt",
+      "exercises/practice/hamming/.approaches/readability/content.md",
+      "exercises/practice/hamming/.approaches/readability/snippet.txt"
     ]
     assert_equal expected_filepaths, approaches.absolute_filepaths
   end

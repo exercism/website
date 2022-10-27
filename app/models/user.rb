@@ -69,6 +69,12 @@ class User < ApplicationRecord
   has_many :contributorships, class_name: "Exercise::Contributorship", dependent: :destroy
   has_many :contributed_exercises, through: :contributorships, source: :exercise
 
+  has_many :article_authorships, class_name: "Exercise::Article::Authorship", dependent: :destroy
+  has_many :authored_articlees, through: :article_authorships, source: :article
+
+  has_many :article_contributorships, class_name: "Exercise::Article::Contributorship", dependent: :destroy
+  has_many :contributed_articlees, through: :article_contributorships, source: :article
+
   has_many :approach_authorships, class_name: "Exercise::Approach::Authorship", dependent: :destroy
   has_many :authored_approaches, through: :approach_authorships, source: :approach
 

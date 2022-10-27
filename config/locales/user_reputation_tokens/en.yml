@@ -12,6 +12,12 @@ en:
     concept_contribution:
       1: >
         You contributed to <strong>%{concept_name}</strong>
+    exercise_article_author:
+      1: >
+        You authored the <strong>%{article_title}</strong> article of <strong>%{exercise_title}</strong>
+    exercise_article_contribution:
+      1: >
+        You contributed to the <strong>%{article_title}</strong> article of <strong>%{exercise_title}</strong>
     exercise_approach_author:
       1: >
         You authored the <strong>%{approach_title}</strong> approach of <strong>%{exercise_title}</strong>

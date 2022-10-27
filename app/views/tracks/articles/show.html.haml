@@ -37,22 +37,23 @@
           Found it useful?
           = render ViewComponents::Exercise::ShareArticleLink.new(@article)
 
-  .md-container.flex.flex-col
-    .flex.justify-center.mb-32
-      = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] mr-24 self-center"
-      .flex.flex-col
-        %h2.text-h3.font-bold.mb-4 Other Articles to #{@exercise.title}
-        .text-p-base.text-textColor6 Find our more about this exercise
+  - if @other_articles.present?
+    .md-container.flex.flex-col
+      .flex.justify-center.mb-32
+        = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] mr-24 self-center"
+        .flex.flex-col
+          %h2.text-h3.font-bold.mb-4 Other Articles to #{@exercise.title}
+          .text-p-base.text-textColor6 Explore more ideas about this exercise
 
-    .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.mb-32
-      - @other_articles.each do |other_article|
-        = link_to Exercism::Routes.track_exercise_article_path(@track, @exercise, other_article[:slug]), class: "bg-white shadow-base rounded-8 px-20 py-16 flex flex-col" do
-          %pre.border-1.border-lightGray.rounded-8.p-16.mb-16
-            %code.block.overflow-hidden{ class: "lang-#{@track.highlightjs_language} h-[158px]", style: "text-overflow:ellipsis" }
-              = other_article[:snippet]
-          %h5.text-h5.mb-2
-            = other_article[:title]
-          %p.text-p-base.text-textColor6.mb-12
-            = other_article[:blurb]
-          -# TODO change this after reworking Credits
-          = render ReactComponents::Track::Credits.new(other_article[:users].map { |user| user[:avatar_url] }, other_article[:num_authors], "author", other_article[:num_contributors], "contributor", css_class: "mt-auto")
+      .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.mb-32
+        - @other_articles.each do |other_article|
+          = link_to Exercism::Routes.track_exercise_article_path(@track, @exercise, other_article[:slug]), class: "bg-white shadow-base rounded-8 px-20 py-16 flex flex-col" do
+            %pre.border-1.border-lightGray.rounded-8.p-16.mb-16
+              %code.block.overflow-hidden{ class: "lang-#{@track.highlightjs_language} h-[158px]", style: "text-overflow:ellipsis" }
+                = other_article[:snippet]
+            %h5.text-h5.mb-2
+              = other_article[:title]
+            %p.text-p-base.text-textColor6.mb-12
+              = other_article[:blurb]
+            -# TODO change this after reworking Credits
+            = render ReactComponents::Track::Credits.new(other_article[:users].map { |user| user[:avatar_url] }, other_article[:num_authors], "author", other_article[:num_contributors], "contributor", css_class: "mt-auto")

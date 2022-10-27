@@ -10,7 +10,7 @@ export function Articles({ articles }: { articles: Article[] }): JSX.Element {
         title="Articles"
         description={
           articles.length > 0
-            ? 'Find out more about this exercise'
+            ? 'Explore more ideas about this exercise'
             : `There are no Articles for ${exercise.title}.`
         }
         icon="dig-deeper-gradient"

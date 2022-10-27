@@ -14,6 +14,7 @@ class Exercise::UpdateHasApproaches
   private
   def has_approaches
     exercise.community_videos.approved.exists? ||
+      exercise.articles.exists? ||
       exercise.approaches.exists? ||
       exercise.approaches_introduction_exists?
   end

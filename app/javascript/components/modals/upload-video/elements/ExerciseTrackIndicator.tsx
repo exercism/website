@@ -1,4 +1,4 @@
-import { ApproachesDataContext } from '@/components/track/Approaches'
+import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import React, { useContext } from 'react'
 import { TrackIcon, ExerciseIcon } from '../../../common'
 type ExerciseTrackIndicatorProps = {
@@ -8,7 +8,7 @@ type ExerciseTrackIndicatorProps = {
 export function ExerciseTrackIndicator({
   videoRetrieved,
 }: ExerciseTrackIndicatorProps): JSX.Element {
-  const { exercise, track } = useContext(ApproachesDataContext)
+  const { exercise, track } = useContext(DigDeeperDataContext)
 
   return (
     <div

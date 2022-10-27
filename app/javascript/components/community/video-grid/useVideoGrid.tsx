@@ -37,8 +37,6 @@ export type UseVideoGridReturnType = {
   resolvedData: APIResponse | undefined
   latestData: APIResponse | undefined
   isFetching: boolean
-  order: string
-  setOrder: (order: string) => void
   page: number
   setPage: (page: number) => void
   criteria: string
@@ -51,11 +49,8 @@ export function useVideoGrid(
   tracks: VideoTrack[]
 ): UseVideoGridReturnType {
   const initialTrack =
-    tracks.find(
-      (t) =>
-        t.slug ===
-        new URLSearchParams(window.location.search).get('video_track_slug')
-    ) || tracks[0]
+    tracks.find((t) => t.slug === videoRequest.query?.video_track_slug) ||
+    tracks[0]
 
   const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
   const [selectedTrack, setSelectedTrack] = useState<VideoTrack>(initialTrack)
@@ -63,7 +58,6 @@ export function useVideoGrid(
   const {
     request,
     setCriteria: setRequestCriteria,
-    setOrder,
     setPage,
     setQuery,
   } = useList(videoRequest)
@@ -78,6 +72,15 @@ export function useVideoGrid(
       ],
       request
     )
+
+  const handlePageChange = useCallback(
+    (page) => {
+      setPage(page, 'videoPage')
+      const queryObject = Object.assign(request.query, { videoPage: page })
+      setQuery(queryObject)
+    },
+    [request.query, setPage, setQuery]
+  )
 
   // don't refetch everything with an empty criteria after mounting
   const didMount = useRef(false)
@@ -103,7 +106,7 @@ export function useVideoGrid(
 
   const handleTrackChange = useCallback(
     (track: VideoTrack) => {
-      setPage(1)
+      handlePageChange(1)
       setCriteria('')
       setSelectedTrack(track)
 
@@ -113,17 +116,10 @@ export function useVideoGrid(
         videoPage: 1,
       })
     },
-    [setPage, setQuery, request.query]
+    [handlePageChange, setQuery, request.query]
   )
 
   useQueryParams(request.query)
-
-  const handlePageTurn = useCallback(
-    (page: number) => {
-      setPage(page)
-    },
-    [setPage]
-  )
 
   return {
     handleTrackChange,
@@ -131,10 +127,9 @@ export function useVideoGrid(
     resolvedData,
     latestData,
     isFetching,
-    order: request.query.order,
-    setOrder,
-    page: request.query.page,
-    setPage: handlePageTurn,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    page: request.query.videoPage!,
+    setPage: handlePageChange,
     criteria,
     setCriteria,
     request,

@@ -4,10 +4,13 @@ import { useEffect, useRef } from 'react'
 type RequestQueryParamObject = Record<string, string>
 
 function pushQueryParams(key: string, value: string): void {
-  const url = new URL(window.location.toString())
+  const location = `${window.location}`
+  const valueAsString = `${value}`
+  const url = new URL(location)
 
-  if (value && value.length > 0) {
-    url.searchParams.set(key, value)
+  if (value && valueAsString.length > 0) {
+    value
+    url.searchParams.set(key, valueAsString)
   } else {
     url.searchParams.delete(key)
   }

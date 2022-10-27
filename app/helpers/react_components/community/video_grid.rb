@@ -37,7 +37,7 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
   memoize
   def query
     {
-      page: current_page,
+      video_page: current_page,
       track_slug: params[:video_track_slug],
       criteria: params[:criteria]
     }.compact

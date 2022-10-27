@@ -37,8 +37,6 @@ export type UseVideoGridReturnType = {
   resolvedData: APIResponse | undefined
   latestData: APIResponse | undefined
   isFetching: boolean
-  order: string
-  setOrder: (order: string) => void
   page: number
   setPage: (page: number) => void
   criteria: string
@@ -51,11 +49,8 @@ export function useVideoGrid(
   tracks: VideoTrack[]
 ): UseVideoGridReturnType {
   const initialTrack =
-    tracks.find(
-      (t) =>
-        t.slug ===
-        new URLSearchParams(window.location.search).get('video_track_slug')
-    ) || tracks[0]
+    tracks.find((t) => t.slug === videoRequest.query?.video_track_slug) ||
+    tracks[0]
 
   const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
   const [selectedTrack, setSelectedTrack] = useState<VideoTrack>(initialTrack)
@@ -63,7 +58,6 @@ export function useVideoGrid(
   const {
     request,
     setCriteria: setRequestCriteria,
-    setOrder,
     setPage,
     setQuery,
   } = useList(videoRequest)
@@ -116,14 +110,15 @@ export function useVideoGrid(
     [setPage, setQuery, request.query]
   )
 
-  useQueryParams(request.query)
-
-  const handlePageTurn = useCallback(
-    (page: number) => {
+  const handlePageChange = useCallback(
+    (page) => {
       setPage(page)
+      setQuery({ ...request.query, videoPage: page })
     },
-    [setPage]
+    [request.query, setPage, setQuery]
   )
+
+  useQueryParams(request.query)
 
   return {
     handleTrackChange,
@@ -131,10 +126,8 @@ export function useVideoGrid(
     resolvedData,
     latestData,
     isFetching,
-    order: request.query.order,
-    setOrder,
-    page: request.query.page,
-    setPage: handlePageTurn,
+    page: request.query.videoPage,
+    setPage: handlePageChange,
     criteria,
     setCriteria,
     request,

@@ -6,7 +6,7 @@ type RequestQueryParamObject = Record<string, string>
 function pushQueryParams(key: string, value: string): void {
   const url = new URL(window.location.toString())
 
-  if (value && value.length > 0) {
+  if (value && `${value}`.length > 0) {
     url.searchParams.set(key, value)
   } else {
     url.searchParams.delete(key)

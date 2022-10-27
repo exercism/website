@@ -7,7 +7,7 @@ class Tracks::ArticlesController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    redirect_to track_exercise_dig_deeper_index_path(@track, @exercise)
+    redirect_to track_exercise_dig_deeper_path(@track, @exercise)
   end
 
   def show

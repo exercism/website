@@ -5,7 +5,7 @@ class Tracks::DigDeeperController < ApplicationController
 
   skip_before_action :authenticate_user!
 
-  def index
+  def show
     @videos = @exercise.community_videos.approved
     @approaches = @exercise.approaches.random
     @articles = @exercise.articles.random

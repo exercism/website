@@ -63,10 +63,10 @@ module ViewComponents
         ]
         lockable_tab(
           safe_join(parts),
-          Exercism::Routes.track_exercise_dig_deeper_index_path(track, exercise),
+          Exercism::Routes.track_exercise_dig_deeper_path(track, exercise),
           :dig_deeper,
           dig_deeper_tab_locked?,
-          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_dig_deeper_index_path(track, exercise),
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_dig_deeper_path(track, exercise),
             render_react_components: true)
         )
       end

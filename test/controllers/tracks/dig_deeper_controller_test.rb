@@ -1,7 +1,7 @@
 require "test_helper"
 
-class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
-  test "index: 404s when track does not exist" do
+class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
+  test "show: 404s when track does not exist" do
     user = create :user
     track = create :track
     create :user_track, user: user, track: track
@@ -9,42 +9,42 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get track_exercise_dig_deeper_index_url('unknown', exercise)
+    get track_exercise_dig_deeper_url('unknown', exercise)
 
     assert_rendered_404
   end
 
-  test "index: 404s when exercise does not exist" do
+  test "show: 404s when exercise does not exist" do
     user = create :user
     track = create :track
     create :user_track, user: user, track: track
 
     sign_in!(user)
 
-    get track_exercise_dig_deeper_index_url(track, 'unknown')
+    get track_exercise_dig_deeper_url(track, 'unknown')
 
     assert_rendered_404
   end
 
-  test "index: renders correctly for external" do
+  test "show: renders correctly for external" do
     track = create :track
     exercise = create :practice_exercise, track: track
 
-    get track_exercise_dig_deeper_index_url(track, exercise)
+    get track_exercise_dig_deeper_url(track, exercise)
 
-    assert_template "tracks/dig_deeper/index"
+    assert_template "tracks/dig_deeper/show"
   end
 
-  test "index: redirects when exercise is hello-world" do
+  test "show: redirects when exercise is hello-world" do
     track = create :track
     exercise = create :hello_world_exercise, track: track
 
-    get track_exercise_dig_deeper_index_url(track, exercise)
+    get track_exercise_dig_deeper_url(track, exercise)
 
     assert_redirected_to track_exercise_url(track, exercise)
   end
 
-  test "index: redirects when not iterated and not unlocked help" do
+  test "show: redirects when not iterated and not unlocked help" do
     user = create :user
     track = create :track
     create :user_track, user: user, track: track
@@ -53,12 +53,12 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get track_exercise_dig_deeper_index_url(track, exercise)
+    get track_exercise_dig_deeper_url(track, exercise)
 
     assert_redirected_to track_exercise_url(track, exercise)
   end
 
-  test "index: renders when not iterated but unlocked help" do
+  test "show: renders when not iterated but unlocked help" do
     user = create :user
     track = create :track
     create :user_track, user: user, track: track
@@ -67,12 +67,12 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get track_exercise_dig_deeper_index_url(track, exercise)
+    get track_exercise_dig_deeper_url(track, exercise)
 
-    assert_template "tracks/dig_deeper/index"
+    assert_template "tracks/dig_deeper/show"
   end
 
-  test "index: renders when iterated" do
+  test "show: renders when iterated" do
     user = create :user
     track = create :track
     create :user_track, user: user, track: track
@@ -82,16 +82,16 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get track_exercise_dig_deeper_index_url(track, exercise)
+    get track_exercise_dig_deeper_url(track, exercise)
 
-    assert_template "tracks/dig_deeper/index"
+    assert_template "tracks/dig_deeper/show"
   end
 
   test "tooltip_locked: renders when external" do
     track = create :track
     exercise = create :practice_exercise, track: track
 
-    get tooltip_locked_track_exercise_dig_deeper_index_url(track, exercise)
+    get tooltip_locked_track_exercise_dig_deeper_url(track, exercise)
 
     assert_response :ok
   end
@@ -105,7 +105,7 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get tooltip_locked_track_exercise_dig_deeper_index_url(track, exercise)
+    get tooltip_locked_track_exercise_dig_deeper_url(track, exercise)
 
     assert_template "tracks/dig_deeper/tooltip_locked"
   end
@@ -118,7 +118,7 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get tooltip_locked_track_exercise_dig_deeper_index_url('unknown', exercise)
+    get tooltip_locked_track_exercise_dig_deeper_url('unknown', exercise)
 
     assert_rendered_404
   end
@@ -130,7 +130,7 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get tooltip_locked_track_exercise_dig_deeper_index_url(track, 'unknown')
+    get tooltip_locked_track_exercise_dig_deeper_url(track, 'unknown')
 
     assert_rendered_404
   end
@@ -144,7 +144,7 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get tooltip_locked_track_exercise_dig_deeper_index_url(track, exercise)
+    get tooltip_locked_track_exercise_dig_deeper_url(track, exercise)
 
     assert_template "tracks/dig_deeper/tooltip_locked"
   end
@@ -159,7 +159,7 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get tooltip_locked_track_exercise_dig_deeper_index_url(track, exercise)
+    get tooltip_locked_track_exercise_dig_deeper_url(track, exercise)
 
     assert_template "tracks/dig_deeper/tooltip_locked"
   end

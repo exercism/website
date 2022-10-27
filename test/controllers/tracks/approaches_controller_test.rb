@@ -7,7 +7,7 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     get track_exercise_approaches_url(track, exercise)
 
-    assert_redirected_to track_exercise_dig_deeper_index_url(track, exercise)
+    assert_redirected_to track_exercise_dig_deeper_url(track, exercise)
   end
 
   test "show: renders correctly for external" do

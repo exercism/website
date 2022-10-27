@@ -1,4 +1,4 @@
-class Exercise::Approaches::IntroductionContributorship < ApplicationRecord
+class Exercise::Approach::Introduction::Contributorship < ApplicationRecord
   belongs_to :exercise
   belongs_to :contributor,
     class_name: "User",

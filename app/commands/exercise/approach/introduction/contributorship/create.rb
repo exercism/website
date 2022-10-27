@@ -1,4 +1,4 @@
-class Exercise::Approaches::IntroductionContributorship::Create
+class Exercise::Approach::Introduction::Contributorship::Create
   include Mandate
 
   initialize_with :exercise, :contributor

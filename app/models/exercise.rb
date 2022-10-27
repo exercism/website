@@ -48,7 +48,7 @@ class Exercise < ApplicationRecord
     source: :contributor
 
   has_many :approach_introduction_authorships,
-    class_name: "Exercise::Approaches::IntroductionAuthorship",
+    class_name: "Exercise::Approach::Introduction::Authorship",
     inverse_of: :exercise,
     dependent: :destroy
   has_many :approach_introduction_authors,
@@ -56,7 +56,7 @@ class Exercise < ApplicationRecord
     source: :author
 
   has_many :approach_introduction_contributorships,
-    class_name: "Exercise::Approaches::IntroductionContributorship",
+    class_name: "Exercise::Approach::Introduction::Contributorship",
     inverse_of: :exercise,
     dependent: :destroy
   has_many :approach_introduction_contributors,

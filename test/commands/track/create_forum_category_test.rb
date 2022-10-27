@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Forum::CreateTrackCategoryTest < ActiveSupport::TestCase
+class Track::CreateForumCategoryTest < ActiveSupport::TestCase
   test "creates as correct position based on alphabetical order" do
     track = create :track, slug: 'lua', title: 'Lua'
 
@@ -28,7 +28,7 @@ class Forum::CreateTrackCategoryTest < ActiveSupport::TestCase
     stub_request(:put, "https://forum.exercism.org/posts/22").
       to_return(status: 200, body: "", headers: {})
 
-    Forum::CreateTrackCategory.(track)
+    Track::CreateForumCategory.(track)
   end
 
   test "creates in first position if first in alphabetical order" do
@@ -58,7 +58,7 @@ class Forum::CreateTrackCategoryTest < ActiveSupport::TestCase
     stub_request(:put, "https://forum.exercism.org/posts/22").
       to_return(status: 200, body: "", headers: {})
 
-    Forum::CreateTrackCategory.(track)
+    Track::CreateForumCategory.(track)
   end
 
   test "creates in last position if last in alphabetical order" do
@@ -88,7 +88,7 @@ class Forum::CreateTrackCategoryTest < ActiveSupport::TestCase
     stub_request(:put, "https://forum.exercism.org/posts/22").
       to_return(status: 200, body: "", headers: {})
 
-    Forum::CreateTrackCategory.(track)
+    Track::CreateForumCategory.(track)
   end
 
   test "correctly edits first post" do
@@ -111,6 +111,6 @@ class Forum::CreateTrackCategoryTest < ActiveSupport::TestCase
       with(body: { "post" => { "raw" => "Welcome to the Lua category. This is a space to ask any Lua questions, discuss exercises from the Exercism Lua track, or explore any other Lua-related conversations!" } }). # rubocop:disable Layout/LineLength
       to_return(status: 200, body: "", headers: {})
 
-    Forum::CreateTrackCategory.(track)
+    Track::CreateForumCategory.(track)
   end
 end

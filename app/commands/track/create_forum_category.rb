@@ -1,4 +1,4 @@
-class Forum::CreateTrackCategory
+class Track::CreateForumCategory
   include Mandate
 
   initialize_with :track

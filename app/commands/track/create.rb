@@ -14,7 +14,7 @@ class Track::Create
     ).tap do |track|
       # We need to force_sync due to the synced_to_git_sha value set to the HEAD commit
       Git::SyncTrack.(track, force_sync: true)
-      Forum::CreateTrackCategory.(track)
+      Track::CreateForumCategory.(track)
       ContributorTeam::Create.(track.slug, type: :track_maintainers, track:)
     end
   rescue ActiveRecord::RecordNotUnique

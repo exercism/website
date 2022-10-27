@@ -8,9 +8,9 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
     expected = [
       {
         uuid: "23360676-7b7f-4759-b6b6-011ef8f9c420",
-        slug: "performance",
-        title: "Performance",
-        blurb: "Check out this perf!",
+        slug: "functional",
+        title: "Functional",
+        blurb: "All those functions",
         authors: ["erikschierboom"],
         contributors: ["ihid"]
       },

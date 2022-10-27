@@ -41,12 +41,7 @@ class Track::CreateForumCategory
   def track_categories = client.categories({ parent_category_id: PROGRAMMING_CATEGORY_ID })
 
   memoize
-  def client
-    DiscourseApi::Client.new("https://forum.exercism.org").tap do |client|
-      client.api_key = ENV.fetch("DISCOURSE_API_KEY", Exercism.secrets.discourse_api_key)
-      client.api_username = ENV.fetch("DISCOURSE_API_USERNAME", "system")
-    end
-  end
+  def client = Exercism.discourse_client
 
   PROGRAMMING_CATEGORY_ID = 5
   COLOR = "0088CC".freeze

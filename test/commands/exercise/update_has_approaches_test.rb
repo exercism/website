@@ -47,6 +47,18 @@ class Exercise::UpdateHasApproachesTest < ActiveSupport::TestCase
     assert exercise.reload.has_approaches?
   end
 
+  test "has_approaches set to true when the exercise has an article" do
+    exercise = create :practice_exercise, slug: 'leap'
+    create :exercise_article, exercise: exercise
+
+    # Sanity check
+    refute exercise.reload.has_approaches?
+
+    Exercise::UpdateHasApproaches.(exercise)
+
+    assert exercise.reload.has_approaches?
+  end
+
   test "has_approaches set to false when the exercise does not have an approaches introduction nor an approved community videos" do
     exercise = create :practice_exercise, slug: 'leap'
 

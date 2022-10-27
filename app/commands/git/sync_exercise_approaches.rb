@@ -10,7 +10,6 @@ class Git::SyncExerciseApproaches < Git::Sync
     # This removes any approaches that aren't read from the config below
     exercise.update(approaches:)
     Git::SyncExerciseApproachIntroduction.(exercise, introduction_config)
-    ::Exercise::UpdateHasApproaches.(exercise)
   end
 
   private

@@ -13,7 +13,7 @@
       .block.flex-grow
         %h1.text-h0.mb-8.md:mb-8= @approach.title
         .flex.items-center.text-16.font-semibold.leading-150.text-textColor1
-          = render ReactComponents::Track::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor", css_class: 'h-[40px] mr-12')
+          = render ReactComponents::Common::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor", css_class: 'h-[40px] mr-12')
           %span.text-textColor6.mr-12
             &middot
           %span.text-textColor6
@@ -59,4 +59,4 @@
             = other_approach[:title]
           %p.text-p-base.text-textColor6.mb-12
             = other_approach[:blurb]
-          = render ReactComponents::Track::Credits.new(other_approach[:users], other_approach[:num_authors], "author", other_approach[:num_contributors], "contributor", css_class: "text-14 text-textColor1 font-semibold mt-auto h-[32px]")
+          = render ReactComponents::Common::Credits.new(other_approach[:users], other_approach[:num_authors], "author", other_approach[:num_contributors], "contributor", css_class: "text-14 text-textColor1 font-semibold mt-auto h-[32px]")

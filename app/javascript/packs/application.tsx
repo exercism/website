@@ -207,9 +207,9 @@ export const mappings = {
       links={data.links}
     />
   ),
-  'track-credits': (data: any) => (
+  'common-credits': (data: any) => (
     <Common.Credits
-      users={camelizeKeysAs<CreditsUsersProp[]>(data.users)}
+      users={camelizeKeysAs<User[]>(data.users)}
       topCount={data.top_count}
       topLabel={data.top_label}
       bottomCount={data.bottom_count}
@@ -458,10 +458,9 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
-import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { AutomationLockedTooltipProps } from '@/components/tooltips/AutomationLockedTooltip'
 import { ApproachesProps } from '@/components/track/Approaches'
 import { ChartData } from '@/components/impact/Chart'
-import { CreditsUsersProp } from '@/components/common/Credits.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

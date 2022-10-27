@@ -22,7 +22,7 @@ export type Article = {
   numContributors: number
   title: string
   blurb: string
-  snippet: string
+  snippetHtml: string
   links: {
     self: string
   }

@@ -16,12 +16,10 @@ export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
         className="border-1 border-lightGray rounded-8 p-16 mb-16"
         ref={codeBlockRef}
       >
-        <code
-          className={`${track.slug} block max-h-[134px] overflow-hidden `}
-          style={{ textOverflow: 'ellipsis' }}
-        >
-          {article.snippet}
-        </code>
+        <div
+          className="c-cli-walkthrough"
+          dangerouslySetInnerHTML={{ __html: article.snippetHtml }}
+        />
       </pre>
       <h5 className="text-h5 mb-2">{article.title}</h5>
       <p className="text-p-base text-textColor6 mb-12">{article.blurb}</p>

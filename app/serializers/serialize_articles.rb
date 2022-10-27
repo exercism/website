@@ -62,7 +62,7 @@ class SerializeArticles
         slug: article.slug,
         title: article.title,
         blurb: article.blurb,
-        snippet: article.snippet,
+        snippet_html: article.snippet_html,
         links: {
           self: Exercism::Routes.track_exercise_article_path(article.track, article.exercise, article)
         }

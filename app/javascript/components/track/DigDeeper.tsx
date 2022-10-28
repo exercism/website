@@ -29,7 +29,7 @@ export type Article = {
 }
 
 export type Approach = {
-  users: DigDeeperUser[]
+  users: User[]
   numAuthors: number
   numContributors: number
   title: string

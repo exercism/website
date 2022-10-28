@@ -20,8 +20,12 @@ export function Credits({
   bottomCount,
   users,
   className,
-}: CreditsProps): JSX.Element {
+}: CreditsProps): JSX.Element | null {
   const [overflow] = useState<number>(topCount + Number(bottomCount) - 2)
+
+  if (users.length === 0 || !users) {
+    return null
+  }
 
   return (
     <div className={`flex items-center ${className}`}>

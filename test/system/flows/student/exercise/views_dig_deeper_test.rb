@@ -15,7 +15,6 @@ module Flows
           exercise = create :practice_exercise, track: track, slug: 'hamming'
           create :exercise_approach, exercise: exercise
           create :exercise_article, exercise: exercise
-          create :community_video, exercise: exercise, status: :approved
           exercise.update(has_approaches: true)
 
           use_capybara_host do
@@ -43,7 +42,6 @@ module Flows
 
             assert_text "Performance" # Shows article
             assert_text "Readability" # Shows approach
-            assert_text "something interesting" # Shows community video
           end
         end
 
@@ -55,7 +53,6 @@ module Flows
           exercise = create :practice_exercise, track: track, slug: 'hamming'
           create :exercise_approach, exercise: exercise
           create :exercise_article, exercise: exercise
-          create :community_video, exercise: exercise, status: :approved
           exercise.update(has_approaches: true)
 
           use_capybara_host do
@@ -77,7 +74,6 @@ module Flows
 
             assert_text "Performance" # Shows article
             assert_text "Readability" # Shows approach
-            assert_text "something interesting" # Shows community video
           end
         end
       end

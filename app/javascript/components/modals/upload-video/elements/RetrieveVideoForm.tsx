@@ -1,9 +1,8 @@
-import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import React, { useCallback, useContext, useState } from 'react'
 import { useMutation } from 'react-query'
-import { ApproachesDataContext } from '@/components/track/Approaches'
-import type { CommunityVideoType } from '@/components/types'
 import { sendRequest } from '@/utils/send-request'
+import { DigDeeperDataContext } from '@/components/track/DigDeeper'
+import type { CommunityVideoType } from '@/components/types'
 import { UploadVideoTextInput } from '.'
 
 export type VideoDataResponse =

@@ -3,6 +3,7 @@ require "test_helper"
 class Track::CreateTest < ActiveSupport::TestCase
   test "creates track" do
     repo_url = TestHelpers.git_repo_url("track-with-exercises")
+    Track::CreateForumCategory.stubs(:call)
 
     Track::Create.(repo_url)
 
@@ -20,6 +21,8 @@ class Track::CreateTest < ActiveSupport::TestCase
   end
 
   test "syncs track" do
+    Track::CreateForumCategory.stubs(:call)
+
     Track::Create.(TestHelpers.git_repo_url("track-with-exercises"))
 
     track = Track.last
@@ -28,6 +31,8 @@ class Track::CreateTest < ActiveSupport::TestCase
   end
 
   test "creates contributor team if track does not exist" do
+    Track::CreateForumCategory.stubs(:call)
+
     track = Track::Create.(TestHelpers.git_repo_url("track-with-exercises"))
 
     assert_equal 1, ContributorTeam.count
@@ -47,7 +52,15 @@ class Track::CreateTest < ActiveSupport::TestCase
     assert_equal updated_at_before_create, team.reload.updated_at
   end
 
+  test "adds track to forum" do
+    Track::CreateForumCategory.expects(:call).once
+
+    Track::Create.(TestHelpers.git_repo_url("track-with-exercises"))
+  end
+
   test "idempotent" do
+    Track::CreateForumCategory.stubs(:call)
+
     assert_idempotent_command do
       Track::Create.(TestHelpers.git_repo_url("track-with-exercises"))
     end

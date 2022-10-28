@@ -26,7 +26,7 @@ module Flows
             assert_text "You can only view the Dig Deeper tab for this exercise if you've attempted this exercise at least once."
 
             # Simulate having passing tests
-            solution = create :practice_solution, user: user, exercise: exercise, downloaded_at: Time.zone.now
+            solution = create :practice_solution, user: user, exercise: exercise, downloaded_at: Time.current
 
             visit track_exercise_path(track, exercise)
 

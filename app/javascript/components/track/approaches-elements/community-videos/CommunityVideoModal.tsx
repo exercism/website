@@ -1,7 +1,7 @@
-import { Modal } from '@/components/modals'
-import dayjs from 'dayjs'
 import React from 'react'
-import { CommunityVideo } from './types'
+import dayjs from 'dayjs'
+import { Modal } from '@/components/modals'
+import type { CommunityVideoType } from '@/components/types'
 import { VideoCredits } from './VideoCredits'
 
 export function CommunityVideoModal({
@@ -11,7 +11,7 @@ export function CommunityVideoModal({
 }: {
   isOpen: boolean
   onClose: () => void
-  video: CommunityVideo
+  video: CommunityVideoType
 }): JSX.Element {
   return (
     <Modal

@@ -3,7 +3,8 @@ import { Request } from './request-query'
 
 export type ListState = Request & {
   query: {
-    page: number
+    page?: number
+    videoPage?: number
     criteria?: string
     tags?: string[]
     trackSlug?: string
@@ -11,7 +12,10 @@ export type ListState = Request & {
 }
 
 type ListAction =
-  | { type: 'page.changed'; payload: { page: number } }
+  | {
+      type: 'page.changed'
+      payload: { page: number } | { [key: string]: number }
+    }
   | { type: 'query.changed'; payload: { query: { page: number } } }
   | { type: 'criteria.changed'; payload: { criteria: string } }
   | { type: 'filter.changed'; payload: { filter: string } }
@@ -60,7 +64,7 @@ export function useList(initialRequest: Request): {
   request: ListState
   setCriteria: (criteria: string) => void
   setOrder: (order: string) => void
-  setPage: (page: number) => void
+  setPage: (page: number, key?: string) => void
   setQuery: (query: any) => void
   setFilter: (filter: string) => void
 } {
@@ -77,8 +81,8 @@ export function useList(initialRequest: Request): {
   )
 
   const setPage = useCallback(
-    (page: number) => {
-      dispatch({ type: 'page.changed', payload: { page } })
+    (page: number, key = 'page') => {
+      dispatch({ type: 'page.changed', payload: { [key]: page } })
     },
     [dispatch]
   )

@@ -1,5 +1,10 @@
 import React, { createContext } from 'react'
-import { Track, Exercise, User } from '../types'
+import type {
+  Track,
+  Exercise,
+  User,
+  CommunityVideosProps,
+} from '@/components/types'
 import {
   Approaches,
   ApproachIntroduction,
@@ -7,7 +12,6 @@ import {
   CommunityVideos,
   DiggingDeeper,
 } from './approaches-elements'
-import { CommunityVideosProps } from './approaches-elements/community-videos/types'
 
 type DigDeeperUser = Pick<User, 'avatarUrl' | 'handle'> & {
   name: string

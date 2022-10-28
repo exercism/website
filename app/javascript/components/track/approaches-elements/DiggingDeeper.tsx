@@ -1,6 +1,6 @@
 import React from 'react'
-import { GraphicalIcon, Icon, Credits } from '@/components/common'
 import dayjs from 'dayjs'
+import { GraphicalIcon, Icon, Credits } from '@/components/common'
 import { NoIntroductionYet } from '.'
 
 export type ApproachIntroduction = {

@@ -16,7 +16,7 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
       page: '5'
     ).returns(CommunityVideo.page(1))
 
-    get api_community_videos_path(page: 5, criteria: "author", track_slug: track.slug), headers: @headers, as: :json
+    get api_community_videos_path(video_page: 5, criteria: "author", video_track_slug: track.slug), headers: @headers, as: :json
 
     assert_response :ok
   end

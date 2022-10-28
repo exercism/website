@@ -1,11 +1,10 @@
-import { Credits } from '@/components/common'
+import React from 'react'
 import { useHighlighting } from '@/hooks'
-import React, { useContext } from 'react'
-import { Article, DigDeeperDataContext } from '../DigDeeper'
+import { Credits } from '@/components/common'
+import { Article } from '../DigDeeper'
 
 export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>()
-  const { track } = useContext(DigDeeperDataContext)
 
   return (
     <a

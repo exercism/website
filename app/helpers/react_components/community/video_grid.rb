@@ -16,8 +16,7 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
             initial_data:
           }
         },
-        tracks:,
-        selected_track_slug: params[:track_slug]
+        tracks:
       }
     )
   end
@@ -38,8 +37,8 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
   memoize
   def query
     {
-      page: current_page,
-      track_slug: params[:track_slug],
+      video_page: current_page,
+      video_track_slug: params[:video_track_slug],
       criteria: params[:criteria]
     }.compact
   end

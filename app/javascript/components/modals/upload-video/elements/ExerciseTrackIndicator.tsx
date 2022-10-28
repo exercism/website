@@ -1,5 +1,5 @@
-import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import React, { useContext } from 'react'
+import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import { TrackIcon, ExerciseIcon } from '../../../common'
 type ExerciseTrackIndicatorProps = {
   videoRetrieved: boolean

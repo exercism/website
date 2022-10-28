@@ -1,11 +1,15 @@
-import { useCallback, useEffect, useState } from 'react'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-import { useHistory, removeEmpty } from '../../../hooks/use-history'
-import { useList } from '../../../hooks/use-list'
-import { AutomationTrack, Representation } from '../../types'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  usePaginatedRequestQuery,
+  useList,
+  useQueryParams,
+  type Request,
+  type ListState,
+} from '@/hooks'
+import type { CommunityVideoType, VideoTrack } from '@/components/types'
 
 export type APIResponse = {
-  results: Representation[]
+  results: CommunityVideoType[]
   meta: {
     currentPage: number
     totalCount: number
@@ -14,54 +18,97 @@ export type APIResponse = {
   }
 }
 
+export type HandleTrackChangeType = (track: VideoTrack) => void
+
+export type UseVideoGridReturnType = {
+  handleTrackChange: HandleTrackChangeType
+  selectedTrack: VideoTrack
+  resolvedData: APIResponse | undefined
+  latestData: APIResponse | undefined
+  isFetching: boolean
+  page: number
+  setPage: (page: number) => void
+  criteria: string
+  setCriteria: (criteria: string) => void
+  request: ListState
+}
+
 export function useVideoGrid(
   videoRequest: Request,
-  tracks: AutomationTrack[],
-  selectedTrackSlug: string
-): any {
+  tracks: VideoTrack[]
+): UseVideoGridReturnType {
   const initialTrack =
-    tracks.find((track) => track.slug == selectedTrackSlug) || tracks[0]
+    tracks.find((t) => t.slug === videoRequest.query?.videoTrackSlug) ||
+    tracks[0]
+
   const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
-  const [selectedTrack, setSelectedTrack] = useState(initialTrack)
+  const [selectedTrack, setSelectedTrack] = useState<VideoTrack>(initialTrack)
 
   const {
     request,
     setCriteria: setRequestCriteria,
-    setOrder,
     setPage,
     setQuery,
   } = useList(videoRequest)
 
-  const { status, resolvedData, latestData, isFetching } =
+  const { resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
-      ['community-video-grid-key', request],
+      [
+        'community-video-grid-key',
+        request.query.criteria,
+        request.query.videoTrackSlug,
+        request.query.videoPage,
+      ],
       request
     )
 
+  const handlePageChange = useCallback(
+    (page) => {
+      setPage(page, 'videoPage')
+      const queryObject = Object.assign(request.query, { videoPage: page })
+      setQuery(queryObject)
+    },
+    [request.query, setPage, setQuery]
+  )
+
+  // don't refetch everything with an empty criteria after mounting
+  const didMount = useRef(false)
   useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true
+      return
+    }
+
     const handler = setTimeout(() => {
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
+        setQuery({ ...request.query, criteria })
       }
     }, 500)
 
     return () => {
       clearTimeout(handler)
     }
-  }, [setRequestCriteria, criteria])
 
-  useHistory({ pushOn: removeEmpty(request.query) })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [criteria])
 
   const handleTrackChange = useCallback(
-    (track) => {
-      setPage(1)
+    (track: VideoTrack) => {
+      handlePageChange(1)
       setCriteria('')
       setSelectedTrack(track)
 
-      setQuery({ ...request.query, trackSlug: track.slug, page: 1 })
+      setQuery({
+        ...request.query,
+        videoTrackSlug: track.slug,
+        videoPage: 1,
+      })
     },
-    [setPage, setQuery, request.query]
+    [handlePageChange, setQuery, request.query]
   )
+
+  useQueryParams(request.query)
 
   return {
     handleTrackChange,
@@ -69,10 +116,9 @@ export function useVideoGrid(
     resolvedData,
     latestData,
     isFetching,
-    order: request.query.order,
-    setOrder,
-    page: request.query.page,
-    setPage,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    page: request.query.videoPage!,
+    setPage: handlePageChange,
     criteria,
     setCriteria,
     request,

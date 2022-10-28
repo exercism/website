@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Avatar, Icon } from '@/components/common'
-import { CommunityVideo as CommunityVideoType } from './types'
+import { CommunityVideoType } from '@/components/types'
 import { CommunityVideoModal } from './CommunityVideoModal'
 
 export function CommunityVideo({

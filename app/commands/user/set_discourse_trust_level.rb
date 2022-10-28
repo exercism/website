@@ -6,7 +6,7 @@ class User::SetDiscourseTrustLevel
   def call
     return unless user.reputation >= 20
 
-    discourse_user_id = Exercism.discourse_client.by_external_id(user.id)['id']
+    discourse_user_id = client.by_external_id(user.id)['id']
     client.update_trust_level(discourse_user_id, level: 2)
   rescue DiscourseApi::NotFoundError
     # If the external user can't be found, then the

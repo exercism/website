@@ -55,9 +55,9 @@ class Metric::CreateTest < ActiveSupport::TestCase
     action = :start_solution
     solution = create :concept_solution
     occurred_at = Time.current - 2.seconds
-    Exercism.request_context = { remote_ip: nil }
+    request_context = { remote_ip: nil }
 
-    Metric::Create.(action, occurred_at, solution:)
+    Metric::Create.(action, occurred_at, solution:, request_context:)
 
     assert_equal 1, Metric.count
     metric = Metric.last

@@ -1,13 +1,24 @@
-import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
-import { CommunityVideoAuthor } from '@/components/track/approaches-elements/community-videos/types'
-import React, { useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { QueryStatus } from 'react-query'
-import { Avatar, GraphicalIcon, Pagination } from '../../common'
+import { ResultsZone } from '@/components/ResultsZone'
+import {
+  Avatar,
+  FilterFallback,
+  GraphicalIcon,
+  Pagination,
+} from '@/components/common'
+import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
-import { useVideoGrid } from './useVideoGrid'
+import { type HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
+import type { Request } from '@/hooks'
+import type { VideoTrack } from '@/components/types'
+import type { CommunityVideoType } from '@/components/types'
 
 type VideoGridProps = {
-  data: any
+  data: {
+    tracks: VideoTrack[]
+    request: Request
+  }
 }
 
 export function VideoGrid({ data }: VideoGridProps): JSX.Element {
@@ -16,10 +27,26 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     page,
     setPage,
     handleTrackChange,
+    isFetching,
     selectedTrack,
     criteria,
     setCriteria,
-  } = useVideoGrid(data.request, data.tracks, data.selectedTrackSlug)
+  } = useVideoGrid(data.request, data.tracks)
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const timer = useRef<any>()
+
+  const handlePageResetOnInputChange = useCallback(
+    (input: string) => {
+      //clears it on any input
+      clearTimeout(timer.current)
+      if (criteria && (input.length > 2 || input.length === 0)) {
+        timer.current = setTimeout(() => setPage(1), 500)
+      }
+    },
+
+    [criteria, setPage]
+  )
 
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
@@ -34,22 +61,33 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
           className="grow --search --right"
           placeholder="Search community walkthroughs"
           value={criteria}
-          onChange={(e) => setCriteria(e.target.value)}
+          onChange={(e) => {
+            setCriteria(e.target.value)
+            handlePageResetOnInputChange(e.target.value)
+          }}
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
-        {resolvedData &&
-          resolvedData.results &&
-          resolvedData.results.map((video: VideoData) => (
-            <Video key={video.embedUrl} video={video} />
-          ))}
-      </div>
-      <Pagination
-        current={page}
-        total={resolvedData.meta.totalPages}
-        setPage={setPage}
-      />
+      <ResultsZone isFetching={isFetching}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
+          {resolvedData && resolvedData.results.length > 0 ? (
+            resolvedData.results.map((video) => (
+              <Video key={video.embedUrl} video={video} />
+            ))
+          ) : resolvedData?.meta.unscopedTotal === 0 ? (
+            <NoResultsYet />
+          ) : (
+            <NoResultsOfQuery />
+          )}
+        </div>
+        {resolvedData && (
+          <Pagination
+            current={page}
+            total={resolvedData.meta.totalPages}
+            setPage={setPage}
+          />
+        )}
+      </ResultsZone>
     </div>
   )
 }
@@ -59,25 +97,23 @@ function VideoGridHeader({
   handleTrackChange,
   selectedTrack,
 }: {
-  tracks: any
-  handleTrackChange: any
-  selectedTrack: any
+  tracks: VideoTrack[]
+  handleTrackChange: HandleTrackChangeType
+  selectedTrack: VideoTrack
 }): JSX.Element {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-16 mb-24">
-      <div class="flex">
-        <GraphicalIcon
-          icon="community-video-gradient"
-          height={48}
-          width={48}
-          className="mr-24 self-start"
-        />
-        <div>
-          <h2 className="text-h2 mb-4">Learn from our community</h2>
-          <p className="text-p-large">
-            Walkthroughs from our community using Exercism
-          </p>
-        </div>
+    <div className="flex mb-24">
+      <GraphicalIcon
+        icon="community-video-gradient"
+        height={48}
+        width={48}
+        className="mr-24 self-start"
+      />
+      <div className="mr-auto">
+        <h2 className="text-h2 mb-4">Learn from our community</h2>
+        <p className="text-p-large">
+          Walkthroughs from our community using Exercism
+        </p>
       </div>
 
       <TrackFilterList
@@ -86,7 +122,6 @@ function VideoGridHeader({
         tracks={tracks}
         setValue={handleTrackChange}
         sizeVariant="automation"
-        cacheKey={''}
         status={QueryStatus.Success}
         error={undefined}
         countText={'video'}
@@ -95,14 +130,8 @@ function VideoGridHeader({
   )
 }
 
-type VideoData = {
-  title: string
-  author: CommunityVideoAuthor
-  embedUrl: string
-  thumbnailUrl: string
-}
 type VideoProps = {
-  video: VideoData
+  video: CommunityVideoType
 }
 function Video({ video }: VideoProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
@@ -132,28 +161,33 @@ function Video({ video }: VideoProps): JSX.Element {
       <CommunityVideoModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        video={{
-          author: video.author,
-          submittedBy: {
-            name: '',
-            handle: '',
-            avatarUrl: '',
-            links: {
-              profile: undefined,
-              channel_url: undefined,
-            },
-          },
-          platform: 'youtube',
-          title: video.title,
-          createdAt: '',
-          links: {
-            watch: '',
-            embed: video.embedUrl,
-            channel: '',
-            thumbnail: '',
-          },
-        }}
+        video={video}
       />
     </>
+  )
+}
+
+function NoResultsOfQuery() {
+  return (
+    <div className="col-span-4">
+      <FilterFallback
+        icon="no-result-magnifier"
+        title="No videos found."
+        description="Try changing your filters to find the video you are looking for."
+      />
+    </div>
+  )
+}
+
+function NoResultsYet() {
+  return (
+    <div className="col-span-4">
+      <FilterFallback
+        icon="automation"
+        svgFilter="filter-textColor6"
+        title="There are currently no videos."
+        description="Check back here later for more!"
+      />
+    </div>
   )
 }

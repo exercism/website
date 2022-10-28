@@ -5,10 +5,11 @@ import { Icon } from '@/components/common'
 import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
 import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
-import { UploadVideoTextInput, CommunityVideo } from '.'
+import type { CommunityVideoType } from '@/components/types'
+import { UploadVideoTextInput } from '.'
 
 type UploadVideoFormProps = {
-  data: CommunityVideo
+  data: CommunityVideoType
   onUseDifferentVideoClick: () => void
   onSuccess: () => void
 }

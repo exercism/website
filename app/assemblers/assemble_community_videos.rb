@@ -17,13 +17,13 @@ class AssembleCommunityVideos
   def videos
     CommunityVideo::Search.(
       criteria: params[:criteria],
-      page: params[:page],
+      page: params[:video_page],
       track:
     )
   end
 
   memoize
   def track
-    Track.find(params[:track_slug]) if params[:track_slug].present?
+    Track.find(params[:video_track_slug]) if params[:video_track_slug].present?
   end
 end

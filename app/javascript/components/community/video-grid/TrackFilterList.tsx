@@ -1,13 +1,12 @@
 import React, { useCallback, useRef } from 'react'
 import { QueryStatus } from 'react-query'
-import { AutomationTrack, VideosTrack } from '@/components/types'
-import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
-import { TrackIcon, Icon } from '../../common'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { useDropdown } from '../../dropdowns/useDropdown'
-import { ResultsZone } from '../../ResultsZone'
+import type { VideoTrack } from '@/components/types'
+import { TrackIcon, Icon } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { useDropdown } from '@/components/dropdowns/useDropdown'
+import { ResultsZone } from '@/components/ResultsZone'
 
-type TrackFilterProps = VideosTrack & {
+type TrackFilterProps = VideoTrack & {
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
   countText: string
@@ -16,10 +15,8 @@ type TrackFilterProps = VideosTrack & {
 const TrackFilter = ({
   title,
   iconUrl,
-  numVideos,
   checked,
   onChange,
-  countText,
 }: TrackFilterProps): JSX.Element => {
   return (
     <label className="c-radio-wrapper">
@@ -61,14 +58,13 @@ export const TrackFilterList = ({
 }
 
 type Props = {
-  tracks: AutomationTrack[] | undefined
+  tracks: VideoTrack[] | undefined
   isFetching: boolean
-  value: AutomationTrack
-  setValue: (value: AutomationTrack) => void
-  cacheKey: string
+  value: VideoTrack
+  setValue: (value: VideoTrack) => void
   sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
   countText: string
-  // TODO remove this
+  // TODO this is present in the design but not yet implemented
   numVideos?: number
 }
 
@@ -78,8 +74,6 @@ const Component = ({
   isFetching,
   value,
   setValue,
-  // TODO remove this
-  numVideos = 100,
   countText,
 }: Props): JSX.Element | null => {
   const changeTracksRef = useRef<HTMLButtonElement>(null)
@@ -120,9 +114,7 @@ const Component = ({
   }
 
   return (
-    <div
-      className={`ml-auto c-single-select c-track-select --size-${sizeVariant}`}
-    >
+    <div className={`c-single-select c-track-select --size-${sizeVariant}`}>
       <ResultsZone isFetching={isFetching}>
         <button
           className="current-track !shadow-xsZ1v2"
@@ -132,7 +124,7 @@ const Component = ({
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
           <div className="track-title">{value.title}</div>
           <div className="count">
-            {/* TODO change this back to value.numVideos once data is there */}
+            {/* TODO same as above */}
             {/* {pluralizeWithNumber(numVideos, countText)} */}
           </div>
           <Icon

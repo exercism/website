@@ -279,8 +279,8 @@ export type Track = {
 export type AutomationTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
   numSubmissions: number
 }
-export type VideosTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
-  numVideos: number
+export type VideoTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
+  numVideos?: number
 }
 
 export type Iteration = {
@@ -797,3 +797,41 @@ export type Modifier =
   | 'placeholder-shown'
   | 'autofill'
   | 'read-only'
+
+export type CommunityVideoAuthorLinks = {
+  profile?: string
+}
+
+export type CommunityVideoAuthor = {
+  name: string
+  handle: string
+  avatarUrl: string
+  links: CommunityVideoAuthorLinks
+}
+
+export type CommunityVideoPlatform = 'youtube' | 'vimeo'
+
+export type CommunityVideoLinks = {
+  watch: string
+  embed: string
+  channel: string
+  thumbnail: string
+}
+
+export type CommunityVideoType = {
+  author?: CommunityVideoAuthor
+  // TODO: Revisit this - check data returned by video retrieving on UploadVideoModal
+  url?: string
+  // TODO: revisit video-grid embedUrl
+  embedUrl?: string
+  submittedBy: CommunityVideoAuthor
+  thumbnailUrl?: string
+  platform: CommunityVideoPlatform
+  title: string
+  createdAt: string
+  links: CommunityVideoLinks
+}
+
+export type CommunityVideosProps = {
+  videos: CommunityVideoType[]
+}

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { UploadVideoModal } from '@/components/modals'
+import type { CommunityVideosProps } from '@/components/types'
 import { NoContentYet, SectionHeader } from '..'
 import { DigDeeperDataContext } from '../../DigDeeper'
-import { CommunityVideosProps } from './types'
 import { CommunityVideo, CommunityVideosFooter } from './CommunityVideo'
 
 export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {

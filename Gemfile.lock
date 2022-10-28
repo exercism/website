@@ -552,7 +552,7 @@ DEPENDENCIES
   minitest
   minitest-retry
   mocha
-  mysql2
+  mysql2 (~> 0.5.4)
   octokit
   oj
   omniauth-github

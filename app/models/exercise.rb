@@ -23,6 +23,11 @@ class Exercise < ApplicationRecord
     inverse_of: :exercise,
     dependent: :destroy
 
+  has_many :articles,
+    class_name: "Exercise::Article",
+    inverse_of: :exercise,
+    dependent: :destroy
+
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",
     inverse_of: :exercise,

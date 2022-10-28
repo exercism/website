@@ -1,8 +1,8 @@
 #page-community
   %header
   .lg-container.mt-40.relative
-    .flex.gap-128.mb-28
-      .grid
+    .flex.gap-128.mb-60
+      .block
         = graphical_icon "community", css_class: "h-[48px] w-[48px] mb-8"
         %h1.text-h1.mb-8 Join our community!
         %p.text-p-xlarge.leading-150.mb-20
@@ -38,32 +38,32 @@
           .message-count
             = graphical_icon "message-bubble-square"
             1
-      .grid
-        = link_to 'https://forum.exercism.org/' do
-          = image_tag "screenshots/forum.png", alt: "", role: :presentation, class: 'w-[620px] shadow-baseZ1 rounded-8'
 
-    .flex.gap-96.mb-48
-      .grid.py-32
+      = link_to 'https://forum.exercism.org/', class: 'hidden lg:block w-[45%] flex-shrink-0 max-w-[620px]' do
+        = image_tag "screenshots/forum.png", alt: "", role: :presentation, class: 'shadow-baseZ1 rounded-8 w-fill'
+
+    .flex.flex-col.lg:flex-row.gap-y-32.gap-x-96.mb-48
+      .block
         = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px] mb-16"
         %h2.text-h2.mb-8 Hear our Community Stories
         %p.mb-24.text-p-large.text-textColor5 Listen to the stories of those who have build, contributed to, and learnt from Exercism.
 
-        .grid.grid-cols-3.gap-16.mb-32
+        .grid.grid-cols-1.lg:grid-cols-3.gap-16
           - @community_stories.each do |community_story|
             = link_to community_story_path(community_story), class: 'flex flex-col shadow-sm p-16 bg-white rounded-8' do
               = image_tag community_story.thumbnail_url, class: "bg-borderLight rounded-8 mb-12 w-[100%]", width: 243, height: 136
               %h5.text-h5.mb-8= community_story.title
               .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
                 - interviewee = community_story.interviewee
-                = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8"
+                = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8 rounded-circle bg-cover"
                 = interviewee.name
 
         -# Temporarily disable this link until we have a separate page
-          = link_to "", class: 'explore-link' do
+          = link_to "", class: 'explore-link mt-32' do
             Explore more Community Stories
 
       .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8{ class: "shrink-[3]", style: 'height: fit-content' }
-        .flex.flex-wrap.pb-16.mb-24{ class: 'w-[360px]' }
+        .flex.flex-wrap.pb-16.mb-24{ class: 'w-fill max-w-[360px]' }
           - @supporter_avatar_urls.each do |supporter_avatar_url|
             = image_tag supporter_avatar_url, class: 'h-[48px] w-[48px] mb-[-16px] mr-[-12px] rounded-circle'
         %h2.text-h2.mb-8 Help us change lives

@@ -182,8 +182,8 @@ export const mappings = {
     />
   ),
 
-  'track-approaches': (data: ApproachesProps) => (
-    <TrackComponents.Approaches data={camelizeKeysAs<ApproachesProps>(data)} />
+  'track-dig-deeper': (data: DigDeeperProps) => (
+    <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
   ),
   'track-approach': (data: any) => <TrackComponents.Approach />,
 
@@ -458,8 +458,8 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
-import type { AutomationLockedTooltipProps } from '@/components/tooltips/AutomationLockedTooltip'
-import { ApproachesProps } from '@/components/track/Approaches'
+import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import { DigDeeperProps as DigDeeperProps } from '@/components/track/DigDeeper'
 import { ChartData } from '@/components/impact/Chart'
 
 document.addEventListener('turbo:load', () => {

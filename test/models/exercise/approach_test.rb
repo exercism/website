@@ -39,13 +39,13 @@ class Exercise::ApproachTest < ActiveSupport::TestCase
     exercise = create :practice_exercise, slug: 'hamming'
     approach = create :exercise_approach, exercise: exercise
 
-    assert_equal "# Description\n\nPerformance approach", approach.content
+    assert_equal "# Description\n\nReadability approach", approach.content
   end
 
   test "snippet" do
     exercise = create :practice_exercise, slug: 'hamming'
     approach = create :exercise_approach, exercise: exercise
 
-    assert_equal "PERFORMANCE", approach.snippet
+    assert_equal "READABILITY", approach.snippet
   end
 end

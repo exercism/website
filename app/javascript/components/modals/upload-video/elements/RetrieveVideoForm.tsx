@@ -1,4 +1,4 @@
-import { ApproachesDataContext } from '@/components/track/Approaches'
+import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import React, { useCallback, useContext, useState } from 'react'
 import { useMutation } from 'react-query'
 import { UploadVideoTextInput } from '.'
@@ -24,7 +24,7 @@ type RetrieveVideoForm = {
 export function RetrieveVideoForm({
   onSuccess,
 }: RetrieveVideoForm): JSX.Element {
-  const { links } = useContext(ApproachesDataContext)
+  const { links } = useContext(DigDeeperDataContext)
   async function VerifyVideo(link: string) {
     const URL = `${links.video.lookup}?video_url=${link}`
     const { fetch } = sendRequest({ endpoint: URL, body: null, method: 'GET' })

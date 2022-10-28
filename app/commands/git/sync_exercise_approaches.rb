@@ -1,36 +1,33 @@
-module Git
-  class SyncExerciseApproaches < Sync
-    include Mandate
+class Git::SyncExerciseApproaches < Git::Sync
+  include Mandate
 
-    def initialize(exercise)
-      super(exercise.track, exercise.synced_to_git_sha)
-      @exercise = exercise
-    end
+  def initialize(exercise)
+    super(exercise.track, exercise.synced_to_git_sha)
+    @exercise = exercise
+  end
 
-    def call
-      # This removes any approaches that aren't read from the config below
-      exercise.update(approaches:)
-      Git::SyncExerciseApproachIntroduction.(exercise, introduction_config)
-      ::Exercise::UpdateHasApproaches.(exercise)
-    end
+  def call
+    # This removes any approaches that aren't read from the config below
+    exercise.update(approaches:)
+    Git::SyncExerciseApproachIntroduction.(exercise, introduction_config)
+  end
 
-    private
-    attr_reader :exercise
+  private
+  attr_reader :exercise
 
-    def approaches = approaches_config.map { |approach| Git::SyncExerciseApproach.(exercise, approach) }
+  def approaches = approaches_config.map { |approach| Git::SyncExerciseApproach.(exercise, approach) }
 
-    def introduction_config = head_git_approaches.config_introduction
+  def introduction_config = head_git_approaches.config_introduction
 
-    memoize
-    def approaches_config = head_git_approaches.approaches.to_a
+  memoize
+  def approaches_config = head_git_approaches.approaches.to_a
 
-    memoize
-    def head_git_approaches = head_git_exercise.approaches
+  memoize
+  def head_git_approaches = head_git_exercise.approaches
 
-    memoize
-    def head_git_exercise
-      exercise_config = head_git_track.find_exercise(exercise.uuid)
-      Git::Exercise.new(exercise_config[:slug], exercise.git_type, git_repo.head_sha, repo: git_repo)
-    end
+  memoize
+  def head_git_exercise
+    exercise_config = head_git_track.find_exercise(exercise.uuid)
+    Git::Exercise.new(exercise_config[:slug], exercise.git_type, git_repo.head_sha, repo: git_repo)
   end
 end

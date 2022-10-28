@@ -60,7 +60,7 @@ export const CommunityLaunchModal = ({
           <p>
             We think our community is pretty special - thousands of people
             learning, mentoring and supporting each other in a non-toxic
-            environment. Well from today we're focussing even more on making
+            environment. Well, from today we're focusing even more on making
             Exercism a great place for you all to spend time.
           </p>
         </header>
@@ -78,7 +78,7 @@ export const CommunityLaunchModal = ({
               <h3>Exercism&apos;s Forum</h3>
               <p>
                 Our new forum is a fun space to chat about programming, help
-                guid the future of Exercis, get support if you get stuck, and
+                guide the future of Exercism, get support if you get stuck, and
                 hang out with each other.
               </p>
             </div>
@@ -90,7 +90,7 @@ export const CommunityLaunchModal = ({
               <h3>Dig Deeper</h3>
               <p>
                 We&apos;re pulling the thousands of community walkthroughs into
-                one place along with commentry and guidance on exercises. Look
+                one place along with commentary and guidance on exercises. Look
                 out for the new Dig Deeper tab on exercises!
               </p>
             </div>
@@ -150,7 +150,7 @@ export const CommunityLaunchModal = ({
           <p className="mb-8">
             Thanks to your kind donations, we&apos;ve been able to hire
             Jonathan, our new Community Manager, who can now dedicate the time
-            and resource we need to properly nuture our community.
+            and resource we need to properly nurture our community.
           </p>
           <p className="mb-12">
             If you see Jonathan around, say hello! He&apos;d love to chat, hear

@@ -43,4 +43,15 @@ class CombineAuthorsAndContributorsTest < ActiveSupport::TestCase
 
     assert_equal 3, combination.count
   end
+
+  test "supports arrays" do
+    users = create_list(:user, 6)
+    authors = users[0..1]
+    contributors = users[2..]
+
+    combination = CombineAuthorsAndContributors.(authors, contributors, limit: 3)
+
+    assert_equal combination[0..1], combination[0..1] & authors
+    assert_equal combination[2..], combination[2..] & contributors
+  end
 end

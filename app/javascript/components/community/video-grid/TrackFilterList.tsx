@@ -120,7 +120,9 @@ const Component = ({
   }
 
   return (
-    <div className={`c-single-select c-track-select --size-${sizeVariant}`}>
+    <div
+      className={`ml-auto c-single-select c-track-select --size-${sizeVariant}`}
+    >
       <ResultsZone isFetching={isFetching}>
         <button
           className="current-track !shadow-xsZ1v2"

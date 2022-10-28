@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import { ApproachSnippet, SectionHeader } from '.'
-import { Approach, ApproachesDataContext } from '../Approaches'
+import { Approach, DigDeeperDataContext } from '../DigDeeper'
 
-export function ApproachExamples({
+export function Approaches({
   approaches,
 }: {
   approaches: Approach[]
 }): JSX.Element {
-  const { exercise } = useContext(ApproachesDataContext)
+  const { exercise } = useContext(DigDeeperDataContext)
   return (
     <div className="flex flex-col">
       <SectionHeader

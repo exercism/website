@@ -42,12 +42,13 @@
           Found it useful?
           = render ViewComponents::Exercise::ShareApproachLink.new(@approach)
 
-  .md-container.flex.flex-col
-    .flex.justify-center.mb-32
-      = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] mr-24 self-center"
-      .flex.flex-col
-        %h2.text-h3.font-bold.mb-4 Other Approaches to #{@exercise.title}
-        .text-p-base.text-textColor6 Other ways our community solved this exercise
+  - if @other_approaches.present?
+    .md-container.flex.flex-col
+      .flex.justify-center.mb-32
+        = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] mr-24 self-center"
+        .flex.flex-col
+          %h2.text-h3.font-bold.mb-4 Other Approaches to #{@exercise.title}
+          .text-p-base.text-textColor6 Other ways our community solved this exercise
 
     .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.mb-32
       - @other_approaches.each do |other_approach|

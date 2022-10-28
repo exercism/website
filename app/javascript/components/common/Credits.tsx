@@ -21,9 +21,7 @@ export function Credits({
   users,
   className,
 }: CreditsProps): JSX.Element {
-  const [overflow] = useState<number>(
-    topCount + Number(bottomCount) - users.length
-  )
+  const [overflow] = useState<number>(topCount + Number(bottomCount) - 2)
 
   return (
     <div className={`flex items-center ${className}`}>

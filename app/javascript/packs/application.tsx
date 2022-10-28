@@ -458,9 +458,9 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
-import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
-import { DigDeeperProps as DigDeeperProps } from '@/components/track/DigDeeper'
-import { ChartData } from '@/components/impact/Chart'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { DigDeeperProps } from '@/components/track/DigDeeper'
+import type { ChartData } from '@/components/impact/Chart'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

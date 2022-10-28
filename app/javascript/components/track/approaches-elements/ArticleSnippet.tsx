@@ -1,11 +1,10 @@
 import { Credits } from '@/components/common'
 import { useHighlighting } from '@/hooks'
-import React, { useContext } from 'react'
-import { Article, DigDeeperDataContext } from '../DigDeeper'
+import React from 'react'
+import { Article } from '../DigDeeper'
 
 export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>()
-  const { track } = useContext(DigDeeperDataContext)
 
   return (
     <a
@@ -28,7 +27,7 @@ export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
         topCount={article.numAuthors}
         bottomLabel={'contributor'}
         bottomCount={article.numContributors}
-        avatarUrls={article.users.map((i) => i.avatarUrl)}
+        users={article.users}
       />
     </a>
   )

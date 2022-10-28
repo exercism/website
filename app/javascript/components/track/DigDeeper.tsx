@@ -17,7 +17,7 @@ type DigDeeperUser = Pick<User, 'avatarUrl' | 'handle'> & {
 }
 
 export type Article = {
-  users: DigDeeperUser[]
+  users: User[]
   numAuthors: number
   numContributors: number
   title: string

@@ -9,13 +9,6 @@ import {
 } from './approaches-elements'
 import { CommunityVideosProps } from './approaches-elements/community-videos/types'
 
-type DigDeeperUser = Pick<User, 'avatarUrl' | 'handle'> & {
-  name: string
-  links: {
-    profile: string | null
-  }
-}
-
 export type Article = {
   users: User[]
   numAuthors: number

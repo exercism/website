@@ -1,7 +1,7 @@
 import { Credits } from '@/components/common'
 import { useHighlighting } from '@/hooks'
 import React, { useContext } from 'react'
-import { Approach, ApproachesDataContext } from '../Approaches'
+import { Approach, DigDeeperDataContext } from '../DigDeeper'
 
 export function ApproachSnippet({
   approach,
@@ -10,7 +10,7 @@ export function ApproachSnippet({
 }): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>()
 
-  const { track } = useContext(ApproachesDataContext)
+  const { track } = useContext(DigDeeperDataContext)
 
   return (
     <a

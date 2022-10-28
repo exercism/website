@@ -18,7 +18,7 @@ class User::ReputationTokens::ExerciseApproachContributionTokenTest < ActiveSupp
     rt = user.reputation_tokens.first
 
     assert_equal User::ReputationTokens::ExerciseApproachContributionToken, rt.class
-    assert_equal "You contributed to the <strong>Performance</strong> approach of <strong>Hamming</strong>", rt.text
+    assert_equal "You contributed to the <strong>Readability</strong> approach of <strong>Hamming</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track
     assert_equal "#{user.id}|exercise_approach_contribution|Approach##{approach.id}", rt.uniqueness_key

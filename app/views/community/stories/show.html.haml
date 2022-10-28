@@ -1,3 +1,7 @@
+- content_for :meta_title, @story.title.html_safe
+- content_for :meta_description, @story.blurb.html_safe
+- content_for :meta_image, @story.thumbnail_url
+
 #page-community-story
   %header.theme-dark.pb-128
     .md-container

@@ -6,20 +6,34 @@ import type {
   CommunityVideosProps,
 } from '@/components/types'
 import {
-  ApproachExamples,
+  Approaches,
   ApproachIntroduction,
+  Articles,
   CommunityVideos,
   DiggingDeeper,
 } from './approaches-elements'
 
-type ApproachUser = Pick<User, 'avatarUrl' | 'handle'> & {
+type DigDeeperUser = Pick<User, 'avatarUrl' | 'handle'> & {
   name: string
   links: {
     profile: string | null
   }
 }
+
+export type Article = {
+  users: DigDeeperUser[]
+  numAuthors: number
+  numContributors: number
+  title: string
+  blurb: string
+  snippetHtml: string
+  links: {
+    self: string
+  }
+}
+
 export type Approach = {
-  users: ApproachUser[]
+  users: DigDeeperUser[]
   numAuthors: number
   numContributors: number
   title: string
@@ -30,26 +44,27 @@ export type Approach = {
   }
 }
 
-export type ApproachesProps = {
+export type DigDeeperProps = {
   introduction: ApproachIntroduction
   approaches: Approach[]
-} & ApproachesDataContext &
+  articles: Article[]
+} & DigDeeperDataContext &
   CommunityVideosProps
 
-type ApproachesDataContext = {
+type DigDeeperDataContext = {
   track: Track
   exercise: Exercise
   links: { video: { create: string; lookup: string } }
 }
 
-export const ApproachesDataContext = createContext<ApproachesDataContext>(
-  {} as ApproachesDataContext
+export const DigDeeperDataContext = createContext<DigDeeperDataContext>(
+  {} as DigDeeperDataContext
 )
 
-export function Approaches({ data }: { data: ApproachesProps }): JSX.Element {
+export function DigDeeper({ data }: { data: DigDeeperProps }): JSX.Element {
   return (
     <div className="lg-container grid grid-cols-3 gap-40">
-      <ApproachesDataContext.Provider
+      <DigDeeperDataContext.Provider
         value={{
           exercise: data.exercise,
           track: data.track,
@@ -61,9 +76,10 @@ export function Approaches({ data }: { data: ApproachesProps }): JSX.Element {
           <CommunityVideos videos={data.videos} />
         </div>
         <div className="col-span-1">
-          <ApproachExamples approaches={data.approaches} />
+          <Approaches approaches={data.approaches} />
+          <Articles articles={data.articles} />
         </div>
-      </ApproachesDataContext.Provider>
+      </DigDeeperDataContext.Provider>
     </div>
   )
 }

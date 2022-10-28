@@ -3,7 +3,7 @@ import { useMutation } from 'react-query'
 import { sendRequest } from '@/utils/send-request'
 import { Icon } from '@/components/common'
 import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
-import { ApproachesDataContext } from '@/components/track/Approaches'
+import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 import type { CommunityVideoType } from '@/components/types'
 import { UploadVideoTextInput } from '.'
@@ -37,7 +37,7 @@ export function UploadVideoForm({
   onUseDifferentVideoClick,
   onSuccess,
 }: UploadVideoFormProps): JSX.Element {
-  const { links, track, exercise } = useContext(ApproachesDataContext)
+  const { links, track, exercise } = useContext(DigDeeperDataContext)
   async function UploadVideo(body: string) {
     const { fetch } = sendRequest({
       endpoint: links.video.create,

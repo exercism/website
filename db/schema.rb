@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_21_084927) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_27_074914) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -254,6 +254,40 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_084927) do
     t.index ["exercise_id", "uuid"], name: "index_exercise_approaches_on_exercise_id_and_uuid", unique: true
     t.index ["exercise_id"], name: "index_exercise_approaches_on_exercise_id"
     t.index ["uuid"], name: "index_exercise_approaches_on_uuid"
+  end
+
+  create_table "exercise_article_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_article_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_article_id", "user_id"], name: "index_exercise_article_author_article_id_user_id", unique: true
+    t.index ["exercise_article_id"], name: "index_exercise_article_authorships_on_article_id"
+    t.index ["user_id"], name: "index_exercise_article_authorships_on_user_id"
+  end
+
+  create_table "exercise_article_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_article_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_article_id", "user_id"], name: "index_exercise_article_contributor_article_id_user_id", unique: true
+    t.index ["exercise_article_id"], name: "index_exercise_article_contributorships_on_article_id"
+    t.index ["user_id"], name: "index_exercise_article_contributorships_on_user_id"
+  end
+
+  create_table "exercise_articles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.string "uuid", null: false
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.string "blurb", limit: 350, null: false
+    t.string "synced_to_git_sha", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "uuid"], name: "index_exercise_articles_on_exercise_id_and_uuid", unique: true
+    t.index ["exercise_id"], name: "index_exercise_articles_on_exercise_id"
+    t.index ["uuid"], name: "index_exercise_articles_on_uuid"
   end
 
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1126,6 +1160,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_084927) do
   add_foreign_key "exercise_approach_introduction_contributorships", "exercises"
   add_foreign_key "exercise_approach_introduction_contributorships", "users"
   add_foreign_key "exercise_approaches", "exercises"
+  add_foreign_key "exercise_article_authorships", "exercise_articles"
+  add_foreign_key "exercise_article_authorships", "users"
+  add_foreign_key "exercise_article_contributorships", "exercise_articles"
+  add_foreign_key "exercise_article_contributorships", "users"
+  add_foreign_key "exercise_articles", "exercises"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"

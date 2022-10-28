@@ -1,3 +1,7 @@
+- content_for :meta_title, @approach.title.html_safe
+- content_for :meta_description, @approach.blurb.html_safe
+-# TODO: add :meta_image
+
 #page-approaches-show.pb-80
   %header.pt-24.md:pt-32.pb-32{ class: 'md:pb-[158px]' }
     .md-container.flex.flex-col.md:flex-row-reverse.items-center

@@ -18,7 +18,7 @@
             %h1.text-h1.mb-12.text-white= @story.title
             %p.text-p-large.mb-28.theme-dark= @story.blurb
             .flex.items-center
-              = link_to @story.youtube_external_url, class: 'youtube-link mr-32' do
+              = link_to @story.youtube_external_url, target: "_blank", rel: "noreferrer", class: 'youtube-link mr-32' do
                 Watch on Youtube
                 = graphical_icon "new-tab", css_class: "h-[16px] w-[16px] filter-white ml-16"
 

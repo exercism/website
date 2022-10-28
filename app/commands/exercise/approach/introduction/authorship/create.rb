@@ -1,4 +1,4 @@
-class Exercise::Approaches::IntroductionAuthorship::Create
+class Exercise::Approach::Introduction::Authorship::Create
   include Mandate
 
   initialize_with :exercise, :author

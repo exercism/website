@@ -75,4 +75,62 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
       Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, last_submitted_at)
     end
   end
+
+  test "feedback is copied for same submission" do
+    submission = create :submission
+    Exercise::Representation::CreateOrUpdate.(submission, 'old', 'old', {}, Time.current)
+
+    # Add feedback to that representation
+    old_representation = Exercise::Representation.first
+    Exercise::Representation::SubmitFeedback.(create(:user), old_representation, "fooobar", :essential)
+
+    # Now generate a new reprentation
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, Time.current)
+    new_representation = Exercise::Representation.last
+
+    refute_equal old_representation, new_representation # Sanity
+
+    # Assert that the feedback has been copied
+    assert_equal old_representation.feedback_author, new_representation.feedback_author
+    assert_equal old_representation.feedback_markdown, new_representation.feedback_markdown
+    assert_equal old_representation.feedback_type, new_representation.feedback_type
+  end
+
+  test "feedback is copied from most recent submission" do
+    submission = create :submission
+    create :exercise_representation, :with_feedback, exercise: submission.exercise, source_submission: submission,
+      feedback_markdown: "ancient"
+    old_representation = create :exercise_representation, :with_feedback, exercise: submission.exercise,
+      source_submission: submission, feedback_markdown: "old"
+
+    # Now generate a new reprentation
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, Time.current)
+    new_representation = Exercise::Representation.last
+
+    # Sanity
+    assert old_representation.feedback_markdown
+    refute_equal old_representation, new_representation
+
+    # Assert that the feedback has been copied from the newer reprsentation
+    assert_equal old_representation.feedback_markdown, new_representation.feedback_markdown
+  end
+
+  test "feedback is not copied for different submission" do
+    Exercise::Representation::CreateOrUpdate.(create(:submission), 'old', 'old', {}, Time.current)
+
+    # Add feedback to that representation
+    old_representation = Exercise::Representation.first
+    Exercise::Representation::SubmitFeedback.(create(:user), old_representation, "fooobar", :essential)
+
+    # Now generate a new reprentation
+    Exercise::Representation::CreateOrUpdate.(create(:submission), 'new', 'new', {}, Time.current)
+    new_representation = Exercise::Representation.last
+
+    refute_equal old_representation, new_representation # Sanity
+
+    # Assert that the feedback has been copied
+    assert_nil new_representation.feedback_author
+    assert_nil new_representation.feedback_markdown
+    assert_nil new_representation.feedback_type
+  end
 end

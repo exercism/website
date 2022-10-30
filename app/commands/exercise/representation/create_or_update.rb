@@ -7,8 +7,7 @@ class Exercise
 
       def call
         # First cache the old representation
-        # TODO: This needs tests adding
-        old_source_submission_representation = Exercise::Representation.find_by(source_submission: submission)
+        old_source_submission_representation = Exercise::Representation.where(source_submission: submission).order('id DESC').first
 
         representation = Exercise::Representation.find_create_or_find_by!(exercise:, ast_digest:) do |rep|
           rep.source_submission = submission
@@ -17,7 +16,7 @@ class Exercise
           rep.last_submitted_at = last_submitted_at
         end
 
-        # TODO: This needs tests adding
+        # Now copy the old feedback over if appropriate
         if old_source_submission_representation&.has_feedback? && !representation.has_feedback?
           representation.update!(
             feedback_author: old_source_submission_representation.feedback_author,

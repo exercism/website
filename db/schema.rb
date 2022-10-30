@@ -326,9 +326,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_093842) do
     t.string "uuid", null: false
     t.bigint "track_id"
     t.datetime "feedback_added_at"
-    t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
-    t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
-    t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
+    t.integer "representer_version", limit: 2, default: 1, null: false
+    t.integer "exercise_version", limit: 2, default: 1, null: false
+    t.integer "draft_feedback_type", limit: 1
+    t.text "draft_feedback_markdown"
+    t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
     t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }

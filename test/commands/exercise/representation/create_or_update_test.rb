@@ -9,7 +9,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     mapping = { 'a' => 'test' }
     last_submitted_at = Time.zone.now
 
-    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, last_submitted_at)
+    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, last_submitted_at)
 
     assert_equal exercise, representation.exercise
     assert_equal submission, representation.source_submission
@@ -30,7 +30,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     representation = create(:exercise_representation, exercise:, source_submission: submission, ast:, ast_digest:, mapping:,
       last_submitted_at: Time.zone.now - 2.days)
 
-    Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, last_submitted_at)
+    Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, last_submitted_at)
 
     assert_equal last_submitted_at, representation.reload.last_submitted_at
   end
@@ -43,7 +43,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     submission = create :submission, exercise: exercise
     create :submission_representation, ast_digest: ast_digest, submission: submission
 
-    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, Time.zone.now)
+    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current)
 
     perform_enqueued_jobs # Allow num_submissions to be calculated in the background
 
@@ -60,7 +60,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     create :submission_representation, ast_digest: ast_digest, submission: create(:submission, exercise:)
     create :submission_representation, ast_digest: ast_digest, submission: create(:submission, exercise:)
 
-    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, Time.zone.now)
+    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current)
 
     perform_enqueued_jobs # Allow num_submissions to be calculated in the background
 
@@ -72,20 +72,38 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     last_submitted_at = Time.zone.now
 
     assert_idempotent_command do
-      Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, last_submitted_at)
+      Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at)
     end
+  end
+
+  test "creates different representation if representer version changes" do
+    submission = create :submission
+    last_submitted_at = Time.zone.now
+
+    old = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at),
+          new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 2, 1, last_submitted_at)
+    refute_equal old, new
+  end
+
+  test "creates different representation if exercise version changes" do
+    submission = create :submission
+    last_submitted_at = Time.zone.now
+
+    old = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at),
+          new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 2, last_submitted_at)
+    refute_equal old, new
   end
 
   test "feedback is copied for same submission" do
     submission = create :submission
-    Exercise::Representation::CreateOrUpdate.(submission, 'old', 'old', {}, Time.current)
+    Exercise::Representation::CreateOrUpdate.(submission, 'old', 'old', {}, 1, 1, Time.current)
 
     # Add feedback to that representation
     old_representation = Exercise::Representation.first
     Exercise::Representation::SubmitFeedback.(create(:user), old_representation, "fooobar", :essential)
 
-    # Now generate a new reprentation
-    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, Time.current)
+    # Now generate a new representation
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 1, 1, Time.current)
     new_representation = Exercise::Representation.last
 
     refute_equal old_representation, new_representation # Sanity
@@ -103,8 +121,8 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     old_representation = create :exercise_representation, :with_feedback, exercise: submission.exercise,
       source_submission: submission, feedback_markdown: "old"
 
-    # Now generate a new reprentation
-    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, Time.current)
+    # Now generate a new representation
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 1, 1, Time.current)
     new_representation = Exercise::Representation.last
 
     # Sanity
@@ -115,15 +133,51 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal old_representation.feedback_markdown, new_representation.feedback_markdown
   end
 
+  test "feedback is saved as draft if representation version has changed" do
+    submission = create :submission
+    old_representation = create :exercise_representation, :with_feedback, exercise: submission.exercise,
+      source_submission: submission, feedback_markdown: "old"
+
+    # Now generate a new representation with representer version 2
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 2, 1, Time.current)
+    new_representation = Exercise::Representation.last
+
+    # Sanity
+    assert old_representation.feedback_markdown
+    refute_equal old_representation, new_representation
+
+    # Assert that the feedback has been copied from the newer reprsentation as a draft
+    assert_nil new_representation.feedback_markdown
+    assert_equal old_representation.feedback_markdown, new_representation.draft_feedback_markdown
+  end
+
+  test "feedback is saved as draft if exercise version has changed" do
+    submission = create :submission
+    old_representation = create :exercise_representation, :with_feedback, exercise: submission.exercise,
+      source_submission: submission, feedback_markdown: "old"
+
+    # Now generate a new representation with representer version 2
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 1, 2, Time.current)
+    new_representation = Exercise::Representation.last
+
+    # Sanity
+    assert old_representation.feedback_markdown
+    refute_equal old_representation, new_representation
+
+    # Assert that the feedback has been copied from the newer reprsentation as a draft
+    assert_nil new_representation.feedback_markdown
+    assert_equal old_representation.feedback_markdown, new_representation.draft_feedback_markdown
+  end
+
   test "feedback is not copied for different submission" do
-    Exercise::Representation::CreateOrUpdate.(create(:submission), 'old', 'old', {}, Time.current)
+    Exercise::Representation::CreateOrUpdate.(create(:submission), 'old', 'old', {}, 1, 1, Time.current)
 
     # Add feedback to that representation
     old_representation = Exercise::Representation.first
     Exercise::Representation::SubmitFeedback.(create(:user), old_representation, "fooobar", :essential)
 
-    # Now generate a new reprentation
-    Exercise::Representation::CreateOrUpdate.(create(:submission), 'new', 'new', {}, Time.current)
+    # Now generate a new representation
+    Exercise::Representation::CreateOrUpdate.(create(:submission), 'new', 'new', {}, 1, 1, Time.current)
     new_representation = Exercise::Representation.last
 
     refute_equal old_representation, new_representation # Sanity

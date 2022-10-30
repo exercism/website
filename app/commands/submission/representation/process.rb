@@ -42,7 +42,10 @@ class Submission
 
       def create_exercise_representation!
         @exercise_representation = Exercise::Representation::CreateOrUpdate.(
-          submission, ast, ast_digest, mapping, @submission_representation.created_at
+          submission,
+          ast, ast_digest, mapping,
+          representer_version, exercise_version,
+          @submission_representation.created_at
         )
       end
 
@@ -70,6 +73,17 @@ class Submission
       memoize
       def ops_success?
         ops_status == 200
+      end
+
+      def representer_version
+        # TODO: - Drive this from results
+        1
+      end
+
+      def exercise_version
+        # TODO: - Drive this from a representer_version key in a
+        # track's config.json exercise block.
+        1
       end
 
       memoize

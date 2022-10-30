@@ -76,13 +76,15 @@ class Submission
       end
 
       def representer_version
-        # TODO: - Drive this from results
+        # This should come back from the results
+        # Do we have a new file call output.json that can
+        # have this key set in it? I don't think there's currently
+        # a natural place for this.
         1
       end
 
       def exercise_version
-        # TODO: - Drive this from a representer_version key in a
-        # track's config.json exercise block.
+        submission.solution.git_exercise.representer_version
         1
       end
 

@@ -247,6 +247,12 @@ module Git
     memoize
     def articles = Git::Exercise::Articles.new(exercise_slug, exercise_type, git_sha, repo:)
 
+    # TODO: - Drive this from a representer_version key in a
+    # track's config.json exercise block.
+    # It should default to 1 if missing
+    memoize
+    def representer_version = 1
+
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 

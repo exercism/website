@@ -35,8 +35,6 @@ class Submission
       attr_reader :exercise_representation, :submission_representation
 
       def create_submission_representation!
-        raise unless ast_digest
-
         @submission_representation = Submission::Representation::Create.(
           submission, tooling_job, ast_digest
         )

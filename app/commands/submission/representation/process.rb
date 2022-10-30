@@ -35,6 +35,8 @@ class Submission
       attr_reader :exercise_representation, :submission_representation
 
       def create_submission_representation!
+        raise unless ast_digest
+
         @submission_representation = Submission::Representation::Create.(
           submission, tooling_job, ast_digest
         )
@@ -76,7 +78,7 @@ class Submission
       end
 
       def representer_version
-        # This should come back from the results
+        # TODO: This should come back from the results
         # Do we have a new file call output.json that can
         # have this key set in it? I don't think there's currently
         # a natural place for this.
@@ -85,7 +87,6 @@ class Submission
 
       def exercise_version
         submission.solution.git_exercise.representer_version
-        1
       end
 
       memoize

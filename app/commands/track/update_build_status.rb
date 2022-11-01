@@ -13,40 +13,91 @@ class Track::UpdateBuildStatus
       students:,
       submissions:,
       mentor_discussions:,
-      build:
+      concepts:,
+      concept_exercises:,
+      practice_exercises:
     }
   end
 
   def students
     {
-      count: track.num_students,
-      num_joined_per_day: average_number_per_day(track.user_tracks, UserTrack)
+      num_students: track.num_students,
+      num_students_per_day: average_number_per_day(track.user_tracks, UserTrack)
     }
   end
 
   def submissions
     {
-      count: track.submissions.count,
-      num_submitted_per_day: average_number_per_day(track.submissions, Submission)
+      num_submissions: track.submissions.count,
+      num_submissions_per_day: average_number_per_day(track.submissions, Submission)
     }
   end
 
   def mentor_discussions
     {
-      count: track.mentor_discussions.count
+      num_discussions: track.mentor_discussions.count
     }
   end
 
-  def build
+  def concepts
+    taught_concept_ids = Exercise::TaughtConcept.where(exercise: active_concept_exercises).select(:track_concept_id)
+    taught_concepts = Concept.where(id: taught_concept_ids).to_a
+
     {
-      num_concepts: track.num_concepts,
-      num_concept_exercises: track.concept_exercises.where(status: %i[active beta]).count
+      num_concepts: taught_concepts.size,
+      num_concepts_target: taught_concepts.size, # TODO: implement levels
+      created: taught_concepts.map { |concept| serialize_concept(concept) }
     }
   end
+
+  def concept_exercises
+    {
+      num_exercises: active_concept_exercises.size,
+      num_exercises_target: active_concept_exercises.size, # TODO: implement levels
+      created: active_concept_exercises.map { |exercise| serialize_exercise(exercise) }
+    }
+  end
+
+  def practice_exercises
+    {
+      num_exercises: active_practice_exercises.size,
+      num_exercises_target: active_practice_exercises.size, # TODO: implement levels
+      created: active_practice_exercises.map { |exercise| serialize_exercise(exercise) }
+    }
+  end
+
+  memoize
+  def active_concept_exercises = track.concept_exercises.where(status: %i[active beta]).to_a
+
+  memoize
+  def active_practice_exercises = track.practice_exercises.where(status: %i[active beta]).to_a
 
   def average_number_per_day(query, model)
     total_count = query.where("#{model.table_name}.created_at >= ?", Time.current - NUM_DAYS_FOR_AVERAGE.days).count
     (total_count / NUM_DAYS_FOR_AVERAGE.to_f).ceil
+  end
+
+  def serialize_concept(concept)
+    {
+      slug: concept.slug,
+      name: concept.name
+    }
+  end
+
+  def serialize_exercise(exercise)
+    {
+      slug: exercise.slug,
+      title: exercise.title,
+      icon_url: exercise.icon_url,
+      stats: {
+        num_started: exercise.solutions.count,
+        num_submitted: exercise.submissions.count,
+        num_completed: exercise.solutions.completed.count
+      },
+      links: {
+        self: Exercism::Routes.track_exercise_path(track, exercise)
+      }
+    }
   end
 
   NUM_DAYS_FOR_AVERAGE = 30

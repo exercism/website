@@ -20,13 +20,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     # Sanity check
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
-    assert_equal 0, redis_value.dig(:students, :count)
+    assert_equal 0, redis_value.dig(:students, :num_students)
 
     track.update(num_students: 33)
     Track::UpdateBuildStatus.(track)
 
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
-    assert_equal 33, redis_value.dig(:students, :count)
+    assert_equal 33, redis_value.dig(:students, :num_students)
   end
 
   test "students" do
@@ -41,7 +41,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
-    expected = { count: 90, num_joined_per_day: 3 }
+    expected = { num_students: 90, num_students_per_day: 3 }
     assert_equal expected, redis_value[:students]
   end
 
@@ -57,7 +57,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
-    expected = { count: 85, num_submitted_per_day: 3 }
+    expected = { num_submissions: 85, num_submissions_per_day: 3 }
     assert_equal expected, redis_value[:submissions]
   end
 
@@ -70,26 +70,37 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
-    expected = { count: 16 }
+    expected = { num_discussions: 16 }
     assert_equal expected, redis_value[:mentor_discussions]
   end
 
-  test "build" do
+  test "concepts" do
     redis = Exercism.redis_tooling_client
     track = create :track, num_concepts: 5
 
-    create :concept_exercise, track: track, status: :wip
-    create :concept_exercise, track: track, status: :beta
-    create :concept_exercise, track: track, status: :active
-    create :concept_exercise, track: track, status: :active
-    create :concept_exercise, track: track, status: :active
-    create :concept_exercise, track: track, status: :deprecated
-    create :concept_exercise, track: (create :track, :random_slug), status: :active
+    concepts = create_list(:concept, 7, track:)
+
+    ce_1 = create :concept_exercise, track: track, status: :wip # Ignore wip
+    ce_1.taught_concepts << concepts[0] # Ignore for wip exercise
+    ce_2 = create :concept_exercise, track: track, status: :beta
+    ce_2.taught_concepts << concepts[1]
+    ce_3 = create :concept_exercise, track: track, status: :active
+    ce_3.taught_concepts << concepts[2]
+    ce_3.prerequisites << concepts[5] # Ignore concept if not taught
+    ce_4 = create :concept_exercise, track: track, status: :deprecated # Ignore deprecated
+    ce_4.taught_concepts << concepts[6] # Ignore for deprecated exercise
 
     Track::UpdateBuildStatus.(track)
 
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
-    expected = { num_concepts: 5, num_concept_exercises: 4 }
-    assert_equal expected, redis_value[:build]
+    expected = {
+      num_concepts: 2,
+      num_concepts_target: 2,
+      created: [
+        { slug: concepts[1].slug, name: concepts[1].name },
+        { slug: concepts[2].slug, name: concepts[2].name }
+      ]
+    }
+    assert_equal expected, redis_value[:concepts]
   end
 end

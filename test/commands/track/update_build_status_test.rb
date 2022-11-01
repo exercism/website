@@ -19,11 +19,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     # Sanity check
-    assert_equal 0, JSON.parse(redis.get(track.build_status_key)).dig("students", "count")
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    assert_equal 0, redis_value.dig(:students, :count)
 
     track.update(num_students: 33)
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 33, JSON.parse(redis.get(track.build_status_key)).dig("students", "count")
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    assert_equal 33, redis_value.dig(:students, :count)
   end
 end

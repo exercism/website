@@ -4,11 +4,19 @@ class Track::UpdateBuildStatus
   initialize_with :track
 
   def call
-    Exercism.redis_tooling_client.set(track.build_status_key, build_status)
+    Exercism.redis_tooling_client.set(track.build_status_key, build_status.to_json)
   end
 
   private
   def build_status
-    {}
+    {
+      students:
+    }
+  end
+
+  def students
+    {
+      count: track.num_students
+    }
   end
 end

@@ -12,13 +12,10 @@
             top: 0px;
             right: -100px;
         }
-        .c-avatar {
+        .c-avatar,
+        .overflow-counter {
             height: 40px;
             width: 40px;
-            @apply mb-8 mr-8;
-        }
-        .c-react-wrapper-track-credits {
-            @apply h-[32px];
         }
     }
     article {

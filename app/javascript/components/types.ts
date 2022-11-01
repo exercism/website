@@ -78,11 +78,13 @@ export type Testimonial = {
 
 type UserLinks = {
   self?: string
+  profile?: string
 }
 export type User = {
   avatarUrl: string
+  name?: string
   handle: string
-  hasAvatar: boolean
+  hasAvatar?: boolean
   reputation?: string
   links?: UserLinks
 }

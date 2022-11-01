@@ -207,14 +207,13 @@ export const mappings = {
       links={data.links}
     />
   ),
-  'track-credits': (data: any) => (
+  'common-credits': (data: any) => (
     <Common.Credits
-      avatarUrls={data.avatar_urls}
+      users={camelizeKeysAs<User[]>(data.users)}
       topCount={data.top_count}
       topLabel={data.top_label}
       bottomCount={data.bottom_count}
       bottomLabel={data.bottom_label}
-      max={data.max}
     />
   ),
   'common-exercise-widget': (data: any) => (
@@ -459,9 +458,9 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
-import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
-import { DigDeeperProps as DigDeeperProps } from '@/components/track/DigDeeper'
-import { ChartData } from '@/components/impact/Chart'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { DigDeeperProps } from '@/components/track/DigDeeper'
+import type { ChartData } from '@/components/impact/Chart'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

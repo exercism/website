@@ -35,7 +35,8 @@ export function ApproachSnippet({
         topCount={approach.numAuthors}
         bottomLabel={'contributor'}
         bottomCount={approach.numContributors}
-        avatarUrls={approach.users.map((i) => i.avatarUrl)}
+        users={approach.users}
+        className="text-textColor1 font-semibold text-14"
       />
     </a>
   )

@@ -1,11 +1,12 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import { GraphicalIcon, Icon, Credits } from '@/components/common'
+import { User } from '@/components/types'
 import { NoIntroductionYet } from '.'
 
 export type ApproachIntroduction = {
   html: string
-  avatarUrls: string[]
+  users: User[]
   links: {
     edit: string
   }
@@ -23,7 +24,7 @@ export function DiggingDeeper({
     <div className="mb-48">
       {introduction.html.length > 0 ? (
         <>
-          <section className="shadow-lgZ1 py-20 mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24 bg-white">
+          <section className="shadow-lgZ1 py-20 mb-16 rounded-8 px-20 lg:px-32 lg:py-24 bg-white">
             <h2 className="mb-8 text-h2">Dig deeper</h2>
             <div
               className="c-textual-content --small"
@@ -53,8 +54,8 @@ function DiggingDeeperFooter({
           topLabel="author"
           bottomCount={introduction.numContributors}
           bottomLabel="contributor"
-          max={2}
-          avatarUrls={introduction.avatarUrls}
+          className="text-textColor1 font-semibold leading-150"
+          users={introduction.users}
         />
         {introduction.updatedAt && (
           <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium">

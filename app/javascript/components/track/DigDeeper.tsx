@@ -13,15 +13,8 @@ import {
   DiggingDeeper,
 } from './approaches-elements'
 
-type DigDeeperUser = Pick<User, 'avatarUrl' | 'handle'> & {
-  name: string
-  links: {
-    profile: string | null
-  }
-}
-
 export type Article = {
-  users: DigDeeperUser[]
+  users: User[]
   numAuthors: number
   numContributors: number
   title: string
@@ -33,7 +26,7 @@ export type Article = {
 }
 
 export type Approach = {
-  users: DigDeeperUser[]
+  users: User[]
   numAuthors: number
   numContributors: number
   title: string

@@ -27,7 +27,7 @@ export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
         topCount={article.numAuthors}
         bottomLabel={'contributor'}
         bottomCount={article.numContributors}
-        avatarUrls={article.users.map((i) => i.avatarUrl)}
+        users={article.users}
       />
     </a>
   )

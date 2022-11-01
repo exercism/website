@@ -29,7 +29,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 33, redis_value.dig(:students, :count)
   end
 
-  test "students entry" do
+  test "students" do
     redis = Exercism.redis_tooling_client
     track = create :track
 
@@ -43,5 +43,21 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = { count: 90, num_joined_per_day: 3 }
     assert_equal expected, redis_value[:students]
+  end
+
+  test "submissions" do
+    redis = Exercism.redis_tooling_client
+    track = create :track
+
+    create_list(:submission, 20, track:, created_at: Time.current - 2.months)
+    create_list(:submission, 65, track:, created_at: Time.current - 29.days)
+    create_list(:submission, 75, track:, created_at: Time.current - 5.days)
+    create_list(:submission, 35, track: (create :track, :random_slug), created_at: Time.current - 5.days)
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected = { count: 160, num_submitted_per_day: 5 }
+    assert_equal expected, redis_value[:submissions]
   end
 end

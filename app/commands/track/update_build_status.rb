@@ -10,7 +10,8 @@ class Track::UpdateBuildStatus
   private
   def build_status
     {
-      students:
+      students:,
+      submissions:
     }
   end
 
@@ -18,6 +19,13 @@ class Track::UpdateBuildStatus
     {
       count: track.num_students,
       num_joined_per_day: (track.user_tracks.where('created_at >= ?', Time.current - 30.days).count / 30.0).ceil
+    }
+  end
+
+  def submissions
+    {
+      count: track.submissions.count,
+      num_submitted_per_day: (track.submissions.where('submissions.created_at >= ?', Time.current - 30.days).count / 30.0).ceil
     }
   end
 end

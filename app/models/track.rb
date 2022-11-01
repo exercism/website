@@ -109,6 +109,9 @@ class Track < ApplicationRecord
   memoize
   def mentoring_notes = Git::Track::MentorNotes.new(slug)
 
+  # TODO: consider if there is a better place for this code
+  def build_status_key = "build_status:#{id}"
+
   CATGEORIES = {
     paradigm: "Paradigm",
     typing: "Typing",

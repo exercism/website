@@ -60,4 +60,17 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     expected = { count: 85, num_submitted_per_day: 3 }
     assert_equal expected, redis_value[:submissions]
   end
+
+  test "mentor_discussions" do
+    redis = Exercism.redis_tooling_client
+    track = create :track
+
+    create_list(:mentor_discussion, 16, track:)
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected = { count: 16 }
+    assert_equal expected, redis_value[:mentor_discussions]
+  end
 end

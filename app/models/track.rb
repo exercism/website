@@ -11,6 +11,7 @@ class Track < ApplicationRecord
   has_many :submissions, through: :exercises
   has_many :representations, class_name: "Exercise::Representation", dependent: :destroy
   has_many :user_tracks, dependent: :destroy
+  has_many :mentor_discussions, through: :solutions
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent

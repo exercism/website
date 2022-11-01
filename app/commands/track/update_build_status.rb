@@ -11,7 +11,8 @@ class Track::UpdateBuildStatus
   def build_status
     {
       students:,
-      submissions:
+      submissions:,
+      mentor_discussions:
     }
   end
 
@@ -26,6 +27,12 @@ class Track::UpdateBuildStatus
     {
       count: track.submissions.count,
       num_submitted_per_day: average_number_per_day(track.submissions, Submission)
+    }
+  end
+
+  def mentor_discussions
+    {
+      count: track.mentor_discussions.count
     }
   end
 

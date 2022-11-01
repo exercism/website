@@ -96,6 +96,7 @@ export const IterationsList = ({
     return () => {
       solutionChannel.disconnect()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [CACHE_KEY, solutionUuid])
 
   useEffect(() => {

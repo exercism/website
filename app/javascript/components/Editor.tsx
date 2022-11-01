@@ -5,39 +5,41 @@ import React, {
   useEffect,
   createContext,
 } from 'react'
-import { TestRun, TestRunStatus } from './editor/types'
-import { File } from './types'
-import { Props, EditorFeatures, TaskContext } from './editor/Props'
-import { Header } from './editor/Header'
-import {
-  FileEditorCodeMirror,
-  FileEditorHandle,
-} from './editor/FileEditorCodeMirror'
-import { InstructionsPanel } from './editor/InstructionsPanel'
-import { TestsPanel } from './editor/TestsPanel'
-import { ResultsPanel } from './editor/ResultsPanel'
-import { InstructionsTab } from './editor/InstructionsTab'
-import { TestsTab } from './editor/TestsTab'
-import { ResultsTab } from './editor/ResultsTab'
-import { EditorStatusSummary } from './editor/EditorStatusSummary'
-import { RunTestsButton } from './editor/RunTestsButton'
-import { SubmitButton } from './editor/SubmitButton'
-import { redirectTo } from '../utils/redirect-to'
-import { TabContext } from './common/Tab'
-import { SplitPane } from './common'
-
-import { useSaveFiles } from './editor/useSaveFiles'
-import { useEditorFiles } from './editor/useEditorFiles'
-import { useEditorFocus } from './editor/useEditorFocus'
-import { useSubmissionsList } from './editor/useSubmissionsList'
-import { useFileRevert } from './editor/useFileRevert'
-import { useIteration } from './editor/useIteration'
-import { useDefaultSettings } from './editor/useDefaultSettings'
-import { useEditorStatus, EditorStatus } from './editor/useEditorStatus'
-import { useEditorTestRunStatus } from './editor/useEditorTestRunStatus'
-import { useSubmissionCancelling } from './editor/useSubmissionCancelling'
-import { getCacheKey } from '../components/student/IterationsList'
 import { useQueryCache } from 'react-query'
+import { redirectTo } from '@/utils/redirect-to'
+import { getCacheKey } from '@/components/student'
+import type { File } from './types'
+import { type TabContext, SplitPane } from './common'
+import {
+  type Props,
+  type EditorFeatures,
+  type TaskContext,
+  type FileEditorHandle,
+  type TestRun,
+  useSubmissionCancelling,
+  useDefaultSettings,
+  useEditorStatus,
+  useSubmissionsList,
+  useFileRevert,
+  useIteration,
+  useEditorFiles,
+  useSaveFiles,
+  useEditorTestRunStatus,
+  TestRunStatus,
+  EditorStatus,
+  useEditorFocus,
+  Header,
+  FileEditorCodeMirror,
+  EditorStatusSummary,
+  RunTestsButton,
+  SubmitButton,
+  InstructionsTab,
+  TestsTab,
+  ResultsTab,
+  InstructionsPanel,
+  TestsPanel,
+  ResultsPanel,
+} from './editor/index'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
@@ -53,7 +55,7 @@ const filesEqual = (files: File[], other: File[]) => {
 
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 export const FeaturesContext = createContext<EditorFeatures>({
@@ -63,7 +65,7 @@ export const FeaturesContext = createContext<EditorFeatures>({
 
 export const TasksContext = createContext<TaskContext>({
   current: null,
-  switchToTask: () => {},
+  switchToTask: () => null,
   showJumpToInstructionButton: false,
 })
 
@@ -172,6 +174,7 @@ export default ({
         redirectTo(iteration.links.solution)
       },
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createIteration, dispatch, isSubmitDisabled, JSON.stringify(submission)])
 
   const updateSubmission = useCallback(
@@ -182,6 +185,7 @@ export default ({
 
       setSubmission(submission.uuid, { ...submission, testRun: testRun })
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setSubmission, JSON.stringify(submission)]
   )
   const editorDidMount = useCallback(
@@ -231,6 +235,7 @@ export default ({
         })
       },
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revertToLastIteration, dispatch, setFiles, JSON.stringify(submission)])
 
   const handleRevertToExerciseStart = useCallback(() => {
@@ -273,6 +278,7 @@ export default ({
         })
       },
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revertToExerciseStart, setFiles, dispatch, JSON.stringify(submission)])
 
   const handleCancelled = useCallback(() => {
@@ -282,6 +288,7 @@ export default ({
 
     removeSubmission(submission.uuid)
     setHasCancelled(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(submission)])
 
   useEffect(() => {
@@ -294,6 +301,7 @@ export default ({
     if (submission.testRun?.status === TestRunStatus.CANCELLED) {
       handleCancelled()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(submission)])
 
   useEditorFocus({ editor: editorRef.current, isProcessing })

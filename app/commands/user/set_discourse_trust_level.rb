@@ -13,10 +13,6 @@ class User::SetDiscourseTrustLevel
     # oauth didn't complete so there's nothing to do.
   end
 
-  def client
-    DiscourseApi::Client.new("https://forum.exercism.org").tap do |client|
-      client.api_key = Exercism.secrets.discourse_api_key
-      client.api_username = "system"
-    end
-  end
+  memoize
+  def client = Exercism.discourse_client
 end

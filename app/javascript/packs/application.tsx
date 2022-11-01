@@ -302,6 +302,9 @@ export const mappings = {
   'exercise-tooltip': (data: any) => (
     <Tooltips.ExerciseTooltip endpoint={data.endpoint} />
   ),
+
+  'healthy-tooltip': (data: any) => <Tooltips.HealthyTooltip />,
+
   'concept-tooltip': (data: any) => (
     <Tooltips.ConceptTooltip endpoint={data.endpoint} />
   ),

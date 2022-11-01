@@ -37,7 +37,7 @@
           .flex.flex-col.mr-40
             .tooling-status-label Building
             .tooling-status-group
-              %div{ 'tooling-status': 'healthy' }
+              %div{ 'tooling-status': 'healthy', 'aria-label': 'This tab is locked', 'data-tooltip-type': 'healthy', 'data-placement': 'bottom', 'data-interactive': 'true' }
                 = graphical_icon "syllabus"
               %div{ 'tooling-status': 'needs-attention' }
                 = graphical_icon "test-runner"
@@ -134,7 +134,7 @@
             .record-value= @num_test_runs
           .record-row
             .record-name Outcome Breakdown
-            .record-value #{@percent_tests_passed}% pass (#{@num_tests_passed}) #{@percent_tests_failed}% fail (#{@num_tests_failed}) #{@percent_tests_unknown}% unknown (#{@num_tests_unknown})
+            .record-value #{@percent_tests_passed}% pass (#{@num_tests_passed}) #{@percent_tests_failed}% fail (#{@num_tests_failed}) #{@percent_tests_unknown}% error (#{@num_tests_unknown})
           .record-row
             .record-name Mean Runtime
             .record-value 2.84s

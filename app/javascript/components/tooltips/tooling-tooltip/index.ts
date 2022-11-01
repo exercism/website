@@ -1,0 +1,1 @@
+export { HealthyTooltip } from './Healthy'

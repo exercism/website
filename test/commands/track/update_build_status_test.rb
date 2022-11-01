@@ -73,4 +73,23 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     expected = { count: 16 }
     assert_equal expected, redis_value[:mentor_discussions]
   end
+
+  test "build" do
+    redis = Exercism.redis_tooling_client
+    track = create :track, num_concepts: 5
+
+    create :concept_exercise, track: track, status: :wip
+    create :concept_exercise, track: track, status: :beta
+    create :concept_exercise, track: track, status: :active
+    create :concept_exercise, track: track, status: :active
+    create :concept_exercise, track: track, status: :active
+    create :concept_exercise, track: track, status: :deprecated
+    create :concept_exercise, track: (create :track, :random_slug), status: :active
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected = { num_concepts: 5, num_concept_exercises: 4 }
+    assert_equal expected, redis_value[:build]
+  end
 end

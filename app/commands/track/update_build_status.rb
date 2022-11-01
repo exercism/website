@@ -12,7 +12,8 @@ class Track::UpdateBuildStatus
     {
       students:,
       submissions:,
-      mentor_discussions:
+      mentor_discussions:,
+      build:
     }
   end
 
@@ -33,6 +34,13 @@ class Track::UpdateBuildStatus
   def mentor_discussions
     {
       count: track.mentor_discussions.count
+    }
+  end
+
+  def build
+    {
+      num_concepts: track.num_concepts,
+      num_concept_exercises: track.concept_exercises.where(status: %i[active beta]).count
     }
   end
 

@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/brianmario/mysql2.git
-  revision: 56c0ced2afe2cabe0b3f1a05e8e5e86713ebbc87
-  ref: 56c0ced2afe2cabe0b3f1a05e8e5e86713ebbc87
-  specs:
-    mysql2 (0.5.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -290,6 +283,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
+    mysql2 (0.5.4)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -558,7 +552,7 @@ DEPENDENCIES
   minitest
   minitest-retry
   mocha
-  mysql2!
+  mysql2 (~> 0.5.4)
   octokit
   oj
   omniauth-github

@@ -22,7 +22,7 @@ class CommunityVideo::RetrieveTest < ActiveSupport::TestCase
   end
 
   test "raises with unexpected url" do
-    assert_raises(InvalidCommunityVideoUrl) do
+    assert_raises(InvalidCommunityVideoUrlError) do
       CommunityVideo::Retrieve.("https://foo.bar")
     end
   end

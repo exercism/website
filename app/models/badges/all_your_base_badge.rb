@@ -15,8 +15,6 @@ module Badges
         any?
     end
 
-    def send_email_on_acquisition?
-      true
-    end
+    def send_email_on_acquisition? = true
   end
 end

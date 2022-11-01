@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     get "confirmations/required" => "auth/confirmations#required", as: "auth_confirmation_required"
   end
 
+  get "discourse/sso" => "discourse/sso"
+
   # ### #
   # SPI #
   # ### #
@@ -130,6 +132,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :community, only: %i[show], controller: "community"
+
+  namespace :community do
+    resources :stories, only: %i[index show]
+  end
+
   resources :tracks, only: %i[index show] do
     get :about, on: :member
     get :build, on: :member
@@ -159,10 +167,12 @@ Rails.application.routes.draw do
           get :tooltip_locked
         end
       end
-      resources :approaches, only: %i[index show], controller: "tracks/approaches" do
-        collection do
-          get :tooltip_locked
-        end
+
+      resources :articles, only: %i[index show], controller: "tracks/articles"
+      resources :approaches, only: %i[index show], controller: "tracks/approaches"
+
+      resource :dig_deeper, only: %i[show], controller: "tracks/dig_deeper" do
+        get :tooltip_locked
       end
     end
 

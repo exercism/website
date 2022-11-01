@@ -15,8 +15,6 @@ module Badges
         any? { |ut| ut.completed_concept_exercises_percentage == 100 }
     end
 
-    def send_email_on_acquisition?
-      true
-    end
+    def send_email_on_acquisition? = true
   end
 end

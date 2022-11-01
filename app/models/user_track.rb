@@ -81,9 +81,7 @@ class UserTrack < ApplicationRecord
     exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 
-  def external?
-    false
-  end
+  def external? = false
 
   memoize
   def has_notifications?
@@ -120,9 +118,7 @@ class UserTrack < ApplicationRecord
     Mentor::Request.where(solution: solutions).pending
   end
 
-  def tutorial_exercise_completed?
-    num_completed_exercises.positive?
-  end
+  def tutorial_exercise_completed? = num_completed_exercises.positive?
 
   def exercise_has_notifications?(exercise)
     # None of these can have notifications

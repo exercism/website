@@ -122,9 +122,7 @@ module IsParamaterisedSTI
   end
 
   # Save each class from manually overriding this
-  def non_cacheable_rendering_data
-    {}
-  end
+  def non_cacheable_rendering_data = {}
 
   # Each class can define attributes that don't trigger
   # a recalculation of the recache on save
@@ -188,9 +186,7 @@ module IsParamaterisedSTI
     raise "Missing i18n key for this notification"
   end
 
-  def i18n_params
-    {}
-  end
+  def i18n_params = {}
 
   def generate_uniqueness_key!
     k = [type_key, guard_params]

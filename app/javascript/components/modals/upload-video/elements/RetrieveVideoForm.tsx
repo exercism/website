@@ -1,19 +1,12 @@
-import { ApproachesDataContext } from '@/components/track/Approaches'
 import React, { useCallback, useContext, useState } from 'react'
 import { useMutation } from 'react-query'
+import { sendRequest } from '@/utils/send-request'
+import { DigDeeperDataContext } from '@/components/track/DigDeeper'
+import type { CommunityVideoType } from '@/components/types'
 import { UploadVideoTextInput } from '.'
-import { sendRequest } from '../../../../utils/send-request'
-
-export type CommunityVideo = {
-  title: string
-  url: string
-  platform: string
-  channelName: string
-  thumbnailUrl: string
-}
 
 export type VideoDataResponse =
-  | { communityVideo: CommunityVideo }
+  | { communityVideo: CommunityVideoType }
   | undefined
   | null
 
@@ -24,7 +17,7 @@ type RetrieveVideoForm = {
 export function RetrieveVideoForm({
   onSuccess,
 }: RetrieveVideoForm): JSX.Element {
-  const { links } = useContext(ApproachesDataContext)
+  const { links } = useContext(DigDeeperDataContext)
   async function VerifyVideo(link: string) {
     const URL = `${links.video.lookup}?video_url=${link}`
     const { fetch } = sendRequest({ endpoint: URL, body: null, method: 'GET' })

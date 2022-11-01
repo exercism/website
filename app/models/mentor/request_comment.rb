@@ -35,9 +35,7 @@ class Mentor::RequestComment
     )
   end
 
-  def by_student?
-    by_student
-  end
+  def by_student? = by_student
 
   def links
     {

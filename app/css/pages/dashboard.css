@@ -66,7 +66,7 @@
         }
     }
     & header.dashboard-header {
-        @apply flex items-center pt-32 mb-48;
+        @apply flex lg:flex-row flex-col gap-y-48 items-center pt-32 mb-48;
 
         & .intro {
             @apply flex;
@@ -114,11 +114,16 @@
             background-size: 155px;
             @apply flex-shrink-0 mr-20;
             @apply self-start;
+            @apply xl:block hidden;
+        }
+
+        .social-icons-container {
+            @apply flex;
         }
     }
 
     & article {
-        @apply flex mb-48;
+        @apply xl:flex mb-48;
     }
 
     & section.actions-section {

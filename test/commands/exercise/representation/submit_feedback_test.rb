@@ -7,13 +7,16 @@ class Exercise::Representation::SubmitFeedbackTest < ActiveSupport::TestCase
     feedback_markdown = 'Try _this_'
     feedback_type = :actionable
 
-    Exercise::Representation::SubmitFeedback.(mentor, representation, feedback_markdown, feedback_type)
+    freeze_time do
+      Exercise::Representation::SubmitFeedback.(mentor, representation, feedback_markdown, feedback_type)
 
-    representation.reload
-    assert_equal feedback_markdown, representation.feedback_markdown
-    assert_equal feedback_type, representation.feedback_type
-    assert_equal mentor, representation.feedback_author
-    assert_nil representation.feedback_editor
+      representation.reload
+      assert_equal feedback_markdown, representation.feedback_markdown
+      assert_equal feedback_type, representation.feedback_type
+      assert_equal mentor, representation.feedback_author
+      assert_nil representation.feedback_editor
+      assert_equal Time.now.utc, representation.feedback_added_at
+    end
   end
 
   test "adding feedback awards automation feedback author reputation token" do
@@ -34,13 +37,25 @@ class Exercise::Representation::SubmitFeedbackTest < ActiveSupport::TestCase
     refute User::ReputationTokens::AutomationFeedbackEditorToken.where(user: mentor).exists?
   end
 
+  %i[essential actionable non_actionable celebratory].each do |feedback_type|
+    test "adding #{feedback_type} feedback sends notifications" do
+      mentor = create :user
+      representation = create :exercise_representation
+
+      Exercise::Representation::SendNewFeedbackNotifications.expects(:defer).with(representation).once
+
+      Exercise::Representation::SubmitFeedback.(mentor, representation, 'Try this', feedback_type)
+    end
+  end
+
   test "updates feedback" do
     author = create :user
     editor = create :user
     feedback_markdown = 'Try _this_'
     feedback_type = :actionable
+    feedback_added_at = Time.zone.now - 2.minutes
     representation = create :exercise_representation, feedback_author: author, feedback_markdown: feedback_markdown,
-      feedback_type: feedback_type
+      feedback_type: feedback_type, feedback_added_at: feedback_added_at
 
     Exercise::Representation::SubmitFeedback.(editor, representation, feedback_markdown, feedback_type)
 
@@ -49,6 +64,7 @@ class Exercise::Representation::SubmitFeedbackTest < ActiveSupport::TestCase
     assert_equal feedback_type, representation.feedback_type
     assert_equal author, representation.feedback_author
     assert_equal editor, representation.feedback_editor
+    assert_equal feedback_added_at, representation.feedback_added_at
   end
 
   test "updating feedback awards automation feedback editor reputation token" do
@@ -87,5 +103,17 @@ class Exercise::Representation::SubmitFeedbackTest < ActiveSupport::TestCase
     end
 
     refute User::ReputationTokens::AutomationFeedbackEditorToken.where(user: mentor).exists?
+  end
+
+  %i[essential actionable non_actionable celebratory].each do |feedback_type|
+    test "updating #{feedback_type} feedback does notifications" do
+      mentor = create :user
+      representation = create :exercise_representation, feedback_author: mentor, feedback_markdown: 'Try this',
+        feedback_type: feedback_type
+
+      Exercise::Representation::SendNewFeedbackNotifications.expects(:defer).with(representation).never
+
+      Exercise::Representation::SubmitFeedback.(mentor, representation, 'No, try that', feedback_type)
+    end
   end
 end

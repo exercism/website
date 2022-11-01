@@ -33,7 +33,7 @@ module Flows
 
         use_capybara_host do
           visit contributing_contributors_path
-          click_on "Last 7 days"
+          click_on "This week"
 
           assert_text "1 PR created"
         end

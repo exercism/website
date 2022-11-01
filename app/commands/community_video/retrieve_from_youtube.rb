@@ -19,20 +19,20 @@ class CommunityVideo
         channel_name: snippet["channelTitle"],
         channel_url: "https://www.youtube.com/channel/#{snippet['channelId']}",
 
-        thumbnail_url: snippet["thumbnails"]["standard"]["url"]
+        thumbnail_url:
       )
     rescue StandardError
-      raise InvalidCommunityVideoUrl
+      raise InvalidCommunityVideoUrlError
     end
 
-    def embed_url = "https://www.youtube.com/embed/#{youtube_id}"
+    def embed_url = "https://www.youtube-nocookie.com/embed/#{youtube_id}"
 
     memoize
     def snippet
       resp = JSON.parse(RestClient.get(api_url).body)
 
       items = resp['items']
-      raise InvalidCommunityVideoUrl if items.blank?
+      raise InvalidCommunityVideoUrlError if items.blank?
 
       items.first['snippet']
     end
@@ -41,6 +41,12 @@ class CommunityVideo
     def youtube_id
       params = URI(url).query.split("&").map { |qp| qp.split("=") }.to_h
       params["v"]
+    end
+
+    def thumbnail_url
+      %w[standard high medium default].each do |size|
+        return snippet["thumbnails"][size]["url"] if snippet["thumbnails"][size]
+      end
     end
 
     memoize

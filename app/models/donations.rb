@@ -1,5 +1,3 @@
 module Donations
-  def self.table_name_prefix
-    'donations_'
-  end
+  def self.table_name_prefix = 'donations_'
 end

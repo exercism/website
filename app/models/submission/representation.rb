@@ -12,6 +12,7 @@ class Submission::Representation < ApplicationRecord
   belongs_to :mentored_by, optional: true, class_name: "User"
 
   has_one :solution, through: :submission
+  has_one :iteration, through: :submission
   has_one :exercise, through: :solution
 
   has_one :exercise_representation,

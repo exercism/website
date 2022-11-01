@@ -1,15 +1,35 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { useMutation } from 'react-query'
-import { UploadVideoTextInput, CommunityVideo } from '.'
 import { sendRequest } from '@/utils/send-request'
 import { Icon } from '@/components/common'
 import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
-import { ApproachesDataContext } from '@/components/track/Approaches'
+import { DigDeeperDataContext } from '@/components/track/DigDeeper'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
+import type { CommunityVideoType } from '@/components/types'
+import { UploadVideoTextInput } from '.'
 
 type UploadVideoFormProps = {
-  data: CommunityVideo
+  data: CommunityVideoType
   onUseDifferentVideoClick: () => void
   onSuccess: () => void
+}
+
+const DEFAULT_ERROR = new Error(
+  'There was an error uploading this video. Please try again!'
+)
+
+const ErrorMessage = ({ error }: { error: unknown }) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return null
+}
+
+const ErrorFallback = ({ error }: { error: Error }) => {
+  return (
+    <div className="c-alert--danger text-16 font-body my-16 normal-case">
+      {error.message}
+    </div>
+  )
 }
 
 export function UploadVideoForm({
@@ -17,7 +37,7 @@ export function UploadVideoForm({
   onUseDifferentVideoClick,
   onSuccess,
 }: UploadVideoFormProps): JSX.Element {
-  const { links, track, exercise } = useContext(ApproachesDataContext)
+  const { links, track, exercise } = useContext(DigDeeperDataContext)
   async function UploadVideo(body: string) {
     const { fetch } = sendRequest({
       endpoint: links.video.create,
@@ -27,14 +47,12 @@ export function UploadVideoForm({
     return fetch
   }
 
-  const [uploadError, setUploadError] = useState(false)
-
-  const [uploadVideo] = useMutation((body: string) => UploadVideo(body), {
-    onSuccess: () => {
-      onSuccess()
-    },
-    onError: () => setUploadError(true),
-  })
+  const [uploadVideo, { error }] = useMutation(
+    (body: string) => UploadVideo(body),
+    {
+      onSuccess,
+    }
+  )
 
   const handleSubmitVideo = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -63,7 +81,6 @@ export function UploadVideoForm({
         className="rounded-16 mb-16"
       />
 
-      {/* btn-i-filled has a different shadow than in Figma */}
       <button
         type="button"
         onClick={onUseDifferentVideoClick}
@@ -108,16 +125,10 @@ export function UploadVideoForm({
         />
       </fieldset>
 
-      {/* <div className="mb-24 text-p-base leading-150">
-        Please ensure you have full rights to take credit for the video before
-        submitting.
-      </div> */}
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ErrorMessage error={error} />
+      </ErrorBoundary>
 
-      {uploadError && (
-        <span className="c-alert--danger text-16 font-body my-16 normal-case">
-          There was an error uploading this video. Please try again!
-        </span>
-      )}
       <div className="flex">
         <button type="submit" className="w-full btn-primary btn-l grow">
           Submit video

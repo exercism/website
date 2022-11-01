@@ -16,6 +16,17 @@ class Exercise < ApplicationRecord
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions
   has_many :representations, dependent: :destroy
+  has_many :community_videos, dependent: :destroy
+
+  has_many :approaches,
+    class_name: "Exercise::Approach",
+    inverse_of: :exercise,
+    dependent: :destroy
+
+  has_many :articles,
+    class_name: "Exercise::Article",
+    inverse_of: :exercise,
+    dependent: :destroy
 
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",
@@ -42,7 +53,7 @@ class Exercise < ApplicationRecord
     source: :contributor
 
   has_many :approach_introduction_authorships,
-    class_name: "Exercise::Approaches::IntroductionAuthorship",
+    class_name: "Exercise::Approach::Introduction::Authorship",
     inverse_of: :exercise,
     dependent: :destroy
   has_many :approach_introduction_authors,
@@ -50,7 +61,7 @@ class Exercise < ApplicationRecord
     source: :author
 
   has_many :approach_introduction_contributorships,
-    class_name: "Exercise::Approaches::IntroductionContributorship",
+    class_name: "Exercise::Approach::Introduction::Contributorship",
     inverse_of: :exercise,
     dependent: :destroy
   has_many :approach_introduction_contributors,
@@ -68,7 +79,8 @@ class Exercise < ApplicationRecord
   end
 
   delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url,
-    :approaches_introduction, :approaches_introduction_last_modified_at, to: :git
+    :approaches_introduction, :approaches_introduction_last_modified_at, :approaches_introduction_exists?,
+    :approaches_introduction_edit_url, to: :git
   delegate :dir, to: :git, prefix: true
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 
@@ -92,21 +104,14 @@ class Exercise < ApplicationRecord
     track.recache_num_exercises! if (saved_changes.keys & %w[id status]).present?
   end
 
-  def status
-    super.to_sym
-  end
+  def status = super.to_sym
 
   def git_type
     self.class.name.sub("Exercise", "").downcase
   end
 
-  def concept_exercise?
-    is_a?(ConceptExercise)
-  end
-
-  def practice_exercise?
-    is_a?(PracticeExercise)
-  end
+  def concept_exercise? = is_a?(ConceptExercise)
+  def practice_exercise? = is_a?(PracticeExercise)
 
   def tutorial?
     slug == "hello-world"
@@ -116,13 +121,8 @@ class Exercise < ApplicationRecord
     super && track.has_test_runner?
   end
 
-  def to_param
-    slug
-  end
-
-  def download_cmd
-    "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
-  end
+  def to_param = slug
+  def download_cmd = "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
 
   def difficulty_category
     case difficulty
@@ -135,9 +135,7 @@ class Exercise < ApplicationRecord
     end
   end
 
-  def icon_url
-    "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
-  end
+  def icon_url = "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
 
   memoize
   def mentoring_notes

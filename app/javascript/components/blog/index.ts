@@ -1,1 +1,0 @@
-export { SharePostLink } from './SharePostLink'

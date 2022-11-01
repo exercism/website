@@ -39,6 +39,7 @@ import StudentExerciseList from '../components/student/ExerciseList'
 import * as Common from '../components/common'
 
 import * as Student from '../components/student'
+import * as Community from '../components/community'
 
 import * as TrackComponents from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
@@ -57,7 +58,6 @@ import {
   Metric,
 } from '../components/types'
 
-import * as Blog from '../components/blog'
 import * as Tooltips from '../components/tooltips'
 import { Dropdown } from '../components/dropdowns/Dropdown'
 import * as Profile from '../components/profile'
@@ -88,11 +88,11 @@ declare global {
 import { QueryCache } from 'react-query'
 window.queryCache = new QueryCache()
 
-// // Add all react components here.
-// // Each should map 1-1 to a component in app/helpers/components
-initReact({
-  'blog-share-post-link': (data: any) => (
-    <Blog.SharePostLink
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+export const mappings = {
+  'share-link': (data: any) => (
+    <Common.ShareLink
       title={data.title}
       shareTitle={data.share_title}
       shareLink={data.share_link}
@@ -168,16 +168,28 @@ initReact({
       <CLIWalkthroughButton html={data.html} />
     </Suspense>
   ),
+
+  'community-video-grid': (data: any) => (
+    <Community.VideoGrid data={camelizeKeys(data)} />
+  ),
+  'community-stories-grid': (data: any) => (
+    <Community.StoriesGrid data={camelizeKeys(data)} />
+  ),
+
   'track-exercise-community-solutions-list': (data: any) => (
     <TrackComponents.ExerciseCommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
     />
   ),
 
-  'track-approaches': (data: ApproachesProps) => (
-    <TrackComponents.Approaches data={camelizeKeysAs<ApproachesProps>(data)} />
+  'track-dig-deeper': (data: DigDeeperProps) => (
+    <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
   ),
   'track-approach': (data: any) => <TrackComponents.Approach />,
+
+  'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
+    <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />
+  ),
 
   'track-exercise-makers-button': (data: any) => (
     <TrackComponents.ExerciseMakersButton
@@ -195,14 +207,13 @@ initReact({
       links={data.links}
     />
   ),
-  'track-credits': (data: any) => (
+  'common-credits': (data: any) => (
     <Common.Credits
-      avatarUrls={data.avatar_urls}
+      users={camelizeKeysAs<User[]>(data.users)}
       topCount={data.top_count}
       topLabel={data.top_label}
       bottomCount={data.bottom_count}
       bottomLabel={data.bottom_label}
-      max={data.max}
     />
   ),
   'common-exercise-widget': (data: any) => (
@@ -435,7 +446,11 @@ initReact({
       />
     </Suspense>
   ),
-})
+}
+
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+initReact(mappings)
 
 document.addEventListener(
   'turbo:load',
@@ -443,9 +458,9 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
-import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
-import { ApproachesProps } from '@/components/track/Approaches'
-import { ChartData } from '@/components/impact/Chart'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { DigDeeperProps } from '@/components/track/DigDeeper'
+import type { ChartData } from '@/components/impact/Chart'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

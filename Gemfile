@@ -37,7 +37,7 @@ gem 'kaminari'
 gem 'oj'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.84.0'
+gem 'exercism-config', '>= 0.86.0'
 # gem 'exercism-config', path: '../exercism_config'
 
 # Model-level dependencies
@@ -61,6 +61,9 @@ gem 'omniauth-rails_csrf_protection'
 
 # Payments
 gem 'stripe'
+
+# Discourse
+gem 'discourse_api'
 
 # Reporting
 gem 'skylight'

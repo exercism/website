@@ -125,6 +125,7 @@
     "eslint-plugin-testing-library": "^4.1.2",
     "flush-promises": "^1.0.2",
     "husky": "^8.0.0",
+    "identity-obj-proxy": "^3.0.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "27",
     "msw": "^0.21.2",

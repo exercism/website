@@ -7,7 +7,5 @@ class User::AuthToken < ApplicationRecord
     self.token ||= SecureRandom.uuid
   end
 
-  def to_s
-    token
-  end
+  def to_s = token
 end

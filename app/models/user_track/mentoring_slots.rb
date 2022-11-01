@@ -3,9 +3,7 @@ module UserTrack::MentoringSlots
 
   MENTORING_SLOT_THRESHOLDS = [0, 0, 100, 500].freeze
 
-  def has_available_mentoring_slot?
-    num_available_mentoring_slots.positive?
-  end
+  def has_available_mentoring_slot? = num_available_mentoring_slots.positive?
 
   memoize
   def num_locked_mentoring_slots

@@ -16,6 +16,8 @@ class CommunityVideo
         }
         video.save!
       end
+    rescue ActiveRecord::RecordNotUnique
+      raise DuplicateVideoError
     end
   end
 end

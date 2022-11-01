@@ -21,9 +21,7 @@ class Mentor::DiscussionPost < ApplicationRecord
     discussion.student == author
   end
 
-  def to_param
-    uuid
-  end
+  def to_param = uuid
 
   delegate :idx, to: :iteration, prefix: true
 end

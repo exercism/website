@@ -386,4 +386,60 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     assert_equal [contributor_1, contributor_2], exercise.reload.approach_introduction_contributors
   end
+
+  test "syncs approaches" do
+    user_1 = create :user, github_username: 'erikschierboom'
+    user_2 = create :user, github_username: 'ihid'
+    exercise = create :practice_exercise, uuid: '53603e05-2051-4904-a181-e358390f9ae7', slug: 'hamming'
+
+    # Sanity check
+    assert_empty exercise.approaches
+
+    create :exercise_approach, exercise: exercise
+    assert_equal 1, exercise.reload.approaches.count
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal 2, exercise.reload.approaches.count
+
+    approach_1 = exercise.approaches.first
+    assert_equal "23360676-7b7f-4759-b6b6-011ef8f9c420", approach_1.uuid
+    assert_equal "functional", approach_1.slug
+    assert_equal "Functional", approach_1.title
+    assert_equal "All those functions", approach_1.blurb
+    assert_equal [user_1], approach_1.authors
+    assert_equal [user_2], approach_1.contributors
+
+    approach_2 = exercise.approaches.second
+    assert_equal "954be92c-a79e-4ed6-bd0f-f4db3c09a668", approach_2.uuid
+    assert_equal "readability", approach_2.slug
+    assert_equal "Readability", approach_2.title
+    assert_equal "This reads well!", approach_2.blurb
+    assert_equal [user_1, user_2], approach_2.authors
+    assert_empty approach_2.contributors
+  end
+
+  test "syncs articles" do
+    user_1 = create :user, github_username: 'erikschierboom'
+    user_2 = create :user, github_username: 'ihid'
+    exercise = create :practice_exercise, uuid: '53603e05-2051-4904-a181-e358390f9ae7', slug: 'hamming'
+
+    # Sanity check
+    assert_empty exercise.articles
+
+    create :exercise_article, exercise: exercise
+    assert_equal 1, exercise.reload.articles.count
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal 1, exercise.reload.articles.count
+
+    article = exercise.articles.first
+    assert_equal "7feff49c-32ea-4d30-b6da-002b51e0f57d", article.uuid
+    assert_equal "performance", article.slug
+    assert_equal "Performance", article.title
+    assert_equal "Check out this perf!", article.blurb
+    assert_equal [user_1], article.authors
+    assert_equal [user_2], article.contributors
+  end
 end

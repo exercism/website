@@ -1,10 +1,17 @@
 module API
   class CommunityVideosController < BaseController
+    skip_before_action :authenticate_user!
+    before_action :authenticate_user
+
+    def index
+      render json: AssembleCommunityVideos.(params)
+    end
+
     def lookup
       video = CommunityVideo::Retrieve.(params[:video_url])
       serialized = video.attributes.slice(*%w[title platform channel_name channel_url thumbnail_url url])
       render json: { community_video: serialized }.to_json
-    rescue InvalidCommunityVideoUrl
+    rescue InvalidCommunityVideoUrlError
       render_400(:invalid_community_video_url)
     end
 
@@ -33,8 +40,10 @@ module API
       )
 
       render json: {}
-    rescue InvalidCommunityVideoUrl
+    rescue InvalidCommunityVideoUrlError
       render_400(:invalid_community_video_url)
+    rescue DuplicateVideoError
+      render_400(:duplicate_video)
     end
   end
 end

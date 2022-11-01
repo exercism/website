@@ -10,8 +10,8 @@ class Exercise::UpdateHasApproachesTest < ActiveSupport::TestCase
     refute exercise.reload.has_approaches?
 
     # Non-approved videos don't count
-    create :community_video, exercise: exercise, status: :pending
-    create :community_video, exercise: exercise, status: :rejected
+    create :community_video, exercise: exercise, watch_id: 'abc', status: :pending
+    create :community_video, exercise: exercise, watch_id: 'bdef', status: :rejected
 
     Exercise::UpdateHasApproaches.(exercise)
 
@@ -26,6 +26,30 @@ class Exercise::UpdateHasApproachesTest < ActiveSupport::TestCase
 
   test "has_approaches set to true when the exercise has an approaches introduction" do
     exercise = create :practice_exercise, slug: 'bob'
+
+    # Sanity check
+    refute exercise.reload.has_approaches?
+
+    Exercise::UpdateHasApproaches.(exercise)
+
+    assert exercise.reload.has_approaches?
+  end
+
+  test "has_approaches set to true when the exercise has an approach" do
+    exercise = create :practice_exercise, slug: 'leap'
+    create :exercise_approach, exercise: exercise
+
+    # Sanity check
+    refute exercise.reload.has_approaches?
+
+    Exercise::UpdateHasApproaches.(exercise)
+
+    assert exercise.reload.has_approaches?
+  end
+
+  test "has_approaches set to true when the exercise has an article" do
+    exercise = create :practice_exercise, slug: 'leap'
+    create :exercise_article, exercise: exercise
 
     # Sanity check
     refute exercise.reload.has_approaches?

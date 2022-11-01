@@ -1,12 +1,29 @@
 require_relative './base_test_case'
 
 class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
-  guard_incorrect_token! :lookup_api_community_videos_path, method: :get
-  guard_incorrect_token! :api_community_videos_path, method: :post
+  #########
+  # INDEX #
+  #########
+  test "index should proxy params" do
+    user = create :user
+    track = create :track
 
-  ###
-  # Lookup
-  ###
+    setup_user(user)
+
+    CommunityVideo::Search.expects(:call).with(
+      track:,
+      criteria: "author",
+      page: '5'
+    ).returns(CommunityVideo.page(1))
+
+    get api_community_videos_path(video_page: 5, criteria: "author", video_track_slug: track.slug), headers: @headers, as: :json
+
+    assert_response :ok
+  end
+
+  ##########
+  # Lookup #
+  ##########
   test "lookup returns video" do
     user = create :user
     url = "https://youtube.com/..."
@@ -45,9 +62,9 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  ###
-  # Create
-  ###
+  ##########
+  # Create #
+  #########
   test "create should 404 if the track doesn't exist" do
     setup_user
 

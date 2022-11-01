@@ -25,8 +25,8 @@ class Metric::CreateTest < ActiveSupport::TestCase
     solution = create :concept_solution
     track = solution.track
     user = solution.user
-    remote_ip = '127.0.0.1'
-    country_code = 'US'
+    remote_ip = SecureRandom.compact_uuid
+    country_code = 'NL'
 
     request_context = { remote_ip: }
     Geocoder::Lookup::Test.add_stub(remote_ip, [{ 'country_code' => country_code }])
@@ -41,7 +41,7 @@ class Metric::CreateTest < ActiveSupport::TestCase
     solution = create :concept_solution
     track = solution.track
     user = solution.user
-    remote_ip = '127.0.0.1'
+    remote_ip = SecureRandom.compact_uuid
 
     Geocoder::Lookup::Test.add_stub(remote_ip, [])
 
@@ -55,9 +55,9 @@ class Metric::CreateTest < ActiveSupport::TestCase
     action = :start_solution
     solution = create :concept_solution
     occurred_at = Time.current - 2.seconds
-    Exercism.request_context = { remote_ip: nil }
+    request_context = { remote_ip: nil }
 
-    Metric::Create.(action, occurred_at, solution:)
+    Metric::Create.(action, occurred_at, solution:, request_context:)
 
     assert_equal 1, Metric.count
     metric = Metric.last
@@ -84,7 +84,7 @@ class Metric::CreateTest < ActiveSupport::TestCase
     solution = create :concept_solution
     track = solution.track
     user = solution.user
-    remote_ip = '127.0.0.1'
+    remote_ip = SecureRandom.compact_uuid
 
     request_context = { remote_ip: }
     Geocoder::Lookup::Test.add_stub(remote_ip, [{ 'country_code' => '' }])

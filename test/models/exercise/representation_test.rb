@@ -19,19 +19,29 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
   test "has_essential_feedback?" do
     refute create(:exercise_representation, feedback_type: :essential).has_essential_feedback?
     refute create(:exercise_representation, :with_feedback, feedback_type: :actionable).has_essential_feedback?
+    refute create(:exercise_representation, :with_feedback, feedback_type: :celebratory).has_essential_feedback?
     assert create(:exercise_representation, :with_feedback, feedback_type: :essential).has_essential_feedback?
   end
 
   test "has_actionable_feedback?" do
     refute create(:exercise_representation, feedback_type: :actionable).has_actionable_feedback?
     refute create(:exercise_representation, :with_feedback, feedback_type: :essential).has_actionable_feedback?
+    refute create(:exercise_representation, :with_feedback, feedback_type: :celebratory).has_actionable_feedback?
     assert create(:exercise_representation, :with_feedback, feedback_type: :actionable).has_actionable_feedback?
   end
 
   test "has_non_actionable_feedback?" do
     refute create(:exercise_representation, feedback_type: :non_actionable).has_non_actionable_feedback?
     refute create(:exercise_representation, :with_feedback, feedback_type: :actionable).has_non_actionable_feedback?
+    refute create(:exercise_representation, :with_feedback, feedback_type: :celebratory).has_non_actionable_feedback?
     assert create(:exercise_representation, :with_feedback, feedback_type: :non_actionable).has_non_actionable_feedback?
+  end
+
+  test "has_celebratory_feedback?" do
+    refute create(:exercise_representation, feedback_type: :non_actionable).has_celebratory_feedback?
+    refute create(:exercise_representation, :with_feedback, feedback_type: :actionable).has_celebratory_feedback?
+    refute create(:exercise_representation, :with_feedback, feedback_type: :non_actionable).has_celebratory_feedback?
+    assert create(:exercise_representation, :with_feedback, feedback_type: :celebratory).has_celebratory_feedback?
   end
 
   test "num_times_used" do

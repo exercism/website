@@ -151,6 +151,7 @@ namespace :api do
         patch :unpublish
         patch :published_iteration
         patch :sync
+        patch :unlock_help
       end
 
       resources :submissions, only: %i[create], controller: "solutions/submissions", param: :uuid do
@@ -237,9 +238,11 @@ namespace :api do
       resources :testimonials, only: %i[index], param: :uuid
     end
 
-    resources :community_videos, only: %i[create] do
+    resources :community_videos, only: %i[index create] do
       get :lookup, on: :collection
     end
+
+    resources :community_stories, only: %i[index]
 
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"
   end

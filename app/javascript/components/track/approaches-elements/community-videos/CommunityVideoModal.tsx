@@ -1,7 +1,7 @@
-import { Modal } from '@/components/modals'
-import dayjs from 'dayjs'
 import React from 'react'
-import { CommunityVideo } from './types'
+import dayjs from 'dayjs'
+import { Modal } from '@/components/modals'
+import type { CommunityVideoType } from '@/components/types'
 import { VideoCredits } from './VideoCredits'
 
 export function CommunityVideoModal({
@@ -11,14 +11,20 @@ export function CommunityVideoModal({
 }: {
   isOpen: boolean
   onClose: () => void
-  video: CommunityVideo
+  video: CommunityVideoType
 }): JSX.Element {
   return (
-    <Modal open={isOpen} closeButton onClose={onClose} className="items-center">
+    <Modal
+      open={isOpen}
+      closeButton
+      onClose={onClose}
+      className="items-center"
+      ReactModalClassName="max-w-[800px]"
+    >
       <h2 className="text-h2 mb-24 text-center">{video.title}</h2>
       {/* reponsive top-padding for 16:9 videos */}
       <div
-        className="relative overflow-hidden pt-[56.25%] mb-24"
+        className="relative overflow-hidden pb-[56.25%] mb-24"
         style={{ width: '100%' }}
       >
         <iframe
@@ -29,12 +35,18 @@ export function CommunityVideoModal({
         ></iframe>
       </div>
 
-      <VideoCredits links={video.links} author={video.author} />
+      {video.author && (
+        <VideoCredits links={video.links} author={video.author} />
+      )}
       <div className="text-center text-textColor6 leading-160 text-16">
         Posted by{' '}
-        <a href={video.submittedBy.links.profile} className="underline">
-          @{video.submittedBy.handle}
-        </a>{' '}
+        {video.submittedBy.links.profile ? (
+          <a href={video.submittedBy.links.profile} className="underline">
+            @{video.submittedBy.handle}
+          </a>
+        ) : (
+          `@${video.submittedBy.handle}`
+        )}{' '}
         &middot; {dayjs(video.createdAt).format('D MMM YYYY')}
       </div>
     </Modal>

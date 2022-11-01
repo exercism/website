@@ -18,17 +18,9 @@ class BlogPost < ApplicationRecord
     BlogPost.published.group(:category).count.sort_by(&:first)
   end
 
-  def new?
-    published_at > 7.days.ago
-  end
-
-  def video?
-    youtube_id.present?
-  end
-
-  def to_param
-    slug
-  end
+  def new? = published_at > 7.days.ago
+  def video? = youtube_id.present?
+  def to_param = slug
 
   def image_url
     attributes['image_url'].presence ||
@@ -36,12 +28,10 @@ class BlogPost < ApplicationRecord
   end
 
   # TODO: Guarantee all posts have descriptions instead
-  def description
-    super.presence || marketing_copy
-  end
+  def description = super.presence || marketing_copy
 
   def content_html
-    markdown = Git::Blog.content_for(slug)
+    markdown = Git::Blog.post_content_for(slug)
     Markdown::Parse.(markdown.to_s, lower_heading_levels_by: 0)
   end
 end

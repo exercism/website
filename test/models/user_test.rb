@@ -174,14 +174,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [rare_badge, common_badge], user.featured_badges
   end
 
-  test "mentor?" do
-    user = create :user, became_mentor_at: nil
-    refute user.mentor?
-
-    user.update(became_mentor_at: Time.current)
-    assert user.mentor?
-  end
-
   test "recently_used_cli?" do
     freeze_time do
       user = create :user
@@ -301,5 +293,19 @@ class UserTest < ActiveSupport::TestCase
 
     user.update(reputation: 5)
     assert user.may_create_profile?
+  end
+
+  test "profile?" do
+    user = create :user
+    refute user.profile?
+
+    create :user_profile, user: user
+
+    assert user.reload.profile?
+  end
+
+  test "scope: random" do
+    create_list(:user, 100)
+    refute_equal User.all, User.random
   end
 end

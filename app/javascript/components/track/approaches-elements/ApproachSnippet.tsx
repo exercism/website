@@ -1,37 +1,43 @@
+import { Credits } from '@/components/common'
 import { useHighlighting } from '@/hooks'
-import React from 'react'
-import { ConceptMakersButton } from '../ConceptMakersButton'
-import { solution } from './mock-snippet'
+import React, { useContext } from 'react'
+import { Approach, DigDeeperDataContext } from '../DigDeeper'
 
-export function ApproachSnippet(): JSX.Element {
+export function ApproachSnippet({
+  approach,
+}: {
+  approach: Approach
+}): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>()
 
+  const { track } = useContext(DigDeeperDataContext)
+
   return (
-    <div className="bg-white shadow-base rounded-8 px-20 py-16 mb-16">
+    <a
+      href={approach.links.self}
+      className="bg-white shadow-base rounded-8 px-20 py-16 mb-16"
+    >
       <pre
         className="border-1 border-lightGray rounded-8 p-16 mb-16"
         ref={codeBlockRef}
       >
         <code
-          className={`${solution.track.highlightjsLanguage} block h-[134px] overflow-hidden `}
+          className={`${track.slug} block max-h-[134px] overflow-hidden `}
           style={{ textOverflow: 'ellipsis' }}
         >
-          {solution.snippet}
+          {approach.snippet}
         </code>
       </pre>
-      <h5 className="text-h5 mb-2">Using Forwardable</h5>
-      <p className="text-p-base text-textColor6 mb-12">
-        Explore how to use the Forwardable module and its def_delegator and
-        def_delegators methods to use delegation to solve Bob
-      </p>
-      <ConceptMakersButton
-        links={{ makers: 'exercism.org' }}
-        numAuthors={5}
-        numContributors={3}
-        avatarUrls={new Array(3).fill(
-          'https://avatars.githubusercontent.com/u/135246?v=4'
-        )}
+      <h5 className="text-h5 mb-2">{approach.title}</h5>
+      <p className="text-p-base text-textColor6 mb-12">{approach.blurb}</p>
+      <Credits
+        topLabel={'author'}
+        topCount={approach.numAuthors}
+        bottomLabel={'contributor'}
+        bottomCount={approach.numContributors}
+        users={approach.users}
+        className="text-textColor1 font-semibold text-14"
       />
-    </div>
+    </a>
   )
 }

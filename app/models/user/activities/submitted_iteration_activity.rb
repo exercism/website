@@ -6,13 +6,8 @@ module User::Activities
       self.occurred_at = iteration.created_at
     end
 
-    def url
-      Exercism::Routes.track_exercise_iteration_path(track, solution.exercise, iteration)
-    end
-
-    def icon_name
-      "iteration"
-    end
+    def url = Exercism::Routes.track_exercise_iteration_path(track, solution.exercise, iteration)
+    def icon_name = "iteration"
 
     def i18n_params
       {
@@ -20,8 +15,6 @@ module User::Activities
       }
     end
 
-    def guard_params
-      "Iteration##{iteration.id}"
-    end
+    def guard_params = "Iteration##{iteration.id}"
   end
 end

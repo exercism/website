@@ -1,3 +1,7 @@
+- content_for :meta_title, @post.title.html_safe
+- content_for :meta_description, @post.marketing_copy.html_safe
+- content_for :meta_image, @post.image_url
+
 #page-blog-post.pb-80
   %header.pt-24.md:pt-48.pb-64.md:pb-128
     .md-container.flex.flex-col.md:flex-row-reverse

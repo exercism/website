@@ -50,14 +50,14 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     track = create :track
 
     create_list(:submission, 20, track:, created_at: Time.current - 2.months)
-    create_list(:submission, 65, track:, created_at: Time.current - 29.days)
-    create_list(:submission, 75, track:, created_at: Time.current - 5.days)
+    create_list(:submission, 25, track:, created_at: Time.current - 29.days)
+    create_list(:submission, 40, track:, created_at: Time.current - 5.days)
     create_list(:submission, 35, track: (create :track, :random_slug), created_at: Time.current - 5.days)
 
     Track::UpdateBuildStatus.(track)
 
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
-    expected = { count: 160, num_submitted_per_day: 5 }
+    expected = { count: 85, num_submitted_per_day: 3 }
     assert_equal expected, redis_value[:submissions]
   end
 end

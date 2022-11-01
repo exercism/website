@@ -18,14 +18,22 @@ class Track::UpdateBuildStatus
   def students
     {
       count: track.num_students,
-      num_joined_per_day: (track.user_tracks.where('created_at >= ?', Time.current - 30.days).count / 30.0).ceil
+      num_joined_per_day: average_number_per_day(track.user_tracks, UserTrack)
     }
   end
 
   def submissions
     {
       count: track.submissions.count,
-      num_submitted_per_day: (track.submissions.where('submissions.created_at >= ?', Time.current - 30.days).count / 30.0).ceil
+      num_submitted_per_day: average_number_per_day(track.submissions, Submission)
     }
   end
+
+  def average_number_per_day(query, model)
+    total_count = query.where("#{model.table_name}.created_at >= ?", Time.current - NUM_DAYS_FOR_AVERAGE.days).count
+    (total_count / NUM_DAYS_FOR_AVERAGE.to_f).ceil
+  end
+
+  NUM_DAYS_FOR_AVERAGE = 30
+  private_constant :NUM_DAYS_FOR_AVERAGE
 end

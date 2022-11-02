@@ -1,3 +1,7 @@
+# Send with:
+# User.where(id: 1).each do |user|
+#   User::Mailshot::Send.(user, :community_launch)
+# end
 class User::Mailshot
   class Send
     include Mandate

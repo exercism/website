@@ -113,4 +113,61 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     }
     assert_equal expected, redis_value[:concepts]
   end
+
+  test "concept_exercises" do
+    redis = Exercism.redis_tooling_client
+    track = create :track, num_concepts: 5
+
+    concepts = create_list(:concept, 7, track:)
+
+    ce_1 = create :concept_exercise, track: track, status: :wip # Ignore wip
+    ce_1.taught_concepts << concepts[0] # Ignore for wip exercise
+    ce_2 = create :concept_exercise, track: track, status: :beta, slug: 'lasagna'
+    ce_2.taught_concepts << concepts[1]
+    ce_3 = create :concept_exercise, track: track, status: :active, slug: 'sweethearts'
+    ce_3.taught_concepts << concepts[2]
+    ce_3.prerequisites << concepts[5] # Ignore concept if not taught
+    ce_4 = create :concept_exercise, track: track, status: :deprecated # Ignore deprecated
+    ce_4.taught_concepts << concepts[6] # Ignore for deprecated exercise
+
+    users = create_list(:user, 5)
+    create :concept_solution, exercise: ce_2, user: users[0], status: :started
+    s_2 = create :concept_solution, exercise: ce_2, user: users[1], status: :iterated
+    create :submission, exercise: ce_2, user: users[1], solution: s_2
+    s_3 = create :concept_solution, :completed, exercise: ce_2, user: users[2]
+    create :submission, exercise: ce_2, user: users[2], solution: s_3
+    s_4 = create :concept_solution, :published, exercise: ce_2, user: users[3]
+    create :submission, exercise: ce_2, user: users[3], solution: s_4
+    s_5 = create :concept_solution, :published, exercise: ce_2, user: users[4]
+    create :submission, exercise: ce_2, user: users[4], solution: s_5
+    s_6 = create :concept_solution, exercise: ce_3, user: users[0], status: :started
+    create :submission, exercise: ce_3, user: users[0], solution: s_6
+    s_7 = create :concept_solution, :completed, exercise: ce_3, user: users[2]
+    create :submission, exercise: ce_3, user: users[2], solution: s_7
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected = {
+      num_exercises: 2,
+      num_exercises_target: 2,
+      created: [
+        {
+          slug: ce_2.slug,
+          title: ce_2.title,
+          icon_url: ce_2.icon_url,
+          stats: { num_started: 5, num_submitted: 4, num_completed: 3 },
+          links: { self: "/tracks/ruby/exercises/#{ce_2.slug}" }
+        },
+        {
+          slug: ce_3.slug,
+          title: ce_3.title,
+          icon_url: ce_3.icon_url,
+          stats: { num_started: 2, num_submitted: 2, num_completed: 1 },
+          links: { self: "/tracks/ruby/exercises/#{ce_3.slug}" }
+        }
+      ]
+    }
+    assert_equal expected, redis_value[:concept_exercises]
+  end
 end

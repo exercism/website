@@ -67,10 +67,10 @@ class Track::UpdateBuildStatus
   end
 
   memoize
-  def active_concept_exercises = track.concept_exercises.where(status: %i[active beta]).to_a
+  def active_concept_exercises = track.concept_exercises.where(status: %i[active beta]).order(:title).to_a
 
   memoize
-  def active_practice_exercises = track.practice_exercises.where(status: %i[active beta]).to_a
+  def active_practice_exercises = track.practice_exercises.where(status: %i[active beta]).order(:title).to_a
 
   def average_number_per_day(query, model)
     total_count = query.where("#{model.table_name}.created_at >= ?", Time.current - NUM_DAYS_FOR_AVERAGE.days).count

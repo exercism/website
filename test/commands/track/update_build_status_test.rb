@@ -220,4 +220,29 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     }
     assert_equal expected, redis_value[:practice_exercises]
   end
+
+  test "test_runner" do
+    redis = Exercism.redis_tooling_client
+    track = create :track
+
+    create_list(:submission, 2, tests_status: :not_queued, solution: create(:practice_solution, track:)) # Ignore
+    create_list(:submission, 3, tests_status: :queued, solution: create(:practice_solution, track:)) # Ignore
+    create_list(:submission, 5, tests_status: :passed, solution: create(:practice_solution, track:))
+    create_list(:submission, 7, tests_status: :failed, solution: create(:practice_solution, track:))
+    create_list(:submission, 11, tests_status: :errored, solution: create(:practice_solution, track:))
+    create_list(:submission, 13, tests_status: :exceptioned, solution: create(:practice_solution, track:))
+    create_list(:submission, 17, tests_status: :cancelled, solution: create(:practice_solution, track:)) # Ignore
+    create_list(:submission, 19, tests_status: :passed, solution: create(:practice_solution, track: create(:track, :random_slug)))
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected = {
+      num_test_runs: 36,
+      num_passed: 5,
+      num_failed: 7,
+      num_errored: 24
+    }
+    assert_equal expected, redis_value[:test_runner]
+  end
 end

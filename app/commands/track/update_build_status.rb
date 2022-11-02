@@ -14,7 +14,8 @@ class Track::UpdateBuildStatus
       submissions:,
       mentor_discussions:,
       syllabus:,
-      practice_exercises:
+      practice_exercises:,
+      test_runner:
     }
   end
 
@@ -35,6 +36,21 @@ class Track::UpdateBuildStatus
   def mentor_discussions
     {
       num_discussions: track.mentor_discussions.count
+    }
+  end
+
+  def test_runner
+    status_counts = track.submissions.where(tests_status: %i[passed failed errored exceptioned]).group(:tests_status).count
+    num_passed = status_counts['passed'].to_i
+    num_failed = status_counts['failed'].to_i
+    num_errored = status_counts['errored'].to_i + status_counts['exceptioned'].to_i
+    num_test_runs = num_passed + num_failed + num_errored
+
+    {
+      num_test_runs:,
+      num_passed:,
+      num_failed:,
+      num_errored:
     }
   end
 

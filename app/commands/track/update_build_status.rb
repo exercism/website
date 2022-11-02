@@ -76,6 +76,7 @@ class Track::UpdateBuildStatus
 
   def representer
     {
+      num_representations: Submission::Representation.joins(submission: :exercise).where('exercises.track_id': track.id).count,
       volunteers: serialize_tooling_volunteers(track.representer_repo_url)
     }
   end

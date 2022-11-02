@@ -355,6 +355,22 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     end
   end
 
+  test "representer" do
+    redis = Exercism.redis_tooling_client
+    track = create :track
+
+    submission = create :submission
+    create_list(:submission_representation, 23, submission:)
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected = {
+      num_representations: 23
+    }
+    assert_equal expected, redis_value[:representer].except(:volunteers)
+  end
+
   test "representer: volunteers" do
     redis = Exercism.redis_tooling_client
     track = create :track, repo_url: 'https://github.com/exercism/ruby'

@@ -16,7 +16,8 @@ class Track::UpdateBuildStatus
       mentor_discussions:,
       syllabus:,
       practice_exercises:,
-      test_runner:
+      test_runner:,
+      representer:
     }
   end
 
@@ -69,6 +70,12 @@ class Track::UpdateBuildStatus
       num_failed_percentage: percentage(num_failed, num_test_runs),
       num_errored_percentage: percentage(num_errored, num_test_runs),
       volunteers: serialize_tooling_volunteers(track.test_runner_repo_url)
+    }
+  end
+
+  def representer
+    {
+      volunteers: serialize_tooling_volunteers(track.representer_repo_url)
     }
   end
 

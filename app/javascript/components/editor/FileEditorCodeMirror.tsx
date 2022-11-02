@@ -19,7 +19,7 @@ export type FileEditorHandle = {
 
 export const TabsContext = createContext<TabContext>({
   current: '',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 export function FileEditorCodeMirror({

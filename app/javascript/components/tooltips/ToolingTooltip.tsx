@@ -1,5 +1,5 @@
 import React from 'react'
-import { FetchedTooltip } from '../FetchedTooltip'
+import { FetchedTooltip } from './FetchedTooltip'
 
 const DEFAULT_ERROR = new Error('Unable to load data')
 

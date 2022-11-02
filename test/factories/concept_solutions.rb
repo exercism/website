@@ -9,6 +9,7 @@ FactoryBot.define do
     end
 
     trait :published do
+      completed_at { Time.current - 2.minutes }
       published_at { Time.current }
       status { :published }
     end

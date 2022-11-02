@@ -74,6 +74,41 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal expected, redis_value[:mentor_discussions]
   end
 
+  test "volunteers" do
+    redis = Exercism.redis_tooling_client
+    track = create :track
+
+    user_1 = create :user, reputation: 10
+    user_2 = create :user, reputation: 14
+    user_3 = create :user, reputation: 12
+    user_4 = create :user, reputation: 13
+    user_5 = create :user, reputation: 11
+    user_6 = create :user, reputation: 10
+    create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :any
+    create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :building
+    create :user_reputation_period, track_id: track.id, user: user_2, about: :track, category: :building
+    create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :maintaining
+    create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :authoring
+    create :user_reputation_period, track_id: track.id, user: user_4, about: :track, category: :authoring
+    create :user_reputation_period, track_id: track.id, user: user_5, about: :track, category: :mentoring
+    create :user_reputation_period, user: user_6 # Ignore: no track
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected = {
+      num_volunteers: 5,
+      users: [
+        { name: user_2.name, handle: user_2.handle, avatar_url: user_2.avatar_url, links: { profile: nil } },
+        { name: user_4.name, handle: user_4.handle, avatar_url: user_4.avatar_url, links: { profile: nil } },
+        { name: user_3.name, handle: user_3.handle, avatar_url: user_3.avatar_url, links: { profile: nil } },
+        { name: user_5.name, handle: user_5.handle, avatar_url: user_5.avatar_url, links: { profile: nil } },
+        { name: user_1.name, handle: user_1.handle, avatar_url: user_1.avatar_url, links: { profile: nil } }
+      ]
+    }
+    assert_equal expected, redis_value[:volunteers]
+  end
+
   test "syllabus: volunteers" do
     redis = Exercism.redis_tooling_client
     track = create :track
@@ -96,24 +131,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected_users = [
-      {
-        name: users[0].name,
-        handle: users[0].handle,
-        avatar_url: users[0].avatar_url,
-        links: { profile: nil }
-      },
-      {
-        name: users[1].name,
-        handle: users[1].handle,
-        avatar_url: users[1].avatar_url,
-        links: { profile: nil }
-      },
-      {
-        name: users[3].name,
-        handle: users[3].handle,
-        avatar_url: users[3].avatar_url,
-        links: { profile: nil }
-      }
+      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
+      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } },
+      { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url, links: { profile: nil } }
     ]
     actual = redis_value.dig(:syllabus, :volunteers)
     assert_equal 3, actual[:num_authors]

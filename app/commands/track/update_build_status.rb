@@ -10,12 +10,26 @@ class Track::UpdateBuildStatus
   private
   def build_status
     {
+      volunteers:,
       students:,
       submissions:,
       mentor_discussions:,
       syllabus:,
       practice_exercises:,
       test_runner:
+    }
+  end
+
+  def volunteers
+    volunteer_user_ids = User::ReputationPeriod.where(
+      period: :forever,
+      about: :track,
+      track_id: track.id
+    ).select(:user_id)
+
+    {
+      num_volunteers: volunteer_user_ids.distinct.count,
+      users: SerializeAuthorOrContributors.(User.where(id: volunteer_user_ids).order(reputation: :desc).take(12))
     }
   end
 
@@ -149,9 +163,7 @@ class Track::UpdateBuildStatus
 
   def serialize_volunteers(authors, contributors)
     {
-      users: CombineAuthorsAndContributors.(authors, contributors).map do |user|
-        SerializeAuthorOrContributor.(user)
-      end,
+      users: SerializeAuthorOrContributors.(CombineAuthorsAndContributors.(authors, contributors)),
       num_authors: authors.count,
       num_contributors: contributors.count
     }

@@ -1,6 +1,8 @@
 class MailshotsMailer < ApplicationMailer
   layout false
 
+  default from: "Jeremy at Exercism <hello@mail.exercism.io>", reply_to: "jonathan@exercism.org"
+
   def community_launch
     @user = params[:user]
 

@@ -74,6 +74,56 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal expected, redis_value[:mentor_discussions]
   end
 
+  test "syllabus: volunteers" do
+    redis = Exercism.redis_tooling_client
+    track = create :track
+
+    users = create_list(:user, 7)
+    concepts = create_list(:concept, 2)
+    concept_exercises = create_list(:concept_exercise, 3)
+
+    concept_exercises[0].taught_concepts << concepts[0]
+
+    concepts[0].authors << users[0]
+    concepts[0].authors << users[1]
+    concepts[0].contributors << users[2]
+
+    concept_exercises[0].authors << users[3]
+    concept_exercises[0].contributors << users[2]
+    concept_exercises[1].contributors << users[4]
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected_users = [
+      {
+        name: users[0].name,
+        handle: users[0].handle,
+        avatar_url: users[0].avatar_url,
+        links: { profile: nil }
+      },
+      {
+        name: users[1].name,
+        handle: users[1].handle,
+        avatar_url: users[1].avatar_url,
+        links: { profile: nil }
+      },
+      {
+        name: users[3].name,
+        handle: users[3].handle,
+        avatar_url: users[3].avatar_url,
+        links: { profile: nil }
+      }
+    ]
+    actual = redis_value.dig(:syllabus, :volunteers)
+    assert_equal 3, actual[:num_authors]
+    assert_equal 2, actual[:num_contributors]
+    assert_equal 3, actual[:users].size
+    expected_users.each do |expected_user|
+      assert_includes actual[:users], expected_user
+    end
+  end
+
   test "syllabus: concepts" do
     redis = Exercism.redis_tooling_client
     track = create :track, num_concepts: 5

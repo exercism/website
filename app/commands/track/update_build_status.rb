@@ -60,19 +60,39 @@ class Track::UpdateBuildStatus
   def syllabus
     {
       concepts:,
-      concept_exercises:
+      concept_exercises:,
+      volunteers: syllabus_volunteers
+    }
+  end
+
+  def syllabus_volunteers
+    authors = User.where(id: Concept::Authorship.where(concept: taught_concepts).select(:user_id)).
+      or(User.where(id: Exercise::Authorship.where(exercise: active_concept_exercises).select(:user_id)))
+
+    contributors = User.where(id: Concept::Contributorship.where(concept: taught_concepts).select(:user_id)).
+      or(User.where(id: Exercise::Contributorship.where(exercise: active_concept_exercises).select(:user_id)))
+
+    {
+      users: CombineAuthorsAndContributors.(authors, contributors).map do |user|
+        SerializeAuthorOrContributor.(user)
+      end,
+      num_authors: authors.count,
+      num_contributors: contributors.count
     }
   end
 
   def concepts
-    taught_concept_ids = Exercise::TaughtConcept.where(exercise: active_concept_exercises).select(:track_concept_id)
-    taught_concepts = Concept.where(id: taught_concept_ids).to_a
-
     {
       num_concepts: taught_concepts.size,
       num_concepts_target: taught_concepts.size, # TODO: implement levels
       created: taught_concepts.map { |concept| serialize_concept(concept) }
     }
+  end
+
+  memoize
+  def taught_concepts
+    taught_concept_ids = Exercise::TaughtConcept.where(exercise: active_concept_exercises).select(:track_concept_id)
+    Concept.where(id: taught_concept_ids).to_a
   end
 
   def concept_exercises
@@ -102,7 +122,11 @@ class Track::UpdateBuildStatus
     (total_count / NUM_DAYS_FOR_AVERAGE.to_f).ceil
   end
 
-  def percentage(count, total_count) = ((count / total_count.to_f) * 100.0).round
+  def percentage(count, total_count)
+    return 0 if total_count.zero?
+
+    ((count / total_count.to_f) * 100.0).round
+  end
 
   def serialize_concept(concept)
     {

@@ -74,7 +74,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal expected, redis_value[:mentor_discussions]
   end
 
-  test "concepts" do
+  test "syllabus: concepts" do
     redis = Exercism.redis_tooling_client
     track = create :track, num_concepts: 5
 
@@ -111,10 +111,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         { slug: concepts[2].slug, name: concepts[2].name, num_students_learnt: 1 }
       ]
     }
-    assert_equal expected, redis_value[:concepts]
+    assert_equal expected, redis_value.dig(:syllabus, :concepts)
   end
 
-  test "concept_exercises" do
+  test "syllabus: concept_exercises" do
     redis = Exercism.redis_tooling_client
     track = create :track, num_concepts: 5
 
@@ -168,7 +168,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         }
       ]
     }
-    assert_equal expected, redis_value[:concept_exercises]
+    assert_equal expected, redis_value.dig(:syllabus, :concept_exercises)
   end
 
   test "practice_exercises" do

@@ -13,8 +13,7 @@ class Track::UpdateBuildStatus
       students:,
       submissions:,
       mentor_discussions:,
-      concepts:,
-      concept_exercises:,
+      syllabus:,
       practice_exercises:
     }
   end
@@ -36,6 +35,13 @@ class Track::UpdateBuildStatus
   def mentor_discussions
     {
       num_discussions: track.mentor_discussions.count
+    }
+  end
+
+  def syllabus
+    {
+      concepts:,
+      concept_exercises:
     }
   end
 

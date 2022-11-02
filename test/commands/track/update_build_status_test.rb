@@ -170,4 +170,54 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     }
     assert_equal expected, redis_value[:concept_exercises]
   end
+
+  test "practice_exercises" do
+    redis = Exercism.redis_tooling_client
+    track = create :track, num_concepts: 5
+
+    create :practice_exercise, track: track, status: :wip # Ignore wip
+    pe_2 = create :practice_exercise, track: track, status: :beta, slug: 'leap'
+    pe_3 = create :practice_exercise, track: track, status: :active, slug: 'anagram'
+    create :practice_exercise, track: track, status: :deprecated # Ignore deprecated
+
+    users = create_list(:user, 5)
+    create :practice_solution, exercise: pe_2, user: users[0], status: :started
+    s_2 = create :practice_solution, exercise: pe_2, user: users[1], status: :iterated
+    create :submission, exercise: pe_2, user: users[1], solution: s_2
+    s_3 = create :practice_solution, :completed, exercise: pe_2, user: users[2]
+    create :submission, exercise: pe_2, user: users[2], solution: s_3
+    s_4 = create :practice_solution, :published, exercise: pe_2, user: users[3]
+    create :submission, exercise: pe_2, user: users[3], solution: s_4
+    s_5 = create :practice_solution, :published, exercise: pe_2, user: users[4]
+    create :submission, exercise: pe_2, user: users[4], solution: s_5
+    s_6 = create :practice_solution, exercise: pe_3, user: users[0], status: :started
+    create :submission, exercise: pe_3, user: users[0], solution: s_6
+    s_7 = create :practice_solution, :completed, exercise: pe_3, user: users[2]
+    create :submission, exercise: pe_3, user: users[2], solution: s_7
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected = {
+      num_exercises: 2,
+      num_exercises_target: 2,
+      created: [
+        {
+          slug: pe_3.slug,
+          title: pe_3.title,
+          icon_url: pe_3.icon_url,
+          stats: { num_started: 2, num_submitted: 2, num_completed: 1 },
+          links: { self: "/tracks/ruby/exercises/#{pe_3.slug}" }
+        },
+        {
+          slug: pe_2.slug,
+          title: pe_2.title,
+          icon_url: pe_2.icon_url,
+          stats: { num_started: 5, num_submitted: 4, num_completed: 3 },
+          links: { self: "/tracks/ruby/exercises/#{pe_2.slug}" }
+        }
+      ]
+    }
+    assert_equal expected, redis_value[:practice_exercises]
+  end
 end

@@ -241,7 +241,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       num_test_runs: 36,
       num_passed: 5,
       num_failed: 7,
-      num_errored: 24
+      num_errored: 24,
+      num_passed_percentage: 14,
+      num_failed_percentage: 19,
+      num_errored_percentage: 67
     }
     assert_equal expected, redis_value[:test_runner]
   end

@@ -50,7 +50,10 @@ class Track::UpdateBuildStatus
       num_test_runs:,
       num_passed:,
       num_failed:,
-      num_errored:
+      num_errored:,
+      num_passed_percentage: percentage(num_passed, num_test_runs),
+      num_failed_percentage: percentage(num_failed, num_test_runs),
+      num_errored_percentage: percentage(num_errored, num_test_runs)
     }
   end
 
@@ -98,6 +101,8 @@ class Track::UpdateBuildStatus
     total_count = query.where("#{model.table_name}.created_at >= ?", Time.current - NUM_DAYS_FOR_AVERAGE.days).count
     (total_count / NUM_DAYS_FOR_AVERAGE.to_f).ceil
   end
+
+  def percentage(count, total_count) = ((count / total_count.to_f) * 100.0).round
 
   def serialize_concept(concept)
     {

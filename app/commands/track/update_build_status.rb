@@ -82,6 +82,7 @@ class Track::UpdateBuildStatus
 
   def analyzer
     {
+      display_rate_percentage: percentage(track.submissions.joins(:analysis).count, track.submissions.count),
       volunteers: serialize_tooling_volunteers(track.analyzer_repo_url)
     }
   end

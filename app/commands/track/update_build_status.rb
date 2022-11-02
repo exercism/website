@@ -72,13 +72,7 @@ class Track::UpdateBuildStatus
     contributors = User.where(id: Concept::Contributorship.where(concept: taught_concepts).select(:user_id)).
       or(User.where(id: Exercise::Contributorship.where(exercise: active_concept_exercises).select(:user_id)))
 
-    {
-      users: CombineAuthorsAndContributors.(authors, contributors).map do |user|
-        SerializeAuthorOrContributor.(user)
-      end,
-      num_authors: authors.count,
-      num_contributors: contributors.count
-    }
+    serialize_volunteers(authors, contributors)
   end
 
   def concepts
@@ -150,6 +144,16 @@ class Track::UpdateBuildStatus
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }
+    }
+  end
+
+  def serialize_volunteers(authors, contributors)
+    {
+      users: CombineAuthorsAndContributors.(authors, contributors).map do |user|
+        SerializeAuthorOrContributor.(user)
+      end,
+      num_authors: authors.count,
+      num_contributors: contributors.count
     }
   end
 

@@ -80,7 +80,9 @@ class Track::UpdateBuildStatus
   def serialize_concept(concept)
     {
       slug: concept.slug,
-      name: concept.name
+      name: concept.name,
+      # TODO: prevent N+1
+      num_students_learnt: Solution.completed.where(exercise_id: Exercise::TaughtConcept.where(concept:).select(:exercise_id)).count
     }
   end
 

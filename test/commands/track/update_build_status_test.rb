@@ -90,11 +90,12 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     ce_4 = create :concept_exercise, track: track, status: :deprecated # Ignore deprecated
     ce_4.taught_concepts << concepts[6] # Ignore for deprecated exercise
 
-    users = create_list(:user, 4)
+    users = create_list(:user, 5)
     create :concept_solution, exercise: ce_2, user: users[0], status: :started
     create :concept_solution, exercise: ce_2, user: users[1], status: :iterated
     create :concept_solution, :completed, exercise: ce_2, user: users[2]
     create :concept_solution, :published, exercise: ce_2, user: users[3]
+    create :concept_solution, :published, exercise: ce_2, user: users[4]
 
     create :concept_solution, exercise: ce_3, user: users[0], status: :started
     create :concept_solution, :completed, exercise: ce_3, user: users[2]
@@ -106,7 +107,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       num_concepts: 2,
       num_concepts_target: 2,
       created: [
-        { slug: concepts[1].slug, name: concepts[1].name, num_students_learnt: 2 },
+        { slug: concepts[1].slug, name: concepts[1].name, num_students_learnt: 3 },
         { slug: concepts[2].slug, name: concepts[2].name, num_students_learnt: 1 }
       ]
     }

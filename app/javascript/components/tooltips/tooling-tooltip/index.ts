@@ -1,1 +1,1 @@
-export { HealthyTooltip } from './Healthy'
+export { ToolingTooltip } from './ToolingTooltip'

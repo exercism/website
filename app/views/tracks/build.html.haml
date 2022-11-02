@@ -37,17 +37,10 @@
           .flex.flex-col.mr-40
             .tooling-status-label Building
             .tooling-status-group
-              %div{ 'tooling-status': 'healthy', 'aria-label': 'This tab is locked', 'data-tooltip-type': 'healthy', 'data-placement': 'bottom', 'data-interactive': 'true' }
-                = graphical_icon "syllabus"
-              %div{ 'tooling-status': 'needs-attention' }
-                = graphical_icon "test-runner"
-              %div{ 'tooling-status': 'healthy' }
-                = graphical_icon "representer"
-              %div{ 'tooling-status': 'needs-attention' }
-                = graphical_icon "analyzer"
-              %div{ 'tooling-status': 'healthy' }
-                = graphical_icon "practice-exercises"
-          .flex.flex-col.pl-40.border-l-1.border-borderLight
+              - @tooling_statuses.each do |tooling|
+                %div{ 'tooling-status': tooling.status, 'aria-label': "Tooling info for #{@track.title} on #{tooling.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': tooling.tooltip_endpoint }
+                  = graphical_icon tooling.title.downcase
+          -# .flex.flex-col.pl-40.border-l-1.border-borderLight
             .tooling-status-label Outreach & Activity
             .tooling-status-group
               %div{ 'tooling-status': 'healthy' }
@@ -56,7 +49,7 @@
                 = graphical_icon "conversation-chat"
 
 
-      .border-2.border-gradient.rounded-12.px-32.py-24.items-center.flex.shadow-smZ1.mb-32
+      -# .border-2.border-gradient.rounded-12.px-32.py-24.items-center.flex.shadow-smZ1.mb-32
         = image_tag @track.icon_url, class: "w-[64px] h-[64px] mr-24"
         .flex.flex-col.mr-48
           %h5.text-h5 We&apos;re looking for 5 volunteers for the #{@track.title} Track.
@@ -88,7 +81,7 @@
 
         .action-required
           -# this will probably be a dynamic text?
-          Action required: Create a complete syllabus with at least 30 concepts and learning exercises.
+          Next goal: Create a complete syllabus with at least 30 concepts and learning exercises.
           = link_to "" do
             Find out more.
 
@@ -122,7 +115,7 @@
             Learn More
 
         .action-required
-          Action required: Get Test Runners to Level 3. #{@track.title} is currently utilising a Level 2 Test Runner.
+          Next goal: Get Test Runners to Level 3. #{@track.title} is currently utilising a Level 2 Test Runner.
           = link_to "" do
             Find out more.
 

@@ -17,7 +17,8 @@ class Track::UpdateBuildStatus
       syllabus:,
       practice_exercises:,
       test_runner:,
-      representer:
+      representer:,
+      analyzer:
     }
   end
 
@@ -76,6 +77,12 @@ class Track::UpdateBuildStatus
   def representer
     {
       volunteers: serialize_tooling_volunteers(track.representer_repo_url)
+    }
+  end
+
+  def analyzer
+    {
+      volunteers: serialize_tooling_volunteers(track.analyzer_repo_url)
     }
   end
 

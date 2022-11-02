@@ -1,7 +1,7 @@
 class MailshotsMailer < ApplicationMailer
   layout false
 
-  def v3_launch
+  def community_launch
     @user = params[:user]
 
     subject = "We've launched Exercism v3, rebuilt from scratch 🎉"

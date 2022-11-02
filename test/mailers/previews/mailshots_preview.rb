@@ -1,7 +1,7 @@
 class MailshotsPreview < ActionMailer::Preview
-  def v3_launch
+  def community_launch
     MailshotsMailer.with(
       user: User.first
-    ).v3_launch
+    ).community_launch
   end
 end

@@ -15,4 +15,13 @@ class User::Mailshot::SendTest < ActiveSupport::TestCase
       User::Mailshot::Send.(user, :community_launch)
     end
   end
+
+  test "not sent if receive_product_updates is false" do
+    user = create :user
+    user.communication_preferences.update(receive_product_updates: false)
+
+    assert_no_enqueued_jobs do
+      User::Mailshot::Send.(user, :community_launch)
+    end
+  end
 end

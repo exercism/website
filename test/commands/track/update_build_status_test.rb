@@ -316,6 +316,42 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       num_failed_percentage: 19,
       num_errored_percentage: 67
     }
-    assert_equal expected, redis_value[:test_runner]
+    assert_equal expected, redis_value[:test_runner].except(:volunteers)
+  end
+
+  test "test_runner: volunteers" do
+    redis = Exercism.redis_tooling_client
+    track = create :track, repo_url: 'https://github.com/exercism/ruby'
+    other_track = create :track, :random_slug
+
+    users = create_list(:user, 7)
+    create :user_code_contribution_reputation_token, track: track, user: users[0], external_url: "#{track.test_runner_repo_url}/pull/1"
+    create :user_code_contribution_reputation_token, track: track, user: users[1], external_url: "#{track.test_runner_repo_url}/pull/1"
+    create :user_code_merge_reputation_token, track: track, user: users[2], external_url: "#{track.test_runner_repo_url}/pull/1"
+    create :user_code_review_reputation_token, track: track, user: users[3], external_url: "#{track.test_runner_repo_url}/pull/2"
+    create :user_code_review_reputation_token, track: track, user: users[4], external_url: "#{track.test_runner_repo_url}/pull/3"
+
+    # Ignore tokens for track, analyzer and representers repo
+    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.repo_url}/pull/4"
+    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.analyzer_repo_url}/pull/5"
+    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.representer_repo_url}/pull/6"
+
+    # Ignore other track
+    create :user_code_merge_reputation_token, track: other_track, user: users[0], external_url: other_track.test_runner_repo_url
+
+    Track::UpdateBuildStatus.(track)
+
+    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
+    expected_users = [
+      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
+      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
+    ]
+    actual = redis_value.dig(:test_runner, :volunteers)
+    assert_equal 2, actual[:num_authors]
+    assert_equal 3, actual[:num_contributors]
+    assert_equal 3, actual[:users].size
+    expected_users.each do |expected_user|
+      assert_includes actual[:users], expected_user
+    end
   end
 end

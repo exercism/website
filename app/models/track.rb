@@ -12,6 +12,7 @@ class Track < ApplicationRecord
   has_many :representations, class_name: "Exercise::Representation", dependent: :destroy
   has_many :user_tracks, dependent: :destroy
   has_many :mentor_discussions, through: :solutions
+  has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
@@ -112,6 +113,10 @@ class Track < ApplicationRecord
 
   # TODO: consider if there is a better place for this code
   def build_status_key = "build_status:#{id}"
+
+  def test_runner_repo_url = "#{repo_url}-test-runner"
+  def representer_repo_url = "#{repo_url}-representer"
+  def analyzer_repo_url = "#{repo_url}-analyzer"
 
   CATGEORIES = {
     paradigm: "Paradigm",

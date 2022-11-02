@@ -67,7 +67,8 @@ class Track::UpdateBuildStatus
       num_errored:,
       num_passed_percentage: percentage(num_passed, num_test_runs),
       num_failed_percentage: percentage(num_failed, num_test_runs),
-      num_errored_percentage: percentage(num_errored, num_test_runs)
+      num_errored_percentage: percentage(num_errored, num_test_runs),
+      volunteers: serialize_tooling_volunteers(track.test_runner_repo_url)
     }
   end
 
@@ -159,6 +160,14 @@ class Track::UpdateBuildStatus
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }
     }
+  end
+
+  def serialize_tooling_volunteers(repo_url)
+    authors = User.where(id: track.reputation_tokens.where(category: :building).where('external_url LIKE ?',
+      "#{repo_url}/%").select(:user_id))
+    volunteers = User.where(id: track.reputation_tokens.where(category: :maintaining).where('external_url LIKE ?',
+      "#{repo_url}/%").select(:user_id))
+    serialize_volunteers(authors, volunteers)
   end
 
   def serialize_volunteers(authors, contributors)

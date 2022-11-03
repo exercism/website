@@ -207,14 +207,18 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
           slug: ce_2.slug,
           title: ce_2.title,
           icon_url: ce_2.icon_url,
-          stats: { num_started: 5, num_submitted: 4, num_completed: 3 },
+          num_started: 5,
+          num_submitted: 4,
+          num_completed: 3,
           links: { self: "/tracks/ruby/exercises/#{ce_2.slug}" }
         },
         {
           slug: ce_3.slug,
           title: ce_3.title,
           icon_url: ce_3.icon_url,
-          stats: { num_started: 2, num_submitted: 2, num_completed: 1 },
+          num_started: 2,
+          num_submitted: 2,
+          num_completed: 1,
           links: { self: "/tracks/ruby/exercises/#{ce_3.slug}" }
         }
       ]
@@ -255,14 +259,18 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
           slug: pe_3.slug,
           title: pe_3.title,
           icon_url: pe_3.icon_url,
-          stats: { num_started: 2, num_submitted: 2, num_completed: 1 },
+          num_started: 2,
+          num_submitted: 2,
+          num_completed: 1,
           links: { self: "/tracks/ruby/exercises/#{pe_3.slug}" }
         },
         {
           slug: pe_2.slug,
           title: pe_2.title,
           icon_url: pe_2.icon_url,
-          stats: { num_started: 5, num_submitted: 4, num_completed: 3 },
+          num_started: 5,
+          num_submitted: 4,
+          num_completed: 3,
           links: { self: "/tracks/ruby/exercises/#{pe_2.slug}" }
         }
       ]

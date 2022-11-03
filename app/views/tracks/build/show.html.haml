@@ -88,24 +88,23 @@
         .usage-stats-header
           %h4 Usage statistics
         %details.mb-10
-          %summary.--syllabus #{@track.concepts.size}/?? concepts created
-          - @track.concepts.each do |concept|
+          %summary.--syllabus #{@status[:syllabus][:concepts][:num_concepts]}/#{@status[:syllabus][:concepts][:num_concepts_target]} concepts created
+          - @status[:syllabus][:concepts][:created].each do |concept|
             .record-row
               .record-name
                 = render ViewComponents::ConceptIcon.new(concept, :small)
-                = concept.name.to_s
-              .record-value #{rand(50_000..100_000).to_s.gsub(/\B(?=(...)*\b)/, ',')} views
+                = concept[:name]
+              .record-value #{concept[:num_students_learnt]} learnt
         %details
-          %summary.--lightbulb #{@user_track.concept_exercises.size}/#{@track.num_exercises} learning exercises created
-          - @user_track.concept_exercises.each do |exercise|
+          %summary.--lightbulb #{@status[:syllabus][:concept_exercises][:num_exercises]}/#{@status[:syllabus][:concept_exercises][:num_exercises_target]} learning exercises created
+          - @status[:syllabus][:concept_exercises][:created].each do |exercise|
             .record-row
               .record-name
                 = exercise_icon exercise
-                = exercise.title
-              .record-value #{exercise.num_published_solutions} completions (30% of attempts)
+                = exercise[:title]
+              .record-value #{exercise[:num_completed]} completions (30% of attempts)
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
-
 
       .track-team-group
         .track-header
@@ -124,16 +123,12 @@
         .stats-container
           .record-row
             .record-name Total Test Runs
-            .record-value= @num_test_runs
+            .record-value= @status[:test_runner][:num_test_runs]
           .record-row
             .record-name Outcome Breakdown
-            .record-value #{@percent_tests_passed}% pass (#{@num_tests_passed}) #{@percent_tests_failed}% fail (#{@num_tests_failed}) #{@percent_tests_unknown}% error (#{@num_tests_unknown})
-          .record-row
-            .record-name Mean Runtime
-            .record-value 2.84s
+            .record-value #{@status[:test_runner][:num_passed_percentage]}% pass (#{@status[:test_runner][:num_passed]}) #{@status[:test_runner][:num_failed_percentage]}% fail (#{@status[:test_runner][:num_failed]}) #{@status[:test_runner][:num_errored_percentage]}% error (#{@status[:test_runner][:num_errored]})
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
-
 
       .track-team-group
         .track-header
@@ -147,10 +142,11 @@
         .stats-container
           .record-row
             .record-name Total Analysis Comments Made
-            .record-value 85,602
+            .record-value
+              = @status[:analyzer][:num_comments]
           .record-row
             .record-name Analysis Display Rate
-            .record-value 48%
+            .record-value #{@status[:analyzer][:display_rate_percentage]}%
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
@@ -166,13 +162,13 @@
         .stats-container
           .record-row
             .record-name Total Representations Created
-            .record-value= @track.representations.count
+            .record-value= @status[:representer][:num_representations]
           .record-row
             .record-name Total Representation Comments Made
-            .record-value 24% pass (127,602)
+            .record-value= @status[:representer][:num_comments_made]
           .record-row
             .record-name Representation Display Rate
-            .record-value 58%
+            .record-value #{@status[:representer][:display_rate_percentage]}%
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
@@ -186,13 +182,13 @@
         .usage-stats-header
           %h4 Usage statistics
         %details
-          %summary.--practice-exercises #{@user_track.practice_exercises.size}/??  practice exercise created
-          - @user_track.practice_exercises.each do |exercise|
+          %summary.--practice-exercises #{@status[:practice_exercises][:num_exercises]}/#{@status[:practice_exercises][:num_exercises_target]}  practice exercise created
+          - @status[:practice_exercises][:created].each do |exercise|
             .record-row
               .record-name
                 = exercise_icon exercise
-                = exercise.title
-              .record-value #{exercise.num_published_solutions} completions (30% of attempts)
+                = exercise[:title]
+              .record-value #{exercise[:num_completed]} completions (30% of attempts)
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 

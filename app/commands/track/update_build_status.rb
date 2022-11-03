@@ -172,12 +172,9 @@ class Track::UpdateBuildStatus
       slug: exercise.slug,
       title: exercise.title,
       icon_url: exercise.icon_url,
-      stats: {
-        # TODO: prevent N+1
-        num_started: exercise.solutions.count,
-        num_submitted: exercise.submissions.count,
-        num_completed: exercise.solutions.completed.count
-      },
+      num_started: exercise.solutions.count,
+      num_submitted: exercise.submissions.count,
+      num_completed: exercise.solutions.completed.count,
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }

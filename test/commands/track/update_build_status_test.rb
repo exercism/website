@@ -2,35 +2,30 @@ require "test_helper"
 
 class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "creates entry if key does not exists" do
-    redis = Exercism.redis_tooling_client
     track = create :track
 
     # Sanity check
-    assert 0, redis.exists(track.build_status_key)
+    assert_nil track.build_status
 
     Track::UpdateBuildStatus.(track)
 
-    assert 1, redis.exists(track.build_status_key)
+    refute_nil track.reload.build_status
   end
 
   test "updates entry if key exists" do
-    redis = Exercism.redis_tooling_client
     track = create :track
     Track::UpdateBuildStatus.(track)
 
     # Sanity check
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
-    assert_equal 0, redis_value.dig(:students, :num_students)
+    assert_equal 0, track.reload.build_status.dig(:students, :num_students)
 
     track.update(num_students: 33)
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
-    assert_equal 33, redis_value.dig(:students, :num_students)
+    assert_equal 33, track.reload.build_status.dig(:students, :num_students)
   end
 
   test "students" do
-    redis = Exercism.redis_tooling_client
     track = create :track
 
     create_list(:user_track, 20, track:, created_at: Time.current - 2.months)
@@ -40,13 +35,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = { num_students: 90, num_students_per_day: 3 }
-    assert_equal expected, redis_value[:students]
+    assert_equal expected, track.build_status[:students]
   end
 
   test "submissions" do
-    redis = Exercism.redis_tooling_client
     track = create :track
 
     create_list(:submission, 20, track:, created_at: Time.current - 2.months)
@@ -56,26 +49,21 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = { num_submissions: 85, num_submissions_per_day: 3 }
-    assert_equal expected, redis_value[:submissions]
+    assert_equal expected, track.build_status[:submissions]
   end
 
   test "mentor_discussions" do
-    redis = Exercism.redis_tooling_client
     track = create :track
-
     create_list(:mentor_discussion, 16, track:)
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = { num_discussions: 16 }
-    assert_equal expected, redis_value[:mentor_discussions]
+    assert_equal expected, track.build_status[:mentor_discussions]
   end
 
   test "volunteers" do
-    redis = Exercism.redis_tooling_client
     track = create :track
 
     user_1 = create :user, reputation: 10
@@ -95,7 +83,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = {
       num_volunteers: 5,
       users: [
@@ -106,11 +93,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         { name: user_1.name, handle: user_1.handle, avatar_url: user_1.avatar_url, links: { profile: nil } }
       ]
     }
-    assert_equal expected, redis_value[:volunteers]
+    assert_equal expected, track.build_status[:volunteers]
   end
 
   test "syllabus: volunteers" do
-    redis = Exercism.redis_tooling_client
     track = create :track
 
     users = create_list(:user, 7)
@@ -129,13 +115,12 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
       { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } },
       { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url, links: { profile: nil } }
     ]
-    actual = redis_value.dig(:syllabus, :volunteers)
+    actual = track.build_status.dig(:syllabus, :volunteers)
     assert_equal 3, actual[:num_authors]
     assert_equal 2, actual[:num_contributors]
     assert_equal 3, actual[:users].size
@@ -145,7 +130,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "syllabus: concepts" do
-    redis = Exercism.redis_tooling_client
     track = create :track, num_concepts: 5
 
     concepts = create_list(:concept, 7, track:)
@@ -172,7 +156,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = {
       num_concepts: 2,
       num_concepts_target: 2,
@@ -181,11 +164,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         { slug: concepts[2].slug, name: concepts[2].name, num_students_learnt: 1 }
       ]
     }
-    assert_equal expected, redis_value.dig(:syllabus, :concepts)
+    assert_equal expected, track.build_status.dig(:syllabus, :concepts)
   end
 
   test "syllabus: concept_exercises" do
-    redis = Exercism.redis_tooling_client
     track = create :track, num_concepts: 5
 
     concepts = create_list(:concept, 7, track:)
@@ -217,7 +199,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = {
       num_exercises: 2,
       num_exercises_target: 2,
@@ -238,11 +219,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         }
       ]
     }
-    assert_equal expected, redis_value.dig(:syllabus, :concept_exercises)
+    assert_equal expected, track.build_status.dig(:syllabus, :concept_exercises)
   end
 
   test "practice_exercises" do
-    redis = Exercism.redis_tooling_client
     track = create :track, num_concepts: 5
 
     create :practice_exercise, track: track, status: :wip # Ignore wip
@@ -267,7 +247,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = {
       num_exercises: 2,
       num_exercises_target: 2,
@@ -288,11 +267,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         }
       ]
     }
-    assert_equal expected, redis_value[:practice_exercises]
+    assert_equal expected, track.build_status[:practice_exercises]
   end
 
   test "test_runner" do
-    redis = Exercism.redis_tooling_client
     track = create :track
 
     create_list(:submission, 2, tests_status: :not_queued, solution: create(:practice_solution, track:)) # Ignore
@@ -306,7 +284,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = {
       num_test_runs: 36,
       num_passed: 5,
@@ -316,11 +293,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       num_failed_percentage: 19,
       num_errored_percentage: 67
     }
-    assert_equal expected, redis_value[:test_runner].except(:volunteers)
+    assert_equal expected, track.build_status[:test_runner].except(:volunteers)
   end
 
   test "test_runner: volunteers" do
-    redis = Exercism.redis_tooling_client
     track = create :track, repo_url: 'https://github.com/exercism/ruby'
     other_track = create :track, :random_slug
 
@@ -341,12 +317,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
       { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
     ]
-    actual = redis_value.dig(:test_runner, :volunteers)
+    actual = track.build_status.dig(:test_runner, :volunteers)
     assert_equal 2, actual[:num_authors]
     assert_equal 3, actual[:num_contributors]
     assert_equal 3, actual[:users].size
@@ -356,7 +331,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "representer" do
-    redis = Exercism.redis_tooling_client
     track = create :track
 
     20.times do
@@ -377,17 +351,15 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = {
       num_representations: 23,
       num_comments_made: 5,
       display_rate_percentage: 25
     }
-    assert_equal expected, redis_value[:representer].except(:volunteers)
+    assert_equal expected, track.build_status[:representer].except(:volunteers)
   end
 
   test "representer: volunteers" do
-    redis = Exercism.redis_tooling_client
     track = create :track, repo_url: 'https://github.com/exercism/ruby'
     other_track = create :track, :random_slug
 
@@ -408,12 +380,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
       { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
     ]
-    actual = redis_value.dig(:representer, :volunteers)
+    actual = track.build_status.dig(:representer, :volunteers)
     assert_equal 2, actual[:num_authors]
     assert_equal 3, actual[:num_contributors]
     assert_equal 3, actual[:users].size
@@ -423,7 +394,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "analyzer" do
-    redis = Exercism.redis_tooling_client
     track = create :track
 
     s_1 = create :submission, track: track
@@ -435,15 +405,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = {
       display_rate_percentage: 40
     }
-    assert_equal expected, redis_value[:analyzer].except(:volunteers)
+    assert_equal expected, track.build_status[:analyzer].except(:volunteers)
   end
 
   test "analyzer: volunteers" do
-    redis = Exercism.redis_tooling_client
     track = create :track, repo_url: 'https://github.com/exercism/ruby'
     other_track = create :track, :random_slug
 
@@ -464,12 +432,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
       { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
     ]
-    actual = redis_value.dig(:analyzer, :volunteers)
+    actual = track.build_status.dig(:analyzer, :volunteers)
     assert_equal 2, actual[:num_authors]
     assert_equal 3, actual[:num_contributors]
     assert_equal 3, actual[:users].size

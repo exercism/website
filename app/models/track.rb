@@ -1,6 +1,7 @@
 class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+  include Track::BuildStatus
 
   friendly_id :slug, use: [:history]
 
@@ -110,9 +111,6 @@ class Track < ApplicationRecord
 
   memoize
   def mentoring_notes = Git::Track::MentorNotes.new(slug)
-
-  # TODO: consider if there is a better place for this code
-  def build_status_key = "build_status:#{id}"
 
   def test_runner_repo_url = "#{repo_url}-test-runner"
   def representer_repo_url = "#{repo_url}-representer"

@@ -4,7 +4,7 @@ class Track::UpdateBuildStatus
   initialize_with :track
 
   def call
-    Exercism.redis_tooling_client.set(track.build_status_key, build_status.to_json)
+    track.build_status = build_status
   end
 
   private

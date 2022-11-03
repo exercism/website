@@ -75,14 +75,30 @@ class Track::UpdateBuildStatus
   end
 
   def representer
-    num_submissions_with_feedback = Exercise::Representation.with_feedback.joins(:submission_representations).count
-
     {
       num_representations: Submission::Representation.joins(submission: :exercise).where('exercises.track_id': track.id).count,
-      num_comments_made: num_submissions_with_feedback,
-      display_rate_percentage: percentage(num_submissions_with_feedback, track.submissions.count),
-      volunteers: serialize_tooling_volunteers(track.representer_repo_url)
+      num_comments_made: representer_num_submissions_with_feedback,
+      display_rate_percentage: representer_display_rate_percentage,
+      volunteers: serialize_tooling_volunteers(track.representer_repo_url),
+      health: representer_health
     }
+  end
+
+  memoize
+  def representer_num_submissions_with_feedback
+    Exercise::Representation.with_feedback.joins(:submission_representations).count
+  end
+
+  memoize
+  def representer_display_rate_percentage
+    percentage(representer_num_submissions_with_feedback, track.submissions.count)
+  end
+
+  def representer_health
+    return :dead unless track.has_representer?
+    return :critical if representer_display_rate_percentage.zero?
+
+    :healthy
   end
 
   def analyzer
@@ -94,6 +110,7 @@ class Track::UpdateBuildStatus
     }
   end
 
+  memoize
   def analyzer_display_rate_percentage
     percentage(Submission::Analysis.with_comments.where(submission: track.submissions).count, track.submissions.count)
   end

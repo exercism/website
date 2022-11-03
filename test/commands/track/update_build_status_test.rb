@@ -385,6 +385,23 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal expected, track.build_status[:representer].except(:volunteers)
   end
 
+  test "representer: health" do
+    track = create :track, has_representer: false
+    Track::UpdateBuildStatus.(track)
+    assert_equal "dead", track.reload.build_status.dig(:representer, :health)
+
+    track.update(has_representer: true)
+    submission = create :submission, track: track
+    submission_representation = create :submission_representation, submission: submission
+    Track::UpdateBuildStatus.(track)
+    assert_equal "critical", track.reload.build_status.dig(:representer, :health)
+
+    create :exercise_representation, :with_feedback, source_submission: submission,
+      ast_digest: submission_representation.ast_digest
+    Track::UpdateBuildStatus.(track)
+    assert_equal "healthy", track.reload.build_status.dig(:representer, :health)
+  end
+
   test "representer: volunteers" do
     track = create :track, repo_url: 'https://github.com/exercism/ruby'
     other_track = create :track, :random_slug

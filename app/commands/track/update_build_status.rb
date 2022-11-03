@@ -97,8 +97,17 @@ class Track::UpdateBuildStatus
     {
       concepts:,
       concept_exercises:,
-      volunteers: syllabus_volunteers
+      volunteers: syllabus_volunteers,
+      health: syllabus_health
     }
+  end
+
+  def syllabus_health
+    return :dead if active_concept_exercises.empty?
+    return :healthy if active_concept_exercises.size >= 50
+    return :critical if active_concept_exercises.size < 10
+
+    :needs_attention
   end
 
   def syllabus_volunteers

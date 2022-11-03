@@ -205,7 +205,7 @@
         }
     }
 
-    [tooling-status="needs-attention"] {
+    [tooling-status="needs_attention"] {
         @apply tooling-status;
         @apply border-warning;
         img {

@@ -22,7 +22,7 @@ class Tracks::BuildController < ApplicationController
       OpenStruct.new(title: "Syllabus", status: 'healthy',
         tooltip_endpoint: Exercism::Routes.syllabus_tooltip_track_build_path(@track)),
       OpenStruct.new(title: "Test-runner", status: "healthy", tooltip_endpoint: Exercism::Routes.test_runner_tooltip_track_build_path(@track)),
-      OpenStruct.new(title: "Analyzer", status: 'needs-attention', tooltip_endpoint: Exercism::Routes.analyzer_tooltip_track_build_path(@track)),
+      OpenStruct.new(title: "Analyzer", status: 'needs_attention', tooltip_endpoint: Exercism::Routes.analyzer_tooltip_track_build_path(@track)),
       OpenStruct.new(title: "Representer", status: "critical", tooltip_endpoint: Exercism::Routes.representer_tooltip_track_build_path(@track)),
       OpenStruct.new(title: "Practice-exercises", status: "dead", tooltip_endpoint: Exercism::Routes.practice_exercises_tooltip_track_build_path(@track))
     ]

@@ -88,9 +88,22 @@ class Track::UpdateBuildStatus
   def analyzer
     {
       num_comments: Submission::Analysis.joins(submission: :exercise).where(submission: { exercises: { track: } }).sum(:num_comments),
-      display_rate_percentage: percentage(track.submissions.joins(:analysis).count, track.submissions.count),
-      volunteers: serialize_tooling_volunteers(track.analyzer_repo_url)
+      display_rate_percentage: analyzer_display_rate_percentage,
+      volunteers: serialize_tooling_volunteers(track.analyzer_repo_url),
+      health: analyzer_health
     }
+  end
+
+  def analyzer_display_rate_percentage
+    percentage(track.submissions.joins(:analysis).count, track.submissions.count)
+  end
+
+  def analyzer_health
+    return :dead unless track.has_analyzer?
+    return :critical if analyzer_display_rate_percentage.zero?
+    return :needs_attention if analyzer_display_rate_percentage < 5
+
+    :healthy
   end
 
   def syllabus

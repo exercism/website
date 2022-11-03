@@ -473,4 +473,26 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       assert_includes actual[:users], expected_user
     end
   end
+
+  test "analyzer: health" do
+    track = create :track, has_analyzer: false
+    Track::UpdateBuildStatus.(track)
+    assert_equal "dead", track.reload.build_status.dig(:analyzer, :health)
+
+    track.update(has_analyzer: true)
+    create_list(:submission, 30, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal "critical", track.reload.build_status.dig(:analyzer, :health)
+
+    submission = create :submission, track: track
+    create :submission_analysis, submission: submission
+    Track::UpdateBuildStatus.(track)
+    assert_equal "needs_attention", track.reload.build_status.dig(:analyzer, :health)
+
+    create_list(:submission, 10, track:) do
+      create :submission_analysis, submission:
+    end
+    Track::UpdateBuildStatus.(track)
+    assert_equal "healthy", track.reload.build_status.dig(:analyzer, :health)
+  end
 end

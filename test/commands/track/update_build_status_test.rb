@@ -397,15 +397,18 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     track = create :track
 
     s_1 = create :submission, track: track
-    create :submission_analysis, submission: s_1
+    create :submission_analysis, submission: s_1, data: { status: :pass, comments: %w[comment_1] }
     s_2 = create :submission, track: track
-    create :submission_analysis, submission: s_2
+    create :submission_analysis, submission: s_2, data: { status: :pass, comments: %w[comment_1 comment_2] }
     create_list(:submission, 3, track:)
     create_list(:submission, 4, track: create(:track, :random_slug))
+    s_3 = create :submission, track: create(:track, :random_slug)
+    create :submission_analysis, submission: s_3, data: { status: :pass, comments: %w[comment_1 comment_2 comment_3 comment_4] }
 
     Track::UpdateBuildStatus.(track)
 
     expected = {
+      num_comments: 3,
       display_rate_percentage: 40
     }
     assert_equal expected, track.build_status[:analyzer].except(:volunteers)

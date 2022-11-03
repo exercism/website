@@ -86,9 +86,8 @@ class Track::UpdateBuildStatus
   end
 
   def analyzer
-    # TODO: add num comments
-
     {
+      num_comments: Submission::Analysis.joins(submission: :exercise).where(submission: { exercises: { track: } }).sum(:num_comments),
       display_rate_percentage: percentage(track.submissions.joins(:analysis).count, track.submissions.count),
       volunteers: serialize_tooling_volunteers(track.analyzer_repo_url)
     }

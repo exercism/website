@@ -173,6 +173,7 @@ class Track::UpdateBuildStatus
       title: exercise.title,
       icon_url: exercise.icon_url,
       stats: {
+        # TODO: prevent N+1
         num_started: exercise.solutions.count,
         num_submitted: exercise.submissions.count,
         num_completed: exercise.solutions.completed.count

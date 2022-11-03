@@ -8,6 +8,10 @@ class Submission::Analysis < ApplicationRecord
 
   scope :ops_successful, -> { where(ops_status: 200) }
 
+  before_create do
+    self.num_comments = self.comment_blocks.size
+  end
+
   memoize
   def has_comments? = comment_blocks.present?
 

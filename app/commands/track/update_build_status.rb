@@ -95,7 +95,7 @@ class Track::UpdateBuildStatus
   end
 
   def analyzer_display_rate_percentage
-    percentage(track.submissions.joins(:analysis).count, track.submissions.count)
+    percentage(Submission::Analysis.with_comments.where(submission: track.submissions).count, track.submissions.count)
   end
 
   def analyzer_health

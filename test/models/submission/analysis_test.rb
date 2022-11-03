@@ -218,4 +218,12 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
   end
 
   # TODO: - Add a test for if the data is empty
+
+  test "scope: with_comments" do
+    analysis_1 = create :submission_analysis, data: { comments: ["comment_key"] }
+    analysis_2 = create :submission_analysis, data: { comments: ["comment_key"] }
+    create :submission_analysis, data: { comments: [] }
+
+    assert_equal [analysis_1, analysis_2], Submission::Analysis.with_comments
+  end
 end

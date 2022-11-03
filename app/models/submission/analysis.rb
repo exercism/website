@@ -7,6 +7,7 @@ class Submission::Analysis < ApplicationRecord
   belongs_to :submission
 
   scope :ops_successful, -> { where(ops_status: 200) }
+  scope :with_comments, -> { where('num_comments > 0') }
 
   before_create do
     self.num_comments = self.comment_blocks.size

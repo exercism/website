@@ -359,14 +359,29 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     redis = Exercism.redis_tooling_client
     track = create :track
 
-    submission = create :submission
-    create_list(:submission_representation, 23, submission:)
+    20.times do
+      submission = create :submission, track: track
+      create :submission_representation, submission:
+    end
+
+    # 3 more submissions with matching ast_digest
+    create_list(:submission_representation, 3, submission: Submission.last, ast_digest: Submission::Representation.last.ast_digest)
+
+    create :exercise_representation, :with_feedback, source_submission: Submission.last,
+      ast_digest: Submission::Representation.last.ast_digest
+    create :exercise_representation, :with_feedback, source_submission: Submission.first,
+      ast_digest: Submission::Representation.first.ast_digest
+
+    # Sanity check: ignore representation without feedback
+    create :exercise_representation, source_submission: Submission.first, ast_digest: Submission::Representation.first.ast_digest
 
     Track::UpdateBuildStatus.(track)
 
     redis_value = JSON.parse(redis.get(track.build_status_key), symbolize_names: true)
     expected = {
-      num_representations: 23
+      num_representations: 23,
+      num_comments_made: 5,
+      display_rate_percentage: 25
     }
     assert_equal expected, redis_value[:representer].except(:volunteers)
   end

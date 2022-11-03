@@ -75,8 +75,12 @@ class Track::UpdateBuildStatus
   end
 
   def representer
+    num_submissions_with_feedback = Exercise::Representation.with_feedback.joins(:submission_representations).count
+
     {
       num_representations: Submission::Representation.joins(submission: :exercise).where('exercises.track_id': track.id).count,
+      num_comments_made: num_submissions_with_feedback,
+      display_rate_percentage: percentage(num_submissions_with_feedback, track.submissions.count),
       volunteers: serialize_tooling_volunteers(track.representer_repo_url)
     }
   end

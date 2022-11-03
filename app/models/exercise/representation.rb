@@ -20,6 +20,7 @@ class Exercise::Representation < ApplicationRecord
   # has_many :submission_representation_submissions, through: :submission_representations, source: :submission
 
   scope :without_feedback, -> { where(feedback_type: nil) }
+  scope :with_feedback, -> { where.not(feedback_type: nil) }
   scope :with_feedback_by, ->(mentor) { where(feedback_author: mentor) }
   scope :mentored_by, ->(mentor) { where(submission_representations: mentor.submission_representations) }
   scope :for_track, ->(track) { where(track:) }

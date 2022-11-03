@@ -7,27 +7,28 @@
         - @max = 7
         - @test_num = 123_456
         - @len = @test_num.to_s.length
-        .highlight-text{ style: "--transform-y: 2" }= @track.num_students
+        .highlight-text{ style: "--transform-y: 2" }= @status[:students][:num_students]
         students have developed their #{@track.title} skills.
       .grid.grid-cols-3.mb-32.gap-16
         .report-stat
           .stat-name
             Students
             = graphical_icon "info-circle"
-          .current-number= @track.num_students
-          .growth +939 per day
+          .current-number= @status[:students][:num_students]
+          .growth +#{@status[:students][:num_students_per_day]} per day
         .report-stat
           .stat-name
             Submissions
             = graphical_icon "info-circle"
-          .current-number= @num_submissions
-          .growth +2,569 per day
+          .current-number= @status[:submissions][:num_submissions]
+          .growth +#{@status[:submissions][:num_submissions_per_day]} per day
         .report-stat
           .stat-name
             Mentoring Discussions
             = graphical_icon "info-circle"
-          .current-number 580
-          .growth +10 per day
+          .current-number
+            = @status[:mentor_discussions][:num_discussions]
+          -# .growth +10 per day
 
       .track-status
         %h3.text-h3.font-bold.mb-12
@@ -47,7 +48,6 @@
                 = graphical_icon "user-group"
               %div{ 'tooling-status': 'critical' }
                 = graphical_icon "conversation-chat"
-
 
       -# .border-2.border-gradient.rounded-12.px-32.py-24.items-center.flex.shadow-smZ1.mb-32
         = image_tag @track.icon_url, class: "w-[64px] h-[64px] mr-24"
@@ -202,7 +202,7 @@
         .flex.items-center.mb-12
           = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
           .label-large.mr-16 Volunteers
-          .count-bubble= @track.num_contributors
+          .count-bubble= @status[:volunteers][:num_volunteers]
 
         - @track.top_contributors[0, 3].map do |contributor|
           .contributor-credit-block

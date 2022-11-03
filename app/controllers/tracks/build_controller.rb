@@ -6,6 +6,8 @@ class Tracks::BuildController < ApplicationController
   def show
     percent = ->(num, denom) { (num.to_f / denom * 100).round(1) }
 
+    @status = @track.build_status
+
     @test_runner_status_count = @track.submissions.group(:tests_status).count
     @num_test_runs = @test_runner_status_count.values.sum
     @num_submissions = @track.submissions.count

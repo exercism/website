@@ -3,22 +3,38 @@
     %article
       %h1 Manage your communication preferences
 
+      .flex-col.items-start.mb-16
+        = flash_messages
+
+      - if @email_key.present?
+        %section
+          %h2 Unsubscribe from this email
+          %p.text-p-large.mb-12
+            = I18n.t("communication_preferences.#{@email_key}")
+
+          .flex.items-center
+            = form_with url: unsubscribe_path, method: :patch do
+              = hidden_field_tag :token, @token
+              = hidden_field_tag :key, @email_key
+              = hidden_field_tag "[communication_preferences][#{@email_key}]", false
+              = button_tag "Unsubscribe from email", class: 'btn-m btn-primary'
+
       %section
-        %h2 Unsubscribe from this email
-        %p.text-p-large.mb-12
-          = I18n.t("communication_preferences.#{@email_key}")
+        %h2 Unsubscribe from all emails
 
         .flex.items-center
-          = form_with url: unsubscribe_path, method: :patch do
+          = form_with url: all_unsubscribe_path, method: :patch do
             = hidden_field_tag :token, @token
-            = hidden_field_tag :key, @email_key
-            = hidden_field_tag "[communication_preferences][#{@email_key}]", false
-            = button_tag "Unsubscribe from email", class: 'btn-m btn-primary'
-          .ml-16
-            = flash_messages
+            = button_tag "Unsubscribe from all emails", class: 'btn-m btn-default'
 
       - if user_signed_in?
         %section
           %h2 Manage all your notifications
           = render ReactComponents::Settings::CommunicationPreferencesForm.new
+
+      - else
+        %section.flex.flex-col.items-start
+          %h2 Manage all your notifications
+          %p.text-16.mb-16 Please log in to manage individual communcation preferences
+          = link_to "Log in", communication_preferences_settings_path, class: 'btn-m btn-default'
 

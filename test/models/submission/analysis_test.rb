@@ -200,5 +200,22 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     refute analysis.has_informative_comments?
   end
 
+  test "num_comments: without comments" do
+    analysis = create :submission_analysis, data: { comments: [] }
+
+    assert_equal 0, analysis.num_comments
+  end
+
+  test "num_comments: with comments" do
+    analysis = create :submission_analysis, data: {
+      comments: [
+        "ruby.two-fer.string_interpolation",
+        "ruby.two-fer.class_method"
+      ]
+    }
+
+    assert_equal 2, analysis.num_comments
+  end
+
   # TODO: - Add a test for if the data is empty
 end

@@ -1,7 +1,7 @@
 class Solution::SyncToSearchIndex
   include Mandate
 
-  queue_as :default
+  queue_as :background
 
   initialize_with :solution
 

@@ -7,5 +7,7 @@ class User::Mailshot < ApplicationRecord
   # is no communication preference key
   # TODO: Add a flag for whether the email is a marketing
   # email and use it to power this.
-  def email_communication_preferences_key; end
+  def email_communication_preferences_key
+    :receive_product_updates
+  end
 end

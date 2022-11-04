@@ -176,8 +176,17 @@ class Track::UpdateBuildStatus
     {
       num_exercises: active_practice_exercises.size,
       num_exercises_target: active_practice_exercises.size, # TODO: implement levels
-      created: active_practice_exercises.map { |exercise| serialize_exercise(exercise) }
+      created: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
+      health: practice_exercises_health
     }
+  end
+
+  def practice_exercises_health
+    return :dead if active_practice_exercises.empty?
+    return :healthy if active_practice_exercises.size >= 50
+    return :critical if active_practice_exercises.size < 10
+
+    :needs_attention
   end
 
   memoize

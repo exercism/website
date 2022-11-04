@@ -286,6 +286,24 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal expected_created, track.build_status.practice_exercises.created
   end
 
+  test "practice_exercises: health" do
+    track = create :track
+    Track::UpdateBuildStatus.(track)
+    assert_equal "dead", track.reload.build_status.practice_exercises.health
+
+    create_list(:practice_exercise, 9, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal "critical", track.reload.build_status.practice_exercises.health
+
+    create_list(:practice_exercise, 25, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal "needs_attention", track.reload.build_status.practice_exercises.health
+
+    create_list(:practice_exercise, 20, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal "healthy", track.reload.build_status.practice_exercises.health
+  end
+
   test "test_runner" do
     track = create :track
 

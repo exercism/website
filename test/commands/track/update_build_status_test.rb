@@ -262,7 +262,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     assert_equal 2, track.build_status.practice_exercises.num_exercises
-    assert_equal 2, track.build_status.practice_exercises.num_exercises_target
     expected_created = [
       {
         slug: pe_3.slug,
@@ -284,6 +283,26 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       }
     ].map(&:to_obj)
     assert_equal expected_created, track.build_status.practice_exercises.created
+  end
+
+  test "practice_exercises: num_exercises_target" do
+    track = create :track
+    Track::UpdateBuildStatus.(track)
+    assert_equal 10, track.reload.build_status.practice_exercises.num_exercises_target
+
+    create_list(:practice_exercise, 10, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal 20, track.reload.build_status.practice_exercises.num_exercises_target
+
+    create_list(:practice_exercise, 10, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal 50, track.reload.build_status.practice_exercises.num_exercises_target
+
+    create_list(:practice_exercise, 30, track:)
+    Track::UpdateBuildStatus.(track)
+
+    num_unimplemented = Track::UnimplementedPracticeExercises.(track.reload).size
+    assert_equal track.num_exercises + num_unimplemented, track.reload.build_status.practice_exercises.num_exercises_target
   end
 
   test "practice_exercises: health" do

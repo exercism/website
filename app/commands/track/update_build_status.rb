@@ -175,16 +175,28 @@ class Track::UpdateBuildStatus
   def practice_exercises
     {
       num_exercises: active_practice_exercises.size,
-      num_exercises_target: active_practice_exercises.size, # TODO: implement levels
+      num_exercises_target: practice_exercises_num_exercises_target,
       created: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
       health: practice_exercises_health
     }
   end
 
+  def practice_exercises_num_exercises_target
+    num_unimplemented = Track::UnimplementedPracticeExercises.(track.reload).size
+    max_target = track.num_exercises + num_unimplemented
+
+    NUM_PRACTICE_EXERCISE_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
+  end
+
+  memoize
+  def num_unimplemented_practice_exercises
+    Track::UnimplementedPracticeExercises.(track).size
+  end
+
   def practice_exercises_health
     return :dead if active_practice_exercises.empty?
-    return :healthy if active_practice_exercises.size >= 50
-    return :critical if active_practice_exercises.size < 10
+    return :healthy if active_practice_exercises.size >= NUM_PRACTICE_EXERCISE_TARGETS.last
+    return :critical if active_practice_exercises.size < NUM_PRACTICE_EXERCISE_TARGETS.first
 
     :needs_attention
   end
@@ -246,5 +258,7 @@ class Track::UpdateBuildStatus
   end
 
   NUM_DAYS_FOR_AVERAGE = 30
-  private_constant :NUM_DAYS_FOR_AVERAGE
+  NUM_PRACTICE_EXERCISE_TARGETS = [10, 20, 50].freeze
+  NUM_CONCEPT_EXERCISE_TARGETS = [10, 20, 40].freeze
+  private_constant :NUM_DAYS_FOR_AVERAGE, :NUM_PRACTICE_EXERCISE_TARGETS, :NUM_CONCEPT_EXERCISE_TARGETS
 end

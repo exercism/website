@@ -6,7 +6,7 @@ module Track::BuildStatus
     redis_value = redis.get(build_status_key)
     return nil if redis_value.blank?
 
-    JSON.parse(redis_value, symbolize_names: true)
+    JSON.parse(redis_value, object_class: OpenStruct)
   end
 
   def build_status=(value)

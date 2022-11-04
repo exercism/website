@@ -17,12 +17,12 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     # Sanity check
-    assert_equal 0, track.reload.build_status.dig(:students, :num_students)
+    assert_equal 0, track.reload.build_status.students.num_students
 
     track.update(num_students: 33)
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 33, track.reload.build_status.dig(:students, :num_students)
+    assert_equal 33, track.reload.build_status.students.num_students
   end
 
   test "students" do
@@ -35,8 +35,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = { num_students: 90, num_students_per_day: 3 }
-    assert_equal expected, track.build_status[:students]
+    assert_equal 90, track.build_status.students.num_students
+    assert_equal 3, track.build_status.students.num_students_per_day
   end
 
   test "submissions" do
@@ -49,8 +49,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = { num_submissions: 85, num_submissions_per_day: 3 }
-    assert_equal expected, track.build_status[:submissions]
+    assert_equal 85, track.build_status.submissions.num_submissions
+    assert_equal 3, track.build_status.submissions.num_submissions_per_day
   end
 
   test "mentor_discussions" do
@@ -59,8 +59,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = { num_discussions: 16 }
-    assert_equal expected, track.build_status[:mentor_discussions]
+    assert_equal 16, track.build_status.mentor_discussions.num_discussions
   end
 
   test "volunteers" do
@@ -83,17 +82,15 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = {
-      num_volunteers: 5,
-      users: [
-        { name: user_2.name, handle: user_2.handle, avatar_url: user_2.avatar_url, links: { profile: nil } },
-        { name: user_4.name, handle: user_4.handle, avatar_url: user_4.avatar_url, links: { profile: nil } },
-        { name: user_3.name, handle: user_3.handle, avatar_url: user_3.avatar_url, links: { profile: nil } },
-        { name: user_5.name, handle: user_5.handle, avatar_url: user_5.avatar_url, links: { profile: nil } },
-        { name: user_1.name, handle: user_1.handle, avatar_url: user_1.avatar_url, links: { profile: nil } }
-      ]
-    }
-    assert_equal expected, track.build_status[:volunteers]
+    assert_equal 5, track.build_status.volunteers.num_volunteers
+    expected_users = [
+      { name: user_2.name, handle: user_2.handle, avatar_url: user_2.avatar_url, links: { profile: nil } },
+      { name: user_4.name, handle: user_4.handle, avatar_url: user_4.avatar_url, links: { profile: nil } },
+      { name: user_3.name, handle: user_3.handle, avatar_url: user_3.avatar_url, links: { profile: nil } },
+      { name: user_5.name, handle: user_5.handle, avatar_url: user_5.avatar_url, links: { profile: nil } },
+      { name: user_1.name, handle: user_1.handle, avatar_url: user_1.avatar_url, links: { profile: nil } }
+    ].map(&:to_obj)
+    assert_equal expected_users, track.build_status.volunteers.users
   end
 
   test "syllabus: volunteers" do
@@ -119,13 +116,12 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
       { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } },
       { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url, links: { profile: nil } }
-    ]
-    actual = track.build_status.dig(:syllabus, :volunteers)
-    assert_equal 3, actual[:num_authors]
-    assert_equal 2, actual[:num_contributors]
-    assert_equal 3, actual[:users].size
+    ].map(&:to_obj)
+    assert_equal 3, track.build_status.syllabus.volunteers.num_authors
+    assert_equal 2, track.build_status.syllabus.volunteers.num_contributors
+    assert_equal 3, track.build_status.syllabus.volunteers.users.size
     expected_users.each do |expected_user|
-      assert_includes actual[:users], expected_user
+      assert_includes track.build_status.syllabus.volunteers.users, expected_user
     end
   end
 
@@ -156,15 +152,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = {
-      num_concepts: 2,
-      num_concepts_target: 2,
-      created: [
-        { slug: concepts[1].slug, name: concepts[1].name, num_students_learnt: 3 },
-        { slug: concepts[2].slug, name: concepts[2].name, num_students_learnt: 1 }
-      ]
-    }
-    assert_equal expected, track.build_status.dig(:syllabus, :concepts)
+    assert_equal 2, track.build_status.syllabus.concepts.num_concepts
+    assert_equal 2, track.build_status.syllabus.concepts.num_concepts_target
+    expected_created = [
+      { slug: concepts[1].slug, name: concepts[1].name, num_students_learnt: 3 },
+      { slug: concepts[2].slug, name: concepts[2].name, num_students_learnt: 1 }
+    ].map(&:to_obj)
+    assert_equal expected_created, track.build_status.syllabus.concepts.created
   end
 
   test "syllabus: concept_exercises" do
@@ -199,49 +193,47 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = {
-      num_exercises: 2,
-      num_exercises_target: 2,
-      created: [
-        {
-          slug: ce_2.slug,
-          title: ce_2.title,
-          icon_url: ce_2.icon_url,
-          num_started: 5,
-          num_submitted: 4,
-          num_completed: 3,
-          links: { self: "/tracks/ruby/exercises/#{ce_2.slug}" }
-        },
-        {
-          slug: ce_3.slug,
-          title: ce_3.title,
-          icon_url: ce_3.icon_url,
-          num_started: 2,
-          num_submitted: 2,
-          num_completed: 1,
-          links: { self: "/tracks/ruby/exercises/#{ce_3.slug}" }
-        }
-      ]
-    }
-    assert_equal expected, track.build_status.dig(:syllabus, :concept_exercises)
+    assert_equal 2, track.build_status.syllabus.concept_exercises.num_exercises
+    assert_equal 2, track.build_status.syllabus.concept_exercises.num_exercises_target
+    expected_created = [
+      {
+        slug: ce_2.slug,
+        title: ce_2.title,
+        icon_url: ce_2.icon_url,
+        num_started: 5,
+        num_submitted: 4,
+        num_completed: 3,
+        links: { self: "/tracks/ruby/exercises/#{ce_2.slug}" }
+      },
+      {
+        slug: ce_3.slug,
+        title: ce_3.title,
+        icon_url: ce_3.icon_url,
+        num_started: 2,
+        num_submitted: 2,
+        num_completed: 1,
+        links: { self: "/tracks/ruby/exercises/#{ce_3.slug}" }
+      }
+    ].map(&:to_obj)
+    assert_equal expected_created, track.build_status.syllabus.concept_exercises.created
   end
 
   test "syllabus: health" do
     track = create :track
     Track::UpdateBuildStatus.(track)
-    assert_equal "dead", track.reload.build_status.dig(:syllabus, :health)
+    assert_equal "dead", track.reload.build_status.syllabus.health
 
     create_list(:concept_exercise, 9, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal "critical", track.reload.build_status.dig(:syllabus, :health)
+    assert_equal "critical", track.reload.build_status.syllabus.health
 
     create_list(:concept_exercise, 25, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal "needs_attention", track.reload.build_status.dig(:syllabus, :health)
+    assert_equal "needs_attention", track.reload.build_status.syllabus.health
 
     create_list(:concept_exercise, 20, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal "healthy", track.reload.build_status.dig(:syllabus, :health)
+    assert_equal "healthy", track.reload.build_status.syllabus.health
   end
 
   test "practice_exercises" do
@@ -269,31 +261,29 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = {
-      num_exercises: 2,
-      num_exercises_target: 2,
-      created: [
-        {
-          slug: pe_3.slug,
-          title: pe_3.title,
-          icon_url: pe_3.icon_url,
-          num_started: 2,
-          num_submitted: 2,
-          num_completed: 1,
-          links: { self: "/tracks/ruby/exercises/#{pe_3.slug}" }
-        },
-        {
-          slug: pe_2.slug,
-          title: pe_2.title,
-          icon_url: pe_2.icon_url,
-          num_started: 5,
-          num_submitted: 4,
-          num_completed: 3,
-          links: { self: "/tracks/ruby/exercises/#{pe_2.slug}" }
-        }
-      ]
-    }
-    assert_equal expected, track.build_status[:practice_exercises]
+    assert_equal 2, track.build_status.practice_exercises.num_exercises
+    assert_equal 2, track.build_status.practice_exercises.num_exercises_target
+    expected_created = [
+      {
+        slug: pe_3.slug,
+        title: pe_3.title,
+        icon_url: pe_3.icon_url,
+        num_started: 2,
+        num_submitted: 2,
+        num_completed: 1,
+        links: { self: "/tracks/ruby/exercises/#{pe_3.slug}" }
+      },
+      {
+        slug: pe_2.slug,
+        title: pe_2.title,
+        icon_url: pe_2.icon_url,
+        num_started: 5,
+        num_submitted: 4,
+        num_completed: 3,
+        links: { self: "/tracks/ruby/exercises/#{pe_2.slug}" }
+      }
+    ].map(&:to_obj)
+    assert_equal expected_created, track.build_status.practice_exercises.created
   end
 
   test "test_runner" do
@@ -310,16 +300,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = {
-      num_test_runs: 36,
-      num_passed: 5,
-      num_failed: 7,
-      num_errored: 24,
-      num_passed_percentage: 14,
-      num_failed_percentage: 19,
-      num_errored_percentage: 67
-    }
-    assert_equal expected, track.build_status[:test_runner].except(:volunteers)
+    assert_equal 36, track.build_status.test_runner.num_test_runs
+    assert_equal 5, track.build_status.test_runner.num_passed
+    assert_equal 7, track.build_status.test_runner.num_failed
+    assert_equal 24, track.build_status.test_runner.num_errored
+    assert_equal 14, track.build_status.test_runner.num_passed_percentage
+    assert_equal 19, track.build_status.test_runner.num_failed_percentage
+    assert_equal 67, track.build_status.test_runner.num_errored_percentage
   end
 
   test "test_runner: volunteers" do
@@ -343,16 +330,15 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
+    assert_equal 2, track.build_status.test_runner.volunteers.num_authors
+    assert_equal 3, track.build_status.test_runner.volunteers.num_contributors
+    assert_equal 3, track.build_status.test_runner.volunteers.users.size
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
       { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
-    ]
-    actual = track.build_status.dig(:test_runner, :volunteers)
-    assert_equal 2, actual[:num_authors]
-    assert_equal 3, actual[:num_contributors]
-    assert_equal 3, actual[:users].size
+    ].map(&:to_obj)
     expected_users.each do |expected_user|
-      assert_includes actual[:users], expected_user
+      assert_includes track.build_status.test_runner.volunteers.users, expected_user
     end
   end
 
@@ -377,29 +363,26 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = {
-      num_representations: 23,
-      num_comments_made: 5,
-      display_rate_percentage: 25
-    }
-    assert_equal expected, track.build_status[:representer].except(:volunteers)
+    assert_equal 23, track.build_status.representer.num_representations
+    assert_equal 5, track.build_status.representer.num_comments_made
+    assert_equal 25, track.build_status.representer.display_rate_percentage
   end
 
   test "representer: health" do
     track = create :track, has_representer: false
     Track::UpdateBuildStatus.(track)
-    assert_equal "dead", track.reload.build_status.dig(:representer, :health)
+    assert_equal "dead", track.reload.build_status.representer.health
 
     track.update(has_representer: true)
     submission = create :submission, track: track
     submission_representation = create :submission_representation, submission: submission
     Track::UpdateBuildStatus.(track)
-    assert_equal "critical", track.reload.build_status.dig(:representer, :health)
+    assert_equal "critical", track.reload.build_status.representer.health
 
     create :exercise_representation, :with_feedback, source_submission: submission,
       ast_digest: submission_representation.ast_digest
     Track::UpdateBuildStatus.(track)
-    assert_equal "healthy", track.reload.build_status.dig(:representer, :health)
+    assert_equal "healthy", track.reload.build_status.representer.health
   end
 
   test "representer: volunteers" do
@@ -423,16 +406,15 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
+    assert_equal 2, track.build_status.representer.volunteers.num_authors
+    assert_equal 3, track.build_status.representer.volunteers.num_contributors
+    assert_equal 3, track.build_status.representer.volunteers.users.size
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
       { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
-    ]
-    actual = track.build_status.dig(:representer, :volunteers)
-    assert_equal 2, actual[:num_authors]
-    assert_equal 3, actual[:num_contributors]
-    assert_equal 3, actual[:users].size
+    ].map(&:to_obj)
     expected_users.each do |expected_user|
-      assert_includes actual[:users], expected_user
+      assert_includes track.build_status.representer.volunteers.users, expected_user
     end
   end
 
@@ -452,11 +434,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    expected = {
-      num_comments: 4,
-      display_rate_percentage: 33
-    }
-    assert_equal expected, track.build_status[:analyzer].except(:volunteers, :health)
+    assert_equal 4, track.build_status.analyzer.num_comments
+    assert_equal 33, track.build_status.analyzer.display_rate_percentage
   end
 
   test "analyzer: volunteers" do
@@ -480,38 +459,37 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
+    assert_equal 2, track.build_status.analyzer.volunteers.num_authors
+    assert_equal 3, track.build_status.analyzer.volunteers.num_contributors
+    assert_equal 3, track.build_status.analyzer.volunteers.users.size
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
       { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
-    ]
-    actual = track.build_status.dig(:analyzer, :volunteers)
-    assert_equal 2, actual[:num_authors]
-    assert_equal 3, actual[:num_contributors]
-    assert_equal 3, actual[:users].size
+    ].map(&:to_obj)
     expected_users.each do |expected_user|
-      assert_includes actual[:users], expected_user
+      assert_includes track.build_status.analyzer.volunteers.users, expected_user
     end
   end
 
   test "analyzer: health" do
     track = create :track, has_analyzer: false
     Track::UpdateBuildStatus.(track)
-    assert_equal "dead", track.reload.build_status.dig(:analyzer, :health)
+    assert_equal "dead", track.reload.build_status.analyzer.health
 
     track.update(has_analyzer: true)
     create_list(:submission, 30, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal "critical", track.reload.build_status.dig(:analyzer, :health)
+    assert_equal "critical", track.reload.build_status.analyzer.health
 
     submission = create :submission, track: track
-    create :submission_analysis, submission: submission
+    create :submission_analysis, :with_comments, submission: submission
     Track::UpdateBuildStatus.(track)
-    assert_equal "needs_attention", track.reload.build_status.dig(:analyzer, :health)
+    assert_equal "needs_attention", track.reload.build_status.analyzer.health
 
     create_list(:submission, 10, track:) do
-      create :submission_analysis, submission:
+      create :submission_analysis, :with_comments, submission:
     end
     Track::UpdateBuildStatus.(track)
-    assert_equal "healthy", track.reload.build_status.dig(:analyzer, :health)
+    assert_equal "healthy", track.reload.build_status.analyzer.health
   end
 end

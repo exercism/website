@@ -57,6 +57,10 @@ module ActiveRecord
   end
 end
 
+class Hash
+  def to_obj = JSON.parse(to_json, object_class: OpenStruct)
+end
+
 module TestHelpers
   extend ActionView::Helpers::AssetUrlHelper
 
@@ -160,6 +164,10 @@ class ActiveSupport::TestCase
   # object created or stored in the db
   def random_of_many(model, params = {}, num: 3)
     Array(num).map { create(model, params) }.sample
+  end
+
+  def assert_equal_structs(expected, actual)
+    assert_equal(JSON.parse(expected.to_json, object_class: OpenStruct), actual)
   end
 
   def assert_equal_arrays(expected, actual)

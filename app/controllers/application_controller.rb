@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   around_action :mark_notifications_as_read!
   before_action :set_request_context
   after_action :set_body_class_header
+  after_action :set_csp_header
 
   def process_action(*args)
     super
@@ -78,9 +79,38 @@ class ApplicationController < ActionController::Base
     Exercism.request_context = { remote_ip: request.remote_ip }
   end
 
+  # rubocop:disable Lint/PercentStringArray
+  def csp_policy
+    ws_host = Rails.env.production? ? "exercism.org" : "local.exercism.io:3334"
+    stripe_base = "https://js.stripe.com"
+
+    default = %w['self' https://exercism.org https://api.exercism.org https://d24y9kuxp2d7l2.cloudfront.net]
+
+    {
+      default:,
+      connect: %W['self' ws://#{ws_host}],
+      img: %w['self' data: https://*],
+      media: %w[*],
+      script: default + [stripe_base],
+      frame: [stripe_base],
+      font: %w[https://fonts.gstatic.com],
+      style: %w['self' 'unsafe-inline' https://exercism.org https://d24y9kuxp2d7l2.cloudfront.net https://fonts.googleapis.com],
+      child: %w['none']
+
+    }.map do |type, domains|
+      "#{type}-src #{domains.join(' ')}"
+    end.join("; ")
+  end
+  helper_method :csp_policy
+  # rubocop:enable Lint/PercentStringArray
+
   private
   def set_body_class_header
     response.set_header("Exercism-Body-Class", body_class)
+  end
+
+  def set_csp_header
+    response.set_header('Content-Security-Policy-Report-Only', csp_policy)
   end
 
   def storable_location?

@@ -82,6 +82,11 @@ module Git
     end
 
     memoize
+    def foregone_exercises
+      config[:exercises][:foregone].to_a
+    end
+
+    memoize
     def concepts
       config[:concepts].to_a
     end

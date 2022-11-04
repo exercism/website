@@ -219,5 +219,11 @@ module Git
       ]
       assert_equal expected, track.tags
     end
+
+    test "foregone_exercises" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = %w[alphametics zipper]
+      assert_equal expected, track.foregone_exercises
+    end
   end
 end

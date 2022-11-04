@@ -70,8 +70,13 @@ class Track::UpdateBuildStatus
       num_passed_percentage: percentage(num_passed, num_test_runs),
       num_failed_percentage: percentage(num_failed, num_test_runs),
       num_errored_percentage: percentage(num_errored, num_test_runs),
-      volunteers: serialize_tooling_volunteers(track.test_runner_repo_url)
+      volunteers: serialize_tooling_volunteers(track.test_runner_repo_url),
+      health: test_runner_health
     }
+  end
+
+  def test_runner_health
+    :healthy
   end
 
   def representer

@@ -87,6 +87,13 @@ module TestHelpers
     Git::Repository.expects(:new).at_least_once.returns(repo)
   end
 
+  def self.use_problem_specifications_test_repo!
+    repo_url = TestHelpers.git_repo_url("problem-specifications")
+    Git::ProblemSpecifications.new(repo_url:).tap do |repo|
+      Git::ProblemSpecifications.expects(:new).at_least_once.returns(repo)
+    end
+  end
+
   def self.download_dir = Rails.root / 'tmp' / 'downloads'
   def self.download_filepath(filename) = File.join(download_dir, filename)
 end

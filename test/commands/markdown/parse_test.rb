@@ -47,6 +47,13 @@ Done')
     assert_equal expected.chomp, actual.chomp
   end
 
+  test "sanitizes data tags" do
+    expected = '<div>test</div>'
+
+    actual = Markdown::Parse.('<div data-react-id="abd" data-react-data="{}" --hydrated>test</div>')
+    assert_equal expected.chomp, actual.chomp
+  end
+
   test "allows details" do
     expected = '<p>Here is a sample of what a details/summary block looks like:</p>
 <details><summary>Click the little arrow to get a hint!</summary>

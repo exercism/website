@@ -77,6 +77,12 @@ class Track::UpdateBuildStatus
 
   def test_runner_health
     # TODO: use error status to determine health (unhealthy if everything fails)
+    return :dead unless track.has_test_runner?
+
+    last_test_run = Submission::TestRun.last
+    return :critical if last_test_run && last_test_run.version.to_i < 2 && track.course?
+    return :needs_attention if last_test_run && last_test_run.version.to_i < 3 && track.course?
+
     :healthy
   end
 

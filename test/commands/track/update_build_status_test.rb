@@ -415,15 +415,23 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "test_runner: health" do
     track = create :track, has_test_runner: false
     Track::UpdateBuildStatus.(track)
+    assert_equal "dead", track.reload.build_status.test_runner.health
 
-    # TODO: implement
-    # assert_equal "dead", track.reload.build_status.test_runner.health
+    track.update(has_test_runner: true, course: false)
+    Track::UpdateBuildStatus.(track)
+    assert_equal "healthy", track.reload.build_status.test_runner.health
 
-    # track.update(has_test_runner: true)
-    # assert_equal "critical", track.reload.build_status.test_runner.health
+    track.update(course: true)
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1 }
+    Track::UpdateBuildStatus.(track)
+    assert_equal "critical", track.reload.build_status.test_runner.health
 
-    # assert_equal "needs_attention", track.reload.build_status.test_runner.health
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
+    Track::UpdateBuildStatus.(track)
+    assert_equal "needs_attention", track.reload.build_status.test_runner.health
 
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3 }
+    Track::UpdateBuildStatus.(track)
     assert_equal "healthy", track.reload.build_status.test_runner.health
   end
 

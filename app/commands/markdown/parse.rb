@@ -23,8 +23,19 @@ class Markdown::Parse
       node.remove if node.name == "comment"
     end
 
+    remove_data_attributes = Loofah::Scrubber.new do |node|
+      node.attribute_nodes.each do |attr_node|
+        next if ALLOWED_ATTRIBUTE_NAMES.include?(attr_node.node_name)
+        next if attr_node.node_name == 'data-tooltip-type' && ALLOWED_TOOLTIP_TYPES.include?(attr_node.value)
+        next if attr_node.node_name == 'data-endpoint' && attr_node.value.start_with?('/')
+
+        attr_node.remove
+      end
+    end
+
     Loofah.fragment(raw_html).
       scrub!(remove_comments).
+      scrub!(remove_data_attributes).
       scrub!(:escape).
       to_s.
       gsub(%r{<p><a href="https://player\.vimeo\.com/video/(595884893|595885125|595884449)"[^>]*?>[^<]+</a></p>}) do |_m|
@@ -37,4 +48,8 @@ class Markdown::Parse
     doc = Markdown::Render.(text, :doc, strip_h1:, lower_heading_levels_by:)
     Markdown::RenderHTML.(doc, nofollow_links:, heading_ids:)
   end
+
+  ALLOWED_ATTRIBUTE_NAMES = %w[id href target rel class].freeze
+  ALLOWED_TOOLTIP_TYPES = %w[concept exercise].freeze
+  private_constant :ALLOWED_ATTRIBUTE_NAMES, :ALLOWED_TOOLTIP_TYPES
 end

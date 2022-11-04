@@ -76,6 +76,7 @@ class Track::UpdateBuildStatus
   end
 
   def test_runner_health
+    # TODO: use error status to determine health (unhealthy if everything fails)
     :healthy
   end
 
@@ -100,6 +101,7 @@ class Track::UpdateBuildStatus
   end
 
   def representer_health
+    # TODO: use error status to determine health (unhealthy if everything fails)
     return :dead unless track.has_representer?
     return :critical if representer_display_rate_percentage.zero?
 
@@ -121,6 +123,7 @@ class Track::UpdateBuildStatus
   end
 
   def analyzer_health
+    # TODO: use error status to determine health (unhealthy if everything fails)
     return :dead unless track.has_analyzer?
     return :critical if analyzer_display_rate_percentage.zero?
     return :needs_attention if analyzer_display_rate_percentage < 5

@@ -13,7 +13,7 @@ module ViewComponents
     end
 
     def to_s
-      text = (concept.try(:name) || concept[:name])[0, 2]
+      text = concept.name[0, 2]
       classes = "c-concept-icon c--#{size}"
       tag.div(text, class: classes)
     end

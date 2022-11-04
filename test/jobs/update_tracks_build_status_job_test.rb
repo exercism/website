@@ -7,7 +7,13 @@ class UpdateTracksBuildStatusJobTest < ActiveJob::TestCase
     UpdateTracksBuildStatusJob.perform_now
 
     tracks.each do |track|
-      assert 1, Exercism.redis_tooling_client.exists(track.build_status_key)
+      refute_nil track.build_status
     end
+  end
+
+  test "prob-specs repo is updated" do
+    Git::ProblemSpecifications.expects(:update!)
+
+    UpdateTracksBuildStatusJob.perform_now
   end
 end

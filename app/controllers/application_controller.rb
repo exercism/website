@@ -81,20 +81,25 @@ class ApplicationController < ActionController::Base
 
   # rubocop:disable Lint/PercentStringArray
   def csp_policy
-    ws_host = Rails.env.production? ? "exercism.org" : "local.exercism.io:3334"
-    stripe_base = "https://js.stripe.com"
+    websockets = "ws://#{Rails.env.production? ? 'exercism.org' : 'local.exercism.io:3334'}"
+    stripe = "https://js.stripe.com"
+    google_fonts_font = "https://fonts.gstatic.com"
+    google_fonts_css = "https://fonts.googleapis.com"
+    fontawesome = "https://maxcdn.bootstrapcdn.com"
+    spellchecker = "https://cdn.jsdelivr.net"
 
     default = %w['self' https://exercism.org https://api.exercism.org https://d24y9kuxp2d7l2.cloudfront.net]
+    default << "127.0.0.1" if Rails.env.test?
 
     {
       default:,
-      connect: %W['self' ws://#{ws_host}],
+      connect: ["'self'", websockets, spellchecker],
       img: %w['self' data: https://*],
       media: %w[*],
-      script: default + [stripe_base],
-      frame: [stripe_base],
-      font: %w[https://fonts.gstatic.com],
-      style: %w['self' 'unsafe-inline' https://exercism.org https://d24y9kuxp2d7l2.cloudfront.net https://fonts.googleapis.com],
+      script: default + [stripe, spellchecker],
+      frame: [stripe],
+      font: [google_fonts_font, fontawesome],
+      style: default + ["'unsafe-inline'", google_fonts_css, fontawesome],
       child: %w['none']
 
     }.map do |type, domains|

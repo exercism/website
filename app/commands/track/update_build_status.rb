@@ -167,9 +167,13 @@ class Track::UpdateBuildStatus
   def concept_exercises
     {
       num_exercises: active_concept_exercises.size,
-      num_exercises_target: active_concept_exercises.size, # TODO: implement levels
+      num_exercises_target: concept_exercises_num_exercises_target,
       created: active_concept_exercises.map { |exercise| serialize_exercise(exercise) }
     }
+  end
+
+  def concept_exercises_num_exercises_target
+    NUM_CONCEPT_EXERCISE_TARGETS.find { |target| active_concept_exercises.size < target } || active_concept_exercises.size
   end
 
   def practice_exercises
@@ -258,7 +262,7 @@ class Track::UpdateBuildStatus
   end
 
   NUM_DAYS_FOR_AVERAGE = 30
-  NUM_PRACTICE_EXERCISE_TARGETS = [10, 20, 50].freeze
-  NUM_CONCEPT_EXERCISE_TARGETS = [10, 20, 40].freeze
+  NUM_PRACTICE_EXERCISE_TARGETS = [10, 20, 30, 40, 50].freeze
+  NUM_CONCEPT_EXERCISE_TARGETS = [10, 20, 30, 40, 50].freeze
   private_constant :NUM_DAYS_FOR_AVERAGE, :NUM_PRACTICE_EXERCISE_TARGETS, :NUM_CONCEPT_EXERCISE_TARGETS
 end

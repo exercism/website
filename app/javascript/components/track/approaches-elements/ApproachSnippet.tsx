@@ -21,8 +21,13 @@ export function ApproachSnippet({
         className="border-1 border-lightGray rounded-8 p-16 mb-16"
         ref={codeBlockRef}
       >
+        {/* 
+        show 8 lines of code in code block:
+        (14 * 1.6) * 8 = 
+        179.20000000000002 
+        */}
         <code
-          className={`${track.slug} block max-h-[134px] overflow-hidden `}
+          className={`${track.slug} block max-h-[180px] overflow-hidden `}
           style={{ textOverflow: 'ellipsis' }}
         >
           {approach.snippet}

@@ -16,8 +16,12 @@ export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
         ref={codeBlockRef}
       >
         <div
-          className="c-cli-walkthrough"
+          className="overflow-hidden block"
           dangerouslySetInnerHTML={{ __html: article.snippetHtml }}
+          style={{
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
         />
       </pre>
       <h5 className="text-h5 mb-2">{article.title}</h5>
@@ -28,6 +32,7 @@ export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
         bottomLabel={'contributor'}
         bottomCount={article.numContributors}
         users={article.users}
+        className="text-textColor1 font-semibold text-14"
       />
     </a>
   )

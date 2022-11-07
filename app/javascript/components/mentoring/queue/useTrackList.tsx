@@ -20,7 +20,7 @@ export const useTrackList = ({
   resolvedData: any
 } => {
   const { resolvedData, isFetching, status, error } =
-    usePaginatedRequestQuery<APIResponse>(cacheKey, request)
+    usePaginatedRequestQuery<APIResponse>([cacheKey, request], request)
 
   return {
     tracks: resolvedData ? resolvedData.tracks : [],

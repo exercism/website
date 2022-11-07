@@ -99,8 +99,7 @@ module ViewComponents
       items = [
         { html: link_to("Home", Exercism::Routes.root_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
         { html: link_to("Language Tracks", Exercism::Routes.tracks_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
-        { html: link_to("Contribute", Exercism::Routes.contributing_root_path, "data-turbo-frame": "tf-main"),
-          className: "opt site-link" },
+        { html: link_to("Community", Exercism::Routes.community_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
         { html: link_to("Mentoring", Exercism::Routes.mentoring_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
         { html: link_to("Donate 💜", Exercism::Routes.donate_path, "data-turbo-frame": "tf-main"), className: "opt site-link donate" }
       ]
@@ -114,8 +113,7 @@ module ViewComponents
             [
               si_nav_li("Home", :home, Exercism::Routes.root_path, selected_tab == :dashboard),
               si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
-              # tag.li { "What is Exercism?", about_path )
-              si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing),
+              si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community, new: true),
               si_nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_path, selected_tab == :mentoring),
               si_nav_li("Donate 💜", :donate, Exercism::Routes.donate_path, selected_tab == :donate)
             ]

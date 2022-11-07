@@ -197,10 +197,10 @@ body.devise {
 
         & li.opt {
             & a {
-                @apply flex items-center;
+                @apply flex;
                 @apply text-textColor6 font-medium;
                 @apply text-16 leading-huge;
-                @apply bg-transparent;
+                @apply bg-backgroundColorA;
                 &:hover {
                     @apply bg-backgroundColorD;
                     @apply text-textColor5;

@@ -16,7 +16,7 @@ export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
         ref={codeBlockRef}
       >
         <div
-          className="c-cli-walkthrough overflow-hidden block"
+          className="overflow-hidden block"
           dangerouslySetInnerHTML={{ __html: article.snippetHtml }}
           style={{
             textOverflow: 'ellipsis',

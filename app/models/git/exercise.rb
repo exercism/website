@@ -244,6 +244,9 @@ module Git
     memoize
     def approaches = Git::Exercise::Approaches.new(exercise_slug, exercise_type, git_sha, repo:)
 
+    memoize
+    def articles = Git::Exercise::Articles.new(exercise_slug, exercise_type, git_sha, repo:)
+
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 

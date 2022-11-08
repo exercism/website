@@ -71,19 +71,28 @@ class Track::UpdateBuildStatus
       num_failed_percentage: percentage(num_failed, num_test_runs),
       num_errored_percentage: percentage(num_errored, num_test_runs),
       volunteers: serialize_tooling_volunteers(track.test_runner_repo_url),
-      health: test_runner_health
+      health: test_runner_health,
+      version: test_runner_version,
+      version_target: test_runner_version_target
     }
   end
 
   def test_runner_health
     # TODO: use error status to determine health (unhealthy if everything fails)
     return :dead unless track.has_test_runner?
-
-    last_test_run = Submission::TestRun.last
-    return :critical if last_test_run && last_test_run.version.to_i < 2 && track.course?
-    return :needs_attention if last_test_run && last_test_run.version.to_i < 3 && track.course?
+    return :critical if test_runner_version < 2 && track.course?
+    return :needs_attention if test_runner_version < 3 && track.course?
 
     :healthy
+  end
+
+  memoize
+  def test_runner_version = [1, Submission::TestRun.pluck(:version).last.to_i].max
+
+  def test_runner_version_target
+    return 1 unless track.has_test_runner?
+    return 2 if test_runner_version < 2
+    return 3 if test_runner_version < 3 && track.course?
   end
 
   def representer

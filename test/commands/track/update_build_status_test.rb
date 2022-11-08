@@ -379,6 +379,63 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 67, track.build_status.test_runner.num_errored_percentage
   end
 
+  test "test_runner: version" do
+    track = create :track
+
+    Track::UpdateBuildStatus.(track)
+    assert_equal 1, track.reload.build_status.test_runner.version
+
+    create :submission_test_run, submission: (create :submission, track:), raw_results: {}
+    Track::UpdateBuildStatus.(track)
+    assert_equal 1, track.reload.build_status.test_runner.version
+
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1 }
+    Track::UpdateBuildStatus.(track)
+    assert_equal 1, track.reload.build_status.test_runner.version
+
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
+    Track::UpdateBuildStatus.(track)
+    assert_equal 2, track.reload.build_status.test_runner.version
+
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3 }
+    Track::UpdateBuildStatus.(track)
+    assert_equal 3, track.reload.build_status.test_runner.version
+  end
+
+  test "test_runner: version_target" do
+    track = create :track
+
+    track.update(has_test_runner: false)
+    Track::UpdateBuildStatus.(track)
+    assert_equal 1, track.reload.build_status.test_runner.version_target
+
+    track.update(has_test_runner: true)
+    Track::UpdateBuildStatus.(track)
+    assert_equal 2, track.reload.build_status.test_runner.version_target
+
+    create :submission_test_run, submission: (create :submission, track:), raw_results: {}
+    Track::UpdateBuildStatus.(track)
+    assert_equal 2, track.reload.build_status.test_runner.version_target
+
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1 }
+    Track::UpdateBuildStatus.(track)
+    assert_equal 2, track.reload.build_status.test_runner.version_target
+
+    track.update(course: false)
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
+    Track::UpdateBuildStatus.(track)
+    assert_nil track.reload.build_status.test_runner.version_target
+
+    track.update(course: true)
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
+    Track::UpdateBuildStatus.(track)
+    assert_equal 3, track.reload.build_status.test_runner.version_target
+
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3 }
+    Track::UpdateBuildStatus.(track)
+    assert_nil track.reload.build_status.test_runner.version_target
+  end
+
   test "test_runner: volunteers" do
     track = create :track, repo_url: 'https://github.com/exercism/ruby'
     other_track = create :track, :random_slug

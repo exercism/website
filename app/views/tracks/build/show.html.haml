@@ -122,10 +122,11 @@
           = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
             Learn More
 
-        .action-required
-          Next goal: Get Test Runners to Level 3. #{@track.title} is currently utilising a Level 2 Test Runner.
-          = link_to doc_path(:building, "tooling/test-runners/interface") do
-            Find out more.
+        - if @status.test_runner.version_target
+          .action-required
+            Next goal: Get Test Runners to Level #{@status.test_runner.version_target}. #{@track.title} is currently utilising a Level #{@status.test_runner.version} Test Runner.
+            = link_to doc_path(:building, "tooling/test-runners/interface") do
+              Find out more.
 
         .usage-stats-header
           %h4 Usage statistics

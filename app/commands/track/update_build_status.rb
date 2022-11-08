@@ -268,7 +268,7 @@ class Track::UpdateBuildStatus
       num_submitted: exercise.submissions.count,
       num_average_attempts: avg_attempt(num_submitted, num_started),
       num_completed: exercise.solutions.completed.count,
-      num_completed_percentage: percentage(num_completed.to_f, num_started.to_f),
+      num_completed_percentage: percentage(num_completed, num_started),
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }

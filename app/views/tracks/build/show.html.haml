@@ -72,7 +72,7 @@
           %h2.text-h2 Build
           %p.text-18.text-textColor1.leading-150 Use your knowledge to build the #{@track.title} track itself
 
-        = link_to(Exercism::Routes.contributing_contributors_path(track_slug: @track.slug), class: "people hidden lg:flex ") do
+        = link_to contributing_contributors_path(track_slug: @track.slug), class: "people hidden lg:flex " do
           .c-faces.mr-16
             - @track.top_contributors[0, 3].map do |author|
               .face= avatar(author)
@@ -84,13 +84,13 @@
         .track-header
           %h3.--syllabus-gradient Create the #{@track.title} syllabus
           %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
-          = link_to "", class: "learn-more-new-tab" do
+          = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
             Learn More
 
         .action-required
           -# this will probably be a dynamic text?
           Next goal: Create a complete syllabus with at least 30 concepts and learning exercises.
-          = link_to "" do
+          = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
             Find out more.
 
         .usage-stats-header
@@ -118,12 +118,12 @@
         .track-header
           %h3.--test-runner-gradient Build Test Runners
           %p Create Test Runners that have the single responsibility of taking a solution, running all tests and returning a standardized output.
-          = link_to "", class: "learn-more-new-tab" do
+          = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
             Learn More
 
         .action-required
           Next goal: Get Test Runners to Level 3. #{@track.title} is currently utilising a Level 2 Test Runner.
-          = link_to "" do
+          = link_to doc_path(:building, "tooling/test-runners/interface") do
             Find out more.
 
         .usage-stats-header
@@ -142,7 +142,7 @@
         .track-header
           %h3.--analyzer-gradient Build Analyzers
           %p Build an Analyzer for #{@track.title}: Exercism's analyzers automatically assess student's submissions and provide mentor-style commentary.
-          = link_to "", class: "learn-more-new-tab" do
+          = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
             Learn More
 
         .usage-stats-header
@@ -162,7 +162,7 @@
         .track-header
           %h3.--representer-gradient Build Representers
           %p Build a Representer: a bit of code that has the single responsibility of taking a solution and returning a normalized representation of it.
-          = link_to "", class: "learn-more-new-tab" do
+          = link_to doc_path(:building, "tooling/representers"), class: "learn-more-new-tab" do
             Learn More
 
         .usage-stats-header
@@ -184,7 +184,7 @@
         .track-header
           %h3.--practice-exercises-gradient Create Practice Exercises
           %p Practice Exercises are exercises designed to allow students to solve an arbitrary problem, with the aim of them making use of the concepts they have learned so far.
-          = link_to "", class: "learn-more-new-tab" do
+          = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
             Learn More
 
         .usage-stats-header
@@ -225,6 +225,6 @@
           %h6.text-h6.leading-150.mb-4 We 💙 our volunteers
           %p.text-textColor5.leading-150.text-14.mb-4
             Exercism relies on open-source volunteers to build our language tracks and mentor students.
-          = link_to "https://github.com", class: "text-lightBlue font-semibold flex items-center" do
+          = link_to community_path, class: "text-lightBlue font-semibold flex items-center" do
             %span.mr-8.leading-170 Become an Exercism Volunteer
             = graphical_icon "arrow-right", css_class: "h-[14px] w-[14px] filter-lightBlue"

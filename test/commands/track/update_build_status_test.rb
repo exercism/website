@@ -341,6 +341,32 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal track.num_exercises + num_unimplemented, track.reload.build_status.practice_exercises.num_exercises_target
   end
 
+  test "practice_exercises: volunteers" do
+    track = create :track
+
+    users = create_list(:user, 5)
+    practice_exercises = create_list(:practice_exercise, 4)
+
+    practice_exercises[0].authors << users[3]
+    practice_exercises[0].contributors << users[2]
+    practice_exercises[1].authors << users[4]
+    practice_exercises[2].authors << users[1]
+    practice_exercises[3].contributors << users[1]
+
+    Track::UpdateBuildStatus.(track)
+
+    expected_users = [
+      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } },
+      { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url, links: { profile: nil } },
+      { name: users[4].name, handle: users[4].handle, avatar_url: users[4].avatar_url, links: { profile: nil } }
+    ].map(&:to_obj)
+    assert_equal 4, track.build_status.practice_exercises.volunteers.num_users
+    assert_equal 3, track.build_status.practice_exercises.volunteers.users.size
+    expected_users.each do |expected_user|
+      assert_includes track.build_status.practice_exercises.volunteers.users, expected_user
+    end
+  end
+
   test "practice_exercises: health" do
     track = create :track
     Track::UpdateBuildStatus.(track)

@@ -190,7 +190,7 @@
         .usage-stats-header
           %h4 Usage statistics
         %details
-          %summary.--practice-exercises #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target}  practice exercise created
+          %summary.--practice-exercises #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
           - @status.practice_exercises.created.each do |exercise|
             .record-row
               .record-name
@@ -205,7 +205,8 @@
       .rounded-8.p-24.shadow-baseZ1.bg-white
         .flex.items-center.mb-12
           = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
-          .label-large.mr-16 Volunteers
+          .label-large.mr-16
+            = 'Volunteer'.pluralize(@status.volunteers.num_volunteers)
           .count-bubble= @status.volunteers.num_volunteers
 
         - @track.top_contributors[0, 3].map do |contributor|

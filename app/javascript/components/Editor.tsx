@@ -174,8 +174,15 @@ export default ({
         redirectTo(iteration.links.solution)
       },
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createIteration, dispatch, isSubmitDisabled, JSON.stringify(submission)])
+  }, [
+    cache,
+    createIteration,
+    dispatch,
+    exercise.slug,
+    isSubmitDisabled,
+    submission,
+    track.slug,
+  ])
 
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
@@ -185,6 +192,9 @@ export default ({
 
       setSubmission(submission.uuid, { ...submission, testRun: testRun })
     },
+
+    // not stringifying this will lead to an infinite loop
+    // see https://github.com/exercism/website/pull/3137#discussion_r1015500657
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [setSubmission, JSON.stringify(submission)]
   )
@@ -235,8 +245,7 @@ export default ({
         })
       },
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [revertToLastIteration, dispatch, setFiles, JSON.stringify(submission)])
+  }, [submission, dispatch, revertToLastIteration, setFiles, defaultFiles])
 
   const handleRevertToExerciseStart = useCallback(() => {
     if (!submission) {
@@ -278,8 +287,7 @@ export default ({
         })
       },
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [revertToExerciseStart, setFiles, dispatch, JSON.stringify(submission)])
+  }, [submission, dispatch, revertToExerciseStart, setFiles, defaultFiles])
 
   const handleCancelled = useCallback(() => {
     if (!submission) {
@@ -288,8 +296,7 @@ export default ({
 
     removeSubmission(submission.uuid)
     setHasCancelled(true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(submission)])
+  }, [removeSubmission, setHasCancelled, submission])
 
   useEffect(() => {
     if (!submission) {
@@ -301,8 +308,7 @@ export default ({
     if (submission.testRun?.status === TestRunStatus.CANCELLED) {
       handleCancelled()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(submission)])
+  }, [handleCancelled, submission])
 
   useEditorFocus({ editor: editorRef.current, isProcessing })
 

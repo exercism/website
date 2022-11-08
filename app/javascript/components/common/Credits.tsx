@@ -23,12 +23,12 @@ export function Credits({
 }: CreditsProps): JSX.Element | null {
   const [overflow] = useState<number>(topCount + Number(bottomCount) - 2)
 
-  if (users.length === 0 || !users) {
+  if (!users || users.length === 0) {
     return null
   }
 
   return (
-    <div className={`flex items-center ${className}`}>
+    <div className={`flex items-center ${className ? className : ''}`}>
       <AvatarGroup
         className={`mr-${overflow > 0 ? 12 : 8}`}
         overflow={overflow}

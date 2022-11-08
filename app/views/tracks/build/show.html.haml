@@ -113,7 +113,7 @@
                 = exercise.title
               .record-value #{exercise.num_completed} completions (30% of attempts)
 
-        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
+        = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
       .track-team-group
         .track-header
@@ -138,7 +138,8 @@
             .record-name Outcome Breakdown
             .record-value #{@status.test_runner.num_passed_percentage}% pass (#{@status.test_runner.num_passed}) #{@status.test_runner.num_failed_percentage}% fail (#{@status.test_runner.num_failed}) #{@status.test_runner.num_errored_percentage}% error (#{@status.test_runner.num_errored})
 
-        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
+        = render ReactComponents::Common::Credits.new(@status.test_runner.volunteers.users, @status.test_runner.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+
 
       .track-team-group
         .track-header
@@ -157,8 +158,8 @@
           .record-row
             .record-name Analysis Display Rate
             .record-value #{@status.analyzer.display_rate_percentage}%
+        = render ReactComponents::Common::Credits.new(@status.analyzer.volunteers.users, @status.analyzer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
-        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
       .track-team-group
         .track-header
@@ -179,8 +180,8 @@
           .record-row
             .record-name Representation Display Rate
             .record-value #{@status.representer.display_rate_percentage}%
+        = render ReactComponents::Common::Credits.new(@status.representer.volunteers.users, @status.representer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
-        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
       .track-team-group
         .track-header
@@ -200,7 +201,6 @@
                 = exercise.title
               .record-value #{exercise.num_completed} completions (30% of attempts)
 
-        = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
     .col-span-1
       = ReactComponents::Impact::Map.new

@@ -79,11 +79,11 @@ class Track::UpdateBuildStatus
 
   def test_runner_health
     # TODO: use error status to determine health (unhealthy if everything fails)
-    return :dead unless track.has_test_runner?
-    return :critical if test_runner_version < 2 && track.course?
-    return :needs_attention if test_runner_version < 3 && track.course?
+    return :missing unless track.has_test_runner?
+    return :needs_attention if test_runner_version < 2 && track.course?
+    return :healthy if test_runner_version < 3 && track.course?
 
-    :healthy
+    :exemplar
   end
 
   memoize
@@ -117,10 +117,10 @@ class Track::UpdateBuildStatus
 
   def representer_health
     # TODO: use error status to determine health (unhealthy if everything fails)
-    return :dead unless track.has_representer?
-    return :critical if representer_display_rate_percentage.zero?
+    return :missing unless track.has_representer?
+    return :needs_attention if representer_display_rate_percentage.zero?
 
-    :healthy
+    :exemplar
   end
 
   def analyzer
@@ -139,11 +139,11 @@ class Track::UpdateBuildStatus
 
   def analyzer_health
     # TODO: use error status to determine health (unhealthy if everything fails)
-    return :dead unless track.has_analyzer?
-    return :critical if analyzer_display_rate_percentage.zero?
-    return :needs_attention if analyzer_display_rate_percentage < 5
+    return :missing unless track.has_analyzer?
+    return :needs_attention if analyzer_display_rate_percentage.zero?
+    return :healthy if analyzer_display_rate_percentage < 5
 
-    :healthy
+    :exemplar
   end
 
   def syllabus
@@ -156,11 +156,12 @@ class Track::UpdateBuildStatus
   end
 
   def syllabus_health
-    return :dead if active_concept_exercises.empty?
-    return :healthy if active_concept_exercises.size >= 50
-    return :critical if active_concept_exercises.size < 10
+    return :missing if active_concept_exercises.empty?
+    return :needs_attention if active_concept_exercises.size < 10
+    return :needs_attention unless track.course?
+    return :healthy if active_concept_exercises.size < 50
 
-    :needs_attention
+    :exemplar
   end
 
   def syllabus_volunteers
@@ -221,11 +222,11 @@ class Track::UpdateBuildStatus
   end
 
   def practice_exercises_health
-    return :dead if active_practice_exercises.empty?
-    return :healthy if active_practice_exercises.size >= NUM_PRACTICE_EXERCISE_TARGETS.last
-    return :critical if active_practice_exercises.size < NUM_PRACTICE_EXERCISE_TARGETS.first
+    return :missing if active_practice_exercises.empty?
+    return :exemplar if active_practice_exercises.size >= NUM_PRACTICE_EXERCISE_TARGETS.last
+    return :needs_attention if active_practice_exercises.size < NUM_PRACTICE_EXERCISE_TARGETS.first
 
-    :needs_attention
+    :healthy
   end
 
   memoize

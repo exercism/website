@@ -243,21 +243,25 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "syllabus: health" do
-    track = create :track
+    track = create :track, course: false
     Track::UpdateBuildStatus.(track)
-    assert_equal "dead", track.reload.build_status.syllabus.health
+    assert_equal "missing", track.reload.build_status.syllabus.health
 
     create_list(:concept_exercise, 9, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal "critical", track.reload.build_status.syllabus.health
+    assert_equal "needs_attention", track.reload.build_status.syllabus.health
 
     create_list(:concept_exercise, 25, track:)
     Track::UpdateBuildStatus.(track)
     assert_equal "needs_attention", track.reload.build_status.syllabus.health
 
-    create_list(:concept_exercise, 20, track:)
+    track.update(course: true)
     Track::UpdateBuildStatus.(track)
     assert_equal "healthy", track.reload.build_status.syllabus.health
+
+    create_list(:concept_exercise, 20, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal "exemplar", track.reload.build_status.syllabus.health
   end
 
   test "practice_exercises" do
@@ -340,19 +344,19 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "practice_exercises: health" do
     track = create :track
     Track::UpdateBuildStatus.(track)
-    assert_equal "dead", track.reload.build_status.practice_exercises.health
+    assert_equal "missing", track.reload.build_status.practice_exercises.health
 
     create_list(:practice_exercise, 9, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal "critical", track.reload.build_status.practice_exercises.health
+    assert_equal "needs_attention", track.reload.build_status.practice_exercises.health
 
     create_list(:practice_exercise, 25, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal "needs_attention", track.reload.build_status.practice_exercises.health
+    assert_equal "healthy", track.reload.build_status.practice_exercises.health
 
     create_list(:practice_exercise, 20, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal "healthy", track.reload.build_status.practice_exercises.health
+    assert_equal "exemplar", track.reload.build_status.practice_exercises.health
   end
 
   test "test_runner" do
@@ -470,24 +474,24 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "test_runner: health" do
     track = create :track, has_test_runner: false
     Track::UpdateBuildStatus.(track)
-    assert_equal "dead", track.reload.build_status.test_runner.health
+    assert_equal "missing", track.reload.build_status.test_runner.health
 
     track.update(has_test_runner: true, course: false)
     Track::UpdateBuildStatus.(track)
-    assert_equal "healthy", track.reload.build_status.test_runner.health
+    assert_equal "exemplar", track.reload.build_status.test_runner.health
 
     track.update(course: true)
     create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1 }
     Track::UpdateBuildStatus.(track)
-    assert_equal "critical", track.reload.build_status.test_runner.health
+    assert_equal "needs_attention", track.reload.build_status.test_runner.health
 
     create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
     Track::UpdateBuildStatus.(track)
-    assert_equal "needs_attention", track.reload.build_status.test_runner.health
+    assert_equal "healthy", track.reload.build_status.test_runner.health
 
     create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3 }
     Track::UpdateBuildStatus.(track)
-    assert_equal "healthy", track.reload.build_status.test_runner.health
+    assert_equal "exemplar", track.reload.build_status.test_runner.health
   end
 
   test "representer" do
@@ -519,18 +523,18 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "representer: health" do
     track = create :track, has_representer: false
     Track::UpdateBuildStatus.(track)
-    assert_equal "dead", track.reload.build_status.representer.health
+    assert_equal "missing", track.reload.build_status.representer.health
 
     track.update(has_representer: true)
     submission = create :submission, track: track
     submission_representation = create :submission_representation, submission: submission
     Track::UpdateBuildStatus.(track)
-    assert_equal "critical", track.reload.build_status.representer.health
+    assert_equal "needs_attention", track.reload.build_status.representer.health
 
     create :exercise_representation, :with_feedback, source_submission: submission,
       ast_digest: submission_representation.ast_digest
     Track::UpdateBuildStatus.(track)
-    assert_equal "healthy", track.reload.build_status.representer.health
+    assert_equal "exemplar", track.reload.build_status.representer.health
   end
 
   test "representer: volunteers" do
@@ -620,22 +624,22 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "analyzer: health" do
     track = create :track, has_analyzer: false
     Track::UpdateBuildStatus.(track)
-    assert_equal "dead", track.reload.build_status.analyzer.health
+    assert_equal "missing", track.reload.build_status.analyzer.health
 
     track.update(has_analyzer: true)
     create_list(:submission, 30, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal "critical", track.reload.build_status.analyzer.health
+    assert_equal "needs_attention", track.reload.build_status.analyzer.health
 
     submission = create :submission, track: track
     create :submission_analysis, :with_comments, submission: submission
     Track::UpdateBuildStatus.(track)
-    assert_equal "needs_attention", track.reload.build_status.analyzer.health
+    assert_equal "healthy", track.reload.build_status.analyzer.health
 
     create_list(:submission, 10, track:) do
       create :submission_analysis, :with_comments, submission:
     end
     Track::UpdateBuildStatus.(track)
-    assert_equal "healthy", track.reload.build_status.analyzer.health
+    assert_equal "exemplar", track.reload.build_status.analyzer.health
   end
 end

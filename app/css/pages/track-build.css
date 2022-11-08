@@ -187,7 +187,7 @@
         @apply rounded-16 px-32 py-24 shadow-lgZ1 text-textColor1 mb-32 bg-white;
     }
 
-    [tooling-status="healthy"] {
+    [tooling-status="exemplar"] {
         @apply tooling-status relative;
         @apply border-healthyGreen;
 
@@ -205,7 +205,7 @@
         }
     }
 
-    [tooling-status="needs_attention"] {
+    [tooling-status="healthy"] {
         @apply tooling-status;
         @apply border-warning;
         img {
@@ -213,7 +213,7 @@
         }
     }
 
-    [tooling-status="critical"] {
+    [tooling-status="needs_attention"] {
         @apply tooling-status;
         @apply border-danger;
         img {
@@ -221,7 +221,7 @@
         }
     }
 
-    [tooling-status="dead"] {
+    [tooling-status="missing"] {
         @apply tooling-status;
         @apply border-textColor6;
         img {

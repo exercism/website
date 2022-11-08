@@ -254,6 +254,11 @@ class Track::UpdateBuildStatus
     }
   end
 
+  def avg_attempt(attempts, started)
+    started = started.positive ? started : 1
+    (attempts.to_f / started).round(1)
+  end
+
   def serialize_exercise(exercise)
     {
       slug: exercise.slug,
@@ -261,8 +266,9 @@ class Track::UpdateBuildStatus
       icon_url: exercise.icon_url,
       num_started: exercise.solutions.count,
       num_submitted: exercise.submissions.count,
+      num_average_attempts: avg_attempt(num_submitted, num_started),
       num_completed: exercise.solutions.completed.count,
-      num_completed_percentage: percentage(num_completed, num_started),
+      num_completed_percentage: percentage(num_completed.to_f, num_started.to_f),
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }

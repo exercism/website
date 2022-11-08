@@ -318,6 +318,9 @@
 
         .record-value {
             @apply text-label-timestamp font-semibold;
+            span {
+                @apply ml-16;
+            }
         }
     }
 

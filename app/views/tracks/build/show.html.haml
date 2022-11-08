@@ -111,7 +111,7 @@
               .record-name
                 = exercise_icon exercise
                 = exercise.title
-              .record-value #{exercise.num_completed} completions (30% of attempts)
+              .record-value #{exercise.num_started} started #{exercise.num_completed} completitions (#{exercise.num_completed_percentage}%)
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
@@ -198,7 +198,7 @@
               .record-name
                 = exercise_icon exercise
                 = exercise.title
-              .record-value #{exercise.num_completed} completions (30% of attempts)
+              .record-value #{exercise.num_started} started #{exercise.num_completed} completitions (#{exercise.num_completed_percentage}%)
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 

@@ -87,11 +87,12 @@
           = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
             Learn More
 
-        .action-required
-          -# this will probably be a dynamic text?
-          Next goal: Create a complete syllabus with at least 30 concepts and learning exercises.
-          = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
-            Find out more.
+        - if @status.syllabus.concept_exercises.num_exercises < @status.syllabus.concept_exercises.num_exercises_target
+          .action-required
+            -# this will probably be a dynamic text?
+            Next goal: Create a complete syllabus with at least #{@status.syllabus.concept_exercises.num_exercises_target} concepts and learning exercises.
+            = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
+              Find out more.
 
         .usage-stats-header
           %h4 Usage statistics

@@ -38,7 +38,7 @@
           .flex.flex-col.mr-40
             .tooling-status-label Building
             .tooling-status-group
-              %div{ 'tooling-status': @status.syllabus.health, 'aria-label': "Syllabus status for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.syllabus_tooltip_track_build_path(@track) }
+              %a{ 'href': '#syllabus', 'tooling-status': @status.syllabus.health, 'aria-label': "Syllabus status for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.syllabus_tooltip_track_build_path(@track) }
                 = graphical_icon 'syllabus'
               %div{ 'tooling-status': @status.test_runner.health, 'aria-label': "Status of the test runner for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.test_runner_tooltip_track_build_path(@track) }
                 = graphical_icon 'test-runner'
@@ -80,7 +80,7 @@
             .contributors.text-textColor1.font-medium.mb-2= pluralize(@track.num_code_contributors, "maintainer")
             .mentors= pluralize(@track.num_mentors, "contributor")
 
-      .track-team-group
+      #syllabus.track-team-group
         .track-header
           %h3.--syllabus-gradient Create the #{@track.title} syllabus
           %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
@@ -115,7 +115,7 @@
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
-      .track-team-group
+      #test-runner.track-team-group
         .track-header
           %h3.--test-runner-gradient Build Test Runners
           %p Create Test Runners that have the single responsibility of taking a solution, running all tests and returning a standardized output.
@@ -140,7 +140,7 @@
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
-      .track-team-group
+      #analyzer.track-team-group
         .track-header
           %h3.--analyzer-gradient Build Analyzers
           %p Build an Analyzer for #{@track.title}: Exercism's analyzers automatically assess student's submissions and provide mentor-style commentary.
@@ -160,7 +160,7 @@
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
-      .track-team-group
+      #representer.track-team-group
         .track-header
           %h3.--representer-gradient Build Representers
           %p Build a Representer: a bit of code that has the single responsibility of taking a solution and returning a normalized representation of it.
@@ -182,7 +182,7 @@
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
-      .track-team-group
+      #practice-exercises.track-team-group
         .track-header
           %h3.--practice-exercises-gradient Create Practice Exercises
           %p Practice Exercises are exercises designed to allow students to solve an arbitrary problem, with the aim of them making use of the concepts they have learned so far.

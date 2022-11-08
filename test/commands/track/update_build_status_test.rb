@@ -642,4 +642,41 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
     assert_equal "exemplar", track.reload.build_status.analyzer.health
   end
+
+  test "health: exemplar" do
+    track = create :track
+
+    Track::UpdateBuildStatus.(track)
+    assert_equal "needs_attention", track.reload.build_status.health
+
+    # analyzer_health: :exemplar
+    track.update(has_analyzer: true)
+    submission = create :submission, track: track
+    create :submission_analysis, :with_comments, submission: submission
+
+    # representer_health: :exemplar
+    track.update(has_representer: true)
+    submission_representation = create :submission_representation, submission: submission
+    create :exercise_representation, :with_feedback, source_submission: submission, ast_digest: submission_representation.ast_digest
+
+    # test_runner_health: :exemplar
+    track.update(has_representer: true)
+    create :submission_test_run, submission: submission, raw_results: { version: 3 }
+
+    # practice_exercises_health: :exemplar
+    create_list(:practice_exercise, 50, track:)
+
+    # syllabus_health: :exemplar
+    track.update(course: true)
+    create_list(:concept_exercise, 50, track:)
+
+    Track::UpdateBuildStatus.(track)
+    assert_equal "exemplar", track.reload.build_status.health
+
+    # practice_exercises_health: :healthy
+    PracticeExercise.limit(20).delete_all
+
+    Track::UpdateBuildStatus.(track)
+    assert_equal "healthy", track.reload.build_status.health
+  end
 end

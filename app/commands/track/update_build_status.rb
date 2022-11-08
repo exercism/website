@@ -10,6 +10,7 @@ class Track::UpdateBuildStatus
   private
   def build_status
     {
+      health:,
       volunteers:,
       students:,
       submissions:,
@@ -21,6 +22,25 @@ class Track::UpdateBuildStatus
       analyzer:
     }
   end
+
+  def health
+    num_exemplar = component_health_statuses[:exemplar].to_i
+    num_healthy = component_health_statuses[:healthy].to_i
+
+    return :exemplar if num_exemplar == 5
+    return :healthy if num_exemplar + num_healthy == 5
+
+    :needs_attention
+  end
+
+  memoize
+  def component_health_statuses = [
+    analyzer_health,
+    test_runner_health,
+    representer_health,
+    syllabus_health,
+    practice_exercises_health
+  ].tally
 
   def volunteers
     volunteer_user_ids = User::ReputationPeriod.where(
@@ -77,6 +97,7 @@ class Track::UpdateBuildStatus
     }
   end
 
+  memoize
   def test_runner_health
     # TODO: use error status to determine health (unhealthy if everything fails)
     return :missing unless track.has_test_runner?
@@ -115,6 +136,7 @@ class Track::UpdateBuildStatus
     percentage(representer_num_submissions_with_feedback, track.submissions.count)
   end
 
+  memoize
   def representer_health
     # TODO: use error status to determine health (unhealthy if everything fails)
     return :missing unless track.has_representer?
@@ -137,6 +159,7 @@ class Track::UpdateBuildStatus
     percentage(Submission::Analysis.with_comments.where(submission: track.submissions).count, track.submissions.count)
   end
 
+  memoize
   def analyzer_health
     # TODO: use error status to determine health (unhealthy if everything fails)
     return :missing unless track.has_analyzer?
@@ -155,6 +178,7 @@ class Track::UpdateBuildStatus
     }
   end
 
+  memoize
   def syllabus_health
     return :missing if active_concept_exercises.empty?
     return :needs_attention if active_concept_exercises.size < 10
@@ -221,6 +245,7 @@ class Track::UpdateBuildStatus
     Track::UnimplementedPracticeExercises.(track).size
   end
 
+  memoize
   def practice_exercises_health
     return :missing if active_practice_exercises.empty?
     return :exemplar if active_practice_exercises.size >= NUM_PRACTICE_EXERCISE_TARGETS.last

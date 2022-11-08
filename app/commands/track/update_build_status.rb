@@ -279,8 +279,7 @@ class Track::UpdateBuildStatus
   def serialize_volunteers(authors, contributors)
     {
       users: SerializeAuthorOrContributors.(CombineAuthorsAndContributors.(authors, contributors)),
-      num_authors: authors.count,
-      num_contributors: contributors.count
+      num_users: authors.count + contributors.count
     }
   end
 

@@ -117,8 +117,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } },
       { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url, links: { profile: nil } }
     ].map(&:to_obj)
-    assert_equal 3, track.build_status.syllabus.volunteers.num_authors
-    assert_equal 2, track.build_status.syllabus.volunteers.num_contributors
+    assert_equal 5, track.build_status.syllabus.volunteers.num_users
     assert_equal 3, track.build_status.syllabus.volunteers.users.size
     expected_users.each do |expected_user|
       assert_includes track.build_status.syllabus.volunteers.users, expected_user
@@ -457,8 +456,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 2, track.build_status.test_runner.volunteers.num_authors
-    assert_equal 3, track.build_status.test_runner.volunteers.num_contributors
+    assert_equal 5, track.build_status.test_runner.volunteers.num_users
     assert_equal 3, track.build_status.test_runner.volunteers.users.size
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
@@ -556,8 +554,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 2, track.build_status.representer.volunteers.num_authors
-    assert_equal 3, track.build_status.representer.volunteers.num_contributors
+    assert_equal 5, track.build_status.representer.volunteers.num_users
     assert_equal 3, track.build_status.representer.volunteers.users.size
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
@@ -609,8 +606,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 2, track.build_status.analyzer.volunteers.num_authors
-    assert_equal 3, track.build_status.analyzer.volunteers.num_contributors
+    assert_equal 5, track.build_status.analyzer.volunteers.num_users
     assert_equal 3, track.build_status.analyzer.volunteers.users.size
     expected_users = [
       { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },

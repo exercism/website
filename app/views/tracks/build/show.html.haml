@@ -200,6 +200,7 @@
                 = exercise_icon exercise
                 = exercise.title
               .record-value #{exercise.num_completed} completions (30% of attempts)
+        = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
 
     .col-span-1

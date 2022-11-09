@@ -4,10 +4,7 @@
   .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
     .col-span-2
       %h1.text-h1.mb-12.text-48.font-bold.z-1
-        - @max = 7
-        - @test_num = 123_456
-        - @len = @test_num.to_s.length
-        .highlight-text{ style: "--transform-y: 2" }= @status.students.num_students
+        .highlight-text= @status.students.num_students
         students have developed their #{@track.title} skills.
       .grid.grid-cols-3.mb-32.gap-16
         .report-stat
@@ -32,8 +29,13 @@
 
       .track-status
         %h3.text-h3.font-bold.mb-12
-          The #{@track.title} track is
-          %span.text-healthyGreen super healthy ✅
+          The #{@track.title} track
+          - if @status.health == 'healthy'
+            %span.text-healthyGreen is super healthy ✅
+          - elsif @status.health == 'needs_attention'
+            %span.text-warning needs attention
+          - else
+            %span.text-textColor6 is exemplar
         .flex
           .flex.flex-col.mr-40
             .tooling-status-label Building
@@ -111,7 +113,10 @@
               .record-name
                 = exercise_icon exercise
                 = exercise.title
-              .record-value #{exercise.num_completed} completions (30% of attempts)
+              .record-value
+                %span #{exercise.num_started} started
+                %span #{exercise.num_submitted} #{'attempt'.pluralize(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                %span #{exercise.num_completed} #{'completition'.pluralize(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
 
         = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
@@ -136,7 +141,10 @@
             .record-value= @status.test_runner.num_test_runs
           .record-row
             .record-name Outcome Breakdown
-            .record-value #{@status.test_runner.num_passed_percentage}% pass (#{@status.test_runner.num_passed}) #{@status.test_runner.num_failed_percentage}% fail (#{@status.test_runner.num_failed}) #{@status.test_runner.num_errored_percentage}% error (#{@status.test_runner.num_errored})
+            .record-value
+              %span #{@status.test_runner.num_passed_percentage}% pass (#{@status.test_runner.num_passed})
+              %span #{@status.test_runner.num_failed_percentage}% fail (#{@status.test_runner.num_failed})
+              %span #{@status.test_runner.num_errored_percentage}% error (#{@status.test_runner.num_errored})
 
         = render ReactComponents::Common::Credits.new(@status.test_runner.volunteers.users, @status.test_runner.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
@@ -199,7 +207,10 @@
               .record-name
                 = exercise_icon exercise
                 = exercise.title
-              .record-value #{exercise.num_completed} completions (30% of attempts)
+              .record-value
+                %span #{exercise.num_started} started
+                %span #{exercise.num_submitted} #{'attempt'.pluralize(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                %span #{exercise.num_completed} #{'completition'.pluralize(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
         = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
 

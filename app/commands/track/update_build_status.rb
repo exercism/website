@@ -48,7 +48,7 @@ class Track::UpdateBuildStatus
       about: :track,
       track_id: track.id
     ).select(:user_id)
-    volunteers = User.where(id: volunteer_user_ids).order(reputation: :desc).take(12)
+    volunteers = User.with_attached_avatar.where(id: volunteer_user_ids).order(reputation: :desc).take(12)
 
     {
       num_volunteers: volunteer_user_ids.distinct.count,
@@ -190,11 +190,11 @@ class Track::UpdateBuildStatus
   end
 
   def syllabus_volunteers
-    authors = User.where(id: Concept::Authorship.where(concept: taught_concepts).select(:user_id)).
-      or(User.where(id: Exercise::Authorship.where(exercise: active_concept_exercises).select(:user_id)))
+    authors = User.with_attached_avatar.where(id: Concept::Authorship.where(concept: taught_concepts).select(:user_id)).
+      or(User.with_attached_avatar.where(id: Exercise::Authorship.where(exercise: active_concept_exercises).select(:user_id)))
 
-    contributors = User.where(id: Concept::Contributorship.where(concept: taught_concepts).select(:user_id)).
-      or(User.where(id: Exercise::Contributorship.where(exercise: active_concept_exercises).select(:user_id)))
+    contributors = User.with_attached_avatar.where(id: Concept::Contributorship.where(concept: taught_concepts).select(:user_id)).
+      or(User.with_attached_avatar.where(id: Exercise::Contributorship.where(exercise: active_concept_exercises).select(:user_id)))
 
     serialize_volunteers(authors, contributors)
   end
@@ -254,8 +254,10 @@ class Track::UpdateBuildStatus
   end
 
   def practice_exercises_volunteers
-    authors = User.where(id: Exercise::Authorship.where(exercise: active_practice_exercises).select(:user_id))
-    contributors = User.where(id: Exercise::Contributorship.where(exercise: active_practice_exercises).select(:user_id))
+    authors = User.with_attached_avatar.where(id:
+      Exercise::Authorship.where(exercise: active_practice_exercises).select(:user_id))
+    contributors = User.with_attached_avatar.where(id:
+      Exercise::Contributorship.where(exercise: active_practice_exercises).select(:user_id))
 
     serialize_volunteers(authors, contributors)
   end
@@ -321,9 +323,9 @@ class Track::UpdateBuildStatus
   end
 
   def serialize_tooling_volunteers(repo_url)
-    authors = User.where(id: track.reputation_tokens.where(category: :building).where('external_url LIKE ?',
+    authors = User.with_attached_avatar.where(id: track.reputation_tokens.where(category: :building).where('external_url LIKE ?',
       "#{repo_url}/%").select(:user_id))
-    volunteers = User.where(id: track.reputation_tokens.where(category: :maintaining).where('external_url LIKE ?',
+    volunteers = User.with_attached_avatar.where(id: track.reputation_tokens.where(category: :maintaining).where('external_url LIKE ?',
       "#{repo_url}/%").select(:user_id))
     serialize_volunteers(authors, volunteers)
   end

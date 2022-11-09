@@ -20,13 +20,13 @@ class ViewComponents::Track::Build::Health < ViewComponents::ViewComponent
   def class
     case health_status.to_sym
     when :exemplar
-      "text-textColor6"
+      "text-healthyGreen"
     when :healthy
       "text-healthyGreen"
     when :needs_attention
       "text-warning"
     else
-      "text-warning"
+      "text-textColor6"
     end
   end
 

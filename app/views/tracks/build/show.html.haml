@@ -4,10 +4,7 @@
   .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
     .col-span-2
       %h1.text-h1.mb-12.text-48.font-bold.z-1
-        - @max = 7
-        - @test_num = 123_456
-        - @len = @test_num.to_s.length
-        .highlight-text{ style: "--transform-y: 2" }= @status.students.num_students
+        .highlight-text= @status.students.num_students
         students have developed their #{@track.title} skills.
       .grid.grid-cols-3.mb-32.gap-16
         .report-stat
@@ -32,8 +29,13 @@
 
       .track-status
         %h3.text-h3.font-bold.mb-12
-          The #{@track.title} track is
-          %span.text-healthyGreen super healthy ✅
+          The #{@track.title} track
+          - if @status.health == 'healthy'
+            %span.text-healthyGreen is super healthy ✅
+          - elsif @status.health == 'needs_attention'
+            %span.text-warning needs attention
+          - else
+            %span.text-textColor6 is exemplar
         .flex
           .flex.flex-col.mr-40
             .tooling-status-label Building

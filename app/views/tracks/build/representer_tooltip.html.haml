@@ -5,4 +5,19 @@
       %h5.text-h5
         The #{@track.title} representer
         = render ViewComponents::Track::Build::Health.new(@status.representer.health)
-      %p.text-p-base It obfuscates instead of normalizing!
+
+      - health = @status.representer.health.to_sym
+      %p.text-p-base
+      - case health
+      - when :exemplar
+        Works exemplary!
+      - when :healthy
+        Works well.
+      - when :needs_attention
+        No feedback has been given via any representation.
+      - when :missing
+        The representer has not yet been implemented.
+
+      - if @status.representer.num_comments.positive?
+        %p.text-p-base
+          #{@status.representer.num_comments} #{'comment'.pluralize(@status.representer.num_comments)} have been made.

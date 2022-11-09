@@ -296,9 +296,9 @@ class Track::UpdateBuildStatus
   end
 
   def serialize_exercise(exercise)
-    num_started = exercise.solutions.count
-    num_submitted = exercise.submissions.count
-    num_completed = exercise.solutions.completed.count
+    num_started = exercises_num_started[exercise.id]
+    num_submitted = exercises_num_submitted[exercise.id]
+    num_completed = exercises_num_completed[exercise.id]
 
     {
       slug: exercise.slug,
@@ -328,6 +328,21 @@ class Track::UpdateBuildStatus
       users: SerializeAuthorOrContributors.(CombineAuthorsAndContributors.(authors, contributors)),
       num_users: User.where(id: authors.select(:id) + contributors.select(:id)).count
     }
+  end
+
+  memoize
+  def exercises_num_started
+    Solution.joins(:exercise).where(exercises: { track: }).group(:exercise_id).count
+  end
+
+  memoize
+  def exercises_num_submitted
+    Submission.joins(solution: :exercise).where(solutions: { exercises: { track: } }).group(:exercise_id).count
+  end
+
+  memoize
+  def exercises_num_completed
+    Solution.completed.joins(:exercise).where(exercises: { track: }).group(:exercise_id).count
   end
 
   NUM_DAYS_FOR_AVERAGE = 30

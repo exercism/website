@@ -327,8 +327,7 @@
                 @apply grid w-[128px] gap-2;
                 @apply text-12 font-normal;
                 strong {
-                    @apply text-14;
-                    font-weight: inherit;
+                    @apply text-14 font-semibold;
                 }
             }
         }

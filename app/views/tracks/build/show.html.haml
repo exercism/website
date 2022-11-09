@@ -80,8 +80,7 @@
             - @track.top_contributors[0, 3].map do |author|
               .face= avatar(author)
           .stats.text-16
-            .contributors.text-textColor1.font-medium.mb-2= pluralize(@track.num_code_contributors, "maintainer")
-            .mentors= pluralize(@track.num_mentors, "contributor")
+            .contributors.text-textColor1.font-medium.mb-2= pluralize(@track.num_code_contributors, "contributor")
 
       .track-team-group
         .track-header
@@ -224,18 +223,19 @@
             = 'Volunteer'.pluralize(@status.volunteers.num_volunteers)
           .count-bubble= @status.volunteers.num_volunteers
 
-        - @track.top_contributors[0, 3].map do |contributor|
+        - @status.volunteers.users[0, 3].each do |volunteer|
           .contributor-credit-block
             .contributor
-              = avatar(contributor)
-              = contributor.name
-            = render ViewComponents::Reputation.new(contributor.reputation, flashy: true, size: :small)
+              = avatar(volunteer)
+              = volunteer.name
+            = render ViewComponents::Reputation.new(volunteer.reputation, flashy: true, size: :small)
 
         .inline-grid.grid-cols-6.gap-16.mt-20.mb-16
-          - 10.times do
-            = graphical_icon "avatar-placeholder", css_class: 'h-[32px] w-[32px]'
-          .col-span-2.self-center.leading-170.text-14.font-semibold.text-lightBlue
-            + 41 more
+          - @status.volunteers.users[3..].each do |volunteer|
+            = avatar(volunteer)
+          - if @status.volunteers.num_volunteers > @status.volunteers.users.size
+            .col-span-2.self-center.leading-170.text-14.font-semibold.text-lightBlue
+              + #{@status.volunteers.num_volunteers - @status.volunteers.users.size} more
 
         .rounded-8.py-16.px-20.bg-backgroundColorG
           %h6.text-h6.leading-150.mb-4 We 💙 our volunteers

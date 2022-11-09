@@ -3,6 +3,6 @@
     = graphical_icon 'analyzer'
     %div
       %h5.text-h5
-        The #{@track.title} analyzer is
+        The #{@track.title} analyzer
         = render ViewComponents::Track::Build::Health.new(@status.analyzer.health)
       %p.text-p-base Your display rate is below 1%!

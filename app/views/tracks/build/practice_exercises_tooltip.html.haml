@@ -3,5 +3,5 @@
     = graphical_icon 'practice-exercises'
     %div
       %h5.text-h5
-        The #{@track.title} practice exercises are
-        = render ViewComponents::Track::Build::Health.new(@status.practice_exercises.health)
+        The #{@track.title} practice exercises
+        = render ViewComponents::Track::Build::Health.new(@status.practice_exercises.health, plural: true)

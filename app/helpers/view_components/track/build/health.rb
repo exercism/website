@@ -1,5 +1,5 @@
 class ViewComponents::Track::Build::Health < ViewComponents::ViewComponent
-  initialize_with :health_status
+  initialize_with :health_status, plural: false
 
   def to_s = tag.span(text, class:)
 
@@ -7,13 +7,13 @@ class ViewComponents::Track::Build::Health < ViewComponents::ViewComponent
   def text
     case health_status.to_sym
     when :exemplar
-      "exemplar ✨"
+      "#{person} exemplar ✨"
     when :healthy
-      "healthy ✅"
+      "#{person} healthy ✅"
     when :needs_attention
       "needs attention ⚠️"
     else
-      "missing ❌"
+      "#{person}  missing ❓"
     end
   end
 
@@ -29,4 +29,6 @@ class ViewComponents::Track::Build::Health < ViewComponents::ViewComponent
       "text-warning"
     end
   end
+
+  def person = plural ? 'are' : 'is'
 end

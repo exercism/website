@@ -30,12 +30,7 @@
       .track-status
         %h3.text-h3.font-bold.mb-12
           The #{@track.title} track
-          - if @status.health == 'exemplar'
-            %span.text-textColor6 is exemplar ✨
-          - elsif @status.health == 'healthy'
-            %span.text-healthyGreen is healthy ✅
-          - else
-            %span.text-warning needs attention ⚠️
+          = render ViewComponents::Track::Build::Health.new(@status.health)
 
         .flex
           .flex.flex-col.mr-40

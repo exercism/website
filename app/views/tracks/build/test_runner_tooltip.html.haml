@@ -3,6 +3,6 @@
     = graphical_icon 'test-runner'
     %div
       %h5.text-h5
-        The #{@track.title} test runner is
+        The #{@track.title} test runner
         = render ViewComponents::Track::Build::Health.new(@status.test_runner.health)
       %p.text-p-base It has run 22 times!

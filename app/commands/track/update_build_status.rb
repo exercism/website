@@ -261,14 +261,18 @@ class Track::UpdateBuildStatus
   end
 
   def serialize_exercise(exercise)
+    num_started = exercise.solutions.count
+    num_submitted = exercise.submissions.count
+    num_completed = exercise.solutions.completed.count
+
     {
       slug: exercise.slug,
       title: exercise.title,
       icon_url: exercise.icon_url,
-      num_started: exercise.solutions.count,
-      num_submitted: exercise.submissions.count,
+      num_started:,
+      num_submitted:,
       num_submitted_average: average(num_submitted, num_started),
-      num_completed: exercise.solutions.completed.count,
+      num_completed:,
       num_completed_percentage: percentage(num_completed, num_started),
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)

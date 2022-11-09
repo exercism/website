@@ -84,11 +84,16 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     assert_equal 5, track.build_status.volunteers.num_volunteers
     expected_users = [
-      { name: user_2.name, handle: user_2.handle, avatar_url: user_2.avatar_url, links: { profile: nil } },
-      { name: user_4.name, handle: user_4.handle, avatar_url: user_4.avatar_url, links: { profile: nil } },
-      { name: user_3.name, handle: user_3.handle, avatar_url: user_3.avatar_url, links: { profile: nil } },
-      { name: user_5.name, handle: user_5.handle, avatar_url: user_5.avatar_url, links: { profile: nil } },
-      { name: user_1.name, handle: user_1.handle, avatar_url: user_1.avatar_url, links: { profile: nil } }
+      { name: user_2.name, handle: user_2.handle, avatar_url: user_2.avatar_url, reputation: user_2.formatted_reputation,
+        links: { profile: nil } },
+      { name: user_4.name, handle: user_4.handle, avatar_url: user_4.avatar_url, reputation: user_4.formatted_reputation,
+        links: { profile: nil } },
+      { name: user_3.name, handle: user_3.handle, avatar_url: user_3.avatar_url, reputation: user_3.formatted_reputation,
+        links: { profile: nil } },
+      { name: user_5.name, handle: user_5.handle, avatar_url: user_5.avatar_url, reputation: user_5.formatted_reputation,
+        links: { profile: nil } },
+      { name: user_1.name, handle: user_1.handle, avatar_url: user_1.avatar_url, reputation: user_1.formatted_reputation,
+        links: { profile: nil } }
     ].map(&:to_obj)
     assert_equal expected_users, track.build_status.volunteers.users
   end
@@ -113,9 +118,12 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     expected_users = [
-      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } },
-      { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url, links: { profile: nil } }
+      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url,
+        reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
+      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+        reputation: users[1].reload.formatted_reputation, links: { profile: nil } },
+      { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url,
+        reputation: users[3].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     assert_equal 5, track.build_status.syllabus.volunteers.num_users
     assert_equal 3, track.build_status.syllabus.volunteers.users.size
@@ -364,9 +372,12 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     expected_users = [
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } },
-      { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url, links: { profile: nil } },
-      { name: users[4].name, handle: users[4].handle, avatar_url: users[4].avatar_url, links: { profile: nil } }
+      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+        reputation: users[1].reload.formatted_reputation, links: { profile: nil } },
+      { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url,
+        reputation: users[3].reload.formatted_reputation, links: { profile: nil } },
+      { name: users[4].name, handle: users[4].handle, avatar_url: users[4].avatar_url,
+        reputation: users[4].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     assert_equal 4, track.build_status.practice_exercises.volunteers.num_users
     assert_equal 3, track.build_status.practice_exercises.volunteers.users.size
@@ -497,8 +508,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 5, track.build_status.test_runner.volunteers.num_users
     assert_equal 3, track.build_status.test_runner.volunteers.users.size
     expected_users = [
-      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
+      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url,
+        reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
+      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+        reputation: users[1].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     expected_users.each do |expected_user|
       assert_includes track.build_status.test_runner.volunteers.users, expected_user
@@ -595,8 +608,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 5, track.build_status.representer.volunteers.num_users
     assert_equal 3, track.build_status.representer.volunteers.users.size
     expected_users = [
-      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
+      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url,
+        reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
+      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+        reputation: users[1].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     expected_users.each do |expected_user|
       assert_includes track.build_status.representer.volunteers.users, expected_user
@@ -647,8 +662,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 5, track.build_status.analyzer.volunteers.num_users
     assert_equal 3, track.build_status.analyzer.volunteers.users.size
     expected_users = [
-      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url, links: { profile: nil } }
+      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url,
+        reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
+      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+        reputation: users[1].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     expected_users.each do |expected_user|
       assert_includes track.build_status.analyzer.volunteers.users, expected_user

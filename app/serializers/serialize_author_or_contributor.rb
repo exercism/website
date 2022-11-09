@@ -8,6 +8,7 @@ class SerializeAuthorOrContributor
       name: user.name,
       handle: user.handle,
       avatar_url: user.avatar_url,
+      reputation: user.formatted_reputation,
       links: {
         profile: user.profile? ? Exercism::Routes.profile_url(user) : nil
       }

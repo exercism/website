@@ -48,10 +48,11 @@ class Track::UpdateBuildStatus
       about: :track,
       track_id: track.id
     ).select(:user_id)
+    volunteers = User.where(id: volunteer_user_ids).order(reputation: :desc).take(12)
 
     {
       num_volunteers: volunteer_user_ids.distinct.count,
-      users: SerializeAuthorOrContributors.(User.where(id: volunteer_user_ids).order(reputation: :desc).take(12))
+      users: SerializeAuthorOrContributors.(volunteers)
     }
   end
 

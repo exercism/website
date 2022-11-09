@@ -4,5 +4,5 @@
     %div
       %h5.text-h5
         The #{@track.title} representer is
-        %span.text-danger critical!
+        = render ViewComponents::Track::Build::Health.new(@status.representer.health)
       %p.text-p-base It obfuscates instead of normalizing!

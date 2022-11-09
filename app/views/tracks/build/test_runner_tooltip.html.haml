@@ -4,5 +4,5 @@
     %div
       %h5.text-h5
         The #{@track.title} test runner is
-        %span.text-healthyGreen healthy!
+        = render ViewComponents::Track::Build::Health.new(@status.test_runner.health)
       %p.text-p-base It has run 22 times!

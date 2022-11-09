@@ -4,5 +4,5 @@
     %div
       %h5.text-h5
         The #{@track.title} syllabus is
-        %span.text-healthyGreen healthy!
+        = render ViewComponents::Track::Build::Health.new(@status.syllabus.health)
       %p.text-p-base It has #{@track.concepts.size} concepts, which is pretty glamorous!

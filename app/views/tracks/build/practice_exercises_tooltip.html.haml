@@ -4,4 +4,4 @@
     %div
       %h5.text-h5
         The #{@track.title} practice exercises are
-        %span.text-textColor6 dead!
+        = render ViewComponents::Track::Build::Health.new(@status.practice_exercises.health)

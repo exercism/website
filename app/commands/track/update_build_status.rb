@@ -229,6 +229,7 @@ class Track::UpdateBuildStatus
       num_exercises: active_practice_exercises.size,
       num_exercises_target: practice_exercises_num_exercises_target,
       created: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
+      volunteers: practice_exercises_volunteers,
       health: practice_exercises_health
     }
   end
@@ -243,6 +244,13 @@ class Track::UpdateBuildStatus
   memoize
   def num_unimplemented_practice_exercises
     Track::UnimplementedPracticeExercises.(track).size
+  end
+
+  def practice_exercises_volunteers
+    authors = User.where(id: Exercise::Authorship.where(exercise: active_practice_exercises).select(:user_id))
+    contributors = User.where(id: Exercise::Contributorship.where(exercise: active_practice_exercises).select(:user_id))
+
+    serialize_volunteers(authors, contributors)
   end
 
   memoize
@@ -317,7 +325,7 @@ class Track::UpdateBuildStatus
   def serialize_volunteers(authors, contributors)
     {
       users: SerializeAuthorOrContributors.(CombineAuthorsAndContributors.(authors, contributors)),
-      num_users: authors.count + contributors.count
+      num_users: User.where(id: authors.select(:id) + contributors.select(:id)).count
     }
   end
 

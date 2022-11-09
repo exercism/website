@@ -113,7 +113,7 @@
                 = exercise.title
               .record-value
                 %span #{exercise.num_started} started
-                %span #{exercise.num_submitted} attempts (#{exercise.num_average_attempts} avg).
+                %span #{exercise.num_submitted} attempts (#{exercise.num_submitted_average} avg).
                 %span #{exercise.num_completed} completitions (#{exercise.num_completed_percentage}%)
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")

@@ -201,6 +201,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         icon_url: ce_2.icon_url,
         num_started: 5,
         num_submitted: 4,
+        num_submitted_average: 0.8,
         num_completed: 3,
         links: { self: "/tracks/ruby/exercises/#{ce_2.slug}" }
       },
@@ -210,6 +211,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         icon_url: ce_3.icon_url,
         num_started: 2,
         num_submitted: 2,
+        num_submitted_average: 1.0,
         num_completed: 1,
         links: { self: "/tracks/ruby/exercises/#{ce_3.slug}" }
       }

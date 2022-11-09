@@ -208,9 +208,15 @@ class Track::UpdateBuildStatus
   end
 
   memoize
-  def taught_concepts
-    taught_concept_ids = Exercise::TaughtConcept.where(exercise: active_concept_exercises).select(:track_concept_id)
-    Concept.where(id: taught_concept_ids).to_a
+  def taught_concepts = Concept.where(id: concept_taught_exercise.keys).to_a
+
+  memoize
+  def concept_taught_exercise
+    Exercise::TaughtConcept.
+      where(exercise: active_concept_exercises).
+      pluck(:track_concept_id, :exercise_id).
+      map { |concept_id, exercise_id| { concept_id => exercise_id } }.
+      reduce({}, :merge)
   end
 
   def concept_exercises
@@ -290,15 +296,14 @@ class Track::UpdateBuildStatus
     {
       slug: concept.slug,
       name: concept.name,
-      # TODO: prevent N+1
-      num_students_learnt: Solution.completed.where(exercise_id: Exercise::TaughtConcept.where(concept:).select(:exercise_id)).count
+      num_students_learnt: exercises_num_completed[concept_taught_exercise[concept.id]].to_i
     }
   end
 
   def serialize_exercise(exercise)
-    num_started = exercises_num_started[exercise.id]
-    num_submitted = exercises_num_submitted[exercise.id]
-    num_completed = exercises_num_completed[exercise.id]
+    num_started = exercises_num_started[exercise.id].to_i
+    num_submitted = exercises_num_submitted[exercise.id].to_i
+    num_completed = exercises_num_completed[exercise.id].to_i
 
     {
       slug: exercise.slug,

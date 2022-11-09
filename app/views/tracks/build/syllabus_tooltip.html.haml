@@ -9,15 +9,15 @@
       - health = @status.syllabus.health.to_sym
       - num_exercises_to_target = @status.syllabus.concept_exercises.num_exercises_target - @status.syllabus.concept_exercises.num_exercises
       %p.text-p-base
-      - case health
-      - when :exemplar
-        Has implemented a stellar #{@status.syllabus.concept_exercises.num_exercises} concept exercises!
-      - when :healthy
-        Could benefit from having #{num_exercises_to_target} more concept #{'exercise'.pluralize(num_exercises_to_target)} being implemented.
-      - when :needs_attention
-        Should have #{num_exercises_to_target} more concept #{'exercise'.pluralize(num_exercises_to_target)} being implemented.
-      - when :missing
-        No concept exercises have been implemented.
+        - case health
+        - when :exemplar
+          Has implemented a stellar #{@status.syllabus.concept_exercises.num_exercises} concept exercises!
+        - when :healthy
+          Could benefit from having #{num_exercises_to_target} more concept #{'exercise'.pluralize(num_exercises_to_target)} being implemented.
+        - when :needs_attention
+          Should have #{num_exercises_to_target} more concept #{'exercise'.pluralize(num_exercises_to_target)} being implemented.
+        - when :missing
+          No concept exercises have been implemented.
 
       - if @track.course? && @status.syllabus.concepts.num_concepts.positive?
         %p.text-p-base

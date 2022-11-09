@@ -207,17 +207,17 @@
 
     [tooling-status="healthy"] {
         @apply tooling-status;
-        @apply border-warning;
+        @apply border-healthyGreen;
         img {
-            @apply filter-warning;
+            @apply filter-healthyGreen;
         }
     }
 
     [tooling-status="needs_attention"] {
         @apply tooling-status;
-        @apply border-danger;
+        @apply border-warning;
         img {
-            @apply filter-danger;
+            @apply filter-warning;
         }
     }
 

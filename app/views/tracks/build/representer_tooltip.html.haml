@@ -8,15 +8,15 @@
 
       - health = @status.representer.health.to_sym
       %p.text-p-base
-      - case health
-      - when :exemplar
-        Works exemplary!
-      - when :healthy
-        Works well.
-      - when :needs_attention
-        No feedback has been given via any representation.
-      - when :missing
-        The representer has not yet been implemented.
+        - case health
+        - when :exemplar
+          Works exemplary!
+        - when :healthy
+          Works well.
+        - when :needs_attention
+          No feedback has been given via any representation.
+        - when :missing
+          The representer has not yet been implemented.
 
       - if @status.representer.num_comments.positive?
         %p.text-p-base

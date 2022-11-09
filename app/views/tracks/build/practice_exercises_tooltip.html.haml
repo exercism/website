@@ -8,12 +8,12 @@
 
       - health = @status.practice_exercises.health.to_sym
       %p.text-p-base
-      - case health
-      - when :exemplar
-        Has implemented a stellar #{@status.practice_exercises.num_exercises} practice exercises!
-      - when :healthy
-        Could benefit from having #{@status.practice_exercises.num_exercises_target} practice exercises being implemented.
-      - when :needs_attention
-        Should have #{@status.practice_exercises.num_exercises_target} practice exercises being implemented.
-      - when :missing
-        No practice exercises have been implemented.
+        - case health
+        - when :exemplar
+          Has implemented a stellar #{@status.practice_exercises.num_exercises} practice exercises!
+        - when :healthy
+          Could benefit from having #{@status.practice_exercises.num_exercises_target} practice exercises being implemented.
+        - when :needs_attention
+          Should have #{@status.practice_exercises.num_exercises_target} practice exercises being implemented.
+        - when :missing
+          No practice exercises have been implemented.

@@ -202,7 +202,7 @@ class Track::UpdateBuildStatus
   def concepts
     {
       num_concepts: taught_concepts.size,
-      num_concepts_target: taught_concepts.size, # TODO: implement levels
+      num_concepts_target: taught_concepts.size,
       created: taught_concepts.map { |concept| serialize_concept(concept) }
     }
   end

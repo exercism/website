@@ -30,12 +30,13 @@
       .track-status
         %h3.text-h3.font-bold.mb-12
           The #{@track.title} track
-          - if @status.health == 'healthy'
-            %span.text-healthyGreen is super healthy ✅
-          - elsif @status.health == 'needs_attention'
-            %span.text-warning needs attention
+          - if @status.health == 'exemplar'
+            %span.text-textColor6 is exemplar ✨
+          - elsif @status.health == 'healthy'
+            %span.text-healthyGreen is healthy ✅
           - else
-            %span.text-textColor6 is exemplar
+            %span.text-warning needs attention ⚠️
+
         .flex
           .flex.flex-col.mr-40
             .tooling-status-label Building

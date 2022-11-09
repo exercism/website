@@ -271,6 +271,12 @@ class Track::UpdateBuildStatus
     ((count / total_count.to_f) * 100.0).round
   end
 
+  def average(count, total_count)
+    return 0 if total_count.zero?
+
+    (count.to_f / total_count).round(1)
+  end
+
   def serialize_concept(concept)
     {
       slug: concept.slug,
@@ -281,13 +287,19 @@ class Track::UpdateBuildStatus
   end
 
   def serialize_exercise(exercise)
+    num_started = exercise.solutions.count
+    num_submitted = exercise.submissions.count
+    num_completed = exercise.solutions.completed.count
+
     {
       slug: exercise.slug,
       title: exercise.title,
       icon_url: exercise.icon_url,
-      num_started: exercise.solutions.count,
-      num_submitted: exercise.submissions.count,
-      num_completed: exercise.solutions.completed.count,
+      num_started:,
+      num_submitted:,
+      num_submitted_average: average(num_submitted, num_started),
+      num_completed:,
+      num_completed_percentage: percentage(num_completed, num_started),
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }

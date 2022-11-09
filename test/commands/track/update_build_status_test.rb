@@ -200,7 +200,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         icon_url: ce_2.icon_url,
         num_started: 5,
         num_submitted: 4,
+        num_submitted_average: 0.8,
         num_completed: 3,
+        num_completed_percentage: 60,
         links: { self: "/tracks/ruby/exercises/#{ce_2.slug}" }
       },
       {
@@ -209,7 +211,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         icon_url: ce_3.icon_url,
         num_started: 2,
         num_submitted: 2,
+        num_submitted_average: 1.0,
         num_completed: 1,
+        num_completed_percentage: 50,
         links: { self: "/tracks/ruby/exercises/#{ce_3.slug}" }
       }
     ].map(&:to_obj)
@@ -297,7 +301,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         icon_url: pe_3.icon_url,
         num_started: 2,
         num_submitted: 2,
+        num_submitted_average: 1.0,
         num_completed: 1,
+        num_completed_percentage: 50,
         links: { self: "/tracks/ruby/exercises/#{pe_3.slug}" }
       },
       {
@@ -306,7 +312,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         icon_url: pe_2.icon_url,
         num_started: 5,
         num_submitted: 4,
+        num_submitted_average: 0.8,
         num_completed: 3,
+        num_completed_percentage: 60,
         links: { self: "/tracks/ruby/exercises/#{pe_2.slug}" }
       }
     ].map(&:to_obj)

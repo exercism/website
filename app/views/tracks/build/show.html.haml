@@ -113,7 +113,10 @@
               .record-name
                 = exercise_icon exercise
                 = exercise.title
-              .record-value #{exercise.num_completed} completions (30% of attempts)
+              .record-value
+                %span #{exercise.num_started} started
+                %span #{exercise.num_submitted} #{'attempt'.pluralize(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                %span #{exercise.num_completed} #{'completition'.pluralize(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
@@ -138,7 +141,10 @@
             .record-value= @status.test_runner.num_test_runs
           .record-row
             .record-name Outcome Breakdown
-            .record-value #{@status.test_runner.num_passed_percentage}% pass (#{@status.test_runner.num_passed}) #{@status.test_runner.num_failed_percentage}% fail (#{@status.test_runner.num_failed}) #{@status.test_runner.num_errored_percentage}% error (#{@status.test_runner.num_errored})
+            .record-value
+              %span #{@status.test_runner.num_passed_percentage}% pass (#{@status.test_runner.num_passed})
+              %span #{@status.test_runner.num_failed_percentage}% fail (#{@status.test_runner.num_failed})
+              %span #{@status.test_runner.num_errored_percentage}% error (#{@status.test_runner.num_errored})
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 
@@ -200,7 +206,10 @@
               .record-name
                 = exercise_icon exercise
                 = exercise.title
-              .record-value #{exercise.num_completed} completions (30% of attempts)
+              .record-value
+                %span #{exercise.num_started} started
+                %span #{exercise.num_submitted} #{'attempt'.pluralize(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                %span #{exercise.num_completed} #{'completition'.pluralize(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
 
         = render ReactComponents::Track::Credits.new(Array.new(5, 'https://avatars.githubusercontent.com/u/66035744?v=4'), 1, "volunteer", 3, "hero")
 

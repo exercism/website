@@ -299,8 +299,13 @@
         }
     }
 
+    .test-runner .record-value {
+        @apply w-1-2;
+    }
+
     .record-row {
-        @apply flex justify-between items-center;
+        @apply flex justify-between lg:items-center;
+        @apply lg:flex-row flex-col;
         @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
         .record-name {
             @apply label-large text-16;
@@ -317,9 +322,14 @@
         }
 
         .record-value {
-            @apply text-label-timestamp font-semibold;
-            span:not(:last-child) {
-                @apply mr-16;
+            @apply text-label-timestamp flex font-semibold;
+            .record-element {
+                @apply grid w-[128px] gap-2;
+                @apply text-12 font-normal;
+                strong {
+                    @apply text-14;
+                    font-weight: inherit;
+                }
             }
         }
     }

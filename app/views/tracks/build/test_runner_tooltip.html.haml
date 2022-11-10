@@ -18,6 +18,6 @@
         - when :missing
           The test runner has not yet been implemented.
 
-      - if @status.test_runner.num_test_runs.positive?
+      - if @status.test_runner.num_runs.positive?
         %p.text-p-base
-          #{@status.test_runner.num_test_runs} #{'iteration'.pluralize(@status.test_runner.num_test_runs)} have been tested.
+          #{@status.test_runner.num_runs} #{'iteration'.pluralize(@status.test_runner.num_runs)} have been tested.

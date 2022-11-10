@@ -144,8 +144,8 @@
             %h4 Usage statistics
           .stats-container.test-runner
             .record-row
-              .record-name Total Test Runs
-              .record-value= @status.test_runner.num_test_runs
+              .record-name Total Test Runner Runs
+              .record-value= @status.test_runner.num_runs
             .record-row
               .record-name Test Run Pass Rate
               .record-value #{@status.test_runner.num_passed_percentage}% (#{@status.test_runner.num_passed})
@@ -176,6 +176,9 @@
             %h4 Usage statistics
           .stats-container
             .record-row
+              .record-name Total Analyzer Runs
+              .record-value= @status.analyzer.num_runs
+            .record-row
               .record-name Total Analysis Comments Made
               .record-value
                 = @status.analyzer.num_comments
@@ -203,8 +206,8 @@
             %h4 Usage statistics
           .stats-container
             .record-row
-              .record-name Total Representations Created
-              .record-value= @status.representer.num_representations
+              .record-name Total Representer Runs
+              .record-value= @status.representer.num_runs
             .record-row
               .record-name Total Representation Comments Made
               .record-value= @status.representer.num_comments

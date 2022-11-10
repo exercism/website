@@ -418,13 +418,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 36, track.build_status.test_runner.num_test_runs
+    assert_equal 36, track.build_status.test_runner.num_runs
     assert_equal 5, track.build_status.test_runner.num_passed
     assert_equal 7, track.build_status.test_runner.num_failed
     assert_equal 24, track.build_status.test_runner.num_errored
-    assert_equal 14, track.build_status.test_runner.num_passed_percentage
-    assert_equal 19, track.build_status.test_runner.num_failed_percentage
-    assert_equal 67, track.build_status.test_runner.num_errored_percentage
+    assert_equal 13.9, track.build_status.test_runner.num_passed_percentage
+    assert_equal 19.4, track.build_status.test_runner.num_failed_percentage
+    assert_equal 66.7, track.build_status.test_runner.num_errored_percentage
   end
 
   test "test_runner: version" do
@@ -562,7 +562,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 23, track.build_status.representer.num_representations
+    assert_equal 23, track.build_status.representer.num_runs
     assert_equal 5, track.build_status.representer.num_comments
     assert_equal 25, track.build_status.representer.display_rate_percentage
   end
@@ -634,8 +634,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
+    assert_equal 3, track.build_status.analyzer.num_runs
     assert_equal 4, track.build_status.analyzer.num_comments
-    assert_equal 33, track.build_status.analyzer.display_rate_percentage
+    assert_equal 33.3, track.build_status.analyzer.display_rate_percentage
   end
 
   test "analyzer: volunteers" do

@@ -81,16 +81,16 @@ class Track::UpdateBuildStatus
     num_passed = status_counts['passed'].to_i
     num_failed = status_counts['failed'].to_i
     num_errored = status_counts['errored'].to_i + status_counts['exceptioned'].to_i
-    num_test_runs = num_passed + num_failed + num_errored
+    num_runs = num_passed + num_failed + num_errored
 
     {
-      num_test_runs:,
+      num_runs:,
       num_passed:,
       num_failed:,
       num_errored:,
-      num_passed_percentage: percentage(num_passed, num_test_runs),
-      num_failed_percentage: percentage(num_failed, num_test_runs),
-      num_errored_percentage: percentage(num_errored, num_test_runs),
+      num_passed_percentage: percentage(num_passed, num_runs),
+      num_failed_percentage: percentage(num_failed, num_runs),
+      num_errored_percentage: percentage(num_errored, num_runs),
       volunteers: serialize_tooling_volunteers(track.test_runner_repo_url),
       health: test_runner_health,
       version: test_runner_version,
@@ -119,7 +119,7 @@ class Track::UpdateBuildStatus
 
   def representer
     {
-      num_representations: Submission::Representation.joins(submission: :exercise).where('exercises.track_id': track.id).count,
+      num_runs: Submission::Representation.joins(submission: :exercise).where('exercises.track_id': track.id).count,
       num_comments: representer_num_submissions_with_feedback,
       display_rate_percentage: representer_display_rate_percentage,
       volunteers: serialize_tooling_volunteers(track.representer_repo_url),
@@ -148,6 +148,7 @@ class Track::UpdateBuildStatus
 
   def analyzer
     {
+      num_runs: Submission::Analysis.joins(submission: :exercise).where(submission: { exercises: { track: } }).count,
       num_comments: Submission::Analysis.joins(submission: :exercise).where(submission: { exercises: { track: } }).sum(:num_comments),
       display_rate_percentage: analyzer_display_rate_percentage,
       volunteers: serialize_tooling_volunteers(track.analyzer_repo_url),
@@ -283,9 +284,9 @@ class Track::UpdateBuildStatus
   end
 
   def percentage(count, total_count)
-    return 0 if total_count.zero?
+    return 0.0 if total_count.zero?
 
-    ((count / total_count.to_f) * 100.0).round
+    ((count / total_count.to_f) * 100.0).round(1)
   end
 
   def average(count, total_count)

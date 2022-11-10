@@ -437,7 +437,7 @@ export const mappings = {
 
     return (
       <Suspense fallback={renderLoader()}>
-        <ImpactMap initialMetrics={metrics} />
+        <ImpactMap initialMetrics={metrics} trackTitle={data.track_title} />
       </Suspense>
     )
   },

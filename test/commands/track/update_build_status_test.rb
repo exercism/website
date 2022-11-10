@@ -160,12 +160,38 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     assert_equal 2, track.build_status.syllabus.concepts.num_concepts
-    assert_equal 2, track.build_status.syllabus.concepts.num_concepts_target
+    assert_equal 10, track.build_status.syllabus.concepts.num_concepts_target
     expected_created = [
       { slug: concepts[1].slug, name: concepts[1].name, num_students_learnt: 3 },
       { slug: concepts[2].slug, name: concepts[2].name, num_students_learnt: 1 }
     ].map(&:to_obj)
     assert_equal expected_created, track.build_status.syllabus.concepts.created
+  end
+
+  test "syllabus: concepts: num_concepts_target" do
+    track = create :track
+    Track::UpdateBuildStatus.(track)
+    assert_equal 10, track.reload.build_status.syllabus.concepts.num_concepts_target
+
+    create_list(:exercise_taught_concept, 10, exercise: create(:concept_exercise, track:))
+    Track::UpdateBuildStatus.(track)
+    assert_equal 20, track.reload.build_status.syllabus.concepts.num_concepts_target
+
+    create_list(:exercise_taught_concept, 10, exercise: create(:concept_exercise, track:))
+    Track::UpdateBuildStatus.(track)
+    assert_equal 30, track.reload.build_status.syllabus.concepts.num_concepts_target
+
+    create_list(:exercise_taught_concept, 10, exercise: create(:concept_exercise, track:))
+    Track::UpdateBuildStatus.(track)
+    assert_equal 40, track.reload.build_status.syllabus.concepts.num_concepts_target
+
+    create_list(:exercise_taught_concept, 10, exercise: create(:concept_exercise, track:))
+    Track::UpdateBuildStatus.(track)
+    assert_equal 50, track.reload.build_status.syllabus.concepts.num_concepts_target
+
+    create_list(:exercise_taught_concept, 26, exercise: create(:concept_exercise, track:))
+    Track::UpdateBuildStatus.(track)
+    assert_equal 66, track.reload.build_status.syllabus.concepts.num_concepts_target
   end
 
   test "syllabus: concept_exercises" do

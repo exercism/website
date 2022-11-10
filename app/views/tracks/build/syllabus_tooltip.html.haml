@@ -7,17 +7,17 @@
         = render ViewComponents::Track::Build::Health.new(@status.syllabus.health)
 
       - health = @status.syllabus.health.to_sym
-      - num_exercises_to_target = @status.syllabus.concept_exercises.num_exercises_target - @status.syllabus.concept_exercises.num_exercises
+      - num_concepts_to_target = @status.syllabus.concepts.num_concepts_target - @status.syllabus.concepts.num_concepts
       %p.text-p-base
         - case health
         - when :exemplar
-          Has implemented a stellar #{@status.syllabus.concept_exercises.num_exercises} concept exercises!
+          Has implemented a stellar #{@status.syllabus.concepts.num_concepts} concepts taught!
         - when :healthy
-          Could benefit from having #{num_exercises_to_target} more concept #{'exercise'.pluralize(num_exercises_to_target)} being implemented.
+          Could benefit from having #{num_concepts_to_target} more #{'concept'.pluralize(num_concepts_to_target)} being implemented.
         - when :needs_attention
-          Should have #{num_exercises_to_target} more concept #{'exercise'.pluralize(num_exercises_to_target)} being implemented.
+          Should have #{num_concepts_to_target} more #{'concept'.pluralize(num_concepts_to_target)} being implemented.
         - when :missing
-          No concept exercises have been implemented.
+          No concepts have been implemented.
 
       - if @track.course? && @status.syllabus.concepts.num_concepts.positive?
         %p.text-p-base

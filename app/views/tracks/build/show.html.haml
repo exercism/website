@@ -84,9 +84,9 @@
           = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
             Learn More
 
-        - if @status.syllabus.concept_exercises.num_exercises < @status.syllabus.concept_exercises.num_exercises_target
+        - if @status.syllabus.concepts.num_concepts < @status.syllabus.concepts.num_concepts_target
           .action-required
-            Next goal: Create a complete syllabus with at least #{@status.syllabus.concept_exercises.num_exercises_target} concepts and learning exercises.
+            Next goal: Create a complete syllabus with at least #{@status.syllabus.concepts.num_concepts_target} concepts.
             = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
               Find out more.
 
@@ -102,7 +102,7 @@
                   = concept.name
                 .record-value #{concept.num_students_learnt} learnt
           %details
-            %summary.--lightbulb #{@status.syllabus.concept_exercises.num_exercises}/#{@status.syllabus.concept_exercises.num_exercises_target} learning exercises created
+            %summary.--lightbulb #{@status.syllabus.concept_exercises.num_exercises} learning exercises created
             - @status.syllabus.concept_exercises.created.each do |exercise|
               .record-row
                 .record-name

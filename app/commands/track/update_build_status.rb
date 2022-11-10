@@ -203,9 +203,13 @@ class Track::UpdateBuildStatus
   def concepts
     {
       num_concepts: taught_concepts.size,
-      num_concepts_target: taught_concepts.size,
+      num_concepts_target:,
       created: taught_concepts.map { |concept| serialize_concept(concept) }
     }
+  end
+
+  def num_concepts_target
+    NUM_CONCEPTS_TARGETS.find { |target| taught_concepts.size < target } || taught_concepts.size
   end
 
   memoize
@@ -229,7 +233,7 @@ class Track::UpdateBuildStatus
   end
 
   def concept_exercises_num_exercises_target
-    NUM_CONCEPT_EXERCISE_TARGETS.find { |target| active_concept_exercises.size < target } || active_concept_exercises.size
+    NUM_CONCEPT_EXERCISES_TARGETS.find { |target| active_concept_exercises.size < target } || active_concept_exercises.size
   end
 
   def practice_exercises
@@ -246,7 +250,7 @@ class Track::UpdateBuildStatus
     num_unimplemented = Track::UnimplementedPracticeExercises.(track.reload).size
     max_target = track.num_exercises + num_unimplemented
 
-    NUM_PRACTICE_EXERCISE_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
+    NUM_PRACTICE_EXERCISES_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
   end
 
   memoize
@@ -266,8 +270,8 @@ class Track::UpdateBuildStatus
   memoize
   def practice_exercises_health
     return :missing if active_practice_exercises.empty?
-    return :exemplar if active_practice_exercises.size >= NUM_PRACTICE_EXERCISE_TARGETS.last
-    return :needs_attention if active_practice_exercises.size < NUM_PRACTICE_EXERCISE_TARGETS.first
+    return :exemplar if active_practice_exercises.size >= NUM_PRACTICE_EXERCISES_TARGETS.last
+    return :needs_attention if active_practice_exercises.size < NUM_PRACTICE_EXERCISES_TARGETS.first
 
     :healthy
   end
@@ -354,7 +358,9 @@ class Track::UpdateBuildStatus
   end
 
   NUM_DAYS_FOR_AVERAGE = 30
-  NUM_PRACTICE_EXERCISE_TARGETS = [10, 20, 30, 40, 50].freeze
-  NUM_CONCEPT_EXERCISE_TARGETS = [10, 20, 30, 40, 50].freeze
-  private_constant :NUM_DAYS_FOR_AVERAGE, :NUM_PRACTICE_EXERCISE_TARGETS, :NUM_CONCEPT_EXERCISE_TARGETS
+  NUM_CONCEPTS_TARGETS = [10, 20, 30, 40, 50].freeze
+  NUM_PRACTICE_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
+  NUM_CONCEPT_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
+  private_constant :NUM_DAYS_FOR_AVERAGE, :NUM_CONCEPTS_TARGETS,
+    :NUM_PRACTICE_EXERCISES_TARGETS, :NUM_CONCEPT_EXERCISES_TARGETS
 end

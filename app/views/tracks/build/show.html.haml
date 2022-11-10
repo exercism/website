@@ -86,38 +86,38 @@
 
         - if @status.syllabus.concept_exercises.num_exercises < @status.syllabus.concept_exercises.num_exercises_target
           .action-required
-            -# this will probably be a dynamic text?
             Next goal: Create a complete syllabus with at least #{@status.syllabus.concept_exercises.num_exercises_target} concepts and learning exercises.
             = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
               Find out more.
 
-        .usage-stats-header
-          %h4 Usage statistics
-        %details.mb-10
-          %summary.--syllabus #{@status.syllabus.concepts.num_concepts}/#{@status.syllabus.concepts.num_concepts_target} concepts created
-          - @status.syllabus.concepts.created.each do |concept|
-            .record-row
-              .record-name
-                = render ViewComponents::ConceptIcon.new(concept, :small)
-                = concept.name
-              .record-value #{concept.num_students_learnt} learnt
-        %details
-          %summary.--lightbulb #{@status.syllabus.concept_exercises.num_exercises}/#{@status.syllabus.concept_exercises.num_exercises_target} learning exercises created
-          - @status.syllabus.concept_exercises.created.each do |exercise|
-            .record-row
-              .record-name
-                = exercise_icon exercise
-                = exercise.title
-              .record-value
-                .record-element
-                  %strong= exercise.num_started
-                  Started
-                .record-element
-                  %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
-                  = 'Attempt'.pluralize(exercise.num_submitted)
-                .record-element
-                  %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
-                  = 'Completition'.pluralize(exercise.num_completed)
+        - unless @status.representer.health == "missing"
+          .usage-stats-header
+            %h4 Usage statistics
+          %details.mb-10
+            %summary.--syllabus #{@status.syllabus.concepts.num_concepts}/#{@status.syllabus.concepts.num_concepts_target} concepts created
+            - @status.syllabus.concepts.created.each do |concept|
+              .record-row
+                .record-name
+                  = render ViewComponents::ConceptIcon.new(concept, :small)
+                  = concept.name
+                .record-value #{concept.num_students_learnt} learnt
+          %details
+            %summary.--lightbulb #{@status.syllabus.concept_exercises.num_exercises}/#{@status.syllabus.concept_exercises.num_exercises_target} learning exercises created
+            - @status.syllabus.concept_exercises.created.each do |exercise|
+              .record-row
+                .record-name
+                  = exercise_icon exercise
+                  = exercise.title
+                .record-value
+                  .record-element
+                    %strong= exercise.num_started
+                    Started
+                  .record-element
+                    %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
+                    = 'Attempt'.pluralize(exercise.num_submitted)
+                  .record-element
+                    %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
+                    = 'Completition'.pluralize(exercise.num_completed)
 
         = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
@@ -128,30 +128,35 @@
           = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
             Learn More
 
-        - if @status.test_runner.version_target
+        - if @status.test_runner.health == "missing"
+          .action-required
+            Next goal: Build a Test Runner.
+            = link_to doc_path(:building, "tooling/test-runners/interface") do
+              Find out more.
+        - elsif @status.test_runner.version_target
           .action-required
             Next goal: Get Test Runners to Version #{@status.test_runner.version_target}. #{@track.title} is currently utilising a Version #{@status.test_runner.version} Test Runner.
             = link_to doc_path(:building, "tooling/test-runners/interface") do
               Find out more.
 
-        .usage-stats-header
-          %h4 Usage statistics
-        .stats-container.test-runner
-          .record-row
-            .record-name Total Test Runs
-            .record-value= @status.test_runner.num_test_runs
-          .record-row
-            .record-name Test Run Pass Rate
-            .record-value #{@status.test_runner.num_passed_percentage}% (#{@status.test_runner.num_passed})
-          .record-row
-            .record-name Test Run Fail Rate
-            .record-value #{@status.test_runner.num_failed_percentage}% (#{@status.test_runner.num_failed})
-          .record-row
-            .record-name Test Run Error Rate
-            .record-value #{@status.test_runner.num_errored_percentage}% (#{@status.test_runner.num_errored})
+        - unless @status.test_runner.health == "missing"
+          .usage-stats-header
+            %h4 Usage statistics
+          .stats-container.test-runner
+            .record-row
+              .record-name Total Test Runs
+              .record-value= @status.test_runner.num_test_runs
+            .record-row
+              .record-name Test Run Pass Rate
+              .record-value #{@status.test_runner.num_passed_percentage}% (#{@status.test_runner.num_passed})
+            .record-row
+              .record-name Test Run Fail Rate
+              .record-value #{@status.test_runner.num_failed_percentage}% (#{@status.test_runner.num_failed})
+            .record-row
+              .record-name Test Run Error Rate
+              .record-value #{@status.test_runner.num_errored_percentage}% (#{@status.test_runner.num_errored})
 
         = render ReactComponents::Common::Credits.new(@status.test_runner.volunteers.users, @status.test_runner.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
-
 
       .track-team-group
         .track-header
@@ -160,18 +165,25 @@
           = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
             Learn More
 
-        .usage-stats-header
-          %h4 Usage statistics
-        .stats-container
-          .record-row
-            .record-name Total Analysis Comments Made
-            .record-value
-              = @status.analyzer.num_comments
-          .record-row
-            .record-name Analysis Display Rate
-            .record-value #{@status.analyzer.display_rate_percentage}%
-        = render ReactComponents::Common::Credits.new(@status.analyzer.volunteers.users, @status.analyzer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+        - if @status.analyzer.health == "missing"
+          .action-required
+            Next goal: Build an Analyzer.
+            = link_to doc_path(:building, "tooling/analyzers/interface") do
+              Find out more.
 
+        - unless @status.analyzer.health == "missing"
+          .usage-stats-header
+            %h4 Usage statistics
+          .stats-container
+            .record-row
+              .record-name Total Analysis Comments Made
+              .record-value
+                = @status.analyzer.num_comments
+            .record-row
+              .record-name Analysis Display Rate
+              .record-value #{@status.analyzer.display_rate_percentage}%
+
+        = render ReactComponents::Common::Credits.new(@status.analyzer.volunteers.users, @status.analyzer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
       .track-team-group
         .track-header
@@ -180,18 +192,27 @@
           = link_to doc_path(:building, "tooling/representers"), class: "learn-more-new-tab" do
             Learn More
 
-        .usage-stats-header
-          %h4 Usage statistics
-        .stats-container
-          .record-row
-            .record-name Total Representations Created
-            .record-value= @status.representer.num_representations
-          .record-row
-            .record-name Total Representation Comments Made
-            .record-value= @status.representer.num_comments
-          .record-row
-            .record-name Representation Display Rate
-            .record-value #{@status.representer.display_rate_percentage}%
+        - if @status.representer.health == "missing"
+          .action-required
+            Next goal: Build a Representer.
+            = link_to doc_path(:building, "tooling/representers/interface") do
+              Find out more.
+
+        - unless @status.representer.health == "missing"
+          .usage-stats-header
+            %h4 Usage statistics
+          .stats-container
+            .record-row
+              .record-name Total Representations Created
+              .record-value= @status.representer.num_representations
+            .record-row
+              .record-name Total Representation Comments Made
+              .record-value= @status.representer.num_comments
+            .record-row
+              .record-name Representation Display Rate
+              .record-value #{@status.representer.display_rate_percentage}%
+
+
         = render ReactComponents::Common::Credits.new(@status.representer.volunteers.users, @status.representer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
 
@@ -202,25 +223,33 @@
           = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
             Learn More
 
-        .usage-stats-header
-          %h4 Usage statistics
-        %details
-          %summary.--practice-exercises #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
-          - @status.practice_exercises.created.each do |exercise|
-            .record-row
-              .record-name
-                = exercise_icon exercise
-                = exercise.title
-              .record-value
-                .record-element
-                  %strong= exercise.num_started
-                  Started
-                .record-element
-                  %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
-                  = 'Attempt'.pluralize(exercise.num_submitted)
-                .record-element
-                  %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
-                  = 'Completition'.pluralize(exercise.num_completed)
+        - if @status.practice_exercises.num_exercises < @status.practice_exercises.num_exercises_target
+          .action-required
+            Next goal: Implement #{%w[exemplar health].include?(@status.practice_exercises.health) ? '' : 'at least '}#{@status.practice_exercises.num_exercises_target} practice exercises.
+            = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
+              Find out more.
+
+        - unless @status.representer.health == "missing"
+          .usage-stats-header
+            %h4 Usage statistics
+          %details
+            %summary.--practice-exercises #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
+            - @status.practice_exercises.created.each do |exercise|
+              .record-row
+                .record-name
+                  = exercise_icon exercise
+                  = exercise.title
+                .record-value
+                  .record-element
+                    %strong= exercise.num_started
+                    Started
+                  .record-element
+                    %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
+                    = 'Attempt'.pluralize(exercise.num_submitted)
+                  .record-element
+                    %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
+                    = 'Completition'.pluralize(exercise.num_completed)
+
         = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
 

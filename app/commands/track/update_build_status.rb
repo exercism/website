@@ -78,7 +78,7 @@ class Track::UpdateBuildStatus
   end
 
   def test_runner
-    status_counts = track.submissions.where(tests_status: %i[passed failed errored exceptioned]).group(:tests_status).count
+    status_counts = track.submissions.group(:tests_status).count
     num_passed = status_counts['passed'].to_i
     num_failed = status_counts['failed'].to_i
     num_errored = status_counts['errored'].to_i + status_counts['exceptioned'].to_i

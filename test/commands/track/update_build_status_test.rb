@@ -72,12 +72,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     user_5 = create :user, reputation: 11
     user_6 = create :user, reputation: 10
     create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :any
-    create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :building
-    create :user_reputation_period, track_id: track.id, user: user_2, about: :track, category: :building
-    create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :maintaining
-    create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :authoring
-    create :user_reputation_period, track_id: track.id, user: user_4, about: :track, category: :authoring
-    create :user_reputation_period, track_id: track.id, user: user_5, about: :track, category: :mentoring
+    create :user_reputation_period, track_id: track.id, user: user_2, about: :track, category: :any
+    create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :any
+    create :user_reputation_period, track_id: track.id, user: user_4, about: :track, category: :any
+    create :user_reputation_period, track_id: track.id, user: user_5, about: :track, category: :any
     create :user_reputation_period, user: user_6 # Ignore: no track
 
     Track::UpdateBuildStatus.(track)

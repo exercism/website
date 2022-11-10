@@ -46,6 +46,7 @@ class Track::UpdateBuildStatus
     volunteer_user_ids = User::ReputationPeriod.where(
       period: :forever,
       about: :track,
+      category: :any,
       track_id: track.id
     ).select(:user_id)
     volunteers = User.with_attached_avatar.where(id: volunteer_user_ids).order(reputation: :desc).take(12)

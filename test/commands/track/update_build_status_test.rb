@@ -175,9 +175,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     ce_1 = create :concept_exercise, track: track, status: :wip # Ignore wip
     ce_1.taught_concepts << concepts[0] # Ignore for wip exercise
-    ce_2 = create :concept_exercise, track: track, status: :beta, slug: 'lasagna'
+    ce_2 = create :concept_exercise, track: track, status: :beta, slug: 'lasagna', position: 1
     ce_2.taught_concepts << concepts[1]
-    ce_3 = create :concept_exercise, track: track, status: :active, slug: 'sweethearts'
+    ce_3 = create :concept_exercise, track: track, status: :active, slug: 'sweethearts', position: 2
     ce_3.taught_concepts << concepts[2]
     ce_3.prerequisites << concepts[5] # Ignore concept if not taught
     ce_4 = create :concept_exercise, track: track, status: :deprecated # Ignore deprecated
@@ -280,8 +280,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     track = create :track, num_concepts: 5
 
     create :practice_exercise, track: track, status: :wip # Ignore wip
-    pe_2 = create :practice_exercise, track: track, status: :beta, slug: 'leap'
-    pe_3 = create :practice_exercise, track: track, status: :active, slug: 'anagram'
+    pe_2 = create :practice_exercise, track: track, status: :beta, slug: 'leap', position: 2
+    pe_3 = create :practice_exercise, track: track, status: :active, slug: 'anagram', position: 1
     create :practice_exercise, track: track, status: :deprecated # Ignore deprecated
 
     users = create_list(:user, 5)

@@ -27,8 +27,8 @@ class Track::UpdateBuildStatus
     num_exemplar = component_health_statuses[:exemplar].to_i
     num_healthy = component_health_statuses[:healthy].to_i
 
-    return :exemplar if num_exemplar == 5
-    return :healthy if num_exemplar + num_healthy == 5
+    return :exemplar if num_exemplar == NUM_COMPONENTS
+    return :healthy if num_exemplar + num_healthy == NUM_COMPONENTS
 
     :needs_attention
   end
@@ -357,10 +357,11 @@ class Track::UpdateBuildStatus
     Solution.completed.joins(:exercise).where(exercises: { track: }).group(:exercise_id).count
   end
 
+  NUM_COMPONENTS = 5
   NUM_DAYS_FOR_AVERAGE = 30
   NUM_CONCEPTS_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_PRACTICE_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_CONCEPT_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
-  private_constant :NUM_DAYS_FOR_AVERAGE, :NUM_CONCEPTS_TARGETS,
+  private_constant :NUM_COMPONENTS, :NUM_DAYS_FOR_AVERAGE, :NUM_CONCEPTS_TARGETS,
     :NUM_PRACTICE_EXERCISES_TARGETS, :NUM_CONCEPT_EXERCISES_TARGETS
 end

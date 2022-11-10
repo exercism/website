@@ -90,7 +90,7 @@
             = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
               Find out more.
 
-        - unless @status.representer.health == "missing"
+        - unless @status.syllabus.health == "missing"
           .usage-stats-header
             %h4 Usage statistics
           %details.mb-10
@@ -232,7 +232,7 @@
             = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
               Find out more.
 
-        - unless @status.representer.health == "missing"
+        - unless @status.practice_exercises.health == "missing"
           .usage-stats-header
             %h4 Usage statistics
           %details

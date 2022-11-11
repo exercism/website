@@ -120,7 +120,7 @@ class Track::UpdateBuildStatus
 
   def representer
     {
-      num_runs: Submission::Representation.joins(submission: :exercise).where('exercises.track_id': track.id).count,
+      num_runs: Submission::Representation.joins(submission: :exercise).where(submission: { exercises: { track: } }).count,
       num_comments: representer_num_submissions_with_feedback,
       display_rate_percentage: representer_display_rate_percentage,
       volunteers: serialize_tooling_volunteers(track.representer_repo_url),

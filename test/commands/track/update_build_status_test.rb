@@ -595,7 +595,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     assert_equal 23, track.build_status.representer.num_runs
     assert_equal 5, track.build_status.representer.num_comments
-    assert_equal 25, track.build_status.representer.display_rate_percentage
+    assert_equal 83.3, track.build_status.representer.display_rate_percentage
   end
 
   test "representer: health" do

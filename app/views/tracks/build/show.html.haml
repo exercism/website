@@ -11,20 +11,20 @@
           .stat-name
             Students
             = graphical_icon "info-circle"
-          .current-number= @status.students.num_students
-          .growth +#{@status.students.num_students_per_day} per day
+          .current-number= number_with_delimiter(@status.students.num_students)
+          -# .growth +#{@status.students.num_students_per_day} per day
         .report-stat
           .stat-name
             Submissions
             = graphical_icon "info-circle"
-          .current-number= @status.submissions.num_submissions
-          .growth +#{@status.submissions.num_submissions_per_day} per day
+          .current-number= number_with_delimiter(@status.submissions.num_submissions)
+          -# .growth +#{@status.submissions.num_submissions_per_day} per day
         .report-stat
           .stat-name
             Mentoring Discussions
             = graphical_icon "info-circle"
           .current-number
-            = @status.mentor_discussions.num_discussions
+            = number_with_delimiter(@status.mentor_discussions.num_discussions)
           -# .growth +10 per day
 
       .track-status
@@ -152,7 +152,7 @@
           .stats-container.test-runner
             .record-row
               .record-name Total Test Runner Runs
-              .record-value= @status.test_runner.num_runs
+              .record-value= number_with_delimiter(@status.test_runner.num_runs)
             .record-row
               .record-name Test Run Pass Rate
               .record-value #{@status.test_runner.num_passed_percentage}% (#{@status.test_runner.num_passed})
@@ -186,11 +186,10 @@
           .stats-container
             .record-row
               .record-name Total Analyzer Runs
-              .record-value= @status.analyzer.num_runs
+              .record-value= number_with_delimiter(@status.analyzer.num_runs)
             .record-row
               .record-name Total Analysis Comments Made
-              .record-value
-                = @status.analyzer.num_comments
+              .record-value= number_with_delimiter(@status.analyzer.num_comments)
             .record-row
               .record-name Analysis Display Rate
               .record-value #{@status.analyzer.display_rate_percentage}%
@@ -218,10 +217,10 @@
           .stats-container
             .record-row
               .record-name Total Representer Runs
-              .record-value= @status.representer.num_runs
+              .record-value= number_with_delimiter(@status.representer.num_runs)
             .record-row
               .record-name Total Representation Comments Made
-              .record-value= @status.representer.num_comments
+              .record-value= number_with_delimiter(@status.representer.num_comments)
             .record-row
               .record-name Representation Display Rate
               .record-value #{@status.representer.display_rate_percentage}%

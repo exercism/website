@@ -66,10 +66,13 @@ class Track::UpdateBuildStatus
 
   def submissions
     {
-      num_submissions: track.submissions.count,
+      num_submissions:,
       num_submissions_per_day: average_number_per_day(track.submissions, Submission)
     }
   end
+
+  memoize
+  def num_submissions = track.submissions.count
 
   def mentor_discussions
     {
@@ -135,7 +138,7 @@ class Track::UpdateBuildStatus
 
   memoize
   def representer_display_rate_percentage
-    percentage(representer_num_submissions_with_feedback, track.submissions.count)
+    percentage(representer_num_submissions_with_feedback, num_submissions)
   end
 
   memoize
@@ -159,7 +162,7 @@ class Track::UpdateBuildStatus
 
   memoize
   def analyzer_display_rate_percentage
-    percentage(Submission::Analysis.with_comments.where(submission: track.submissions).count, track.submissions.count)
+    percentage(Submission::Analysis.with_comments.where(submission: track.submissions).count, num_submissions)
   end
 
   memoize

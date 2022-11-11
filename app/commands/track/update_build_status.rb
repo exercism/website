@@ -284,7 +284,8 @@ class Track::UpdateBuildStatus
   def active_practice_exercises = track.practice_exercises.where(status: %i[active beta]).order(:position).to_a
 
   def average_number_per_day(query, model)
-    total_count = query.where("#{model.table_name}.created_at >= ?", Time.current - NUM_DAYS_FOR_AVERAGE.days).count
+    first_id = query.where("#{model.table_name}.created_at >= ?", Time.current - NUM_DAYS_FOR_AVERAGE.days).pick(:id)
+    total_count = query.where("#{model.table_name}.id >= ?", first_id).count
     (total_count / NUM_DAYS_FOR_AVERAGE.to_f).ceil
   end
 

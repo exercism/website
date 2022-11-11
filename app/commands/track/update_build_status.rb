@@ -113,7 +113,7 @@ class Track::UpdateBuildStatus
   end
 
   memoize
-  def test_runner_version = [1, Submission::TestRun.pluck(:version).last.to_i].max
+  def test_runner_version = [1, Submission::TestRun.order(id: :desc).pick(:version).to_i].max
 
   def test_runner_version_target
     return 1 unless track.has_test_runner?
@@ -224,7 +224,6 @@ class Track::UpdateBuildStatus
     Exercise::TaughtConcept.
       where(exercise: active_concept_exercises).
       pluck(:track_concept_id, :exercise_id).
-      map { |concept_id, exercise_id| [concept_id, exercise_id] }.
       to_h
   end
 

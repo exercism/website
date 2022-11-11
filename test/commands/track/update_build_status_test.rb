@@ -477,6 +477,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
   test "test_runner: version_target" do
     track = create :track
+    other_track = create :track, :random_slug
 
     track.update(has_test_runner: false)
     Track::UpdateBuildStatus.(track)
@@ -501,6 +502,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     track.update(course: true)
     create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
+    Track::UpdateBuildStatus.(track)
+    assert_equal 3, track.reload.build_status.test_runner.version_target
+
+    # Ignore submissions from other track
+    create :submission_test_run, submission: (create :submission, track: other_track), raw_results: { version: 1 }
     Track::UpdateBuildStatus.(track)
     assert_equal 3, track.reload.build_status.test_runner.version_target
 

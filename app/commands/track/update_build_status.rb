@@ -113,7 +113,10 @@ class Track::UpdateBuildStatus
   end
 
   memoize
-  def test_runner_version = [1, Submission::TestRun.order(id: :desc).pick(:version).to_i].max
+  def test_runner_version = [
+    1,
+    Submission::TestRun.joins(submission: :exercise).where(submission: { exercises: { track: } }).order(id: :desc).pick(:version).to_i
+  ].max
 
   def test_runner_version_target
     return 1 unless track.has_test_runner?

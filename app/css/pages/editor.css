@@ -487,8 +487,9 @@
             @apply border-borderColor7;
 
             & .cm-lineNumbers .cm-gutterElement {
-                @apply text-center text-textColor7;
-                @apply px-16;
+                @apply text-right text-textColor7;
+                width: 3rem;
+                padding: 0;
             }
             & .cm-foldGutter .cm-gutterElement {
                 @apply pr-4;

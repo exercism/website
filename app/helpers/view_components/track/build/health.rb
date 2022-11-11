@@ -7,13 +7,13 @@ class ViewComponents::Track::Build::Health < ViewComponents::ViewComponent
   def text
     case health_status.to_sym
     when :exemplar
-      "#{person} exemplar ✨"
+      "#{verb} exemplar ✨"
     when :healthy
-      "#{person} healthy ✅"
+      "#{verb} healthy ✅"
     when :needs_attention
       "needs attention ⚠️"
     else
-      "#{person} missing ❓"
+      "#{verb} missing ❓"
     end
   end
 
@@ -30,5 +30,5 @@ class ViewComponents::Track::Build::Health < ViewComponents::ViewComponent
     end
   end
 
-  def person = plural ? 'are' : 'is'
+  def verb = plural ? 'are' : 'is'
 end

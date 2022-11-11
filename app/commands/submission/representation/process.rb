@@ -75,17 +75,8 @@ class Submission
         ops_status == 200
       end
 
-      def representer_version
-        # TODO: This should come back from the results
-        # Do we have a new file call output.json that can
-        # have this key set in it? I don't think there's currently
-        # a natural place for this.
-        1
-      end
-
-      def exercise_version
-        submission.solution.git_exercise.representer_version
-      end
+      def representer_version = metadata[:version] || 1
+      def exercise_version = submission.solution.git_exercise.representer_version
 
       memoize
       def ast_digest
@@ -107,6 +98,14 @@ class Submission
       memoize
       def mapping
         res = JSON.parse(tooling_job.execution_output['mapping.json'])
+        res.is_a?(Hash) ? res.symbolize_keys : {}
+      rescue StandardError
+        {}
+      end
+
+      memoize
+      def metadata
+        res = JSON.parse(tooling_job.execution_output['representation.json'])
         res.is_a?(Hash) ? res.symbolize_keys : {}
       rescue StandardError
         {}

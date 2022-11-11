@@ -39,6 +39,30 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     assert_equal submission.submission_representation.created_at, representation.last_submitted_at
   end
 
+  test "representer_version" do
+    submission = create :submission
+    ast = "here(lives(an(ast)))"
+    metadata = { version: 3 }
+
+    job = create_representer_job!(submission, execution_status: 200, ast:, metadata:)
+    Submission::Representation::Process.(job)
+
+    representation = Exercise::Representation.first
+    assert_equal 3, representation.representer_version
+  end
+
+  test "representer_version for job without metadata" do
+    submission = create :submission
+    ast = "here(lives(an(ast)))"
+    metadata = nil
+
+    job = create_representer_job!(submission, execution_status: 200, ast:, metadata:)
+    Submission::Representation::Process.(job)
+
+    representation = Exercise::Representation.first
+    assert_equal 1, representation.representer_version
+  end
+
   test "test exercise representations are reused" do
     solution = create :concept_solution
     submission_1 = create :submission, solution: solution

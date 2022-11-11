@@ -220,9 +220,10 @@ class ActiveSupport::TestCase
     )
   end
 
-  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil)
+  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil, metadata: nil)
     execution_output = {
       "representation.txt" => ast,
+      "representation.json" => metadata&.to_json,
       "mapping.json" => mapping&.to_json
     }
     create_tooling_job!(

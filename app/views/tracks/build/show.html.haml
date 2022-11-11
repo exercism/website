@@ -105,6 +105,12 @@
                 .record-value #{concept.num_students_learnt} learnt
           %details
             %summary.--lightbulb #{@status.syllabus.concept_exercises.num_exercises} learning exercises created
+            .record-row.sticky.top-0.bg-white
+              .record-name
+              .record-value
+                .record-element Started
+                .record-element Attempts
+                .record-element Completions
             - @status.syllabus.concept_exercises.created.each do |exercise|
               .record-row
                 .record-name
@@ -113,13 +119,10 @@
                 .record-value
                   .record-element
                     %strong= exercise.num_started
-                    Started
                   .record-element
                     %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
-                    = 'Attempt'.pluralize(exercise.num_submitted)
                   .record-element
                     %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
-                    = 'Completition'.pluralize(exercise.num_completed)
 
         = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
@@ -247,6 +250,12 @@
             %h4 Usage statistics
           %details
             %summary.--practice-exercises #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
+            .record-row.sticky.top-0.bg-white
+              .record-name
+              .record-value
+                .record-element Started
+                .record-element Attempts
+                .record-element Completions
             - @status.practice_exercises.created.each do |exercise|
               .record-row
                 .record-name
@@ -255,13 +264,10 @@
                 .record-value
                   .record-element
                     %strong= exercise.num_started
-                    Started
                   .record-element
                     %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
-                    = 'Attempt'.pluralize(exercise.num_submitted)
                   .record-element
                     %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
-                    = 'Completition'.pluralize(exercise.num_completed)
 
         = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 

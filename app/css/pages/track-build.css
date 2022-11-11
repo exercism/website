@@ -307,9 +307,9 @@
             @apply text-label-timestamp flex font-semibold;
             .record-element {
                 @apply grid w-[128px] gap-2;
-                @apply text-12 font-normal;
+                @apply text-14 font-normal;
                 strong {
-                    @apply text-14 font-semibold;
+                    @apply font-semibold;
                 }
             }
         }

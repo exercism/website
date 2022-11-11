@@ -78,11 +78,13 @@
             .contributors.text-textColor1.font-medium.mb-2= pluralize(@track.num_code_contributors, "contributor")
 
       .track-team-group
-        .track-header
-          %h3.--syllabus-gradient Create the #{@track.title} syllabus
+        .track-header.mb-16
+          .flex.items-center.justify-between.mb-8
+            %h3.--syllabus-gradient Create the #{@track.title} syllabus
+            = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
+              Learn More
+              = graphical_icon "new-tab"
           %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
-          = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
-            Learn More
 
         - if @status.syllabus.concepts.num_concepts < @status.syllabus.concepts.num_concepts_target
           .action-required
@@ -122,11 +124,13 @@
         = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
       .track-team-group
-        .track-header
-          %h3.--test-runner-gradient Build Test Runners
+        .track-header.mb-16
+          .flex.items-center.justify-between.mb-8
+            %h3.--test-runner-gradient Build Test Runners
+            = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
+              Learn More
+              = graphical_icon "new-tab"
           %p Create Test Runners that have the single responsibility of taking a solution, running all tests and returning a standardized output.
-          = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
-            Learn More
 
         - if @status.test_runner.health == "missing"
           .action-required
@@ -159,11 +163,13 @@
         = render ReactComponents::Common::Credits.new(@status.test_runner.volunteers.users, @status.test_runner.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
       .track-team-group
-        .track-header
-          %h3.--analyzer-gradient Build Analyzers
+        .track-header.mb-16
+          .flex.items-center.justify-between.mb-8
+            %h3.--analyzer-gradient Build Analyzers
+            = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
+              Learn More
+              = graphical_icon "new-tab"
           %p Build an Analyzer for #{@track.title}: Exercism's analyzers automatically assess student's submissions and provide mentor-style commentary.
-          = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
-            Learn More
 
         - if @status.analyzer.health == "missing"
           .action-required
@@ -189,11 +195,13 @@
         = render ReactComponents::Common::Credits.new(@status.analyzer.volunteers.users, @status.analyzer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
       .track-team-group
-        .track-header
-          %h3.--representer-gradient Build Representers
+        .track-header.mb-16
+          .flex.items-center.justify-between.mb-8
+            %h3.--representer-gradient Build Representers
+            = link_to doc_path(:building, "tooling/representers"), class: "learn-more-new-tab" do
+              Learn More
+              = graphical_icon "new-tab"
           %p Build a Representer: a bit of code that has the single responsibility of taking a solution and returning a normalized representation of it.
-          = link_to doc_path(:building, "tooling/representers"), class: "learn-more-new-tab" do
-            Learn More
 
         - if @status.representer.health == "missing"
           .action-required
@@ -220,11 +228,13 @@
 
 
       .track-team-group
-        .track-header
-          %h3.--practice-exercises-gradient Create Practice Exercises
+        .track-header.mb-16
+          .flex.items-center.justify-between.mb-8
+            %h3.--practice-exercises-gradient Create Practice Exercises
+            = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
+              Learn More
+              = graphical_icon "new-tab"
           %p Practice Exercises are exercises designed to allow students to solve an arbitrary problem, with the aim of them making use of the concepts they have learned so far.
-          = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
-            Learn More
 
         - if @status.practice_exercises.num_exercises < @status.practice_exercises.num_exercises_target
           .action-required

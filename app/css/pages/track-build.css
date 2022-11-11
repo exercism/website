@@ -256,36 +256,18 @@
     }
 
     .track-header {
-        display: grid;
-        @apply gap-x-48 gap-y-8 mb-16;
-        grid-template-areas:
-            "a c"
-            "b c";
-        @apply self-center;
-
         h3 {
-            grid-area: a;
             @apply track-leader;
         }
         p {
-            grid-area: b;
             @apply text-16 text-textColor5 leading-150;
-        }
-
-        .learn-more-new-tab {
-            grid-area: c;
-            place-self: center;
         }
     }
 
     .learn-more-new-tab {
-        @apply text-16 text-textColor6 font-semibold whitespace-nowrap leading-150 items-center;
-
-        &:after {
-            content: url("icons/new-tab.svg");
+        @apply text-16 text-textColor6 font-semibold whitespace-nowrap leading-150 flex items-center;
+        img {
             @apply filter-textColor6 ml-12;
-            width: 12px;
-            height: 12px;
         }
     }
 

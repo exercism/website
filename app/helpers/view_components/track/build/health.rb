@@ -13,7 +13,7 @@ class ViewComponents::Track::Build::Health < ViewComponents::ViewComponent
     when :needs_attention
       "needs attention ⚠️"
     else
-      "#{person}  missing ❓"
+      "#{person} missing ❓"
     end
   end
 

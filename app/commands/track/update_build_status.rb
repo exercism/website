@@ -295,7 +295,7 @@ class Track::UpdateBuildStatus
   end
 
   def average(count, total_count)
-    return 0 if total_count.zero?
+    return 0.0 if total_count.zero?
 
     (count.to_f / total_count).round(1)
   end

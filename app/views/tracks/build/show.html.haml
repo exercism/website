@@ -70,7 +70,7 @@
           %h2.text-h2 Build
           %p.text-18.text-textColor1.leading-150 Use your knowledge to build the #{@track.title} track itself
 
-        = link_to contributing_contributors_path(track_slug: @track.slug), class: "people hidden lg:flex " do
+        = link_to contributing_contributors_path(track_slug: @track.slug), class: "people hidden lg:flex items-center" do
           .c-faces.mr-16
             - @track.top_contributors[0, 3].map do |author|
               .face= avatar(author)

@@ -11,9 +11,11 @@ class CombineAuthorsAndContributors
 
   private
   def randomize(users, limit)
-    return users.random.limit(limit).to_a if users.respond_to?(:random)
-
-    users.shuffle
-    users.take(limit)
+    if users.is_a?(ActiveRecord::Relation)
+      ids = users.pluck(:id).shuffle.take(limit)
+      users.where(id: ids).to_a
+    else
+      users.shuffle.take(limit)
+    end
   end
 end

@@ -1,0 +1,25 @@
+.c-tooltip-base
+  .flex.gap-16
+    = graphical_icon 'syllabus'
+    %div
+      %h5.text-h5
+        The #{@track.title} syllabus
+        = render ViewComponents::Track::Build::Health.new(@status.syllabus.health)
+
+      - health = @status.syllabus.health.to_sym
+      - num_concepts_to_target = @status.syllabus.concepts.num_concepts_target - @status.syllabus.concepts.num_concepts
+      %p.text-p-base
+        - case health
+        - when :exemplar
+          Has implemented a stellar #{@status.syllabus.concepts.num_concepts} concepts taught!
+        - when :healthy
+          Could benefit from having #{num_concepts_to_target} more #{'concept'.pluralize(num_concepts_to_target)} being implemented.
+        - when :needs_attention
+          Should have #{num_concepts_to_target} more #{'concept'.pluralize(num_concepts_to_target)} being implemented.
+        - when :missing
+          No concepts have been implemented.
+
+      - if @track.course? && @status.syllabus.concepts.num_concepts.positive?
+        %p.text-p-base
+          #{@status.syllabus.concepts.num_concepts} #{'concepts'.pluralize(@status.syllabus.concepts.num_concepts)} are being taught.
+

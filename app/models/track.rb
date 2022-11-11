@@ -1,6 +1,7 @@
 class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+  include Track::BuildStatus
 
   friendly_id :slug, use: [:history]
 
@@ -8,8 +9,11 @@ class Track < ApplicationRecord
   has_many :concepts, class_name: "::Concept", dependent: :destroy
   has_many :exercises, dependent: :destroy
   has_many :solutions, through: :exercises
+  has_many :submissions, through: :exercises
   has_many :representations, class_name: "Exercise::Representation", dependent: :destroy
   has_many :user_tracks, dependent: :destroy
+  has_many :mentor_discussions, through: :solutions
+  has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
@@ -107,6 +111,10 @@ class Track < ApplicationRecord
 
   memoize
   def mentoring_notes = Git::Track::MentorNotes.new(slug)
+
+  def test_runner_repo_url = "#{repo_url}-test-runner"
+  def representer_repo_url = "#{repo_url}-representer"
+  def analyzer_repo_url = "#{repo_url}-analyzer"
 
   CATGEORIES = {
     paradigm: "Paradigm",

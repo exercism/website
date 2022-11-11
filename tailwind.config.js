@@ -172,6 +172,7 @@ module.exports = {
       veryLightGreen: 'rgba(79,205,167,0.15)',
       veryLightGreen2: '#E7FDF6',
       limeGreen: '#1FA378',
+      healthyGreen: '#00B500',
 
       tooManyGreens: '#59D2AE',
       literallySoManyGreens: '#4FCDA7',

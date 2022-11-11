@@ -73,12 +73,17 @@ module Git
 
     memoize
     def concept_exercises
-      config[:exercises][:concept].to_a
+      exercises[:concept].to_a
     end
 
     memoize
     def practice_exercises
-      config[:exercises][:practice].to_a
+      exercises[:practice].to_a
+    end
+
+    memoize
+    def foregone_exercises
+      exercises[:foregone].to_a
     end
 
     memoize
@@ -157,6 +162,11 @@ module Git
     memoize
     def status
       config[:status] || {}
+    end
+
+    memoize
+    def exercises
+      config[:exercises] || {}
     end
   end
 end

@@ -57,6 +57,10 @@ module ActiveRecord
   end
 end
 
+class Hash
+  def to_obj = JSON.parse(to_json, object_class: OpenStruct)
+end
+
 module TestHelpers
   extend ActionView::Helpers::AssetUrlHelper
 
@@ -81,6 +85,13 @@ module TestHelpers
     repo_url = TestHelpers.git_repo_url("docs")
     repo = Git::Repository.new(repo_url:)
     Git::Repository.expects(:new).at_least_once.returns(repo)
+  end
+
+  def self.use_problem_specifications_test_repo!
+    repo_url = TestHelpers.git_repo_url("problem-specifications")
+    Git::ProblemSpecifications.new(repo_url:).tap do |repo|
+      Git::ProblemSpecifications.expects(:new).at_least_once.returns(repo)
+    end
   end
 
   def self.download_dir = Rails.root / 'tmp' / 'downloads'
@@ -160,6 +171,10 @@ class ActiveSupport::TestCase
   # object created or stored in the db
   def random_of_many(model, params = {}, num: 3)
     Array(num).map { create(model, params) }.sample
+  end
+
+  def assert_equal_structs(expected, actual)
+    assert_equal(JSON.parse(expected.to_json, object_class: OpenStruct), actual)
   end
 
   def assert_equal_arrays(expected, actual)

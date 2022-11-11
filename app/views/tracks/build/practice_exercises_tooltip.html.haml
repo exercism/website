@@ -1,0 +1,19 @@
+.c-tooltip-base
+  .flex.gap-16
+    = graphical_icon 'practice-exercises'
+    %div
+      %h5.text-h5
+        The #{@track.title} practice exercises
+        = render ViewComponents::Track::Build::Health.new(@status.practice_exercises.health, plural: true)
+
+      - health = @status.practice_exercises.health.to_sym
+      %p.text-p-base
+        - case health
+        - when :exemplar
+          Has implemented a stellar #{@status.practice_exercises.num_exercises} practice exercises!
+        - when :healthy
+          Could benefit from having #{@status.practice_exercises.num_exercises_target} practice exercises being implemented.
+        - when :needs_attention
+          Should have #{@status.practice_exercises.num_exercises_target} practice exercises being implemented.
+        - when :missing
+          No practice exercises have been implemented.

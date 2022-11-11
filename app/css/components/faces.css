@@ -14,6 +14,15 @@
             width: 32px;
         }
     }
+
+    & .counter {
+        @apply grid place-content-center;
+        @apply bg-backgroundColorG rounded-circle;
+        @apply text-13 font-semibold text-textColor6;
+        @apply -ml-[16px];
+        width: 32px;
+        height: 32px;
+    }
 }
 
 .c-faces-with-overflow-counter {

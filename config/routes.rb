@@ -141,6 +141,14 @@ Rails.application.routes.draw do
   resources :tracks, only: %i[index show] do
     get :about, on: :member
 
+    resource :build, only: %i[show], controller: "tracks/build" do
+      get :syllabus_tooltip
+      get :representer_tooltip
+      get :analyzer_tooltip
+      get :test_runner_tooltip
+      get :practice_exercises_tooltip
+    end
+
     resources :concepts, only: %i[index show], controller: "tracks/concepts" do
       get :tooltip, on: :member
     end

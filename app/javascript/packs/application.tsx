@@ -302,6 +302,11 @@ export const mappings = {
   'exercise-tooltip': (data: any) => (
     <Tooltips.ExerciseTooltip endpoint={data.endpoint} />
   ),
+
+  'tooling-tooltip': (data: any) => (
+    <Tooltips.ToolingTooltip endpoint={data.endpoint} />
+  ),
+
   'concept-tooltip': (data: any) => (
     <Tooltips.ConceptTooltip endpoint={data.endpoint} />
   ),
@@ -432,7 +437,7 @@ export const mappings = {
 
     return (
       <Suspense fallback={renderLoader()}>
-        <ImpactMap initialMetrics={metrics} />
+        <ImpactMap initialMetrics={metrics} trackTitle={data.track_title} />
       </Suspense>
     )
   },

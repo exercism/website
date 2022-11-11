@@ -10,5 +10,14 @@ FactoryBot.define do
         comments: []
       }
     end
+
+    trait :with_comments do
+      data do
+        {
+          status: "pass",
+          comments: %w[ruby.two-fer.string_interpolation ruby.two-fer.class_method]
+        }
+      end
+    end
   end
 end

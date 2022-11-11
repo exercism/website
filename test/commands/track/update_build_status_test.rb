@@ -377,7 +377,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create_list(:practice_exercise, 30, track:)
     Track::UpdateBuildStatus.(track)
 
-    num_unimplemented = Track::UnimplementedPracticeExercises.(track.reload).size
+    num_unimplemented = Track::RetrieveUnimplementedPracticeExercises.(track.reload).size
     assert_equal track.num_exercises + num_unimplemented, track.reload.build_status.practice_exercises.num_exercises_target
   end
 

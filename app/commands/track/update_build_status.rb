@@ -248,7 +248,7 @@ class Track::UpdateBuildStatus
   end
 
   def practice_exercises_num_exercises_target
-    num_unimplemented = Track::UnimplementedPracticeExercises.(track.reload).size
+    num_unimplemented = Track::RetrieveUnimplementedPracticeExercises.(track).size
     max_target = track.num_exercises + num_unimplemented
 
     NUM_PRACTICE_EXERCISES_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
@@ -256,7 +256,7 @@ class Track::UpdateBuildStatus
 
   memoize
   def num_unimplemented_practice_exercises
-    Track::UnimplementedPracticeExercises.(track).size
+    Track::RetrieveUnimplementedPracticeExercises.(track).size
   end
 
   def practice_exercises_volunteers

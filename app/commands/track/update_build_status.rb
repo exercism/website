@@ -221,8 +221,8 @@ class Track::UpdateBuildStatus
     Exercise::TaughtConcept.
       where(exercise: active_concept_exercises).
       pluck(:track_concept_id, :exercise_id).
-      map { |concept_id, exercise_id| { concept_id => exercise_id } }.
-      reduce({}, :merge)
+      map { |concept_id, exercise_id| [concept_id, exercise_id] }.
+      to_h
   end
 
   def concept_exercises

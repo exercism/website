@@ -47,7 +47,7 @@ class Track::UpdateBuildStatus
 
     {
       num_volunteers: volunteers.dig(:meta, :total_count),
-      users: volunteers[:results].take(12)
+      users: volunteers[:results].take(NUM_VOLUNTEERS)
     }
   end
 
@@ -368,9 +368,10 @@ class Track::UpdateBuildStatus
 
   NUM_COMPONENTS = 5
   NUM_DAYS_FOR_AVERAGE = 30
+  NUM_VOLUNTEERS = 12
   NUM_CONCEPTS_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_PRACTICE_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_CONCEPT_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
-  private_constant :NUM_COMPONENTS, :NUM_DAYS_FOR_AVERAGE, :NUM_CONCEPTS_TARGETS,
+  private_constant :NUM_COMPONENTS, :NUM_DAYS_FOR_AVERAGE, :NUM_VOLUNTEERS, :NUM_CONCEPTS_TARGETS,
     :NUM_PRACTICE_EXERCISES_TARGETS, :NUM_CONCEPT_EXERCISES_TARGETS
 end

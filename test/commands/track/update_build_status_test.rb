@@ -66,32 +66,46 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "volunteers" do
     track = create :track
 
-    user_1 = create :user, reputation: 10
-    user_2 = create :user, reputation: 14
-    user_3 = create :user, reputation: 12
-    user_4 = create :user, reputation: 13
-    user_5 = create :user, reputation: 11
-    user_6 = create :user, reputation: 10
-    create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :any
-    create :user_reputation_period, track_id: track.id, user: user_2, about: :track, category: :any
-    create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :any
-    create :user_reputation_period, track_id: track.id, user: user_4, about: :track, category: :any
-    create :user_reputation_period, track_id: track.id, user: user_5, about: :track, category: :any
-    create :user_reputation_period, user: user_6 # Ignore: no track
+    user_1 = create :user, reputation: 67
+    user_2 = create :user, reputation: 113
+    user_3 = create :user, reputation: 20
+    user_4 = create :user, reputation: 555
+    user_5 = create :user, reputation: 532
+    user_6 = create :user, reputation: 98
+
+    token_1 = create :user_code_contribution_reputation_token, track: track, user: user_1
+    token_2 = create :user_code_contribution_reputation_token, track: track, user: user_1
+    token_3 = create :user_code_merge_reputation_token, track: track, user: user_2
+    token_4 = create :user_code_review_reputation_token, track: track, user: user_3
+    token_5 = create :user_code_merge_reputation_token, track: track, user: user_3
+    token_6 = create :user_code_review_reputation_token, track: track, user: user_4
+    token_7 = create :user_exercise_contribution_reputation_token, track: track, user: user_5
+
+    period_1 = create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :any,
+      reputation: token_1.value + token_2.value
+    period_2 = create :user_reputation_period, track_id: track.id, user: user_2, about: :track, category: :any,
+      reputation: token_3.value
+    period_3 = create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :any,
+      reputation: token_4.value + token_5.value
+    period_4 = create :user_reputation_period, track_id: track.id, user: user_4, about: :track, category: :any,
+      reputation: token_6.value
+    period_5 = create :user_reputation_period, track_id: track.id, user: user_5, about: :track, category: :any,
+      reputation: token_7.value
+    create :user_reputation_period, user: user_6, reputation: 10 # Ignore: no track
 
     Track::UpdateBuildStatus.(track)
 
     assert_equal 5, track.build_status.volunteers.num_volunteers
     expected_users = [
-      { name: user_2.name, handle: user_2.handle, avatar_url: user_2.avatar_url, reputation: user_2.formatted_reputation,
-        links: { profile: nil } },
-      { name: user_4.name, handle: user_4.handle, avatar_url: user_4.avatar_url, reputation: user_4.formatted_reputation,
-        links: { profile: nil } },
-      { name: user_3.name, handle: user_3.handle, avatar_url: user_3.avatar_url, reputation: user_3.formatted_reputation,
-        links: { profile: nil } },
-      { name: user_5.name, handle: user_5.handle, avatar_url: user_5.avatar_url, reputation: user_5.formatted_reputation,
-        links: { profile: nil } },
-      { name: user_1.name, handle: user_1.handle, avatar_url: user_1.avatar_url, reputation: user_1.formatted_reputation,
+      { rank: 1, activity: '2 PRs created', handle: user_1.handle, reputation: period_1.reputation.to_s,
+        avatar_url: user_1.avatar_url, links: { profile: nil } },
+      { rank: 2, activity: '1 exercise contribution', handle: user_5.handle, reputation: period_5.reputation.to_s,
+        avatar_url: user_5.avatar_url, links: { profile: nil } },
+      { rank: 3, activity: '1 PR reviewed • 1 PR merged', handle: user_3.handle, reputation: period_3.reputation.to_s,
+        avatar_url: user_3.avatar_url, links: { profile: nil } },
+      { rank: 4, activity: '1 PR reviewed', handle: user_4.handle, reputation: period_4.reputation.to_s,
+        avatar_url: user_4.avatar_url, links: { profile: nil } },
+      { rank: 5, activity: '1 PR merged', handle: user_2.handle, reputation: period_2.reputation.to_s, avatar_url: user_2.avatar_url,
         links: { profile: nil } }
     ].map(&:to_obj)
     assert_equal expected_users, track.build_status.volunteers.users

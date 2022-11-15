@@ -43,17 +43,11 @@ class Track::UpdateBuildStatus
   ].tally
 
   def volunteers
-    volunteer_user_ids = User::ReputationPeriod.where(
-      period: :forever,
-      about: :track,
-      category: :any,
-      track_id: track.id
-    ).select(:user_id)
-    volunteers = User.with_attached_avatar.where(id: volunteer_user_ids).order(reputation: :desc).take(12)
+    volunteers = AssembleContributors.({ track_slug: track.slug, page: 1 })
 
     {
-      num_volunteers: volunteer_user_ids.distinct.count,
-      users: SerializeAuthorOrContributors.(volunteers)
+      num_volunteers: volunteers.dig(:meta, :total_count),
+      users: volunteers[:results].take(12)
     }
   end
 

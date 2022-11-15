@@ -4,8 +4,8 @@ class AddTrackToSubmissionRepresentations < ActiveRecord::Migration[7.0]
     add_index :submission_representations, %i[track_id id], order: {track_id: :asc, id: :desc}, unique: false, if_not_exists: true
 
     unless Rails.env.production?
-      ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
-        Submission::Representation.includes(submission: :track).find_each do |representation|
+      Submission::Representation.includes(submission: :track).find_in_batches do |batch|
+        batch.each do |representation|
           representation.update(track_id: representation.submission.track.id)
         end
       end

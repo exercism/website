@@ -4,6 +4,7 @@ class Submission::TestRun < ApplicationRecord
 
   serialize :raw_results, JSON
 
+  belongs_to :track
   belongs_to :submission
   has_one :exercise, through: :submission
 
@@ -29,6 +30,10 @@ class Submission::TestRun < ApplicationRecord
         exercise, git_sha: self.git_sha
       )
     end
+  end
+
+  before_validation on: :create do
+    self.track = submission.track unless track
   end
 
   def status = super.try(&:to_sym)

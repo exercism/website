@@ -47,4 +47,11 @@ class Submission::RepresentationTest < ActiveSupport::TestCase
 
     assert_equal exercise_representation, representation.reload.exercise_representation
   end
+
+  test "track: inferred from submission" do
+    submission = create :submission
+    representation = create :submission_representation, submission: submission
+
+    assert_equal submission.track, representation.track
+  end
 end

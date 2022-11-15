@@ -312,6 +312,7 @@ class Track::UpdateBuildStatus
     num_started = exercises_num_started[exercise.id].to_i
     num_submitted = exercises_num_submitted[exercise.id].to_i
     num_completed = exercises_num_completed[exercise.id].to_i
+    num_mentoring_requests = exercises_num_mentoring_requests[exercise.id].to_i
 
     {
       slug: exercise.slug,
@@ -322,6 +323,8 @@ class Track::UpdateBuildStatus
       num_submitted_average: average(num_submitted, num_started),
       num_completed:,
       num_completed_percentage: percentage(num_completed, num_started),
+      num_mentoring_requests:,
+      num_mentoring_requests_percentage: percentage(num_mentoring_requests, num_started),
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }
@@ -356,6 +359,11 @@ class Track::UpdateBuildStatus
   memoize
   def exercises_num_completed
     Solution.completed.joins(:exercise).where(exercises: { track: }).group(:exercise_id).count
+  end
+
+  memoize
+  def exercises_num_mentoring_requests
+    Mentor::Request.where(track:).group(:exercise_id).count
   end
 
   NUM_COMPONENTS = 5

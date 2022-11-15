@@ -226,8 +226,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :concept_solution, exercise: ce_2, user: users[0], status: :started
     s_2 = create :concept_solution, exercise: ce_2, user: users[1], status: :iterated
     create :submission, exercise: ce_2, user: users[1], solution: s_2
+    create :mentor_request, solution: s_2
     s_3 = create :concept_solution, :completed, exercise: ce_2, user: users[2]
     create :submission, exercise: ce_2, user: users[2], solution: s_3
+    create :mentor_request, solution: s_3
     s_4 = create :concept_solution, :published, exercise: ce_2, user: users[3]
     create :submission, exercise: ce_2, user: users[3], solution: s_4
     s_5 = create :concept_solution, :published, exercise: ce_2, user: users[4]
@@ -236,6 +238,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :submission, exercise: ce_3, user: users[0], solution: s_6
     s_7 = create :concept_solution, :completed, exercise: ce_3, user: users[2]
     create :submission, exercise: ce_3, user: users[2], solution: s_7
+    create :mentor_request, solution: s_7
 
     Track::UpdateBuildStatus.(track)
 
@@ -250,6 +253,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         num_submitted_average: 0.8,
         num_completed: 3,
         num_completed_percentage: 60,
+        num_mentoring_requests: 2,
+        num_mentoring_requests_percentage: 40.0,
         links: { self: "/tracks/ruby/exercises/#{ce_2.slug}" }
       },
       {
@@ -261,6 +266,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         num_submitted_average: 1.0,
         num_completed: 1,
         num_completed_percentage: 50,
+        num_mentoring_requests: 1,
+        num_mentoring_requests_percentage: 50.0,
         links: { self: "/tracks/ruby/exercises/#{ce_3.slug}" }
       }
     ].map(&:to_obj)
@@ -327,8 +334,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :practice_solution, exercise: pe_2, user: users[0], status: :started
     s_2 = create :practice_solution, exercise: pe_2, user: users[1], status: :iterated
     create :submission, exercise: pe_2, user: users[1], solution: s_2
+    create :mentor_request, solution: s_2
     s_3 = create :practice_solution, :completed, exercise: pe_2, user: users[2]
     create :submission, exercise: pe_2, user: users[2], solution: s_3
+    create :mentor_request, solution: s_3
     s_4 = create :practice_solution, :published, exercise: pe_2, user: users[3]
     create :submission, exercise: pe_2, user: users[3], solution: s_4
     s_5 = create :practice_solution, :published, exercise: pe_2, user: users[4]
@@ -337,6 +346,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :submission, exercise: pe_3, user: users[0], solution: s_6
     s_7 = create :practice_solution, :completed, exercise: pe_3, user: users[2]
     create :submission, exercise: pe_3, user: users[2], solution: s_7
+    create :mentor_request, solution: s_7
 
     Track::UpdateBuildStatus.(track)
 
@@ -351,6 +361,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         num_submitted_average: 1.0,
         num_completed: 1,
         num_completed_percentage: 50,
+        num_mentoring_requests: 1,
+        num_mentoring_requests_percentage: 50.0,
         links: { self: "/tracks/ruby/exercises/#{pe_3.slug}" }
       },
       {
@@ -362,6 +374,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         num_submitted_average: 0.8,
         num_completed: 3,
         num_completed_percentage: 60,
+        num_mentoring_requests: 2,
+        num_mentoring_requests_percentage: 40.0,
         links: { self: "/tracks/ruby/exercises/#{pe_2.slug}" }
       }
     ].map(&:to_obj)

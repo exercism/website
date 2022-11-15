@@ -38,7 +38,7 @@ class Track::UpdateBuildStatus
     analyzer_health,
     test_runner_health,
     representer_health,
-    syllabus_health,
+    track.course? ? syllabus_health : :exemplar,
     practice_exercises_health
   ].tally
 

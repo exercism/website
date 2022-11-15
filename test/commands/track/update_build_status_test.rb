@@ -747,7 +747,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :submission_test_run, submission: submission, raw_results: { version: 3 }
 
     # practice_exercises_health: :exemplar
+    track.update(course: false)
     create_list(:practice_exercise, 50, track:)
+
+    Track::UpdateBuildStatus.(track)
+    assert_equal "exemplar", track.reload.build_status.health
 
     # syllabus_health: :exemplar
     track.update(course: true)

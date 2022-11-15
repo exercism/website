@@ -115,7 +115,7 @@ class Track::UpdateBuildStatus
   memoize
   def test_runner_version = [
     1,
-    Submission::TestRun.joins(submission: :exercise).where(submission: { exercises: { track: } }).order(id: :desc).pick(:version).to_i
+    Submission::TestRun.where(track:).order(id: :desc).pick(:version).to_i
   ].max
 
   def test_runner_version_target
@@ -126,7 +126,7 @@ class Track::UpdateBuildStatus
 
   def representer
     {
-      num_runs: Submission::Representation.joins(submission: :exercise).where(submission: { exercises: { track: } }).count,
+      num_runs: Submission::Representation.where(track:).count,
       num_comments: representer_num_submissions_with_feedback,
       display_rate_percentage: representer_display_rate_percentage,
       volunteers: serialize_tooling_volunteers(track.representer_repo_url),
@@ -155,8 +155,8 @@ class Track::UpdateBuildStatus
 
   def analyzer
     {
-      num_runs: Submission::Analysis.joins(submission: :exercise).where(submission: { exercises: { track: } }).count,
-      num_comments: Submission::Analysis.joins(submission: :exercise).where(submission: { exercises: { track: } }).sum(:num_comments),
+      num_runs: Submission::Analysis.where(track:).count,
+      num_comments: Submission::Analysis.where(track:).sum(:num_comments),
       display_rate_percentage: analyzer_display_rate_percentage,
       volunteers: serialize_tooling_volunteers(track.analyzer_repo_url),
       health: analyzer_health

@@ -214,12 +214,20 @@ class Track::UpdateBuildStatus
   end
 
   memoize
-  def taught_concepts = Concept.where(id: concept_taught_exercise.keys).to_a
+  def taught_concepts
+    Concept.where(id: concept_taught_exercise.keys).
+      sort_by { |c| taught_concepts_ids.index(c.id) }
+  end
+
+  memoize
+  def taught_concepts_ids = concept_taught_exercise.keys
 
   memoize
   def concept_taught_exercise
     Exercise::TaughtConcept.
+      joins(:exercise, :concept).
       where(exercise: active_concept_exercises).
+      order(:position, 'track_concepts.name').
       pluck(:track_concept_id, :exercise_id).
       to_h
   end

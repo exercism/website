@@ -148,17 +148,23 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "syllabus: concepts" do
     track = create :track, num_concepts: 5
 
-    concepts = create_list(:concept, 7, track:)
+    c_1 = create :concept, track: track, slug: 'lists'
+    c_2 = create :concept, track: track, slug: 'basics'
+    c_3 = create :concept, track: track, slug: 'switch'
+    c_4 = create :concept, track: track, slug: 'case'
+    c_5 = create :concept, track: track, slug: 'arrays'
+    c_6 = create :concept, track: track, slug: 'finally'
 
     ce_1 = create :concept_exercise, track: track, status: :wip # Ignore wip
-    ce_1.taught_concepts << concepts[0] # Ignore for wip exercise
-    ce_2 = create :concept_exercise, track: track, status: :beta
-    ce_2.taught_concepts << concepts[1]
-    ce_3 = create :concept_exercise, track: track, status: :active
-    ce_3.taught_concepts << concepts[2]
-    ce_3.prerequisites << concepts[5] # Ignore concept if not taught
+    ce_1.taught_concepts << c_1 # Ignore for wip exercise
+    ce_2 = create :concept_exercise, track: track, status: :beta, position: 2
+    ce_2.taught_concepts << c_3
+    ce_2.taught_concepts << c_4
+    ce_3 = create :concept_exercise, track: track, status: :active, position: 1
+    ce_3.taught_concepts << c_2
+    ce_3.prerequisites << c_5 # Ignore concept if not taught
     ce_4 = create :concept_exercise, track: track, status: :deprecated # Ignore deprecated
-    ce_4.taught_concepts << concepts[6] # Ignore for deprecated exercise
+    ce_4.taught_concepts << c_6 # Ignore for deprecated exercise
 
     users = create_list(:user, 5)
     create :concept_solution, exercise: ce_2, user: users[0], status: :started
@@ -172,11 +178,12 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 2, track.build_status.syllabus.concepts.num_concepts
+    assert_equal 3, track.build_status.syllabus.concepts.num_concepts
     assert_equal 10, track.build_status.syllabus.concepts.num_concepts_target
     expected_created = [
-      { slug: concepts[1].slug, name: concepts[1].name, num_students_learnt: 3 },
-      { slug: concepts[2].slug, name: concepts[2].name, num_students_learnt: 1 }
+      { slug: c_2.slug, name: c_2.name, num_students_learnt: 1 },
+      { slug: c_4.slug, name: c_4.name, num_students_learnt: 3 },
+      { slug: c_3.slug, name: c_3.name, num_students_learnt: 3 }
     ].map(&:to_obj)
     assert_equal expected_created, track.build_status.syllabus.concepts.created
   end

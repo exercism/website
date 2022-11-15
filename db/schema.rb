@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_03_092412) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_15_123459) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -773,7 +773,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_092412) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "num_comments", limit: 1, default: 0, null: false
+    t.bigint "track_id"
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
+    t.index ["track_id", "id"], name: "index_submission_analyses_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id"], name: "index_submission_analyses_on_track_id"
   end
 
   create_table "submission_files", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -795,9 +798,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_092412) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "mentored_by_id"
+    t.bigint "track_id"
     t.index ["mentored_by_id"], name: "index_submission_representations_on_mentored_by_id"
     t.index ["submission_id", "ast_digest"], name: "index_submission_representations_on_submission_id_and_ast_digest"
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
+    t.index ["track_id", "id"], name: "index_submission_representations_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id"], name: "index_submission_representations_on_track_id"
   end
 
   create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -814,7 +820,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_092412) do
     t.datetime "updated_at", null: false
     t.string "git_important_files_hash", limit: 50
     t.string "git_sha", limit: 50
+    t.bigint "track_id"
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
+    t.index ["track_id", "id"], name: "index_submission_test_runs_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id"], name: "index_submission_test_runs_on_track_id"
     t.index ["uuid"], name: "index_submission_test_runs_on_uuid", unique: true
   end
 
@@ -1222,10 +1231,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_092412) do
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
   add_foreign_key "submission_analyses", "submissions"
+  add_foreign_key "submission_analyses", "tracks"
   add_foreign_key "submission_files", "submissions"
   add_foreign_key "submission_representations", "submissions"
+  add_foreign_key "submission_representations", "tracks"
   add_foreign_key "submission_representations", "users", column: "mentored_by_id"
   add_foreign_key "submission_test_runs", "submissions"
+  add_foreign_key "submission_test_runs", "tracks"
   add_foreign_key "submissions", "solutions"
   add_foreign_key "track_concept_authorships", "track_concepts"
   add_foreign_key "track_concept_authorships", "users"

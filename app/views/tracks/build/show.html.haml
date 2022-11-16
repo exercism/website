@@ -96,7 +96,9 @@
           .usage-stats-header
             %h4 Usage statistics
           %details.mb-10
-            %summary.--syllabus #{@status.syllabus.concepts.num_concepts}/#{@status.syllabus.concepts.num_concepts_target} concepts created
+            %summary.--syllabus
+              #{@status.syllabus.concepts.num_concepts}/#{@status.syllabus.concepts.num_concepts_target} concepts created
+              = graphical_icon 'chevron-right', css_class: 'summary-chevron'
             - @status.syllabus.concepts.created.each do |concept|
               .record-row
                 .record-name
@@ -104,7 +106,9 @@
                   = concept.name
                 .record-value #{concept.num_students_learnt} learnt
           %details
-            %summary.--lightbulb #{@status.syllabus.concept_exercises.num_exercises} learning exercises created
+            %summary.--lightbulb
+              #{@status.syllabus.concept_exercises.num_exercises} learning exercises created
+              = graphical_icon 'chevron-right', css_class: 'summary-chevron'
             .record-row.sticky.top-0.bg-white
               .record-name
               .record-value
@@ -248,7 +252,9 @@
           .usage-stats-header
             %h4 Usage statistics
           %details
-            %summary.--practice-exercises #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
+            %summary.--practice-exercises
+              #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
+              = graphical_icon 'chevron-right', css_class: 'summary-chevron'
             .record-row.sticky.top-0.bg-white
               .record-name
               .record-value

@@ -60,16 +60,16 @@
         }
 
         .usage-summary {
-            @apply label-large leading-150 flex items-center text-center;
+            @apply flex items-center;
+            @apply label-large leading-150;
             @apply cursor-pointer;
             @apply before-icon;
-            &:after {
-                content: url("icons/chevron-down.svg");
+            .summary-chevron {
                 @apply transition-all;
-                @apply filter-textColor6;
+                @apply filter-textColor6 leading-150;
                 height: 16px;
                 width: 16px;
-                @apply block ml-auto;
+                @apply flex ml-auto;
             }
         }
 
@@ -248,8 +248,8 @@
 
         details[open] {
             summary {
-                &:after {
-                    @apply -rotate-90 transition-all;
+                .summary-chevron {
+                    @apply rotate-90 transition-all;
                 }
             }
         }

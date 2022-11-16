@@ -4,7 +4,7 @@ class Submission::TestRun < ApplicationRecord
 
   serialize :raw_results, JSON
 
-  belongs_to :track
+  # belongs_to :track
   belongs_to :submission
   has_one :exercise, through: :submission
 

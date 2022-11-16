@@ -10,7 +10,7 @@ class Submission::Representation < ApplicationRecord
 
   belongs_to :submission
   belongs_to :mentored_by, optional: true, class_name: "User"
-  belongs_to :track
+  # belongs_to :track
 
   has_one :solution, through: :submission
   has_one :iteration, through: :submission

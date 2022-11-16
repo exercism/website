@@ -33,7 +33,7 @@ class Submission::TestRun < ApplicationRecord
   end
 
   before_validation on: :create do
-    self.track = submission.track unless track
+    # self.track = submission.track unless track
   end
 
   def status = super.try(&:to_sym)

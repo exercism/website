@@ -29,7 +29,7 @@ class Submission::Representation < ApplicationRecord
   end
 
   before_validation on: :create do
-    self.track = submission.track unless track
+    # self.track = submission.track unless track
   end
 
   delegate :has_feedback?, to: :exercise_representation

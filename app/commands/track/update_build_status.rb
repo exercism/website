@@ -54,7 +54,7 @@ class Track::UpdateBuildStatus
       where(user: top_track_volunteers).
       group(:user_id).
       sum(:reputation).
-      transform_values { |reputation| { activity: '', reputation: } }
+      transform_values { |reputation| { reputation: } }
 
     {
       num_volunteers:,

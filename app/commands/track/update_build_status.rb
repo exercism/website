@@ -54,7 +54,7 @@ class Track::UpdateBuildStatus
       where(user: top_track_volunteers).
       group(:user_id).
       sum(:reputation).
-      transform_values { |reputation| { reputation: } }
+      transform_values { |reputation| ContributorContextualData.new('', reputation) }
 
     {
       num_volunteers:,
@@ -384,12 +384,15 @@ class Track::UpdateBuildStatus
     Mentor::Request.where(track:).group(:exercise_id).count
   end
 
+  ContributorContextualData = Struct.new(:activity, :reputation)
+
   NUM_COMPONENTS = 5
   NUM_DAYS_FOR_AVERAGE = 30
   NUM_VOLUNTEERS = 12
   NUM_CONCEPTS_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_PRACTICE_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_CONCEPT_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
-  private_constant :NUM_COMPONENTS, :NUM_DAYS_FOR_AVERAGE, :NUM_VOLUNTEERS, :NUM_CONCEPTS_TARGETS,
+  private_constant :ContributorContextualData, :NUM_COMPONENTS,
+    :NUM_DAYS_FOR_AVERAGE, :NUM_VOLUNTEERS, :NUM_CONCEPTS_TARGETS,
     :NUM_PRACTICE_EXERCISES_TARGETS, :NUM_CONCEPT_EXERCISES_TARGETS
 end

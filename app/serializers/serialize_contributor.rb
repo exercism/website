@@ -17,6 +17,6 @@ class SerializeContributor
   end
 
   private
-  def activity = contextual_data[:activity].to_s
-  def reputation = contextual_data[:reputation].to_i
+  def activity = contextual_data.activity
+  def reputation = contextual_data.reputation
 end

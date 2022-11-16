@@ -5,8 +5,10 @@ class AddTrackToSubmissionTestRuns < ActiveRecord::Migration[7.0]
 
     unless Rails.env.production?
       Submission::TestRun.includes(submission: :track).find_in_batches do |batch|
-        batch.each do |test_run|
-          test_run.update(track_id: test_run.submission.track.id)
+        ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
+          batch.each do |test_run|
+            test_run.update(track_id: test_run.submission.track.id)
+          end
         end
       end
     end

@@ -226,4 +226,11 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
     assert_equal [analysis_1, analysis_2], Submission::Analysis.with_comments
   end
+
+  test "track: inferred from submission" do
+    submission = create :submission
+    analysis = create :submission_analysis, submission: submission
+
+    assert_equal submission.track, analysis.track
+  end
 end

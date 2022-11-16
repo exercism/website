@@ -5,12 +5,17 @@ class Submission::Analysis < ApplicationRecord
   serialize :data, JSON
 
   belongs_to :submission
+  belongs_to :track
 
   scope :ops_successful, -> { where(ops_status: 200) }
   scope :with_comments, -> { where('num_comments > 0') }
 
   before_create do
     self.num_comments = self.comment_blocks.size
+  end
+
+  before_validation on: :create do
+    self.track = submission.track unless track
   end
 
   memoize

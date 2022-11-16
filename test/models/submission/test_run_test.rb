@@ -209,4 +209,11 @@ class Submission::TestRunTest < ActiveSupport::TestCase
   end
 
   # TODO: - Add a test for if the raw_results is empty
+
+  test "track: inferred from submission" do
+    submission = create :submission
+    test_run = create :submission_test_run, submission: submission
+
+    assert_equal submission.track, test_run.track
+  end
 end

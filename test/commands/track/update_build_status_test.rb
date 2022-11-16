@@ -97,15 +97,15 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     assert_equal 5, track.build_status.volunteers.num_volunteers
     expected_users = [
-      { rank: 1, activity: '2 PRs created', handle: user_1.handle, reputation: period_1.reputation.to_s,
+      { rank: 1, activity: '', handle: user_1.handle, reputation: period_1.reputation.to_s,
         avatar_url: user_1.avatar_url, links: { profile: nil } },
-      { rank: 2, activity: '1 exercise contribution', handle: user_5.handle, reputation: period_5.reputation.to_s,
+      { rank: 2, activity: '', handle: user_5.handle, reputation: period_5.reputation.to_s,
         avatar_url: user_5.avatar_url, links: { profile: nil } },
-      { rank: 3, activity: '1 PR reviewed • 1 PR merged', handle: user_3.handle, reputation: period_3.reputation.to_s,
+      { rank: 3, activity: '', handle: user_3.handle, reputation: period_3.reputation.to_s,
         avatar_url: user_3.avatar_url, links: { profile: nil } },
-      { rank: 4, activity: '1 PR reviewed', handle: user_4.handle, reputation: period_4.reputation.to_s,
+      { rank: 4, activity: '', handle: user_4.handle, reputation: period_4.reputation.to_s,
         avatar_url: user_4.avatar_url, links: { profile: nil } },
-      { rank: 5, activity: '1 PR merged', handle: user_2.handle, reputation: period_2.reputation.to_s, avatar_url: user_2.avatar_url,
+      { rank: 5, activity: '', handle: user_2.handle, reputation: period_2.reputation.to_s, avatar_url: user_2.avatar_url,
         links: { profile: nil } }
     ].map(&:to_obj)
     assert_equal expected_users, track.build_status.volunteers.users

@@ -43,11 +43,20 @@ class Track::UpdateBuildStatus
   ].tally
 
   def volunteers
-    volunteers = AssembleContributors.({ track_slug: track.slug, page: 1 })
+    track_volunteers = User::ReputationPeriod::Search.(track_id: track.id)
+    num_volunteers = track_volunteers.total_count
+    top_track_volunteers = track_volunteers.take(NUM_VOLUNTEERS)
+
+    contextual_data = User::ReputationToken.
+      where(track:).
+      where(user: top_track_volunteers).
+      group(:user_id).
+      sum(:value).
+      transform_values { |reputation| { activity: '', reputation: } }
 
     {
-      num_volunteers: volunteers.dig(:meta, :total_count),
-      users: volunteers[:results].take(NUM_VOLUNTEERS)
+      num_volunteers:,
+      users: SerializeContributors.(top_track_volunteers, starting_rank: 1, contextual_data:)
     }
   end
 

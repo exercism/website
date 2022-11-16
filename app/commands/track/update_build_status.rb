@@ -226,8 +226,7 @@ class Track::UpdateBuildStatus
 
   memoize
   def taught_concepts
-    Concept.where(id: concept_taught_exercise.keys).
-      sort_by { |c| taught_concepts_ids.index(c.id) }
+    Concept.where(id: taught_concepts_ids).sort_by { |c| taught_concepts_ids.index(c.id) }
   end
 
   memoize

@@ -73,24 +73,16 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     user_5 = create :user, reputation: 532
     user_6 = create :user, reputation: 98
 
-    token_1 = create :user_code_contribution_reputation_token, track: track, user: user_1
-    token_2 = create :user_code_contribution_reputation_token, track: track, user: user_1
-    token_3 = create :user_code_merge_reputation_token, track: track, user: user_2
-    token_4 = create :user_code_review_reputation_token, track: track, user: user_3
-    token_5 = create :user_code_merge_reputation_token, track: track, user: user_3
-    token_6 = create :user_code_review_reputation_token, track: track, user: user_4
-    token_7 = create :user_exercise_contribution_reputation_token, track: track, user: user_5
-
     period_1 = create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :any,
-      reputation: token_1.value + token_2.value
+      reputation: 300
     period_2 = create :user_reputation_period, track_id: track.id, user: user_2, about: :track, category: :any,
-      reputation: token_3.value
+      reputation: 20
     period_3 = create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :any,
-      reputation: token_4.value + token_5.value
+      reputation: 44
     period_4 = create :user_reputation_period, track_id: track.id, user: user_4, about: :track, category: :any,
-      reputation: token_6.value
+      reputation: 33
     period_5 = create :user_reputation_period, track_id: track.id, user: user_5, about: :track, category: :any,
-      reputation: token_7.value
+      reputation: 97
     create :user_reputation_period, user: user_6, reputation: 10 # Ignore: no track
 
     Track::UpdateBuildStatus.(track)

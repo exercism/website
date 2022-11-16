@@ -47,11 +47,13 @@ class Track::UpdateBuildStatus
     num_volunteers = track_volunteers.total_count
     top_track_volunteers = track_volunteers.take(NUM_VOLUNTEERS)
 
-    contextual_data = User::ReputationToken.
-      where(track:).
+    contextual_data = User::ReputationPeriod.
+      where(category: :any).
+      where(period: :forever).
+      where(about: :track, track_id: track.id).
       where(user: top_track_volunteers).
       group(:user_id).
-      sum(:value).
+      sum(:reputation).
       transform_values { |reputation| { activity: '', reputation: } }
 
     {

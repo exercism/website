@@ -66,7 +66,7 @@
             @apply before-icon;
             .summary-chevron {
                 @apply transition-all;
-                @apply filter-textColor6 leading-150;
+                @apply filter-textColor6;
                 height: 16px;
                 width: 16px;
                 @apply flex ml-auto;

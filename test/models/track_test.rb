@@ -205,4 +205,12 @@ class TrackTest < ActiveSupport::TestCase
 
     assert_equal [representation_1, representation_2], track.representations
   end
+
+  test "submissions" do
+    track = create :track
+
+    submissions = create_list(:submission, 3, solution: (create :practice_solution, track:))
+
+    assert_equal submissions, track.submissions
+  end
 end

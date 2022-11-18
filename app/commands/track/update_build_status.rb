@@ -72,12 +72,12 @@ class Track::UpdateBuildStatus
   def submissions
     {
       num_submissions:,
-      num_submissions_per_day: average_number_per_day(Submission.where(track:), Submission)
+      num_submissions_per_day: average_number_per_day(track.submissions, Submission)
     }
   end
 
   memoize
-  def num_submissions = Submission.where(track:).count
+  def num_submissions = track.submissions.count
 
   def mentor_discussions
     {
@@ -86,7 +86,7 @@ class Track::UpdateBuildStatus
   end
 
   def test_runner
-    status_counts = Submission.where(track:).group(:tests_status).count
+    status_counts = track.submissions.group(:tests_status).count
     num_passed = status_counts['passed'].to_i
     num_failed = status_counts['failed'].to_i
     num_errored = status_counts['errored'].to_i + status_counts['exceptioned'].to_i
@@ -381,7 +381,7 @@ class Track::UpdateBuildStatus
 
   memoize
   def exercises_num_submitted
-    Submission.joins(:solution).where(track:).group(:exercise_id).count
+    track.submissions.joins(:solution).group(:exercise_id).count
   end
 
   memoize

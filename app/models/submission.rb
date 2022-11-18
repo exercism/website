@@ -1,10 +1,10 @@
 class Submission < ApplicationRecord
   extend Mandate::Memoize
 
+  belongs_to :track
   belongs_to :solution
   has_one :user, through: :solution
   has_one :exercise, through: :solution
-  has_one :track, through: :exercise
   has_one :iteration, dependent: :destroy
 
   has_many :files, class_name: "Submission::File", dependent: :destroy
@@ -46,6 +46,10 @@ class Submission < ApplicationRecord
     self.git_slug = solution.git_slug
     self.git_sha = solution.git_sha if git_sha.blank?
     self.git_important_files_hash = solution.git_important_files_hash if self.git_important_files_hash.blank?
+  end
+
+  before_validation on: :create do
+    self.track = solution.track unless track
   end
 
   after_save_commit do

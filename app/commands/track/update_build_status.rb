@@ -38,22 +38,27 @@ class Track::UpdateBuildStatus
     analyzer_health,
     test_runner_health,
     representer_health,
-    syllabus_health,
+    track.course? ? syllabus_health : :exemplar,
     practice_exercises_health
   ].tally
 
   def volunteers
-    volunteer_user_ids = User::ReputationPeriod.where(
-      period: :forever,
-      about: :track,
-      category: :any,
-      track_id: track.id
-    ).select(:user_id)
-    volunteers = User.with_attached_avatar.where(id: volunteer_user_ids).order(reputation: :desc).take(12)
+    track_volunteers = User::ReputationPeriod::Search.(track_id: track.id)
+    num_volunteers = track_volunteers.total_count
+    top_track_volunteers = track_volunteers.take(NUM_VOLUNTEERS)
+
+    contextual_data = User::ReputationPeriod.
+      where(category: :any).
+      where(period: :forever).
+      where(about: :track, track_id: track.id).
+      where(user: top_track_volunteers).
+      group(:user_id).
+      sum(:reputation).
+      transform_values { |reputation| ContributorContextualData.new('', reputation) }
 
     {
-      num_volunteers: volunteer_user_ids.distinct.count,
-      users: SerializeAuthorOrContributors.(volunteers)
+      num_volunteers:,
+      users: SerializeContributors.(top_track_volunteers, starting_rank: 1, contextual_data:)
     }
   end
 
@@ -126,7 +131,7 @@ class Track::UpdateBuildStatus
 
   def representer
     {
-      num_runs: Submission::Representation.where(track:).count,
+      num_runs: representer_num_runs,
       num_comments: representer_num_submissions_with_feedback,
       display_rate_percentage: representer_display_rate_percentage,
       volunteers: serialize_tooling_volunteers(track.representer_repo_url),
@@ -135,13 +140,23 @@ class Track::UpdateBuildStatus
   end
 
   memoize
+  def representer_num_runs
+    Submission::Representation.where(track:).count
+  end
+
+  memoize
   def representer_num_submissions_with_feedback
-    Exercise::Representation.with_feedback.joins(:submission_representations).count
+    Exercise::Representation.with_feedback.joins(:submission_representations).where(track:).count
+  end
+
+  memoize
+  def representer_num_submissions
+    Submission::Representation.where(track:).count
   end
 
   memoize
   def representer_display_rate_percentage
-    percentage(representer_num_submissions_with_feedback, num_submissions)
+    percentage(representer_num_submissions_with_feedback, representer_num_submissions)
   end
 
   memoize
@@ -165,7 +180,7 @@ class Track::UpdateBuildStatus
 
   memoize
   def analyzer_display_rate_percentage
-    percentage(Submission::Analysis.with_comments.where(submission: track.submissions).count, num_submissions)
+    percentage(Submission::Analysis.with_comments.where(track:).count, num_submissions)
   end
 
   memoize
@@ -220,12 +235,19 @@ class Track::UpdateBuildStatus
   end
 
   memoize
-  def taught_concepts = Concept.where(id: concept_taught_exercise.keys).to_a
+  def taught_concepts
+    Concept.where(id: taught_concepts_ids).sort_by { |c| taught_concepts_ids.index(c.id) }
+  end
+
+  memoize
+  def taught_concepts_ids = concept_taught_exercise.keys
 
   memoize
   def concept_taught_exercise
     Exercise::TaughtConcept.
+      joins(:exercise, :concept).
       where(exercise: active_concept_exercises).
+      order(:position, 'track_concepts.name').
       pluck(:track_concept_id, :exercise_id).
       to_h
   end
@@ -318,6 +340,7 @@ class Track::UpdateBuildStatus
     num_started = exercises_num_started[exercise.id].to_i
     num_submitted = exercises_num_submitted[exercise.id].to_i
     num_completed = exercises_num_completed[exercise.id].to_i
+    num_mentoring_requests = exercises_num_mentoring_requests[exercise.id].to_i
 
     {
       slug: exercise.slug,
@@ -328,6 +351,8 @@ class Track::UpdateBuildStatus
       num_submitted_average: average(num_submitted, num_started),
       num_completed:,
       num_completed_percentage: percentage(num_completed, num_started),
+      num_mentoring_requests:,
+      num_mentoring_requests_percentage: percentage(num_mentoring_requests, num_started),
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
       }
@@ -364,11 +389,20 @@ class Track::UpdateBuildStatus
     Solution.completed.joins(:exercise).where(exercises: { track: }).group(:exercise_id).count
   end
 
+  memoize
+  def exercises_num_mentoring_requests
+    Mentor::Request.where(track:).group(:exercise_id).count
+  end
+
+  ContributorContextualData = Struct.new(:activity, :reputation)
+
   NUM_COMPONENTS = 5
   NUM_DAYS_FOR_AVERAGE = 30
+  NUM_VOLUNTEERS = 12
   NUM_CONCEPTS_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_PRACTICE_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_CONCEPT_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
-  private_constant :NUM_COMPONENTS, :NUM_DAYS_FOR_AVERAGE, :NUM_CONCEPTS_TARGETS,
+  private_constant :ContributorContextualData, :NUM_COMPONENTS,
+    :NUM_DAYS_FOR_AVERAGE, :NUM_VOLUNTEERS, :NUM_CONCEPTS_TARGETS,
     :NUM_PRACTICE_EXERCISES_TARGETS, :NUM_CONCEPT_EXERCISES_TARGETS
 end

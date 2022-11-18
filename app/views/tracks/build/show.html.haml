@@ -115,6 +115,7 @@
                 .record-element Started
                 .record-element Attempts
                 .record-element Completions
+                .record-element Mentoring requests
             - @status.syllabus.concept_exercises.created.each do |exercise|
               .record-row
                 .record-name
@@ -127,6 +128,8 @@
                     %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
                   .record-element
                     %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
+                  .record-element
+                    %strong #{exercise.num_mentoring_requests} (#{exercise.num_mentoring_requests_percentage}%)
 
         = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
@@ -261,6 +264,7 @@
                 .record-element Started
                 .record-element Attempts
                 .record-element Completions
+                .record-element Mentoring requests
             - @status.practice_exercises.created.each do |exercise|
               .record-row
                 .record-name
@@ -273,6 +277,8 @@
                     %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
                   .record-element
                     %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
+                  .record-element
+                    %strong #{exercise.num_mentoring_requests} (#{exercise.num_mentoring_requests_percentage}%)
 
         = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
@@ -290,7 +296,7 @@
           .contributor-credit-block
             .contributor
               = avatar(volunteer)
-              = volunteer.name
+              = volunteer.handle
             = render ViewComponents::Reputation.new(volunteer.reputation, flashy: true, size: :small)
 
         .inline-grid.grid-cols-6.gap-16.mt-20.mb-16

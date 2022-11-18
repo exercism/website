@@ -66,32 +66,38 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "volunteers" do
     track = create :track
 
-    user_1 = create :user, reputation: 10
-    user_2 = create :user, reputation: 14
-    user_3 = create :user, reputation: 12
-    user_4 = create :user, reputation: 13
-    user_5 = create :user, reputation: 11
-    user_6 = create :user, reputation: 10
-    create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :any
-    create :user_reputation_period, track_id: track.id, user: user_2, about: :track, category: :any
-    create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :any
-    create :user_reputation_period, track_id: track.id, user: user_4, about: :track, category: :any
-    create :user_reputation_period, track_id: track.id, user: user_5, about: :track, category: :any
-    create :user_reputation_period, user: user_6 # Ignore: no track
+    user_1 = create :user, reputation: 67
+    user_2 = create :user, reputation: 113
+    user_3 = create :user, reputation: 20
+    user_4 = create :user, reputation: 555
+    user_5 = create :user, reputation: 532
+    user_6 = create :user, reputation: 98
+
+    period_1 = create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :any,
+      reputation: 300
+    period_2 = create :user_reputation_period, track_id: track.id, user: user_2, about: :track, category: :any,
+      reputation: 20
+    period_3 = create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :any,
+      reputation: 44
+    period_4 = create :user_reputation_period, track_id: track.id, user: user_4, about: :track, category: :any,
+      reputation: 33
+    period_5 = create :user_reputation_period, track_id: track.id, user: user_5, about: :track, category: :any,
+      reputation: 97
+    create :user_reputation_period, user: user_6, reputation: 10 # Ignore: no track
 
     Track::UpdateBuildStatus.(track)
 
     assert_equal 5, track.build_status.volunteers.num_volunteers
     expected_users = [
-      { name: user_2.name, handle: user_2.handle, avatar_url: user_2.avatar_url, reputation: user_2.formatted_reputation,
-        links: { profile: nil } },
-      { name: user_4.name, handle: user_4.handle, avatar_url: user_4.avatar_url, reputation: user_4.formatted_reputation,
-        links: { profile: nil } },
-      { name: user_3.name, handle: user_3.handle, avatar_url: user_3.avatar_url, reputation: user_3.formatted_reputation,
-        links: { profile: nil } },
-      { name: user_5.name, handle: user_5.handle, avatar_url: user_5.avatar_url, reputation: user_5.formatted_reputation,
-        links: { profile: nil } },
-      { name: user_1.name, handle: user_1.handle, avatar_url: user_1.avatar_url, reputation: user_1.formatted_reputation,
+      { rank: 1, activity: '', handle: user_1.handle, reputation: period_1.reputation.to_s,
+        avatar_url: user_1.avatar_url, links: { profile: nil } },
+      { rank: 2, activity: '', handle: user_5.handle, reputation: period_5.reputation.to_s,
+        avatar_url: user_5.avatar_url, links: { profile: nil } },
+      { rank: 3, activity: '', handle: user_3.handle, reputation: period_3.reputation.to_s,
+        avatar_url: user_3.avatar_url, links: { profile: nil } },
+      { rank: 4, activity: '', handle: user_4.handle, reputation: period_4.reputation.to_s,
+        avatar_url: user_4.avatar_url, links: { profile: nil } },
+      { rank: 5, activity: '', handle: user_2.handle, reputation: period_2.reputation.to_s, avatar_url: user_2.avatar_url,
         links: { profile: nil } }
     ].map(&:to_obj)
     assert_equal expected_users, track.build_status.volunteers.users
@@ -134,17 +140,23 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "syllabus: concepts" do
     track = create :track, num_concepts: 5
 
-    concepts = create_list(:concept, 7, track:)
+    c_1 = create :concept, track: track, slug: 'lists'
+    c_2 = create :concept, track: track, slug: 'basics'
+    c_3 = create :concept, track: track, slug: 'switch'
+    c_4 = create :concept, track: track, slug: 'case'
+    c_5 = create :concept, track: track, slug: 'arrays'
+    c_6 = create :concept, track: track, slug: 'finally'
 
     ce_1 = create :concept_exercise, track: track, status: :wip # Ignore wip
-    ce_1.taught_concepts << concepts[0] # Ignore for wip exercise
-    ce_2 = create :concept_exercise, track: track, status: :beta
-    ce_2.taught_concepts << concepts[1]
-    ce_3 = create :concept_exercise, track: track, status: :active
-    ce_3.taught_concepts << concepts[2]
-    ce_3.prerequisites << concepts[5] # Ignore concept if not taught
+    ce_1.taught_concepts << c_1 # Ignore for wip exercise
+    ce_2 = create :concept_exercise, track: track, status: :beta, position: 2
+    ce_2.taught_concepts << c_3
+    ce_2.taught_concepts << c_4
+    ce_3 = create :concept_exercise, track: track, status: :active, position: 1
+    ce_3.taught_concepts << c_2
+    ce_3.prerequisites << c_5 # Ignore concept if not taught
     ce_4 = create :concept_exercise, track: track, status: :deprecated # Ignore deprecated
-    ce_4.taught_concepts << concepts[6] # Ignore for deprecated exercise
+    ce_4.taught_concepts << c_6 # Ignore for deprecated exercise
 
     users = create_list(:user, 5)
     create :concept_solution, exercise: ce_2, user: users[0], status: :started
@@ -158,11 +170,12 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 2, track.build_status.syllabus.concepts.num_concepts
+    assert_equal 3, track.build_status.syllabus.concepts.num_concepts
     assert_equal 10, track.build_status.syllabus.concepts.num_concepts_target
     expected_created = [
-      { slug: concepts[1].slug, name: concepts[1].name, num_students_learnt: 3 },
-      { slug: concepts[2].slug, name: concepts[2].name, num_students_learnt: 1 }
+      { slug: c_2.slug, name: c_2.name, num_students_learnt: 1 },
+      { slug: c_4.slug, name: c_4.name, num_students_learnt: 3 },
+      { slug: c_3.slug, name: c_3.name, num_students_learnt: 3 }
     ].map(&:to_obj)
     assert_equal expected_created, track.build_status.syllabus.concepts.created
   end
@@ -212,8 +225,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :concept_solution, exercise: ce_2, user: users[0], status: :started
     s_2 = create :concept_solution, exercise: ce_2, user: users[1], status: :iterated
     create :submission, exercise: ce_2, user: users[1], solution: s_2
+    create :mentor_request, solution: s_2
     s_3 = create :concept_solution, :completed, exercise: ce_2, user: users[2]
     create :submission, exercise: ce_2, user: users[2], solution: s_3
+    create :mentor_request, solution: s_3
     s_4 = create :concept_solution, :published, exercise: ce_2, user: users[3]
     create :submission, exercise: ce_2, user: users[3], solution: s_4
     s_5 = create :concept_solution, :published, exercise: ce_2, user: users[4]
@@ -222,6 +237,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :submission, exercise: ce_3, user: users[0], solution: s_6
     s_7 = create :concept_solution, :completed, exercise: ce_3, user: users[2]
     create :submission, exercise: ce_3, user: users[2], solution: s_7
+    create :mentor_request, solution: s_7
 
     Track::UpdateBuildStatus.(track)
 
@@ -236,6 +252,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         num_submitted_average: 0.8,
         num_completed: 3,
         num_completed_percentage: 60,
+        num_mentoring_requests: 2,
+        num_mentoring_requests_percentage: 40.0,
         links: { self: "/tracks/ruby/exercises/#{ce_2.slug}" }
       },
       {
@@ -247,6 +265,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         num_submitted_average: 1.0,
         num_completed: 1,
         num_completed_percentage: 50,
+        num_mentoring_requests: 1,
+        num_mentoring_requests_percentage: 50.0,
         links: { self: "/tracks/ruby/exercises/#{ce_3.slug}" }
       }
     ].map(&:to_obj)
@@ -313,8 +333,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :practice_solution, exercise: pe_2, user: users[0], status: :started
     s_2 = create :practice_solution, exercise: pe_2, user: users[1], status: :iterated
     create :submission, exercise: pe_2, user: users[1], solution: s_2
+    create :mentor_request, solution: s_2
     s_3 = create :practice_solution, :completed, exercise: pe_2, user: users[2]
     create :submission, exercise: pe_2, user: users[2], solution: s_3
+    create :mentor_request, solution: s_3
     s_4 = create :practice_solution, :published, exercise: pe_2, user: users[3]
     create :submission, exercise: pe_2, user: users[3], solution: s_4
     s_5 = create :practice_solution, :published, exercise: pe_2, user: users[4]
@@ -323,6 +345,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :submission, exercise: pe_3, user: users[0], solution: s_6
     s_7 = create :practice_solution, :completed, exercise: pe_3, user: users[2]
     create :submission, exercise: pe_3, user: users[2], solution: s_7
+    create :mentor_request, solution: s_7
 
     Track::UpdateBuildStatus.(track)
 
@@ -337,6 +360,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         num_submitted_average: 1.0,
         num_completed: 1,
         num_completed_percentage: 50,
+        num_mentoring_requests: 1,
+        num_mentoring_requests_percentage: 50.0,
         links: { self: "/tracks/ruby/exercises/#{pe_3.slug}" }
       },
       {
@@ -348,6 +373,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         num_submitted_average: 0.8,
         num_completed: 3,
         num_completed_percentage: 60,
+        num_mentoring_requests: 2,
+        num_mentoring_requests_percentage: 40.0,
         links: { self: "/tracks/ruby/exercises/#{pe_2.slug}" }
       }
     ].map(&:to_obj)
@@ -574,6 +601,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
   test "representer" do
     track = create :track
+    other_track = create :track, :random_slug
 
     20.times do
       submission = create :submission, track: track
@@ -591,11 +619,20 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     # Sanity check: ignore representation without feedback
     create :exercise_representation, source_submission: Submission.first, ast_digest: Submission::Representation.first.ast_digest
 
+    # Sanity check: ignore representation without feedback
+    create :exercise_representation, source_submission: Submission.first, ast_digest: Submission::Representation.first.ast_digest
+
+    # Sanity check: ignore other tracks
+    create_list(:submission_representation, 3, submission: create(:submission, track: other_track)) do |submission_representation|
+      create :exercise_representation, source_submission: submission_representation.submission,
+        ast_digest: submission_representation.ast_digest
+    end
+
     Track::UpdateBuildStatus.(track)
 
     assert_equal 23, track.build_status.representer.num_runs
     assert_equal 5, track.build_status.representer.num_comments
-    assert_equal 25, track.build_status.representer.display_rate_percentage
+    assert_equal 21.7, track.build_status.representer.display_rate_percentage
   end
 
   test "representer: health" do
@@ -747,7 +784,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create :submission_test_run, submission: submission, raw_results: { version: 3 }
 
     # practice_exercises_health: :exemplar
+    track.update(course: false)
     create_list(:practice_exercise, 50, track:)
+
+    Track::UpdateBuildStatus.(track)
+    assert_equal "exemplar", track.reload.build_status.health
 
     # syllabus_health: :exemplar
     track.update(course: true)

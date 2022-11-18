@@ -131,7 +131,7 @@ class Track::UpdateBuildStatus
 
   def representer
     {
-      num_runs: Submission::Representation.where(track:).count,
+      num_runs: representer_num_runs,
       num_comments: representer_num_submissions_with_feedback,
       display_rate_percentage: representer_display_rate_percentage,
       volunteers: serialize_tooling_volunteers(track.representer_repo_url),
@@ -140,13 +140,23 @@ class Track::UpdateBuildStatus
   end
 
   memoize
+  def representer_num_runs
+    Submission::Representation.where(track:).count
+  end
+
+  memoize
   def representer_num_submissions_with_feedback
     Exercise::Representation.with_feedback.joins(:submission_representations).count
   end
 
   memoize
+  def representer_num_submissions
+    Exercise::Representation.joins(:submission_representations).count
+  end
+
+  memoize
   def representer_display_rate_percentage
-    percentage(representer_num_submissions_with_feedback, num_submissions)
+    percentage(representer_num_submissions_with_feedback, representer_num_submissions)
   end
 
   memoize

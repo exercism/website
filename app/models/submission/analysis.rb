@@ -5,7 +5,7 @@ class Submission::Analysis < ApplicationRecord
   serialize :data, JSON
 
   belongs_to :submission
-  # belongs_to :track
+  belongs_to :track
 
   scope :ops_successful, -> { where(ops_status: 200) }
   scope :with_comments, -> { where('num_comments > 0') }
@@ -15,7 +15,7 @@ class Submission::Analysis < ApplicationRecord
   end
 
   before_validation on: :create do
-    # self.track = submission.track unless track
+    self.track = submission.track unless track
   end
 
   memoize

@@ -46,6 +46,7 @@ body {
 /**************/
 /* Containers */
 /**************/
+.xs-container,
 .sm-container,
 .md-container,
 .lg-container {
@@ -53,6 +54,10 @@ body {
     @apply mx-auto;
 }
 
+.xs-container {
+    max-width: 840px;
+    padding: 0 var(--container-padding-x);
+}
 .sm-container {
     max-width: 1056px;
     padding: 0 var(--container-padding-x);

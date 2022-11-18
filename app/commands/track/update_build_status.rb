@@ -180,7 +180,7 @@ class Track::UpdateBuildStatus
 
   memoize
   def analyzer_display_rate_percentage
-    percentage(Submission::Analysis.with_comments.where(track:).where(submission: track.submissions).count, num_submissions)
+    percentage(Submission::Analysis.with_comments.where(track:).count, num_submissions)
   end
 
   memoize

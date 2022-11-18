@@ -146,12 +146,12 @@ class Track::UpdateBuildStatus
 
   memoize
   def representer_num_submissions_with_feedback
-    Exercise::Representation.with_feedback.joins(:submission_representations).count
+    Exercise::Representation.with_feedback.joins(:submission_representations).where(track:).count
   end
 
   memoize
   def representer_num_submissions
-    Exercise::Representation.joins(:submission_representations).count
+    Submission::Representation.where(track:).count
   end
 
   memoize
@@ -180,7 +180,7 @@ class Track::UpdateBuildStatus
 
   memoize
   def analyzer_display_rate_percentage
-    percentage(Submission::Analysis.with_comments.where(submission: track.submissions).count, num_submissions)
+    percentage(Submission::Analysis.with_comments.where(track:).where(submission: track.submissions).count, num_submissions)
   end
 
   memoize

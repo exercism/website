@@ -601,6 +601,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
   test "representer" do
     track = create :track
+    other_track = create :track, :random_slug
 
     20.times do
       submission = create :submission, track: track
@@ -618,11 +619,20 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     # Sanity check: ignore representation without feedback
     create :exercise_representation, source_submission: Submission.first, ast_digest: Submission::Representation.first.ast_digest
 
+    # Sanity check: ignore representation without feedback
+    create :exercise_representation, source_submission: Submission.first, ast_digest: Submission::Representation.first.ast_digest
+
+    # Sanity check: ignore other tracks
+    create_list(:submission_representation, 3, submission: create(:submission, track: other_track)) do |submission_representation|
+      create :exercise_representation, source_submission: submission_representation.submission,
+        ast_digest: submission_representation.ast_digest
+    end
+
     Track::UpdateBuildStatus.(track)
 
     assert_equal 23, track.build_status.representer.num_runs
     assert_equal 5, track.build_status.representer.num_comments
-    assert_equal 83.3, track.build_status.representer.display_rate_percentage
+    assert_equal 21.7, track.build_status.representer.display_rate_percentage
   end
 
   test "representer: health" do

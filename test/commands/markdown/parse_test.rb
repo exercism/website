@@ -47,10 +47,17 @@ Done')
     assert_equal expected.chomp, actual.chomp
   end
 
-  test "sanitizes data tags" do
+  test "sanitizes data- attributes" do
     expected = '<div>test</div>'
 
     actual = Markdown::Parse.('<div data-react-id="abd" data-react-data="{}" --hydrated>test</div>')
+    assert_equal expected.chomp, actual.chomp
+  end
+
+  test "does not sanitize allowed attributes" do
+    expected = '<div id="first" href="#" target="_blank" class="button" src="test.com" alt="lovely" width="80" height="50">test</div>'
+
+    actual = Markdown::Parse.('<div id="first" href="#" target="_blank" class="button" src="test.com" alt="lovely" width="80" height="50">test</div>') # rubocop:disable Layout/LineLength
     assert_equal expected.chomp, actual.chomp
   end
 

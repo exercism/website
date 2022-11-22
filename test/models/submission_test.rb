@@ -520,4 +520,11 @@ class SubmissionTest < ActiveSupport::TestCase
     # Check the file is allowed
     refute_includes submission.exercise_files, "source/bob.d"
   end
+
+  test "track: inferred from solution" do
+    solution = create :practice_solution
+    submission = create :submission, solution: solution
+
+    assert_equal solution.track, submission.track
+  end
 end

@@ -185,7 +185,6 @@ export const mappings = {
   'track-dig-deeper': (data: DigDeeperProps) => (
     <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
   ),
-  'track-approach': (data: any) => <TrackComponents.Approach />,
 
   'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
     <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />

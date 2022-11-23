@@ -179,13 +179,25 @@ body.devise {
         & li.site-link {
             @apply xl:hidden;
         }
+
+        & li.new {
+            & a:after {
+                /* text-14px + pt-6 + pb-6 */
+                height: 26px;
+                content: "New";
+                @apply bg-[url("icons/sparkle-warning.svg")] bg-[length:12px] bg-no-repeat bg-[8px_center];
+                /* most of this is copied from site_header.rb L70 */
+                /* pl-24 = pl-8 + bg-size 12px + mr-4 */
+                @apply ml-8 text-warning bg-lightOrange py-6 pr-8 pl-24 rounded-100 font-semibold text-[13px] flex items-center;
+            }
+        }
+
         & li.opt {
             & a {
                 @apply flex;
                 @apply text-textColor6 font-medium;
                 @apply text-16 leading-huge;
                 @apply bg-backgroundColorA;
-
                 &:hover {
                     @apply bg-backgroundColorD;
                     @apply text-textColor5;

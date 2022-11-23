@@ -106,3 +106,9 @@ update_last_quarter_metrics:
 #   cron: "0 12 * * *"
 #   class: "UpdateTracksBuildStatusJob"
 #   queue: dribble
+
+# Every hour
+update_metric_stats:
+  cron: "0 * * * *"
+  class: "UpdateMetricStatsJob"
+  queue: metrics

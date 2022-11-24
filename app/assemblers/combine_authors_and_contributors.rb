@@ -10,12 +10,12 @@ class CombineAuthorsAndContributors
   end
 
   private
-  def randomize(users, limit)
+  def randomize(users, num_users)
     if users.is_a?(ActiveRecord::Relation)
-      ids = users.pluck(:id).shuffle.take(limit)
-      users.where(id: ids).to_a
+      ids = users.pluck(:id).shuffle.take(num_users)
+      users.includes(:profile).where(id: ids).to_a
     else
-      users.shuffle.take(limit)
+      users.shuffle.take(num_users)
     end
   end
 end

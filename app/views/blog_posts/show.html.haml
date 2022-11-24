@@ -46,7 +46,7 @@
                 = render ViewComponents::Reputation.new(@post.author.formatted_reputation, flashy: true, size: :small)
               .text-16.leading-150.font-semibold.text-textColor6= @post.author.name
 
-    .hidden.mxl:flex.flex-col.pt-32.gap-20.side-posts
+    .hidden.mxl:flex.flex-col.pt-32.gap-20
       %h4.text-h4 More from our blog
       - @other_posts.each do |post|
         = render ViewComponents::BlogPost.new(post)

@@ -1069,6 +1069,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_094828) do
     t.datetime "updated_at", null: false
     t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
+    t.index ["track_id", "category", "external_url"], name: "index_user_reputation_tokens_on_track_id_category_external_url"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
     t.index ["user_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_3"

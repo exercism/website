@@ -15,8 +15,8 @@ class CombineAuthorsAndContributors
   private
   def randomize(users, num_users)
     if users.is_a?(ActiveRecord::Relation)
-      ids = users.distinct.pluck(user_id_column).shuffle.take(num_users)
-      User.with_attached_avatar.includes(:profile).where(id: ids).to_a
+      ids = users.distinct.order("RAND()").select(user_id_column)
+      User.with_attached_avatar.includes(:profile).where(id: ids).limit(num_users).to_a
     else
       users.shuffle.take(num_users)
     end

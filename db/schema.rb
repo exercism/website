@@ -777,6 +777,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_094828) do
     t.bigint "track_id"
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
     t.index ["track_id", "id"], name: "index_submission_analyses_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id", "num_comments"], name: "index_submission_analyses_on_track_id_and_num_comments"
     t.index ["track_id"], name: "index_submission_analyses_on_track_id"
   end
 

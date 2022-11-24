@@ -840,7 +840,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_152329) do
     t.datetime "updated_at", null: false
     t.string "git_important_files_hash", limit: 50
     t.integer "track_id", limit: 2
-    t.integer "exercise_id", limit: 2
+    t.integer "exercise_id", limit: 3
     t.index ["solution_id"], name: "index_submissions_on_solution_id"
     t.index ["track_id", "exercise_id"], name: "index_submissions_on_track_id_and_exercise_id"
     t.index ["track_id"], name: "index_submissions_on_track_id"

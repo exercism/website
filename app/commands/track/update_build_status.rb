@@ -380,9 +380,7 @@ class Track::UpdateBuildStatus
   end
 
   memoize
-  def exercises_num_submitted
-    track.submissions.joins(:solution).group(:exercise_id).count
-  end
+  def exercises_num_submitted = track.submissions.group(:exercise_id).count
 
   memoize
   def exercises_num_completed

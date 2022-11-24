@@ -42,16 +42,22 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
   test "submissions" do
     track = create :track
+    other_track = create :track, :random_slug
 
     create_list(:submission, 20, track:, created_at: Time.current - 2.months)
     create_list(:submission, 25, track:, created_at: Time.current - 29.days)
     create_list(:submission, 40, track:, created_at: Time.current - 5.days)
-    create_list(:submission, 35, track: (create :track, :random_slug), created_at: Time.current - 5.days)
+    create_list(:submission, 35, track: other_track, created_at: Time.current - 5.days)
+
+    (1..30).each do |day|
+      create :metric_period_day, metric_type: Metrics::SubmitSubmissionMetric.name, day:, count: day, track: track
+      create :metric_period_day, metric_type: Metrics::SubmitSubmissionMetric.name, day:, count: 5, track: other_track
+    end
 
     Track::UpdateBuildStatus.(track)
 
     assert_equal 85, track.build_status.submissions.num_submissions
-    assert_equal 3, track.build_status.submissions.num_submissions_per_day
+    assert_equal 15.5, track.build_status.submissions.num_submissions_per_day
   end
 
   test "mentor_discussions" do

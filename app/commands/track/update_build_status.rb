@@ -72,8 +72,13 @@ class Track::UpdateBuildStatus
   def submissions
     {
       num_submissions:,
-      num_submissions_per_day: average_number_per_day(track.submissions, Submission)
+      num_submissions_per_day:
     }
+  end
+
+  def num_submissions_per_day
+    query = MetricPeriod::Day.where(metric_type: Metrics::SubmitSubmissionMetric.name, track:)
+    average(query.sum(:count), query.count)
   end
 
   memoize

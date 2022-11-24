@@ -11,9 +11,11 @@ class CombineAuthorsAndContributors
 
   private
   def randomize(users, num_users)
+    return [] unless num_users.positive?
+
     if users.is_a?(ActiveRecord::Relation)
       ids = users.pluck(:id).shuffle.take(num_users)
-      users.includes(:profile).where(id: ids).to_a
+      User.includes(:profile).where(id: ids).to_a
     else
       users.shuffle.take(num_users)
     end

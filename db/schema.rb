@@ -843,6 +843,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_094828) do
     t.string "git_important_files_hash", limit: 50
     t.integer "track_id", limit: 2
     t.index ["solution_id"], name: "index_submissions_on_solution_id"
+    t.index ["track_id", "tests_status"], name: "index_submissions_on_track_id_and_tests_status"
     t.index ["track_id"], name: "index_submissions_on_track_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end

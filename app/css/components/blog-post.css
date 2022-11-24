@@ -5,7 +5,7 @@
     & .img {
         height: 150px;
         @apply mb-12 rounded-8;
-        @apply bg-no-repeat bg-cover bg-[center_center];
+        @apply bg-no-repeat bg-cover bg-center;
     }
     & .new {
         @apply bg-lightGold text-unnamed13 font-mono text-12 leading-paragraph;

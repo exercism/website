@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_18_125948) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_24_094828) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -564,6 +564,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_125948) do
     t.index ["status", "exercise_id"], name: "index_mentor_requests_on_status_and_exercise_id"
     t.index ["status", "track_id"], name: "index_mentor_requests_on_status_and_track_id"
     t.index ["student_id"], name: "index_mentor_requests_on_student_id"
+    t.index ["track_id", "exercise_id"], name: "index_mentor_requests_on_track_id_and_exercise_id"
     t.index ["track_id", "status"], name: "index_mentor_requests_on_track_id_and_status"
     t.index ["track_id"], name: "index_mentor_requests_on_track_id"
     t.index ["uuid"], name: "index_mentor_requests_on_uuid", unique: true

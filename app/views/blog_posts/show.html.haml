@@ -9,8 +9,8 @@
       .block.flex-grow
         %h1.text-h0.mb-12.md:mb-18= @post.title
         = render "info_bar", post: @post
-  .md-container.mb-32.md:mb-48
-    %article.shadow-lg.bg-backgroundColorA.rounded-8
+  .md-container.mb-32.md:mb-48.flex.gap-32
+    %article.shadow-lg.bg-backgroundColorA.rounded-8{ class: 'max-w-[840px]' }
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
         = graphical_icon "lightbulb", category: :graphics, css_class: "main-graphic hidden md:block"
         .info.md:hidden
@@ -45,6 +45,11 @@
                 .text-h4.mr-16 @#{@post.author.handle}
                 = render ViewComponents::Reputation.new(@post.author.formatted_reputation, flashy: true, size: :small)
               .text-16.leading-150.font-semibold.text-textColor6= @post.author.name
+
+    .hidden.mxl:flex.flex-col.pt-32.gap-20
+      %h4.text-h4 More from our blog
+      - @other_posts.each do |post|
+        = render ViewComponents::BlogPost.new(post)
 
   .sm-container.flex.flex-col
     %h2.text-h3.mb-24 Other community posts

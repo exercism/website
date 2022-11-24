@@ -40,7 +40,7 @@
             = link_to doc_path(:using, "product/reputation"), class: 'external-link' do
               reputation
               = icon "external-link", "(opens in a new tab)"
-            on Exercism when your submit pull requests on GitHub, please connect your accounts using the button below.
+            on Exercism when you submit pull requests on GitHub, please connect your accounts using the button below.
           = button_to omniauth_authorize_path(:user, :github),
             form_class: "github-btn",
             class: "btn-enhanced btn-m",

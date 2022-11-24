@@ -8,6 +8,7 @@ class CombineAuthorsAndContributorsTest < ActiveSupport::TestCase
 
     combination = CombineAuthorsAndContributors.(authors, contributors, limit: 3)
 
+    assert_equal 3, combination.count
     assert_equal combination, combination & authors
     assert_empty combination & contributors
   end
@@ -19,6 +20,7 @@ class CombineAuthorsAndContributorsTest < ActiveSupport::TestCase
 
     combination = CombineAuthorsAndContributors.(authors, contributors, limit: 3)
 
+    assert_equal 3, combination.count
     assert_equal combination[0..1], combination[0..1] & authors
     assert_equal combination[2..], combination[2..] & contributors
   end
@@ -30,6 +32,7 @@ class CombineAuthorsAndContributorsTest < ActiveSupport::TestCase
 
     combination = CombineAuthorsAndContributors.(authors, contributors, limit: 3)
 
+    assert_equal 3, combination.count
     assert_empty combination & authors
     assert_equal combination, combination & contributors
   end
@@ -42,6 +45,31 @@ class CombineAuthorsAndContributorsTest < ActiveSupport::TestCase
     combination = CombineAuthorsAndContributors.(authors, contributors)
 
     assert_equal 3, combination.count
+  end
+
+  test "support non-user table via user_id_column" do
+    track = create :track
+
+    users = create_list(:user, 6) do |user|
+      create :user_track, user: user, track: track
+    end
+
+    authors = User.where('id < ?', users[5].id)
+    contributors = User.where('id >= ?', users[5].id)
+
+    authors_via_user_track = UserTrack.where('user_id < ?', users[5].id)
+    contributors_via_user_track = UserTrack.where('user_id >= ?', users[5].id)
+
+    combination = CombineAuthorsAndContributors.(
+      authors_via_user_track,
+      contributors_via_user_track,
+      limit: 3,
+      user_id_column: :user_id
+    )
+
+    assert_equal 3, combination.count
+    assert_equal combination, combination & authors
+    assert_empty combination & contributors
   end
 
   test "supports arrays" do

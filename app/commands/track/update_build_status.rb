@@ -218,11 +218,11 @@ class Track::UpdateBuildStatus
   end
 
   def syllabus_volunteers
-    authors = User.with_attached_avatar.where(id: Concept::Authorship.where(concept: taught_concepts).select(:user_id)).
-      or(User.with_attached_avatar.where(id: Exercise::Authorship.where(exercise: active_concept_exercises).select(:user_id)))
+    authors = User.where(id: Concept::Authorship.where(concept: taught_concepts).select(:user_id)).
+      or(User.where(id: Exercise::Authorship.where(exercise: active_concept_exercises).select(:user_id)))
 
-    contributors = User.with_attached_avatar.where(id: Concept::Contributorship.where(concept: taught_concepts).select(:user_id)).
-      or(User.with_attached_avatar.where(id: Exercise::Contributorship.where(exercise: active_concept_exercises).select(:user_id)))
+    contributors = User.where(id: Concept::Contributorship.where(concept: taught_concepts).select(:user_id)).
+      or(User.where(id: Exercise::Contributorship.where(exercise: active_concept_exercises).select(:user_id)))
 
     serialize_volunteers(authors, contributors)
   end
@@ -292,12 +292,10 @@ class Track::UpdateBuildStatus
   end
 
   def practice_exercises_volunteers
-    authors = User.with_attached_avatar.where(id:
-      Exercise::Authorship.where(exercise: active_practice_exercises).select(:user_id))
-    contributors = User.with_attached_avatar.where(id:
-      Exercise::Contributorship.where(exercise: active_practice_exercises).select(:user_id))
+    authors = Exercise::Authorship.where(exercise: active_practice_exercises)
+    contributors = Exercise::Contributorship.where(exercise: active_practice_exercises)
 
-    serialize_volunteers(authors, contributors)
+    serialize_volunteers(authors, contributors, user_id_column: :user_id)
   end
 
   memoize
@@ -365,17 +363,15 @@ class Track::UpdateBuildStatus
   end
 
   def serialize_tooling_volunteers(repo_url)
-    authors = User.with_attached_avatar.where(id: track.reputation_tokens.where(category: :building).where('external_url LIKE ?',
-      "#{repo_url}/%").select(:user_id))
-    volunteers = User.with_attached_avatar.where(id: track.reputation_tokens.where(category: :maintaining).where('external_url LIKE ?',
-      "#{repo_url}/%").select(:user_id))
-    serialize_volunteers(authors, volunteers)
+    authors = track.reputation_tokens.where(category: :building).where('external_url LIKE ?', "#{repo_url}/%")
+    contributors = track.reputation_tokens.where(category: :maintaining).where('external_url LIKE ?', "#{repo_url}/%")
+    serialize_volunteers(authors, contributors, user_id_column: :user_id)
   end
 
-  def serialize_volunteers(authors, contributors)
+  def serialize_volunteers(authors, contributors, user_id_column: :id)
     {
-      users: SerializeAuthorOrContributors.(CombineAuthorsAndContributors.(authors, contributors)),
-      num_users: User.where(id: authors.select(:id) + contributors.select(:id)).count
+      users: SerializeAuthorOrContributors.(CombineAuthorsAndContributors.(authors, contributors, user_id_column:)),
+      num_users: User.where(id: authors.select(user_id_column)).or(User.where(id: contributors.select(user_id_column))).count
     }
   end
 

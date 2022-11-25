@@ -12,6 +12,7 @@ class Track::CreateForumCategory
   def create_category!
     client.create_category({
       name: track.title,
+      slug: track.slug,
       position:,
       parent_category_id: PROGRAMMING_CATEGORY_ID,
       color: COLOR,

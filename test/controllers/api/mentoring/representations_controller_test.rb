@@ -47,9 +47,31 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "updates a representation" do
+  test "update renders 403 if the user is a supermentor but not for representation's track" do
     user = create :user, :supermentor
     setup_user(user)
+
+    representation = create :exercise_representation, num_submissions: 2
+
+    patch api_mentoring_representation_path(representation), headers: @headers, as: :json
+
+    assert_response :forbidden
+    expected = {
+      error: {
+        type: "not_supermentor_for_track",
+        message: "You do not have supermentor permissions for this track"
+      }
+    }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "updates a representation" do
+    exercise = create :practice_exercise
+    user = create :user, :supermentor
+    setup_user(user)
+
+    create_list(:mentor_discussion, 100, :student_finished, mentor: user, exercise:)
 
     representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
 
@@ -99,9 +121,12 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   end
 
   test "updates sets current user to editor if representation already had author" do
+    exercise = create :practice_exercise
     user = create :user, :supermentor
     author = create :user
     setup_user(user)
+
+    create_list(:mentor_discussion, 100, :student_finished, mentor: user, exercise:)
 
     representation = create :exercise_representation, feedback_author: author, feedback_markdown: 'Try _this_',
       feedback_type: :essential, feedback_editor: nil, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
@@ -123,8 +148,11 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   end
 
   test "updates sets current user to author if representation doesn't have author" do
+    exercise = create :practice_exercise
     user = create :user, :supermentor
     setup_user(user)
+
+    create_list(:mentor_discussion, 100, :student_finished, mentor: user, request: create(:mentor_request, exercise:))
 
     representation = create :exercise_representation, feedback_author: nil, feedback_editor: nil,
       last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
@@ -151,8 +179,11 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     beginning_of_minute = Time.current.beginning_of_minute
     travel_to beginning_of_minute
 
+    exercise = create :practice_exercise
     user = create :user, :supermentor
     setup_user(user)
+
+    create_list(:mentor_discussion, 100, :student_finished, mentor: user, request: create(:mentor_request, exercise:))
 
     representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
     params = {
@@ -288,6 +319,9 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     series = create :concept_exercise, title: "Series", track: ruby
     tournament = create :concept_exercise, title: "Tournament", track: go
 
+    create_list(:mentor_discussion, 100, :student_finished, mentor: user, track: ruby, exercise: series)
+    create_list(:mentor_discussion, 100, :student_finished, mentor: user, track: go, exercise: tournament)
+
     create :exercise_representation, exercise: series, feedback_type: nil, num_submissions: 2
     create :exercise_representation, exercise: series, feedback_type: nil, num_submissions: 2
     create :exercise_representation, exercise: tournament, feedback_type: nil, num_submissions: 2
@@ -337,6 +371,9 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
     series = create :concept_exercise, title: "Series", track: ruby
     tournament = create :concept_exercise, title: "Tournament", track: go
+
+    create_list(:mentor_discussion, 100, :student_finished, mentor: user, track: ruby, exercise: series)
+    create_list(:mentor_discussion, 100, :student_finished, mentor: user, track: go, exercise: tournament)
 
     create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user, num_submissions: 2
     create :exercise_representation, exercise: series, feedback_type: :essential, feedback_author: user, num_submissions: 2

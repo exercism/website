@@ -7,7 +7,8 @@ class CommunityStory::Search
   initialize_with exclude_ids: [], page: DEFAULT_PAGE, per: DEFAULT_PER, paginated: true
 
   def call
-    @stories = CommunityStory.all
+    @stories = CommunityStory.published
+
     filter_exclude_ids!
     sort!
     paginate! if paginated

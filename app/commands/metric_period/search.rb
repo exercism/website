@@ -6,6 +6,7 @@ class MetricPeriod::Search
     open_issue_metric open_pull_request_metric merge_pull_request_metric
     start_solution_metric complete_solution_metric publish_solution_metric
     request_mentoring_metric request_private_mentoring_metric finish_mentoring_metric
+    join_track_metric
   ].freeze
 
   initialize_with :period_type, :options

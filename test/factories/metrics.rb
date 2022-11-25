@@ -44,4 +44,8 @@ FactoryBot.define do
   factory :open_issue_metric, parent: :metric, class: 'Metrics::OpenIssueMetric' do
     params { { issue: create(:github_issue, :random) } }
   end
+
+  factory :join_track_metric, parent: :metric, class: 'Metrics::JoinTrackMetric' do
+    params { { user_track: create(:user_track, track:, user:) } }
+  end
 end

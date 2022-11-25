@@ -31,6 +31,8 @@ module API
     private
     def use_representation
       @representation = Exercise::Representation.find_by!(uuid: params[:uuid])
+
+      render_403(:not_supermentor_for_track) unless Mentor::Supermentor.for_track?(current_user, @representation.track)
     rescue ActiveRecord::RecordNotFound
       render_404(:representation_not_found)
     end

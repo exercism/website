@@ -111,9 +111,9 @@ export function Representations({
             setStatus={() => null}
           >
             <a href={links.withFeedback}>Feedback submitted</a>
-            {resolvedData ? (
+            {/* {resolvedData ? (
               <div className="count">{feedbackCount['with_feedback']}</div>
-            ) : null}
+            ) : null} */}
           </StatusTab>
         </div>
         {!withFeedback && (

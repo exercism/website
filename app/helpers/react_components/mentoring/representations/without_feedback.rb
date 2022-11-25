@@ -46,7 +46,8 @@ module ReactComponents
         end
 
         def representations_with_feedback_count
-          Exercise::Representation::Search.(mentor:, with_feedback: true, sorted: false, paginated: false).count
+          0 # TODO: support counting only tracks of which user is supermentor
+          # Exercise::Representation::Search.(mentor:, with_feedback: true, sorted: false, paginated: false).count
         end
 
         def tracks_request

@@ -29,20 +29,20 @@ class Metrics::JoinTrackMetricTest < ActiveSupport::TestCase
     end
   end
 
-  test "uniqueness_key is unique per issue" do
+  test "uniqueness_key is unique per user track" do
     uniqueness_keys = Array.new(10) do
-      issue = create :github_issue, :random
-      Metric::Create.(:open_issue, Time.current, issue:)
+      user_track = create :user_track, track: create(:track, :random_slug)
+      Metric::Create.(:join_track, Time.current, user_track:)
     end
 
     assert_equal uniqueness_keys.uniq.size, uniqueness_keys.size
   end
 
   test "idempotent" do
-    issue = create :github_issue
+    user_track = create :user_track
 
     assert_idempotent_command do
-      Metric::Create.(:open_issue, Time.utc(2012, 7, 25), issue:)
+      Metric::Create.(:join_track, Time.utc(2012, 7, 25), user_track:)
     end
   end
 end

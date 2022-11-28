@@ -109,7 +109,7 @@
             %summary.--lightbulb
               #{@status.syllabus.concept_exercises.num_exercises} learning exercises created
               = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-            .record-row.sticky.top-0.bg-white
+            .record-row.sticky.top-0
               .record-name
               .record-value
                 .record-element Started
@@ -258,7 +258,7 @@
             %summary.--practice-exercises
               #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
               = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-            .record-row.sticky.top-0.bg-white
+            .record-row.sticky.top-0
               .record-name
               .record-value
                 .record-element Started
@@ -272,7 +272,7 @@
                   = exercise.title
                 .record-value
                   .record-element
-                    %strong= = number_with_delimiter(exercise.num_started)
+                    %strong= number_with_delimiter(exercise.num_started)
                   .record-element
                     %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
                   .record-element

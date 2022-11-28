@@ -2,7 +2,7 @@
 
   %header.absolute.top-0
   .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
-    .col-span-2
+    .col-span-3.xl:col-span-2
       %h1.text-h1.mb-12.text-48.font-bold.z-1
         .highlight-text= number_with_delimiter(@status.students.num_students)
         students have developed their #{@track.title} skills.
@@ -109,8 +109,8 @@
             %summary.--lightbulb
               #{@status.syllabus.concept_exercises.num_exercises} learning exercises created
               = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-            .record-row.sticky.top-0
-              .record-name
+            .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+              .record-name.mb-0
               .record-value
                 .record-element Started
                 .record-element Attempts
@@ -258,7 +258,7 @@
             %summary.--practice-exercises
               #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
               = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-            .record-row.sticky.top-0
+            .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
               .record-name
               .record-value
                 .record-element Started
@@ -283,7 +283,7 @@
         = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
 
-    .col-span-1
+    .hidden.xl:block.col-span-1
       = ReactComponents::Impact::Map.new(track: @track)
       .rounded-8.p-24.shadow-baseZ1.bg-white
         .flex.items-center.mb-12

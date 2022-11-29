@@ -16,7 +16,7 @@ module Donations
         return unless user.stripe_customer_id.present?
         return if user.uid # Return if the user has auth'd via GitHub
 
-        has_three_failed_invoiced_today = Stripe.invoice.search(
+        has_three_failed_invoiced_today = Stripe::Charge.search(
           query: %(customer:"#{user.stripe_customer_id}" AND status:"failed" AND created>#{(Time.current - 24.hours).to_i}),
           limit: 3
         ).count == 3

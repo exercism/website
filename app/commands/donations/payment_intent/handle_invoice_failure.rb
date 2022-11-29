@@ -24,6 +24,9 @@ module Donations
         user.update!(disabled_at: Time.current) if has_three_failed_invoiced_today
       end
 
+      private
+      attr_reader :id, :invoice
+
       memoize
       def user
         raise "No customer in the invoice" unless invoice.customer

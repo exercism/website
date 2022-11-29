@@ -274,4 +274,6 @@ class User < ApplicationRecord
 
   def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
   def profile? = profile.present?
+
+  def confirmed? = super && !User::BlockDomain.blocked?(self)
 end

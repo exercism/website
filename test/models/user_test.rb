@@ -304,6 +304,17 @@ class UserTest < ActiveSupport::TestCase
     assert user.reload.profile?
   end
 
+  test "confirmed?" do
+    user = create :user, email: 'test@invalid.org', confirmed_at: nil
+    refute user.confirmed?
+
+    user.update(confirmed_at: Time.current)
+    assert user.confirmed?
+
+    create :user_block_domain, domain: 'invalid.org'
+    refute user.confirmed?
+  end
+
   test "scope: random" do
     create_list(:user, 100)
     refute_equal User.all, User.random

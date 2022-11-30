@@ -11,6 +11,8 @@ module ReactComponents
                 initial_data: AssembleActiveSubscription.(current_user)
               }
             },
+            captcha_required: !current_user&.github_auth?,
+            recaptcha_site_key: '6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM', # TODO: use secret
             user_signed_in: user_signed_in?,
             links: {
               settings: Exercism::Routes.donations_settings_url,

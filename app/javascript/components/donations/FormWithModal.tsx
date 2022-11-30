@@ -14,12 +14,16 @@ type FormWithModalProps = {
   request: Request
   userSignedIn: boolean
   links: Links
+  captchaRequired: boolean
+  recaptchaSiteKey: string
 }
 
 export default function FormWithModal({
   request,
   userSignedIn,
   links,
+  captchaRequired,
+  recaptchaSiteKey,
 }: FormWithModalProps): JSX.Element {
   const [paymentMade, setPaymentMade] = useState(false)
 
@@ -43,6 +47,8 @@ export default function FormWithModal({
         onSuccess={handleSuccess}
         request={request}
         links={links}
+        recaptchaSiteKey={recaptchaSiteKey}
+        captchaRequired={captchaRequired}
       />
       <SuccessModal
         open={paymentMade}

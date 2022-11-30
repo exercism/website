@@ -184,10 +184,6 @@ export function StripeForm({
 
   return (
     <form ref={formRef} data-turbo="false" onSubmit={handleSubmit}>
-      <div
-        className="g-recaptcha"
-        data-sitekey="6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM"
-      />
       {!userSignedIn ? (
         <div className="email-container">
           <label htmlFor="email">Your email address (for receipts):</label>
@@ -227,6 +223,10 @@ export function StripeForm({
           {error}
         </div>
       )}
+      <div
+        className="g-recaptcha"
+        data-sitekey="6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM"
+      />
       {paymentIntentType == 'subscription' ? (
         <div className="extra-info">
           Thank you for your ongoing support! We will debit {amount.format()} on

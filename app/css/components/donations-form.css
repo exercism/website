@@ -163,4 +163,8 @@
             @apply text-13 leading-160 text-textColor6 text-center;
         }
     }
+
+    .g-recaptcha {
+        @apply mt-16 h-[78px];
+    }
 }

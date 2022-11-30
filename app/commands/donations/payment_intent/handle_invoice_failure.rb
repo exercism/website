@@ -3,11 +3,8 @@ module Donations
     class HandleInvoiceFailure
       include Mandate
 
-      def initialize(id: nil, invoice: nil)
+      initialize_with id: nil, invoice: nil do
         raise "Specify either id or invoice" unless id || invoice
-
-        @id = id
-        @invoice = invoice
       end
 
       # We guard against spammers here

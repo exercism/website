@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useRef } from 'react'
 import { Icon } from '../common'
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
@@ -54,6 +54,7 @@ export function StripeForm({
   const [processing, setProcessing] = useState(false)
   const [cardValid, setCardValid] = useState(false)
   const [email, setEmail] = useState('')
+  const formRef = useRef<HTMLFormElement | null>(null)
 
   const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
   const paymentIntentFailedEndpoint =
@@ -166,8 +167,21 @@ export function StripeForm({
     setEmail(e.target.value)
   }, [])
 
+  useEffect(() => {
+    var recaptchaScript = document.createElement('script')
+    recaptchaScript.src = 'https://www.google.com/recaptcha/api.js'
+    recaptchaScript.async = true
+    recaptchaScript.defer = true
+
+    formRef.current?.appendChild(recaptchaScript)
+  })
+
   return (
-    <form data-turbo="false" onSubmit={handleSubmit}>
+    <form ref={formRef} data-turbo="false" onSubmit={handleSubmit}>
+      <div
+        className="g-recaptcha"
+        data-sitekey="6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM"
+      />
       {!userSignedIn ? (
         <div className="email-container">
           <label htmlFor="email">Your email address (for receipts):</label>

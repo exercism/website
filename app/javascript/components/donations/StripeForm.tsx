@@ -211,7 +211,7 @@ export function StripeForm({
             <a
               href="https://stripe.com/docs/disputes/prevention/card-testing"
               target="_blank"
-              rel="noopener"
+              rel="noreferrer"
               className="underline"
             >
               card testing attacks

@@ -13,7 +13,7 @@ module ReactComponents
             },
             user_signed_in: user_signed_in?,
             captcha_required: !current_user&.github_auth?,
-            recaptcha_site_key: '6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM', # TODO: use secret
+            recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
             links: {
               settings: Exercism::Routes.donations_settings_url
             }

@@ -105,6 +105,8 @@ export const mappings = {
         request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
         userSignedIn={data.user_signed_in}
+        captchaRequired={data.captcha_required}
+        recaptchaSiteKey={data.recaptcha_site_key}
       />
     </Suspense>
   ),
@@ -447,6 +449,8 @@ export const mappings = {
         request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
         userSignedIn={data.user_signed_in}
+        captchaRequired={data.captcha_required}
+        recaptchaSiteKey={data.recaptcha_site_key}
       />
     </Suspense>
   ),

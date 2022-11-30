@@ -1,9 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { Icon } from '../common'
+import ReCAPTCHA from 'react-google-recaptcha'
+import currency from 'currency.js'
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { fetchJSON } from '../../utils/fetch-json'
-import currency from 'currency.js'
+import { Icon } from '@/components/common'
+import { fetchJSON } from '@/utils/fetch-json'
 
 const cardOptions = {
   style: {
@@ -38,6 +39,8 @@ type StripeFormProps = {
   onProcessing?: () => void
   onSettled?: () => void
   userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
   amount: currency
 }
 
@@ -47,12 +50,17 @@ export function StripeForm({
   onSuccess,
   onProcessing = () => null,
   userSignedIn,
+  recaptchaSiteKey,
+  captchaRequired,
   onSettled = () => null,
 }: StripeFormProps): JSX.Element {
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState<string | undefined>()
   const [processing, setProcessing] = useState(false)
   const [cardValid, setCardValid] = useState(false)
+  const [notARobot, setNotARobot] = useState(!captchaRequired)
+  // this can be passed to the backend
+  const [captchaToken, setCaptchaToken] = useState('')
   const [email, setEmail] = useState('')
 
   const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
@@ -166,6 +174,16 @@ export function StripeForm({
     setEmail(e.target.value)
   }, [])
 
+  const handleCaptchaSuccess = useCallback((token) => {
+    setNotARobot(true)
+    setCaptchaToken(token)
+  }, [])
+
+  const handleCaptchaFailure = useCallback(() => {
+    setNotARobot(false)
+    setCaptchaToken('')
+  }, [])
+
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       {!userSignedIn ? (
@@ -179,6 +197,30 @@ export function StripeForm({
           />
         </div>
       ) : null}
+      {captchaRequired ? (
+        <div className="flex items-center mb-16">
+          <ReCAPTCHA
+            sitekey={recaptchaSiteKey}
+            className="g-recaptcha"
+            onChange={handleCaptchaSuccess}
+            onExpired={handleCaptchaFailure}
+            onErrored={handleCaptchaFailure}
+          />
+          <div className="ml-16 text-textColor6 leading-tight">
+            Due to frequent{' '}
+            <a
+              href="https://stripe.com/docs/disputes/prevention/card-testing"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              card testing attacks
+            </a>
+            , we need to check you are not a bot before we can accept a
+            donation.
+          </div>
+        </div>
+      ) : null}
       <div className="card-container">
         <div className="title">Donate with Card</div>
         <div className="card-element">
@@ -187,6 +229,7 @@ export function StripeForm({
             className="btn-primary btn-s"
             type="submit"
             disabled={
+              !notARobot ||
               processing ||
               !cardValid ||
               succeeded ||

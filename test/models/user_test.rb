@@ -341,4 +341,26 @@ class UserTest < ActiveSupport::TestCase
     create_list(:user, 100)
     refute_equal User.all, User.random
   end
+
+  test "github_auth?" do
+    user = create :user, uid: nil
+    refute user.github_auth?
+
+    user.update(uid: 'aiqweqwe')
+    assert user.github_auth?
+  end
+
+  test "captcha_required?" do
+    user = create :user, uid: nil, created_at: Time.current
+    assert user.captcha_required?
+
+    user.update(uid: nil, created_at: Time.current - 4.days)
+    refute user.captcha_required?
+
+    user.update(uid: 'aiqweqwe', created_at: Time.current)
+    refute user.captcha_required?
+
+    user.update(uid: 'aiqweqwe', created_at: Time.current - 4.days)
+    refute user.captcha_required?
+  end
 end

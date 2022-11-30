@@ -11,7 +11,7 @@ class Markdown::ParseTest < ActiveSupport::TestCase
 <li>Either method pairs with adjectives (which I did),</li>
 <li>Some sort of data structure (e.g. a hash might look like)</li>
 </ol>
-<p><a href="http://example.com" target="_blank" rel="noopener">Some link</a></p>
+<p><a href="http://example.com" target="_blank" rel="noreferrer">Some link</a></p>
 <p>Watch this:</p>
 <pre><code class="language-plain">$ go home
 </code></pre>'
@@ -108,15 +108,15 @@ Done')
   end
 
   test "respects rel_nofollow" do
-    normal = '<p><a href="http://example.com" target="_blank" rel="noopener">Some link</a></p>'
-    rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="noopener nofollow">Some link</a></p>'
+    normal = '<p><a href="http://example.com" target="_blank" rel="noreferrer">Some link</a></p>'
+    rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="noreferrer nofollow">Some link</a></p>'
 
     assert_equal normal.chomp, Markdown::Parse.('[Some link](http://example.com)').chomp
     assert_equal rel_nofollow.chomp, Markdown::Parse.('[Some link](http://example.com)', nofollow_links: true).chomp
   end
 
   test 'adds target="blank" to external links' do
-    expected = '<p><a href="http://example.com" target="_blank" rel="noopener">Some link</a></p>'
+    expected = '<p><a href="http://example.com" target="_blank" rel="noreferrer">Some link</a></p>'
     assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com)').chomp
   end
 
@@ -145,13 +145,13 @@ Done')
     end
   end
 
-  test 'adds rel="noopener" to external links' do
-    expected = '<p><a href="http://example.com" target="_blank" rel="noopener">Some link</a></p>'
+  test 'adds rel="noreferrer" to external links' do
+    expected = '<p><a href="http://example.com" target="_blank" rel="noreferrer">Some link</a></p>'
     assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com)').chomp
   end
 
-  test 'does not add rel="noopener" to external links with no_follow' do
-    expected = '<p><a href="http://example.com" target="_blank" rel="noopener nofollow">Some link</a></p>'
+  test 'does not add rel="noreferrer" to external links with no_follow' do
+    expected = '<p><a href="http://example.com" target="_blank" rel="noreferrer nofollow">Some link</a></p>'
     assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com)', nofollow_links: true).chomp
   end
 

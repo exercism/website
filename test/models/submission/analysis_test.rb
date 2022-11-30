@@ -63,7 +63,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     expected = [
       {
         type: :informative,
-        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank" rel="noopener">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
+        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank" rel="noreferrer">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
       }
     ]
     assert_equal expected, analysis.comments
@@ -88,7 +88,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     expected = [
       {
         type: :essential,
-        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank" rel="noopener">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
+        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank" rel="noreferrer">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
       },
       {
         type: :informative,

@@ -58,7 +58,7 @@ export function StripeForm({
   const [error, setError] = useState<string | undefined>()
   const [processing, setProcessing] = useState(false)
   const [cardValid, setCardValid] = useState(false)
-  const [notARobot, setNotARobot] = useState(false)
+  const [notARobot, setNotARobot] = useState(!captchaRequired)
   // this can be passed to the backend
   const [captchaToken, setCaptchaToken] = useState('')
   const [email, setEmail] = useState('')

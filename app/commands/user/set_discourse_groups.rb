@@ -13,13 +13,13 @@ class User::SetDiscourseGroups
 
   private
   def set_trust_level!
-    return unless user.reputation >= MIN_REP_FOR_TRUST_LEVEL
+    return if user.reputation < MIN_REP_FOR_TRUST_LEVEL
 
     client.update_trust_level(discourse_user_id, level: 2)
   end
 
   def set_pm_enabled!
-    return unless user.reputation >= MIN_REP_FOR_PM_ENABLED
+    return if user.reputation < MIN_REP_FOR_PM_ENABLED
 
     group_id = client.group("pm-enabled").dig(*%w[group id])
     client.group_add(group_id, user_id: [discourse_user_id])

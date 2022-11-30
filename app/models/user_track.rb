@@ -78,7 +78,10 @@ class UserTrack < ApplicationRecord
   end
 
   def enabled_exercises(exercises)
-    exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
+    status = %i[active beta]
+    status << :wip if user.maintainer?
+
+    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 
   def external? = false

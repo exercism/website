@@ -246,6 +246,23 @@ class UserTrackTest < ActiveSupport::TestCase
     ], user_track.unlocked_practice_exercises
   end
 
+  %i[maintainer admin].each do |role|
+    test "wip exercises are unlocked for #{role}" do
+      track = create :track
+      wip_concept_exercise = create :concept_exercise, status: :wip, track: track
+      wip_practice_exercise = create :practice_exercise, status: :wip, track: track
+      hello_world = create :hello_world_exercise, track: track
+
+      user = create :user, role
+      user_track = create :user_track, track: track, user: user
+      create :hello_world_solution, :completed, track: track, user: user, exercise: hello_world
+
+      assert_equal [wip_concept_exercise, wip_practice_exercise, hello_world], user_track.unlocked_exercises
+      assert_equal [wip_concept_exercise], user_track.unlocked_concept_exercises
+      assert_equal [wip_practice_exercise, hello_world], user_track.unlocked_practice_exercises
+    end
+  end
+
   test "in_progress_exercises" do
     track = create :track
     concept_exercise_1 = create :concept_exercise, :random_slug, track: track

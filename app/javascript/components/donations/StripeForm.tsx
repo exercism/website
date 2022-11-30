@@ -1,9 +1,10 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react'
-import { Icon } from '../common'
+import ReCAPTCHA from 'react-google-recaptcha'
+import currency from 'currency.js'
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { fetchJSON } from '../../utils/fetch-json'
-import currency from 'currency.js'
+import { Icon } from '@/components/common'
+import { fetchJSON } from '@/utils/fetch-json'
 
 const cardOptions = {
   style: {
@@ -55,6 +56,7 @@ export function StripeForm({
   const [error, setError] = useState<string | undefined>()
   const [processing, setProcessing] = useState(false)
   const [cardValid, setCardValid] = useState(false)
+  const [notARobot, setNotARobot] = useState(false)
   const [email, setEmail] = useState('')
   const formRef = useRef<HTMLFormElement | null>(null)
 
@@ -169,19 +171,6 @@ export function StripeForm({
     setEmail(e.target.value)
   }, [])
 
-  useEffect(() => {
-    const recaptchaScript = document.createElement('script')
-    recaptchaScript.src = 'https://www.google.com/recaptcha/api.js'
-    recaptchaScript.async = true
-    recaptchaScript.defer = true
-
-    formRef.current?.appendChild(recaptchaScript)
-
-    return () => {
-      document.removeChild(recaptchaScript)
-    }
-  }, [])
-
   return (
     <form ref={formRef} data-turbo="false" onSubmit={handleSubmit}>
       {!userSignedIn ? (
@@ -203,6 +192,7 @@ export function StripeForm({
             className="btn-primary btn-s"
             type="submit"
             disabled={
+              !notARobot ||
               processing ||
               !cardValid ||
               succeeded ||
@@ -223,9 +213,12 @@ export function StripeForm({
           {error}
         </div>
       )}
-      <div
+      <ReCAPTCHA
+        sitekey="6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM"
         className="g-recaptcha"
-        data-sitekey="6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM"
+        onChange={() => setNotARobot(true)}
+        onExpired={() => setNotARobot(false)}
+        onErrored={() => setNotARobot(false)}
       />
       {paymentIntentType == 'subscription' ? (
         <div className="extra-info">

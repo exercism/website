@@ -83,8 +83,7 @@ class ApplicationController < ActionController::Base
   def csp_policy
     websockets = "ws://#{Rails.env.production? ? 'exercism.org' : 'local.exercism.io:3334'}"
     stripe = "https://js.stripe.com"
-    google_recaptcha = "https://www.google.com/recaptcha/"
-    gstatic_recaptcha = "https://www.gstatic.com/recaptcha/"
+    captcha = %w(https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/)
     google_fonts_font = "https://fonts.gstatic.com"
     google_fonts_css = "https://fonts.googleapis.com"
     fontawesome = "https://maxcdn.bootstrapcdn.com"
@@ -98,8 +97,8 @@ class ApplicationController < ActionController::Base
       connect: ["'self'", websockets, spellchecker],
       img: %w['self' data: https://*],
       media: %w[*],
-      script: default + [stripe, spellchecker, google_recaptcha, gstatic_recaptcha],
-      frame: [stripe, google_recaptcha, gstatic_recaptcha],
+      script: default + [stripe, spellchecker, *captcha],
+      frame: [stripe, *captcha],
       font: [google_fonts_font, fontawesome],
       style: default + ["'unsafe-inline'", google_fonts_css, fontawesome],
       child: %w['none']

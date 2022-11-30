@@ -165,6 +165,6 @@
     }
 
     .g-recaptcha {
-        @apply mt-16 h-[78px];
+        @apply mb-16 h-[78px];
     }
 }

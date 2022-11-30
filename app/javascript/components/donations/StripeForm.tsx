@@ -57,8 +57,9 @@ export function StripeForm({
   const [processing, setProcessing] = useState(false)
   const [cardValid, setCardValid] = useState(false)
   const [notARobot, setNotARobot] = useState(false)
+  // this can be passed to the backend
+  const [captchaToken, setCaptchaToken] = useState('')
   const [email, setEmail] = useState('')
-  const formRef = useRef<HTMLFormElement | null>(null)
 
   const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
   const paymentIntentFailedEndpoint =
@@ -171,8 +172,18 @@ export function StripeForm({
     setEmail(e.target.value)
   }, [])
 
+  const handleCaptchaSuccess = useCallback((token) => {
+    setNotARobot(true)
+    setCaptchaToken(token)
+  }, [])
+
+  const handleCaptchaFailure = useCallback(() => {
+    setNotARobot(false)
+    setCaptchaToken('')
+  }, [])
+
   return (
-    <form ref={formRef} data-turbo="false" onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handleSubmit}>
       {!userSignedIn ? (
         <div className="email-container">
           <label htmlFor="email">Your email address (for receipts):</label>
@@ -184,6 +195,13 @@ export function StripeForm({
           />
         </div>
       ) : null}
+      <ReCAPTCHA
+        sitekey="6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM"
+        className="g-recaptcha"
+        onChange={handleCaptchaSuccess}
+        onExpired={handleCaptchaFailure}
+        onErrored={handleCaptchaFailure}
+      />
       <div className="card-container">
         <div className="title">Donate with Card</div>
         <div className="card-element">
@@ -213,13 +231,6 @@ export function StripeForm({
           {error}
         </div>
       )}
-      <ReCAPTCHA
-        sitekey="6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM"
-        className="g-recaptcha"
-        onChange={() => setNotARobot(true)}
-        onExpired={() => setNotARobot(false)}
-        onErrored={() => setNotARobot(false)}
-      />
       {paymentIntentType == 'subscription' ? (
         <div className="extra-info">
           Thank you for your ongoing support! We will debit {amount.format()} on

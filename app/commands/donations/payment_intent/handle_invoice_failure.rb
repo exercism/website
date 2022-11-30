@@ -23,7 +23,7 @@ class Donations::PaymentIntent::HandleInvoiceFailure
   def number_of_failed_invoices_in_last_24_hours
     Stripe::Charge.search(
       query: %(customer:"#{user.stripe_customer_id}" AND status:"failed" AND created>#{(Time.current - 24.hours).to_i}),
-      limit: 3
+      limit: MINIMUM_FAILED_INVOICES_IN_LAST_24_HOURS
     ).count
   end
 

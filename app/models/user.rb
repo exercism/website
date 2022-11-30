@@ -278,4 +278,6 @@ class User < ApplicationRecord
   def confirmed? = super && !disabled? && !blocked?
   def disabled? = !!disabled_at
   def blocked? = User::BlockDomain.blocked?(self)
+
+  def github_auth? = uid.present?
 end

@@ -5,6 +5,7 @@ import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
 import { fetchJSON } from '@/utils/fetch-json'
+import { useLogger } from '@/hooks'
 
 const cardOptions = {
   style: {
@@ -50,6 +51,8 @@ export function StripeForm({
   onSuccess,
   onProcessing = () => null,
   userSignedIn,
+  recaptchaSiteKey,
+  captchaRequired,
   onSettled = () => null,
 }: StripeFormProps): JSX.Element {
   const [succeeded, setSucceeded] = useState(false)
@@ -60,6 +63,8 @@ export function StripeForm({
   // this can be passed to the backend
   const [captchaToken, setCaptchaToken] = useState('')
   const [email, setEmail] = useState('')
+
+  useLogger('sitekey', captchaRequired)
 
   const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
   const paymentIntentFailedEndpoint =
@@ -195,13 +200,15 @@ export function StripeForm({
           />
         </div>
       ) : null}
-      <ReCAPTCHA
-        sitekey="6LfFYEUjAAAAAH9eRl1qeO2R9aXzdXGnAybe6ulM"
-        className="g-recaptcha"
-        onChange={handleCaptchaSuccess}
-        onExpired={handleCaptchaFailure}
-        onErrored={handleCaptchaFailure}
-      />
+      {captchaRequired ? (
+        <ReCAPTCHA
+          sitekey={recaptchaSiteKey}
+          className="g-recaptcha"
+          onChange={handleCaptchaSuccess}
+          onExpired={handleCaptchaFailure}
+          onErrored={handleCaptchaFailure}
+        />
+      ) : null}
       <div className="card-container">
         <div className="title">Donate with Card</div>
         <div className="card-element">

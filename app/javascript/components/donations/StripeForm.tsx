@@ -38,6 +38,8 @@ type StripeFormProps = {
   onProcessing?: () => void
   onSettled?: () => void
   userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
   amount: currency
 }
 

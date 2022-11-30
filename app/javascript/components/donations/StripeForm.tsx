@@ -5,7 +5,6 @@ import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
 import { fetchJSON } from '@/utils/fetch-json'
-import { useLogger } from '@/hooks'
 
 const cardOptions = {
   style: {
@@ -63,8 +62,6 @@ export function StripeForm({
   // this can be passed to the backend
   const [captchaToken, setCaptchaToken] = useState('')
   const [email, setEmail] = useState('')
-
-  useLogger('sitekey', captchaRequired)
 
   const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
   const paymentIntentFailedEndpoint =

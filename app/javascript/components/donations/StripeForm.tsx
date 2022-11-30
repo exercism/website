@@ -198,13 +198,28 @@ export function StripeForm({
         </div>
       ) : null}
       {captchaRequired ? (
-        <ReCAPTCHA
-          sitekey={recaptchaSiteKey}
-          className="g-recaptcha"
-          onChange={handleCaptchaSuccess}
-          onExpired={handleCaptchaFailure}
-          onErrored={handleCaptchaFailure}
-        />
+        <div className="flex items-center mb-16">
+          <ReCAPTCHA
+            sitekey={recaptchaSiteKey}
+            className="g-recaptcha"
+            onChange={handleCaptchaSuccess}
+            onExpired={handleCaptchaFailure}
+            onErrored={handleCaptchaFailure}
+          />
+          <div className="ml-16 text-textColor6 leading-tight">
+            Due to frequent{' '}
+            <a
+              href="https://stripe.com/docs/disputes/prevention/card-testing"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              card testing attacks
+            </a>
+            , we need to check you are not a bot before we can accept a
+            donation.
+          </div>
+        </div>
       ) : null}
       <div className="card-container">
         <div className="title">Donate with Card</div>

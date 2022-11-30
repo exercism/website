@@ -17,7 +17,7 @@ class Donations::PaymentIntent::HandleInvoiceFailure
   attr_reader :id, :invoice
 
   def too_many_failed_invoices_in_last_24_hours?
-    number_of_failed_invoices_in_last_24_hours == 3
+    number_of_failed_invoices_in_last_24_hours >= MINIMUM_FAILED_INVOICES_IN_LAST_24_HOURS
   end
 
   def number_of_failed_invoices_in_last_24_hours
@@ -33,4 +33,7 @@ class Donations::PaymentIntent::HandleInvoiceFailure
 
     User.find_by(stripe_customer_id: invoice.customer)
   end
+
+  MINIMUM_FAILED_INVOICES_IN_LAST_24_HOURS = 3
+  private_constant :MINIMUM_FAILED_INVOICES_IN_LAST_24_HOURS
 end

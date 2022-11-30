@@ -44,11 +44,12 @@ class Donations::TestBase < ActiveSupport::TestCase
     )
   end
 
-  def mock_stripe_invoice(id, subscription_id, status: 'open')
+  def mock_stripe_invoice(id, subscription_id, status: 'open', customer: nil)
     OpenStruct.new(
       id:,
       subscription: subscription_id,
-      status:
+      status:,
+      customer:
     )
   end
 

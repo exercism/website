@@ -48,7 +48,7 @@ class Markdown::RenderHTML
       out(' title="', escape_html(node.title), '"') if node.title.present?
       if external_url?(node.url)
         out(' target="_blank"')
-        out(' rel="noreferrer"', nofollow_links ? ' nofollow' : '', '"')
+        out(' rel="noreferrer', nofollow_links ? ' nofollow' : '', '"')
       elsif nofollow_links
         out(' rel="nofollow"')
       end

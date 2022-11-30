@@ -13,19 +13,24 @@ module Donations
       # We guard against spammers here
       def call
         return unless user
-        return unless user.stripe_customer_id.present?
         return if user.uid # Return if the user has auth'd via GitHub
 
-        has_three_failed_invoiced_today = Stripe::Charge.search(
-          query: %(customer:"#{user.stripe_customer_id}" AND status:"failed" AND created>#{(Time.current - 24.hours).to_i}),
-          limit: 3
-        ).count == 3
-
-        user.update!(disabled_at: Time.current) if has_three_failed_invoiced_today
+        user.update!(disabled_at: Time.current) if too_many_failed_invoices_in_last_24_hours?
       end
 
       private
       attr_reader :id, :invoice
+
+      def too_many_failed_invoices_in_last_24_hours?
+        number_of_failed_invoices_in_last_24_hours == 3
+      end
+
+      def number_of_failed_invoices_in_last_24_hours
+        Stripe::Charge.search(
+          query: %(customer:"#{user.stripe_customer_id}" AND status:"failed" AND created>#{(Time.current - 24.hours).to_i}),
+          limit: 3
+        ).count
+      end
 
       memoize
       def user

@@ -280,4 +280,5 @@ class User < ApplicationRecord
   def blocked? = User::BlockDomain.blocked?(self)
 
   def github_auth? = uid.present?
+  def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 end

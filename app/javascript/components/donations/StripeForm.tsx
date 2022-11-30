@@ -168,13 +168,17 @@ export function StripeForm({
   }, [])
 
   useEffect(() => {
-    var recaptchaScript = document.createElement('script')
+    const recaptchaScript = document.createElement('script')
     recaptchaScript.src = 'https://www.google.com/recaptcha/api.js'
     recaptchaScript.async = true
     recaptchaScript.defer = true
 
     formRef.current?.appendChild(recaptchaScript)
-  })
+
+    return () => {
+      document.removeChild(recaptchaScript)
+    }
+  }, [])
 
   return (
     <form ref={formRef} data-turbo="false" onSubmit={handleSubmit}>

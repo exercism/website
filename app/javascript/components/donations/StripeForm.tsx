@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import currency from 'currency.js'
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js'

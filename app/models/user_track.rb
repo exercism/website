@@ -78,6 +78,12 @@ class UserTrack < ApplicationRecord
   end
 
   def enabled_exercises(exercises)
+    # This should really be "If the user a maintainer FOR THIS TRACK".
+    # I don't know how well we keep that up to date. If we do, then
+    # let's take that approach and refine it a bit. Otherwise let's
+    # consider if we want this brute-force approach for all maintainers.
+    return exercises if user.maintainer?
+
     exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 

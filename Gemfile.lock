@@ -330,6 +330,7 @@ GEM
     parallel (1.22.1)
     parser (3.1.2.0)
       ast (~> 2.4.1)
+    parslet (2.0.0)
     propshaft (0.4.0)
       rails (>= 7.0.0.alpha2)
     public_suffix (4.0.6)
@@ -479,6 +480,8 @@ GEM
       e2mmap
     tilt (2.0.10)
     timeout (0.2.0)
+    toml (0.3.0)
+      parslet (>= 1.8.0, < 3.0.0)
     turbo-rails (1.1.1)
       actionpack (>= 6.0.0)
       activejob (>= 6.0.0)
@@ -580,6 +583,7 @@ DEPENDENCIES
   skylight
   solargraph
   stripe
+  toml (~> 0.3.0)
   turbo-rails
   tzinfo-data
   web-console (>= 3.3.0)

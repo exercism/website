@@ -12,6 +12,13 @@ class Git::ProblemSpecifications
   def update! = repo.fetch!
 
   memoize
+  def exercises
+    exercise_dir_entries.map do |entry|
+      Git::ProblemSpecifications::Exercise.new(entry[:name], repo:)
+    end
+  end
+
+  memoize
   def active_exercise_slugs
     exercise_dir_entries.filter_map do |entry|
       entry[:name] unless deprecated_exercise?(entry)

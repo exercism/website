@@ -23,6 +23,9 @@ class User::SetDiscourseGroups
 
     group_id = client.group("pm-enabled").dig(*%w[group id])
     client.group_add(group_id, user_id: [discourse_user_id])
+  rescue DiscourseApi::UnprocessableEntity
+    # If the user was already a member of the group,
+    # ignore the error
   end
 
   memoize

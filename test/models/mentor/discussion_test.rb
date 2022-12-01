@@ -373,7 +373,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
 
   test "does not update num discussions finished if status is unchanged" do
     mentor = create :user
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create :mentor_discussion, mentor: mentor, status: :finished
 
     perform_enqueued_jobs do
       Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never

@@ -23,7 +23,7 @@ class Git::ProblemSpecifications::ExerciseTest < ActiveSupport::TestCase
 
   test "description" do
     exercise = Git::ProblemSpecifications::Exercise.new("high-scores", repo_url:)
-    expected = "# Description\n\nManage a game player's High Score list.\n\nYour task is to build a high-score component of the classic Frogger game, one of the highest selling and addictive games of all time, and a classic of the arcade era. Your task is to write methods that return the highest score from the list, the last added score and the three highest scores." # rubocop:disable Layout/LineLength
+    expected = "# Description\n\nManage a game player's High Score list.\n\nYour task is to build a high-score component of the classic Frogger game, one of the highest selling and most addictive games of all time, and a classic of the arcade era.\nYour task is to write methods that return the highest score from the list, the last added score and the three highest scores." # rubocop:disable Layout/LineLength
     assert_equal expected, exercise.description
   end
 
@@ -39,7 +39,7 @@ class Git::ProblemSpecifications::ExerciseTest < ActiveSupport::TestCase
 
   test "metadata" do
     exercise = Git::ProblemSpecifications::Exercise.new("anagram", repo_url:)
-    expected = -"blurb = \"Given a word and a list of possible anagrams, select the correct sublist.\"\nsource = \"Inspired by the Extreme Startup game\"\nsource_url = \"https://github.com/rchatley/extreme_startup\"" # rubocop:disable Layout/LineLength
+    expected = "title = \"Anagram\"\nblurb = \"Given a word and a list of possible anagrams, select the correct sublist.\"\nsource = \"Inspired by the Extreme Startup game\"\nsource_url = \"https://github.com/rchatley/extreme_startup\"" # rubocop:disable Layout/LineLength
     assert_equal expected, exercise.metadata
   end
 

@@ -28,6 +28,8 @@ class UserTrack
     private
     attr_reader :exercises_data, :concepts_hash
 
+    delegate :user, to: :user_track
+
     memoize
     def exercises_hash
       exercises_data.transform_values do |exercise|
@@ -66,10 +68,14 @@ class UserTrack
     end
 
     def generate_exercises_data!
-      exercises = (
-        user_track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a +
-        user_track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
-      ).freeze
+      if user.maintainer?
+        exercises = track.exercises.to_a.freeze
+      else
+        exercises = (
+          user_track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a +
+          user_track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
+        ).freeze
+      end
 
       @exercises_data = exercises.each_with_object({}) do |exercise, data|
         prerequisite_concept_slugs = exercise.prerequisites.pluck(:slug)

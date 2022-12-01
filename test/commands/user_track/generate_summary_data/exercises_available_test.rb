@@ -278,8 +278,24 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     assert_equal [beta_concept_exercise, active_concept_exercise, deprecated_concept_exercise], summary.unlocked_concept_exercises
     assert_equal [beta_practice_exercise, active_practice_exercise, deprecated_practice_exercise, hello_world],
       summary.unlocked_practice_exercises
+  end
 
-    # TODO: (Optional): show wip exercises for maintainers
+  test "maintainers can see WIP exercises" do
+    track = create :track
+    wip_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :wip
+    wip_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :wip
+
+    user = create :user, roles: [:maintainer]
+    user_track = create :user_track, track: track, user: user
+    hw_solution = create :hello_world_solution, :completed, track: track, user: user
+    hello_world = hw_solution.exercise
+
+    summary = summary_for(user_track)
+
+    # Test that the :wip and :deprecated exercises are not shown
+    assert_equal [wip_concept_exercise, wip_practice_exercise, hello_world], summary.unlocked_exercises
+    assert_equal [wip_concept_exercise], summary.unlocked_concept_exercises
+    assert_equal [wip_practice_exercise, hello_world], summary.unlocked_practice_exercises
   end
 
   private

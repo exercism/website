@@ -1,12 +1,12 @@
 require "test_helper"
 
-class Mentor::UpdateStatsTest < ActiveJob::TestCase
+class Mentor::UpdateStatsTest < ActiveSupport::TestCase
   test "update num solutions mentored if requested" do
     mentor = create :user
 
     Mentor::UpdateNumSolutionsMentored.expects(:call).with(mentor)
 
-    Mentor::UpdateStats.perform_now(mentor, update_num_solutions_mentored: true)
+    Mentor::UpdateStats.(mentor, update_num_solutions_mentored: true)
   end
 
   test "does not update num solutions mentored if not request" do
@@ -14,7 +14,7 @@ class Mentor::UpdateStatsTest < ActiveJob::TestCase
 
     Mentor::UpdateNumSolutionsMentored.expects(:call).with(mentor).never
 
-    Mentor::UpdateStats.perform_now(mentor, update_num_solutions_mentored: false)
+    Mentor::UpdateStats.(mentor, update_num_solutions_mentored: false)
   end
 
   test "update satisfaction rating if requested" do
@@ -22,7 +22,7 @@ class Mentor::UpdateStatsTest < ActiveJob::TestCase
 
     Mentor::UpdateSatisfactionRating.expects(:call).with(mentor)
 
-    Mentor::UpdateStats.perform_now(mentor, update_satisfaction_rating: true)
+    Mentor::UpdateStats.(mentor, update_satisfaction_rating: true)
   end
 
   test "does not update satisfaction rating if not requested" do
@@ -30,7 +30,7 @@ class Mentor::UpdateStatsTest < ActiveJob::TestCase
 
     Mentor::UpdateSatisfactionRating.expects(:call).with(mentor).never
 
-    Mentor::UpdateStats.perform_now(mentor, update_satisfaction_rating: false)
+    Mentor::UpdateStats.(mentor, update_satisfaction_rating: false)
   end
 
   test "updates num solutions mentored and satisfaction rating if requested" do
@@ -38,6 +38,6 @@ class Mentor::UpdateStatsTest < ActiveJob::TestCase
 
     Mentor::UpdateSatisfactionRating.expects(:call).with(mentor)
 
-    Mentor::UpdateStats.perform_now(mentor, update_num_solutions_mentored: true, update_satisfaction_rating: true)
+    Mentor::UpdateStats.(mentor, update_num_solutions_mentored: true, update_satisfaction_rating: true)
   end
 end

@@ -159,7 +159,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def update_stats!
-    Mentor::UpdateStats.perform_later(
+    Mentor::UpdateStats.defer(
       mentor,
       update_num_solutions_mentored: previous_changes.key?('status'),
       update_satisfaction_rating: previous_changes.key?('rating')

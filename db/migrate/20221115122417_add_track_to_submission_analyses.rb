@@ -7,7 +7,7 @@ class AddTrackToSubmissionAnalyses < ActiveRecord::Migration[7.0]
       Submission::Analysis.includes(submission: :track).find_in_batches do |batch|
         ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
           batch.each do |analysis|
-            analysis.update(track_id: analysis.submission.track.id)
+            analysis.update(track_id: analysis.submission.track&.id)
           end
         end
       end

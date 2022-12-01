@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_24_152329) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_29_142500) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -564,6 +564,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_152329) do
     t.index ["status", "exercise_id"], name: "index_mentor_requests_on_status_and_exercise_id"
     t.index ["status", "track_id"], name: "index_mentor_requests_on_status_and_track_id"
     t.index ["student_id"], name: "index_mentor_requests_on_student_id"
+    t.index ["track_id", "exercise_id"], name: "index_mentor_requests_on_track_id_and_exercise_id"
     t.index ["track_id", "status"], name: "index_mentor_requests_on_track_id_and_status"
     t.index ["track_id"], name: "index_mentor_requests_on_track_id"
     t.index ["uuid"], name: "index_mentor_requests_on_uuid", unique: true
@@ -776,6 +777,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_152329) do
     t.bigint "track_id"
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
     t.index ["track_id", "id"], name: "index_submission_analyses_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id", "num_comments"], name: "index_submission_analyses_on_track_id_and_num_comments"
     t.index ["track_id"], name: "index_submission_analyses_on_track_id"
   end
 
@@ -843,6 +845,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_152329) do
     t.integer "exercise_id", limit: 3
     t.index ["solution_id"], name: "index_submissions_on_solution_id"
     t.index ["track_id", "exercise_id"], name: "index_submissions_on_track_id_and_exercise_id"
+    t.index ["track_id", "tests_status"], name: "index_submissions_on_track_id_and_tests_status"
     t.index ["track_id"], name: "index_submissions_on_track_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
@@ -942,6 +945,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_152329) do
     t.datetime "updated_at", null: false
     t.index ["token"], name: "index_user_auth_tokens_on_token", unique: true
     t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
+  end
+
+  create_table "user_block_domains", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "domain", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["domain"], name: "index_user_block_domains_on_domain", unique: true
   end
 
   create_table "user_communication_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1070,6 +1080,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_152329) do
     t.datetime "updated_at", null: false
     t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
+    t.index ["track_id", "category", "external_url"], name: "index_user_reputation_tokens_on_track_id_category_external_url"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
     t.index ["user_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_3"
@@ -1141,6 +1152,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_152329) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "show_on_supporters_page", default: true, null: false
+    t.datetime "disabled_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["github_username"], name: "index_users_on_github_username", unique: true

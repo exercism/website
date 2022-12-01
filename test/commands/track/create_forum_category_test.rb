@@ -7,9 +7,9 @@ class Track::CreateForumCategoryTest < ActiveSupport::TestCase
     get_categories_body = {
       category_list: {
         categories: [
-          { position: 1, name: "C++" },
-          { position: 2, name: "Elixir" },
-          { position: 3, name: "Nim" }
+          { position: 1, name: "C++", slug: "cpp" },
+          { position: 2, name: "Elixir", slug: "elixir" },
+          { position: 3, name: "Nim", slug: "nim" }
         ]
       }
     }
@@ -18,7 +18,8 @@ class Track::CreateForumCategoryTest < ActiveSupport::TestCase
 
     post_category_body = { category: { position: 3, name: "C++", topic_url: "/t/about-the-cpp-category/105" } }
     stub_request(:post, "https://forum.exercism.org/categories").
-      with(body: { "color" => "0088CC", "name" => "Lua", "parent_category_id" => "5", "position" => "3", "text_color" => "FFFFFF" }).
+      with(body: { "color" => "0088CC", "name" => "Lua", "slug" => "lua", "parent_category_id" => "5", "position" => "3",
+                   "text_color" => "FFFFFF" }).
       to_return(status: 200, body: post_category_body.to_json, headers: { 'Content-Type': 'application/json' })
 
     get_topic_body = { post_stream: { posts: [{ id: 22 }] } }
@@ -37,18 +38,19 @@ class Track::CreateForumCategoryTest < ActiveSupport::TestCase
     get_categories_body = {
       category_list: {
         categories: [
-          { position: 1, name: "C++" },
-          { position: 2, name: "Elixir" },
-          { position: 3, name: "Nim" }
+          { position: 1, name: "C++", slug: "cpp" },
+          { position: 2, name: "Elixir", slug: "elixir" },
+          { position: 3, name: "Nim", slug: "nim" }
         ]
       }
     }
     stub_request(:get, "https://forum.exercism.org/categories.json?parent_category_id=5").
       to_return(status: 200, body: get_categories_body.to_json, headers: { 'Content-Type': 'application/json' })
 
-    post_category_body = { category: { position: 1, name: "ABAP", topic_url: "/t/about-the-abap-category/105" } }
+    post_category_body = { category: { position: 1, name: "ABAP", slug: "abap", topic_url: "/t/about-the-abap-category/105" } }
     stub_request(:post, "https://forum.exercism.org/categories").
-      with(body: { "color" => "0088CC", "name" => "ABAP", "parent_category_id" => "5", "position" => "1", "text_color" => "FFFFFF" }).
+      with(body: { "color" => "0088CC", "name" => "ABAP", "slug" => "abap", "parent_category_id" => "5", "position" => "1",
+                   "text_color" => "FFFFFF" }).
       to_return(status: 200, body: post_category_body.to_json, headers: { 'Content-Type': 'application/json' })
 
     get_topic_body = { post_stream: { posts: [{ id: 22 }] } }
@@ -76,9 +78,10 @@ class Track::CreateForumCategoryTest < ActiveSupport::TestCase
     stub_request(:get, "https://forum.exercism.org/categories.json?parent_category_id=5").
       to_return(status: 200, body: get_categories_body.to_json, headers: { 'Content-Type': 'application/json' })
 
-    post_category_body = { category: { position: 4, name: "Zig", topic_url: "/t/about-the-zig-category/105" } }
+    post_category_body = { category: { position: 4, name: "Zig", slug: "zig", topic_url: "/t/about-the-zig-category/105" } }
     stub_request(:post, "https://forum.exercism.org/categories").
-      with(body: { "color" => "0088CC", "name" => "Zig", "parent_category_id" => "5", "position" => "4", "text_color" => "FFFFFF" }).
+      with(body: { "color" => "0088CC", "name" => "Zig", "slug" => "zig", "parent_category_id" => "5", "position" => "4",
+                   "text_color" => "FFFFFF" }).
       to_return(status: 200, body: post_category_body.to_json, headers: { 'Content-Type': 'application/json' })
 
     get_topic_body = { post_stream: { posts: [{ id: 22 }] } }
@@ -98,9 +101,10 @@ class Track::CreateForumCategoryTest < ActiveSupport::TestCase
     stub_request(:get, "https://forum.exercism.org/categories.json?parent_category_id=5").
       to_return(status: 200, body: get_categories_body.to_json, headers: { 'Content-Type': 'application/json' })
 
-    post_category_body = { category: { position: 1, name: "Lua", topic_url: "/t/about-the-lua-category/105" } }
+    post_category_body = { category: { position: 1, name: "Lua", slug: "lua", topic_url: "/t/about-the-lua-category/105" } }
     stub_request(:post, "https://forum.exercism.org/categories").
-      with(body: { "color" => "0088CC", "name" => "Lua", "parent_category_id" => "5", "position" => "1", "text_color" => "FFFFFF" }).
+      with(body: { "color" => "0088CC", "name" => "Lua", "slug" => "lua", "parent_category_id" => "5", "position" => "1",
+                   "text_color" => "FFFFFF" }).
       to_return(status: 200, body: post_category_body.to_json, headers: { 'Content-Type': 'application/json' })
 
     get_topic_body = { post_stream: { posts: [{ id: 22 }] } }

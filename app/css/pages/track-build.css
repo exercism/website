@@ -285,6 +285,21 @@
         @apply w-1-2;
     }
 
+    .sticky {
+        .record-name {
+            @apply mb-0;
+        }
+        .record-element {
+            @apply bg-white items-center;
+        }
+    }
+
+    .record-value {
+        strong {
+            @apply mt-8 xl:mt-0;
+        }
+    }
+
     .record-row {
         @apply flex justify-between lg:items-center;
         @apply lg:flex-row flex-col;

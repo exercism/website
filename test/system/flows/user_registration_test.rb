@@ -24,6 +24,14 @@ module Flows
       end
     end
 
+    test "user confirms successfully using confirmation token" do
+      user = create :user, confirmed_at: nil, email: 'test@exercism.org'
+
+      visit user_confirmation_path(confirmation_token: user.confirmation_token)
+
+      assert_text "Your email address has been successfully confirmed. Please sign in below."
+    end
+
     test "user sees captcha errors" do
       expecting_errors do
         allow_captcha_request do

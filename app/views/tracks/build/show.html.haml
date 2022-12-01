@@ -2,9 +2,9 @@
 
   %header.absolute.top-0
   .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
-    .col-span-2
+    .col-span-3.xl:col-span-2
       %h1.text-h1.mb-12.text-48.font-bold.z-1
-        .highlight-text= @status.students.num_students
+        .highlight-text= number_with_delimiter(@status.students.num_students)
         students have developed their #{@track.title} skills.
       .grid.grid-cols-3.mb-32.gap-16
         .report-stat
@@ -104,13 +104,13 @@
                 .record-name
                   = render ViewComponents::ConceptIcon.new(concept, :small)
                   = concept.name
-                .record-value #{concept.num_students_learnt} learnt
+                .record-value #{number_with_delimiter(concept.num_students_learnt)} learnt
           %details
             %summary.--lightbulb
               #{@status.syllabus.concept_exercises.num_exercises} learning exercises created
               = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-            .record-row.sticky.top-0.bg-white
-              .record-name
+            .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+              .record-name.mb-0
               .record-value
                 .record-element Started
                 .record-element Attempts
@@ -123,13 +123,13 @@
                   = exercise.title
                 .record-value
                   .record-element
-                    %strong= exercise.num_started
+                    %strong= number_with_delimiter(exercise.num_started)
                   .record-element
-                    %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
+                    %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
                   .record-element
-                    %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
+                    %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
                   .record-element
-                    %strong #{exercise.num_mentoring_requests} (#{exercise.num_mentoring_requests_percentage}%)
+                    %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
         = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
@@ -258,7 +258,7 @@
             %summary.--practice-exercises
               #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
               = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-            .record-row.sticky.top-0.bg-white
+            .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
               .record-name
               .record-value
                 .record-element Started
@@ -272,18 +272,18 @@
                   = exercise.title
                 .record-value
                   .record-element
-                    %strong= exercise.num_started
+                    %strong= number_with_delimiter(exercise.num_started)
                   .record-element
-                    %strong #{exercise.num_submitted} (avg. #{exercise.num_submitted_average})
+                    %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
                   .record-element
-                    %strong #{exercise.num_completed} (#{exercise.num_completed_percentage}%)
+                    %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
                   .record-element
-                    %strong #{exercise.num_mentoring_requests} (#{exercise.num_mentoring_requests_percentage}%)
+                    %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
         = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
 
-    .col-span-1
+    .hidden.xl:block.col-span-1
       = ReactComponents::Impact::Map.new(track: @track)
       .rounded-8.p-24.shadow-baseZ1.bg-white
         .flex.items-center.mb-12
@@ -295,16 +295,18 @@
         - @status.volunteers.users[0, 3].to_a.each do |volunteer|
           .contributor-credit-block
             .contributor
-              = avatar(volunteer)
+              = avatar(volunteer, css_class: "h-32 w-32")
               = volunteer.handle
             = render ViewComponents::Reputation.new(volunteer.reputation, flashy: true, size: :small)
 
         .inline-grid.grid-cols-6.gap-16.mt-20.mb-16
           - @status.volunteers.users[3..].to_a.each do |volunteer|
-            = avatar(volunteer)
+            = avatar(volunteer, css_class: "h-32 w-32")
           - if @status.volunteers.num_volunteers > @status.volunteers.users.size
             .col-span-2.self-center.leading-170.text-14.font-semibold.text-lightBlue
-              + #{@status.volunteers.num_volunteers - @status.volunteers.users.size} more
+              = link_to contributing_contributors_path(track_slug: @track.slug) do
+                + #{number_with_delimiter(@status.volunteers.num_volunteers - @status.volunteers.users.size)} more
+
 
         .rounded-8.py-16.px-20.bg-backgroundColorG
           %h6.text-h6.leading-150.mb-4 We 💙 our volunteers

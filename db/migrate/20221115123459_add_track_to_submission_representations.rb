@@ -7,7 +7,7 @@ class AddTrackToSubmissionRepresentations < ActiveRecord::Migration[7.0]
       Submission::Representation.includes(submission: :track).find_in_batches do |batch|
         ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
           batch.each do |representation|
-            representation.update(track_id: representation.submission.track.id)
+            representation.update(track_id: representation.submission&.track&.id)
           end
         end
       end

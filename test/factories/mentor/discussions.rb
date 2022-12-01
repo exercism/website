@@ -1,13 +1,14 @@
 FactoryBot.define do
   factory :mentor_discussion, class: 'Mentor::Discussion' do
     mentor { create :user }
-    solution { create :practice_solution, track: }
+    solution { create :practice_solution, track:, exercise: }
     request { create :mentor_request, solution:, status: :fulfilled }
 
     transient do
       track do
         Track.find_by(slug: 'ruby') || create(:track, slug: 'ruby')
       end
+      exercise { create :practice_exercise, track: }
     end
 
     trait :awaiting_student do

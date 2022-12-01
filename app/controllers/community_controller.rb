@@ -12,6 +12,6 @@ class CommunityController < ApplicationController
         last(40).
         map { |b| b.user.avatar_url }
 
-    @community_stories = CommunityStory.includes(:interviewee).ordered_by_recency.first(3)
+    @community_stories = CommunityStory.published.includes(:interviewee).ordered_by_recency.first(3)
   end
 end

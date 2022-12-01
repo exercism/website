@@ -116,6 +116,11 @@ class Track < ApplicationRecord
   def representer_repo_url = "#{repo_url}-representer"
   def analyzer_repo_url = "#{repo_url}-analyzer"
 
+  memoize
+  def foregone_exercises
+    git.foregone_exercises.map { |slug| ProblemSpecifications::Exercise.new(slug) }
+  end
+
   CATGEORIES = {
     paradigm: "Paradigm",
     typing: "Typing",

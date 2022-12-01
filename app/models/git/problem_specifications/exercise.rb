@@ -12,7 +12,7 @@ class Git::ProblemSpecifications::Exercise
 
   attr_reader :slug
 
-  def initialize(slug, repo_url: nil, repo: nil)
+  def initialize(slug, repo_url: Git::ProblemSpecifications::DEFAULT_REPO_URL, repo: nil)
     @repo = repo || Git::Repository.new(repo_url:)
     @slug = slug
   end

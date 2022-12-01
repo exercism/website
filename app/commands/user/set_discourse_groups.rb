@@ -22,10 +22,13 @@ class User::SetDiscourseGroups
     return if user.reputation < MIN_REP_FOR_PM_ENABLED
 
     group_id = client.group("pm-enabled").dig(*%w[group id])
-    client.group_add(group_id, user_id: [discourse_user_id])
-  rescue DiscourseApi::UnprocessableEntity
-    # If the user was already a member of the group,
-    # ignore the error
+
+    begin
+      client.group_add(group_id, user_id: [discourse_user_id])
+    rescue DiscourseApi::UnprocessableEntity
+      # If the user was already a member of the group,
+      # ignore the error
+    end
   end
 
   memoize

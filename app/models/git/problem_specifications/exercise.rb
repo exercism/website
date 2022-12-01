@@ -16,16 +16,16 @@ class Git::ProblemSpecifications::Exercise
   end
 
   memoize
-  def title = metadata[:title]
+  def title = metadata["title"]
 
   memoize
-  def blurb = metadata[:blurb]
+  def blurb = metadata["blurb"]
 
   memoize
-  def source = metadata[:source]
+  def source = metadata["source"]
 
   memoize
-  def source_url = metadata[:source_url]
+  def source_url = metadata["source_url"]
 
   memoize
   def absolute_filepaths

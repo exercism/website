@@ -1,6 +1,26 @@
 require 'test_helper'
 
 class Git::ProblemSpecifications::ExerciseTest < ActiveSupport::TestCase
+  test "title" do
+    exercise = Git::ProblemSpecifications::Exercise.new("collatz-conjecture", repo_url:)
+    assert_equal "Collatz Conjecture", exercise.title
+  end
+
+  test "blurb" do
+    exercise = Git::ProblemSpecifications::Exercise.new("collatz-conjecture", repo_url:)
+    assert_equal "Calculate the number of steps to reach 1 using the Collatz conjecture.", exercise.blurb
+  end
+
+  test "source" do
+    exercise = Git::ProblemSpecifications::Exercise.new("collatz-conjecture", repo_url:)
+    assert_equal "An unsolved problem in mathematics named after mathematician Lothar Collatz", exercise.source
+  end
+
+  test "source_url" do
+    exercise = Git::ProblemSpecifications::Exercise.new("collatz-conjecture", repo_url:)
+    assert_equal "https://en.wikipedia.org/wiki/3x_%2B_1_problem", exercise.source_url
+  end
+
   test "deprecated" do
     exercise = Git::ProblemSpecifications::Exercise.new("accumulate", repo_url:)
     assert exercise.deprecated_exists?
@@ -39,7 +59,12 @@ class Git::ProblemSpecifications::ExerciseTest < ActiveSupport::TestCase
 
   test "metadata" do
     exercise = Git::ProblemSpecifications::Exercise.new("anagram", repo_url:)
-    expected = "title = \"Anagram\"\nblurb = \"Given a word and a list of possible anagrams, select the correct sublist.\"\nsource = \"Inspired by the Extreme Startup game\"\nsource_url = \"https://github.com/rchatley/extreme_startup\"" # rubocop:disable Layout/LineLength
+    expected = {
+      "title" => "Anagram",
+      "blurb" => "Given a word and a list of possible anagrams, select the correct sublist.",
+      "source" => "Inspired by the Extreme Startup game",
+      "source_url" => "https://github.com/rchatley/extreme_startup"
+    }
     assert_equal expected, exercise.metadata
   end
 

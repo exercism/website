@@ -31,6 +31,11 @@ class ProblemSpecifications::ExerciseTest < ActiveSupport::TestCase
     refute exercise.deprecated?
   end
 
+  test "url" do
+    exercise = ProblemSpecifications::Exercise.new("bob", repo:)
+    assert_equal "https://github.com/exercism/problem-specifications/tree/main/exercises/bob", exercise.url
+  end
+
   test "icon_url" do
     exercise = ProblemSpecifications::Exercise.new("bob", repo:)
     assert_equal "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bob.svg", exercise.icon_url

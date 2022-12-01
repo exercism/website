@@ -274,21 +274,23 @@ class Track::UpdateBuildStatus
       num_exercises: active_practice_exercises.size,
       num_exercises_target: practice_exercises_num_exercises_target,
       created: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
+      num_unimplemented: num_unimplemented_practice_exercises,
+      unimplemented: unimplemented_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
       volunteers: practice_exercises_volunteers,
       health: practice_exercises_health
     }
   end
 
-  def practice_exercises_num_exercises_target
-    num_unimplemented = Track::RetrieveUnimplementedPracticeExercises.(track).size
-    max_target = track.num_exercises + num_unimplemented
-
-    NUM_PRACTICE_EXERCISES_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
-  end
+  memoize
+  def unimplemented_practice_exercises = Track::RetrieveUnimplementedPracticeExercises.(track)
 
   memoize
-  def num_unimplemented_practice_exercises
-    Track::RetrieveUnimplementedPracticeExercises.(track).size
+  def num_unimplemented_practice_exercises = unimplemented_practice_exercises.size
+
+  def practice_exercises_num_exercises_target
+    max_target = track.num_exercises + num_unimplemented_practice_exercises
+
+    NUM_PRACTICE_EXERCISES_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
   end
 
   def practice_exercises_volunteers
@@ -358,6 +360,17 @@ class Track::UpdateBuildStatus
       num_mentoring_requests_percentage: percentage(num_mentoring_requests, num_started),
       links: {
         self: Exercism::Routes.track_exercise_path(track, exercise)
+      }
+    }
+  end
+
+  def serialize_prob_specs_exercise(exercise)
+    {
+      slug: exercise.slug,
+      title: exercise.title,
+      icon_url: exercise.icon_url,
+      links: {
+        self: exercise.url
       }
     }
   end

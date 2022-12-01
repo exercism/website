@@ -10,6 +10,7 @@ class ProblemSpecifications::Exercise
     @repo = repo
   end
 
+  def url = "https://github.com/exercism/problem-specifications/tree/main/exercises/#{slug}"
   def icon_url = "#{Exercism.config.website_icons_host}/exercises/#{slug}.svg"
 
   private

@@ -4,10 +4,10 @@ class Track::RetrieveUnimplementedPracticeExercisesTest < ActiveSupport::TestCas
   test "does not include foregone exercises" do
     track = create :track
 
-    unimplemented_exercises = Track::RetrieveUnimplementedPracticeExercises.(track)
+    unimplemented_exercise_slugs = Track::RetrieveUnimplementedPracticeExercises.(track).map(&:slug)
 
-    refute_includes unimplemented_exercises, "alphametics"
-    refute_includes unimplemented_exercises, "zipper"
+    refute_includes unimplemented_exercise_slugs, "alphametics"
+    refute_includes unimplemented_exercise_slugs, "zipper"
   end
 
   test "does not include implemented exercises" do
@@ -15,10 +15,10 @@ class Track::RetrieveUnimplementedPracticeExercisesTest < ActiveSupport::TestCas
     create :practice_exercise, slug: 'leap'
     create :practice_exercise, slug: 'hamming'
 
-    unimplemented_exercises = Track::RetrieveUnimplementedPracticeExercises.(track)
+    unimplemented_exercise_slugs = Track::RetrieveUnimplementedPracticeExercises.(track).map(&:slug)
 
-    refute_includes unimplemented_exercises, "leap"
-    refute_includes unimplemented_exercises, "hamming"
+    refute_includes unimplemented_exercise_slugs, "leap"
+    refute_includes unimplemented_exercise_slugs, "hamming"
   end
 
   test "includes unimplemented" do
@@ -26,9 +26,9 @@ class Track::RetrieveUnimplementedPracticeExercisesTest < ActiveSupport::TestCas
     create :practice_exercise, slug: 'leap'
     create :practice_exercise, slug: 'hamming'
 
-    unimplemented_exercises = Track::RetrieveUnimplementedPracticeExercises.(track)
+    unimplemented_exercise_slugs = Track::RetrieveUnimplementedPracticeExercises.(track).map(&:slug)
 
-    assert_includes unimplemented_exercises, "bob"
-    assert_includes unimplemented_exercises, "forth"
+    assert_includes unimplemented_exercise_slugs, "bob"
+    assert_includes unimplemented_exercise_slugs, "forth"
   end
 end

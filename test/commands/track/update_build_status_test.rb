@@ -387,6 +387,23 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal expected_created, track.build_status.practice_exercises.created
   end
 
+  test "practice_exercises: unimplemented" do
+    track = create :track
+
+    Track::UpdateBuildStatus.(track)
+
+    assert_equal 126, track.build_status.practice_exercises.num_unimplemented
+    expected = {
+      slug: "zebra-puzzle",
+      title: "Zebra Puzzle",
+      icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/zebra-puzzle.svg",
+      links: {
+        self: "https://github.com/exercism/problem-specifications/tree/main/exercises/zebra-puzzle"
+      }
+    }.to_obj
+    assert_includes track.build_status.practice_exercises.unimplemented, expected
+  end
+
   test "practice_exercises: num_exercises_target" do
     track = create :track
     Track::UpdateBuildStatus.(track)

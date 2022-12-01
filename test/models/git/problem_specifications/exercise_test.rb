@@ -26,14 +26,14 @@ class Git::ProblemSpecifications::ExerciseTest < ActiveSupport::TestCase
     assert_equal "https://en.wikipedia.org/wiki/3x_%2B_1_problem", exercise.source_url
   end
 
-  test "deprecated" do
+  test "deprecated?" do
     exercise = Git::ProblemSpecifications::Exercise.new("accumulate", repo_url:)
-    assert exercise.deprecated_exists?
+    assert exercise.deprecated?
   end
 
   test "not deprecated" do
     exercise = Git::ProblemSpecifications::Exercise.new("bob", repo_url:)
-    refute exercise.deprecated_exists?
+    refute exercise.deprecated?
   end
 
   test "description file path" do

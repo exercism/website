@@ -30,6 +30,9 @@ class Git::ProblemSpecifications::Exercise
   def source_url = metadata["source_url"]
 
   memoize
+  def deprecated? = deprecated_exists?
+
+  memoize
   def absolute_filepaths = filepaths.map { |filepath| absolute_filepath(filepath) }
   def filepaths = file_entries.map { |defn| defn[:full] }
   def dir = "exercises/#{slug}"

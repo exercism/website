@@ -150,13 +150,4 @@ class Git::ProblemSpecificationsCopyTest < ActiveSupport::TestCase
     ]
     assert_equal expected, git.exercises.map(&:slug).sort
   end
-
-  test "active_exercise_slugs" do
-    git = Git::ProblemSpecifications.new
-
-    assert_includes git.active_exercise_slugs, "acronym"
-    assert_includes git.active_exercise_slugs, "zipper"
-    refute_includes git.active_exercise_slugs, "binary"
-    refute_includes git.active_exercise_slugs, "octal"
-  end
 end

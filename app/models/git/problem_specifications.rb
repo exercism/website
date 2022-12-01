@@ -20,19 +20,8 @@ class Git::ProblemSpecifications
     end
   end
 
-  memoize
-  def active_exercise_slugs
-    exercise_dir_entries.filter_map do |entry|
-      entry[:name] unless deprecated_exercise?(entry)
-    end
-  end
-
   private
   delegate :head_commit, to: :repo
-
-  def deprecated_exercise?(entry)
-    repo.file_exists?(repo.head_commit, "exercises/#{entry[:name]}/.deprecated")
-  end
 
   memoize
   def exercise_dir_entries

@@ -9,6 +9,9 @@ class ProblemSpecifications
   end
 
   memoize
+  def active_exercises = exercises.reject(&:deprecated?)
+
+  memoize
   def deprecated_exercises = exercises.select(&:deprecated?)
 
   private

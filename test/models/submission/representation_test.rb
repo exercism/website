@@ -23,7 +23,7 @@ class Submission::RepresentationTest < ActiveSupport::TestCase
     ast_digest = Submission::Representation.digest_ast(ast)
 
     representation = create :submission_representation,
-      submission: create(:submission, exercise:),
+      submission: create(:submission, solution: create(:concept_solution, exercise:)),
       ast_digest: ast_digest
 
     # Wrong exercise

@@ -527,4 +527,11 @@ class SubmissionTest < ActiveSupport::TestCase
 
     assert_equal solution.track, submission.track
   end
+
+  test "exercise: inferred from solution's exercise" do
+    solution = create :practice_solution
+    submission = create :submission, solution: solution
+
+    assert_equal solution.exercise, submission.exercise
+  end
 end

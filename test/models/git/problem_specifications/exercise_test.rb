@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class Git::ProblemSpecifications::ExerciseTest < ActiveSupport::TestCase
+  test "slug" do
+    exercise = Git::ProblemSpecifications::Exercise.new("alphametics", repo_url:)
+    assert_equal "alphametics", exercise.slug
+  end
+
   test "title" do
     exercise = Git::ProblemSpecifications::Exercise.new("collatz-conjecture", repo_url:)
     assert_equal "Collatz Conjecture", exercise.title

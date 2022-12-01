@@ -10,6 +10,8 @@ class Git::ProblemSpecifications::Exercise
   git_filepath :description, file: "description.md"
   git_filepath :metadata, file: "metadata.toml"
 
+  attr_reader :slug
+
   def initialize(slug, repo_url: nil, repo: nil)
     @repo = repo || Git::Repository.new(repo_url:)
     @slug = slug
@@ -33,7 +35,7 @@ class Git::ProblemSpecifications::Exercise
   def dir = "exercises/#{slug}"
 
   private
-  attr_reader :repo, :slug
+  attr_reader :repo
 
   def absolute_filepath(filepath) = "#{dir}/#{filepath}"
 

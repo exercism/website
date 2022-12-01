@@ -292,7 +292,7 @@
                     = exercise.title
                   .record-value
                     .record-element
-                      = external_link_to "View data", exercise.links.self
+                      = external_link_to "View data", exercise.links.self, class: 'external-link'
 
           - if @status.practice_exercises.num_foregone.positive?
             %details.mt-10
@@ -306,7 +306,7 @@
                     = exercise.title
                   .record-value
                     .record-element
-                      = external_link_to "View data", exercise.links.self
+                      = external_link_to "View data", exercise.links.self, class: 'external-link'
 
         = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 

@@ -303,6 +303,9 @@
     .record-row {
         @apply flex justify-between lg:items-center;
         @apply lg:flex-row flex-col;
+        &:has(.external-link) {
+            @apply flex-row;
+        }
         @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
         .record-name {
             @apply label-large text-16;
@@ -326,14 +329,16 @@
                 strong {
                     @apply font-semibold;
                 }
+                .external-link {
+                    @apply flex gap-12 items-center font-semibold;
+                    img {
+                        @apply filter-textColor6;
+                        @apply w-[12px];
+                    }
+                }
             }
         }
     }
-
-    /* .highlight-text{
-    @apply inline-block p-12;
-    @apply font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%];
-} */
 
     .highlight-text {
         @apply inline relative z-1;

@@ -10,6 +10,8 @@ class ProblemSpecifications::Exercise
     @repo = repo
   end
 
+  def icon_url = "#{Exercism.config.website_icons_host}/exercises/#{slug}.svg"
+
   private
   attr_reader :repo
 

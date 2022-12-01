@@ -11,7 +11,7 @@ module Git
       if json_file
         read_method = "read_json_blob"
       elsif toml_file
-        read_method = "read_json_blob"
+        read_method = "read_toml_blob"
       else
         read_method = "read_text_blob"
       end

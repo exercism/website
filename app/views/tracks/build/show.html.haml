@@ -280,6 +280,19 @@
                   .record-element
                     %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
+          - if @status.practice_exercises.num_unimplemented.positive?
+            %details.mt-10
+              %summary.--practice-exercises
+                #{@status.practice_exercises.num_unimplemented} unimplemented practice #{'exercise'.pluralize(@status.practice_exercises.num_unimplemented)}
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                .record-name
+              - @status.practice_exercises.unimplemented.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+
           - if @status.practice_exercises.num_foregone.positive?
             %details.mt-10
               %summary.--practice-exercises

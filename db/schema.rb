@@ -1097,7 +1097,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_144756) do
     t.boolean "last_viewed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "num_finished_mentoring_sessions", default: 0, null: false
+    t.integer "num_finished_discussions", default: 0, null: false
     t.index ["track_id"], name: "index_user_track_mentorships_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_track_mentorships_on_user_id"

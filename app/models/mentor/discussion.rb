@@ -164,5 +164,6 @@ class Mentor::Discussion < ApplicationRecord
       update_num_solutions_mentored: previous_changes.key?('status'),
       update_satisfaction_rating: previous_changes.key?('rating')
     )
+    Mentor::Discussion::UpdateNumFinishedDiscussions.defer(self) if finished?
   end
 end

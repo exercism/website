@@ -68,10 +68,9 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates a representation" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor
+    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
+    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
-
-    create_list(:mentor_discussion, 100, :student_finished, mentor: user, exercise:)
 
     representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
 
@@ -122,11 +121,10 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates sets current user to editor if representation already had author" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor
+    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
+    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
     author = create :user
     setup_user(user)
-
-    create_list(:mentor_discussion, 100, :student_finished, mentor: user, exercise:)
 
     representation = create :exercise_representation, feedback_author: author, feedback_markdown: 'Try _this_',
       feedback_type: :essential, feedback_editor: nil, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
@@ -149,10 +147,9 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates sets current user to author if representation doesn't have author" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor
+    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
+    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
-
-    create_list(:mentor_discussion, 100, :student_finished, mentor: user, request: create(:mentor_request, exercise:))
 
     representation = create :exercise_representation, feedback_author: nil, feedback_editor: nil,
       last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
@@ -180,10 +177,9 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     travel_to beginning_of_minute
 
     exercise = create :practice_exercise
-    user = create :user, :supermentor
+    user = create :user, :supermentor, mentor_satisfaction_percentage: 98
+    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
-
-    create_list(:mentor_discussion, 100, :student_finished, mentor: user, request: create(:mentor_request, exercise:))
 
     representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
     params = {
@@ -307,20 +303,17 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   # tracks_with_feedback #
   ########################
   test "tracks_without_feedback retrieves all tracks the user has given feedback on" do
-    user = create :user, :supermentor
+    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
     setup_user(user)
 
     ruby = create :track, title: "Ruby", slug: "ruby"
     go = create :track, title: "Go", slug: "go"
 
-    create :user_track_mentorship, user: user, track: ruby
-    create :user_track_mentorship, user: user, track: go
+    create :user_track_mentorship, user: user, track: ruby, num_finished_discussions: 100
+    create :user_track_mentorship, user: user, track: go, num_finished_discussions: 100
 
     series = create :concept_exercise, title: "Series", track: ruby
     tournament = create :concept_exercise, title: "Tournament", track: go
-
-    create_list(:mentor_discussion, 100, :student_finished, mentor: user, track: ruby, exercise: series)
-    create_list(:mentor_discussion, 100, :student_finished, mentor: user, track: go, exercise: tournament)
 
     create :exercise_representation, exercise: series, feedback_type: nil, num_submissions: 2
     create :exercise_representation, exercise: series, feedback_type: nil, num_submissions: 2
@@ -360,20 +353,17 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   # tracks_with_feedback #
   ########################
   test "tracks_with_feedback retrieves all tracks the user has given feedback on" do
-    user = create :user, :supermentor
+    user = create :user, :supermentor, mentor_satisfaction_percentage: 98
     setup_user(user)
 
     ruby = create :track, title: "Ruby", slug: "ruby"
     go = create :track, title: "Go", slug: "go"
 
-    create :user_track_mentorship, user: user, track: ruby
-    create :user_track_mentorship, user: user, track: go
+    create :user_track_mentorship, user: user, track: ruby, num_finished_discussions: 100
+    create :user_track_mentorship, user: user, track: go, num_finished_discussions: 100
 
     series = create :concept_exercise, title: "Series", track: ruby
     tournament = create :concept_exercise, title: "Tournament", track: go
-
-    create_list(:mentor_discussion, 100, :student_finished, mentor: user, track: ruby, exercise: series)
-    create_list(:mentor_discussion, 100, :student_finished, mentor: user, track: go, exercise: tournament)
 
     create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user, num_submissions: 2
     create :exercise_representation, exercise: series, feedback_type: :essential, feedback_author: user, num_submissions: 2

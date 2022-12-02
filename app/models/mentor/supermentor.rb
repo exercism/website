@@ -7,16 +7,14 @@ module Mentor::Supermentor
   def self.eligible?(mentor)
     mentor.mentor? &&
       mentor.mentor_satisfaction_percentage.to_i >= MIN_SATISFACTION_PERCENTAGE &&
-      mentor.mentor_discussions.finished.count >= MIN_FINISHED_MENTORING_SESSIONS
+      mentor.track_mentorships.supermentor.exists?
   end
 
   def self.for_track?(mentor, track)
     return true if mentor.staff? || mentor.admin?
 
-    mentor.mentor_discussions.
-      joins(:request).
-      finished_for_student.
-      where(request: { track: }).
-      count >= MIN_NUM_SOLUTIONS_MENTORED_PER_TRACK
+    mentor.mentor? &&
+      mentor.mentor_satisfaction_percentage.to_i >= MIN_SATISFACTION_PERCENTAGE &&
+      mentor.track_mentorships.supermentor.where(track:).exists?
   end
 end

@@ -13,25 +13,18 @@ class AssembleRepresentationTracksForSelect
   memoize
   def tracks
     Track.where(id: track_ids_with_representation).
-      where(id: track_ids_with_min_num_mentored_solutions).
+      where(id: track_ids_with_supermentor_privilege).
       order(title: :asc)
   end
 
   def track_ids_with_representation = track_num_representations.keys
-  def track_ids_with_min_num_mentored_solutions = track_num_mentored_solutions.keys
+
+  def track_ids_with_supermentor_privilege
+    mentor.track_mentorships.supermentor.select(:track_id)
+  end
 
   memoize
   def track_num_representations = representations.group(:track_id).count
-
-  memoize
-  def track_num_mentored_solutions
-    mentor.mentor_discussions.
-      joins(:request).
-      finished_for_student.
-      having('COUNT(*) >= ?', Mentor::Supermentor::MIN_NUM_SOLUTIONS_MENTORED_PER_TRACK).
-      group(:track_id).
-      count
-  end
 
   memoize
   def representations

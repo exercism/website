@@ -4,14 +4,11 @@ class User::UpdateMentorRoles
   initialize_with :user
 
   def call
-    if supermentor?
+    if Mentor::Supermentor.eligible?(user)
       user.update(roles: user.roles.add(Mentor::Supermentor::ROLE))
       AwardBadgeJob.perform_later(user, :supermentor)
     else
       user.update(roles: user.roles.delete(Mentor::Supermentor::ROLE))
     end
   end
-
-  private
-  def supermentor? = Mentor::Supermentor.eligible?(user)
 end

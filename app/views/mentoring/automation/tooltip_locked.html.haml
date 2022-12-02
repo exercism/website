@@ -2,7 +2,7 @@
   %p.text-16.text-white.font-semibold.leading-170.mb-12
     Requires
     %strong.font-bold= @min_finished_mentoring_sessions
-    finished mentoring sessions on a track and an overal satisfaction rating of #{@min_satisfaction_percentage}%
+    finished mentoring sessions on a track and an overall satisfaction rating of #{@min_satisfaction_percentage}%
     (currently #{@satisfaction_percentage}%)
   .bg-darkThemeBackgroundColor.flex.flex-row.rounded-8.mb-6.overflow-hidden{ class: 'h-[16px]' }
     .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.h-100{ class: "min-w-[6px]", style: "width:#{@finished_mentoring_sessions}%" }

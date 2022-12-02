@@ -1,6 +1,39 @@
 require "test_helper"
 
 class Mentor::SupermentorTest < ActiveSupport::TestCase
+  test "eligible?" do
+    track = create :track, :random_slug
+    user = create :user
+
+    # Sanity check: no mentor
+    refute Mentor::Supermentor.eligible?(user)
+
+    # Sanity check: mentor but not mentored anything
+    create :user_track_mentorship, user: user, track: track
+    user.update(roles: [:mentor])
+    refute Mentor::Supermentor.eligible?(user.reload)
+
+    # Sanity check: ignore other user's track mentorships
+    other_user = create :user
+    create :user_track_mentorship, num_finished_discussions: 150, user: other_user, track: track
+    refute Mentor::Supermentor.eligible?(user.reload)
+
+    # Sanity check: mentored too few students
+    create_list(:mentor_discussion, 92, :student_finished, rating: :great, track:, mentor: user)
+    perform_enqueued_jobs
+    refute Mentor::Supermentor.eligible?(user.reload)
+
+    # Sanity check: mentored enough students but too satisfactiong rating too low
+    create_list(:mentor_discussion, 10, :student_finished, rating: :problematic, track:, mentor: user)
+    perform_enqueued_jobs
+    refute Mentor::Supermentor.eligible?(user.reload)
+
+    # Requirements met
+    create_list(:mentor_discussion, 80, :student_finished, rating: :great, track:, mentor: user)
+    perform_enqueued_jobs
+    assert Mentor::Supermentor.eligible?(user.reload)
+  end
+
   test "for_track?" do
     track = create :track, :random_slug
     other_track = create :track, :random_slug

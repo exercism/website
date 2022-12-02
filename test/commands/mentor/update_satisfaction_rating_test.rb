@@ -34,12 +34,14 @@ class Mentor::UpdateSatisfactionRatingTest < ActiveSupport::TestCase
 
   test "updates supermentor role" do
     mentor = create :user
+    create :user_track_mentorship, user: mentor
 
     99.times do
       create :mentor_discussion, :finished, mentor:, rating: :great
     end
 
     create :mentor_discussion, :finished, mentor: mentor, rating: :great
+    perform_enqueued_jobs
 
     Mentor::UpdateSatisfactionRating.(mentor)
 

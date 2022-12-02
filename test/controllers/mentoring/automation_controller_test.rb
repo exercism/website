@@ -57,10 +57,9 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
 
   test "edit: renders correct for supermentors" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor
+    user = create :user, :supermentor, mentor_satisfaction_percentage: 98
+    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
     sign_in!(user)
-
-    create_list(:mentor_discussion, 100, :student_finished, mentor: user, exercise:)
 
     representation = create :exercise_representation, exercise: exercise
     get edit_mentoring_automation_path(representation)

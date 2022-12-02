@@ -16,7 +16,7 @@ class Mentoring::AutomationController < ApplicationController
   end
 
   def tooltip_locked
-    @finished_mentoring_sessions = @current_user.mentor_discussions.finished.count
+    @finished_mentoring_sessions = @current_user.track_mentorships.maximum(:num_finished_discussions).to_i
     @satisfaction_percentage = @current_user.mentor_satisfaction_percentage.to_i
     @min_finished_mentoring_sessions = Mentor::Supermentor::MIN_FINISHED_MENTORING_SESSIONS
     @min_satisfaction_percentage = Mentor::Supermentor::MIN_SATISFACTION_PERCENTAGE

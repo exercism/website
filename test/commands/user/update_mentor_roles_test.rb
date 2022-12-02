@@ -50,4 +50,21 @@ class User::UpdateMentorRolesTest < ActiveSupport::TestCase
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor?
   end
+
+  test "awards supermentor badge when roles is added" do
+    user = create :user, became_mentor_at: nil, roles: []
+
+    perform_enqueued_jobs do
+      User::UpdateMentorRoles.(user)
+    end
+    refute_includes user.reload.badges.map(&:class), Badges::SupermentorBadge
+
+    user.update(became_mentor_at: Time.current, mentor_satisfaction_percentage: 95)
+    create_list(:mentor_discussion, 100, :student_finished, mentor: user)
+
+    perform_enqueued_jobs do
+      User::UpdateMentorRoles.(user)
+    end
+    assert_includes user.reload.badges.map(&:class), Badges::SupermentorBadge
+  end
 end

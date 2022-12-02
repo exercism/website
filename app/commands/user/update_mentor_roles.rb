@@ -6,6 +6,7 @@ class User::UpdateMentorRoles
   def call
     if supermentor?
       user.update(roles: user.roles.add(Mentor::Supermentor::ROLE))
+      AwardBadgeJob.perform_later(user, :supermentor)
     else
       user.update(roles: user.roles.delete(Mentor::Supermentor::ROLE))
     end

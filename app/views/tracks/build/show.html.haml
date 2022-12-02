@@ -83,7 +83,6 @@
             %h3.--syllabus-gradient Create the #{@track.title} syllabus
             = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
               Learn More
-              = graphical_icon "new-tab"
           %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
 
         - if @status.syllabus.concepts.num_concepts < @status.syllabus.concepts.num_concepts_target
@@ -139,7 +138,6 @@
             %h3.--test-runner-gradient Build Test Runners
             = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
               Learn More
-              = graphical_icon "new-tab"
           %p Create Test Runners that have the single responsibility of taking a solution, running all tests and returning a standardized output.
 
         - if @status.test_runner.health == "missing"
@@ -178,7 +176,6 @@
             %h3.--analyzer-gradient Build Analyzers
             = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
               Learn More
-              = graphical_icon "new-tab"
           %p Build an Analyzer for #{@track.title}: Exercism's analyzers automatically assess student's submissions and provide mentor-style commentary.
 
         - if @status.analyzer.health == "missing"
@@ -209,7 +206,6 @@
             %h3.--representer-gradient Build Representers
             = link_to doc_path(:building, "tooling/representers"), class: "learn-more-new-tab" do
               Learn More
-              = graphical_icon "new-tab"
           %p Build a Representer: a bit of code that has the single responsibility of taking a solution and returning a normalized representation of it.
 
         - if @status.representer.health == "missing"
@@ -242,7 +238,6 @@
             %h3.--practice-exercises-gradient Create Practice Exercises
             = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
               Learn More
-              = graphical_icon "new-tab"
           %p Practice Exercises are exercises designed to allow students to solve an arbitrary problem, with the aim of them making use of the concepts they have learned so far.
 
         - if @status.practice_exercises.num_exercises < @status.practice_exercises.num_exercises_target
@@ -280,8 +275,35 @@
                   .record-element
                     %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
-        = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+          - if @status.practice_exercises.num_unimplemented.positive?
+            %details.mt-10
+              %summary.--practice-exercises
+                #{@status.practice_exercises.num_unimplemented} unimplemented practice #{'exercise'.pluralize(@status.practice_exercises.num_unimplemented)}
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              - @status.practice_exercises.unimplemented.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      = external_link_to "View data", exercise.links.self, class: 'external-link'
 
+          - if @status.practice_exercises.num_foregone.positive?
+            %details.mt-10
+              %summary.--practice-exercises
+                #{@status.practice_exercises.num_foregone} practice #{'exercise'.pluralize(@status.practice_exercises.num_foregone)} foregone
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              - @status.practice_exercises.foregone.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      = external_link_to "View data", exercise.links.self, class: 'external-link'
+
+        = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
     .hidden.xl:block.col-span-1
       = ReactComponents::Impact::Map.new(track: @track)

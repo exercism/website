@@ -119,3 +119,5 @@ gem 'geocoder', '~> 1.8'
 gem 'maxminddb', '~> 0.1.22'
 
 gem 'rubyzip', '~> 2.3'
+
+gem "toml", "~> 0.3.0"

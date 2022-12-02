@@ -3,29 +3,25 @@ class Git::ProblemSpecifications
 
   DEFAULT_REPO_URL = "https://github.com/exercism/problem-specifications".freeze
 
+  attr_reader :repo
+
   def self.update! = new.update!
 
-  def initialize(repo_url: DEFAULT_REPO_URL)
-    @repo = Git::Repository.new(repo_url:)
+  def initialize(repo_url: DEFAULT_REPO_URL, repo: nil)
+    @repo = repo || Git::Repository.new(repo_url:)
   end
 
   def update! = repo.fetch!
 
   memoize
-  def active_exercise_slugs
-    exercise_dir_entries.filter_map do |entry|
-      entry[:name] unless deprecated_exercise?(entry)
+  def exercises
+    exercise_dir_entries.map do |entry|
+      Git::ProblemSpecifications::Exercise.new(entry[:name], repo:)
     end
   end
 
   private
-  attr_reader :repo
-
   delegate :head_commit, to: :repo
-
-  def deprecated_exercise?(entry)
-    repo.file_exists?(repo.head_commit, "exercises/#{entry[:name]}/.deprecated")
-  end
 
   memoize
   def exercise_dir_entries

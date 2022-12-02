@@ -33,6 +33,11 @@ module Git
       JSON.parse(raw, symbolize_names: true)
     end
 
+    def read_toml_blob(commit, path)
+      raw = read_file_blob(commit, path, "")
+      TOML.load(raw)
+    end
+
     def read_text_blob(commit, path)
       read_file_blob(commit, path, "")
     end

@@ -3,5 +3,5 @@ class Github::TeamMember::Destroy
 
   initialize_with :username, :team
 
-  def call = ::Github::TeamMember.where(username:, team:).delete_all
+  def call = ::Github::TeamMember.where(username:, team:).destroy_all
 end

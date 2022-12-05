@@ -65,8 +65,13 @@ class Track::UpdateBuildStatus
   def students
     {
       num_students: track.num_students,
-      num_students_per_day: average_number_per_day(track.user_tracks, UserTrack)
+      num_students_per_day:
     }
+  end
+
+  def num_students_per_day
+    query = MetricPeriod::Day.where(metric_type: Metrics::JoinTrackMetric.name, track:)
+    average(query.sum(:count), query.count)
   end
 
   def submissions

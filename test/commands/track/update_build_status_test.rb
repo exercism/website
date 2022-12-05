@@ -28,16 +28,18 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
   test "students" do
     track = create :track
+    other_track = create :track, :random_slug
 
-    create_list(:user_track, 20, track:, created_at: Time.current - 2.months)
-    create_list(:user_track, 40, track:, created_at: Time.current - 29.days)
-    create_list(:user_track, 30, track:, created_at: Time.current - 5.days)
-    create_list(:user_track, 30, track: (create :track, :random_slug), created_at: Time.current - 5.days)
+    (1..30).each do |day|
+      create_list(:user_track, day, track:)
+      create :metric_period_day, metric_type: Metrics::JoinTrackMetric.name, day:, count: day, track: track
+      create :metric_period_day, metric_type: Metrics::JoinTrackMetric.name, day:, count: 5, track: other_track
+    end
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 90, track.build_status.students.num_students
-    assert_equal 3, track.build_status.students.num_students_per_day
+    assert_equal 465, track.build_status.students.num_students
+    assert_equal 15.5, track.build_status.students.num_students_per_day
   end
 
   test "submissions" do
@@ -50,8 +52,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create_list(:submission, 35, track: other_track, created_at: Time.current - 5.days)
 
     (1..30).each do |day|
-      create :metric_period_day, metric_type: Metrics::SubmitSubmissionMetric.name, day:, count: day, track: track
       create :metric_period_day, metric_type: Metrics::SubmitSubmissionMetric.name, day:, count: 5, track: other_track
+      create :metric_period_day, metric_type: Metrics::SubmitSubmissionMetric.name, day:, count: day, track:
     end
 
     Track::UpdateBuildStatus.(track)

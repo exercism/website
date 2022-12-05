@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_05_082547) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_05_094552) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -461,6 +461,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_05_082547) do
     t.index ["issue_url"], name: "index_github_tasks_on_issue_url", unique: true
     t.index ["track_id"], name: "index_github_tasks_on_track_id"
     t.index ["uuid"], name: "index_github_tasks_on_uuid", unique: true
+  end
+
+  create_table "github_team_members", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "username", null: false
+    t.string "team", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["username", "team"], name: "index_github_team_members_on_username_and_team", unique: true
   end
 
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

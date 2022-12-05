@@ -2,40 +2,40 @@ require "test_helper"
 
 class Github::TeamMember::SyncMembersTest < ActiveSupport::TestCase
   test "adds new members" do
-    team_members = { 'ruby' => %w[ErikSchierboom iHiD], 'fsharp' => %w[ErikSchierboom DJ] }
+    team_members = { 'ruby' => [12_412, 82_462], 'fsharp' => [12_412, 56_653] }
     Github::Organization.any_instance.stubs(:team_members).returns(team_members)
 
     Github::TeamMember::SyncMembers.()
 
-    assert ::Github::TeamMember.where(team: 'ruby', username: 'ErikSchierboom').exists?
-    assert ::Github::TeamMember.where(team: 'ruby', username: 'iHiD').exists?
-    assert ::Github::TeamMember.where(team: 'fsharp', username: 'ErikSchierboom').exists?
-    assert ::Github::TeamMember.where(team: 'fsharp', username: 'DJ').exists?
+    assert ::Github::TeamMember.where(team_name: 'ruby', user_id: 12_412).exists?
+    assert ::Github::TeamMember.where(team_name: 'ruby', user_id: 82_462).exists?
+    assert ::Github::TeamMember.where(team_name: 'fsharp', user_id: 12_412).exists?
+    assert ::Github::TeamMember.where(team_name: 'fsharp', user_id: 56_653).exists?
   end
 
   test "keeps existing members" do
-    team_members = { 'ruby' => ['ErikSchierboom'] }
+    team_members = { 'ruby' => [12_412] }
     Github::Organization.any_instance.stubs(:team_members).returns(team_members)
 
-    create :github_team_member, team: 'ruby', username: 'ErikSchierboom'
+    create :github_team_member, team_name: 'ruby', user_id: 12_412
 
     Github::TeamMember::SyncMembers.()
 
     assert_equal 1, ::Github::TeamMember.count
-    assert ::Github::TeamMember.where(team: 'ruby', username: 'ErikSchierboom').exists?
+    assert ::Github::TeamMember.where(team_name: 'ruby', user_id: 12_412).exists?
   end
 
   test "removes former members" do
-    team_members = { 'ruby' => ['iHiD'], 'fsharp' => ['ErikSchierboom'] }
+    team_members = { 'ruby' => [82_462], 'fsharp' => [12_412] }
     Github::Organization.any_instance.stubs(:team_members).returns(team_members)
 
-    create :github_team_member, team: 'ruby', username: 'DJ'
+    create :github_team_member, team_name: 'ruby', user_id: 56_653
 
     Github::TeamMember::SyncMembers.()
 
     assert_equal 2, ::Github::TeamMember.count
-    refute ::Github::TeamMember.where(team: 'ruby', username: 'DJ').exists?
-    assert ::Github::TeamMember.where(team: 'ruby', username: 'iHiD').exists?
-    assert ::Github::TeamMember.where(team: 'fsharp', username: 'ErikSchierboom').exists?
+    refute ::Github::TeamMember.where(team_name: 'ruby', user_id: 56_653).exists?
+    assert ::Github::TeamMember.where(team_name: 'ruby', user_id: 82_462).exists?
+    assert ::Github::TeamMember.where(team_name: 'fsharp', user_id: 12_412).exists?
   end
 end

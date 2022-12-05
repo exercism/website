@@ -8,7 +8,7 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
 
     Github::Organization.any_instance.stubs(:name).returns(org)
 
-    Webhooks::ProcessMembershipUpdate.('added', user_id, team, org)
+    Webhooks::ProcessMembershipUpdate.('added', user_id, team_name, org)
 
     assert Github::TeamMember.where(user_id:, team_name:).exists?
   end
@@ -17,11 +17,11 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
     user_id = 12_348_521
     team_name = 'team11'
     org = 'exercism'
-    create :github_team_member, user_id: user_id, team_name: team
+    create :github_team_member, user_id: user_id, team_name: team_name
 
     Github::Organization.any_instance.stubs(:name).returns(org)
 
-    Webhooks::ProcessMembershipUpdate.('removed', user_id, team, org)
+    Webhooks::ProcessMembershipUpdate.('removed', user_id, team_name, org)
 
     refute Github::TeamMember.where(user_id:, team_name:).exists?
   end

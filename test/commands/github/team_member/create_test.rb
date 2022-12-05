@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Exercise::Article::Authorship::CreateTest < ActiveSupport::TestCase
+class Github::TeamMember::CreateTest < ActiveSupport::TestCase
   test "creates team member" do
     username = 'yoshiro'
     team = 'fsharp'

@@ -2,7 +2,7 @@ module Webhooks
   class ProcessMembershipUpdate
     include Mandate
 
-    initialize_with :action, :user_name, :team_name, :organization_name
+    initialize_with :action, :user_id, :team_name, :organization_name
 
     def call
       return unless %(added removed).include?(action)
@@ -10,9 +10,9 @@ module Webhooks
 
       case action
       when 'added'
-        Github::TeamMember::Create.(user_name, team_name)
+        Github::TeamMember::Create.(user_id, team_name)
       when 'removed'
-        Github::TeamMember::Destroy.(user_name, team_name)
+        Github::TeamMember::Destroy.(user_id, team_name)
       end
     end
 

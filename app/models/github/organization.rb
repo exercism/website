@@ -97,7 +97,7 @@ class Github::Organization
       response = fetch_team_members(cursor)
 
       response.dig(:data, :organization, :teams, :nodes).each do |team_node|
-        members[team_node[:name]] = team_node.dig(:members, :nodes).pluck(:login)
+        members[team_node[:name]] = team_node.dig(:members, :nodes).pluck(:databaseId)
       end
 
       break members unless response.dig(:data, :organization, :teams, :pageInfo, :hasNextPage)
@@ -117,6 +117,7 @@ class Github::Organization
               members {
                 nodes {
                   login
+                  databaseId
                 }
               }
             }

@@ -120,8 +120,8 @@ class Github::OrganizationTest < ActiveSupport::TestCase
                 name: 'ruby',
                 members: {
                   nodes: [
-                    { login: 'ErikSchierboom' },
-                    { login: 'iHiD' }
+                    { databaseId: 142_153 },
+                    { databaseId: 123_813 }
                   ]
                 }
               },
@@ -129,8 +129,8 @@ class Github::OrganizationTest < ActiveSupport::TestCase
                 name: 'fsharp',
                 members: {
                   nodes: [
-                    { login: 'ErikSchierboom' },
-                    { login: 'DJ' }
+                    { databaseId: 142_153 },
+                    { databaseId: 229_136 }
                   ]
                 }
               }
@@ -151,7 +151,7 @@ class Github::OrganizationTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/graphql").
       to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
 
-    expected = { 'ruby' => %w[ErikSchierboom iHiD], 'fsharp' => %w[ErikSchierboom DJ] }
+    expected = { 'ruby' => [142_153, 123_813], 'fsharp' => [142_153, 229_136] }
     assert_equal expected, Github::Organization.instance.team_members.to_h
   end
 end

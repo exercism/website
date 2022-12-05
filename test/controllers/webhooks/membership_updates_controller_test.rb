@@ -5,7 +5,7 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       action: 'added',
       member: {
-        login: 'member12'
+        id: 12_348_521
       },
       team: {
         name: 'reviewers'
@@ -28,7 +28,7 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       action: 'added',
       member: {
-        login: 'member12'
+        id: 12_348_521
       },
       team: {
         name: 'reviewers'
@@ -46,7 +46,7 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       action: 'added',
       member: {
-        login: 'member12'
+        id: 12_348_521
       },
       team: {
         name: 'reviewers'
@@ -55,7 +55,7 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
         login: 'exercism'
       }
     }
-    Webhooks::ProcessMembershipUpdate.expects(:call).with('added', 'member12', 'reviewers', 'exercism')
+    Webhooks::ProcessMembershipUpdate.expects(:call).with('added', 12_348_521, 'reviewers', 'exercism')
 
     post webhooks_membership_updates_path, headers: headers(payload), as: :json, params: payload
   end
@@ -64,7 +64,7 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       action: 'removed',
       member: {
-        login: 'member12'
+        id: 12_348_521
       },
       team: {
         name: 'reviewers'
@@ -73,7 +73,7 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
         login: 'exercism'
       }
     }
-    Webhooks::ProcessMembershipUpdate.expects(:call).with('removed', 'member12', 'reviewers', 'exercism')
+    Webhooks::ProcessMembershipUpdate.expects(:call).with('removed', 12_348_521, 'reviewers', 'exercism')
 
     post webhooks_membership_updates_path, headers: headers(payload), as: :json, params: payload
   end
@@ -82,7 +82,7 @@ class Webhooks::MembershipUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       action: 'added',
       member: {
-        login: 'member12'
+        id: 12_348_521
       },
       team: {
         name: 'reviewers'

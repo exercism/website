@@ -15,7 +15,6 @@ class Track::Create
       # We need to force_sync due to the synced_to_git_sha value set to the HEAD commit
       Git::SyncTrack.(track, force_sync: true)
       Track::CreateForumCategory.(track)
-      ContributorTeam::Create.(track.slug, type: :track_maintainers, track:)
     end
   rescue ActiveRecord::RecordNotUnique
     Track.find_by!(slug: git_track.slug)

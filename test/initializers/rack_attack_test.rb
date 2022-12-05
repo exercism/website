@@ -100,9 +100,6 @@ class RackAttackTest < Webhooks::BaseTestCase
   test "don't rate limit unauthorized non-API POST/PATCH/PUT/DELETE requests" do
     logout
 
-    create :user, github_username: 'member12'
-    create :contributor_team, github_name: 'reviewers'
-
     payload = {
       action: 'added',
       member: {

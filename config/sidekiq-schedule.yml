@@ -49,10 +49,10 @@ sync_tracks:
   class: "SyncTracksJob"
   queue: dribble
 
-sync_team_permissions:
-  cron: "0 1 * * 3"
-  class: "SyncTeamPermissionsJob"
-  queue: dribble
+# sync_team_permissions:
+#   cron: "0 1 * * 3"
+#   class: "SyncTeamPermissionsJob"
+#   queue: dribble
 
 # 1am Thursday
 update_median_wait_times:

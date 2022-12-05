@@ -7,26 +7,13 @@ module Webhooks
     def call
       return unless %(added removed).include?(action)
       return unless organization_name == organization.name
-
-      ContributorTeam::UpdateReviewersTeamPermissions.(team) if team
-
-      # TODO: enable this once we are confident that org member syncing works
-      # Github::OrganizationMember::RemoveWhenNoTeamMemberships.(user.github_username) if user
     end
 
     private
     memoize
-    def user
-      User.find_by(github_username: user_name)
-    end
+    def user = User.find_by(github_username: user_name)
 
     memoize
-    def team
-      ContributorTeam.find_by(github_name: team_name)
-    end
-
-    def organization
-      Github::Organization.instance
-    end
+    def organization = Github::Organization.instance
   end
 end

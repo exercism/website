@@ -252,16 +252,6 @@ class UserTest < ActiveSupport::TestCase
     assert user.introducer_dismissed?('scratchpad')
   end
 
-  test "teams" do
-    user = create :user
-    team_1 = create :contributor_team, :random
-    team_2 = create :contributor_team, :random, track: nil
-    create :contributor_team_membership, team: team_1, user: user
-    create :contributor_team_membership, team: team_2, user: user
-
-    assert_equal [team_1, team_2], user.teams
-  end
-
   test "welcome email is not sent for normal user creation" do
     User::Notification::CreateEmailOnly.expects(:call).never
     create :user

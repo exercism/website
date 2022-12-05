@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_01_144756) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_05_082547) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -135,28 +135,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_144756) do
     t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"
     t.index ["track_id"], name: "index_community_videos_on_track_id"
     t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true
-  end
-
-  create_table "contributor_team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "contributor_team_id", null: false
-    t.bigint "user_id", null: false
-    t.boolean "visible", default: true, null: false
-    t.integer "seniority", limit: 1, default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["contributor_team_id", "user_id"], name: "index_contributor_team_memberships_on_team_id_and_user_id", unique: true
-    t.index ["contributor_team_id"], name: "index_contributor_team_memberships_on_contributor_team_id"
-    t.index ["user_id"], name: "index_contributor_team_memberships_on_user_id"
-  end
-
-  create_table "contributor_teams", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_id"
-    t.string "github_name", null: false
-    t.integer "type", limit: 1, default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["github_name"], name: "index_contributor_teams_on_github_name", unique: true
-    t.index ["track_id"], name: "index_contributor_teams_on_track_id"
   end
 
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1097,7 +1075,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_144756) do
     t.boolean "last_viewed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "num_finished_discussions", limit: 3, default: 0, null: false
+    t.integer "num_finished_discussions", default: 0, null: false
     t.index ["track_id"], name: "index_user_track_mentorships_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_track_mentorships_on_user_id"
@@ -1177,9 +1155,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_144756) do
   add_foreign_key "community_videos", "tracks"
   add_foreign_key "community_videos", "users", column: "author_id"
   add_foreign_key "community_videos", "users", column: "submitted_by_id"
-  add_foreign_key "contributor_team_memberships", "contributor_teams"
-  add_foreign_key "contributor_team_memberships", "users"
-  add_foreign_key "contributor_teams", "tracks"
   add_foreign_key "documents", "tracks"
   add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
   add_foreign_key "donations_payments", "users"

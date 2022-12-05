@@ -106,9 +106,6 @@ class User < ApplicationRecord
   has_many :donation_subscriptions, class_name: "Donations::Subscription", dependent: :nullify
   has_many :donation_payments, class_name: "Donations::Payment", dependent: :nullify
 
-  has_many :team_memberships, class_name: "ContributorTeam::Membership", dependent: :destroy
-  has_many :teams, through: :team_memberships, source: :team
-
   has_many :problem_reports, dependent: :destroy
 
   has_many :cohort_memberships, dependent: :destroy

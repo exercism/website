@@ -10,7 +10,7 @@ FactoryBot.define do
     all_your_base whatever lackadaisical
     mentor researcher v3_pioneer tooling_pioneer
     moss begetter bard architect troubleshooter
-    completer conceptual
+    completer conceptual supermentor
   ].each do |type|
     factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do
     end

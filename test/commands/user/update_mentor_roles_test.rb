@@ -50,4 +50,31 @@ class User::UpdateMentorRolesTest < ActiveSupport::TestCase
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor?
   end
+
+  test "awards supermentor badge when role is added" do
+    track = create :track
+    user = create :user
+    create :user_track_mentorship, user: user, track: track
+
+    # Sanity check: role is not added so badge shouldn't be awarded
+    User::UpdateMentorRoles.(user)
+    refute_includes user.reload.badges.map(&:class), Badges::SupermentorBadge
+
+    create_list(:mentor_discussion, 100, :student_finished, rating: :great, mentor: user, track:)
+    perform_enqueued_jobs
+
+    User::UpdateMentorRoles.(user)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::SupermentorBadge
+
+    # Sanity check: losing role does not result in losing badge
+    create_list(:mentor_discussion, 100, :student_finished, rating: :problematic, mentor: user, track:)
+    perform_enqueued_jobs
+
+    User::UpdateMentorRoles.(user)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::SupermentorBadge
+  end
 end

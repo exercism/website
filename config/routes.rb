@@ -119,9 +119,6 @@ Rails.application.routes.draw do
     resources :exercise_representations
     resources :tracks, only: [:show]
     resources :site_updates, except: [:destroy]
-    resources :contributor_teams, only: %i[index show] do
-      resources :memberships, controller: "contributor_teams/memberships", except: [:index]
-    end
   end
 
   namespace :contributing do

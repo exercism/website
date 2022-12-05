@@ -2,24 +2,27 @@ require "test_helper"
 
 class Github::TeamMember::DestroyTest < ActiveSupport::TestCase
   test "removes team member" do
-    user_id = 137_131
-    team = 'fsharp'
+    user_id = '137131'
+    team_name = 'fsharp'
 
-    create :github_team_member, team: team, user_id: user_id
+    create :github_team_member, team_name: team_name, user_id: user_id
 
     # Sanity check
-    assert Github::TeamMember.exists?
+    assert Github::TeamMember.where(user_id:, team_name:).exists?
 
-    Github::TeamMember::Destroy.(user_id, team)
+    Github::TeamMember::Destroy.(user_id, team_name)
 
-    refute Github::TeamMember.exists?
+    refute Github::TeamMember.where(user_id:, team_name:).exists?
   end
 
   test "idempotent" do
+    user_id = '137131'
+    team_name = 'fsharp'
+
     assert_idempotent_command do
-      Github::TeamMember::Destroy.(137_131, 'fsharp')
+      Github::TeamMember::Destroy.(user_id, team_name)
     end
 
-    refute Github::TeamMember.exists?
+    refute Github::TeamMember.where(user_id:, team_name:).exists?
   end
 end

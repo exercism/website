@@ -3,8 +3,17 @@ class UpdateTracksBuildStatusJob < ApplicationJob
 
   def perform
     Git::ProblemSpecifications.update!
-    Track.find_each do |track|
+
+    tracks.find_each do |track|
       Track::UpdateBuildStatus.(track)
+    rescue StandardError => e
+      Bugsnag.notify(e)
     end
   end
+
+  private
+  def tracks = Track.where.not(slug: EXCLUDED_SLUGS)
+
+  EXCLUDED_SLUGS = %w[javascript-legacy].freeze
+  private_constant :EXCLUDED_SLUGS
 end

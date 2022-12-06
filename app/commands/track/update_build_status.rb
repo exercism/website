@@ -91,7 +91,7 @@ class Track::UpdateBuildStatus
 
   def mentor_discussions
     {
-      num_discussions: Mentor::Discussion.joins(:request).where(request: { track: }).count
+      num_discussions: track.mentor_requests.fulfilled.count
     }
   end
 

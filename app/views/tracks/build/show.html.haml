@@ -195,7 +195,7 @@
               .record-name Total Analysis Comments Made
               .record-value= number_with_delimiter(@status.analyzer.num_comments)
             .record-row
-              .record-name Analysis Display Rate
+              .record-name Feedback Given Frequency
               .record-value #{@status.analyzer.display_rate_percentage}%
 
         = render ReactComponents::Common::Credits.new(@status.analyzer.volunteers.users, @status.analyzer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
@@ -225,7 +225,7 @@
               .record-name Total Representation Comments Made
               .record-value= number_with_delimiter(@status.representer.num_comments)
             .record-row
-              .record-name Representation Display Rate
+              .record-name Feedback Given Frequency
               .record-value #{@status.representer.display_rate_percentage}%
 
 

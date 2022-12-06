@@ -353,4 +353,20 @@ class UserTest < ActiveSupport::TestCase
     user.update(uid: 'aiqweqwe', created_at: Time.current - 4.days)
     refute user.captcha_required?
   end
+
+  test "github_team_memberships" do
+    user = create :user, uid: '182346'
+    other_user = create :user, uid: '769032'
+    assert_empty user.github_team_memberships
+
+    team_member_1 = create :github_team_member, user_id: user.uid
+    assert_equal [team_member_1], user.reload.github_team_memberships
+
+    team_member_2 = create :github_team_member, user_id: user.uid
+    assert_equal [team_member_1, team_member_2], user.reload.github_team_memberships
+
+    # Sanity check: other user
+    create :github_team_member, user_id: other_user.uid
+    assert_equal [team_member_1, team_member_2], user.reload.github_team_memberships
+  end
 end

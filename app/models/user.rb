@@ -110,6 +110,12 @@ class User < ApplicationRecord
 
   has_many :cohort_memberships, dependent: :destroy
 
+  has_many :github_team_memberships,
+    class_name: "Github::TeamMember",
+    primary_key: :uid,
+    inverse_of: :user,
+    dependent: :destroy
+
   scope :random, -> { order('RAND()') }
 
   # TODO: Validate presence of name

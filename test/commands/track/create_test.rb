@@ -30,28 +30,6 @@ class Track::CreateTest < ActiveSupport::TestCase
     assert_equal track.git.practice_exercises.count, track.practice_exercises.count
   end
 
-  test "creates contributor team if track does not exist" do
-    Track::CreateForumCategory.stubs(:call)
-
-    track = Track::Create.(TestHelpers.git_repo_url("track-with-exercises"))
-
-    assert_equal 1, ContributorTeam.count
-    team = ContributorTeam.last
-    assert_equal 'ruby', team.github_name
-    assert_equal :track_maintainers, team.type
-    assert_equal track, team.track
-  end
-
-  test "does not create contributor team if track already exists" do
-    track = create :track, slug: 'ruby'
-    team = create :contributor_team, github_name: 'ruby', track: track
-    updated_at_before_create = team.updated_at
-
-    Track::Create.(TestHelpers.git_repo_url("track-with-exercises"))
-
-    assert_equal updated_at_before_create, team.reload.updated_at
-  end
-
   test "adds track to forum" do
     Track::CreateForumCategory.expects(:call).once
 

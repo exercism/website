@@ -2,31 +2,22 @@ module Webhooks
   class ProcessMembershipUpdate
     include Mandate
 
-    initialize_with :action, :user_name, :team_name, :organization_name
+    initialize_with :action, :user_id, :team_name, :organization_name
 
     def call
       return unless %(added removed).include?(action)
       return unless organization_name == organization.name
 
-      ContributorTeam::UpdateReviewersTeamPermissions.(team) if team
-
-      # TODO: enable this once we are confident that org member syncing works
-      # Github::OrganizationMember::RemoveWhenNoTeamMemberships.(user.github_username) if user
+      case action
+      when 'added'
+        Github::TeamMember::Create.(user_id, team_name)
+      when 'removed'
+        Github::TeamMember::Destroy.(user_id, team_name)
+      end
     end
 
     private
     memoize
-    def user
-      User.find_by(github_username: user_name)
-    end
-
-    memoize
-    def team
-      ContributorTeam.find_by(github_name: team_name)
-    end
-
-    def organization
-      Github::Organization.instance
-    end
+    def organization = Github::Organization.instance
   end
 end

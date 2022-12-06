@@ -141,17 +141,12 @@ class Track::UpdateBuildStatus
 
   def representer
     {
-      num_runs: representer_num_runs,
+      num_runs: representer_num_submissions,
       num_comments: representer_num_submissions_with_feedback,
       display_rate_percentage: representer_display_rate_percentage,
       volunteers: serialize_tooling_volunteers(track.representer_repo_url),
       health: representer_health
     }
-  end
-
-  memoize
-  def representer_num_runs
-    Submission::Representation.where(track:).count
   end
 
   memoize

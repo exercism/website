@@ -18,7 +18,7 @@ mark_outdated_reputation_week_periods:
   args: ["week"]
 
 update_tracks_build_status:
-  cron: "0 12 * * *"
+  cron: "1 0 * * *"
   class: "UpdateTracksBuildStatusJob"
   queue: dribble
 

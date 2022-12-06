@@ -9,6 +9,8 @@ module Donations
       initialize_with :user_or_email, :type, :amount_in_cents
 
       def call
+        return if invalid_user_or_email?
+
         customer_id = user ?
           Donations::Customer::CreateForUser.(user) :
           Donations::Customer::CreateForEmail.(user_or_email)
@@ -20,6 +22,9 @@ module Donations
           CreateForPayment.(customer_id, amount_in_cents)
         end
       end
+
+      private
+      def invalid_user_or_email? = User::BlockDomain.blocked?(user_or_email)
 
       memoize
       def user

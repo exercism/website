@@ -64,7 +64,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
   test "mentor_discussions" do
     track = create :track
-    create_list(:mentor_discussion, 16, track:)
+    create_list(:mentor_request, 16, :fulfilled, track:)
 
     Track::UpdateBuildStatus.(track)
 

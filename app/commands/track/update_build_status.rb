@@ -407,7 +407,7 @@ class Track::UpdateBuildStatus
     random_author_ids = author_ids.shuffle.take(NUM_VOLUNTEERS)
     random_authors = User.where(id: random_author_ids).to_a
 
-    random_contributor_ids = (contributor_ids - author_ids).shuffle.take(NUM_VOLUNTEERS - author_ids.size)
+    random_contributor_ids = (contributor_ids - author_ids).shuffle.take(NUM_VOLUNTEERS - random_author_ids.size)
     random_contributors = User.where(id: random_contributor_ids).to_a
 
     num_users = (author_ids | contributor_ids).uniq.size

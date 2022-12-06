@@ -45,7 +45,7 @@ class Track::UpdateBuildStatus
   def volunteers
     track_volunteers = User::ReputationPeriod::Search.(track_id: track.id)
     num_volunteers = track_volunteers.total_count
-    top_track_volunteers = track_volunteers.take(NUM_VOLUNTEERS)
+    top_track_volunteers = track_volunteers.take(NUM_TRACK_VOLUNTEERS)
 
     contextual_data = User::ReputationPeriod.
       where(category: :any).
@@ -218,13 +218,15 @@ class Track::UpdateBuildStatus
   end
 
   def syllabus_volunteers
-    authors = User.where(id: Concept::Authorship.where(concept: taught_concepts).select(:user_id)).
-      or(User.where(id: Exercise::Authorship.where(exercise: active_concept_exercises).select(:user_id)))
+    concept_author_ids = Concept::Authorship.where(concept: taught_concepts).distinct.pluck(:user_id)
+    exercise_author_ids = Exercise::Authorship.where(exercise: active_concept_exercises).distinct.pluck(:user_id)
+    author_ids = (concept_author_ids | exercise_author_ids).uniq
 
-    contributors = User.where(id: Concept::Contributorship.where(concept: taught_concepts).select(:user_id)).
-      or(User.where(id: Exercise::Contributorship.where(exercise: active_concept_exercises).select(:user_id)))
+    concept_contributor_ids = Concept::Contributorship.where(concept: taught_concepts).distinct.pluck(:user_id)
+    exercise_contributor_ids = Exercise::Contributorship.where(exercise: active_concept_exercises).distinct.pluck(:user_id)
+    contributor_ids = (concept_contributor_ids | exercise_contributor_ids).uniq
 
-    serialize_volunteers(authors, contributors)
+    serialize_volunteers(author_ids, contributor_ids)
   end
 
   def concepts
@@ -304,10 +306,10 @@ class Track::UpdateBuildStatus
   end
 
   def practice_exercises_volunteers
-    authors = Exercise::Authorship.where(exercise: active_practice_exercises)
-    contributors = Exercise::Contributorship.where(exercise: active_practice_exercises)
+    author_ids = Exercise::Authorship.where(exercise: active_practice_exercises).distinct.pluck(:user_id)
+    contributor_ids = Exercise::Contributorship.where(exercise: active_practice_exercises).distinct.pluck(:user_id)
 
-    serialize_volunteers(authors, contributors, user_id_column: :user_id)
+    serialize_volunteers(author_ids, contributor_ids)
   end
 
   memoize
@@ -386,15 +388,33 @@ class Track::UpdateBuildStatus
   end
 
   def serialize_tooling_volunteers(repo_url)
-    authors = track.reputation_tokens.where(category: :building).where('external_url LIKE ?', "#{repo_url}/%")
-    contributors = track.reputation_tokens.where(category: :maintaining).where('external_url LIKE ?', "#{repo_url}/%")
-    serialize_volunteers(authors, contributors, user_id_column: :user_id)
+    author_ids = track.reputation_tokens.
+      where(category: :building).
+      where('external_url LIKE ?', "#{repo_url}/%").
+      distinct.
+      pluck(:user_id)
+
+    contributor_ids = track.reputation_tokens.
+      where(category: :maintaining).
+      where('external_url LIKE ?', "#{repo_url}/%").
+      distinct.
+      pluck(:user_id)
+
+    serialize_volunteers(author_ids, contributor_ids)
   end
 
-  def serialize_volunteers(authors, contributors, user_id_column: :id)
+  def serialize_volunteers(author_ids, contributor_ids)
+    random_author_ids = author_ids.shuffle.take(NUM_VOLUNTEERS)
+    random_authors = User.where(id: random_author_ids).to_a
+
+    random_contributor_ids = (contributor_ids - author_ids).shuffle.take(NUM_VOLUNTEERS - author_ids.size)
+    random_contributors = User.where(id: random_contributor_ids).to_a
+
+    num_users = (author_ids | contributor_ids).uniq.size
+
     {
-      users: SerializeAuthorOrContributors.(CombineAuthorsAndContributors.(authors, contributors, user_id_column:)),
-      num_users: User.where(id: authors.select(user_id_column)).or(User.where(id: contributors.select(user_id_column))).count
+      users: SerializeAuthorOrContributors.(CombineAuthorsAndContributors.(random_authors, random_contributors)),
+      num_users:
     }
   end
 
@@ -420,11 +440,12 @@ class Track::UpdateBuildStatus
 
   NUM_COMPONENTS = 5
   NUM_DAYS_FOR_AVERAGE = 30
-  NUM_VOLUNTEERS = 12
+  NUM_TRACK_VOLUNTEERS = 12
+  NUM_VOLUNTEERS = 3
   NUM_CONCEPTS_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_PRACTICE_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_CONCEPT_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
   private_constant :ContributorContextualData, :NUM_COMPONENTS,
-    :NUM_DAYS_FOR_AVERAGE, :NUM_VOLUNTEERS, :NUM_CONCEPTS_TARGETS,
-    :NUM_PRACTICE_EXERCISES_TARGETS, :NUM_CONCEPT_EXERCISES_TARGETS
+    :NUM_DAYS_FOR_AVERAGE, :NUM_TRACK_VOLUNTEERS, :NUM_VOLUNTEERS,
+    :NUM_CONCEPTS_TARGETS, :NUM_PRACTICE_EXERCISES_TARGETS, :NUM_CONCEPT_EXERCISES_TARGETS
 end

@@ -17,6 +17,7 @@ class UserTrack
     def user = nil
     def tutorial_exercise_completed? = false
     def anonymous_during_mentoring? = true
+    def maintainer? = false
 
     memoize
     def exercises

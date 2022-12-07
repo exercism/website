@@ -570,6 +570,43 @@ class UserTrackTest < ActiveSupport::TestCase
     ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
   end
 
+  test "exercises includes wip exercise for track maintainer" do
+    track = create :track
+    user = create :user, :maintainer, uid: '264713'
+    user_track = create :user_track, track: track, user: user
+
+    wip_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    wip_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    # Sanity check: wip exercises are not included as the user is a maintainer
+    # but not a track maintainer
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
+
+    create :github_team_member, user_id: user.uid, team_name: track.team_name
+
+    # wip exercises are included
+    assert_equal [
+      wip_concept_exercise,
+      beta_concept_exercise,
+      active_concept_exercise,
+      wip_practice_exercise,
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.reload.exercises.map(&:slug).sort
+  end
+
   test "concept_exercises" do
     track = create :track
     user = create :user
@@ -839,5 +876,19 @@ class UserTrackTest < ActiveSupport::TestCase
     user_track.reset_summary!
 
     assert_equal [enums, strings], user_track.unlocked_concepts_for_exercise(basics_exercise)
+  end
+
+  test "maintainer?" do
+    track = create :track
+    user = create :user, uid: '12389123'
+    user_track = create :user_track, track: track, user: user
+
+    refute user_track.maintainer?
+
+    user.update(roles: [:maintainer])
+    refute user_track.reload.maintainer?
+
+    create :github_team_member, user_id: user.uid, team_name: track.team_name
+    assert user_track.reload.maintainer?
   end
 end

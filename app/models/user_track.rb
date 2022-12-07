@@ -79,12 +79,7 @@ class UserTrack < ApplicationRecord
 
   def enabled_exercises(exercises)
     status = %i[active beta]
-
-    # This should really be "If the user a maintainer FOR THIS TRACK".
-    # I don't know how well we keep that up to date. If we do, then
-    # let's take that approach and refine it a bit. Otherwise let's
-    # consider if we want this brute-force approach for all maintainers.
-    status << :wip if user.maintainer?
+    status << :wip if maintainer?
 
     exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
   end
@@ -159,6 +154,11 @@ class UserTrack < ApplicationRecord
     reload
     self.summary_key = nil
     @summary = nil
+  end
+
+  memoize
+  def maintainer?
+    user.maintainer? && user.github_team_memberships.where(team_name: track.team_name).exists?
   end
 
   private

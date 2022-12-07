@@ -81,6 +81,7 @@ class UserTrack < ApplicationRecord
     status = %i[active beta]
     status << :wip if maintainer?
 
+    exercises = exercises.where(type: PracticeExercise.model_name.name) unless track.course?
     exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 

@@ -7,7 +7,7 @@ module Mentor::Supermentor
   def self.eligible?(mentor)
     mentor.mentor? &&
       mentor.mentor_satisfaction_percentage.to_i >= MIN_SATISFACTION_PERCENTAGE &&
-      mentor.track_mentorships.supermentor.exists?
+      mentor.track_mentorships.supermentor_frequency.exists?
   end
 
   def self.for_track?(mentor, track)
@@ -15,6 +15,6 @@ module Mentor::Supermentor
 
     mentor.mentor? &&
       mentor.mentor_satisfaction_percentage.to_i >= MIN_SATISFACTION_PERCENTAGE &&
-      mentor.track_mentorships.supermentor.where(track:).exists?
+      mentor.track_mentorships.supermentor_frequency.where(track:).exists?
   end
 end

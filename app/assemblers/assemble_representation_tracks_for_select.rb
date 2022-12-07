@@ -20,7 +20,7 @@ class AssembleRepresentationTracksForSelect
   def track_ids_with_representation = track_num_representations.keys
 
   def track_ids_with_supermentor_privilege
-    mentor.track_mentorships.supermentor.select(:track_id)
+    mentor.track_mentorships.supermentor_frequency.select(:track_id)
   end
 
   memoize

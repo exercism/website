@@ -649,6 +649,36 @@ class UserTrackTest < ActiveSupport::TestCase
     ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
   end
 
+  test "exercises only include concept exercises when track has course" do
+    track = create :track
+    user = create :user, :maintainer, uid: '264713'
+    user_track = create :user_track, track: track, user: user
+
+    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
+    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
+    create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
+
+    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
+    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
+    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
+    create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
+
+    track.update(course: false)
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.reload.exercises.map(&:slug).sort
+
+    track.update(course: true)
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.reload.exercises.map(&:slug).sort
+  end
+
   test "practice_exercises" do
     track = create :track
     user = create :user

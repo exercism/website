@@ -47,8 +47,8 @@ class Track < ApplicationRecord
   end
 
   def recache_num_exercises!
-    filtered_exercises = course ? exercises : practice_exercises
-    filtered_exercises = filtered_exercises.where(status: %i[active beta])
+    filtered_exercises = exercises.where(status: %i[active beta])
+    filtered_exercises = filtered_exercises.where(type: PracticeExercise.model_name.name) unless course?
 
     update_column(:num_exercises, filtered_exercises.count)
   end

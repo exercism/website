@@ -78,7 +78,10 @@ class UserTrack < ApplicationRecord
   end
 
   def enabled_exercises(exercises)
-    exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
+    status = %i[active beta]
+    status << :wip if maintainer?
+
+    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 
   def external? = false
@@ -151,6 +154,11 @@ class UserTrack < ApplicationRecord
     reload
     self.summary_key = nil
     @summary = nil
+  end
+
+  memoize
+  def maintainer?
+    user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end
 
   private

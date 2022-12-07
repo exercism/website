@@ -5,6 +5,7 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     ut = UserTrack::External.new(mock)
     assert ut.external?
     assert_empty ut.learnt_concepts
+    refute ut.maintainer?
 
     assert ut.exercise_unlocked?(nil)
     refute ut.exercise_completed?(nil)

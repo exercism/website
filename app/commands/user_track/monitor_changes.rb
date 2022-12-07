@@ -32,10 +32,12 @@ class UserTrack
 
       # Build a before and after of each concept progression and keep any that have changed
       concept_progressions = user_track.concept_progressions.map do |id, data|
+        old_progression = concept_progressions[id]
+
         {
           id:,
           total: data[:total],
-          from: concept_progressions[id][:completed],
+          from: (old_progression ? old_progression[:completed] : 0),
           to: data[:completed]
         }
       end

@@ -585,18 +585,26 @@ class UserTrackTest < ActiveSupport::TestCase
     active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
     create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
 
-    # Sanity check: wip exercises are not included as the user is a maintainer
-    # but not a track maintainer
+    # wip exercises are not included
+    # concept exercises are included when track has course
+    track.update(course: true)
     assert_equal [
       beta_concept_exercise,
       active_concept_exercise,
       beta_practice_exercise,
       active_practice_exercise
-    ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
+    ].map(&:slug).sort, user_track.reload.exercises.map(&:slug).sort
+
+    # concept exercises are not included when track does not have course
+    track.update(course: false)
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.reload.exercises.map(&:slug).sort
 
     create :github_team_member, user_id: user.uid, team_name: track.github_team_name
 
-    # wip exercises are included
+    # wip and concept exercises are included when user is track maintainer
     assert_equal [
       wip_concept_exercise,
       beta_concept_exercise,
@@ -612,7 +620,7 @@ class UserTrackTest < ActiveSupport::TestCase
     user = create :user
     user_track = create :user_track, track: track, user: user
 
-    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
+    wip_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
     beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
     active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
     create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
@@ -621,10 +629,24 @@ class UserTrackTest < ActiveSupport::TestCase
     create :practice_exercise, :random_slug, track: track
 
     # wip exercises and unstarted deprecated exercises are not included
+    track.update(course: true)
     assert_equal [
       beta_concept_exercise,
       active_concept_exercise
-    ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
+    ].map(&:slug).sort, user_track.reload.concept_exercises.map(&:slug).sort
+
+    # Sanity check: concept exercises not included for track without course
+    track.update(course: false)
+    assert_empty user_track.reload.concept_exercises.map(&:slug).sort
+
+    # Sanity check: concept exercises are included for track without course but user is track maintainer
+    user.update(roles: [:maintainer], uid: '21312312')
+    create :github_team_member, user_id: user.uid, team_name: track.github_team_name
+    assert_equal [
+      beta_concept_exercise,
+      active_concept_exercise,
+      wip_concept_exercise
+    ].map(&:slug).sort, user_track.reload.concept_exercises.map(&:slug).sort
   end
 
   test "concept_exercises includes deprecated concept exercises that the user started" do
@@ -649,36 +671,6 @@ class UserTrackTest < ActiveSupport::TestCase
     ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
   end
 
-  test "exercises only include concept exercises when track has course" do
-    track = create :track
-    user = create :user, :maintainer, uid: '264713'
-    user_track = create :user_track, track: track, user: user
-
-    create :concept_exercise, :random_slug, track: track, status: :wip, slug: 'ce_wip'
-    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta, slug: 'ce_beta'
-    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active, slug: 'ce_active'
-    create :concept_exercise, :random_slug, track: track, status: :deprecated, slug: 'ce_deprecated'
-
-    create :practice_exercise, :random_slug, track: track, status: :wip, slug: 'pe_wip'
-    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta, slug: 'pe_beta'
-    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active, slug: 'pe_active'
-    create :practice_exercise, :random_slug, track: track, status: :deprecated, slug: 'pe_deprecated'
-
-    track.update(course: false)
-    assert_equal [
-      beta_practice_exercise,
-      active_practice_exercise
-    ].map(&:slug).sort, user_track.reload.exercises.map(&:slug).sort
-
-    track.update(course: true)
-    assert_equal [
-      beta_concept_exercise,
-      active_concept_exercise,
-      beta_practice_exercise,
-      active_practice_exercise
-    ].map(&:slug).sort, user_track.reload.exercises.map(&:slug).sort
-  end
-
   test "practice_exercises" do
     track = create :track
     user = create :user
@@ -693,10 +685,18 @@ class UserTrackTest < ActiveSupport::TestCase
     create :concept_exercise, :random_slug, track: track
 
     # wip exercises and unstarted deprecated practice exercises are not included
+    track.update(course: true)
     assert_equal [
       beta_practice_exercise,
       active_practice_exercise
-    ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
+    ].map(&:slug).sort, user_track.reload.practice_exercises.map(&:slug).sort
+
+    # practice exercises are included when track does not have course
+    track.update(course: false)
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.reload.practice_exercises.map(&:slug).sort
   end
 
   test "practice_exercises includes deprecated practice exercises that the user started" do

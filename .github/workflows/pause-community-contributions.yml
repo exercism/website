@@ -19,3 +19,5 @@ jobs:
     uses: exercism/github-actions/.github/workflows/community-contributions.yml@main
     with:
       forum_category: support
+    secrets:
+      COMMUNITY_CONTRIBUTIONS_WORKFLOW: ${{ secrets.COMMUNITY_CONTRIBUTIONS_WORKFLOW  }}

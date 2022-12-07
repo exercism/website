@@ -158,7 +158,7 @@ class UserTrack < ApplicationRecord
 
   memoize
   def maintainer?
-    user.maintainer? && user.github_team_memberships.where(team_name: track.team_name).exists?
+    user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end
 
   private

@@ -122,7 +122,7 @@ class Track < ApplicationRecord
     git.foregone_exercises.map { |slug| ProblemSpecifications::Exercise.new(slug) }
   end
 
-  def team_name = slug
+  def github_team_name = slug
 
   CATGEORIES = {
     paradigm: "Paradigm",

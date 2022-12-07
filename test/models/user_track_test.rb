@@ -594,7 +594,7 @@ class UserTrackTest < ActiveSupport::TestCase
       active_practice_exercise
     ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
 
-    create :github_team_member, user_id: user.uid, team_name: track.team_name
+    create :github_team_member, user_id: user.uid, team_name: track.github_team_name
 
     # wip exercises are included
     assert_equal [
@@ -888,7 +888,7 @@ class UserTrackTest < ActiveSupport::TestCase
     user.update(roles: [:maintainer])
     refute user_track.reload.maintainer?
 
-    create :github_team_member, user_id: user.uid, team_name: track.team_name
+    create :github_team_member, user_id: user.uid, team_name: track.github_team_name
     assert user_track.reload.maintainer?
   end
 end

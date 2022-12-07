@@ -286,7 +286,7 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     wip_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :wip
 
     user = create :user, roles: [:maintainer], uid: '1232134'
-    create :github_team_member, user_id: user.uid, team_name: track.team_name
+    create :github_team_member, user_id: user.uid, team_name: track.github_team_name
     user_track = create :user_track, track: track, user: user
     hw_solution = create :hello_world_solution, :completed, track: track, user: user
     hello_world = hw_solution.exercise

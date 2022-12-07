@@ -83,7 +83,7 @@ module ViewComponents
         link_to(
           graphical_icon(:building) + tag.span("Build"),
           Exercism::Routes.track_build_path(track),
-          class: tab_class(:building)
+          class: tab_class(:build)
         )
       end
 

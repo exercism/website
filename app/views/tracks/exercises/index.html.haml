@@ -1,4 +1,5 @@
-- track_meta_tags(@user_track)
+- content_for :meta_title, "#{@track.title} exercises on Exercism"
+- content_for :meta_description, "Explore the #{@user_track.num_exercises} #{@track.title} exercises on Exercism"
 
 #page-exercises-index
   = render ViewComponents::Track::Header.new(@track, :exercises)

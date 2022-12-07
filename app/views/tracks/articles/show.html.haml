@@ -1,5 +1,5 @@
-- content_for :meta_title, @article.title.html_safe
-- content_for :meta_description, @article.blurb.html_safe
+- content_for :meta_title, "Explore the '#{@article.title.html_safe}' article for #{@exercise.title} in #{@track.title} on Exercism"
+- content_for :meta_description, "Explore the '#{@article.title.html_safe}' article for #{@exercise.title} in #{@track.title} on Exercism. #{@article.blurb.html_safe}"
 -# TODO: add :meta_image
 
 #page-articles-show.pb-80

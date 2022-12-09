@@ -567,11 +567,11 @@ div.preheader {
                             <div style="margin-left: 20px;margin-right: 20px;margin-bottom: 24px;">
                               <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
                                 <p style="margin-top: 0;margin-bottom: 20px;">
-                                  You're receiving this because you've previously signed up to <%= link_to "Exercism", root_url, style: "color: #2E57E8; font-weight:500" %> (the <strong style="font-weight:500">free, not-for-profit programming education platform</strong>) and are subscribed to our donation emails, where we send occasional updates related to donations.
+                                  You're receiving this because you've previously signed up to <%= link_to "Exercism", root_url, style: "color: #2E57E8; font-weight:500" %> (the <strong style="font-weight:500">free, not-for-profit programming education platform</strong>) and are subscribed to our fundraising emails, where we send occasional updates related to fundraising.
                                 </p>
                                 <p style="margin-top: 0;margin-bottom: 20px;">
                                   You can 
-                                  <%= link_to "unsubscribe from this email", unsubscribe_url(token: @user.communication_preferences.token, key: :email_on_donation_notification), style: "color: #2E57E8; font-weight:500" %>
+                                  <%= link_to "unsubscribe from this email", unsubscribe_url(token: @user.communication_preferences.token, key: :email_about_fundraising_campaigns), style: "color: #2E57E8; font-weight:500" %>
                                   or
                                   <%= link_to "change your notification settings", unsubscribe_url(token: @user.communication_preferences.token), style: "color: #2E57E8; font-weight:500" %> 
                                   to opt out of some or all emails.

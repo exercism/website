@@ -34,7 +34,7 @@ class UnsubscribeController < ApplicationController
       email_on_student_finished_discussion_notification: false,
       email_on_mentor_finished_discussion_notification: false,
       email_on_automated_feedback_added_notification: false,
-      email_on_donation_notification: false
+      email_about_fundraising_campaigns: false
     )
 
     redirect_to({ action: :show, token: @token }, notice: "You have been unsubscribed from all emails successfully")

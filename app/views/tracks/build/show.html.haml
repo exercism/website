@@ -328,7 +328,7 @@
 
         .inline-grid.grid-cols-6.gap-16.mt-20.mb-16
           - @status.volunteers.users[3..].to_a.each do |volunteer|
-            = avatar(volunteer, css_class: "h-32 w-[32px] bg-cover rounded-circle")
+            = avatar(volunteer, css_class: "h-32 w-[32px] bg-cover bg-center rounded-circle")
           - if @status.volunteers.num_volunteers > @status.volunteers.users.size
             .col-span-2.self-center.leading-170.text-14.font-semibold.text-lightBlue
               = link_to contributing_contributors_path(track_slug: @track.slug) do

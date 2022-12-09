@@ -116,12 +116,13 @@
     /* --------------------------------------------------------------------- */
 
     @apply bg-white;
-    header {
+    .track-build-header {
         z-index: 0;
         width: 100%;
         height: 501px;
         left: 0px;
-        top: 64px;
+        top: 200px;
+        @apply absolute;
 
         background: linear-gradient(
                 180deg,

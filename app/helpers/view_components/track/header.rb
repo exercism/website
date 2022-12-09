@@ -1,7 +1,7 @@
 module ViewComponents
   module Track
     class Header < ViewComponent
-      TABS = %i[overview concepts exercises about].freeze
+      TABS = %i[overview concepts exercises about build].freeze
 
       initialize_with :track, :selected_tab
 
@@ -50,6 +50,7 @@ module ViewComponents
         tabs << concepts_tab if track.course? && !user_track.practice_mode?
         tabs << exercises_tab
         tabs << about_tab(:about_track_path) unless user_track.external?
+        tabs << build_tab
 
         safe_join(tabs)
       end
@@ -75,6 +76,14 @@ module ViewComponents
           graphical_icon(:exercises) + tag.span("Exercises"),
           Exercism::Routes.track_exercises_path(track),
           class: tab_class(:exercises)
+        )
+      end
+
+      def build_tab
+        link_to(
+          graphical_icon(:building) + tag.span("Build"),
+          Exercism::Routes.track_build_path(track),
+          class: tab_class(:build)
         )
       end
 

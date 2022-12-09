@@ -280,7 +280,7 @@ class User < ApplicationRecord
 
   def confirmed? = super && !disabled? && !blocked?
   def disabled? = !!disabled_at
-  def blocked? = User::BlockDomain.blocked?(self)
+  def blocked? = User::BlockDomain.blocked?(user: self)
 
   def github_auth? = uid.present?
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days

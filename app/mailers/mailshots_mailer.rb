@@ -10,7 +10,7 @@ class MailshotsMailer < ApplicationMailer
     mail_to_user(@user, subject)
   end
 
-  def donor_company_support
+  def company_support_donor
     @user = params[:user]
 
     subject = "Could your company support Exercism?"

@@ -19,4 +19,4 @@ jobs:
     with:
       forum_category: support
     secrets:
-      github_membership_token: ${{ secrets.COMMUNITY_CONTRIBUTIONS_WORKFLOW  }}
+      github_membership_token: ${{ secrets.COMMUNITY_CONTRIBUTIONS_WORKFLOW_TOKEN }}

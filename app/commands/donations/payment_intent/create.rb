@@ -10,12 +10,8 @@ module Donations
 
       def call
         if invalid_user_or_email?
-          begin
-            raise "Invalid user or email trying to make donation: #{user_or_email}"
-          rescue StandardError => e
-            Bugsnag.notify(e)
-            return
-          end
+          Bugsnag.notify(PaymentIntentError.new("Invalid user or email trying to make donation: #{user_or_email}"))
+          return
         end
 
         customer_id = user ?

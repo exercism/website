@@ -31,7 +31,11 @@ module Donations
       end
 
       private
-      def invalid_user_or_email? = User::BlockDomain.blocked?(user_or_email)
+      def invalid_user_or_email?
+        user_or_email.is_a?(User) ?
+          User::BlockDomain.blocked?(user:) :
+          User::BlockDomain.blocked?(email: user_or_email)
+      end
 
       memoize
       def user

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class User::Mailshot::SendTest < ActiveSupport::TestCase
-  test "sends community_launch email" do
+  test "community_launch: sends email" do
     user = create :user
 
     assert_enqueued_with(
@@ -16,7 +16,7 @@ class User::Mailshot::SendTest < ActiveSupport::TestCase
     end
   end
 
-  test "not sent if receive_product_updates is false" do
+  test "community_launch: email not sent if receive_product_updates is false" do
     user = create :user
     user.communication_preferences.update(receive_product_updates: false)
 

@@ -14,6 +14,6 @@ class MailshotsMailer < ApplicationMailer
     @user = params[:user]
 
     subject = "Could your company support Exercism?"
-    mail_to_user(@user, subject)
+    mail_to_user(@user, subject, reply_to: "loretta@exercism.org")
   end
 end

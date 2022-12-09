@@ -20,6 +20,7 @@ class User::CommunicationPreferences < ApplicationRecord
       email_on_acquired_badge_notification
       email_on_general_update_notification
       email_on_nudge_notification
+      email_about_fundraising_campaigns
       receive_product_updates
     ]
   end

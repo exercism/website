@@ -9,7 +9,14 @@ module Donations
       initialize_with :user_or_email, :type, :amount_in_cents
 
       def call
-        return if invalid_user_or_email?
+        if invalid_user_or_email?
+          begin
+            raise "Invalid user or email trying to make donation: #{user_or_email}"
+          rescue StandardError => e
+            Bugsnag.notify(e)
+            return
+          end
+        end
 
         customer_id = user ?
           Donations::Customer::CreateForUser.(user) :

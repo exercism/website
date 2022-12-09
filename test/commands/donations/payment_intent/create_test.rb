@@ -75,4 +75,19 @@ class Donations::PaymentIntent::CreateTest < Donations::TestBase
 
     assert_nil Donations::PaymentIntent::Create.(email, type, amount_in_cents)
   end
+
+  test "log error in bugsnag when email uses blocked domain" do
+    block_domain = create :user_block_domain
+    email = "#{SecureRandom.uuid}@#{block_domain.domain}"
+    type = 'payment'
+    amount_in_cents = '1200'
+
+    Stripe::Customer.expects(:create).never
+    Stripe::PaymentIntent.expects(:create).never
+    Stripe::Subscription.expects(:create).never
+
+    Bugsnag.expects(:notify).once
+
+    assert_nil Donations::PaymentIntent::Create.(email, type, amount_in_cents)
+  end
 end

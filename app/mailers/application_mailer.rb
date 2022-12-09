@@ -13,7 +13,7 @@ class ApplicationMailer < ActionMailer::Base
     email_address_with_name(user.email, name)
   end
 
-  def mail_to_user(user, subject)
-    mail(to: user_email_with_name(user), subject:)
+  def mail_to_user(user, subject, **options)
+    mail(to: user_email_with_name(user), subject:, **options)
   end
 end

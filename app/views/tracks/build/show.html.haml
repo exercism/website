@@ -2,8 +2,9 @@
 - content_for :meta_description, "Explore the impact and status of #{@track.title} on Exercism."
 
 #page-tracks-build.bg-white
+  = render ViewComponents::Track::Header.new(@track, :build)
 
-  %header.absolute.top-0
+  .track-build-header
   .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
     .col-span-3.xl:col-span-2
       %h1.text-h1.mb-12.text-48.font-bold.z-1
@@ -309,7 +310,8 @@
         = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
     .hidden.xl:block.col-span-1
-      = ReactComponents::Impact::Map.new(track: @track)
+      %div{ class: 'h-[284px]' }
+        = ReactComponents::Impact::Map.new(track: @track)
       .rounded-8.p-24.shadow-baseZ1.bg-white
         .flex.items-center.mb-12
           = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"

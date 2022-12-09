@@ -4,6 +4,7 @@
     @apply bg-backgroundColorA pt-16 shadow-base;
     /* Needed for the box-shadow */
     @apply relative;
+    z-index: 1;
 
     & > .container {
         @apply relative;

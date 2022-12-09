@@ -21,6 +21,7 @@ en:
     email_on_automated_feedback_added_notification: "Email me when automated feedback is added to my solution"
 
     email_on_nudge_notification: "Email me prompts about how to get the most out of Exercism"
+    email_on_donation_notification: "Email me about donations to Exercism"
 
     email_on_general_update_notification: "Email me about other non-essential updates to my account"
     email_on_acquired_badge_notification: "Email me when I unlock a new badge"

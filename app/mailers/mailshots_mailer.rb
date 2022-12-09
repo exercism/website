@@ -9,4 +9,11 @@ class MailshotsMailer < ApplicationMailer
     subject = "Forum, Swag, Automated Feedback, and a new Dig Deeper section"
     mail_to_user(@user, subject)
   end
+
+  def donor_company_support
+    @user = params[:user]
+
+    subject = "Could your company support Exercism?"
+    mail_to_user(@user, subject)
+  end
 end

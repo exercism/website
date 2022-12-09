@@ -24,4 +24,19 @@ class User::Mailshot::SendTest < ActiveSupport::TestCase
       User::Mailshot::Send.(user, :community_launch)
     end
   end
+
+  test "donor_company_support: sends email" do
+    user = create :user
+
+    assert_enqueued_with(
+      job: ActionMailer::MailDeliveryJob, args: [
+        "MailshotsMailer",
+        "donor_company_support",
+        "deliver_now",
+        { params: { user: }, args: [] }
+      ]
+    ) do
+      User::Mailshot::Send.(user, :donor_company_support)
+    end
+  end
 end

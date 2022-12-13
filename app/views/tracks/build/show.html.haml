@@ -89,9 +89,9 @@
               Learn More
           %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
 
-        - if @status.syllabus.concepts.active.size < @status.syllabus.concepts.num_concepts_target
+        - if @status.syllabus.concepts.active.size < @status.syllabus.concepts.num_active_target
           .action-required
-            Next goal: Create a complete syllabus with at least #{@status.syllabus.concepts.num_concepts_target} concepts.
+            Next goal: Create a complete syllabus with at least #{@status.syllabus.concepts.num_active_target} concepts.
             = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
               Find out more.
 
@@ -100,7 +100,7 @@
             %h4 Usage statistics
           %details.mb-10
             %summary.--syllabus
-              #{@status.syllabus.concepts.active.size}/#{@status.syllabus.concepts.num_concepts_target} concepts created
+              #{@status.syllabus.concepts.active.size}/#{@status.syllabus.concepts.num_active_target} concepts created
               = graphical_icon 'chevron-right', css_class: 'summary-chevron'
             - @status.syllabus.concepts.active.each do |concept|
               .record-row
@@ -244,9 +244,9 @@
               Learn More
           %p Practice Exercises are exercises designed to allow students to solve an arbitrary problem, with the aim of them making use of the concepts they have learned so far.
 
-        - if @status.practice_exercises.active.size < @status.practice_exercises.num_exercises_target
+        - if @status.practice_exercises.active.size < @status.practice_exercises.num_active_target
           .action-required
-            Next goal: Implement #{%w[exemplar health].include?(@status.practice_exercises.health) ? '' : 'at least '}#{@status.practice_exercises.num_exercises_target} practice exercises.
+            Next goal: Implement #{%w[exemplar health].include?(@status.practice_exercises.health) ? '' : 'at least '}#{@status.practice_exercises.num_active_target} practice exercises.
             = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
               Find out more.
 
@@ -255,7 +255,7 @@
             %h4 Usage statistics
           %details
             %summary.--practice-exercises
-              #{@status.practice_exercises.active.size}/#{@status.practice_exercises.num_exercises_target} practice exercises created
+              #{@status.practice_exercises.active.size}/#{@status.practice_exercises.num_active_target} practice exercises created
               = graphical_icon 'chevron-right', css_class: 'summary-chevron'
             .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
               .record-name

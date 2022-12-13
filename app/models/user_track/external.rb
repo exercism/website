@@ -49,6 +49,7 @@ class UserTrack
     end
 
     def enabled_exercises(exercises)
+      exercises = exercises.where(type: PracticeExercise.to_s) unless track.course?
       exercises.where(status: %i[active beta])
     end
 

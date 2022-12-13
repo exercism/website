@@ -47,7 +47,10 @@ class Track < ApplicationRecord
   end
 
   def recache_num_exercises!
-    update_column(:num_exercises, exercises.where(status: %i[active beta]).count)
+    filtered_exercises = exercises.where(status: %i[active beta])
+    filtered_exercises = filtered_exercises.where(type: PracticeExercise.to_s) unless course?
+
+    update_column(:num_exercises, filtered_exercises.count)
   end
 
   def to_param = slug

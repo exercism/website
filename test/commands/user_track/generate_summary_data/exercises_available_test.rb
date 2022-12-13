@@ -299,6 +299,29 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     assert_equal [wip_practice_exercise, hello_world], summary.unlocked_practice_exercises
   end
 
+  test "concept exercises are only available when track has course" do
+    track = create :track
+    concept_exercise = create :concept_exercise, :random_slug, track: track
+    practice_exercise = create :practice_exercise, :random_slug, track: track
+
+    user = create :user
+    user_track = create :user_track, track: track, user: user
+    hw_solution = create :hello_world_solution, :completed, track: track, user: user
+    hello_world = hw_solution.exercise
+
+    track.update(course: false)
+    summary = summary_for(user_track)
+    assert_equal [practice_exercise, hello_world], summary.unlocked_exercises
+    assert_empty summary.unlocked_concept_exercises
+    assert_equal [practice_exercise, hello_world], summary.unlocked_practice_exercises
+
+    track.update(course: true)
+    summary = summary_for(user_track)
+    assert_equal [concept_exercise, practice_exercise, hello_world], summary.unlocked_exercises
+    assert_equal [concept_exercise], summary.unlocked_concept_exercises
+    assert_equal [practice_exercise, hello_world], summary.unlocked_practice_exercises
+  end
+
   private
   def summary_for(user_track)
     user_track = UserTrack.find(user_track.id)

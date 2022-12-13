@@ -81,6 +81,7 @@ class UserTrack < ApplicationRecord
     status = %i[active beta]
     status << :wip if maintainer?
 
+    exercises = exercises.where(type: PracticeExercise.to_s) unless track.course? || maintainer?
     exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 
@@ -158,6 +159,8 @@ class UserTrack < ApplicationRecord
 
   memoize
   def maintainer?
+    return true if user.staff? || user.admin?
+
     user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end
 

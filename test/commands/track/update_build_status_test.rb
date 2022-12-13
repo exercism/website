@@ -281,6 +281,30 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal expected_active, track.build_status.syllabus.concept_exercises.active
   end
 
+  test "syllabus: concept_exercises: deprecated" do
+    track = create :track
+
+    deprecated_exercise = create :concept_exercise, track: track, status: :deprecated
+
+    Track::UpdateBuildStatus.(track)
+
+    assert_equal 1, track.build_status.syllabus.concept_exercises.deprecated.size
+    expected = {
+      slug: deprecated_exercise.slug,
+      title: deprecated_exercise.title,
+      icon_url: deprecated_exercise.icon_url,
+      num_started: 0,
+      num_submitted: 0,
+      num_submitted_average: 0.0,
+      num_completed: 0,
+      num_completed_percentage: 0,
+      num_mentoring_requests: 0,
+      num_mentoring_requests_percentage: 0.0,
+      links: { self: "/tracks/ruby/exercises/#{deprecated_exercise.slug}" }
+    }.to_obj
+    assert_includes track.build_status.syllabus.concept_exercises.deprecated, expected
+  end
+
   test "syllabus: concept_exercises: num_active_target" do
     track = create :track
     Track::UpdateBuildStatus.(track)
@@ -392,15 +416,15 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "practice_exercises: deprecated" do
     track = create :track
 
-    deprecated = create :practice_exercise, track: track, status: :deprecated
+    deprecated_exercise = create :practice_exercise, track: track, status: :deprecated
 
     Track::UpdateBuildStatus.(track)
 
     assert_equal 1, track.build_status.practice_exercises.deprecated.size
     expected = {
-      slug: deprecated.slug,
-      title: deprecated.title,
-      icon_url: deprecated.icon_url,
+      slug: deprecated_exercise.slug,
+      title: deprecated_exercise.title,
+      icon_url: deprecated_exercise.icon_url,
       num_started: 0,
       num_submitted: 0,
       num_submitted_average: 0.0,
@@ -408,7 +432,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       num_completed_percentage: 0,
       num_mentoring_requests: 0,
       num_mentoring_requests_percentage: 0.0,
-      links: { self: "/tracks/ruby/exercises/#{deprecated.slug}" }
+      links: { self: "/tracks/ruby/exercises/#{deprecated_exercise.slug}" }
     }.to_obj
     assert_includes track.build_status.practice_exercises.deprecated, expected
   end

@@ -261,7 +261,8 @@ class Track::UpdateBuildStatus
   def concept_exercises
     {
       num_active_target: concept_exercises_num_exercises_target,
-      active: active_concept_exercises.map { |exercise| serialize_exercise(exercise) }
+      active: active_concept_exercises.map { |exercise| serialize_exercise(exercise) },
+      deprecated: deprecated_concept_exercises.map { |exercise| serialize_exercise(exercise) }
     }
   end
 
@@ -313,6 +314,9 @@ class Track::UpdateBuildStatus
 
   memoize
   def active_concept_exercises = track.concept_exercises.where(status: %i[active beta]).order(:position).to_a
+
+  memoize
+  def deprecated_concept_exercises = track.concept_exercises.where(status: :deprecated).order(:title).to_a
 
   memoize
   def active_practice_exercises = track.practice_exercises.where(status: %i[active beta]).order(:position).to_a

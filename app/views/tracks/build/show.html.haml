@@ -255,6 +255,7 @@
         - unless @status.practice_exercises.health == "missing"
           .usage-stats-header
             %h4 Usage statistics
+
           - if @status.practice_exercises.active.size.positive?
             %details
               %summary.--practice-exercises
@@ -268,6 +269,34 @@
                   .record-element Completions
                   .record-element Mentoring requests
               - @status.practice_exercises.active.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      %strong= number_with_delimiter(exercise.num_started)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+
+          - if @status.practice_exercises.deprecated.size.positive?
+            %details.mt-10
+              %summary.--practice-exercises
+                #{@status.practice_exercises.deprecated.size} practice exercises deprecated
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                .record-name
+                .record-value
+                  .record-element Started
+                  .record-element Attempts
+                  .record-element Completions
+                  .record-element Mentoring requests
+              - @status.practice_exercises.deprecated.each do |exercise|
                 .record-row
                   .record-name
                     = exercise_icon exercise
@@ -299,7 +328,7 @@
           - if @status.practice_exercises.foregone.size.positive?
             %details.mt-10
               %summary.--practice-exercises
-                #{@status.practice_exercises.foregone.size} practice #{'exercise'.pluralize(@status.practice_exercises.foregone.size)} foregone
+                #{@status.practice_exercises.foregone.size} foregone practice #{'exercise'.pluralize(@status.practice_exercises.foregone.size)}
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               - @status.practice_exercises.foregone.each do |exercise|
                 .record-row

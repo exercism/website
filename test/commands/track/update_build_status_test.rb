@@ -180,12 +180,12 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     assert_equal 3, track.build_status.syllabus.concepts.num_concepts
     assert_equal 10, track.build_status.syllabus.concepts.num_concepts_target
-    expected_created = [
+    expected_active = [
       { slug: c_2.slug, name: c_2.name, num_students_learnt: 1 },
       { slug: c_4.slug, name: c_4.name, num_students_learnt: 3 },
       { slug: c_3.slug, name: c_3.name, num_students_learnt: 3 }
     ].map(&:to_obj)
-    assert_equal expected_created, track.build_status.syllabus.concepts.created
+    assert_equal expected_active, track.build_status.syllabus.concepts.active
   end
 
   test "syllabus: concepts: num_concepts_target" do
@@ -250,7 +250,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     assert_equal 2, track.build_status.syllabus.concept_exercises.num_exercises
-    expected_created = [
+    expected_active = [
       {
         slug: ce_2.slug,
         title: ce_2.title,
@@ -278,7 +278,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         links: { self: "/tracks/ruby/exercises/#{ce_3.slug}" }
       }
     ].map(&:to_obj)
-    assert_equal expected_created, track.build_status.syllabus.concept_exercises.created
+    assert_equal expected_active, track.build_status.syllabus.concept_exercises.active
   end
 
   test "syllabus: concept_exercises: num_exercises_target" do
@@ -358,7 +358,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     assert_equal 2, track.build_status.practice_exercises.num_exercises
-    expected_created = [
+    expected_active = [
       {
         slug: pe_3.slug,
         title: pe_3.title,
@@ -386,7 +386,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
         links: { self: "/tracks/ruby/exercises/#{pe_2.slug}" }
       }
     ].map(&:to_obj)
-    assert_equal expected_created, track.build_status.practice_exercises.created
+    assert_equal expected_active, track.build_status.practice_exercises.active
   end
 
   test "practice_exercises: unimplemented" do
@@ -394,7 +394,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 126, track.build_status.practice_exercises.num_unimplemented
+    assert_equal 126, track.build_status.practice_exercises.unimplemented.size
     expected = {
       slug: "zebra-puzzle",
       title: "Zebra Puzzle",

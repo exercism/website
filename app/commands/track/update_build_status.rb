@@ -233,7 +233,7 @@ class Track::UpdateBuildStatus
     {
       num_concepts: taught_concepts.size,
       num_concepts_target:,
-      created: taught_concepts.map { |concept| serialize_concept(concept) }
+      active: taught_concepts.map { |concept| serialize_concept(concept) }
     }
   end
 
@@ -263,7 +263,7 @@ class Track::UpdateBuildStatus
     {
       num_exercises: active_concept_exercises.size,
       num_exercises_target: concept_exercises_num_exercises_target,
-      created: active_concept_exercises.map { |exercise| serialize_exercise(exercise) }
+      active: active_concept_exercises.map { |exercise| serialize_exercise(exercise) }
     }
   end
 
@@ -275,7 +275,7 @@ class Track::UpdateBuildStatus
     {
       num_exercises: active_practice_exercises.size,
       num_exercises_target: practice_exercises_num_exercises_target,
-      created: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
+      active: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
       unimplemented: unimplemented_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
       foregone: foregone_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
       volunteers: practice_exercises_volunteers,

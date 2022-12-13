@@ -287,14 +287,14 @@ class Track::UpdateBuildStatus
 
   memoize
   def unimplemented_practice_exercises
-    Track::RetrieveUnimplementedPracticeExercises.(track).sort_by(&:slug)
+    Track::RetrieveUnimplementedPracticeExercises.(track).sort_by(&:title)
   end
 
   memoize
   def num_unimplemented_practice_exercises = unimplemented_practice_exercises.size
 
   memoize
-  def foregone_practice_exercises = track.foregone_exercises.sort_by(&:slug)
+  def foregone_practice_exercises = track.foregone_exercises.sort_by(&:title)
 
   memoize
   def num_foregone_practice_exercises = foregone_practice_exercises.size

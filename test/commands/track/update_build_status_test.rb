@@ -411,7 +411,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 2, track.build_status.practice_exercises.num_foregone
+    assert_equal 2, track.build_status.practice_exercises.foregone.size
     expected = {
       slug: "alphametics",
       title: "Alphametics",

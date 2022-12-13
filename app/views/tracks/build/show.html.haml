@@ -293,10 +293,10 @@
                     .record-element
                       = external_link_to "View data", exercise.links.self, class: 'external-link'
 
-          - if @status.practice_exercises.num_foregone.positive?
+          - if @status.practice_exercises.foregone.size.positive?
             %details.mt-10
               %summary.--practice-exercises
-                #{@status.practice_exercises.num_foregone} practice #{'exercise'.pluralize(@status.practice_exercises.num_foregone)} foregone
+                #{@status.practice_exercises.foregone.size} practice #{'exercise'.pluralize(@status.practice_exercises.foregone.size)} foregone
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               - @status.practice_exercises.foregone.each do |exercise|
                 .record-row

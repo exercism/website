@@ -279,10 +279,10 @@
                   .record-element
                     %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
-          - if @status.practice_exercises.num_unimplemented.positive?
+          - if @status.practice_exercises.unimplemented.size.positive?
             %details.mt-10
               %summary.--practice-exercises
-                #{@status.practice_exercises.num_unimplemented} unimplemented practice #{'exercise'.pluralize(@status.practice_exercises.num_unimplemented)}
+                #{@status.practice_exercises.unimplemented.size} unimplemented practice #{'exercise'.pluralize(@status.practice_exercises.unimplemented.size)}
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               - @status.practice_exercises.unimplemented.each do |exercise|
                 .record-row

@@ -276,7 +276,6 @@ class Track::UpdateBuildStatus
       num_exercises: active_practice_exercises.size,
       num_exercises_target: practice_exercises_num_exercises_target,
       created: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
-      num_unimplemented: num_unimplemented_practice_exercises,
       unimplemented: unimplemented_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
       foregone: foregone_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
       volunteers: practice_exercises_volunteers,
@@ -290,13 +289,10 @@ class Track::UpdateBuildStatus
   end
 
   memoize
-  def num_unimplemented_practice_exercises = unimplemented_practice_exercises.size
-
-  memoize
   def foregone_practice_exercises = track.foregone_exercises.sort_by(&:title)
 
   def practice_exercises_num_exercises_target
-    max_target = track.num_exercises + num_unimplemented_practice_exercises
+    max_target = track.num_exercises + unimplemented_practice_exercises.size
 
     NUM_PRACTICE_EXERCISES_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
   end

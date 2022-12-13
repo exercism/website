@@ -102,7 +102,7 @@
               %h4 Usage statistics
             %details.mb-10
               %summary.--syllabus
-                #{@status.syllabus.concepts.active.size}/#{@status.syllabus.concepts.num_active_target} concepts created
+                #{@status.syllabus.concepts.active.size} concepts created
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               - @status.syllabus.concepts.active.each do |concept|
                 .record-row
@@ -257,7 +257,7 @@
             %h4 Usage statistics
           %details
             %summary.--practice-exercises
-              #{@status.practice_exercises.active.size}/#{@status.practice_exercises.num_active_target} practice exercises created
+              #{@status.practice_exercises.active.size} practice exercises created
               = graphical_icon 'chevron-right', css_class: 'summary-chevron'
             .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
               .record-name

@@ -102,7 +102,7 @@
               %h4 Usage statistics
             %details.mb-10
               %summary.--syllabus
-                #{@status.syllabus.concepts.active.size} concepts created
+                #{@status.syllabus.concepts.active.size} concepts being taught
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               - @status.syllabus.concepts.active.each do |concept|
                 .record-row
@@ -112,7 +112,7 @@
                   .record-value #{number_with_delimiter(concept.num_students_learnt)} learnt
             %details
               %summary.--lightbulb
-                #{@status.syllabus.concept_exercises.active.size} learning exercises created
+                #{@status.syllabus.concept_exercises.active.size} active learning exercises
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
                 .record-name.mb-0
@@ -259,7 +259,7 @@
           - if @status.practice_exercises.active.size.positive?
             %details
               %summary.--practice-exercises
-                #{@status.practice_exercises.active.size} practice exercises created
+                #{@status.practice_exercises.active.size} active practice exercises
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
                 .record-name
@@ -287,7 +287,7 @@
           - if @status.practice_exercises.deprecated.size.positive?
             %details.mt-10
               %summary.--practice-exercises
-                #{@status.practice_exercises.deprecated.size} practice exercises deprecated
+                #{@status.practice_exercises.deprecated.size} deprecated practice exercises
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
                 .record-name

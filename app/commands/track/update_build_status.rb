@@ -273,6 +273,7 @@ class Track::UpdateBuildStatus
     {
       num_active_target: practice_exercises_num_exercises_target,
       active: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
+      deprecated: deprecated_practice_exercises.map { |exercise| serialize_exercise(exercise) },
       unimplemented: unimplemented_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
       foregone: foregone_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
       volunteers: practice_exercises_volunteers,
@@ -315,6 +316,9 @@ class Track::UpdateBuildStatus
 
   memoize
   def active_practice_exercises = track.practice_exercises.where(status: %i[active beta]).order(:position).to_a
+
+  memoize
+  def deprecated_practice_exercises = track.practice_exercises.where(status: :deprecated).order(:title).to_a
 
   def average_number_per_day(query, model)
     first_id = query.where("#{model.table_name}.created_at >= ?", Time.current - NUM_DAYS_FOR_AVERAGE.days).pick(:id)

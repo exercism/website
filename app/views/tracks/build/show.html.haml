@@ -279,6 +279,20 @@
                   .record-element
                     %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
+          - if @status.practice_exercises.deprecated.size.positive?
+            %details.mt-10
+              %summary.--practice-exercises
+                #{@status.practice_exercises.deprecated.size} deprecated practice #{'exercise'.pluralize(@status.practice_exercises.deprecated.size)}
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              - @status.practice_exercises.deprecated.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      = external_link_to "View data", exercise.links.self, class: 'external-link'
+
           - if @status.practice_exercises.unimplemented.size.positive?
             %details.mt-10
               %summary.--practice-exercises

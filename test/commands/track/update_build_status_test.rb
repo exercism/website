@@ -178,7 +178,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 3, track.build_status.syllabus.concepts.num_concepts
+    assert_equal 3, track.build_status.syllabus.concepts.active.size
     assert_equal 10, track.build_status.syllabus.concepts.num_concepts_target
     expected_active = [
       { slug: c_2.slug, name: c_2.name, num_students_learnt: 1 },
@@ -249,7 +249,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 2, track.build_status.syllabus.concept_exercises.num_exercises
+    assert_equal 2, track.build_status.syllabus.concept_exercises.active.size
     expected_active = [
       {
         slug: ce_2.slug,
@@ -357,7 +357,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 2, track.build_status.practice_exercises.num_exercises
+    assert_equal 2, track.build_status.practice_exercises.active.size
     expected_active = [
       {
         slug: pe_3.slug,

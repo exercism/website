@@ -231,7 +231,6 @@ class Track::UpdateBuildStatus
 
   def concepts
     {
-      num_concepts: taught_concepts.size,
       num_concepts_target:,
       active: taught_concepts.map { |concept| serialize_concept(concept) }
     }
@@ -261,7 +260,6 @@ class Track::UpdateBuildStatus
 
   def concept_exercises
     {
-      num_exercises: active_concept_exercises.size,
       num_exercises_target: concept_exercises_num_exercises_target,
       active: active_concept_exercises.map { |exercise| serialize_exercise(exercise) }
     }
@@ -273,7 +271,6 @@ class Track::UpdateBuildStatus
 
   def practice_exercises
     {
-      num_exercises: active_practice_exercises.size,
       num_exercises_target: practice_exercises_num_exercises_target,
       active: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
       unimplemented: unimplemented_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },

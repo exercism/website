@@ -60,7 +60,7 @@
         - if @solution.status_completed? || @solution.status_published?
           = render "tracks/exercises/show/action_box_completed", track: @track, exercise: @exercise, solution: @solution
         - elsif @solution.status_iterated?
-          = render "tracks/exercises/show/action_box_iterated", track: @track, exercise: @exercise, solution: @solution
+          = render "tracks/exercises/show/action_box_iterated", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
         - elsif @solution.status_started?
           = render "tracks/exercises/show/action_box_started", track: @track, exercise: @exercise, solution: @solution
 

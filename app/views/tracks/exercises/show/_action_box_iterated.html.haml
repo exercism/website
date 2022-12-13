@@ -3,7 +3,7 @@
     %h3 Done with the exercise?
     %p Taken this exercise as far as you want to? Tick it off your list, and optionally publish your solution for the community to learn from.
     = ReactComponents::Student::CompleteExerciseButton.new(current_user, exercise)
-    = render ViewComponents::Exercise::UnlockOnCompleteSentence.new(exercise, solution.user_track)
+    = render ViewComponents::Exercise::UnlockOnCompleteSentence.new(exercise, user_track)
 
   %h3 Continue #{exercise.title}
   %p

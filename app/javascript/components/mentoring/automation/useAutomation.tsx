@@ -157,13 +157,13 @@ export function useAutomation(
     (withFeedback) => {
       if (withFeedback && resolvedData) {
         return {
-          with_feedback: resolvedData.meta.unscopedTotal,
+          with_feedback: resolvedData.meta.totalCount,
           without_feedback: representationsWithoutFeedbackCount,
         }
       } else if (resolvedData) {
         return {
           with_feedback: representationsWithFeedbackCount,
-          without_feedback: resolvedData.meta.unscopedTotal,
+          without_feedback: resolvedData.meta.totalCount,
         }
       } else {
         return {

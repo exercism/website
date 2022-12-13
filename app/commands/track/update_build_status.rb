@@ -290,7 +290,7 @@ class Track::UpdateBuildStatus
   def foregone_practice_exercises = track.foregone_exercises.sort_by(&:title)
 
   def practice_exercises_num_exercises_target
-    max_target = track.num_exercises + unimplemented_practice_exercises.size
+    max_target = active_practice_exercises.size + unimplemented_practice_exercises.size
 
     NUM_PRACTICE_EXERCISES_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
   end

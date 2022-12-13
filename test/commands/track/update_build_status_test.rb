@@ -179,7 +179,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     assert_equal 3, track.build_status.syllabus.concepts.active.size
-    assert_equal 10, track.build_status.syllabus.concepts.num_concepts_target
+    assert_equal 10, track.build_status.syllabus.concepts.num_active_target
     expected_active = [
       { slug: c_2.slug, name: c_2.name, num_students_learnt: 1 },
       { slug: c_4.slug, name: c_4.name, num_students_learnt: 3 },
@@ -188,30 +188,30 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal expected_active, track.build_status.syllabus.concepts.active
   end
 
-  test "syllabus: concepts: num_concepts_target" do
+  test "syllabus: concepts: num_active_target" do
     track = create :track
     Track::UpdateBuildStatus.(track)
-    assert_equal 10, track.reload.build_status.syllabus.concepts.num_concepts_target
+    assert_equal 10, track.reload.build_status.syllabus.concepts.num_active_target
 
     create_list(:exercise_taught_concept, 10, exercise: create(:concept_exercise, track:))
     Track::UpdateBuildStatus.(track)
-    assert_equal 20, track.reload.build_status.syllabus.concepts.num_concepts_target
+    assert_equal 20, track.reload.build_status.syllabus.concepts.num_active_target
 
     create_list(:exercise_taught_concept, 10, exercise: create(:concept_exercise, track:))
     Track::UpdateBuildStatus.(track)
-    assert_equal 30, track.reload.build_status.syllabus.concepts.num_concepts_target
+    assert_equal 30, track.reload.build_status.syllabus.concepts.num_active_target
 
     create_list(:exercise_taught_concept, 10, exercise: create(:concept_exercise, track:))
     Track::UpdateBuildStatus.(track)
-    assert_equal 40, track.reload.build_status.syllabus.concepts.num_concepts_target
+    assert_equal 40, track.reload.build_status.syllabus.concepts.num_active_target
 
     create_list(:exercise_taught_concept, 10, exercise: create(:concept_exercise, track:))
     Track::UpdateBuildStatus.(track)
-    assert_equal 50, track.reload.build_status.syllabus.concepts.num_concepts_target
+    assert_equal 50, track.reload.build_status.syllabus.concepts.num_active_target
 
     create_list(:exercise_taught_concept, 26, exercise: create(:concept_exercise, track:))
     Track::UpdateBuildStatus.(track)
-    assert_equal 66, track.reload.build_status.syllabus.concepts.num_concepts_target
+    assert_equal 66, track.reload.build_status.syllabus.concepts.num_active_target
   end
 
   test "syllabus: concept_exercises" do
@@ -281,30 +281,30 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal expected_active, track.build_status.syllabus.concept_exercises.active
   end
 
-  test "syllabus: concept_exercises: num_exercises_target" do
+  test "syllabus: concept_exercises: num_active_target" do
     track = create :track
     Track::UpdateBuildStatus.(track)
-    assert_equal 10, track.reload.build_status.syllabus.concept_exercises.num_exercises_target
+    assert_equal 10, track.reload.build_status.syllabus.concept_exercises.num_active_target
 
     create_list(:concept_exercise, 10, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal 20, track.reload.build_status.syllabus.concept_exercises.num_exercises_target
+    assert_equal 20, track.reload.build_status.syllabus.concept_exercises.num_active_target
 
     create_list(:concept_exercise, 10, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal 30, track.reload.build_status.syllabus.concept_exercises.num_exercises_target
+    assert_equal 30, track.reload.build_status.syllabus.concept_exercises.num_active_target
 
     create_list(:concept_exercise, 10, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal 40, track.reload.build_status.syllabus.concept_exercises.num_exercises_target
+    assert_equal 40, track.reload.build_status.syllabus.concept_exercises.num_active_target
 
     create_list(:concept_exercise, 10, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal 50, track.reload.build_status.syllabus.concept_exercises.num_exercises_target
+    assert_equal 50, track.reload.build_status.syllabus.concept_exercises.num_active_target
 
     create_list(:concept_exercise, 26, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal 66, track.reload.build_status.syllabus.concept_exercises.num_exercises_target
+    assert_equal 66, track.reload.build_status.syllabus.concept_exercises.num_active_target
   end
 
   test "syllabus: health" do
@@ -447,32 +447,43 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_includes track.build_status.practice_exercises.foregone, expected
   end
 
-  test "practice_exercises: num_exercises_target" do
+  test "practice_exercises: num_active_target" do
     track = create :track
     Track::UpdateBuildStatus.(track)
-    assert_equal 10, track.reload.build_status.practice_exercises.num_exercises_target
+    assert_equal 10, track.reload.build_status.practice_exercises.num_active_target
 
     create_list(:practice_exercise, 10, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal 20, track.reload.build_status.practice_exercises.num_exercises_target
+    assert_equal 20, track.reload.build_status.practice_exercises.num_active_target
 
     create_list(:practice_exercise, 10, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal 30, track.reload.build_status.practice_exercises.num_exercises_target
+    assert_equal 30, track.reload.build_status.practice_exercises.num_active_target
 
     create_list(:practice_exercise, 10, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal 40, track.reload.build_status.practice_exercises.num_exercises_target
+    assert_equal 40, track.reload.build_status.practice_exercises.num_active_target
 
     create_list(:practice_exercise, 10, track:)
     Track::UpdateBuildStatus.(track)
-    assert_equal 50, track.reload.build_status.practice_exercises.num_exercises_target
+    assert_equal 50, track.reload.build_status.practice_exercises.num_active_target
 
     create_list(:practice_exercise, 30, track:)
     Track::UpdateBuildStatus.(track)
 
-    num_unimplemented = Track::RetrieveUnimplementedPracticeExercises.(track.reload).size
-    assert_equal track.num_exercises + num_unimplemented, track.reload.build_status.practice_exercises.num_exercises_target
+    # Sanity check: concept exercises don't count
+    create_list(:concept_exercise, 3, track:)
+    Track::UpdateBuildStatus.(track)
+
+    # Sanity check: wip practice exercises don't count
+    create_list(:practice_exercise, 2, status: :wip, track:)
+    Track::UpdateBuildStatus.(track)
+
+    # Sanity check: deprecated practice exercises don't count
+    create_list(:practice_exercise, 2, status: :deprecated, track:)
+    Track::UpdateBuildStatus.(track)
+
+    assert_equal 195, track.reload.build_status.practice_exercises.num_active_target
   end
 
   test "practice_exercises: volunteers" do

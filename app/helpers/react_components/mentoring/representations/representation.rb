@@ -41,7 +41,7 @@ module ReactComponents
         def examples_data
           example_submissions.map do |submission|
             {
-              files: SerializeFiles.(submission.files_for_editor),
+              files: SerializeFilesWithMetadata.(submission.files_for_editor),
               instructions: Markdown::Parse.(submission.solution.instructions),
               tests: submission.solution.tests
             }

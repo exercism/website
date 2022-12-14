@@ -1,4 +1,4 @@
-class SerializeFiles
+class SerializeFilesWithMetadata
   include Mandate
 
   initialize_with :files

@@ -531,15 +531,25 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
     assert_equal 1, track.reload.build_status.test_runner.version
 
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1 }
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_equal 1, track.reload.build_status.test_runner.version
 
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_equal 2, track.reload.build_status.test_runner.version
 
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3 }
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3, status: 'pass' }
+    Track::UpdateBuildStatus.(track)
+    assert_equal 3, track.reload.build_status.test_runner.version
+
+    # Sanity check: ignore errored test runs
+    create :submission_test_run, :errored, submission: (create :submission, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal 3, track.reload.build_status.test_runner.version
+
+    # Sanity check: ignore timed-out test runs
+    create :submission_test_run, :timed_out, submission: (create :submission, track:)
     Track::UpdateBuildStatus.(track)
     assert_equal 3, track.reload.build_status.test_runner.version
   end
@@ -560,26 +570,36 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
     assert_equal 2, track.reload.build_status.test_runner.version_target
 
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1 }
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_equal 2, track.reload.build_status.test_runner.version_target
 
     track.update(course: false)
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_nil track.reload.build_status.test_runner.version_target
 
     track.update(course: true)
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_equal 3, track.reload.build_status.test_runner.version_target
 
     # Ignore submissions from other track
-    create :submission_test_run, submission: (create :submission, track: other_track), raw_results: { version: 1 }
+    create :submission_test_run, submission: (create :submission, track: other_track), raw_results: { version: 1, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_equal 3, track.reload.build_status.test_runner.version_target
 
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3 }
+    # Sanity check: ignore errored test runs
+    create :submission_test_run, :errored, submission: (create :submission, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal 3, track.reload.build_status.test_runner.version_target
+
+    # Sanity check: ignore timed-out test runs
+    create :submission_test_run, :timed_out, submission: (create :submission, track:)
+    Track::UpdateBuildStatus.(track)
+    assert_equal 3, track.reload.build_status.test_runner.version_target
+
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_nil track.reload.build_status.test_runner.version_target
   end
@@ -628,15 +648,15 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal "exemplar", track.reload.build_status.test_runner.health
 
     track.update(course: true)
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1 }
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 1, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_equal "needs_attention", track.reload.build_status.test_runner.health
 
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2 }
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 2, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_equal "healthy", track.reload.build_status.test_runner.health
 
-    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3 }
+    create :submission_test_run, submission: (create :submission, track:), raw_results: { version: 3, status: 'pass' }
     Track::UpdateBuildStatus.(track)
     assert_equal "exemplar", track.reload.build_status.test_runner.health
   end
@@ -823,7 +843,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     # test_runner_health: :exemplar
     track.update(has_representer: true)
-    create :submission_test_run, submission: submission, raw_results: { version: 3 }
+    create :submission_test_run, submission: submission, raw_results: { version: 3, status: 'pass' }
 
     # practice_exercises_health: :exemplar
     track.update(course: false)

@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     resource :push_updates, only: [:create]
     resource :pull_request_updates, only: [:create]
     resource :organization_updates, only: [:create]
+    resource :workflow_run_updates, only: [:create]
   end
 
   # ##### #

@@ -7,7 +7,7 @@ class Exercise
 
       def call
         # First cache the old representation
-        @old_representation = Exercise::Representation.where(source_submission: submission).order('id DESC').first
+        @old_representation = Exercise::Representation.where(source_submission: submission).last
 
         @representation = Exercise::Representation.find_create_or_find_by!(
           exercise:, ast_digest:, representer_version:, exercise_version:

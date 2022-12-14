@@ -81,7 +81,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     last_submitted_at = Time.zone.now
 
     old = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at),
-          new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 2, 1, last_submitted_at)
+    new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 2, 1, last_submitted_at)
     refute_equal old, new
   end
 
@@ -89,8 +89,8 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     submission = create :submission
     last_submitted_at = Time.zone.now
 
-    old = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at),
-          new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 2, last_submitted_at)
+    old = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at)
+    new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 2, last_submitted_at)
     refute_equal old, new
   end
 

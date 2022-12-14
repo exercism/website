@@ -6,10 +6,25 @@ FactoryBot.define do
     ops_status { 200 }
     raw_results do
       {
+        version: 1,
         status: "pass",
         message: "some message",
         tests: []
       }
+    end
+
+    trait :timed_out do
+      ops_status { 408 }
+      raw_results do
+        {}
+      end
+    end
+
+    trait :errored do
+      ops_status { 513 }
+      raw_results do
+        {}
+      end
     end
   end
 end

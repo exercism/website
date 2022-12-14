@@ -29,16 +29,22 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
     payload = {
       action: 'completed',
       workflow_run: {
+        head_branch: 'main',
         path: '.github/workflows/deploy.yml',
         conclusion: 'failure',
         referenced_workflows: [
           { path: 'deploy.yml' }
         ]
+      },
+      repository: {
+        full_name: 'exercism/fsharp-representer'
       }
     }
 
     Webhooks::ProcessWorkflowRunUpdate.expects(:call).with(
       action: 'completed',
+      repo: 'exercism/fsharp-representer',
+      head_branch: 'main',
       path: '.github/workflows/deploy.yml',
       conclusion: 'failure',
       referenced_workflows: ['deploy.yml']

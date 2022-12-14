@@ -1,4 +1,4 @@
 require "test_helper"
 
-class Webhooks::ProcessWorkflowRunUpdateeTest < ActiveSupport::TestCase
+class Webhooks::ProcessWorkflowRunUpdateTest < ActiveSupport::TestCase
 end

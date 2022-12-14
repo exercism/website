@@ -24,4 +24,26 @@ class Webhooks::PullRequestUpdatesControllerTest < Webhooks::BaseTestCase
     post webhooks_workflow_run_updates_path, headers: headers(payload, event: 'ping'), as: :json, params: payload
     assert_response :no_content
   end
+
+  test "create: processes payload" do
+    payload = {
+      action: 'completed',
+      workflow_run: {
+        path: '.github/workflows/deploy.yml',
+        conclusion: 'failure',
+        referenced_workflows: [
+          { path: 'deploy.yml' }
+        ]
+      }
+    }
+
+    Webhooks::ProcessWorkflowRunUpdate.expects(:call).with(
+      action: 'completed',
+      path: '.github/workflows/deploy.yml',
+      conclusion: 'failure',
+      referenced_workflows: ['deploy.yml']
+    )
+
+    post webhooks_workflow_run_updates_path, headers: headers(payload), as: :json, params: payload
+  end
 end

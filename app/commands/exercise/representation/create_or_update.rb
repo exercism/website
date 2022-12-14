@@ -18,6 +18,8 @@ class Exercise
           rep.last_submitted_at = last_submitted_at
         end
 
+        return representation if representation == old_representation
+
         # Now copy the old feedback over if appropriate
         update_feedback!
         update_cache_columns!

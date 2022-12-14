@@ -1,46 +1,42 @@
-module Donations
-  module PaymentIntent
-    class HandleSuccess
-      include Mandate
+class Donations::PaymentIntent::HandleSuccess
+  include Mandate
 
-      def initialize(id: nil, payment_intent: nil)
-        raise "Specify either id or payment intent" unless id || payment_intent
+  def initialize(id: nil, payment_intent: nil)
+    raise "Specify either id or payment intent" unless id || payment_intent
 
-        @id = id
-        @payment_intent = payment_intent
-      end
+    @id = id
+    @payment_intent = payment_intent
+  end
 
-      def call
-        return unless user
+  def call
+    return unless user
 
-        subscription = Donations::Subscription::Create.(user, subscription_data) if subscription_data
-        Donations::Payment::Create.(user, payment_intent, subscription:)
-      end
+    subscription = Donations::Subscription::Create.(user, subscription_data) if subscription_data
+    Donations::Payment::Create.(user, payment_intent, subscription:)
+  end
 
-      private
-      attr_reader :id
+  private
+  attr_reader :id
 
-      memoize
-      def user
-        raise "No customer in the payment intent" unless payment_intent.customer
+  memoize
+  def user
+    raise "No customer in the payment intent" unless payment_intent.customer
 
-        User.find_by(stripe_customer_id: payment_intent.customer)
-      end
+    User.find_by(stripe_customer_id: payment_intent.customer)
+  end
 
-      memoize
-      def subscription_data
-        return unless payment_intent.invoice
+  memoize
+  def subscription_data
+    return unless payment_intent.invoice
 
-        invoice = Stripe::Invoice.retrieve(payment_intent.invoice)
-        return unless invoice.subscription
+    invoice = Stripe::Invoice.retrieve(payment_intent.invoice)
+    return unless invoice.subscription
 
-        Stripe::Subscription.retrieve(invoice.subscription)
-      end
+    Stripe::Subscription.retrieve(invoice.subscription)
+  end
 
-      memoize
-      def payment_intent
-        @payment_intent || Stripe::PaymentIntent.retrieve(id)
-      end
-    end
+  memoize
+  def payment_intent
+    @payment_intent || Stripe::PaymentIntent.retrieve(id)
   end
 end

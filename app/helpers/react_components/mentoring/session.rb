@@ -22,7 +22,7 @@ module ReactComponents
             exercise: SerializeMentorSessionExercise.(exercise),
             iterations:,
             instructions: Markdown::Parse.(solution.instructions),
-            test_files: SerializeTestFiles.(solution.test_files),
+            test_files: SerializeFiles.(solution.test_files),
             student: SerializeStudent.(
               student,
               current_user,

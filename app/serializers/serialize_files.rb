@@ -1,4 +1,4 @@
-class SerializeTestFiles
+class SerializeFiles
   include Mandate
 
   initialize_with :files

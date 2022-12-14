@@ -4,11 +4,12 @@ module ToolingJob
 
     initialize_with :submission, :type
 
-    def initialize(submission, type, git_sha: nil, run_in_background: false)
+    def initialize(submission, type, git_sha: nil, run_in_background: false, context: {})
       @submission = submission
       @type = type.to_sym
       @git_sha = git_sha || submission.git_sha
       @run_in_background = !!run_in_background
+      @context = context
     end
 
     def call
@@ -25,12 +26,13 @@ module ToolingJob
           exercise_git_sha: git_sha,
           exercise_git_dir: exercise_repo.dir,
           exercise_filepaths:
-        }
+        },
+        context:
       )
     end
 
     private
-    attr_reader :submission, :git_sha, :type, :run_in_background
+    attr_reader :submission, :git_sha, :type, :run_in_background, :context
 
     memoize
     delegate :solution, to: :submission

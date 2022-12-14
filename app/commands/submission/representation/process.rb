@@ -6,6 +6,14 @@ class Submission
       initialize_with :tooling_job
 
       def call
+        if reason == :update
+          handle_update!
+        else
+          handle_create!
+        end
+      end
+
+      def handle_create!
         create_submission_representation!
 
         begin
@@ -32,7 +40,9 @@ class Submission
         submission.iteration&.broadcast!
       end
 
-      attr_reader :exercise_representation, :submission_representation
+      def handle_update!
+        create_exercise_representation!
+      end
 
       def create_submission_representation!
         @submission_representation = Submission::Representation::Create.(
@@ -45,7 +55,7 @@ class Submission
           submission,
           ast, ast_digest, mapping,
           representer_version, exercise_version,
-          @submission_representation.created_at
+          @submission_representation&.created_at || submission.created_at
         )
       end
 
@@ -64,6 +74,9 @@ class Submission
         # TODO: (Required) Create notification about the fact there
         # is a piece of automated feedback
       end
+
+      private
+      attr_reader :exercise_representation, :submission_representation
 
       memoize
       def ops_status
@@ -109,6 +122,13 @@ class Submission
         res.is_a?(Hash) ? res.symbolize_keys : {}
       rescue StandardError
         {}
+      end
+
+      memoize
+      def reason
+        return nil unless tooling_job.context
+
+        tooling_job.context.with_indifferent_access[:reason]&.to_sym
       end
     end
   end

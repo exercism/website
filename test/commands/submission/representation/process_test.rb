@@ -175,4 +175,23 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     job = create_representer_job!(submission, execution_status: 200, ast:)
     Submission::Representation::Process.(job)
   end
+
+  test "honours reason" do
+    ast = "my ast"
+    ast_digest = Submission::Representation.digest_ast(ast)
+    submission = create :submission
+    mapping = { 'foo' => 'bar' }
+    reason = :update
+
+    job = create_representer_job!(submission, execution_status: 200, ast:, mapping:, reason:)
+
+    Submission::Representation::Create.expects(:call).never
+    Exercise::Representation::CreateOrUpdate.expects(:call).with(
+      submission,
+      ast, ast_digest, mapping.symbolize_keys,
+      1, 1, nil
+    )
+
+    Submission::Representation::Process.(job)
+  end
 end

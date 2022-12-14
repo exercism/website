@@ -220,7 +220,7 @@ class ActiveSupport::TestCase
     )
   end
 
-  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil, metadata: nil)
+  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil, metadata: nil, reason: nil)
     execution_output = {
       "representation.txt" => ast,
       "representation.json" => metadata&.to_json,
@@ -230,7 +230,8 @@ class ActiveSupport::TestCase
       submission,
       :representer,
       execution_status:,
-      execution_output:
+      execution_output:,
+      context: { reason: }
     )
   end
 

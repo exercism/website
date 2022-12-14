@@ -6,8 +6,8 @@ class SerializeTestFiles
   def call
     files.map do |filename, content|
       {
-        filename: filename,
-        content: content
+        filename:,
+        content:
       }
     end
   end

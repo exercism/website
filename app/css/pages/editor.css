@@ -367,7 +367,7 @@
             }
             & .--tab-panel.tests {
                 border-top-width: 1px;
-                border-color: var(--borderColor6);
+                border-color: var(--borderColor7);
 
                 &:not([hidden]) {
                     @apply flex;

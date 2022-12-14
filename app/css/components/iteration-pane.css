@@ -35,7 +35,7 @@
 .test-tabs {
     @apply flex items-center;
     @apply bg-backgroundColorB;
-    @apply border-b-1 border-borderColor7;
+    @apply border-t-1 border-borderColor6;
     @apply overflow-y-hidden overflow-x-auto;
     @apply flex-shrink-0;
 
@@ -49,7 +49,7 @@
         margin-bottom: -1px;
         @apply border-b-1;
 
-        .selected {
+        &.selected {
             @apply bg-backgroundColorA;
             @apply text-textColor2 font-medium;
             border-bottom: 1px solid transparent;

@@ -130,7 +130,7 @@ class Track::UpdateBuildStatus
   memoize
   def test_runner_version = [
     1,
-    Submission::TestRun.where(track:).order(id: :desc).pick(:version).to_i
+    Submission::TestRun.ops_successful.where(track:).order(id: :desc).pick(:version).to_i
   ].max
 
   def test_runner_version_target

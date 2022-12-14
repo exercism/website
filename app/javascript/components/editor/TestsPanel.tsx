@@ -1,8 +1,15 @@
-import React from 'react'
-import { Tab } from '../common/Tab'
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import { highlightAll } from '@/utils'
+import { TestFile } from '@/components/types'
+import { Tab, TabContext } from '@/components/common/Tab'
 import { TabsContext } from '../Editor'
-import { useHighlighting } from '../../utils/highlight'
-import { TestFile } from '../types'
 
 type TestsPanelProps = {
   testFiles: readonly TestFile[]
@@ -13,26 +20,69 @@ export const TestsPanel = ({
   testFiles,
   highlightjsLanguage,
 }: TestsPanelProps): JSX.Element => {
-  const ref = useHighlighting<HTMLDivElement>()
+  const testRef = useRef<HTMLPreElement>(null)
+  const [testTab, setTestTab] = useState<TestFile>(testFiles[0])
+
+  const TestContext = createContext<TabContext>({
+    current: testFiles[0].filename,
+    switchToTab: () => null,
+  })
+
+  const currentTab = useContext(TabsContext).current
+
+  useEffect(() => {
+    if (!testRef.current) {
+      return
+    }
+
+    highlightAll(testRef.current)
+  }, [testTab, TestContext])
+
+  const switchToTab = useCallback(
+    (filename: string) => {
+      const testFile = testFiles.find((f) => f.filename === filename)
+      if (!testFile) {
+        throw new Error('File not found')
+      } else {
+        setTestTab(testFile)
+      }
+    },
+    [testFiles]
+  )
 
   return (
-    <Tab.Panel
-      id="tests"
-      context={TabsContext}
-      className="tests c-code-pane"
-      ref={ref}
+    <TestContext.Provider
+      value={{
+        current: testTab.filename,
+        switchToTab,
+      }}
     >
-      {testFiles.map((testFile) => (
-        <pre key={testFile.filename}>
-          <code
-            className={highlightjsLanguage}
-            data-highlight-line-numbers={true}
-            data-highlight-line-number-start={1}
-          >
-            {testFile.content}
-          </code>
-        </pre>
-      ))}
-    </Tab.Panel>
+      {testFiles.length > 1 && currentTab === 'tests' ? (
+        <div className="test-tabs">
+          {testFiles.map((file) => (
+            <Tab context={TestContext} key={file.filename} id={file.filename}>
+              {file.filename}
+            </Tab>
+          ))}
+        </div>
+      ) : null}
+      <Tab.Panel id="tests" context={TabsContext}>
+        <Tab.Panel
+          id={testTab.filename}
+          context={TestContext}
+          className="tests c-code-pane"
+        >
+          <pre ref={testRef} key={testTab.filename}>
+            <code
+              className={highlightjsLanguage}
+              data-highlight-line-numbers={true}
+              data-highlight-line-number-start={1}
+            >
+              {testTab.content}
+            </code>
+          </pre>
+        </Tab.Panel>
+      </Tab.Panel>
+    </TestContext.Provider>
   )
 }

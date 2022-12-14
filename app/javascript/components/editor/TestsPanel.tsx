@@ -4,13 +4,15 @@ import { TabsContext } from '../Editor'
 import { useHighlighting } from '../../utils/highlight'
 import { TestFile } from '../types'
 
+type TestsPanelProps = {
+  testFiles: readonly TestFile[]
+  highlightjsLanguage: string
+}
+
 export const TestsPanel = ({
   testFiles,
   highlightjsLanguage,
-}: {
-  testFiles: readonly TestFile[]
-  highlightjsLanguage: string
-}): JSX.Element => {
+}: TestsPanelProps): JSX.Element => {
   const ref = useHighlighting<HTMLDivElement>()
 
   return (
@@ -20,19 +22,17 @@ export const TestsPanel = ({
       className="tests c-code-pane"
       ref={ref}
     >
-      {testFiles.map((testFile) => {
-        return (
-          <pre key={testFile.filename}>
-            <code
-              className={highlightjsLanguage}
-              data-highlight-line-numbers={true}
-              data-highlight-line-number-start={1}
-            >
-              {testFile.content}
-            </code>
-          </pre>
-        )
-      })}
+      {testFiles.map((testFile) => (
+        <pre key={testFile.filename}>
+          <code
+            className={highlightjsLanguage}
+            data-highlight-line-numbers={true}
+            data-highlight-line-number-start={1}
+          >
+            {testFile.content}
+          </code>
+        </pre>
+      ))}
     </Tab.Panel>
   )
 }

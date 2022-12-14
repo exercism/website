@@ -43,7 +43,7 @@ module ReactComponents
             {
               files: SerializeFilesWithMetadata.(submission.files_for_editor),
               instructions: Markdown::Parse.(submission.solution.instructions),
-              tests: submission.solution.tests
+              test_files: SerializeFiles.(submission.solution.test_files)
             }
           end
         end

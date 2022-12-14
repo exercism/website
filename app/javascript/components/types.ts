@@ -465,8 +465,8 @@ export type Representation = {
 
 export type RepresentationData = Representation & {
   files: readonly File[]
+  testFiles: readonly TestFile[]
   instructions: string
-  tests: string
 }
 
 export type RepresentationFeedbackType =

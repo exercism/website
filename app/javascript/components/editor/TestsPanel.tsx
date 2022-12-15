@@ -23,21 +23,6 @@ export const TestsPanel = ({
   const testRef = useRef<HTMLPreElement>(null)
   const [testTab, setTestTab] = useState<TestFile>(testFiles[0])
 
-  const TestContext = createContext<TabContext>({
-    current: testFiles[0].filename,
-    switchToTab: () => null,
-  })
-
-  const currentTab = useContext(TabsContext).current
-
-  useEffect(() => {
-    if (!testRef.current) {
-      return
-    }
-
-    highlightAll(testRef.current)
-  }, [testTab, TestContext])
-
   const switchToTab = useCallback(
     (filename: string) => {
       const testFile = testFiles.find((f) => f.filename === filename)
@@ -49,6 +34,21 @@ export const TestsPanel = ({
     },
     [testFiles]
   )
+
+  const TestContext = createContext<TabContext>({
+    current: testFiles[0].filename,
+    switchToTab,
+  })
+
+  const currentTab = useContext(TabsContext).current
+
+  useEffect(() => {
+    if (!testRef.current) {
+      return
+    }
+
+    highlightAll(testRef.current)
+  }, [testTab, TestContext])
 
   return (
     <TestContext.Provider

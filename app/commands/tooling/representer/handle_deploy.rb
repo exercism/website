@@ -6,7 +6,7 @@ class Tooling::Representer::HandleDeploy
   initialize_with :track
 
   def call
-    # TODO: update track's representer version
+    Track::UpdateRepresenterVersion.(track)
 
     Exercise::Representation.where(track:).with_feedback.includes(source_submission: :exercise).find_each do |representation|
       submission = representation.source_submission

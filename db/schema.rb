@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_09_093842) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_14_150508) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -889,6 +889,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_093842) do
     t.boolean "has_test_runner", default: false, null: false
     t.boolean "has_representer", default: false, null: false
     t.boolean "has_analyzer", default: false, null: false
+    t.integer "representer_version", limit: 2
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 

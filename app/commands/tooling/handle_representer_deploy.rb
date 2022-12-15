@@ -1,7 +1,7 @@
 class Tooling::HandleRepresenterDeploy
   include Mandate
 
-  queue_as :default
+  queue_as :dribble
 
   initialize_with :track
 

@@ -24,7 +24,8 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
         exercise_git_dir: "exercises/concept/strings",
         # Check we exclude .docs and the overriden source file
         exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-      }
+      },
+      context: {}
     )
 
     Submission::TestRun::Init.(submission)
@@ -55,7 +56,8 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
         exercise_git_dir: "exercises/concept/strings",
         # Check we exclude .docs and the overriden source file
         exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-      }
+      },
+      context: {}
     )
 
     Submission::TestRun::Init.(submission, type: :solution, git_sha: "foobar", run_in_background: true)
@@ -85,7 +87,8 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
         exercise_git_dir: "exercises/practice/isogram",
         # Check we exclude .docs and the overriden source file
         exercise_filepaths: [".meta/config.json", ".meta/example.rb", "helper.rb", "isogram_test.rb"]
-      }
+      },
+      context: {}
     )
 
     Submission::TestRun::Init.(submission)

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Tooling::HandleRepresenterDeployTest < ActiveSupport::TestCase
+class Tooling::Representer::HandleDeployTest < ActiveSupport::TestCase
   test "queues representer job for each representation with feedback" do
     track = create :track, :random_slug
     other_track = create :track, :random_slug
@@ -22,6 +22,6 @@ class Tooling::HandleRepresenterDeployTest < ActiveSupport::TestCase
     Submission::Representation::Init.expects(:call).with(representation_3.source_submission, type: :exercise,
       git_sha: representation_3.source_submission.exercise.git_sha, run_in_background: true).once
 
-    Tooling::HandleRepresenterDeploy.(track)
+    Tooling::Representer::HandleDeploy.(track)
   end
 end

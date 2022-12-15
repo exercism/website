@@ -4,7 +4,7 @@ class Webhooks::ProcessWorkflowRunUpdateTest < ActiveSupport::TestCase
   test "queue handle representer deploy job when deploy workflow conclusion is success" do
     track = create :track, slug: 'fsharp'
 
-    assert_enqueued_with job: MandateJob, args: [Tooling::HandleRepresenterDeploy.name, track] do
+    assert_enqueued_with job: MandateJob, args: [Tooling::Representer::HandleDeploy.name, track] do
       Webhooks::ProcessWorkflowRunUpdate.(**representer_deploy_success_args)
     end
   end

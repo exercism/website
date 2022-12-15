@@ -4,7 +4,7 @@ class Webhooks::ProcessWorkflowRunUpdate
   initialize_with params: Mandate::KWARGS
 
   def call
-    Tooling::HandleRepresenterDeploy.defer(track) if handle_representer_deploy?
+    Tooling::Representer::HandleDeploy.defer(track) if handle_representer_deploy?
   end
 
   private

@@ -1,4 +1,4 @@
-class Tooling::HandleRepresenterDeploy
+class Tooling::Representer::HandleDeploy
   include Mandate
 
   queue_as :dribble

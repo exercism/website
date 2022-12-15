@@ -55,7 +55,8 @@ class Submission
           submission,
           ast, ast_digest, mapping,
           representer_version, exercise_version,
-          @submission_representation&.created_at || submission.created_at
+          submission.created_at,
+          git_sha
         )
       end
 
@@ -129,6 +130,11 @@ class Submission
         return nil unless tooling_job.context
 
         tooling_job.context.with_indifferent_access[:reason]&.to_sym
+      end
+
+      memoize
+      def git_sha
+        tooling_job.source["exercise_git_sha"]
       end
     end
   end

@@ -9,7 +9,8 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     mapping = { 'a' => 'test' }
     last_submitted_at = Time.zone.now
 
-    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, last_submitted_at)
+    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, last_submitted_at,
+      "some_git_sha")
 
     assert_equal exercise, representation.exercise
     assert_equal submission, representation.source_submission
@@ -30,7 +31,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     representation = create(:exercise_representation, exercise:, source_submission: submission, ast:, ast_digest:, mapping:,
       last_submitted_at: Time.zone.now - 2.days)
 
-    Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, last_submitted_at)
+    Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, last_submitted_at, "some_git_sha")
 
     assert_equal last_submitted_at, representation.reload.last_submitted_at
   end
@@ -43,7 +44,8 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     submission = create :submission, exercise: exercise
     create :submission_representation, ast_digest: ast_digest, submission: submission
 
-    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current)
+    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current,
+      "some_git_sha")
 
     perform_enqueued_jobs # Allow num_submissions to be calculated in the background
 
@@ -60,7 +62,8 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     create :submission_representation, ast_digest: ast_digest, submission: create(:submission, exercise:)
     create :submission_representation, ast_digest: ast_digest, submission: create(:submission, exercise:)
 
-    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current)
+    representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current,
+      "some_git_sha")
 
     perform_enqueued_jobs # Allow num_submissions to be calculated in the background
 
@@ -72,7 +75,8 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     last_submitted_at = Time.zone.now
 
     assert_idempotent_command do
-      Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at)
+      Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at,
+        "some_git_sha")
     end
   end
 
@@ -80,8 +84,8 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     submission = create :submission
     last_submitted_at = Time.zone.now
 
-    old = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at)
-    new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 2, 1, last_submitted_at)
+    old = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at, "some_git_sha")
+    new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 2, 1, last_submitted_at, "some_git_sha")
     refute_equal old, new
   end
 
@@ -89,21 +93,23 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     submission = create :submission
     last_submitted_at = Time.zone.now
 
-    old = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at)
-    new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 2, last_submitted_at)
+    old = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, last_submitted_at,
+      "some_git_sha")
+    new = Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 2, last_submitted_at,
+      "some_git_sha")
     refute_equal old, new
   end
 
   test "feedback is copied for same submission" do
     submission = create :submission
-    Exercise::Representation::CreateOrUpdate.(submission, 'old', 'old', {}, 1, 1, Time.current)
+    Exercise::Representation::CreateOrUpdate.(submission, 'old', 'old', {}, 1, 1, Time.current, "some_git_sha")
 
     # Add feedback to that representation
     old_representation = Exercise::Representation.first
     Exercise::Representation::SubmitFeedback.(create(:user), old_representation, "fooobar", :essential)
 
     # Now generate a new representation
-    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 1, 1, Time.current)
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 1, 1, Time.current, "some_git_sha")
     new_representation = Exercise::Representation.last
 
     refute_equal old_representation, new_representation # Sanity
@@ -122,7 +128,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
       source_submission: submission, feedback_markdown: "old"
 
     # Now generate a new representation
-    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 1, 1, Time.current)
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 1, 1, Time.current, "some_git_sha")
     new_representation = Exercise::Representation.last
 
     # Sanity
@@ -139,7 +145,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
       source_submission: submission, feedback_markdown: "old"
 
     # Now generate a new representation with representer version 2
-    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 2, 1, Time.current)
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 2, 1, Time.current, "some_git_sha")
     new_representation = Exercise::Representation.last
 
     # Sanity
@@ -157,7 +163,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
       source_submission: submission, feedback_markdown: "old"
 
     # Now generate a new representation with representer version 2
-    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 1, 2, Time.current)
+    Exercise::Representation::CreateOrUpdate.(submission, 'new', 'new', {}, 1, 2, Time.current, "some_git_sha")
     new_representation = Exercise::Representation.last
 
     # Sanity
@@ -170,14 +176,14 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
   end
 
   test "feedback is not copied for different submission" do
-    Exercise::Representation::CreateOrUpdate.(create(:submission), 'old', 'old', {}, 1, 1, Time.current)
+    Exercise::Representation::CreateOrUpdate.(create(:submission), 'old', 'old', {}, 1, 1, Time.current, "some_git_sha")
 
     # Add feedback to that representation
     old_representation = Exercise::Representation.first
     Exercise::Representation::SubmitFeedback.(create(:user), old_representation, "fooobar", :essential)
 
     # Now generate a new representation
-    Exercise::Representation::CreateOrUpdate.(create(:submission), 'new', 'new', {}, 1, 1, Time.current)
+    Exercise::Representation::CreateOrUpdate.(create(:submission), 'new', 'new', {}, 1, 1, Time.current, "some_git_sha")
     new_representation = Exercise::Representation.last
 
     refute_equal old_representation, new_representation # Sanity
@@ -186,5 +192,14 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_nil new_representation.feedback_author
     assert_nil new_representation.feedback_markdown
     assert_nil new_representation.feedback_type
+  end
+
+  test "triggers reruns" do
+    submission = create :submission
+
+    Exercise::Representation::TriggerReruns.expects(:defer).once.with(anything, "sha2")
+
+    Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, Time.zone.now, "sha1")
+    Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 2, 1, Time.zone.now, "sha2")
   end
 end

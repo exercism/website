@@ -3,7 +3,7 @@ class Exercise
     class CreateOrUpdate
       include Mandate
 
-      initialize_with :submission, :ast, :ast_digest, :mapping, :representer_version, :exercise_version, :last_submitted_at
+      initialize_with :submission, :ast, :ast_digest, :mapping, :representer_version, :exercise_version, :last_submitted_at, :git_sha
 
       def call
         # First cache the old representation
@@ -18,11 +18,13 @@ class Exercise
           rep.last_submitted_at = last_submitted_at
         end
 
-        return representation if representation == old_representation
-
-        # Now copy the old feedback over if appropriate
-        update_feedback!
         update_cache_columns!
+
+        # Now copy the old feedback and trigger runs if appropriate
+        if old_representation && representation != old_representation
+          update_feedback!
+          trigger_reruns!
+        end
 
         representation
       end
@@ -62,6 +64,10 @@ class Exercise
       def update_cache_columns!
         representation.update!(last_submitted_at:)
         Exercise::Representation::UpdateNumSubmissions.defer(representation)
+      end
+
+      def trigger_reruns!
+        Exercise::Representation::TriggerReruns.defer(old_representation, git_sha)
       end
     end
   end

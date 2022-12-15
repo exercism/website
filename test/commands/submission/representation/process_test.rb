@@ -189,7 +189,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     Exercise::Representation::CreateOrUpdate.expects(:call).with(
       submission,
       ast, ast_digest, mapping.symbolize_keys,
-      1, 1, nil
+      1, 1, submission.created_at, "HEAD"
     )
 
     Submission::Representation::Process.(job)

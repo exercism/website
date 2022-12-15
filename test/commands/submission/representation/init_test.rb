@@ -23,7 +23,8 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
         exercise_git_sha: solution.git_sha,
         exercise_git_dir: "exercises/concept/strings",
         exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-      }
+      },
+      context: {}
     )
     Submission::Representation::Init.(submission)
     assert_equal 'queued', submission.representation_status
@@ -53,7 +54,8 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
         exercise_git_sha: "foobar",
         exercise_git_dir: "exercises/concept/strings",
         exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-      }
+      },
+      context: {}
     )
     Submission::Representation::Init.(submission, type: :exercise, git_sha: "foobar", run_in_background: true)
     assert_equal 'not_queued', submission.representation_status
@@ -82,7 +84,8 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
         exercise_git_sha: solution.git_sha,
         exercise_git_dir: "exercises/practice/isogram",
         exercise_filepaths: [".meta/config.json", ".meta/example.rb", "helper.rb", "isogram_test.rb"]
-      }
+      },
+      context: {}
     )
     Submission::Representation::Init.(submission)
     assert_equal 'queued', submission.representation_status

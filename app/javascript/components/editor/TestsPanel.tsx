@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { highlightAll } from '@/utils'
 import { Tab } from '@/components/common/Tab'
 import { TestContentContext, TestTabContext } from './TestContentWrapper'
+import { useLogger } from '@/hooks'
 
 type TestsPanelProps = {
   highlightjsLanguage: string
@@ -9,16 +10,32 @@ type TestsPanelProps = {
 export const TestsPanel = ({
   highlightjsLanguage,
 }: TestsPanelProps): JSX.Element => {
-  const testRef = useRef<HTMLPreElement>(null)
-
   const { testTab, tabContext } = useContext(TestContentContext)
 
+  const testRef = useRef<HTMLPreElement>(null)
+  const memoTestRef = useRef<HTMLDivElement>(null)
+
+  const [tree, setTree] = useState<{ [key: string]: HTMLPreElement }>({})
+  const [reusing, setReusing] = useState<boolean>(false)
+
+  useLogger('tree', tree)
+
   useEffect(() => {
-    if (!testRef.current) {
+    if (!testRef.current || !memoTestRef.current) {
       return
     }
 
-    highlightAll(testRef.current)
+    if (!(testTab.filename in tree)) {
+      setReusing(false)
+      highlightAll(testRef.current)
+      setTree((t) => ({ ...t, [testTab.filename]: testRef.current! }))
+    } else {
+      setReusing(true)
+      while (memoTestRef.current.firstChild) {
+        memoTestRef.current.removeChild(memoTestRef.current.firstChild)
+      }
+      memoTestRef.current.appendChild(tree[testTab.filename])
+    }
   }, [testTab])
 
   return (
@@ -28,7 +45,11 @@ export const TestsPanel = ({
         context={TestTabContext}
         className="tests c-code-pane"
       >
-        <pre ref={testRef} key={testTab.filename}>
+        <pre
+          ref={testRef}
+          className={reusing ? 'hidden' : ''}
+          key={testTab.filename}
+        >
           <code
             className={highlightjsLanguage}
             data-highlight-line-numbers={true}
@@ -37,6 +58,11 @@ export const TestsPanel = ({
             {testTab.content}
           </code>
         </pre>
+        <div
+          className={!reusing ? 'hidden' : ''}
+          ref={memoTestRef}
+          id="preParent"
+        ></div>
       </Tab.Panel>
     </Tab.Panel>
   )

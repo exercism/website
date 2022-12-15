@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class Tooling::Representer::HandleDeployTest < ActiveSupport::TestCase
-  test "create representer job for each representation with feedback" do
-    track = create :track, :random_slug
+  test "when representer version changed create representer job for each representation with feedback" do
+    track = create :track, :random_slug, representer_version: 1
     other_track = create :track, :random_slug
 
     representation_1 = create :exercise_representation, :with_feedback, exercise: create(:practice_exercise, track:)
@@ -21,6 +21,16 @@ class Tooling::Representer::HandleDeployTest < ActiveSupport::TestCase
       git_sha: representation_2.source_submission.exercise.git_sha, run_in_background: true).once
     Submission::Representation::Init.expects(:call).with(representation_3.source_submission, type: :exercise,
       git_sha: representation_3.source_submission.exercise.git_sha, run_in_background: true).once
+
+    Tooling::Representer::HandleDeploy.(track)
+  end
+
+  test "when representer version does not change no representer jobs are created" do
+    track = create :track, :random_slug, representer_version: 2
+
+    create :exercise_representation, :with_feedback, exercise: create(:practice_exercise, track:)
+
+    Submission::Representation::Init.expects(:call).never
 
     Tooling::Representer::HandleDeploy.(track)
   end

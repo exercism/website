@@ -1,0 +1,23 @@
+.c-test-tabs {
+    @apply flex items-center;
+    @apply bg-backgroundColorB;
+    @apply overflow-y-hidden overflow-x-auto;
+    @apply flex-shrink-0;
+
+    .c-tab {
+        @apply grid place-items-center;
+        @apply bg-backgroundColorB;
+        @apply px-16 py-8 mr-0;
+        @apply text-13 text-textColor6 leading-paragraph;
+        @apply border-r-1 border-borderColor7;
+        @apply rounded-none;
+        margin-bottom: -1px;
+        @apply border-b-1;
+
+        &.selected {
+            @apply bg-backgroundColorA;
+            @apply text-textColor2 font-medium;
+            border-bottom: 1px solid transparent;
+        }
+    }
+}

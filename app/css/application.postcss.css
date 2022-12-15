@@ -101,6 +101,7 @@
 @import "./components/track/concept-nav";
 @import "./components/track/concept-map";
 @import "./components/iteration-pane";
+@import "./components/test-tabs";
 @import "./components/explainer";
 @import "./components/markdown-editor";
 @import "./components/mentor-discussion-summary";

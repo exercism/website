@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { FileViewer } from './FileViewer'
+import { TestsPanel, TestContentWrapper } from '@/components/editor/index'
 import { File, TestFile } from '../../types'
 
 const TabsContext = createContext<TabContext>({
@@ -88,25 +89,12 @@ export const FilePanel = ({
               />
             </Tab.Panel>
           ) : null}
-          {testFiles ? (
-            <Tab.Panel key="tests" id="tests" context={TabsContext}>
-              {testFiles.map((test) => {
-                return (
-                  <FileViewer
-                    key={test.filename}
-                    file={{
-                      ...test,
-                      type: 'exercise',
-                      digest: '',
-                    }}
-                    language={language}
-                    indentSize={indentSize}
-                  />
-                )
-              })}
-            </Tab.Panel>
-          ) : null}
         </div>
+        {testFiles ? (
+          <TestContentWrapper testFiles={testFiles} tabContext={TabsContext}>
+            <TestsPanel highlightjsLanguage={language} />
+          </TestContentWrapper>
+        ) : null}
       </div>
     </TabsContext.Provider>
   )

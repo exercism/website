@@ -7,6 +7,10 @@ class Tooling::HandleRepresenterDeploy
 
   def call
     # TODO: update track's representer version
-    # TODO: trigger re-running of representer if representer version changes
+
+    Exercise::Representation.where(track:).with_feedback.includes(source_submission: :exercise).find_each do |representation|
+      submission = representation.source_submission
+      Submission::Representation::Init.(submission, type: :exercise, git_sha: submission.exercise.git_sha, run_in_background: true)
+    end
   end
 end

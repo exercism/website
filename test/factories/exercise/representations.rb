@@ -1,8 +1,10 @@
 FactoryBot.define do
   factory :exercise_representation, class: 'Exercise::Representation' do
-    exercise { create :concept_exercise }
-    track { exercise.track }
-    source_submission { create :submission }
+    track do
+      Track.find_by(slug: 'ruby') || create(:track, slug: 'ruby')
+    end
+    exercise { create :concept_exercise, track: }
+    source_submission { create :submission, track: }
     mapping { { foo: 'bar' } }
     uuid { SecureRandom.uuid }
     ast { SecureRandom.uuid }

@@ -3,5 +3,5 @@ class Track::UpdateRepresenterVersion
 
   initialize_with :track
 
-  def call; end
+  def call = track.update(representer_version: track.representer.version)
 end

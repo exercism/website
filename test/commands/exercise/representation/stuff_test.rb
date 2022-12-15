@@ -9,7 +9,7 @@ class Exercise::Representation::StuffTest < ActiveSupport::TestCase
     # Set up the base submission.
     # This is the one the mentor reviews and gives feedback to.
     # It has two representations (an old one and a newer one)
-    base_submission = create :submission, exercise: exercise
+    base_submission = create :submission, solution: create(:practice_solution, exercise:)
 
     old_representation = create :exercise_representation, :with_feedback, feedback_markdown: old_feedback,
       source_submission: base_submission, exercise: exercise
@@ -21,10 +21,10 @@ class Exercise::Representation::StuffTest < ActiveSupport::TestCase
 
     # Create one old submission (for the old representations)
     # and one new one (with the new representation)
-    older_submission = create :submission, exercise: exercise
+    older_submission = create :submission, solution: create(:practice_solution, exercise:)
     create :submission_representation, submission: older_submission, ast_digest: old_representation.ast_digest
 
-    newer_submission = create :submission, exercise: exercise
+    newer_submission = create :submission, solution: create(:practice_solution, exercise:)
     create :submission_representation, submission: newer_submission, ast_digest: new_representation.ast_digest
 
     # Check they all get the correct reprsentation

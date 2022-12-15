@@ -2,13 +2,13 @@ require 'test_helper'
 
 class Git::RepresenterTest < ActiveSupport::TestCase
   test "passing_repo_works" do
-    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-representer"))
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises-representer"))
     representer = Git::Representer.new(repo:)
     assert_equal 2, representer.version
   end
 
   test "passing_repo_url_works" do
-    representer = Git::Representer.new(repo_url: TestHelpers.git_repo_url("track-representer"))
+    representer = Git::Representer.new(repo_url: TestHelpers.git_repo_url("track-with-exercises-representer"))
     assert_equal 2, representer.version
   end
 
@@ -19,7 +19,7 @@ class Git::RepresenterTest < ActiveSupport::TestCase
   end
 
   test "version" do
-    representer = Git::Representer.new(repo_url: TestHelpers.git_repo_url("track-representer"))
+    representer = Git::Representer.new(repo_url: TestHelpers.git_repo_url("track-with-exercises-representer"))
     assert_equal 2, representer.version
   end
 end

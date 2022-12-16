@@ -15,7 +15,7 @@ class Tooling::Representer::HandleDeploy
   attr_reader :old_representer_version
 
   def reprocess_exercises!
-    return if @old_representer_version == track.representer_version
+    return if old_representer_version == track.representer_version
 
     Exercise::Representation.where(track:).with_feedback.includes(source_submission: :exercise).find_each do |representation|
       submission = representation.source_submission

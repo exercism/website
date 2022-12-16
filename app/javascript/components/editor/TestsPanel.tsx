@@ -14,7 +14,7 @@ export const TestsPanel = ({
   const testRef = useRef<HTMLPreElement>(null)
   const memoTestRef = useRef<HTMLDivElement>(null)
 
-  const [tree, setTree] = useState<{ [key: string]: HTMLPreElement }>({})
+  const [treeMap, setTreeMap] = useState<{ [key: string]: HTMLPreElement }>({})
   const [reusing, setReusing] = useState<boolean>(false)
 
   useLayoutEffect(() => {
@@ -22,17 +22,17 @@ export const TestsPanel = ({
       return
     }
 
-    if (!(testTab.filename in tree)) {
+    if (!(testTab.filename in treeMap)) {
       setReusing(false)
       highlightAll(testRef.current)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      setTree((t) => ({ ...t, [testTab.filename]: testRef.current! }))
+      setTreeMap((t) => ({ ...t, [testTab.filename]: testRef.current! }))
     } else {
       setReusing(true)
       while (memoTestRef.current.firstChild) {
         memoTestRef.current.removeChild(memoTestRef.current.firstChild)
       }
-      memoTestRef.current.appendChild(tree[testTab.filename])
+      memoTestRef.current.appendChild(treeMap[testTab.filename])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testTab])

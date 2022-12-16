@@ -58,9 +58,9 @@ export const TestsPanel = ({
         className="tests c-code-pane"
       >
         {/*
-        this cannot be removed, because if this pre tag doesn't exist,
-        and another testFile is loaded for the first time (not from the hashmap), the highlighter useEffect won't run,
-        because testRef.current will be missing, and `reusing` boolean won't be able to switch to false.
+        this cannot be removed from the DOM, because if this pre tag doesn't exist,
+        a new testFile is loaded for the first time (not from the hashmap), the highlighter useEffect won't run,
+        because testRef.current will be missing, will exist early, won't render anything.
 
         this can be further optimized by counting the testFiles, and comparing them to keys stored in the hashmap,
         and ejecting this block if the two numbers are the same

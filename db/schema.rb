@@ -889,7 +889,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_150508) do
     t.boolean "has_test_runner", default: false, null: false
     t.boolean "has_representer", default: false, null: false
     t.boolean "has_analyzer", default: false, null: false
-    t.integer "representer_version", limit: 2
+    t.integer "representer_version", limit: 2, default: 1, null: false
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 

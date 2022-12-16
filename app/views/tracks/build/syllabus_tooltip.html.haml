@@ -7,19 +7,15 @@
         = render ViewComponents::Track::Build::Health.new(@status.syllabus.health)
 
       - health = @status.syllabus.health.to_sym
-      - num_concepts_to_target = @status.syllabus.concepts.num_active_target - @status.syllabus.concepts.active.size
       %p.text-p-base
         - case health
         - when :exemplar
-          Has implemented a stellar #{@status.syllabus.concepts.size} concepts taught!
+          An impressive #{@status.syllabus.concepts.active.size} concepts are being taught!
         - when :healthy
-          Could benefit from having #{num_concepts_to_target} more #{'concept'.pluralize(num_concepts_to_target)} be implemented.
+          A respectable #{@status.syllabus.concepts.active.size} concepts are being taught.
         - when :needs_attention
+          - num_concepts_to_target = @status.syllabus.concepts.num_active_target - @status.syllabus.concepts.active.size
           Should have #{num_concepts_to_target} more #{'concept'.pluralize(num_concepts_to_target)} being implemented.
         - when :missing
           No concepts have been implemented.
-
-      - if @track.course? && @status.syllabus.concepts.active.size.positive?
-        %p.text-p-base
-          Currently, #{@status.syllabus.concepts.active.size} #{'concepts'.pluralize(@status.syllabus.concepts.active.size)} are being taught by #{@status.syllabus.concept_exercises.active.size} concept #{'exercise'.pluralize(@status.syllabus.concept_exercises.active.size)}.
 

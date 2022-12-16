@@ -336,11 +336,15 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
     assert_equal "missing", track.reload.build_status.syllabus.health
 
-    create_list(:concept_exercise, 9, track:)
+    create_list(:concept_exercise, 9, track:) do |exercise|
+      create :exercise_taught_concept, exercise:
+    end
     Track::UpdateBuildStatus.(track)
     assert_equal "needs_attention", track.reload.build_status.syllabus.health
 
-    create_list(:concept_exercise, 25, track:)
+    create_list(:concept_exercise, 25, track:) do |exercise|
+      create :exercise_taught_concept, exercise:
+    end
     Track::UpdateBuildStatus.(track)
     assert_equal "needs_attention", track.reload.build_status.syllabus.health
 
@@ -348,7 +352,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
     assert_equal "healthy", track.reload.build_status.syllabus.health
 
-    create_list(:concept_exercise, 20, track:)
+    create_list(:concept_exercise, 20, track:) do |exercise|
+      create :exercise_taught_concept, exercise:
+    end
     Track::UpdateBuildStatus.(track)
     assert_equal "exemplar", track.reload.build_status.syllabus.health
   end
@@ -913,7 +919,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     # syllabus_health: :exemplar
     track.update(course: true)
-    create_list(:concept_exercise, 50, track:)
+    create_list(:concept_exercise, 50, track:) do |exercise|
+      create :exercise_taught_concept, exercise:
+    end
 
     Track::UpdateBuildStatus.(track)
     assert_equal "exemplar", track.reload.build_status.health

@@ -99,11 +99,11 @@ export function Representations({
             setStatus={() => null}
           >
             <a href={links.withoutFeedback}>Need feedback</a>
-
-            {/* TODO: re-enable once we've fixed performance */}
-            {/* {resolvedData ? (
-              <div className="count">{feedbackCount['without_feedback']}</div>
-            ) : null} */}
+            {resolvedData ? (
+              <div className="count">
+                {feedbackCount['without_feedback']?.toLocaleString()}
+              </div>
+            ) : null}
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="with_feedback"
@@ -111,9 +111,11 @@ export function Representations({
             setStatus={() => null}
           >
             <a href={links.withFeedback}>Feedback submitted</a>
-            {/* {resolvedData ? (
-              <div className="count">{feedbackCount['with_feedback']}</div>
-            ) : null} */}
+            {resolvedData ? (
+              <div className="count">
+                {feedbackCount['with_feedback']?.toLocaleString()}
+              </div>
+            ) : null}
           </StatusTab>
         </div>
         {!withFeedback && (

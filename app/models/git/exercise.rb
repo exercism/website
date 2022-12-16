@@ -94,6 +94,12 @@ module Git
     end
 
     memoize
+    def representer_version = representer[:version] || 1
+
+    memoize
+    def representer = config[:representer] || {}
+
+    memoize
     def solution_filepaths
       config.dig(:files, :solution).to_a
     end

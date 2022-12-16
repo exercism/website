@@ -460,5 +460,19 @@ module Git
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal('exercises/concept/strings/.meta/config.json', exercise.config_absolute_filepath)
     end
+
+    test "representer_version" do
+      exercise = Git::Exercise.new('space-age', "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert_equal 2, exercise.representer_version
+    end
+
+    test "representer_version defaults to 1 if it doesn't exist" do
+      exercise = Git::Exercise.new('bob', "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert_equal 1, exercise.representer_version
+    end
   end
 end

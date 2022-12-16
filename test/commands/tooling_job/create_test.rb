@@ -30,6 +30,7 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
             "subdir/more_bob.rb"
           ]
         },
+        context: {},
         id: job.id,
         submission_uuid: submission.uuid,
         type:,

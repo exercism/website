@@ -24,7 +24,8 @@ class Submission::Analysis::InitTest < ActiveSupport::TestCase
         exercise_git_sha: solution.git_sha,
         exercise_git_dir: exercise_repo.dir,
         exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-      }
+      },
+      context: {}
     )
     Submission::Analysis::Init.(submission)
     assert_equal 'queued', submission.analysis_status
@@ -54,7 +55,8 @@ class Submission::Analysis::InitTest < ActiveSupport::TestCase
         exercise_git_sha: solution.git_sha,
         exercise_git_dir: exercise_repo.dir,
         exercise_filepaths: [".meta/config.json", ".meta/example.rb", "helper.rb", "isogram_test.rb"]
-      }
+      },
+      context: {}
     )
     Submission::Analysis::Init.(submission)
     assert_equal 'queued', submission.analysis_status

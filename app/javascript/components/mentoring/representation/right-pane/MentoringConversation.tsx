@@ -1,14 +1,13 @@
 import React, { useCallback, useState } from 'react'
-import { PreviewAutomationModal } from '../modals/PreviewAutomationModal'
-import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
+import { useMutation } from 'react-query'
+import { sendRequest } from '@/utils'
 import {
   CompleteRepresentationData,
   RepresentationFeedbackType,
-} from '../../../types'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
+} from '@/components/types'
+import { PreviewAutomationModal } from '../modals/PreviewAutomationModal'
+import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
 import { RepresentationFeedbackEditor } from './RepresentationFeedbackEditor'
-import { useLogger } from '@/hooks'
 
 export default function MentoringConversation({
   data,
@@ -17,7 +16,11 @@ export default function MentoringConversation({
   data: CompleteRepresentationData
   feedbackType: RepresentationFeedbackType
 }): JSX.Element {
-  const [value, setValue] = useState(data.representation.feedbackMarkdown || '')
+  const [value, setValue] = useState(
+    data.representation.feedbackMarkdown ||
+      data.representation.draftFeedbackMarkdown ||
+      ''
+  )
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false)
   const [expanded, setExpanded] = useState(
@@ -27,7 +30,6 @@ export default function MentoringConversation({
 
   const handleChange = useCallback((value) => setValue(value), [setValue])
 
-  useLogger('data', data)
   const handleExpansion = useCallback((expanded) => {
     if (!expanded) {
       setExpanded(true)

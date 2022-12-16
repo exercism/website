@@ -6,9 +6,8 @@
         The #{@track.title} test runner
         = render ViewComponents::Track::Build::Health.new(@status.test_runner.health)
 
-      - health = @status.test_runner.health.to_sym
       %p.text-p-base
-        - case health
+        - case @status.test_runner.health.to_sym
         - when :exemplar
           Implements the latest version of the spec.
         - when :healthy

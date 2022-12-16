@@ -6,9 +6,8 @@
         The #{@track.title} representer
         = render ViewComponents::Track::Build::Health.new(@status.representer.health)
 
-      - health = @status.representer.health.to_sym
       %p.text-p-base
-        - case health
+        - case @status.representer.health.to_sym
         - when :exemplar
           Works exemplary!
         - when :healthy

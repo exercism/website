@@ -6,9 +6,8 @@
         The #{@track.title} syllabus
         = render ViewComponents::Track::Build::Health.new(@status.syllabus.health)
 
-      - health = @status.syllabus.health.to_sym
       %p.text-p-base
-        - case health
+        - case @status.syllabus.health.to_sym
         - when :exemplar
           An impressive #{@status.syllabus.concepts.active.size} concepts are being taught!
         - when :healthy

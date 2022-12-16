@@ -209,20 +209,20 @@ class Track::UpdateBuildStatus
 
   memoize
   def syllabus_health
-    return :missing if active_concept_exercises.empty?
-    return :needs_attention if active_concept_exercises.size < 10
+    return :missing if active_taught_concepts.empty?
+    return :needs_attention if active_taught_concepts.size < 10
     return :needs_attention unless track.course?
-    return :healthy if active_concept_exercises.size < 50
+    return :healthy if active_taught_concepts.size < 50
 
     :exemplar
   end
 
   def syllabus_volunteers
-    concept_author_ids = Concept::Authorship.where(concept: taught_concepts).distinct.pluck(:user_id)
+    concept_author_ids = Concept::Authorship.where(concept: active_taught_concepts).distinct.pluck(:user_id)
     exercise_author_ids = Exercise::Authorship.where(exercise: active_concept_exercises).distinct.pluck(:user_id)
     author_ids = (concept_author_ids | exercise_author_ids).uniq
 
-    concept_contributor_ids = Concept::Contributorship.where(concept: taught_concepts).distinct.pluck(:user_id)
+    concept_contributor_ids = Concept::Contributorship.where(concept: active_taught_concepts).distinct.pluck(:user_id)
     exercise_contributor_ids = Exercise::Contributorship.where(exercise: active_concept_exercises).distinct.pluck(:user_id)
     contributor_ids = (concept_contributor_ids | exercise_contributor_ids).uniq
 
@@ -231,17 +231,17 @@ class Track::UpdateBuildStatus
 
   def concepts
     {
-      num_active_target: num_taught_concepts_target,
-      active: taught_concepts.map { |concept| serialize_concept(concept) }
+      num_active_target: num_active_taught_concepts_target,
+      active: active_taught_concepts.map { |concept| serialize_concept(concept) }
     }
   end
 
-  def num_taught_concepts_target
-    NUM_CONCEPTS_TARGETS.find { |target| taught_concepts.size < target } || taught_concepts.size
+  def num_active_taught_concepts_target
+    NUM_CONCEPTS_TARGETS.find { |target| active_taught_concepts.size < target } || active_taught_concepts.size
   end
 
   memoize
-  def taught_concepts
+  def active_taught_concepts
     Concept.where(id: taught_concepts_ids).sort_by { |c| taught_concepts_ids.index(c.id) }
   end
 
@@ -440,7 +440,7 @@ class Track::UpdateBuildStatus
   NUM_TRACK_VOLUNTEERS = 12
   NUM_VOLUNTEERS = 3
   NUM_CONCEPTS_TARGETS = [10, 20, 30, 40, 50].freeze
-  NUM_PRACTICE_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
+  NUM_PRACTICE_EXERCISES_TARGETS = [20, 30, 40, 50].freeze
   NUM_CONCEPT_EXERCISES_TARGETS = [10, 20, 30, 40, 50].freeze
   private_constant :ContributorContextualData, :NUM_COMPONENTS,
     :NUM_DAYS_FOR_AVERAGE, :NUM_TRACK_VOLUNTEERS, :NUM_VOLUNTEERS,

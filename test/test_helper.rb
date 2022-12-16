@@ -220,16 +220,21 @@ class ActiveSupport::TestCase
     )
   end
 
-  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil)
+  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil, metadata: nil, reason: nil, git_sha: nil)
     execution_output = {
       "representation.txt" => ast,
+      "representation.json" => metadata&.to_json,
       "mapping.json" => mapping&.to_json
     }
     create_tooling_job!(
       submission,
       :representer,
       execution_status:,
-      execution_output:
+      execution_output:,
+      context: { reason: },
+      source: {
+        'exercise_git_sha' => git_sha || submission.git_sha
+      }
     )
   end
 

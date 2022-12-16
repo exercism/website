@@ -17,7 +17,10 @@ class Submission::Representation < ApplicationRecord
   has_one :exercise, through: :solution
 
   has_one :exercise_representation,
-    ->(sr) { where("exercise_representations.exercise_id": sr.solution.exercise_id) },
+    lambda { |sr|
+      where("exercise_representations.exercise_id": sr.solution.exercise_id).
+        order('exercise_representations.id desc')
+    },
     foreign_key: :ast_digest,
     primary_key: :ast_digest,
     class_name: "Exercise::Representation",

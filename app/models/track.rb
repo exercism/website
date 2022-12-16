@@ -116,6 +116,9 @@ class Track < ApplicationRecord
   memoize
   def mentoring_notes = Git::Track::MentorNotes.new(slug)
 
+  memoize
+  def representer = Git::Representer.new(repo_url: representer_repo_url)
+
   def test_runner_repo_url = "#{repo_url}-test-runner"
   def representer_repo_url = "#{repo_url}-representer"
   def analyzer_repo_url = "#{repo_url}-analyzer"

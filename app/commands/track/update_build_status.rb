@@ -231,13 +231,12 @@ class Track::UpdateBuildStatus
 
   def concepts
     {
-      num_concepts: taught_concepts.size,
-      num_concepts_target:,
-      created: taught_concepts.map { |concept| serialize_concept(concept) }
+      num_active_target: num_taught_concepts_target,
+      active: taught_concepts.map { |concept| serialize_concept(concept) }
     }
   end
 
-  def num_concepts_target
+  def num_taught_concepts_target
     NUM_CONCEPTS_TARGETS.find { |target| taught_concepts.size < target } || taught_concepts.size
   end
 
@@ -261,9 +260,9 @@ class Track::UpdateBuildStatus
 
   def concept_exercises
     {
-      num_exercises: active_concept_exercises.size,
-      num_exercises_target: concept_exercises_num_exercises_target,
-      created: active_concept_exercises.map { |exercise| serialize_exercise(exercise) }
+      num_active_target: concept_exercises_num_exercises_target,
+      active: active_concept_exercises.map { |exercise| serialize_exercise(exercise) },
+      deprecated: deprecated_concept_exercises.map { |exercise| serialize_exercise(exercise) }
     }
   end
 
@@ -273,12 +272,10 @@ class Track::UpdateBuildStatus
 
   def practice_exercises
     {
-      num_exercises: active_practice_exercises.size,
-      num_exercises_target: practice_exercises_num_exercises_target,
-      created: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
-      num_unimplemented: num_unimplemented_practice_exercises,
+      num_active_target: practice_exercises_num_exercises_target,
+      active: active_practice_exercises.map { |exercise| serialize_exercise(exercise) },
+      deprecated: deprecated_practice_exercises.map { |exercise| serialize_exercise(exercise) },
       unimplemented: unimplemented_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
-      num_foregone: num_foregone_practice_exercises,
       foregone: foregone_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
       volunteers: practice_exercises_volunteers,
       health: practice_exercises_health
@@ -287,20 +284,14 @@ class Track::UpdateBuildStatus
 
   memoize
   def unimplemented_practice_exercises
-    Track::RetrieveUnimplementedPracticeExercises.(track).sort_by(&:slug)
+    Track::RetrieveUnimplementedPracticeExercises.(track).sort_by(&:title)
   end
 
   memoize
-  def num_unimplemented_practice_exercises = unimplemented_practice_exercises.size
-
-  memoize
-  def foregone_practice_exercises = track.foregone_exercises.sort_by(&:slug)
-
-  memoize
-  def num_foregone_practice_exercises = foregone_practice_exercises.size
+  def foregone_practice_exercises = track.foregone_exercises.sort_by(&:title)
 
   def practice_exercises_num_exercises_target
-    max_target = track.num_exercises + num_unimplemented_practice_exercises
+    max_target = active_practice_exercises.size + unimplemented_practice_exercises.size
 
     NUM_PRACTICE_EXERCISES_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
   end
@@ -325,7 +316,13 @@ class Track::UpdateBuildStatus
   def active_concept_exercises = track.concept_exercises.where(status: %i[active beta]).order(:position).to_a
 
   memoize
+  def deprecated_concept_exercises = track.concept_exercises.where(status: :deprecated).order(:title).to_a
+
+  memoize
   def active_practice_exercises = track.practice_exercises.where(status: %i[active beta]).order(:position).to_a
+
+  memoize
+  def deprecated_practice_exercises = track.practice_exercises.where(status: :deprecated).order(:title).to_a
 
   def average_number_per_day(query, model)
     first_id = query.where("#{model.table_name}.created_at >= ?", Time.current - NUM_DAYS_FOR_AVERAGE.days).pick(:id)

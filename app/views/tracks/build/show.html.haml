@@ -40,8 +40,9 @@
           .flex.flex-col.mr-40
             .tooling-status-label Building
             .tooling-status-group
-              %div{ 'tooling-status': @status.syllabus.health, 'aria-label': "Syllabus status for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.syllabus_tooltip_track_build_path(@track) }
-                = graphical_icon 'syllabus'
+              - if @track.course?
+                %div{ 'tooling-status': @status.syllabus.health, 'aria-label': "Syllabus status for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.syllabus_tooltip_track_build_path(@track) }
+                  = graphical_icon 'syllabus'
               %div{ 'tooling-status': @status.test_runner.health, 'aria-label': "Status of the test runner for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.test_runner_tooltip_track_build_path(@track) }
                 = graphical_icon 'test-runner'
               %div{ 'tooling-status': @status.analyzer.health, 'aria-label': "Status of the analyzer for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.analyzer_tooltip_track_build_path(@track) }
@@ -81,60 +82,90 @@
           .stats.text-16
             .contributors.text-textColor1.font-medium.mb-2= pluralize(@track.num_code_contributors, "contributor")
 
-      .track-team-group
-        .track-header.mb-16
-          .flex.items-center.justify-between.mb-8
-            %h3.--syllabus-gradient Create the #{@track.title} syllabus
-            = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
-              Learn More
-          %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
+      - if @track.course?
+        .track-team-group
+          .track-header.mb-16
+            .flex.items-center.justify-between.mb-8
+              %h3.--syllabus-gradient Create the #{@track.title} syllabus
+              = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
+                Learn More
+            %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
 
-        - if @status.syllabus.concepts.num_concepts < @status.syllabus.concepts.num_concepts_target
-          .action-required
-            Next goal: Create a complete syllabus with at least #{@status.syllabus.concepts.num_concepts_target} concepts.
-            = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
-              Find out more.
+          - if @status.syllabus.concepts.active.size < @status.syllabus.concepts.num_active_target
+            .action-required
+              Next goal: Create a complete syllabus with at least #{@status.syllabus.concepts.num_active_target} concepts.
+              = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
+                Find out more.
 
-        - unless @status.syllabus.health == "missing"
-          .usage-stats-header
-            %h4 Usage statistics
-          %details.mb-10
-            %summary.--syllabus
-              #{@status.syllabus.concepts.num_concepts}/#{@status.syllabus.concepts.num_concepts_target} concepts created
-              = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-            - @status.syllabus.concepts.created.each do |concept|
-              .record-row
-                .record-name
-                  = render ViewComponents::ConceptIcon.new(concept, :small)
-                  = concept.name
-                .record-value #{number_with_delimiter(concept.num_students_learnt)} learnt
-          %details
-            %summary.--lightbulb
-              #{@status.syllabus.concept_exercises.num_exercises} learning exercises created
-              = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-            .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
-              .record-name.mb-0
-              .record-value
-                .record-element Started
-                .record-element Attempts
-                .record-element Completions
-                .record-element Mentoring requests
-            - @status.syllabus.concept_exercises.created.each do |exercise|
-              .record-row
-                .record-name
-                  = exercise_icon exercise
-                  = exercise.title
+          - unless @status.syllabus.health == "missing"
+            .usage-stats-header
+              %h4 Usage statistics
+
+            %details.mb-10
+              %summary.--syllabus
+                #{@status.syllabus.concepts.active.size} concepts being taught
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              - @status.syllabus.concepts.active.each do |concept|
+                .record-row
+                  .record-name
+                    = render ViewComponents::ConceptIcon.new(concept, :small)
+                    = concept.name
+                  .record-value #{number_with_delimiter(concept.num_students_learnt)} learnt
+
+            %details
+              %summary.--lightbulb
+                #{@status.syllabus.concept_exercises.active.size} active learning exercises
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                .record-name.mb-0
                 .record-value
-                  .record-element
-                    %strong= number_with_delimiter(exercise.num_started)
-                  .record-element
-                    %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
-                  .record-element
-                    %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
-                  .record-element
-                    %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+                  .record-element Started
+                  .record-element Attempts
+                  .record-element Completions
+                  .record-element Mentoring requests
+              - @status.syllabus.concept_exercises.active.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      %strong= number_with_delimiter(exercise.num_started)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
-        = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+            - if @status.syllabus.concept_exercises.deprecated.size.positive?
+              %details.mt-10
+                %summary.--lightbulb
+                  #{@status.syllabus.concept_exercises.deprecated.size} deprecated learning exercises
+                  = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+                .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                  .record-name.mb-0
+                  .record-value
+                    .record-element Started
+                    .record-element Attempts
+                    .record-element Completions
+                    .record-element Mentoring requests
+                - @status.syllabus.concept_exercises.deprecated.each do |exercise|
+                  .record-row
+                    .record-name
+                      = exercise_icon exercise
+                      = exercise.title
+                    .record-value
+                      .record-element
+                        %strong= number_with_delimiter(exercise.num_started)
+                      .record-element
+                        %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                      .record-element
+                        %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                      .record-element
+                        %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+          = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
       .track-team-group
         .track-header.mb-16
@@ -244,45 +275,75 @@
               Learn More
           %p Practice Exercises are exercises designed to allow students to solve an arbitrary problem, with the aim of them making use of the concepts they have learned so far.
 
-        - if @status.practice_exercises.num_exercises < @status.practice_exercises.num_exercises_target
+        - if @status.practice_exercises.active.size < @status.practice_exercises.num_active_target
           .action-required
-            Next goal: Implement #{%w[exemplar health].include?(@status.practice_exercises.health) ? '' : 'at least '}#{@status.practice_exercises.num_exercises_target} practice exercises.
+            Next goal: Implement #{%w[exemplar health].include?(@status.practice_exercises.health) ? '' : 'at least '}#{@status.practice_exercises.num_active_target} practice exercises.
             = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
               Find out more.
 
         - unless @status.practice_exercises.health == "missing"
           .usage-stats-header
             %h4 Usage statistics
-          %details
-            %summary.--practice-exercises
-              #{@status.practice_exercises.num_exercises}/#{@status.practice_exercises.num_exercises_target} practice exercises created
-              = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-            .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
-              .record-name
-              .record-value
-                .record-element Started
-                .record-element Attempts
-                .record-element Completions
-                .record-element Mentoring requests
-            - @status.practice_exercises.created.each do |exercise|
-              .record-row
-                .record-name
-                  = exercise_icon exercise
-                  = exercise.title
-                .record-value
-                  .record-element
-                    %strong= number_with_delimiter(exercise.num_started)
-                  .record-element
-                    %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
-                  .record-element
-                    %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
-                  .record-element
-                    %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
-          - if @status.practice_exercises.num_unimplemented.positive?
+          - if @status.practice_exercises.active.size.positive?
+            %details
+              %summary.--practice-exercises
+                #{@status.practice_exercises.active.size} active practice exercises
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                .record-name
+                .record-value
+                  .record-element Started
+                  .record-element Attempts
+                  .record-element Completions
+                  .record-element Mentoring requests
+              - @status.practice_exercises.active.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      %strong= number_with_delimiter(exercise.num_started)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+
+          - if @status.practice_exercises.deprecated.size.positive?
             %details.mt-10
               %summary.--practice-exercises
-                #{@status.practice_exercises.num_unimplemented} unimplemented practice #{'exercise'.pluralize(@status.practice_exercises.num_unimplemented)}
+                #{@status.practice_exercises.deprecated.size} deprecated practice exercises
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                .record-name
+                .record-value
+                  .record-element Started
+                  .record-element Attempts
+                  .record-element Completions
+                  .record-element Mentoring requests
+              - @status.practice_exercises.deprecated.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      %strong= number_with_delimiter(exercise.num_started)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+          - if @status.practice_exercises.unimplemented.size.positive?
+            %details.mt-10
+              %summary.--practice-exercises
+                #{@status.practice_exercises.unimplemented.size} unimplemented practice #{'exercise'.pluralize(@status.practice_exercises.unimplemented.size)}
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               - @status.practice_exercises.unimplemented.each do |exercise|
                 .record-row
@@ -293,10 +354,10 @@
                     .record-element
                       = external_link_to "View data", exercise.links.self, class: 'external-link'
 
-          - if @status.practice_exercises.num_foregone.positive?
+          - if @status.practice_exercises.foregone.size.positive?
             %details.mt-10
               %summary.--practice-exercises
-                #{@status.practice_exercises.num_foregone} practice #{'exercise'.pluralize(@status.practice_exercises.num_foregone)} foregone
+                #{@status.practice_exercises.foregone.size} foregone practice #{'exercise'.pluralize(@status.practice_exercises.foregone.size)}
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
               - @status.practice_exercises.foregone.each do |exercise|
                 .record-row

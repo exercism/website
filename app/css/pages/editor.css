@@ -366,9 +366,6 @@
                 }
             }
             & .--tab-panel.tests {
-                border-top-width: 1px;
-                border-color: var(--borderColor6);
-
                 &:not([hidden]) {
                     @apply flex;
                 }

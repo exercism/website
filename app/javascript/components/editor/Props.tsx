@@ -1,4 +1,4 @@
-import { File } from '../types'
+import { File, TestFile } from '../types'
 import { Submission, Assignment, EditorSettings } from './types'
 
 export type EditorFeatures = {
@@ -40,7 +40,7 @@ type EditorPanels = {
     exampleFiles: File[]
   }
   tests?: {
-    tests: string
+    testFiles: readonly TestFile[]
     highlightjsLanguage: string
   }
   results: {

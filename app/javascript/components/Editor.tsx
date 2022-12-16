@@ -40,6 +40,7 @@ import {
   TestsPanel,
   ResultsPanel,
 } from './editor/index'
+import { TestContentWrapper } from './editor/TestContentWrapper'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
@@ -395,7 +396,15 @@ export default ({
                   <ResultsTab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
-                {panels.tests ? <TestsPanel {...panels.tests} /> : null}
+                {panels.tests ? (
+                  <TestContentWrapper
+                    testTabGroupCss="border-t-1 border-borderColor6"
+                    tabContext={TabsContext}
+                    testFiles={panels.tests.testFiles}
+                  >
+                    <TestsPanel {...panels.tests} />
+                  </TestContentWrapper>
+                ) : null}
                 <ResultsPanel
                   submission={submission}
                   timeout={timeout}

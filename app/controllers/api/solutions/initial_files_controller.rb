@@ -10,7 +10,7 @@ module API
 
         return render_403(:solution_not_accessible) unless current_user.id == solution.user_id
 
-        files = SerializeFiles.(solution.exercise_files_for_editor)
+        files = SerializeFilesWithMetadata.(solution.exercise_files_for_editor)
 
         render json: { files: }
       end

@@ -465,8 +465,8 @@ export type Representation = {
 
 export type RepresentationData = Representation & {
   files: readonly File[]
+  testFiles: readonly TestFile[]
   instructions: string
-  tests: string
 }
 
 export type RepresentationFeedbackType =
@@ -834,4 +834,9 @@ export type CommunityVideoType = {
 
 export type CommunityVideosProps = {
   videos: CommunityVideoType[]
+}
+
+export type TestFile = {
+  filename: string
+  content: string
 }

@@ -97,7 +97,7 @@ class Solution < ApplicationRecord
     end
   end
 
-  delegate :instructions, :introduction, :hints, :tests, :source, :source_url, to: :git_exercise
+  delegate :instructions, :introduction, :hints, :test_files, :source, :source_url, to: :git_exercise
 
   def update_published_iteration_head_tests_status!(status)
     return if published_iteration_head_tests_status == status.to_sym

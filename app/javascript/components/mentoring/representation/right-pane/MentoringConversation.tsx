@@ -8,6 +8,7 @@ import {
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { RepresentationFeedbackEditor } from './RepresentationFeedbackEditor'
+import { useLogger } from '@/hooks'
 
 export default function MentoringConversation({
   data,
@@ -26,6 +27,7 @@ export default function MentoringConversation({
 
   const handleChange = useCallback((value) => setValue(value), [setValue])
 
+  useLogger('data', data)
   const handleExpansion = useCallback((expanded) => {
     if (!expanded) {
       setExpanded(true)

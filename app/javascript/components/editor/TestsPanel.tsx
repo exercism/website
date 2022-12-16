@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useLayoutEffect, useRef, useState } from 'react'
 import { highlightAll } from '@/utils'
 import { Tab } from '@/components/common/Tab'
 import { TestContentContext, TestTabContext } from './TestContentWrapper'
@@ -17,7 +17,7 @@ export const TestsPanel = ({
   const [tree, setTree] = useState<{ [key: string]: HTMLPreElement }>({})
   const [reusing, setReusing] = useState<boolean>(false)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!testRef.current || !memoTestRef.current) {
       return
     }
@@ -25,6 +25,7 @@ export const TestsPanel = ({
     if (!(testTab.filename in tree)) {
       setReusing(false)
       highlightAll(testRef.current)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       setTree((t) => ({ ...t, [testTab.filename]: testRef.current! }))
     } else {
       setReusing(true)
@@ -33,6 +34,7 @@ export const TestsPanel = ({
       }
       memoTestRef.current.appendChild(tree[testTab.filename])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testTab])
 
   return (

@@ -62,8 +62,8 @@ export const TestsPanel = ({
         a new testFile is loaded for the first time (not from the hashmap), the highlighter useEffect won't run,
         because testRef.current will be missing, will exit early, won't render anything.
 
-        this can be further optimized by counting the testFiles, and comparing them to keys stored in the hashmap,
-        and ejecting this block if the two numbers are the same
+        this can be further optimized by comparing filenames and keys stored in the hashmap
+        and ejecting this block if the two numbers/arrays are the same
         but is not necessary at this point
         */}
         <pre

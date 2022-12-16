@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { highlightAll } from '@/utils'
 import { Tab } from '@/components/common/Tab'
 import { TestContentContext, TestTabContext } from './TestContentWrapper'
-import { useLogger } from '@/hooks'
 
 type TestsPanelProps = {
   highlightjsLanguage: string
@@ -17,8 +16,6 @@ export const TestsPanel = ({
 
   const [tree, setTree] = useState<{ [key: string]: HTMLPreElement }>({})
   const [reusing, setReusing] = useState<boolean>(false)
-
-  useLogger('tree', tree)
 
   useEffect(() => {
     if (!testRef.current || !memoTestRef.current) {
@@ -58,11 +55,7 @@ export const TestsPanel = ({
             {testTab.content}
           </code>
         </pre>
-        <div
-          className={!reusing ? 'hidden' : ''}
-          ref={memoTestRef}
-          id="preParent"
-        ></div>
+        <div className={!reusing ? 'hidden' : ''} ref={memoTestRef}></div>
       </Tab.Panel>
     </Tab.Panel>
   )

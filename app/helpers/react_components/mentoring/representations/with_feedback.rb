@@ -34,7 +34,7 @@ module ReactComponents
         def representations_request_params
           {
             criteria: params.fetch(:criteria, ''),
-            track_slug: params.fetch(:track_slug, track_slug),
+            track_slug: params.fetch(:track_slug, track_slugs.first),
             order: params[:order],
             page: params[:page]
           }.compact
@@ -43,8 +43,8 @@ module ReactComponents
         def representations = AssembleExerciseRepresentationsWithFeedback.(mentor, representations_request_params)
 
         def representations_without_feedback_count
-          0 # TODO: fix performance
-          # Exercise::Representation::Search.(mentor:, with_feedback: false, sorted: false, paginated: false).count
+          Exercise::Representation::Search.(mentor:, with_feedback: false, sorted: false, paginated: false,
+            track: ::Track.where(slug: track_slugs)).count
         end
 
         def tracks_request
@@ -61,7 +61,7 @@ module ReactComponents
         def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: true)
 
         memoize
-        def track_slug = tracks.first&.dig(:slug)
+        def track_slugs = tracks.map(&:slug)
 
         def links
           {

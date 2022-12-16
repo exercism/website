@@ -11,23 +11,15 @@ class AssembleRepresentationTracksForSelect
 
   private
   memoize
-  def tracks
-    Track.where(id: track_ids_with_representation).
-      where(id: track_ids_with_supermentor_privilege).
-      order(title: :asc)
-  end
-
-  def track_ids_with_representation = track_num_representations.keys
-
-  def track_ids_with_supermentor_privilege
-    mentor.track_mentorships.supermentor_frequency.select(:track_id)
-  end
+  def tracks = supermentored_tracks.select { |track| track_num_representations.key?(track.id) }
 
   memoize
-  def track_num_representations = representations.group(:track_id).count
+  def supermentored_tracks = Track.where(id: mentor.track_mentorships.supermentor_frequency.select(:track_id)).order(title: :asc)
 
   memoize
-  def representations
-    Exercise::Representation::Search.(mentor:, with_feedback:, sorted: false, paginated: false)
+  def track_num_representations
+    Exercise::Representation::Search.(mentor:, with_feedback:, sorted: false, paginated: false, track: supermentored_tracks).
+      group(:track_id).
+      count
   end
 end

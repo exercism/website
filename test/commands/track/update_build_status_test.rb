@@ -474,7 +474,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "practice_exercises: num_active_target" do
     track = create :track
     Track::UpdateBuildStatus.(track)
-    assert_equal 10, track.reload.build_status.practice_exercises.num_active_target
+    assert_equal 20, track.reload.build_status.practice_exercises.num_active_target
 
     create_list(:practice_exercise, 10, track:)
     Track::UpdateBuildStatus.(track)

@@ -21,6 +21,8 @@ class SerializeExerciseRepresentation
       appears_frequently: representation.appears_frequently?,
       feedback_markdown: representation.feedback_markdown,
       feedback_type: representation.feedback_type,
+      draft_feedback_markdown: representation.draft_feedback_markdown,
+      draft_feedback_type: representation.draft_feedback_type,
       last_submitted_at: representation.last_submitted_at,
       files: SerializeFilesWithMetadata.(representation.source_submission.files_for_editor),
       instructions: Markdown::Parse.(representation.solution.instructions),

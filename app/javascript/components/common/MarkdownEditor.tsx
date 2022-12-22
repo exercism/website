@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import SimpleMDE, { SimpleMDEReactProps } from 'react-simplemde-editor'
-import { sendRequest } from '../../utils/send-request'
+import { sendRequest } from '@/utils'
 
 export type MarkdownEditorHandle = {
   value: (value: string | void) => string | void

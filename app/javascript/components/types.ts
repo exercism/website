@@ -455,6 +455,8 @@ export type Representation = {
   track: RepresentationTrack
   numSubmissions: number
   feedbackHtml: string
+  draftFeedbackType: RepresentationFeedbackType | null
+  draftFeedbackMarkdown: string | null
   feedbackType: RepresentationFeedbackType | null
   feedbackMarkdown: string | null
   lastSubmittedAt: string
@@ -477,7 +479,7 @@ export type RepresentationFeedbackType =
 
 export type CompleteRepresentationData = {
   representation: RepresentationData
-  examples: Pick<RepresentationData, 'files' | 'instructions' | 'tests'>[]
+  examples: Pick<RepresentationData, 'files' | 'instructions' | 'testFiles'>[]
   mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
   mentorSolution: CommunitySolution
   links: { back: string; success: string }

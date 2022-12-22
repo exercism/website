@@ -10,6 +10,7 @@ class Exercise::Representation < ApplicationRecord
   has_one :solution, through: :source_submission
 
   enum feedback_type: { essential: 0, actionable: 1, non_actionable: 2, celebratory: 3 }, _prefix: :feedback
+  enum draft_feedback_type: { essential: 0, actionable: 1, non_actionable: 2, celebratory: 3 }, _prefix: :draft_feedback
 
   has_many :submission_representations,
     class_name: "Submission::Representation",
@@ -34,6 +35,7 @@ class Exercise::Representation < ApplicationRecord
 
   def to_param = uuid
   def feedback_type = super&.to_sym
+  def draft_feedback_type = super&.to_sym
   def num_times_used = submission_representations.count
 
   def has_essential_feedback? = has_feedback? && feedback_essential?

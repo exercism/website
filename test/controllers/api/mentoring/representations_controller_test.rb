@@ -101,6 +101,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
         appears_frequently: false,
         feedback_type: "actionable",
         feedback_markdown: "_great_ work",
+        draft_feedback_markdown: nil,
+        draft_feedback_type: nil,
         last_submitted_at: "2012-06-20T00:00:00.000Z",
         files: [
           {

@@ -11,7 +11,7 @@ module MarkdownEditorHelpers
     assert_equal expected, actual
   end
 
-  def wait_for_editor_to_load
-    sleep(0.5)
-  end
+  def wait_for_editor_to_load = sleep(0.5)
+
+  def open_editor = find(".c-markdown-editor").click
 end

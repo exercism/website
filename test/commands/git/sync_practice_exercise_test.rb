@@ -362,6 +362,14 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     Git::SyncPracticeExercise.(exercise, force_sync: true)
   end
 
+  test "updates representer_version" do
+    exercise = create :practice_exercise, uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206'
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal 2, exercise.representer_version
+  end
+
   test "syncs introduction authors" do
     author = create :user, github_username: 'erikschierboom'
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3'

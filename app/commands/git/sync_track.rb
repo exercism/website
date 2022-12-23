@@ -104,7 +104,8 @@ module Git
           blurb: git_exercise.blurb,
           taught_concepts: exercise_concepts(exercise_config[:concepts]),
           prerequisites: exercise_concepts(head_git_track.taught_concept_slugs & exercise_config[:prerequisites].to_a),
-          has_test_runner: git_exercise.has_test_runner?
+          has_test_runner: git_exercise.has_test_runner?,
+          representer_version: git_exercise.representer_version
         )
         Git::SyncConceptExercise.(exercise, force_sync: force_sync || exercise.id_previously_changed?)
       end
@@ -128,7 +129,8 @@ module Git
           difficulty: exercise_config[:difficulty],
           prerequisites: exercise_concepts(head_git_track.taught_concept_slugs & exercise_config[:prerequisites].to_a),
           practiced_concepts: exercise_concepts(exercise_config[:practices]),
-          has_test_runner: git_exercise.has_test_runner?
+          has_test_runner: git_exercise.has_test_runner?,
+          representer_version: git_exercise.representer_version
         )
         Git::SyncPracticeExercise.(exercise, force_sync: force_sync || exercise.id_previously_changed?)
       end

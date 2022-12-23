@@ -98,6 +98,8 @@ class Exercise < ApplicationRecord
       Exercise::MarkSolutionsAsOutOfDateInIndex.defer(self)
       Exercise::QueueSolutionHeadTestRuns.defer(self)
     end
+
+    Submission::Representation::TriggerRerunsForExercise.defer(self) if saved_changes.key?("representer_version")
   end
 
   after_commit do

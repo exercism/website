@@ -163,4 +163,20 @@ class ExerciseTest < ActiveSupport::TestCase
     track.expects(:recache_num_exercises!).never
     exercise.update(title: 'something')
   end
+
+  test "queues trigger representation reruns for exercise job when representer version is updated" do
+    exercise = create :practice_exercise
+
+    assert_enqueued_with(job: MandateJob, args: [Submission::Representation::TriggerRerunsForExercise.name, exercise]) do
+      exercise.update!(representer_version: 2)
+    end
+  end
+
+  test "does not enqueue trigger representation reruns for exercise job when representer version is unchanged" do
+    exercise = create :practice_exercise
+
+    assert_no_enqueued_jobs(only: MandateJob) do
+      exercise.update!(slug: 'test')
+    end
+  end
 end

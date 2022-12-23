@@ -1,12 +1,10 @@
-class UserTrack
-  class Destroy
-    include Mandate
+class UserTrack::Destroy
+  include Mandate
 
-    initialize_with :user_track
+  initialize_with :user_track
 
-    def call
-      UserTrack::Reset.(user_track)
-      user_track.destroy
-    end
+  def call
+    UserTrack::Reset.(user_track)
+    user_track.destroy
   end
 end

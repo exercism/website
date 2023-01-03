@@ -28,9 +28,12 @@ class ChallengesController < ApplicationController
   end
 
   def load_data_for_12in23 # rubocop:disable Naming/VariableNumber
-    @track_counts = Solution.where(
-      id: current_user.iterations.where('iterations.created_at >= ?', Date.new(2022, 12, 31)).select(:solution_id)
-    ).joins(:exercise).group(:track_id).count
+    @track_counts = Solution.joins(:exercise).
+      where(
+        id: current_user.iterations.where('iterations.created_at >= ?', Date.new(2022, 12, 31)).select(:solution_id)
+      ).
+      where.not('exercises.slug': "hello-world").
+      group(:track_id).count
     @track_counts = @track_counts.sort_by(&:second).reverse.to_h
     @tracks = Track.where(id: @track_counts.keys).index_by(&:id)
   end

@@ -18,30 +18,49 @@ class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
     # No iterations
     refute badge.award_to?(user.reload)
 
-    # Iteration created on last second of the 31st of December
-    iteration = create :iteration, created_at: Time.utc(2018, 12, 31, 23, 59, 59), user: user
+    iteration = create :iteration, user: user
+
+    # Iteration created on 30st of December
+    iteration.update(created_at: Time.utc(2019, 12, 30, 23, 59, 59))
     refute badge.award_to?(user.reload)
 
-    # Iteration created on first second of the 1st of January
+    # Iteration created on 31st of December
+    iteration.update(created_at: Time.utc(2019, 12, 31, 0, 0, 0))
+    assert badge.award_to?(user.reload)
+
+    # Iteration created on 31st of December (leap year)
+    iteration.update(created_at: Time.utc(2020, 12, 31, 0, 0, 0))
+    assert badge.award_to?(user.reload)
+
+    # Iteration created on 1st of January
     iteration.update(created_at: Time.utc(2019, 1, 1, 0, 0, 0))
     assert badge.award_to?(user.reload)
 
-    # Iteration created on last second of the 1st of January
-    iteration.update(created_at: Time.utc(2019, 1, 1, 23, 59, 59))
+    # Iteration created on 2nd of January
+    iteration.update(created_at: Time.utc(2019, 1, 2, 0, 0, 0))
     assert badge.award_to?(user.reload)
 
-    # Iteration created on first second of the 2st of January
-    iteration.update(created_at: Time.utc(2019, 1, 2, 0, 0, 0))
+    # Iteration created on 3rd of January
+    iteration.update(created_at: Time.utc(2019, 1, 3, 0, 0, 0))
     refute badge.award_to?(user.reload)
   end
 
   test "worth_queuing?" do
-    (2..366).each do |day|
+    iteration = create :iteration, created_at: Date.ordinal(2020, 1)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
+
+    iteration = create :iteration, created_at: Date.ordinal(2020, 2)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
+
+    iteration = create :iteration, created_at: Date.ordinal(2019, 365)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
+
+    iteration = create :iteration, created_at: Date.ordinal(2020, 366)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
+
+    (3..364).each do |day|
       iteration = create :iteration, created_at: Date.ordinal(2020, day)
       refute Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
     end
-
-    iteration = create :iteration, created_at: Date.ordinal(2020, 1)
-    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
   end
 end

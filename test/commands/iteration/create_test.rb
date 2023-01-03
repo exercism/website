@@ -331,24 +331,14 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     user = create :user
     track = create :track
     solution = create :concept_solution, track: track, user: user
-    refute user.badges.present?
+
+    travel_to(Time.utc(2019, 1, 1, 0, 0, 0))
 
     perform_enqueued_jobs do
-      # Iteration created on 31st of December
-      travel_to(Time.utc(2018, 12, 31, 23, 59, 59))
       Iteration::Create.(solution, create(:submission, solution:, user:))
-      refute_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
-
-      # Iteration created on 2st of January
-      travel_to(Time.utc(2019, 1, 2, 5, 0, 0))
-      Iteration::Create.(solution, create(:submission, solution:, user:))
-      refute_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
-
-      # Iteration created on 1st of January
-      travel_to(Time.utc(2019, 1, 1, 0, 0, 0))
-      Iteration::Create.(solution, create(:submission, solution:, user:))
-      assert_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
     end
+
+    assert_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
   end
 
   test "adds metric" do

@@ -25,6 +25,7 @@ class Iteration::Create
       AwardBadgeJob.perform_later(user, :die_unendliche_geschichte, context: iteration)
       AwardBadgeJob.perform_later(user, :growth_mindset)
       record_activity!(iteration)
+      award_badge!(iteration)
       log_metric!(iteration)
     end
   rescue ActiveRecord::RecordNotUnique
@@ -48,6 +49,10 @@ class Iteration::Create
     # rescue StandardError => e
     #   Rails.logger.error "Failed to create activity"
     #   Rails.logger.error e.message
+  end
+
+  def award_badge!(iteration)
+    AwardBadgeJob.perform_later(user, :new_years_resolution, context: iteration)
   end
 
   def log_metric!(iteration)

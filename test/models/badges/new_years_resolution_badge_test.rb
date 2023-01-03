@@ -14,35 +14,34 @@ class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
   test "award_to?" do
     user = create :user
     badge = create :new_years_resolution_badge
-    solution = create :practice_solution, user: user
 
-    # No solutions
+    # No iterations
     refute badge.award_to?(user.reload)
 
-    # Solution submitted on last second of the 31st of December
-    solution.update(created_at: Time.utc(2018, 12, 31, 23, 59, 59))
+    # Iteration created on last second of the 31st of December
+    iteration = create :iteration, created_at: Time.utc(2018, 12, 31, 23, 59, 59), user: user
     refute badge.award_to?(user.reload)
 
-    # Solution submitted on first second of the 1st of January
-    solution.update(created_at: Time.utc(2019, 1, 1, 0, 0, 0))
+    # Iteration created on first second of the 1st of January
+    iteration.update(created_at: Time.utc(2019, 1, 1, 0, 0, 0))
     assert badge.award_to?(user.reload)
 
-    # Solution submitted on last second of the 1st of January
-    solution.update(created_at: Time.utc(2019, 1, 1, 23, 59, 59))
+    # Iteration created on last second of the 1st of January
+    iteration.update(created_at: Time.utc(2019, 1, 1, 23, 59, 59))
     assert badge.award_to?(user.reload)
 
-    # Solution submitted on first second of the 2st of January
-    solution.update(created_at: Time.utc(2019, 1, 2, 0, 0, 0))
+    # Iteration created on first second of the 2st of January
+    iteration.update(created_at: Time.utc(2019, 1, 2, 0, 0, 0))
     refute badge.award_to?(user.reload)
   end
 
   test "worth_queuing?" do
     (2..366).each do |day|
-      solution = create :concept_solution, created_at: Date.ordinal(2020, day)
-      refute Badges::NewYearsResolutionBadge.worth_queuing?(solution:)
+      iteration = create :iteration, created_at: Date.ordinal(2020, day)
+      refute Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
     end
 
-    solution = create :concept_solution, created_at: Date.ordinal(2020, 1)
-    assert Badges::NewYearsResolutionBadge.worth_queuing?(solution:)
+    iteration = create :iteration, created_at: Date.ordinal(2020, 1)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
   end
 end

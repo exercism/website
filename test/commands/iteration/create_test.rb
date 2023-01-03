@@ -327,6 +327,30 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal published_iteration.num_loc, solution.reload.num_loc
   end
 
+  test "awards new years resolution badge when created on January 1st" do
+    user = create :user
+    track = create :track
+    solution = create :concept_solution, track: track, user: user
+    refute user.badges.present?
+
+    perform_enqueued_jobs do
+      # Iteration created on 31st of December
+      travel_to(Time.utc(2018, 12, 31, 23, 59, 59))
+      Iteration::Create.(solution, create(:submission, solution:, user:))
+      refute_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
+
+      # Iteration created on 2st of January
+      travel_to(Time.utc(2019, 1, 2, 5, 0, 0))
+      Iteration::Create.(solution, create(:submission, solution:, user:))
+      refute_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
+
+      # Iteration created on 1st of January
+      travel_to(Time.utc(2019, 1, 1, 0, 0, 0))
+      Iteration::Create.(solution, create(:submission, solution:, user:))
+      assert_includes user.reload.badges.map(&:class), Badges::NewYearsResolutionBadge
+    end
+  end
+
   test "adds metric" do
     solution = create :concept_solution
     submission = create :submission, solution: solution

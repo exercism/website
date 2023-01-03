@@ -24,76 +24,71 @@
           See your journey on Exercism
           = graphical_icon("chevron-right")
 
-  .lg-container.container
-    %header.dashboard-header
-      .intro
+  %article.lg-container.container.flex
+    .lhs
+      .header-intro.mb-16
         = graphical_icon "logo"
         .content
           %h1 Welcome back, #{current_user.handle}!
           %p.welcome
-            Solve coding exercises and get mentored to gain true fluency in your chosen programming languages.
+            Solve coding exercises and get mentored to develop fluency in your chosen programming languages.
             %strong Exercism is open-source and not-for-profit.
-          %p.cta
-            %strong Exercism is built by people like you.
-            Can you
-            = link_to "contribute", contributing_root_path
-            or
-            = link_to "donate", donate_url
-            to help us grow?
-      .decorations
 
-      .social-icons-container
-        = link_to "https://github.com/exercism", class: 'c-social-icon' do
-          = graphical_icon 'external-site-github'
-          GitHub
-        = link_to "https://twitter.com/exercism_io", class: 'c-social-icon twitter' do
-          = graphical_icon 'external-site-twitter'
-          Twitter
-        = link_to "https://www.youtube.com/c/Exercism-videos", class: 'c-social-icon' do
-          = graphical_icon 'external-site-youtube'
-          YouTube
+      %h2.text-h3.mb-16 Where to start...
+      %section.actions-section
+        = link_to tracks_path, class: 'action e-hover-grow' do
+          = graphical_icon "bookworm", category: 'graphics'
+          Continue learning on your tracks
+        = link_to mentoring_inbox_path, class: 'action e-hover-grow' do
+          = graphical_icon "mentoring", category: 'graphics'
+          Try your hand at mentoring
+        = link_to community_path, class: 'action e-hover-grow' do
+          = graphical_icon "contributing-header", category: 'graphics'
+          Get involve in the community
+        = link_to donate_url, class: 'action e-hover-grow' do
+          = graphical_icon "floating-cash", category: 'graphics'
+          Donate to help us grow sustainably
 
-    %article
-      .lhs
-        %section.actions-section
-          = link_to tracks_path, class: 'action e-hover-grow' do
-            = graphical_icon "bookworm", category: 'graphics'
-            Continue learning on your tracks
-          = link_to mentoring_inbox_path, class: 'action e-hover-grow' do
-            = graphical_icon "mentoring", category: 'graphics'
-            Try your hand at mentoring
-          = link_to contributing_root_path, class: 'action e-hover-grow' do
-            = graphical_icon "contributing-header", category: 'graphics'
-            Contribute to building Exercism
-          = link_to donate_url, class: 'action e-hover-grow' do
-            = graphical_icon "floating-cash", category: 'graphics'
-            Donate to help us grow sustainably
+      %section.posts-section
+        %h2 Community Posts
+        .posts
+          - @blog_posts.each do |post|
+            = render ViewComponents::BlogPost.new(post)
+        = render ViewComponents::ProminentLink.new("See all community posts", blog_posts_path)
 
-        %section.posts-section
-          %h2 Community Posts
-          .posts
-            - @blog_posts.each do |post|
-              = render ViewComponents::BlogPost.new(post)
-          = render ViewComponents::ProminentLink.new("See all community posts", blog_posts_path)
+      %section.activity-section
+        %h2 New on Exercism
+        = render ReactComponents::Common::SiteUpdatesList.new(@updates, :track)
+        -# = render ViewComponents::ProminentLink.new("See all updates", "#")
 
-        %section.activity-section
-          %h2 New on Exercism
-          = render ReactComponents::Common::SiteUpdatesList.new(@updates, :track)
-          -# = render ViewComponents::ProminentLink.new("See all updates", "#")
+    .rhs
+      = link_to challenge_path('12in23'), class: "bg-purple flex flex-col items-center px-24 py-24 rounded-8 shadow-baseZ1 mb-32" do
+        %h2.text-h3.text-white.text-center.mb-8
+          The 12 Languages in 2023
+          Challenge
+        %p.text-p-base.text-white.text-center.mb-16
+          Broaden your horizons, try 12 languages, and become a better developer during 2023!
+          %br
+          %strong.font-semibold{ class: "!text-white" } Which will you choose?
 
-      .rhs
-        - if @user_tracks.present?
-          = render "tracks_section", user_tracks: @user_tracks, num_user_tracks: @num_user_tracks
+        .flex.flex-wrap.justify-center.gap-2
+          - Track.active.map(&:icon_url).shuffle.each do |icon_url|
+            = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[30px] w-[30px]"
+
+        -# %p.text-p-base.text-white.text-center.font-bold #12in23
+
+      - if @user_tracks.present?
+        = render "tracks_section", user_tracks: @user_tracks, num_user_tracks: @num_user_tracks
+      - else
+        = render "tracks_zero_section"
+
+      - if current_user.mentor?
+        - if @mentor_discussions.present?
+          = render "mentoring_inbox", discussions: @mentor_discussions
+        - elsif @mentor_queue_has_requests
+          = render "mentoring_queue"
         - else
-          = render "tracks_zero_section"
-
-        - if current_user.mentor?
-          - if @mentor_discussions.present?
-            = render "mentoring_inbox", discussions: @mentor_discussions
-          - elsif @mentor_queue_has_requests
-            = render "mentoring_queue"
-          - else
-            = render "mentoring_completed"
-        - else
-          = render "mentoring_zero"
+          = render "mentoring_completed"
+      - else
+        = render "mentoring_zero"
 

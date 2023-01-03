@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_14_150508) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_03_185625) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -331,14 +331,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_150508) do
     t.integer "draft_feedback_type", limit: 1
     t.text "draft_feedback_markdown"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
-    t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at", order: { last_submitted_at: :desc }
-    t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_author_id", "track_id", "num_submissions"], name: "index_exercise_representation_author_track_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
-    t.index ["feedback_type", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_type_exercise_last_submitted_at", order: { last_submitted_at: :desc }
-    t.index ["feedback_type", "exercise_id", "num_submissions"], name: "index_exercise_representation_type_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions", order: { num_submissions: :desc }
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
@@ -943,6 +939,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_150508) do
     t.index ["domain"], name: "index_user_block_domains_on_domain", unique: true
   end
 
+  create_table "user_challenges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "challenge_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "challenge_id"], name: "index_user_challenges_on_user_id_and_challenge_id", unique: true
+    t.index ["user_id"], name: "index_user_challenges_on_user_id"
+  end
+
   create_table "user_communication_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "token"
@@ -1163,8 +1168,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_150508) do
   add_foreign_key "cohorts", "tracks"
   add_foreign_key "community_stories", "users", column: "interviewee_id"
   add_foreign_key "community_stories", "users", column: "interviewer_id"
-  add_foreign_key "community_videos", "exercises"
-  add_foreign_key "community_videos", "tracks"
   add_foreign_key "community_videos", "users", column: "author_id"
   add_foreign_key "community_videos", "users", column: "submitted_by_id"
   add_foreign_key "documents", "tracks"

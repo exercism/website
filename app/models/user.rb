@@ -116,6 +116,8 @@ class User < ApplicationRecord
     inverse_of: :user,
     dependent: :destroy
 
+  has_many :challenges, dependent: :destroy
+
   scope :random, -> { order('RAND()') }
 
   # TODO: Validate presence of name

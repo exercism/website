@@ -61,6 +61,7 @@ class User::ResetAccount
     user.track_mentorships.delete_all
     user.scratchpad_pages.delete_all
     user.solution_stars.delete_all
+    user.challenges.delete_all
   end
 
   def reset_badges!

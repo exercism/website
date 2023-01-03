@@ -3,18 +3,19 @@ module IconsHelper
     icon(icon, nil, role: :presentation, css_class:, category:, hex:)
   end
 
-  def icon(icon, alt, role: nil, category: 'icons', css_class: nil, hex: false)
+  def icon(icon, alt, role: nil, category: 'icons', css_class: nil, hex: false, height: nil, width: nil)
     return if icon.blank?
 
     if hex
       tag.div(class: "c-icon #{css_class} --hex") do
-        image_tag "#{category}/#{icon}.svg", role:, alt: alt.to_s
+        image_tag "#{category}/#{icon}.svg", role:, alt: alt.to_s, height:, width:
       end
     else
       image_tag "#{category}/#{icon}.svg",
         role:,
         alt: alt.to_s,
-        class: "c-icon #{css_class} #{'--hex' if hex}".strip
+        class: "c-icon #{css_class} #{'--hex' if hex}".strip,
+        height:, width:
     end
   rescue StandardError => e
     raise e unless Rails.env.production?

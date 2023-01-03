@@ -6,7 +6,7 @@ class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
     assert_equal "New Year's resolution", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :'new-years-resolution', badge.icon
-    assert_equal "Submitted a solution on January 1st", badge.description
+    assert_equal "Submitted an iteration on January 1st", badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end
@@ -14,35 +14,53 @@ class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
   test "award_to?" do
     user = create :user
     badge = create :new_years_resolution_badge
-    solution = create :practice_solution, user: user
 
-    # No solutions
+    # No iterations
     refute badge.award_to?(user.reload)
 
-    # Solution submitted on last second of the 31st of December
-    solution.update(created_at: Time.utc(2018, 12, 31, 23, 59, 59))
+    iteration = create :iteration, user: user
+
+    # Iteration created on 30st of December
+    iteration.update(created_at: Time.utc(2019, 12, 30, 23, 59, 59))
     refute badge.award_to?(user.reload)
 
-    # Solution submitted on first second of the 1st of January
-    solution.update(created_at: Time.utc(2019, 1, 1, 0, 0, 0))
+    # Iteration created on 31st of December
+    iteration.update(created_at: Time.utc(2019, 12, 31, 0, 0, 0))
     assert badge.award_to?(user.reload)
 
-    # Solution submitted on last second of the 1st of January
-    solution.update(created_at: Time.utc(2019, 1, 1, 23, 59, 59))
+    # Iteration created on 31st of December (leap year)
+    iteration.update(created_at: Time.utc(2020, 12, 31, 0, 0, 0))
     assert badge.award_to?(user.reload)
 
-    # Solution submitted on first second of the 2st of January
-    solution.update(created_at: Time.utc(2019, 1, 2, 0, 0, 0))
+    # Iteration created on 1st of January
+    iteration.update(created_at: Time.utc(2019, 1, 1, 0, 0, 0))
+    assert badge.award_to?(user.reload)
+
+    # Iteration created on 2nd of January
+    iteration.update(created_at: Time.utc(2019, 1, 2, 0, 0, 0))
+    assert badge.award_to?(user.reload)
+
+    # Iteration created on 3rd of January
+    iteration.update(created_at: Time.utc(2019, 1, 3, 0, 0, 0))
     refute badge.award_to?(user.reload)
   end
 
   test "worth_queuing?" do
-    (2..366).each do |day|
-      solution = create :concept_solution, created_at: Date.ordinal(2020, day)
-      refute Badges::NewYearsResolutionBadge.worth_queuing?(solution:)
-    end
+    iteration = create :iteration, created_at: Date.ordinal(2020, 1)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
 
-    solution = create :concept_solution, created_at: Date.ordinal(2020, 1)
-    assert Badges::NewYearsResolutionBadge.worth_queuing?(solution:)
+    iteration = create :iteration, created_at: Date.ordinal(2020, 2)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
+
+    iteration = create :iteration, created_at: Date.ordinal(2019, 365)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
+
+    iteration = create :iteration, created_at: Date.ordinal(2020, 366)
+    assert Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
+
+    (3..364).each do |day|
+      iteration = create :iteration, created_at: Date.ordinal(2020, day)
+      refute Badges::NewYearsResolutionBadge.worth_queuing?(iteration:)
+    end
   end
 end

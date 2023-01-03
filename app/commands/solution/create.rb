@@ -9,7 +9,6 @@ class Solution::Create
     begin
       solution_class.create!(user:, exercise:).tap do |solution|
         record_activity!(solution)
-        award_badge!(solution)
         log_metric!(solution)
       end
     rescue ActiveRecord::RecordNotUnique
@@ -48,10 +47,6 @@ class Solution::Create
       # Guard against some further third type
       raise RuntimeError
     end
-  end
-
-  def award_badge!(solution)
-    AwardBadgeJob.perform_later(user, :new_years_resolution, context: solution)
   end
 
   def log_metric!(solution)

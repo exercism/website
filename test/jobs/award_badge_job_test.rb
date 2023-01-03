@@ -51,7 +51,7 @@ class AwardBadgeJobTest < ActiveJob::TestCase
     User::AcquiredBadge::Create.expects(:call).never
 
     # The new_years_resolution badge is only queued on the first day of the year
-    solution = create :concept_solution, created_at: Date.ordinal(2021, 13)
-    AwardBadgeJob.perform_later(user, :new_years_resolution, context: solution)
+    iteration = create :iteration, created_at: Date.ordinal(2021, 13)
+    AwardBadgeJob.perform_later(user, :new_years_resolution, context: iteration)
   end
 end

@@ -3,15 +3,15 @@ module Badges
     seed "New Year's resolution",
       :rare,
       'new-years-resolution',
-      'Submitted a solution on January 1st'
+      'Submitted an iteration on January 1st'
 
-    def self.worth_queuing?(solution:)
-      solution.created_at.yday == 1
+    def self.worth_queuing?(iteration:)
+      [1, 2, 365, 366].include?(iteration.created_at.yday)
     end
 
     def award_to?(user)
-      user.solutions.
-        where('DAYOFYEAR(solutions.created_at) = 1').
+      user.iterations.
+        where('DAYOFYEAR(iterations.created_at) IN (1, 2, 365, 366)').
         exists?
     end
 

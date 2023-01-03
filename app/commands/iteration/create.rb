@@ -22,10 +22,8 @@ class Iteration::Create
       GenerateIterationSnippetJob.perform_later(iteration)
       CalculateLinesOfCodeJob.perform_later(iteration)
       ProcessIterationForDiscussionsJob.perform_later(iteration)
-      AwardBadgeJob.perform_later(user, :die_unendliche_geschichte, context: iteration)
-      AwardBadgeJob.perform_later(user, :growth_mindset)
       record_activity!(iteration)
-      award_badge!(iteration)
+      award_badges!(iteration)
       log_metric!(iteration)
     end
   rescue ActiveRecord::RecordNotUnique
@@ -51,7 +49,9 @@ class Iteration::Create
     #   Rails.logger.error e.message
   end
 
-  def award_badge!(iteration)
+  def award_badges!(iteration)
+    AwardBadgeJob.perform_later(user, :die_unendliche_geschichte, context: iteration)
+    AwardBadgeJob.perform_later(user, :growth_mindset)
     AwardBadgeJob.perform_later(user, :new_years_resolution, context: iteration)
   end
 

@@ -6,7 +6,7 @@ class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
     assert_equal "New Year's resolution", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :'new-years-resolution', badge.icon
-    assert_equal "Submitted a solution on January 1st", badge.description
+    assert_equal "Submitted an iteration on January 1st", badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

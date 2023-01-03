@@ -3,7 +3,7 @@ module Badges
     seed "New Year's resolution",
       :rare,
       'new-years-resolution',
-      'Submitted a solution on January 1st'
+      'Submitted an iteration on January 1st'
 
     def self.worth_queuing?(iteration:) = iteration.created_at.yday == 1
 

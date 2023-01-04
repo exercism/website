@@ -28,13 +28,30 @@ class ChallengesController < ApplicationController
   end
 
   def load_data_for_12in23 # rubocop:disable Naming/VariableNumber
-    @track_counts = Solution.joins(:exercise).
-      where(
-        id: current_user.iterations.where('iterations.created_at >= ?', Date.new(2022, 12, 31)).select(:solution_id)
-      ).
-      where.not('exercises.slug': "hello-world").
-      group(:track_id).count
-    @track_counts = @track_counts.sort_by(&:second).reverse.to_h
+    start_date = Date.new(2022, 12, 31)
+
+    # Doing this in Ruby is *much* quicker than in SQL
+    # It gives us an array of tuples
+    solutions = current_user.solutions.pluck(:exercise_id, :last_iterated_at)
+    solutions.select! { |solution| solution.second && solution.second >= start_date }
+
+    # This gives us { exercise_id => [exercise_id, track_id, exercise_slug] }
+    exercise_mapping = Exercise.where(id: solutions.map(&:first)).pluck(:id, :track_id, :slug).
+      index_by(&:first)
+
+    # Map to [track_id, iterated_at, exercise_slug]
+    basic_data = solutions.map do |tuple|
+      exercise = exercise_mapping[tuple[0]]
+      [exercise[1], tuple[1], exercise[2]]
+    end
+
+    @track_counts = basic_data.
+      reject { |tuple| tuple.third == 'hello-world' }.
+      map(&:first). # Just track_ids
+      tally. # This gives us {track_id => count}
+      sort_by(&:second).reverse # Order by highest count first
+    to_h # Then back to {track_id => count}
+
     @tracks = Track.where(id: @track_counts.keys).index_by(&:id)
   end
 end

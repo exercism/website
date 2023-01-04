@@ -70,7 +70,7 @@ export const Challenge12in23Modal = ({
         </p>
 
         <p className="mb-12">
-          Each month we'll focus on a different paradign (e.g. functional, OOP,
+          Each month we'll focus on a different paradigm (e.g. functional, OOP,
           low-level, old-school, new, esoteric), and highlight interesting
           solutions and ideas! Join in by using the #12in23 hashtag on social
           media and streaming services, and chat using the tag on our forums.

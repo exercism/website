@@ -49,8 +49,8 @@ class ChallengesController < ApplicationController
       reject { |tuple| tuple.third == 'hello-world' }.
       map(&:first). # Just track_ids
       tally. # This gives us {track_id => count}
-      sort_by(&:second).reverse # Order by highest count first
-    to_h # Then back to {track_id => count}
+      sort_by(&:second).reverse. # Order by highest count first
+      to_h # Then back to {track_id => count}
 
     @tracks = Track.where(id: @track_counts.keys).index_by(&:id)
   end

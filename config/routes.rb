@@ -195,6 +195,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :challenges, only: [:show] do
+    post :start, on: :member
+  end
+
   # ############ #
   # Unsubscribe  #
   # ############ #

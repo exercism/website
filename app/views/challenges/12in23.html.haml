@@ -1,0 +1,35 @@
+#challenge-12in23-page
+  %section.top-section
+    .lg-container.c-shapes
+      %h1.text-h1.mb-16 The #12in23 Challenge
+      %p
+        Below you'll see a list of all the languages you've used during 2023.
+        Aim to complete 12 languages by the end of the year.
+
+        Join in the conversation by using the
+        = link_to "#12in23 tag", "https://forum.exercism.org/tag/12in23"
+        on our forums or the
+        %strong.font-semibold #12in23
+        hashtag around social media!
+      %p.cta
+        Submit 5 exercises (not including "Hello World") in a track to tick off that language!
+
+      .grid.grid-cols-4.gap-32.mx-auto{ class: 'w-[1100px]' }
+        - @track_counts.each do |track_id, count|
+          - track = @tracks[track_id]
+          = link_to track_path(track), class: "relative shadow-baseZ1 bg-white py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count > 5 ? 'border-successColor' : 'border-transparent'}" do
+            = image_tag track.icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
+            .text-h4.mb-20= track.title
+            - if count >= 5
+              = icon "completed-check-circle", "Completed", width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"
+              .progress
+              .count #{count} exercises completed
+            - else
+              %progress.progress-bar{ value: count, max: 5 }
+              .count #{count} / 5 exercises completed
+
+        - num_placeholders = 12 - @track_counts.size
+        - if num_placeholders.positive?
+          - num_placeholders.times do
+            .shadow-base.bg-white.rounded-8.flex.flex-col.items-center.justify-center{ class: 'min-h-[175px]' }
+              .text-h0{ class: "opacity-[0.2]" } ?

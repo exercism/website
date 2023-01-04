@@ -182,4 +182,13 @@ class User::ResetAccountTest < ActiveSupport::TestCase
 
     assert_equal User::GHOST_USER_ID, pr.reload.user_id
   end
+
+  test "cleans up challenges" do
+    user = create :user
+    challenge = create :user_challenge, user: user
+    User::ResetAccount.(user)
+    assert_raises ActiveRecord::RecordNotFound do
+      challenge.reload
+    end
+  end
 end

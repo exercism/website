@@ -129,6 +129,8 @@
 @import "./components/cli-walkthrough";
 @import "./components/cli-walkthrough-button";
 
+@import "./components/youtube-container";
+
 @import "./modals/bug-report";
 @import "./modals/donations-form";
 @import "./modals/editor-hints";
@@ -226,6 +228,8 @@
 @import "./pages/impact";
 @import "./pages/community";
 @import "./pages/community-story";
+@import "./pages/challenges/external";
+@import "./pages/challenges/12in23";
 
 @import "./highlighters/highlightjs-light";
 @import "./highlighters/highlightjs-dark";

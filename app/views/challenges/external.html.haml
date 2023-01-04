@@ -1,0 +1,56 @@
+#challenge-external-page
+  %section.top-section
+    .lg-container
+      .flex.flex-wrap.justify-center.mb-32.gap-2.lg:gap-4.mx-auto{ class: 'max-w-[1000px]' }
+        - Track.active.map(&:icon_url).shuffle.each do |icon_url|
+          = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[24px] w-[24px] lg:h-[48px] lg:w-[48px]"
+
+      %h1.text-h0.mb-16 The #12in23 Challenge
+      %p.mb-12
+        Expand your horizons by trying out
+        %strong.font-semibold 12 different programming languages
+        in 2023.
+      %p
+        Go old-school with COBOL, cutting edge with Unison or esoteric with Prolog. Explore low-level code with Assembly, expressions with a Lisp or functional with Haskell!
+      %p.unsure
+        Expand your knowledge. Have fun. Join the community. 100% free.
+
+      - if user_signed_in?
+        = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-m btn-primary'
+      - else
+        .flex.items-center
+          = link_to "Sign up to get started", new_user_registration_path, class: 'btn-m btn-primary'
+          = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary ml-24'
+
+  %article.lg-container
+    %section.video-section
+      .c-youtube-container.mb-32
+        %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/Svzev-9shKs", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+    %section.reasons-section
+      %h2 Why take part?
+      .reasons.grid-cols-1.md:grid-cols-3
+        .reason
+          = graphical_icon "mentoring-opportunity"
+          %h3 Expand your knowledge
+          %p Learning new languages is a create way to explore different paradigms, concepts and ideas. Learning different ways to solve problems is a guaranteed way to make you a better developer.
+
+        .reason
+          = graphical_icon "mentoring-soft-skills"
+          %h3 Learn together
+          %p The Challenge is a great way of connecting with other developers. Chat to others on our forums, watch streamers on YouTube or Twitch, or bounce solutions on social media.
+
+        .reason
+          = graphical_icon "testimonials"
+          %h3 Have fun!
+          %p Coding should be fun! When we get stuck in the same patterns every day it can feel monotonous and boring. Solving challenges in different languages is a great way to reignite your spark.
+
+      .flex.justify-center.mt-48
+        - if user_signed_in?
+          = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-l btn-primary'
+        - else
+          .flex.items-center
+            = link_to "Sign up to get started", new_user_registration_path, class: 'btn-l btn-primary'
+            = link_to "Log in", new_user_session_path, class: 'btn-l btn-secondary ml-24'
+
+

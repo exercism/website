@@ -27,27 +27,15 @@ class ChallengesController < ApplicationController
     redirect_to root_path unless User::Challenge::CHALLENGES.include?(@challenge_id)
   end
 
+  # Doing this in Ruby is *much* quicker than in SQL
   def load_data_for_12in23 # rubocop:disable Naming/VariableNumber
-    start_date = Date.new(2022, 12, 31)
-
-    # Doing this in Ruby is *much* quicker than in SQL
-    # It gives us an array of tuples
-    solutions = current_user.solutions.pluck(:exercise_id, :last_iterated_at)
-    solutions.select! { |solution| solution.second && solution.second >= start_date }
+    # This gives us an array of tuples.
+    iterated_exercise_ids = current_user.solutions.where('last_iterated_at > ?', Date.new(2022, 12, 31)).pluck(:exercise_id)
 
     # This gives us { exercise_id => [exercise_id, track_id, exercise_slug] }
-    exercise_mapping = Exercise.where(id: solutions.map(&:first)).pluck(:id, :track_id, :slug).
-      index_by(&:first)
+    iterated_track_ids = Exercise.where(id: iterated_exercise_ids).where.not(slug: 'hello-world').pluck(:track_id)
 
-    # Map to [track_id, iterated_at, exercise_slug]
-    basic_data = solutions.map do |tuple|
-      exercise = exercise_mapping[tuple[0]]
-      [exercise[1], tuple[1], exercise[2]]
-    end
-
-    @track_counts = basic_data.
-      reject { |tuple| tuple.third == 'hello-world' }.
-      map(&:first). # Just track_ids
+    @track_counts = iterated_track_ids.
       tally. # This gives us {track_id => count}
       sort_by(&:second).reverse. # Order by highest count first
       to_h # Then back to {track_id => count}

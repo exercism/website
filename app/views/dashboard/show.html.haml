@@ -1,5 +1,5 @@
 #page-dashboard
-  = render ReactComponents::Modals::CommunityLaunchModal.new
+  = render ReactComponents::Modals::Challenge12in23Modal.new
 
   .summary-bar
     .lg-container.container
@@ -64,12 +64,11 @@
     .rhs
       = link_to challenge_path('12in23'), class: "bg-purple flex flex-col items-center px-24 py-24 rounded-8 shadow-baseZ1 mb-32" do
         %h2.text-h3.text-white.text-center.mb-8
-          The 12 Languages in 2023
-          Challenge
+          The #12in23 Challenge
         %p.text-p-base.text-white.text-center.mb-16
-          Broaden your horizons, try 12 languages, and become a better developer during 2023!
+          Broaden your horizons. Try 12 languages during 2023 and become a better developer!
           %br
-          %strong.font-semibold{ class: "!text-white" } Which will you choose?
+          %strong{ class: "!font-semibold !text-white" } Which will you choose?
 
         .flex.flex-wrap.justify-center.gap-2
           - Track.active.map(&:icon_url).shuffle.each do |icon_url|

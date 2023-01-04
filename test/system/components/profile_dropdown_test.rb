@@ -7,7 +7,7 @@ module Components
 
     test "clicking on dropdown button shows links" do
       user = create :user
-      create :user_dismissed_introducer, slug: "community-launch-modal", user: user
+      create :user_dismissed_introducer, slug: "challenge-12in23-modal", user: user
 
       use_capybara_host do
         sign_in!(user)

@@ -100,11 +100,8 @@ initReact({
     <MarkdownEditor contextId={data.context_id} />
   ),
 
-  'modals-community-launch-modal': (data: any) => (
-    <Modals.CommunityLaunchModal
-      endpoint={data.endpoint}
-      jonathanImageUrl={data.jonathan_image_url}
-    />
+  'modals-challenge-12in23-modal': (data: any) => (
+    <Modals.Challenge12in23Modal endpoint={data.endpoint} />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (

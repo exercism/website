@@ -23,4 +23,11 @@ class MailshotsMailer < ApplicationMailer
     subject = "Could your company support Exercism?"
     mail_to_user(@user, subject, reply_to: "loretta@exercism.org")
   end
+
+  def challenge_12in23_launch
+    @user = params[:user]
+
+    subject = "Take the #12in23 Challenge"
+    mail_to_user(@user, subject)
+  end
 end

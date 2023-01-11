@@ -383,7 +383,7 @@
         - @status.volunteers.users[0, 3].to_a.each do |volunteer|
           .contributor-credit-block
             .contributor
-              = avatar(volunteer, css_class: "h-32 w-[32px]")
+              = avatar(volunteer, css_class: "h-32 w-[32px] bg-cover bg-center rounded-circle mr-12")
               = volunteer.handle
             = render ViewComponents::Reputation.new(volunteer.reputation, flashy: true, size: :small)
 

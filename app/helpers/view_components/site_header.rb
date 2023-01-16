@@ -20,7 +20,7 @@ module ViewComponents
 
       link_to(Exercism::Routes.donate_path, class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          tag.span("⚠️ Exercism needs more donations to survive 2023. ") +
+          tag.span("⚠️ Exercism needs donations to survive 2023. ") +
             tag.strong("Please support us if you can!") +
             tag.span("⚠️")
         end

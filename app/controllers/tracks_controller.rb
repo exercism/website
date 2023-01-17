@@ -38,6 +38,7 @@ class TracksController < ApplicationController
 
     @recent_solutions = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track)
     @updates = SiteUpdate.published.for_track(@track).sorted.limit(10)
+    @forum_threads = Forum::RetrieveThreads.(track: @track, count: 3)
   end
 
   def join

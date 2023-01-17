@@ -13,5 +13,6 @@ class CommunityController < ApplicationController
         map { |b| b.user.avatar_url }
 
     @community_stories = CommunityStory.published.includes(:interviewee).ordered_by_recency.first(3)
+    @forum_threads = Forum::RetrieveThreads.(type: :top, count: 1)
   end
 end

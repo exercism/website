@@ -14,30 +14,30 @@
           %span Explore our forum
           = graphical_icon "arrow-right"
 
-
         .text-warning.font-semibold.leading-150.flex.items-center.mb-8.py-6.px-12
           = graphical_icon 'sparkle', css_class: 'filter-warning w-[16px] h-[16px] mr-8'
           Recent topics
 
         = link_to "https://forum.exercism.org/t/what-are-your-favorite-books-on-programming/187", class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
-          = image_tag "team/jeremy-walker.jpg", alt: "A photo of Jeremy Walker", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
+          = image_tag "team/erik.jpg", alt: "A photo of Erik Schierboom", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
           .flex.flex-col.mr-auto
             %h5.text-h5 What are your favorite books on programming?
             .text-textColor6.leading-150
-              Last reply by snowfrogdev
+              Asked by ErikSchierboom
           .message-count
             = graphical_icon "message-bubble-square"
             48
 
-        = link_to "https://forum.exercism.org/t/what-monthly-themes-should-we-choose-for-12in23/2243/1", class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
-          = image_tag "team/erik.jpg", alt: "A photo of Erik Schierboom", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
-          .flex.flex-col.mr-auto
-            %h5.text-h5 What monthly themes should we choose for #12in23?
-            .text-textColor6.leading-150
-              Posted by ErikSchierboom
-          .message-count
-            = graphical_icon "message-bubble-square"
-            1
+        - @forum_threads.each do |thread|
+          = link_to thread.url, class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
+            = image_tag thread.poster_avatar_url, alt: "", role: :presentation, class: 'mr-8 h-[32px] w-[32px] rounded-circle'
+            .flex.flex-col.mr-auto
+              %h5.text-h5= thread.title
+              .text-textColor6.leading-150
+                Latest post by #{thread.poster_username}
+            .message-count
+              = graphical_icon "message-bubble-square"
+              = thread.posts_count
 
       = link_to 'https://forum.exercism.org/', class: 'hidden lg:block w-[45%] flex-shrink-0 max-w-[620px]' do
         = image_tag "screenshots/forum.png", alt: "", role: :presentation, class: 'shadow-baseZ1 rounded-8 w-fill'
@@ -62,7 +62,7 @@
           = link_to "", class: 'explore-link mt-32' do
             Explore more Community Stories
 
-      .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8{ class: "shrink-[3]", style: 'height: fit-content' }
+      .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8{ class: "shrink-[3] min-w-[440px]", style: 'height: fit-content; ' }
         .flex.flex-wrap.pb-16.mb-24{ class: 'w-fill max-w-[360px]' }
           - @supporter_avatar_urls.each do |supporter_avatar_url|
             = image_tag supporter_avatar_url, class: 'h-[48px] w-[48px] mb-[-16px] mr-[-12px] rounded-circle'

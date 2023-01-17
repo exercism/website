@@ -81,7 +81,7 @@ module ViewComponents
 
       def build_tab
         link_to(
-          graphical_icon(:building) + tag.span("Build"),
+          graphical_icon(:building) + tag.span("Build Status"),
           Exercism::Routes.track_build_path(track),
           class: tab_class(:build)
         )

@@ -3,15 +3,6 @@
 #page-track-show
   = render ViewComponents::Track::Header.new(@track, :overview)
 
-  %header.track-header.c-header-with-bg
-    .lg-container.container
-      .info
-        %h1 Your Activity
-        %hr.c-divider.--small
-
-      .graphics
-        = track_icon(@track)
-
   = render "tracks/show/summary_article", track: @track, user_track: @user_track, exercise_statuses: @exercise_statuses, recent_solutions: @recent_solutions, sample_learnt_concepts: @sample_learnt_concepts, sample_mastered_concepts: @sample_mastered_concepts, last_8_weeks_counts: @last_8_weeks_counts
   = render "tracks/show/mentoring_article", track: @track, user_track: @user_track
   = render "tracks/show/updates_article", track: @track, updates: @updates

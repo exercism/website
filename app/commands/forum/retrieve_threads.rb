@@ -12,21 +12,20 @@ class Forum::RetrieveThreads
   end
 
   private
+  memoize
   def topics
-    if type == :latest
-      track ?  latest_track_topics : latest_topics
-    else
-      top_topics
+    cache_key = "forum/topics/#{type}/#{track&.slug}"
+    Rails.cache.fetch(cache_key, expires_in: 2.hours) do
+      if type == :latest
+        track ?  latest_track_topics : latest_topics
+      else
+        top_topics
+      end
     end
   end
 
-  memoize
   def top_topics = client.top_topics
-
-  memoize
   def latest_topics = client.latest_topics
-
-  memoize
   def latest_track_topics = client.category_latest_topics(category_slug: "programming/#{track.slug}")
 
   memoize

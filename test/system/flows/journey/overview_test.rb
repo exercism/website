@@ -29,9 +29,11 @@ module Flows
 
           assert_text "25 Dec 2016"
           assert_text "When you joined the Ruby Track"
-          assert_text "You started working through the Ruby Track #{Time.current.year - user_track.created_at.year} years ago."
           assert_text "1\nMentoring session completed"
           assert_text "You have 1 discussion in progress and 1 solution in the queue."
+
+          years_ago = ((Time.current - user_track.created_at) / 31_536_000).floor
+          assert_text "You started working through the Ruby Track #{years_ago} years ago."
         end
       end
 

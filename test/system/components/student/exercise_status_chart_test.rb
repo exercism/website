@@ -17,6 +17,8 @@ module Components
         exercise.prerequisites << create(:concept)
         create :user_track, track: track, user: user
 
+        stub_latest_track_forum_threads(track)
+
         use_capybara_host do
           sign_in!(user)
           visit track_path(track)

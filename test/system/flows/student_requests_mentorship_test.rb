@@ -62,6 +62,8 @@ module Flows
         completed_at: 2.days.ago,
         status: :completed
 
+      stub_latest_track_forum_threads(track)
+
       use_capybara_host do
         sign_in!(user)
         visit track_url(track)

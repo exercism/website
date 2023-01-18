@@ -24,6 +24,8 @@ module Pages
         user = create :user
         create :user_track, user: user, track: track
 
+        stub_latest_track_forum_threads(track)
+
         use_capybara_host do
           sign_in!(user)
 

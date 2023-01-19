@@ -300,6 +300,10 @@ class ActiveSupport::TestCase
       Exercism.opensearch_client.indices.refresh(index:)
     end
   end
+
+  def stub_latest_track_forum_threads(track)
+    stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
+  end
 end
 
 class ActionView::TestCase

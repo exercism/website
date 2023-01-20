@@ -1,5 +1,6 @@
 import { StreamLanguage } from '@codemirror/stream-parser'
 import { Compartment, Extension } from '@codemirror/state'
+import { bqn } from '../../../utils/bqn/index'
 
 const compartment = new Compartment()
 
@@ -240,6 +241,9 @@ export const loadLanguageCompartment = async (
     case 'julia': {
       const { julia } = await import('lang-julia')
       return compartment.of(julia())
+    }
+    case 'bqn': {
+      return compartment.of(bqn())
     }
     default:
       return []

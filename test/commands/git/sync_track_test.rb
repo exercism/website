@@ -445,7 +445,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "syncs docs" do
     track = create :track
 
-    Git::SyncTrackDocs.expects(:call).with(track)
+    Git::SyncTrackDocs.expects(:call).with(track, force_sync: false)
 
     # Run this once to get the track cloned onto the local machine
     Git::SyncTrack.(track)

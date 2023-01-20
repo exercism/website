@@ -26,6 +26,8 @@ module Flows
       submission = create :submission, solution: solution
       create :iteration, submission: submission, solution: solution
 
+      stub_latest_track_forum_threads(track)
+
       use_capybara_host do
         sign_in!(user)
         visit track_url(track)

@@ -22,7 +22,7 @@ module ViewComponents
     private
     memoize
     def tracks
-      ::Track.active
+      ::Track.active.order(:title)
     end
 
     memoize

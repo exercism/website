@@ -136,7 +136,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
   test "updates track num_exercises when created" do
     track = create :track
-    Track::UpdateNumExercises.expects(:defer).with(track)
+    Track::UpdateNumExercises.expects(:call).with(track)
     create :practice_exercise, track:
   end
 
@@ -144,7 +144,7 @@ class ExerciseTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :practice_exercise, track: track
 
-    Track::UpdateNumExercises.expects(:defer).with(track)
+    Track::UpdateNumExercises.expects(:call).with(track)
     exercise.destroy
   end
 
@@ -152,7 +152,7 @@ class ExerciseTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :practice_exercise, track: track
 
-    Track::UpdateNumExercises.expects(:defer).with(track)
+    Track::UpdateNumExercises.expects(:call).with(track)
     exercise.update(status: :beta)
   end
 
@@ -160,7 +160,7 @@ class ExerciseTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :practice_exercise, track: track
 
-    Track::UpdateNumExercises.expects(:defer).with(track)
+    Track::UpdateNumExercises.expects(:call).with(track)
     exercise.update(title: 'something')
   end
 end

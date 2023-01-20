@@ -102,8 +102,8 @@ class Exercise < ApplicationRecord
 
   after_commit do
     if (saved_changes.keys & %w[id status]).present?
-      Track::UpdateNumExercises.defer(track)
-      Track::UpdateNumConcepts.defer(track)
+      Track::UpdateNumExercises.(track)
+      Track::UpdateNumConcepts.(track)
     end
   end
 

@@ -101,7 +101,10 @@ class Exercise < ApplicationRecord
   end
 
   after_commit do
-    track.recache_num_exercises! if (saved_changes.keys & %w[id status]).present?
+    if (saved_changes.keys & %w[id status]).present?
+      Track::UpdateNumExercises.(track)
+      Track::UpdateNumConcepts.(track)
+    end
   end
 
   def status = super.to_sym

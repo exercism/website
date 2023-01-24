@@ -1,5 +1,5 @@
 import * as highlighter from 'highlight.js'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import setupABAP from 'highlightjs-sap-abap'
 import setupCobol from 'highlightjs-cobol'
 import setupBqn from 'highlightjs-bqn'

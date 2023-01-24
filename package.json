@@ -47,6 +47,7 @@
     "fontfaceobserver": "^2.1.0",
     "global": "^4.4.0",
     "highlight.js": "^11.5.1",
+    "highlightjs-bqn": "^0.0.1",
     "highlightjs-cobol": "^0.3.1",
     "highlightjs-sap-abap": "^0.2.0",
     "humps": "^2.0.1",

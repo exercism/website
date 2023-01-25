@@ -156,7 +156,7 @@ class ExerciseTest < ActiveSupport::TestCase
     exercise.update(status: :beta)
   end
 
-  test "doesn't update track num_exercises when other column changed" do
+  test "doesnt update track num_exercises when other column changed" do
     track = create :track
     exercise = create :practice_exercise, track: track
 

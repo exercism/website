@@ -1,10 +1,12 @@
 import * as highlighter from 'highlight.js'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import setupABAP from 'highlightjs-sap-abap'
 import setupCobol from 'highlightjs-cobol'
+import setupBqn from 'highlightjs-bqn'
 
 highlighter.default.registerLanguage('abap', setupABAP)
 highlighter.default.registerLanguage('cobol', setupCobol)
+highlighter.default.registerLanguage('bqn', setupBqn)
 
 highlighter.default.configure({
   throwUnescapedHTML: true,

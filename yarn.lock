@@ -5057,6 +5057,11 @@ highlight.js@^11.5.1:
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.5.1.tgz#027c24e4509e2f4dcd00b4a6dda542ce0a1f7aea"
   integrity sha512-LKzHqnxr4CrD2YsNoIf/o5nJ09j4yi/GcH5BnYz9UnVpZdS4ucMgvP61TDty5xJcFGRjnH4DpujkS9bHT3hq0Q==
 
+highlightjs-bqn@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/highlightjs-bqn/-/highlightjs-bqn-0.0.1.tgz#2e007db225899d0325c6ad2afc86f41f28ee76c6"
+  integrity sha512-h1VRUgehHeM6CN1V0S/r7msKVZuJGl2Gn6moQkw86NouMOM81W3ORYVR4zbm5HchLk2N0DSbv2HDzfFez/PlbQ==
+
 highlightjs-cobol@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/highlightjs-cobol/-/highlightjs-cobol-0.3.1.tgz#22ee6ca0f32f075b10bf768b4898523bf1af7764"

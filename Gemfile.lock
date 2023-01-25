@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/exercism/coinbase-commerce-ruby.git
+  revision: 45563351091774670fc86ac9ee3c9af260159d1d
+  specs:
+    coinbase_commerce (0.8.7)
+      faraday (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -534,6 +541,7 @@ DEPENDENCIES
   bugsnag
   byebug
   capybara (>= 2.15)
+  coinbase_commerce!
   commonmarker
   cssbundling-rails
   devise (~> 4.7)

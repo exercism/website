@@ -45,16 +45,20 @@
       - if user_signed_in?
         %section.form-section
           = render ReactComponents::Donations::FormWithModal.new
+          = render "alternatives"
+
       - else
         %section.form-section.flex-shrink-0{ style: 'width:500px' }
           .c-donations-form.p-32.text-center
-            %h2.text-h3.mb-8 Please log in to donate.
+            %h2.text-h4.mb-8 Please log in to donate using a debit/credit card.
             %p.text-p-base
               Due to constant attacks by bots we now require that everyone
               = link_to "logs in", new_user_session_path
               or
               = link_to "signs up", new_user_registration_path
-              before donating. We apologize for the inconvenience!
+              before donating using a debit or credit card. You can still use other forms of donations below. We apologize for the inconvenience!
+
+          = render "alternatives"
 
       %section.info-section.pt-48.lg:pt-0
         %h2.text-h2.mb-32 Here&apos;s what you can do to support us.
@@ -91,3 +95,5 @@
               and
               = link_to 'LinkedIn', 'https://www.linkedin.com/company/exercism/', target: "_blank", rel: 'noreferrer', class: "text-lightBlue font-medium underline"
               then share our posts, and create your own! We try to share everything we see 🙂
+
+

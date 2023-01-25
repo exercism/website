@@ -57,6 +57,7 @@ gem 'omniauth-rails_csrf_protection'
 
 # Payments
 gem 'stripe'
+gem 'coinbase_commerce', github: "exercism/coinbase-commerce-ruby"
 
 # Discourse
 gem 'discourse_api'

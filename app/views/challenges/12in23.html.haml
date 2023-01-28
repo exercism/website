@@ -1,20 +1,43 @@
 #challenge-12in23-page
   %section.top-section
-    .lg-container.c-shapes
-      %h1.text-h1.mb-16 The #12in23 Challenge
-      %p
-        Below you'll see a list of all the languages you've used during 2023.
-        Aim to complete 12 languages by the end of the year.
+    .lg-container
+      .flex
+        .mr-auto{ class: 'max-w-[800px]' }
+          %h1.text-h1.mb-16 The #12in23 Challenge
+          %p.text-p-xlarge.mb-12
+            Welcome to #12in23. Thanks for joining in!
+          %p.text-p-xlarge.mb-12
+            Each month from February will have a different theme. There will be with interviews language creators, live streaming and more.
+            You can learn about what the year has in store in our official calendar video over there 👉🏽
+          %p.text-p-xlarge.mb-12
+            %strong.font-semiold For January, we're recommending you go a little deeper in your current day-to-day language.
+            Solve some of the harder exercises in that language on Exercism and try to explore new areas of the language. Then in February we'll move onto exploring functional languages!
+          %p.text-p-xlarge.mb-12
+            Join in the conversation by using the
+            = link_to "#12in23 tag", "https://forum.exercism.org/tag/12in23"
+            on our forums or the
+            %strong.font-semibold #12in23
+            hashtag around social media!
+            Most of all, have fun!
 
-        Join in the conversation by using the
-        = link_to "#12in23 tag", "https://forum.exercism.org/tag/12in23"
-        on our forums or the
-        %strong.font-semibold #12in23
-        hashtag around social media!
-      %p.cta
-        Submit 5 exercises (not including "Hello World") in a track to tick off that language!
+        .ml-80{ class: 'max-w-[420px]' }
+          %h2.text-h3.mb-4 The Official #12in23 Calendar
+          %h2.text-p-base.mb-12
+            Each month of #12in23 will have a different theme. The first is Functional February. Check out out introductory video for more details!
+          .c-youtube-container
+            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/2refhxXqePI", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
-      .grid.grid-cols-4.gap-32.mx-auto{ class: 'w-[1100px]' }
+  %article
+    .md-container
+      .flex.text-center.flex-col.items-center
+        %h1.text-h1.mb-16 Your Languages
+        %p.text-p-xlarge
+          Below you'll see a list of all the languages you've used during 2023.
+          Aim to complete 12 languages by the end of the year!
+        %p.text-p-large.cta
+          Submit 5 exercises (not including "Hello World") in a track to tick off that language!
+
+      .grid.grid-cols-4.gap-32.mx-auto
         - @track_counts.each do |track_id, count|
           - track = @tracks[track_id]
           = link_to track_path(track), class: "relative shadow-baseZ1 bg-white py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count > 5 ? 'border-successColor' : 'border-transparent'}" do

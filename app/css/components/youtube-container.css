@@ -1,7 +1,7 @@
 .c-youtube-container {
     @apply relative rounded-8 overflow-hidden;
     padding-bottom: 56.25%;
-    padding-top: 30px;
+    /* padding-top: 30px; */
     height: 0;
 
     & iframe,

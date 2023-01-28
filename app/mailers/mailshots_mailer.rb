@@ -35,7 +35,7 @@ class MailshotsMailer < ApplicationMailer
     @user = params[:user]
     @signed_up = @user.challenges.where(challenge_id: "12in23").exists?
 
-    subject = "Meet the #12in23 Challenge"
+    subject = "Meet the #12in23 Calendar"
     mail_to_user(@user, subject)
   end
 end

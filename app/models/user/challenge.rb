@@ -1,5 +1,6 @@
 class User::Challenge < ApplicationRecord
   belongs_to :user
 
-  CHALLENGES = ["12in23"].freeze
+  CHALLENGE_12_IN_23 = "12in23".freeze
+  CHALLENGES = [CHALLENGE_12_IN_23].freeze
 end

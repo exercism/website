@@ -160,7 +160,7 @@ class ExerciseTest < ActiveSupport::TestCase
     track = create :track
     exercise = create :practice_exercise, track: track
 
-    Track::UpdateNumExercises.expects(:call).with(track)
+    Track::UpdateNumExercises.expects(:call).with(track).never
     exercise.update(title: 'something')
   end
 end

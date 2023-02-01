@@ -1,7 +1,7 @@
 module Badges
   class FunctionalFebruaryBadge < Badge
     TRACK_SLUGS = %w[
-      elixir erlang fsharp haskell ocaml scala sml gleam
+      clojure elixir erlang fsharp haskell ocaml scala sml gleam
     ].freeze
 
     seed "Functional February",

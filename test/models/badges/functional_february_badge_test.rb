@@ -23,7 +23,7 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
     # 4 bob's is not enough
     4.times do |idx|
       exercise = create :practice_exercise, slug: 'bob', track: fsharp
-      create :practice_solution, :completed, user:, track: fsharp, exercise:, completed_at: Time.new.utc(2022, 2, idx + 5)
+      create :practice_solution, :completed, user:, track: fsharp, exercise:, completed_at: Time.utc(2022, 2, idx + 5)
     end
     refute badge.award_to?(user.reload)
 
@@ -35,11 +35,11 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
     # Add a 5th bob, but in march
     exercise = create :practice_exercise, slug: 'bob', track: fsharp
     solution = create :practice_solution, :iterated, user: user, track: fsharp, exercise: exercise,
-      completed_at: Time.new.utc(2022, 3, 1)
+      completed_at: Time.utc(2022, 3, 1)
     refute badge.award_to?(user.reload)
 
     # Iterate it
-    solution.update(completed_at: Time.new.utc(2022, 2, 28))
+    solution.update(completed_at: Time.utc(2022, 2, 28))
     assert badge.award_to?(user.reload)
   end
 

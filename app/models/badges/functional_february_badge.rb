@@ -7,7 +7,7 @@ module Badges
     seed "Functional February",
       :ultimate,
       'functional',
-      'Completed five exercises in a functional language in February'
+      'Completed and published five exercises in a functional language in February'
 
     def self.worth_queuing?(exercise:)
       TRACK_SLUGS.include?(exercise.track.slug)

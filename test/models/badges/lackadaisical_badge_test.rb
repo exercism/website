@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Badge::LackadaisicalBadgeTest < ActiveSupport::TestCase
+class Badges::LackadaisicalBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :lackadaisical_badge
     assert_equal "Lackadaisical", badge.name

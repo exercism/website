@@ -16,6 +16,7 @@ class Solution::Publish
     end
 
     award_reputation!
+    award_badge!
     record_activity!
     log_metric!
     update_num_published_solutions_on_exercise!
@@ -30,6 +31,10 @@ class Solution::Publish
       solution:,
       level:
     )
+  end
+
+  def award_badge!
+    AwardBadgeJob.perform_later(solution.user, :functional_february)
   end
 
   def record_activity!

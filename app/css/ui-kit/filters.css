@@ -41,6 +41,9 @@
         filter: invert(67%) sepia(54%) saturate(5119%) hue-rotate(8deg)
             brightness(98%) contrast(101%);
     }
+    .filter-purple {
+        filter: var(--purple-filter);
+    }
 
     .filter-danger {
         /* this is loss 2.8% */

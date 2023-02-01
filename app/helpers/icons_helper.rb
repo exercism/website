@@ -1,9 +1,9 @@
 module IconsHelper
-  def graphical_icon(icon, css_class: nil, category: 'icons', hex: false)
-    icon(icon, nil, role: :presentation, css_class:, category:, hex:)
+  def graphical_icon(icon, style: nil, css_class: nil, category: 'icons', hex: false)
+    icon(icon, nil, role: :presentation, style:, css_class:, category:, hex:)
   end
 
-  def icon(icon, alt, role: nil, category: 'icons', css_class: nil, hex: false, height: nil, width: nil)
+  def icon(icon, alt, role: nil, category: 'icons', style: nil, css_class: nil, hex: false, height: nil, width: nil)
     return if icon.blank?
 
     if hex
@@ -15,7 +15,7 @@ module IconsHelper
         role:,
         alt: alt.to_s,
         class: "c-icon #{css_class} #{'--hex' if hex}".strip,
-        height:, width:
+        height:, width:, style:
     end
   rescue StandardError => e
     raise e unless Rails.env.production?

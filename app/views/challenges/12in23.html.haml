@@ -2,35 +2,136 @@
   %section.top-section
     .lg-container
       .flex
-        .mr-auto{ class: 'max-w-[800px]' }
-          %h1.text-h1.mb-16 The #12in23 Challenge
-          %p.text-p-xlarge.mb-12
-            Welcome to #12in23. Thanks for joining in!
-          %p.text-p-xlarge.mb-12
-            Each month from February will have a different theme. There will be with interviews language creators, live streaming and more.
-            You can learn about what the year has in store in our official calendar video over there 👉🏽
-          %p.text-p-xlarge.mb-12
-            %strong.font-semiold For January, we're recommending you go a little deeper in your current day-to-day language.
-            Solve some of the harder exercises in that language on Exercism and try to explore new areas of the language. Then in February we'll move onto exploring functional languages!
-          %p.text-p-xlarge.mb-12
-            Join in the conversation by using the
-            = link_to "#12in23 tag", "https://forum.exercism.org/tag/12in23"
-            on our forums or the
-            %strong.font-semibold #12in23
-            hashtag around social media!
-            Most of all, have fun!
+        .mr-auto{ class: 'max-w-[860px]' }
+          .text-purple.font-semibold.leading-150.flex.items-center.mb-4
+            %span.emoji.mr-6 📆
+            Month 2 of #12in23
+          %h1.text-h1.mb-8 It's Functional February! ✨
+          %p.text-p-xlarge.mb-20
+            This month for #12in23 we're exploring functional languages. We've got interviews with language creators, lots of live streaming, exclusive functional swag and more.
 
-        .ml-80{ class: 'max-w-[420px]' }
-          %h2.text-h3.mb-4 The Official #12in23 Calendar
-          %h2.text-p-base.mb-12
-            Each month of #12in23 will have a different theme. The first is Functional February. Check out out introductory video for more details!
-          .c-youtube-container
-            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/2refhxXqePI", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
+            .flex-shrink
+              %h2.text-h4.mb-2 Start by watching our Functional February overview video  👉
+              %p.text-p-base.mb-8
+                We've put together an introductory video to get you started. Its split into two parts. In part 1, we'll tell your what's in store for the month. In part 2 we'll take a brief look at what makes functional programming so interesting!
+              %p.text-p-base
+                Take a watch and leave a comment!
+
+            .rhs
+              %div{ class: 'w-[100%] max-w-[500px]' }
+                .c-youtube-container
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/uIFGx1SDnWI", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+          %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
+          %p.text-p-large.mb-20
+            Earn the Functional February badge for completing and publishing 5 exercises in one of the following languages.
+            Consider starting with a language with a syllabus (
+            = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
+            ).
+
+          - tracks = Track.where(slug: %w[elixir fsharp clojure erlang haskell ocaml scala sml gleam])
+          .grid.grid-cols-9.gap-12.mb-32
+            - tracks.each do |track|
+              = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-white flex flex-col p-12 text-center relative' do
+                - if track.course?
+                  .rounded-circle.bg-white.p-4.shadow-baseZ1{ class: 'absolute top-[-7px] right-[-7px]' }
+                    = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple'
+                = image_tag track.icon_url, class: 'mb-8'
+                .text-h6= track.title.gsub("Standard ML", "SML")
+
+          %p.text-p-large.mb-12
+            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach from a functional perspective:
+          %ul.text-p-large.mb-12
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/hamming.svg", class: "w-[25px] inline"
+              %strong.font-semibold Hamming:
+              Explore higher order functions
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/collatz-conjecture.svg", class: "w-[25px] inline"
+              %strong.font-semibold Collatz Conjecture:
+              Try out recursion
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/robot-simulator.svg", class: "w-[25px] inline"
+              %strong.font-semibold Robot Simulator:
+              Explore immutability, records, pattern matching
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/yacht.svg", class: "w-[25px] inline"
+              %strong.font-semibold Yacht:
+              Practice pattern-matching and higher-order functions
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/protein-translation.svg", class: "w-[25px] inline"
+              %strong.font-semibold Protein Translation:
+              Practice higher-order functions and pattern matching further
+
+          %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
+          %p.text-p-large.mb-12
+            Throughout the month we'll have interviews — including Jose Valim, the creator of Elixir, and Louis Pilfold, the creator or Gleam — walkthroughs from Exercism track contributors, and live streams of the community solving exercises.
+            Subscribe to our
+            = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+            and
+            = link_to "YouTube Channel", 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'
+            to not miss out!
+            There is a schedule at the top right of this page.
+
+          %h2.text-h3.mt-32.mb-4 Join the conversation… 💬
+          %ul.text-p-large.list-disc.pl-16
+            %li.mb-4
+              Help us compile the
+              = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-functional-languages/3254"
+              for learning and mastering functional programming languages in our dedicated forum thread.
+            %li.mb-4
+              Join in the conversation by using the
+              = link_to "#12in23 tag on our forums", "https://forum.exercism.org/tag/12in23"
+              or the
+              %strong.font-semibold #12in23
+              hashtag around social media!
+            %li.mb-4
+              We have exclusive "functional" swag that will only be available this month coming soon. Keep an eye on the
+              = link_to "swag store", "https://swag.exercism.org"
+              for details!
+
+        .ml-80{ class: 'max-w-[450px]' }
+          .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+            %h2.text-h4.mb-4 Upcoming Schedule
+            %p.text-p-base.mb-12.italic
+              We're currently finalising the schedule for February.
+              Please keep checking back.
+
+            %ul.text-p-base.list-disc.pl-16
+              %li
+                Feb 9th, 4.30pm UTC.
+                %strong.font-semibold Interview with Jose Valim, creator of Elixir.
+                Live-streamed on Twitch and YouTube.
+
+          .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+            %h2.text-h4.mb-4 How does #12in23 work?
+            %p.text-p-base.mb-12
+              Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
+            .grid.grid-cols-2.gap-12
+              = link_to "https://youtu.be/Svzev-9shKs", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+                = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
+                = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-introducing-12in23.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
+                .text-center.text-h6 Take the #12in23 Challenge
+
+              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+                = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
+                = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
+                .text-center.text-h6 The Official #12in23 Calendar
+
+            %p.text-p-small.text-center.mt-20.bg-veryLightBlue.rounded-8.py-8.px-12.font-medium
+              You can track your progress at the bottom of the page.
+
+          .bg-unnamed15.rounded-8.py-16.px-24.border-1.border-borderColor7
+            %h2.text-h4.mb-4 Enjoying #12in23? Please donate 🙏
+            %p.text-p-base.mb-12
+              We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #12in23 and are financially able, please consider donating to keep Exercism going!
+            = link_to "Donate now", donate_path, class: 'btn btn-primary'
 
   %article
     .md-container
       .flex.text-center.flex-col.items-center
-        %h1.text-h1.mb-16 Your Languages
+        %h1.text-h1.mb-16 Your #12in23 Progress
         %p.text-p-xlarge
           Below you'll see a list of all the languages you've used during 2023.
           Aim to complete 12 languages by the end of the year!
@@ -40,7 +141,7 @@
       .grid.grid-cols-4.gap-32.mx-auto
         - @track_counts.each do |track_id, count|
           - track = @tracks[track_id]
-          = link_to track_path(track), class: "relative shadow-baseZ1 bg-white py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count > 5 ? 'border-successColor' : 'border-transparent'}" do
+          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-white py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count > 5 ? 'border-successColor' : 'border-transparent'}" do
             = image_tag track.icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
             .text-h4.mb-20= track.title
             - if count >= 5

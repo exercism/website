@@ -53,6 +53,7 @@ class Iteration::Create
     AwardBadgeJob.perform_later(user, :die_unendliche_geschichte, context: iteration)
     AwardBadgeJob.perform_later(user, :growth_mindset)
     AwardBadgeJob.perform_later(user, :new_years_resolution, context: iteration)
+    AwardBadgeJob.perform_later(user, :participant_in_12_in_23)
   end
 
   def log_metric!(iteration)

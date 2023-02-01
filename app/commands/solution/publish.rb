@@ -18,7 +18,6 @@ class Solution::Publish
     award_reputation!
     record_activity!
     log_metric!
-    award_badge!
     update_num_published_solutions_on_exercise!
   end
 
@@ -51,10 +50,6 @@ class Solution::Publish
 
   def update_num_published_solutions_on_exercise!
     CacheNumPublishedSolutionsOnExerciseJob.perform_later(exercise)
-  end
-
-  def award_badge!
-    AwardBadgeJob.perform_later(solution.user, :participant_in_12_in_23)
   end
 
   delegate :exercise, to: :solution

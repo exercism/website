@@ -9,8 +9,8 @@ module Badges
       challenge = user.challenges.find_by(challenge_id: User::Challenge::CHALLENGE_12_IN_23)
       return false if challenge.nil?
 
-      user.solutions.published.joins(exercise: :track).
-        where('published_at >= ?', challenge.created_at).
+      user.solutions.joins(exercise: :track).
+        where('last_iterated_at > ?', Date.new(2022, 12, 31)).
         group(:track_id).
         having("count(*) >= 5").
         exists?

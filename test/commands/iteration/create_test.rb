@@ -230,6 +230,38 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::GrowthMindsetBadge
   end
 
+  test "awards 12in23 badge when iterating five or more exercises in a track after participating in 12in23 challenge" do
+    track = create :track
+    user = create :user
+    create :user_track, user: user, track: track
+
+    create :user_challenge, user: user, challenge_id: '12in23'
+
+    # Ignore old iteration
+    travel_to Time.utc(2022, 7, 1)
+    exercise = create :practice_exercise, slug: "leap", track: track
+    solution = create :practice_solution, user: user, track: track, exercise: exercise
+    submission = create :submission, solution: solution
+    Iteration::Create.(solution, submission)
+
+    travel_to Time.utc(2023, 2, 4)
+    %w[allergies anagram bob hamming].each do |slug|
+      exercise = create :practice_exercise, slug: slug, track: track
+      solution = create :practice_solution, user: user, track: track, exercise: exercise
+      submission = create :submission, solution: solution
+      Iteration::Create.(solution, submission)
+      refute user.badges.present?
+    end
+
+    exercise = create :practice_exercise, slug: "leap", track: track
+    solution = create :practice_solution, user: user, track: track, exercise: exercise
+    submission = create :submission, solution: solution
+    Iteration::Create.(solution, submission)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::ParticipantIn12In23Badge
+  end
+
   test "updates created iteration's num_loc" do
     user = create :user
     solution = create :concept_solution, user: user

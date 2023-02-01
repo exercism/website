@@ -11,7 +11,6 @@ FactoryBot.define do
     mentor researcher v3_pioneer tooling_pioneer
     moss begetter bard architect troubleshooter
     completer conceptual supermentor
-
     functional_february
   ].each do |type|
     factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do

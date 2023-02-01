@@ -1,8 +1,8 @@
 module Badges
   class ParticipantIn12In23Badge < Badge
-    seed "12 in 23",
+    seed "#12in23 Participant",
       :rare,
-      '12-in-23',
+      '12in23-start',
       'Participated in the #12in23 challenge and completed 5 exercises in a track'
 
     def award_to?(user)

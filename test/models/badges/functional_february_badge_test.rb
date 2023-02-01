@@ -23,23 +23,27 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
     # 4 bob's is not enough
     4.times do |idx|
       exercise = create :practice_exercise, slug: 'bob', track: fsharp
-      create :practice_solution, :completed, user:, track: fsharp, exercise:, completed_at: Time.utc(2022, 2, idx + 5)
+      create :practice_solution, :published, user:, track: fsharp, exercise:, completed_at: Time.utc(2022, 2, idx + 5)
     end
     refute badge.award_to?(user.reload)
 
     # Doesn't care if we get a 5th exercise in csharp
     another_exercise = create :practice_exercise, slug: 'leap', track: csharp
-    create :practice_solution, :completed, user: user, track: csharp, exercise: another_exercise
+    create :practice_solution, :published, user: user, track: csharp, exercise: another_exercise
     refute badge.award_to?(user.reload)
 
-    # Add a 5th bob, but in march
+    # Iterate a 5th bob, but in march
     exercise = create :practice_exercise, slug: 'bob', track: fsharp
     solution = create :practice_solution, :iterated, user: user, track: fsharp, exercise: exercise,
       completed_at: Time.utc(2022, 3, 1)
     refute badge.award_to?(user.reload)
 
-    # Iterate it
-    solution.update(completed_at: Time.utc(2022, 2, 28))
+    # Complete it
+    solution.update(completed_at: Time.utc(2022, 2, 27))
+    refute badge.award_to?(user.reload)
+
+    # Publish it
+    solution.update(published_at: Time.utc(2022, 2, 28))
     assert badge.award_to?(user.reload)
   end
 

@@ -14,9 +14,9 @@ module Badges
     end
 
     def award_to?(user)
-      user.solutions.completed.joins(exercise: :track).
+      user.solutions.published.joins(exercise: :track).
         where('tracks.slug': TRACK_SLUGS).
-        where('MONTH(completed_at) = 2').
+        where('MONTH(published_at) = 2').
         count >= 5
     end
 

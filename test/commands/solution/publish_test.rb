@@ -140,6 +140,30 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::AnybodyThereBadge
   end
 
+  test "awards 12in23 badge when completed five or more exercises in track after participating in 12in23 challenge" do
+    track = create :track
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+
+    create :user_challenge, user: user, challenge_id: '12in23'
+
+    4.times do
+      exercise = create :practice_exercise, :random_slug, track: track
+      create :practice_solution, :published, user: user, track: track, exercise: exercise
+      refute user.badges.present?
+    end
+
+    exercise = create :practice_exercise, :random_slug, track: track
+    solution = create :practice_solution, user: user, exercise: exercise
+    create :iteration, solution: solution, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::ParticipantIn12In23Badge
+  end
+
   test "solution snippet updated to published iteration's snippet when single iteration is published" do
     solution = create :practice_solution, snippet: 'my snippet'
     create :user_track, user: solution.user, track: solution.track

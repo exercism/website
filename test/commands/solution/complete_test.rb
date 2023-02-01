@@ -127,30 +127,6 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::AllYourBaseBadge
   end
 
-  test "awards 12in23 badge when completed five or more exercises in track after participating in 12in23 challenge" do
-    track = create :track
-    user = create :user
-    user_track = create :user_track, user: user, track: track
-
-    create :user_challenge, user: user, challenge_id: '12in23'
-
-    4.times do
-      exercise = create :practice_exercise, :random_slug, track: track
-      create :practice_solution, :completed, user: user, track: track, exercise: exercise
-      refute user.badges.present?
-    end
-
-    exercise = create :practice_exercise, :random_slug, track: track
-    solution = create :practice_solution, user: user, exercise: exercise
-    create :iteration, solution: solution
-    refute user.badges.present?
-
-    Solution::Complete.(solution, user_track)
-
-    perform_enqueued_jobs
-    assert_includes user.reload.badges.map(&:class), Badges::ParticipantIn12In23Badge
-  end
-
   test "awards whatever badge when bob exercise is completed" do
     exercise = create :practice_exercise, slug: 'bob'
 

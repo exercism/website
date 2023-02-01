@@ -18,7 +18,6 @@ class Solution::Complete
 
     AwardBadgeJob.perform_later(user, :conceptual, context: exercise)
     AwardBadgeJob.perform_later(user, :completer)
-    AwardBadgeJob.perform_later(user, :participant_in_12_in_23)
 
     record_activity!
     log_metric!

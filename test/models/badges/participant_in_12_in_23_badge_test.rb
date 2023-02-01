@@ -20,29 +20,29 @@ class Badge::ParticipantIn12In23BadgeTest < ActiveSupport::TestCase
     # No solutions
     refute badge.award_to?(user.reload)
 
-    # Completed one exercise
-    create :hello_world_solution, :completed, user: user, track: track
+    # Publish one exercise
+    create :hello_world_solution, :published, user: user, track: track
     refute badge.award_to?(user.reload)
 
-    # Complete five exercises in track does not award badge as user hasn't yet participated
+    # Publish five exercises in track does not award badge as user hasn't yet participated
     4.times do
       exercise = create :practice_exercise, :random_slug, track: track
-      create :practice_solution, :completed, user: user, track: track, exercise: exercise
+      create :practice_solution, :published, user: user, track: track, exercise: exercise
       refute badge.award_to?(user.reload)
     end
 
     create :user_challenge, user: user, challenge_id: '12in23'
 
-    # Complete four exercises after participating does not award the badge
+    # Publish four exercises after participating does not award the badge
     4.times do
       exercise = create :practice_exercise, :random_slug, track: track
-      create :practice_solution, :completed, user: user, track: track, exercise: exercise
+      create :practice_solution, :published, user: user, track: track, exercise: exercise
       refute badge.award_to?(user.reload)
     end
 
-    # Completing exercise in different track does not award the badge
+    # Publish exercise in different track does not award the badge
     exercise = create :practice_exercise, :random_slug, track: other_track
-    create :practice_solution, :completed, user: user, track: other_track, exercise: exercise
+    create :practice_solution, :published, user: user, track: other_track, exercise: exercise
     refute badge.award_to?(user.reload)
 
     # Iterate the fifth exercise without completing does not award the badge
@@ -50,8 +50,12 @@ class Badge::ParticipantIn12In23BadgeTest < ActiveSupport::TestCase
     solution = create :practice_solution, :iterated, user: user, track: track, exercise: exercise
     refute badge.award_to?(user.reload)
 
-    # Complete the fifth exercise does not awards the badge
+    # Complete the fifth exercise does not award the badge
     solution.update(completed_at: Time.current)
+    refute badge.award_to?(user.reload)
+
+    # Publish fifth exercise awards the badge
+    solution.update(published_at: Time.current)
     assert badge.award_to?(user.reload)
   end
 end

@@ -3,9 +3,9 @@ require "test_helper"
 class Badge::ParticipantIn12In23BadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :participant_in_12_in_23_badge
-    assert_equal "12 in 23", badge.name
+    assert_equal "#12in23 Participant", badge.name
     assert_equal :rare, badge.rarity
-    assert_equal :'12-in-23', badge.icon # rubocop:disable Naming/VariableNumber
+    assert_equal :'12in23-start', badge.icon # rubocop:disable Naming/VariableNumber
     assert_equal 'Participated in the #12in23 challenge and completed 5 exercises in a track', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key

@@ -38,4 +38,11 @@ class MailshotsMailer < ApplicationMailer
     subject = "Meet the #12in23 Calendar"
     mail_to_user(@user, subject)
   end
+
+  def functional_february
+    @user = params[:user]
+
+    subject = "It's Functional February!"
+    mail_to_user(@user, subject)
+  end
 end

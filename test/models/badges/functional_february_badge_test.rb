@@ -6,7 +6,7 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
     assert_equal "Functional February", badge.name
     assert_equal :ultimate, badge.rarity
     assert_equal :functional, badge.icon
-    assert_equal 'Completed five exercises in a functional language in February', badge.description
+    assert_equal 'Completed and published five exercises in a functional language in February', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

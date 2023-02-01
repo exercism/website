@@ -3,12 +3,10 @@ import { useEffect, useRef } from 'react'
 import setupABAP from 'highlightjs-sap-abap'
 import setupCobol from 'highlightjs-cobol'
 import setupBqn from 'highlightjs-bqn'
-import setupGleam from '@gleam-lang/highlight.js-gleam'
 
 highlighter.default.registerLanguage('abap', setupABAP)
 highlighter.default.registerLanguage('cobol', setupCobol)
 highlighter.default.registerLanguage('bqn', setupBqn)
-highlighter.default.registerLanguage('gleam', setupGleam)
 
 highlighter.default.configure({
   throwUnescapedHTML: true,

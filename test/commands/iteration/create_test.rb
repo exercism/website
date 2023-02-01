@@ -253,7 +253,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
       refute user.badges.present?
     end
 
-    travel_to Time.utc(2023, 5, 24)
     exercise = create :practice_exercise, slug: "leap", track: track
     solution = create :practice_solution, user: user, track: track, exercise: exercise
     submission = create :submission, solution: solution

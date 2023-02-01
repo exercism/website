@@ -12,50 +12,43 @@ class Badge::ParticipantIn12In23BadgeTest < ActiveSupport::TestCase
   end
 
   test "award_to?" do
+    track = create :track
     user = create :user
-    track = create :track, :random_slug
     other_track = create :track, :random_slug
+    create :user_track, user: user, track: track
+    create :user_challenge, user: user, challenge_id: '12in23'
     badge = create :participant_in_12_in_23_badge
 
-    # No solutions
+    # Ignore old iteration
+    travel_to Time.utc(2022, 7, 1)
+    exercise = create :practice_exercise, slug: "leap", track: track
+    solution = create :practice_solution, user: user, track: track, exercise: exercise
+    submission = create :submission, solution: solution
+    Iteration::Create.(solution, submission)
     refute badge.award_to?(user.reload)
 
-    # Publish one exercise
-    create :hello_world_solution, :published, user: user, track: track
-    refute badge.award_to?(user.reload)
-
-    # Publish five exercises in track does not award badge as user hasn't yet participated
-    4.times do
-      exercise = create :practice_exercise, :random_slug, track: track
-      create :practice_solution, :published, user: user, track: track, exercise: exercise
+    # Four iterations on track don't award badge
+    travel_to Time.utc(2023, 2, 4)
+    %w[allergies anagram bob hamming].each do |slug|
+      exercise = create :practice_exercise, slug: slug, track: track
+      solution = create :practice_solution, user: user, track: track, exercise: exercise
+      submission = create :submission, solution: solution
+      Iteration::Create.(solution, submission)
       refute badge.award_to?(user.reload)
     end
 
-    create :user_challenge, user: user, challenge_id: '12in23'
-
-    # Publish four exercises after participating does not award the badge
-    4.times do
-      exercise = create :practice_exercise, :random_slug, track: track
-      create :practice_solution, :published, user: user, track: track, exercise: exercise
-      refute badge.award_to?(user.reload)
-    end
-
-    # Publish exercise in different track does not award the badge
-    exercise = create :practice_exercise, :random_slug, track: other_track
-    create :practice_solution, :published, user: user, track: other_track, exercise: exercise
+    # Fifth iteration but on other track does not award badge
+    exercise = create :practice_exercise, slug: "leap", track: other_track
+    solution = create :practice_solution, user: user, track: other_track, exercise: exercise
+    submission = create :submission, solution: solution
+    Iteration::Create.(solution, submission)
     refute badge.award_to?(user.reload)
 
-    # Iterate the fifth exercise without completing does not award the badge
-    exercise = create :practice_exercise, slug: :random_slug, track: track
-    solution = create :practice_solution, :iterated, user: user, track: track, exercise: exercise
-    refute badge.award_to?(user.reload)
-
-    # Complete the fifth exercise does not award the badge
-    solution.update(completed_at: Time.current)
-    refute badge.award_to?(user.reload)
-
-    # Publish fifth exercise awards the badge
-    solution.update(published_at: Time.current)
+    # Fifth iteration on track awards badge
+    exercise = create :practice_exercise, slug: "leap", track: track
+    solution = create :practice_solution, user: user, track: track, exercise: exercise
+    submission = create :submission, solution: solution
+    Iteration::Create.(solution, submission)
     assert badge.award_to?(user.reload)
   end
 end

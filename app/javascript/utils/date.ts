@@ -4,7 +4,7 @@ import RelativeTime from 'dayjs/plugin/relativeTime'
 import pluralize from 'pluralize'
 dayjs.extend(RelativeTime)
 
-export function fromNow(date: ConfigType) {
+export function fromNow(date: ConfigType): string {
   const now = dayjs()
   const from = dayjs(date)
 

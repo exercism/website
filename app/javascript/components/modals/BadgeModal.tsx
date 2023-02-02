@@ -32,7 +32,7 @@ export const BadgeModal = ({
       <div className="earned-at">
         Earned on{' '}
         <time dateTime={badge.unlockedAt}>
-          {timeFormat(badge.unlockedAt, 'DD MMM YYYY')}
+          {timeFormat(badge.unlockedAt, 'Do MMM YYYY')}
         </time>
       </div>
       <div className="num-awardees text-p-base">
@@ -42,7 +42,7 @@ export const BadgeModal = ({
         {pluralize('has', badge.numAwardees)} earned this badge.
       </div>
       <div className="percentage-awardees">
-        That's <strong>{badge.percentageAwardees}%</strong> of all Exercism
+        That&apos;s <strong>{badge.percentageAwardees}%</strong> of all Exercism
         users
       </div>
     </Modal>

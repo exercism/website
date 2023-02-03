@@ -20,6 +20,11 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
     # No solutions
     refute badge.award_to?(user.reload)
 
+    # hello world doesn't could
+    exercise = create :practice_exercise, slug: 'hello-world', track: fsharp
+    create :practice_solution, :published, user: user, track: fsharp, exercise: exercise
+    refute badge.award_to?(user.reload)
+
     # 4 bob's is not enough
     4.times do |idx|
       exercise = create :practice_exercise, slug: 'bob', track: fsharp
@@ -51,6 +56,7 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
     fsharp = create :track, slug: 'fsharp'
     csharp = create :track, slug: 'csharp'
     assert Badges::FunctionalFebruaryBadge.worth_queuing?(exercise: create(:practice_exercise, track: fsharp))
+    refute Badges::FunctionalFebruaryBadge.worth_queuing?(exercise: create(:practice_exercise, track: fsharp, slug: 'hello-world'))
     refute Badges::FunctionalFebruaryBadge.worth_queuing?(exercise: create(:practice_exercise, track: csharp))
   end
 end

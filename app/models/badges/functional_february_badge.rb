@@ -10,6 +10,8 @@ module Badges
       'Completed and published five exercises in a functional language in February'
 
     def self.worth_queuing?(exercise:)
+      return false if exercise.tutorial?
+
       TRACK_SLUGS.include?(exercise.track.slug)
     end
 
@@ -17,6 +19,7 @@ module Badges
       user.solutions.published.joins(exercise: :track).
         where('tracks.slug': TRACK_SLUGS).
         where('MONTH(published_at) = 2').
+        where.not('exercises.slug': 'hello-world').
         count >= 5
     end
 
